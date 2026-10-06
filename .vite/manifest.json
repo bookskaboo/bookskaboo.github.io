@@ -1,0 +1,70 @@
+{
+  "_framework-HyBlfARs.js": {
+    "file": "node/_next/static/chunks/framework-HyBlfARs.js",
+    "name": "framework",
+    "imports": [
+      "_rolldown-runtime-BOHA5VHR.js"
+    ]
+  },
+  "_rolldown-runtime-BOHA5VHR.js": {
+    "file": "node/_next/static/chunks/rolldown-runtime-BOHA5VHR.js",
+    "name": "rolldown-runtime"
+  },
+  "app/page.tsx": {
+    "file": "node/_next/static/chunks/page-C6lfUpI1.js",
+    "name": "page",
+    "src": "app/page.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "_rolldown-runtime-BOHA5VHR.js",
+      "_framework-HyBlfARs.js"
+    ]
+  },
+  "node_modules/vinext/dist/shims/internal/app-route-prefetch-policy.js": {
+    "file": "node/_next/static/chunks/app-route-prefetch-policy-DgZr8ETw.js",
+    "name": "app-route-prefetch-policy",
+    "src": "node_modules/vinext/dist/shims/internal/app-route-prefetch-policy.js",
+    "isDynamicEntry": true,
+    "imports": [
+      "virtual:vinext-app-browser-entry"
+    ]
+  },
+  "node_modules/vinext/dist/shims/layout-segment-context.js": {
+    "file": "node/_next/static/chunks/layout-segment-context-BeB0uSBq.js",
+    "name": "layout-segment-context",
+    "src": "node_modules/vinext/dist/shims/layout-segment-context.js",
+    "isDynamicEntry": true,
+    "imports": [
+      "_rolldown-runtime-BOHA5VHR.js",
+      "virtual:vinext-app-browser-entry",
+      "_framework-HyBlfARs.js"
+    ]
+  },
+  "node_modules/vinext/dist/shims/streamed-icons.js": {
+    "file": "node/_next/static/chunks/streamed-icons-qPRpFb3R.js",
+    "name": "streamed-icons",
+    "src": "node_modules/vinext/dist/shims/streamed-icons.js",
+    "isDynamicEntry": true,
+    "imports": [
+      "_rolldown-runtime-BOHA5VHR.js",
+      "_framework-HyBlfARs.js"
+    ]
+  },
+  "virtual:vinext-app-browser-entry": {
+    "file": "node/_next/static/chunks/index-n_o6_Xwa.js",
+    "name": "index",
+    "src": "virtual:vinext-app-browser-entry",
+    "isEntry": true,
+    "imports": [
+      "_rolldown-runtime-BOHA5VHR.js",
+      "_framework-HyBlfARs.js"
+    ],
+    "dynamicImports": [
+      "node_modules/vinext/dist/shims/internal/app-route-prefetch-policy.js",
+      "virtual:vinext-app-browser-entry",
+      "node_modules/vinext/dist/shims/layout-segment-context.js",
+      "app/page.tsx",
+      "node_modules/vinext/dist/shims/streamed-icons.js"
+    ]
+  }
+}
