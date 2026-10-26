@@ -3,47 +3,53 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Not Another Isekai</title>
-  <meta name="robots" content="noindex">
-  <link rel="canonical" href="https://not-another-isekai-reader.alightmars15.chatgpt.site/">
-  <script>
-    const destination = new URL("https://not-another-isekai-reader.alightmars15.chatgpt.site/");
-    destination.search = window.location.search;
-    destination.hash = window.location.hash;
-    window.location.replace(destination.href);
-  </script>
-  <meta http-equiv="refresh" content="0; url=https://not-another-isekai-reader.alightmars15.chatgpt.site/">
-  <style>
-    :root {
-      color-scheme: dark;
-      font-family: Georgia, "Times New Roman", serif;
-    }
-
-    body {
-      min-height: 100vh;
-      margin: 0;
-      display: grid;
-      place-items: center;
-      background: #16130f;
-      color: #f4eee3;
-    }
-
-    main {
-      max-width: 36rem;
-      padding: 2rem;
-      text-align: center;
-    }
-
-    a {
-      color: #e6b66a;
-    }
-  </style>
+  <meta name="description" content="Read Not Another Isekai, an original portal-fantasy serial.">
+  <title>Not Another Isekai — Chapter Index</title>
+  <link rel="canonical" href="https://bookskaboo.github.io/not-another-isekai/">
+  <link rel="stylesheet" href="assets/styles.css">
+  <script src="assets/reader.js" defer></script>
 </head>
 <body>
-  <main>
-    <h1>Not Another Isekai</h1>
-    <p>Opening the chapter reader…</p>
-    <p><a href="https://not-another-isekai-reader.alightmars15.chatgpt.site/">Continue to the reader</a></p>
+  <main class="reader-shell" data-theme="dark">
+    <header class="site-header">
+      <a class="brand" href="./" aria-label="Not Another Isekai home">
+        <span class="brand-mark" aria-hidden="true">◇</span>
+        <strong>Not Another Isekai</strong>
+      </a>
+      <button class="control-button settings-toggle" type="button" aria-expanded="false" aria-controls="reading-controls">
+        <span aria-hidden="true">Aa</span><span>Settings</span>
+      </button>
+    </header>
+
+    <section class="reading-controls" id="reading-controls" aria-label="Reading preferences" hidden>
+      <div class="theme-picker" aria-label="Color theme">
+        <button type="button" data-set-theme="light">Light</button>
+        <button type="button" data-set-theme="sepia">Sepia</button>
+        <button type="button" data-set-theme="dark">Dark</button>
+      </div>
+      <div class="font-controls" aria-label="Text size">
+        <span>Text size</span>
+        <button type="button" data-font-step="-1" aria-label="Decrease text size">−</button>
+        <output data-font-size>19</output>
+        <button type="button" data-font-step="1" aria-label="Increase text size">+</button>
+      </div>
+    </section>
+
+    <section class="index-page">
+      <div class="index-hero">
+        <span class="eyebrow">Volume One</span>
+        <h1>Chapter index</h1>
+        <p>Choose a chapter and settle in.</p>
+      </div>
+      <nav class="index-grid" aria-label="Chapters">
+        <a class="chapter-card" href="chapters/1/">
+          <span class="chapter-number">01</span>
+          <span class="chapter-label"><small>Chapter 1</small><strong>Not Another Isekai</strong></span>
+          <span class="chapter-arrow" aria-hidden="true">›</span>
+        </a>
+      </nav>
+    </section>
+    <footer class="site-footer">An original fantasy serial</footer>
   </main>
 </body>
 </html>
