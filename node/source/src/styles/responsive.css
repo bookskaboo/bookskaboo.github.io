@@ -1,0 +1,221 @@
+/* Screen layout adapts independently of saved factory and shortcut positions. */
+:root, .game-shell {
+  --hud-gap: clamp(8px, 1.2vw, 24px);
+  --hud-height: 68px;
+  --hud-clear: calc(var(--hud-height) + var(--hud-gap) + 12px);
+  --hud-bottom: calc(var(--shortcut-dock-height, 0px) + var(--hud-gap) + 12px);
+  --tutorial-width: clamp(290px, 25vw, 410px);
+  --tutorial-reserve: 0px;
+}
+.topbar { top: var(--hud-gap); left: var(--hud-gap); right: var(--hud-gap); height: var(--hud-height); }
+.brand { flex-shrink: 0; min-width: 0; padding-inline: clamp(12px, 1.3vw, 24px); }
+.sector-crumb { min-width: 0; padding-inline: clamp(8px, 1vw, 20px); }
+.modal-trigger-strip { overflow: visible; padding-left: 8px; gap: clamp(5px, .65vw, 12px); }
+.modal-trigger-strip .rail-button { width: clamp(76px, 7.3vw, 136px); min-width: 68px; flex: 0 1 clamp(76px, 7.3vw, 136px); height: 42px; font-size: clamp(10px, .65vw, 13px); }
+.top-actions { flex-shrink: 0; }
+.pause-button { height: 42px; }
+.modal-backdrop { grid-template-columns: minmax(0, 1fr); padding: var(--hud-clear) var(--hud-gap) var(--hud-gap); }
+.training-session .modal-backdrop { padding-right: calc(var(--tutorial-width) + var(--hud-gap) * 2); }
+.training-session:has(.tutorial-layer.expansion) .modal-backdrop { padding-left: calc(var(--tutorial-width) + var(--hud-gap) * 2); padding-right: var(--hud-gap); }
+.training-session .build-card:disabled { opacity: .3; }
+.modal { max-width: 100%; max-height: calc(100dvh - var(--hud-clear) - var(--hud-gap)); }
+.build-modal, .inventory-modal, .research-modal, .map-modal, .journal-modal, .options-modal, .save-modal, .commands-modal, .dev-modal, .recipes-modal, .recipe-picker-modal {
+  width: min(960px, calc(100vw - var(--hud-gap) * 2));
+  height: calc(100dvh - var(--hud-clear) - var(--hud-gap));
+  max-height: calc(100dvh - var(--hud-clear) - var(--hud-gap));
+}
+.build-modal, .options-modal, .inventory-modal, .save-modal, .dev-modal { width: min(780px, calc(100vw - var(--hud-gap) * 2)); }
+.modal .panel-header { min-height: 68px; padding: clamp(12px, 1.5vw, 22px); gap: 12px; flex-shrink: 0; }
+.panel-header > div { min-width: 0; }
+.panel-header h2 { font-size: clamp(18px, 1.35vw, 25px); }
+.panel-header > button { flex-shrink: 0; width: 36px; height: 36px; color: #b6c0c8; }
+.build-card span b, .option-action b, .toggle-row b { font-size: clamp(12px, .8vw, 15px); }
+.build-card span small, .option-action small, .toggle-row small { font-size: clamp(11px, .65vw, 13px); line-height: 1.5; }
+.build-list { gap: 10px; padding-inline: clamp(12px, 1.5vw, 24px); }
+.build-card { min-width: 0; }
+.build-modal .factory-template-controls { position: relative; inset: auto; z-index: auto; width: auto; flex: 0 0 auto; max-height: 38dvh; margin: 0 14px 12px; padding: 12px; overflow-y: auto; }
+.factory-template-controls summary { cursor: pointer; color: #e1ca8d; font-weight: 600; font-size: 13px; }
+.factory-template-controls label { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin-block: 8px; }
+.factory-template-controls input, .factory-template-controls select { min-width: 0; width: 100%; }
+.research-section .research-grid { grid-template-columns: repeat(auto-fit, minmax(min(155px, 100%), 1fr)); }
+.research-section .research-card { min-width: 0; }
+.research-section .research-card-name { font-size: clamp(12px, .8vw, 15px); }
+.research-card-status, .research-card-cost, .research-project-detail p { font-size: clamp(11px, .7vw, 13px); }
+.research-requirement-filters { flex-wrap: wrap; }
+.research-requirement-filter { flex: 1 1 70px; min-height: 32px; }
+.recipe-picker-copy small { white-space: normal; font-size: 11px; line-height: 1.5; }
+.recipe-picker-copy strong, .recipe-guide-title strong { font-size: clamp(12px, .8vw, 15px); }
+.map-content { grid-template-columns: minmax(0, 1fr) minmax(230px, 29%); }
+.category-tabs { flex-shrink: 0; }
+.category-tabs button { font-size: 10px; min-height: 34px; }
+.confirm-modal { width: min(460px, calc(100vw - 24px)); max-width: 100%; max-height: calc(100dvh - 32px); overflow-y: auto; }
+.welcome-backdrop { padding: var(--hud-gap); place-items: center; }
+.welcome-modal { width: min(1000px, calc(100vw - var(--hud-gap) * 2)); max-height: calc(100dvh - var(--hud-gap) * 2); overflow-y: auto; }
+.welcome-copy { padding: clamp(24px, 4vw, 62px); }
+.welcome-points { gap: clamp(10px, 1.5vw, 22px); }
+.welcome-copy h1 { font-size: clamp(42px, 5.5vw, 82px); }
+.notification-stack { top: var(--hud-clear); width: min(440px, calc(100vw - var(--hud-gap) * 2)); }
+.notification-content b { font-size: clamp(12px, .85vw, 15px); }
+.placement-banner { top: var(--hud-clear); left: 50%; right: auto; transform: translateX(-50%); min-width: 0; width: max-content; max-width: calc(100vw - var(--hud-gap) * 2); flex-wrap: wrap; }
+.inspector { top: var(--hud-clear); right: var(--hud-gap); width: clamp(280px, 23vw, 370px); max-height: calc(100dvh - var(--hud-clear) - var(--hud-bottom)); }
+.world-node-minimap { display: block; min-width: 0; }
+.shortcut-slot { display: flex; flex: 0 0 auto; }
+.shortcut-slots .shortcut-slot > button:disabled { pointer-events: none; }
+.shortcut-bar-name { display: none; }
+.shortcut-assignment-menu { max-width: calc(100vw - 16px); max-height: calc(100dvh - 16px); }
+.shortcut-bars-layer[data-docked="true"] {
+  inset: auto var(--hud-gap) var(--hud-gap);
+  height: var(--shortcut-dock-height);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+  max-width: 1120px;
+  margin-inline: auto;
+  align-content: end;
+  gap: 8px;
+}
+.shortcut-bars-layer[data-docked="true"] .node-shortcut-bar {
+  position: relative; left: auto !important; top: auto !important; width: 100%; height: 68px; min-width: 0;
+  transform: none !important; display: flex; flex-direction: column; align-items: stretch; gap: 5px; padding: 6px 9px;
+}
+.shortcut-bars-layer[data-docked="true"] .shortcut-bar-name { display: block; color: #c5d2dc; font: 700 10px monospace; }
+.shortcut-bars-layer[data-docked="true"] .shortcut-bar-controls,
+.shortcut-bars-layer[data-docked="true"] .shortcut-drag-handle,
+.shortcut-bars-layer[data-docked="true"] .shortcut-resize-handle { display: none; }
+.shortcut-bars-layer[data-docked="true"] .shortcut-slots { flex-direction: row; min-width: 0; margin: -3px; padding: 3px; overflow-x: auto; scrollbar-width: thin; scrollbar-color: #8c7952 #20252a; }
+.shortcut-bars-layer[data-stacked="true"] { grid-template-columns: 1fr; gap: 4px; }
+.shortcut-bars-layer[data-stacked="true"] .node-shortcut-bar { flex-direction: row; align-items: center; height: 45px; padding: 4px 9px; gap: 8px; }
+.shortcut-bars-layer[data-stacked="true"] .shortcut-bar-name { flex: 0 0 66px; font-size: 9px; }
+.tutorial-callout { top: var(--hud-clear); right: var(--hud-gap); bottom: auto; width: var(--tutorial-width); max-height: calc(100dvh - var(--hud-clear) - var(--hud-bottom)); padding: clamp(16px, 1.5vw, 25px); }
+.tutorial-callout h2 { font-size: clamp(19px, 1.5vw, 26px); }
+.tutorial-callout p, .tutorial-callout strong { font-size: clamp(13px, .85vw, 15px); }
+.tutorial-details-toggle { display: none; }
+.tutorial-footer { position: sticky; bottom: -1px; padding-top: 10px; background: #20272f; }
+.training-session:has(.map-modal) .tutorial-layer.expansion .tutorial-callout,
+.tutorial-layer.expansion[data-sector="4,5"] .tutorial-callout { top: var(--hud-clear); left: var(--hud-gap); right: auto; bottom: auto; width: var(--tutorial-width); }
+@media (min-width: 1500px) {
+  .brand > span:last-child { display: block; }
+  .topbar { height: 76px; }
+  :root, .game-shell { --hud-height: 76px; }
+  .modal-trigger-strip .rail-button { height: 46px; }
+  .pause-button { height: 46px; font-size: 11px; }
+  .tutorial-callout { top: clamp(130px, 17dvh, 220px); }
+  .build-modal { height: min(650px, calc(100dvh - var(--hud-clear) - var(--hud-gap))); }
+  .build-modal .build-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-content: start; }
+}
+@media (min-width: 901px) and (max-width: 1200px) {
+  .brand > span:last-child { display: block; }
+  .brand small, .sector-crumb { display: none; }
+}
+@media (max-width: 900px) {
+  :root, .game-shell { --hud-height: 110px; --tutorial-width: min(360px, calc(100vw - 24px)); }
+  .topbar { display: grid; grid-template-columns: minmax(0, 1fr) auto; grid-template-rows: 36px 48px; padding: 7px; gap: 6px; }
+  .brand { grid-column: 1; grid-row: 1; padding: 0 8px; border-right: 0; gap: 10px; }
+  .brand > span:last-child { display: block; }
+  .brand b { font-size: 12px; }
+  .brand small, .sector-crumb { display: none; }
+  .brand-mark { width: 25px; height: 25px; scale: .8; }
+  .top-actions { grid-column: 2; grid-row: 1; padding: 0; border-left: 0; }
+  .pause-button { height: 34px; font-size: 9px; }
+  .modal-trigger-strip { grid-column: 1 / -1; grid-row: 2; display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: 5px; padding: 0; overflow: visible; margin-left: 0; justify-self: stretch; width: 100%; }
+  .modal-trigger-strip .rail-button { width: 100%; min-width: 0; height: 46px; min-height: 46px; padding: 3px; flex-direction: column; gap: 3px; font-size: 10px; letter-spacing: 0; }
+  .modal-trigger-strip .rail-button span { display: inline; }
+  .modal-trigger-strip .rail-button em, .modal-trigger-strip .rail-button kbd { display: none; }
+  .modal-trigger-strip .rail-button.active::before { display: none; }
+  .modal .panel-header { min-height: 58px; padding: 10px 14px; }
+  .research-tools { padding: 10px 12px 0; }
+  .research-layout { overflow: hidden; }
+  .research-requirement-filter { flex-basis: 62px; font-size: 8px; }
+  .welcome-art { display: none; }
+  .welcome-modal { display: block; min-height: 0; }
+  .welcome-copy { padding: clamp(24px, 6vw, 48px); }
+  .tutorial-details-toggle { display: block; border: 1px solid #d5b66655; border-radius: 5px; color: #dfc782; font-size: 11px; background: transparent; padding: 5px 7px; }
+  .tutorial-callout:not(.details-expanded) .tutorial-description { display: none; }
+  .tutorial-callout { padding: 12px 14px; }
+  .tutorial-callout h2 { margin: 8px 0; font-size: 17px; }
+  .tutorial-callout strong { padding: 7px 9px; font-size: 12px; line-height: 1.45; }
+  .tutorial-callout p { font-size: 12px; line-height: 1.5; }
+  .tutorial-guide-actions { margin-top: 8px; gap: 8px; }
+  .tutorial-guide-actions button { padding: 6px 8px; font-size: 11px; }
+  .tutorial-footer { margin-top: 8px; justify-content: flex-end; padding-top: 4px; }
+  .tutorial-safe-note { display: none; }
+  .tutorial-exit { padding: 8px 12px; font-size: 12px; }
+  .tutorial-goal { margin: 6px 0; }
+}
+@media (max-width: 700px) and (min-height: 561px) {
+  .game-shell { --tutorial-reserve: 235px; }
+  .tutorial-layer .tutorial-callout,
+  .training-session:has(.map-modal) .tutorial-layer.expansion .tutorial-callout,
+  .tutorial-layer.expansion[data-sector="4,5"] .tutorial-callout { top: auto; left: var(--hud-gap); right: var(--hud-gap); bottom: var(--hud-bottom); width: auto; max-height: min(38dvh, 300px); }
+  .training-session .modal-backdrop,
+  .training-session:has(.tutorial-layer.expansion) .modal-backdrop { padding-left: var(--hud-gap); padding-right: var(--hud-gap); padding-bottom: calc(var(--hud-bottom) + var(--tutorial-reserve)); }
+  .training-session .modal { height: calc(100dvh - var(--hud-clear) - var(--hud-bottom) - var(--tutorial-reserve)); max-height: calc(100dvh - var(--hud-clear) - var(--hud-bottom) - var(--tutorial-reserve)); }
+  .world-node-minimap .minimap-zoom { display: none; }
+}
+@media (max-width: 720px) {
+  .map-content { grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(130px, .9fr) minmax(170px, 1fr); overflow-y: auto; }
+  .map-content .world-map { width: min(100%, 50dvh); height: auto; aspect-ratio: 1; justify-self: center; }
+  .map-info { min-height: 170px; border-left: 0; }
+  .welcome-copy h1 { font-size: clamp(40px, 11vw, 66px); }
+  .welcome-points { grid-template-columns: 1fr; gap: 10px; }
+  .inspector { top: var(--hud-clear); bottom: auto; left: var(--hud-gap); right: var(--hud-gap); width: auto; max-height: calc(100dvh - var(--hud-clear) - var(--hud-bottom)); }
+  .commands-grid { grid-template-columns: 1fr; }
+  .recipe-guide-formula { flex-wrap: wrap; }
+  .recipe-guide-material { white-space: normal; }
+  .recipe-picker-card { grid-template-columns: 30px minmax(0, 1fr) auto; gap: 8px; }
+  .recipe-picker-header { padding: 12px; gap: 8px; }
+  .recipe-picker-header h2 { font-size: 17px; }
+}
+@media (max-height: 560px) and (min-width: 701px) {
+  :root, .game-shell { --hud-height: 56px; --tutorial-width: 300px; }
+  .topbar { display: flex; gap: 8px; padding: 6px; }
+  .brand, .sector-crumb { display: none; }
+  .modal-trigger-strip { flex: 1; display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); margin-left: 0; width: auto; }
+  .modal-trigger-strip .rail-button { width: 100%; min-width: 0; height: 40px; min-height: 40px; flex-direction: row; }
+  .pause-button { height: 40px; }
+  .build-modal { padding-bottom: 8px; }
+  .build-modal .panel-note { display: none; }
+  .tutorial-layer .tutorial-callout { top: var(--hud-clear); bottom: var(--hud-bottom); max-height: none; }
+  .tutorial-details-toggle { display: block; }
+  .tutorial-callout:not(.details-expanded) .tutorial-description { display: none; }
+  .tutorial-callout h2 { margin: 8px 0; font-size: 17px; }
+  .tutorial-callout strong { padding: 7px; font-size: 12px; }
+  .tutorial-callout { padding: 12px; }
+  .tutorial-safe-note { display: none; }
+  .tutorial-guide-actions, .tutorial-footer { margin-top: 7px; }
+  .training-session .modal-backdrop { padding-right: calc(var(--tutorial-width) + var(--hud-gap) * 2); padding-bottom: var(--hud-bottom); }
+  .training-session .modal { height: calc(100dvh - var(--hud-clear) - var(--hud-bottom)); max-height: calc(100dvh - var(--hud-clear) - var(--hud-bottom)); }
+  .welcome-modal { display: block; }
+  .welcome-art { display: none; }
+  .welcome-copy { padding: 22px 30px; }
+  .welcome-copy h1 { font-size: 40px; }
+  .welcome-points { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (max-width: 700px) and (max-height: 760px) {
+  :root, .game-shell { --hud-height: 90px; --tutorial-reserve: 145px; }
+  .topbar { grid-template-rows: 28px 40px; padding: 5px; gap: 5px; }
+  .brand-mark { scale: .65; }
+  .pause-button { height: 28px; }
+  .modal-trigger-strip .rail-button { height: 40px; min-height: 40px; }
+  .shortcut-bars-layer[data-stacked="true"] .node-shortcut-bar { height: 39px; padding-block: 3px; }
+  .shortcut-bars-layer[data-stacked="true"] .shortcut-slot > button { width: 33px; height: 33px; flex-basis: 33px; }
+  .shortcut-bars-layer[data-stacked="true"] .shortcut-slot > button > i .node-icon { width: 24px; height: 24px; }
+  .tutorial-callout:not(.details-expanded) h2, .tutorial-callout:not(.details-expanded) .tutorial-goal { display: none; }
+  .tutorial-layer .tutorial-callout,
+  .training-session:has(.map-modal) .tutorial-layer.expansion .tutorial-callout,
+  .tutorial-layer.expansion[data-sector="4,5"] .tutorial-callout { top: auto; left: var(--hud-gap); right: var(--hud-gap); bottom: var(--hud-bottom); width: auto; max-height: 145px; padding: 9px 11px; }
+  .tutorial-callout.details-expanded { max-height: 42dvh; }
+  .tutorial-callout strong { margin-top: 6px; font-size: 11px; }
+  .tutorial-guide-actions { padding-right: 106px; }
+  .tutorial-footer { position: absolute; bottom: 9px; right: 11px; margin: 0; padding: 0; }
+  .tutorial-callout.details-expanded .tutorial-footer { position: sticky; }
+  .tutorial-callout.details-expanded .tutorial-guide-actions { padding-right: 0; }
+  .training-session .modal-backdrop,
+  .training-session:has(.tutorial-layer.expansion) .modal-backdrop { padding-left: var(--hud-gap); padding-right: var(--hud-gap); padding-bottom: calc(var(--hud-bottom) + var(--tutorial-reserve)); }
+  .training-session .modal { height: max(120px, calc(100dvh - var(--hud-clear) - var(--hud-bottom) - var(--tutorial-reserve))); max-height: max(120px, calc(100dvh - var(--hud-clear) - var(--hud-bottom) - var(--tutorial-reserve))); }
+  .training-session .modal .panel-header { min-height: 44px; padding-block: 5px; }
+  .training-session .build-modal { padding-bottom: 8px; }
+  .training-session .build-modal .panel-note { display: none; }
+  .training-session .category-tabs { padding-block: 5px; }
+  .training-session .category-tabs button { min-height: 30px; padding-block: 5px; }
+}
+

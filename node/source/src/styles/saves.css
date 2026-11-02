@@ -1,0 +1,23 @@
+/* Save / Load modal copied from the source game's card hierarchy and controls. */
+.save-modal { --modal-accent:#83abc0; width:min(700px,calc(100vw - 40px)); }
+.save-local-note { margin:14px 18px 0; padding:10px 11px; display:flex; align-items:center; gap:10px; border:1px solid #445965; border-radius:8px; color:#91a9b5; background:#151c20a6; }
+.save-local-note > i { width:30px; height:30px; display:grid; place-items:center; border:1px solid #587487; border-radius:7px; color:#b9dced; font-style:normal; }
+.save-local-note b,.save-local-note small { display:block; }
+.save-local-note b { font-size:9px; }.save-local-note small { margin-top:3px; color:#718792; font-size:8px; }
+.save-list { display:grid; grid-auto-rows:max-content; gap:10px; padding:14px 18px 18px; overflow-y:auto; }
+.save-slot { min-height:104px; display:grid; grid-template-columns:52px minmax(0,1fr) 110px; align-items:center; gap:13px; padding:12px; border:1px solid #465760; border-radius:11px; background:linear-gradient(110deg,#29343a,#22272a); box-shadow:inset 0 1px #ffffff0a; }
+.save-slot.occupied { border-color:#587487; }.save-slot.empty { background:linear-gradient(110deg,#252b2e,#202325); }
+.save-slot.autosave { border-color:#6a8068; background:radial-gradient(circle at 100% 0%,#8fb47e1a,transparent 42%),linear-gradient(110deg,#2b3732,#222927); }
+.save-slot-index { width:52px; height:64px; display:grid; place-content:center; justify-items:center; border:1px solid #527184; border-radius:9px; color:#9fc4d7; background:#182126; font-family:monospace; text-transform:uppercase; }
+.save-slot-index span { font-size:7px; font-weight:900; letter-spacing:1px; }.save-slot-index b { color:#d4eaf4; font-size:21px; line-height:1; }
+.autosave-index { border-color:#6f8e69; color:#acd3a3; background:#1b261f; }.autosave-index b { color:#d3edcd; font-size:15px; }
+.save-slot-copy { display:grid; min-width:0; gap:5px; }.save-slot-copy > label { color:#7893a2; font:900 7px monospace; letter-spacing:1px; }
+.save-slot-copy > strong,.save-slot-copy > input { width:100%; height:34px; box-sizing:border-box; display:flex; align-items:center; padding:0 10px; border:1px solid #4d626e; border-radius:7px; outline:0; color:#e7f1f5; background:#151b1f; font-size:12px; font-weight:700; }
+.save-slot-copy > input:focus { border-color:#86b6cf; box-shadow:0 0 0 3px #69a8c529; }.save-slot-copy > input::placeholder { color:#697a82; }
+.save-slot.autosave .save-slot-copy > strong { border-color:#52695a; color:#dcebdd; background:#172019; }
+.save-slot-copy p { display:flex; min-width:0; align-items:center; gap:7px; margin:0; color:#8ea0a8; font-size:9px; }.save-slot-copy time { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.save-slot-copy em { flex:0 0 auto; padding:2px 5px; border:1px solid #5b8498; border-radius:999px; color:#aed3e5; background:#20323b; font:normal 900 7px monospace; letter-spacing:.6px; }.save-slot-copy em.empty { border-color:#4b555a; color:#88969c; background:#24292b; }
+.save-slot-actions { display:grid; gap:7px; }.save-slot-actions button,.autosave-copy-actions button { min-height:32px; border:1px solid #5e8295; border-radius:6px; color:#b9ddec; background:#233741; font:700 8px monospace; cursor:pointer; }.save-slot-actions button.secondary { border-color:#4c5960; color:#9aa7ae; background:#202528; }.save-slot-actions button:disabled,.autosave-copy-actions button:disabled { opacity:.35; cursor:default; }
+.autosave-frequency { grid-column:2/-1; display:grid; grid-template-columns:1fr auto; gap:6px 12px; padding:11px 12px; border:1px solid #4d634f; border-radius:9px; background:#172019b8; }.autosave-frequency b,.autosave-frequency small { display:block; }.autosave-frequency b { color:#d7ead3; font-size:9px; }.autosave-frequency small { margin-top:3px; color:#819382; font-size:8px; }.autosave-frequency > strong { color:#b9d7b4; font:8px monospace; }.autosave-frequency input { grid-column:1/-1; width:100%; accent-color:#83a87d; }.autosave-frequency > i { grid-column:1/-1; display:flex; justify-content:space-between; color:#718473; font:normal 7px sans-serif; }
+.autosave-copy-actions { grid-column:2/-1; display:flex; align-items:center; gap:7px; }.autosave-copy-actions > span { margin-right:auto; color:#82988a; font:900 7px monospace; letter-spacing:.6px; }.autosave-copy-actions button { min-width:80px; min-height:29px; border-color:#506457; color:#b8d0bb; background:#1d2821; }
+

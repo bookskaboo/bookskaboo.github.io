@@ -1,0 +1,53 @@
+/* Research dependencies share the modal frame and flow from top to bottom. */
+.panel-header > div:first-child { min-width: 0; }
+.panel-header-actions { margin-left: auto; margin-right: 12px; flex: 0 0 auto; }
+.research-tree-trigger { display: flex; align-items: center; gap: 7px; min-height: 34px; padding: 7px 11px; border: 1px solid #637f92; border-radius: 7px; color: #c8deec; background: #23323d; font-size: 11px; cursor: pointer; }
+.research-tree-trigger span { font-size: 19px; line-height: 1; }
+.research-tree-trigger:hover { border-color: #9bc9e7; background: #2c414e; }
+.research-tree-trigger:disabled { opacity: .35; cursor: not-allowed; }
+.research-tree-backdrop { z-index: 65; }
+.research-tree-modal { --modal-accent: #91c7ea; width: min(1240px, 100%); height: calc(100dvh - var(--hud-clear) - var(--hud-gap)); display: grid; grid-template-rows: auto auto minmax(0, 1fr) auto; }
+.research-tree-tools { display: grid; grid-template-columns: minmax(0, 1fr) minmax(180px, 270px); gap: 10px 20px; align-items: center; padding: 15px 20px; border-bottom: 1px solid #ffffff12; }
+.research-tree-tools p { margin: 0; color: #b0bdc6; font-size: 12px; }
+.research-tree-tools label { display: grid; gap: 4px; color: #9badba; font-size: 10px; }
+.research-tree-tools input { width: 100%; min-width: 0; padding: 8px 10px; border: 1px solid #506675; border-radius: 6px; background: #151d24; color: #e3edf3; font: inherit; font-size: 12px; }
+.research-tree-tools > small { justify-self: end; color: #8fa3b0; font-size: 10px; }
+.research-tree-legend { display: flex; flex-wrap: wrap; gap: 12px; font-size: 10px; color: #b7c5cf; }
+.research-tree-legend span::before { content: ''; display: inline-block; width: 7px; height: 7px; border: 1px solid #718292; border-radius: 2px; margin-right: 5px; background: #38424b; }
+.research-tree-legend .completed::before { background: #568fba; border-color: #8bc1e8; }
+.research-tree-legend .active::before { background: #559a78; border-color: #8dd0ac; }
+.research-tree-legend .available::before { background: #9b834b; border-color: #d6ba76; }
+.research-tree-scroll { min-height: 0; overflow: auto; padding: 0 16px; overscroll-behavior: contain; scrollbar-color: #647b8a #1a2127; background: radial-gradient(ellipse at top, #2c3c482e, transparent 70%), #191f25; }
+.research-tree-board { position: relative; margin-inline: auto; }
+.research-tree-lines { position: absolute; inset: 0; pointer-events: none; overflow: visible; color: #748c9d; }
+.research-tree-lines > path { fill: none; stroke: #748c9d; stroke-width: 1.5; stroke-linejoin: round; opacity: .4; }
+.research-tree-lines > path.highlighted { stroke: #e4c77e; stroke-width: 2.5; opacity: 1; }
+.research-tree-node { position: absolute; display: grid; place-items: center; align-content: center; padding: 6px 8px; border: 1px solid #4e5e69; border-radius: 7px; background: #252e36; color: #e5ebef; text-align: center; cursor: pointer; box-shadow: 0 3px 8px #0005; }
+.research-tree-node strong { font-size: 11px; line-height: 1.2; overflow-wrap: anywhere; }
+.research-tree-node.completed { background: #233744; border-color: #568fba; }
+.research-tree-node.active { background: #273e33; border-color: #77bc99; }
+.research-tree-node.available, .research-tree-node.milestones { border-color: #8b7a50; }
+.research-tree-node.future { background: #242a30; color: #b4bfc7; }
+.research-tree-node.in-branch { outline: 1px solid #d7bd73; border-color: #c5ac6e; }
+.research-tree-node:hover, .research-tree-node:focus-visible { outline: 2px solid #e6cd8b; background: #3b3b30; }
+.research-tree-note { padding: 10px 20px; color: #96a8b5; border-top: 1px solid #ffffff12; font-size: 11px; }
+@media (max-width: 600px) {
+  .panel-header-actions { margin-right: 5px; }
+  .research-tree-trigger { padding: 6px 8px; gap: 4px; font-size: 10px; }
+  .research-tree-tools { grid-template-columns: minmax(0, 1fr); gap: 9px; padding: 12px; }
+  .research-tree-tools > small { justify-self: start; }
+  .research-tree-tools p { display: none; }
+  .research-tree-note { padding: 9px 12px; font-size: 10px; }
+}
+@media (max-height: 560px) and (min-width: 601px) {
+  .research-tree-tools { padding-block: 8px; gap: 6px 16px; }
+  .research-tree-tools p { display: none; }
+  .research-tree-tools label { grid-row: span 2; grid-column: 2; }
+  .research-tree-note { padding-block: 7px; }
+}
+@media (max-width: 700px) {
+  .recipe-picker-panel { left: var(--hud-gap); right: var(--hud-gap); width: auto; }
+  .recipe-picker-panel .recipe-picker-list { max-height: 42dvh; }
+  .training-session .recipe-picker-panel { left: var(--hud-gap); right: var(--hud-gap); width: auto; max-width: none; max-height: max(120px, calc(100dvh - var(--hud-clear) - var(--hud-bottom) - var(--tutorial-reserve))); }
+  .training-session .recipe-picker-panel .recipe-picker-list { max-height: none; }
+}

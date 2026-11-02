@@ -1,0 +1,1 @@
+export function Stat({ label, value, accent }: { label: string; value: string; accent?: boolean }) { return <div className={`stat ${accent ? 'accent' : ''}`}><small>{label}</small><b>{value}</b></div>; }

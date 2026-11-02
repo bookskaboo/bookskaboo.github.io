@@ -1,0 +1,28 @@
+/* Recipe configuration lives beside the field, in the node panel position. */
+.recipe-picker-panel { z-index: 52; display: grid; grid-template-rows: auto minmax(0, 1fr) auto; height: auto; max-height: calc(100dvh - var(--hud-clear) - var(--hud-bottom)); border-color: #7d7051; }
+.recipe-picker-panel .recipe-picker-header { min-height: 0; grid-template-columns: 30px minmax(0, 1fr) 30px; padding: 16px 14px; gap: 9px; }
+.recipe-picker-panel .recipe-picker-header > span { width: 30px; height: 34px; border-radius: 7px; }
+.recipe-picker-panel .recipe-picker-header > span .node-icon { width: 22px; height: 22px; }
+.recipe-picker-panel .recipe-picker-header h2 { font-size: 17px; }
+.recipe-picker-panel .recipe-picker-header p { font-size: 11px; line-height: 1.5; margin-top: 7px; }
+.recipe-picker-panel .recipe-picker-list { max-height: 52dvh; padding: 12px; }
+.recipe-picker-panel .recipe-picker-group-choices,
+.recipe-picker-panel .recipe-picker-group.material-variants .recipe-picker-group-choices { grid-template-columns: minmax(0, 1fr); }
+.recipe-picker-panel .recipe-picker-card { grid-template-columns: 28px minmax(0, 1fr) auto; gap: 8px; padding: 10px; }
+.recipe-picker-panel .recipe-picker-icon { width: 28px; height: 30px; }
+.recipe-picker-panel .recipe-picker-copy { grid-column: 2 / -1; }
+.recipe-picker-panel .recipe-picker-copy strong { font-size: 12px; }
+.recipe-picker-panel .recipe-picker-copy small { font-size: 11px; white-space: normal; }
+.recipe-picker-panel .recipe-picker-duration { grid-column: 2; justify-self: start; }
+.recipe-picker-panel .recipe-picker-card em { grid-column: 3; text-align: right; }
+.recipe-picker-panel .recipe-picker-note { padding: 11px 14px; flex-wrap: wrap; min-height: 0; gap: 8px; font-size: 10px; line-height: 1.4; }
+.training-session .recipe-picker-panel { right: calc(var(--tutorial-width) + var(--hud-gap) * 2); max-width: calc(100vw - var(--tutorial-width) - var(--hud-gap) * 3); }
+.game-shell:has(.recipe-picker-panel) .tutorial-placement-target,
+.game-shell:has(.recipe-picker-panel) .tutorial-port-target { display: none; }
+@media (max-height: 560px) and (min-width: 701px) {
+  .recipe-picker-panel .recipe-picker-header { padding: 9px 12px; }
+  .recipe-picker-panel .recipe-picker-header p { display: none; }
+  .recipe-picker-panel .recipe-picker-note { padding: 7px 12px; }
+  .recipe-picker-panel .recipe-picker-note > span { display: none; }
+}
+

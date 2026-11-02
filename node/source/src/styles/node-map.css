@@ -1,0 +1,111 @@
+/* World-node map: this deliberately mirrors the original game's compact map rather than the active factory field. */
+.world-node-minimap { width:276px; min-width:230px; max-width:450px; overflow:visible; user-select:none; }
+.world-node-minimap header { cursor:move; }
+.minimap-drag-handle { flex:1; min-width:0; padding:7px 9px; cursor:grab; touch-action:none; }
+.minimap-drag-handle:active { cursor:grabbing; }
+.minimap-drag-handle b { overflow:hidden; white-space:nowrap; text-overflow:ellipsis; }
+.world-node-minimap header > .minimap-open { flex:0 0 24px; width:24px; padding:0; border:0; background:transparent; color:#d5b666; cursor:pointer; }
+.world-node-minimap header > button:first-child { min-width:0; }
+.world-node-minimap header span { display:flex; align-items:center; gap:6px; }
+.world-node-minimap header span kbd { border:1px solid #ffffff18; border-radius:3px; padding:1px 3px; color:#9299a2; font:6px monospace; }
+.minimap-zoom { display:flex; align-items:center; gap:2px; padding:0 4px; }
+.minimap-zoom button { min-width:22px; height:24px; padding:0 4px; border:1px solid #ffffff0d; border-radius:4px; color:#838c95; background:#16191c; font:7px monospace; cursor:pointer; }
+.minimap-zoom button:nth-child(2) { min-width:36px; color:#aaa; }
+.minimap-zoom button:hover { color:#e6c978; border-color:#d5b66655; }
+.node-map-viewport { width:100%; aspect-ratio:1; overflow:auto; background:#15191c; scrollbar-width:thin; scrollbar-color:#4d545a #1a1d20; }
+.node-map-grid { position:relative; min-width:100%; aspect-ratio:1; display:grid; grid-template-columns:repeat(11,minmax(0,1fr)); grid-template-rows:repeat(11,minmax(0,1fr)); gap:3px; padding:9px; background:radial-gradient(circle at center,#2b3334 0,#1b2022 45%,#15191c 78%); }
+.node-map-sector { position:relative; z-index:1; min-width:0; min-height:0; border:1px solid #30383d; border-radius:2px; color:#30383d; background:#1a1e21; font:700 6px monospace; font-style:normal; }
+button.node-map-sector { cursor:pointer; transition:filter 100ms ease,transform 100ms ease,border-color 100ms ease; }
+button.node-map-sector:hover { z-index:4; transform:scale(1.08); filter:brightness(1.25); }
+.node-map-sector.uncharted { opacity:.52; }
+.node-map-sector.explored { border-color:#477a68; color:#78bca4; background:#24352f; }
+.node-map-sector.home { border-color:#987d3e; color:#ead07c; background:#3d3421; }
+.node-map-sector.adjacent { border-color:#51859b; color:#84cbe7; background:#22333a; }
+.node-map-sector.selected { outline:1px solid #eef4f7; outline-offset:1px; z-index:3; }
+.node-map-sector.current { border-color:#f1dda2; color:#fff0bd; background:#594a26; box-shadow:0 0 9px #d5b66666; }
+.node-map-road { position:absolute; z-index:5; width:7px; height:7px; transform:translate(-50%,-50%) rotate(45deg); border:1px solid var(--road-color); background:#15191c; box-shadow:0 0 5px var(--road-color); pointer-events:auto; }
+.node-map-road.active { background:var(--road-color); animation:map-road-pulse 1s ease-in-out infinite; }
+@keyframes map-road-pulse { 50% { transform:translate(-50%,-50%) rotate(45deg) scale(1.45); box-shadow:0 0 10px var(--road-color); } }
+.world-node-minimap footer { height:34px; gap:7px; }
+.world-node-minimap footer > span { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.world-node-minimap footer button { min-width:84px; height:24px; padding:0 8px; border:1px solid #4a5055; border-radius:5px; color:#737b82; background:#1b1e21; font:700 7px monospace; text-transform:uppercase; }
+.world-node-minimap footer button.ready { border-color:#8b743d; color:#edd78e; background:#332c1e; cursor:pointer; }
+.world-node-minimap footer button:disabled { opacity:.62; }
+.node-map-resize { position:absolute; z-index:4; right:-3px; bottom:-3px; width:15px; height:15px; border:0; border-right:2px solid #8a7441; border-bottom:2px solid #8a7441; border-radius:0 0 8px; background:transparent; cursor:nwse-resize; }
+
+.modal-trigger-strip .dev-trigger { border-color:#7d5f936b; color:#c8a4df; background:linear-gradient(180deg,#342b3d,#29232f); }
+.modal-trigger-strip .dev-trigger:hover:not(:disabled),.modal-trigger-strip .dev-trigger.active { border-color:#b47bd59c; color:#edd9f8; background:linear-gradient(180deg,#483653,#32283a); }
+.dev-modal { --modal-accent:#b47bd5; width:min(680px,calc(100vw - 40px)); height:calc(100dvh - 112px); max-height:calc(100dvh - 112px); }
+.dev-note { margin:14px 18px 0; padding:12px; display:flex; align-items:center; gap:11px; border:1px solid #73558a; border-radius:10px; background:#35283d; }
+.dev-note > i { width:30px; height:30px; display:grid; place-items:center; border:1px solid #a26bc2; border-radius:50%; color:#d9adef; font-style:normal; }
+.dev-note b,.dev-note small { display:block; }
+.dev-note b { color:#e2d9e6; font-size:10px; }
+.dev-note small { margin-top:3px; color:#978a9d; font-size:8px; }
+.dev-controls { padding-top:12px; }
+.dev-control > i { color:#c69add; border-color:#725486; }
+.dev-control.complete { opacity:.6; }
+.dev-control.complete strong { color:#79c8a3; border-color:#477c66; }
+
+@media (max-width:1450px) {
+  .sector-crumb strong,.sector-crumb small { display:none; }
+  .sector-crumb { min-width:auto; padding-inline:10px; }
+  .modal-trigger-strip { gap:5px; }
+  .modal-trigger-strip .rail-button { width:104px; min-width:104px; flex-basis:104px; padding-inline:7px; }
+  .modal-trigger-strip .rail-button kbd { display:none; }
+}
+@media (max-width:1050px) {
+  .brand { min-width:auto; }
+  .brand > span:last-child,.sector-crumb { display:none; }
+  .modal-trigger-strip { flex:1; overflow-x:auto; justify-content:flex-start; padding-left:8px; scrollbar-width:none; }
+  .modal-trigger-strip::-webkit-scrollbar { display:none; }
+  .modal-trigger-strip .rail-button { flex:0 0 104px; }
+  .inventory-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+}
+@media (max-width:720px) {
+  .topbar { height:62px; }
+  .brand { padding-inline:11px; }
+  .modal-trigger-strip .rail-button span,.modal-trigger-strip .rail-button em { display:none; }
+  .modal-trigger-strip .rail-button { width:38px; min-width:38px; flex-basis:38px; padding:0; }
+  .modal-backdrop { padding:82px 8px 8px; }
+  .modal { max-height:calc(100dvh - 90px); }
+  .map-content { grid-template-columns:1fr; grid-template-rows:minmax(100px,.8fr) minmax(0,1fr); }
+  .map-content .world-map { width:auto; height:100%; max-width:100%; }
+  .map-info { border-left:0; border-top:1px solid var(--line); }
+  .map-info-scroll { padding:14px 18px; }
+  .build-modal,.inventory-modal,.research-modal,.map-modal,.journal-modal,.options-modal,.save-modal,.commands-modal,.dev-modal,.recipes-modal,.recipe-picker-modal { width:100%; height:calc(100dvh - 90px); max-height:calc(100dvh - 90px); }
+  .recipes-modal { padding:18px 14px; gap:14px; }
+  .recipes-dialog-header { grid-template-columns:42px minmax(0,1fr) 32px; gap:10px; }
+  .recipes-title-mark { width:42px; height:42px; }
+  .recipe-guide-card { grid-template-columns:38px minmax(0,1fr); gap:9px; padding-inline:9px; }
+  .recipe-guide-icon { width:36px; height:36px; }
+  .recipe-guide-title { align-items:flex-start; flex-direction:column; gap:2px; }
+  .recipe-guide-duration { grid-column:2; justify-self:start; }
+  .recipe-picker-card { grid-template-columns:38px minmax(0,1fr) auto; }
+  .recipe-picker-card em { grid-column:2; text-align:left; }
+  .research-grid { grid-template-columns:repeat(4,minmax(0,1fr)); padding:12px; }
+  .save-slot { grid-template-columns:44px minmax(0,1fr); }
+  .save-slot-index { width:44px; height:54px; }
+  .save-slot-actions { grid-column:2; grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .autosave-frequency,.autosave-copy-actions { grid-column:1/-1; }
+  .autosave-copy-actions { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); }
+  .autosave-copy-actions > span { grid-column:1/-1; margin:0; }
+  .autosave-copy-actions button { min-width:0; }
+  .notification-stack { left:50%; right:auto; width:calc(100vw - 20px); transform:translateX(-50%); }
+  .command-row { grid-template-columns:1fr; }
+  .command-row kbd,.command-row span { grid-column:1; }
+  .command-row kbd { grid-row:1; justify-self:start; }
+  .command-row span { grid-row:2; }
+  .welcome-backdrop { padding:10px; }
+}
+@media (max-width:480px) {
+  .inventory-grid { grid-template-columns:1fr; }
+  .research-grid { grid-template-columns:repeat(3,minmax(0,1fr)); }
+  .option-action,.toggle-row { grid-template-columns:38px minmax(0,1fr) auto; padding:10px; gap:9px; }
+  .option-action > i,.toggle-row > em { width:38px; height:38px; }
+  .shortcut-visibility-options { grid-template-columns:1fr; }
+}
+@media (prefers-reduced-motion:reduce) {
+  .modal-backdrop,.modal { animation:none; }
+  .shortcut-slots .shortcut-slot > button.new-auto-assignment::after { animation:none; opacity:1; transform:none; }
+}
+

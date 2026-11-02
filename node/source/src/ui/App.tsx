@@ -1,0 +1,455 @@
+import { readShortcutBars, readShortcutBarGroups, readKnownShortcutUnlocks, readNewShortcutAssignments } from './shortcutPreferences';
+import { SHORTCUT_BARS_KEY, SHORTCUT_BAR_GROUPS_KEY, SHORTCUT_UNLOCKS_KEY, SHORTCUT_NEW_ASSIGNMENTS_KEY } from '../persistence/storageKeys';
+import { Stat } from './components/Stat';
+import { formatTime } from './formatters';
+import { BuildPanel } from './panels/BuildPanel';
+import { InventoryPanel } from './panels/InventoryPanel';
+import { MapPanel } from './panels/MapPanel';
+import { OptionsPanel } from './panels/OptionsPanel';
+import { DevPanel } from './panels/DevPanel';
+import { CommandsPanel } from './panels/CommandsPanel';
+import { SavePanel } from './panels/SavePanel';
+import { WelcomeModal } from './components/WelcomeModal';
+import { ConfirmModal } from './components/ConfirmModal';
+import { RailButton } from './components/RailButton';
+import { UiTooltipLayer } from './components/UiTooltipLayer';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { BUILDABLE_NODES, isNodeUnlocked, NODE_DEFINITIONS } from '../content/nodes';
+import { ITEM_NAMES } from '../content/items';
+import { getNodeModule } from '../content/nodeModules';
+import { CONNECTOR_MIRRORING_RESEARCH, isProductionMachine } from '../content/productionNodes';
+import type { CameraState, GameEvent, ItemId, NodeKind } from '../domain/types';
+import { readSlots, type SaveSlot } from '../persistence/saves';
+import { PixiPlayfield, type PlayfieldTooltip, type SelectionInfo } from '../renderer/PixiPlayfield';
+import { CONTROL_GROUP_COLORS } from '../domain/controlGroups';
+import { startingCamera } from './startingCamera';
+import { sectorOverviewCamera } from '../domain/camera';
+import { GameEngine, createInitialState } from '../simulation/engine';
+import { getSectorWorldSize, sectorDistance } from '../simulation/worldGeneration';
+import { NodeMinimap } from './NodeMinimap';
+import { NodeInspector } from './NodeInspector';
+import { NodeRecipePicker } from './NodeRecipePicker';
+import { RecipesPanel } from './RecipesPanel';
+import { FactoryTemplates } from './FactoryTemplates';
+import { DiscoveryJournal } from './DiscoveryJournal';
+import { researchEventProject, unlockDestination, type UnlockDestination } from './unlockNavigation';
+import { ResearchPanel } from './ResearchPanel';
+import { PanelHeader } from './PanelHeader';
+import { InteractionNotice, type InteractionFailure } from './InteractionNotice';
+import { TutorialUnlockInvitation } from './TutorialUnlockInvitation';
+import { isTutorialUnlocked, nextTutorialInvitation } from '../tutorials/tutorialUnlocks';
+import { TutorialGuide, TutorialMenu, type TrainingSession } from './Tutorials';
+import { createTutorialState, correctTutorialPlacement, type TutorialStage, type TutorialPlacementTarget } from '../tutorials/tutorialRuntime';
+import type { TutorialKind } from '../tutorials/tutorialRuntime';
+import { permitsTutorialChoice, tutorialChoices, tutorialRecipeChoice } from '../tutorials/tutorialChoices';
+import { shortcutDockLayout } from './responsiveLayout';
+import { useViewport } from './useViewport';
+import { poolCapacity } from '../simulation/progression';
+import { createDefaultShortcutBars, addUnlockedNodeShortcuts, DEFAULT_SHORTCUT_BAR_GROUPS, DEFAULT_SHORTCUT_BARS, reconcileShortcutBars, SHORTCUT_BAR_IDS, ShortcutBars, type ShortcutBarGroup, type ShortcutBarId, type ShortcutBarsState } from './ShortcutBars';
+
+type Panel = 'build' | 'inventory' | 'journal' | 'research' | 'map' | 'options' | 'save' | 'commands' | 'recipes' | 'dev' | null;
+type NoticeTone = 'research' | 'warning';
+interface Notice { id: string; message: string; label: string; tone: NoticeTone; projectId?: string }
+
+// Preserve the live factory and each sector's camera across development updates.
+const initialGame = import.meta.hot?.data.gameState ?? createInitialState();
+if (!import.meta.hot?.data.gameState) initialGame.sectors[initialGame.activeSectorId].camera = startingCamera(initialGame.sectors[initialGame.activeSectorId].nodes, window.innerWidth, window.innerHeight);
+const ENGINE = new GameEngine(initialGame);
+if (import.meta.hot) import.meta.hot.dispose((data) => { data.gameState = structuredClone(ENGINE.getState()); });
+export function App() {
+  useEffect(() => {
+    // Suppress the browser context menu while preserving in-game right-click handlers.
+    const preventBrowserMenu = (event: MouseEvent) => event.preventDefault();
+    window.addEventListener('contextmenu', preventBrowserMenu, true);
+    return () => window.removeEventListener('contextmenu', preventBrowserMenu, true);
+  }, []);
+  const [, refreshMainFactory] = useState(0);
+  useEffect(() => ENGINE.subscribe(() => refreshMainFactory(value => value + 1)), []);
+  const [welcome, setWelcome] = useState(true);
+  const [training, setTraining] = useState<TrainingSession>();
+  const [tutorialMenu, setTutorialMenu] = useState(false);
+  const tutorialInvitation = !welcome && !training && !tutorialMenu ? nextTutorialInvitation(ENGINE.getState()) : undefined;
+  const invitationOpen = Boolean(tutorialInvitation);
+  const dismissTutorialInvitation = useCallback(() => { if (tutorialInvitation) ENGINE.acknowledgeTutorialInvitation(tutorialInvitation); }, [tutorialInvitation]);
+  useEffect(() => {
+    if (!invitationOpen) return;
+    const onKey = (event: KeyboardEvent) => { event.stopPropagation(); if (event.key === 'Escape') { event.preventDefault(); dismissTutorialInvitation(); } };
+    window.addEventListener('keydown', onKey, true);
+    return () => window.removeEventListener('keydown', onKey, true);
+  }, [invitationOpen, dismissTutorialInvitation]);
+  const startTutorial = (kind: TutorialKind) => { if (!isTutorialUnlocked(kind, ENGINE.getState())) return; if (kind === 'expansion' || kind === 'monster-camps') ENGINE.acknowledgeTutorialInvitation(kind); setTraining({ id: crypto.randomUUID(), kind, engine: new GameEngine(createTutorialState(kind), { autosave: false }) }); setTutorialMenu(false); };
+  const exitTutorial = () => { setTraining(undefined); setTutorialMenu(true); };
+  const finishTutorial = () => {
+    setWelcome(false);
+    ENGINE.switchSector('5,5');
+    setTraining(undefined);
+    setTutorialMenu(false);
+  };
+  return <><FactoryApp key={training?.id ?? 'factory'} engine={training?.engine ?? ENGINE} training={training} welcome={!training && welcome} onShowWelcome={() => setWelcome(true)} onCloseWelcome={() => setWelcome(false)} onTutorials={() => setTutorialMenu(true)} onExitTutorial={exitTutorial} onFinishTutorial={finishTutorial} />{tutorialMenu && <TutorialMenu game={ENGINE.getState()} onStart={startTutorial} onClose={() => setTutorialMenu(false)} />}{tutorialInvitation && <TutorialUnlockInvitation kind={tutorialInvitation} onStart={() => startTutorial(tutorialInvitation)} onLater={dismissTutorialInvitation} />}</>;
+}
+
+function FactoryApp({ engine, training, welcome, onShowWelcome, onCloseWelcome, onTutorials, onExitTutorial, onFinishTutorial }: { engine: GameEngine; training?: TrainingSession; welcome: boolean; onShowWelcome(): void; onCloseWelcome(): void; onTutorials(): void; onExitTutorial(): void; onFinishTutorial(): void }) {
+  const [, forceRender] = useState(0);
+  const [panel, setPanel] = useState<Panel>(null);
+  const [returnPanel, setReturnPanel] = useState<Exclude<Panel, null> | null>(null);
+  const [selectedIds, setSelectedIds] = useState<string[]>([]);
+  const [selectionInfo, setSelectionInfo] = useState<SelectionInfo>();
+  const [pendingGroupNodes, setPendingGroupNodes] = useState<string[]>();
+  const [pendingDisbandGroup, setPendingDisbandGroup] = useState<string>();
+  const [inspectingNodeId, setInspectingNodeId] = useState<string>();
+  const selectNodes = (ids: string[], info?: SelectionInfo) => {
+    setSelectedIds(ids); setSelectionInfo(info); setInspectingNodeId(undefined);
+    const node = ids.length === 1 ? engine.getSector().nodes.find(node => node.id === ids[0]) : undefined;
+    setConfiguringNodeId(node && getNodeModule(node.kind).controls.configuration === 'recipe' ? node.id : undefined);
+  };
+  const [selectedConnection, setSelectedConnection] = useState<string>();
+  const [hoveredNodeId, setHoveredNodeId] = useState<string>();
+  const [placing, setPlacing] = useState<NodeKind>();
+  const [tutorialNodePositions, setTutorialNodePositions] = useState<Record<string, { x: number; y: number }>>();
+  const [tutorialStage, setTutorialStage] = useState<TutorialStage>('build-open');
+  const [tutorialTarget, setTutorialTarget] = useState<TutorialPlacementTarget>();
+  const [placementCorrection, setPlacementCorrection] = useState<{ id: number; text: string }>();
+  const correctionSequence = useRef(0);
+  useEffect(() => {
+    if (!placementCorrection) return;
+    const timer = window.setTimeout(() => setPlacementCorrection(undefined), 12000);
+    return () => window.clearTimeout(timer);
+  }, [placementCorrection]);
+  const [connectionSource, setConnectionSource] = useState<string>();
+  const [buildCategory, setBuildCategory] = useState('All');
+  const [saveSlots, setSaveSlots] = useState<Array<SaveSlot | null>>(() => readSlots());
+  const [confirmDelete, setConfirmDelete] = useState(false);
+  const [configuringNodeId, setConfiguringNodeId] = useState<string>();
+  const [skipRecipeWarnings, setSkipRecipeWarnings] = useState(false);
+  const [tooltip, setTooltip] = useState<PlayfieldTooltip>();
+  useEffect(() => {
+    if (welcome || pendingGroupNodes || pendingDisbandGroup) {
+      setTooltip(undefined);
+      setHoveredNodeId(undefined);
+    }
+  }, [welcome, pendingGroupNodes, pendingDisbandGroup]);
+  const [interactionFailure, setInteractionFailure] = useState<InteractionFailure>();
+  const dismissInteractionFailure = useCallback(() => setInteractionFailure(undefined), []);
+  const [notices, setNotices] = useState<Notice[]>([]);
+  const [unlockFocus, setUnlockFocus] = useState<UnlockDestination>();
+  const [unlockVisit, setUnlockVisit] = useState(0);
+  const researchRecipeParent = useRef<Panel>(null);
+  const researchRecipeFocus = useRef<HTMLElement | null>(null);
+  const researchRecipeScroll = useRef(0);
+  const [shortcutBars, setShortcutBars] = useState<ShortcutBarsState>(() => reconcileShortcutBars(training ? Object.fromEntries(Object.entries(structuredClone(DEFAULT_SHORTCUT_BARS)).map(([id, bar], index) => [id, { ...bar, position: { x: training.kind === 'expansion' ? 15 : 85, y: (training.kind === 'expansion' ? 75 : 17) + index * 8 } }])) as ShortcutBarsState : readShortcutBars(), engine.getState().research.unlocked));
+  const [newShortcutAssignmentKeys, setNewShortcutAssignmentKeys] = useState<Set<string>>(() => training ? new Set() : readNewShortcutAssignments());
+  const [shortcutBarGroups, setShortcutBarGroups] = useState<ShortcutBarGroup[]>(() => training ? [{ axis: 'vertical', barIds: [...SHORTCUT_BAR_IDS] }] : readShortcutBarGroups());
+  const viewport = useViewport();
+  const dockLayout = shortcutDockLayout(shortcutBars, shortcutBarGroups, viewport, Boolean(training));
+  const [showAllBuildNodes, setShowAllBuildNodes] = useState(false);
+  const [minimapVisible, setMinimapVisible] = useState(true);
+  const minimapHovered = useRef(false);
+  const handleMinimapHover = useCallback((hovered: boolean) => { minimapHovered.current = hovered; if (hovered) { setTooltip(undefined); setHoveredNodeId(undefined); } }, []);
+  const [camera, setCamera] = useState<CameraState>(() => ({ ...engine.getSector().camera }));
+  const seenNoticeIds = useRef(new Set([...(engine.getState().researchLog ?? []), ...engine.getState().events].map(event => event.id)));
+  const noticeTimers = useRef(new Map<string, number>());
+  const knownShortcutUnlocks = useRef(new Set((training ? undefined : readKnownShortcutUnlocks()) ?? SHORTCUT_BAR_IDS.flatMap((id) => shortcutBars[id].assignments.filter((kind): kind is NodeKind => Boolean(kind)))));
+
+  useEffect(() => engine.subscribe(() => forceRender((v) => v + 1)), [engine]);
+  useEffect(() => {
+    let previous = performance.now();
+    const timer = window.setInterval(() => { const now = performance.now(); engine.tick(now - previous); previous = now; }, 100);
+    return () => window.clearInterval(timer);
+  }, [engine]);
+
+  const choices = training ? tutorialChoices(training.kind, tutorialStage, engine.getState()) : undefined;
+  const canBuild = (kind: NodeKind) => !training || choices?.buildKind === kind;
+  const allowedBuildKind = choices?.buildKind;
+  useEffect(() => { if (training && placing && placing !== allowedBuildKind) setPlacing(undefined); }, [training, placing, allowedBuildKind]);
+  useEffect(() => { if (training) setBuildCategory('All'); }, [training, allowedBuildKind]);
+  const game = engine.getState();
+  const sector = engine.getSector();
+  const selected = sector.nodes.filter((node) => selectedIds.includes(node.id));
+  const selectedNode = selected.length === 1 ? selected[0] : undefined;
+  const inspectingNode = inspectingNodeId ? sector.nodes.find(node => node.id === inspectingNodeId) : undefined;
+  const configuringNode = configuringNodeId ? sector.nodes.find((node) => node.id === configuringNodeId) : undefined;
+  const researchEvents = [...new Map([...(game.researchLog ?? []), ...game.events].filter(event => event.type === 'ResearchCompleted').map(event => [event.id, event])).values()];
+  const noticeSignature = researchEvents.map(event => event.id).join('|');
+  useEffect(() => {
+    const fresh = researchEvents.filter(event => !seenNoticeIds.current.has(event.id)).reverse();
+    if (!fresh.length) return;
+    fresh.forEach((event) => seenNoticeIds.current.add(event.id));
+    const next = fresh.map(eventNotice).reverse();
+    setNotices((current) => [...next, ...current].slice(0, 4));
+    next.forEach((notice) => { const timer = window.setTimeout(() => { setNotices((current) => current.filter((candidate) => candidate.id !== notice.id)); noticeTimers.current.delete(notice.id); }, 4500); noticeTimers.current.set(notice.id, timer); });
+  }, [noticeSignature]);
+  useEffect(() => () => { noticeTimers.current.forEach((timer) => window.clearTimeout(timer)); }, []);
+
+  const closePanels = useCallback(() => { setPanel(null); setReturnPanel(null); setInspectingNodeId(undefined); setConfiguringNodeId(undefined); }, []);
+  const dismissPanel = useCallback(() => {
+    if (panel === 'recipes' && returnPanel === 'research') { setPanel('research'); setReturnPanel(researchRecipeParent.current); researchRecipeParent.current = null; }
+    else if (returnPanel) { setPanel(returnPanel); setReturnPanel(null); }
+    else setPanel(null);
+  }, [panel, returnPanel]);
+  const openResearchRecipe = (recipeId: string) => {
+    researchRecipeParent.current = returnPanel;
+    researchRecipeFocus.current = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+    researchRecipeScroll.current = document.querySelector('.research-sections')?.scrollTop ?? 0;
+    setUnlockFocus({ panel: 'recipes', recipeId }); setReturnPanel('research'); setPanel('recipes');
+  };
+  useEffect(() => {
+    if (panel !== 'research' || !researchRecipeFocus.current) return;
+    const target = researchRecipeFocus.current; researchRecipeFocus.current = null;
+    const frame = requestAnimationFrame(() => {
+      document.querySelector('.research-sections')?.scrollTo({ top: researchRecipeScroll.current });
+      if (target.isConnected) target.focus({ preventScroll: true });
+    });
+    return () => cancelAnimationFrame(frame);
+  }, [panel]);
+  const togglePanel = useCallback((next: Exclude<Panel, null>) => { setUnlockFocus(undefined); setReturnPanel(null); setPanel((current) => current === next ? null : next); setPlacing(undefined); setInspectingNodeId(undefined); setConfiguringNodeId(undefined); }, []);
+  const openSubPanel = useCallback((next: Exclude<Panel, null>, parent: Exclude<Panel, null>) => { setUnlockFocus(undefined); setReturnPanel(parent); setPanel(next); }, []);
+  const openUnlock = (projectId: string, fromJournal = false, nodeKind?: NodeKind) => {
+    const destination = unlockDestination(projectId, nodeKind);
+    setUnlockFocus(destination); setUnlockVisit(value => value + 1);
+    setPlacing(undefined); setConnectionSource(undefined); setConfiguringNodeId(undefined);
+    setReturnPanel(fromJournal ? 'journal' : null); setPanel(destination.panel);
+    if (destination.panel === 'build') setBuildCategory('All');
+  };
+  const requestDelete = useCallback(() => {
+    if (selectedConnection) { engine.deleteConnection(selectedConnection); setSelectedConnection(undefined); return; }
+    if (!selectedIds.length) return;
+    if (game.preferences.confirmDelete) setConfirmDelete(true); else { engine.deleteNodes(selectedIds); setSelectedIds([]); }
+  }, [engine, game.preferences.confirmDelete, selectedConnection, selectedIds]);
+  const changeShortcutBars = useCallback((next: ShortcutBarsState) => { setShortcutBars(next); if (!training) localStorage.setItem(SHORTCUT_BARS_KEY, JSON.stringify(next)); }, []);
+  const changeShortcutBarGroups = useCallback((next: ShortcutBarGroup[]) => { setShortcutBarGroups(next); if (!training) localStorage.setItem(SHORTCUT_BAR_GROUPS_KEY, JSON.stringify(next)); }, []);
+  const acknowledgeShortcutAssignment = useCallback((barId: ShortcutBarId, slot: number) => {
+    const prefix = `${barId}:${slot}:`;
+    setNewShortcutAssignmentKeys((current) => {
+      const next = new Set([...current].filter((key) => !key.startsWith(prefix)));
+      if (next.size === current.size) return current;
+      if (!training) localStorage.setItem(SHORTCUT_NEW_ASSIGNMENTS_KEY, JSON.stringify([...next]));
+      return next;
+    });
+  }, []);
+  useEffect(() => { setCamera({ ...engine.getSector().camera }); setSelectedConnection(undefined); setConfiguringNodeId(undefined); setTooltip(undefined); }, [engine, game, game.activeSectorId]);
+  useEffect(() => { setTooltip(undefined); }, [panel]);
+  useEffect(() => {
+    const onBackdropMouseDown = (event: MouseEvent) => {
+      const target = event.target as HTMLElement;
+      if (!panel || !target.classList.contains('modal-backdrop') || target.classList.contains('welcome-backdrop') || document.querySelector('.confirm-modal')) return;
+      dismissPanel();
+    };
+    document.addEventListener('mousedown', onBackdropMouseDown);
+    return () => document.removeEventListener('mousedown', onBackdropMouseDown);
+  }, [dismissPanel, panel]);
+  const researchUnlockSignature = game.research.unlocked.join('|');
+  useEffect(() => {
+    const unlockedKinds = BUILDABLE_NODES.filter((node) => isNodeUnlocked(node.kind, game.research.unlocked)).map((node) => node.kind);
+    const newlyUnlockedKinds = unlockedKinds.filter((kind) => !knownShortcutUnlocks.current.has(kind));
+    knownShortcutUnlocks.current = new Set(unlockedKinds);
+    if (!training) localStorage.setItem(SHORTCUT_UNLOCKS_KEY, JSON.stringify(unlockedKinds));
+    const next = addUnlockedNodeShortcuts(reconcileShortcutBars(shortcutBars, game.research.unlocked), newlyUnlockedKinds, game.research.unlocked);
+    if (JSON.stringify(next) === JSON.stringify(shortcutBars)) return;
+    const addedKeys = newlyUnlockedKinds.flatMap((kind) => SHORTCUT_BAR_IDS.flatMap((barId) => {
+      const slot = next[barId].assignments.indexOf(kind);
+      return slot >= 0 && shortcutBars[barId].assignments[slot] !== kind ? [`${barId}:${slot}:${kind}`] : [];
+    }));
+    if (addedKeys.length) setNewShortcutAssignmentKeys((current) => {
+      const merged = new Set([...current, ...addedKeys]);
+      if (!training) localStorage.setItem(SHORTCUT_NEW_ASSIGNMENTS_KEY, JSON.stringify([...merged]));
+      return merged;
+    });
+    setShortcutBars(next);
+    if (!training) localStorage.setItem(SHORTCUT_BARS_KEY, JSON.stringify(next));
+  }, [game.research.unlocked, researchUnlockSignature, shortcutBars]);
+
+  useEffect(() => {
+    const onKey = (event: KeyboardEvent) => {
+      const target = event.target as HTMLElement | null;
+      if (target?.matches('input, select, textarea') || target?.isContentEditable) return;
+      const key = event.key.toLowerCase();
+      const commandModifier = event.ctrlKey || event.metaKey;
+      const plainKey = !commandModifier && !event.altKey && !event.shiftKey;
+      if (welcome) { if (key === 'escape') { event.preventDefault(); closeWelcome(); } return; }
+      if (pendingGroupNodes || pendingDisbandGroup) { if (key === 'escape') { event.preventDefault(); setPendingGroupNodes(undefined); setPendingDisbandGroup(undefined); } return; }
+      if (confirmDelete) { if (key === 'escape') { event.preventDefault(); setConfirmDelete(false); } return; }
+      if (configuringNodeId && key === 'escape') { event.preventDefault(); setConfiguringNodeId(undefined); return; }
+      if (!event.repeat && commandModifier && !event.altKey && !event.shiftKey && key === 'z') { event.preventDefault(); engine.undo(); setSelectedIds([]); setSelectedConnection(undefined); setConnectionSource(undefined); return; }
+      if (!event.repeat && commandModifier && !event.altKey && !event.shiftKey && key === 'c') { if (training) { event.preventDefault(); return; } if (selectedIds.length) { event.preventDefault(); const ids = engine.duplicateNodes(selectedIds); if (ids.length) setSelectedIds(ids); } return; }
+      if (!event.repeat && plainKey && (key === 'delete' || key === 'backspace')) { event.preventDefault(); requestDelete(); return; }
+      if (key === 'escape') { setPlacing(undefined); dismissPanel(); setConnectionSource(undefined); setSelectedIds([]); setSelectedConnection(undefined); setTooltip(undefined); return; }
+      if (!event.repeat && plainKey && key === 'b') { event.preventDefault(); togglePanel('build'); return; }
+      if (!event.repeat && plainKey && key === 'j') { event.preventDefault(); togglePanel('journal'); return; }
+      if (!event.repeat && plainKey && key === 'o') { event.preventDefault(); togglePanel('options'); return; }
+      if (!event.repeat && plainKey && key === 'q') { event.preventDefault(); togglePanel('research'); return; }
+      if (!event.repeat && !commandModifier && !event.altKey && event.shiftKey && key === 'm') { event.preventDefault(); if (game.research.completed.includes('exploration')) togglePanel('map'); return; }
+      if (!event.repeat && plainKey && key === 'm') { event.preventDefault(); if (game.research.completed.includes('exploration')) setMinimapVisible((visible) => !visible); return; }
+      if (!event.repeat && !commandModifier && !event.altKey && (key === '?' || (key === '/' && event.shiftKey))) { event.preventDefault(); togglePanel('commands'); return; }
+      if (!event.repeat && plainKey && key === 'r') { const node = sector.nodes.find((candidate) => candidate.id === hoveredNodeId) ?? selectedNode; if (node && getNodeModule(node.kind).controls.rotatable) { event.preventDefault(); engine.rotateNode(node.id); } return; }
+      const functionBarShortcut = /^F([1-3])$/.exec(event.code);
+      if (!event.repeat && plainKey && functionBarShortcut) { event.preventDefault(); const id = SHORTCUT_BAR_IDS[Number(functionBarShortcut[1]) - 1]; changeShortcutBars({ ...shortcutBars, [id]: { ...shortcutBars[id], visible: !shortcutBars[id].visible } }); return; }
+      const digitShortcut = /^Digit([1-5])$/.exec(event.code);
+      if (!event.repeat && !event.metaKey && !event.altKey && !(event.ctrlKey && event.shiftKey) && digitShortcut) {
+        const digit = Number(digitShortcut[1]);
+        const barId = event.ctrlKey ? 'storage' : event.shiftKey ? 'logistics' : 'production'; const quick = shortcutBars[barId].assignments[digit - 1];
+        if (quick && canBuild(quick) && isNodeUnlocked(quick, game.research.unlocked)) { event.preventDefault(); setPlacing(quick); closePanels(); }
+      }
+    };
+    window.addEventListener('keydown', onKey); return () => window.removeEventListener('keydown', onKey);
+  }, [changeShortcutBars, closePanels, configuringNodeId, confirmDelete, dismissPanel, engine, game.research.unlocked, hoveredNodeId, pendingGroupNodes, pendingDisbandGroup, requestDelete, sector.nodes, selectedIds, selectedNode, shortcutBars, togglePanel, welcome, training?.kind, tutorialStage]);
+
+  useEffect(() => {
+    if (!placing) return;
+    const cancelHeldNode = (event: PointerEvent) => {
+      if (event.button !== 2) return;
+      event.preventDefault(); event.stopPropagation(); setPlacing(undefined);
+    };
+    const blockContextMenu = (event: MouseEvent) => { event.preventDefault(); event.stopPropagation(); };
+    window.addEventListener('pointerdown', cancelHeldNode, true); window.addEventListener('contextmenu', blockContextMenu, true);
+    return () => { window.removeEventListener('pointerdown', cancelHeldNode, true); window.removeEventListener('contextmenu', blockContextMenu, true); };
+  }, [placing]);
+
+  const inventory = useMemo(() => {
+    const totals: Partial<Record<ItemId, number>> = {};
+    Object.values(game.sectors).forEach((s) => s.nodes.forEach((node) => [node.input, node.output].forEach((bag) => Object.entries(bag).forEach(([item, count]) => { totals[item as ItemId] = (totals[item as ItemId] ?? 0) + (count ?? 0); }))));
+    return totals;
+  }, [game.revision]);
+
+  const travelToSector = (id: string) => {
+    const target = game.sectors[id];
+    if (!target?.unlocked || !permitsTutorialChoice(choices?.sectorId, id)) return;
+    const overview = training ? undefined : sectorOverviewCamera(getSectorWorldSize(target, game.research.completed), { width: window.innerWidth, height: window.innerHeight });
+    engine.switchSector(id, overview);
+    setSelectedIds([]);
+  };
+  const startPlacement = (kind: NodeKind) => { if (!canBuild(kind)) return; setPlacing(kind); closePanels(); };
+  const place = (kind: NodeKind, x: number, y: number, repeat: boolean) => {
+    if (!canBuild(kind)) { setPlacing(undefined); return; }
+    const destination = correctTutorialPlacement(kind, { x, y }, training ? tutorialTarget : undefined);
+    const id = engine.placeNode(kind, destination.x, destination.y);
+    if (id) {
+      if (destination.corrected) {
+        const asides = ['The floor plan has opinions.', 'A small victory for the highlighted square.', 'Close enough for enthusiasm. The diagram was more specific.'];
+        const sequence = correctionSequence.current++;
+        setPlacementCorrection({ id: sequence, text: `${NODE_DEFINITIONS[kind].name} moved to the marked spot. ${asides[sequence % asides.length]}` });
+      }
+      setSelectedIds([id]);
+      if (!repeat || training) setPlacing(undefined);
+      if (getNodeModule(kind).controls.configuration === 'recipe') setConfiguringNodeId(id);
+    } else {
+      setTooltip(undefined);
+      setInteractionFailure({ title: kind === 'road' ? 'Road placement unavailable' : 'Placement unavailable', detail: engine.getNodePlacementError(kind, x, y), x: x * camera.zoom + camera.x, y: y * camera.zoom + camera.y });
+    }
+  };
+  const finishShortcutBuildDrag = (kind: NodeKind, clientX: number, clientY: number, repeat: boolean) => {
+    const target = document.elementFromPoint(clientX, clientY);
+    if (!target?.closest('.pixi-host')) { setPlacing(undefined); return; }
+    place(kind, (clientX - camera.x) / camera.zoom, (clientY - camera.y) / camera.zoom, repeat);
+  };
+  const closeWelcome = onCloseWelcome;
+  const doDelete = () => { engine.deleteNodes(selectedIds); setSelectedIds([]); setConfirmDelete(false); };
+  const requestDeleteNode = (id: string) => { setSelectedIds([id]); if (game.preferences.confirmDelete) setConfirmDelete(true); else { engine.deleteNodes([id]); setSelectedIds([]); } };
+  const configureNode = (id: string) => {
+    const node = sector.nodes.find((candidate) => candidate.id === id);
+    if (!node) return;
+    setSelectedIds([id]);
+    const configuration = getNodeModule(node.kind).controls.configuration;
+    if (configuration === 'recipe') { closePanels(); setConfiguringNodeId(id); }
+    else if (configuration === 'research') togglePanel('research');
+    else { closePanels(); if (configuration) setInspectingNodeId(id); }
+  };
+
+  return (
+    <main className={training ? "game-shell training-session" : "game-shell"} style={{ '--shortcut-dock-height': `${dockLayout.height}px` } as React.CSSProperties}>
+      <div className="ambient ambient-a" /><div className="ambient ambient-b" />
+      <PixiPlayfield
+        engine={engine} revision={game.revision} selectableNodeId={choices?.selectableNodeId} selectedIds={selectedIds} selectedConnection={selectedConnection} placing={placing} connectionSource={connectionSource}
+        onSelect={selectNodes} onNodeContextMenu={(id, priority) => {
+          const node = sector.nodes.find(node => node.id === id);
+          if (!node || welcome || panel || placing) return;
+          setTooltip(undefined);
+          if (getNodeModule(node.kind).controls.rotatable && NODE_DEFINITIONS[node.kind].category === 'Logistics') { engine.rotateNode(node.id); return; }
+          if (isProductionMachine(node) && game.research.completed.includes(CONNECTOR_MIRRORING_RESEARCH)) { engine.mirrorProductionConnectors(id); return; }
+          const group = sector.controlGroups?.find(group => group.nodeIds.includes(id));
+          if (group && !priority) { setPendingDisbandGroup(group.id); return; }
+          if (selectedIds.length >= 2 && selectedIds.includes(id)) { setPendingGroupNodes([...selectedIds]); return; }
+          if (isProductionMachine(node)) setInteractionFailure({ title: 'Connector Mirroring required', detail: 'Research Connector Mirroring after Hydraulic Assembly for 100 each of Simple, Basic, Automata, and Hydro Cores. Then right-click a production node to swap its input and output sides. The connector-order button still rearranges rows.', x: node.x * camera.zoom + camera.x, y: node.y * camera.zoom + camera.y });
+        }} onPlace={place} onConnect={(from, to, fromPort, toPort, replaceConnectionId) => {
+          const connected = engine.connectPorts(from, fromPort, to, toPort, replaceConnectionId);
+          setConnectionSource(undefined);
+          return connected;
+        }}
+        onConnectionRejected={failure => { setTooltip(undefined); setInteractionFailure(failure); }}
+        onConnectionSource={setConnectionSource} onConnectionSelect={setSelectedConnection} onDeleteConnection={(id) => { engine.deleteConnection(id); setSelectedConnection(undefined); }}
+        onDeleteNode={requestDeleteNode} onCycleInputPorts={(id) => engine.cycleNodeInputOrder(id)} onCycleOutputPorts={(id) => engine.cycleNodeOutputPosition(id)} onRotate={(id) => engine.rotateNode(id)} onConfigure={configureNode}
+        onClonePlacement={(kind) => { if (canBuild(kind) && isNodeUnlocked(kind, game.research.unlocked)) { setPlacing(kind); closePanels(); } }} onHoverNode={setHoveredNodeId} onTooltip={next => { if (!welcome && !pendingGroupNodes && !pendingDisbandGroup && !minimapHovered.current) setTooltip(next); }}
+        jointMoveHint={Boolean(training && tutorialStage === 'logistics-joint-move')}
+        onDragPreview={training ? setTutorialNodePositions : undefined}
+        onCamera={(nextCamera) => { engine.setCamera(nextCamera); setCamera(nextCamera); }}
+      />
+
+      <header className="topbar glass">
+        <button className="brand" onClick={onShowWelcome} aria-label="About NODE: Another Factory Game">
+          <span className="brand-mark"><i /><i /><i /></span>
+          <span><b>NODE</b><small>Another Factory Game</small></span>
+        </button>
+        <div className="sector-crumb"><span className="status-dot" /> <b>{sector.label}</b><span>/</span><strong>{sector.name}</strong><small>LVL {sectorDistance(sector.x, sector.y)}</small></div>
+        <nav className="modal-trigger-strip" aria-label="Factory systems">
+          {game.research.completed.includes('exploration') && <RailButton tone="map" icon="◎" label="Map" shortcut="⇧M" active={panel === 'map'} onClick={() => togglePanel('map')} />}
+          <RailButton tone="research" icon="⌁" label="Research" shortcut="Q" active={panel === 'research'} onClick={() => togglePanel('research')} />
+          <RailButton tone="build" icon="＋" label="Build" shortcut="B" active={panel === 'build'} onClick={() => togglePanel('build')} />
+          <RailButton tone="options" icon="⚙" label="Options" shortcut="O" active={panel === 'options'} onClick={() => togglePanel('options')} />
+          <RailButton tone="dev" icon="⚛" label="Dev" shortcut="" active={panel === 'dev'} onClick={() => togglePanel('dev')} />
+        </nav>
+        <div className="top-stats">
+          <Stat label="Nodes" value={sector.nodes.length.toString().padStart(2, '0')} />
+          <Stat label="Links" value={sector.connections.length.toString().padStart(2, '0')} />
+          <Stat label="Map pts" value={game.research.mapPoints.toString().padStart(2, '0')} accent />
+          <Stat label="Runtime" value={formatTime(game.playTimeMs)} />
+        </div>
+        <div className="top-actions">
+          <button className={`pause-button ${game.paused ? 'paused' : ''}`} onClick={() => engine.togglePause()} data-tooltip={game.paused ? 'Resume simulation' : 'Pause simulation'} data-tooltip-detail="Stops or resumes every unlocked sector. The entire workforce gets the memo.">{game.paused ? 'RESUME' : 'PAUSE'} <span>{game.paused ? '▶' : 'Ⅱ'}</span></button>
+        </div>
+      </header>
+
+      {panel === 'build' && <BuildPanel extra={training?.kind !== 'basic' ? <FactoryTemplates game={game} engine={engine} selectedIds={selectedIds}/> : undefined} canBuild={canBuild} key={unlockVisit} focusKind={unlockFocus?.panel === 'build' ? unlockFocus.nodeKind : undefined} game={game} category={buildCategory} setCategory={setBuildCategory} showAllNodes={showAllBuildNodes} onChoose={startPlacement} onClose={dismissPanel} />}
+      {panel === 'inventory' && <InventoryPanel inventory={inventory} onClose={dismissPanel} />}
+      {panel === 'inventory' && game.research.completed.includes('autonomousLogistics') && <section className="global-pool-panel"><h3>Global transfer pool</h3><p>Storage deposits here; Inventory withdraws through Filters. Limit: {poolCapacity(game)} per item.</p>{Object.entries(game.globalPool??{}).map(([i,n])=><p key={i}>{ITEM_NAMES[i as ItemId]} <b>{n} / {poolCapacity(game)}</b></p>)}</section>}
+      {panel === 'journal' && <DiscoveryJournal game={game} onClose={dismissPanel} onOpen={(id, kind) => openUnlock(id, true, kind)} />}
+      {panel === 'options' && <OptionsPanel game={game} engine={engine} shortcutBars={shortcutBars} onShortcutBars={changeShortcutBars} onResetShortcutBars={() => { changeShortcutBars(createDefaultShortcutBars(window.innerWidth, window.innerHeight)); changeShortcutBarGroups(DEFAULT_SHORTCUT_BAR_GROUPS); }} onJournal={() => openSubPanel('journal', 'options')} onSaveLoad={() => openSubPanel('save', 'options')} onCommands={() => openSubPanel('commands', 'options')} onRecipes={() => openSubPanel('recipes', 'options')} onTutorials={onTutorials} training={Boolean(training)} onClose={dismissPanel} />}
+      {panel === 'recipes' && <RecipesPanel key={unlockVisit} initialRecipeId={unlockFocus?.panel === 'recipes' ? unlockFocus.recipeId : undefined} backToResearch={returnPanel === 'research'} game={game} onClose={dismissPanel} />}
+      {(panel === 'research' || (panel === 'recipes' && returnPanel === 'research')) && <div hidden={panel !== 'research'}><ResearchPanel allowedProjectId={choices?.researchProjectId} key={unlockVisit} focusProjectId={unlockFocus?.panel === 'research' ? unlockFocus.projectId : undefined} game={game} engine={engine} onClose={dismissPanel} onOpenRecipe={openResearchRecipe} /></div>}
+      {panel === 'map' && <MapPanel allowedSectorId={choices?.sectorId} game={game} engine={engine} onClose={dismissPanel} onTravel={travelToSector} onSwitch={closePanels} />}
+      {panel === 'save' && !training && <SavePanel game={game} engine={engine} slots={saveSlots} setSlots={setSaveSlots} onClose={dismissPanel} />}
+      {panel === 'commands' && <CommandsPanel onClose={dismissPanel} />}
+      {panel === 'dev' && !training && <DevPanel game={game} engine={engine} showAllBuildNodes={showAllBuildNodes} onShowAllBuildNodes={setShowAllBuildNodes} onClose={dismissPanel} />}
+
+      <ShortcutBars dockLayout={dockLayout} canBuild={canBuild} bars={shortcutBars} groups={shortcutBarGroups} unlockedResearch={game.research.unlocked} newAssignmentKeys={newShortcutAssignmentKeys} placing={placing} onChange={changeShortcutBars} onGroupsChange={changeShortcutBarGroups} onBuild={startPlacement} onBuildDragEnd={finishShortcutBuildDrag} onBuildDragCancel={() => setPlacing(undefined)} onAcknowledgeAssignment={acknowledgeShortcutAssignment} />
+      {minimapVisible && game.research.completed.includes('exploration') && <NodeMinimap dockHeight={dockLayout.height} allowedSectorId={choices?.sectorId} game={game} engine={engine} onTravel={travelToSector} onOpenMap={() => togglePanel('map')} onClose={() => setMinimapVisible(false)} onHoverChange={handleMinimapHover} />}
+      {inspectingNode && !training && !panel && !welcome && !configuringNode && <NodeInspector node={inspectingNode} game={game} engine={engine} onFailure={setInteractionFailure} onClose={() => setInspectingNodeId(undefined)} onConfigureRecipe={() => configureNode(inspectingNode.id)} onOpenResearch={() => togglePanel('research')} onDelete={() => requestDeleteNode(inspectingNode.id)} />}
+
+      <div className="canvas-help glass"><span><i className="mouse-icon" /> wheel · zoom</span><span>RMB / MMB · pan</span><span>drag field · select</span><span>drag ports · link</span></div>
+      <div className="local-badge"><span /> {game.paused ? 'PAUSED' : 'RUNNING'}</div>
+      {placing && <div className="placement-banner"><span>PLACING</span><b>{NODE_DEFINITIONS[placing].name}</b><small>Click to place one · Shift-click to repeat · Esc / right-click to cancel</small><button aria-label="Cancel placement" onPointerDown={event => event.stopPropagation()} onClick={event => { event.stopPropagation(); setPlacing(undefined); }}>×</button></div>}
+      {connectionSource && <div className="placement-banner connection-banner"><span>LINKING</span><b>Drag to a compatible socket</b><small>Nearby compatible ports snap into place</small><button onClick={() => setConnectionSource(undefined)}>×</button></div>}
+      {tooltip && !welcome && !pendingGroupNodes && !pendingDisbandGroup && !panel && !interactionFailure && <div className="node-hover-tooltip" style={{ left: Math.max(8, Math.min(window.innerWidth - 270, tooltip.x + 16)), top: Math.max(8, Math.min(window.innerHeight - 220, tooltip.y + 16)), '--tooltip-tone': tooltip.tone ?? '#87939b' } as React.CSSProperties}><small>{tooltip.eyebrow ?? 'FACTORY NODE'}</small><b>{tooltip.title}</b><span>{tooltip.detail}</span></div>}
+      {interactionFailure && <InteractionNotice failure={interactionFailure} onDismiss={dismissInteractionFailure} />}
+      {!welcome && !pendingGroupNodes && !pendingDisbandGroup && <UiTooltipLayer />}
+      <div className="notification-stack" aria-live="polite">{notices.map((notice) => <article key={notice.id} className={`notification ${notice.tone}`} role={notice.tone === 'warning' ? 'alert' : undefined}><i>{notice.tone === 'warning' ? '!' : '⌁'}</i><button className="notification-content" disabled={!notice.projectId} aria-label={notice.projectId ? `View unlock: ${notice.message}` : undefined} onClick={() => { if (!notice.projectId) return; openUnlock(notice.projectId); const timer = noticeTimers.current.get(notice.id); if (timer) window.clearTimeout(timer); noticeTimers.current.delete(notice.id); setNotices(current => current.filter(candidate => candidate.id !== notice.id)); }}><small>{notice.label}</small><b>{notice.message}</b></button><button aria-label="Dismiss notification" onClick={() => { const timer = noticeTimers.current.get(notice.id); if (timer) window.clearTimeout(timer); noticeTimers.current.delete(notice.id); setNotices((current) => current.filter((candidate) => candidate.id !== notice.id)); }}>×</button><span /></article>)}</div>
+
+      {welcome && <WelcomeModal onClose={closeWelcome} onTutorials={onTutorials} />}
+      {pendingGroupNodes && <div className="modal-backdrop control-group-backdrop"><section className="modal glass control-group-modal" role="dialog" aria-modal="true" aria-labelledby="control-group-title">
+        <PanelHeader eyebrow="CONTROL GROUPS" title="Choose a control group color" onClose={() => setPendingGroupNodes(undefined)} />
+        <span id="control-group-title" className="control-group-sr-label">Choose a control group color</span>
+        <p>{pendingGroupNodes.length} nodes will select and move together. They have agreed to cooperate.</p>
+        <div className="control-group-palette" role="group" aria-label="Control group colors">{CONTROL_GROUP_COLORS.map(color => <button key={color.name} aria-label={`Create ${color.name} control group`} style={{ '--group-color': color.value } as React.CSSProperties} onClick={() => { const group = engine.createControlGroup(pendingGroupNodes, color.value); if (group) selectNodes(group.nodeIds); setPendingGroupNodes(undefined); }}><i /><b>{color.name}</b></button>)}</div>
+        <p>Click or drag a member to control the group. Double-click to control one node. Right-click to disband.</p>
+        <button className="primary-cta" onClick={() => setPendingGroupNodes(undefined)}>Cancel</button>
+      </section></div>}
+      {pendingDisbandGroup && <ConfirmModal title="Disband this control group?" body={`The ${sector.controlGroups?.find(group => group.id === pendingDisbandGroup)?.colorName ?? 'selected'} group will be removed. Its nodes, cables, and positions stay unchanged. An administrative separation.`} confirm="DISBAND" onCancel={() => setPendingDisbandGroup(undefined)} onConfirm={() => { engine.disbandControlGroup(pendingDisbandGroup); setPendingDisbandGroup(undefined); }} />}
+      {training && <TutorialGuide session={training} game={game} camera={camera} nodePositions={tutorialNodePositions} onStageChange={setTutorialStage} onPlacementTarget={setTutorialTarget} placementCorrection={placementCorrection?.text} panel={panel} placing={placing} selectedIds={selectedIds} selectionInfo={selectionInfo} onPanel={value => { setPanel(value); setReturnPanel(null); setSelectedIds([]); setPlacing(undefined); }} onExit={onExitTutorial} onFinish={onFinishTutorial} />}
+      {configuringNode && getNodeModule(configuringNode.kind).controls.configuration === 'recipe' && <NodeRecipePicker key={configuringNode.id} requiredRecipeId={training ? tutorialRecipeChoice(training.kind, configuringNode, sector.nodes) : undefined} game={game} engine={engine} node={configuringNode} skipWarnings={skipRecipeWarnings} onSkipWarnings={setSkipRecipeWarnings} onClose={() => setConfiguringNodeId(undefined)} />}
+      {confirmDelete && <ConfirmModal title="Decommission selection?" body={`${selectedIds.length} node${selectedIds.length === 1 ? '' : 's'} will be dismantled. Attached cables will also be removed.`} confirm="DECOMMISSION" onCancel={() => setConfirmDelete(false)} onConfirm={doDelete} />}
+    </main>
+  );
+}
+
+function eventNotice(event: GameEvent): Notice {
+  return { id: event.id, message: event.message, label: event.projectId === 'mithrilTools' ? 'NEW RECIPES DISCOVERED' : 'RESEARCH COMPLETE', tone: 'research', projectId: researchEventProject(event) };
+}
+

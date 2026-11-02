@@ -1,0 +1,21 @@
+/* Source-game notification flow: newest toast appears at top center and pushes the stack downward. */
+.notification-stack { position:fixed; top:84px; left:50%; right:auto; width:min(390px,calc(100vw - 32px)); transform:translateX(-50%); align-content:start; gap:12px; }
+.notification { animation:notification-in 220ms cubic-bezier(.2,.8,.2,1) both; }
+.notification > span { animation-duration:3.8s; }
+.notification.research > span { animation-duration:4.5s; }
+@keyframes notification-in { from { opacity:0; transform:translateY(-18px) scale(.97); } to { opacity:1; transform:translateY(0) scale(1); } }
+
+/* Old-game shortcut visibility cards. */
+.shortcut-visibility-options { padding:12px; }
+.shortcut-visibility-options button { min-width:0; min-height:88px; height:auto; display:flex; flex-direction:column; justify-content:center; align-items:center; gap:6px; padding:9px 6px; border:1px solid #565d64; border-radius:9px; color:#929ba3; background:linear-gradient(145deg,#272c30,#202427); text-align:center; }
+.shortcut-visibility-options button:hover { background:linear-gradient(145deg,#30363a,#252a2e); }
+.shortcut-visibility-options button > i { position:static; width:36px; height:36px; display:grid; place-items:center; border:1px solid #5d656c; border-radius:8px; color:#929ba3; background:#20252a; font-style:normal; font-size:15px; }
+.shortcut-visibility-options button > i::after { display:none; }
+.shortcut-visibility-options button b { font:700 10px/1.2 sans-serif; }
+.shortcut-visibility-options button small { color:#747d84; font:8px monospace; }
+.shortcut-visibility-options button strong { display:flex; align-items:center; gap:5px; color:#858e95; font:700 7px monospace; text-transform:uppercase; }
+.shortcut-visibility-options button strong kbd { padding:2px 4px; border:1px solid #4d555b; border-radius:3px; color:#aab1b6; background:#191d20; }
+.shortcut-visibility-options button.active { border-color:#6f7958; color:#e2d98b; }
+.shortcut-visibility-options button.active > i { border-color:#8d955f; color:#e2d98b; background:#2d2c1d; }
+.shortcut-visibility-options button.active strong { color:#bdb66f; }
+
