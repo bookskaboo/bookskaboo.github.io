@@ -34,7 +34,7 @@ describe('resource Golems', () => {
         const field = getSectorWorldSize(sector, []);
         expect(golem.x).toBe(field.width / 2);
         expect(golem.y).toBe(field.height / 2);
-        expect(golem.health).toBe(10000);
+        expect(golem.health).toBe(golem.golemMineral === 'mythril' ? 20000 : 10000);
         expect(golem.golemOutputs).toEqual([golem.golemMineral]);
         expect(sector.nodes.some(node => ['monster-camp', 'big-hole', 'lake'].includes(node.kind))).toBe(false);
         expect(sector.nodes.filter(node => node.id !== golem.id).some(node => nodesOverlap(golem, node))).toBe(false);
@@ -79,7 +79,7 @@ describe('resource Golems', () => {
   it.each(GOLEM_MINERALS)('turns a defeated %s Golem into an endless reserve with four working star faces', item => {
     const engine = setup(item);
     const source = engine.getSector().nodes[0];
-    source.input['command-suppression-bot'] = 500;
+    source.input['command-suppression-bot'] = item === 'mythril' ? 1000 : 500;
     advance(engine, .1);
     expect(source.resourceItem).toBe(item);
     expect(source.name).toMatch(/^Infinite /);

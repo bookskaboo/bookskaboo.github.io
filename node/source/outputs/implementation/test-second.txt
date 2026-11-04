@@ -1,0 +1,95 @@
+
+> factorinode-reconstruction@0.1.0 test
+> vitest run --reporter=dot
+
+
+ RUN  v5.0.5 D:/node factory v2
+
+···································································x······································xx············································x·····································································································································································································································································································································································································································································································-··
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 4 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/simulation/devSource.test.ts > Dev Source > supplies growth, bots and Stone and funds Tree Planters without Power
+TypeError: actual value must be number or bigint, received "undefined"
+ ❯ src/simulation/devSource.test.ts:138:53
+    136|     expect(node('forest').resourceRemaining).toBe(1000);
+    137|     advance(engine, 1);
+    138|     expect(node('planter').output['forest-growth']).toBeGreaterThan(0);
+       |                                                     ^
+    139|   });
+    140|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯
+
+ FAIL  src/simulation/engine.test.ts > simulation architecture > uses the source-game world-map tier resource rules
+AssertionError: expected [ 'iron', 'copper', 'stone', 'wood' ] to deeply equal ArrayContaining{…}
+
+- Expected
++ Received
+
+- ArrayContaining [
++ [
+    "iron",
+    "copper",
+    "stone",
+    "wood",
+-   "mythril",
+  ]
+
+ ❯ src/simulation/engine.test.ts:135:97
+    133|
+    134|     const tierNine = generateSector(0, 1, 12345, 1);
+    135|     expect(tierNine.nodes.filter((node) => node.resourceItem).map((nod…
+       |                                                                                                 ^
+    136|     const tierTen = generateSector(0, 0, 12345, 1);
+    137|     expect(tierTen.nodes).toHaveLength(0);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/4]⎯
+
+ FAIL  src/simulation/playtest.regressions.test.ts > speedrun follow-up regressions > uses five-item production buffers and preserves excess contents in older saves
+AssertionError: expected 4 to be 5 // Object.is equality
+
+- Expected
++ Received
+
+- 5
++ 4
+
+ ❯ src/simulation/playtest.regressions.test.ts:67:64
+     65|     for (let step = 0; step < 180; step++) engine.tick(100);
+     66|     expect(engine.getSector().nodes[0].output).toEqual({ 'refined-mith…
+     67|     expect(engine.getSector().nodes[0].input['mythril-plate']).toBe(5);
+       |                                                                ^
+     68|     expect(engine.getSector().nodes[0].input['iron-plate']).toBe(5);
+     69|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/4]⎯
+
+ FAIL  src/simulation/refinerMaterials.test.ts > explicit Refiner material recipes > retains Mythril discovery from saved materials when old saves lack encounter history
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ src/simulation/refinerMaterials.test.ts:112:86
+    110|     const restored = new GameEngine(normalizeLegacy(JSON.parse(JSON.st…
+    111|     expect(restored.getState().encounters).toContain('mythril');
+    112|     expect(isRecipeUnlocked('mythril-wire', restored.getState().resear…
+       |                                                                                      ^
+    113|     expect(restored.getSector().nodes[0].input).toEqual({ 'mythril-pla…
+    114|     run(restored, 3000);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/4]⎯
+
+
+ Test Files  4 failed | 66 passed | 1 skipped (71)
+      Tests  4 failed | 636 passed | 1 skipped (641)
+   Start at  23:37:46
+   Duration  3.86s (transform 46%, import 31%, tests 20%, worker 2%)
+
+    Isolate  71 workers spawned · ~503ms startup each (spawn + environment, per file)
+             at least ~1.05s faster with isolate: false — reuses workers across files instead of one per file
+

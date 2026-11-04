@@ -1,0 +1,234 @@
+{
+  "status": "Design proposal only",
+  "probabilityRule": "Separate independent roll for every listed chance on each batch; any combination can occur. Guaranteed primary output and Slag are not rolled.",
+  "sources": [
+    {
+      "id": "refined-mithril",
+      "seconds": 12,
+      "waste": [
+        {
+          "item": "slag",
+          "amount": 2,
+          "probability": 1
+        }
+      ],
+      "expectedPerBatch": 2,
+      "maxPerBatch": 2
+    },
+    {
+      "id": "precision-controller",
+      "seconds": 12,
+      "waste": [
+        {
+          "item": "metallic-fines",
+          "amount": 1,
+          "probability": 0.65
+        },
+        {
+          "item": "glassy-crust",
+          "amount": 1,
+          "probability": 0.08
+        }
+      ],
+      "expectedPerBatch": 0.73,
+      "maxPerBatch": 2
+    },
+    {
+      "id": "advanced-actuator",
+      "seconds": 16,
+      "waste": [
+        {
+          "item": "spent-flux",
+          "amount": 2,
+          "probability": 0.35
+        },
+        {
+          "item": "glassy-crust",
+          "amount": 1,
+          "probability": 0.05
+        }
+      ],
+      "expectedPerBatch": 0.75,
+      "maxPerBatch": 3
+    }
+  ],
+  "recovery": [
+    {
+      "name": "Slag washing",
+      "node": "Hydro Processor",
+      "inputs": {
+        "slag": 4,
+        "water": 2
+      },
+      "outputs": {
+        "mineral-aggregate": 2,
+        "metal-residue": 1
+      },
+      "seconds": 12
+    },
+    {
+      "name": "Fines settling",
+      "node": "Hydro Processor",
+      "inputs": {
+        "metallic-fines": 4,
+        "water": 1
+      },
+      "outputs": {
+        "metal-residue": 3
+      },
+      "seconds": 10
+    },
+    {
+      "name": "Flux stabilization",
+      "node": "Hydro Processor",
+      "inputs": {
+        "spent-flux": 4,
+        "charcoal": 1,
+        "water": 2
+      },
+      "outputs": {
+        "mineral-aggregate": 2
+      },
+      "seconds": 12
+    },
+    {
+      "name": "Crust milling",
+      "node": "Separation Furnace",
+      "inputs": {
+        "glassy-crust": 2,
+        "water": 1
+      },
+      "outputs": {
+        "mineral-aggregate": 3
+      },
+      "seconds": 14
+    },
+    {
+      "name": "Recovered brick",
+      "node": "Refiner",
+      "inputs": {
+        "mineral-aggregate": 2
+      },
+      "outputs": {
+        "brick": 1
+      },
+      "seconds": 4
+    },
+    {
+      "name": "Recovered iron",
+      "node": "Separation Furnace",
+      "inputs": {
+        "metal-residue": 2,
+        "charcoal": 1
+      },
+      "outputs": {
+        "iron-plate": 1
+      },
+      "seconds": 6
+    }
+  ],
+  "bootstrap": {
+    "shinyCores": 2,
+    "furnaceBatches": 2,
+    "sharedHopperCapacity": 200,
+    "expectedWaste": 4,
+    "maximumWaste": 4,
+    "note": "Tier 5 refining produces only guaranteed Slag. Random waste starts with tier 6 intermediaries, alongside sorting and recovery unlocks."
+  },
+  "expectedFixedResearchWaste": {
+    "slag": 1476,
+    "metallic-fines": 3.9000000000000004,
+    "glassy-crust": 0.78,
+    "spent-flux": 4.199999999999999
+  },
+  "tier6AtPoint8Seconds": {
+    "byTypePerSecond": {
+      "slag": 6.25,
+      "metallic-fines": 0.8125,
+      "glassy-crust": 0.1625,
+      "spent-flux": 0.8749999999999999
+    },
+    "totalPerSecond": 8.1,
+    "legacyCableLaunchesPerSecond": 2.5,
+    "cableEquivalentAtMean": 4,
+    "treatment": [
+      {
+        "name": "Slag washing",
+        "item": "slag",
+        "meanPerSecond": 6.25,
+        "baseMachinesAtMean": 19,
+        "machinesAt25PercentHeadroom": 24,
+        "bufferFor60SecondMeanFlow": 375
+      },
+      {
+        "name": "Fines settling",
+        "item": "metallic-fines",
+        "meanPerSecond": 0.8125,
+        "baseMachinesAtMean": 3,
+        "machinesAt25PercentHeadroom": 3,
+        "bufferFor60SecondMeanFlow": 49
+      },
+      {
+        "name": "Flux stabilization",
+        "item": "spent-flux",
+        "meanPerSecond": 0.8749999999999999,
+        "baseMachinesAtMean": 3,
+        "machinesAt25PercentHeadroom": 4,
+        "bufferFor60SecondMeanFlow": 53
+      },
+      {
+        "name": "Crust milling",
+        "item": "glassy-crust",
+        "meanPerSecond": 0.1625,
+        "baseMachinesAtMean": 2,
+        "machinesAt25PercentHeadroom": 2,
+        "bufferFor60SecondMeanFlow": 10
+      }
+    ],
+    "caveat": "Treatment counts are unupgraded machines. Exclude sorting, recovery-product processing, power, water supply, combat waste and logistics. Headroom and buffers are heuristics, not overflow guarantees."
+  },
+  "simulation": {
+    "seed": "0x4d595448",
+    "trials": 1000,
+    "batchesPerTrial": 1000,
+    "results": [
+      {
+        "item": "metallic-fines",
+        "expected": 650,
+        "sampledMean": 650.597,
+        "p05": 626,
+        "p50": 650,
+        "p95": 676
+      },
+      {
+        "item": "spent-flux",
+        "expected": 700,
+        "sampledMean": 698.88,
+        "p05": 648,
+        "p50": 700,
+        "p95": 748
+      },
+      {
+        "item": "glassy-crust",
+        "expected": 130,
+        "sampledMean": 130.6,
+        "p05": 114,
+        "p50": 131,
+        "p95": 147
+      }
+    ],
+    "scope": "Each trial makes 1,000 Complex ingredient kits using the current Controller/Actuator quantities. Checks independent tier-6 waste rolls, not transport, stalls or player timing."
+  },
+  "handling": [
+    "Tier 5 Ore Separation introduces only deterministic Slag and the existing 200-item Slag Hopper. Mineral Recovery unlocks Slag washing and recovered Brick/Iron. No random waste occurs in mythril production.",
+    "Tier 6 Precision Control introduces the advanced intermediaries and simultaneously unlocks mixed Waste Hoppers, Waste Sorters and the three advanced treatments at its existing price. A mixed hopper has 200 shared solid slots; Spent Flux is solid spent treatment material, not fluid.",
+    "Waste Sorter has one mixed input and four labeled typed outlets. It can route up to 40 items/second, with at most 40 on any one branch; blocked branches retain items in separate 32-unit bins while other branches continue until the affected bin fills. Waste transport uses explicit batch links of up to 40 items/second; existing 2.5-item/s cables do not gain speed.",
+    "Furnace keeps separate product/waste outlets. Precision Controller and Advanced Actuator recipes also require an assembler waste outlet. Waste buffers are 32 slots per source machine; reserve the full maximum batch output before consuming ingredients.",
+    "At batch start, roll once and store the outcome, RNG state and reserved output capacity in save data. Reloading, pausing or changing recipe must not reroll it. Stop or resume the stored batch normally; no silent waste deletion.",
+    "Recovery has guaranteed yields and produces no further random waste. Tier-6 recovery access is bundled with Precision Control, avoiding another research wait. Rare waste is never a required core, bot or research ingredient; recovery supplements ordinary supplies.",
+    "Show chance per batch, possible amount, mean rate, maximum batch and blocked waste type in the inspector. A 65% chance for one item does not mean 0.65 of an item is transferred.",
+    "Recovery outputs can block too. Export aggregate to brick manufacture and residue to iron manufacture across maps. Storage is finite; long-term recovery must have real downstream demand. Do not assume an unlimited disposal sink.",
+    "25% treatment headroom and 60 seconds of average storage are initial test settings. Rare streaks, synchronized machine completions and long delivery gaps still require backpressure and overflow tests."
+  ],
+  "modelScope": "Expected stochastic outputs change waste totals. Deterministic core ingredients, research prices and lab times are unchanged. Existing production node counts omit waste processing and sorting. No recycling credits are applied; average batch bills can be fractional."
+}

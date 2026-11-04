@@ -1,38 +1,59 @@
+import { applyExpansionRescue } from './expansionRescue';
+import { endgameRank, reconcileHole, worldRecipeAllowed, CORNER_MAPS } from '../content/endgame';
+import { initializeEndgame, createCornerNodes, simulateCorner, simulateRecycler, cornerInputAllowed } from './endgameRuntime';
+import { recyclerAccepts } from '../content/recycling';
+import { simulatePlanter } from '../content/forestry';
+import { activateMod, BASE_MOD_CONTENT } from '../mods/modContent';
+import { validateMod } from '../mods/modValidation';
+import { applyModNames, modCompatibilityError } from '../mods/modRuntime';
+import { modNode, modRule } from '../mods/modRules';
+import type { GameMod } from '../mods/modTypes';
 import { FactoryTemplateRuntime } from './factoryTemplateRuntime';
 import { ResearchRuntime } from './researchRuntime';
 import { getEffectiveNodeInputFamilies, getEffectiveNodeOutputFamilies, isNodeUnlocked, NODE_DEFINITIONS } from '../content/nodes';
-import { getNodeCapabilities, hasNodeBehavior, isResourceBehavior } from '../content/nodeCapabilities';
-import { getSmartRecipeForInput, isSmartRecipeInput, isRecipeUnlocked, RECIPES, RECIPE_GROUPS } from '../content/recipes';
+import { getNodeCapabilities, hasNodeBehavior, isResourceBehavior, needsRecipeSelection } from '../content/nodeCapabilities';
+import { isRecipeUnlocked, RECIPES, RECIPE_GROUPS } from '../content/recipes';
 import { RESEARCH_PROJECTS } from '../content/research';
 import { getEfficiencyMultiplier } from '../content/efficiency';
 import { migrateRetiredNodes } from '../content/retiredNodes';
+import { LEGACY_NODE_DISPLAY_NAMES } from '../content/displayNameChanges';
 import { CONTROL_GROUP_COLORS, copyControlGroups, normalizeControlGroups, regroupControlNodes } from '../domain/controlGroups';
 import type { Connection, GameEvent, GameState, InFlightTransfer, ItemId, MachineNode, NodeKind, SectorState } from '../domain/types';
 import { generateSector, sectorDistance, sectorId } from './worldGeneration';
 import { logisticsRoute } from './logisticsRoutes';
+import { routedConnectionFailure } from './connectionMaterials';
 import { isTutorialUnlocked, type ProgressiveTutorialKind } from '../tutorials/tutorialUnlocks';
 import { cablesUnderNode } from './cableInsertion';
 import { canPlaceNode } from './collisions';
+import { DEFERRED_POWER_NODES } from '../content/deferredPower';
+import { RESEARCH_CENTER_BASE_CYCLE_MS } from '../content/researchTiming';
+import { applyCartUpgrades, cartCapacity, cartUpgrade, isCartKind, vehiclePayload } from '../content/cartUpgrades';
+import { updateCampEncroachment } from './campEffects';
+import { obstructedConnections } from './obstructedConnections';
+import { devExtractorMaterial, devInputItems, supplyDevInputs } from './devSource';
+import { roadFeedCandidates, recoverRoadStock } from './roadTransport';
 import { getSectorWorldSize } from './worldGeneration';
 import { connectionBlockedByWorld, connectionObstruction, inputPortAcceptsItem, portFamilyAcceptsItem, portFamiliesCompatible, resolveConnectionPlan, resolveExactConnectionPlan } from './connectionRules';
 import { getNodeModule, isPlayerMovableNode } from '../content/nodeModules';
 import { CONNECTOR_MIRRORING_RESEARCH, isProductionMachine } from '../content/productionNodes';
-import { CABLE_TRANSFER_DURATION_MS } from './transfers';
+
 import { getNodeSize } from '../domain/nodeGeometry';
 import { FILTERABLE_ITEMS, ITEM_NAMES } from '../content/items';
 import { SimulationLookups } from './simulationLookups';
 import { WASTE_ITEMS } from '../content/progression';
-import { getGoblinAttackRequirement, GOBLIN_CHECK_INTERVAL_MS } from '../content/goblinSettlements';
-import { createGoblinTribute, getTributeItems, produceGoblinTribute, type TributeItem } from './goblinTribute';
-import { roadConnectionError, roadInputAccepts, roadMaterialState } from './roadMaterials';
-import { initializeProgression, discoverActiveSector, simulateProgressionNode, simulateExtendedRecipe, attackPower, consumeBots, placementLimit, connectionLimit, roadChannels } from './progression';
+import { migrateReviewedProduction } from './reviewedProductionMigration';
+import { filterOutlet, outputHead, queueOutputs, reconcileQueue, returnOutput, takeOutput } from './mixedOutput';
+import { getGoblinAttackRequirement, getMonsterSettlementDefinition, GOBLIN_CHECK_INTERVAL_MS } from '../content/goblinSettlements';
+import { createGoblinTribute, getTributeItems, isCampFullySuppressed, produceGoblinTribute, tributeMaterial, type TributeItem } from './goblinTribute';
+import { isRoadFluid, roadConnectionError, roadInputAccepts, roadMaterialState } from './roadMaterials';
+import { initializeProgression, discoverActiveSector, simulateProgressionNode, simulateExtendedRecipe, attackPower, consumeCampBots, placementLimit, connectionLimit, roadChannels } from './progression';
 
 const clone = <T,>(value: T): T => structuredClone(value);
 const makeId = (prefix: string) => `${prefix}-${crypto.randomUUID?.() ?? Math.random().toString(36).slice(2)}`;
 const sum = (bag: Partial<Record<ItemId, number>>) => Object.values(bag).reduce((a, b) => a + (b ?? 0), 0);
 const nonItemFamilies = new Set(['FLUID', 'WASTE','ANY', 'RESOURCE', 'METAL', 'PLATE', 'GEAR', 'CORE', 'ROBOT_FRAME', 'ROBOT_WEAPON', 'ATTACK_POWER', 'POWER']);
 const concreteOutputItem = (node: MachineNode, port: number) => {
-  if ((node.kind === 'smelter' || (node.kind === 'refiner' && node.recipeId?.match(/-(gear|wire)$/))) &&
+  if (node.kind === 'refiner' && node.recipeId?.match(/-(gear|wire)$/) &&
     sum(node.input) === 0 && sum(node.output) === 0 && node.progressMs === 0) return undefined;
   const family = getEffectiveNodeOutputFamilies(node)[port];
   return family && !nonItemFamilies.has(family) ? family as ItemId : undefined;
@@ -44,10 +65,10 @@ import { AUTOSAVE_KEY } from '../persistence/storageKeys';
 
 export class GameEngine {
   private readonly templates = new FactoryTemplateRuntime(
-    () => this.state, () => this.checkpoint(), () => this.publish(), makeId,
+    () => this.getState(), () => this.checkpoint(), () => this.publish(), makeId,
   );
   private readonly research = new ResearchRuntime(
-    () => this.state,
+    () => this.getState(),
     () => this.publish(),
     (type, message, projectId) => this.event(type, message, projectId),
     kind => this.efficiencyMultiplier(kind),
@@ -58,6 +79,7 @@ export class GameEngine {
   private transferAccumulator = 0;
   private publishAccumulator = 0;
   private autosaveAccumulator = 0;
+  private rescueAccumulator = 0;
   private visibleTransferSource?: InFlightTransfer[];
   private visibleTransferCount = -1;
   private visibleTransferSectorId?: string;
@@ -65,6 +87,8 @@ export class GameEngine {
 
   constructor(initial?: GameState, private readonly options: { autosave?: boolean } = {}) {
     this.state = initial ? clone(initial) : createInitialState();
+    if (this.state.mod) this.state.mod = validateMod(this.state.mod);
+    activateMod(this.state.mod);
     this.state.produced ??= {};
     this.state.extracted ??= {};
     this.state.hasCreatedConnection ??= false;
@@ -73,29 +97,79 @@ export class GameEngine {
     this.state.research.projectContributions ??= {};
     this.state.inFlightTransfers ??= [];
     this.normalizeExtractorCycles();
+    applyModNames(this.state);
     this.research.reconcileResearchSelection();
     this.pruneLockedForestInputs();
     this.evaluateMilestones();
   }
   subscribe = (listener: () => void) => { this.listeners.add(listener); return () => { this.listeners.delete(listener); }; };
-  getState = () => this.state;
-  getSector = () => this.state.sectors[this.state.activeSectorId];
+  getState = () => { activateMod(this.state.mod); return this.state; };
+  getSector = () => { activateMod(this.state.mod); return this.state.sectors[this.state.activeSectorId]; };
+  applyMod(mod?: GameMod) {
+    const candidate = mod ? validateMod(mod) : undefined;
+    const error = modCompatibilityError(this.state, candidate);
+    if (error) throw new Error(error);
+    this.checkpoint();
+    this.state.mod = candidate;
+    activateMod(candidate);
+    applyModNames(this.state);
+    applyCartUpgrades(this.state);
+    applyModNames(this.state);
+    delete this.state.research.mapNodeQuote;
+    this.transferAccumulator = 0;
+    this.research.reconcileResearchSelection();
+    this.publish();
+  }
   private normalizeExtractorCycles() {
     migrateRetiredNodes(this.state);
     initializeProgression(this.state);
+    migrateReviewedProduction(this.state);
+    initializeEndgame(this.state);
+    for(const sector of Object.values(this.state.sectors))if(CORNER_MAPS.includes(sector.id)&&!sector.nodes.some(n=>n.kind==='cornerChallenge')) {
+      const additions=createCornerNodes(sector.x,sector.y,this.state.seed,getSectorWorldSize(sector,this.state.research.completed),this.state.endgame!.cornerOrder);
+      if(additions.every(n=>canPlaceNode(n,sector.nodes,getSectorWorldSize(sector,this.state.research.completed))))sector.nodes.push(...additions);
+    }
+    applyCartUpgrades(this.state);
+    for (const node of [...Object.values(this.state.sectors).flatMap(sector => sector.nodes), ...(this.state.factoryTemplates ?? []).flatMap(template => template.nodes)]) {
+      node.name = LEGACY_NODE_DISPLAY_NAMES[node.name] ?? node.name;
+      if (node.kind === 'goblinTribute') node.name = 'Tribute';
+      if (node.kind === 'monster-camp' && node.lizardSettlement) {
+        node.name = getMonsterSettlementDefinition(node).name;
+        if (!node.tributeSelectionVersion) {
+          node.tributeItem = 'mythril';
+          node.tributeSelectionVersion = 1;
+        }
+      }
+    }
     for (const sector of Object.values(this.state.sectors)) {
       for (const node of sector.nodes) {
         if (NODE_DEFINITIONS[node.kind].category === 'Logistics') node.processingPaused = false;
         if (node.kind === 'extractor') node.cycleMs = 5000;
         if (node.kind === 'forest' && node.name === 'Wild Forest') node.name = 'Forest';
         if (node.kind === 'big-hole' && ['Big Hole', 'Depletion Hole'].includes(node.name)) node.name = 'Deep Hole';
-        if (['woodenChest', 'chest'].includes(node.kind) && /^Wooden Chest(?: \d+)?$/.test(node.name)) node.name = node.name.replace('Wooden Chest', 'Chest');
         if (hasNodeBehavior(node.kind, 'road') && !node.roadFacing && node.pairedSectorId) {
           const [x, y] = node.pairedSectorId.split(',').map(Number);
           node.roadFacing = x < sector.x ? 'east' : x > sector.x ? 'west' : y < sector.y ? 'south' : 'north';
         }
       }
+      for (const tribute of sector.nodes.filter(node => node.kind === 'goblinTribute')) {
+        const camp = sector.nodes.find(node => node.kind === 'monster-camp' && node.id === tribute.tributeCampId);
+        if (camp) tribute.tributeItem = tributeMaterial(camp);
+      }
+      this.removeInactiveTribute(sector);
     }
+    const roadCables = new Set(Object.values(this.state.sectors).flatMap(sector => {
+      const roads = new Set(sector.nodes.filter(node => node.kind === 'road').map(node => node.id));
+      return sector.connections.filter(cable => roads.has(cable.from) || roads.has(cable.to)).map(cable => cable.id);
+    }));
+    this.cancelTransfers(roadCables);
+    const lookups = new SimulationLookups(this.state);
+    recoverRoadStock(this.state, (target, port, item, sector) => {
+      if (!this.canAcceptAtInputPort(target, port, item, sector, lookups)) return 0;
+      const pending = lookups.target(sector.id, target.id);
+      const reserved = this.inputUsesPerItemCapacity(target) ? pending?.counts[item] ?? 0 : pending?.transfers.reduce((n, t) => n + (t.amount ?? 1), 0) ?? 0;
+      return Math.max(0, this.inputCapacity(target, item) - this.inputOccupancy(target, item) - reserved);
+    });
   }
   /** Reuse the active map's animation data between simulation updates. */
   getActiveTransfers = (): readonly InFlightTransfer[] => {
@@ -137,6 +211,7 @@ export class GameEngine {
   private evaluateMilestones() { this.research.evaluateMilestones(); }
 
   tick(deltaMs: number) {
+    activateMod(this.state.mod);
     if (this.state.paused) return;
     const dt = Math.min(deltaMs, 1000);
     this.state.playTimeMs += dt;
@@ -148,8 +223,10 @@ export class GameEngine {
     const simulationLookups = new SimulationLookups(this.state);
     sectors.forEach((sector) => this.simulateSector(sector, dt, simulationLookups));
     this.evaluateMilestones();
-    if (this.transferAccumulator >= 400) {
-      this.transferAccumulator %= 400;
+    this.rescueAccumulator+=dt;
+    if(this.rescueAccumulator>=1000&&!this.state.isTraining){this.rescueAccumulator%=1000;if(applyExpansionRescue(this.state))this.publish();}
+    if (this.transferAccumulator >= modRule('cableLaunchMs')) {
+      this.transferAccumulator %= modRule('cableLaunchMs');
       let launched = false;
       const routingLookups = new SimulationLookups(this.state);
       sectors.forEach((sector) => { launched = this.routeSector(sector, this.state.playTimeMs, routingLookups) || launched; });
@@ -163,39 +240,55 @@ export class GameEngine {
   }
 
   private simulateSector(sector: SectorState, dt: number, lookups = new SimulationLookups(this.state)) {
+    const baseDt = dt;
+    updateCampEncroachment(sector.nodes);
+    for (const supply of supplyDevInputs(this.state, sector, lookups, (target, item) => this.inputCapacity(target, item))) {
+      (this.state.inFlightTransfers ??= []).push({ ...supply, id: makeId('dev-pulse'), sectorId: sector.id, launchedAtMs: this.state.playTimeMs, arrivesAtMs: this.state.playTimeMs + modRule('cableTravelMs'), cosmeticOnly: true });
+    }
     const depleted: string[] = [];
     const filledHoles: string[] = [];
     const checkedCamps: MachineNode[] = [];
     for (const node of sector.nodes) {
+      const dt = baseDt / (modNode(node.kind)?.cycleMultiplier ?? 1);
       if (node.disabled || Date.now() - node.constructedAt < node.constructionMs) continue;
       if (NODE_DEFINITIONS[node.kind].category === 'Logistics') node.processingPaused = false;
       if (node.processingPaused) continue;
+      if(node.kind==='cornerChallenge'){simulateCorner(this.state,sector,node);continue;}
+      if(node.kind==='cornerTribute')continue;
+      if(node.kind==='recycler'){simulateRecycler(node,dt);continue;}
       if (node.kind === 'goblinTribute') {
         produceGoblinTribute(this.state, node, sector.nodes.find(camp => camp.id === node.tributeCampId && camp.kind === 'monster-camp'), dt);
         continue;
       }
-      if (simulateProgressionNode(this.state,sector,node,dt,lookups)) continue;
+      if (simulateProgressionNode(this.state,sector,node,dt,lookups,(target,item)=>this.canAcceptAtInputPort(target,0,item,sector,lookups))) continue;
       if (node.kind === 'monster-camp') {
         node.progressMs += dt;
-        if (node.progressMs >= GOBLIN_CHECK_INTERVAL_MS) {
+        const credit = node.lizardSettlement ? node.suppressionCredit ?? 0 : 0;
+        const retry = node.lizardSettlement && node.suppressionRetry && credit + attackPower(node) >= getGoblinAttackRequirement(node);
+        if (retry || node.progressMs >= GOBLIN_CHECK_INTERVAL_MS) {
           node.progressMs %= GOBLIN_CHECK_INTERVAL_MS;
-          const attack = attackPower(node);
+          if (retry) node.progressMs = 0;
+          const attack = attackPower(node) + credit;
           const requirement = getGoblinAttackRequirement(node);
           node.suppressed = attack >= requirement;
           checkedCamps.push(node);
           node.campStrength = attack >= requirement ? Math.max(10, (node.campStrength ?? 25) - 10) : Math.min(100, (node.campStrength ?? 25) + 10);
-          consumeBots(node);
-          const radius = 65 + (node.campStrength ?? 25) * 3.2;
-          sector.nodes.forEach((candidate) => {
-            if (candidate.id === node.id || isResourceBehavior(candidate.kind)) return;
-            candidate.disabled = Math.hypot(candidate.x - node.x, candidate.y - node.y) < radius;
-          });
+          if (node.lizardSettlement) {
+            node.suppressionRetry = !node.suppressed;
+            if (node.suppressed) {
+              const paid = credit >= requirement ? 0 : consumeCampBots(node, requirement - credit);
+              node.suppressionCredit = credit + paid - requirement;
+            }
+          } else consumeCampBots(node, requirement);
+          updateCampEncroachment(sector.nodes);
+          this.cancelTransfers(new Set(obstructedConnections(sector)));
         }
         continue;
       }
       if (node.kind === 'big-hole') {
+        reconcileHole(node,this.state);
         const stone = node.input.stone ?? 0;
-        if (stone > 0) { node.input.stone = stone - 1; node.resourceRemaining = Math.max(0, (node.resourceRemaining ?? 250) - 1); }
+        if (stone > 0 && (node.resourceRemaining??0)>0) { node.holeStoneConsumed=(node.holeStoneConsumed??0)+1; node.input.stone = stone - 1; node.resourceRemaining = Math.max(0, (node.resourceRemaining ?? 250) - 1); }
         if ((node.resourceRemaining ?? 1) <= 0) filledHoles.push(node.id);
         continue;
       }
@@ -203,45 +296,20 @@ export class GameEngine {
         if (node.kind === 'fluidRoad') continue;
         if (node.roadMode === 'export') {
           node.progressMs += dt;
-          if (node.progressMs >= 5000) {
-            node.progressMs %= 5000;
-            const pairSector = node.pairedSectorId ? this.state.sectors[node.pairedSectorId] : undefined;
-            const pair = pairSector && node.pairedRoadId ? lookups.sector(pairSector).nodes.get(node.pairedRoadId) : undefined;
-            if (pair && !pair.disabled) {
-              const material = roadMaterialState(this.state, sector, node);
-              if (material.mixed || material.fluid) continue;
-              const chestEdge=lookups.sector(sector).incoming.get(node.id)?.find(c=>Boolean(lookups.sector(sector).nodes.get(c.from) && hasNodeBehavior(lookups.sector(sector).nodes.get(c.from)!.kind,'buffer')));
-              const chest=chestEdge?lookups.sector(sector).nodes.get(chestEdge.from):undefined;
-              const bags=chest?[chest.input,chest.output]:[node.input];
-              const limit=20;
-              // Every material uses the same single-item, five-second dispatch.
-              // Missed trips never accumulate into a catch-up batch.
-              const amount=Math.max(0,Math.min(1,limit-sum(pair.output),bags.reduce((n,b)=>n+sum(b),0)));
-              if(amount>0){
-                let remaining=amount;
-                for(const bag of bags)for(const item of Object.keys(bag)as ItemId[]){
-                  if (material.materials.length && material.materials[0] !== item) continue;
-                  const moved=Math.min(remaining,bag[item]??0);
-                  if(moved<=0)continue;
-                  pair.output[item]=(pair.output[item]??0)+moved;
-                  bag[item]=(bag[item]??0)-moved;
-                  remaining-=moved;
-                }
-              }
-            }
+          if (node.progressMs >= modRule('roadTransferMs')) {
+            node.progressMs %= modRule('roadTransferMs');
+            for (let shipment = 0; shipment < vehiclePayload(this.state.research.completed,endgameRank(this.state,'trainFreightCapacity')); shipment++) this.dispatchRoadItem(sector, node, lookups);
           }
         }
         continue;
       }
       if (node.kind === 'storage') continue;
       if (hasNodeBehavior(node.kind, 'buffer')) {
-        node.transferProgressMs = (node.transferProgressMs ?? 0) + dt;
-        if (node.transferProgressMs >= 2000) {
-          node.transferProgressMs %= 2000;
-          const keys = Object.keys(node.input) as ItemId[];
-          const start = (node.bufferAlternator ?? 0) % Math.max(1, keys.length);
-          const item = keys.map((_, offset) => keys[(start + offset) % keys.length]).find((key) => (node.input[key] ?? 0) > 0);
-          if (item && sum(node.output) < 20) { node.input[item]!--; node.output[item] = (node.output[item] ?? 0) + 1; node.bufferAlternator = (keys.indexOf(item) + 1) % keys.length; }
+        node.inputQueue = reconcileQueue(node.inputQueue, node.input);
+        // The buffer is storage, not a second timed transport hop.
+        while (node.inputQueue.length && sum(node.output) < cartCapacity(node)) {
+          const item = node.inputQueue.shift()!;
+          node.input[item]!--; queueOutputs(node, { [item]: 1 });
         }
         continue;
       }
@@ -289,11 +357,12 @@ export class GameEngine {
       if (isResourceBehavior(node.kind)) {
         if (node.kind === 'forest') {
           const growth = node.input['forest-growth'] ?? 0;
-          if (growth > 0 && (node.resourceRemaining ?? 0) < (node.resourceCapacity ?? 0)) { node.input['forest-growth'] = growth - 1; node.resourceRemaining = (node.resourceRemaining ?? 0) + 1; }
+          if (growth > 0) { const amount = Math.min(growth, Math.max(0, (node.resourceCapacity ?? 0) - (node.resourceRemaining ?? 0))); node.input['forest-growth'] = growth - amount; node.resourceRemaining = (node.resourceRemaining ?? 0) + amount; }
           if ((node.resourceRemaining ?? 0) >= (node.resourceCapacity ?? 0)) node.regenMs = 0;
           else {
             node.regenMs = (node.regenMs ?? 0) + dt;
-            if (node.regenMs >= 30000) { node.regenMs %= 30000; node.resourceRemaining = Math.min(node.resourceCapacity ?? 0, (node.resourceRemaining ?? 0) + 1); }
+            const period=modRule('forestRegenMs')/(1+endgameRank(this.state,'resourceRegeneration'));
+            if (node.regenMs >= period) { const q=Math.floor(node.regenMs/period);node.regenMs %= period; node.resourceRemaining = Math.min(node.resourceCapacity ?? 0, (node.resourceRemaining ?? 0) + q); }
           }
         }
         // The original deposits are passive reserves. Extractors mine them directly;
@@ -304,7 +373,7 @@ export class GameEngine {
           continue;
         }
         const item = node.resourceItem!;
-        if (sum(node.output) >= (node.capacity ?? 5)) continue;
+        if (sum(node.output) >= (modNode(node.kind)?.capacity ?? node.capacity ?? 5)) continue;
         node.progressMs += dt;
         if (node.progressMs >= node.cycleMs) {
           node.progressMs %= node.cycleMs;
@@ -313,10 +382,10 @@ export class GameEngine {
         continue;
       }
       if (node.kind === 'extractor') {
-        const resourceEdge = lookups.sector(sector).incoming.get(node.id)?.find((connection) => (connection.toPort ?? 0) === 0);
-        const resourceRoute = resourceEdge ? this.resolveResourceRoute(sector, resourceEdge.from, lookups) : undefined;
+        const { resourceEdge, resourceRoute } = this.resolveExtractorInput(sector, node, lookups);
         const source = resourceRoute?.source;
         const item = source?.resourceItem;
+        this.reconcileExtractorStorage(node, item);
         if (!resourceEdge || !source || !item || (!source.infiniteResource && (source.resourceRemaining ?? 0) <= 0) || sum(node.output) >= 5) { node.progressMs = 0; continue; }
         node.progressMs += dt;
         const duration = node.cycleMs * this.efficiencyMultiplier('extractor');
@@ -326,33 +395,19 @@ export class GameEngine {
           node.output[item] = (node.output[item] ?? 0) + 1;
           const route = [...resourceRoute!.connections, resourceEdge];
           route.forEach(cable => { cable.item = item; });
-          (this.state.inFlightTransfers ??= []).push({ id: makeId('pulse'), sectorId: sector.id, connectionId: route[0].id, routeConnectionIds: route.length > 1 ? route.map(cable => cable.id) : undefined, from: source.id, to: node.id, item, launchedAtMs: this.state.playTimeMs, arrivesAtMs: this.state.playTimeMs + CABLE_TRANSFER_DURATION_MS, cosmeticOnly: true });
+          (this.state.inFlightTransfers ??= []).push({ id: makeId('pulse'), sectorId: sector.id, connectionId: route[0].id, routeConnectionIds: route.length > 1 ? route.map(cable => cable.id) : undefined, from: source.id, to: node.id, item, launchedAtMs: this.state.playTimeMs, arrivesAtMs: this.state.playTimeMs + modRule('cableTravelMs'), cosmeticOnly: true });
           this.recordProduced(item, 1, true);
           this.event('ItemProduced', `${node.name} extracted 1 ${item}.`);
         }
         continue;
       }
       if (hasNodeBehavior(node.kind, 'research')) { this.research.simulateResearch(node, dt); continue; }
-      if (hasNodeBehavior(node.kind, 'generator')) {
-        if ((node.input.charcoal ?? 0) > 0 && (node.output.power ?? 0) <= 50) {
-          node.progressMs += dt;
-          if (node.progressMs >= 1000) { node.progressMs %= 1000; node.input.charcoal!--; node.output.power = (node.output.power ?? 0) + 50; }
-        }
-        continue;
-      }
-      if (hasNodeBehavior(node.kind, 'planter')) {
-        if ((node.input.power ?? 0) >= 5 && sum(node.output) < 5) {
-          node.progressMs += dt;
-          const cycle=this.state.research.completed.includes('treePlanter1')?900:1000;
-          if (node.progressMs >= cycle) { node.progressMs %= cycle; node.input.power = (node.input.power ?? 0) - 5; node.output['forest-growth'] = (node.output['forest-growth'] ?? 0) + 1; }
-        }
-        continue;
-      }
+      if (hasNodeBehavior(node.kind, 'planter')) { simulatePlanter(this.state, node, dt); continue; }
       if(simulateExtendedRecipe(this.state,node,dt,this.efficiencyMultiplier(node.kind)))continue;
       const recipe = node.recipeId ? RECIPES[node.recipeId] : undefined;
       if (!recipe) continue;
       const hasInputs = Object.entries(recipe.inputs).every(([item, count]) => (node.input[item as ItemId] ?? 0) >= (count ?? 0));
-      const hasOutputRoom = sum(node.output) + sum(recipe.outputs) <= 5;
+      const hasOutputRoom = sum(node.output) + sum(recipe.outputs) <= (modNode(node.kind)?.capacity ?? 5);
       if (!hasInputs || !hasOutputRoom) { node.progressMs = 0; continue; }
       node.progressMs += dt;
       const duration = recipe.cycleMs * this.efficiencyMultiplier(node.kind);
@@ -369,7 +424,7 @@ export class GameEngine {
       const source = sector.nodes.find((node) => node.id === id);
       if (!source || sum(source.output) > 0) return;
       this.cancelTransfers(new Set(sector.connections.filter((connection) => connection.from === id || connection.to === id).map((connection) => connection.id)));
-      source.kind = 'big-hole'; source.name = 'Deep Hole'; source.resourceItem = undefined; source.resourceRemaining = 250; source.resourceCapacity = undefined; source.obstructionRadius = 38 * Math.sqrt(10); source.input = {}; source.output = {}; source.progressMs = 0;
+      source.kind = 'big-hole'; source.name = 'Deep Hole'; source.resourceItem = undefined; source.resourceRemaining = 250; source.holeBaseStone=250;source.holeStoneConsumed=0; source.resourceCapacity = undefined; source.obstructionRadius = 38 * Math.sqrt(10); source.input = {}; source.output = {}; source.progressMs = 0;
       sector.connections = sector.connections.filter((connection) => connection.from !== id && connection.to !== id);
       this.event('DepositDepleted', 'A depleted deposit collapsed into a Deep Hole.');
     });
@@ -384,31 +439,60 @@ export class GameEngine {
       this.cancelTransfers(defeatedGolemCables);
       sector.connections = sector.connections.filter(connection => !defeatedGolemCables.has(connection.id));
     }
-    const expiredTribute = new Set(sector.nodes.filter(node => node.kind === 'goblinTribute' &&
-      !sector.nodes.some(camp => camp.kind === 'monster-camp' && camp.id === node.tributeCampId && camp.suppressed)).map(node => node.id));
-    if (expiredTribute.size) {
-      this.cancelTransfers(new Set(sector.connections.filter(c => expiredTribute.has(c.from) || expiredTribute.has(c.to)).map(c => c.id)));
-      sector.nodes = sector.nodes.filter(node => !expiredTribute.has(node.id));
-      sector.connections = sector.connections.filter(c => !expiredTribute.has(c.from) && !expiredTribute.has(c.to));
-    }
+    this.removeInactiveTribute(sector);
     for (const camp of checkedCamps) {
-      if (!camp.suppressed || sector.nodes.some(node => node.kind === 'goblinTribute' && node.tributeCampId === camp.id)) continue;
+      if (!isCampFullySuppressed(camp) || sector.nodes.some(node => node.kind === 'goblinTribute' && node.tributeCampId === camp.id)) continue;
       const tribute = createGoblinTribute(camp, sector.nodes, getSectorWorldSize(sector, this.state.research.completed));
       if (tribute) { sector.nodes.push(tribute); this.event('NodePlaced', `${camp.name} is suppressed and now supplies configurable tribute.`); }
     }
     sector.lastSimulatedAt = Date.now();
   }
 
-  private resolveResourceRoute(sector: SectorState, nodeId: string, lookups: SimulationLookups, visited = new Set<string>()): { source: MachineNode; connections: Connection[] } | undefined {
+  private removeInactiveTribute(sector: SectorState) {
+    const expired = new Set(sector.nodes.filter(node => node.kind === 'goblinTribute' &&
+      !sector.nodes.some(camp => camp.kind === 'monster-camp' && camp.id === node.tributeCampId && (camp.lizardSettlement || isCampFullySuppressed(camp)))).map(node => node.id));
+    if (!expired.size) return;
+    this.cancelTransfers(new Set(sector.connections.filter(c => expired.has(c.from) || expired.has(c.to)).map(c => c.id)));
+    sector.nodes = sector.nodes.filter(node => !expired.has(node.id));
+    sector.connections = sector.connections.filter(c => !expired.has(c.from) && !expired.has(c.to));
+  }
+
+  private resolveExtractorInput(sector: SectorState, node: MachineNode, lookups: SimulationLookups) {
+    const resourceEdge = lookups.sector(sector).incoming.get(node.id)?.find(connection => (connection.toPort ?? 0) === 0);
+    const resourceRoute = resourceEdge ? this.resolveResourceRoute(sector, resourceEdge.from, lookups, new Set(), node) : undefined;
+    return { resourceEdge, resourceRoute };
+  }
+
+  private reconcileExtractorStorage(node: MachineNode, item: ItemId | undefined) {
+    if (!item) return;
+    for (const storedItem of Object.keys(node.output) as ItemId[]) {
+      if (storedItem === item) continue;
+      if ((node.output[storedItem] ?? 0) > 0) node.progressMs = 0;
+      delete node.output[storedItem];
+    }
+  }
+
+  /** Upstream rewiring can change an Extractor's material even while paused. */
+  private reconcileSectorExtractorStorage(sector: SectorState) {
+    const lookups = new SimulationLookups(this.state);
+    for (const node of sector.nodes) {
+      if (node.kind !== 'extractor') continue;
+      const { resourceRoute } = this.resolveExtractorInput(sector, node, lookups);
+      this.reconcileExtractorStorage(node, resourceRoute?.source.resourceItem);
+    }
+  }
+
+  private resolveResourceRoute(sector: SectorState, nodeId: string, lookups: SimulationLookups, visited = new Set<string>(), extractor?: MachineNode): { source: MachineNode; connections: Connection[] } | undefined {
     if (visited.has(nodeId)) return undefined;
     visited.add(nodeId);
     const index = lookups.sector(sector);
     const node = index.nodes.get(nodeId);
     if (!node || node.disabled) return;
+    if (node.kind === 'devSource') return { source: { ...node, resourceItem: extractor ? devExtractorMaterial(extractor, sector, this.state) : 'iron', infiniteResource: true }, connections: [] };
     if (node.resourceItem && node.kind !== 'lake') return { source: node, connections: [] };
     if (!getNodeCapabilities(node.kind).passThrough) return;
     for (const incoming of index.incoming.get(nodeId) ?? []) {
-      const route = this.resolveResourceRoute(sector, incoming.from, lookups, visited);
+      const route = this.resolveResourceRoute(sector, incoming.from, lookups, visited, extractor);
       if (route && (route.source.infiniteResource || (route.source.resourceRemaining ?? 0) > 0) && (node.kind !== 'filter' || !node.filterItem || node.filterItem === route.source.resourceItem)) return { source: route.source, connections: [...route.connections, incoming] };
     }
     return undefined;
@@ -419,7 +503,59 @@ export class GameEngine {
     return getEfficiencyMultiplier(prefix, this.state.research.completed);
   }
 
+  /** Commit one item only when both local wiring and the remote destination are ready. */
+  private dispatchRoadItem(sector: SectorState, road: MachineNode, lookups: SimulationLookups) {
+    const remote = road.pairedSectorId ? this.state.sectors[road.pairedSectorId] : undefined;
+    const pair = remote && road.pairedRoadId ? lookups.sector(remote).nodes.get(road.pairedRoadId) : undefined;
+    if (!remote?.unlocked || pair?.kind !== 'road' || pair.roadMode !== 'import' || pair.disabled
+      || Date.now() - pair.constructedAt < pair.constructionMs
+      || (pair.pairedRoadId && pair.pairedRoadId !== road.id) || (pair.pairedSectorId && pair.pairedSectorId !== sector.id)) return;
+    const material = roadMaterialState(this.state, sector, road);
+    if (material.mixed || material.fluid) return;
+    const localIndex = lookups.sector(sector), remoteIndex = lookups.sector(remote);
+    const exits = remoteIndex.outgoing.get(pair.id) ?? [];
+    if (!exits.length) return;
+    for (const { source, first } of roadFeedCandidates(road, localIndex)) {
+      if (Date.now() - source.constructedAt < source.constructionMs) continue;
+      const bags = hasNodeBehavior(source.kind, 'buffer') ? [source.input, source.output] : [source.output];
+      const virtual = source.kind === 'devSource';
+      const items = virtual ? material.materials.length ? material.materials : [...new Set(exits.flatMap(cable => {
+        const target = remoteIndex.nodes.get(cable.to);
+        return target ? devInputItems(target, cable.toPort ?? 0, remote, this.state) : [];
+      }))] : [...new Set(bags.flatMap(bag => (Object.keys(bag) as ItemId[]).filter(item => (bag[item] ?? 0) >= 1)))];
+      for (const item of items) {
+        if (outputHead(source) && outputHead(source) !== item) continue;
+        if (isRoadFluid(item) || (material.materials.length && material.materials[0] !== item)) continue;
+        const feed = logisticsRoute(first, item, sector, this.state.research.completed, (target, port) =>
+          target.id === road.id || (Boolean(getNodeCapabilities(target.kind).passThrough) && this.canAcceptAtInputPort(target, port, item, sector, lookups)), localIndex);
+        if (feed?.target.id !== road.id) continue;
+        for (const exit of exits) {
+          const delivery = this.resolveDeliveryRoute(exit, item, remote, lookups);
+          if (!delivery) continue;
+          if (!virtual) { const bag = bags.find(bag => (bag[item] ?? 0) >= 1)!; if (bag === source.output) takeOutput(source, item); else bag[item]!--; }
+          delivery.target.input[item] = (delivery.target.input[item] ?? 0) + 1;
+          for (const route of [feed, delivery]) {
+            route.connections.forEach(cable => { cable.item = item; });
+            route.routers.forEach(({ node, outputIndex }) => { if (getNodeCapabilities(node.kind).alternatingOutputs) node.alternator = outputIndex + 1; });
+          }
+          // Visual cable motion carries no inventory or capacity reservation.
+          for (const [owner, route, from, to] of [[sector, feed, source.id, road.id], [remote, delivery, pair.id, delivery.target.id]] as const) {
+            (this.state.inFlightTransfers ??= []).push({ id: makeId('road-pulse'), sectorId: owner.id, connectionId: route.connections[0].id,
+              routeConnectionIds: route.connections.length > 1 ? route.connections.map(cable => cable.id) : undefined,
+              from, to, item, launchedAtMs: this.state.playTimeMs, arrivesAtMs: this.state.playTimeMs + modRule('cableTravelMs'), cosmeticOnly: true });
+          }
+          return;
+        }
+      }
+    }
+  }
+
   private inputCapacity(node: MachineNode, _item: ItemId) {
+    if (isCartKind(node.kind)) return Math.max(0, Math.min(modNode(node.kind)?.inputCapacity ?? Infinity, cartCapacity(node) - sum(node.output)));
+    if(node.kind==='cornerChallenge')return node.cornerType==='foundry'?3000:100;
+    if (node.kind === 'road') return 0;
+    if (modNode(node.kind)?.inputCapacity !== undefined) return modNode(node.kind)!.inputCapacity!;
+    if (node.kind === 'forest' && this.state.research.completed.includes('planterThroughput')) return 20;
     if (node.kind === 'monster-camp') return Math.max(5, getGoblinAttackRequirement(node));
     if(node.kind==='lakeIntake')return 64;
     return getNodeCapabilities(node.kind).inputCapacity ?? 5;
@@ -427,23 +563,11 @@ export class GameEngine {
 
   /** Original processors reserve a full ingredient buffer for every recipe input. */
   private inputUsesPerItemCapacity(node: MachineNode) {
-    return Boolean(getNodeCapabilities(node.kind).perItemInputCapacity || (node.recipeId && RECIPES[node.recipeId]));
+    return Boolean((node.kind==='cornerChallenge'&&node.cornerType==='foundry') || getNodeCapabilities(node.kind).perItemInputCapacity || (node.recipeId && RECIPES[node.recipeId]));
   }
 
   private inputOccupancy(node: MachineNode, item: ItemId) {
     return this.inputUsesPerItemCapacity(node) ? (node.input[item] ?? 0) : sum(node.input);
-  }
-
-  private smartInputLocked(node: MachineNode, sector: SectorState, lookups: SimulationLookups, ignoredTransferId?: string) {
-    if (sum(node.output) > 0 || node.progressMs > 0) return true;
-    const smartBuffered = (Object.keys(node.input) as ItemId[]).some((item) =>
-      (node.input[item] ?? 0) > 0 && Boolean(getSmartRecipeForInput(node, item))
-    );
-    if (smartBuffered) return true;
-    return (lookups.target(sector.id, node.id)?.transfers ?? []).some((transfer) =>
-      transfer.id !== ignoredTransferId &&
-      isSmartRecipeInput(node, lookups.sector(sector).connections.get(transfer.routeConnectionIds?.at(-1) ?? transfer.connectionId)?.toPort ?? 0)
-    );
   }
 
   private mergerItem(node: MachineNode, sector: SectorState, lookups: SimulationLookups) {
@@ -457,8 +581,14 @@ export class GameEngine {
   }
 
   private canAcceptAtInputPort(node: MachineNode, port: number, item: ItemId, sector: SectorState, lookups: SimulationLookups, ignoredTransferId?: string, routingPath = new Set<string>()) {
+    if(node.kind==='recycler'&&!recyclerAccepts(item))return false;
+    if(node.kind==='cornerChallenge'&&!cornerInputAllowed(sector,node))return false;
     if (!inputPortAcceptsItem(node, port, item, this.state.research.completed)) return false;
     if (!roadInputAccepts(this.state, sector, node, port, item)) return false;
+    if (node.kind === 'filter') {
+      if (routingPath.has(node.id)) return false;
+      return !this.filterBlockage(node, sector, lookups, new Set(routingPath).add(node.id), item);
+    }
     if (node.kind === 'splitter') {
       if (routingPath.has(node.id)) return false;
       const path = new Set(routingPath).add(node.id);
@@ -473,7 +603,7 @@ export class GameEngine {
         if (!target || target.disabled || seen.has(target.id) || !this.canAcceptAtInputPort(target, cable.toPort ?? 0, item, sector, lookups, ignoredTransferId, path)) continue;
         seen.add(target.id);
         const pending = lookups.target(sector.id, target.id);
-        space += Math.max(0, this.inputCapacity(target, item) - this.inputOccupancy(target, item) - (this.inputUsesPerItemCapacity(target) ? pending?.counts[item] ?? 0 : pending?.transfers.length ?? 0));
+        space += Math.max(0, this.inputCapacity(target, item) - this.inputOccupancy(target, item) - (this.inputUsesPerItemCapacity(target) ? pending?.counts[item] ?? 0 : pending?.transfers.reduce((n, t) => n + (t.amount ?? 1), 0) ?? 0));
       }
       return space > queued;
     }
@@ -481,24 +611,45 @@ export class GameEngine {
       const retained = this.mergerItem(node, sector, lookups);
       return !retained || retained === item;
     }
-    const smartRecipe = isSmartRecipeInput(node, port) ? getSmartRecipeForInput(node, item) : undefined;
-    if (!smartRecipe) return this.accepts(node, item);
-    return smartRecipe === node.recipeId || !this.smartInputLocked(node, sector, lookups, ignoredTransferId);
+    return this.accepts(node, item);
   }
 
-  private applySmartRecipe(node: MachineNode, port: number, item: ItemId) {
-    if (!isSmartRecipeInput(node, port)) return;
-    const recipeId = getSmartRecipeForInput(node, item);
-    if (!recipeId || recipeId === node.recipeId) return;
-    node.recipeId = recipeId;
-    node.cycleMs = RECIPES[recipeId].cycleMs;
-    node.progressMs = 0;
+  /** Classify immediately; any required blocked outlet stops this whole Filter. */
+  private filterBlockage(node: MachineNode, sector: SectorState, lookups: SimulationLookups, path = new Set([node.id]), candidate?: ItemId): MachineNode['filterBlocked'] {
+    const index = lookups.sector(sector);
+    const waiting = new Set<ItemId>(candidate ? [candidate] : []);
+    for (const bag of [node.input, node.output]) for (const item of Object.keys(bag) as ItemId[]) if ((bag[item] ?? 0) > 0) waiting.add(item);
+    const collect = (id: string, seen: Set<string>, accepts: (item: ItemId) => boolean = () => true) => {
+      if (seen.has(id)) return;
+      const next = new Set(seen).add(id);
+      for (const edge of index.incoming.get(id) ?? []) {
+        const source = index.nodes.get(edge.from);
+        if (!source) continue;
+        const family = getEffectiveNodeOutputFamilies(source)[edge.fromPort ?? 0];
+        const throughThisOutlet = (item: ItemId): boolean => accepts(item) && Boolean(family && portFamilyAcceptsItem(family, item)) && (source.kind !== 'filter' || (edge.fromPort ?? 0) === filterOutlet(source, item));
+        for (const item of Object.keys(source.output) as ItemId[]) if ((source.output[item] ?? 0) > 0 && throughThisOutlet(item)) waiting.add(item);
+        if (getNodeCapabilities(source.kind).passThrough) collect(source.id, next, throughThisOutlet);
+      }
+    };
+    collect(node.id, new Set());
+    for (const item of waiting) {
+      const outlet = filterOutlet(node, item);
+      const ready = (index.outgoing.get(node.id) ?? []).filter(edge => (edge.fromPort ?? 0) === outlet).some(edge => logisticsRoute(edge, item, sector, this.state.research.completed, (target, port) => {
+        if (!this.canAcceptAtInputPort(target, port, item, sector, lookups, undefined, path)) return false;
+        const pending = lookups.target(sector.id, target.id);
+        const reserved = this.inputUsesPerItemCapacity(target) ? pending?.counts[item] ?? 0 : pending?.transfers.reduce((sum, t) => sum + (t.amount ?? 1), 0) ?? 0;
+        return this.inputOccupancy(target, item) + reserved < this.inputCapacity(target, item);
+      }, index));
+      if (!ready) return outlet === 0 ? 'selected' : 'remainder';
+    }
+    return undefined;
   }
 
   private deliverTransfers(nowMs: number, sectorId?: string) {
     const lookups = new SimulationLookups(this.state);
     const pending = this.state.inFlightTransfers ??= [];
     const remaining = [] as typeof pending;
+    const refunds: Array<{ source: MachineNode; item: ItemId; amount: number }> = [];
     for (const transfer of pending) {
       if ((sectorId && transfer.sectorId !== sectorId) || transfer.arrivesAtMs > nowMs) { remaining.push(transfer); continue; }
       if (transfer.cosmeticOnly) continue;
@@ -507,36 +658,38 @@ export class GameEngine {
       const target = index?.nodes.get(transfer.to);
       const source = index?.nodes.get(transfer.from);
       const routeIds = transfer.routeConnectionIds ?? [transfer.connectionId];
-      const routeValid = routeIds.every((id, position) => { const cable = index?.connections.get(id); const previous = position ? index?.connections.get(routeIds[position - 1]) : undefined; const routeNode = cable && index?.nodes.get(cable.from); return Boolean(cable && routeNode && !routeNode.disabled && (!position || (previous?.to === cable.from && (!routeNode.filterItem || routeNode.kind !== 'filter' || routeNode.filterItem === transfer.item)))); });
+      const routeValid = routeIds.every((id, position) => { const cable = index?.connections.get(id); const previous = position ? index?.connections.get(routeIds[position - 1]) : undefined; const routeNode = cable && index?.nodes.get(cable.from); return Boolean(cable && routeNode && !routeNode.disabled && (!position || (previous?.to === cable.from && (routeNode.kind !== 'filter' || (cable.fromPort ?? 0) === filterOutlet(routeNode, transfer.item))))); });
       const connection = routeValid ? index?.connections.get(routeIds.at(-1)!) : undefined;
       const occupied = target ? this.inputOccupancy(target, transfer.item) : 0;
       const validSocket = Boolean(target && connection && sector && this.canAcceptAtInputPort(target, connection.toPort ?? 0, transfer.item, sector, lookups, transfer.id));
-      if (target && connection && validSocket && occupied < this.inputCapacity(target, transfer.item)) {
-        this.applySmartRecipe(target, connection.toPort ?? 0, transfer.item);
-        target.input[transfer.item] = (target.input[transfer.item] ?? 0) + 1;
+      if (target && connection && validSocket && occupied + (transfer.amount ?? 1) <= this.inputCapacity(target, transfer.item)) {
+        target.input[transfer.item] = (target.input[transfer.item] ?? 0) + (transfer.amount ?? 1);
+        if (getNodeCapabilities(target.kind).behavior === 'buffer') (target.inputQueue ??= []).push(...Array<ItemId>(transfer.amount ?? 1).fill(transfer.item));
       } else if (source) {
-        source.output[transfer.item] = (source.output[transfer.item] ?? 0) + 1;
+        refunds.push({ source, item: transfer.item, amount: transfer.amount ?? 1 });
       }
     }
+    // Prepending in reverse restores the original dispatch order ahead of newer stock.
+    for (const { source, item, amount } of refunds.reverse()) returnOutput(source, item, amount);
     this.state.inFlightTransfers = remaining;
   }
 
   private cancelTransfers(connectionIds: Set<string>) {
     const retained = [] as NonNullable<GameState['inFlightTransfers']>;
-    for (const transfer of this.state.inFlightTransfers ?? []) {
+    for (const transfer of [...this.state.inFlightTransfers ?? []].reverse()) {
       if (!(transfer.routeConnectionIds ?? [transfer.connectionId]).some(id => connectionIds.has(id))) { retained.push(transfer); continue; }
       if (transfer.cosmeticOnly) continue;
       const source = this.state.sectors[transfer.sectorId]?.nodes.find((node) => node.id === transfer.from);
-      if (source) source.output[transfer.item] = (source.output[transfer.item] ?? 0) + 1;
+      if (source) returnOutput(source, transfer.item, transfer.amount ?? 1);
     }
-    this.state.inFlightTransfers = retained;
+    this.state.inFlightTransfers = retained.reverse();
   }
 
   private resolveDeliveryRoute(connection: Connection, item: ItemId, sector: SectorState, lookups: SimulationLookups) {
     return logisticsRoute(connection, item, sector, this.state.research.completed, (destination, port) => {
       if (!this.canAcceptAtInputPort(destination, port, item, sector, lookups)) return false;
       const pending = lookups.target(sector.id, destination.id);
-      const reserved = this.inputUsesPerItemCapacity(destination) ? pending?.counts[item] ?? 0 : pending?.transfers.length ?? 0;
+      const reserved = this.inputUsesPerItemCapacity(destination) ? pending?.counts[item] ?? 0 : pending?.transfers.reduce((n, t) => n + (t.amount ?? 1), 0) ?? 0;
       return this.inputOccupancy(destination, item) + reserved < this.inputCapacity(destination, item);
     }, lookups.sector(sector));
   }
@@ -545,10 +698,14 @@ export class GameEngine {
     let launched = false;
     const fastUsed=new Map<string,number>();
     const index = lookups.sector(sector);
+    for (const node of sector.nodes) if (node.kind === 'filter') node.filterBlocked = this.filterBlockage(node, sector, lookups);
     for (const connection of sector.connections) {
+      if (!index.connections.has(connection.id)) continue;
       const source = index.nodes.get(connection.from);
       let target = index.nodes.get(connection.to);
       if (!source || !target || source.disabled || target.disabled) continue;
+      if (source.kind === 'filter' && this.filterBlockage(source, sector, lookups)) continue;
+      if (source.kind === 'devSource') continue; // Inputs are supplied directly before simulation.
       if(target.kind==='lakeIntake' || (hasNodeBehavior(target.kind,'road')&&hasNodeBehavior(source.kind,'buffer')))continue;
       const sourceCapabilities = getNodeCapabilities(source.kind);
       if (isResourceBehavior(source.kind) && !sourceCapabilities.routesOwnOutput) continue;
@@ -562,17 +719,18 @@ export class GameEngine {
           return (Object.keys(source.output) as ItemId[]).some((item) => {
             if ((source.output[item] ?? 0) <= 0 || !this.resolveDeliveryRoute(candidate, item, sector, lookups) || !portFamilyAcceptsItem(getEffectiveNodeOutputFamilies(source)[candidate.fromPort ?? 0] ?? 'ANY', item) || !this.canAcceptAtInputPort(destination, candidate.toPort ?? 0, item, sector, lookups)) return false;
             const pending = lookups.target(sector.id, destination.id);
-            const reserved = this.inputUsesPerItemCapacity(destination) ? pending?.counts[item] ?? 0 : pending?.transfers.length ?? 0;
+            const reserved = this.inputUsesPerItemCapacity(destination) ? pending?.counts[item] ?? 0 : pending?.transfers.reduce((n, t) => n + (t.amount ?? 1), 0) ?? 0;
             return this.inputOccupancy(destination, item) + reserved < this.inputCapacity(destination, item);
           });
         });
         if (chosen?.id !== connection.id) continue;
       }
       const resolveRoute = (key: ItemId) => this.resolveDeliveryRoute(connection, key, sector, lookups);
-      const item = (Object.keys(source.output) as ItemId[]).find((key) =>
+      const head = outputHead(source);
+      const item = (head ? [head] : Object.keys(source.output) as ItemId[]).find((key) =>
         (source.output[key] ?? 0) > 0 && Boolean(resolveRoute(key)) && portFamilyAcceptsItem(getEffectiveNodeOutputFamilies(source)[connection.fromPort??0]??'ANY',key) && this.canAcceptAtInputPort(target!, connection.toPort ?? 0, key, sector, lookups)
       );
-      if (!item) continue;
+      if (!item || source.kind === 'filter' && (connection.fromPort ?? 0) !== filterOutlet(source, item)) continue;
       if (!portFamiliesCompatible(source,connection.fromPort??0,target,connection.toPort??0,this.state.research.completed) || !getEffectiveNodeOutputFamilies(source)[connection.fromPort??0] || !inputPortAcceptsItem(target,connection.toPort??0,item,this.state.research.completed))continue;
       const sourceFamily=getEffectiveNodeOutputFamilies(source)[connection.fromPort??0];
       if(sourceFamily==='WASTE'&&!WASTE_ITEMS.includes(item))continue;
@@ -580,20 +738,22 @@ export class GameEngine {
       const route = resolveRoute(item);
       if (!route) continue;
       target = route.target;
-      const destinationConnection = route.connections.at(-1)!;
       const cap = this.inputCapacity(target, item);
       const perItemCapacity = this.inputUsesPerItemCapacity(target);
       const pending = lookups.target(sector.id, target.id);
-      const pendingForTarget = perItemCapacity ? pending?.counts[item] ?? 0 : pending?.transfers.length ?? 0;
+      const pendingForTarget = perItemCapacity ? pending?.counts[item] ?? 0 : pending?.transfers.reduce((n, t) => n + (t.amount ?? 1), 0) ?? 0;
       const occupied = this.inputOccupancy(target, item);
       if (occupied + pendingForTarget >= cap) continue;
       const fastRate=source.kind==='goblinTribute'?10:(item==='water'||(item==='coolant'&&[source.kind,target.kind].includes('fluidLink')))&&(source.kind!=='lake')?16:(WASTE_ITEMS.includes(item)&&[source.kind,target.kind].some(k=>['wasteLink','wasteSorter','wasteHopper'].includes(k)))?40:item==='power'&&[source.kind,target.kind].includes('powerConduit')?25:0;
-      if(fastRate){connection.batchCredit=Math.min(fastRate,(connection.batchCredit??0)+fastRate*.4);const shared=source.kind==='wasteSorter'||source.kind==='wasteLink'?16-(fastUsed.get(source.id)??0):Infinity;const amount=Math.min(shared,Math.floor(connection.batchCredit),source.output[item]??0,cap-occupied-pendingForTarget);if(amount>0){source.output[item]!-=amount;target.input[item]=(target.input[item]??0)+amount;connection.batchCredit-=amount;fastUsed.set(source.id,(fastUsed.get(source.id)??0)+amount);connection.item=item;launched=true;if(sourceCapabilities.alternatingOutputs)source.alternator=index.outgoing.get(source.id)!.findIndex(candidate=>candidate.id===connection.id)+1;}continue;}
-      this.applySmartRecipe(target, destinationConnection.toPort ?? 0, item);
-      source.output[item]!--;
+      if(fastRate){connection.batchCredit=Math.min(fastRate,(connection.batchCredit??0)+fastRate*.4);const shared=source.kind==='wasteSorter'||source.kind==='wasteLink'?16-(fastUsed.get(source.id)??0):Infinity;const amount=Math.min(shared,Math.floor(connection.batchCredit),source.output[item]??0,source.outputQueue ? (source.outputQueue.findIndex(key=>key!==item)<0 ? source.outputQueue.length : source.outputQueue.findIndex(key=>key!==item)) : Infinity,cap-occupied-pendingForTarget);if(amount>0){takeOutput(source,item,amount);target.input[item]=(target.input[item]??0)+amount;if(getNodeCapabilities(target.kind).behavior==='buffer')(target.inputQueue??=[]).push(...Array<ItemId>(amount).fill(item));connection.batchCredit-=amount;fastUsed.set(source.id,(fastUsed.get(source.id)??0)+amount);connection.item=item;launched=true;if(sourceCapabilities.alternatingOutputs)source.alternator=index.outgoing.get(source.id)!.findIndex(candidate=>candidate.id===connection.id)+1;}continue;}
+      const payload = item === 'forest-growth' && this.state.research.completed.includes('planterThroughput') ? 10 : isCartKind(source.kind) || isCartKind(target.kind) ? vehiclePayload(this.state.research.completed) : 1;
+      const runLength = source.outputQueue ? source.outputQueue.findIndex(key => key !== item) : -1;
+      const amount = Math.min(payload, source.output[item] ?? 0, cap - occupied - pendingForTarget, source.outputQueue ? runLength < 0 ? source.outputQueue.length : runLength : Infinity);
+      if (amount <= 0) continue;
+      takeOutput(source, item, amount);
       route.connections.forEach(cable => { cable.item = item; });
       route.routers.forEach(({ node, outputIndex }) => { if (getNodeCapabilities(node.kind).alternatingOutputs) node.alternator = outputIndex + 1; });
-      const transfer = { id: makeId('transfer'), sectorId: sector.id, connectionId: connection.id, routeConnectionIds: route.connections.length > 1 ? route.connections.map(cable => cable.id) : undefined, from: source.id, to: target.id, item, launchedAtMs: nowMs, arrivesAtMs: nowMs + CABLE_TRANSFER_DURATION_MS };
+      const transfer = { id: makeId('transfer'), sectorId: sector.id, connectionId: connection.id, routeConnectionIds: route.connections.length > 1 ? route.connections.map(cable => cable.id) : undefined, from: source.id, to: target.id, item, amount, launchedAtMs: nowMs, arrivesAtMs: nowMs + modRule('cableTravelMs') };
       (this.state.inFlightTransfers ??= []).push(transfer);
       lookups.launched(transfer);
       launched = true;
@@ -602,16 +762,16 @@ export class GameEngine {
     }
     for (const node of sector.nodes) {
       if (node.disabled || node.processingPaused || !getNodeCapabilities(node.kind).passThrough) continue;
-      const inputs = (Object.keys(node.input) as ItemId[]).filter((key) => (node.input[key] ?? 0) > 0 && (node.kind !== 'filter' || !node.filterItem || node.filterItem === key));
+      const inputs = (Object.keys(node.input) as ItemId[]).filter((key) => (node.input[key] ?? 0) > 0);
       const canRoute = (item: ItemId) => (index.outgoing.get(node.id) ?? []).some(cable => {
         const target = index.nodes.get(cable.to);
         if (!target || target.disabled || !this.canAcceptAtInputPort(target, cable.toPort ?? 0, item, sector, lookups)) return false;
         const pending = lookups.target(sector.id, target.id);
-        return this.inputOccupancy(target, item) + (this.inputUsesPerItemCapacity(target) ? pending?.counts[item] ?? 0 : pending?.transfers.length ?? 0) < this.inputCapacity(target, item);
+        return this.inputOccupancy(target, item) + (this.inputUsesPerItemCapacity(target) ? pending?.counts[item] ?? 0 : pending?.transfers.reduce((n, t) => n + (t.amount ?? 1), 0) ?? 0) < this.inputCapacity(target, item);
       });
       const preferred = node.kind === 'splitter' ? inputs.find(canRoute) : undefined;
       const item = preferred ?? inputs[0];
-      if (preferred && sum(node.output) >= (node.capacity ?? 5)) {
+      if (preferred && sum(node.output) >= (modNode(node.kind)?.capacity ?? node.capacity ?? 5)) {
         const blocked = (Object.keys(node.output) as ItemId[]).find(key => (node.output[key] ?? 0) > 0 && !canRoute(key));
         if (blocked) {
           // Exchange buffered items atomically; neither bag exceeds capacity.
@@ -622,13 +782,14 @@ export class GameEngine {
         }
       }
       if(node.kind==='wasteSorter'){let budget=16;for(let k=0;k<WASTE_ITEMS.length;k++){const i=WASTE_ITEMS[((node.alternator??0)+k)%WASTE_ITEMS.length];const amount=Math.min(node.input[i]??0,32-(node.output[i]??0),budget);node.input[i]=(node.input[i]??0)-amount;node.output[i]=(node.output[i]??0)+amount;budget-=amount;}node.alternator=((node.alternator??0)+1)%WASTE_ITEMS.length;continue;}
-      if (item && sum(node.output) < (node.capacity ?? 5)) { const q=['fluidLink','wasteLink','powerConduit'].includes(node.kind)?Math.min(node.input[item]??0,(node.capacity??64)-sum(node.output)):1;node.input[item]!-=q; node.output[item] = (node.output[item] ?? 0) + q; }
+      if (item && sum(node.output) < (modNode(node.kind)?.capacity ?? node.capacity ?? 5)) { const q=['fluidLink','wasteLink','powerConduit'].includes(node.kind)?Math.min(node.input[item]??0,(modNode(node.kind)?.capacity ?? node.capacity ?? 64)-sum(node.output)):1;node.input[item]!-=q; node.output[item] = (node.output[item] ?? 0) + q; }
     }
     return launched;
   }
 
   private accepts(node: MachineNode, item: ItemId) {
-    if (hasNodeBehavior(node.kind, 'filter') && node.filterItem && node.filterItem !== item) return false;
+    if (needsRecipeSelection(node)) return false;
+
     if (hasNodeBehavior(node.kind, 'big-hole')) return item === 'stone' && (node.resourceRemaining ?? 0) > 0;
     if (node.kind === 'forest') return item === 'forest-growth' && this.state.research.completed.includes('treePlanter');
     const inputs = getEffectiveNodeInputFamilies(node, this.state.research.completed);
@@ -639,9 +800,9 @@ export class GameEngine {
 
   private planNodePlacement(kind: NodeKind, x: number, y: number, preview = false) {
     const def = NODE_DEFINITIONS[kind];
-    if (kind === 'fluidRoad') return;
-    if (!def || (def.hidden && !def.legacyAlias)) return;
-    const lockedStorage = def.category === 'Storage' && !isNodeUnlocked(kind, this.state.research.unlocked);
+    if (kind === 'fluidRoad' || DEFERRED_POWER_NODES.has(kind)) return;
+    if (!def || (def.hidden && !def.legacyAlias && kind !== 'devSource')) return;
+    const lockedStorage = (def.category === 'Storage' || isCartKind(kind)) && !isNodeUnlocked(kind, this.state.research.unlocked);
     if (lockedStorage && !preview) return;
     const capabilities = getNodeCapabilities(kind);
     if(capabilities.globallyUnique&&this.state.activeSectorId!=='5,5')return;
@@ -649,17 +810,22 @@ export class GameEngine {
     const uniqueNodeBlocked = capabilities.globallyUnique && Object.values(this.state.sectors).some((sector) => sector.nodes.some((node) => getNodeCapabilities(node.kind).globallyUnique));
     if (uniqueNodeBlocked && !preview) return;
     const roadPair = capabilities.pairedSectorPlacement ? this.findRoadPair(x, y) : undefined;
-    const channelsFull = Boolean(roadPair && this.getSector().nodes.filter(n=>hasNodeBehavior(n.kind,'road')&&n.roadMode==='export'&&n.pairedSectorId===roadPair.sector.id).length>=roadChannels(this.state));
+    const faceRoads = (sector: SectorState, neighbor: string) => sector.nodes.filter(n => hasNodeBehavior(n.kind, 'road') && n.pairedSectorId === neighbor).length;
+    const channelsFull = Boolean(roadPair && (faceRoads(this.getSector(), roadPair.sector.id) >= roadChannels(this.state) || faceRoads(roadPair.sector, this.getSector().id) >= roadChannels(this.state)));
     if (capabilities.pairedSectorPlacement && !roadPair && !preview) return;
     // The original configurable machines are inert until the player chooses a recipe.
     const recipeId = capabilities.defaultRecipeId;
     const node: MachineNode = {
       id: preview ? '__placement-preview__' : makeId(kind), kind, name: def.name, x, y, rotation: 0, recipeId, input: {}, output: {}, progressMs: 0,
-      cycleMs: recipeId ? RECIPES[recipeId].cycleMs : kind === 'extractor' ? 5000 : capabilities.behavior === 'recipe' ? 0 : 1000, constructedAt: Date.now(), constructionMs: 1500,
-      capacity: capabilities.defaultCapacity,
+      cycleMs: recipeId ? RECIPES[recipeId].cycleMs : capabilities.behavior === 'research' ? RESEARCH_CENTER_BASE_CYCLE_MS : kind === 'recycler' ? 2000 : kind === 'extractor' ? 5000 : capabilities.behavior === 'recipe' ? 0 : 1000, constructedAt: Date.now(), constructionMs: kind === 'devSource' ? 0 : 1500,
+      capacity: BASE_MOD_CONTENT.capabilities[kind].defaultCapacity,
+      ...(modNode(kind)?.name ? { modBaseName: BASE_MOD_CONTENT.nodes[kind].name } : {}),
       ...(capabilities.defaultFilterItem ? { filterItem: capabilities.defaultFilterItem } : {}),
       ...(capabilities.defaultMiningTarget ? { miningTarget: capabilities.defaultMiningTarget, miningProgress: 0 } : {}),
     };
+    if (isCartKind(kind)) Object.assign(node, cartUpgrade(this.state.research.completed,endgameRank(this.state,'trainFreightCapacity')));
+    node.constructionMs = modNode(kind)?.constructionMs ?? node.constructionMs * modRule('constructionMultiplier');
+    if (modNode(kind)?.name) node.name = modNode(kind)!.name!;
     let pairedNode: MachineNode | undefined;
     if (roadPair) {
       node.x = roadPair.localX; node.y = roadPair.localY; node.roadMode = 'export'; node.pairedSectorId = roadPair.sector.id; node.roadFacing = roadPair.side;
@@ -671,9 +837,9 @@ export class GameEngine {
     const pairField = roadPair ? getSectorWorldSize(roadPair.sector, this.state.research.completed) : undefined;
     const localClear = canPlaceNode(node, this.getSector().nodes, field);
     const pairClear = !(pairedNode && pairField && !canPlaceNode(pairedNode, roadPair!.sector.nodes, pairField));
-    const error = lockedStorage ? 'Research this storage node before building it.' : uniqueNodeBlocked ? 'This unique node already exists.'
+    const error = lockedStorage ? ['woodenChest', 'chest'].includes(kind) ? 'Complete Road research to build a Cart.' : 'Research this storage node before building it.' : uniqueNodeBlocked ? 'This unique node already exists.'
       : capabilities.pairedSectorPlacement && !roadPair ? 'Unlock an adjacent map before placing a road to it.'
-      : channelsFull ? `Map ${this.getSector().id} already uses all ${roadChannels(this.state)} outgoing road channels to map ${roadPair!.sector.id}. Use another boundary or research additional Road Channels.`
+      : channelsFull ? `This boundary allows ${roadChannels(this.state)} Roads per map face, counting sending and receiving endpoints together. Use another face or remove a Road${roadChannels(this.state) < 3 ? ', or research Road Channels' : ''}.`
       : !localClear ? `The endpoint on map ${this.getSector().id} needs clearance from the field boundary, other nodes and obstructions. Choose another position.`
       : !pairClear ? `The paired endpoint on adjacent map ${roadPair!.sector.id} is blocked. Move this road along the boundary, or clear room on that map.` : undefined;
     return { node, pairedNode, roadPair, valid: !error, error };
@@ -698,7 +864,7 @@ export class GameEngine {
     this.getSector().nodes.push(node);
     this.insertNodeOnCable(node);
     this.evaluateMilestones();
-    this.event('NodePlaced', `${def.name} placed. Construction started.`);
+    this.event('NodePlaced', `${node.name} placed. Construction started.`);
     this.publish();
     return node.id;
   }
@@ -732,14 +898,13 @@ export class GameEngine {
       { score: y, x: current.x, y: current.y - 1, localX: x, localY: roadSize / 2, side: 'south' as const },
       { score: field.height - y, x: current.x, y: current.y + 1, localX: x, localY: field.height - roadSize / 2, side: 'north' as const },
     ].sort((a, b) => a.score - b.score);
-    for (const candidate of candidates) {
-      const sector = this.state.sectors[sectorId(candidate.x, candidate.y)]; if (!sector?.unlocked) continue;
-      const pairField = getSectorWorldSize(sector, this.state.research.completed);
-      const pairX = candidate.side === 'west' ? roadSize / 2 : candidate.side === 'east' ? pairField.width - roadSize / 2 : Math.max(roadSize / 2, Math.min(pairField.width - roadSize / 2, x));
-      const pairY = candidate.side === 'north' ? roadSize / 2 : candidate.side === 'south' ? pairField.height - roadSize / 2 : Math.max(roadSize / 2, Math.min(pairField.height - roadSize / 2, y));
-      return { ...candidate, pairX, pairY, sector };
-    }
-    return undefined;
+    const candidate = candidates[0];
+    const sector = this.state.sectors[sectorId(candidate.x, candidate.y)];
+    if (!sector?.unlocked) return;
+    const pairField = getSectorWorldSize(sector, this.state.research.completed);
+    const pairX = candidate.side === 'west' ? roadSize / 2 : candidate.side === 'east' ? pairField.width - roadSize / 2 : Math.max(roadSize / 2, Math.min(pairField.width - roadSize / 2, x));
+    const pairY = candidate.side === 'north' ? roadSize / 2 : candidate.side === 'south' ? pairField.height - roadSize / 2 : Math.max(roadSize / 2, Math.min(pairField.height - roadSize / 2, y));
+    return { ...candidate, pairX, pairY, sector };
   }
 
   moveNodes(ids: string[], dx: number, dy: number) {
@@ -755,7 +920,15 @@ export class GameEngine {
   /** Applies a drag position using the original collision, cable, and paired-road rules. */
   tryMoveNodesTo(positions: Record<string, { x: number; y: number }>, apply = true) {
     const sector = this.getSector();
-    const selected = sector.nodes.filter((node) => positions[node.id] && isPlayerMovableNode(node.kind));
+    positions={...positions};
+    if(this.state.research.completed.includes('campRelocation'))for(const camp of sector.nodes.filter(n=>n.kind==='monster-camp')) {
+      const box=sector.nodes.find(n=>n.kind==='goblinTribute'&&n.tributeCampId===camp.id);
+      if(!box||(!positions[camp.id]&&!positions[box.id]))continue;
+      const anchor=positions[camp.id]?camp:box, point=positions[anchor.id];
+      const dx=point.x-anchor.x,dy=point.y-anchor.y;
+      for(const member of [camp,box]) {const next={x:member.x+dx,y:member.y+dy};if(positions[member.id]&&(Math.abs(positions[member.id].x-next.x)>1e-7||Math.abs(positions[member.id].y-next.y)>1e-7))return false;positions[member.id]=next;}
+    }
+    const selected = sector.nodes.filter((node) => positions[node.id] && isPlayerMovableNode(node.kind,this.state,node));
     if (!selected.length) return false;
     if (selected.some((node) => hasNodeBehavior(node.kind,'road')) && (selected.length !== 1 || !hasNodeBehavior(selected[0].kind,'road'))) return false;
     const field = getSectorWorldSize(sector, this.state.research.completed);
@@ -763,7 +936,7 @@ export class GameEngine {
     let roadPair: { node: MachineNode; x: number; y: number; sector: SectorState } | undefined;
     const proposals = selected.map((node) => ({ node, proposed: { ...node, ...positions[node.id] } }));
     const regularProposals = proposals.filter(({ node }) => !hasNodeBehavior(node.kind,'road'));
-    if (regularProposals.length) {
+    if (regularProposals.length && !selected.some(n=>!getNodeModule(n.kind).controls.movable)) {
       const minimumShiftX = Math.max(...regularProposals.map(({ proposed }) => getNodeSize(proposed).w / 2 + 12 - proposed.x));
       const maximumShiftX = Math.min(...regularProposals.map(({ proposed }) => field.width - getNodeSize(proposed).w / 2 - 12 - proposed.x));
       const minimumShiftY = Math.max(...regularProposals.map(({ proposed }) => getNodeSize(proposed).h / 2 + 52 - proposed.y));
@@ -788,7 +961,7 @@ export class GameEngine {
       if (!canPlaceNode(pairProposed, pairSector.nodes, pairField, new Set([pair.id]))) return false;
       roadPair = { node: pair, x: pairX, y: pairY, sector: pairSector };
     }
-    if (proposals.some(({ proposed }) => !canPlaceNode(proposed, sector.nodes, field, ignored))) return false;
+    if (proposals.some(({ proposed }) => !canPlaceNode(proposed, [...sector.nodes.filter(n=>!ignored.has(n.id)),...proposals.map(p=>p.proposed)], field))) return false;
     const proposedById = new Map(proposals.map(({ proposed }) => [proposed.id, proposed]));
     const nodesAfterMove = sector.nodes.map((node) => proposedById.get(node.id) ?? node);
     const cableBlocked = sector.connections.some((connection) => {
@@ -799,8 +972,10 @@ export class GameEngine {
     });
     if (cableBlocked) return false;
     if (!apply) return true;
+    this.checkpoint();
     proposals.forEach(({ node, proposed }) => { node.x = proposed.x; node.y = proposed.y; });
-    if (selected.length === 1) this.insertNodeOnCable(selected[0]);
+    updateCampEncroachment(sector.nodes);
+    if (selected.length === 1 && getNodeModule(selected[0].kind).controls.movable) this.insertNodeOnCable(selected[0]);
     if (roadPair) { roadPair.node.x = roadPair.x; roadPair.node.y = roadPair.y; roadPair.sector.lastSimulatedAt = Date.now(); }
     return true;
   }
@@ -821,6 +996,8 @@ export class GameEngine {
           if (old.item && (!inputPortAcceptsItem(node, input, old.item, this.state.research.completed) || !portFamilyAcceptsItem(getEffectiveNodeOutputFamilies(node)[output], old.item))) continue;
           const firstCable: Connection = { ...old, id: `__insert-in-${node.id}`, to: node.id, toPort: input, createdAt: Date.now() };
           const secondCable: Connection = { ...old, id: `__insert-out-${node.id}`, from: node.id, fromPort: output, createdAt: Date.now() };
+          const previewNodes = [...sector.nodes.filter(candidate => candidate.id !== node.id), node];
+          if (routedConnectionFailure(secondCable, previewNodes, [...remaining, firstCable], this.state.research.completed, new Set())) continue;
           return { replacedConnectionId: old.id, connections: [firstCable, secondCable] };
 
         }
@@ -853,7 +1030,7 @@ export class GameEngine {
     const targetNode = sector.nodes.find((node) => node.id === to);
     if (!sourceNode || !targetNode) return false;
     if(!this.canAddProgressionConnection(sourceNode,targetNode,sector.connections))return false;
-    const plan = resolveConnectionPlan(sourceNode, targetNode, sector.connections, this.state.research.completed);
+    const plan = resolveConnectionPlan(sourceNode, targetNode, sector.connections, this.state.research.completed, plan => !routedConnectionFailure({ from, to, fromPort: plan.fromPort, toPort: plan.toPort }, sector.nodes, sector.connections, this.state.research.completed, new Set(plan.replace)));
     if (!plan || connectionBlockedByWorld(sourceNode, targetNode, plan, sector.nodes)) return false;
     return this.connectPorts(from, plan.fromPort, to, plan.toPort);
   }
@@ -879,7 +1056,11 @@ export class GameEngine {
     if (!source || !target) return { title: 'Socket unavailable', detail: 'Choose an output and an input on existing nodes.' };
     if (source === target) return { title: 'Choose another node', detail: 'A cable must connect two different nodes.' };
     if (source.disabled || target.disabled) return { title: 'Node disabled', detail: 'Enable both nodes before connecting them.' };
+    const unconfigured = [source, target].find(needsRecipeSelection);
+    if (unconfigured && source.kind !== 'devSource') return { title: 'Choose a recipe first', detail: `${unconfigured.name} needs a recipe before it can be connected. Left-click it and choose a recipe.` };
+    if ((hasNodeBehavior(source.kind, 'resource') || source.infiniteResource) && !hasNodeBehavior(target.kind, 'extractor') && !getNodeCapabilities(target.kind).passThrough) return { title: 'Extractor required', detail: 'Connect the resource to an Extractor, then connect the Extractor output to this machine.' };
     if (!portFamiliesCompatible(source, fromPort, target, toPort, this.state.research.completed)) {
+      if (isCartKind(target.kind)) return { title: 'Solid items only', detail: `${target.name} cannot store fluids. Use the appropriate fluid or waste storage instead.` };
       const family = getEffectiveNodeInputFamilies(target, this.state.research.completed)[toPort];
       const name = family && family in ITEM_NAMES ? ITEM_NAMES[family as ItemId] : family ?? 'a compatible material';
       return { title: 'Incompatible socket', detail: `${target.name}'s selected input requires ${name}. Choose the matching output and input, or use a Filter to select a material.` };
@@ -888,6 +1069,8 @@ export class GameEngine {
     if (!this.canAddProgressionConnection(source, target, connections)) return { title: 'Connection limit reached', detail: 'This node has reached its researched connection limit. Remove a connection or research more capacity.' };
     const plan = resolveExactConnectionPlan(source, fromPort, target, toPort, connections, this.state.research.completed);
     if (!plan) return { title: 'Connection unavailable', detail: 'These sockets are already connected or the receiving Merger holds a different material. Drain that material or choose another socket.' };
+    const materialFailure = routedConnectionFailure({ from, to, fromPort, toPort }, sector.nodes, connections, this.state.research.completed, new Set(plan.replace));
+    if (materialFailure) return materialFailure;
     const obstruction = connectionObstruction(source, target, plan, sector.nodes);
     if (obstruction) return { title: `Blocked by ${obstruction.name}`, detail: `The cable crosses ${obstruction.name} on map ${sector.id}. Route it around the obstruction using Joints, allowing clearance outside its border.` };
     const road = this.getRoadConnectionError(from, fromPort, to, toPort, replaceConnectionId);
@@ -907,11 +1090,13 @@ export class GameEngine {
     const plan = resolveExactConnectionPlan(sourceNode, fromPort, targetNode, toPort, validationConnections, this.state.research.completed);
     if (!plan || connectionBlockedByWorld(sourceNode, targetNode, plan, sector.nodes)) return false;
     const replaced = new Set([...plan.replace, ...(replaceConnectionId ? [replaceConnectionId] : [])]);
+    if (routedConnectionFailure({ from, to, fromPort, toPort }, sector.nodes, sector.connections, this.state.research.completed, replaced)) return false;
     if (roadConnectionError(this.state, sector, { id: '__road-validation', from, to, fromPort, toPort, createdAt: 0 }, replaced)) return false;
     this.checkpoint();
     this.cancelTransfers(replaced);
     sector.connections = sector.connections.filter((connection) => !replaced.has(connection.id));
     sector.connections.push({ id: makeId('cable'), from, to, fromPort, toPort, item: concreteOutputItem(sourceNode, fromPort), createdAt: Date.now() });
+    this.reconcileSectorExtractorStorage(sector);
     this.state.hasCreatedConnection = true;
     this.evaluateMilestones();
     this.publish();
@@ -924,9 +1109,11 @@ export class GameEngine {
     this.checkpoint();
     this.cancelTransfers(new Set([connectionId]));
     sector.connections = sector.connections.filter((connection) => connection.id !== connectionId);
+    this.reconcileSectorExtractorStorage(sector);
     this.publish();
   }
   private canAddProgressionConnection(source:MachineNode,target:MachineNode,connections:Connection[]){
+    if(source.kind==='devSource')return true;
     if(source.kind==='lake'&&target.kind==='lakeIntake'&&connections.filter(c=>c.from===source.id&&c.to!==target.id&&this.getSector().nodes.some(n=>n.id===c.to&&n.kind==='lakeIntake')).length>=2)return false;
     if(source.kind==='inventory'&&connections.filter(c=>c.from===source.id).length>=connectionLimit(this.state,'inventory'))return false;
     if(target.kind==='storage'&&connections.filter(c=>c.to===target.id).length>=connectionLimit(this.state,'storage'))return false;
@@ -959,7 +1146,9 @@ export class GameEngine {
     this.checkpoint();
     const removedConnectionIds = new Set(sector.connections.filter((connection) => connection.from === nodeId || connection.to === nodeId).map((connection) => connection.id));
     this.cancelTransfers(removedConnectionIds);
+    const unusedStone=hole.input.stone??0;
     sector.nodes = sector.nodes.filter((node) => node.id !== nodeId);
+    if(unusedStone>0)sector.nodes.push({id:makeId('fill-salvage'),kind:'woodenChest',name:'Unused fill Stone',x:hole.x,y:hole.y,rotation:0,input:{},output:{stone:unusedStone},outputQueue:Array(unusedStone).fill('stone'),progressMs:0,cycleMs:0,capacity:Math.max(unusedStone,cartUpgrade(this.state.research.completed,endgameRank(this.state,'trainFreightCapacity')).capacity),constructedAt:0,constructionMs:0});
     sector.connections = sector.connections.filter((connection) => connection.from !== nodeId && connection.to !== nodeId);
     this.event('NodePlaced', 'Deep Hole filled in. The obstruction has been cleared.');
     this.publish();
@@ -1022,7 +1211,7 @@ export class GameEngine {
   }
   duplicateNodes(ids: string[]) {
     const sector = this.getSector();
-    const source = sector.nodes.filter((n) => ids.includes(n.id) && !n.protected && isPlayerMovableNode(n.kind) && getNodeCapabilities(n.kind).duplicateAllowed !== false && (NODE_DEFINITIONS[n.kind].category !== 'Storage' || isNodeUnlocked(n.kind, this.state.research.unlocked)));
+    const source = sector.nodes.filter((n) => ids.includes(n.id) && !n.protected && isPlayerMovableNode(n.kind) && getNodeCapabilities(n.kind).duplicateAllowed !== false && ((NODE_DEFINITIONS[n.kind].category !== 'Storage' && !isCartKind(n.kind)) || isNodeUnlocked(n.kind, this.state.research.unlocked)));
     if (!source.length) return [];
     const map = new Map<string, string>();
     const copyIds = new Map(source.map((node) => [node.id, makeId(node.kind)]));
@@ -1036,7 +1225,7 @@ export class GameEngine {
     let copies: MachineNode[] | undefined;
     for (const offset of offsets) {
       const candidates = source.map((node) => {
-        const copy = clone(node); copy.id = copyIds.get(node.id)!; copy.x += offset.x; copy.y += offset.y; copy.input = {}; copy.output = {}; copy.batch=undefined;copy.progressMs = 0; copy.constructedAt = Date.now(); return copy;
+        const copy = clone(node); copy.id = copyIds.get(node.id)!; copy.x += offset.x; copy.y += offset.y; copy.input = {}; copy.output = {}; copy.batch=undefined;copy.growthCredit=0;copy.outputQueue=[];copy.inputQueue=[];copy.filterBlocked=undefined;copy.progressMs = 0; copy.constructedAt = Date.now(); return copy;
       });
       if (!candidates.every((copy) => canPlaceNode(copy, sector.nodes, field))) continue;
       const candidateBySourceId = new Map(source.map((node, index) => [node.id, candidates[index]]));
@@ -1057,10 +1246,17 @@ export class GameEngine {
     this.publish();
     return copies.map((n) => n.id);
   }
+  copyRecipe(sourceId: string, targetId: string) {
+    const nodes = this.getSector().nodes;
+    const source = nodes.find(node => node.id === sourceId);
+    const target = nodes.find(node => node.id === targetId);
+    if (!source?.recipeId || !target || source.id === target.id || source.kind !== target.kind || source.disabled || target.disabled) return false;
+    return this.setRecipe(target.id, source.recipeId);
+  }
   setRecipe(nodeId: string, recipeId: string) {
     const sector = this.getSector();
     const node = sector.nodes.find((n) => n.id === nodeId);
-    if (!node || node.batch || !RECIPES[recipeId] || !RECIPE_GROUPS[node.kind]?.includes(recipeId) || !isRecipeUnlocked(recipeId,this.state.research.completed)) return false;
+    if (!node || node.batch || !RECIPES[recipeId] || !RECIPE_GROUPS[node.kind]?.includes(recipeId) || !isRecipeUnlocked(recipeId,this.state.research.completed) || !worldRecipeAllowed(recipeId,this.state)) return false;
     if (recipeId === 'automata-core' && !this.state.research.completed.includes('automataCore')) return false;
     if (['robot-frame', 'robot-gun', 'suppression-bot'].includes(recipeId) && !this.state.research.completed.includes('suppressionBot')) return false;
     if (node.recipeId === recipeId) return true;
@@ -1079,7 +1275,7 @@ export class GameEngine {
       const target = sector.nodes.find((candidate) => candidate.id === connection.to);
       if (!source || !target) return true;
       if (!portFamiliesCompatible(source, connection.fromPort ?? 0, target, connection.toPort ?? 0, this.state.research.completed)) return true;
-      return connection.to === node.id && Boolean(connection.item) && !inputPortAcceptsItem(node, connection.toPort ?? 0, connection.item!, this.state.research.completed);
+      return source.kind !== 'devSource' && connection.to === node.id && Boolean(connection.item) && !inputPortAcceptsItem(node, connection.toPort ?? 0, connection.item!, this.state.research.completed);
     }).map((connection) => connection.id));
     this.cancelTransfers(removed);
     if (removed.size) sector.connections = sector.connections.filter((connection) => !removed.has(connection.id));
@@ -1089,6 +1285,8 @@ export class GameEngine {
   saveFactoryTemplate(name: string, ids: string[]) { return this.templates.saveFactoryTemplate(name, ids); }
   getTemplatePreview(index: number, x: number, y: number) { return this.templates.getTemplatePreview(index, x, y); }
   placeFactoryTemplate(index: number, x: number, y: number) { return this.templates.placeFactoryTemplate(index, x, y); }
+  acknowledgeRescue() { if(this.state.rescue?.pending){delete this.state.rescue.pending;this.rescueAccumulator=1000;this.publish();} }
+  acknowledgeVictory() { if(this.state.endgame&&this.state.research.completed.includes('victory')) {this.state.endgame.victoryAcknowledged=true;this.publish();} }
   selectResearch(id?: string) { this.research.selectResearch(id); }
 
   setFilterItem(nodeId: string, filterItem: ItemId) {
@@ -1100,6 +1298,7 @@ export class GameEngine {
     node.input = {};
     node.output = {};
     node.progressMs = 0;
+    this.reconcileSectorExtractorStorage(this.getSector());
     this.publish();
     return true;
   }
@@ -1108,18 +1307,21 @@ export class GameEngine {
     const node = sector.nodes.find(candidate => candidate.id === nodeId);
     const camp = node?.kind === 'monster-camp' ? node : node?.kind === 'goblinTribute' ? sector.nodes.find(candidate => candidate.id === node.tributeCampId && candidate.kind === 'monster-camp') : undefined;
     if (!camp || !getTributeItems(this.state, camp).includes(item)) return false;
-    if ((camp.tributeItem ?? 'iron') === item) return true;
     const tribute = sector.nodes.find(candidate => candidate.kind === 'goblinTribute' && candidate.tributeCampId === camp.id);
-    if (tribute && (sum(tribute.output) > 0 || this.state.inFlightTransfers?.some(transfer => transfer.from === tribute.id))) return false;
+    const discardsStock = tribute && Object.entries(tribute.output).some(([stored, amount]) => stored !== item && (amount ?? 0) > 0);
+    if (tributeMaterial(camp) === item && !discardsStock) return true;
     this.checkpoint();
     camp.tributeItem = item;
-    if (tribute) { tribute.tributeItem = item; tribute.progressMs = 0; }
+    if (tribute) {
+      for (const stored of Object.keys(tribute.output) as ItemId[]) if (stored !== item) delete tribute.output[stored];
+      tribute.tributeItem = item; tribute.progressMs = 0;
+    }
     this.publish();
     return true;
   }
   setMiningTarget(nodeId: string, miningTarget: NonNullable<MachineNode['miningTarget']>) {
     const node = this.getSector().nodes.find((candidate) => candidate.id === nodeId && hasNodeBehavior(candidate.kind, 'mining-drill'));
-    if (!node || (node.miningProgress ?? 0) > 0) return false;
+    if (!node || miningTarget === 'mythril' || (node.miningProgress ?? 0) > 0) return false;
     if (node.miningTarget === miningTarget) return true;
     this.checkpoint();
     node.miningTarget = miningTarget;
@@ -1138,26 +1340,33 @@ export class GameEngine {
     const road = sector.nodes.find(node => node.id === nodeId && hasNodeBehavior(node.kind, 'road'));
     const pairedSector = road?.pairedSectorId ? this.state.sectors[road.pairedSectorId] : undefined;
     const pair = pairedSector?.nodes.find(node => node.id === road?.pairedRoadId);
-    if (!road || !pair || !pairedSector) return 'The paired road endpoint is unavailable.';
-    const exportingSector = road.roadMode === 'import' ? sector : pairedSector;
-    const receivingSector = road.roadMode === 'import' ? pairedSector : sector;
-    return exportingSector.nodes.filter(node => hasNodeBehavior(node.kind, 'road') && node.roadMode === 'export' && node.pairedSectorId === receivingSector.id).length >= roadChannels(this.state)
-      ? `Map ${exportingSector.id} already uses all ${roadChannels(this.state)} outgoing road channels to map ${receivingSector.id}. Remove an outgoing road or research more Road Channels before reversing this pair.` : undefined;
+    if (!road || !pair || !pairedSector || !hasNodeBehavior(pair.kind, 'road')) return 'The paired road endpoint is unavailable.';
+    if ((pair.pairedRoadId && pair.pairedRoadId !== road.id) || (pair.pairedSectorId && pair.pairedSectorId !== sector.id)) return 'The paired road endpoint belongs to another Road.';
+    // Reversal changes direction without adding endpoints or consuming another face slot.
+    return undefined;
   }
   reverseRoad(nodeId: string) {
+    const road = this.getSector().nodes.find(node => node.id === nodeId && hasNodeBehavior(node.kind, 'road'));
+    return road ? this.setRoadDirection(nodeId, road.roadMode === 'import' ? 'export' : 'import') : false;
+  }
+  /** Either endpoint selects the single direction for this entire pair. */
+  setRoadDirection(nodeId: string, direction: 'export' | 'import') {
+    if (direction !== 'export' && direction !== 'import') return false;
     const sector = this.getSector();
     const road = sector.nodes.find((node) => node.id === nodeId && hasNodeBehavior(node.kind, 'road'));
     const pairedSector = road?.pairedSectorId ? this.state.sectors[road.pairedSectorId] : undefined;
     const pair = pairedSector?.nodes.find((node) => node.id === road?.pairedRoadId);
     if (!road || !pair || !pairedSector) return false;
     if (this.getRoadReversalError(nodeId)) return false;
+    const pairedDirection = direction === 'export' ? 'import' : 'export';
+    if (road.roadMode === direction && pair.roadMode === pairedDirection) return true;
     this.checkpoint();
-    for (const [owner, endpoint] of [[sector, road], [pairedSector, pair]] as const) {
+    for (const [owner, endpoint, mode] of [[sector, road, direction], [pairedSector, pair, pairedDirection]] as const) {
       const removed = new Set(owner.connections.filter((connection) => connection.from === endpoint.id || connection.to === endpoint.id).map((connection) => connection.id));
       this.cancelTransfers(removed);
       owner.connections = owner.connections.filter((connection) => !removed.has(connection.id));
-      endpoint.roadMode = endpoint.roadMode === 'import' ? 'export' : 'import';
-      [endpoint.input, endpoint.output] = [endpoint.output, endpoint.input];
+      if (endpoint.roadMode !== mode) [endpoint.input, endpoint.output] = [endpoint.output, endpoint.input];
+      endpoint.roadMode = mode;
       endpoint.progressMs = 0;
     }
     this.publish();
@@ -1179,6 +1388,7 @@ export class GameEngine {
     this.state.research.contributed = {};
     this.state.research.mapPoints = Math.max(this.state.research.mapPoints, 121);
     this.research.resetResearchCycles();
+    applyCartUpgrades(this.state);
     this.publish();
   }
   developerUnlockAllSectors() {
@@ -1196,9 +1406,9 @@ export class GameEngine {
     previous.encounters = [...new Set([...(previous.encounters ?? []), ...(this.state.encounters ?? [])])];
     previous.tutorialPromptsSeen = [...new Set([...(previous.tutorialPromptsSeen ?? []), ...(this.state.tutorialPromptsSeen ?? [])])];
     for (const [id, sector] of Object.entries(this.state.sectors)) if (sector.visited && previous.sectors[id]) previous.sectors[id].visited = true;
-    this.state = previous; initializeProgression(this.state); this.evaluateMilestones(); this.publish();
+    this.state = previous; activateMod(this.state.mod); initializeProgression(this.state); applyCartUpgrades(this.state); applyModNames(this.state); this.evaluateMilestones(); this.publish();
   } }
-  replaceState(state: GameState) { this.state = clone(state); this.state.produced ??= {}; this.state.extracted ??= {}; this.state.hasCreatedConnection ??= false; this.state.research.completed ??= []; this.state.research.repeatableCompletions ??= {}; this.state.research.projectContributions ??= {}; this.state.inFlightTransfers ??= []; this.normalizeExtractorCycles(); this.research.reconcileResearchSelection(); this.pruneLockedForestInputs(); this.history = []; this.publish(); }
+  replaceState(state: GameState) { const next = clone(state); if (next.mod) next.mod = validateMod(next.mod); this.state = next; activateMod(this.state.mod); applyModNames(this.state); this.state.produced ??= {}; this.state.extracted ??= {}; this.state.hasCreatedConnection ??= false; this.state.research.completed ??= []; this.state.research.repeatableCompletions ??= {}; this.state.research.projectContributions ??= {}; this.state.inFlightTransfers ??= []; this.normalizeExtractorCycles(); applyModNames(this.state); this.research.reconcileResearchSelection(); this.pruneLockedForestInputs(); this.history = []; this.publish(); }
   unlockSector(x: number, y: number) {
     if (this.state.research.mapPoints < 1 || x < 0 || y < 0 || x > 10 || y > 10) return false;
     const adjacent = Object.values(this.state.sectors).some((s) => s.unlocked && Math.abs(s.x - x) + Math.abs(s.y - y) === 1);

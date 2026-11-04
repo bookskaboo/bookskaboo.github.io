@@ -75,20 +75,20 @@ export const GUIDED_TUTORIAL_COPY: Record<GuidedTutorialStage, {
   "chest-shortcut": {
     step: 3,
     title: "Use a shortcut",
-    body: "Unlocking a node adds it to the matching shortcut bar. The Wooden Chest is now in the Storage bar, ready to place without reopening Build. One less menu trip. Civilization advances.",
-    instruction: "Select the glowing Wooden Chest shortcut in the Storage bar.",
+    body: "Unlocking a node adds it to the matching shortcut bar. The Cart is now in the Logistics bar, ready to place without reopening Build. One less menu trip. Civilization advances.",
+    instruction: "Select the glowing Cart shortcut in the Logistics bar.",
   },
   "chest-place": {
     step: 3,
-    title: "Place the Wooden Chest",
-    body: "Place the Wooden Chest at the highlighted spot. Every two seconds, it takes in as many waiting items as will fit and sends out as many as the next node can accept. This buffer becomes much more useful as your factory grows.",
-    instruction: "Place the Wooden Chest on the highlighted spot.",
+    title: "Place the Cart",
+    body: "Place the Cart at the highlighted spot. It stores up to 20 solid items, with local shipments of one item before vehicle upgrades. It can hold advanced products and Cores from the start. The box has transport ambitions.",
+    instruction: "Place the Cart on the highlighted spot.",
   },
   "store-item": {
     step: 3,
     title: "Store production",
-    body: "An Extractor automatically pulls resources, such as Wood, from a connected resource node. Connect its output to the Wooden Chest, then wait for the first item. The machinery will handle the lifting.",
-    instruction: "Connect the Extractor to the Wooden Chest and wait for one item.",
+    body: "An Extractor automatically pulls resources, such as Wood, from a connected resource node. Connect its output to the Cart, then wait for the first item. The machinery will handle the lifting.",
+    instruction: "Connect the Extractor to the Cart and wait for one item.",
   },
   "research-open": {
     step: 4,
@@ -111,7 +111,7 @@ export const GUIDED_TUTORIAL_COPY: Record<GuidedTutorialStage, {
   "cores-explain": {
     step: 5,
     title: "Process the Cores",
-    body: "The Wooden Chest is feeding 5 Simple Cores into the Research Center. The Center stores and processes them one at a time to advance Assembler research. Even science has a queue.",
+    body: "The Cart is feeding 5 Simple Cores into the Research Center. The Center stores and processes them one at a time to advance Assembler research. Even science has a queue.",
     instruction: "Watch the Research Center process all 5 Simple Cores.",
   },
   "cores-complete": {
@@ -327,8 +327,8 @@ export const GUIDED_TUTORIAL_COPY: Record<GuidedTutorialStage, {
   "monster-camp-suppression": {
     step: 2,
     title: "Supply the center port",
-    body: "Finding a Monster Camp unlocks Suppression Bot recipes in the Assembler. A bot’s parts determine its Attack Power. Send enough Attack Power to the center port before each check and the camp shrinks; send too little and it expands. An encroached node turns red, stops working, and cannot be used until the camp recedes. Its connections stay in place. This demo checks every two seconds, so watch the Wooden Chest switch off and back on. The camp remains, but your wiring survives the experience.",
-    instruction: "Watch the Wooden Chest disable as the camp expands, then reactivate as it shrinks.",
+    body: "Finding a Monster Camp unlocks Suppression Bot recipes in the Assembler. A bot’s parts determine its Attack Power. Send enough Attack Power to the center port before each check and the camp shrinks; send too little and it expands. An encroached node turns red, stops working, and cannot be used until the camp recedes. Its connections stay in place. This demo checks every two seconds, so watch the Cart switch off and back on. The camp remains, but your wiring survives the experience.",
+    instruction: "Watch the Cart disable as the camp expands, then reactivate as it shrinks.",
   },
   "monster-camp-growth": {
     step: 3,

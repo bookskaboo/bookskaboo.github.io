@@ -18,5 +18,6 @@ export function tutorialChoices(kind: TutorialKind, stage: TutorialStage, game: 
 }
 
 export function tutorialRecipeChoice(kind: TutorialKind, node: MachineNode, nodes: MachineNode[]): TutorialChoice {
+  if (kind === 'basic' && node.kind === 'smelter') return 'smelt-copper';
   return (kind === 'basic' ? basicTutorialRefinerRecipe(node, nodes) : undefined) ?? node.recipeId ?? null;
 }

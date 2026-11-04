@@ -4,7 +4,7 @@ import { tutorialNode } from '../tutorials/tutorialRuntime';
 import { productionExplanation, productionVisual } from './productionVisuals';
 
 describe('production animation and bottleneck cues', () => {
-  it('shows storage contents and exact counts in the hover explanation, including empty and paused Chests', () => {
+  it('shows Cart contents and exact counts while ignoring an obsolete processing-pause flag', () => {
     const game = createInitialState(1), sector = game.sectors[game.activeSectorId];
     const node = tutorialNode('woodenChest', 'chest', 500, 500, { capacity: 20 });
     expect(productionExplanation(node, game, sector).summary).toBe('Empty · 0/20 stored.');
@@ -12,7 +12,7 @@ describe('production animation and bottleneck cues', () => {
     node.input.wood = 2;
     expect(productionExplanation(node, game, sector).summary).toBe('Wood: 14 · 14/20 stored.');
     node.processingPaused = true;
-    expect(productionExplanation(node, game, sector).summary).toContain('Wood: 14 · 14/20 stored. Production paused.');
+    expect(productionExplanation(node, game, sector).summary).toBe('Wood: 14 · 14/20 stored.');
   });
   it('explains zero-count ingredients and committed batches without reporting consumed inputs as missing', () => {
     const game = createInitialState(1), sector = game.sectors[game.activeSectorId];
@@ -49,7 +49,7 @@ describe('production animation and bottleneck cues', () => {
     // Use the live recipe attached to the furnace catalog.
     node.recipeId = 'refined-mithril';
     const idle = productionVisual(node, game, sector);
-    expect(idle).toMatchObject({ working: false, blockedOutputs: [1] });
+    expect(idle).toMatchObject({ working: false, blockedOutputs: [0] });
     node.batch = { recipeId: node.recipeId, outputs: { 'refined-mithril': 1 } };
     expect(productionVisual(node, game, sector)).toMatchObject({ working: true, missingInputs: [], blockedOutputs: [] });
   });

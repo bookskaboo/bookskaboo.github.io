@@ -3,3 +3,10 @@ dist/
 .vite-*.log
 .vite-server.pid
 *.tsbuildinfo
+
+.artifact-work/
+.env
+.env.*
+*.log
+vite.config.js
+vite.config.d.ts

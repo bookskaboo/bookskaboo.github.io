@@ -1,5 +1,5 @@
 import type { MachineNode } from '../domain/types';
-import { LIZARD_SETTLEMENTS } from './lizardSettlements';
+import { getDwarvenSettlement } from './lizardSettlements';
 
 export const GOBLIN_CHECK_INTERVAL_MS = 60000;
 
@@ -14,7 +14,7 @@ const AP_BY_MAP_TIER = [0, 3, 3, 3, 9, 16, 24, 40, 60, 80] as const;
 
 /** Both families retain the established Monster Camp simulation and save kind. */
 export const getMonsterSettlementDefinition = (node: MachineNode) => node.lizardSettlement
-  ? LIZARD_SETTLEMENTS[node.lizardSettlement]
+  ? getDwarvenSettlement(node)
   : GOBLIN_SETTLEMENTS[node.goblinSettlement ?? 'camp'];
 
 export function getGoblinSettlementForMapTier(tier: number) {

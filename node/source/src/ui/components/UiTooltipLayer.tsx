@@ -1,7 +1,14 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 
 export function UiTooltipLayer() {
   const [tip, setTip] = useState<{ title: string; detail?: string; flavor?: string; tone?: string; x: number; y: number }>();
+  const tooltipRef = useRef<HTMLDivElement>(null);
+  useLayoutEffect(() => {
+    if (!tip || !tooltipRef.current) return;
+    const height = tooltipRef.current.getBoundingClientRect().height;
+    const y = Math.max(8, Math.min(tip.y, window.innerHeight - height - 8));
+    if (y !== tip.y) setTip(current => current ? { ...current, y } : current);
+  }, [tip]);
   const targetRef = useRef<HTMLElement | null>(null); const visibleTargetRef = useRef<HTMLElement | null>(null); const timerRef = useRef<number | null>(null); const pointRef = useRef({ x: 0, y: 0 });
   useEffect(() => {
     const clear = () => { if (timerRef.current) window.clearTimeout(timerRef.current); timerRef.current = null; targetRef.current = null; visibleTargetRef.current = null; setTip(undefined); };
@@ -25,5 +32,5 @@ export function UiTooltipLayer() {
     document.addEventListener('pointerover', over); document.addEventListener('pointermove', move); document.addEventListener('pointerout', out); document.addEventListener('focusin', focus); document.addEventListener('focusout', blur);
     return () => { observer.disconnect(); document.removeEventListener('keydown', clear); if (timerRef.current) window.clearTimeout(timerRef.current); document.removeEventListener('pointerover', over); document.removeEventListener('pointermove', move); document.removeEventListener('pointerout', out); document.removeEventListener('focusin', focus); document.removeEventListener('focusout', blur); };
   }, []);
-  return tip ? <div className="ui-hover-tooltip" role="tooltip" style={{ left: tip.x, top: tip.y, '--tooltip-tone': tip.tone || '#87939b' } as React.CSSProperties}><b>{tip.title}</b>{tip.detail && <span>{tip.detail}</span>}{tip.flavor && <em>{tip.flavor}</em>}</div> : null;
+  return tip ? <div ref={tooltipRef} className="ui-hover-tooltip" role="tooltip" style={{ left: tip.x, top: tip.y, '--tooltip-tone': tip.tone || '#87939b' } as React.CSSProperties}>{tip.title && <b>{tip.title}</b>}{tip.detail && <span>{tip.detail}</span>}{tip.flavor && <em>{tip.flavor}</em>}</div> : null;
 }

@@ -36,3 +36,19 @@ export function clampFieldCamera(camera: CameraState, worldSize: { width: number
       : clamp(camera.y, viewport.height - scaledHeight - 90, 90),
   };
 }
+
+/** Reveal more of a zoomed map while a dragged node or cable nears an edge. */
+export function scrollCameraForDrag(camera: CameraState, worldSize: { width: number; height: number }, viewport: { width: number; height: number }, pointer: { x: number; y: number }, deltaMs: number): CameraState {
+  const usable = cameraViewport(viewport);
+  const direction = (position: number, start: number, length: number) => {
+    const edge = Math.min(64, length / 4);
+    if (position < start || position > start + length) return 0;
+    if (position < start + edge) return -(((start + edge - position) / edge) ** 2);
+    if (position > start + length - edge) return ((position - (start + length - edge)) / edge) ** 2;
+    return 0;
+  };
+  const distance = 720 * Math.max(0, Math.min(50, deltaMs)) / 1000;
+  const dx = worldSize.width * camera.zoom > usable.width ? direction(pointer.x, usable.x, usable.width) * distance : 0;
+  const dy = worldSize.height * camera.zoom > usable.height ? direction(pointer.y, usable.y, usable.height) * distance : 0;
+  return clampFieldCamera({ ...camera, x: camera.x - dx, y: camera.y - dy }, worldSize, viewport);
+}

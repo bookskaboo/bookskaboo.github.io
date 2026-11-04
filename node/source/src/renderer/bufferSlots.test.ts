@@ -18,6 +18,8 @@ describe('node buffer squares', () => {
   it('omits production progress from every storage category and Inventory', () => {
     for(const node of Object.values(NODE_DEFINITIONS).filter(node=>node.category==='Storage')) expect(isStorageNode(node.kind)).toBe(true);
     expect(isStorageNode('inventory')).toBe(true);
+    expect(isStorageNode('woodenChest')).toBe(true);
+    expect(isStorageNode('chest')).toBe(true);
     expect(isStorageNode('kiln')).toBe(false);
     expect(isStorageNode('researchCenter')).toBe(false);
   });

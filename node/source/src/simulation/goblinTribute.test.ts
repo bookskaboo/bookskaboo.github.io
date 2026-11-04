@@ -11,7 +11,7 @@ const camp = (engine: GameEngine) => engine.getSector().nodes.find(node => node.
 function setup(tier = 1) {
   const spec = getGoblinSettlementForMapTier(tier);
   const settlement: MachineNode = { id: 'camp', kind: 'monster-camp', name: spec.name,
-    goblinSettlement: spec.settlement, attackRequirement: spec.attackRequirement, campStrength: 25,
+    goblinSettlement: spec.settlement, attackRequirement: spec.attackRequirement, campStrength: 15,
     obstructionMaxRadius: 600, x: 2400, y: 1400, rotation: 0,
     input: { 'suppression-bot': spec.attackRequirement }, output: {}, progressMs: 0,
     cycleMs: 60000, constructedAt: 0, constructionMs: 0 };
@@ -21,6 +21,21 @@ function setup(tier = 1) {
 }
 
 describe('goblin tribute', () => {
+  it('waits for the 10% minimum, then removes tribute when the camp grows again', () => {
+    const engine = setup();
+    camp(engine).campStrength = 25;
+    advance(engine, 60);
+    expect(camp(engine).campStrength).toBe(15);
+    expect(camp(engine).suppressed).toBe(true);
+    expect(tribute(engine)).toBeUndefined();
+    camp(engine).input['suppression-bot'] = 3;
+    advance(engine, 60);
+    expect(camp(engine).campStrength).toBe(10);
+    expect(tribute(engine)?.name).toBe('Tribute');
+    advance(engine, 60);
+    expect(camp(engine).campStrength).toBe(20);
+    expect(tribute(engine)).toBeUndefined();
+  });
   it.each([[1, 5], [4, 15], [9, 30]])('rewards tier %i with %i materials per five seconds only after suppression', (tier, amount) => {
     const engine = setup(tier);
     advance(engine, 59.9);
@@ -75,30 +90,55 @@ describe('goblin tribute', () => {
     expect(engine.getState().inFlightTransfers?.some(transfer => transfer.from === reward.id)).toBe(false);
   });
 
-  it('customizes tribute, gates Mythril, and refuses changes that would discard buffered output', () => {
+  it('customizes tribute, gates Mythril, and sacrifices other stored materials when changed', () => {
     const engine = setup();
     expect(engine.setGoblinTributeItem('camp', 'copper')).toBe(true);
     expect(engine.setGoblinTributeItem('camp', 'mythril')).toBe(false);
     advance(engine, 65);
     const reward = tribute(engine)!;
     expect(reward.output).toEqual({ copper: 5 });
-    expect(engine.setGoblinTributeItem(reward.id, 'stone')).toBe(false);
+    expect(engine.setGoblinTributeItem(reward.id, 'mythril')).toBe(false);
     expect(reward.output).toEqual({ copper: 5 });
-    reward.output = {};
+    reward.output.stone = 2;
     expect(engine.setGoblinTributeItem(reward.id, 'stone')).toBe(true);
+    expect(reward.output).toEqual({ stone: 2 });
     advance(engine, 5);
-    expect(reward.output).toEqual({ stone: 5 });
+    expect(reward.output).toEqual({ stone: 7 });
     reward.output = {};
     engine.getState().research.completed.push('mithrilTools');
-    expect(engine.setGoblinTributeItem('camp', 'mythril')).toBe(true);
+    expect(engine.setGoblinTributeItem('camp', 'mythril')).toBe(false);
     advance(engine, 5);
-    expect(reward.output).toEqual({ mythril: 5 });
+    expect(reward.output).toEqual({ stone: 5 });
     advance(engine, 45);
     expect(tribute(engine)).toBeUndefined();
     camp(engine).input['suppression-bot'] = 3;
     advance(engine, 60);
-    expect(tribute(engine)?.tributeItem).toBe('mythril');
+    expect(tribute(engine)?.tributeItem).toBe('stone');
     expect(tribute(engine)?.output).toEqual({});
+  });
+
+  it('allows a material change while old deliveries are in flight and leaves committed deliveries intact', () => {
+    const engine = setup(); advance(engine, 65);
+    const reward = tribute(engine)!;
+    const receiver: MachineNode = { ...reward, id: 'receiver', kind: 'woodenChest', x: reward.x, y: reward.y - 400, input: {}, output: {}, tributeCampId: undefined };
+    engine.getSector().nodes.push(receiver);
+    expect(engine.connect(reward.id, receiver.id)).toBe(true);
+    reward.output.iron = 4;
+    const cable = engine.getSector().connections.find(c => c.from === reward.id)!;
+    engine.getState().inFlightTransfers!.push({ id: 'committed', sectorId: '5,5', connectionId: cable.id, from: reward.id, to: 'receiver', item: 'iron', launchedAtMs: 65000, arrivesAtMs: 66000 });
+    expect(engine.setGoblinTributeItem(reward.id, 'wood')).toBe(true);
+    expect(reward.output).toEqual({});
+    expect(engine.getState().inFlightTransfers?.[0].item).toBe('iron');
+    advance(engine, 1);
+    expect((receiver.input.iron ?? 0) + (receiver.output.iron ?? 0)).toBe(1);
+  });
+
+  it('removes premature legacy tribute on loading even while paused', () => {
+    const engine = setup(); advance(engine, 60);
+    const saved = structuredClone(engine.getState());
+    saved.paused = true; saved.sectors['5,5'].nodes.find(n => n.id === 'camp')!.campStrength = 15;
+    const loaded = new GameEngine(saved);
+    expect(tribute(loaded)).toBeUndefined();
   });
 
   it('preserves suppression, selected material, stockpile, cycle progress and AP countdown through a v1 save', () => {
@@ -118,6 +158,7 @@ describe('goblin tribute', () => {
 
   it('removes an orphan reward and creates nothing when a check fails', () => {
     const engine = setup();
+    camp(engine).campStrength = 10;
     camp(engine).input = {};
     advance(engine, 60);
     expect(tribute(engine)).toBeUndefined();

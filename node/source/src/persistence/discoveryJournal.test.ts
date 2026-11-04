@@ -6,6 +6,7 @@ describe('durable discovery journal and version 1 saves', () => {
   it('retains discoveries after production fills the short activity feed, then round-trips the factory', () => {
     const engine = new GameEngine(createInitialState(301), { autosave: false });
     expect(engine.connect('forest', 'ironExtractor')).toBe(true);
+    engine.getState().research.unlocked.push('road');
     const chest = engine.placeNode('woodenChest', 1100, 650)!;
     expect(chest).toBeTruthy();
     expect(engine.connect('ironExtractor', chest)).toBe(true);

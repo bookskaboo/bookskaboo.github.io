@@ -1,10 +1,14 @@
-import { Container, Graphics } from 'pixi.js';
+import { Container, Graphics, Text } from 'pixi.js';
 import type { NodeIconId } from '../content/nodeModules';
 
 const stroke = (graphic: Graphics, color: number, width = 1.7) => graphic.stroke({ color, width, cap: 'round', join: 'round' });
 
 /** Lightweight Pixi equivalents of the old Lucide/custom SVG node icons. */
-export function drawNodeIcon(root: Container, icon: NodeIconId, x: number, y: number, size: number, color: number) {
+export function drawNodeIcon(root: Container, icon: NodeIconId, x: number, y: number, size: number, color: number, customGlyph?: string) {
+  if (customGlyph) {
+    const glyph = new Text({ text: customGlyph, style: { fontSize: size, fill: color } });
+    glyph.anchor.set(0.5); glyph.position.set(x, y); root.addChild(glyph); return glyph;
+  }
   const holder = new Container(); holder.position.set(x, y); holder.scale.set(size / 24); const g = new Graphics(); holder.addChild(g); root.addChild(holder);
   const line = (...points: number[]) => { g.moveTo(points[0] - 12, points[1] - 12); for (let i = 2; i < points.length; i += 2) g.lineTo(points[i] - 12, points[i + 1] - 12); stroke(g, color); };
   const poly = (points: number[]) => { g.poly(points.map((value, index) => value - (index % 2 === 0 ? 12 : 12))); stroke(g, color); };

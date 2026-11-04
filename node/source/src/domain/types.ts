@@ -1,4 +1,5 @@
 export type ItemId =
+  | 'alpha' | 'foundry-component' | 'reclamation-component' | 'grove-component' | 'core-half-a' | 'core-half-b' | 'final-core'
   | 'coolant' | 'conductive-slurry' | 'hydraulic-actuator' | 'ceramic-electrode' | 'hydro-core'
   | 'refined-mithril' | 'slag' | 'mithril-mesh' | 'shiny-core' | 'precision-controller'
   | 'metallic-fines' | 'glassy-crust' | 'advanced-actuator' | 'spent-flux' | 'logic-substrate'
@@ -12,6 +13,8 @@ export type ItemId =
   | 'simple-robot-frame' | 'simple-robot-gun' | 'suppression-bot' | 'power' | 'forest-growth';
 
 export type NodeKind =
+  | 'cornerChallenge' | 'cornerTribute' | 'recycler'
+  | 'devSource'
   | 'lakeIntake' | 'hydroProcessor' | 'advancedAssembler' | 'separationFurnace' | 'slagHopper'
   | 'wasteHopper' | 'fluidStorage' | 'warehouse' | 'wasteSorter' | 'fluidLink' | 'wasteLink'
   | 'powerConduit' | 'fluidRoad' | 'abandonedFabricator' | 'sortingStation' | 'resourceGolem'
@@ -28,6 +31,8 @@ export type PortFamily = 'FLUID' | 'WASTE' | 'ANY' | 'RESOURCE' | 'METAL' | 'PLA
 
 export interface Recipe { id: string; name: string; inputs: Partial<Record<ItemId, number>>; outputs: Partial<Record<ItemId, number>>; cycleMs: number; unlockResearch?: string; recovery?: boolean; chanceOutputs?: Array<{item: ItemId; amount: number; probability: number}>; }
 export interface MachineNode {
+  /** Original label retained while a data mod supplies a replacement. */
+  modBaseName?: string;
   id: string;
   kind: NodeKind;
   name: string;
@@ -52,6 +57,10 @@ export interface MachineNode {
   input: Partial<Record<ItemId, number>>;
   output: Partial<Record<ItemId, number>>;
   progressMs: number;
+  /** Last successful research payment, timed in simulation milliseconds for its visual feedback. */
+  researchConsumption?: { atMs: number; cycleMs: number };
+  /** Earliest next payment after a successful check, retained across project changes. */
+  researchNextCheckAtMs?: number;
   cycleMs: number;
   constructedAt: number;
   constructionMs: number;
@@ -66,10 +75,23 @@ export interface MachineNode {
   attackRequirement?: number;
   /** Settlement subtype; absent on legacy Monster Camps. Keeps the serialized node kind stable. */
   goblinSettlement?: 'camp' | 'village' | 'kingdom';
+  /** Dwarven subtype. Retains its legacy serialized key for save compatibility. */
   lizardSettlement?: 'camp' | 'village' | 'kingdom';
-  /** Tribute stays active only between successful recurring suppression checks. */
+  /** Tribute stays active at minimum size between successful recurring suppression checks. */
   suppressed?: boolean;
+  /** Dwarven successful-check overpayment, retained until the next payment. */
+  suppressionCredit?: number;
+  suppressionRetry?: boolean;
+  settlementMapTier?: number;
+  /** FIFO dispatch order for complete mixed recipe batches. */
+  outputQueue?: ItemId[];
+  inputQueue?: ItemId[];
+  filterBlocked?: 'selected' | 'remainder';
+  /** Paid planter regeneration still available to emit. */
+  growthCredit?: number;
   tributeItem?: 'wood' | 'water' | 'iron' | 'copper' | 'stone' | 'mythril';
+  /** Marks the one-time migration from legacy Lizard rewards to Dwarven Mythril defaults. */
+  tributeSelectionVersion?: 1;
   tributeCampId?: string;
   /** Source-game world-obstruction geometry. Optional so early v2 saves keep loading. */
   obstructionWidth?: number;
@@ -90,6 +112,11 @@ export interface MachineNode {
   defeated?: boolean;
   golemOutputs?: ItemId[];
   golemMineral?: 'iron' | 'copper' | 'stone' | 'mythril';
+  golemCostVersion?: 1;
+  cornerType?: import('../content/endgame').CornerType;
+  cornerProgress?: number;
+  holeBaseStone?: number;
+  holeStoneConsumed?: number;
 }
 
 export interface Connection { id: string; from: string; to: string; fromPort?: number; toPort?: number; item?: ItemId; createdAt: number; batchCredit?: number; }
@@ -106,10 +133,22 @@ export interface InFlightTransfer {
   arrivesAtMs: number;
   /** Visual pulse for source-side work (for example extraction), not a delivered item. */
   cosmeticOnly?: boolean;
+  /** Absent on legacy shipments means one unit. */
+  amount?: number;
 }
 export interface CameraState { x: number; y: number; zoom: number; }
 export interface ControlGroup { id: string; nodeIds: string[]; color: string; colorName: string; }
+export interface DeferredPowerInfrastructure {
+  nodes: MachineNode[];
+  connections: Connection[];
+  buffers?: Record<string, { input: number; output: number }>;
+  transfers?: InFlightTransfer[];
+}
+
 export interface SectorState {
+  /** Removed Power infrastructure retained for save compatibility, never simulated. */
+  deferredPower?: DeferredPowerInfrastructure;
+  retiredMythril?: DeferredPowerInfrastructure;
   id: string;
   x: number;
   y: number;
@@ -137,7 +176,7 @@ export interface ResearchProject {
   costGrowth?: number;
   repeatable?: boolean;
   trigger?: {
-    id: 'encounter' | 'connection' | 'assembler-built' | 'basic-core-produced' | 'wood-extracted' | 'motor-produced' | 'metal-extracted' | 'plate-produced' | 'refiner-unlocked' | 'monster-camp';
+    id: 'encounter' | 'connection' | 'assembler-built' | 'basic-core-produced' | 'wood-extracted' | 'motor-produced' | 'metal-extracted' | 'plate-produced' | 'refiner-unlocked' | 'monster-camp' | 'dwarven-mythril-produced' | 'precision-control' | 'final-core-produced' | 'corner-component-obtained';
     kinds?: NodeKind[];
     pending: string;
     complete: string;
@@ -156,13 +195,15 @@ export interface ResearchState {
   mapNodeQuote?: { completion: number; costs: Partial<Record<ItemId, number>> };
 }
 export interface GameEvent { id: string; type: 'ItemProduced' | 'TransferStarted' | 'ResearchCompleted' | 'DepositDepleted' | 'NodePlaced'; message: string; at: number; projectId?: string; elapsedMs?: number; }
-export interface GamePreferences { autosaveMinutes: number; confirmDelete: boolean; particles: boolean; showGrid: boolean; sound: boolean; }
+export interface GamePreferences { autosaveMinutes: number; confirmDelete: boolean; particles: boolean; showGrid: boolean; snapToGrid: boolean; sound: boolean; skipMultiConnectionTooltip?: boolean; }
 export interface GameState {
+  mod?: import('../mods/modTypes').GameMod;
   version: 1;
   seed: number;
   activeSectorId: string;
   sectors: Record<string, SectorState>;
   research: ResearchState;
+  isTraining?: boolean;
   paused: boolean;
   playTimeMs: number;
   achievements: string[];
@@ -180,10 +221,16 @@ export interface GameState {
   hasCreatedConnection?: boolean;
   inFlightTransfers?: InFlightTransfer[];
   progressionVersion?: number;
+  reviewedProductionVersion?: 1;
+  endgame?: { cornerOrder: import('../content/endgame').CornerType[]; pairIndex: number; version: 1; componentObtained?: boolean; victoryAcknowledged?: boolean };
+  rescue?: { resources: Array<'iron' | 'copper' | 'stone'>; pending?: { resource: 'iron' | 'copper' | 'stone'; sectorId: string; newMaps: number } };
+  dwarvenMythrilProduced?: boolean;
+  /** Production milestone for the future Final Core route; never set by delivery. */
+  finalCoreProduced?: boolean;
   randomState?: number;
   encounters?: NodeKind[];
   globalPool?: Partial<Record<ItemId, number>>;
-  factoryTemplates?: Array<{name: string; nodes: MachineNode[]; connections: Connection[]}>;
+  factoryTemplates?: Array<{name: string; nodes: MachineNode[]; connections: Connection[]; deferredPower?: DeferredPowerInfrastructure}>;
 }
 
 export interface NodeDefinition {

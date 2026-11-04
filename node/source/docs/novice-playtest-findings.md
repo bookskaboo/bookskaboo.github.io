@@ -4,6 +4,14 @@ Date: November 1, 2026
 
 ## Current implementation status
 
+November 2 Power update (master-plan Q10): Power is removed from the playable game pending a useful integration design. Tree Planters operate without Power, and Hydrochemistry no longer requires Basic Electricity. N15's Power teaching remains deferred; any future waste lesson should be evaluated independently. Earlier references to Power below describe the previous system.
+
+November 2 update: Smelters now require an explicit recipe, and incoming metal
+does not change it. All configurable production nodes reject new connections
+until a recipe is selected, using the ordinary invalid-connection feedback.
+Basics explicitly chooses Copper Plate before wiring the Smelter. Earlier
+observations about automatic Smelter typing below describe the previous behavior.
+
 The accepted changes for N01–N14 and N16–N22 are implemented or addressed by the agreed reassessment. They are not outstanding proposals. Some findings share an implementation, and some original suggestions were deliberately reduced or replaced during review.
 
 One finding remains deferred:
@@ -196,7 +204,7 @@ Resolution: every Core name in research details is a recipe link. It opens the p
 
 Locked Core recipes are available as explicit planning previews, labelled with their required research or producing-machine unlock. Viewing them does not unlock production. Only the specifically requested locked recipe is added to the guide; normal browsing continues to hide undiscovered Mythril recipe options. The original Options entry remains available, and Basics already introduces it.
 
-Verification: in the actual game, opened Assembler details and followed Simple Core directly to its Refiner recipe (2 Copper Gears). Back to research and Escape both restored the Assembler search and focused Core link. A direct click preserved the selected Simple Core requirement filter and a nonzero scroll offset (92.31 before and after the recipe visit). Extractor 6 exposed links for all six Core tiers. Command Core opened a preview requiring Precision Control, and Automata Core correctly identified its own research requirement. Production build and all 281 active tests pass; 1 existing skip remains. Screenshot: [Direct Core recipe help](../outputs/research-core-recipe.png).
+Verification: in the actual game, opened Assembler details and followed Simple Core directly to its Refiner recipe (2 Copper Gears). Back to research and Escape both restored the Assembler search and focused Core link. A direct click preserved the selected Simple Core requirement filter and a nonzero scroll offset (92.31 before and after the recipe visit). Extractor 6 exposed links for all six Core tiers. Complex Core opened a preview requiring Precision Control, and Automata Core correctly identified its own research requirement. Production build and all 281 active tests pass; 1 existing skip remains. Screenshot: [Direct Core recipe help](../outputs/research-core-recipe.png).
 
 Evidence: src/ui/App.tsx, src/ui/RecipesPanel.tsx.
 

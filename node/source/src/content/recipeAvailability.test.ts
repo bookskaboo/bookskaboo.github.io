@@ -1,3 +1,4 @@
+import { seededCornerOrder } from './endgame';
 import { describe, expect, it } from 'vitest';
 import { createTutorialState, tutorialNode, basicTutorialRefinerRecipe } from '../tutorials/tutorialRuntime';
 import { createInitialState, GameEngine } from '../simulation/engine';
@@ -12,6 +13,7 @@ const catalog = Object.entries(RECIPE_GROUPS).flatMap(([kind, ids]) => ids.map(i
 describe('recipe availability in normal progression', () => {
   it.each(catalog)('$kind: $id can be configured after its unlocks with no ingredient stock or history', ({ kind, id }) => {
     const game = createInitialState(71);
+    if(id.match(/^core-half-[ab]-\d$/))game.endgame={version:1,cornerOrder:seededCornerOrder(game.seed),pairIndex:Number(id.at(-1))};
     game.sectors[game.activeSectorId].nodes = [];
     game.produced = {}; game.extracted = {}; game.globalPool = {};
     game.research.completed = []; game.research.unlocked = [];

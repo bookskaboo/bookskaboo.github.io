@@ -3,6 +3,7 @@ import type { MachineNode } from '../domain/types';
 export const GOLEM_MINERALS = ['iron', 'copper', 'stone', 'mythril'] as const;
 export type GolemMineral = typeof GOLEM_MINERALS[number];
 export const GOLEM_AP_COST = 10000;
+export const golemApCost = (node: MachineNode) => getGolemMineral(node) === 'mythril' ? 20000 : GOLEM_AP_COST;
 export const GOLEM_NAMES: Record<GolemMineral, string> = { iron: 'Iron', copper: 'Copper', stone: 'Stone', mythril: 'Mythril' };
 
 export function getGolemMineral(node: MachineNode): GolemMineral {

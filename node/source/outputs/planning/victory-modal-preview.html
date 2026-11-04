@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>NODE — Victory modal preview</title>
+  <style>
+    :root { --gold:#e5c36b; --gold-soft:#b9a16b; --ink:#eef0f2; --muted:#b9bfc6; --panel:#24272c; }
+    * { box-sizing:border-box; }
+    body { margin:0; color:var(--ink); background:#17191d; font-family:"Segoe UI",Arial,sans-serif; }
+    button { font:inherit; cursor:pointer; }
+    button:focus-visible { outline:3px solid #f8e6ae; outline-offset:5px; }
+    .factory { min-height:100dvh; overflow:hidden; position:relative; display:grid; place-items:center; padding:32px; background:radial-gradient(ellipse at 50% 45%,#32332e 0,transparent 60%),linear-gradient(#ffffff05 1px,transparent 1px),linear-gradient(90deg,#ffffff05 1px,transparent 1px),#17191d; background-size:auto,36px 36px,36px 36px,auto; }
+    .brand { position:absolute; top:25px; left:32px; letter-spacing:.16em; font:600 16px Consolas,monospace; color:var(--gold); }
+    .brand small { display:block; margin-top:6px; color:var(--muted); font-size:10px; letter-spacing:.06em; }
+    .world { width:min(900px,100%); height:550px; position:relative; }
+    .world svg { width:100%; height:100%; position:absolute; opacity:.45; }
+    .world path { fill:none; stroke:var(--gold-soft); stroke-width:2; }
+    .machine { position:absolute; width:105px; height:68px; background:linear-gradient(145deg,#3a3d42,#25282c); border:1px solid #72705a; border-radius:8px; display:grid; place-items:center; color:#d5c393; font:12px Consolas,monospace; box-shadow:0 10px 24px #0005; }
+    .m1 { left:5%; top:12%; } .m2 { right:5%; top:12%; } .m3 { left:5%; bottom:12%; } .m4 { right:5%; bottom:12%; } .m5 { left:calc(50% - 52px); top:calc(50% - 34px); }
+    .returned { text-align:center; position:absolute; inset:0; background:#17191de8; display:grid; place-content:center; gap:10px; padding:24px; }
+    .returned[hidden] { display:none; }
+    .returned h1 { margin:0; color:var(--gold); font-size:32px; }
+    .returned p { color:var(--muted); margin:0; max-width:420px; line-height:1.6; }
+    .returned button { margin:18px auto 0; padding:12px 20px; border:1px solid #b6a16a; border-radius:6px; background:#363125; color:#f4dfac; }
+    dialog { padding:0; border:1px solid #b39b60; border-radius:16px; width:min(760px,calc(100vw - 40px)); max-height:calc(100dvh - 40px); overflow:hidden; color:var(--ink); background:radial-gradient(ellipse at 50% 0,#4d432344,transparent 48%),linear-gradient(145deg,#2d3035,#202328 75%); box-shadow:0 0 0 5px #d5b6660a,0 0 65px #dbb95328,0 35px 100px #000c,inset 0 1px 0 #f4dfa32a; }
+    dialog::backdrop { background:#090b10cc; backdrop-filter:blur(5px); }
+    .layout { display:flex; flex-direction:column; max-height:calc(100dvh - 42px); }
+    .hero { flex:none; padding:28px 40px 20px; text-align:center; position:relative; }
+    .hero::after { content:""; display:block; height:1px; position:absolute; bottom:0; left:40px; right:40px; background:linear-gradient(90deg,transparent,#bfa56866,transparent); }
+    .emblem { height:98px; width:150px; margin:0 auto 12px; position:relative; display:grid; place-items:center; }
+    .halo { position:absolute; inset:-25px -35px; border-radius:50%; background:radial-gradient(ellipse,#e5c36b24,transparent 65%); animation:breathe 6s ease-in-out infinite; }
+    .orbit { width:122px; height:72px; border:1px solid #d6b56b40; border-radius:50%; position:absolute; transform:rotate(-25deg); }
+    .orbit.two { transform:rotate(25deg); }
+    .point { width:5px; height:5px; border-radius:50%; background:#f3d68f; box-shadow:0 0 12px #f1c75a; position:absolute; }
+    .p1 { left:17px; top:23px; } .p2 { right:17px; top:23px; } .p3 { left:17px; bottom:23px; } .p4 { right:17px; bottom:23px; }
+    .core { width:52px; height:52px; transform:rotate(45deg); border:1px solid #fff0bc; background:linear-gradient(135deg,#fff0be,#d7b75c 48%,#907038); box-shadow:0 0 24px #edc45c99,0 0 70px #d8b14d55,inset 3px 3px 0 #fff4ce88,inset -3px -3px 0 #5b451666; position:relative; }
+    .core::after { content:""; position:absolute; inset:12px; border:1px solid #fff3c2; background:#ffe8a3aa; box-shadow:0 0 16px #fff0ab99; }
+    .eyebrow { margin:0 0 10px; color:var(--gold); font:600 10px Consolas,monospace; letter-spacing:.24em; }
+    h1 { margin:0; color:#fbf4df; font-size:clamp(30px,5vw,43px); line-height:1.16; letter-spacing:-.035em; font-weight:600; }
+    .subtitle { color:#c8c2ae; margin:12px auto 0; font-size:13px; line-height:1.6; max-width:460px; }
+    .reading { overflow:auto; min-height:0; padding:20px 40px 8px; scrollbar-color:#82724b #202328; scrollbar-width:thin; }
+    .reading p { margin:0 0 17px; font-size:14px; line-height:1.7; color:#d8dce1; }
+    .reading p:first-child { color:#f0f0eb; }
+    .reading p:last-child { margin-bottom:8px; }
+    .footer { padding:18px 40px 24px; flex:none; text-align:center; background:linear-gradient(180deg,#20232800,#202328 40%); }
+    .continue-note { margin:0 auto 16px; max-width:490px; color:#aeb6bf; font-size:12px; line-height:1.6; }
+    .continue { padding:13px 25px; border:1px solid #f1d68f; border-radius:7px; background:linear-gradient(#ebd18d,#c7a754); color:#241e11; font-size:14px; font-weight:650; box-shadow:0 0 22px #e4c16325,inset 0 1px 0 #fff0c7; transition:filter .15s,box-shadow .15s; }
+    .continue:hover { filter:brightness(1.08); box-shadow:0 0 30px #e4c16345; }
+    .fine-print { margin:11px 0 0; color:#b6ae98; font-size:11px; }
+    @keyframes breathe { 0%,100% { opacity:.6; transform:scale(.94); } 50% { opacity:1; transform:scale(1.06); } }
+    @media (max-width:560px) {
+      dialog { width:calc(100vw - 20px); max-height:calc(100dvh - 20px); border-radius:12px; }
+      .layout { max-height:calc(100dvh - 22px); }
+      .hero { padding:20px 22px 16px; }
+      .emblem { height:72px; margin-bottom:8px; }
+      .orbit { width:110px; height:58px; } .core { width:43px; height:43px; }
+      .core::after { inset:10px; } .p1,.p2 { top:14px; } .p3,.p4 { bottom:14px; }
+      .hero::after { left:22px; right:22px; }
+      .subtitle { font-size:12px; margin-top:10px; }
+      .reading { padding:16px 22px 0; }
+      .reading p { font-size:14px; margin-bottom:16px; }
+      .footer { padding:14px 22px 18px; }
+      .continue-note { font-size:11px; margin-bottom:12px; }
+      .continue { width:100%; }
+    }
+    @media (prefers-reduced-motion:reduce) { *,*::before,*::after { animation:none !important; transition:none !important; } }
+  </style>
+</head>
+<body>
+  <main class="factory" id="factory" tabindex="-1" aria-label="Illustrative factory after victory">
+    <div class="brand">NODE <small>ANOTHER FACTORY GAME</small></div>
+    <div class="world" aria-hidden="true">
+      <svg viewBox="0 0 900 550" preserveAspectRatio="none"><path d="M100 100 H300 V275 H450 M800 100 H600 V275 H450 M100 450 H300 V275 M800 450 H600 V275"/></svg>
+      <div class="machine m1">ALPHA</div><div class="machine m2">FOUNDRY</div><div class="machine m3">GROVE</div><div class="machine m4">RECLAMATION</div><div class="machine m5">RESEARCH</div>
+    </div>
+    <section class="returned" id="returned" hidden>
+      <h1>Victory recorded.</h1><p>The factory is still yours. There is probably something you could improve.</p>
+      <button type="button" id="reopen">Replay preview</button>
+    </section>
+  </main>
+  <dialog id="victory" aria-labelledby="victory-title" aria-describedby="victory-subtitle">
+    <div class="layout">
+      <header class="hero">
+        <div class="emblem" aria-hidden="true"><div class="halo"></div><div class="orbit"></div><div class="orbit two"></div><i class="point p1"></i><i class="point p2"></i><i class="point p3"></i><i class="point p4"></i><div class="core"></div></div>
+        <p class="eyebrow">FINAL CORE ACCEPTED</p>
+        <h1 id="victory-title" tabindex="-1">Victory. Somehow.</h1>
+        <p class="subtitle" id="victory-subtitle">All four corners. One Final Core. A remarkably indirect way to finish a to-do list.</p>
+      </header>
+      <div class="reading" id="reading" tabindex="0" aria-label="A note from the developer">
+        <p>I've now asked you to do everything I wanted this game to offer: tame the corners, connect the world, and persuade a very large factory to cooperate. I hope you had fun along the way. Thank you for playing.</p>
+        <p>If you didn't, you're welcome to mod NODE until it's actually fun. I've done the difficult part: leaving room for improvement.</p>
+        <p>Still need more? Perhaps visit a planet. Or two. Launch a few rockets. I'm told this is how small factory projects remain small.</p>
+        <p>Alternatively, sign up with a very large company, travel to a perfectly good planet, and extract its resources. There will probably be a form confirming how satisfied you are.</p>
+      </div>
+      <footer class="footer">
+        <p class="continue-note">Your factory and progress are preserved. Keep building, keep improving, or just watch it work.</p>
+        <button class="continue" id="continue" type="button">Continue playing <span aria-hidden="true">→</span></button>
+        <p class="fine-print">Optimization is now a personal problem.</p>
+      </footer>
+    </div>
+  </dialog>
+  <script>
+    const victory = document.getElementById('victory');
+    const factory = document.getElementById('factory');
+    const returned = document.getElementById('returned');
+    const title = document.getElementById('victory-title');
+    document.getElementById('continue').addEventListener('click', () => victory.close('continue'));
+    victory.addEventListener('close', () => { returned.hidden = false; factory.focus(); });
+    document.getElementById('reopen').addEventListener('click', () => { returned.hidden = true; victory.showModal(); document.getElementById('reading').scrollTop = 0; title.focus(); });
+    victory.showModal();
+    title.focus();
+  </script>
+</body>
+</html>

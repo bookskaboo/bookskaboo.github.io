@@ -5,7 +5,7 @@ import type { GameState } from '../../domain/types';
 import { GameEngine } from '../../simulation/engine';
 import { PanelHeader } from '../PanelHeader';
 
-export function DevPanel({ game, engine, showAllBuildNodes, onShowAllBuildNodes, onClose }: { game: GameState; engine: GameEngine; showAllBuildNodes: boolean; onShowAllBuildNodes(v: boolean): void; onClose(): void }) {
+export function DevPanel({ game, engine, showAllBuildNodes, onShowAllBuildNodes, onPlaceSource, onClose }: { game: GameState; engine: GameEngine; showAllBuildNodes: boolean; onShowAllBuildNodes(v: boolean): void; onPlaceSource(): void; onClose(): void }) {
   const [reportText, setReportText] = useState('');
   const exportReport = () => {
     const report = { exportedAt: new Date().toISOString(), simulationTimeMs: game.playTimeMs, seed: game.seed, extracted: game.extracted ?? {}, produced: game.produced ?? {}, state: game };
@@ -18,6 +18,7 @@ export function DevPanel({ game, engine, showAllBuildNodes, onShowAllBuildNodes,
   return <div className="modal-backdrop"><section className="modal dev-modal glass"><PanelHeader eyebrow="DEVELOPER TOOLS" title="Dev controls" onClose={onClose} /><div className="dev-note"><i>!</i><span><b>Local developer overrides</b><small>These controls modify this save immediately. Unlock actions can be undone once with Ctrl + Z.</small></span></div><div className="option-list dev-controls">
     <button className="option-action" onClick={exportReport}><i>↓</i><span><b>Export playtest report</b><small>Export resources, time, and factory state. Evidence, if required.</small></span><strong>JSON</strong></button>
     {reportText && <textarea aria-label="Playtest report JSON" readOnly value={reportText} style={{ width: '100%', minHeight: 180, fontFamily: 'monospace', fontSize: 11 }} />}
+    <Control icon="∞" title="Place Dev Source" detail="Connect any input; its required materials appear automatically. Procurement has been excused." action={onPlaceSource} state="PLACE" />
     <Control icon="◉" title="Show all nodes" detail="Preview locked schematics without unlocking them. Window shopping." action={() => onShowAllBuildNodes(!showAllBuildNodes)} state={showAllBuildNodes ? 'ON' : 'OFF'} />
     <Control icon="＋" title="Unlock all nodes" detail="Unlock every buildable node. The research department has been bypassed." action={() => engine.developerUnlockAllNodes()} state={allNodesUnlocked ? 'UNLOCKED' : 'UNLOCK'} disabled={allNodesUnlocked} />
     <Control icon="⌁" title="Unlock all research" detail="Complete permanent research and grant Map Points. Peer review waived." action={() => engine.developerUnlockAllResearch()} state={allResearchUnlocked ? 'UNLOCKED' : 'UNLOCK'} disabled={allResearchUnlocked} />

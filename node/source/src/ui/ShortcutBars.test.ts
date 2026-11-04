@@ -52,25 +52,66 @@ describe('shortcut bar progression', () => {
     const logistics = addUnlockedNodeShortcuts(bars, ['splitter'], ['splitter']);
     expect(logistics.logistics.assignments[1]).toBe('splitter');
     expect(logistics.production.assignments).toHaveLength(5);
-    expect(shortcutBarForKind('woodenChest')).toBe('storage');
+    expect(shortcutBarForKind('woodenChest')).toBe('logistics');
+    expect(shortcutBarForKind('lakeIntake')).toBe('production');
   });
 
   it('extends a category bar only after all five starting slots are occupied', () => {
     const bars = freshBars();
-    const unlocks = ['kiln', 'smelter', 'refiner', 'assembler', 'charcoalGenerator'] as const;
-    const unlocked = addUnlockedNodeShortcuts(bars, unlocks, ['kiln', 'smelter', 'refiner', 'assembler', 'basicElectricity']);
-    expect(unlocked.production.assignments).toEqual(['extractor', 'kiln', 'smelter', 'refiner', 'assembler', 'charcoalGenerator']);
+    const unlocks = ['kiln', 'smelter', 'refiner', 'assembler', 'treePlanter'] as const;
+    const unlocked = addUnlockedNodeShortcuts(bars, unlocks, ['kiln', 'smelter', 'refiner', 'assembler', 'treePlanter']);
+    expect(unlocked.production.assignments).toEqual(['extractor', 'kiln', 'smelter', 'refiner', 'assembler', 'treePlanter']);
   });
 
-  it('adds every node unlocked by the same research to its proper bar', () => {
+  it('removes deferred Power shortcuts even when an old save completed their research', () => {
     const unlocked = addUnlockedNodeShortcuts(freshBars(), ['charcoalGenerator', 'powerSplitter'], ['basicElectricity']);
-    expect(unlocked.production.assignments).toContain('charcoalGenerator');
-    expect(unlocked.logistics.assignments).toContain('powerSplitter');
+    expect(unlocked.production.assignments).not.toContain('charcoalGenerator');
+    expect(unlocked.logistics.assignments).not.toContain('powerSplitter');
+    const old = freshBars();
+    old.production.assignments[1] = 'charcoalGenerator';
+    old.logistics.assignments[1] = 'powerSplitter';
+    const reconciled = reconcileShortcutBars(old, ['basicElectricity']);
+    expect(reconciled.production.assignments[1]).toBeNull();
+    expect(reconciled.logistics.assignments[1]).toBeNull();
   });
 
   it('trims stale empty dynamic slots back to the five-slot baseline', () => {
     const bars = freshBars();
     bars.production.assignments.push(null, null);
     expect(reconcileShortcutBars(bars, []).production.assignments).toHaveLength(5);
+  });
+
+  it('moves a saved Cart to the next Logistics slot and hides its emptied old bar', () => {
+    const bars = freshBars();
+    bars.storage.visible = true; bars.storage.assignments[0] = 'chest';
+    bars.logistics.assignments = ['filter', 'splitter', 'merger', 'joint', 'road'];
+    const next = reconcileShortcutBars(bars, ['road', 'filter', 'splitter', 'merger', 'joint']);
+    expect(next.logistics.assignments.at(-1)).toBe('woodenChest');
+    expect(next.logistics.assignments).toHaveLength(6);
+    expect(next.storage.assignments.every(kind => kind === null)).toBe(true);
+    expect(next.storage.visible).toBe(false);
+    expect(bars.storage.assignments[0]).toBe('chest');
+  });
+
+  it('keeps a cleared Cart unassigned on reload and fills its normal slot only on a new unlock', () => {
+    const bars = freshBars();
+    bars.production.assignments[0] = null;
+    const cleared = reconcileShortcutBars(normalizeShortcutBars(bars), ['road']);
+    expect(cleared.production.assignments[0]).toBeNull();
+    expect(cleared.logistics.assignments).not.toContain('woodenChest');
+    const unlocked = addUnlockedNodeShortcuts(cleared, ['woodenChest'], ['road']);
+    expect(unlocked.logistics.assignments[1]).toBe('woodenChest');
+    expect(unlocked.storage.assignments).not.toContain('woodenChest');
+    expect(addUnlockedNodeShortcuts(unlocked, ['woodenChest'], ['road', 'trucks', 'trains'])).toBe(unlocked);
+  });
+
+  it('starts the third bar hidden and reveals it on its first real Storage unlock', () => {
+    const bars = freshBars();
+    expect(bars.storage.visible).toBe(false);
+    const withCart = addUnlockedNodeShortcuts(bars, ['woodenChest'], ['road']);
+    expect(withCart.storage.visible).toBe(false);
+    const withStorage = addUnlockedNodeShortcuts(withCart, ['storage'], ['road', 'autonomousLogistics']);
+    expect(withStorage.storage.visible).toBe(true);
+    expect(withStorage.storage.assignments[0]).toBe('storage');
   });
 });

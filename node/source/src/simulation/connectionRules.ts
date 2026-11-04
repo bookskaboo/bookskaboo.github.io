@@ -1,10 +1,13 @@
 import { getEffectiveNodeInputFamilies, getEffectiveNodeOutputFamilies, NODE_DEFINITIONS } from '../content/nodes';
-import { getNodeCapabilities, hasNodeBehavior, isWorldObstacle } from '../content/nodeCapabilities';
+import { getNodeCapabilities, hasNodeBehavior, isWorldObstacle, needsRecipeSelection } from '../content/nodeCapabilities';
 import { isProductionMachine } from '../content/productionNodes';
 import type { Connection, ItemId, MachineNode, PortFamily } from '../domain/types';
-import { getNodeSize, getPortAnchor } from '../domain/nodeGeometry';
-import { FILTERABLE_ITEMS } from '../content/items';
+import { getPortAnchor } from '../domain/nodeGeometry';
+import { segmentCrossesObstruction, type Point } from '../domain/obstructionGeometry';
+import { FILTERABLE_ITEMS, isFluidItem } from '../content/items';
+import { isCartKind } from '../content/cartUpgrades';
 import { CORE_ITEMS, WASTE_ITEMS, BOT_STRENGTH } from '../content/progression';
+import { modNode, modResearchAccepts } from '../mods/modRules';
 
 export type PortDirection = 'input' | 'output';
 export type PortSide = 'north' | 'east' | 'south' | 'west';
@@ -32,6 +35,8 @@ export const portFamilyAcceptsItem = (family: PortFamily, item: ItemId) => expan
 
 /** Checks the concrete item against the exact semantic input socket, independent of its visual row. */
 export function inputPortAcceptsItem(target: MachineNode, toPort: number, item: ItemId, completedResearch: readonly string[] = []) {
+  if (isCartKind(target.kind) && isFluidItem(item)) return false;
+  if (hasNodeBehavior(target.kind, 'research') && toPort === 0 && modResearchAccepts(item)) return true;
   const input = getEffectiveNodeInputFamilies(target, completedResearch)[toPort];
   return Boolean(input && portFamilyAcceptsItem(input, item));
 }
@@ -39,13 +44,16 @@ export function inputPortAcceptsItem(target: MachineNode, toPort: number, item: 
 export function portFamiliesCompatible(source: MachineNode, fromPort: number, target: MachineNode, toPort: number, completedResearch: readonly string[] = []) {
   const output = getEffectiveNodeOutputFamilies(source)[fromPort]; const input = getEffectiveNodeInputFamilies(target, completedResearch)[toPort];
   if (!output || !input) return false;
+  if (source.kind === 'devSource') return true;
+  if ((hasNodeBehavior(source.kind, 'resource') || source.infiniteResource) && !hasNodeBehavior(target.kind, 'extractor') && !getNodeCapabilities(target.kind).passThrough) return false;
   if (hasNodeBehavior(source.kind, 'inventory') && !hasNodeBehavior(target.kind, 'filter')) return false;
   if (source.kind === 'stoneDeposit' && hasNodeBehavior(target.kind, 'big-hole')) return false;
   if (hasNodeBehavior(source.kind, 'lake') && hasNodeBehavior(target.kind, 'extractor')) return false;
   if (source.kind === 'goblinTribute' && target.kind === 'extractor') return false;
+  if (hasNodeBehavior(target.kind, 'research') && toPort === 0 && expandPortFamily(output).some(modResearchAccepts)) return true;
   if (output === 'POWER' || input === 'POWER') return output === 'POWER' && (input === 'POWER' || getNodeCapabilities(target.kind).acceptsPowerRelay);
   if (output === 'forest-growth' || input === 'forest-growth') return output === input;
-  return expandPortFamily(output).some((item) => expandPortFamily(input).includes(item));
+  return expandPortFamily(output).some((item) => inputPortAcceptsItem(target, toPort, item, completedResearch));
 }
 
 export function isMultiConnectionPort(node: MachineNode, direction: PortDirection, _port: number) {
@@ -57,6 +65,7 @@ export function isMultiConnectionPort(node: MachineNode, direction: PortDirectio
 export interface ConnectionPlan { fromPort: number; toPort: number; replace: string[] }
 
 export function resolveExactConnectionPlan(source: MachineNode, fromPort: number, target: MachineNode, toPort: number, connections: readonly Connection[], completedResearch: readonly string[] = []): ConnectionPlan | undefined {
+  if (source.kind !== 'devSource' && (needsRecipeSelection(source) || needsRecipeSelection(target))) return undefined;
   if (source.id === target.id || source.disabled || target.disabled || !portFamiliesCompatible(source, fromPort, target, toPort, completedResearch)) return undefined;
   if (target.kind === 'merger') {
     const retainedType = connections.find((connection) => connection.to === target.id && connection.item)?.item;
@@ -68,16 +77,22 @@ export function resolveExactConnectionPlan(source: MachineNode, fromPort: number
     (!isMultiConnectionPort(source, 'output', fromPort) && connection.from === source.id && (connection.fromPort ?? 0) === fromPort) ||
     (!isMultiConnectionPort(target, 'input', toPort) && connection.to === target.id && (connection.toPort ?? 0) === toPort)
   ).map((connection) => connection.id);
+  const retained = connections.filter(connection => !replace.includes(connection.id));
+  const maxOutput = modNode(source.kind)?.maxOutputConnections;
+  const maxInput = modNode(target.kind)?.maxInputConnections;
+  if (maxOutput !== undefined && retained.filter(c => c.from === source.id).length >= maxOutput) return undefined;
+  if (maxInput !== undefined && retained.filter(c => c.to === target.id).length >= maxInput) return undefined;
   return { fromPort, toPort, replace };
 }
 
-export function resolveConnectionPlan(source: MachineNode, target: MachineNode, connections: readonly Connection[], completedResearch: readonly string[] = []): ConnectionPlan | undefined {
+export function resolveConnectionPlan(source: MachineNode, target: MachineNode, connections: readonly Connection[], completedResearch: readonly string[] = [], acceptsPlan?: (plan: ConnectionPlan) => boolean): ConnectionPlan | undefined {
+  if (source.kind !== 'devSource' && (needsRecipeSelection(source) || needsRecipeSelection(target))) return undefined;
   if (source.id === target.id || source.disabled || target.disabled) return undefined;
   const outputs = getEffectiveNodeOutputFamilies(source); const inputs = getEffectiveNodeInputFamilies(target, completedResearch);
   const plans: Array<ConnectionPlan & { cost: number }> = [];
   outputs.forEach((_output, fromPort) => inputs.forEach((_input, toPort) => {
     const plan = resolveExactConnectionPlan(source, fromPort, target, toPort, connections, completedResearch);
-    if (plan) plans.push({ ...plan, cost: plan.replace.length });
+    if (plan && (!acceptsPlan || acceptsPlan(plan))) plans.push({ ...plan, cost: plan.replace.length });
   }));
   plans.sort((a, b) => a.cost - b.cost || a.fromPort - b.fromPort || a.toPort - b.toPort);
   const selected = plans[0]; return selected ? { fromPort: selected.fromPort, toPort: selected.toPort, replace: selected.replace } : undefined;
@@ -95,7 +110,7 @@ export function getPortSide(node: MachineNode, direction: PortDirection, port: n
   if (node.kind === 'powerSplitter' && direction === 'output') return rotatedSide((['north', 'east', 'south'] as PortSide[])[port % 3], node.rotation);
   const mirrored = isProductionMachine(node) && node.connectorsMirrored;
   const base = (direction === 'output') !== Boolean(mirrored) ? 'east' : 'west';
-  return NODE_DEFINITIONS[node.kind].category === 'Logistics' ? rotatedSide(base, node.rotation) : base;
+  return NODE_DEFINITIONS[node.kind].category === 'Logistics' && !isCartKind(node.kind) ? rotatedSide(base, node.rotation) : base;
 }
 
 const vector = (side: PortSide) => side === 'north' ? { x: 0, y: -1 } : side === 'south' ? { x: 0, y: 1 } : side === 'west' ? { x: -1, y: 0 } : { x: 1, y: 0 };
@@ -114,10 +129,17 @@ export function connectionObstruction(source: MachineNode, target: MachineNode, 
   const start = { x: source.x + startAnchor.x, y: source.y + startAnchor.y }; const end = { x: target.x + endAnchor.x, y: target.y + endAnchor.y };
   const controls = getConnectionControlPoints(start, end, getPortSide(source, 'output', plan.fromPort), getPortSide(target, 'input', plan.toPort));
   const obstacles = nodes.filter((node) => node.id !== source.id && node.id !== target.id && isWorldObstacle(node.kind));
-  for (let index = 0; index <= 32; index++) {
-    const t = index / 32; const u = 1 - t; const point = { x: u ** 3 * start.x + 3 * u * u * t * controls.first.x + 3 * u * t * t * controls.second.x + t ** 3 * end.x, y: u ** 3 * start.y + 3 * u * u * t * controls.first.y + 3 * u * t * t * controls.second.y + t ** 3 * end.y };
-    const blocked = obstacles.find((obstacle) => { const size = getNodeSize(obstacle); const dx = (point.x - obstacle.x) / (size.w / 2 + 12); const dy = (point.y - obstacle.y) / (size.h / 2 + 12); return dx * dx + dy * dy <= 1; });
-    if (blocked) return blocked;
-  }
-  return undefined;
+  if (!obstacles.length) return undefined;
+  const midpoint = (a: Point, b: Point): Point => ({ x: (a.x + b.x) / 2, y: (a.y + b.y) / 2 });
+  // Flatten adaptively to a quarter world unit, then intersect entire segments.
+  // A small obstruction cannot fall between a fixed set of sample points.
+  const visit = (a: Point, first: Point, second: Point, b: Point, depth: number): MachineNode | undefined => {
+    const dx = b.x - a.x, dy = b.y - a.y, length = Math.hypot(dx, dy);
+    const deviation = length ? Math.max(Math.abs(dx * (first.y - a.y) - dy * (first.x - a.x)), Math.abs(dx * (second.y - a.y) - dy * (second.x - a.x))) / length : Math.max(Math.hypot(first.x - a.x, first.y - a.y), Math.hypot(second.x - a.x, second.y - a.y));
+    if (deviation <= .25 || depth >= 16) return obstacles.find(obstacle => segmentCrossesObstruction(a, b, obstacle));
+    const ab = midpoint(a, first), bc = midpoint(first, second), cd = midpoint(second, b);
+    const abc = midpoint(ab, bc), bcd = midpoint(bc, cd), center = midpoint(abc, bcd);
+    return visit(a, ab, abc, center, depth + 1) ?? visit(center, bcd, cd, b, depth + 1);
+  };
+  return visit(start, controls.first, controls.second, end, 0);
 }

@@ -1,5 +1,32 @@
 /* World-node map: this deliberately mirrors the original game's compact map rather than the active factory field. */
 .world-node-minimap { width:276px; min-width:230px; max-width:450px; overflow:visible; user-select:none; }
+.node-map-host { display:contents; }
+.node-map-host.node-map-expansion { display:grid; }
+.world-node-minimap.expanded { position:relative; inset:auto; width:min(960px,100%); max-width:960px; height:100%; max-height:100%; display:flex; flex-direction:column; overflow:hidden; }
+.world-node-minimap.expanded > header { min-height:56px; flex-shrink:0; padding:10px 14px; cursor:default; }
+.world-node-minimap.expanded .minimap-drag-handle { cursor:default; }
+.world-node-minimap.expanded .minimap-drag-handle span { font-size:16px; letter-spacing:1.5px; }
+.world-node-minimap.expanded .minimap-content { flex:1; min-height:0; height:auto; }
+.world-node-minimap.expanded .node-map-viewport { height:100%; min-height:0; aspect-ratio:auto; padding:12px; }
+.world-node-minimap.expanded .node-map-grid { min-width:0; margin-inline:auto; }
+.world-node-minimap.expanded .node-map-sector { display:grid; place-items:center; font-size:clamp(7px,1vw,10px); }
+.world-node-minimap.expanded .map-coordinates { text-align:center; }
+.world-node-minimap.expanded .map-coordinates b { margin:0; font-size:clamp(26px,3vw,36px); }
+.map-survey-list { margin:0; }
+.map-survey-list + .map-survey-list { margin-top:24px; }
+.map-survey-list h3 { margin:0 0 12px; color:#8798a5; font:700 11px monospace; letter-spacing:1.2px; }
+.map-survey-list ul { display:grid; gap:10px; margin:0; padding:0; list-style:none; }
+.map-survey-list li { display:grid; grid-template-columns:7px minmax(0,1fr) auto; align-items:center; gap:9px; color:#b5c1ca; font-size:12px; }
+.map-survey-list li i { width:7px; height:7px; border-radius:50%; }
+.map-survey-list li b { color:#e1e6e9; font:12px monospace; }
+.map-obstruction-list li { grid-template-columns:minmax(0,1fr) auto; }
+.world-node-minimap.expanded .map-unexplored { text-align:center; color:#acb8c1; font-size:14px; }
+.world-node-minimap.expanded .map-action-footer .map-points { font-size:12px; }
+.world-node-minimap.expanded .map-action-footer .map-points b { font-size:28px; }
+.world-node-minimap.expanded .map-primary-action { min-height:44px; font-size:12px; line-height:1.4; padding:8px; }
+@media (max-width:720px) {
+  .world-node-minimap.expanded .map-content { grid-template-columns:1fr; grid-template-rows:minmax(180px,1fr) minmax(170px,1fr); }
+}
 .world-node-minimap header { cursor:move; }
 .minimap-drag-handle { flex:1; min-width:0; padding:7px 9px; cursor:grab; touch-action:none; }
 .minimap-drag-handle:active { cursor:grabbing; }

@@ -1,9 +1,12 @@
 import { getNodeModule, type NodeIconId } from '../content/nodeModules';
 import type { NodeKind } from '../domain/types';
+import { modNode } from '../mods/modRules';
 
 interface Props { kind: NodeKind; className?: string; title?: string }
 
 export function NodeIcon({ kind, className = '', title }: Props) {
+  const custom = modNode(kind)?.icon;
+  if (custom) return <span className={`node-icon mod-node-glyph ${className}`} title={title} role={title ? 'img' : undefined} aria-label={title} aria-hidden={title ? undefined : true}>{custom}</span>;
   return <IconGlyph icon={getNodeModule(kind).appearance.icon} className={className} title={title} />;
 }
 

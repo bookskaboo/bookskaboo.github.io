@@ -1,0 +1,136 @@
+{
+  "status": "Implemented in gameplay",
+  "totalMaps": 121,
+  "affordableBaselineMaps": 61,
+  "explorationMapPoints": 1,
+  "baselineMapNodeCompletions": 59,
+  "fullWorldMapNodeCompletions": 119,
+  "phases": [
+    {
+      "highestCore": "simple-core",
+      "completions": 9,
+      "costsEach": [
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5
+      ]
+    },
+    {
+      "highestCore": "basic-core",
+      "completions": 10,
+      "costsEach": [
+        6,
+        6,
+        7,
+        7,
+        8,
+        8,
+        9,
+        9,
+        10,
+        10
+      ]
+    },
+    {
+      "highestCore": "automata-core",
+      "completions": 10,
+      "costsEach": [
+        11,
+        11,
+        12,
+        12,
+        13,
+        13,
+        14,
+        14,
+        15,
+        15
+      ]
+    },
+    {
+      "highestCore": "hydro-core",
+      "completions": 10,
+      "costsEach": [
+        16,
+        16,
+        17,
+        17,
+        18,
+        18,
+        19,
+        19,
+        20,
+        20
+      ]
+    },
+    {
+      "highestCore": "shiny-core",
+      "completions": 10,
+      "costsEach": [
+        21,
+        21,
+        22,
+        22,
+        23,
+        23,
+        24,
+        24,
+        25,
+        25
+      ]
+    },
+    {
+      "highestCore": "command-core",
+      "completions": 10,
+      "costsEach": [
+        26,
+        26,
+        27,
+        27,
+        28,
+        28,
+        29,
+        29,
+        30,
+        30
+      ]
+    }
+  ],
+  "halfWorld": {
+    "costs": {
+      "simple-core": 946,
+      "basic-core": 901,
+      "automata-core": 820,
+      "hydro-core": 690,
+      "shiny-core": 510,
+      "command-core": 280
+    },
+    "physicalCores": 4147,
+    "synchronizedSets": 946,
+    "labSecondsAtBase": 946,
+    "labSecondsAtRank6": 378.40000000000003
+  },
+  "fullWorld": {
+    "costs": {
+      "simple-core": 3136,
+      "basic-core": 3091,
+      "automata-core": 3010,
+      "hydro-core": 2880,
+      "shiny-core": 2700,
+      "command-core": 2470
+    },
+    "physicalCores": 17287,
+    "synchronizedSets": 3136,
+    "labSecondsAtBase": 3136,
+    "labSecondsAtRank6": 1254.4
+  },
+  "postBaselineScaling": "For extra map n from 1 to 60: 30 + ceil(n / 5) of each required core; final cost 42 each.",
+  "coreAccessRule": "Use the smaller of the scheduled core tier and highest unlocked core tier; add a new core requirement only after its recipe is unlocked. All earlier core types remain required.",
+  "limits": "Baseline counts unlocked maps, not productive maps or guaranteed corner access. Costs assume new core access by each scheduled phase. Lab times exclude production, transport, building and other research."
+}

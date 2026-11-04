@@ -1,8 +1,9 @@
 import { getNodeCapabilities } from '../content/nodeCapabilities';
 import { NODE_DEFINITIONS } from '../content/nodes';
+import { isCartKind } from '../content/cartUpgrades';
 import type { NodeKind } from '../domain/types';
 
-export const isStorageNode = (kind: NodeKind) => NODE_DEFINITIONS[kind].category === 'Storage' || getNodeCapabilities(kind).behavior === 'inventory';
+export const isStorageNode = (kind: NodeKind) => isCartKind(kind) || NODE_DEFINITIONS[kind].category === 'Storage' || getNodeCapabilities(kind).behavior === 'inventory';
 
 /** One square per slot for small buffers; larger stores use proportional squares. */
 export function bufferSlots(amount: number, capacity: number, maximumSquares = 40): number[] {

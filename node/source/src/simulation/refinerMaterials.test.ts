@@ -12,12 +12,12 @@ function setup(recipeId: string) {
   state.sectors['5,5'].nodes = [refiner];
   state.research.completed = ['refiner'];
   if (recipeId.startsWith('mythril-')) state.research.completed.push('mithrilTools');
-  state.research.unlocked.push('refiner');
+  state.research.unlocked.push('refiner', 'road');
   return new GameEngine(state, { autosave: false });
 }
 
 describe('explicit Refiner material recipes', () => {
-  it('hides Mythril recipes until an actual encounter and announces the new options once', () => {
+  it('hides Mythril recipes until first Dwarven Tribute production and announces the new options once', () => {
     const engine = setup('copper-gear');
     const state = engine.getState();
     const recipes = ['mythril-gear', 'mythril-wire', 'smelt-mythril'];
@@ -30,6 +30,8 @@ describe('explicit Refiner material recipes', () => {
     run(engine, 100);
     recipes.forEach(id => expect(isRecipeUnlocked(id, state.research.completed)).toBe(false));
     engine.switchSector(sector.id);
+    recipes.forEach(id => expect(isRecipeUnlocked(id, state.research.completed)).toBe(false));
+    state.dwarvenMythrilProduced = true; run(engine, 100);
     recipes.forEach(id => expect(isRecipeUnlocked(id, state.research.completed)).toBe(true));
     const announcements = state.researchLog!.filter(event => event.projectId === 'mithrilTools');
     expect(announcements).toHaveLength(1);
@@ -103,6 +105,7 @@ describe('explicit Refiner material recipes', () => {
     const engine = setup('mythril-wire');
     const state = engine.getState();
     state.research.completed = ['refiner'];
+    delete state.reviewedProductionVersion;
     state.encounters = [];
     state.sectors['5,5'].nodes[0].input = { 'mythril-plate': 3 };
     const restored = new GameEngine(normalizeLegacy(JSON.parse(JSON.stringify(state)))!, { autosave: false });

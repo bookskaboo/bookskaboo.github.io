@@ -4,31 +4,31 @@ import type { NodeCapabilities } from './nodeCapabilities';
 import type { NodeModule } from './nodeModules';
 export const LATE_ITEM_NAMES = {
   "coolant": "Coolant",
-  "conductive-slurry": "Copper–Carbon Dispersion",
-  "hydraulic-actuator": "Hydraulic Actuator",
-  "ceramic-electrode": "Ceramic Electrode",
+  "conductive-slurry": "Copper Slurry",
+  "hydraulic-actuator": "Hydro Piston",
+  "ceramic-electrode": "Circuit B",
   "hydro-core": "Hydro Core",
-  "refined-mithril": "Refined Mythril",
+  "refined-mithril": "Pure Mythril",
   "slag": "Slag",
   "mithril-mesh": "Mythril Mesh",
   "shiny-core": "Shiny Core",
-  "precision-controller": "Precision Controller",
+  "precision-controller": "Controller",
   "metallic-fines": "Metallic Fines",
   "glassy-crust": "Glassy Crust",
-  "advanced-actuator": "Advanced Actuator",
+  "advanced-actuator": "Servo Piston",
   "spent-flux": "Spent Flux",
-  "logic-substrate": "Logic Substrate",
-  "command-core": "Command Core",
+  "logic-substrate": "Circuit C",
+  "command-core": "Complex Core",
   "sealed-frame": "Sealed Frame",
   "cooled-gun": "Cooled Gun",
-  "medium-suppression-bot": "Medium Suppression Bot",
+  "medium-suppression-bot": "Medium Bot",
   "mithril-frame": "Mythril Frame",
   "focused-gun": "Focused Gun",
-  "heavy-suppression-bot": "Heavy Suppression Bot",
+  "heavy-suppression-bot": "Heavy Bot",
   "servo-frame": "Servo Frame",
   "pulse-cannon": "Pulse Cannon",
-  "command-suppression-bot": "Command Suppression Bot",
-  "mineral-aggregate": "Mineral Aggregate",
+  "command-suppression-bot": "Command Bot",
+  "mineral-aggregate": "Aggregate",
   "metal-residue": "Metal Residue"
 };
 export const LATE_ITEM_COLORS = {
@@ -76,7 +76,7 @@ export const LATE_RECIPES = {
   },
   "conductive-slurry": {
     "id": "conductive-slurry",
-    "name": "Copper–Carbon Dispersion",
+    "name": "Copper Slurry",
     "inputs": {
       "water": 2,
       "copper-wire": 1,
@@ -90,7 +90,7 @@ export const LATE_RECIPES = {
   },
   "hydraulic-actuator": {
     "id": "hydraulic-actuator",
-    "name": "Hydraulic Actuator",
+    "name": "Hydro Piston",
     "inputs": {
       "iron-gear": 1,
       "motor": 1,
@@ -118,15 +118,14 @@ export const LATE_RECIPES = {
   },
   "refined-mithril": {
     "id": "refined-mithril",
-    "name": "Refined Mythril",
+    "name": "Pure Mythril",
     "inputs": {
       "mythril-plate": 1,
       "iron-plate": 4,
       "charcoal": 1
     },
     "outputs": {
-      "refined-mithril": 2,
-      "slag": 2
+      "refined-mithril": 2
     },
     "cycleMs": 12000,
     "unlockResearch": "mithrilTools"
@@ -147,33 +146,22 @@ export const LATE_RECIPES = {
   },
   "precision-controller": {
     "id": "precision-controller",
-    "name": "Precision Controller",
+    "name": "Controller",
     "inputs": {
       "circuit-a": 2,
       "mythril-gear": 1,
       "conductive-slurry": 2
     },
     "outputs": {
-      "precision-controller": 1
+      "precision-controller": 1,
+      "metallic-fines": 1
     },
     "cycleMs": 30000,
-    "chanceOutputs": [
-      {
-        "item": "metallic-fines",
-        "amount": 1,
-        "probability": 0.65
-      },
-      {
-        "item": "glassy-crust",
-        "amount": 1,
-        "probability": 0.08
-      }
-    ],
     "unlockResearch": "precisionControl"
   },
   "advanced-actuator": {
     "id": "advanced-actuator",
-    "name": "Advanced Actuator",
+    "name": "Servo Piston",
     "inputs": {
       "hydraulic-actuator": 1,
       "mithril-mesh": 1,
@@ -183,23 +171,11 @@ export const LATE_RECIPES = {
       "advanced-actuator": 1
     },
     "cycleMs": 30000,
-    "chanceOutputs": [
-      {
-        "item": "spent-flux",
-        "amount": 2,
-        "probability": 0.35
-      },
-      {
-        "item": "glassy-crust",
-        "amount": 1,
-        "probability": 0.05
-      }
-    ],
     "unlockResearch": "precisionControl"
   },
   "command-core": {
     "id": "command-core",
-    "name": "Command Core",
+    "name": "Complex Core",
     "inputs": {
       "logic-substrate": 1,
       "precision-controller": 1,
@@ -213,7 +189,7 @@ export const LATE_RECIPES = {
   },
   "ceramic-electrode": {
     "id": "ceramic-electrode",
-    "name": "Ceramic Electrode",
+    "name": "Circuit B",
     "inputs": {
       "brick": 1,
       "copper-wire": 1,
@@ -241,7 +217,7 @@ export const LATE_RECIPES = {
   },
   "logic-substrate": {
     "id": "logic-substrate",
-    "name": "Logic Substrate",
+    "name": "Circuit C",
     "inputs": {
       "circuit-a": 2,
       "ceramic-electrode": 1,
@@ -283,7 +259,7 @@ export const LATE_RECIPES = {
   },
   "medium-suppression-bot": {
     "id": "medium-suppression-bot",
-    "name": "Medium Suppression Bot",
+    "name": "Medium Bot",
     "inputs": {
       "sealed-frame": 1,
       "cooled-gun": 1,
@@ -325,7 +301,7 @@ export const LATE_RECIPES = {
   },
   "heavy-suppression-bot": {
     "id": "heavy-suppression-bot",
-    "name": "Heavy Suppression Bot",
+    "name": "Heavy Bot",
     "inputs": {
       "mithril-frame": 1,
       "focused-gun": 1,
@@ -367,7 +343,7 @@ export const LATE_RECIPES = {
   },
   "command-suppression-bot": {
     "id": "command-suppression-bot",
-    "name": "Command Suppression Bot",
+    "name": "Command Bot",
     "inputs": {
       "servo-frame": 1,
       "pulse-cannon": 1,
@@ -463,15 +439,161 @@ export const LATE_RECIPES = {
     "cycleMs": 6000,
     "unlockResearch": "mineralRecovery",
     "recovery": true
+  },
+  "recover-fines": {
+    "id": "recover-fines",
+    "name": "Fines Recovery",
+    "inputs": {
+      "metallic-fines": 4,
+      "water": 1
+    },
+    "outputs": {
+      "iron-plate": 1
+    },
+    "cycleMs": 10000,
+    "unlockResearch": "precisionControl",
+    "recovery": true
+  },
+  "recover-flux": {
+    "id": "recover-flux",
+    "name": "Flux Recovery",
+    "inputs": {
+      "spent-flux": 4,
+      "water": 1
+    },
+    "outputs": {
+      "coolant": 1
+    },
+    "cycleMs": 10000,
+    "unlockResearch": "efficientHigherIntermediates",
+    "recovery": true
+  },
+  "recover-crust": {
+    "id": "recover-crust",
+    "name": "Crust Recovery",
+    "inputs": {
+      "glassy-crust": 4,
+      "water": 1
+    },
+    "outputs": {
+      "copper-plate": 1
+    },
+    "cycleMs": 10000,
+    "unlockResearch": "efficientHigherIntermediates",
+    "recovery": true
+  },
+  "recover-slag": {
+    "id": "recover-slag",
+    "name": "Slag Recovery",
+    "inputs": {
+      "slag": 4,
+      "water": 1
+    },
+    "outputs": {
+      "brick": 1
+    },
+    "cycleMs": 10000,
+    "unlockResearch": "efficientHigherIntermediates",
+    "recovery": true
+  },
+  "efficient-circuit-a": {
+    "id": "efficient-circuit-a",
+    "name": "Efficient Circuit A",
+    "inputs": {
+      "copper-plate": 2,
+      "iron-plate": 1
+    },
+    "outputs": {
+      "circuit-a": 1,
+      "metallic-fines": 1
+    },
+    "cycleMs": 4500,
+    "unlockResearch": "efficientIntermediates"
+  },
+  "efficient-motor": {
+    "id": "efficient-motor",
+    "name": "Efficient Motor",
+    "inputs": {
+      "iron-plate": 2,
+      "copper-plate": 2
+    },
+    "outputs": {
+      "motor": 1,
+      "metallic-fines": 1
+    },
+    "cycleMs": 6000,
+    "unlockResearch": "efficientIntermediates"
+  },
+  "efficient-bot-frame": {
+    "id": "efficient-bot-frame",
+    "name": "Efficient Bot Frame",
+    "inputs": {
+      "iron-plate": 1,
+      "motor": 1
+    },
+    "outputs": {
+      "simple-robot-frame": 1,
+      "metallic-fines": 1
+    },
+    "cycleMs": 6000,
+    "unlockResearch": "efficientIntermediates"
+  },
+  "efficient-hydro-piston": {
+    "id": "efficient-hydro-piston",
+    "name": "Efficient Hydro Piston",
+    "inputs": {
+      "iron-plate": 1,
+      "motor": 1,
+      "coolant": 1
+    },
+    "outputs": {
+      "hydraulic-actuator": 1,
+      "spent-flux": 2,
+      "metallic-fines": 1
+    },
+    "cycleMs": 9000,
+    "unlockResearch": "efficientHigherIntermediates"
+  },
+  "efficient-mythril-mesh": {
+    "id": "efficient-mythril-mesh",
+    "name": "Efficient Mythril Mesh",
+    "inputs": {
+      "refined-mithril": 1,
+      "copper-plate": 2,
+      "coolant": 1
+    },
+    "outputs": {
+      "mithril-mesh": 1,
+      "glassy-crust": 2,
+      "spent-flux": 1
+    },
+    "cycleMs": 16000,
+    "unlockResearch": "efficientHigherIntermediates"
+  },
+  "efficient-circuit-c": {
+    "id": "efficient-circuit-c",
+    "name": "Efficient Circuit C",
+    "inputs": {
+      "circuit-a": 1,
+      "ceramic-electrode": 1,
+      "mythril-wire": 1
+    },
+    "outputs": {
+      "logic-substrate": 1,
+      "slag": 2,
+      "glassy-crust": 1
+    },
+    "cycleMs": 27000,
+    "unlockResearch": "efficientHigherIntermediates"
   }
 } satisfies Record<string,Recipe>;
 export const LATE_GROUPS: Partial<Record<NodeKind,string[]>> = {
   "hydroProcessor": [
     "coolant",
     "conductive-slurry",
-    "slagwashing",
-    "finessettling",
-    "fluxstabilization"
+    "recover-fines",
+    "recover-flux",
+    "recover-slag"
   ],
   "advancedAssembler": [
     "motor",
@@ -493,16 +615,19 @@ export const LATE_GROUPS: Partial<Record<NodeKind,string[]>> = {
     "heavy-suppression-bot",
     "servo-frame",
     "pulse-cannon",
-    "command-suppression-bot"
+    "command-suppression-bot",
+    "efficient-circuit-a",
+    "efficient-motor",
+    "efficient-bot-frame",
+    "efficient-hydro-piston",
+    "efficient-mythril-mesh",
+    "efficient-circuit-c"
   ],
   "separationFurnace": [
     "refined-mithril",
-    "crustmilling",
-    "recoverediron"
+    "recover-crust"
   ],
-  "refiner": [
-    "recoveredbrick"
-  ]
+  "refiner": []
 };
 export const LATE_RESEARCH = [
   {
@@ -525,45 +650,42 @@ export const LATE_RESEARCH = [
     "id": "mithrilTools",
     "name": "Mythril Refining",
     "category": "Discovery",
-    "description": "Encounter mythril in a visited map.",
+    "description": "A Dwarven settlement must produce its first Mythril Tribute.",
     "unlock": "Unlocks Mythril Refining.",
     "costs": {},
     "trigger": {
-      "id": "encounter",
-      "kinds": [
-        "mythril"
-      ],
-      "pending": "Visit a map containing the landmark",
-      "complete": "Landmark encountered"
+      "id": "dwarven-mythril-produced",
+      "pending": "Produce Mythril Tribute at a Dwarven settlement",
+      "complete": "First Dwarven Mythril Tribute produced"
     }
   },
   {
     "id": "fabricatorTools",
     "name": "Advanced Fabrication",
     "category": "Fabrication",
-    "description": "Develop advanced assembly using Simple and Basic Cores.",
-    "unlock": "Unlocks the Advanced Assembler node.",
+    "description": "Develop advanced assembly using Simple, Basic, and Automata Cores.",
+    "unlock": "Unlocks the Assembler II node.",
     "costs": {
       "simple-core": 2,
-      "basic-core": 2
+      "basic-core": 2,
+      "automata-core": 2
     },
-    "prerequisite": "assembler"
+    "prerequisite": "assembler",
+    "prerequisites": [
+      "automataCore"
+    ]
   },
   {
     "id": "sortingTools",
     "name": "Waste Handling",
     "category": "Discovery",
-    "description": "Discover Mythril processing or encounter a Derelict Sorting Station.",
-    "unlock": "Unlocks Waste Handling.",
+    "description": "Basic waste handling is included with Precision Control.",
+    "unlock": "Unlocks waste buffering, routing and direct Fines recovery.",
     "costs": {},
     "trigger": {
-      "id": "encounter",
-      "kinds": [
-        "sortingStation",
-        "mythril"
-      ],
-      "pending": "Visit a map containing the landmark",
-      "complete": "Landmark encountered"
+      "id": "precision-control",
+      "pending": "Complete Precision Control",
+      "complete": "Precision Control completed"
     }
   },
   {
@@ -650,16 +772,13 @@ export const LATE_RESEARCH = [
     "id": "mineralRecovery",
     "name": "Mineral Recovery",
     "category": "Discovery",
-    "description": "Discover Mythril processing to unlock recovery of its Slag.",
-    "unlock": "Unlocks Slag washing, Recovered Brick and Recovered Iron. Slag washing needs local Water.",
+    "description": "Basic waste handling is included with Precision Control.",
+    "unlock": "Unlocks waste buffering, routing and direct Fines recovery.",
     "costs": {},
     "trigger": {
-      "id": "encounter",
-      "kinds": [
-        "mythril"
-      ],
-      "pending": "Discover Mythril processing",
-      "complete": "Mythril processing discovered"
+      "id": "precision-control",
+      "pending": "Complete Precision Control",
+      "complete": "Precision Control completed"
     }
   },
   {
@@ -702,7 +821,7 @@ export const LATE_RESEARCH = [
     "name": "Precision Control",
     "category": "Progression",
     "description": "Develop Precision Control using synchronized core sets.",
-    "unlock": "Unlocks Precision Control recipes and systems.",
+    "unlock": "Unlocks Complex production, Waste Bin, Waste Link, sorting and direct Fines-to-Iron recovery.",
     "costs": {
       "simple-core": 2,
       "basic-core": 2,
@@ -711,8 +830,7 @@ export const LATE_RESEARCH = [
       "shiny-core": 2
     },
     "prerequisites": [
-      "oreSeparation",
-      "mineralRecovery"
+      "oreSeparation"
     ]
   },
   {
@@ -730,7 +848,8 @@ export const LATE_RESEARCH = [
       "command-core": 2
     },
     "prerequisites": [
-      "precisionControl"
+      "precisionControl",
+      "finalCoreProduction"
     ]
   },
   {
@@ -803,7 +922,6 @@ export const LATE_RESEARCH = [
       "command-core": 2
     },
     "prerequisites": [
-      "autonomousLogistics",
       "commandRobotics",
       "mineralRegeneration",
       "precisionControl"
@@ -826,10 +944,10 @@ export const LATE_RESEARCH = [
   },
   {
     "id": "hydroProcessor1",
-    "name": "Hydro Processor 1",
+    "name": "Hydro Plant 1",
     "category": "Efficiency",
-    "description": "Hydro Processor cycles use 90% of base time; ingredient quantities and yields stay unchanged.",
-    "unlock": "Hydro Processor cycles use 90% of base time; ingredient quantities and yields stay unchanged.",
+    "description": "Hydro Plant cycles use 90% of base time; ingredient quantities and yields stay unchanged.",
+    "unlock": "Hydro Plant cycles use 90% of base time; ingredient quantities and yields stay unchanged.",
     "costs": {
       "simple-core": 20,
       "basic-core": 20,
@@ -841,10 +959,10 @@ export const LATE_RESEARCH = [
   },
   {
     "id": "advancedAssembler1",
-    "name": "Advanced Assembler 1",
+    "name": "Assembler II 1",
     "category": "Efficiency",
-    "description": "Advanced Assembler cycles use 90% of base time.",
-    "unlock": "Advanced Assembler cycles use 90% of base time.",
+    "description": "Assembler II cycles use 90% of base time.",
+    "unlock": "Assembler II cycles use 90% of base time.",
     "costs": {
       "simple-core": 25,
       "basic-core": 25,
@@ -858,8 +976,8 @@ export const LATE_RESEARCH = [
     "id": "powerDistribution",
     "name": "Power Distribution",
     "category": "Progression",
-    "description": "Dedicated Power Conduits carry 25 existing power units per second, without single-unit cable particles or a change in generation yield.",
-    "unlock": "Dedicated Power Conduits carry 25 existing power units per second, without single-unit cable particles or a change in generation yield.",
+    "description": "Dedicated Power Lines carry 25 existing power units per second, without single-unit cable particles or a change in generation yield.",
+    "unlock": "Dedicated Power Lines carry 25 existing power units per second, without single-unit cable particles or a change in generation yield.",
     "costs": {
       "simple-core": 2,
       "basic-core": 2,
@@ -908,8 +1026,8 @@ export const LATE_RESEARCH = [
     "id": "mineralRecovery1",
     "name": "Mineral Recovery 1",
     "category": "Efficiency",
-    "description": "Slag washing and recovered Brick/Iron recipes take 10% less time after any applicable family modifier; no extra material recovery.",
-    "unlock": "Slag washing and recovered Brick/Iron recipes take 10% less time after any applicable family modifier; no extra material recovery.",
+    "description": "Direct waste recovery recipes take 10% less time after machine efficiency; quantities stay unchanged.",
+    "unlock": "Direct waste recovery recipes take 10% less time after machine efficiency; quantities stay unchanged.",
     "costs": {
       "simple-core": 55,
       "basic-core": 55,
@@ -942,8 +1060,8 @@ export const LATE_RESEARCH = [
     "id": "roadChannels1",
     "name": "Road Channels 1",
     "category": "Logistics",
-    "description": "Allows two one-way Road channels per direction. Each carries one item every five seconds; fluids cannot use roads.",
-    "unlock": "Allows two one-way Road channels per direction. Each carries one item every five seconds; fluids cannot use roads.",
+    "description": "Adds a second Road slot to every map face. Sending and receiving endpoints share the two-slot limit. Each Road carries one item every five seconds.",
+    "unlock": "Allows two Roads per map face, counting sending and receiving endpoints together.",
     "costs": {
       "simple-core": 2,
       "basic-core": 2,
@@ -952,15 +1070,15 @@ export const LATE_RESEARCH = [
     },
     "prerequisites": [
       "road",
-      "oreSeparation"
+      "hydraulicAssembly"
     ]
   },
   {
     "id": "hydroProcessor2",
-    "name": "Hydro Processor 2",
+    "name": "Hydro Plant 2",
     "category": "Efficiency",
-    "description": "Hydro Processor cycles use 80% of base time, replacing the 90% factor.",
-    "unlock": "Hydro Processor cycles use 80% of base time, replacing the 90% factor.",
+    "description": "Hydro Plant cycles use 80% of base time, replacing the 90% factor.",
+    "unlock": "Hydro Plant cycles use 80% of base time, replacing the 90% factor.",
     "costs": {
       "simple-core": 100,
       "basic-core": 100,
@@ -975,10 +1093,10 @@ export const LATE_RESEARCH = [
   },
   {
     "id": "advancedAssembler2",
-    "name": "Advanced Assembler 2",
+    "name": "Assembler II 2",
     "category": "Efficiency",
-    "description": "Advanced Assembler cycles use 80% of base time, replacing the 90% factor.",
-    "unlock": "Advanced Assembler cycles use 80% of base time, replacing the 90% factor.",
+    "description": "Assembler II cycles use 80% of base time, replacing the 90% factor.",
+    "unlock": "Assembler II cycles use 80% of base time, replacing the 90% factor.",
     "costs": {
       "simple-core": 100,
       "basic-core": 100,
@@ -1047,8 +1165,8 @@ export const LATE_RESEARCH = [
     "id": "roadChannels2",
     "name": "Road Channels 2",
     "category": "Logistics",
-    "description": "Allows four one-way Road channels per direction. Each carries one item every five seconds; fluids cannot use roads.",
-    "unlock": "Allows four one-way Road channels per direction. Each carries one item every five seconds; fluids cannot use roads.",
+    "description": "Adds a third Road slot to every map face. Sending and receiving endpoints share the three-slot limit. Each Road carries one item every five seconds.",
+    "unlock": "Allows three Roads per map face, counting sending and receiving endpoints together.",
     "costs": {
       "simple-core": 130,
       "basic-core": 130,
@@ -1058,7 +1176,7 @@ export const LATE_RESEARCH = [
     },
     "prerequisites": [
       "roadChannels1",
-      "precisionControl"
+      "oreSeparation"
     ]
   },
   {
@@ -1160,13 +1278,81 @@ export const LATE_RESEARCH = [
     ],
     "repeatable": true,
     "costGrowth": 1.5
+  },
+  {
+    "id": "efficientIntermediates",
+    "name": "Efficient Intermediates",
+    "category": "Efficiency",
+    "description": "Unlocks efficient Circuit A, Motor and Bot Frame recipes. Products and waste share one output; use Filters.",
+    "unlock": "Unlocks efficient Circuit A, Motor and Bot Frame recipes. Products and waste share one output; use Filters.",
+    "costs": {
+      "simple-core": 50,
+      "basic-core": 50,
+      "automata-core": 50,
+      "hydro-core": 50,
+      "shiny-core": 50,
+      "command-core": 50
+    },
+    "prerequisites": [
+      "precisionControl"
+    ]
+  },
+  {
+    "id": "efficientHigherIntermediates",
+    "name": "Efficient Higher Intermediates",
+    "category": "Efficiency",
+    "description": "Unlocks efficient Hydro Piston, Mythril Mesh and Circuit C, plus direct Flux, Crust and Slag recovery.",
+    "unlock": "Unlocks efficient Hydro Piston, Mythril Mesh and Circuit C, plus direct Flux, Crust and Slag recovery.",
+    "costs": {
+      "simple-core": 100,
+      "basic-core": 100,
+      "automata-core": 100,
+      "hydro-core": 100,
+      "shiny-core": 100,
+      "command-core": 100
+    },
+    "prerequisites": [
+      "precisionControl"
+    ]
+  },
+  {
+    "id": "planterThroughput",
+    "name": "Industrial Forestry",
+    "category": "Efficiency",
+    "description": "Tree Planters produce ten times faster and send up to ten funded growth units per local shipment.",
+    "unlock": "Tree Planters produce ten times faster and send up to ten funded growth units per local shipment.",
+    "costs": {
+      "simple-core": 100,
+      "basic-core": 100,
+      "automata-core": 100,
+      "hydro-core": 100,
+      "shiny-core": 100,
+      "command-core": 100
+    },
+    "prerequisites": [
+      "precisionControl",
+      "treePlanter"
+    ]
+  },
+  {
+    "id": "finalCoreProduction",
+    "name": "Final Core Production",
+    "category": "Discovery",
+    "description": "Produce the first Final Core to make global transport research available. The Final Core route is still under development.",
+    "unlock": "Makes Autonomous Logistics research available.",
+    "costs": {},
+    "trigger": {
+      "id": "final-core-produced",
+      "pending": "Produce the first Final Core",
+      "complete": "First Final Core produced"
+    }
   }
 ] satisfies ResearchProject[];
 export const LATE_NODES = {
   "lakeIntake": {
     "kind": "lakeIntake",
     "name": "Lake Intake",
-    "category": "Extraction",
+    "category": "Production",
     "input": [
       "water"
     ],
@@ -1181,7 +1367,7 @@ export const LATE_NODES = {
   },
   "hydroProcessor": {
     "kind": "hydroProcessor",
-    "name": "Hydro Processor",
+    "name": "Hydro Plant",
     "category": "Production",
     "input": [
       "ANY",
@@ -1192,7 +1378,7 @@ export const LATE_NODES = {
       "ANY",
       "ANY"
     ],
-    "description": "Processes Water and solids into Coolant, Copper–Carbon Dispersion and recovered materials. Choose a recipe.",
+    "description": "Processes Water and solids into Coolant, Copper Slurry and recovered materials. Choose a recipe.",
     "accent": 7716801,
     "accentCss": "#75bfc1",
     "icon": "◆",
@@ -1201,7 +1387,7 @@ export const LATE_NODES = {
   },
   "advancedAssembler": {
     "kind": "advancedAssembler",
-    "name": "Advanced Assembler",
+    "name": "Assembler II",
     "category": "Production",
     "input": [
       "ANY",
@@ -1209,8 +1395,7 @@ export const LATE_NODES = {
       "ANY"
     ],
     "output": [
-      "ANY",
-      "WASTE"
+      "ANY"
     ],
     "description": "Builds advanced intermediates, independent research cores and stronger bots. Tier-6 recipes may also produce waste.",
     "accent": 7716801,
@@ -1221,7 +1406,7 @@ export const LATE_NODES = {
   },
   "separationFurnace": {
     "kind": "separationFurnace",
-    "name": "Separation Furnace",
+    "name": "Separator",
     "category": "Production",
     "input": [
       "ANY",
@@ -1229,10 +1414,9 @@ export const LATE_NODES = {
       "ANY"
     ],
     "output": [
-      "ANY",
-      "WASTE"
+      "ANY"
     ],
-    "description": "Refines Mythril with Charcoal and Coolant, producing guaranteed Slag alongside metal. Also runs recovery recipes.",
+    "description": "Produces Pure Mythril without waste, and recovers Copper Plates from Glassy Crust after higher alternative research.",
     "accent": 7716801,
     "accentCss": "#75bfc1",
     "icon": "◆",
@@ -1249,15 +1433,15 @@ export const LATE_NODES = {
     "output": [
       "WASTE"
     ],
-    "description": "Buffers up to 200 Slag to keep Mythril separation running.",
+    "description": "Buffers up to 200 Slag from researched Complex alternatives.",
     "accent": 7716801,
     "accentCss": "#75bfc1",
     "icon": "◆",
-    "unlockResearch": "mithrilTools"
+    "unlockResearch": "sortingTools"
   },
   "wasteHopper": {
     "kind": "wasteHopper",
-    "name": "Waste Hopper",
+    "name": "Waste Bin",
     "category": "Storage",
     "input": [
       "WASTE"
@@ -1273,7 +1457,7 @@ export const LATE_NODES = {
   },
   "fluidStorage": {
     "kind": "fluidStorage",
-    "name": "Fluid Storage",
+    "name": "Fluid Tank",
     "category": "Storage",
     "input": [
       "FLUID"
@@ -1341,7 +1525,7 @@ export const LATE_NODES = {
   },
   "wasteLink": {
     "kind": "wasteLink",
-    "name": "Waste Batch Link",
+    "name": "Waste Link",
     "category": "Logistics",
     "input": [
       "WASTE"
@@ -1358,7 +1542,7 @@ export const LATE_NODES = {
   },
   "powerConduit": {
     "kind": "powerConduit",
-    "name": "Power Conduit",
+    "name": "Power Line",
     "category": "Power",
     "input": [
       "POWER"
@@ -1389,11 +1573,11 @@ export const LATE_NODES = {
   },
   "abandonedFabricator": {
     "kind": "abandonedFabricator",
-    "name": "Abandoned Fabricator",
+    "name": "Fabricator",
     "category": "World",
     "input": [],
     "output": [],
-    "description": "Visit this map to discover Advanced Assemblers and familiar fabrication recipes.",
+    "description": "Visit this map to discover Assembler IIs and familiar fabrication recipes.",
     "accent": 7716801,
     "accentCss": "#75bfc1",
     "icon": "◆",
@@ -1401,7 +1585,7 @@ export const LATE_NODES = {
   },
   "sortingStation": {
     "kind": "sortingStation",
-    "name": "Derelict Sorting Station",
+    "name": "Sorting Ruin",
     "category": "World",
     "input": [],
     "output": [],
@@ -1727,7 +1911,7 @@ export const LATE_MODULES = {
   "resourceGolem": {
     "appearance": {
       "icon": "camp",
-      "shape": "camp"
+      "shape": "golem"
     },
     "controls": {
       "deletable": false,
@@ -1737,6 +1921,6 @@ export const LATE_MODULES = {
     }
   }
 } satisfies Partial<Record<NodeKind,NodeModule>>;
-export const CORE_ITEMS: ItemId[] = ['simple-core','basic-core','automata-core','hydro-core','shiny-core','command-core'];
+export const CORE_ITEMS: ItemId[] = ['simple-core','basic-core','automata-core','hydro-core','shiny-core','command-core','final-core'];
 export const WASTE_ITEMS: ItemId[] = ['slag','metallic-fines','spent-flux','glassy-crust'];
 export const BOT_STRENGTH: Partial<Record<ItemId,number>> = {'suppression-bot':1,'medium-suppression-bot':3,'heavy-suppression-bot':8,'command-suppression-bot':20};

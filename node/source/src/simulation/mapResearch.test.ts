@@ -15,7 +15,7 @@ function setup(completions = 0, unlocked = access) {
   const lab: MachineNode = { id: 'lab', kind: 'researchCenter', name: 'Research Center', x: 1000, y: 1000, rotation: 0, input: {}, output: {}, cycleMs: 1000, progressMs: 0, constructedAt: 0, constructionMs: 0 };
   state.sectors['5,5'].nodes = [lab];
   state.sectors['5,5'].connections = [];
-  return new GameEngine(state);
+  return new GameEngine(state, { autosave: false });
 }
 
 describe('half-world Map Node research', () => {
@@ -45,12 +45,12 @@ describe('half-world Map Node research', () => {
     const quote = getResearchCostsForState(project, engine.getState().research);
     engine.getState().research.completed.push('oreSeparation');
     engine.selectResearch('mapNode');
-    engine = new GameEngine(normalizeLegacy(JSON.parse(JSON.stringify(engine.getState())))!);
+    engine = new GameEngine(normalizeLegacy(JSON.parse(JSON.stringify(engine.getState())))!, { autosave: false });
     expect(getResearchCostsForState(project, engine.getState().research)).toEqual(quote);
     expect(outstandingResearchCores(engine.getState().research)).toEqual(cores.slice(0, 4));
     engine.getState().research.contributed = Object.fromEntries(cores.slice(0, 4).map(core => [core, 20]));
     engine.getSector().nodes[0].input = Object.fromEntries(cores.slice(0, 4).map(core => [core, 1]));
-    engine.tick(1000);
+    for (let cycleStep = 0; cycleStep < 5; cycleStep++) engine.tick(1000);
     expect(engine.getState().research.repeatableCompletions!.mapNode).toBe(40);
     expect(engine.getState().research.mapPoints).toBe(1);
     expect(engine.getState().research.mapNodeQuote).toBeUndefined();
@@ -77,7 +77,7 @@ describe('half-world Map Node research', () => {
     state.sectors['5,5'].nodes[0].input = { 'simple-core': 1, 'basic-core': 1 };
     const loaded = new GameEngine(normalizeLegacy(JSON.parse(JSON.stringify(state)))!);
     expect(getResearchCostsForState(project, loaded.getState().research)).toEqual({ 'simple-core': 10, 'basic-core': 10 });
-    loaded.tick(1000);
+    for (let cycleStep = 0; cycleStep < 5; cycleStep++) loaded.tick(1000);
     expect(loaded.getState().research.repeatableCompletions?.mapNode).toBe(10);
     loaded.selectResearch('mapNode');
     expect(getResearchCostsForState(project, loaded.getState().research)).toEqual({ 'simple-core': 6, 'basic-core': 6 });
@@ -102,7 +102,7 @@ describe('half-world Map Node research', () => {
       const costs = getResearchCostsForState(project, engine.getState().research);
       engine.getState().research.contributed = Object.fromEntries(Object.entries(costs).map(([core, n]) => [core, n! - 1]));
       engine.getSector().nodes[0].input = Object.fromEntries(Object.keys(costs).map(core => [core, 1]));
-      engine.tick(1000);
+      for (let cycleStep = 0; cycleStep < 5; cycleStep++) engine.tick(1000);
     }
     expect(engine.getState().research.mapPoints).toBe(120);
     expect(remainingMapNodePurchases(engine.getState())).toBe(0);

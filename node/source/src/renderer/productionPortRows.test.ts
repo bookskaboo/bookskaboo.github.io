@@ -31,14 +31,12 @@ describe('production material rows', () => {
     expect(productionPortRow(node, 'output', 0)).toMatchObject({ name: 'Simple Core', amount: 0 });
   });
   it('includes Extractors while keeping storage, logistics, research and resource nodes separate', () => {
-    for (const kind of ['extractor', 'kiln', 'smelter', 'refiner', 'assembler', 'advancedAssembler', 'hydroProcessor', 'separationFurnace'] as const) expect(isProductionMachine(tutorialNode(kind, kind, 0, 0))).toBe(true);
+    for (const kind of ['extractor', 'lakeIntake', 'kiln', 'smelter', 'refiner', 'assembler', 'advancedAssembler', 'hydroProcessor', 'separationFurnace'] as const) expect(isProductionMachine(tutorialNode(kind, kind, 0, 0))).toBe(true);
     for (const kind of ['woodenChest', 'joint', 'researchCenter', 'forest'] as const) expect(isProductionMachine(tutorialNode(kind, kind, 0, 0))).toBe(false);
   });
-  it('keeps waste stock separate from the product at its existing output socket', () => {
-    const node = tutorialNode('advancedAssembler', 'advanced', 0, 0, { recipeId: 'precision-controller', output: { 'precision-controller': 1, 'metallic-fines': 2, 'glassy-crust': 1 } });
-    expect(productionPortRow(node, 'output', 0)).toMatchObject({ name: 'Precision Controller', amount: 1 });
-    expect(productionPortRow(node, 'output', 1)).toMatchObject({ name: 'Waste', amount: 3 });
-    expect(getPortAnchor(node, 'output', 0).y).not.toBe(getPortAnchor(node, 'output', 1).y);
+  it('shows product and waste together at one mixed socket', () => {
+    const node = tutorialNode('advancedAssembler', 'advanced', 0, 0, { recipeId: 'precision-controller', output: { 'precision-controller': 1, 'metallic-fines': 2 } });
+    expect(productionPortRow(node, 'output', 0)).toMatchObject({ name: 'Mixed output', amount: 3 });
   });
   it('shows an Extractor’s connected reserve through a Joint separately from its stored output', () => {
     const forest = tutorialNode('forest', 'forest', 0, 0, { resourceItem: 'wood', resourceRemaining: 700, resourceCapacity: 1000 });

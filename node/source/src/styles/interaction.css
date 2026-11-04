@@ -1,5 +1,10 @@
 /* Contain focus scrolling within the open panel, keeping factory coordinates fixed. */
 .game-shell { position:fixed; inset:0; overflow:clip; }
+.selected-nodes-actions { position:absolute; z-index:18; border:1px solid #e0b85c80; border-radius:7px; box-shadow:0 0 0 1px #17191d66,0 0 12px #e0b85c14; pointer-events:none; }
+.selection-delete-button { position:absolute; display:flex; align-items:center; justify-content:center; gap:5px; min-width:44px; height:32px; padding:5px 7px; transform:translate(-50%,-50%); border:1px solid #b8666e; border-radius:7px; color:#ffabb1; background:#40252beF; box-shadow:0 3px 10px #0008; font:700 11px monospace; cursor:pointer; pointer-events:auto; }
+.selection-delete-button:hover { color:#ffe0e3; border-color:#ff9ca6; background:#66313b; }
+.selection-delete-button:focus-visible { outline:2px solid #ffd1d6; outline-offset:2px; }
+.selection-delete-button:disabled { border-color:#74777c40; color:#777b81; background:#25272b; cursor:not-allowed; }
 .modal-backdrop { position:fixed; overscroll-behavior:contain; }
 .modal,.build-list,.research-grid,.save-list,.inspector { overscroll-behavior:contain; }
 .build-modal { display:flex; flex-direction:column; }
@@ -23,6 +28,10 @@
 .tutorial-heading small { color: #e4c773; font-size: 10px; letter-spacing: 1px; }
 .tutorial-heading button { font-size: 11px; color: #bcc5cb; padding: 4px; }
 .tutorial-callout h2 { font-size: 20px; margin: 16px 0 10px; }
+.tutorial-road-route { display:grid; grid-template-columns:minmax(0,1fr) auto minmax(0,1fr); align-items:center; gap:8px; margin:12px 0; padding:10px 8px; border:1px solid #c6976755; border-radius:6px; background:#c697670c; }
+.tutorial-road-route small { display:block; color:#9cabb5; font:8px monospace; line-height:1.5; }
+.tutorial-road-route b { display:block; margin-top:4px; color:#e4be94; font-size:11px; white-space:nowrap; }
+.tutorial-road-route > span { color:#c69767; }
 .tutorial-callout p { font-size: 13px; line-height: 1.65; color: #c2ccd3; }
 .tutorial-callout strong { display: block; border-left: 3px solid #e1c678; padding: 10px; background: #d5b66610; color: #f0dca2; font-size: 13px; line-height: 1.5; }
 .tutorial-guide-actions { display: flex; justify-content: space-between; gap: 12px; margin-top: 16px; }

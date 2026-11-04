@@ -37,7 +37,7 @@
 .node-icon { display: block; width: 1.35em; height: 1.35em; margin: auto; overflow: visible; }
 .build-card > i .node-icon,.node-hero > i .node-icon { width: 23px; height: 23px; }
 .shortcut-slots .shortcut-slot > button > i .node-icon { width: 16px; height: 16px; }
-.shortcut-assignment-menu > button > i .node-icon { width: 19px; height: 19px; }
+.shortcut-assignment-choices > button > i .node-icon { width: 19px; height: 19px; }
 .research-intro { background: linear-gradient(160deg, rgba(213,182,102,.055), transparent 48%); }
 .orb { border-color: rgba(213,182,102,.42); color: #e5c36b; box-shadow: inset 0 0 25px rgba(213,182,102,.08), 0 0 30px rgba(213,182,102,.05); }
 .research-card { min-height: 190px; background: linear-gradient(145deg, #292e31, #202427); }

@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>NODE — Searchable change history</title>
+  <style>
+    :root { color-scheme: dark; font: 16px/1.55 system-ui, sans-serif; background: #171b20; color: #e7e9ec; }
+    * { box-sizing: border-box; }
+    body { margin: 0; }
+    main { max-width: 1120px; margin: auto; padding: 28px 24px 60px; }
+    h1 { font-size: clamp(1.5rem, 4vw, 2rem); line-height: 1.25; margin: 4px 0 10px; }
+    h2 { font-size: 1.1rem; margin-top: 0; }
+    p { margin: 8px 0 16px; }
+    a { color: #b4d8ef; text-underline-offset: 3px; }
+    a:hover { color: #fff; }
+    .eyebrow { color: #d1b36e; font-size: .78rem; letter-spacing: .12em; text-transform: uppercase; font-weight: 700; }
+    .muted, .meta { color: #b3bdc7; }
+    .intro { max-width: 80ch; }
+    form { padding: 20px; border: 1px solid #46505b; border-radius: 12px; background: #242b33; margin: 24px 0 16px; }
+    label { display: flex; flex-direction: column; gap: 5px; font-size: .82rem; font-weight: 600; min-width: 0; }
+    input, select, button { font: inherit; color: inherit; border: 1px solid #67737f; border-radius: 6px; background: #171d24; padding: 9px 10px; min-height: 42px; width: 100%; }
+    input:focus-visible, select:focus-visible, button:focus-visible, summary:focus-visible, a:focus-visible { outline: 3px solid #d1b36e; outline-offset: 3px; }
+    button { cursor: pointer; width: auto; background: #334150; }
+    button:hover { background: #425265; }
+    .filters { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-top: 14px; }
+    .dates { display: flex; align-items: end; gap: 12px; margin-top: 14px; }
+    .dates label { flex: 1; max-width: 220px; }
+    .toolbar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; margin: 18px 0; }
+    .toolbar p { margin: 0; }
+    .toolbar button { font-size: .85rem; padding: 5px 10px; min-height: 36px; }
+    .entry { background: #252c34; border: 1px solid #424d58; border-radius: 10px; padding: 16px 20px; margin: 12px 0; scroll-margin-top: 16px; overflow-wrap: anywhere; }
+    .entry[data-state="superseded"], .entry[data-state="historical"] { border-style: dashed; }
+    .entry summary { cursor: pointer; font-weight: 650; line-height: 1.4; }
+    .entry summary span { margin-left: 7px; }
+    .id { font: .76rem ui-monospace, monospace; color: #d1b36e; }
+    .meta { font-size: .77rem; margin: 10px 0 8px; }
+    .summary { margin: 0; font-size: .95rem; }
+    .topics { margin-top: 12px; display: flex; flex-wrap: wrap; gap: 6px; }
+    .topics button { font-size: .72rem; border-color: #53616e; padding: 3px 8px; min-height: 28px; background: #1b2229; }
+    .detail { border-top: 1px solid #46505b; margin-top: 16px; padding-top: 12px; font-size: .87rem; }
+    .detail ul { padding-left: 22px; }
+    .detail li { margin-bottom: 6px; }
+    .detail p { margin-bottom: 10px; }
+    .notice { padding: 14px 18px; background: #282923; border-left: 3px solid #d1b36e; font-size: .87rem; }
+    .reference { border-top: 1px solid #46505b; padding-top: 22px; margin-top: 32px; font-size: .88rem; }
+    .reference > summary { cursor: pointer; font-weight: 700; }
+    code { font: .85em ui-monospace, monospace; }
+    [hidden] { display: none !important; }
+    @media (max-width: 740px) { .filters { grid-template-columns: repeat(2, minmax(0, 1fr)); } main { padding: 20px 14px 40px; } form { padding: 14px; } .entry { padding: 14px; } }
+    @media (max-width: 420px) { .dates { flex-wrap: wrap; } .dates label { min-width: 40%; } .dates button { width: 100%; } }
+    @media print { form, .toolbar button, .topics { display: none; } :root { color-scheme: light; background: white; color: black; } .entry { break-inside: avoid; background: white; } }
+  </style>
+</head>
+<body>
+<main>
+  <header>
+    <div class="eyebrow">NODE: Another Factory Game</div>
+    <h1>Change history</h1>
+    <p class="intro muted">Search what changed, why it changed, and what replaced it. Records distinguish published work, local changes, and decisions. Earlier details were reconstructed where evidence was available.</p>
+    <p><a href="../../CHANGELOG.md">Readable changelog</a> · <a href="README.md">Maintenance guide</a> · <a href="sources.md">Sources and coverage</a></p>
+  </header>
+  <div id="boundary" class="notice"></div>
+  <form id="filters" role="search">
+    <label for="query">Search titles, details, topics, files, sources, or NODE IDs
+      <input id="query" name="query" type="search" placeholder="Try: grid snap, connector mirroring, recipe, pause…" autocomplete="off">
+    </label>
+    <div class="filters">
+      <label>Topic<select name="topic" aria-label="Topic"><option value="">All topics</option></select></label>
+      <label>Change type<select name="kind" aria-label="Change type"><option value="">All types</option></select></label>
+      <label>Record state<select name="state" aria-label="Record state"><option value="">All states</option></select></label>
+      <label>Publication<select name="delivery" aria-label="Publication"><option value="">All publication states</option></select></label>
+    </div>
+    <div class="dates">
+      <label>From<input name="from" type="date"></label>
+      <label>Through<input name="to" type="date"></label>
+      <button type="reset">Clear filters</button>
+    </div>
+  </form>
+  <div class="toolbar">
+    <p id="count" role="status" aria-live="polite" aria-atomic="true"></p>
+    <div><button type="button" id="expand">Expand results</button> <button type="button" id="collapse">Collapse results</button></div>
+  </div>
+  <div id="results"></div>
+  <p id="empty" hidden>No records match these filters. Clear a filter or try a shorter search.</p>
+  <noscript>The interactive filters need JavaScript. <a href="../../CHANGELOG.md">Read the Markdown changelog instead.</a></noscript>
+  <details class="reference"><summary>Dates, historical changes, and coverage limits</summary><div id="coverage"></div></details>
+  <details class="reference"><summary>Publication history</summary><ul id="releases"></ul></details>
+  <details class="reference"><summary>Source chats and documents</summary><div id="sources"></div></details>
+</main>
+<script>
+/* SEARCH_FUNCTION */
+const data = /* HISTORY_DATA */;
+const escapeHtml = (value) => String(value).replace(/[&<>"']/g, (c) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]);
+const label = (value) => value.replaceAll('-', ' ').replace(/^./, (c) => c.toUpperCase());
+const form = document.querySelector('#filters');
+const results = document.querySelector('#results');
+const sourceMap = new Map(data.sources.map((source) => [source.id, source]));
+const byId = new Map(data.entries.map((entry) => [entry.id, entry]));
+const fileLink = (path) => `<a href="../../${escapeHtml(path)}">${escapeHtml(path)}</a>`;
+const dateText = (entry) => entry.dateBasis === 'known-by' ? `Known by ${entry.date}` : entry.dateBasis === 'backfill' ? `Backfilled ${entry.date}; original date uncertain` : entry.date;
+const deliveryText = (entry) => entry.delivery === 'published' ? `Published by ${entry.publishedBy}` : label(entry.delivery);
+const entryLink = (entry) => `<a href="#${entry.id}">${entry.id}</a>`;
+for (const [name, values] of Object.entries({topic: [...new Set(data.entries.flatMap((entry) => entry.topics))].sort(), kind: [...new Set(data.entries.map((entry) => entry.kind))].sort(), state: [...new Set(data.entries.map((entry) => entry.state))].sort(), delivery: [...new Set(data.entries.map((entry) => entry.delivery))].sort()})) {
+  form.elements[name].insertAdjacentHTML('beforeend', values.map((value) => `<option value="${escapeHtml(value)}">${escapeHtml(name === 'topic' ? value : label(value))}</option>`).join(''));
+}
+const params = new URLSearchParams(location.search);
+for (const [key, value] of params) if (form.elements[key]) form.elements[key].value = value;
+document.querySelector('#boundary').textContent = `${data.entries.length} records. Latest confirmed publication: ${data.releases[0].id} (${data.releases[0].date}). Later local changes are labeled separately. Backfill: ${data.backfilledOn}; dates use ${data.timezone}.`;
+document.querySelector('#coverage').innerHTML = `<p>${escapeHtml(data.coverage.summary)}</p><p>Known-by dates are upper bounds, not exact change dates. Superseded records remain searchable. Stable IDs identify records; their numeric order is not a development timeline.</p><ul>${data.coverage.gaps.map((gap) => `<li>${escapeHtml(gap)}</li>`).join('')}</ul>`;
+document.querySelector('#releases').innerHTML = data.releases.map((release) => `<li>${escapeHtml(release.date)} — <a href="${escapeHtml(release.url)}">${escapeHtml(release.id)}: ${escapeHtml(release.title)}</a>${release.notes ? `<p>${escapeHtml(release.notes)}</p>` : ''}</li>`).join('');
+document.querySelector('#sources').innerHTML = data.sources.map((source) => `<p id="source-${escapeHtml(source.id)}"><strong>${escapeHtml(source.title)}</strong><br>${escapeHtml(source.notes ?? '')}${source.chatId ? `<br>Chat ID: <code>${escapeHtml(source.chatId)}</code>` : ''}${source.path ? `<br>${fileLink(source.path)}` : ''}${source.url ? `<br><a href="${escapeHtml(source.url)}">Open source</a>` : ''}</p>`).join('');
+
+function render() {
+  const filters = Object.fromEntries(new FormData(form));
+  const matches = searchEntries(data, filters).sort((a, b) => b.date.localeCompare(a.date) || b.id.localeCompare(a.id));
+  document.querySelector('#count').textContent = `${matches.length} of ${data.entries.length} records`;
+  document.querySelector('#empty').hidden = matches.length !== 0;
+  results.innerHTML = matches.map((entry) => {
+    const later = data.entries.filter((item) => item.supersedes?.includes(entry.id));
+    const details = (entry.details ?? []).map((detail) => `<li>${escapeHtml(detail)}</li>`).join('');
+    return `<article class="entry" id="${entry.id}" data-state="${entry.state}">
+      <details><summary><span class="id">${entry.id}</span><span>${escapeHtml(entry.title)}</span></summary>
+        <div class="detail">${details ? `<ul>${details}</ul>` : ''}
+        ${entry.supersedes?.length ? `<p><strong>Supersedes:</strong> ${entry.supersedes.map((id) => entryLink(byId.get(id))).join(', ')}</p>` : ''}
+        ${later.length ? `<p><strong>Replaced by:</strong> ${later.map(entryLink).join(', ')}</p>` : ''}
+        ${entry.validation ? `<p><strong>Verification:</strong> ${escapeHtml(entry.validation)}</p>` : ''}
+        ${entry.evidence?.length ? `<p><strong>Files:</strong> ${entry.evidence.map(fileLink).join(', ')}</p>` : ''}
+        <p><strong>Sources:</strong> ${entry.sources.map((id) => `<a href="sources.md#${escapeHtml(id)}">${escapeHtml(sourceMap.get(id).title)}</a>`).join('; ')}</p>
+        <p><a href="#${entry.id}">Link to this record</a></p></div>
+      </details>
+      <p class="meta">${escapeHtml(dateText(entry))} · ${label(entry.kind)} · ${label(entry.state)} · ${deliveryText(entry)}</p>
+      <p class="summary">${escapeHtml(entry.summary)}</p>
+      <div class="topics">${entry.topics.map((topic) => `<button type="button" data-topic="${escapeHtml(topic)}">${escapeHtml(topic)}</button>`).join('')}</div>
+    </article>`;
+  }).join('');
+}
+form.addEventListener('submit', (event) => event.preventDefault());
+form.addEventListener('input', render);
+form.addEventListener('reset', () => setTimeout(render, 0));
+results.addEventListener('click', (event) => {
+  const button = event.target.closest('button[data-topic]');
+  if (button) { form.elements.topic.value = button.dataset.topic; render(); }
+});
+document.querySelector('#expand').addEventListener('click', () => results.querySelectorAll('details').forEach((detail) => { detail.open = true; }));
+document.querySelector('#collapse').addEventListener('click', () => results.querySelectorAll('details').forEach((detail) => { detail.open = false; }));
+function revealHash() {
+  const id = location.hash.slice(1);
+  if (!byId.has(id)) return;
+  let target = document.getElementById(id);
+  if (!target) {
+    for (const element of form.elements) if (element.name) element.value = '';
+    form.elements.query.value = id;
+    render();
+    target = document.getElementById(id);
+  }
+  target.querySelector('details').open = true;
+  target.scrollIntoView({block: 'start'});
+}
+window.addEventListener('hashchange', revealHash);
+render();
+revealHash();
+</script>
+</body>
+</html>

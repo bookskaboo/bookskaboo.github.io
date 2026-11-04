@@ -81,10 +81,14 @@
 .shortcut-bars-layer[data-docked="true"] .shortcut-bar-controls,
 .shortcut-bars-layer[data-docked="true"] .shortcut-drag-handle,
 .shortcut-bars-layer[data-docked="true"] .shortcut-resize-handle { display: none; }
+.shortcut-bars-layer[data-docked="true"] .shortcut-drag-handle { display:grid; position:absolute; left:9px; top:8px; width:20px; height:20px; align-self:auto; border:0; grid-template-columns:repeat(2,3px); }
+.shortcut-bars-layer[data-docked="true"] .shortcut-group-release { display:flex; }
+.shortcut-bars-layer[data-docked="true"] .shortcut-bar-name { padding-left:26px; }
 .shortcut-bars-layer[data-docked="true"] .shortcut-slots { flex-direction: row; min-width: 0; margin: -3px; padding: 3px; overflow-x: auto; scrollbar-width: thin; scrollbar-color: #8c7952 #20252a; }
 .shortcut-bars-layer[data-stacked="true"] { grid-template-columns: 1fr; gap: 4px; }
 .shortcut-bars-layer[data-stacked="true"] .node-shortcut-bar { flex-direction: row; align-items: center; height: 45px; padding: 4px 9px; gap: 8px; }
 .shortcut-bars-layer[data-stacked="true"] .shortcut-bar-name { flex: 0 0 66px; font-size: 9px; }
+.shortcut-bars-layer[data-stacked="true"] .shortcut-bar-name { flex-basis:92px; }
 .tutorial-callout { top: var(--hud-clear); right: var(--hud-gap); bottom: auto; width: var(--tutorial-width); max-height: calc(100dvh - var(--hud-clear) - var(--hud-bottom)); padding: clamp(16px, 1.5vw, 25px); }
 .tutorial-callout h2 { font-size: clamp(19px, 1.5vw, 26px); }
 .tutorial-callout p, .tutorial-callout strong { font-size: clamp(13px, .85vw, 15px); }

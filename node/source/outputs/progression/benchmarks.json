@@ -1,0 +1,1677 @@
+{
+  "checkedOn": "2026-10-30",
+  "status": "Comparative design reference and rate sensitivity, not a calibrated human-play simulation",
+  "scope": "Factorio base-game normal-quality, default research costs; excludes Space Age progression, modules and productivity. Satisfactory default recipes at 100% clock and default delivery costs. Sources are a dated snapshot, not pinned release data.",
+  "sources": {
+    "factorioTech": "https://raw.githubusercontent.com/wube/factorio-data/master/base/prototypes/technology.lua",
+    "factorioRecipes": "https://raw.githubusercontent.com/wube/factorio-data/master/base/prototypes/recipe.lua",
+    "factorioScience": "https://wiki.factorio.com/Science_pack",
+    "factorioLab": "https://wiki.factorio.com/Lab_research_speed_(research)",
+    "factorioTime": "https://wiki.factorio.com/Time",
+    "milestones": "https://satisfactory.wiki.gg/wiki/Milestones",
+    "mam": "https://satisfactory.wiki.gg/wiki/MAM",
+    "hub": "https://satisfactory.wiki.gg/wiki/HUB",
+    "frames": "https://satisfactory.wiki.gg/wiki/Modular_Frame",
+    "rotors": "https://satisfactory.wiki.gg/wiki/Rotor",
+    "plating": "https://satisfactory.wiki.gg/wiki/Smart_Plating",
+    "heavyFrame": "https://satisfactory.wiki.gg/wiki/Heavy_Modular_Frame",
+    "oilWaste": "https://satisfactory.wiki.gg/wiki/Heavy_Oil_Residue",
+    "aluminum": "https://satisfactory.wiki.gg/wiki/Alumina_Solution"
+  },
+  "factorio": [
+    {
+      "name": "Automation",
+      "sets": 10,
+      "packs": [
+        "automation"
+      ],
+      "secondsPerUnit": 10,
+      "physicalItems": 10,
+      "unmodifiedTenLabSeconds": 10,
+      "at30SetsPerMinuteSeconds": 20,
+      "source": "https://raw.githubusercontent.com/wube/factorio-data/master/base/prototypes/technology.lua"
+    },
+    {
+      "name": "Logistic science unlock",
+      "sets": 75,
+      "packs": [
+        "automation"
+      ],
+      "secondsPerUnit": 5,
+      "physicalItems": 75,
+      "unmodifiedTenLabSeconds": 37.5,
+      "at30SetsPerMinuteSeconds": 150,
+      "source": "https://raw.githubusercontent.com/wube/factorio-data/master/base/prototypes/technology.lua"
+    },
+    {
+      "name": "Chemical science unlock",
+      "sets": 75,
+      "packs": [
+        "automation",
+        "logistic"
+      ],
+      "secondsPerUnit": 10,
+      "physicalItems": 150,
+      "unmodifiedTenLabSeconds": 75,
+      "at30SetsPerMinuteSeconds": 150,
+      "source": "https://raw.githubusercontent.com/wube/factorio-data/master/base/prototypes/technology.lua"
+    },
+    {
+      "name": "Production science unlock",
+      "sets": 100,
+      "packs": [
+        "automation",
+        "logistic",
+        "chemical"
+      ],
+      "secondsPerUnit": 30,
+      "physicalItems": 300,
+      "unmodifiedTenLabSeconds": 300,
+      "at30SetsPerMinuteSeconds": 300,
+      "source": "https://raw.githubusercontent.com/wube/factorio-data/master/base/prototypes/technology.lua"
+    },
+    {
+      "name": "Utility science unlock",
+      "sets": 100,
+      "packs": [
+        "automation",
+        "logistic",
+        "chemical"
+      ],
+      "secondsPerUnit": 30,
+      "physicalItems": 300,
+      "unmodifiedTenLabSeconds": 300,
+      "at30SetsPerMinuteSeconds": 300,
+      "source": "https://raw.githubusercontent.com/wube/factorio-data/master/base/prototypes/technology.lua"
+    },
+    {
+      "name": "Lab speed 1",
+      "sets": 100,
+      "packs": [
+        "automation",
+        "logistic"
+      ],
+      "secondsPerUnit": 30,
+      "physicalItems": 200,
+      "unmodifiedTenLabSeconds": 300,
+      "at30SetsPerMinuteSeconds": 300,
+      "source": "https://wiki.factorio.com/Lab_research_speed_(research)"
+    },
+    {
+      "name": "Lab speed 2",
+      "sets": 200,
+      "packs": [
+        "automation",
+        "logistic"
+      ],
+      "secondsPerUnit": 30,
+      "physicalItems": 400,
+      "unmodifiedTenLabSeconds": 600,
+      "at30SetsPerMinuteSeconds": 600,
+      "source": "https://wiki.factorio.com/Lab_research_speed_(research)"
+    },
+    {
+      "name": "Lab speed 3",
+      "sets": 250,
+      "packs": [
+        "automation",
+        "logistic",
+        "chemical"
+      ],
+      "secondsPerUnit": 30,
+      "physicalItems": 750,
+      "unmodifiedTenLabSeconds": 750,
+      "at30SetsPerMinuteSeconds": 750,
+      "source": "https://wiki.factorio.com/Lab_research_speed_(research)"
+    },
+    {
+      "name": "Lab speed 4",
+      "sets": 500,
+      "packs": [
+        "automation",
+        "logistic",
+        "chemical"
+      ],
+      "secondsPerUnit": 30,
+      "physicalItems": 1500,
+      "unmodifiedTenLabSeconds": 1500,
+      "at30SetsPerMinuteSeconds": 1500,
+      "source": "https://wiki.factorio.com/Lab_research_speed_(research)"
+    }
+  ],
+  "factorioRecipes": [
+    {
+      "name": "Automation science",
+      "inputs": "1 Copper Plate + 1 Iron Gear Wheel",
+      "output": 1,
+      "seconds": 5,
+      "speedOneFinalMachinePerMinute": 12,
+      "source": "https://raw.githubusercontent.com/wube/factorio-data/master/base/prototypes/recipe.lua"
+    },
+    {
+      "name": "Logistic science",
+      "inputs": "1 Inserter + 1 Transport Belt",
+      "output": 1,
+      "seconds": 6,
+      "speedOneFinalMachinePerMinute": 10,
+      "source": "https://raw.githubusercontent.com/wube/factorio-data/master/base/prototypes/recipe.lua"
+    },
+    {
+      "name": "Chemical science",
+      "inputs": "2 Engine Units + 3 Advanced Circuits + 1 Sulfur",
+      "output": 2,
+      "seconds": 24,
+      "speedOneFinalMachinePerMinute": 5,
+      "source": "https://raw.githubusercontent.com/wube/factorio-data/master/base/prototypes/recipe.lua"
+    },
+    {
+      "name": "Production science",
+      "inputs": "30 Rails + 1 Electric Furnace + 1 Productivity Module",
+      "output": 3,
+      "seconds": 21,
+      "speedOneFinalMachinePerMinute": 8.571428571428571,
+      "source": "https://raw.githubusercontent.com/wube/factorio-data/master/base/prototypes/recipe.lua"
+    }
+  ],
+  "satisfactory": [
+    {
+      "name": "Coal Power",
+      "tier": 3,
+      "inputs": "150 Reinforced Iron Plates + 50 Rotors + 500 Cable",
+      "cooldownMinutes": 8,
+      "source": "https://satisfactory.wiki.gg/wiki/Milestones"
+    },
+    {
+      "name": "Basic Steel Production",
+      "tier": 3,
+      "inputs": "50 Modular Frames + 150 Rotors + 500 Concrete + 1,000 Wire",
+      "cooldownMinutes": 8,
+      "source": "https://satisfactory.wiki.gg/wiki/Milestones"
+    },
+    {
+      "name": "FICSIT Blueprints",
+      "tier": 4,
+      "inputs": "100 Modular Frames + 200 Steel Beams + 500 Cable + 1,000 Concrete",
+      "cooldownMinutes": 5,
+      "source": "https://satisfactory.wiki.gg/wiki/Milestones"
+    },
+    {
+      "name": "Oil Processing",
+      "tier": 5,
+      "inputs": "50 Motors + 100 Encased Industrial Beams + 500 Steel Pipes + 500 Copper Sheets",
+      "cooldownMinutes": 10,
+      "source": "https://satisfactory.wiki.gg/wiki/Milestones"
+    }
+  ],
+  "satisfactoryRecipes": [
+    {
+      "name": "Modular Frame",
+      "inputs": "3 Reinforced Iron Plates + 12 Iron Rods",
+      "output": 2,
+      "seconds": 60,
+      "source": "https://satisfactory.wiki.gg/wiki/Modular_Frame",
+      "at100PercentPerMinute": 2
+    },
+    {
+      "name": "Rotor",
+      "inputs": "5 Iron Rods + 25 Screws",
+      "output": 1,
+      "seconds": 15,
+      "source": "https://satisfactory.wiki.gg/wiki/Rotor",
+      "at100PercentPerMinute": 4
+    },
+    {
+      "name": "Smart Plating",
+      "inputs": "1 Reinforced Iron Plate + 1 Rotor",
+      "output": 1,
+      "seconds": 30,
+      "source": "https://satisfactory.wiki.gg/wiki/Smart_Plating",
+      "at100PercentPerMinute": 2
+    },
+    {
+      "name": "Heavy Modular Frame",
+      "inputs": "5 Modular Frames + 20 Steel Pipes + 5 Encased Industrial Beams + 120 Screws",
+      "output": 1,
+      "seconds": 30,
+      "source": "https://satisfactory.wiki.gg/wiki/Heavy_Modular_Frame",
+      "at100PercentPerMinute": 2
+    }
+  ],
+  "workedExamples": {
+    "steelDeliveryFinalStageLowerBoundMinutes": 37.5,
+    "smartPlatingPhaseOneFinalStageMinutes": 25,
+    "caveat": "All final machines run concurrently with infinite upstream supply. These are production bounds, not player progression times; no extra milestone cooldown is added to unlock availability."
+  },
+  "modelRefinement": {
+    "timing": "Use required remaining sets / bottleneck delivered sets per second, bounded by lab capacity. With ready buffer B, supply bound is max(0,Q-B)/R; research still takes Q lab ticks. Do not add overlapping production and lab time.",
+    "wait": "Forced wait = max(0, unlock completion time - time useful work runs out), with prerequisites and queue occupation included in the full event model.",
+    "designRule": "Budget the complete mandatory unlock path, not each cheap project in isolation. Let upgrade work run on established lower-tier supply; avoid mandatory optional-upgrade gates.",
+    "queue": "Capability research should be available to select when needed. In a single-lab game, queued optional upgrades can delay unlocks unless switching preserves contributions. Automatic priority is a proposal, not implemented here.",
+    "timingTargets": "Use 2/5/10 minute useful-work windows as sensitivity inputs only. Set final limits using earliest reasonable readiness in playtests.",
+    "newMechanics": "Introduce one primary unfamiliar logistics rule at a time, then combine familiar rules. This is a proposed design heuristic, not a measured rule from either reference game."
+  },
+  "latency": [
+    {
+      "name": "Hydrochemistry",
+      "tier": 3,
+      "pricingClass": "unlock",
+      "sets": 1,
+      "labOnlySeconds": 0.9,
+      "atOneSetPerMinuteSeconds": 60,
+      "atFiveSetsPerMinuteSeconds": 12,
+      "steadyLeanSeconds": 80,
+      "minSetRatesForWindows": [
+        {
+          "minutes": 2,
+          "setsPerMinute": 0.5
+        },
+        {
+          "minutes": 5,
+          "setsPerMinute": 0.2
+        },
+        {
+          "minutes": 10,
+          "setsPerMinute": 0.1
+        }
+      ],
+      "assumptions": "Empty buffer; all required streams at equal sustained delivered rate. Excludes startup, switching and transport latency. Lean uses unupgraded production, hypothetical lab rate uses earned upgrades."
+    },
+    {
+      "name": "Hydraulic Assembly",
+      "tier": 3,
+      "pricingClass": "unlock",
+      "sets": 2,
+      "labOnlySeconds": 1.8,
+      "atOneSetPerMinuteSeconds": 120,
+      "atFiveSetsPerMinuteSeconds": 24,
+      "steadyLeanSeconds": 160,
+      "minSetRatesForWindows": [
+        {
+          "minutes": 2,
+          "setsPerMinute": 1
+        },
+        {
+          "minutes": 5,
+          "setsPerMinute": 0.4
+        },
+        {
+          "minutes": 10,
+          "setsPerMinute": 0.2
+        }
+      ],
+      "assumptions": "Empty buffer; all required streams at equal sustained delivered rate. Excludes startup, switching and transport latency. Lean uses unupgraded production, hypothetical lab rate uses earned upgrades."
+    },
+    {
+      "name": "Fluid Routing",
+      "tier": 4,
+      "pricingClass": "unlock",
+      "sets": 2,
+      "labOnlySeconds": 1.8,
+      "atOneSetPerMinuteSeconds": 120,
+      "atFiveSetsPerMinuteSeconds": 24,
+      "steadyLeanSeconds": 310,
+      "minSetRatesForWindows": [
+        {
+          "minutes": 2,
+          "setsPerMinute": 1
+        },
+        {
+          "minutes": 5,
+          "setsPerMinute": 0.4
+        },
+        {
+          "minutes": 10,
+          "setsPerMinute": 0.2
+        }
+      ],
+      "assumptions": "Empty buffer; all required streams at equal sustained delivered rate. Excludes startup, switching and transport latency. Lean uses unupgraded production, hypothetical lab rate uses earned upgrades."
+    },
+    {
+      "name": "Sealed Robotics",
+      "tier": 4,
+      "pricingClass": "unlock",
+      "sets": 2,
+      "labOnlySeconds": 1.8,
+      "atOneSetPerMinuteSeconds": 120,
+      "atFiveSetsPerMinuteSeconds": 24,
+      "steadyLeanSeconds": 310,
+      "minSetRatesForWindows": [
+        {
+          "minutes": 2,
+          "setsPerMinute": 1
+        },
+        {
+          "minutes": 5,
+          "setsPerMinute": 0.4
+        },
+        {
+          "minutes": 10,
+          "setsPerMinute": 0.2
+        }
+      ],
+      "assumptions": "Empty buffer; all required streams at equal sustained delivered rate. Excludes startup, switching and transport latency. Lean uses unupgraded production, hypothetical lab rate uses earned upgrades."
+    },
+    {
+      "name": "Ore Separation",
+      "tier": 4,
+      "pricingClass": "unlock",
+      "sets": 2,
+      "labOnlySeconds": 1.8,
+      "atOneSetPerMinuteSeconds": 120,
+      "atFiveSetsPerMinuteSeconds": 24,
+      "steadyLeanSeconds": 310,
+      "minSetRatesForWindows": [
+        {
+          "minutes": 2,
+          "setsPerMinute": 1
+        },
+        {
+          "minutes": 5,
+          "setsPerMinute": 0.4
+        },
+        {
+          "minutes": 10,
+          "setsPerMinute": 0.2
+        }
+      ],
+      "assumptions": "Empty buffer; all required streams at equal sustained delivered rate. Excludes startup, switching and transport latency. Lean uses unupgraded production, hypothetical lab rate uses earned upgrades."
+    },
+    {
+      "name": "Mineral Recovery",
+      "tier": 5,
+      "pricingClass": "unlock",
+      "sets": 2,
+      "labOnlySeconds": 1.6,
+      "atOneSetPerMinuteSeconds": 120,
+      "atFiveSetsPerMinuteSeconds": 24,
+      "steadyLeanSeconds": 550,
+      "minSetRatesForWindows": [
+        {
+          "minutes": 2,
+          "setsPerMinute": 1
+        },
+        {
+          "minutes": 5,
+          "setsPerMinute": 0.4
+        },
+        {
+          "minutes": 10,
+          "setsPerMinute": 0.2
+        }
+      ],
+      "assumptions": "Empty buffer; all required streams at equal sustained delivered rate. Excludes startup, switching and transport latency. Lean uses unupgraded production, hypothetical lab rate uses earned upgrades."
+    },
+    {
+      "name": "Pressure Systems",
+      "tier": 5,
+      "pricingClass": "efficiency",
+      "sets": 45,
+      "labOnlySeconds": 36,
+      "atOneSetPerMinuteSeconds": 2700,
+      "atFiveSetsPerMinuteSeconds": 540,
+      "steadyLeanSeconds": 12375,
+      "minSetRatesForWindows": [
+        {
+          "minutes": 2,
+          "setsPerMinute": 22.5
+        },
+        {
+          "minutes": 5,
+          "setsPerMinute": 9
+        },
+        {
+          "minutes": 10,
+          "setsPerMinute": 4.5
+        }
+      ],
+      "assumptions": "Empty buffer; all required streams at equal sustained delivered rate. Excludes startup, switching and transport latency. Lean uses unupgraded production, hypothetical lab rate uses earned upgrades."
+    },
+    {
+      "name": "Heavy Robotics",
+      "tier": 5,
+      "pricingClass": "unlock",
+      "sets": 2,
+      "labOnlySeconds": 1.6,
+      "atOneSetPerMinuteSeconds": 120,
+      "atFiveSetsPerMinuteSeconds": 24,
+      "steadyLeanSeconds": 550,
+      "minSetRatesForWindows": [
+        {
+          "minutes": 2,
+          "setsPerMinute": 1
+        },
+        {
+          "minutes": 5,
+          "setsPerMinute": 0.4
+        },
+        {
+          "minutes": 10,
+          "setsPerMinute": 0.2
+        }
+      ],
+      "assumptions": "Empty buffer; all required streams at equal sustained delivered rate. Excludes startup, switching and transport latency. Lean uses unupgraded production, hypothetical lab rate uses earned upgrades."
+    },
+    {
+      "name": "Precision Control",
+      "tier": 5,
+      "pricingClass": "unlock",
+      "sets": 2,
+      "labOnlySeconds": 1.6,
+      "atOneSetPerMinuteSeconds": 120,
+      "atFiveSetsPerMinuteSeconds": 24,
+      "steadyLeanSeconds": 550,
+      "minSetRatesForWindows": [
+        {
+          "minutes": 2,
+          "setsPerMinute": 1
+        },
+        {
+          "minutes": 5,
+          "setsPerMinute": 0.4
+        },
+        {
+          "minutes": 10,
+          "setsPerMinute": 0.2
+        }
+      ],
+      "assumptions": "Empty buffer; all required streams at equal sustained delivered rate. Excludes startup, switching and transport latency. Lean uses unupgraded production, hypothetical lab rate uses earned upgrades."
+    },
+    {
+      "name": "Autonomous Logistics",
+      "tier": 6,
+      "pricingClass": "unlock",
+      "sets": 2,
+      "labOnlySeconds": 1.6,
+      "atOneSetPerMinuteSeconds": 120,
+      "atFiveSetsPerMinuteSeconds": 24,
+      "steadyLeanSeconds": 1000,
+      "minSetRatesForWindows": [
+        {
+          "minutes": 2,
+          "setsPerMinute": 1
+        },
+        {
+          "minutes": 5,
+          "setsPerMinute": 0.4
+        },
+        {
+          "minutes": 10,
+          "setsPerMinute": 0.2
+        }
+      ],
+      "assumptions": "Empty buffer; all required streams at equal sustained delivered rate. Excludes startup, switching and transport latency. Lean uses unupgraded production, hypothetical lab rate uses earned upgrades."
+    },
+    {
+      "name": "Command Robotics",
+      "tier": 6,
+      "pricingClass": "unlock",
+      "sets": 2,
+      "labOnlySeconds": 1.6,
+      "atOneSetPerMinuteSeconds": 120,
+      "atFiveSetsPerMinuteSeconds": 24,
+      "steadyLeanSeconds": 1000,
+      "minSetRatesForWindows": [
+        {
+          "minutes": 2,
+          "setsPerMinute": 1
+        },
+        {
+          "minutes": 5,
+          "setsPerMinute": 0.4
+        },
+        {
+          "minutes": 10,
+          "setsPerMinute": 0.2
+        }
+      ],
+      "assumptions": "Empty buffer; all required streams at equal sustained delivered rate. Excludes startup, switching and transport latency. Lean uses unupgraded production, hypothetical lab rate uses earned upgrades."
+    },
+    {
+      "name": "Mineral Regeneration 2",
+      "tier": 5,
+      "pricingClass": "efficiency",
+      "sets": 90,
+      "labOnlySeconds": 72,
+      "atOneSetPerMinuteSeconds": 5400,
+      "atFiveSetsPerMinuteSeconds": 1080,
+      "steadyLeanSeconds": 24750,
+      "minSetRatesForWindows": [
+        {
+          "minutes": 2,
+          "setsPerMinute": 45
+        },
+        {
+          "minutes": 5,
+          "setsPerMinute": 18
+        },
+        {
+          "minutes": 10,
+          "setsPerMinute": 9
+        }
+      ],
+      "assumptions": "Empty buffer; all required streams at equal sustained delivered rate. Excludes startup, switching and transport latency. Lean uses unupgraded production, hypothetical lab rate uses earned upgrades."
+    },
+    {
+      "name": "High Pressure Intakes",
+      "tier": 5,
+      "pricingClass": "efficiency",
+      "sets": 100,
+      "labOnlySeconds": 80,
+      "atOneSetPerMinuteSeconds": 6000,
+      "atFiveSetsPerMinuteSeconds": 1200,
+      "steadyLeanSeconds": 27500,
+      "minSetRatesForWindows": [
+        {
+          "minutes": 2,
+          "setsPerMinute": 50
+        },
+        {
+          "minutes": 5,
+          "setsPerMinute": 20
+        },
+        {
+          "minutes": 10,
+          "setsPerMinute": 10
+        }
+      ],
+      "assumptions": "Empty buffer; all required streams at equal sustained delivered rate. Excludes startup, switching and transport latency. Lean uses unupgraded production, hypothetical lab rate uses earned upgrades."
+    },
+    {
+      "name": "Endgame Theory",
+      "tier": 6,
+      "pricingClass": "unlock",
+      "sets": 2,
+      "labOnlySeconds": 1.6,
+      "atOneSetPerMinuteSeconds": 120,
+      "atFiveSetsPerMinuteSeconds": 24,
+      "steadyLeanSeconds": 1000,
+      "minSetRatesForWindows": [
+        {
+          "minutes": 2,
+          "setsPerMinute": 1
+        },
+        {
+          "minutes": 5,
+          "setsPerMinute": 0.4
+        },
+        {
+          "minutes": 10,
+          "setsPerMinute": 0.2
+        }
+      ],
+      "assumptions": "Empty buffer; all required streams at equal sustained delivered rate. Excludes startup, switching and transport latency. Lean uses unupgraded production, hypothetical lab rate uses earned upgrades."
+    },
+    {
+      "name": "Factory Templates",
+      "tier": 3,
+      "pricingClass": "quality-of-life",
+      "sets": 30,
+      "labOnlySeconds": 27,
+      "atOneSetPerMinuteSeconds": 1800,
+      "atFiveSetsPerMinuteSeconds": 360,
+      "steadyLeanSeconds": 2400,
+      "minSetRatesForWindows": [
+        {
+          "minutes": 2,
+          "setsPerMinute": 15
+        },
+        {
+          "minutes": 5,
+          "setsPerMinute": 6
+        },
+        {
+          "minutes": 10,
+          "setsPerMinute": 3
+        }
+      ],
+      "assumptions": "Empty buffer; all required streams at equal sustained delivered rate. Excludes startup, switching and transport latency. Lean uses unupgraded production, hypothetical lab rate uses earned upgrades."
+    },
+    {
+      "name": "Hydro Processor 1",
+      "tier": 3,
+      "pricingClass": "efficiency",
+      "sets": 20,
+      "labOnlySeconds": 18,
+      "atOneSetPerMinuteSeconds": 1200,
+      "atFiveSetsPerMinuteSeconds": 240,
+      "steadyLeanSeconds": 1600,
+      "minSetRatesForWindows": [
+        {
+          "minutes": 2,
+          "setsPerMinute": 10
+        },
+        {
+          "minutes": 5,
+          "setsPerMinute": 4
+        },
+        {
+          "minutes": 10,
+          "setsPerMinute": 2
+        }
+      ],
+      "assumptions": "Empty buffer; all required streams at equal sustained delivered rate. Excludes startup, switching and transport latency. Lean uses unupgraded production, hypothetical lab rate uses earned upgrades."
+    },
+    {
+      "name": "Advanced Assembler 1",
+      "tier": 3,
+      "pricingClass": "efficiency",
+      "sets": 25,
+      "labOnlySeconds": 22.5,
+      "atOneSetPerMinuteSeconds": 1500,
+      "atFiveSetsPerMinuteSeconds": 300,
+      "steadyLeanSeconds": 2000,
+      "minSetRatesForWindows": [
+        {
+          "minutes": 2,
+          "setsPerMinute": 12.5
+        },
+        {
+          "minutes": 5,
+          "setsPerMinute": 5
+        },
+        {
+          "minutes": 10,
+          "setsPerMinute": 2.5
+        }
+      ],
+      "assumptions": "Empty buffer; all required streams at equal sustained delivered rate. Excludes startup, switching and transport latency. Lean uses unupgraded production, hypothetical lab rate uses earned upgrades."
+    },
+    {
+      "name": "Power Distribution",
+      "tier": 4,
+      "pricingClass": "unlock",
+      "sets": 2,
+      "labOnlySeconds": 1.8,
+      "atOneSetPerMinuteSeconds": 120,
+      "atFiveSetsPerMinuteSeconds": 24,
+      "steadyLeanSeconds": 310,
+      "minSetRatesForWindows": [
+        {
+          "minutes": 2,
+          "setsPerMinute": 1
+        },
+        {
+          "minutes": 5,
+          "setsPerMinute": 0.4
+        },
+        {
+          "minutes": 10,
+          "setsPerMinute": 0.2
+        }
+      ],
+      "assumptions": "Empty buffer; all required streams at equal sustained delivered rate. Excludes startup, switching and transport latency. Lean uses unupgraded production, hypothetical lab rate uses earned upgrades."
+    },
+    {
+      "name": "Tree Planter 1",
+      "tier": 3,
+      "pricingClass": "efficiency",
+      "sets": 30,
+      "labOnlySeconds": 27,
+      "atOneSetPerMinuteSeconds": 1800,
+      "atFiveSetsPerMinuteSeconds": 360,
+      "steadyLeanSeconds": 2400,
+      "minSetRatesForWindows": [
+        {
+          "minutes": 2,
+          "setsPerMinute": 15
+        },
+        {
+          "minutes": 5,
+          "setsPerMinute": 6
+        },
+        {
+          "minutes": 10,
+          "setsPerMinute": 3
+        }
+      ],
+      "assumptions": "Empty buffer; all required streams at equal sustained delivered rate. Excludes startup, switching and transport latency. Lean uses unupgraded production, hypothetical lab rate uses earned upgrades."
+    },
+    {
+      "name": "Research Center 2",
+      "tier": 4,
+      "pricingClass": "efficiency",
+      "sets": 70,
+      "labOnlySeconds": 63,
+      "atOneSetPerMinuteSeconds": 4200,
+      "atFiveSetsPerMinuteSeconds": 840,
+      "steadyLeanSeconds": 10850,
+      "minSetRatesForWindows": [
+        {
+          "minutes": 2,
+          "setsPerMinute": 35
+        },
+        {
+          "minutes": 5,
+          "setsPerMinute": 14
+        },
+        {
+          "minutes": 10,
+          "setsPerMinute": 7
+        }
+      ],
+      "assumptions": "Empty buffer; all required streams at equal sustained delivered rate. Excludes startup, switching and transport latency. Lean uses unupgraded production, hypothetical lab rate uses earned upgrades."
+    },
+    {
+      "name": "Mineral Recovery 1",
+      "tier": 4,
+      "pricingClass": "efficiency",
+      "sets": 55,
+      "labOnlySeconds": 49.5,
+      "atOneSetPerMinuteSeconds": 3300,
+      "atFiveSetsPerMinuteSeconds": 660,
+      "steadyLeanSeconds": 8525,
+      "minSetRatesForWindows": [
+        {
+          "minutes": 2,
+          "setsPerMinute": 27.5
+        },
+        {
+          "minutes": 5,
+          "setsPerMinute": 11
+        },
+        {
+          "minutes": 10,
+          "setsPerMinute": 5.5
+        }
+      ],
+      "assumptions": "Empty buffer; all required streams at equal sustained delivered rate. Excludes startup, switching and transport latency. Lean uses unupgraded production, hypothetical lab rate uses earned upgrades."
+    },
+    {
+      "name": "Warehouse Logistics",
+      "tier": 4,
+      "pricingClass": "quality-of-life",
+      "sets": 55,
+      "labOnlySeconds": 49.5,
+      "atOneSetPerMinuteSeconds": 3300,
+      "atFiveSetsPerMinuteSeconds": 660,
+      "steadyLeanSeconds": 8525,
+      "minSetRatesForWindows": [
+        {
+          "minutes": 2,
+          "setsPerMinute": 27.5
+        },
+        {
+          "minutes": 5,
+          "setsPerMinute": 11
+        },
+        {
+          "minutes": 10,
+          "setsPerMinute": 5.5
+        }
+      ],
+      "assumptions": "Empty buffer; all required streams at equal sustained delivered rate. Excludes startup, switching and transport latency. Lean uses unupgraded production, hypothetical lab rate uses earned upgrades."
+    },
+    {
+      "name": "Road Channels 1",
+      "tier": 4,
+      "pricingClass": "quality-of-life",
+      "sets": 60,
+      "labOnlySeconds": 54,
+      "atOneSetPerMinuteSeconds": 3600,
+      "atFiveSetsPerMinuteSeconds": 720,
+      "steadyLeanSeconds": 9300,
+      "minSetRatesForWindows": [
+        {
+          "minutes": 2,
+          "setsPerMinute": 30
+        },
+        {
+          "minutes": 5,
+          "setsPerMinute": 12
+        },
+        {
+          "minutes": 10,
+          "setsPerMinute": 6
+        }
+      ],
+      "assumptions": "Empty buffer; all required streams at equal sustained delivered rate. Excludes startup, switching and transport latency. Lean uses unupgraded production, hypothetical lab rate uses earned upgrades."
+    },
+    {
+      "name": "Hydro Processor 2",
+      "tier": 5,
+      "pricingClass": "efficiency",
+      "sets": 100,
+      "labOnlySeconds": 80,
+      "atOneSetPerMinuteSeconds": 6000,
+      "atFiveSetsPerMinuteSeconds": 1200,
+      "steadyLeanSeconds": 27500,
+      "minSetRatesForWindows": [
+        {
+          "minutes": 2,
+          "setsPerMinute": 50
+        },
+        {
+          "minutes": 5,
+          "setsPerMinute": 20
+        },
+        {
+          "minutes": 10,
+          "setsPerMinute": 10
+        }
+      ],
+      "assumptions": "Empty buffer; all required streams at equal sustained delivered rate. Excludes startup, switching and transport latency. Lean uses unupgraded production, hypothetical lab rate uses earned upgrades."
+    },
+    {
+      "name": "Advanced Assembler 2",
+      "tier": 5,
+      "pricingClass": "efficiency",
+      "sets": 100,
+      "labOnlySeconds": 80,
+      "atOneSetPerMinuteSeconds": 6000,
+      "atFiveSetsPerMinuteSeconds": 1200,
+      "steadyLeanSeconds": 27500,
+      "minSetRatesForWindows": [
+        {
+          "minutes": 2,
+          "setsPerMinute": 50
+        },
+        {
+          "minutes": 5,
+          "setsPerMinute": 20
+        },
+        {
+          "minutes": 10,
+          "setsPerMinute": 10
+        }
+      ],
+      "assumptions": "Empty buffer; all required streams at equal sustained delivered rate. Excludes startup, switching and transport latency. Lean uses unupgraded production, hypothetical lab rate uses earned upgrades."
+    },
+    {
+      "name": "Area Expansion 2",
+      "tier": 5,
+      "pricingClass": "quality-of-life",
+      "sets": 150,
+      "labOnlySeconds": 120,
+      "atOneSetPerMinuteSeconds": 9000,
+      "atFiveSetsPerMinuteSeconds": 1800,
+      "steadyLeanSeconds": 41250,
+      "minSetRatesForWindows": [
+        {
+          "minutes": 2,
+          "setsPerMinute": 75
+        },
+        {
+          "minutes": 5,
+          "setsPerMinute": 30
+        },
+        {
+          "minutes": 10,
+          "setsPerMinute": 15
+        }
+      ],
+      "assumptions": "Empty buffer; all required streams at equal sustained delivered rate. Excludes startup, switching and transport latency. Lean uses unupgraded production, hypothetical lab rate uses earned upgrades."
+    },
+    {
+      "name": "Resource Golem Survey",
+      "tier": 4,
+      "pricingClass": "unlock",
+      "sets": 3,
+      "labOnlySeconds": 2.7,
+      "atOneSetPerMinuteSeconds": 180,
+      "atFiveSetsPerMinuteSeconds": 36,
+      "steadyLeanSeconds": 465,
+      "minSetRatesForWindows": [
+        {
+          "minutes": 2,
+          "setsPerMinute": 1.5
+        },
+        {
+          "minutes": 5,
+          "setsPerMinute": 0.6
+        },
+        {
+          "minutes": 10,
+          "setsPerMinute": 0.3
+        }
+      ],
+      "assumptions": "Empty buffer; all required streams at equal sustained delivered rate. Excludes startup, switching and transport latency. Lean uses unupgraded production, hypothetical lab rate uses earned upgrades."
+    },
+    {
+      "name": "Mineral Regeneration",
+      "tier": 5,
+      "pricingClass": "unlock",
+      "sets": 2,
+      "labOnlySeconds": 1.6,
+      "atOneSetPerMinuteSeconds": 120,
+      "atFiveSetsPerMinuteSeconds": 24,
+      "steadyLeanSeconds": 550,
+      "minSetRatesForWindows": [
+        {
+          "minutes": 2,
+          "setsPerMinute": 1
+        },
+        {
+          "minutes": 5,
+          "setsPerMinute": 0.4
+        },
+        {
+          "minutes": 10,
+          "setsPerMinute": 0.2
+        }
+      ],
+      "assumptions": "Empty buffer; all required streams at equal sustained delivered rate. Excludes startup, switching and transport latency. Lean uses unupgraded production, hypothetical lab rate uses earned upgrades."
+    },
+    {
+      "name": "Road Channels 2",
+      "tier": 5,
+      "pricingClass": "quality-of-life",
+      "sets": 130,
+      "labOnlySeconds": 104,
+      "atOneSetPerMinuteSeconds": 7800,
+      "atFiveSetsPerMinuteSeconds": 1560,
+      "steadyLeanSeconds": 35750,
+      "minSetRatesForWindows": [
+        {
+          "minutes": 2,
+          "setsPerMinute": 65
+        },
+        {
+          "minutes": 5,
+          "setsPerMinute": 26
+        },
+        {
+          "minutes": 10,
+          "setsPerMinute": 13
+        }
+      ],
+      "assumptions": "Empty buffer; all required streams at equal sustained delivered rate. Excludes startup, switching and transport latency. Lean uses unupgraded production, hypothetical lab rate uses earned upgrades."
+    }
+  ],
+  "gates": [
+    {
+      "tier": 4,
+      "nextTier": 5,
+      "projects": [
+        "Fluid Routing",
+        "Ore Separation"
+      ],
+      "note": "Hydro-dependent access segment only; lower-tier prerequisites excluded.",
+      "sets": 4,
+      "atOneSetPerMinuteMinutes": 4,
+      "atFiveSetsPerMinuteMinutes": 0.8,
+      "ratesForWindows": [
+        {
+          "minutes": 2,
+          "setsPerMinute": 2
+        },
+        {
+          "minutes": 5,
+          "setsPerMinute": 0.8
+        },
+        {
+          "minutes": 10,
+          "setsPerMinute": 0.4
+        }
+      ]
+    },
+    {
+      "tier": 5,
+      "nextTier": 6,
+      "projects": [
+        "Mineral Recovery",
+        "Precision Control"
+      ],
+      "note": "Shiny-dependent access segment only; optional Lab 2 excluded.",
+      "sets": 4,
+      "atOneSetPerMinuteMinutes": 4,
+      "atFiveSetsPerMinuteMinutes": 0.8,
+      "ratesForWindows": [
+        {
+          "minutes": 2,
+          "setsPerMinute": 2
+        },
+        {
+          "minutes": 5,
+          "setsPerMinute": 0.8
+        },
+        {
+          "minutes": 10,
+          "setsPerMinute": 0.4
+        }
+      ]
+    },
+    {
+      "tier": 6,
+      "nextTier": 7,
+      "projects": [
+        "Autonomous Logistics",
+        "Command Robotics",
+        "Endgame Theory"
+      ],
+      "note": "Complex-dependent access segment only. Heavy Robotics and Mineral Regeneration must already be completed; those require earlier cores.",
+      "sets": 6,
+      "atOneSetPerMinuteMinutes": 6,
+      "atFiveSetsPerMinuteMinutes": 1.2,
+      "ratesForWindows": [
+        {
+          "minutes": 2,
+          "setsPerMinute": 3
+        },
+        {
+          "minutes": 5,
+          "setsPerMinute": 1.2
+        },
+        {
+          "minutes": 10,
+          "setsPerMinute": 0.6
+        }
+      ]
+    }
+  ],
+  "waitingSensitivity": [
+    {
+      "name": "Hydrochemistry",
+      "setsPerMinute": 1,
+      "usefulWorkMinutes": 2,
+      "completionSeconds": 60,
+      "forcedWaitSeconds": 0
+    },
+    {
+      "name": "Hydrochemistry",
+      "setsPerMinute": 1,
+      "usefulWorkMinutes": 5,
+      "completionSeconds": 60,
+      "forcedWaitSeconds": 0
+    },
+    {
+      "name": "Hydrochemistry",
+      "setsPerMinute": 1,
+      "usefulWorkMinutes": 10,
+      "completionSeconds": 60,
+      "forcedWaitSeconds": 0
+    },
+    {
+      "name": "Hydrochemistry",
+      "setsPerMinute": 5,
+      "usefulWorkMinutes": 2,
+      "completionSeconds": 12,
+      "forcedWaitSeconds": 0
+    },
+    {
+      "name": "Hydrochemistry",
+      "setsPerMinute": 5,
+      "usefulWorkMinutes": 5,
+      "completionSeconds": 12,
+      "forcedWaitSeconds": 0
+    },
+    {
+      "name": "Hydrochemistry",
+      "setsPerMinute": 5,
+      "usefulWorkMinutes": 10,
+      "completionSeconds": 12,
+      "forcedWaitSeconds": 0
+    },
+    {
+      "name": "Hydraulic Assembly",
+      "setsPerMinute": 1,
+      "usefulWorkMinutes": 2,
+      "completionSeconds": 120,
+      "forcedWaitSeconds": 0
+    },
+    {
+      "name": "Hydraulic Assembly",
+      "setsPerMinute": 1,
+      "usefulWorkMinutes": 5,
+      "completionSeconds": 120,
+      "forcedWaitSeconds": 0
+    },
+    {
+      "name": "Hydraulic Assembly",
+      "setsPerMinute": 1,
+      "usefulWorkMinutes": 10,
+      "completionSeconds": 120,
+      "forcedWaitSeconds": 0
+    },
+    {
+      "name": "Hydraulic Assembly",
+      "setsPerMinute": 5,
+      "usefulWorkMinutes": 2,
+      "completionSeconds": 24,
+      "forcedWaitSeconds": 0
+    },
+    {
+      "name": "Hydraulic Assembly",
+      "setsPerMinute": 5,
+      "usefulWorkMinutes": 5,
+      "completionSeconds": 24,
+      "forcedWaitSeconds": 0
+    },
+    {
+      "name": "Hydraulic Assembly",
+      "setsPerMinute": 5,
+      "usefulWorkMinutes": 10,
+      "completionSeconds": 24,
+      "forcedWaitSeconds": 0
+    },
+    {
+      "name": "Fluid Routing",
+      "setsPerMinute": 1,
+      "usefulWorkMinutes": 2,
+      "completionSeconds": 120,
+      "forcedWaitSeconds": 0
+    },
+    {
+      "name": "Fluid Routing",
+      "setsPerMinute": 1,
+      "usefulWorkMinutes": 5,
+      "completionSeconds": 120,
+      "forcedWaitSeconds": 0
+    },
+    {
+      "name": "Fluid Routing",
+      "setsPerMinute": 1,
+      "usefulWorkMinutes": 10,
+      "completionSeconds": 120,
+      "forcedWaitSeconds": 0
+    },
+    {
+      "name": "Fluid Routing",
+      "setsPerMinute": 5,
+      "usefulWorkMinutes": 2,
+      "completionSeconds": 24,
+      "forcedWaitSeconds": 0
+    },
+    {
+      "name": "Fluid Routing",
+      "setsPerMinute": 5,
+      "usefulWorkMinutes": 5,
+      "completionSeconds": 24,
+      "forcedWaitSeconds": 0
+    },
+    {
+      "name": "Fluid Routing",
+      "setsPerMinute": 5,
+      "usefulWorkMinutes": 10,
+      "completionSeconds": 24,
+      "forcedWaitSeconds": 0
+    },
+    {
+      "name": "Sealed Robotics",
+      "setsPerMinute": 1,
+      "usefulWorkMinutes": 2,
+      "completionSeconds": 120,
+      "forcedWaitSeconds": 0
+    },
+    {
+      "name": "Sealed Robotics",
+      "setsPerMinute": 1,
+      "usefulWorkMinutes": 5,
+      "completionSeconds": 120,
+      "forcedWaitSeconds": 0
+    },
+    {
+      "name": "Sealed Robotics",
+      "setsPerMinute": 1,
+      "usefulWorkMinutes": 10,
+      "completionSeconds": 120,
+      "forcedWaitSeconds": 0
+    },
+    {
+      "name": "Sealed Robotics",
+      "setsPerMinute": 5,
+      "usefulWorkMinutes": 2,
+      "completionSeconds": 24,
+      "forcedWaitSeconds": 0
+    },
+    {
+      "name": "Sealed Robotics",
+      "setsPerMinute": 5,
+      "usefulWorkMinutes": 5,
+      "completionSeconds": 24,
+      "forcedWaitSeconds": 0
+    },
+    {
+      "name": "Sealed Robotics",
+      "setsPerMinute": 5,
+      "usefulWorkMinutes": 10,
+      "completionSeconds": 24,
+      "forcedWaitSeconds": 0
+    },
+    {
+      "name": "Ore Separation",
+      "setsPerMinute": 1,
+      "usefulWorkMinutes": 2,
+      "completionSeconds": 120,
+      "forcedWaitSeconds": 0
+    },
+    {
+      "name": "Ore Separation",
+      "setsPerMinute": 1,
+      "usefulWorkMinutes": 5,
+      "completionSeconds": 120,
+      "forcedWaitSeconds": 0
+    },
+    {
+      "name": "Ore Separation",
+      "setsPerMinute": 1,
+      "usefulWorkMinutes": 10,
+      "completionSeconds": 120,
+      "forcedWaitSeconds": 0
+    },
+    {
+      "name": "Ore Separation",
+      "setsPerMinute": 5,
+      "usefulWorkMinutes": 2,
+      "completionSeconds": 24,
+      "forcedWaitSeconds": 0
+    },
+    {
+      "name": "Ore Separation",
+      "setsPerMinute": 5,
+      "usefulWorkMinutes": 5,
+      "completionSeconds": 24,
+      "forcedWaitSeconds": 0
+    },
+    {
+      "name": "Ore Separation",
+      "setsPerMinute": 5,
+      "usefulWorkMinutes": 10,
+      "completionSeconds": 24,
+      "forcedWaitSeconds": 0
+    },
+    {
+      "name": "Mineral Recovery",
+      "setsPerMinute": 1,
+      "usefulWorkMinutes": 2,
+      "completionSeconds": 120,
+      "forcedWaitSeconds": 0
+    },
+    {
+      "name": "Mineral Recovery",
+      "setsPerMinute": 1,
+      "usefulWorkMinutes": 5,
+      "completionSeconds": 120,
+      "forcedWaitSeconds": 0
+    },
+    {
+      "name": "Mineral Recovery",
+      "setsPerMinute": 1,
+      "usefulWorkMinutes": 10,
+      "completionSeconds": 120,
+      "forcedWaitSeconds": 0
+    },
+    {
+      "name": "Mineral Recovery",
+      "setsPerMinute": 5,
+      "usefulWorkMinutes": 2,
+      "completionSeconds": 24,
+      "forcedWaitSeconds": 0
+    },
+    {
+      "name": "Mineral Recovery",
+      "setsPerMinute": 5,
+      "usefulWorkMinutes": 5,
+      "completionSeconds": 24,
+      "forcedWaitSeconds": 0
+    },
+    {
+      "name": "Mineral Recovery",
+      "setsPerMinute": 5,
+      "usefulWorkMinutes": 10,
+      "completionSeconds": 24,
+      "forcedWaitSeconds": 0
+    },
+    {
+      "name": "Heavy Robotics",
+      "setsPerMinute": 1,
+      "usefulWorkMinutes": 2,
+      "completionSeconds": 120,
+      "forcedWaitSeconds": 0
+    },
+    {
+      "name": "Heavy Robotics",
+      "setsPerMinute": 1,
+      "usefulWorkMinutes": 5,
+      "completionSeconds": 120,
+      "forcedWaitSeconds": 0
+    },
+    {
+      "name": "Heavy Robotics",
+      "setsPerMinute": 1,
+      "usefulWorkMinutes": 10,
+      "completionSeconds": 120,
+      "forcedWaitSeconds": 0
+    },
+    {
+      "name": "Heavy Robotics",
+      "setsPerMinute": 5,
+      "usefulWorkMinutes": 2,
+      "completionSeconds": 24,
+      "forcedWaitSeconds": 0
+    },
+    {
+      "name": "Heavy Robotics",
+      "setsPerMinute": 5,
+      "usefulWorkMinutes": 5,
+      "completionSeconds": 24,
+      "forcedWaitSeconds": 0
+    },
+    {
+      "name": "Heavy Robotics",
+      "setsPerMinute": 5,
+      "usefulWorkMinutes": 10,
+      "completionSeconds": 24,
+      "forcedWaitSeconds": 0
+    },
+    {
+      "name": "Precision Control",
+      "setsPerMinute": 1,
+      "usefulWorkMinutes": 2,
+      "completionSeconds": 120,
+      "forcedWaitSeconds": 0
+    },
+    {
+      "name": "Precision Control",
+      "setsPerMinute": 1,
+      "usefulWorkMinutes": 5,
+      "completionSeconds": 120,
+      "forcedWaitSeconds": 0
+    },
+    {
+      "name": "Precision Control",
+      "setsPerMinute": 1,
+      "usefulWorkMinutes": 10,
+      "completionSeconds": 120,
+      "forcedWaitSeconds": 0
+    },
+    {
+      "name": "Precision Control",
+      "setsPerMinute": 5,
+      "usefulWorkMinutes": 2,
+      "completionSeconds": 24,
+      "forcedWaitSeconds": 0
+    },
+    {
+      "name": "Precision Control",
+      "setsPerMinute": 5,
+      "usefulWorkMinutes": 5,
+      "completionSeconds": 24,
+      "forcedWaitSeconds": 0
+    },
+    {
+      "name": "Precision Control",
+      "setsPerMinute": 5,
+      "usefulWorkMinutes": 10,
+      "completionSeconds": 24,
+      "forcedWaitSeconds": 0
+    },
+    {
+      "name": "Autonomous Logistics",
+      "setsPerMinute": 1,
+      "usefulWorkMinutes": 2,
+      "completionSeconds": 120,
+      "forcedWaitSeconds": 0
+    },
+    {
+      "name": "Autonomous Logistics",
+      "setsPerMinute": 1,
+      "usefulWorkMinutes": 5,
+      "completionSeconds": 120,
+      "forcedWaitSeconds": 0
+    },
+    {
+      "name": "Autonomous Logistics",
+      "setsPerMinute": 1,
+      "usefulWorkMinutes": 10,
+      "completionSeconds": 120,
+      "forcedWaitSeconds": 0
+    },
+    {
+      "name": "Autonomous Logistics",
+      "setsPerMinute": 5,
+      "usefulWorkMinutes": 2,
+      "completionSeconds": 24,
+      "forcedWaitSeconds": 0
+    },
+    {
+      "name": "Autonomous Logistics",
+      "setsPerMinute": 5,
+      "usefulWorkMinutes": 5,
+      "completionSeconds": 24,
+      "forcedWaitSeconds": 0
+    },
+    {
+      "name": "Autonomous Logistics",
+      "setsPerMinute": 5,
+      "usefulWorkMinutes": 10,
+      "completionSeconds": 24,
+      "forcedWaitSeconds": 0
+    },
+    {
+      "name": "Command Robotics",
+      "setsPerMinute": 1,
+      "usefulWorkMinutes": 2,
+      "completionSeconds": 120,
+      "forcedWaitSeconds": 0
+    },
+    {
+      "name": "Command Robotics",
+      "setsPerMinute": 1,
+      "usefulWorkMinutes": 5,
+      "completionSeconds": 120,
+      "forcedWaitSeconds": 0
+    },
+    {
+      "name": "Command Robotics",
+      "setsPerMinute": 1,
+      "usefulWorkMinutes": 10,
+      "completionSeconds": 120,
+      "forcedWaitSeconds": 0
+    },
+    {
+      "name": "Command Robotics",
+      "setsPerMinute": 5,
+      "usefulWorkMinutes": 2,
+      "completionSeconds": 24,
+      "forcedWaitSeconds": 0
+    },
+    {
+      "name": "Command Robotics",
+      "setsPerMinute": 5,
+      "usefulWorkMinutes": 5,
+      "completionSeconds": 24,
+      "forcedWaitSeconds": 0
+    },
+    {
+      "name": "Command Robotics",
+      "setsPerMinute": 5,
+      "usefulWorkMinutes": 10,
+      "completionSeconds": 24,
+      "forcedWaitSeconds": 0
+    },
+    {
+      "name": "Endgame Theory",
+      "setsPerMinute": 1,
+      "usefulWorkMinutes": 2,
+      "completionSeconds": 120,
+      "forcedWaitSeconds": 0
+    },
+    {
+      "name": "Endgame Theory",
+      "setsPerMinute": 1,
+      "usefulWorkMinutes": 5,
+      "completionSeconds": 120,
+      "forcedWaitSeconds": 0
+    },
+    {
+      "name": "Endgame Theory",
+      "setsPerMinute": 1,
+      "usefulWorkMinutes": 10,
+      "completionSeconds": 120,
+      "forcedWaitSeconds": 0
+    },
+    {
+      "name": "Endgame Theory",
+      "setsPerMinute": 5,
+      "usefulWorkMinutes": 2,
+      "completionSeconds": 24,
+      "forcedWaitSeconds": 0
+    },
+    {
+      "name": "Endgame Theory",
+      "setsPerMinute": 5,
+      "usefulWorkMinutes": 5,
+      "completionSeconds": 24,
+      "forcedWaitSeconds": 0
+    },
+    {
+      "name": "Endgame Theory",
+      "setsPerMinute": 5,
+      "usefulWorkMinutes": 10,
+      "completionSeconds": 24,
+      "forcedWaitSeconds": 0
+    },
+    {
+      "name": "Power Distribution",
+      "setsPerMinute": 1,
+      "usefulWorkMinutes": 2,
+      "completionSeconds": 120,
+      "forcedWaitSeconds": 0
+    },
+    {
+      "name": "Power Distribution",
+      "setsPerMinute": 1,
+      "usefulWorkMinutes": 5,
+      "completionSeconds": 120,
+      "forcedWaitSeconds": 0
+    },
+    {
+      "name": "Power Distribution",
+      "setsPerMinute": 1,
+      "usefulWorkMinutes": 10,
+      "completionSeconds": 120,
+      "forcedWaitSeconds": 0
+    },
+    {
+      "name": "Power Distribution",
+      "setsPerMinute": 5,
+      "usefulWorkMinutes": 2,
+      "completionSeconds": 24,
+      "forcedWaitSeconds": 0
+    },
+    {
+      "name": "Power Distribution",
+      "setsPerMinute": 5,
+      "usefulWorkMinutes": 5,
+      "completionSeconds": 24,
+      "forcedWaitSeconds": 0
+    },
+    {
+      "name": "Power Distribution",
+      "setsPerMinute": 5,
+      "usefulWorkMinutes": 10,
+      "completionSeconds": 24,
+      "forcedWaitSeconds": 0
+    },
+    {
+      "name": "Resource Golem Survey",
+      "setsPerMinute": 1,
+      "usefulWorkMinutes": 2,
+      "completionSeconds": 180,
+      "forcedWaitSeconds": 60
+    },
+    {
+      "name": "Resource Golem Survey",
+      "setsPerMinute": 1,
+      "usefulWorkMinutes": 5,
+      "completionSeconds": 180,
+      "forcedWaitSeconds": 0
+    },
+    {
+      "name": "Resource Golem Survey",
+      "setsPerMinute": 1,
+      "usefulWorkMinutes": 10,
+      "completionSeconds": 180,
+      "forcedWaitSeconds": 0
+    },
+    {
+      "name": "Resource Golem Survey",
+      "setsPerMinute": 5,
+      "usefulWorkMinutes": 2,
+      "completionSeconds": 36,
+      "forcedWaitSeconds": 0
+    },
+    {
+      "name": "Resource Golem Survey",
+      "setsPerMinute": 5,
+      "usefulWorkMinutes": 5,
+      "completionSeconds": 36,
+      "forcedWaitSeconds": 0
+    },
+    {
+      "name": "Resource Golem Survey",
+      "setsPerMinute": 5,
+      "usefulWorkMinutes": 10,
+      "completionSeconds": 36,
+      "forcedWaitSeconds": 0
+    },
+    {
+      "name": "Mineral Regeneration",
+      "setsPerMinute": 1,
+      "usefulWorkMinutes": 2,
+      "completionSeconds": 120,
+      "forcedWaitSeconds": 0
+    },
+    {
+      "name": "Mineral Regeneration",
+      "setsPerMinute": 1,
+      "usefulWorkMinutes": 5,
+      "completionSeconds": 120,
+      "forcedWaitSeconds": 0
+    },
+    {
+      "name": "Mineral Regeneration",
+      "setsPerMinute": 1,
+      "usefulWorkMinutes": 10,
+      "completionSeconds": 120,
+      "forcedWaitSeconds": 0
+    },
+    {
+      "name": "Mineral Regeneration",
+      "setsPerMinute": 5,
+      "usefulWorkMinutes": 2,
+      "completionSeconds": 24,
+      "forcedWaitSeconds": 0
+    },
+    {
+      "name": "Mineral Regeneration",
+      "setsPerMinute": 5,
+      "usefulWorkMinutes": 5,
+      "completionSeconds": 24,
+      "forcedWaitSeconds": 0
+    },
+    {
+      "name": "Mineral Regeneration",
+      "setsPerMinute": 5,
+      "usefulWorkMinutes": 10,
+      "completionSeconds": 24,
+      "forcedWaitSeconds": 0
+    }
+  ],
+  "originality": [
+    {
+      "subject": "Hydro Core",
+      "similarity": "medium",
+      "familiar": "Water plus metals, dedicated processors and intermediate assembly are common factory patterns.",
+      "direction": "Make finite lake access and typed links between compact map networks the main decision. Avoid oil fractions, pressure/head-lift simulation and recycled-water feedback as mandatory puzzles."
+    },
+    {
+      "subject": "Shiny Core",
+      "similarity": "still under review",
+      "familiar": "Refinery backpressure remains familiar. The revised proposal adds independent waste probabilities, mixed sorting and separate recovery branches; those alone do not establish a distinct overall logistics experience.",
+      "direction": "Introduce only guaranteed Slag with tier 5 mithril. Defer Fines, Flux and Crust with different independent chances to tier 6 Precision Controllers and Advanced Actuators, as in waste-design.html. Bundle advanced sorting and recovery with that unlock. Preserve useful yields and keep rare drops out of mandatory progression; test regional solid recovery and chest-batch export."
+    },
+    {
+      "subject": "Complex Core",
+      "similarity": "medium-high",
+      "familiar": "Stacking frames, motors, circuits and upgraded actuators resembles conventional late-game assembly ladders.",
+      "direction": "Test coordinating deliveries from specialized maps and allocating components between research and combat before adding deeper frame/circuit ladders. A pure 60-second recipe is not a new logistics problem."
+    },
+    {
+      "subject": "Research system",
+      "similarity": "high at the general mechanic level",
+      "familiar": "A set of colored/tiered research consumables resembles Factorio science.",
+      "direction": "Keep the agreed equal-core rule. Emphasize the one Home lab, readable local networks, inter-map chest batches, renewal anchors and disposable combat supply. Renaming packs or changing ratios alone does not differentiate the experience."
+    }
+  ]
+}

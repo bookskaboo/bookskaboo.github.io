@@ -1,0 +1,3 @@
+# Generated release bundles and retained verification output.
+assets/** linguist-generated=true -whitespace
+source/outputs/** linguist-generated=true -whitespace

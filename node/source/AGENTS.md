@@ -4,11 +4,13 @@ During sequential planning, interviews, or other question-and-answer work, handl
 
 # Naming
 
+Use **Complex Core** (and **Complex** for its tier) in player-facing text, documentation, and discussion. Preserve the serialized `command-core` item/recipe IDs for save compatibility. Command Bots and Command Robotics retain their names.
+
 Use **Mythril** as the canonical spelling in player-facing text, documentation, and discussion. Preserve existing serialized item and research IDs when needed for save compatibility.
 
 # Node categories
 
-Extractors are Production nodes. Use that category consistently in the interface, documentation, and discussion; do not describe them as separate from production nodes.
+Extractors and Lake Intakes are Production nodes. Use that category consistently in the interface, documentation, and discussion; do not describe them as separate from production nodes. Carts, Trucks and Trains are Logistics nodes; they retain their inventory and capacity behavior.
 
 # Player-facing voice
 
@@ -19,3 +21,9 @@ Dry, understated humor is the canonical voice of NODE: Another Factory Game. Use
 Read `docs/browser-playtest.md` before starting or recovering browser playtests. It records the verified browser discovery and recovery procedure. Follow current tool documentation if it differs from a recorded example. Preserve the current game during browser recovery.
 
 For balance runs, use normal gameplay without grants, save injection, accelerated simulation, or changes to game rules. Queue ordinary bugs and suggested design changes until the run is over. If a progression blocker needs a fix, make the smallest authorized fix, record it, and continue. Keep resource totals and elapsed game time in exported playtest reports; distinguish setup and interaction overhead from production waiting.
+
+# Change history
+
+Maintain `docs/changelog/entries.json` after each completed meaningful game, documentation, or tooling change. Read `docs/changelog/README.md` for the format. Add a stable NODE ID, local date, concise outcome, topics, source/evidence, actual verification and material limits. Batch related changes; do not log unimplemented proposals as completed. Search the history when checking earlier decisions or regressions.
+
+Keep past records intact. Mark replaced behavior superseded and link the replacing record. Distinguish exact dates from retrospective known-by dates, original-game behavior from the rebuild, and local changes from confirmed publications. Only associate a release after publication is verified. Run `npm run changelog` and `npm run changelog:check` to refresh and verify the generated Markdown and searchable view. Update this history as part of the authorized work without asking for a separate approval.

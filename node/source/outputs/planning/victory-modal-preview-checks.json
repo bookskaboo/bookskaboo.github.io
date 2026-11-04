@@ -1,0 +1,16 @@
+{
+  "preview": "outputs/planning/victory-modal-preview.html",
+  "staticChecks": {
+    "javascriptSyntax": "passed",
+    "fourRequestedCopyPassages": "present and exactly match design document",
+    "labelledNativeDialog": "present",
+    "continueHandler": "present; not exercised",
+    "escapeDismissal": "native dialog behavior; not exercised",
+    "scrollingAndReducedMotionRules": "present; not rendered"
+  },
+  "browserVerification": {
+    "status": "blocked; no rendered layout or interaction pass claimed",
+    "reason": "Headless inspection unavailable; browser security policy disallowed file-URL navigation. No workaround attempted after the browser policy rejection."
+  },
+  "runtimeIntegration": "not implemented or tested"
+}

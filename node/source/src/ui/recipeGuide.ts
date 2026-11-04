@@ -4,6 +4,7 @@ import { isRecipeAvailable } from '../content/recipeAvailability';
 import { RECIPES, RECIPE_GROUPS } from '../content/recipes';
 import { getEfficiencyMultiplier } from '../content/efficiency';
 import type { GameState, NodeKind, Recipe } from '../domain/types';
+import { modNode } from '../mods/modRules';
 
 export const RECIPE_GUIDE_GROUPS = Object.keys(RECIPE_GROUPS)
   .filter(id => id in NODE_DEFINITIONS)
@@ -17,5 +18,5 @@ export function recipeGuideGroups(game: GameState, previewRecipeId?: string) {
 }
 
 export function recipeGuideCycle(recipe: Recipe, node: NodeKind, game: GameState) {
-  return recipe.cycleMs * getEfficiencyMultiplier(getNodeCapabilities(node).efficiencyFamily, game.research.completed);
+  return recipe.cycleMs * getEfficiencyMultiplier(getNodeCapabilities(node).efficiencyFamily, game.research.completed) * (modNode(node)?.cycleMultiplier ?? 1);
 }

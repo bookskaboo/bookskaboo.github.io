@@ -1,0 +1,191 @@
+{
+  "status": "Implemented general pacing baseline; separate speedrun candidate remains experimental",
+  "revision": "regional-cores-4-affordable-road-channels",
+  "recipes": {
+    "coolant": {
+      "seconds": 6
+    },
+    "conductive-slurry": {
+      "seconds": 8
+    },
+    "hydro-core": {
+      "seconds": 18,
+      "inputs": {
+        "hydraulic-actuator": 1,
+        "ceramic-electrode": 1,
+        "coolant": 2
+      }
+    },
+    "refined-mithril": {
+      "seconds": 12,
+      "inputs": {
+        "mythril-plate": 1,
+        "iron-plate": 4,
+        "charcoal": 1
+      }
+    },
+    "shiny-core": {
+      "seconds": 24,
+      "inputs": {
+        "mithril-mesh": 1,
+        "hydraulic-actuator": 1,
+        "circuit-a": 2
+      }
+    },
+    "hydraulic-actuator": {
+      "seconds": 10,
+      "inputs": {
+        "iron-gear": 1,
+        "motor": 1,
+        "coolant": 2
+      }
+    },
+    "precision-controller": {
+      "seconds": 30,
+      "inputs": {
+        "circuit-a": 2,
+        "mythril-gear": 1,
+        "conductive-slurry": 2
+      }
+    },
+    "advanced-actuator": {
+      "seconds": 30,
+      "inputs": {
+        "hydraulic-actuator": 1,
+        "mithril-mesh": 1,
+        "coolant": 3
+      }
+    },
+    "command-core": {
+      "seconds": 36,
+      "inputs": {
+        "logic-substrate": 1,
+        "precision-controller": 1,
+        "advanced-actuator": 1
+      }
+    },
+    "mithril-mesh": {
+      "seconds": 18,
+      "inputs": {
+        "refined-mithril": 2,
+        "copper-wire": 1,
+        "coolant": 2
+      }
+    },
+    "logic-substrate": {
+      "seconds": 30,
+      "inputs": {
+        "circuit-a": 2,
+        "ceramic-electrode": 1,
+        "mythril-wire": 1
+      }
+    }
+  },
+  "existingResearchEach": {
+    "assembler": 1,
+    "exploration": 1,
+    "road": 2,
+    "automataCore": 2
+  },
+  "research": {
+    "Hydrochemistry": {
+      "each": 1
+    },
+    "Hydraulic Assembly": {
+      "each": 2
+    },
+    "Fluid Routing": {
+      "each": 2
+    },
+    "Sealed Robotics": {
+      "each": 2
+    },
+    "Ore Separation": {
+      "each": 2
+    },
+    "Mineral Recovery": {
+      "each": 0,
+      "milestone": "Discover Mythril processing"
+    },
+    "Heavy Robotics": {
+      "each": 2
+    },
+    "Precision Control": {
+      "each": 2
+    },
+    "Autonomous Logistics": {
+      "each": 2
+    },
+    "Command Robotics": {
+      "each": 2
+    },
+    "Endgame Theory": {
+      "each": 2
+    },
+    "Power Distribution": {
+      "each": 2
+    },
+    "Resource Golem Survey": {
+      "each": 3
+    },
+    "Mineral Regeneration": {
+      "each": 2
+    },
+    "Factory Templates": {
+      "tier": 3,
+      "each": 30
+    },
+    "Hydro Processor 1": {
+      "tier": 3,
+      "each": 20
+    },
+    "Advanced Assembler 1": {
+      "tier": 3,
+      "each": 25
+    },
+    "Tree Planter 1": {
+      "tier": 3,
+      "each": 30
+    },
+    "Research Center 2": {
+      "tier": 4,
+      "each": 70
+    },
+    "Mineral Recovery 1": {
+      "tier": 4,
+      "each": 55
+    },
+    "Warehouse Logistics": {
+      "tier": 4,
+      "each": 55
+    },
+    "Road Channels 1": {
+      "tier": 4,
+      "each": 2
+    },
+    "Hydro Processor 2": {
+      "tier": 5,
+      "each": 100
+    },
+    "Advanced Assembler 2": {
+      "tier": 5,
+      "each": 100
+    },
+    "Area Expansion 2": {
+      "tier": 5,
+      "each": 150
+    },
+    "Mineral Regeneration 2": {
+      "tier": 5,
+      "each": 90
+    },
+    "High Pressure Intakes": {
+      "tier": 5,
+      "each": 100
+    },
+    "Road Channels 2": {
+      "tier": 5,
+      "each": 130
+    }
+  }
+}

@@ -1,12 +1,15 @@
+import { researchCenterView } from './researchCenterView';
+import { researchConsumptionGlow } from './researchConsumptionGlow';
+import { createResearchNodeStatus, updateResearchNodeStatus } from './researchNodeStatus';
 import { THEME } from './playfieldTheme';
-import { outputTotal, inputTotal, outputCapacity, resourceCapacityReadout, nodeTextScale, isItemId, isSmartVisualRecipe, portRoleLabel, canDeleteNode, canCyclePortPositions, nodeCycleDuration } from './playfieldNodeState';
+import { outputTotal, inputTotal, outputCapacity, resourceCapacityReadout, resourceReserveFraction, nodeTextScale, isItemId, portRoleLabel, canDeleteNode, canCyclePortPositions, nodeCycleDuration } from './playfieldNodeState';
 import { connectionPoints, curvePoint, buildTransferMotionPath, sampleCurveMotion } from './cableGeometry';
-import { drawCurve, label, drawTrashIcon, escapeHtml } from './playfieldDrawing';
+import { drawCurve, label, drawTrashIcon, drawRoadFlowArrow, escapeHtml } from './playfieldDrawing';
 import { drawBufferSquares, updateProductionPort, updateBufferSquares, drawProductionCue, updateInputSquares } from './nodeBuffers';
 import type { PlayfieldTooltip, PixiPlayfieldProps as Props, DragState, NodeView, PortHandle, PortView, ConnectionDragState, ConnectionRejection, FlowParticle, PlacementView } from './playfieldTypes';
 export type { PlayfieldTooltip, SelectionInfo } from './playfieldTypes';
 import { productionExplanation, productionVisual, productionVisualContext, type ProductionVisual } from './productionVisuals';
-import { isProductionMachine, productionPortRow } from './productionPortRows';
+import { isProductionMachine } from './productionPortRows';
 import { isStorageNode } from './bufferSlots';
 import { NodeControlHover, JOINT_CONTROL_GRACE_MS } from './nodeControlHover';
 import { nearestSocket, socketHitContains } from './socketTargeting';
@@ -20,13 +23,16 @@ import { getNodeModule, isPlayerMovableNode } from '../content/nodeModules';
 import { RECIPES } from '../content/recipes';
 import type { Connection, InFlightTransfer, ItemId, MachineNode } from '../domain/types';
 import { getSectorWorldSize } from '../simulation/worldGeneration';
-import { clampFieldCamera } from '../domain/camera';
+import { clampFieldCamera, scrollCameraForDrag } from '../domain/camera';
+import { WORLD_GRID_SIZE, draggedNodePositions, snapNodePosition } from '../domain/nodeGrid';
 import { boxControlSelection, ControlGroupSelection } from '../domain/controlGroups';
 import { getPortSide, isMultiConnectionPort } from '../simulation/connectionRules';
 import { getNodeSize, getPortAnchor, isCompactNode, isOrganicNode, isResourceNode, organicPolygon } from '../domain/nodeGeometry';
+import { obstructionOutline } from '../domain/obstructionGeometry';
 import { drawNodeIcon } from './drawNodeIcon';
 import { MAX_VISIBLE_TRANSFERS, transferProgress } from '../simulation/transfers';
 import { RESEARCH_CORE_TYPES, researchCoreStorage } from '../simulation/researchStatus';
+import { modNode } from '../mods/modRules';
 
 export function PixiPlayfield(props: Props) {
   const hostRef = useRef<HTMLDivElement>(null); const propsRef = useRef(props); propsRef.current = props;
@@ -42,6 +48,8 @@ export function PixiPlayfield(props: Props) {
     let rightPress: { id: string; x: number; y: number; moved: boolean } | undefined;
     let marquee: { startX: number; startY: number; graphic: Graphics; baseSelection: string[]; previewIds: Set<string> } | undefined; let spaceHeld = false; let previewCable: Graphics | undefined; let previewPoint = { x: 0, y: 0 };
     let placementView: PlacementView | undefined; let placementPointerInside = false; let placementCursor = { x: 0, y: 0 };
+    let dragPointer: { x: number; y: number } | undefined;
+    let lastSnapToGrid = props.snapToGrid;
     let connectionRejection: ConnectionRejection | undefined; let rejectionGraphic: Graphics | undefined;
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
     const controlHover = new NodeControlHover();
@@ -54,6 +62,7 @@ export function PixiPlayfield(props: Props) {
     let lastParticleSignature = '';
     let sceneNodes = new Map<string, MachineNode>();
     let sceneNodeSource: MachineNode[] | undefined;
+    let sceneMod = props.engine.getState().mod;
     let sceneConnections = new Map<string, Connection>();
 
 
@@ -125,6 +134,7 @@ export function PixiPlayfield(props: Props) {
         const existing = attached.find(connection => connection.id === propsRef.current.selectedConnection) ?? (attached.length === 1 ? attached[0] : undefined);
         if (existing) { active = { nodeId: existing.from, direction: 'output', index: existing.fromPort ?? 0 }; replaceConnectionId = existing.id; }
       }
+      dragPointer = { x: event.global.x, y: event.global.y };
       connectionDrag = { originNodeId: node.id, active, replaceConnectionId, adaptiveJointDirection: node.kind === 'joint', startX: event.global.x, startY: event.global.y, moved: false };
       previewPoint = { x: event.global.x, y: event.global.y };
       propsRef.current.onConnectionSource(active.nodeId);
@@ -136,9 +146,9 @@ export function PixiPlayfield(props: Props) {
       const sector = propsRef.current.engine.getSector();
       const hits = sector.nodes.filter((node) => {
         const size = getNodeSize(node);
-        return canSelectNode(node.id) && isPlayerMovableNode(node.kind) && !node.disabled && node.x + size.w / 2 >= left && node.x - size.w / 2 <= right && node.y + size.h / 2 >= top && node.y - size.h / 2 <= bottom;
+        return canSelectNode(node.id) && isPlayerMovableNode(node.kind, propsRef.current.engine.getState(), node) && !node.disabled && node.x + size.w / 2 >= left && node.x - size.w / 2 <= right && node.y + size.h / 2 >= top && node.y - size.h / 2 <= bottom;
       }).map((node) => node.id);
-      const selectable = new Set(sector.nodes.filter(node => isPlayerMovableNode(node.kind) && !node.disabled).map(node => node.id));
+      const selectable = new Set(sector.nodes.filter(node => isPlayerMovableNode(node.kind, propsRef.current.engine.getState(), node) && !node.disabled).map(node => node.id));
       return boxControlSelection(hits, sector.controlGroups ?? [], start, end).ids.filter(id => selectable.has(id));
     };
     const drawMarqueeHighlights = (ids: ReadonlySet<string>) => {
@@ -146,7 +156,7 @@ export function PixiPlayfield(props: Props) {
       nodeViews.forEach((view, id) => {
         view.marqueeHighlight.clear(); if (!ids.has(id)) return;
         const node = nodes.get(id); if (!node) return;
-        if (isOrganicNode(node)) view.marqueeHighlight.poly(organicPolygon(node, node.kind === 'lake' ? 18 : node.kind === 'monster-camp' ? 15 : 11)).fill({ color: THEME.selected, alpha: .08 }).stroke({ color: THEME.selected, width: 4, alpha: 1 });
+        if (isOrganicNode(node)) view.marqueeHighlight.poly(obstructionOutline(node)).fill({ color: THEME.selected, alpha: .08 }).stroke({ color: THEME.selected, width: 4, alpha: 1 });
         else { const size = getNodeSize(node); view.marqueeHighlight.roundRect(-size.w / 2 - 3, -size.h / 2 - 3, size.w + 6, size.h + 6, 12).fill({ color: THEME.selected, alpha: .07 }).stroke({ color: THEME.selected, width: 4, alpha: 1 }); }
       });
     };
@@ -166,11 +176,11 @@ export function PixiPlayfield(props: Props) {
       surfaceLayer.removeChildren().forEach((child) => child.destroy()); const surface = new Graphics();
       surface.rect(0, 0, worldSize.width, worldSize.height).fill({ color: THEME.surface }).stroke({ color: THEME.surfaceEdge, width: 4, alpha: .9 });
       if (propsRef.current.engine.getState().preferences.showGrid) {
-        for (let x = 64; x < worldSize.width; x += 64) surface.moveTo(x, 0).lineTo(x, worldSize.height);
-        for (let y = 64; y < worldSize.height; y += 64) surface.moveTo(0, y).lineTo(worldSize.width, y);
+        for (let x = WORLD_GRID_SIZE; x < worldSize.width; x += WORLD_GRID_SIZE) surface.moveTo(x, 0).lineTo(x, worldSize.height);
+        for (let y = WORLD_GRID_SIZE; y < worldSize.height; y += WORLD_GRID_SIZE) surface.moveTo(0, y).lineTo(worldSize.width, y);
         surface.stroke({ color: THEME.fineGrid, width: 1, alpha: .025 });
-        for (let x = 320; x < worldSize.width; x += 320) surface.moveTo(x, 0).lineTo(x, worldSize.height);
-        for (let y = 320; y < worldSize.height; y += 320) surface.moveTo(0, y).lineTo(worldSize.width, y);
+        for (let x = WORLD_GRID_SIZE * 5; x < worldSize.width; x += WORLD_GRID_SIZE * 5) surface.moveTo(x, 0).lineTo(x, worldSize.height);
+        for (let y = WORLD_GRID_SIZE * 5; y < worldSize.height; y += WORLD_GRID_SIZE * 5) surface.moveTo(0, y).lineTo(worldSize.width, y);
         surface.stroke({ color: THEME.coarseGrid, width: 2, alpha: .16 });
       }
       surfaceLayer.addChild(surface);
@@ -179,11 +189,16 @@ export function PixiPlayfield(props: Props) {
     const drawFrame = (node: MachineNode, body: Graphics, header: Graphics) => {
       const size = getNodeSize(node); const selected = propsRef.current.selectedIds.includes(node.id); const definition = getNodeDisplayDefinition(node);
       if (isOrganicNode(node)) {
-        const points = organicPolygon(node, node.kind === 'lake' ? 18 : node.kind === 'monster-camp' ? 15 : 11);
-        const fill = node.lizardSettlement ? 0x183a2a : node.kind === 'lake' ? 0x17334a : node.kind === 'monster-camp' ? 0x3b2023 : 0x090a0c;
+        const points = obstructionOutline(node);
+        const fill = node.kind === 'resourceGolem' ? definition.accent : node.lizardSettlement ? 0x183a2a : node.kind === 'lake' ? 0x17334a : node.kind === 'monster-camp' ? 0x3b2023 : 0x090a0c;
         body.poly(points).fill({ color: fill, alpha: .98 }).stroke({ color: selected ? THEME.selected : definition.accent, width: selected ? 4 : 2, alpha: .86 });
         if (node.kind === 'lake') body.poly(organicPolygon(node, 18, .78)).stroke({ color: 0x55bde8, width: 2, alpha: .28 });
         if (node.kind === 'big-hole') body.poly(organicPolygon(node, 11, .72)).fill({ color: 0x000000, alpha: .82 });
+        if (node.kind === 'resourceGolem') {
+          body.rect(-size.w * .09, -size.h * .43, size.w * .055, size.h * .025).fill(0x101820);
+          body.rect(size.w * .035, -size.h * .43, size.w * .055, size.h * .025).fill(0x101820);
+          body.moveTo(-size.w * .12, -size.h * .21).lineTo(size.w * .12, -size.h * .21).stroke({ color: 0x101820, width: 5, alpha: .4 });
+        }
         if (node.kind === 'monster-camp') [-.25, .05, .31].forEach((offset, index) => body.poly([-18 + offset * size.w, 12 + (index - 1) * 9, offset * size.w, -18 - index * 2 + (index - 1) * 9, 18 + offset * size.w, 12 + (index - 1) * 9]).fill({ color: node.lizardSettlement ? 0x326b4b : 0x6c3732 }).stroke({ color: node.lizardSettlement ? 0x71c99a : 0xc76a5f, width: 1 }));
         return;
       }
@@ -191,7 +206,13 @@ export function PixiPlayfield(props: Props) {
       const radius = isCompactNode(node) || node.kind === 'woodenChest' || node.kind === 'chest' ? 9 : 12;
       body.roundRect(-size.w / 2 + 1, -size.h / 2 + 8, size.w, size.h, radius).fill({ color: 0x000000, alpha: .42 });
       body.roundRect(-size.w / 2, -size.h / 2, size.w, size.h, radius).fill({ color: node.disabled ? 0x351d21 : THEME.body }).stroke({ color: selected ? THEME.selected : THEME.border, width: selected ? 3 : 1.25 });
-      const headerHeight = isCompactNode(node) ? (node.kind === 'road' ? 42 : 30) : isResourceNode(node) ? 73 : 61;
+      if(node.kind==='cornerChallenge'&&node.cornerType==='alpha') {
+        body.poly([-20,20,-155,-75,-210,95,-110,50,-48,115,0,145,48,115,110,50,210,95,155,-75,20,20]).fill({color:0x873b38,alpha:.65}).stroke({color:0xe9a25e,width:3});
+        body.poly([-38,5,-22,-40,0,-20,22,-40,38,5,24,50,0,72,-24,50]).fill({color:0xb66a43}).stroke({color:0xf4c17a,width:3});
+        body.circle(-14,8,5).fill(0xffdf8c);body.circle(14,8,5).fill(0xffdf8c);
+      }
+      const shape = getNodeModule(node.kind).appearance.shape;
+      const headerHeight = shape === 'road' || shape === 'chest' ? 42 : isCompactNode(node) ? 30 : isResourceNode(node) ? 73 : 61;
       header.roundRect(-size.w / 2 + 1, -size.h / 2 + 1, size.w - 2, headerHeight, Math.max(2, radius - 1)).fill({ color: node.disabled ? 0x542a2f : THEME.header });
       header.rect(-size.w / 2 + 1, -size.h / 2 + headerHeight - 1, size.w - 2, 1).fill({ color: 0xffffff, alpha: .06 });
       header.roundRect(-size.w / 2 + 10, -size.h / 2 - .5, size.w - 20, 2.5, 2).fill({ color: node.disabled ? THEME.danger : definition.accent });
@@ -237,23 +258,14 @@ export function PixiPlayfield(props: Props) {
       const recipeItem = direction === 'output' && node.recipeId ? Object.keys(RECIPES[node.recipeId]?.outputs ?? {})[0] as ItemId | undefined : undefined;
       const filteredItem = direction === 'output' ? related.map((connection) => sector.nodes.find((candidate) => candidate.id === connection.to)?.filterItem).find((item): item is ItemId => Boolean(item)) : undefined;
       const declaredItem = isItemId(family) ? family : undefined;
-      const smartMaterialItem = (Object.keys(node.input) as ItemId[]).find((item) => (node.input[item] ?? 0) > 0 && (node.kind === 'smelter' ? ['iron', 'copper', 'mythril'].includes(item) : ['iron-plate', 'copper-plate', 'mythril-plate'].includes(item)))
-        ?? connections.find((connection) => connection.to === node.id && (connection.toPort ?? 0) === 0 && connection.item)?.item;
-      const regularRoutedItem = connectedItem ?? filteredItem ?? declaredItem ?? bufferedItem ?? recipeItem ?? node.resourceItem;
-      const routedItem = isSmartVisualRecipe(node)
-        ? direction === 'input' && index === 0
-          ? connectedItem ?? smartMaterialItem
-          : direction === 'output'
-            ? bufferedItem ?? (smartMaterialItem ? recipeItem : undefined)
-            : regularRoutedItem
-        : regularRoutedItem;
+      const routedItem = node.kind === 'goblinTribute' && direction === 'output' ? declaredItem : connectedItem ?? filteredItem ?? declaredItem ?? bufferedItem ?? recipeItem ?? node.resourceItem;
       const production = isProductionMachine(node);
-      const portColor = routedItem ? ITEM_COLORS[routedItem] : definition.accent; const multi = isMultiConnectionPort(node, direction, index);
+      const portColor = node.kind === 'devSource' ? definition.accent : routedItem ? ITEM_COLORS[routedItem] : definition.accent; const multi = isMultiConnectionPort(node, direction, index);
       if (production) { shape.circle(0, 0, 10).fill(portColor); }
       else if (multi) { const points: number[] = []; for (let point = 0; point < 16; point++) { const angle = -Math.PI / 2 + point * Math.PI / 8; const radius = point % 2 === 0 ? 11 : 5.5; points.push(Math.cos(angle) * radius, Math.sin(angle) * radius); } shape.poly(points).fill({ color: connected ? portColor : 0x121315 }).stroke({ color: portColor, width: 2 }); }
       else shape.circle(0, 0, 9).fill({ color: connected ? portColor : 0x121315 }).stroke({ color: portColor, width: 2 });
       const highlight = new Graphics(); highlight.eventMode = 'none'; portRoot.addChild(highlight, pulse, shape);
-      const roleLabel = portRoleLabel(node, direction, index, family, routedItem); if (!production && roleLabel && !isStorageNode(node.kind) && definition.category !== 'Logistics') { const side = getPortSide(node, direction, index); const displayName = roleLabel.length > 15 ? `${roleLabel.slice(0, 14)}…` : roleLabel; const text = label(displayName.toUpperCase(), 9, 0xf0f4f7, 'bold', 'monospace'); text.anchor.set(.5); const width = Math.max(28, text.width + 12); const badge = new Container(); badge.eventMode = 'none'; badge.addChild(new Graphics().roundRect(-width / 2, -9, width, 18, 4).fill({ color: 0x111419, alpha: .96 }).stroke({ color: portColor, width: 1, alpha: .78 })); badge.addChild(text); if (side === 'east') badge.position.set(-12 - width / 2, 0); else if (side === 'west') badge.position.set(12 + width / 2, 0); else if (side === 'north') badge.position.set(0, 18); else badge.position.set(0, -18); portRoot.addChild(badge); }
+      const roleLabel = portRoleLabel(node, direction, index, family, routedItem); if (!production && roleLabel && !(direction === 'output' && (isResourceNode(node) || node.kind === 'lake' || node.infiniteResource)) && !isStorageNode(node.kind) && definition.category !== 'Logistics' && getNodeCapabilities(node.kind).behavior !== 'research') { const side = getPortSide(node, direction, index); const displayName = roleLabel.length > 15 ? `${roleLabel.slice(0, 14)}…` : roleLabel; const text = label(displayName.toUpperCase(), 9, 0xf0f4f7, 'bold', 'monospace'); text.anchor.set(.5); const width = Math.max(28, text.width + 12); const badge = new Container(); badge.eventMode = 'none'; badge.addChild(new Graphics().roundRect(-width / 2, -9, width, 18, 4).fill({ color: 0x111419, alpha: .96 }).stroke({ color: portColor, width: 1, alpha: .78 })); badge.addChild(text); if (side === 'east') badge.position.set(-12 - width / 2, 0); else if (side === 'west') badge.position.set(12 + width / 2, 0); else if (side === 'north') badge.position.set(0, 18); else badge.position.set(0, -18); portRoot.addChild(badge); }
       let materialLabel: Text | undefined, materialBuffer: Graphics | undefined;
       if (production) {
         materialLabel = label('', 11, 0xe7ebef, 'bold'); materialLabel.eventMode = 'none';
@@ -263,7 +275,9 @@ export function PixiPlayfield(props: Props) {
       if (production) updateProductionPort(view, node, sector);
       root.addChild(portRoot); if (!interactive) { portRoot.eventMode = 'none'; portRoot.cursor = 'default'; return; }
       const key = `${node.id}:${direction}:${index}`; portViews.set(key, view);
-      const tooltip = (event: FederatedPointerEvent) => { if (production) { const live = propsRef.current.engine.getSector().nodes.find(n => n.id === node.id) ?? node; const row = productionPortRow(live, direction, index, propsRef.current.engine.getSector()); showTooltip(event, `${direction === 'input' ? 'Input' : 'Output'} · ${row.name}`, `${row.detail ?? `${row.amount}/${row.capacity} stored`} · ${multi ? 'Multi-connection' : 'Single-connection'} port · ${direction === 'input' ? 'Release a compatible output here.' : 'Drag to a compatible input.'}`, `#${row.color.toString(16).padStart(6, '0')}`, 'MATERIAL BUFFER'); return; } showTooltip(event, `${direction === 'input' ? 'Input' : 'Output'} · ${routedItem ? ITEM_NAMES[routedItem] : family}`, `${routedItem ? `${direction === 'output' ? 'Producing / routing' : 'Receiving'} ${ITEM_NAMES[routedItem]} · ` : ''}${multi ? 'Multi-connection' : 'Single-connection'} port · ${direction === 'input' ? 'Release a compatible output here.' : 'Drag to a compatible input.'}`, `#${portColor.toString(16).padStart(6, '0')}`, `${direction.toUpperCase()} SOCKET`); };
+      const tooltip = (event: FederatedPointerEvent) => {
+        if (multi && !propsRef.current.engine.getState().preferences.skipMultiConnectionTooltip) showTooltip(event, 'Multi-connection connector', 'This connector can accept multiple connections at the same time.', `#${portColor.toString(16).padStart(6, '0')}`, 'MULTI-CONNECTION PORT');
+      };
       portRoot.on('pointerover', (event) => { view.hovered = true; tooltip(event); }); portRoot.on('pointermove', tooltip); portRoot.on('pointerout', () => { view.hovered = false; clearTooltip(); });
       portRoot.on('pointerdown', (event: FederatedPointerEvent) => {
         if (event.button !== 0 || spaceHeld) return;
@@ -283,7 +297,7 @@ export function PixiPlayfield(props: Props) {
     const createNodeView = (node: MachineNode, placementPreview = false): NodeView => {
       const definition = getNodeDisplayDefinition(node); const size = getNodeSize(node); const compact = isCompactNode(node); const root = new Container();
       const readabilityLabels: Text[] = [];
-      const movable = isPlayerMovableNode(node.kind);
+      const movable = isPlayerMovableNode(node.kind, propsRef.current.engine.getState(), node);
       root.x = node.x; root.y = node.y; root.eventMode = placementPreview || node.disabled ? 'none' : 'static'; root.cursor = placementPreview ? 'default' : node.disabled ? 'not-allowed' : movable ? 'grab' : 'default'; root.alpha = placementPreview ? .78 : node.disabled ? .68 : 1;
       const body = new Graphics(); const header = new Graphics(); drawFrame(node, body, header); root.addChild(body, header);
       const controlGroup = !placementPreview && propsRef.current.engine.getSector().controlGroups?.find(group => group.nodeIds.includes(node.id));
@@ -294,34 +308,38 @@ export function PixiPlayfield(props: Props) {
         marker.circle(badge.x, badge.y, badge.r).fill(controlGroup.color).stroke({ color: 0xffffff, width: 1, alpha: .7 });
         root.addChild(marker);
       }
-      if (getNodeModule(node.kind).appearance.shape === 'chest') {
-        const title = label(node.name, 13, 0xf3f5f7, 'bold'); title.position.set(-size.w / 2 + 12 + (controlGroup ? 16 : 0), -size.h / 2 + 12); root.addChild(title); readabilityLabels.push(title);
-      } else if (!isOrganicNode(node) && node.kind !== 'joint') {
-        const iconSize = compact ? 24 : isResourceNode(node) ? 40 : 33; const iconX = compact ? 0 : -size.w / 2 + (isResourceNode(node) ? 34 : 29); const iconY = -size.h / 2 + (compact ? 15 : isResourceNode(node) ? 36 : 30);
+      if (!isOrganicNode(node) && node.kind !== 'joint') {
+        const road = getNodeModule(node.kind).appearance.shape === 'road';
+        const chest = getNodeModule(node.kind).appearance.shape === 'chest';
+        const iconSize = road || chest ? 33 : compact ? 24 : isResourceNode(node) ? 40 : 33; const iconX = compact || chest ? 0 : -size.w / 2 + (isResourceNode(node) ? 34 : 29); const iconY = -size.h / 2 + (road || chest ? 21 : compact ? 15 : isResourceNode(node) ? 36 : 30);
         root.addChild(new Graphics().roundRect(iconX - iconSize / 2, iconY - iconSize / 2, iconSize, iconSize, 7).fill({ color: definition.accent, alpha: .1 }).stroke({ color: definition.accent, width: 1, alpha: .42 }));
-        drawNodeIcon(root, getNodeModule(node.kind).appearance.icon, iconX, iconY, compact ? 16 : isResourceNode(node) ? 25 : 21, definition.accent);
-        if (!compact) {
+        drawNodeIcon(root, getNodeModule(node.kind).appearance.icon, iconX, iconY, road || chest ? 21 : compact ? 16 : isResourceNode(node) ? 25 : 21, definition.accent, modNode(node.kind)?.icon);
+        if (!compact && !chest) {
           const title = label(node.name, isResourceNode(node) ? 20 : 17, 0xf3f5f7, 'bold'); title.x = -size.w / 2 + (isResourceNode(node) ? 63 : 55) + (controlGroup ? 16 : 0); title.y = -size.h / 2 + (isResourceNode(node) ? 22 : 17); root.addChild(title); readabilityLabels.push(title);
         }
       }
       if (isOrganicNode(node)) {
-        const title = label(node.name.toUpperCase(), 16, 0xf3f5f7, 'bold', 'monospace'); title.anchor.set(.5); title.position.set(0, node.kind === 'lake' ? 0 : -72); root.addChild(title); readabilityLabels.push(title);
+        const title = label(node.name.toUpperCase(), 16, 0xf3f5f7, 'bold', 'monospace'); title.anchor.set(.5); title.position.set(0, node.kind === 'resourceGolem' ? -size.h / 2 - 30 : node.kind === 'lake' ? 0 : -72); root.addChild(title); readabilityLabels.push(title);
       }
+      if (getNodeModule(node.kind).appearance.shape === 'road') drawRoadFlowArrow(root, node);
+      if (node.kind === 'devSource') {
+        const status = label('AUTO SUPPLY', 15, definition.accent, 'bold', 'monospace'); status.anchor.set(.5); status.position.set(0, 24); root.addChild(status); readabilityLabels.push(status);
+      }
+      const initialProgress = isResourceNode(node) ? resourceReserveFraction(node) : getNodeCapabilities(node.kind).behavior === 'research' ? researchCenterView(node, propsRef.current.engine.getState()).progress : 0;
       const progress = new Graphics(); const progressTrack = new Graphics(); let progressLabel: Text | undefined; let bufferLabel: Text | undefined; let bufferSquares: Graphics | undefined; let inputSquares: Graphics | undefined; let coreStorageLabels: Text[] | undefined; let coreStorageSquares: Graphics[] | undefined;
       if (!compact && !isOrganicNode(node)) {
         const progressWidth = size.w - (isResourceNode(node) ? 32 : 26); const progressY = size.h / 2 - (isResourceNode(node) ? 26 : 22);
-        if (!isStorageNode(node.kind)) {
+        if (!isStorageNode(node.kind) && node.kind !== 'goblinTribute' && node.kind !== 'devSource') {
         progressTrack.roundRect(-progressWidth / 2, progressY, progressWidth, isResourceNode(node) ? 10 : 8, 4).fill({ color: THEME.progressTrack }).stroke({ color: 0x0e0f11, width: 1 });
         progress.roundRect(0, 0, progressWidth, isResourceNode(node) ? 10 : 8, 4).fill({ color: isProductionMachine(node) ? 0x8ea0a6 : definition.accent }); progress.position.set(-progressWidth / 2, progressY);
-        if (!isProductionMachine(node)) { progressLabel = label('0%', 12, 0xf0f2f4, 'bold', 'monospace'); progressLabel.anchor.set(1, .5); progressLabel.position.set(size.w / 2 - 14, progressY - 14); readabilityLabels.push(progressLabel); } root.addChild(progressTrack, progress); if (progressLabel) root.addChild(progressLabel);
+        progress.scale.x = initialProgress;
+        if (!isProductionMachine(node) && getNodeCapabilities(node.kind).behavior !== 'research') { progressLabel = label(`${Math.round(initialProgress * 100)}%`, 12, 0xf0f2f4, 'bold', 'monospace'); progressLabel.anchor.set(1, .5); progressLabel.position.set(size.w / 2 - 14, progressY - 14); readabilityLabels.push(progressLabel); } root.addChild(progressTrack, progress); if (progressLabel) root.addChild(progressLabel);
         }
         if (getNodeCapabilities(node.kind).behavior === 'research') {
-          const heading = label('CORE STORAGE', 10, 0x9ba7b3, 'bold', 'monospace');
-          heading.position.set(-size.w / 2 + 18, -30); root.addChild(heading);
           coreStorageSquares = RESEARCH_CORE_TYPES.map(() => { const squares = new Graphics(); squares.eventMode = 'none'; root.addChild(squares); return squares; });
           coreStorageLabels = RESEARCH_CORE_TYPES.map((item) => {
             const text = label('', 11, ITEM_COLORS[item], 'bold', 'monospace');
-            root.addChild(text); readabilityLabels.push(text); return text;
+            root.addChild(text); return text;
           });
         } else {
           if (isResourceNode(node)) {
@@ -341,7 +359,13 @@ export function PixiPlayfield(props: Props) {
         if (canDeleteNode(node)) { addAction(node, root, actionX, 'delete', '×', 0xff8d93, () => propsRef.current.onDeleteNode(node.id)); actionX -= compact || chest ? 22 : 30; }
         if (!compact && canCyclePortPositions(node)) { addPortOrderAction(node, root, actionX); actionX -= 30; }
         const controls = getNodeModule(node.kind).controls;
-        if (controls.rotatable && definition.category !== 'Logistics') addAction(node, root, actionX, 'rotate', '↻', 0x8ec9ff, () => propsRef.current.onRotate(node.id)); else if (controls.configuration) addAction(node, root, actionX, 'configure', '⚙', 0x8ec9ff, () => propsRef.current.onConfigure(node.id));
+        if (controls.rotatable && definition.category !== 'Logistics') addAction(node, root, actionX, 'rotate', '↻', 0x8ec9ff, () => propsRef.current.onRotate(node.id)); else if (controls.configuration && controls.configuration !== 'recipe' && controls.configuration !== 'research' && controls.configuration !== 'tribute') addAction(node, root, actionX, 'configure', '⚙', 0x8ec9ff, () => propsRef.current.onConfigure(node.id));
+      }
+      let researchStatus;
+      if (!placementPreview && getNodeCapabilities(node.kind).behavior === 'research') {
+        researchStatus = createResearchNodeStatus(node, () => propsRef.current.onConfigure(node.id));
+        updateResearchNodeStatus(researchStatus, researchCenterView(node, propsRef.current.engine.getState()).projectName, nodeTextScale(camera.zoom));
+        root.addChild(researchStatus.root);
       }
       let jointMoveHandle: Container | undefined;
       if (node.kind === 'joint' && !placementPreview) {
@@ -365,7 +389,9 @@ export function PixiPlayfield(props: Props) {
         root.on('pointerdown', (event: FederatedPointerEvent) => {
           if (!canSelectNode(node.id)) { event.stopPropagation(); return; }
           if (event.button === 2 && !propsRef.current.placing) { rightPress = { id: node.id, x: event.global.x, y: event.global.y, moved: false }; return; }
-          if (event.button !== 0 || spaceHeld) return; event.stopPropagation(); if ((event.ctrlKey || event.metaKey) && movable) { groupSelection.clear(); propsRef.current.onClonePlacement(node.kind); return; }
+          if (event.button !== 0 || spaceHeld) return; event.stopPropagation();
+          if (event.shiftKey && propsRef.current.onCopyRecipe(node.id)) return;
+          if ((event.ctrlKey || event.metaKey) && movable) { groupSelection.clear(); propsRef.current.onClonePlacement(node.kind); return; }
           // The body can win Pixi hit testing over an enlarged socket. Resolve
           // nearby sockets before starting a machine move, including inside edges.
           if (event.target === jointMoveHandle) controlHover.press(node.id);
@@ -375,22 +401,25 @@ export function PixiPlayfield(props: Props) {
           const existing = propsRef.current.selectedIds;
           const selectedIds = !movable || node.kind === 'road' || node.kind === 'fluidRoad' ? [node.id] : groupSelection.press(node.id, existing, sector.controlGroups ?? [], event.global, performance.now(), event.shiftKey, event.detail);
           propsRef.current.onSelect(selectedIds, { source: 'node', individual: groupSelection.individualId === node.id, priority: groupSelection.priorityIds.length > 0 }); propsRef.current.onConnectionSelect(undefined); if (!movable) { groupSelection.clear(); return; } const origins = new Map<string, { x: number; y: number }>();
-          const movableIds = sector.nodes.filter((candidate) => selectedIds.includes(candidate.id) && isPlayerMovableNode(candidate.kind) && !candidate.disabled).map((candidate) => candidate.id);
-          propsRef.current.engine.getSector().nodes.filter((candidate) => movableIds.includes(candidate.id)).forEach((candidate) => origins.set(candidate.id, { x: candidate.x, y: candidate.y })); drag = { ids: movableIds, start: toWorld(event.global.x, event.global.y), origins, moved: false, valid: true };
+          const movableIds = sector.nodes.filter((candidate) => selectedIds.includes(candidate.id) && isPlayerMovableNode(candidate.kind, propsRef.current.engine.getState(), candidate) && !candidate.disabled).map((candidate) => candidate.id);
+          propsRef.current.engine.getSector().nodes.filter((candidate) => movableIds.includes(candidate.id)).forEach((candidate) => origins.set(candidate.id, { x: candidate.x, y: candidate.y })); dragPointer = { x: event.global.x, y: event.global.y }; drag = { ids: movableIds, anchorId: node.id, anchorSize: getNodeSize(node), start: toWorld(event.global.x, event.global.y), origins, moved: false, valid: true };
         });
         // A stationary right-click invokes the node action; dragging still pans.
         root.on('pointerup', (event: FederatedPointerEvent) => {
+          if (event.button === 0 && drag?.ids.includes(node.id) && !drag.moved && getNodeModule(node.kind).controls.configuration === 'research') {
+            propsRef.current.onConfigure(node.id);
+          }
           if (event.button === 2) {
             const press = rightPress; rightPress = undefined;
             if (press?.id === node.id && !press.moved && Math.hypot(event.global.x - press.x, event.global.y - press.y) <= 4) {
               panning = undefined; clearTooltip();
-              propsRef.current.onNodeContextMenu(node.id, groupSelection.priorityIds.includes(node.id));
+              propsRef.current.onNodeContextMenu(node.id, groupSelection.priorityIds.includes(node.id), event.shiftKey);
               event.stopPropagation();
             }
           }
         });
       }
-      return { root, jointMoveHandle, productionCue, progress, progressLabel, bufferLabel, bufferSquares, inputSquares, coreStorageLabels, coreStorageSquares, readabilityLabels, flash, marqueeHighlight, invalidOverlay, invalidVisible: false, displayedProgress: 0 };
+      return { root, jointMoveHandle, researchStatus, productionCue, progress, progressLabel, bufferLabel, bufferSquares, inputSquares, coreStorageLabels, coreStorageSquares, readabilityLabels, flash, marqueeHighlight, invalidOverlay, invalidVisible: false, displayedProgress: initialProgress };
     };
 
     const drawInsertionPreview = (node?: MachineNode, valid = true) => {
@@ -431,7 +460,7 @@ export function PixiPlayfield(props: Props) {
           if (node) drawInsertionPreview({ ...node, ...drag.desired[node.id] }, drag.valid);
         } else drawInsertionPreview();
         if (placementView) placementView.view.root.visible = false; return; }
-      const point = toWorld(placementCursor.x, placementCursor.y); const preview = propsRef.current.engine.getNodePlacementPreview(kind, point.x, point.y);
+      const point = snapNodePosition(toWorld(placementCursor.x, placementCursor.y), propsRef.current.snapToGrid, getNodeSize({ kind })); const preview = propsRef.current.engine.getNodePlacementPreview(kind, point.x, point.y);
       if (!preview) { drawInsertionPreview(); if (placementView) placementView.view.root.visible = false; return; }
       if (!placementView || placementView.kind !== kind) {
         placementLayer.removeChildren().forEach((child) => child.destroy({ children: true }));
@@ -474,7 +503,12 @@ export function PixiPlayfield(props: Props) {
         const glow = new Graphics().roundRect(-19, -4.5, 38, 9, 4.5).fill({ color: THEME.flow, alpha: .32 });
         const bar = new Graphics().roundRect(-16, -2, 32, 4, 2).fill({ color: THEME.flowCore, alpha: 1 });
         outerGlow.blendMode = 'add'; glow.blendMode = 'add'; bar.blendMode = 'add';
-        root.addChild(outerGlow, glow, bar); particleLayer.addChild(root);
+        root.addChild(outerGlow, glow, bar);
+        if ((transfer.amount ?? 1) > 1) {
+          const quantity = label(`×${transfer.amount}`, 14, THEME.text, 'bold', 'monospace');
+          quantity.position.set(4, -24); root.addChild(quantity);
+        }
+        particleLayer.addChild(root);
         particles.push({ root, connectionId: connection.id, transfer, path, passages, passed: passedByTransfer.get(transfer.id) ?? new Set() });
         if (!seenTransferIds.has(transfer.id)) {
           seenTransferIds.add(transfer.id);
@@ -492,8 +526,9 @@ export function PixiPlayfield(props: Props) {
         if (summary && summary !== tooltipIntent.detail) { tooltipIntent.detail = summary; propsRef.current.onTooltip?.({ ...tooltipIntent }); }
       }
       const positionPart = drag ? '' : sector.nodes.map((node) => `${Math.round(node.x)}:${Math.round(node.y)}`).join(',');
-      const signature = [sector.id, nextWorldSize.width, nextWorldSize.height, preferences.particles, preferences.showGrid, propsRef.current.engine.getState().research.selected ?? '', Number(propsRef.current.engine.getState().research.completed.includes('treePlanter')), propsRef.current.selectedIds.join(','), propsRef.current.selectedConnection ?? '', positionPart, JSON.stringify(sector.controlGroups ?? []), sector.nodes.map((node) => `${node.id}:${node.kind}:${node.recipeId ?? ''}:${node.filterItem ?? ''}:${node.rotation}:${node.roadMode ?? ""}:${node.roadFacing ?? ""}:${node.inputPortOrder?.join('.') ?? ''}:${node.outputPortOrder?.join('.') ?? ''}:${node.outputRowOffset ?? 0}:${Number(node.connectorsMirrored)}:${Number(node.disabled)}:${Number(node.processingPaused)}`).join('|'), sector.connections.map((connection) => `${connection.id}:${connection.from}:${connection.fromPort ?? 0}:${connection.to}:${connection.toPort ?? 0}:${connection.item ?? ''}`).join('|')].join('~');
-      if (signature === lastSceneSignature && sceneNodeSource === sector.nodes) { syncParticles(); return; } lastSceneSignature = signature;
+      const signature = [sector.id, propsRef.current.engine.getState().research.completed.join(','), JSON.stringify(propsRef.current.engine.getState().research.repeatableCompletions), nextWorldSize.width, nextWorldSize.height, preferences.particles, preferences.showGrid, propsRef.current.engine.getState().research.selected ?? '', Number(propsRef.current.engine.getState().research.completed.includes('treePlanter')), propsRef.current.selectedIds.join(','), propsRef.current.selectedConnection ?? '', positionPart, JSON.stringify(sector.controlGroups ?? []), sector.nodes.map((node) => `${node.id}:${node.kind}:${node.name}:${node.tributeItem ?? ''}:${node.golemMineral ?? ''}:${node.recipeId ?? ''}:${node.filterItem ?? ''}:${node.rotation}:${node.roadMode ?? ""}:${node.roadFacing ?? ""}:${node.inputPortOrder?.join('.') ?? ''}:${node.outputPortOrder?.join('.') ?? ''}:${node.outputRowOffset ?? 0}:${Number(node.connectorsMirrored)}:${Number(node.disabled)}:${Number(node.processingPaused)}:${node.campStrength ?? 0}:${node.obstructionRadius ?? 0}:${node.obstructionMaxRadius ?? 0}:${node.obstructionWidth ?? 0}:${node.obstructionHeight ?? 0}`).join('|'), sector.connections.map((connection) => `${connection.id}:${connection.from}:${connection.fromPort ?? 0}:${connection.to}:${connection.toPort ?? 0}:${connection.item ?? ''}`).join('|')].join('~');
+      if (signature === lastSceneSignature && sceneNodeSource === sector.nodes && sceneMod === propsRef.current.engine.getState().mod) { syncParticles(); return; } lastSceneSignature = signature;
+      sceneMod = propsRef.current.engine.getState().mod;
       const worldSizeChanged = worldSize.width !== nextWorldSize.width || worldSize.height !== nextWorldSize.height;
       worldSize = nextWorldSize;
       if (renderedSectorId !== sector.id || renderedState !== propsRef.current.engine.getState()) { drag = undefined; propsRef.current.onDragPreview?.(undefined); groupSelection.clear(); controlHover.clear(); renderedState = propsRef.current.engine.getState(); renderedSectorId = sector.id; camera = { ...sector.camera }; clearConnectionRejection(); trackedTransfers.clear(); seenTransferIds.clear(); lastInputTotals.clear(); flashStartedAt.clear(); updateCamera(); }
@@ -531,16 +566,15 @@ export function PixiPlayfield(props: Props) {
         const baseSelection = event.shiftKey ? [...propsRef.current.selectedIds] : [];
         propsRef.current.onConnectionSelect(undefined); propsRef.current.onSelect(baseSelection); const graphic = new Graphics(); overlayLayer.addChild(graphic); marquee = { startX: event.global.x, startY: event.global.y, graphic, baseSelection, previewIds: new Set() };
       });
-      app.stage.on('pointermove', (event: FederatedPointerEvent) => {
-        if (rightPress && Math.hypot(event.global.x - rightPress.x, event.global.y - rightPress.y) > 4) rightPress.moved = true;
-        placementPointerInside = true; placementCursor = { x: event.global.x, y: event.global.y }; if (propsRef.current.placing) clearTooltip(); previewPoint = { x: event.global.x, y: event.global.y }; if (panning) { camera.x = panning.cameraX + event.global.x - panning.x; camera.y = panning.cameraY + event.global.y - panning.y; updateCamera(); }
+      const updateDragAt = (point: { x: number; y: number }) => {
+        previewPoint = { x: point.x, y: point.y };
         if (connectionDrag) {
-          if (Math.hypot(event.global.x - connectionDrag.startX, event.global.y - connectionDrag.startY) > 4) connectionDrag.moved = true;
-          const snapped = findNearbyCompatiblePort(event.global.x, event.global.y); updateSnappedPort(snapped);
+          if (Math.hypot(point.x - connectionDrag.startX, point.y - connectionDrag.startY) > 4) connectionDrag.moved = true;
+          const snapped = findNearbyCompatiblePort(point.x, point.y); updateSnappedPort(snapped);
           const snappedPoint = snapped ? portScreenPoint(snapped) : undefined; if (snappedPoint) previewPoint = snappedPoint;
         }
-        if (drag) { const now = toWorld(event.global.x, event.global.y); const dx = now.x - drag.start.x; const dy = now.y - drag.start.y; if (Math.abs(dx) + Math.abs(dy) > 2) { drag.moved = true; clearTooltip(); }
-          const sector = propsRef.current.engine.getSector(); const desired = Object.fromEntries(drag.ids.flatMap((id) => { const origin = drag!.origins.get(id); return origin ? [[id, { x: origin.x + dx, y: origin.y + dy }] as const] : []; }));
+        if (drag) { const now = toWorld(point.x, point.y); const dx = now.x - drag.start.x; const dy = now.y - drag.start.y; if (Math.abs(dx) + Math.abs(dy) > 2) { drag.moved = true; clearTooltip(); }
+          const sector = propsRef.current.engine.getSector(); const desired = draggedNodePositions(drag.origins, drag.anchorId, { x: dx, y: dy }, propsRef.current.snapToGrid && drag.moved, drag.anchorSize);
           drag.desired = desired; propsRef.current.onDragPreview?.(desired); drag.valid = propsRef.current.engine.canMoveNodesTo(desired);
           drag.ids.forEach((id) => { const position = desired[id]; if (position) nodeViews.get(id)?.root.position.set(position.x, position.y); });
           cableLayer.removeChildren().forEach((child) => child.destroy({ children: true }));
@@ -557,10 +591,17 @@ export function PixiPlayfield(props: Props) {
           });
           drawInsertionPreview(drag.ids.length === 1 ? nodeMap.get(drag.ids[0]) : undefined, drag.valid);
         }
+      };
+      app.stage.on('pointermove', (event: FederatedPointerEvent) => {
+        if (rightPress && Math.hypot(event.global.x - rightPress.x, event.global.y - rightPress.y) > 4) rightPress.moved = true;
+        placementPointerInside = true; placementCursor = { x: event.global.x, y: event.global.y }; if (propsRef.current.placing) clearTooltip(); previewPoint = { x: event.global.x, y: event.global.y }; if (panning) { camera.x = panning.cameraX + event.global.x - panning.x; camera.y = panning.cameraY + event.global.y - panning.y; updateCamera(); }
+        dragPointer = { x: event.global.x, y: event.global.y };
+        updateDragAt(dragPointer);
         if (marquee) { const x = Math.min(marquee.startX, event.global.x); const y = Math.min(marquee.startY, event.global.y); const width = Math.abs(event.global.x - marquee.startX); const height = Math.abs(event.global.y - marquee.startY); marquee.graphic.clear().rect(x, y, width, height).fill({ color: THEME.selected, alpha: .1 }).stroke({ color: THEME.selected, width: 1, alpha: .92 }); marquee.previewIds = new Set(nodesInMarquee(marquee.startX, marquee.startY, event.global.x, event.global.y)); drawMarqueeHighlights(marquee.previewIds); }
       });
       const pointerUp = (event: { global: { x: number; y: number }; shiftKey: boolean }, commitInteraction = true) => {
         controlHover.release();
+        if (drag?.moved && commitInteraction) updateDragAt(event.global);
         if (connectionDrag) {
           const finished = connectionDrag;
           // Pointer-up can arrive after the last move sample, especially when
@@ -610,6 +651,16 @@ export function PixiPlayfield(props: Props) {
       app.canvas.addEventListener('pointerenter', pointerEnter); app.canvas.addEventListener('pointerleave', pointerLeave);
       let cueRevision = -1; let cueTime = -1; const productionCues = new Map<string, ProductionVisual>();
       app.ticker.add(() => {
+        if (lastSnapToGrid !== propsRef.current.snapToGrid) {
+          lastSnapToGrid = propsRef.current.snapToGrid;
+          if (drag?.moved && dragPointer) updateDragAt(dragPointer);
+        }
+        if (placementPointerInside && dragPointer && !panning && (drag?.moved || connectionDrag?.moved)) {
+          const next = scrollCameraForDrag(camera, worldSize, app.screen, dragPointer, app.ticker.deltaMS);
+          if (next.x !== camera.x || next.y !== camera.y) {
+            camera = next; updateCamera(); updateDragAt(dragPointer);
+          }
+        }
         if (!propsRef.current.selectedIds.length && !marquee && !drag) groupSelection.clear(); const uiSignature = `${propsRef.current.selectedIds.join(',')}|${propsRef.current.selectedConnection ?? ''}|${propsRef.current.placing ?? ''}`; if (uiSignature !== lastUiSignature) { lastUiSignature = uiSignature; renderScene(); }
         syncPlacementPreview();
         const focus = propsRef.current.cameraFocus; if (focus && focus.nonce !== appliedCameraNonce) { appliedCameraNonce = focus.nonce; camera = { ...focus.camera }; updateCamera(); }
@@ -629,19 +680,38 @@ export function PixiPlayfield(props: Props) {
         seenTransferIds.forEach((id) => { if (!liveTransferIds.has(id)) seenTransferIds.delete(id); });
         trackedTransfers.forEach((transfer, id) => { if (liveTransferIds.has(id)) return; trackedTransfers.delete(id); if (transfer.sectorId !== sector.id || transfer.arrivesAtMs > gameState.playTimeMs) return; const connection = sector.connections.find((candidate) => candidate.id === (transfer.routeConnectionIds?.at(-1) ?? transfer.connectionId)); const inputPulse = portViews.get(`${transfer.to}:input:${connection?.toPort ?? 0}`); if (inputPulse) inputPulse.pulseStartedAt = frameNow; });
         particles.forEach((particle) => { const connection = sector.connections.find((candidate) => candidate.id === particle.connectionId); if (!connection) { particle.root.visible = false; return; } const phase = transferProgress(particle.transfer, animationPlayTimeMs); particle.passages.forEach(passage => { if (phase >= passage.phase && !particle.passed.has(passage.nodeId)) { particle.passed.add(passage.nodeId); flashStartedAt.set(passage.nodeId, frameNow); portViews.forEach(port => { if (port.nodeId === passage.nodeId) port.pulseStartedAt = frameNow; }); } }); const motion = sampleCurveMotion(particle.path, phase); if (!motion) return; particle.root.visible = phase < 1; particle.root.position.set(motion.x, motion.y); particle.root.rotation = motion.angle; particle.root.alpha = Math.max(0, Math.min(1, phase / .08, (1 - phase) / .12)); });
-        nodeViews.forEach((view, id) => { const node = nodeMap.get(id); if (!node) return; const selectable = canSelectNode(id); view.root.eventMode = node.disabled || !selectable ? 'none' : 'static'; view.root.alpha = node.disabled ? .68 : selectable ? 1 : .45; const controlsVisible = selectable && !propsRef.current.placing && controlHover.visible(id, frameNow); view.root.children.forEach(child => { if (child.label === 'node-control') child.visible = controlsVisible; }); if (view.jointMoveHandle) { view.jointMoveHandle.visible = !propsRef.current.placing && (controlsVisible || Boolean(propsRef.current.jointMoveHint)); view.jointMoveHandle.cursor = drag?.ids.includes(id) ? 'grabbing' : 'grab'; } const dragPosition = drag?.desired?.[id]; view.root.position.set(dragPosition?.x ?? node.x, dragPosition?.y ?? node.y); const readabilityScale = nodeTextScale(camera.zoom); view.readabilityLabels.forEach((text) => text.scale.set(readabilityScale)); const invalid = Boolean(drag?.moved && !drag.valid && drag.ids.includes(id)); if (invalid !== view.invalidVisible) { view.invalidVisible = invalid; view.invalidOverlay.clear(); if (invalid) { const size = getNodeSize(node); view.invalidOverlay.roundRect(-size.w / 2 - 5, -size.h / 2 - 5, size.w + 10, size.h + 10, 16).fill({ color: THEME.danger, alpha: .18 }).stroke({ color: THEME.danger, width: 3, alpha: .98 }); } } const currentInput = inputTotal(node); if ((lastInputTotals.get(id) ?? currentInput) < currentInput) flashStartedAt.set(id, frameNow); lastInputTotals.set(id, currentInput); const duration = nodeCycleDuration(node, gameState.research.completed); const interpolation = !gameState.paused && !node.disabled && !node.processingPaused && node.progressMs > 0 ? animationPlayTimeMs - gameState.playTimeMs : 0; const cycleProgress = duration ? Math.min(1, (node.progressMs + interpolation) / duration) : 0; const cue = productionCues.get(id); drawProductionCue(view.productionCue, node, cue, gameState.research.completed); const target = cue?.working ? cycleProgress : 0; view.displayedProgress = target; view.progress.scale.x = target; if (view.progressLabel) view.progressLabel.text = `${Math.round(target * 100)}%`; if (view.bufferLabel) view.bufferLabel.text = node.resourceItem ? resourceCapacityReadout(node) : `${outputTotal(node)} / ${outputCapacity(node)}`; updateBufferSquares(view, node); updateInputSquares(view, node); if (view.coreStorageLabels) {
+        nodeViews.forEach((view, id) => { const node = nodeMap.get(id); if (!node) return; const selectable = canSelectNode(id); view.root.eventMode = node.disabled || !selectable ? 'none' : 'static'; view.root.alpha = node.disabled ? .68 : selectable ? 1 : .45; const controlsVisible = selectable && !propsRef.current.placing && controlHover.visible(id, frameNow); view.root.children.forEach(child => { if (child.label === 'node-control') child.visible = controlsVisible; }); if (view.jointMoveHandle) { view.jointMoveHandle.visible = !propsRef.current.placing && (controlsVisible || Boolean(propsRef.current.jointMoveHint)); view.jointMoveHandle.cursor = drag?.ids.includes(id) ? 'grabbing' : 'grab'; } const dragPosition = drag?.desired?.[id]; view.root.position.set(dragPosition?.x ?? node.x, dragPosition?.y ?? node.y); const readabilityScale = nodeTextScale(camera.zoom); view.readabilityLabels.forEach((text) => text.scale.set(readabilityScale)); const invalid = Boolean(drag?.moved && !drag.valid && drag.ids.includes(id)); if (invalid !== view.invalidVisible) { view.invalidVisible = invalid; view.invalidOverlay.clear(); if (invalid) { const size = getNodeSize(node); view.invalidOverlay.roundRect(-size.w / 2 - 5, -size.h / 2 - 5, size.w + 10, size.h + 10, 16).fill({ color: THEME.danger, alpha: .18 }).stroke({ color: THEME.danger, width: 3, alpha: .98 }); } } const currentInput = inputTotal(node); if (getNodeCapabilities(node.kind).behavior !== 'research' && (lastInputTotals.get(id) ?? currentInput) < currentInput) flashStartedAt.set(id, frameNow); lastInputTotals.set(id, currentInput); const duration = nodeCycleDuration(node, gameState.research.completed); const interpolation = !gameState.paused && !node.disabled && !node.processingPaused && node.progressMs > 0 ? (animationPlayTimeMs - gameState.playTimeMs) / (modNode(node.kind)?.cycleMultiplier ?? 1) : 0; const cycleProgress = duration ? Math.min(1, (node.progressMs + interpolation) / duration) : 0; const cue = productionCues.get(id); drawProductionCue(view.productionCue, node, cue, gameState.research.completed); const target = isResourceNode(node) ? resourceReserveFraction(node) : getNodeCapabilities(node.kind).behavior === 'research' ? researchCenterView(node, gameState).progress : cue?.working ? cycleProgress : 0; view.displayedProgress = target; view.progress.scale.x = target; if (view.progressLabel) view.progressLabel.text = `${Math.round(target * 100)}%`; if (node.kind === 'filter') { if (!view.filterNotice) { view.filterNotice = new Text({ text: '', style: { fontSize: 13, fill: 0xffc46b, fontWeight: 'bold' } }); view.filterNotice.anchor.set(.5, 0); view.filterNotice.position.set(0, getNodeSize(node).h / 2 + 10); view.root.addChild(view.filterNotice); } view.filterNotice.text = node.filterBlocked ? `! ${node.filterBlocked.toUpperCase()} OUTLET BLOCKED` : ''; } if (view.bufferLabel) view.bufferLabel.text = node.resourceItem ? resourceCapacityReadout(node) : `${outputTotal(node)} / ${outputCapacity(node)}`; updateBufferSquares(view, node); updateInputSquares(view, node); if (view.researchStatus) updateResearchNodeStatus(view.researchStatus, researchCenterView(node, gameState).projectName, readabilityScale); if (view.coreStorageLabels) {
           const storage = researchCoreStorage(node, gameState.research);
           view.coreStorageLabels.forEach((text, index) => {
             const core = storage[index]; text.visible = Boolean(core); if (view.coreStorageSquares?.[index]) view.coreStorageSquares[index].visible = Boolean(core);
             if (!core) return;
             text.style.fill = ITEM_COLORS[core.item];
             text.text = ITEM_NAMES[core.item].replace(' Core', '');
-            text.position.set(-getNodeSize(node).w / 2 + 18 + (index % 2) * 142, Math.floor(index / 2) * 28);
+            const size = getNodeSize(node);
+            text.scale.set(1);
+            text.position.set(-size.w / 2 + 18 + (index % 2) * ((size.w - 36) / 2), getPortAnchor(node, 'input', 0).y + 28 + Math.floor(index / 2) * 36);
             const squares = view.coreStorageSquares?.[index];
-            if (squares) { drawBufferSquares(squares, core.amount, core.capacity, ITEM_COLORS[core.item], 6, 3, 5); squares.position.set(text.x + 78, text.y + 2); }
+            if (squares) { drawBufferSquares(squares, core.amount, core.capacity, ITEM_COLORS[core.item], 11, 4, 5); squares.position.set(text.x, text.y + 16); }
           });
         }
-        const flashAt = flashStartedAt.get(id); view.flash.clear(); if (flashAt) { const elapsed = frameNow - flashAt; if (elapsed > 480) flashStartedAt.delete(id); else { const alpha = Math.sin(Math.PI * elapsed / 480); const size = getNodeSize(node); view.flash.roundRect(-size.w / 2 - 3, -size.h / 2 - 3, size.w + 6, size.h + 6, 14).fill({ color: 0x168cf0, alpha: alpha * .08 }).stroke({ color: 0x55baff, width: 2, alpha }); } } });
+        let flashAlpha = 0;
+        if (getNodeCapabilities(node.kind).behavior === 'research') {
+          flashAlpha = researchConsumptionGlow(node, animationPlayTimeMs, reducedMotion.matches);
+        } else {
+          const flashAt = flashStartedAt.get(id);
+          if (flashAt) {
+            const elapsed = frameNow - flashAt;
+            if (elapsed > 480) flashStartedAt.delete(id);
+            else flashAlpha = Math.sin(Math.PI * elapsed / 480);
+          }
+        }
+        view.flash.clear();
+        if (flashAlpha > 0) {
+          const size = getNodeSize(node);
+          view.flash.roundRect(-size.w / 2 - 3, -size.h / 2 - 3, size.w + 6, size.h + 6, 14)
+            .fill({ color: 0x168cf0, alpha: flashAlpha * .08 }).stroke({ color: 0x55baff, width: 2, alpha: flashAlpha });
+        }
+        });
         portViews.forEach((port) => {
           const live = nodeMap.get(port.nodeId); if (live && port.materialBuffer) updateProductionPort(port, live, sector);
           port.highlight.clear();

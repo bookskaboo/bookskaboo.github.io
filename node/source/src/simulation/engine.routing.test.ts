@@ -55,7 +55,7 @@ describe('indexed world routing', () => {
     engine.tick(400);
     expect(engine.getState().inFlightTransfers).toHaveLength(2);
     engine.tick(1000);
-    expect(target.input.wood).toBe(20);
+    expect(((target.input.wood ?? 0) + (target.output.wood ?? 0))).toBe(20);
     expect(engine.getState().inFlightTransfers).toHaveLength(0);
   });
 
@@ -73,7 +73,7 @@ describe('indexed world routing', () => {
     expect(target.input).toEqual({ 'iron-gear': 5, 'copper-wire': 5 });
   });
 
-  it('locks automatic Smelter recipes and merger types as soon as an item is launched', () => {
+  it('respects selected Smelter recipes and locks merger types as soon as an item is launched', () => {
     const engine = setup(); const sector = engine.getSector();
     const smelter = node(sector, 'smelter', 'smelter'); smelter.recipeId = 'smelt-iron';
     connect(sector, node(sector, 'copper', 'woodenChest', { copper: 1 }), smelter);
@@ -82,10 +82,10 @@ describe('indexed world routing', () => {
     connect(sector, node(sector, 'wood', 'woodenChest', { wood: 1 }), merger, 0);
     connect(sector, node(sector, 'stone', 'woodenChest', { stone: 1 }), merger, 1);
     engine.tick(400);
-    expect(smelter.recipeId).toBe('smelt-copper');
-    expect(engine.getState().inFlightTransfers?.map((transfer) => transfer.item)).toEqual(['copper', 'wood']);
+    expect(smelter.recipeId).toBe('smelt-iron');
+    expect(engine.getState().inFlightTransfers?.map((transfer) => transfer.item)).toEqual(['iron', 'wood']);
     engine.tick(1000);
-    expect(smelter.input).toEqual({ copper: 1 });
+    expect(smelter.input).toEqual({ iron: 1 });
     // Logistics can no longer be paused; a delivered item immediately reaches its output.
     expect((merger.input.wood ?? 0) + (merger.output.wood ?? 0)).toBe(1);
   });
@@ -101,7 +101,7 @@ describe('indexed world routing', () => {
     engine.tick(400);
     expect(state.inFlightTransfers).toHaveLength(2);
     engine.tick(1000);
-    for (const sector of Object.values(state.sectors)) expect(sector.nodes.find((n) => n.id === 'target')?.input.wood).toBe(20);
+    for (const sector of Object.values(state.sectors)) expect(((sector.nodes.find(n=>n.id==='target')?.input.wood??0)+(sector.nodes.find(n=>n.id==='target')?.output.wood??0))).toBe(20);
   });
 
   it('refreshes routing after deleting a cable, undoing, and replacing saved state', () => {
@@ -114,9 +114,9 @@ describe('indexed world routing', () => {
     expect(source.output.wood).toBe(2);
     expect(engine.getState().inFlightTransfers).toHaveLength(0);
     engine.undo(); engine.tick(1000);
-    expect(engine.getSector().nodes.find((n) => n.id === 'target')?.input.wood).toBe(1);
+    expect(((engine.getSector().nodes.find(n=>n.id==='target')?.input.wood??0)+(engine.getSector().nodes.find(n=>n.id==='target')?.output.wood??0))).toBe(1);
     engine.replaceState(saved); engine.tick(1000); sector = engine.getSector();
-    expect(sector.nodes.find((n) => n.id === 'target')?.input.wood).toBe(1);
+    expect(((sector.nodes.find(n=>n.id==='target')?.input.wood??0)+(sector.nodes.find(n=>n.id==='target')?.output.wood??0))).toBe(1);
   });
 
   it('reuses only the active map animation list and refreshes it after state changes', () => {

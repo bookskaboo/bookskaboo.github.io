@@ -1,0 +1,3082 @@
+{
+  "status": "Sample design only",
+  "assumptions": [
+    "Unupgraded production and Extractors at five seconds; the intended lab consumes one of each required core per synchronized tick.",
+    "Single-core chain tables are isolated production references. Full research requires all types simultaneously at the lab tick rate; minimum illustrative rate is one complete set per minute.",
+    "Water intakes modeled at four units/second; upgrades can reduce intake count.",
+    "No recycling credits, electricity, logistics, renewable forestry or deposit replacement in raw or node totals.",
+    "Fractional totals represent average batch consumption, not fractional individual item movements."
+  ],
+  "recipes": {
+    "charcoal": {
+      "inputs": {
+        "wood": 1
+      },
+      "outputs": {
+        "charcoal": 1
+      },
+      "primaryAmount": 1,
+      "seconds": 3.5,
+      "node": "Existing processor"
+    },
+    "iron-plate": {
+      "inputs": {
+        "iron": 2,
+        "charcoal": 1
+      },
+      "outputs": {
+        "iron-plate": 1
+      },
+      "primaryAmount": 1,
+      "seconds": 6,
+      "node": "Existing processor"
+    },
+    "copper-plate": {
+      "inputs": {
+        "copper": 2,
+        "charcoal": 1
+      },
+      "outputs": {
+        "copper-plate": 1
+      },
+      "primaryAmount": 1,
+      "seconds": 6,
+      "node": "Existing processor"
+    },
+    "mythril-plate": {
+      "inputs": {
+        "mythril": 2,
+        "charcoal": 1
+      },
+      "outputs": {
+        "mythril-plate": 1
+      },
+      "primaryAmount": 1,
+      "seconds": 6,
+      "node": "Existing processor"
+    },
+    "iron-gear": {
+      "inputs": {
+        "iron-plate": 2
+      },
+      "outputs": {
+        "iron-gear": 1
+      },
+      "primaryAmount": 1,
+      "seconds": 3,
+      "node": "Existing processor"
+    },
+    "copper-gear": {
+      "inputs": {
+        "copper-plate": 2
+      },
+      "outputs": {
+        "copper-gear": 1
+      },
+      "primaryAmount": 1,
+      "seconds": 3,
+      "node": "Existing processor"
+    },
+    "mythril-gear": {
+      "inputs": {
+        "mythril-plate": 2
+      },
+      "outputs": {
+        "mythril-gear": 1
+      },
+      "primaryAmount": 1,
+      "seconds": 3,
+      "node": "Existing processor"
+    },
+    "iron-wire": {
+      "inputs": {
+        "iron-plate": 3
+      },
+      "outputs": {
+        "iron-wire": 1
+      },
+      "primaryAmount": 1,
+      "seconds": 3,
+      "node": "Existing processor"
+    },
+    "copper-wire": {
+      "inputs": {
+        "copper-plate": 3
+      },
+      "outputs": {
+        "copper-wire": 1
+      },
+      "primaryAmount": 1,
+      "seconds": 3,
+      "node": "Existing processor"
+    },
+    "mythril-wire": {
+      "inputs": {
+        "mythril-plate": 3
+      },
+      "outputs": {
+        "mythril-wire": 1
+      },
+      "primaryAmount": 1,
+      "seconds": 3,
+      "node": "Existing processor"
+    },
+    "brick": {
+      "inputs": {
+        "stone": 1
+      },
+      "outputs": {
+        "brick": 1
+      },
+      "primaryAmount": 1,
+      "seconds": 4,
+      "node": "Existing processor"
+    },
+    "simple-core": {
+      "inputs": {
+        "copper-gear": 2
+      },
+      "outputs": {
+        "simple-core": 1
+      },
+      "primaryAmount": 1,
+      "seconds": 5,
+      "node": "Existing processor"
+    },
+    "motor": {
+      "inputs": {
+        "iron-gear": 1,
+        "copper-wire": 1
+      },
+      "outputs": {
+        "motor": 1
+      },
+      "primaryAmount": 1,
+      "seconds": 6.5,
+      "node": "Existing processor"
+    },
+    "circuit-a": {
+      "inputs": {
+        "copper-wire": 1,
+        "iron-plate": 1
+      },
+      "outputs": {
+        "circuit-a": 1
+      },
+      "primaryAmount": 1,
+      "seconds": 5,
+      "node": "Existing processor"
+    },
+    "basic-core": {
+      "inputs": {
+        "copper-plate": 1,
+        "iron-wire": 1
+      },
+      "outputs": {
+        "basic-core": 1
+      },
+      "primaryAmount": 1,
+      "seconds": 10,
+      "node": "Existing processor"
+    },
+    "automata-core": {
+      "inputs": {
+        "circuit-a": 1,
+        "brick": 1
+      },
+      "outputs": {
+        "automata-core": 1
+      },
+      "primaryAmount": 1,
+      "seconds": 15,
+      "node": "Existing processor"
+    },
+    "simple-robot-frame": {
+      "inputs": {
+        "iron-plate": 2,
+        "motor": 1
+      },
+      "outputs": {
+        "simple-robot-frame": 1
+      },
+      "primaryAmount": 1,
+      "seconds": 6.5,
+      "node": "Existing processor"
+    },
+    "simple-robot-gun": {
+      "inputs": {
+        "copper-wire": 1,
+        "iron-plate": 2
+      },
+      "outputs": {
+        "simple-robot-gun": 1
+      },
+      "primaryAmount": 1,
+      "seconds": 6.5,
+      "node": "Existing processor"
+    },
+    "suppression-bot": {
+      "inputs": {
+        "simple-robot-frame": 1,
+        "simple-robot-gun": 1
+      },
+      "outputs": {
+        "suppression-bot": 1
+      },
+      "primaryAmount": 1,
+      "seconds": 10,
+      "node": "Existing processor"
+    },
+    "coolant": {
+      "inputs": {
+        "water": 4,
+        "iron-plate": 1
+      },
+      "outputs": {
+        "coolant": 2
+      },
+      "primaryAmount": 2,
+      "seconds": 6,
+      "node": "Hydro Processor",
+      "proposed": true
+    },
+    "conductive-slurry": {
+      "inputs": {
+        "water": 2,
+        "copper-wire": 1,
+        "charcoal": 1
+      },
+      "outputs": {
+        "conductive-slurry": 2
+      },
+      "primaryAmount": 2,
+      "seconds": 8,
+      "node": "Hydro Processor",
+      "proposed": true
+    },
+    "hydraulic-actuator": {
+      "inputs": {
+        "iron-gear": 1,
+        "motor": 1,
+        "coolant": 2
+      },
+      "outputs": {
+        "hydraulic-actuator": 1
+      },
+      "primaryAmount": 1,
+      "seconds": 10,
+      "node": "Advanced Assembler",
+      "proposed": true
+    },
+    "hydro-core": {
+      "inputs": {
+        "automata-core": 1,
+        "hydraulic-actuator": 1,
+        "conductive-slurry": 2
+      },
+      "outputs": {
+        "hydro-core": 1
+      },
+      "primaryAmount": 1,
+      "seconds": 18,
+      "node": "Advanced Assembler",
+      "proposed": true
+    },
+    "refined-mithril": {
+      "inputs": {
+        "mythril": 4,
+        "charcoal": 2,
+        "coolant": 2
+      },
+      "outputs": {
+        "refined-mithril": 2,
+        "slag": 2
+      },
+      "primaryAmount": 2,
+      "seconds": 12,
+      "node": "Separation Furnace",
+      "proposed": true
+    },
+    "shiny-core": {
+      "inputs": {
+        "hydro-core": 1,
+        "refined-mithril": 3,
+        "circuit-a": 2
+      },
+      "outputs": {
+        "shiny-core": 1
+      },
+      "primaryAmount": 1,
+      "seconds": 24,
+      "node": "Advanced Assembler",
+      "proposed": true
+    },
+    "precision-controller": {
+      "inputs": {
+        "circuit-a": 2,
+        "refined-mithril": 1,
+        "conductive-slurry": 2
+      },
+      "outputs": {
+        "precision-controller": 1
+      },
+      "primaryAmount": 1,
+      "seconds": 12,
+      "node": "Advanced Assembler",
+      "proposed": true,
+      "chanceOutputs": [
+        {
+          "item": "metallic-fines",
+          "amount": 1,
+          "probability": 0.65
+        },
+        {
+          "item": "glassy-crust",
+          "amount": 1,
+          "probability": 0.08
+        }
+      ]
+    },
+    "advanced-actuator": {
+      "inputs": {
+        "hydraulic-actuator": 1,
+        "refined-mithril": 1,
+        "coolant": 2
+      },
+      "outputs": {
+        "advanced-actuator": 1
+      },
+      "primaryAmount": 1,
+      "seconds": 16,
+      "node": "Advanced Assembler",
+      "proposed": true,
+      "chanceOutputs": [
+        {
+          "item": "spent-flux",
+          "amount": 2,
+          "probability": 0.35
+        },
+        {
+          "item": "glassy-crust",
+          "amount": 1,
+          "probability": 0.05
+        }
+      ]
+    },
+    "command-core": {
+      "inputs": {
+        "shiny-core": 1,
+        "precision-controller": 1,
+        "advanced-actuator": 1
+      },
+      "outputs": {
+        "command-core": 1
+      },
+      "primaryAmount": 1,
+      "seconds": 30,
+      "node": "Advanced Assembler",
+      "proposed": true
+    },
+    "sealed-frame": {
+      "inputs": {
+        "simple-robot-frame": 1,
+        "hydraulic-actuator": 1,
+        "brick": 2
+      },
+      "outputs": {
+        "sealed-frame": 1
+      },
+      "primaryAmount": 1,
+      "seconds": 18,
+      "node": "Advanced Assembler",
+      "proposed": true
+    },
+    "cooled-gun": {
+      "inputs": {
+        "simple-robot-gun": 1,
+        "coolant": 2,
+        "iron-plate": 2
+      },
+      "outputs": {
+        "cooled-gun": 1
+      },
+      "primaryAmount": 1,
+      "seconds": 16,
+      "node": "Advanced Assembler",
+      "proposed": true
+    },
+    "medium-suppression-bot": {
+      "inputs": {
+        "sealed-frame": 1,
+        "cooled-gun": 1,
+        "basic-core": 1
+      },
+      "outputs": {
+        "medium-suppression-bot": 1
+      },
+      "primaryAmount": 1,
+      "seconds": 25,
+      "node": "Advanced Assembler",
+      "proposed": true
+    },
+    "mithril-frame": {
+      "inputs": {
+        "sealed-frame": 1,
+        "refined-mithril": 3,
+        "motor": 2
+      },
+      "outputs": {
+        "mithril-frame": 1
+      },
+      "primaryAmount": 1,
+      "seconds": 24,
+      "node": "Advanced Assembler",
+      "proposed": true
+    },
+    "focused-gun": {
+      "inputs": {
+        "cooled-gun": 1,
+        "refined-mithril": 2,
+        "circuit-a": 2
+      },
+      "outputs": {
+        "focused-gun": 1
+      },
+      "primaryAmount": 1,
+      "seconds": 22,
+      "node": "Advanced Assembler",
+      "proposed": true
+    },
+    "heavy-suppression-bot": {
+      "inputs": {
+        "mithril-frame": 1,
+        "focused-gun": 1,
+        "hydro-core": 1
+      },
+      "outputs": {
+        "heavy-suppression-bot": 1
+      },
+      "primaryAmount": 1,
+      "seconds": 40,
+      "node": "Advanced Assembler",
+      "proposed": true
+    },
+    "servo-frame": {
+      "inputs": {
+        "mithril-frame": 1,
+        "advanced-actuator": 2,
+        "precision-controller": 1
+      },
+      "outputs": {
+        "servo-frame": 1
+      },
+      "primaryAmount": 1,
+      "seconds": 32,
+      "node": "Advanced Assembler",
+      "proposed": true
+    },
+    "pulse-cannon": {
+      "inputs": {
+        "focused-gun": 1,
+        "precision-controller": 2,
+        "coolant": 4
+      },
+      "outputs": {
+        "pulse-cannon": 1
+      },
+      "primaryAmount": 1,
+      "seconds": 30,
+      "node": "Advanced Assembler",
+      "proposed": true
+    },
+    "command-suppression-bot": {
+      "inputs": {
+        "servo-frame": 1,
+        "pulse-cannon": 1,
+        "command-core": 1
+      },
+      "outputs": {
+        "command-suppression-bot": 1
+      },
+      "primaryAmount": 1,
+      "seconds": 60,
+      "node": "Advanced Assembler",
+      "proposed": true
+    }
+  },
+  "cores": [
+    {
+      "core": "automata-core",
+      "raw": {
+        "copper": 6,
+        "wood": 4,
+        "iron": 2,
+        "stone": 1
+      },
+      "workSeconds": {
+        "automata-core": 15,
+        "circuit-a": 5,
+        "copper-wire": 3,
+        "copper-plate": 18,
+        "extract:copper": 30,
+        "charcoal": 14,
+        "extract:wood": 20,
+        "iron-plate": 6,
+        "extract:iron": 10,
+        "brick": 4,
+        "extract:stone": 5
+      },
+      "byproducts": {},
+      "leanMachinesIncludingLab": 12,
+      "leanSecondsPerCore": 30,
+      "peakMachinesIncludingLab": 131,
+      "peakMachines": {
+        "automata-core": 15,
+        "circuit-a": 5,
+        "copper-wire": 3,
+        "copper-plate": 18,
+        "extract:copper": 30,
+        "charcoal": 14,
+        "extract:wood": 20,
+        "iron-plate": 6,
+        "extract:iron": 10,
+        "brick": 4,
+        "extract:stone": 5
+      },
+      "minimumRateMachinesIncludingLab": 12
+    },
+    {
+      "core": "hydro-core",
+      "raw": {
+        "copper": 18,
+        "wood": 16,
+        "iron": 12,
+        "stone": 1,
+        "water": 6
+      },
+      "workSeconds": {
+        "hydro-core": 18,
+        "automata-core": 15,
+        "circuit-a": 5,
+        "copper-wire": 9,
+        "copper-plate": 54,
+        "extract:copper": 90,
+        "charcoal": 56,
+        "extract:wood": 80,
+        "iron-plate": 36,
+        "extract:iron": 60,
+        "brick": 4,
+        "extract:stone": 5,
+        "hydraulic-actuator": 10,
+        "iron-gear": 6,
+        "motor": 6.5,
+        "coolant": 6,
+        "lake-intake": 1.5,
+        "conductive-slurry": 8
+      },
+      "byproducts": {},
+      "leanMachinesIncludingLab": 19,
+      "leanSecondsPerCore": 90,
+      "peakMachinesIncludingLab": 472,
+      "peakMachines": {
+        "hydro-core": 18,
+        "automata-core": 15,
+        "circuit-a": 5,
+        "copper-wire": 9,
+        "copper-plate": 54,
+        "extract:copper": 90,
+        "charcoal": 56,
+        "extract:wood": 80,
+        "iron-plate": 36,
+        "extract:iron": 60,
+        "brick": 4,
+        "extract:stone": 5,
+        "hydraulic-actuator": 10,
+        "iron-gear": 6,
+        "motor": 7,
+        "coolant": 6,
+        "lake-intake": 2,
+        "conductive-slurry": 8
+      },
+      "minimumRateMachinesIncludingLab": 21
+    },
+    {
+      "core": "shiny-core",
+      "raw": {
+        "copper": 30,
+        "wood": 28.5,
+        "iron": 19,
+        "stone": 1,
+        "water": 12,
+        "mythril": 6
+      },
+      "workSeconds": {
+        "shiny-core": 24,
+        "hydro-core": 18,
+        "automata-core": 15,
+        "circuit-a": 15,
+        "copper-wire": 15,
+        "copper-plate": 90,
+        "extract:copper": 150,
+        "charcoal": 99.75,
+        "extract:wood": 142.5,
+        "iron-plate": 57,
+        "extract:iron": 95,
+        "brick": 4,
+        "extract:stone": 5,
+        "hydraulic-actuator": 10,
+        "iron-gear": 6,
+        "motor": 6.5,
+        "coolant": 15,
+        "lake-intake": 3,
+        "conductive-slurry": 8,
+        "refined-mithril": 18,
+        "extract:mythril": 30
+      },
+      "byproducts": {
+        "slag": 3
+      },
+      "leanMachinesIncludingLab": 22,
+      "leanSecondsPerCore": 150,
+      "peakMachinesIncludingLab": 829,
+      "peakMachines": {
+        "shiny-core": 24,
+        "hydro-core": 18,
+        "automata-core": 15,
+        "circuit-a": 15,
+        "copper-wire": 15,
+        "copper-plate": 90,
+        "extract:copper": 150,
+        "charcoal": 100,
+        "extract:wood": 143,
+        "iron-plate": 57,
+        "extract:iron": 95,
+        "brick": 4,
+        "extract:stone": 5,
+        "hydraulic-actuator": 10,
+        "iron-gear": 6,
+        "motor": 7,
+        "coolant": 15,
+        "lake-intake": 3,
+        "conductive-slurry": 8,
+        "refined-mithril": 18,
+        "extract:mythril": 30
+      },
+      "minimumRateMachinesIncludingLab": 29
+    },
+    {
+      "core": "command-core",
+      "raw": {
+        "copper": 54,
+        "wood": 52.5,
+        "iron": 37,
+        "stone": 1,
+        "water": 26,
+        "mythril": 10
+      },
+      "workSeconds": {
+        "command-core": 30,
+        "shiny-core": 24,
+        "hydro-core": 18,
+        "automata-core": 15,
+        "circuit-a": 25,
+        "copper-wire": 27,
+        "copper-plate": 162,
+        "extract:copper": 270,
+        "charcoal": 183.75,
+        "extract:wood": 262.5,
+        "iron-plate": 111,
+        "extract:iron": 185,
+        "brick": 4,
+        "extract:stone": 5,
+        "hydraulic-actuator": 20,
+        "iron-gear": 12,
+        "motor": 13,
+        "coolant": 33,
+        "lake-intake": 6.5,
+        "conductive-slurry": 16,
+        "refined-mithril": 30,
+        "extract:mythril": 50,
+        "precision-controller": 12,
+        "advanced-actuator": 16
+      },
+      "byproducts": {
+        "slag": 5,
+        "metallic-fines": 0.65,
+        "glassy-crust": 0.13,
+        "spent-flux": 0.7
+      },
+      "leanMachinesIncludingLab": 25,
+      "leanSecondsPerCore": 270,
+      "peakMachinesIncludingLab": 1533,
+      "peakMachines": {
+        "command-core": 30,
+        "shiny-core": 24,
+        "hydro-core": 18,
+        "automata-core": 15,
+        "circuit-a": 25,
+        "copper-wire": 27,
+        "copper-plate": 162,
+        "extract:copper": 270,
+        "charcoal": 184,
+        "extract:wood": 263,
+        "iron-plate": 111,
+        "extract:iron": 185,
+        "brick": 4,
+        "extract:stone": 5,
+        "hydraulic-actuator": 20,
+        "iron-gear": 12,
+        "motor": 13,
+        "coolant": 33,
+        "lake-intake": 7,
+        "conductive-slurry": 16,
+        "refined-mithril": 30,
+        "extract:mythril": 50,
+        "precision-controller": 12,
+        "advanced-actuator": 16
+      },
+      "minimumRateMachinesIncludingLab": 42
+    }
+  ],
+  "bots": [
+    {
+      "bot": "suppression-bot",
+      "strength": 1,
+      "raw": {
+        "iron": 12,
+        "wood": 12,
+        "copper": 12
+      },
+      "workSeconds": {
+        "suppression-bot": 10,
+        "simple-robot-frame": 6.5,
+        "iron-plate": 36,
+        "extract:iron": 60,
+        "charcoal": 42,
+        "extract:wood": 60,
+        "motor": 6.5,
+        "iron-gear": 3,
+        "copper-wire": 6,
+        "copper-plate": 36,
+        "extract:copper": 60,
+        "simple-robot-gun": 6.5
+      },
+      "byproducts": {}
+    },
+    {
+      "bot": "medium-suppression-bot",
+      "strength": 3,
+      "raw": {
+        "iron": 34,
+        "wood": 27,
+        "copper": 20,
+        "water": 8,
+        "stone": 2
+      },
+      "workSeconds": {
+        "medium-suppression-bot": 25,
+        "sealed-frame": 18,
+        "simple-robot-frame": 6.5,
+        "iron-plate": 102,
+        "extract:iron": 170,
+        "charcoal": 94.5,
+        "extract:wood": 135,
+        "motor": 13,
+        "iron-gear": 9,
+        "copper-wire": 9,
+        "copper-plate": 60,
+        "extract:copper": 100,
+        "hydraulic-actuator": 10,
+        "coolant": 12,
+        "lake-intake": 2,
+        "brick": 8,
+        "extract:stone": 10,
+        "cooled-gun": 16,
+        "simple-robot-gun": 6.5,
+        "basic-core": 10,
+        "iron-wire": 3
+      },
+      "byproducts": {}
+    },
+    {
+      "bot": "heavy-suppression-bot",
+      "strength": 8,
+      "raw": {
+        "iron": 57,
+        "wood": 64.5,
+        "copper": 60,
+        "water": 24,
+        "stone": 3,
+        "mythril": 10
+      },
+      "workSeconds": {
+        "heavy-suppression-bot": 40,
+        "mithril-frame": 24,
+        "sealed-frame": 18,
+        "simple-robot-frame": 6.5,
+        "iron-plate": 171,
+        "extract:iron": 285,
+        "charcoal": 225.75,
+        "extract:wood": 322.5,
+        "motor": 32.5,
+        "iron-gear": 21,
+        "copper-wire": 30,
+        "copper-plate": 180,
+        "extract:copper": 300,
+        "hydraulic-actuator": 20,
+        "coolant": 33,
+        "lake-intake": 6,
+        "brick": 12,
+        "extract:stone": 15,
+        "refined-mithril": 30,
+        "extract:mythril": 50,
+        "focused-gun": 22,
+        "cooled-gun": 16,
+        "simple-robot-gun": 6.5,
+        "circuit-a": 15,
+        "hydro-core": 18,
+        "automata-core": 15,
+        "conductive-slurry": 8
+      },
+      "byproducts": {
+        "slag": 5
+      }
+    },
+    {
+      "bot": "command-suppression-bot",
+      "strength": 20,
+      "raw": {
+        "iron": 127,
+        "wood": 164.5,
+        "copper": 162,
+        "water": 84,
+        "stone": 3,
+        "mythril": 30
+      },
+      "workSeconds": {
+        "command-suppression-bot": 60,
+        "servo-frame": 32,
+        "mithril-frame": 24,
+        "sealed-frame": 18,
+        "simple-robot-frame": 6.5,
+        "iron-plate": 381,
+        "extract:iron": 635,
+        "charcoal": 575.75,
+        "extract:wood": 822.5,
+        "motor": 52,
+        "iron-gear": 39,
+        "copper-wire": 81,
+        "copper-plate": 486,
+        "extract:copper": 810,
+        "hydraulic-actuator": 50,
+        "coolant": 111,
+        "lake-intake": 21,
+        "brick": 12,
+        "extract:stone": 15,
+        "refined-mithril": 90,
+        "extract:mythril": 150,
+        "advanced-actuator": 48,
+        "precision-controller": 48,
+        "circuit-a": 65,
+        "conductive-slurry": 40,
+        "pulse-cannon": 30,
+        "focused-gun": 22,
+        "cooled-gun": 16,
+        "simple-robot-gun": 6.5,
+        "command-core": 30,
+        "shiny-core": 24,
+        "hydro-core": 18,
+        "automata-core": 15
+      },
+      "byproducts": {
+        "slag": 15,
+        "spent-flux": 2.0999999999999996,
+        "glassy-crust": 0.47,
+        "metallic-fines": 2.6
+      }
+    }
+  ],
+  "balanceRevision": {
+    "status": "Design-only pacing revision; live prices and recipes unchanged",
+    "revision": "progression-pacing-2",
+    "recipes": {
+      "coolant": {
+        "seconds": 6
+      },
+      "conductive-slurry": {
+        "seconds": 8
+      },
+      "hydro-core": {
+        "seconds": 18
+      },
+      "refined-mithril": {
+        "seconds": 12
+      },
+      "shiny-core": {
+        "seconds": 24,
+        "inputs": {
+          "hydro-core": 1,
+          "refined-mithril": 3,
+          "circuit-a": 2
+        }
+      },
+      "hydraulic-actuator": {
+        "seconds": 10,
+        "inputs": {
+          "iron-gear": 1,
+          "motor": 1,
+          "coolant": 2
+        }
+      },
+      "precision-controller": {
+        "seconds": 12
+      },
+      "advanced-actuator": {
+        "seconds": 16,
+        "inputs": {
+          "hydraulic-actuator": 1,
+          "refined-mithril": 1,
+          "coolant": 2
+        }
+      },
+      "command-core": {
+        "seconds": 30,
+        "inputs": {
+          "shiny-core": 1,
+          "precision-controller": 1,
+          "advanced-actuator": 1
+        }
+      }
+    },
+    "existingResearchEach": {
+      "assembler": 1,
+      "exploration": 1,
+      "road": 2,
+      "automataCore": 2
+    },
+    "research": {
+      "Hydrochemistry": {
+        "each": 1
+      },
+      "Hydraulic Assembly": {
+        "each": 2
+      },
+      "Fluid Routing": {
+        "each": 2
+      },
+      "Sealed Robotics": {
+        "each": 2
+      },
+      "Ore Separation": {
+        "each": 2
+      },
+      "Mineral Recovery": {
+        "each": 2
+      },
+      "Heavy Robotics": {
+        "each": 2
+      },
+      "Precision Control": {
+        "each": 2
+      },
+      "Autonomous Logistics": {
+        "each": 2
+      },
+      "Command Robotics": {
+        "each": 2
+      },
+      "Endgame Theory": {
+        "each": 2
+      },
+      "Power Distribution": {
+        "each": 2
+      },
+      "Resource Golem Survey": {
+        "each": 3
+      },
+      "Mineral Regeneration": {
+        "each": 2
+      },
+      "Factory Templates": {
+        "tier": 3,
+        "each": 30
+      },
+      "Hydro Processor 1": {
+        "tier": 3,
+        "each": 20
+      },
+      "Advanced Assembler 1": {
+        "tier": 3,
+        "each": 25
+      },
+      "Tree Planter 1": {
+        "tier": 3,
+        "each": 30
+      },
+      "Research Center 2": {
+        "tier": 4,
+        "each": 70
+      },
+      "Mineral Recovery 1": {
+        "tier": 4,
+        "each": 55
+      },
+      "Warehouse Logistics": {
+        "tier": 4,
+        "each": 55
+      },
+      "Road Channels 1": {
+        "tier": 4,
+        "each": 60
+      },
+      "Hydro Processor 2": {
+        "tier": 5,
+        "each": 100
+      },
+      "Advanced Assembler 2": {
+        "tier": 5,
+        "each": 100
+      },
+      "Area Expansion 2": {
+        "tier": 5,
+        "each": 150
+      },
+      "Mineral Regeneration 2": {
+        "tier": 5,
+        "each": 90
+      },
+      "High Pressure Intakes": {
+        "tier": 5,
+        "each": 100
+      },
+      "Road Channels 2": {
+        "tier": 5,
+        "each": 130
+      }
+    }
+  },
+  "encounterUnlocks": {
+    "status": "Adopted design direction; not implemented in live gameplay",
+    "principle": "Encountering a world node grants its first processing tools. Core recipes and efficiency/capacity improvements remain researched.",
+    "encounterDefinition": "First entry into an activated node map containing the matching world node. No extra click or camera hunt. Locked or merely generated maps do not count.",
+    "rules": [
+      {
+        "id": "lake-tools",
+        "encounter": "Lake",
+        "worldNode": "lake",
+        "unlocks": [
+          "Lake Intake",
+          "Hydro Processor",
+          "Coolant recipe",
+          "local fluid links"
+        ],
+        "researchRetains": {
+          "Hydrochemistry": [
+            "Conductive Slurry recipe"
+          ],
+          "Hydraulic Assembly": [
+            "Hydraulic Actuator recipe",
+            "Hydro Core recipe"
+          ]
+        },
+        "progression": "Build water collection and coolant routing while preceding-core research runs. Hydrochemistry no longer owns these machines or initial fluid links."
+      },
+      {
+        "id": "mithril-tools",
+        "encounter": "Mythril Deposit",
+        "worldNode": "mythril",
+        "unlocks": [
+          "Separation Furnace",
+          "Refined Mythril recipe",
+          "Slag Hopper"
+        ],
+        "researchRetains": {
+          "Ore Separation": [
+            "Shiny Core recipe"
+          ],
+          "Mineral Recovery": [
+            "Slag washing",
+            "Recovered Brick",
+            "Recovered Iron"
+          ]
+        },
+        "progression": "Prepare refining before Shiny Core access. Slag stays guaranteed; random waste still starts with tier-6 intermediaries."
+      },
+      {
+        "id": "fabricator-tools",
+        "encounter": "Abandoned Fabricator",
+        "worldNode": "abandoned-fabricator",
+        "proposedWorldNode": true,
+        "unlocks": [
+          "Advanced Assembler",
+          "compatibility with already-known Motor and Iron Gear recipes"
+        ],
+        "researchRetains": {
+          "Hydraulic Assembly": [
+            "Hydraulic Actuator recipe",
+            "Hydro Core recipe"
+          ],
+          "Precision Control": [
+            "Precision Controller recipe",
+            "Advanced Actuator recipe",
+            "Complex Core recipe"
+          ]
+        },
+        "progression": "Introduce the machine with familiar recipes before researching advanced applications. The landmark cannot require its own output to reach."
+      },
+      {
+        "id": "sorting-tools",
+        "encounter": "Derelict Sorting Station",
+        "worldNode": "derelict-sorting-station",
+        "proposedWorldNode": true,
+        "unlocks": [
+          "Waste Sorter",
+          "mixed Waste Hopper",
+          "waste batch links"
+        ],
+        "researchRetains": {
+          "Precision Control": [
+            "tier-6 waste-producing intermediaries",
+            "Fines settling",
+            "Flux stabilization",
+            "Crust milling"
+          ]
+        },
+        "fallback": "Precision Control also grants these handling tools if the station has not been encountered.",
+        "progression": "Scouting can prepare handling early; probabilistic waste production remains tier 6."
+      }
+    ],
+    "worldRequirements": [
+      "Guarantee a reachable Lake and Abandoned Fabricator before Hydro production, and reachable Mythril before Shiny. Random alternatives do not replace these guarantees.",
+      "Required encounters must be accessible with preceding map access, roads and early combat. Never require the tools, cores or advanced bots the encounter unlocks.",
+      "Retain early discoveries permanently. Machine access is immediate; advanced recipes still check research prerequisites.",
+      "Identify encountered nodes on the map and show granted tools and remaining research. Do not reveal encounters from undiscovered generated maps.",
+      "Persist discovered node categories and granted unlocks. Older saves credit qualifying maps already visited."
+    ],
+    "simulationImpact": "No core costs or research prerequisites are automatically removed. Existing simulations group construction by tier and assume resource access; they cannot measure early preparation or scouting delays. Their numbers remain the previous construction model until discovery and cross-tier building are explicitly scheduled.",
+    "unchanged": [
+      "Equal quantities of every core through the highest required tier",
+      "Single Home Research Center",
+      "Five-second Extractor base cycle",
+      "Tier-6 introduction of probabilistic waste",
+      "Paid escalating efficiency and convenience research"
+    ]
+  },
+  "research": [
+    {
+      "name": "Hydrochemistry",
+      "tier": 3,
+      "each": 1,
+      "pricingClass": "unlock",
+      "costs": {
+        "simple-core": 1,
+        "basic-core": 1,
+        "automata-core": 1
+      }
+    },
+    {
+      "name": "Hydraulic Assembly",
+      "tier": 3,
+      "each": 2,
+      "pricingClass": "unlock",
+      "costs": {
+        "simple-core": 2,
+        "basic-core": 2,
+        "automata-core": 2
+      }
+    },
+    {
+      "name": "Fluid Routing",
+      "tier": 4,
+      "each": 2,
+      "pricingClass": "unlock",
+      "costs": {
+        "simple-core": 2,
+        "basic-core": 2,
+        "automata-core": 2,
+        "hydro-core": 2
+      }
+    },
+    {
+      "name": "Sealed Robotics",
+      "tier": 4,
+      "each": 2,
+      "pricingClass": "unlock",
+      "costs": {
+        "simple-core": 2,
+        "basic-core": 2,
+        "automata-core": 2,
+        "hydro-core": 2
+      }
+    },
+    {
+      "name": "Ore Separation",
+      "tier": 4,
+      "each": 2,
+      "pricingClass": "unlock",
+      "costs": {
+        "simple-core": 2,
+        "basic-core": 2,
+        "automata-core": 2,
+        "hydro-core": 2
+      }
+    },
+    {
+      "name": "Mineral Recovery",
+      "tier": 5,
+      "each": 2,
+      "pricingClass": "unlock",
+      "costs": {
+        "simple-core": 2,
+        "basic-core": 2,
+        "automata-core": 2,
+        "hydro-core": 2,
+        "shiny-core": 2
+      }
+    },
+    {
+      "name": "Pressure Systems",
+      "tier": 5,
+      "each": 45,
+      "pricingClass": "efficiency",
+      "costs": {
+        "simple-core": 45,
+        "basic-core": 45,
+        "automata-core": 45,
+        "hydro-core": 45,
+        "shiny-core": 45
+      }
+    },
+    {
+      "name": "Heavy Robotics",
+      "tier": 5,
+      "each": 2,
+      "pricingClass": "unlock",
+      "costs": {
+        "simple-core": 2,
+        "basic-core": 2,
+        "automata-core": 2,
+        "hydro-core": 2,
+        "shiny-core": 2
+      }
+    },
+    {
+      "name": "Precision Control",
+      "tier": 5,
+      "each": 2,
+      "pricingClass": "unlock",
+      "costs": {
+        "simple-core": 2,
+        "basic-core": 2,
+        "automata-core": 2,
+        "hydro-core": 2,
+        "shiny-core": 2
+      }
+    },
+    {
+      "name": "Autonomous Logistics",
+      "tier": 6,
+      "each": 2,
+      "pricingClass": "unlock",
+      "costs": {
+        "simple-core": 2,
+        "basic-core": 2,
+        "automata-core": 2,
+        "hydro-core": 2,
+        "shiny-core": 2,
+        "command-core": 2
+      }
+    },
+    {
+      "name": "Command Robotics",
+      "tier": 6,
+      "each": 2,
+      "pricingClass": "unlock",
+      "costs": {
+        "simple-core": 2,
+        "basic-core": 2,
+        "automata-core": 2,
+        "hydro-core": 2,
+        "shiny-core": 2,
+        "command-core": 2
+      }
+    },
+    {
+      "name": "Mineral Regeneration 2",
+      "tier": 5,
+      "each": 90,
+      "pricingClass": "efficiency",
+      "costs": {
+        "simple-core": 90,
+        "basic-core": 90,
+        "automata-core": 90,
+        "hydro-core": 90,
+        "shiny-core": 90
+      }
+    },
+    {
+      "name": "High Pressure Intakes",
+      "tier": 5,
+      "each": 100,
+      "pricingClass": "efficiency",
+      "costs": {
+        "simple-core": 100,
+        "basic-core": 100,
+        "automata-core": 100,
+        "hydro-core": 100,
+        "shiny-core": 100
+      }
+    },
+    {
+      "name": "Endgame Theory",
+      "tier": 6,
+      "each": 2,
+      "pricingClass": "unlock",
+      "costs": {
+        "simple-core": 2,
+        "basic-core": 2,
+        "automata-core": 2,
+        "hydro-core": 2,
+        "shiny-core": 2,
+        "command-core": 2
+      }
+    },
+    {
+      "name": "Factory Templates",
+      "tier": 3,
+      "each": 30,
+      "pricingClass": "quality-of-life",
+      "costs": {
+        "simple-core": 30,
+        "basic-core": 30,
+        "automata-core": 30
+      }
+    },
+    {
+      "name": "Hydro Processor 1",
+      "tier": 3,
+      "each": 20,
+      "pricingClass": "efficiency",
+      "costs": {
+        "simple-core": 20,
+        "basic-core": 20,
+        "automata-core": 20
+      }
+    },
+    {
+      "name": "Advanced Assembler 1",
+      "tier": 3,
+      "each": 25,
+      "pricingClass": "efficiency",
+      "costs": {
+        "simple-core": 25,
+        "basic-core": 25,
+        "automata-core": 25
+      }
+    },
+    {
+      "name": "Power Distribution",
+      "tier": 4,
+      "each": 2,
+      "pricingClass": "unlock",
+      "costs": {
+        "simple-core": 2,
+        "basic-core": 2,
+        "automata-core": 2,
+        "hydro-core": 2
+      }
+    },
+    {
+      "name": "Tree Planter 1",
+      "tier": 3,
+      "each": 30,
+      "pricingClass": "efficiency",
+      "costs": {
+        "simple-core": 30,
+        "basic-core": 30,
+        "automata-core": 30
+      }
+    },
+    {
+      "name": "Research Center 2",
+      "tier": 4,
+      "each": 70,
+      "pricingClass": "efficiency",
+      "costs": {
+        "simple-core": 70,
+        "basic-core": 70,
+        "automata-core": 70,
+        "hydro-core": 70
+      }
+    },
+    {
+      "name": "Mineral Recovery 1",
+      "tier": 4,
+      "each": 55,
+      "pricingClass": "efficiency",
+      "costs": {
+        "simple-core": 55,
+        "basic-core": 55,
+        "automata-core": 55,
+        "hydro-core": 55
+      }
+    },
+    {
+      "name": "Warehouse Logistics",
+      "tier": 4,
+      "each": 55,
+      "pricingClass": "quality-of-life",
+      "costs": {
+        "simple-core": 55,
+        "basic-core": 55,
+        "automata-core": 55,
+        "hydro-core": 55
+      }
+    },
+    {
+      "name": "Road Channels 1",
+      "tier": 4,
+      "each": 60,
+      "pricingClass": "quality-of-life",
+      "costs": {
+        "simple-core": 60,
+        "basic-core": 60,
+        "automata-core": 60,
+        "hydro-core": 60
+      }
+    },
+    {
+      "name": "Hydro Processor 2",
+      "tier": 5,
+      "each": 100,
+      "pricingClass": "efficiency",
+      "costs": {
+        "simple-core": 100,
+        "basic-core": 100,
+        "automata-core": 100,
+        "hydro-core": 100,
+        "shiny-core": 100
+      }
+    },
+    {
+      "name": "Advanced Assembler 2",
+      "tier": 5,
+      "each": 100,
+      "pricingClass": "efficiency",
+      "costs": {
+        "simple-core": 100,
+        "basic-core": 100,
+        "automata-core": 100,
+        "hydro-core": 100,
+        "shiny-core": 100
+      }
+    },
+    {
+      "name": "Area Expansion 2",
+      "tier": 5,
+      "each": 150,
+      "pricingClass": "quality-of-life",
+      "costs": {
+        "simple-core": 150,
+        "basic-core": 150,
+        "automata-core": 150,
+        "hydro-core": 150,
+        "shiny-core": 150
+      }
+    },
+    {
+      "name": "Resource Golem Survey",
+      "tier": 4,
+      "each": 3,
+      "pricingClass": "unlock",
+      "costs": {
+        "simple-core": 3,
+        "basic-core": 3,
+        "automata-core": 3,
+        "hydro-core": 3
+      }
+    },
+    {
+      "name": "Mineral Regeneration",
+      "tier": 5,
+      "each": 2,
+      "pricingClass": "unlock",
+      "costs": {
+        "simple-core": 2,
+        "basic-core": 2,
+        "automata-core": 2,
+        "hydro-core": 2,
+        "shiny-core": 2
+      }
+    },
+    {
+      "name": "Road Channels 2",
+      "tier": 5,
+      "each": 130,
+      "pricingClass": "quality-of-life",
+      "costs": {
+        "simple-core": 130,
+        "basic-core": 130,
+        "automata-core": 130,
+        "hydro-core": 130,
+        "shiny-core": 130
+      }
+    }
+  ],
+  "pricingPolicy": {
+    "principle": "Affordable capability unlocks; escalating optional efficiency and quality-of-life investments. Equal quantities of all required cores remain mandatory.",
+    "scope": "Sample proposed projects only. Existing live research costs are unchanged.",
+    "unlockPrerequisiteChanges": {
+      "Precision Control": [
+        "Ore Separation",
+        "Mineral Recovery"
+      ],
+      "Endgame Theory": [
+        "Autonomous Logistics",
+        "Command Robotics",
+        "Mineral Regeneration",
+        "Precision Control"
+      ]
+    },
+    "dependencyRule": "An optional efficiency or quality-of-life upgrade must not be required merely to access the next core tier.",
+    "priceBands": [
+      {
+        "tier": 3,
+        "unlockEach": [
+          1,
+          2
+        ],
+        "improvementEach": [
+          20,
+          30
+        ]
+      },
+      {
+        "tier": 4,
+        "unlockEach": [
+          2,
+          3
+        ],
+        "improvementEach": [
+          55,
+          70
+        ]
+      },
+      {
+        "tier": 5,
+        "unlockEach": [
+          2,
+          2
+        ],
+        "improvementEach": [
+          45,
+          150
+        ]
+      },
+      {
+        "tier": 6,
+        "unlockEach": [
+          2,
+          2
+        ],
+        "improvementEach": null
+      }
+    ],
+    "groups": [
+      {
+        "pricingClass": "unlock",
+        "count": 14,
+        "iterations": 28,
+        "coreItems": 129
+      },
+      {
+        "pricingClass": "efficiency",
+        "count": 10,
+        "iterations": 635,
+        "coreItems": 2900
+      },
+      {
+        "pricingClass": "quality-of-life",
+        "count": 5,
+        "iterations": 425,
+        "coreItems": 1950
+      }
+    ]
+  },
+  "frameworkResearch": [
+    {
+      "name": "Factory Templates",
+      "prerequisites": [
+        "Hydraulic Assembly"
+      ],
+      "effect": "Paid core research for saved layouts and batch placement previews; existing duplicate controls remain available."
+    },
+    {
+      "name": "Hydro Processor 1",
+      "prerequisites": [
+        "Hydraulic Assembly"
+      ],
+      "effect": "Hydro Processor cycles use 90% of base time; ingredient quantities and yields stay unchanged."
+    },
+    {
+      "name": "Advanced Assembler 1",
+      "prerequisites": [
+        "Hydraulic Assembly"
+      ],
+      "effect": "Advanced Assembler cycles use 90% of base time."
+    },
+    {
+      "name": "Power Distribution",
+      "prerequisites": [
+        "Basic Electricity",
+        "Hydraulic Assembly"
+      ],
+      "effect": "Dedicated Power Conduits carry 25 existing power units per second, without single-unit cable particles or a change in generation yield."
+    },
+    {
+      "name": "Tree Planter 1",
+      "prerequisites": [
+        "Tree Planter",
+        "Power Distribution"
+      ],
+      "effect": "Tree Planter cycles use 90% of base time; each growth unit still consumes five power units."
+    },
+    {
+      "name": "Research Center 2",
+      "prerequisites": [
+        "Ore Separation",
+        "Research Center 1"
+      ],
+      "effect": "Research Center cycle uses 80% of base time; replaces the 90% factor rather than multiplying it."
+    },
+    {
+      "name": "Mineral Recovery 1",
+      "prerequisites": [
+        "Mineral Recovery"
+      ],
+      "effect": "Slag washing and recovered Brick/Iron recipes take 10% less time after any applicable family modifier; no extra material recovery."
+    },
+    {
+      "name": "Warehouse Logistics",
+      "prerequisites": [
+        "Ore Separation",
+        "Fluid Routing"
+      ],
+      "effect": "Dedicated one-item Warehouse holds 250 items with a filtered outlet; Inventory retrieval stays a later unlock."
+    },
+    {
+      "name": "Road Channels 1",
+      "prerequisites": [
+        "Road",
+        "Ore Separation"
+      ],
+      "effect": "Allows two one-way Road channels per direction. Each transfers its sending Wooden Chest contents instantly at an interval; cadence, capacity and full-destination behavior remain open."
+    },
+    {
+      "name": "Hydro Processor 2",
+      "prerequisites": [
+        "Hydro Processor 1",
+        "Precision Control"
+      ],
+      "effect": "Hydro Processor cycles use 80% of base time, replacing the 90% factor."
+    },
+    {
+      "name": "Advanced Assembler 2",
+      "prerequisites": [
+        "Advanced Assembler 1",
+        "Precision Control"
+      ],
+      "effect": "Advanced Assembler cycles use 80% of base time, replacing the 90% factor."
+    },
+    {
+      "name": "Area Expansion 2",
+      "prerequisites": [
+        "Area Expansion 1",
+        "Precision Control"
+      ],
+      "effect": "Field dimensions use a 1.5 multiplier over tier-scaled base dimensions, replacing 1.25."
+    },
+    {
+      "name": "Resource Golem Survey",
+      "prerequisites": [
+        "Sealed Robotics"
+      ],
+      "effect": "Reveals eligible midgame Iron, Copper, Mythril and Stone Golem encounters. Defeating one creates a permanent infinite multi-output mineral anchor; health, counts, ports and delivery rates remain open."
+    },
+    {
+      "name": "Mineral Regeneration",
+      "prerequisites": [
+        "Mineral Recovery"
+      ],
+      "effect": "Proposed base recovery of one unit per 30 seconds in ordinary non-wood deposits, up to capacity. Empty deposits remain to regenerate after this unlock; existing Big Holes do not become deposits."
+    },
+    {
+      "name": "Mineral Regeneration 2",
+      "prerequisites": [
+        "Mineral Regeneration",
+        "Precision Control"
+      ],
+      "effect": "Proposed base regeneration improves to one unit per 15 seconds and opens indefinitely repeatable rate research. This replaces the earlier automated-drill proposal."
+    },
+    {
+      "name": "Road Channels 2",
+      "prerequisites": [
+        "Road Channels 1",
+        "Precision Control"
+      ],
+      "effect": "Allows four one-way Road channels per direction; preserves sending-chest batches rather than continuous global transport."
+    }
+  ],
+  "repeatableResearch": [
+    {
+      "name": "Mineral Regeneration Rate",
+      "tier": 6,
+      "firstCostEach": 40,
+      "growth": 1.5,
+      "effect": "Each rank adds 20% of the post-Regeneration-2 base regeneration rate; no maximum rank.",
+      "source": "D21"
+    },
+    {
+      "name": "Storage Placement Capacity",
+      "tier": 6,
+      "firstCostEach": 50,
+      "growth": 1.5,
+      "effect": "Each rank adds one Storage placement to the global cap; no maximum rank.",
+      "source": "D19"
+    },
+    {
+      "name": "Inventory Placement Capacity",
+      "tier": 6,
+      "firstCostEach": 50,
+      "growth": 1.5,
+      "effect": "Each rank adds one Inventory placement to the global cap; no maximum rank.",
+      "source": "D19"
+    },
+    {
+      "name": "Storage Connection Capacity",
+      "tier": 6,
+      "firstCostEach": 40,
+      "growth": 1.5,
+      "effect": "Each rank adds one permitted connection per Storage; no maximum rank.",
+      "source": "D19"
+    },
+    {
+      "name": "Inventory Connection Capacity",
+      "tier": 6,
+      "firstCostEach": 40,
+      "growth": 1.5,
+      "effect": "Each rank adds one permitted output connection per Inventory; Inventory still initially connects only to Filters.",
+      "source": "D19"
+    },
+    {
+      "name": "Global Pool Item Capacity",
+      "tier": 7,
+      "firstCostEach": 50,
+      "growth": 1.5,
+      "effect": "Indefinitely increases per-item limits in the one global transfer pool. Starting limits and capacity gains remain open.",
+      "source": "D23/D25"
+    }
+  ],
+  "endgameResearch": [
+    {
+      "name": "Automatic Inventory Selection",
+      "tier": 7,
+      "costEach": 150,
+      "effect": "Proposed research gate for exact-input-port selection, allowing a direct Inventory connection to a configured machine. Filters remain available. Research versus world-condition gate is still open.",
+      "source": "D24"
+    },
+    {
+      "name": "Monster Node Assault",
+      "tier": 7,
+      "costEach": 30,
+      "effect": "Proposed access/targeting preparation for tier-10 Monster Nodes. Research does not defeat them; factory-supplied combat does. Encounter counts and delivery requirements remain open.",
+      "source": "D01/D10"
+    }
+  ],
+  "researchTotals": {
+    "simple-core": 1088,
+    "basic-core": 1088,
+    "automata-core": 1088,
+    "hydro-core": 980,
+    "shiny-core": 729,
+    "command-core": 6
+  },
+  "researchRaw": {
+    "copper": 57242,
+    "wood": 49827.5,
+    "iron": 34537,
+    "stone": 2803,
+    "water": 14784,
+    "mythril": 4434
+  },
+  "researchCoreItems": 4979,
+  "researchTicks": 1088,
+  "recalculation": {
+    "goal": "Perfect play completes all existing fixed research and all 29 proposed fixed projects through tier 6 within 10800 seconds. Optional repeatable ranks, tier-7 projects, Map Node repeats and combat manufacture are additional.",
+    "allCosts": {
+      "simple-core": 1234,
+      "basic-core": 1233,
+      "automata-core": 1178,
+      "hydro-core": 980,
+      "shiny-core": 729,
+      "command-core": 6
+    },
+    "raw": {
+      "copper": 59240,
+      "wood": 51351.5,
+      "iron": 35587,
+      "stone": 2893,
+      "water": 14784,
+      "mythril": 4434
+    },
+    "workSeconds": {
+      "simple-core": 6170,
+      "copper-gear": 7404,
+      "copper-plate": 177720,
+      "extract:copper": 296200,
+      "charcoal": 179730.25,
+      "extract:wood": 256757.5,
+      "basic-core": 12330,
+      "iron-wire": 3699,
+      "iron-plate": 106761,
+      "extract:iron": 177935,
+      "automata-core": 43395,
+      "circuit-a": 21875,
+      "copper-wire": 23451,
+      "brick": 11572,
+      "extract:stone": 14465,
+      "hydro-core": 30870,
+      "hydraulic-actuator": 17210,
+      "iron-gear": 10326,
+      "motor": 11186.5,
+      "coolant": 17013,
+      "lake-intake": 3696,
+      "conductive-slurry": 13768,
+      "shiny-core": 17640,
+      "refined-mithril": 13302,
+      "extract:mythril": 22170,
+      "command-core": 180,
+      "precision-controller": 72,
+      "advanced-actuator": 96
+    },
+    "byproducts": {
+      "slag": 2217,
+      "metallic-fines": 3.9000000000000004,
+      "glassy-crust": 0.78,
+      "spent-flux": 4.199999999999999
+    },
+    "totalCoreItems": 5360,
+    "totalTicks": 1234,
+    "baseLabSeconds": 1234,
+    "optimisticUpgradedLabSeconds": 1110.6000000000001,
+    "nonResearchTimeBudgetSeconds": 9566,
+    "mixedEnvelopes": [
+      {
+        "tier": 3,
+        "coreSet": {
+          "simple-core": 1,
+          "basic-core": 1,
+          "automata-core": 1
+        },
+        "raw": {
+          "copper": 16,
+          "wood": 12,
+          "iron": 8,
+          "stone": 1
+        },
+        "workSeconds": {
+          "simple-core": 5,
+          "copper-gear": 6,
+          "copper-plate": 48,
+          "extract:copper": 80,
+          "charcoal": 42,
+          "extract:wood": 60,
+          "basic-core": 10,
+          "iron-wire": 3,
+          "iron-plate": 24,
+          "extract:iron": 40,
+          "automata-core": 15,
+          "circuit-a": 5,
+          "copper-wire": 3,
+          "brick": 4,
+          "extract:stone": 5
+        },
+        "byproducts": {},
+        "leanProductionAndLabNodes": 16,
+        "leanSecondsPerSet": 80,
+        "slowOneSetPerMinute": {
+          "machines": {
+            "simple-core": 1,
+            "copper-gear": 1,
+            "copper-plate": 1,
+            "extract:copper": 2,
+            "charcoal": 1,
+            "extract:wood": 1,
+            "basic-core": 1,
+            "iron-wire": 1,
+            "iron-plate": 1,
+            "extract:iron": 1,
+            "automata-core": 1,
+            "circuit-a": 1,
+            "copper-wire": 1,
+            "brick": 1,
+            "extract:stone": 1
+          },
+          "productionAndLabNodes": 17
+        },
+        "balancedFullBaseLab": {
+          "machines": {
+            "simple-core": 5,
+            "copper-gear": 6,
+            "copper-plate": 48,
+            "extract:copper": 80,
+            "charcoal": 42,
+            "extract:wood": 60,
+            "basic-core": 10,
+            "iron-wire": 3,
+            "iron-plate": 24,
+            "extract:iron": 40,
+            "automata-core": 15,
+            "circuit-a": 5,
+            "copper-wire": 3,
+            "brick": 4,
+            "extract:stone": 5
+          },
+          "productionAndLabNodes": 351
+        },
+        "balancedFullUpgradedLab": {
+          "machines": {
+            "simple-core": 6,
+            "copper-gear": 7,
+            "copper-plate": 54,
+            "extract:copper": 89,
+            "charcoal": 47,
+            "extract:wood": 67,
+            "basic-core": 12,
+            "iron-wire": 4,
+            "iron-plate": 27,
+            "extract:iron": 45,
+            "automata-core": 17,
+            "circuit-a": 6,
+            "copper-wire": 4,
+            "brick": 5,
+            "extract:stone": 6
+          },
+          "productionAndLabNodes": 397
+        },
+        "balancedFullResearchCenter2": {
+          "machines": {
+            "simple-core": 7,
+            "copper-gear": 8,
+            "copper-plate": 60,
+            "extract:copper": 100,
+            "charcoal": 53,
+            "extract:wood": 75,
+            "basic-core": 13,
+            "iron-wire": 4,
+            "iron-plate": 30,
+            "extract:iron": 50,
+            "automata-core": 19,
+            "circuit-a": 7,
+            "copper-wire": 4,
+            "brick": 5,
+            "extract:stone": 7
+          },
+          "productionAndLabNodes": 443
+        },
+        "unbufferedAllTypesPerSecond": {
+          "machines": {
+            "simple-core": 5,
+            "copper-gear": 6,
+            "copper-plate": 48,
+            "extract:copper": 80,
+            "charcoal": 42,
+            "extract:wood": 60,
+            "basic-core": 10,
+            "iron-wire": 3,
+            "iron-plate": 24,
+            "extract:iron": 40,
+            "automata-core": 15,
+            "circuit-a": 5,
+            "copper-wire": 3,
+            "brick": 4,
+            "extract:stone": 5
+          },
+          "productionAndLabNodes": 351
+        }
+      },
+      {
+        "tier": 4,
+        "coreSet": {
+          "simple-core": 1,
+          "basic-core": 1,
+          "automata-core": 1,
+          "hydro-core": 1
+        },
+        "raw": {
+          "copper": 34,
+          "wood": 28,
+          "iron": 20,
+          "stone": 2,
+          "water": 6
+        },
+        "workSeconds": {
+          "simple-core": 5,
+          "copper-gear": 6,
+          "copper-plate": 102,
+          "extract:copper": 170,
+          "charcoal": 98,
+          "extract:wood": 140,
+          "basic-core": 10,
+          "iron-wire": 3,
+          "iron-plate": 60,
+          "extract:iron": 100,
+          "automata-core": 30,
+          "circuit-a": 10,
+          "copper-wire": 12,
+          "brick": 8,
+          "extract:stone": 10,
+          "hydro-core": 18,
+          "hydraulic-actuator": 10,
+          "iron-gear": 6,
+          "motor": 6.5,
+          "coolant": 6,
+          "lake-intake": 1.5,
+          "conductive-slurry": 8
+        },
+        "byproducts": {},
+        "leanProductionAndLabNodes": 23,
+        "leanSecondsPerSet": 170,
+        "slowOneSetPerMinute": {
+          "machines": {
+            "simple-core": 1,
+            "copper-gear": 1,
+            "copper-plate": 2,
+            "extract:copper": 3,
+            "charcoal": 2,
+            "extract:wood": 3,
+            "basic-core": 1,
+            "iron-wire": 1,
+            "iron-plate": 1,
+            "extract:iron": 2,
+            "automata-core": 1,
+            "circuit-a": 1,
+            "copper-wire": 1,
+            "brick": 1,
+            "extract:stone": 1,
+            "hydro-core": 1,
+            "hydraulic-actuator": 1,
+            "iron-gear": 1,
+            "motor": 1,
+            "coolant": 1,
+            "lake-intake": 1,
+            "conductive-slurry": 1
+          },
+          "productionAndLabNodes": 30
+        },
+        "balancedFullBaseLab": {
+          "machines": {
+            "simple-core": 5,
+            "copper-gear": 6,
+            "copper-plate": 102,
+            "extract:copper": 170,
+            "charcoal": 98,
+            "extract:wood": 140,
+            "basic-core": 10,
+            "iron-wire": 3,
+            "iron-plate": 60,
+            "extract:iron": 100,
+            "automata-core": 30,
+            "circuit-a": 10,
+            "copper-wire": 12,
+            "brick": 8,
+            "extract:stone": 10,
+            "hydro-core": 18,
+            "hydraulic-actuator": 10,
+            "iron-gear": 6,
+            "motor": 7,
+            "coolant": 6,
+            "lake-intake": 2,
+            "conductive-slurry": 8
+          },
+          "productionAndLabNodes": 822
+        },
+        "balancedFullUpgradedLab": {
+          "machines": {
+            "simple-core": 6,
+            "copper-gear": 7,
+            "copper-plate": 114,
+            "extract:copper": 189,
+            "charcoal": 109,
+            "extract:wood": 156,
+            "basic-core": 12,
+            "iron-wire": 4,
+            "iron-plate": 67,
+            "extract:iron": 112,
+            "automata-core": 34,
+            "circuit-a": 12,
+            "copper-wire": 14,
+            "brick": 9,
+            "extract:stone": 12,
+            "hydro-core": 20,
+            "hydraulic-actuator": 12,
+            "iron-gear": 7,
+            "motor": 8,
+            "coolant": 7,
+            "lake-intake": 2,
+            "conductive-slurry": 9
+          },
+          "productionAndLabNodes": 923
+        },
+        "balancedFullResearchCenter2": {
+          "machines": {
+            "simple-core": 7,
+            "copper-gear": 8,
+            "copper-plate": 128,
+            "extract:copper": 213,
+            "charcoal": 123,
+            "extract:wood": 175,
+            "basic-core": 13,
+            "iron-wire": 4,
+            "iron-plate": 75,
+            "extract:iron": 125,
+            "automata-core": 38,
+            "circuit-a": 13,
+            "copper-wire": 15,
+            "brick": 10,
+            "extract:stone": 13,
+            "hydro-core": 23,
+            "hydraulic-actuator": 13,
+            "iron-gear": 8,
+            "motor": 9,
+            "coolant": 8,
+            "lake-intake": 2,
+            "conductive-slurry": 10
+          },
+          "productionAndLabNodes": 1034
+        },
+        "unbufferedAllTypesPerSecond": {
+          "machines": {
+            "simple-core": 5,
+            "copper-gear": 6,
+            "copper-plate": 102,
+            "extract:copper": 170,
+            "charcoal": 98,
+            "extract:wood": 140,
+            "basic-core": 10,
+            "iron-wire": 3,
+            "iron-plate": 60,
+            "extract:iron": 100,
+            "automata-core": 30,
+            "circuit-a": 10,
+            "copper-wire": 12,
+            "brick": 8,
+            "extract:stone": 10,
+            "hydro-core": 18,
+            "hydraulic-actuator": 10,
+            "iron-gear": 6,
+            "motor": 7,
+            "coolant": 6,
+            "lake-intake": 2,
+            "conductive-slurry": 8
+          },
+          "productionAndLabNodes": 822
+        }
+      },
+      {
+        "tier": 5,
+        "coreSet": {
+          "simple-core": 1,
+          "basic-core": 1,
+          "automata-core": 1,
+          "hydro-core": 1,
+          "shiny-core": 1
+        },
+        "raw": {
+          "copper": 64,
+          "wood": 56.5,
+          "iron": 39,
+          "stone": 3,
+          "water": 18,
+          "mythril": 6
+        },
+        "workSeconds": {
+          "simple-core": 5,
+          "copper-gear": 6,
+          "copper-plate": 192,
+          "extract:copper": 320,
+          "charcoal": 197.75,
+          "extract:wood": 282.5,
+          "basic-core": 10,
+          "iron-wire": 3,
+          "iron-plate": 117,
+          "extract:iron": 195,
+          "automata-core": 45,
+          "circuit-a": 25,
+          "copper-wire": 27,
+          "brick": 12,
+          "extract:stone": 15,
+          "hydro-core": 36,
+          "hydraulic-actuator": 20,
+          "iron-gear": 12,
+          "motor": 13,
+          "coolant": 21,
+          "lake-intake": 4.5,
+          "conductive-slurry": 16,
+          "shiny-core": 24,
+          "refined-mithril": 18,
+          "extract:mythril": 30
+        },
+        "byproducts": {
+          "slag": 3
+        },
+        "leanProductionAndLabNodes": 26,
+        "leanSecondsPerSet": 320,
+        "slowOneSetPerMinute": {
+          "machines": {
+            "simple-core": 1,
+            "copper-gear": 1,
+            "copper-plate": 4,
+            "extract:copper": 6,
+            "charcoal": 4,
+            "extract:wood": 5,
+            "basic-core": 1,
+            "iron-wire": 1,
+            "iron-plate": 2,
+            "extract:iron": 4,
+            "automata-core": 1,
+            "circuit-a": 1,
+            "copper-wire": 1,
+            "brick": 1,
+            "extract:stone": 1,
+            "hydro-core": 1,
+            "hydraulic-actuator": 1,
+            "iron-gear": 1,
+            "motor": 1,
+            "coolant": 1,
+            "lake-intake": 1,
+            "conductive-slurry": 1,
+            "shiny-core": 1,
+            "refined-mithril": 1,
+            "extract:mythril": 1
+          },
+          "productionAndLabNodes": 45
+        },
+        "balancedFullBaseLab": {
+          "machines": {
+            "simple-core": 5,
+            "copper-gear": 6,
+            "copper-plate": 192,
+            "extract:copper": 320,
+            "charcoal": 198,
+            "extract:wood": 283,
+            "basic-core": 10,
+            "iron-wire": 3,
+            "iron-plate": 117,
+            "extract:iron": 195,
+            "automata-core": 45,
+            "circuit-a": 25,
+            "copper-wire": 27,
+            "brick": 12,
+            "extract:stone": 15,
+            "hydro-core": 36,
+            "hydraulic-actuator": 20,
+            "iron-gear": 12,
+            "motor": 13,
+            "coolant": 21,
+            "lake-intake": 5,
+            "conductive-slurry": 16,
+            "shiny-core": 24,
+            "refined-mithril": 18,
+            "extract:mythril": 30
+          },
+          "productionAndLabNodes": 1649
+        },
+        "balancedFullUpgradedLab": {
+          "machines": {
+            "simple-core": 6,
+            "copper-gear": 7,
+            "copper-plate": 214,
+            "extract:copper": 356,
+            "charcoal": 220,
+            "extract:wood": 314,
+            "basic-core": 12,
+            "iron-wire": 4,
+            "iron-plate": 130,
+            "extract:iron": 217,
+            "automata-core": 50,
+            "circuit-a": 28,
+            "copper-wire": 30,
+            "brick": 14,
+            "extract:stone": 17,
+            "hydro-core": 40,
+            "hydraulic-actuator": 23,
+            "iron-gear": 14,
+            "motor": 15,
+            "coolant": 24,
+            "lake-intake": 5,
+            "conductive-slurry": 18,
+            "shiny-core": 27,
+            "refined-mithril": 20,
+            "extract:mythril": 34
+          },
+          "productionAndLabNodes": 1840
+        },
+        "balancedFullResearchCenter2": {
+          "machines": {
+            "simple-core": 7,
+            "copper-gear": 8,
+            "copper-plate": 240,
+            "extract:copper": 400,
+            "charcoal": 248,
+            "extract:wood": 354,
+            "basic-core": 13,
+            "iron-wire": 4,
+            "iron-plate": 147,
+            "extract:iron": 244,
+            "automata-core": 57,
+            "circuit-a": 32,
+            "copper-wire": 34,
+            "brick": 15,
+            "extract:stone": 19,
+            "hydro-core": 45,
+            "hydraulic-actuator": 25,
+            "iron-gear": 15,
+            "motor": 17,
+            "coolant": 27,
+            "lake-intake": 6,
+            "conductive-slurry": 20,
+            "shiny-core": 30,
+            "refined-mithril": 23,
+            "extract:mythril": 38
+          },
+          "productionAndLabNodes": 2069
+        },
+        "unbufferedAllTypesPerSecond": {
+          "machines": {
+            "simple-core": 5,
+            "copper-gear": 6,
+            "copper-plate": 192,
+            "extract:copper": 320,
+            "charcoal": 198,
+            "extract:wood": 283,
+            "basic-core": 10,
+            "iron-wire": 3,
+            "iron-plate": 117,
+            "extract:iron": 195,
+            "automata-core": 45,
+            "circuit-a": 25,
+            "copper-wire": 27,
+            "brick": 12,
+            "extract:stone": 15,
+            "hydro-core": 36,
+            "hydraulic-actuator": 20,
+            "iron-gear": 12,
+            "motor": 13,
+            "coolant": 21,
+            "lake-intake": 5,
+            "conductive-slurry": 16,
+            "shiny-core": 24,
+            "refined-mithril": 18,
+            "extract:mythril": 30
+          },
+          "productionAndLabNodes": 1649
+        }
+      },
+      {
+        "tier": 6,
+        "coreSet": {
+          "simple-core": 1,
+          "basic-core": 1,
+          "automata-core": 1,
+          "hydro-core": 1,
+          "shiny-core": 1,
+          "command-core": 1
+        },
+        "raw": {
+          "copper": 118,
+          "wood": 109,
+          "iron": 76,
+          "stone": 4,
+          "water": 44,
+          "mythril": 16
+        },
+        "workSeconds": {
+          "simple-core": 5,
+          "copper-gear": 6,
+          "copper-plate": 354,
+          "extract:copper": 590,
+          "charcoal": 381.5,
+          "extract:wood": 545,
+          "basic-core": 10,
+          "iron-wire": 3,
+          "iron-plate": 228,
+          "extract:iron": 380,
+          "automata-core": 60,
+          "circuit-a": 50,
+          "copper-wire": 54,
+          "brick": 16,
+          "extract:stone": 20,
+          "hydro-core": 54,
+          "hydraulic-actuator": 40,
+          "iron-gear": 24,
+          "motor": 26,
+          "coolant": 54,
+          "lake-intake": 11,
+          "conductive-slurry": 32,
+          "shiny-core": 48,
+          "refined-mithril": 48,
+          "extract:mythril": 80,
+          "command-core": 30,
+          "precision-controller": 12,
+          "advanced-actuator": 16
+        },
+        "byproducts": {
+          "slag": 8,
+          "metallic-fines": 0.65,
+          "glassy-crust": 0.13,
+          "spent-flux": 0.7
+        },
+        "leanProductionAndLabNodes": 29,
+        "leanSecondsPerSet": 590,
+        "slowOneSetPerMinute": {
+          "machines": {
+            "simple-core": 1,
+            "copper-gear": 1,
+            "copper-plate": 6,
+            "extract:copper": 10,
+            "charcoal": 7,
+            "extract:wood": 10,
+            "basic-core": 1,
+            "iron-wire": 1,
+            "iron-plate": 4,
+            "extract:iron": 7,
+            "automata-core": 1,
+            "circuit-a": 1,
+            "copper-wire": 1,
+            "brick": 1,
+            "extract:stone": 1,
+            "hydro-core": 1,
+            "hydraulic-actuator": 1,
+            "iron-gear": 1,
+            "motor": 1,
+            "coolant": 1,
+            "lake-intake": 1,
+            "conductive-slurry": 1,
+            "shiny-core": 1,
+            "refined-mithril": 1,
+            "extract:mythril": 2,
+            "command-core": 1,
+            "precision-controller": 1,
+            "advanced-actuator": 1
+          },
+          "productionAndLabNodes": 68
+        },
+        "balancedFullBaseLab": {
+          "machines": {
+            "simple-core": 5,
+            "copper-gear": 6,
+            "copper-plate": 354,
+            "extract:copper": 590,
+            "charcoal": 382,
+            "extract:wood": 545,
+            "basic-core": 10,
+            "iron-wire": 3,
+            "iron-plate": 228,
+            "extract:iron": 380,
+            "automata-core": 60,
+            "circuit-a": 50,
+            "copper-wire": 54,
+            "brick": 16,
+            "extract:stone": 20,
+            "hydro-core": 54,
+            "hydraulic-actuator": 40,
+            "iron-gear": 24,
+            "motor": 26,
+            "coolant": 54,
+            "lake-intake": 11,
+            "conductive-slurry": 32,
+            "shiny-core": 48,
+            "refined-mithril": 48,
+            "extract:mythril": 80,
+            "command-core": 30,
+            "precision-controller": 12,
+            "advanced-actuator": 16
+          },
+          "productionAndLabNodes": 3179
+        },
+        "balancedFullUpgradedLab": {
+          "machines": {
+            "simple-core": 6,
+            "copper-gear": 7,
+            "copper-plate": 394,
+            "extract:copper": 656,
+            "charcoal": 424,
+            "extract:wood": 606,
+            "basic-core": 12,
+            "iron-wire": 4,
+            "iron-plate": 254,
+            "extract:iron": 423,
+            "automata-core": 67,
+            "circuit-a": 56,
+            "copper-wire": 60,
+            "brick": 18,
+            "extract:stone": 23,
+            "hydro-core": 60,
+            "hydraulic-actuator": 45,
+            "iron-gear": 27,
+            "motor": 29,
+            "coolant": 60,
+            "lake-intake": 13,
+            "conductive-slurry": 36,
+            "shiny-core": 54,
+            "refined-mithril": 54,
+            "extract:mythril": 89,
+            "command-core": 34,
+            "precision-controller": 14,
+            "advanced-actuator": 18
+          },
+          "productionAndLabNodes": 3544
+        },
+        "balancedFullResearchCenter2": {
+          "machines": {
+            "simple-core": 7,
+            "copper-gear": 8,
+            "copper-plate": 443,
+            "extract:copper": 738,
+            "charcoal": 477,
+            "extract:wood": 682,
+            "basic-core": 13,
+            "iron-wire": 4,
+            "iron-plate": 285,
+            "extract:iron": 475,
+            "automata-core": 75,
+            "circuit-a": 63,
+            "copper-wire": 68,
+            "brick": 20,
+            "extract:stone": 25,
+            "hydro-core": 68,
+            "hydraulic-actuator": 50,
+            "iron-gear": 30,
+            "motor": 33,
+            "coolant": 68,
+            "lake-intake": 14,
+            "conductive-slurry": 40,
+            "shiny-core": 60,
+            "refined-mithril": 60,
+            "extract:mythril": 100,
+            "command-core": 38,
+            "precision-controller": 15,
+            "advanced-actuator": 20
+          },
+          "productionAndLabNodes": 3980
+        },
+        "unbufferedAllTypesPerSecond": {
+          "machines": {
+            "simple-core": 5,
+            "copper-gear": 6,
+            "copper-plate": 354,
+            "extract:copper": 590,
+            "charcoal": 382,
+            "extract:wood": 545,
+            "basic-core": 10,
+            "iron-wire": 3,
+            "iron-plate": 228,
+            "extract:iron": 380,
+            "automata-core": 60,
+            "circuit-a": 50,
+            "copper-wire": 54,
+            "brick": 16,
+            "extract:stone": 20,
+            "hydro-core": 54,
+            "hydraulic-actuator": 40,
+            "iron-gear": 24,
+            "motor": 26,
+            "coolant": 54,
+            "lake-intake": 11,
+            "conductive-slurry": 32,
+            "shiny-core": 48,
+            "refined-mithril": 48,
+            "extract:mythril": 80,
+            "command-core": 30,
+            "precision-controller": 12,
+            "advanced-actuator": 16
+          },
+          "productionAndLabNodes": 3179
+        }
+      }
+    ],
+    "phases": [
+      {
+        "phase": "Existing levels 1–3",
+        "startMinute": 0,
+        "endMinute": 20,
+        "costs": {
+          "simple-core": 146,
+          "basic-core": 145,
+          "automata-core": 90
+        },
+        "raw": {
+          "copper": 1998,
+          "wood": 1524,
+          "iron": 1050,
+          "stone": 90
+        },
+        "workSeconds": {
+          "simple-core": 730,
+          "copper-gear": 876,
+          "copper-plate": 5994,
+          "extract:copper": 9990,
+          "charcoal": 5334,
+          "extract:wood": 7620,
+          "basic-core": 1450,
+          "iron-wire": 435,
+          "iron-plate": 3150,
+          "extract:iron": 5250,
+          "automata-core": 1350,
+          "circuit-a": 450,
+          "copper-wire": 270,
+          "brick": 360,
+          "extract:stone": 450
+        },
+        "byproducts": {},
+        "labSeconds": 146,
+        "baseLabUtilization": 0.12166666666666667,
+        "downtimeAllowanceSeconds": 1054,
+        "averageWindowCapacity": {
+          "machines": {
+            "simple-core": 1,
+            "copper-gear": 1,
+            "copper-plate": 5,
+            "extract:copper": 9,
+            "charcoal": 5,
+            "extract:wood": 7,
+            "basic-core": 2,
+            "iron-wire": 1,
+            "iron-plate": 3,
+            "extract:iron": 5,
+            "automata-core": 2,
+            "circuit-a": 1,
+            "copper-wire": 1,
+            "brick": 1,
+            "extract:stone": 1
+          },
+          "productionAndLabNodes": 46
+        },
+        "plannedWindowCapacityWithReserve": {
+          "machines": {
+            "simple-core": 1,
+            "copper-gear": 1,
+            "copper-plate": 7,
+            "extract:copper": 12,
+            "charcoal": 6,
+            "extract:wood": 9,
+            "basic-core": 2,
+            "iron-wire": 1,
+            "iron-plate": 4,
+            "extract:iron": 6,
+            "automata-core": 2,
+            "circuit-a": 1,
+            "copper-wire": 1,
+            "brick": 1,
+            "extract:stone": 1
+          },
+          "productionAndLabNodes": 56
+        }
+      },
+      {
+        "phase": "Hydro and Shiny unlock",
+        "startMinute": 20,
+        "endMinute": 50,
+        "costs": {
+          "simple-core": 359,
+          "basic-core": 359,
+          "automata-core": 359,
+          "hydro-core": 251
+        },
+        "raw": {
+          "copper": 10262,
+          "wood": 8324,
+          "iron": 5884,
+          "stone": 610,
+          "water": 1506
+        },
+        "workSeconds": {
+          "simple-core": 1795,
+          "copper-gear": 2154,
+          "copper-plate": 30786,
+          "extract:copper": 51310,
+          "charcoal": 29134,
+          "extract:wood": 41620,
+          "basic-core": 3590,
+          "iron-wire": 1077,
+          "iron-plate": 17652,
+          "extract:iron": 29420,
+          "automata-core": 9150,
+          "circuit-a": 3050,
+          "copper-wire": 3336,
+          "brick": 2440,
+          "extract:stone": 3050,
+          "hydro-core": 4518,
+          "hydraulic-actuator": 2510,
+          "iron-gear": 1506,
+          "motor": 1631.5,
+          "coolant": 1506,
+          "lake-intake": 376.5,
+          "conductive-slurry": 2008
+        },
+        "byproducts": {},
+        "labSeconds": 359,
+        "baseLabUtilization": 0.19944444444444445,
+        "downtimeAllowanceSeconds": 1441,
+        "averageWindowCapacity": {
+          "machines": {
+            "simple-core": 1,
+            "copper-gear": 2,
+            "copper-plate": 18,
+            "extract:copper": 29,
+            "charcoal": 17,
+            "extract:wood": 24,
+            "basic-core": 2,
+            "iron-wire": 1,
+            "iron-plate": 10,
+            "extract:iron": 17,
+            "automata-core": 6,
+            "circuit-a": 2,
+            "copper-wire": 2,
+            "brick": 2,
+            "extract:stone": 2,
+            "hydro-core": 3,
+            "hydraulic-actuator": 2,
+            "iron-gear": 1,
+            "motor": 1,
+            "coolant": 1,
+            "lake-intake": 1,
+            "conductive-slurry": 2
+          },
+          "productionAndLabNodes": 147
+        },
+        "plannedWindowCapacityWithReserve": {
+          "machines": {
+            "simple-core": 2,
+            "copper-gear": 2,
+            "copper-plate": 23,
+            "extract:copper": 39,
+            "charcoal": 22,
+            "extract:wood": 31,
+            "basic-core": 3,
+            "iron-wire": 1,
+            "iron-plate": 14,
+            "extract:iron": 22,
+            "automata-core": 7,
+            "circuit-a": 3,
+            "copper-wire": 3,
+            "brick": 2,
+            "extract:stone": 3,
+            "hydro-core": 4,
+            "hydraulic-actuator": 2,
+            "iron-gear": 2,
+            "motor": 2,
+            "coolant": 2,
+            "lake-intake": 1,
+            "conductive-slurry": 2
+          },
+          "productionAndLabNodes": 193
+        }
+      },
+      {
+        "phase": "Shiny and Complex unlock",
+        "startMinute": 50,
+        "endMinute": 90,
+        "costs": {
+          "simple-core": 723,
+          "basic-core": 723,
+          "automata-core": 723,
+          "hydro-core": 723,
+          "shiny-core": 723
+        },
+        "raw": {
+          "copper": 46272,
+          "wood": 40849.5,
+          "iron": 28197,
+          "stone": 2169,
+          "water": 13014,
+          "mythril": 4338
+        },
+        "workSeconds": {
+          "simple-core": 3615,
+          "copper-gear": 4338,
+          "copper-plate": 138816,
+          "extract:copper": 231360,
+          "charcoal": 142973.25,
+          "extract:wood": 204247.5,
+          "basic-core": 7230,
+          "iron-wire": 2169,
+          "iron-plate": 84591,
+          "extract:iron": 140985,
+          "automata-core": 32535,
+          "circuit-a": 18075,
+          "copper-wire": 19521,
+          "brick": 8676,
+          "extract:stone": 10845,
+          "hydro-core": 26028,
+          "hydraulic-actuator": 14460,
+          "iron-gear": 8676,
+          "motor": 9399,
+          "coolant": 15183,
+          "lake-intake": 3253.5,
+          "conductive-slurry": 11568,
+          "shiny-core": 17352,
+          "refined-mithril": 13014,
+          "extract:mythril": 21690
+        },
+        "byproducts": {
+          "slag": 2169
+        },
+        "labSeconds": 723,
+        "baseLabUtilization": 0.30125,
+        "downtimeAllowanceSeconds": 1677,
+        "averageWindowCapacity": {
+          "machines": {
+            "simple-core": 2,
+            "copper-gear": 2,
+            "copper-plate": 58,
+            "extract:copper": 97,
+            "charcoal": 60,
+            "extract:wood": 86,
+            "basic-core": 4,
+            "iron-wire": 1,
+            "iron-plate": 36,
+            "extract:iron": 59,
+            "automata-core": 14,
+            "circuit-a": 8,
+            "copper-wire": 9,
+            "brick": 4,
+            "extract:stone": 5,
+            "hydro-core": 11,
+            "hydraulic-actuator": 7,
+            "iron-gear": 4,
+            "motor": 4,
+            "coolant": 7,
+            "lake-intake": 2,
+            "conductive-slurry": 5,
+            "shiny-core": 8,
+            "refined-mithril": 6,
+            "extract:mythril": 10
+          },
+          "productionAndLabNodes": 510
+        },
+        "plannedWindowCapacityWithReserve": {
+          "machines": {
+            "simple-core": 3,
+            "copper-gear": 3,
+            "copper-plate": 78,
+            "extract:copper": 129,
+            "charcoal": 80,
+            "extract:wood": 114,
+            "basic-core": 5,
+            "iron-wire": 2,
+            "iron-plate": 47,
+            "extract:iron": 79,
+            "automata-core": 19,
+            "circuit-a": 11,
+            "copper-wire": 11,
+            "brick": 5,
+            "extract:stone": 7,
+            "hydro-core": 15,
+            "hydraulic-actuator": 9,
+            "iron-gear": 5,
+            "motor": 6,
+            "coolant": 9,
+            "lake-intake": 2,
+            "conductive-slurry": 7,
+            "shiny-core": 10,
+            "refined-mithril": 8,
+            "extract:mythril": 13
+          },
+          "productionAndLabNodes": 678
+        }
+      },
+      {
+        "phase": "Complex through Endgame Theory",
+        "startMinute": 90,
+        "endMinute": 180,
+        "costs": {
+          "simple-core": 6,
+          "basic-core": 6,
+          "automata-core": 6,
+          "hydro-core": 6,
+          "shiny-core": 6,
+          "command-core": 6
+        },
+        "raw": {
+          "copper": 708,
+          "wood": 654,
+          "iron": 456,
+          "stone": 24,
+          "water": 264,
+          "mythril": 96
+        },
+        "workSeconds": {
+          "simple-core": 30,
+          "copper-gear": 36,
+          "copper-plate": 2124,
+          "extract:copper": 3540,
+          "charcoal": 2289,
+          "extract:wood": 3270,
+          "basic-core": 60,
+          "iron-wire": 18,
+          "iron-plate": 1368,
+          "extract:iron": 2280,
+          "automata-core": 360,
+          "circuit-a": 300,
+          "copper-wire": 324,
+          "brick": 96,
+          "extract:stone": 120,
+          "hydro-core": 324,
+          "hydraulic-actuator": 240,
+          "iron-gear": 144,
+          "motor": 156,
+          "coolant": 324,
+          "lake-intake": 66,
+          "conductive-slurry": 192,
+          "shiny-core": 288,
+          "refined-mithril": 288,
+          "extract:mythril": 480,
+          "command-core": 180,
+          "precision-controller": 72,
+          "advanced-actuator": 96
+        },
+        "byproducts": {
+          "slag": 48,
+          "metallic-fines": 3.9000000000000004,
+          "glassy-crust": 0.78,
+          "spent-flux": 4.199999999999999
+        },
+        "labSeconds": 6,
+        "baseLabUtilization": 0.0011111111111111111,
+        "downtimeAllowanceSeconds": 5394,
+        "averageWindowCapacity": {
+          "machines": {
+            "simple-core": 1,
+            "copper-gear": 1,
+            "copper-plate": 1,
+            "extract:copper": 1,
+            "charcoal": 1,
+            "extract:wood": 1,
+            "basic-core": 1,
+            "iron-wire": 1,
+            "iron-plate": 1,
+            "extract:iron": 1,
+            "automata-core": 1,
+            "circuit-a": 1,
+            "copper-wire": 1,
+            "brick": 1,
+            "extract:stone": 1,
+            "hydro-core": 1,
+            "hydraulic-actuator": 1,
+            "iron-gear": 1,
+            "motor": 1,
+            "coolant": 1,
+            "lake-intake": 1,
+            "conductive-slurry": 1,
+            "shiny-core": 1,
+            "refined-mithril": 1,
+            "extract:mythril": 1,
+            "command-core": 1,
+            "precision-controller": 1,
+            "advanced-actuator": 1
+          },
+          "productionAndLabNodes": 29
+        },
+        "plannedWindowCapacityWithReserve": {
+          "machines": {
+            "simple-core": 1,
+            "copper-gear": 1,
+            "copper-plate": 1,
+            "extract:copper": 1,
+            "charcoal": 1,
+            "extract:wood": 1,
+            "basic-core": 1,
+            "iron-wire": 1,
+            "iron-plate": 1,
+            "extract:iron": 1,
+            "automata-core": 1,
+            "circuit-a": 1,
+            "copper-wire": 1,
+            "brick": 1,
+            "extract:stone": 1,
+            "hydro-core": 1,
+            "hydraulic-actuator": 1,
+            "iron-gear": 1,
+            "motor": 1,
+            "coolant": 1,
+            "lake-intake": 1,
+            "conductive-slurry": 1,
+            "shiny-core": 1,
+            "refined-mithril": 1,
+            "extract:mythril": 1,
+            "command-core": 1,
+            "precision-controller": 1,
+            "advanced-actuator": 1
+          },
+          "productionAndLabNodes": 29
+        }
+      }
+    ],
+    "optimisticResearchCenter2LabSeconds": 987.2,
+    "recommendedLabScheduleSeconds": 1023.4,
+    "expansion": {
+      "optimisticCopperMapsWithoutDrilling": 12,
+      "note": "Uses richest map capacities first plus Home, ignoring adjacency, map-research materials and recycling. This is an optimistic bound, not a travel route.",
+      "repeatTicksAtCopperMapBound": 205,
+      "minimumBaseLabSecondsWithoutDrilling": 1439,
+      "optionalSurveyGrantProposal": [
+        [
+          "Hydrochemistry",
+          4
+        ],
+        [
+          "Hydraulic Assembly",
+          4
+        ],
+        [
+          "Fluid Routing",
+          6
+        ],
+        [
+          "Ore Separation",
+          8
+        ],
+        [
+          "Pressure Systems",
+          8
+        ],
+        [
+          "Precision Control",
+          8
+        ],
+        [
+          "Autonomous Logistics",
+          8
+        ],
+        [
+          "Mineral Regeneration 2",
+          12
+        ]
+      ],
+      "mapsWithExplorationAndAllSurveyGrants": 60,
+      "surveyGrantsRequiredByLabBudget": false,
+      "noteOnSurveyGrants": "Earlier free-survey suggestion is no longer necessary to repair lab time after correcting synchronized research. Map progression remains open under D16."
+    },
+    "buffering": {
+      "largestProjectCountPerType": 150,
+      "tiers": 6,
+      "idealReservoirCalculation": "Not specified; size for route batch size, travel and safety margin, not the number of core types.",
+      "suggestedReservoirPerType": null,
+      "chestCapacity": 20,
+      "chestCountAllSixTypes": null,
+      "note": "Research consumes one of each required core in the same tick. All required types must sustain one per tick; reservoirs absorb transport jitter but cannot divide the required production rate by the number of types."
+    }
+  }
+}

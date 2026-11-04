@@ -49,7 +49,7 @@ describe('research payment and delivery details', () => {
     lab.processingPaused = false; lab.constructedAt = 1000; lab.constructionMs = 1500;
     expect(researchProgress(project, game, 2000).status).toContain('finish construction');
   });
-  it('preserves researched payments when explicitly canceling and resuming', () => {
+  it('preserves researched payments and immediately checks the remaining Cores when resuming', () => {
     const game = setup();
     game.research.contributed = { 'simple-core': 1 };
     game.sectors['5,5'].nodes = [tutorialNode('researchCenter', 'lab', 500, 500, { input: { 'basic-core': 1 }, progressMs: 500 })];
@@ -62,8 +62,9 @@ describe('research payment and delivery details', () => {
     expect(engine.getSector().nodes[0].input).toEqual({ 'basic-core': 1 });
     engine.selectResearch(project.id);
     progress = researchProgress(project, engine.getState());
-    expect(progress.status).toBe('Processing Cores in a Research Center.');
-    engine.tick(1000);
+    expect(progress.active).toBe(false);
+    expect(progress.rows.every(row => row.remaining === 0)).toBe(true);
+    expect(engine.getSector().nodes[0].input).toEqual({ 'basic-core': 0 });
     expect(engine.getState().research.completed).toContain(project.id);
   });
 });

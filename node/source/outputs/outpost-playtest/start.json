@@ -1,0 +1,153 @@
+{
+  "exportedAt": "2026-11-01T18:51:16.647Z",
+  "simulationTimeMs": 8000.199999988079,
+  "seed": 1875186765,
+  "extracted": {},
+  "produced": {},
+  "state": {
+    "version": 1,
+    "seed": 1875186765,
+    "activeSectorId": "5,5",
+    "sectors": {
+      "5,5": {
+        "id": "5,5",
+        "x": 5,
+        "y": 5,
+        "name": "Home Factory",
+        "label": "H",
+        "unlocked": true,
+        "nodes": [
+          {
+            "id": "forest",
+            "kind": "forest",
+            "name": "Forest",
+            "x": 406,
+            "y": 749,
+            "rotation": 0,
+            "input": {},
+            "output": {},
+            "progressMs": 0,
+            "cycleMs": 5000,
+            "constructedAt": 0,
+            "constructionMs": 0,
+            "resourceItem": "wood",
+            "resourceRemaining": 1000,
+            "resourceCapacity": 1000,
+            "regenMs": 0,
+            "capacity": 5
+          },
+          {
+            "id": "copper",
+            "kind": "copper",
+            "name": "Copper",
+            "x": 406,
+            "y": 1257,
+            "rotation": 0,
+            "input": {},
+            "output": {},
+            "progressMs": 0,
+            "cycleMs": 5000,
+            "constructedAt": 0,
+            "constructionMs": 0,
+            "resourceItem": "copper",
+            "resourceRemaining": 1000,
+            "resourceCapacity": 1000,
+            "capacity": 5
+          },
+          {
+            "id": "iron",
+            "kind": "iron",
+            "name": "Iron",
+            "x": 406,
+            "y": 1765,
+            "rotation": 0,
+            "input": {},
+            "output": {},
+            "progressMs": 0,
+            "cycleMs": 5000,
+            "constructedAt": 0,
+            "constructionMs": 0,
+            "resourceItem": "iron",
+            "resourceRemaining": 1000,
+            "resourceCapacity": 1000,
+            "capacity": 5
+          },
+          {
+            "id": "ironExtractor",
+            "kind": "extractor",
+            "name": "Extractor",
+            "x": 829,
+            "y": 748.5,
+            "rotation": 0,
+            "input": {},
+            "output": {},
+            "progressMs": 0,
+            "cycleMs": 5000,
+            "constructedAt": 0,
+            "constructionMs": 0
+          },
+          {
+            "id": "extractor-2",
+            "kind": "extractor",
+            "name": "Extractor",
+            "x": 929,
+            "y": 1176.5,
+            "rotation": 0,
+            "input": {},
+            "output": {},
+            "progressMs": 0,
+            "cycleMs": 5000,
+            "constructedAt": 0,
+            "constructionMs": 0
+          }
+        ],
+        "connections": [],
+        "camera": {
+          "x": -53.75675675675676,
+          "y": -144.5945945945946,
+          "zoom": 0.40540540540540543
+        },
+        "lastSimulatedAt": 1793558910676,
+        "visited": true
+      }
+    },
+    "research": {
+      "unlocked": [
+        "extractor",
+        "woodenChest"
+      ],
+      "contributed": {},
+      "completed": [],
+      "mapPoints": 0,
+      "repeatableCompletions": {},
+      "projectContributions": {}
+    },
+    "paused": true,
+    "playTimeMs": 8000.199999988079,
+    "achievements": [],
+    "preferences": {
+      "autosaveMinutes": 5,
+      "confirmDelete": true,
+      "particles": true,
+      "showGrid": true,
+      "sound": false
+    },
+    "tutorialStep": 0,
+    "events": [],
+    "revision": 12,
+    "produced": {},
+    "extracted": {},
+    "hasCreatedConnection": false,
+    "inFlightTransfers": [],
+    "encounters": [
+      "forest",
+      "copper",
+      "iron",
+      "extractor"
+    ],
+    "globalPool": {},
+    "factoryTemplates": [],
+    "randomState": 1875186765,
+    "progressionVersion": 1
+  }
+}

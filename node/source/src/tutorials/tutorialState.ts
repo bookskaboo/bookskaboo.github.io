@@ -9,6 +9,7 @@ export function tutorialNode(kind: NodeKind, id: string, x: number, y: number, e
 }
 export function createTutorialState(kind: TutorialKind, board = ''): GameState {
   const state = createInitialState(1);
+  state.isTraining=true;
   state.events = [];
   const sector = state.sectors[state.activeSectorId];
   sector.name = `${TUTORIAL_NAMES[kind]} practice`;
@@ -83,7 +84,8 @@ export function createTutorialState(kind: TutorialKind, board = ''): GameState {
     add('woodenChest', 'tutorial-bots', 450, 440, { output: { 'suppression-bot': 5 }, capacity: 20 });
     state.research.completed = ['suppressionBot'];
   }
-  state.research.unlocked = ['extractor', 'woodenChest', ...state.research.completed];
+  // Basics lends the Cart schematic for its buffer lesson; normal games require Road research.
+  state.research.unlocked = ['extractor', ...(kind === 'basic' ? ['road'] : []), ...state.research.completed];
   return state;
 }
 

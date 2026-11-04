@@ -1,0 +1,56 @@
+
+> factorinode-reconstruction@0.1.0 test
+> vitest run --reporter=dot
+
+
+ RUN  v5.0.5 D:/node factory v2
+
+···········································································································x······································································································································································································································x··············································································································································································································································································································-
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/simulation/engine.progression.test.ts > six-tier gameplay progression > uses one global pool across maps, preserves overflow and respects the per-item cap
+AssertionError: expected 0 to be greater than 0
+ ❯ src/simulation/engine.progression.test.ts:183:161
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  src/simulation/roadStorage.test.ts > Roads have no internal storage > returns old stored cargo to connected Carts and preserves overflow in the shared pool on load
+AssertionError: expected { version: 1, seed: 301, …(20) } to deeply equal { version: 1, seed: 301, …(20) }
+
+- Expected
++ Received
+
+@@ -91,10 +91,11 @@
+              "iron",
+              "iron",
+              "iron",
+              "iron",
+              "iron",
++             "iron",
+            ],
+            "processingPaused": false,
+            "progressMs": 0,
+            "rotation": 0,
+            "x": 500,
+
+ ❯ src/simulation/roadStorage.test.ts:110:31
+    108|     const saved = structuredClone(engine.getState());
+    109|     const loaded = new GameEngine(saved, { autosave: false });
+    110|     expect(loaded.getState()).toEqual(saved);
+       |                               ^
+    111|     expect(loaded.getState().globalPool?.iron).toBe(5);
+    112|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  2 failed | 68 passed | 1 skipped (71)
+      Tests  2 failed | 639 passed | 1 skipped (642)
+   Start at  23:42:35
+   Duration  4.21s (import 37%, transform 37%, tests 24%, worker 2%)
+
+    Isolate  71 workers spawned · ~395ms startup each (spawn + environment, per file)
+             at least ~824ms faster with isolate: false — reuses workers across files instead of one per file
+

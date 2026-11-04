@@ -1,7 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import type { ItemId, MachineNode } from '../domain/types';
 import { getLizardSettlementForMapTier } from '../content/lizardSettlements';
-import { getGoblinSettlementForMapTier } from '../content/goblinSettlements';
 import { getNodeDisplayDefinition } from '../content/nodes';
 import { normalizeLegacy } from '../persistence/saves';
 import { createInitialState, GameEngine } from './engine';
@@ -16,14 +15,14 @@ function setup(tier: number) {
   const spec = getLizardSettlementForMapTier(tier);
   const state = createInitialState(37);
   state.sectors['5,5'].nodes = [{ id: 'lizard', kind: 'monster-camp', name: spec.name,
-    lizardSettlement: spec.settlement, attackRequirement: spec.attackRequirement, campStrength: 25,
+    lizardSettlement: spec.settlement, settlementMapTier: spec.mapTier, attackRequirement: spec.attackRequirement, campStrength: 25,
     obstructionMaxRadius: spec.maxRadius, x: 2400, y: 1400, rotation: 0, input: {}, output: {},
     progressMs: 0, cycleMs: 60000, constructedAt: 0, constructionMs: 0 }];
   return new GameEngine(state);
 }
 
-describe('Lizard settlements', () => {
-  it.each([1, 37, 98765, 2147483647])('places five of each Lizard tier without displacing Goblins or Golems for seed %i', seed => {
+describe('Dwarven settlements (legacy lizard save key)', () => {
+  it.each([1, 37, 98765, 2147483647])('places five of each Dwarven tier without displacing Goblins or Golems for seed %i', seed => {
     const counts = { camp: 0, village: 0, kingdom: 0 };
     const tierCounts = Array(11).fill(0);
     const occupied = new Set<string>();
@@ -53,76 +52,90 @@ describe('Lizard settlements', () => {
   });
 
   it.each<[number, ItemId, number, number]>([
-    [4, 'heavy-suppression-bot', 3, 24], [5, 'heavy-suppression-bot', 5, 40],
-    [6, 'command-suppression-bot', 3, 60], [7, 'command-suppression-bot', 4, 80],
-    [8, 'command-suppression-bot', 6, 120], [9, 'command-suppression-bot', 8, 160],
+    [4, 'medium-suppression-bot', 2, 6], [5, 'medium-suppression-bot', 4, 12],
+    [6, 'medium-suppression-bot', 6, 18], [7, 'medium-suppression-bot', 10, 30],
+    [8, 'heavy-suppression-bot', 6, 48], [9, 'heavy-suppression-bot', 9, 72],
   ])('uses the higher research-aligned suppression requirement at map tier %i', (tier, bot, count, ap) => {
     const engine = setup(tier);
     const node = camp(engine);
     expect(node.attackRequirement).toBe(ap);
-    expect(ap).toBeGreaterThan(getGoblinSettlementForMapTier(tier).attackRequirement);
-    expect(tributeAmount(node)).toBeGreaterThan(getGoblinSettlementForMapTier(tier).tributePerCycle);
     node.input[bot] = count;
     advance(engine, 60);
     expect(node.campStrength).toBe(15);
     expect(node.input[bot]).toBeUndefined();
+    expect(reward(engine)).toBeUndefined();
+    node.input[bot] = count;
+    advance(engine, 60);
+    expect(node.campStrength).toBe(10);
     expect(reward(engine)?.lizardSettlement).toBe(node.lizardSettlement);
     expect(getNodeDisplayDefinition(node).accentCss).toBe('#71c99a');
     advance(engine, 5);
-    expect(reward(engine)?.output.iron).toBe(tributeAmount(node));
+    expect(reward(engine)?.output.mythril).toBe(tributeAmount(node));
     advance(engine, 55);
-    expect(node.campStrength).toBe(25);
-    expect(reward(engine)).toBeUndefined();
+    expect(node.campStrength).toBe(20);
+    expect(reward(engine)).toBeDefined();
   });
 
-  it.each(['wood', 'water'] as const)('offers %s tribute and routes it directly without an Extractor', item => {
+  it('offers Mythril tribute without a research gate and routes it directly without an Extractor', () => {
+    const item = 'mythril';
     const engine = setup(4);
+    camp(engine).campStrength = 15;
     expect(getTributeItems(engine.getState(), camp(engine))).toContain(item);
+    expect(getTributeItems(engine.getState(), camp(engine))).not.toContain('water');
     expect(engine.setGoblinTributeItem('lizard', item)).toBe(true);
     camp(engine).input['heavy-suppression-bot'] = 3;
     advance(engine, 60);
     const tribute = reward(engine)!;
-    const receiver: MachineNode = { ...tribute, id: 'receiver', kind: item === 'water' ? 'fluidStorage' : 'warehouse', x: tribute.x, y: tribute.y - 400, input: {}, output: {}, tributeCampId: undefined, lizardSettlement: undefined };
+    const receiver: MachineNode = { ...tribute, id: 'receiver', kind: 'warehouse', x: tribute.x, y: tribute.y - 400, input: {}, output: {}, tributeCampId: undefined, lizardSettlement: undefined };
     engine.getSector().nodes.push(receiver);
     expect(engine.connect(tribute.id, receiver.id)).toBe(true);
     advance(engine, 8);
-    expect((receiver.input[item] ?? 0) + (receiver.output[item] ?? 0)).toBe(20);
+    expect((receiver.input[item] ?? 0) + (receiver.output[item] ?? 0)).toBe(1);
     expect(engine.getSector().nodes.some(node => node.kind === 'extractor')).toBe(false);
   });
 
-  it('preserves a 100-item water stockpile and countdown through saves, then destroys it on a failed check', () => {
-    let engine = setup(9);
-    expect(engine.setGoblinTributeItem('lizard', 'water')).toBe(true);
-    expect(engine.setGoblinTributeItem('lizard', 'mythril')).toBe(false);
-    camp(engine).input['command-suppression-bot'] = 8;
+  it('preserves earned Mythril stock and the box through save/load and failed upkeep', () => {
+    let engine = setup(9); camp(engine).campStrength = 15;
+    camp(engine).input['command-suppression-bot'] = 4;
     advance(engine, 70);
-    expect(reward(engine)?.output.water).toBe(100);
-    expect(engine.getState().extracted?.water).toBe(100);
-    const stockpileId = reward(engine)!.id;
+    expect(reward(engine)?.output.mythril).toBe(48);
+    const id = reward(engine)!.id;
     engine = new GameEngine(normalizeLegacy(JSON.parse(JSON.stringify(engine.getState())))!);
-    expect(camp(engine).lizardSettlement).toBe('kingdom');
-    expect(camp(engine).progressMs).toBe(10000);
-    expect(reward(engine)?.output.water).toBe(100);
-    camp(engine).input['command-suppression-bot'] = 8;
+    expect(reward(engine)?.output.mythril).toBe(48);
     advance(engine, 50);
-    expect(reward(engine)?.id).toBe(stockpileId);
-    expect(reward(engine)?.output.water).toBe(100);
-    advance(engine, 60);
-    expect(reward(engine)).toBeUndefined();
-    expect(camp(engine).tributeItem).toBe('water');
-    camp(engine).input['command-suppression-bot'] = 8;
-    advance(engine, 60);
-    expect(reward(engine)?.output).toEqual({});
-    expect(reward(engine)?.tributeItem).toBe('water');
+    expect(camp(engine).suppressionRetry).toBe(true);
+    expect(reward(engine)?.id).toBe(id);
+    const amount = reward(engine)!.output.mythril;
+    advance(engine, 10); expect(reward(engine)?.output.mythril).toBe(amount);
   });
 
-  it('keeps Water exclusive to Lizard tribute while preserving legacy Goblin choices', () => {
+  it('preserves Goblin material choices and their Mythril research gate', () => {
     const engine = setup(4);
     const node = camp(engine);
     delete node.lizardSettlement; node.goblinSettlement = 'camp';
     expect(getTributeItems(engine.getState(), node)).not.toContain('water');
     expect(engine.setGoblinTributeItem(node.id, 'water')).toBe(false);
     expect(getTributeItems(engine.getState(), node)).toContain('wood');
+    expect(getTributeItems(engine.getState(), node)).not.toContain('mythril');
     expect(tributeAmount(node)).toBe(5);
+  });
+
+  it('renames saved Lizard camps without changing IDs, countdowns, bots or existing tribute stock', () => {
+    const engine = setup(6);
+    const state = engine.getState();
+    const node = camp(engine);
+    node.name = 'Lizard Village'; node.tributeItem = 'water'; node.campStrength = 10;
+    delete node.tributeSelectionVersion;
+    node.suppressed = true; node.progressMs = 12345; node.input = { 'heavy-suppression-bot': 4 };
+    state.sectors['5,5'].nodes.push({ ...node, kind: 'goblinTribute', id: 'old-tribute', tributeCampId: node.id, name: 'Lizard Village Tribute', x: node.x + 1000, progressMs: 0, output: { water: 40 }, input: {} });
+    const loaded = new GameEngine(normalizeLegacy(JSON.parse(JSON.stringify(state)))!);
+    expect(camp(loaded)).toMatchObject({ id: 'lizard', name: 'Dwarven Village', lizardSettlement: 'village', tributeItem: 'mythril', progressMs: 12345, input: { 'heavy-suppression-bot': 4 } });
+    expect(reward(loaded)).toMatchObject({ id: 'old-tribute', name: 'Tribute', output: { water: 40 } });
+    advance(loaded, 5);
+    expect(reward(loaded)?.output).toEqual({ water: 40, mythril: 5 });
+    expect(loaded.setGoblinTributeItem('old-tribute', 'copper')).toBe(false);
+    expect(loaded.setGoblinTributeItem('old-tribute', 'copper')).toBe(false);
+    const reloaded = new GameEngine(normalizeLegacy(JSON.parse(JSON.stringify(loaded.getState())))!);
+    expect(camp(reloaded).tributeItem).toBe('mythril');
   });
 });

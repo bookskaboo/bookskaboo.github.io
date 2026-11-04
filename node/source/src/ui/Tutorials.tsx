@@ -115,7 +115,11 @@ export function TutorialGuide({ session, game, camera, nodePositions, panel, pla
     {target && <div key={stage} className="tutorial-placement-target" style={{ left: camera.x + (target.x-target.w/2)*camera.zoom, top: camera.y + (target.y-target.h/2)*camera.zoom, width: target.w*camera.zoom, height: target.h*camera.zoom }}><span>{selectionHint ?? (stage === 'control-group-move' ? 'MOVE GROUP HERE' : stage === 'logistics-joint-move' ? 'MOVE HERE' : stage.endsWith('-insert') ? 'DROP HERE' : 'PLACE HERE')}</span></div>}
     <aside className={`tutorial-callout glass ${detailsExpanded ? 'details-expanded' : ''}`} aria-label={`${TUTORIAL_NAMES[kind]} tutorial`}>
       <div className="tutorial-heading"><small>{TUTORIAL_NAMES[kind].toUpperCase()} · {index + 1} / {stages.length}</small><button className="tutorial-details-toggle" aria-expanded={detailsExpanded} onClick={() => setDetailsExpanded(value => !value)}>{detailsExpanded ? 'Less detail ▴' : 'Details ▾'}</button></div>
-      <h2>{copy.title}</h2><p className="tutorial-description">{copy.body}</p><strong role="status">{copy.instruction}</strong>
+      <h2>{copy.title}</h2><p className="tutorial-description">{copy.body}</p>
+      {kind === 'expansion' && <div className="tutorial-road-route" aria-label="Cart road delivery route">
+        <div><small>W1 · SENDING MAP</small><b>Cart → Road</b></div><span aria-hidden="true">→</span><div><small>H · RECEIVING MAP</small><b>Road → Cart</b></div>
+      </div>}
+      <strong role="status">{copy.instruction}</strong>
       {placementCorrection && <p className="tutorial-correction" role="status">{placementCorrection}</p>}
       {stage === 'control-group-move' && <p className="tutorial-goal" role="status">{movedMembers} / 3 nodes moved{movedMembers === 3 ? ' · Release to confirm.' : ' · Drag a node header, away from its sockets.'}</p>}
       {kind === 'basic' && <p className="tutorial-goal">Goal: make a Simple Core · {(game.produced?.['simple-core'] ?? 0) > 0 ? <span className="tutorial-goal-achieved">Achieved ✓</span> : 'In progress'}</p>}

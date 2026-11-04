@@ -8,6 +8,9 @@ import { WASTE_ITEMS } from '../content/progression';
 import { getResearchProject } from '../content/research';
 import type { GameState, ItemId, NodeKind, Recipe } from '../domain/types';
 import { NodeIcon } from './NodeIcon';
+import { RecipeIcon } from './RecipeIcon';
+import { RecipeViewToggle, useRecipeIconView } from './RecipeViewToggle';
+import { recipeTooltip } from './recipePresentation';
 
 const ALL_FILTER = 'all';
 const GROUPS = RECIPE_GUIDE_GROUPS;
@@ -17,10 +20,11 @@ const recipeColor = (recipe: Recipe) => {
   const output = Object.keys(recipe.outputs)[0] as ItemId | undefined;
   return output ? itemColorCss(output) : '#d5b77f';
 };
-const formatDuration = (cycleMs: number) => cycleMs % 1000 === 0 ? `${cycleMs / 1000}s` : `${(cycleMs / 1000).toFixed(1)}s`;
 
 export function RecipesPanel({ game, onClose, initialRecipeId, backToResearch = false }: { game: GameState; onClose(): void; initialRecipeId?: string; backToResearch?: boolean }) {
   const [previewRecipeId, setPreviewRecipeId] = useState(initialRecipeId);
+  const { compact, toggle } = useRecipeIconView();
+  const [expandedCompactRecipe, setExpandedCompactRecipe] = useState<string>();
   const materials = useMemo(() => accessibleRecipeMaterials(game), [game, game.revision]);
   const groups = useMemo(() => recipeGuideGroups(game, previewRecipeId), [game, game.revision, previewRecipeId]);
   const [filters, setFilters] = useState<string[]>([]);
@@ -72,6 +76,7 @@ export function RecipesPanel({ game, onClose, initialRecipeId, backToResearch = 
       <div><small>PRODUCTION GUIDE</small><h2 id="recipes-title">Recipes</h2><p>Exact ingredients. Optimism is not a substitute.</p></div>
       <button className={`recipes-close ${backToResearch ? 'recipes-back' : ''}`} onClick={onClose} aria-label={backToResearch ? 'Back to research' : 'Close Recipes'} data-tooltip={backToResearch ? 'Back to research' : 'Close Recipes'} data-tooltip-detail={backToResearch ? 'Return to the same research project.' : 'Close the recipe guide.'}>{backToResearch ? '← Research' : '×'}</button>
     </header>
+    <div className="recipe-view-toolbar"><RecipeViewToggle compact={compact} onToggle={toggle} /></div>
     <div className="recipe-node-filters" role="group" aria-label="Filter recipes by production node. Drag filters to reorder them.">
       {filterOrder.map((filterId) => {
         const group = filterId === ALL_FILTER ? undefined : groups.find((candidate) => candidate.id === filterId);
@@ -105,7 +110,7 @@ export function RecipesPanel({ game, onClose, initialRecipeId, backToResearch = 
         >{group && <NodeIcon kind={group.node} />}{group ? NODE_DEFINITIONS[group.node].name : 'All'}</button>;
       })}
     </div>
-    <div className="recipe-guide-groups" aria-label="Production recipes" ref={listRef}>
+    <div className={`recipe-guide-groups ${compact ? 'compact-recipe-view' : ''}`} aria-label="Production recipes" ref={listRef}>
       {groups.filter((group) => filters.length === 0 || filters.includes(group.id)).map((group) => <section className="recipe-guide-group" key={group.id}>
         <div className="recipe-guide-group-heading"><strong>{NODE_DEFINITIONS[group.node].name}</strong><span>{group.recipes.length} {group.recipes.length === 1 ? 'recipe' : 'recipes'}</span></div>
         <div className="recipe-guide-list">
@@ -117,18 +122,24 @@ export function RecipesPanel({ game, onClose, initialRecipeId, backToResearch = 
             const machineResearch = NODE_DEFINITIONS[group.node].unlockResearch;
             const requiredResearch = !isRecipeUnlocked(recipe.id, game.research.completed) ? recipeResearch : !isNodeUnlocked(group.node, game.research.unlocked) ? machineResearch : undefined;
             const locked = !isRecipeUnlocked(recipe.id, game.research.completed) || Boolean(requiredResearch);
+            const hasWaste = Boolean(recipe.chanceOutputs?.length || Object.keys(recipe.outputs).some(item => WASTE_ITEMS.includes(item as ItemId)));
+            const hoverDetail = `Produced in ${NODE_DEFINITIONS[group.node].name}. ${recipeTooltip(recipe, cycleMs)}${locked ? ` Requires ${getResearchProject(requiredResearch)?.name ?? 'research'}.` : ''}${missingMaterials.length ? ` Source materials needed: ${missingMaterials.map(item => ITEM_NAMES[item]).join(', ')}.` : ''}${group.node === 'smelter' ? ' Choose a Plate recipe. Feed Charcoal separately.' : ''}${hasWaste ? ' Give waste its own route. Each chance output rolls independently.' : ''}`;
+            const flavor = group.node === 'smelter' ? 'The metal awaits instructions.' : undefined;
             return <article
-              className={`recipe-guide-card ${navigationTarget === recipe.id ? 'navigation-target' : ''}`}
+              className={`recipe-guide-card ${navigationTarget === recipe.id ? 'navigation-target' : ''} ${expandedCompactRecipe === recipe.id || navigationTarget === recipe.id ? 'compact-expanded' : ''}`}
               key={recipe.id}
               data-recipe-id={recipe.id}
+              data-tooltip={flavor ? '' : undefined}
+              data-tooltip-flavor={flavor}
+              data-tooltip-tone={color}
+              aria-description={hoverDetail}
               tabIndex={-1}
               style={{ '--recipe-color': color } as React.CSSProperties}
             >
-              <span className="recipe-guide-icon"><NodeIcon kind={group.node} /></span>
+              {compact ? <button type="button" className="recipe-guide-icon recipe-guide-icon-button" aria-label={`Show ${recipe.name} recipe details`} aria-description={hoverDetail} aria-expanded={expandedCompactRecipe === recipe.id || navigationTarget === recipe.id} onClick={() => setExpandedCompactRecipe(current => current === recipe.id ? undefined : recipe.id)}><RecipeIcon recipe={recipe} node={group.node} /></button>
+                : <span className="recipe-guide-icon"><RecipeIcon recipe={recipe} node={group.node} /></span>}
               <div className="recipe-guide-copy">
-                <div className="recipe-guide-title"><strong>{recipe.name}</strong><span>Produced in {NODE_DEFINITIONS[group.node].name}</span></div>
-                {locked && <small className="recipe-preview-note">Preview · Requires {getResearchProject(requiredResearch)?.name ?? requiredResearch ?? 'research'}</small>}
-                {missingMaterials.length > 0 && <small className="recipe-preview-note">Source materials needed: {missingMaterials.map(item => ITEM_NAMES[item]).join(', ')}</small>}
+                <div className="recipe-guide-title"><strong>{recipe.name}</strong></div>
                 <div className="recipe-guide-formula" aria-label={`${recipe.name} ingredients: ${(Object.entries(recipe.inputs) as Array<[ItemId, number]>).map(([item, amount]) => `${amount} ${ITEM_NAMES[item]}`).join(', ')}`}>
                   <span className="recipe-guide-materials inputs">
                     {(Object.entries(recipe.inputs) as Array<[ItemId, number]>).map(([item, amount]) => {
@@ -138,10 +149,9 @@ export function RecipesPanel({ game, onClose, initialRecipeId, backToResearch = 
                         type="button"
                         className="recipe-guide-material ingredient-link"
                         key={`${recipe.id}-${item}`}
-                        data-tooltip={ITEM_NAMES[item]}
-                        data-tooltip-detail={`Created in ${NODE_DEFINITIONS[producer.node].name} · Click to view its recipe.`}
-                        data-tooltip-tone={itemColorCss(item)}
-                        onClick={() => { setPreviewRecipeId(producer.recipeId); setFilters([producer.groupId]); setNavigationTarget(producer.recipeId); }}
+                        aria-label={`${amount} ${ITEM_NAMES[item]}: view recipe`}
+                        aria-description={`Created in ${NODE_DEFINITIONS[producer.node].name}.`}
+                        onClick={() => { setPreviewRecipeId(producer.recipeId); setExpandedCompactRecipe(producer.recipeId); setFilters([producer.groupId]); setNavigationTarget(producer.recipeId); }}
                       >{content}</button> : <span className="recipe-guide-material" key={`${recipe.id}-${item}`}>{content}</span>;
                     })}
                   </span>
@@ -151,10 +161,8 @@ export function RecipesPanel({ game, onClose, initialRecipeId, backToResearch = 
                     {recipe.chanceOutputs?.map((output, index) => <span className="recipe-guide-material chance-output" key={output.item + index} title="Independent chance per batch"><MaterialBoxes item={output.item} amount={output.amount} /><b>{output.amount}</b>{ITEM_NAMES[output.item]}<small>{Number((output.probability * 100).toFixed(2))}% chance</small></span>)}
                   </span>
                 </div>
-                {group.node === 'smelter' && <small className="recipe-guide-note">Adapts to incoming ore. Feed Charcoal separately. The metal sets the agenda.</small>}
-                {(recipe.chanceOutputs?.length || Object.keys(recipe.outputs).some(item => WASTE_ITEMS.includes(item as ItemId))) ? <small className="recipe-guide-note">Give waste its own route. Each chance output rolls independently.</small> : null}
+                <span className="recipe-card-time" aria-label={`${cycleMs / 1000} seconds per batch`}>{Number((cycleMs / 1000).toFixed(2))} sec</span>
               </div>
-              <span className="recipe-guide-duration">{formatDuration(cycleMs)}{cycleMs !== recipe.cycleMs && <small>upgraded · base {formatDuration(recipe.cycleMs)}</small>}</span>
             </article>;
           })}
         </div>

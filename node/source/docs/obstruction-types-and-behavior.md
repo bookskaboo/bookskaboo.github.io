@@ -1,6 +1,6 @@
 # Obstruction types and behavior in the current and old games
 
-Snapshot date: November 1, 2026.
+Snapshot date: November 2, 2026. Current-game changes described here are local until publication is confirmed.
 
 The current game calls this obstruction Deep Hole. The old game calls it Big Hole. The internal identifiers remain unchanged for save compatibility.
 
@@ -14,7 +14,7 @@ Map tier below means Manhattan distance from Home at world coordinate `5,5`. Dim
 | --- | --- | --- | --- |
 | Deep Hole | `big-hole`; generated terrain or a collapsed mineral deposit | `bigHole`; generated terrain, collapsed mineral deposit, or rapid field clicking | Deliver processed Stone, then manually clear the filled hole |
 | Lake | `lake`; permanent obstruction, buffered Water output, and Lake Intake support | `lake`; permanent obstruction that attempts direct Water delivery | Route around it and connect its directional outputs |
-| Monster settlement | `monster-camp`; three Goblin tiers and three Lizard tiers with periodic size changes and nearby-node disabling | `monsterCamp`, subtype `smallGoblinCamp`; periodic size changes and polygon-based encroachment | Maintain a recurring supply of suppression bots |
+| Monster settlement | `monster-camp`; three Goblin tiers and three Dwarven tiers with periodic size changes and nearby-node disabling | `monsterCamp`, subtype `smallGoblinCamp`; periodic size changes and polygon-based encroachment | Maintain a recurring supply of suppression bots |
 | Resource Golem | `resourceGolem`; one centered mineral boss in each of four clear tier 6 sectors | No corresponding type in the old obstruction catalog | Pay 10,000 AP once to create an infinite mineral reserve for Extractors |
 
 All three are fixed world features rather than ordinary movable factory machines. Neither game provides a normal removal action for Lakes or Monster Camps. Suppression reduces a camp to a minimum size; it does not destroy it.
@@ -49,7 +49,7 @@ Sources: [current generation and fill costs](../src/simulation/worldGeneration.t
 
 Lakes are permanent, non-depleting Water sources that also occupy building space and block unrelated cables. Each has four directional Water outlets: north, east, south, and west. The base production rate is **one Water per second across the Lake**, shared among connected routes; four outlets do not mean four Water per second.
 
-New Lakes target **15% to just under 25% of field area**. The old game scales an irregular polygon to that area. The current game scales an ellipse to that area, while its renderer draws an organic outline. Their stored widths and heights therefore do not imply identical shoreline geometry.
+New Lakes target **15% to just under 25% of field area**. The old game scales an irregular polygon to that area. The current game chooses dimensions from an ellipse-area budget, then uses its drawn organic polygon for every boundary effect. Their stored widths and heights therefore do not imply identical shoreline geometry.
 
 ### Current game
 
@@ -69,11 +69,11 @@ Sources: [current resource and routing simulation](../src/simulation/engine.ts),
 
 ### Shared behavior
 
-The current game generates **Small Goblin Camps**, **Goblin Villages**, **Goblin Kingdoms**, **Lizard Camps**, **Lizard Villages**, and **Lizard Kingdoms**. The old game generates only Small Goblin Camps. Settlements normally check suppression every **60 seconds**. Meeting the Attack Power requirement reduces size by **10 percentage points**; failing it increases size by **10 percentage points**, within a **10% to 100%** range. Size percentage represents the area ratio used to scale the radius, rather than a linear radius percentage. Every fresh current-game settlement begins at **25%**.
+The current game generates **Small Goblin Camps**, **Goblin Villages**, **Goblin Kingdoms**, **Dwarven Camps**, **Dwarven Villages**, and **Dwarven Kingdoms**. The old game generates only Small Goblin Camps. Settlements normally check suppression every **60 seconds**. Meeting the Attack Power requirement reduces size by **10 percentage points**; failing it increases size by **10 percentage points**, within a **10% to 100%** range. Size percentage represents the area ratio used to scale the radius, rather than a linear radius percentage. Every fresh current-game settlement begins at **25%**.
 
 ### Current settlement tiers and Attack Power
 
-New worlds have exactly **five of each subtype**, for **15 Goblin settlements and 15 Lizard settlements**, in distinct sectors. Selection is deterministic for the world seed. Existing saved sectors retain their layout; newly generated sectors use the new selection rules.
+New worlds have exactly **five of each subtype**, for **15 Goblin settlements and 15 Dwarven settlements**, in distinct sectors. Selection is deterministic for the world seed. Existing saved sectors retain their layout; newly generated sectors use the new selection rules.
 
 | Settlement | Map tier | World count at this tier | AP per 60 seconds | Matching research and example supply |
 | --- | --- | --- | --- | --- |
@@ -87,30 +87,30 @@ New worlds have exactly **five of each subtype**, for **15 Goblin settlements an
 | Goblin Kingdom | 8 | 2 | 60 | Command Robotics; 3 Command Bots |
 | Goblin Kingdom | 9 | 1 | 80 | Command Robotics; 4 Command Bots |
 
-Requirements follow the existing robotics progression and remain fixed for the settlement. Completing research does not raise existing requirements. Any mixture of bots meeting the AP threshold works. Input capacity accommodates enough Small Bots to meet the full requirement, so stronger bots improve efficiency without imposing a hard technology gate. The inspector shows supplied and required AP, time to the next check, and suggested robotics research; hover help shows the recurring AP cost.
+Requirements follow the existing robotics progression and remain fixed for the settlement. Completing research does not raise existing requirements. Any mixture of bots meeting the AP threshold works. Input capacity accommodates enough Small Bots to meet the full requirement, so stronger bots improve efficiency without imposing a hard technology gate. The camp connector shows its AP requirement per 60-second check. The inspector retains supplied AP, countdown, and suggested research.
 
-### Lizard settlement tiers and rewards
+### Dwarven settlement tiers and rewards
 
-Lizard settlements occupy later map tiers and require more AP than Goblins at the same map tier. Their tribute produces larger batches and adds **Water** to the existing Iron, Copper, Stone, and Wood options. Mythril retains the Mythril Tools requirement. Lizard settlements and their Tribute nodes use green accents to distinguish them from Goblins.
+Dwarven settlements occupy later map tiers and require more AP than Goblins at the same map tier. Their tribute produces larger batches and defaults to **Mythril**, available without Mythril Tools. Players may also select Iron, Copper, Stone, or Wood. Dwarven settlements and their Tribute nodes use green accents to distinguish them from Goblins.
 
 | Settlement | Map tier | Count at this tier | AP per 60 seconds | Tribute every 5 seconds |
 | --- | --- | --- | --- | --- |
-| Lizard Camp | 4 | 2 | 24 | 20 |
-| Lizard Camp | 5 | 3 | 40 | 20 |
-| Lizard Village | 6 | 2 | 60 | 40 |
-| Lizard Village | 7 | 3 | 80 | 40 |
-| Lizard Kingdom | 8 | 2 | 120 | 60 |
-| Lizard Kingdom | 9 | 3 | 160 | 60 |
+| Dwarven Camp | 4 | 2 | 24 | 20 |
+| Dwarven Camp | 5 | 3 | 40 | 20 |
+| Dwarven Village | 6 | 2 | 60 | 40 |
+| Dwarven Village | 7 | 3 | 80 | 40 |
+| Dwarven Kingdom | 8 | 2 | 120 | 60 |
+| Dwarven Kingdom | 9 | 3 | 160 | 60 |
 
-Each group totals five settlements across its two map tiers. Lizard sectors are selected after reserving the Goblin and Golem sectors, so each map contains at most one settlement and the four clear Golem sectors remain free of other obstructions. Tier 10 stays empty. Camp costs align with stronger Medium and Heavy Bot supplies; Village and Kingdom costs favor Heavy and Command Bots.
+Each group totals five settlements across its two map tiers. Dwarven sectors are selected after reserving the Goblin and Golem sectors, so each map contains at most one settlement and the four clear Golem sectors remain free of other obstructions. Tier 10 stays empty. Camp costs align with stronger Medium and Heavy Bot supplies; Village and Kingdom costs favor Heavy and Command Bots.
 
-Lizards use the same suppression, expansion, and tribute lifecycle as Goblins. A successful check activates or preserves direct-output tribute; failing a check removes the Tribute node, its entire stockpile, and its connections. Stockpiles hold **100 materials**, including Wood or Water, and pause production when full. Saved subtype, selected material, suppression countdown, and stored tribute persist through version 1 saves.
+Dwarves use the same suppression, expansion, and tribute lifecycle as Goblins. A successful check at the 10% minimum activates or preserves direct-output tribute; failing a check removes the Tribute node, its entire stockpile, and its connections. Stockpiles hold **100 materials**, including selectable Wood or Mythril, and pause production when full. Saved subtype, selected material, suppression countdown, and stored tribute persist through version 1 saves.
 
-Sources: [Lizard settlement settings](../src/content/lizardSettlements.ts), [shared settlement settings](../src/content/goblinSettlements.ts), [exclusive world placement](../src/simulation/worldGeneration.ts), and [shared tribute simulation](../src/simulation/goblinTribute.ts).
+Sources: [Dwarven settlement settings](../src/content/lizardSettlements.ts), [shared settlement settings](../src/content/goblinSettlements.ts), [exclusive world placement](../src/simulation/worldGeneration.ts), and [shared tribute simulation](../src/simulation/goblinTribute.ts).
 
 ### Tribute from continued suppression
 
-A successful AP check activates a separate **Tribute** node near the settlement. It produces the selected material directly; connect it to factory machines or storage without an Extractor. The reward continues between successful checks, even when the settlement has reached its minimum size.
+A successful AP check creates a separate **Tribute** node only after the settlement reaches its **10% minimum size**. A fresh 25% camp needs two successful checks: 25% → 15% → 10%. Tribute produces the selected material directly; connect it to machines or storage without an Extractor. Continuing successful checks maintain it at minimum size. Growth above 10% removes it.
 
 | Settlement | Output every 5 seconds | Maximum stored tribute |
 | --- | --- | --- |
@@ -118,9 +118,9 @@ A successful AP check activates a separate **Tribute** node near the settlement.
 | Goblin Village | 15 materials | 100 |
 | Goblin Kingdom | 30 materials | 100 |
 
-Choose **Iron, Copper, Stone, or Wood** in either the settlement or Tribute inspector. **Mythril** becomes available with Mythril Tools. The material selection remains on the settlement if tribute disappears, so restoring suppression restores that choice. Drain the output buffer and wait for pending deliveries before changing material; changing the selection resets the production cycle.
+Click a Tribute node to open its **right-side resource chooser**, styled like the production recipe chooser. Choose **Iron, Copper, Stone, or Wood**; Goblin **Mythril** becomes available with Mythril Tools. Changing material immediately destroys stored materials that differ from the selection, retains matching stock, and resets the production cycle. Already dispatched deliveries remain committed. The selection stays on the settlement if tribute disappears. Tribute displays stock boxes without a progress bar or percentage.
 
-Lizard tribute additionally offers **Water**, with the larger output batches listed above and the same stockpile limit.
+Dwarven tribute defaults to **Mythril**, with the larger batches above and the same stockpile limit. Legacy Lizard subtype IDs remain readable; existing camps receive the Dwarven name and Mythril default once. Later player selections persist through saves. Previously stored legacy materials remain until changed or lost through failed suppression.
 
 Unused tribute accumulates to **exactly 100 materials**. A partially fitting final batch fills the remaining space. Production then pauses until materials are withdrawn. Continuing suppression preserves both the node and its existing stockpile, providing a renewable supply in exchange for recurring bot production.
 
@@ -130,25 +130,27 @@ Tribute placement avoids buildings and reserves the settlements' maximum footpri
 
 Sources: [tribute simulation and placement](../src/simulation/goblinTribute.ts), [settlement output settings](../src/content/goblinSettlements.ts), [lifecycle and configuration](../src/simulation/engine.ts), and [tribute inspector controls](../src/ui/NodeInspector.tsx).
 
-Attack supply is consumed or reset at each check, including excess supply. Successful suppression must therefore be sustained over time. Neither implementation permanently clears the camp through these checks.
+The current game consumes the least total bot AP that meets a successful check, preferring fewer bots when payments have equal AP. Surplus bots remain for later checks. A failed check consumes the insufficient supplied bots. The old game resets its accumulated AP at each check. Neither permanently clears a camp through these checks.
 
 ### Behavior comparison
 
 | Rule | Current game | Old game |
 | --- | --- | --- |
-| Attack requirement | **3 to 80 AP per check**, according to settlement and map tier above | Fresh Small Goblin Camps require **1 AP per check** |
-| Bot values | Small **1**, Medium **3**, Heavy **8**, Command **20** AP | Small Suppression Bot **1 AP** |
-| Supply storage | Bot items in the camp input; all recognized bot types are consumed at a check | Delivered attack items add to `storedAttackPower`; the accumulated value resets at a check |
+| Attack requirement | **3 to 160 AP per check**, according to settlement and map tier above | Fresh Small Goblin Camps require **1 AP per check** |
+| Bot values | Small **1**, Medium **3**, Heavy **8**, Complex **20** AP | Small Bot **1 AP** |
+| Supply storage | Bot items in the camp input; only the sufficient payment is consumed on success; surplus remains | Delivered attack items add to `storedAttackPower`; the accumulated value resets at a check |
 | Size and geometry | Generated `obstructionMaxRadius = 600`; size radius is `600 × sqrt(campStrength / 100)` | `maxRadius = 600`; size radius is `600 × sqrt(sizeRatio)`, with a stored irregular polygon |
-| Affected factory nodes | At checks, tests each non-resource node's center against `65 + campStrength × 3.2` | Tests purchasable node rectangles against the current camp polygon |
+| Affected factory nodes | Tests whole machine bodies against the current visible camp polygons | Tests purchasable node rectangles against the current camp polygon |
 | Operational effect | Writes `disabled` on affected nodes; disabled nodes skip simulation and routing | Encroached nodes and their connected routes are excluded from active simulation |
 | Resource protection | Resource behavior nodes, including Lakes, are skipped by the disabling pass | Growth is prevented when it would overlap reserved natural resource nodes; an existing overlap can also reduce camp size |
 
 ### Current implementation details that affect play
 
-The current camp's disabling radius is separate from its visible and placement radius. For example, at **25% size**, a generated camp's size radius is **300**, while the disabling radius after a check at that strength would be **145**. The drawn boundary should not be treated as an exact indicator of operational reach.
+The current game uses a shared polygon for the camp's visible border, placement, cable obstruction, and machine encroachment. A machine is disabled when its body touches the visible camp area, even if its center is outside. There is no separate disabling circle. Ordinary placement retains an explicit 12-unit gap; runtime encroachment and cables use the border itself.
 
-The disabling pass runs after a camp's size update, so disabling and recovery are refreshed at checks rather than continuously. It assigns `disabled` for every non-resource candidate, including other obstructions and other camps. With multiple camps in an imported or modified map, each pass can overwrite the previous camp's result instead of combining their influence.
+Encroachment updates every simulation step and immediately after size checks. Multiple camps combine their influence; shrinking a camp restores a machine only when no camp still overlaps it. Resource nodes and other world obstructions are protected. Growing across an existing cable stops its transfers and refunds reserved stock; the cable remains and can resume when clear.
+
+Generation validates each camp at 100% size against field edges and other obstructions before restoring its initial 25%. Natural resources reserve the entire maximum-growth circle, including their own full body and placement clearance. These rules apply to newly generated sectors; existing saved layouts are preserved.
 
 All current subtypes retain the same 600-unit maximum radius and suppression behavior. Their names, map distribution, and AP requirements distinguish their difficulty. They keep the serialized `monster-camp` kind, with an optional `goblinSettlement` subtype, preserving existing saves and Attack Power connections.
 
@@ -164,11 +166,11 @@ Sources: [current settlement definitions](../src/content/goblinSettlements.ts), 
 | Tier 1 | Hole maps; exactly one Small Goblin Camp outside the reserved encounter sector | Hole maps; one randomly chosen Small Goblin Camp sector |
 | Tier 2 | Selects 5 to 7 Lake sectors out of 8 before the guaranteed Lake exception; other sectors receive holes; exactly two Small Goblin Camps | Selects 5 to 7 Lake sectors out of 8; other sectors receive holes; up to two camps, subject to placement and area checks |
 | Tier 3 | Hole maps; two Small Goblin Camps | Hole maps |
-| Tiers 4 to 6 | Hole maps, five Goblin Villages, five Lizard Camps and two Lizard Villages, except four clear tier 6 Golem sectors | Hole maps |
-| Tiers 7 to 9 | Hole maps, five Goblin Kingdoms, three Lizard Villages and five Lizard Kingdoms | Hole maps |
+| Tiers 4 to 6 | Hole maps, five Goblin Villages, five Dwarven Camps and two Dwarven Villages, except four clear tier 6 Golem sectors | Hole maps |
+| Tiers 7 to 9 | Hole maps, five Goblin Kingdoms, three Dwarven Villages and five Dwarven Kingdoms | Hole maps |
 | Tier 10 | No normal generated holes, Lakes, camps, or resource deposits | Empty tier 10 maps without normal obstruction or resource generation |
 
-The current game reserves **6,5** for the Abandoned Fabricator encounter and **7,5** for guaranteed Lake access. Both are excluded before settlement selection, preserving exact settlement counts. The forced tier 2 Lake can raise the final Lake total above the initial selection of 5 to 7.
+The current game reserves **6,5** for the Fabricator encounter and **7,5** for guaranteed Lake access. Both are excluded before settlement selection, preserving exact settlement counts. The forced tier 2 Lake can raise the final Lake total above the initial selection of 5 to 7.
 
 The old tier 2 generator checks that existing obstruction area plus maximum camp area fits within **50% of the field**, then searches for a nonoverlapping placement. A selected camp can therefore be omitted when those checks fail.
 
@@ -178,7 +180,7 @@ Sources: [current world generation](../src/simulation/worldGeneration.ts), [curr
 
 Both games reject construction or movement into obstruction footprints and reject new unrelated cable paths that cross them. Connections to the obstruction's own ports exclude that endpoint obstruction from the cable blocking check, allowing Stone delivery, Water extraction, and bot supply.
 
-The current game approximates obstruction collisions with ellipses and uses **12 units** of ordinary placement clearance. Hole to hole overlap has a special radius rule using **0.85 times the sum of radii**, plus clearance. Cable blocking samples a cubic curve at **33 points** against expanded ellipses with **12 units** of padding.
+Current collisions use the same outline drawn on screen for Lakes, Deep Holes, camps, and Golems, with **12 units** of ordinary placement clearance. Cable curves are adaptively flattened to a quarter world unit and their entire segments intersected with the visible polygon, without an extra invisible halo. Small obstructions cannot fall between a fixed set of point samples. Runtime routing rechecks changed geometry and pauses obstructed cables.
 
 The old game uses circles for hole collision and stored polygons for Lake and camp collision. Its hole clearance constant is **10**, while ordinary node clearance is **12**. Hole cable checking adapts its sample count to estimated curve length, with a minimum of 16 segments. Camp cable checks at connection creation use zero extra clearance. These differences can make an apparently similar shoreline or camp boundary accept a route in one game and reject it in the other.
 
@@ -186,7 +188,7 @@ Sources: [current collisions](../src/simulation/collisions.ts), [current cable r
 
 ## Related world features in the current game
 
-The current game also includes **Abandoned Fabricators**, **Derelict Sorting Stations**, and **Resource Golems**. Fabricators and Sorting Stations occupy node space but are not marked `worldObstacle`. Resource Golems are marked `worldObstacle` and use the camp appearance, so the current obstruction collision and cable checks include them.
+The current game also includes **Fabricators**, **Sorting Ruins**, and **Resource Golems**. Fabricators and Sorting Stations occupy node space but are not marked `worldObstacle`. Resource Golems are world obstacles with a **512 × 768 world-unit humanoid placeholder**, colored to match their mineral. Their visible silhouette also defines their obstruction footprint, including the open space beside the head and legs.
 
 Fabricators and Sorting Stations provide encounter unlocks.
 

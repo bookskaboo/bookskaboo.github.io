@@ -1,6 +1,6 @@
 import { ITEM_NAMES, itemColorCss } from '../content/items';
 
-export type RequirementFilter = 'simple-core' | 'basic-core' | 'automata-core' | 'hydro-core' | 'shiny-core' | 'command-core' | 'trigger';
+export type RequirementFilter = 'simple-core' | 'basic-core' | 'automata-core' | 'hydro-core' | 'shiny-core' | 'command-core' | 'final-core' | 'trigger';
 export type ResearchBrowserSection = 'active' | 'milestones' | 'available' | 'future' | 'completed' | 'search';
 
 const efficiencyGlyphs = {
@@ -17,7 +17,7 @@ export const RESEARCH_GLYPHS: Record<string, string> = {
   basicElectricity: 'ϟ', treePlanter: '♧', miningDrill: '⇣',
 };
 
-const filterCores = ['simple-core', 'basic-core', 'automata-core', 'hydro-core', 'shiny-core', 'command-core'] as const;
+const filterCores = ['simple-core', 'basic-core', 'automata-core', 'hydro-core', 'shiny-core', 'command-core', 'final-core'] as const;
 export const RESEARCH_FILTER_OPTIONS: Array<{ id: RequirementFilter; label: string; color: string }> = [
   ...filterCores.map(id => ({ id, label: ITEM_NAMES[id].replace(' Core', ''), color: itemColorCss(id) })),
   { id: 'trigger', label: 'Trigger', color: '#83c6f1' },

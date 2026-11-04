@@ -1,10 +1,11 @@
+import { atResearchCap } from '../content/endgame';
 import { getResearchProject, getResearchCostsForState, isResearchAvailable, remainingMapNodePurchases, RESEARCH_PROJECTS } from '../content/research';
 import { ITEM_NAMES } from '../content/items';
 import type { GameState, ItemId, ResearchProject } from '../domain/types';
 import type { RequirementFilter } from './researchUiConfig';
 
 export type ResearchSection = 'active' | 'milestones' | 'available' | 'future' | 'completed';
-const CORE_ACCESS: Partial<Record<ItemId, string>> = { 'simple-core': 'refiner', 'basic-core': 'assembler', 'automata-core': 'automataCore', 'hydro-core': 'hydraulicAssembly', 'shiny-core': 'oreSeparation', 'command-core': 'precisionControl' };
+const CORE_ACCESS: Partial<Record<ItemId, string>> = { 'simple-core': 'refiner', 'basic-core': 'assembler', 'automata-core': 'automataCore', 'hydro-core': 'hydraulicAssembly', 'shiny-core': 'oreSeparation', 'command-core': 'precisionControl', 'final-core': 'finalCoreProduction' };
 const milestoneAccess: Partial<Record<NonNullable<ResearchProject['trigger']>['id'], string>> = { 'plate-produced': 'smelter', 'refiner-unlocked': 'refiner', 'assembler-built': 'assembler', 'basic-core-produced': 'assembler', 'motor-produced': 'assembler', 'monster-camp': 'exploration', encounter: 'exploration' };
 
 export function researchDependencies(project: ResearchProject, costs = project.costs) {
@@ -26,7 +27,7 @@ export function missingResearchAccess(project: ResearchProject, game: GameState)
 }
 
 export function researchSection(project: ResearchProject, game: GameState): ResearchSection {
-  if ((!project.repeatable && game.research.completed.includes(project.id)) || (project.id === 'mapNode' && remainingMapNodePurchases(game) === 0)) return 'completed';
+  if (atResearchCap(project, game.research) || (!project.repeatable && game.research.completed.includes(project.id)) || (project.id === 'mapNode' && remainingMapNodePurchases(game) === 0)) return 'completed';
   if (game.research.selected === project.id) return 'active';
   if (!isResearchAvailable(project, game.research.completed) || missingResearchAccess(project, game).length) return 'future';
   return project.trigger ? 'milestones' : 'available';
@@ -62,12 +63,12 @@ export function searchResearch(game: GameState, query: string): ResearchProject[
 export function researchCardDetails(project: ResearchProject, game: GameState) {
   const section = researchSection(project, game);
   const active = game.research.selected === project.id;
-  const complete = !project.repeatable && game.research.completed.includes(project.id);
+  const complete = atResearchCap(project,game.research) || (!project.repeatable && game.research.completed.includes(project.id));
   const expansionFunded = project.id === 'mapNode' && remainingMapNodePurchases(game) === 0;
-  const available = !expansionFunded && isResearchAvailable(project, game.research.completed);
+  const available = !complete && !expansionFunded && isResearchAvailable(project, game.research.completed);
   const costs = getResearchCostsForState(project, game.research);
   const milestone = Boolean(project.trigger);
-  const requirement: RequirementFilter = milestone ? 'trigger' : costs['command-core'] ? 'command-core'
+  const requirement: RequirementFilter = milestone ? 'trigger' : costs['final-core'] ? 'final-core' : costs['command-core'] ? 'command-core'
     : costs['shiny-core'] ? 'shiny-core' : costs['hydro-core'] ? 'hydro-core'
     : costs['automata-core'] ? 'automata-core' : costs['basic-core'] ? 'basic-core' : 'simple-core';
   const missingAccess = missingResearchAccess(project, game).map(id => getResearchProject(id)?.name ?? id);

@@ -1,0 +1,121 @@
+{
+  "status": "Sensitivity candidate only; not adopted into general balance or live gameplay",
+  "targetSeconds": 3600,
+  "researchScale": 13,
+  "research": [
+    {
+      "id": "assembler",
+      "tier": 1,
+      "each": 1
+    },
+    {
+      "id": "exploration",
+      "tier": 2,
+      "each": 1
+    },
+    {
+      "id": "road",
+      "tier": 2,
+      "each": 2
+    },
+    {
+      "id": "automataCore",
+      "tier": 2,
+      "each": 2
+    },
+    {
+      "id": "Hydrochemistry",
+      "tier": 3,
+      "each": 13
+    },
+    {
+      "id": "Hydraulic Assembly",
+      "tier": 3,
+      "each": 26
+    },
+    {
+      "id": "Fluid Routing",
+      "tier": 4,
+      "each": 26
+    },
+    {
+      "id": "Sealed Robotics",
+      "tier": 4,
+      "each": 26
+    },
+    {
+      "id": "Ore Separation",
+      "tier": 4,
+      "each": 26
+    },
+    {
+      "id": "Mineral Recovery",
+      "tier": 5,
+      "each": 26
+    },
+    {
+      "id": "Heavy Robotics",
+      "tier": 5,
+      "each": 26
+    },
+    {
+      "id": "Precision Control",
+      "tier": 5,
+      "each": 26
+    },
+    {
+      "id": "Autonomous Logistics",
+      "tier": 6,
+      "each": 26
+    },
+    {
+      "id": "Command Robotics",
+      "tier": 6,
+      "each": 26
+    },
+    {
+      "id": "Endgame Theory",
+      "tier": 6,
+      "each": 26
+    },
+    {
+      "id": "Mineral Regeneration",
+      "tier": 5,
+      "each": 26
+    }
+  ],
+  "productionRatesPerMinute": [
+    3,
+    6,
+    12,
+    12,
+    8,
+    6
+  ],
+  "placementSecondsPerNodeAndFirstConnection": 5,
+  "additionalConnectionSeconds": 2.5,
+  "expectedSeconds": 3510,
+  "forcedWaitSeconds": 985,
+  "crossProfiles": [
+    {
+      "profile": "Theoretical maximum throughput",
+      "endpointSeconds": 7138.5,
+      "forcedWaitSeconds": 0
+    },
+    {
+      "profile": "Experienced / efficient",
+      "endpointSeconds": 5233.5,
+      "forcedWaitSeconds": 1905
+    },
+    {
+      "profile": "First playthrough",
+      "endpointSeconds": 17839,
+      "forcedWaitSeconds": 11947
+    },
+    {
+      "profile": "Exploratory / low throughput",
+      "endpointSeconds": 37564.5,
+      "forcedWaitSeconds": 27339
+    }
+  ]
+}

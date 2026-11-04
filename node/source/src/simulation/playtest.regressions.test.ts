@@ -41,7 +41,9 @@ describe('speedrun follow-up regressions', () => {
       sink.input = {}; sink.output = {};
     }
     const all = Object.values(engine.getState().sectors).flatMap(s => s.nodes);
-    expect(received).toBe(49);
+    expect(received).toBe(40);
+    expect(engine.getState().globalPool?.copper).toBe(9);
+    expect(received + (engine.getState().globalPool?.copper ?? 0)).toBe(49);
     expect(all.reduce((n, entry) => n + (entry.input.mythril ?? 0) + (entry.output.mythril ?? 0), 0)).toBe(10);
   });
 
@@ -61,9 +63,9 @@ describe('speedrun follow-up regressions', () => {
     engine.getSector().nodes[0].input['mythril-plate'] = 5;
     engine.getSector().nodes[0].input['iron-plate'] = 5;
     for (let step = 0; step < 180; step++) engine.tick(100);
-    expect(engine.getSector().nodes[0].output).toEqual({ 'refined-mithril': 2, slag: 2 });
-    expect(engine.getSector().nodes[0].input['mythril-plate']).toBe(5);
-    expect(engine.getSector().nodes[0].input['iron-plate']).toBe(5);
+    expect(engine.getSector().nodes[0].output).toEqual({ 'refined-mithril': 4 });
+    expect(engine.getSector().nodes[0].input['mythril-plate']).toBe(4);
+    expect(engine.getSector().nodes[0].input['iron-plate']).toBe(1);
   });
 
   it('rejects locked storage placement and copying until its research is unlocked', () => {
@@ -77,7 +79,7 @@ describe('speedrun follow-up regressions', () => {
     engine.getState().research.unlocked.push('fluidRouting');
     expect(engine.placeNode('fluidStorage', 1400, 1000)).toBeTruthy();
   });
-  it('keeps copper moving through a mixed splitter when its Mythril outlet is full', () => {
+  it('stops mixed traffic at a Filter whose required remainder outlet is disconnected', () => {
     const state = createInitialState(1);
     state.sectors['5,5'].nodes = [
       node('woodenChest', { id: 'source', x: 200, output: { mythril: 10, copper: 10 } }),
@@ -100,7 +102,7 @@ describe('speedrun follow-up regressions', () => {
     const nodes = engine.getSector().nodes;
     const open = nodes.find(n => n.id === 'open')!;
     const sink = nodes.find(n => n.id === 'sink')!;
-    expect((open.input.copper ?? 0) + (open.output.copper ?? 0) + (sink.input.copper ?? 0) + (sink.output.copper ?? 0)).toBe(12);
+    expect((open.input.copper ?? 0) + (open.output.copper ?? 0) + (sink.input.copper ?? 0) + (sink.output.copper ?? 0)).toBe(0);
     expect(nodes.reduce((total, n) => total + (n.input.mythril ?? 0) + (n.output.mythril ?? 0), 0)).toBe(28);
   });
   it('routes coolant through fluid equipment while keeping solids out', () => {
@@ -139,8 +141,8 @@ describe('speedrun follow-up regressions', () => {
 
   it('matches the original Mythril tier probabilities without the tier-two exception', () => {
     expect([0, 1, 2, 3, 10].map(getMythrilSpawnChance)).toEqual([0, 0, 0, 0, 0]);
-    expect(getMythrilSpawnChance(4)).toBe(.6);
-    expect(getMythrilSpawnChance(9)).toBe(1);
+    expect(getMythrilSpawnChance(4)).toBe(0);
+    expect(getMythrilSpawnChance(9)).toBe(0);
     for (let seed = 1; seed <= 30; seed++) expect(generateSector(7, 5, seed).nodes.some((entry) => entry.kind === 'mythril')).toBe(false);
   });
 
@@ -173,7 +175,7 @@ describe('speedrun follow-up regressions', () => {
     const road = engine.getSector().nodes.find((entry) => entry.id === id)!;
     const pair = engine.getState().sectors['6,5'].nodes.find((entry) => entry.id === road.pairedRoadId)!;
     expect(road.roadFacing).toBe('west'); expect(pair.roadFacing).toBe('east');
-    expect(getPortAnchor(road, 'input', 0).x).toBe(-67.5);
+    expect(getPortAnchor(road, 'input', 0).x).toBe(-64);
     expect(getEffectiveNodeInputFamilies(road, [])).toHaveLength(1);
     expect(getEffectiveNodeOutputFamilies(road)).toHaveLength(0);
     expect(getEffectiveNodeInputFamilies(pair, [])).toHaveLength(0);
@@ -190,7 +192,7 @@ describe('speedrun follow-up regressions', () => {
     state.sectors['5,5'].nodes = [node('woodenChest', { input: { iron: 10, copper: 10 } })];
     const engine = new GameEngine(state); const chest = engine.getSector().nodes[0];
     for (let step = 0; step < 80; step++) { engine.tick(100); chest.input.iron = 10; }
-    expect(chest.output.copper).toBe(2); expect(chest.output.iron).toBe(2);
+    expect(chest.output.copper).toBe(10); expect(chest.output.iron).toBe(10);
   });
 
   it('normalizes old names and road orientation while preserving saved contents, layouts and camera', () => {
@@ -200,7 +202,8 @@ describe('speedrun follow-up regressions', () => {
     const engine = new GameEngine(normalizeLegacy(JSON.parse(JSON.stringify(state)))!);
     expect(engine.getSector().nodes.map((entry) => entry.name)).toEqual(['Forest', 'Deep Hole', 'road']);
     expect(engine.getSector().nodes[2].roadFacing).toBe('south');
-    expect(engine.getSector().nodes[2].input.copper).toBe(9);
+    expect(engine.getSector().nodes[2].input).toEqual({});
+    expect(engine.getState().globalPool?.copper).toBe(9);
     expect(engine.getSector().nodes[0].resourceRemaining).toBe(823);
     expect(engine.getSector().nodes[1].resourceRemaining).toBe(112);
     expect(engine.getSector().nodes.map(({ x, y }) => [x, y])).toEqual([[500, 500], [500, 500], [500, 500]]);
@@ -211,6 +214,6 @@ describe('speedrun follow-up regressions', () => {
     const state = createInitialState(1);
     state.sectors['5,5'].nodes = [node('woodenChest', { name: 'Wooden Chest', x: 800, y: 700, input: { iron: 11 }, output: { iron: 7 } })];
     const engine = new GameEngine(state);
-    expect(engine.getSector().nodes[0]).toMatchObject({ name: 'Chest', x: 800, y: 700, input: { iron: 11 }, output: { iron: 7 } });
+    expect(engine.getSector().nodes[0]).toMatchObject({ name: 'Cart', x: 800, y: 700, input: { iron: 11 }, output: { iron: 7 } });
   });
 });

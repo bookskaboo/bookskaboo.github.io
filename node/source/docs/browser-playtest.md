@@ -1,5 +1,11 @@
 # Browser playtest startup and recovery
 
+## Published playtest target
+
+The current published game is **https://bookskaboo.github.io/node/**, confirmed by the user on November 2, 2026. Use this URL when the user requests the GitHub/published version. Do not infer the deployment from an older checkout's Git remote or its README: `ForzenAcademy/nodes` links to an older, different FACTORINODE build at `forzenacademy.com/node/`.
+
+Keep published-version runs separate from localhost runs and record the actual URL in the run log. Use only the normal player UI when requested; do not inspect source, use developer tools or exported reports, alter rules, or apply mid-run fixes. Preserve existing factories during browser recovery.
+
 Verified November 1, 2026, against the local game at `http://127.0.0.1:4174/`.
 
 ## Verified recovery
@@ -24,7 +30,7 @@ On the next continuation, a retained tab binding also returned `browser.user is 
 
 Read the latest run log and exported report before acting. Verify the visible map and controls, then resume the preserved game through its normal UI. Recheck coordinates after travel, zoom changes and road placement; the camera view can change. A completed cable drag is not proof of a working supply chain: verify the recipient buffer, production or research completion. The visible Dev controls → Export playtest report is useful for recording actual totals and diagnosing missing links.
 
-Keep gameplay rules intact during balance measurements. Record ordinary interface bugs for later, and record any authorized progression-blocker fix explicitly. Save a report and pause at a discussion checkpoint so planning time does not silently continue accumulating production. Report partial milestones as partial milestones; a working Shiny chain is not a completed Command or endgame test.
+Keep gameplay rules intact during balance measurements. Record ordinary interface bugs for later, and record any authorized progression-blocker fix explicitly. Save a report and pause at a discussion checkpoint so planning time does not silently continue accumulating production. Report partial milestones as partial milestones; a working Shiny chain is not a completed Complex or endgame test.
 
 ## Permission observation
 

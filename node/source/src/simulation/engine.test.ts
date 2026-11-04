@@ -127,14 +127,14 @@ describe('simulation architecture', () => {
     expect(getMapNodeResourceCapacity(0, 1)).toBe(5500);
     expect(getMapNodeResourceCapacity(0, 0)).toBe(0);
     expect(getMythrilSpawnChance(3)).toBe(0);
-    expect(getMythrilSpawnChance(4)).toBe(.6);
-    expect(getMythrilSpawnChance(9)).toBe(1);
+    expect(getMythrilSpawnChance(4)).toBe(0);
+    expect(getMythrilSpawnChance(9)).toBe(0);
     expect(getMythrilSpawnChance(10)).toBe(0);
 
     const tierNine = generateSector(0, 1, 12345, 1);
-    expect(tierNine.nodes.filter((node) => node.resourceItem).map((node) => node.resourceItem)).toEqual(expect.arrayContaining(['iron', 'copper', 'stone', 'wood', 'mythril']));
+    expect(tierNine.nodes.filter((node) => node.resourceItem).map((node) => node.resourceItem)).toEqual(expect.arrayContaining(['iron', 'copper', 'stone', 'wood']));
     const tierTen = generateSector(0, 0, 12345, 1);
-    expect(tierTen.nodes).toHaveLength(0);
+    expect(tierTen.nodes.map(n=>n.kind)).toEqual(['cornerChallenge','cornerTribute']);
   });
 
   it('uses the source-game tier-one and tier-two encounter distribution', () => {
@@ -208,6 +208,7 @@ describe('simulation architecture', () => {
     expect(copper.kind).toBe('big-hole');
     expect(copper.resourceRemaining).toBe(250);
     expect(copper.obstructionRadius).toBeCloseTo(38 * Math.sqrt(10));
+    copper.holeStoneConsumed = 249;
     copper.resourceRemaining = 1;
     copper.input.stone = 1;
     engine.tick(1);
@@ -231,6 +232,7 @@ describe('simulation architecture', () => {
     const engine = new GameEngine(createInitialState(71));
     const kilnId = engine.placeNode('kiln', 1900, 500)!;
     const smelterId = engine.placeNode('smelter', 2200, 500)!;
+    expect(engine.setRecipe(smelterId, 'smelt-iron')).toBe(true);
     expect(engine.connect(kilnId, smelterId)).toBe(true);
     const source = engine.getSector().nodes.filter((node) => [kilnId, smelterId].includes(node.id));
     const copyIds = engine.duplicateNodes([kilnId, smelterId]);
@@ -274,8 +276,10 @@ describe('simulation architecture', () => {
   it('routes switched Smelter sockets by ingredient and keeps a separate buffer for each input', () => {
     const engine = new GameEngine(createInitialState(74));
     const sector = engine.getSector();
+    engine.getState().research.unlocked.push('road');
     const chestId = engine.placeNode('woodenChest', 1900, 700)!;
     const smelterId = engine.placeNode('smelter', 2350, 700)!;
+    expect(engine.setRecipe(smelterId, 'smelt-iron')).toBe(true);
     const chest = sector.nodes.find((node) => node.id === chestId)!;
     const smelter = sector.nodes.find((node) => node.id === smelterId)!;
 
@@ -300,29 +304,33 @@ describe('simulation architecture', () => {
     expect(smelter.input.charcoal).toBe(1);
   });
 
-  it('smart-types Smelters from the arriving metal without discarding buffered Charcoal', () => {
+  it('keeps the selected Smelter recipe fixed instead of adapting to incoming metal', () => {
     const engine = new GameEngine(createInitialState(75));
     const sector = engine.getSector();
+    engine.getState().research.unlocked.push('road');
     const chestId = engine.placeNode('woodenChest', 1900, 700)!;
     const smelterId = engine.placeNode('smelter', 2350, 700)!;
-    const chest = sector.nodes.find((node) => node.id === chestId)!;
-    const smelter = sector.nodes.find((node) => node.id === smelterId)!;
+    const chest = sector.nodes.find(node => node.id === chestId)!;
+    const smelter = sector.nodes.find(node => node.id === smelterId)!;
+    expect(engine.setRecipe(smelterId, 'smelt-copper')).toBe(true);
     smelter.input.charcoal = 3;
-    chest.output.copper = 1;
+    chest.output = { iron: 1, copper: 1 };
 
     expect(engine.connectPorts(chestId, 0, smelterId, 0)).toBe(true);
     engine.tick(400);
-
     expect(smelter.recipeId).toBe('smelt-copper');
     expect(smelter.input.charcoal).toBe(3);
-    expect(getEffectiveNodeInputFamilies(smelter, [])).toEqual(['METAL', 'charcoal']);
+    expect(getEffectiveNodeInputFamilies(smelter, [])).toEqual(['copper', 'charcoal']);
     engine.tick(1000);
     expect(smelter.input.copper).toBe(1);
+    expect(smelter.input.iron).toBeUndefined();
+    expect(chest.output.iron).toBe(1);
   });
 
   it('keeps Refiner material fixed until the player changes the recipe', () => {
     const engine = new GameEngine(createInitialState(76));
     const sector = engine.getSector();
+    engine.getState().research.unlocked.push('road');
     const chestId = engine.placeNode('woodenChest', 1900, 700)!;
     const refinerId = engine.placeNode('refiner', 2350, 700)!;
     const chest = sector.nodes.find((node) => node.id === chestId)!;
@@ -331,7 +339,7 @@ describe('simulation architecture', () => {
     expect(engine.setRecipe(refinerId, 'iron-gear')).toBe(true);
     chest.output['mythril-plate'] = 1;
 
-    expect(engine.connectPorts(chestId, 0, refinerId, 0)).toBe(true);
+    expect(engine.connectPorts(chestId, 0, refinerId, 0)).toBe(false);
     engine.tick(400);
     expect(refiner.recipeId).toBe('iron-gear');
     expect(chest.output['mythril-plate']).toBe(1);
@@ -340,6 +348,7 @@ describe('simulation architecture', () => {
 
     engine.getState().research.completed.push('mithrilTools');
     expect(engine.setRecipe(refinerId, 'mythril-gear')).toBe(true);
+    expect(engine.connectPorts(chestId, 0, refinerId, 0)).toBe(true);
     engine.tick(400);
     expect(refiner.recipeId).toBe('mythril-gear');
     expect(getEffectiveNodeInputFamilies(refiner, [])).toEqual(['mythril-plate']);
@@ -351,7 +360,9 @@ describe('simulation architecture', () => {
   it('keeps Assembler ingredients bound to their stable sockets after visual swapping', () => {
     const engine = new GameEngine(createInitialState(77));
     const sector = engine.getSector();
+    engine.getState().research.unlocked.push('road');
     const firstChestId = engine.placeNode('woodenChest', 1750, 650)!;
+    engine.getState().research.unlocked.push('road');
     const secondChestId = engine.placeNode('woodenChest', 1750, 1000)!;
     const assemblerId = engine.placeNode('assembler', 2350, 800)!;
     const firstChest = sector.nodes.find((node) => node.id === firstChestId)!;
@@ -379,6 +390,7 @@ describe('simulation architecture', () => {
     const sector = engine.getSector();
     const sourceId = engine.placeNode('refiner', 1750, 650)!;
     const assemblerId = engine.placeNode('assembler', 2350, 800)!;
+    engine.getState().research.unlocked.push('road');
     const chestId = engine.placeNode('woodenChest', 2900, 800)!;
     const source = sector.nodes.find((node) => node.id === sourceId)!;
     const assembler = sector.nodes.find((node) => node.id === assemblerId)!;
@@ -423,6 +435,7 @@ describe('simulation architecture', () => {
     const engine = new GameEngine(createInitialState(78));
     const kilnId = engine.placeNode('kiln', 1750, 650)!;
     const smelterId = engine.placeNode('smelter', 1750, 1000)!;
+    expect(engine.setRecipe(smelterId, 'smelt-iron')).toBe(true);
     const mergerId = engine.placeNode('merger', 2350, 800)!;
 
     expect(engine.connectPorts(kilnId, 0, mergerId, 0)).toBe(true);
@@ -442,6 +455,7 @@ describe('simulation architecture', () => {
     const sector = engine.getSector();
     const kilnId = engine.placeNode('kiln', 1900, 500)!;
     const smelterId = engine.placeNode('smelter', 2350, 500)!;
+    expect(engine.setRecipe(smelterId, 'smelt-iron')).toBe(true);
     expect(engine.connect(kilnId, smelterId)).toBe(true);
     const kiln = sector.nodes.find((node) => node.id === kilnId)!;
     const smelter = sector.nodes.find((node) => node.id === smelterId)!;
@@ -461,6 +475,7 @@ describe('simulation architecture', () => {
     const engine = new GameEngine(createInitialState(61));
     const sector = engine.getSector();
     const assemblerId = engine.placeNode('assembler', 2200, 700)!;
+    engine.getState().research.unlocked.push('road');
     const chestId = engine.placeNode('woodenChest', 2700, 700)!;
     const assembler = sector.nodes.find((node) => node.id === assemblerId)!;
     const chest = sector.nodes.find((node) => node.id === chestId)!;
@@ -510,7 +525,8 @@ describe('simulation architecture', () => {
     const kiln = engine.placeNode('kiln', 3000, 400)!;
     const planter = engine.placeNode('tree-planter', 3000, 750)!;
     expect(engine.connect(generator, kiln)).toBe(false);
-    expect(engine.connect(generator, planter)).toBe(true);
+    expect(generator).toBeUndefined();
+    expect(engine.connect(generator, planter)).toBe(false);
   });
 
   it('applies original single-port rewiring and multi-port fan-out rules', () => {
@@ -524,8 +540,10 @@ describe('simulation architecture', () => {
 
     const kiln = engine.placeNode('kiln', 1900, 500)!;
     const smelter = engine.placeNode('smelter', 2350, 500)!;
+    expect(engine.setRecipe(smelter, 'smelt-iron')).toBe(true);
     expect(engine.connect(kiln, smelter)).toBe(true);
     expect(sector.connections.find((connection) => connection.from === kiln && connection.to === smelter)?.toPort).toBe(1);
+    engine.getState().research.unlocked.push('road');
     const chest = engine.placeNode('woodenChest', 2800, 500)!;
     expect(engine.connect(kiln, chest)).toBe(true);
     expect(sector.connections.filter((connection) => connection.from === kiln)).toHaveLength(1);
@@ -536,6 +554,7 @@ describe('simulation architecture', () => {
     const engine = new GameEngine(createInitialState(12)); const sector = engine.getSector();
     const kiln = engine.placeNode('kiln', 1900, 500)!;
     const smelter = engine.placeNode('smelter', 2350, 500)!;
+    expect(engine.setRecipe(smelter, 'smelt-iron')).toBe(true);
     expect(engine.connectPorts(kiln, 0, smelter, 0)).toBe(false);
     expect(engine.connectPorts(kiln, 0, smelter, 1)).toBe(true);
     expect(sector.connections.find((connection) => connection.from === kiln)?.toPort).toBe(1);
@@ -553,6 +572,7 @@ describe('simulation architecture', () => {
   it('restricts Inventory output to Filters', () => {
     const engine = new GameEngine(createInitialState(13));
     const inventory = engine.placeNode('inventory', 2850, 300)!;
+    engine.getState().research.unlocked.push('road');
     const chest = engine.placeNode('woodenChest', 3200, 300)!;
     const filter = engine.placeNode('filter', 2850, 650)!;
     expect(engine.connect(inventory, chest)).toBe(false);
@@ -579,9 +599,9 @@ describe('simulation architecture', () => {
     expect(NODE_DEFINITIONS.inventory.name).toBe('Inventory');
     expect(NODE_DEFINITIONS.filter.name).toBe('Filter');
     expect(RECIPES['smelt-mythril'].name).toBe('Mythril Plate');
-    expect(RECIPES['suppression-bot'].name).toBe('Small Suppression Bot');
+    expect(RECIPES['suppression-bot'].name).toBe('Small Bot');
     expect(RESEARCH_PROJECTS.map((project) => project.id)).toEqual(expect.arrayContaining([
-      'joint', 'splitter', 'merger', 'basicElectricity', 'researchCenter1', 'areaExpansion1',
+      'joint', 'splitter', 'merger', 'researchCenter1', 'areaExpansion1',
       'extractor2', 'kiln2', 'smelter2', 'refiner2', 'assembler2', 'treePlanter', 'miningDrill',
     ]));
     expect(Object.keys(NODE_MODULES).sort()).toEqual(Object.keys(NODE_DEFINITIONS).sort());
@@ -631,6 +651,11 @@ describe('simulation architecture', () => {
   it('uses the original trigger requirements and keeps them out of manual research selection', () => {
     const triggerRequirements = Object.fromEntries(RESEARCH_PROJECTS.filter((project) => project.trigger && project.trigger.id!=='encounter').map((project) => [project.id, project.trigger?.pending]));
     expect(triggerRequirements).toEqual({
+      cornerComponents: 'Obtain any corner component',
+      finalCoreProduction: 'Produce the first Final Core',
+      mithrilTools: 'Produce Mythril Tribute at a Dwarven settlement',
+      sortingTools: 'Complete Precision Control',
+      mineralRecovery: 'Complete Precision Control',
       joint: 'Connect two nodes',
       kiln: 'Extract 1 Wood with an Extractor',
       smelter: 'Extract 1 metal with an Extractor',
@@ -639,7 +664,6 @@ describe('simulation architecture', () => {
       splitter: 'Build an Assembler',
       merger: 'Produce a Basic Core',
       suppressionBot: 'Encounter a Monster Camp',
-      basicElectricity: 'Produce at least 1 Motor',
     });
     const engine = new GameEngine(createInitialState(31));
     Object.keys(triggerRequirements).forEach((id) => engine.selectResearch(id));
@@ -668,7 +692,7 @@ describe('simulation architecture', () => {
     evaluate();
 
     expect(state.research.completed).toEqual(expect.arrayContaining([
-      'joint', 'kiln', 'smelter', 'refiner', 'researchCenter', 'splitter', 'merger', 'suppressionBot', 'basicElectricity',
+      'joint', 'kiln', 'smelter', 'refiner', 'researchCenter', 'splitter', 'merger', 'suppressionBot',
     ]));
   });
 
@@ -704,10 +728,11 @@ describe('simulation architecture', () => {
     const drill = engine.getSector().nodes.find((node) => node.id === id)!;
     drill.constructedAt = 0;
     drill.input.motor = 20;
-    engine.setMiningTarget(id, 'mythril');
+    expect(engine.setMiningTarget(id, 'mythril')).toBe(false);
+    engine.setMiningTarget(id, 'copper');
     for (let index = 0; index < 20; index++) engine.tick(1000);
-    expect(drill.kind).toBe('mythril');
-    expect(drill.resourceItem).toBe('mythril');
+    expect(drill.kind).toBe('copper');
+    expect(drill.resourceItem).toBe('copper');
     expect(drill.resourceRemaining).toBe(1000);
   });
 

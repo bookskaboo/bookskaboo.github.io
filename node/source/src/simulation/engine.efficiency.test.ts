@@ -63,7 +63,7 @@ describe('linear machine efficiency progression', () => {
     expect(Object.values(live.input).every(q => q === 0)).toBe(true);
   });
 
-  it('preserves saved ranks and completes a six-core project in synchronized 400ms cycles', () => {
+  it('preserves saved ranks and completes a six-core project in synchronized 2000ms cycles', () => {
     const state = createInitialState(301);
     state.research.completed.push('researchCenter1', 'researchCenter2', 'researchCenter6', 'extractor5', 'precisionControl');
     state.sectors['5,5'].nodes = [machine('researchCenter')];
@@ -73,20 +73,21 @@ describe('linear machine efficiency progression', () => {
     engine.getState().research.contributed = Object.fromEntries(cores.map(core => [core, 59]));
     const lab = engine.getSector().nodes[0];
     lab.input = Object.fromEntries(cores.map(core => [core, 1]));
-    engine.tick(399);
+    engine.tick(1000);
+    engine.tick(999);
     expect(engine.getState().research.completed).not.toContain('extractor6');
     engine.tick(1);
     expect(engine.getState().research.completed).toContain('extractor6');
     expect(Object.values(lab.input)).toEqual([0, 0, 0, 0, 0, 0]);
   });
 
-  it('applies recovery research after the Separation Furnace cycle upgrade', () => {
-    const recipe = RECIPES.recoverediron;
+  it('applies recovery research after the Separator cycle upgrade', () => {
+    const recipe = RECIPES['recover-crust'];
     const state = createInitialState(301);
     const furnace = machine('separationFurnace', recipe.id);
     furnace.input = { ...recipe.inputs };
     state.sectors['5,5'].nodes = [furnace];
-    state.research.completed.push('separationFurnace6', 'mineralRecovery', 'mineralRecovery1');
+    state.research.completed.push('separationFurnace6', 'efficientHigherIntermediates', 'mineralRecovery1');
     const engine = new GameEngine(state);
     advance(engine, recipe.cycleMs * .4 * .9 - 1);
     expect(engine.getSector().nodes[0].output).toEqual({});

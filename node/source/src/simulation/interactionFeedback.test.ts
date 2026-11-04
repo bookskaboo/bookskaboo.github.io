@@ -25,7 +25,7 @@ describe('playtest interaction feedback and road validation', () => {
     sector.nodes = [tutorialNode('road', 'existing', 3532.5, 600, { roadMode: 'export', pairedSectorId: '6,5' })]; sector.connections = [];
     const engine = new GameEngine(state);
     expect(engine.getNodePlacementPreview('road', 3590, 1400)?.valid).toBe(false);
-    expect(engine.getNodePlacementError('road', 3590, 1400)).toContain('all 1 outgoing road channels');
+    expect(engine.getNodePlacementError('road', 3590, 1400)).toContain('1 Roads per map face');
     expect(engine.placeNode('road', 3590, 1400)).toBeUndefined();
     engine.getSector().nodes = [];
     engine.getState().sectors['6,5'].nodes.push(tutorialNode('woodenChest', 'blocking', 67.5, 1400));
@@ -36,18 +36,16 @@ describe('playtest interaction feedback and road validation', () => {
     expect(engine.placeNode('road', 3590, 1400)).toBeTruthy();
   });
 
-  it('refuses reversal that would exceed outgoing capacity without losing cables or items', () => {
+  it('reverses a legacy Road without requiring another face slot or losing items', () => {
     const state = createInitialState(1), sector = state.sectors['5,5'];
     const other = generateSector(6, 5, 1); other.unlocked = true; other.connections = [];
     state.sectors[other.id] = other;
     sector.nodes = [tutorialNode('road', 'receive', 3532.5, 600, { roadMode: 'import', pairedSectorId: '6,5', pairedRoadId: 'send', output: { copper: 3 } }), tutorialNode('road', 'existing', 3532.5, 1000, { roadMode: 'export', pairedSectorId: '6,5' })];
     sector.connections = [{ id: 'keep', from: 'receive', to: 'sink', createdAt: 0 }];
     other.nodes = [tutorialNode('road', 'send', 67.5, 600, { roadMode: 'export', pairedSectorId: '5,5', pairedRoadId: 'receive' })];
-    const engine = new GameEngine(state), before = structuredClone(engine.getState());
-    expect(engine.reverseRoad('receive')).toBe(false);
-    expect(engine.getState()).toEqual(before);
-    engine.getState().research.completed.push('roadChannels1');
+    const engine = new GameEngine(state);
     expect(engine.reverseRoad('receive')).toBe(true);
-    expect(engine.getSector().nodes[0]).toMatchObject({ roadMode: 'export', input: { copper: 3 } });
+    expect(engine.getSector().nodes[0]).toMatchObject({ roadMode: 'export', input: {}, output: {} });
+    expect(engine.getState().globalPool?.copper).toBe(3);
   });
 });

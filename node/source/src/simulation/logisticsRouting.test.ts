@@ -44,7 +44,7 @@ describe('continuous logistics routes', () => {
     expect(transfer.routeConnectionIds).toHaveLength(5);
     expect(transfer.arrivesAtMs - transfer.launchedAtMs).toBe(1000);
     engine.tick(1000);
-    expect(target.input.wood).toBe(1);
+    expect(((target.input.wood??0)+(target.output.wood??0))).toBe(1);
     for (const router of routers) { expect(router.input).toEqual({}); expect(router.output).toEqual({}); expect(router.processingPaused).toBe(false); }
   });
   it('reserves final destination capacity across routes and refunds a transfer if any route leg is removed', () => {
@@ -58,7 +58,7 @@ describe('continuous logistics routes', () => {
     engine.deleteConnection(last.id);
     expect(engine.getState().inFlightTransfers).toHaveLength(0);
     expect(source.output.wood).toBe(3);
-    expect(target.input.wood).toBe(19);
+    expect(((target.input.wood??0)+(target.output.wood??0))).toBe(19);
   });
   it('skips full splitter routes through Joints, respects Filters, and avoids loops', () => {
     const { engine, add, link } = fixture();
@@ -69,7 +69,7 @@ describe('continuous logistics routes', () => {
     link(source, splitter); link(splitter, joint); link(joint, full); link(splitter, target, 1);
     engine.tick(400);
     expect(engine.getState().inFlightTransfers?.map(transfer => transfer.to)).toEqual(['target']);
-    engine.tick(1000); expect(target.input.wood).toBeGreaterThan(0);
+    engine.tick(1000); expect(((target.input.wood??0)+(target.output.wood??0))).toBeGreaterThan(0);
     const isolated = fixture();
     const box = isolated.add('woodenChest', 'box', { output: { wood: 1 } });
     const filter = isolated.add('filter', 'filter', { filterItem: 'stone' });
@@ -117,7 +117,7 @@ describe('logistics editing and tutorial', () => {
     const after = engine.getState().inFlightTransfers![0];
     expect(after.id).toBe(before.id); expect(after.launchedAtMs).toBe(before.launchedAtMs); expect(after.arrivesAtMs).toBe(before.arrivesAtMs);
     expect(after.routeConnectionIds).toHaveLength(2); expect(engine.getSector().connections.some(connection => connection.id === cable.id)).toBe(false);
-    engine.tick(1000); expect(target.input.wood).toBe(1);
+    engine.tick(1000); expect(((target.input.wood??0)+(target.output.wood??0))).toBe(1);
   });
   it('removes logistics pausing and rotates Filter sockets through the same controls', () => {
     const { engine, add } = fixture(); const filter = add('filter', 'filter');

@@ -2,6 +2,12 @@
 
 A local-first React + PixiJS factory automation game. React owns the interface and PixiJS owns the active-sector graph; the simulation has no dependency on either renderer.
 
+The [master development plan](docs/master-plan/README.md) organizes the current game, component designs, validation needs, proposed milestones, and a one-question-at-a-time review queue.
+
+The [change history](CHANGELOG.md) tracks completed work, earlier decisions, and publication status. Use the [searchable view](docs/changelog/index.html) to filter by topic, date, state, or publication, and the [maintenance guide](docs/changelog/README.md) when adding records.
+
+The [November 4 endgame implementation report](docs/master-plan/20-endgame-implementation.md) covers four seeded corner challenges, Final Core assembly and victory, post-victory research, relocation, the Recycler and hidden recovery. Reclamation balance is provisional; normal-play balance and visual QA remain to validate.
+
 ## Run locally
 
 ```powershell
@@ -15,24 +21,51 @@ Open `http://127.0.0.1:4173/`.
 
 - Fixed 100 ms simulation with 750 ms UI publication and inactive-sector updates
 - Pixi node graph with one ticker, cable particles, progress interpolation, marquee selection, node dragging, port connections, right/middle/Space panning, and pointer-centered zoom
-- Full source-game item, recipe, node, and research catalogs, including Mythril production, Suppression Bots, Power, Inventory/Filter logistics, Roads, Tree Planters, and Mining Drills
-- Production chains, buffers, resource depletion, alternating Splitters, storage retrieval, synchronized research core sets, research milestones and efficiency upgrades, rising repeatable Map Node costs, and special Power/Forest Growth port isolation
+- Item, recipe, node, and research catalogs including Mythril production, Suppression Bots, Inventory/Filter logistics, Roads, Tree Planters, and Mining Drills. Power is removed pending a useful integration design.
+- Production chains, buffers, resource depletion, alternating Splitters, storage retrieval, synchronized research core sets, research milestones and efficiency upgrades, rising repeatable Map Node costs, and dedicated Forest Growth ports
+- Tree Planters restore Forest without Power. Generators, Power Splitters, Power Lines and their research are absent from playable catalogs; Hydrochemistry no longer requires Basic Electricity. Old Power equipment, wiring, stored energy and affected in-flight cargo are archived within saves rather than simulated.
 - React build, inventory, research, world map, journal, options, save/load, inspector, and shortcut interfaces
+- **Options → Mods** provides guided editors for existing resources, nodes, recipes, research, obstructions, maps and connection/construction settings, with base-game templates, change review, local drafts, save-aware activation and copy/paste share codes. See the [mod guide](docs/mods.md) for supported fields and behavior.
 - Three manual slots plus autosave using the permanent `factorinode.save-slots.v1` and `factorinode.temporary-save.v1` keys, with migration from original version-1 NODE saves
 - Command checkpoints with up to 50 undo states
+- Selecting research immediately checks for a complete required Core set. After a successful payment, Research Centers consume further sets every five seconds before upgrades; project changes preserve that payment interval. Six research ranks reduce the interval to 4.5, 4, 3.5, 3, 2.5 and 2 seconds; new and loaded centers use the same base timing. Successful Core-set payments renew a repeating blue completion glow for the full current interval; missing the next payment lets it expire.
+- Road research unlocks the Cart (formerly Wooden Chest), a 20-item solid buffer. Every solid product and Core tier is allowed immediately; fluids are excluded. Trucks research (20 each Simple, Basic and Automata Cores) upgrades all existing and future Carts to 40-item Trucks. Trains research (40 each through Hydro) upgrades them to 80-item Trains. Stock, IDs, wiring, templates and the two-second local transfer cycle are retained; the 20 display blocks represent the proportion filled. Vehicle headers show an icon in place of title text, with the same header/body shading dimensions as Roads.
+- Roads start at one pair per map face. Road Channels 1 adds a second slot (2 each through Hydro), and Road Channels 2 adds a third (130 each through Shiny), sequentially. Sending and receiving endpoints share each face's limit; reversal consumes no extra slot. Existing saved Roads above the new limit remain usable. The Expansion tutorial demonstrates sending Cart → Road pair → receiving Cart using actual Wood production and delivery.
+- Road placement creates both facing endpoints together only when both locations and face slots are legal. The chosen face must have an unlocked neighbor. Click either endpoint for the Road flow panel, then click its direction card to reverse the one-way route; the paired endpoint takes the opposite role. The panel shows only the toggle and 12 items / minute below it. A large arrow points toward the map edge when sending and into the field when receiving; the header icon uses the standard node icon size. Map Road hovers show only compass direction and material. Direction changes disconnect endpoint cables for rewiring. Selecting an unchanged direction through the engine is a no-op; malformed double-export pairs do not dispatch. Practice fixes direction to the lesson route.
+- Roads have no internal inventory. Each five-second check moves one item directly from a connected source to a connected destination, including routes through local logistics. Disconnected or full receivers leave cargo at its source; unused trips never build up. Local cable motion is cosmetic and reserves no storage. On loading an older save, Road cargo returns to connected inventories where possible; overflow is preserved in the shared pool, and pending Road deliveries are refunded before migration.
+- **Dev tools → Place Dev Source** places a movable, saveable universal supplier outside the normal Build catalog. Connect its star output to any existing input; each cable automatically supplies that socket's ingredients, bots, or required research Core types. Recipe changes keep valid Dev Source cables. Extractors mine a virtual infinite reserve on their normal cycle; generic inputs infer downstream demand or default to Iron. Normal production/research timing, prerequisites, and obstruction boundaries still apply.
 - Persistent Control Groups with the original ten colors: right-click a highlighted selection to create a group, click/drag a member to control the group, double-click (and hold to drag) to control one member, and right-click a member to confirm disbanding. Down-right selection expands touched groups; up-left selection prioritizes only touched nodes. Shift adds to selection. Full-group copies receive independent group IDs. Groups survive save/load and undo. After Connector Mirroring research, production-node right-click mirrors input/output sides instead. Left-click still opens the recipe chooser, and the connector-order button retains its separate left/right-click row controls.
-- Extractors are Production nodes, alongside Kilns, Smelters, Refiners, Assemblers and the advanced processors. The Build catalog, hover labels and production controls use that classification.
+- Extractors and Lake Intakes are Production nodes, alongside Kilns, Smelters, Refiners, Assemblers and the advanced processors. The Build catalog, hover labels and production controls use that classification. Carts, Trucks and Trains are Logistics nodes with their existing solid-item storage behavior. Cart shortcuts follow normal Road-unlock placement in the next free Logistics slot; older Cart/Chest assignments on other bars migrate there. Explicitly cleared slots stay cleared, and vehicle upgrades reuse the existing shortcut.
+- Configurable production nodes, including Smelters, need a selected recipe before either side can be connected. Smelters keep the chosen metal recipe. Basics highlights Copper Plate.
+- Extractor rewiring discards stock of a different resource and keeps matching stock. Resource-node bars show the fraction of their reserve remaining.
+- Research Centers open the research panel on click, show total project progress, and retain named Core storage boxes. Hover explains the active project and missing Cores.
+- Dragging a node or cable near a zoomed field's edge scrolls the map while preserving the drag position and normal map bounds.
+- The Map button and Shift+M expand the existing minimap. Selection, separate compact/expanded zoom levels, and its saved floating position and size survive collapse. The expanded view uses Home-relative compass positions (Home H; the northwest neighbor N1.W1), a simple title/close header and larger action text. Unvisited maps show Map Node Unexplored; visited maps list resources and obstructions without a legend. Naming, activation, travel, roads and tutorial restrictions remain available.
+- Shortcut groups fit the viewport without saving temporary layout adjustments over the player's preferred positions; revealing or expanding the Node Map leaves the bars in place.
+- Shortcut assignment uses narrow icon/name columns with at most five nodes in each. Columns grow toward the side with more room; small windows can scroll horizontally through the remaining choices. Production and Logistics toggles filter the choices; pressing the active toggle again shows all nodes. Clicking anywhere outside the picker closes it while allowing the clicked control to work. Close, Escape, Clear Slot, research locks and tutorial restrictions are retained. Build omits the Storage category tab; the remaining storage nodes are available under All.
+- New-game startup shows Production and Logistics bars and hides the empty third bar, including older cached empty layouts. The first genuine Storage unlock reveals it. F3 and Options still toggle it during play; all-hidden startup recovery restores the first two bars without resetting their geometry.
+- Options begins with Save / Load, Commands, Recipes, Tutorials and Journal. The four game preferences use a two-column grid; action descriptions and dry flavor appear on hover or keyboard focus instead of under each title.
+- Attached shortcut bars share one six-dot drag handle on the first visible bar. Other members show a padlock that releases just that bar; it regains its own six-dot handle and any remaining pair stays joined.
+- Hold A while placing or dragging nodes to align their top-left corners to the 64-unit world grid. Options can keep snapping enabled; selected groups retain their internal spacing.
+- Shift-right-click a configured machine, then Shift-left-click another machine of the same type to copy its recipe. Releasing Shift or pressing Escape clears the copy source; mismatched machines are ignored.
+- Recipe pickers retain their remembered icon view and recipe tooltips. The production guide uses uniform larger ingredient/output bubbles, with the recipe to the right of its title and the time at the far right on one line. Guide cards have no subtext; hover shows only their flavor. Ingredient links still open producer recipes, compact guide icons expand on click, and long rows scroll horizontally on narrow screens. Node recipe buttons are removed; left-click still opens the picker.
+- The Research Center restores its INACTIVE button/current-project indicator and shows overall consumed-Core progress without a percentage label.
+- Selected research details use compact Core badges beside the title, a total at the right, and a generic Start button beside the flavor text. Badge tooltips retain per-Core costs and processed progress; badges still open their recipes.
 - Source-game charcoal/steel/gold UI palette with its canonical names and player-facing descriptions
 - Original node silhouettes, dimensions, vector icon family, embedded controls, directional ports, typed cable colors, and star/circle connection affordances
 - Three movable, rotatable, resizable shortcut bars; hover help; full command reference; 11 × 11 Node Map; and an interactive field minimap
 - Collision-safe placement/movement/world generation and obstacle-aware cable routing
+- Connection validation follows known materials through logistics chains and buffers, including chains wired before their source. Charcoal cannot enter an ore socket through a generic Splitter, Merger, or Joint; valid mixed-material smart branches remain usable.
+- Multi-node selections regain the original outlined selection and batch-delete button. It uses the deletion preference, removes attached cables together, and restores the batch with one undo.
 - Five Goblin Camps, five Villages and five Kingdoms per new world, with research-aligned AP requirements and configurable direct-output Tribute while suppressed; tribute stores up to 100 materials and is lost on a failed AP check. See [obstruction behavior](docs/obstruction-types-and-behavior.md).
-- Five Lizard Camps, five Lizard Villages and five Lizard Kingdoms in separate map tiers 4–9 sectors, with higher recurring AP costs, larger tribute batches and Wood/Water options. Their sectors exclude Goblins and the reserved Golem encounters.
+- Five Dwarven Camps, five Dwarven Villages and five Dwarven Kingdoms in separate map tiers 4–9 sectors, with higher recurring AP costs and larger tribute batches defaulting to Mythril. Their sectors exclude Goblins and the reserved Golem encounters.
 - Four mineral Golems centered in separate clear tier 6 sectors. Each costs 10,000 AP once and becomes an infinite reserve of its mineral, with four directional star sockets for Extractors.
 
 The implementation intentionally has no analytics, remote APIs, hosted assets, or cloud persistence.
 
 ## Progression design goals
+
+**Research timing correction, November 2:** the live baseline is five seconds per synchronized Core set, not one. `npm run progression` refreshes the current live-catalog analysis using that baseline. Older benchmark, player-simulation, speedrun and waste-demand outputs must be rebased and regenerated before their timing/throughput conclusions are used for further balance work. See [analysis status](outputs/progression/README.md). Earlier measured playtests describe their original builds.
 
 These goals govern research-core design. The reviewed general balance baseline
 through tier 6 is implemented. The separate higher-cost one-hour speedrun
@@ -49,7 +82,7 @@ tools without a core payment. Slag washing still needs local Water. Existing
 Mythril discoveries receive the unlocks on load; advanced recovery remains
 with Precision Control.
 
-The live additions include Hydro, Shiny and Command Core chains, water processing,
+The live additions include Hydro, Shiny and Complex Core chains, water processing,
 Mythril separation, tier-6 probabilistic waste and deterministic recovery,
 stronger bots, encounter unlocks, fluid/waste transport, road channels, shared
 Storage/Inventory, repeatable capacity upgrades, mineral regeneration, resource
@@ -121,7 +154,7 @@ production-time bounds and lean/peak factory envelopes. The readable report is
 `outputs/progression/analysis.json`. This analysis reads the implemented recipes
 through tier 6.
 
-Hydro, Shiny and Command progression is implemented in live gameplay. Adopted
+Hydro, Shiny and Complex progression is implemented in live gameplay. Adopted
 recipe and price settings are in
 `outputs/progression/balance-settings.json`; the base proposal is retained in
 `core-design-model.mjs`. Generate the reports in this order:
@@ -143,7 +176,7 @@ waste design is `waste-design.html`, the general player model is
 
 The general pacing revision makes access research cost 1–3 of each required
 core. Nine machine efficiency lines now use six ranks: 10, 20, 30, 40, 50 and 60
-of each required core, adding a core type per rank from Simple through Command.
+of each required core, adding a core type per rank from Simple through Complex.
 Other optional improvements retain their individual costs; repeatables use
 ceil(base × 1.5^(rank−1)) each. Next-tier access
 does not require optional efficiency research. These prices are implemented,
@@ -154,19 +187,19 @@ Stone, 39,974 Water and 9,352 Mythril, without recycling credits or support cost
 
 No core may consume another core, directly or through intermediates. A recursive
 dependency check enforces this for all six core recipes. Research still consumes
-equal quantities of all required core tiers. Copper–Carbon Dispersion replaces
+equal quantities of all required core tiers. Copper Slurry replaces
 the slurry name; its recipe is unchanged (2 Water + 1 Copper Wire + 1 Charcoal
 produces 2 in 8s). Stable calculation IDs remain separate from display names.
-Hydro uses 1 Hydraulic Actuator + 1 Ceramic Electrode + 2 Coolant. Shiny uses
-1 Mythril Mesh + 1 Hydraulic Actuator + 2 Circuit A. Command uses 1 Logic
-Substrate + 1 Precision Controller + 1 Advanced Actuator. Ceramic Electrode
-uses Brick, Copper Wire and Dispersion; Mesh uses Refined Mythril and Copper
-Wire and Coolant; Substrate uses Circuit A, Ceramic Electrode and Mythril Wire. They
+Hydro uses 1 Hydro Piston + 1 Electrode + 2 Coolant. Shiny uses
+1 Mythril Mesh + 1 Hydro Piston + 2 Circuit A. Complex uses 1 Logic
+Substrate + 1 Controller + 1 Servo Piston. Electrode
+uses Brick, Copper Wire and Dispersion; Mesh uses Pure Mythril and Copper
+Wire and Coolant; Substrate uses Circuit A, Electrode and Mythril Wire. They
 unlock alongside their respective core access research. The current recipe
 reference is `outputs/progression/core-recipes.html`, regenerated with
 `node outputs/progression/core-recipes-model.mjs`.
-Refined Mythril is dry-produced from 1 Mythril Plate + 4 Iron Plates + 1 Charcoal, yielding 2 Refined Mythril + 2 Slag in 12s. Mesh takes 18s. Precision Controllers use Mythril Gear; Advanced Actuators use Mesh and 3 Coolant. All three Command components take 30s. Precision Control unlocks two Assembler batches: 4 Copper Gears or 4 Iron Wires plus 1 Mythril Plate produce 4 Mythril Gears or Wires in 12s. Existing single-metal Refiner recipes remain available.
-Final core cycles are Hydro 18s, Shiny 24s and Command 36s. Extractors retain
+Pure Mythril is dry-produced from 1 Mythril Plate + 4 Iron Plates + 1 Charcoal, yielding 2 Pure Mythril + 2 Slag in 12s. Mesh takes 18s. Controllers use Mythril Gear; Servo Pistons use Mesh and 3 Coolant. All three Complex components take 30s. Precision Control unlocks two Assembler batches: 4 Copper Gears or 4 Iron Wires plus 1 Mythril Plate produce 4 Mythril Gears or Wires in 12s. Existing single-metal Refiner recipes remain available.
+Final core cycles are Hydro 18s, Shiny 24s and Complex 36s. Extractors retain
 their five-second base cycle. Tier 5 refining produces guaranteed Slag only;
 independent Fines/Flux/Crust probabilities begin with tier 6 intermediaries.
 Rare waste never gates progression. Basic recovery unlocks at Mineral Recovery;
@@ -211,9 +244,9 @@ remain proposals; synchronized consumption is implemented in the live lab.
 Encounter-based machine access is implemented; details are in
 `outputs/progression/encounter-unlocks.json` and `encounter-unlocks.html`.
 First entering an activated map with a Lake grants water tools and Coolant;
-Mythril grants the Separation Furnace, refining and Slag Hopper.
-Abandoned Fabricators grant Advanced Assemblers with familiar recipes, and
-Derelict Sorting Stations grant waste handling early. Core recipes and upgrades
+Mythril grants the Separator, refining and Slag Hopper.
+Fabricators grant Assembler IIs with familiar recipes, and
+Sorting Ruins grant waste handling early. Core recipes and upgrades
 remain paid research. Precision Control remains a handling fallback so rare
 landmarks never block recovery. Required discoveries must be guaranteed reachable
 before their production tier, with persisted early discoveries and no circular
@@ -251,7 +284,7 @@ whole map onscreen does not preserve readable connections and directionality.
   map** as the default estimate. Treat 100 as a practical readability soft ceiling
   for ordinary maps; larger expanded maps can support more with organized lanes.
 - At readable working zoom, target 12–20 visible production machines plus their
-  supporting logistics. Most machines are 258 × 201–231 world units; allow roughly
+  supporting logistics. Most machines are now 256 × 192–256 world units on a 64-unit size grid; allow roughly
   450 × 340 units per machine position for cables and separation. Compact logistics
   nodes can use some of that space.
 - A typical 60-node map should budget 30–40 production machines and 3–4 local
@@ -331,7 +364,7 @@ implemented defaults to review, not settled endgame balance.
 
 - [ ] **Tier 7 and victory:** choose the final core, intermediates, research,
   geographic requirements and completion condition. Endgame Theory is active;
-  it does not invent a seventh core or victory screen. Confirm Command Core's name.
+  it does not invent a seventh core or victory screen. Complex Core is the canonical tier-six name.
 - [ ] **Playthrough pace:** measure actual learning, exploration, building and
   rebuilding time. Targets remain about one hour necessary-only speedrunning,
   three hours through full tier 6 at maximum throughput, and 20–30 hours through
@@ -353,10 +386,10 @@ implemented defaults to review, not settled endgame balance.
 - [ ] **Fluid logistics:** review intake 4/8/16 water per second, at most two
   Intakes per Lake, Fluid Link 16 units/second, fluid storage 256 and fluid-road
   receiving capacity 256. There is currently no pressure simulation.
-- [ ] **Road batches:** roads pull the connected buffer's contents every five
-  seconds and keep a blocked batch at its source. Review the ordinary receiving
-  limit of 20, especially when connecting larger new warehouses; fluid roads
-  allow 256. Channels per adjacent destination increase from 1 to 2 to 4.
+- [ ] **Road throughput:** pairs move one solid item per five seconds directly
+  between connected nodes, with no Road inventory. Blocked trips leave stock at
+  its source. Review throughput against Cart/Truck/Train capacities of 20/40/80;
+  face slots progress from 1 to 2 to 3. Fluid Roads remain retired.
 - [ ] **Waste logistics:** review 32 combined waste at processors, 200 per hopper,
   sorter input 32 per type and 40 units/second routing. Review how mixed waste
   outputs and recovery feedback feel under sustained load.
@@ -371,8 +404,9 @@ implemented defaults to review, not settled endgame balance.
   100 health and, once defeated, produce one unit each of two materials per
   second with a 64-item buffer. Set rewards, distribution, strength and whether
   this sustainable supply competes appropriately with drills and regeneration.
-- [ ] **Power:** Power Conduit routes 25 units/second; ordinary new production
-  has no agreed power-consumption model. Define generators, consumers and goals.
+- [ ] **Power — deferred:** removed from the playable game in Q10. Reconsider only
+  when it has a clear role that justifies the added complexity; it is not required
+  for the stabilization milestone.
 - [ ] **Sustainability:** mineral regeneration starts at one unit/30 seconds,
   improves to one/15 seconds, then adds 20% of base rate per repeatable rank.
   Validate depletion, forestry, drills and Golems across the full progression.
@@ -393,8 +427,8 @@ not browser frame rates or guaranteed limits. Results: `outputs/stress/latest.js
 
 ### Linear machine efficiency research
 
-Extractor, Kiln, Smelter, Refiner, Assembler, Research Center, Hydro Processor,
-Advanced Assembler and Separation Furnace each have six
+Extractor, Kiln, Smelter, Refiner, Assembler, Research Center, Hydro Plant,
+Assembler II and Separator each have six
 ranks. Rank r costs 10r of every core from Simple through tier r and uses
 (100 - 10r)% of base cycle time. Each rank requires its preceding rank; ranks
 3–6 additionally require Automata Core, Hydraulic Assembly, Ore Separation and
@@ -412,7 +446,7 @@ Map Node completions 1–9 cost 5 Simple Cores each, making exploration the firs
 sustained reason to scale Simple production while Assembler stays at 1 Simple.
 Completions 10–19 rise from 6 to 10 each through Basic, 20–29 from 11 to 15 through
 Automata, 30–39 from 16 to 20 through Hydro, 40–49 from 21 to 25 through Shiny,
-and 50–59 from 26 to 30 through Command. Each price lasts two purchases within
+and 50–59 from 26 to 30 through Complex. Each price lasts two purchases within
 these later phases, introducing the new core before demanding more output. Together with
 Home and Exploration, those 59 purchases fund 61 of 121 maps.
 

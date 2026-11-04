@@ -9,7 +9,9 @@
     "test": "vitest run",
     "stress": "node scripts/run-stress.mjs",
     "progression": "node scripts/run-progression.mjs",
-    "preview": "vite preview --host 127.0.0.1"
+    "preview": "vite preview --host 127.0.0.1",
+    "changelog": "node scripts/changelog.mjs",
+    "changelog:check": "node scripts/changelog.mjs --check && node --test scripts/check-changelog.mjs"
   },
   "dependencies": {
     "@vitejs/plugin-react": "latest",

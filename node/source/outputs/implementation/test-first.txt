@@ -1,0 +1,888 @@
+
+> factorinode-reconstruction@0.1.0 test
+> vitest run --reporter=dot
+
+
+ RUN  v5.0.5 D:/node factory v2
+
+································x······························xxx·················x·············x························x···x································x···x············x····xx·······················x··xx···x········x······································xx··xxxxxxxx·x··················x·x··x·········································································xxx···········x········································xxx···x···x··xx·········x···············································································x·········x···················································································-
+
+⎯⎯⎯⎯⎯⎯ Failed Tests 46 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  scripts/progression.test.ts > progression consumption analysis > accounts for each paid research once and verifies recursive core costs
+AssertionError: expected { 'simple-core': 3049, …(5) } to deeply equal { 'simple-core': 2799, …(5) }
+
+- Expected
++ Received
+
+  {
+-   "automata-core": 2523,
+-   "basic-core": 2708,
+-   "command-core": 546,
+-   "hydro-core": 2138,
+-   "shiny-core": 1517,
+-   "simple-core": 2799,
++   "automata-core": 2773,
++   "basic-core": 2958,
++   "command-core": 796,
++   "hydro-core": 2388,
++   "shiny-core": 1767,
++   "simple-core": 3049,
+  }
+
+ ❯ scripts/progression.test.ts:100:40
+     98|     expect(report.coreBills['automata-core'].raw).toEqual({ copper: 6,…
+     99|     expect(buckets.flatMap((bucket) => bucket.ids).sort()).toEqual(rep…
+    100|     expect(report.fixedResearch.costs).toEqual({ 'simple-core': 2799, …
+       |                                        ^
+    101|     expect(report.fixedResearch.raw).toEqual({ copper: 141454, wood: 1…
+    102|     expect(report.coreBills['shiny-core'].raw).toEqual({mythril:2,iron…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/46]⎯
+
+ FAIL  src/renderer/productionPortRows.test.ts > production material rows > keeps waste stock separate from the product at its existing output socket
+AssertionError: expected { name: 'Output', amount: +0, …(2) } to match object { name: 'Controller', amount: 1 }
+(2 matching properties omitted from actual)
+
+- Expected
++ Received
+
+  {
+-   "amount": 1,
+-   "name": "Controller",
++   "amount": 0,
++   "name": "Output",
+  }
+
+ ❯ src/renderer/productionPortRows.test.ts:39:50
+     37|   it('keeps waste stock separate from the product at its existing outp…
+     38|     const node = tutorialNode('advancedAssembler', 'advanced', 0, 0, {…
+     39|     expect(productionPortRow(node, 'output', 0)).toMatchObject({ name:…
+       |                                                  ^
+     40|     expect(productionPortRow(node, 'output', 1)).toMatchObject({ name:…
+     41|     expect(getPortAnchor(node, 'output', 0).y).not.toBe(getPortAnchor(…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/46]⎯
+
+ FAIL  src/renderer/productionVisuals.test.ts > production animation and bottleneck cues > keeps committed batches moving after ingredients were consumed and identifies a waste backup
+AssertionError: expected { working: false, …(3) } to match object { working: false, …(1) }
+(2 matching properties omitted from actual)
+
+- Expected
++ Received
+
+  {
+    "blockedOutputs": [
+-     1,
++     0,
+    ],
+    "working": false,
+  }
+
+ ❯ src/renderer/productionVisuals.test.ts:52:18
+     50|     node.recipeId = 'refined-mithril';
+     51|     const idle = productionVisual(node, game, sector);
+     52|     expect(idle).toMatchObject({ working: false, blockedOutputs: [1] }…
+       |                  ^
+     53|     node.batch = { recipeId: node.recipeId, outputs: { 'refined-mithri…
+     54|     expect(productionVisual(node, game, sector)).toMatchObject({ worki…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/46]⎯
+
+ FAIL  src/simulation/cartUpgrades.test.ts > Cart, Truck and Train progression > uses upgrades [] for capacity 20 (Cart)
+AssertionError: expected 20 to be 3 // Object.is equality
+
+- Expected
++ Received
+
+- 3
++ 20
+
+ ❯ src/simulation/cartUpgrades.test.ts:82:30
+     80|     expect(cart).toMatchObject({ capacity, name });
+     81|     expect(Object.values(cart.input).reduce((n, q) => n + (q ?? 0), 0)…
+     82|     expect(cart.output.iron).toBe(3); // Capacity research does not sp…
+       |                              ^
+     83|     const restored = new GameEngine(normalizeLegacy(JSON.parse(JSON.st…
+     84|     expect(restored.getSector().nodes[1]).toEqual(cart);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/46]⎯
+
+ FAIL  src/simulation/cartUpgrades.test.ts > Cart, Truck and Train progression > uses upgrades ["trucks"] for capacity 40 (Truck)
+AssertionError: expected 40 to be 3 // Object.is equality
+
+- Expected
++ Received
+
+- 3
++ 40
+
+ ❯ src/simulation/cartUpgrades.test.ts:82:30
+     80|     expect(cart).toMatchObject({ capacity, name });
+     81|     expect(Object.values(cart.input).reduce((n, q) => n + (q ?? 0), 0)…
+     82|     expect(cart.output.iron).toBe(3); // Capacity research does not sp…
+       |                              ^
+     83|     const restored = new GameEngine(normalizeLegacy(JSON.parse(JSON.st…
+     84|     expect(restored.getSector().nodes[1]).toEqual(cart);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/46]⎯
+
+ FAIL  src/simulation/cartUpgrades.test.ts > Cart, Truck and Train progression > uses upgrades ["trucks","trains"] for capacity 80 (Train)
+AssertionError: expected 80 to be 3 // Object.is equality
+
+- Expected
++ Received
+
+- 3
++ 80
+
+ ❯ src/simulation/cartUpgrades.test.ts:82:30
+     80|     expect(cart).toMatchObject({ capacity, name });
+     81|     expect(Object.values(cart.input).reduce((n, q) => n + (q ?? 0), 0)…
+     82|     expect(cart.output.iron).toBe(3); // Capacity research does not sp…
+       |                              ^
+     83|     const restored = new GameEngine(normalizeLegacy(JSON.parse(JSON.st…
+     84|     expect(restored.getSector().nodes[1]).toEqual(cart);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/46]⎯
+
+ FAIL  src/simulation/devSource.test.ts > Dev Source > supplies growth, bots and Stone while Tree Planters run without inputs
+AssertionError: expected 1000 to be 996 // Object.is equality
+
+- Expected
++ Received
+
+- 996
++ 1000
+
+ ❯ src/simulation/devSource.test.ts:136:46
+    134|     expect(node('camp').suppressed).toBe(true);
+    135|     expect(node('hole').resourceRemaining).toBe(19);
+    136|     expect(node('forest').resourceRemaining).toBe(996);
+       |                                              ^
+    137|     advance(engine, 1);
+    138|     expect(node('planter').output['forest-growth']).toBeGreaterThan(0);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/46]⎯
+
+ FAIL  src/simulation/devSource.test.ts > Dev Source > retains ordinary compatibility checks for player production sources
+AssertionError: expected undefined to match object { title: 'Incompatible socket' }
+
+- Expected:
+{
+  "title": "Incompatible socket",
+}
+
++ Received:
+undefined
+
+ ❯ src/simulation/devSource.test.ts:165:65
+    163|     const { engine } = setup([machine('kiln', 'kiln', 1100, { recipeId…
+    164|     expect(engine.connect('kiln', 'planter')).toBe(false);
+    165|     expect(engine.getConnectionFailure('dev', 0, 'planter', 0)).toMatc…
+       |                                                                 ^
+    166|     expect(engine.connect('dev', 'planter')).toBe(false);
+    167|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/46]⎯
+
+ FAIL  src/simulation/engine.efficiency.test.ts > linear machine efficiency progression > applies recovery research after the Separator cycle upgrade
+AssertionError: expected {} to deeply equal { 'iron-plate': 1 }
+
+- Expected
++ Received
+
+- {
+-   "iron-plate": 1,
+- }
++ {}
+
+ ❯ src/simulation/engine.efficiency.test.ts:95:48
+     93|     expect(engine.getSector().nodes[0].output).toEqual({});
+     94|     engine.tick(1);
+     95|     expect(engine.getSector().nodes[0].output).toEqual(recipe.outputs);
+       |                                                ^
+     96|   });
+     97|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/46]⎯
+
+ FAIL  src/simulation/engine.progression.test.ts > six-tier gameplay progression > requires every paid prerequisite, not just a revealed schematic
+AssertionError: expected true to be false // Object.is equality
+
+- Expected
++ Received
+
+- false
++ true
+
+ ❯ src/simulation/engine.progression.test.ts:98:52
+     96|  it('requires every paid prerequisite, not just a revealed schematic',…
+     97|   const p=RESEARCH_PROJECTS.find(p=>p.id==='precisionControl')!;
+     98|   expect(isResearchAvailable(p,['oreSeparation'])).toBe(false);
+       |                                                    ^
+     99|   expect(isResearchAvailable(p,['oreSeparation','mineralRecovery'])).t…
+    100|   expect(isRecipeUnlocked('command-core',[])).toBe(false);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[10/46]⎯
+
+ FAIL  src/simulation/engine.progression.test.ts > six-tier gameplay progression > unlocks Slag recovery and handling on visiting Mythril without interrupting research
+AssertionError: expected [] to deeply equal ArrayContaining{…}
+
+- Expected
++ Received
+
+- ArrayContaining [
+-   "mithrilTools",
+-   "mineralRecovery",
+-   "sortingTools",
+- ]
++ []
+
+ ❯ src/simulation/engine.progression.test.ts:124:43
+    122|   tick(e,.1);expect(e.getState().research.completed).not.toContain('mi…
+    123|   e.switchSector(map.id);
+    124|   expect(e.getState().research.completed).toEqual(expect.arrayContaini…
+       |                                           ^
+    125|   expect(e.getState().research.selected).toBe('extractor1');expect(e.g…
+    126|   for(const id of ['slagwashing','recoveredbrick','recoverediron'])exp…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[11/46]⎯
+
+ FAIL  src/simulation/engine.progression.test.ts > six-tier gameplay progression > credits retained Mythril discovery on load and can recover Slag before Shiny access
+AssertionError: expected [ 'mithrilTools', 'lakeTools' ] to deeply equal ArrayContaining{…}
+
+- Expected
++ Received
+
+- ArrayContaining [
+-   "mineralRecovery",
+-   "sortingTools",
++ [
++   "mithrilTools",
++   "lakeTools",
+  ]
+
+ ❯ src/simulation/engine.progression.test.ts:132:43
+    130|  it('credits retained Mythril discovery on load and can recover Slag b…
+    131|   const e=setup([machine('hydroProcessor','wash',{recipeId:'slagwashin…
+    132|   expect(e.getState().research.completed).toEqual(expect.arrayContaini…
+       |                                           ^
+    133|   expect(e.getState().research.completed).not.toContain('oreSeparation…
+    134|   tick(e,12.1);expect(e.getSector().nodes[0].output).toEqual({'mineral…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[12/46]⎯
+
+ FAIL  src/simulation/engine.progression.test.ts > six-tier gameplay progression > gives waste a separate routable output and never accepts it on a product-only port
+AssertionError: expected undefined to be 2 // Object.is equality
+
+- Expected:
+2
+
++ Received:
+undefined
+
+ ❯ src/simulation/engine.progression.test.ts:201:105
+    199|  });
+    200|  it('gives waste a separate routable output and never accepts it on a …
+    201|   expect(WASTE_ITEMS).toContain('spent-flux');const r=RECIPES['refined…
+       |                                                                                                         ^
+    202|  });
+    203| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[13/46]⎯
+
+ FAIL  src/simulation/engine.routing.test.ts > indexed world routing > reserves shared input capacity for every launch in the same routing pass
+AssertionError: expected +0 to be 20 // Object.is equality
+
+- Expected
++ Received
+
+- 20
++ 0
+
+ ❯ src/simulation/engine.routing.test.ts:58:31
+     56|     expect(engine.getState().inFlightTransfers).toHaveLength(2);
+     57|     engine.tick(1000);
+     58|     expect(target.input.wood).toBe(20);
+       |                               ^
+     59|     expect(engine.getState().inFlightTransfers).toHaveLength(0);
+     60|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[14/46]⎯
+
+ FAIL  src/simulation/engine.routing.test.ts > indexed world routing > keeps transfer reservations separate when maps reuse node identifiers
+AssertionError: expected +0 to be 20 // Object.is equality
+
+- Expected
++ Received
+
+- 20
++ 0
+
+ ❯ src/simulation/engine.routing.test.ts:104:120
+    102|     expect(state.inFlightTransfers).toHaveLength(2);
+    103|     engine.tick(1000);
+    104|     for (const sector of Object.values(state.sectors)) expect(sector.n…
+       |                                                                                                                        ^
+    105|   });
+    106|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[15/46]⎯
+
+ FAIL  src/simulation/engine.routing.test.ts > indexed world routing > refreshes routing after deleting a cable, undoing, and replacing saved state
+AssertionError: expected +0 to be 1 // Object.is equality
+
+- Expected
++ Received
+
+- 1
++ 0
+
+ ❯ src/simulation/engine.routing.test.ts:117:81
+    115|     expect(engine.getState().inFlightTransfers).toHaveLength(0);
+    116|     engine.undo(); engine.tick(1000);
+    117|     expect(engine.getSector().nodes.find((n) => n.id === 'target')?.in…
+       |                                                                                 ^
+    118|     engine.replaceState(saved); engine.tick(1000); sector = engine.get…
+    119|     expect(sector.nodes.find((n) => n.id === 'target')?.input.wood).to…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[16/46]⎯
+
+ FAIL  src/simulation/engine.test.ts > simulation architecture > uses the source-game world-map tier resource rules
+AssertionError: expected +0 to be 0.6 // Object.is equality
+
+- Expected
++ Received
+
+- 0.6
++ 0
+
+ ❯ src/simulation/engine.test.ts:130:38
+    128|     expect(getMapNodeResourceCapacity(0, 0)).toBe(0);
+    129|     expect(getMythrilSpawnChance(3)).toBe(0);
+    130|     expect(getMythrilSpawnChance(4)).toBe(.6);
+       |                                      ^
+    131|     expect(getMythrilSpawnChance(9)).toBe(1);
+    132|     expect(getMythrilSpawnChance(10)).toBe(0);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[17/46]⎯
+
+ FAIL  src/simulation/engine.test.ts > simulation architecture > uses the original trigger requirements and keeps them out of manual research selection
+AssertionError: expected { …(11) } to deeply equal { joint: 'Connect two nodes', …(7) }
+
+- Expected
++ Received
+
+  {
+    "joint": "Connect two nodes",
+    "kiln": "Extract 1 Wood with an Extractor",
+    "merger": "Produce a Basic Core",
++   "mineralRecovery": "Complete Precision Control",
++   "mithrilTools": "Produce Mythril Tribute at a Dwarven settlement",
+    "refiner": "Produce at least 1 metal Plate",
+    "researchCenter": "Unlock the Refiner",
+    "smelter": "Extract 1 metal with an Extractor",
++   "sortingTools": "Complete Precision Control",
+    "splitter": "Build an Assembler",
+    "suppressionBot": "Encounter a Monster Camp",
+  }
+
+ ❯ src/simulation/engine.test.ts:652:33
+    650|   it('uses the original trigger requirements and keeps them out of man…
+    651|     const triggerRequirements = Object.fromEntries(RESEARCH_PROJECTS.f…
+    652|     expect(triggerRequirements).toEqual({
+       |                                 ^
+    653|       joint: 'Connect two nodes',
+    654|       kiln: 'Extract 1 Wood with an Extractor',
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[18/46]⎯
+
+ FAIL  src/simulation/engine.test.ts > simulation architecture > turns a completed Mining Drill into the selected 1,000-unit deposit
+AssertionError: expected 'iron' to be 'mythril' // Object.is equality
+
+Expected: "mythril"
+Received: "iron"
+
+ ❯ src/simulation/engine.test.ts:727:24
+    725|     engine.setMiningTarget(id, 'mythril');
+    726|     for (let index = 0; index < 20; index++) engine.tick(1000);
+    727|     expect(drill.kind).toBe('mythril');
+       |                        ^
+    728|     expect(drill.resourceItem).toBe('mythril');
+    729|     expect(drill.resourceRemaining).toBe(1000);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[19/46]⎯
+
+ FAIL  src/simulation/goblinTribute.test.ts > goblin tribute > customizes tribute, gates Mythril, and sacrifices other stored materials when changed
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ src/simulation/goblinTribute.test.ts:109:60
+    107|     reward.output = {};
+    108|     engine.getState().research.completed.push('mithrilTools');
+    109|     expect(engine.setGoblinTributeItem('camp', 'mythril')).toBe(true);
+       |                                                            ^
+    110|     advance(engine, 5);
+    111|     expect(reward.output).toEqual({ mythril: 5 });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[20/46]⎯
+
+ FAIL  src/simulation/lizardSettlements.test.ts > Dwarven settlements (legacy lizard save key) > uses the higher research-aligned suppression requirement at map tier 4
+AssertionError: expected 6 to be 24 // Object.is equality
+
+- Expected
++ Received
+
+- 24
++ 6
+
+ ❯ src/simulation/lizardSettlements.test.ts:62:36
+     60|     const engine = setup(tier);
+     61|     const node = camp(engine);
+     62|     expect(node.attackRequirement).toBe(ap);
+       |                                    ^
+     63|     expect(ap).toBeGreaterThan(getGoblinSettlementForMapTier(tier).att…
+     64|     expect(tributeAmount(node)).toBeGreaterThan(getGoblinSettlementFor…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[21/46]⎯
+
+ FAIL  src/simulation/lizardSettlements.test.ts > Dwarven settlements (legacy lizard save key) > uses the higher research-aligned suppression requirement at map tier 5
+AssertionError: expected 12 to be 40 // Object.is equality
+
+- Expected
++ Received
+
+- 40
++ 12
+
+ ❯ src/simulation/lizardSettlements.test.ts:62:36
+     60|     const engine = setup(tier);
+     61|     const node = camp(engine);
+     62|     expect(node.attackRequirement).toBe(ap);
+       |                                    ^
+     63|     expect(ap).toBeGreaterThan(getGoblinSettlementForMapTier(tier).att…
+     64|     expect(tributeAmount(node)).toBeGreaterThan(getGoblinSettlementFor…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[22/46]⎯
+
+ FAIL  src/simulation/lizardSettlements.test.ts > Dwarven settlements (legacy lizard save key) > uses the higher research-aligned suppression requirement at map tier 6
+AssertionError: expected 18 to be 60 // Object.is equality
+
+- Expected
++ Received
+
+- 60
++ 18
+
+ ❯ src/simulation/lizardSettlements.test.ts:62:36
+     60|     const engine = setup(tier);
+     61|     const node = camp(engine);
+     62|     expect(node.attackRequirement).toBe(ap);
+       |                                    ^
+     63|     expect(ap).toBeGreaterThan(getGoblinSettlementForMapTier(tier).att…
+     64|     expect(tributeAmount(node)).toBeGreaterThan(getGoblinSettlementFor…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[23/46]⎯
+
+ FAIL  src/simulation/lizardSettlements.test.ts > Dwarven settlements (legacy lizard save key) > uses the higher research-aligned suppression requirement at map tier 7
+AssertionError: expected 30 to be 80 // Object.is equality
+
+- Expected
++ Received
+
+- 80
++ 30
+
+ ❯ src/simulation/lizardSettlements.test.ts:62:36
+     60|     const engine = setup(tier);
+     61|     const node = camp(engine);
+     62|     expect(node.attackRequirement).toBe(ap);
+       |                                    ^
+     63|     expect(ap).toBeGreaterThan(getGoblinSettlementForMapTier(tier).att…
+     64|     expect(tributeAmount(node)).toBeGreaterThan(getGoblinSettlementFor…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[24/46]⎯
+
+ FAIL  src/simulation/lizardSettlements.test.ts > Dwarven settlements (legacy lizard save key) > uses the higher research-aligned suppression requirement at map tier 8
+AssertionError: expected 48 to be 120 // Object.is equality
+
+- Expected
++ Received
+
+- 120
++ 48
+
+ ❯ src/simulation/lizardSettlements.test.ts:62:36
+     60|     const engine = setup(tier);
+     61|     const node = camp(engine);
+     62|     expect(node.attackRequirement).toBe(ap);
+       |                                    ^
+     63|     expect(ap).toBeGreaterThan(getGoblinSettlementForMapTier(tier).att…
+     64|     expect(tributeAmount(node)).toBeGreaterThan(getGoblinSettlementFor…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[25/46]⎯
+
+ FAIL  src/simulation/lizardSettlements.test.ts > Dwarven settlements (legacy lizard save key) > uses the higher research-aligned suppression requirement at map tier 9
+AssertionError: expected 72 to be 160 // Object.is equality
+
+- Expected
++ Received
+
+- 160
++ 72
+
+ ❯ src/simulation/lizardSettlements.test.ts:62:36
+     60|     const engine = setup(tier);
+     61|     const node = camp(engine);
+     62|     expect(node.attackRequirement).toBe(ap);
+       |                                    ^
+     63|     expect(ap).toBeGreaterThan(getGoblinSettlementForMapTier(tier).att…
+     64|     expect(tributeAmount(node)).toBeGreaterThan(getGoblinSettlementFor…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[26/46]⎯
+
+ FAIL  src/simulation/lizardSettlements.test.ts > Dwarven settlements (legacy lizard save key) > offers Mythril tribute without a research gate and routes it directly without an Extractor
+AssertionError: expected 1 to be 20 // Object.is equality
+
+- Expected
++ Received
+
+- 20
++ 1
+
+ ❯ src/simulation/lizardSettlements.test.ts:96:72
+     94|     expect(engine.connect(tribute.id, receiver.id)).toBe(true);
+     95|     advance(engine, 8);
+     96|     expect((receiver.input[item] ?? 0) + (receiver.output[item] ?? 0))…
+       |                                                                        ^
+     97|     expect(engine.getSector().nodes.some(node => node.kind === 'extrac…
+     98|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[27/46]⎯
+
+ FAIL  src/simulation/lizardSettlements.test.ts > Dwarven settlements (legacy lizard save key) > preserves a 100-item Mythril stockpile and countdown through saves, then destroys it on a failed check
+AssertionError: expected 48 to be 100 // Object.is equality
+
+- Expected
++ Received
+
+- 100
++ 48
+
+ ❯ src/simulation/lizardSettlements.test.ts:107:44
+    105|     camp(engine).input['command-suppression-bot'] = 8;
+    106|     advance(engine, 70);
+    107|     expect(reward(engine)?.output.mythril).toBe(100);
+       |                                            ^
+    108|     expect(engine.getState().extracted?.mythril).toBe(100);
+    109|     const stockpileId = reward(engine)!.id;
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[28/46]⎯
+
+ FAIL  src/simulation/lizardSettlements.test.ts > Dwarven settlements (legacy lizard save key) > renames saved Lizard camps without changing IDs, countdowns, bots or existing tribute stock
+AssertionError: expected { water: 40, mythril: 5 } to deeply equal { water: 40, mythril: 40 }
+
+- Expected
++ Received
+
+  {
+-   "mythril": 40,
++   "mythril": 5,
+    "water": 40,
+  }
+
+ ❯ src/simulation/lizardSettlements.test.ts:150:36
+    148|     expect(reward(loaded)).toMatchObject({ id: 'old-tribute', name: 'T…
+    149|     advance(loaded, 5);
+    150|     expect(reward(loaded)?.output).toEqual({ water: 40, mythril: 40 });
+       |                                    ^
+    151|     expect(loaded.setGoblinTributeItem('old-tribute', 'copper')).toBe(…
+    152|     expect(reward(loaded)?.output).toEqual({});
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[29/46]⎯
+
+ FAIL  src/simulation/logisticsRouting.test.ts > continuous logistics routes > crosses a Joint, Filter, Splitter, and Merger in one transfer with no intermediate inventory
+AssertionError: expected +0 to be 1 // Object.is equality
+
+- Expected
++ Received
+
+- 1
++ 0
+
+ ❯ src/simulation/logisticsRouting.test.ts:47:31
+     45|     expect(transfer.arrivesAtMs - transfer.launchedAtMs).toBe(1000);
+     46|     engine.tick(1000);
+     47|     expect(target.input.wood).toBe(1);
+       |                               ^
+     48|     for (const router of routers) { expect(router.input).toEqual({}); …
+     49|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[30/46]⎯
+
+ FAIL  src/simulation/logisticsRouting.test.ts > continuous logistics routes > reserves final destination capacity across routes and refunds a transfer if any route leg is removed
+AssertionError: expected +0 to be 19 // Object.is equality
+
+- Expected
++ Received
+
+- 19
++ 0
+
+ ❯ src/simulation/logisticsRouting.test.ts:61:31
+     59|     expect(engine.getState().inFlightTransfers).toHaveLength(0);
+     60|     expect(source.output.wood).toBe(3);
+     61|     expect(target.input.wood).toBe(19);
+       |                               ^
+     62|   });
+     63|   it('skips full splitter routes through Joints, respects Filters, and…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[31/46]⎯
+
+ FAIL  src/simulation/logisticsRouting.test.ts > continuous logistics routes > skips full splitter routes through Joints, respects Filters, and avoids loops
+AssertionError: expected 0 to be greater than 0
+ ❯ src/simulation/logisticsRouting.test.ts:72:50
+     70|     engine.tick(400);
+     71|     expect(engine.getState().inFlightTransfers?.map(transfer => transf…
+     72|     engine.tick(1000); expect(target.input.wood).toBeGreaterThan(0);
+       |                                                  ^
+     73|     const isolated = fixture();
+     74|     const box = isolated.add('woodenChest', 'box', { output: { wood: 1…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[32/46]⎯
+
+ FAIL  src/simulation/logisticsRouting.test.ts > logistics editing and tutorial > keeps in-flight items and their clocks when inserting a Joint into their route
+AssertionError: expected +0 to be 1 // Object.is equality
+
+- Expected
++ Received
+
+- 1
++ 0
+
+ ❯ src/simulation/logisticsRouting.test.ts:120:50
+    118|     expect(after.id).toBe(before.id); expect(after.launchedAtMs).toBe(…
+    119|     expect(after.routeConnectionIds).toHaveLength(2); expect(engine.ge…
+    120|     engine.tick(1000); expect(target.input.wood).toBe(1);
+       |                                                  ^
+    121|   });
+    122|   it('removes logistics pausing and rotates Filter sockets through the…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[33/46]⎯
+
+ FAIL  src/simulation/playtest.regressions.test.ts > speedrun follow-up regressions > uses five-item production buffers and preserves excess contents in older saves
+AssertionError: expected { 'refined-mithril': 4 } to deeply equal { 'refined-mithril': 2, slag: 2 }
+
+- Expected
++ Received
+
+  {
+-   "refined-mithril": 2,
+-   "slag": 2,
++   "refined-mithril": 4,
+  }
+
+ ❯ src/simulation/playtest.regressions.test.ts:66:48
+     64|     engine.getSector().nodes[0].input['iron-plate'] = 5;
+     65|     for (let step = 0; step < 180; step++) engine.tick(100);
+     66|     expect(engine.getSector().nodes[0].output).toEqual({ 'refined-mith…
+       |                                                ^
+     67|     expect(engine.getSector().nodes[0].input['mythril-plate']).toBe(5);
+     68|     expect(engine.getSector().nodes[0].input['iron-plate']).toBe(5);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[34/46]⎯
+
+ FAIL  src/simulation/playtest.regressions.test.ts > speedrun follow-up regressions > keeps copper moving through a mixed splitter when its Mythril outlet is full
+AssertionError: expected +0 to be 12 // Object.is equality
+
+- Expected
++ Received
+
+- 12
++ 0
+
+ ❯ src/simulation/playtest.regressions.test.ts:105:121
+    103|     const open = nodes.find(n => n.id === 'open')!;
+    104|     const sink = nodes.find(n => n.id === 'sink')!;
+    105|     expect((open.input.copper ?? 0) + (open.output.copper ?? 0) + (sin…
+       |                                                                                                                         ^
+    106|     expect(nodes.reduce((total, n) => total + (n.input.mythril ?? 0) +…
+    107|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[35/46]⎯
+
+ FAIL  src/simulation/playtest.regressions.test.ts > speedrun follow-up regressions > matches the original Mythril tier probabilities without the tier-two exception
+AssertionError: expected +0 to be 0.6 // Object.is equality
+
+- Expected
++ Received
+
+- 0.6
++ 0
+
+ ❯ src/simulation/playtest.regressions.test.ts:144:38
+    142|   it('matches the original Mythril tier probabilities without the tier…
+    143|     expect([0, 1, 2, 3, 10].map(getMythrilSpawnChance)).toEqual([0, 0,…
+    144|     expect(getMythrilSpawnChance(4)).toBe(.6);
+       |                                      ^
+    145|     expect(getMythrilSpawnChance(9)).toBe(1);
+    146|     for (let seed = 1; seed <= 30; seed++) expect(generateSector(7, 5,…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[36/46]⎯
+
+ FAIL  src/simulation/playtest.regressions.test.ts > speedrun follow-up regressions > rotates mixed chest transfers even when the first material keeps arriving
+AssertionError: expected 10 to be 2 // Object.is equality
+
+- Expected
++ Received
+
+- 2
++ 10
+
+ ❯ src/simulation/playtest.regressions.test.ts:195:33
+    193|     const engine = new GameEngine(state); const chest = engine.getSect…
+    194|     for (let step = 0; step < 80; step++) { engine.tick(100); chest.in…
+    195|     expect(chest.output.copper).toBe(2); expect(chest.output.iron).toB…
+       |                                 ^
+    196|   });
+    197|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[37/46]⎯
+
+ FAIL  src/simulation/powerRetirement.test.ts > Power retirement > runs both Tree Planter identifiers without Power and stops when output is full
+AssertionError: expected [ 'wood', 'iron-plate', 'stone' ] to deeply equal []
+
+- Expected
++ Received
+
+- []
++ [
++   "wood",
++   "iron-plate",
++   "stone",
++ ]
+
+ ❯ src/simulation/powerRetirement.test.ts:77:44
+     75|       const engine = new GameEngine(state, { autosave: false });
+     76|       const planter = engine.getSector().nodes[0];
+     77|       expect(NODE_DEFINITIONS[kind].input).toEqual([]);
+       |                                            ^
+     78|       expect(NODE_DEFINITIONS[kind].category).toBe('Production');
+     79|       expect(inputBufferRows(planter)).toEqual([]);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[38/46]⎯
+
+ FAIL  src/simulation/refinerMaterials.test.ts > explicit Refiner material recipes > hides Mythril recipes until an actual encounter and announces the new options once
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ src/simulation/refinerMaterials.test.ts:33:82
+
+     31|     recipes.forEach(id => expect(isRecipeUnlocked(id, state.research.c…
+     32|     engine.switchSector(sector.id);
+     33|     recipes.forEach(id => expect(isRecipeUnlocked(id, state.research.c…
+       |                                                                                  ^
+     34|     const announcements = state.researchLog!.filter(event => event.pro…
+     35|     expect(announcements).toHaveLength(1);
+ Test Files  17 failed | 52 passed | 1 skipped (70)
+      Tests  46 failed | 580 passed | 1 skipped (627)
+   Start at  23:31:12
+   Duration  4.37s (transform 49%, import 34%, tests 16%, worker 2%)
+
+    Isolate  70 workers spawned · ~376ms startup each (spawn + environment, per file)
+             at least ~769ms faster with isolate: false — reuses workers across files instead of one per file
+
+ ❯ src/simulation/refinerMaterials.test.ts:33:13
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[39/46]⎯
+
+ FAIL  src/simulation/refinerMaterials.test.ts > explicit Refiner material recipes > retains Mythril discovery from saved materials when old saves lack encounter history
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ src/simulation/refinerMaterials.test.ts:110:86
+    108|     const restored = new GameEngine(normalizeLegacy(JSON.parse(JSON.st…
+    109|     expect(restored.getState().encounters).toContain('mythril');
+    110|     expect(isRecipeUnlocked('mythril-wire', restored.getState().resear…
+       |                                                                                      ^
+    111|     expect(restored.getSector().nodes[0].input).toEqual({ 'mythril-pla…
+    112|     run(restored, 3000);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[40/46]⎯
+
+ FAIL  src/simulation/resourceGolems.test.ts > resource Golems > places one of each mineral in separate unobstructed tier six sectors for seed 1
+ FAIL  src/simulation/resourceGolems.test.ts > resource Golems > places one of each mineral in separate unobstructed tier six sectors for seed 37
+ FAIL  src/simulation/resourceGolems.test.ts > resource Golems > places one of each mineral in separate unobstructed tier six sectors for seed 98765
+ FAIL  src/simulation/resourceGolems.test.ts > resource Golems > places one of each mineral in separate unobstructed tier six sectors for seed 2147483647
+AssertionError: expected 20000 to be 10000 // Object.is equality
+
+- Expected
++ Received
+
+- 10000
++ 20000
+
+ ❯ src/simulation/resourceGolems.test.ts:37:30
+     35|         expect(golem.x).toBe(field.width / 2);
+     36|         expect(golem.y).toBe(field.height / 2);
+     37|         expect(golem.health).toBe(10000);
+       |                              ^
+     38|         expect(golem.golemOutputs).toEqual([golem.golemMineral]);
+     39|         expect(sector.nodes.some(node => ['monster-camp', 'big-hole', …
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[41/46]⎯
+
+ FAIL  src/simulation/resourceGolems.test.ts > resource Golems > turns a defeated mythril Golem into an endless reserve with four working star faces
+AssertionError: expected undefined to be 'mythril' // Object.is equality
+
+- Expected:
+"mythril"
+
++ Received:
+undefined
+
+ ❯ src/simulation/resourceGolems.test.ts:84:33
+     82|     source.input['command-suppression-bot'] = 500;
+     83|     advance(engine, .1);
+     84|     expect(source.resourceItem).toBe(item);
+       |                                 ^
+     85|     expect(source.name).toMatch(/^Infinite /);
+     86|     expect(getEffectiveNodeOutputFamilies(source)).toEqual([item, item…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[42/46]⎯
+
+ FAIL  src/simulation/roadMaterials.test.ts > single-material road connections > preserves legacy mixed stock, stops dispatch, and allows a Filter to drain it
+AssertionError: expected 2 to be +0 // Object.is equality
+
+- Expected
++ Received
+
+- 0
++ 2
+
+ ❯ src/simulation/roadMaterials.test.ts:177:36
+    175|     advance(engine, 10);
+    176|     expect(receiver.output.iron).toBe(2);
+    177|     expect(receiver.output.copper).toBe(0);
+       |                                    ^
+    178|     expect(engine.getSector().nodes.find(n => n.id === 'drain')!.outpu…
+    179|     const sourceNow = engine.getState().sectors['5,5'].nodes.find(n =>…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[43/46]⎯
+

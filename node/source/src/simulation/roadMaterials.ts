@@ -1,4 +1,4 @@
-import { ITEM_NAMES } from '../content/items';
+import { ITEM_NAMES, isFluidItem } from '../content/items';
 import { getNodeCapabilities, hasNodeBehavior } from '../content/nodeCapabilities';
 import { getEffectiveNodeInputFamilies, getEffectiveNodeOutputFamilies } from '../content/nodes';
 import { RECIPES } from '../content/recipes';
@@ -9,7 +9,7 @@ import { portFamilyAcceptsItem } from './connectionRules';
 const itemsIn = (bag: MachineNode['input']) => (Object.keys(bag) as ItemId[]).filter(item => (bag[item] ?? 0) > 0);
 const concrete = (family?: PortFamily): ItemId | undefined => family && family in ITEM_NAMES ? family as ItemId : family === 'POWER' ? 'power' : undefined;
 const shared = (node: MachineNode) => hasNodeBehavior(node.kind, 'buffer') || getNodeCapabilities(node.kind).passThrough;
-export const isRoadFluid = (item: ItemId) => ['water', 'coolant', 'conductive-slurry'].includes(item);
+export const isRoadFluid = isFluidItem;
 const key = (sector: SectorState, node: MachineNode) => `${sector.id}/${node.id}`;
 
 /** Infer material from wiring as well as stock, so empty buffers cannot hide a mixed feed. */

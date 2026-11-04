@@ -39,7 +39,7 @@ export function ResearchCard({ project, game, disabled, expanded, tutorialChoice
       onClick={() => onToggle(project.id)}
     >
       <span className="research-card-icon" aria-hidden="true">{view.complete ? '✓' : RESEARCH_GLYPHS[project.id] ?? '◇'}</span>
-      <small className="research-card-name">{project.name}</small>
+      <small className="research-card-name">{project.name}{project.repeatable && project.id!=='mapNode' ? ` · Level ${(game.research.repeatableCompletions?.[project.id]??0)+(view.complete?0:1)}` : ''}</small>
       <span className="research-card-status">{view.status}</span>
       {(view.section === 'available' || view.section === 'active') && <span className="research-card-cost">{view.costSummary}</span>}
     </button>

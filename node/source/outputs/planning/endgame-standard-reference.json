@@ -1,0 +1,3496 @@
+{
+  "date": "2026-11-03",
+  "status": "analysis; costing reference, planter research and Q87 Alpha/common-cost anchor adopted; remaining corner quantities open",
+  "assumptions": [
+    "ordinary ingredient recipes; no composite/optional swaps",
+    "intended Controller produces one guaranteed Fines; other standard waste removed",
+    "Mythril upkeep paid with Medium Bots; compare tier4 and tier9 sites",
+    "all replacement Wood supplied through adopted paid Tree Planters; natural regeneration ignored",
+    "gross harvested Wood includes forestry self-upkeep; raw Mythril flow remains separately visible",
+    "Complex Fines retained versus recycled are exclusive alternatives",
+    "extraction, transport, research capital and Golem amortization not modeled",
+    "Q80 adopts equal non-Water raw-unit weighting; Water-inclusive scores retained only as comparison"
+  ],
+  "results": [
+    {
+      "scenario": {
+        "id": "starter-camp-medium",
+        "apPerMinute": 6,
+        "mythrilPerMinute": 12
+      },
+      "foundryOneEach": {
+        "iron": 41.565543071161045,
+        "copper": 34.33333333333333,
+        "wood": 44.9438202247191,
+        "stone": 4.782771535580524,
+        "water": 10.333333333333332,
+        "mythril": 4
+      },
+      "grovePerRegeneration": {
+        "iron": 0.02247191011235955,
+        "copper": 0,
+        "wood": 0.12359550561797752,
+        "stone": 0.011235955056179775,
+        "water": 0,
+        "mythril": 0
+      },
+      "alphaPerAP": {
+        "medium": {
+          "iron": 11.535580524344569,
+          "copper": 6.666666666666667,
+          "wood": 10.112359550561797,
+          "stone": 0.7677902621722846,
+          "water": 2.6666666666666665,
+          "mythril": 0
+        },
+        "heavy": {
+          "iron": 12.801498127340825,
+          "copper": 9.208333333333334,
+          "wood": 12.991573033707866,
+          "stone": 0.7132490636704121,
+          "water": 2.9583333333333335,
+          "mythril": 0.625
+        },
+        "commandRetainFines": {
+          "iron": 17.378651685393258,
+          "copper": 14.05,
+          "wood": 18.93258426966292,
+          "stone": 0.8893258426966293,
+          "water": 5.55,
+          "mythril": 1.65
+        },
+        "commandRecycleFines": {
+          "iron": 17.277528089887642,
+          "copper": 14.05,
+          "wood": 18.876404494382022,
+          "stone": 0.8887640449438201,
+          "water": 5.6,
+          "mythril": 1.65
+        },
+        "small": {
+          "iron": 12.269662921348315,
+          "copper": 12,
+          "wood": 13.48314606741573,
+          "stone": 0.1348314606741573,
+          "water": 0,
+          "mythril": 0
+        }
+      }
+    },
+    {
+      "scenario": {
+        "id": "tier9-kingdom-medium",
+        "apPerMinute": 72,
+        "mythrilPerMinute": 288
+      },
+      "foundryOneEach": {
+        "iron": 30.029962546816478,
+        "copper": 27.666666666666664,
+        "wood": 34.831460674157306,
+        "stone": 4.01498127340824,
+        "water": 7.666666666666666,
+        "mythril": 4
+      },
+      "grovePerRegeneration": {
+        "iron": 0.02247191011235955,
+        "copper": 0,
+        "wood": 0.12359550561797752,
+        "stone": 0.011235955056179775,
+        "water": 0,
+        "mythril": 0
+      },
+      "alphaPerAP": {
+        "medium": {
+          "iron": 11.535580524344569,
+          "copper": 6.666666666666667,
+          "wood": 10.112359550561797,
+          "stone": 0.7677902621722846,
+          "water": 2.6666666666666665,
+          "mythril": 0
+        },
+        "heavy": {
+          "iron": 10.999063670411985,
+          "copper": 8.166666666666666,
+          "wood": 11.411516853932584,
+          "stone": 0.5932818352059925,
+          "water": 2.5416666666666665,
+          "mythril": 0.625
+        },
+        "commandRetainFines": {
+          "iron": 12.620224719101124,
+          "copper": 11.3,
+          "wood": 14.76123595505618,
+          "stone": 0.5726123595505618,
+          "water": 4.45,
+          "mythril": 1.65
+        },
+        "commandRecycleFines": {
+          "iron": 12.519101123595506,
+          "copper": 11.3,
+          "wood": 14.70505617977528,
+          "stone": 0.5720505617977528,
+          "water": 4.5,
+          "mythril": 1.65
+        },
+        "small": {
+          "iron": 12.269662921348315,
+          "copper": 12,
+          "wood": 13.48314606741573,
+          "stone": 0.1348314606741573,
+          "water": 0,
+          "mythril": 0
+        }
+      }
+    }
+  ],
+  "recoveryOpportunityPerWaste": {
+    "metallic-fines": {
+      "iron": 0.5056179775280899,
+      "copper": 0,
+      "wood": 0.2808988764044944,
+      "stone": 0.002808988764044944,
+      "water": -0.25,
+      "mythril": 0
+    },
+    "spent-flux": {
+      "iron": 0.25280898876404495,
+      "copper": 0,
+      "wood": 0.1404494382022472,
+      "stone": 0.001404494382022472,
+      "water": 0.25,
+      "mythril": 0
+    },
+    "glassy-crust": {
+      "iron": 0.005617977528089888,
+      "copper": 0.5,
+      "wood": 0.2808988764044944,
+      "stone": 0.002808988764044944,
+      "water": -0.25,
+      "mythril": 0
+    },
+    "slag": {
+      "iron": 0,
+      "copper": 0,
+      "wood": 0,
+      "stone": 0.25,
+      "water": -0.25,
+      "mythril": 0
+    }
+  },
+  "illustrative": [
+    {
+      "scenario": "starter-camp-medium",
+      "foundryOneEach": {
+        "waterSeparate": 129.62546816479397,
+        "allRawUnits": 139.95880149812731
+      },
+      "grovePerGrowth": 0.15730337078651685,
+      "alphaPerAP": {
+        "medium": 29.082397003745314,
+        "heavy": 36.33965355805243,
+        "commandRetainFines": 52.90056179775281,
+        "commandRecycleFines": 52.742696629213484,
+        "small": 37.8876404494382
+      }
+    },
+    {
+      "scenario": "tier9-kingdom-medium",
+      "foundryOneEach": {
+        "waterSeparate": 100.54307116104869,
+        "allRawUnits": 108.20973782771536
+      },
+      "grovePerGrowth": 0.15730337078651685,
+      "alphaPerAP": {
+        "medium": 29.082397003745314,
+        "heavy": 31.795529026217224,
+        "commandRetainFines": 40.90407303370787,
+        "commandRecycleFines": 40.746207865168536,
+        "small": 37.8876404494382
+      }
+    }
+  ],
+  "opportunityScores": {
+    "metallic-fines": {
+      "waterSeparate": 0.7893258426966292,
+      "allRawUnits": 0.5393258426966292
+    },
+    "spent-flux": {
+      "waterSeparate": 0.3946629213483146,
+      "allRawUnits": 0.6446629213483146
+    },
+    "glassy-crust": {
+      "waterSeparate": 0.7893258426966292,
+      "allRawUnits": 0.5393258426966292
+    },
+    "slag": {
+      "waterSeparate": 0.25,
+      "allRawUnits": 0
+    }
+  },
+  "checks": [
+    "standard Medium manufacturing anchor",
+    "four Controller Fines per standard Command Bot",
+    "planter raw upkeep expansion",
+    "net Wood balance residual below 1e-8",
+    "Small Bot ordinary raw bill independently expanded as 12 Iron, 12 Copper, 12 Wood; forestry net balance checked",
+    "Q81 ±10% bounds reproduce the illustrative 90,000–110,000 band; common target remains null"
+  ],
+  "scoring": {
+    "decision": "Q80",
+    "status": "adopted provisional first-pass metric",
+    "weights": {
+      "iron": 1,
+      "copper": 1,
+      "wood": 1,
+      "stone": 1,
+      "mythril": 1
+    },
+    "water": "reported separately",
+    "commonBudget": {
+      "decision": "Q87",
+      "referenceMaterialPoints": 290823.9700374531,
+      "referenceScenario": "tier9-kingdom-medium",
+      "alphaAP": 10000,
+      "band": {
+        "min": 261741.5730337078,
+        "max": 319906.3670411984
+      }
+    },
+    "tolerance": {
+      "decision": "Q81",
+      "fraction": 0.1,
+      "lowerMultiplier": 0.9,
+      "upperMultiplier": 1.1,
+      "scope": "each component around one common target under the same declared standard-recipe supply scenario"
+    }
+  },
+  "adoptedScoreResults": [
+    {
+      "scenario": "starter-camp-medium",
+      "foundryOneEach": 129.62546816479397,
+      "grovePerRegeneration": 0.15730337078651685,
+      "alphaPerAP": {
+        "medium": 29.082397003745314,
+        "heavy": 36.33965355805243,
+        "commandRetainFines": 52.90056179775281,
+        "commandRecycleFines": 52.742696629213484,
+        "small": 37.8876404494382
+      }
+    },
+    {
+      "scenario": "tier9-kingdom-medium",
+      "foundryOneEach": 100.54307116104869,
+      "grovePerRegeneration": 0.15730337078651685,
+      "alphaPerAP": {
+        "medium": 29.082397003745314,
+        "heavy": 31.795529026217224,
+        "commandRetainFines": 40.90407303370787,
+        "commandRecycleFines": 40.746207865168536,
+        "small": 37.8876404494382
+      }
+    }
+  ],
+  "referenceComparison": {
+    "status": "adopted primary calculation reference",
+    "alphaBot": "medium",
+    "starterFoundryPremiumFraction": 0.28925311976159396,
+    "decision": "Q82",
+    "primary": "tier9-kingdom-medium"
+  },
+  "alphaScaleIllustrations": [
+    {
+      "status": "hypothetical scale illustration; no AP threshold or quota adopted",
+      "alphaAP": 5000,
+      "referenceMaterialPoints": 145411.98501872655,
+      "band": {
+        "min": 130870.7865168539,
+        "max": 159953.1835205992
+      },
+      "mediumBotsFromEmpty": 1667,
+      "mediumSurplusAP": 1,
+      "commandBots": 250,
+      "foundryEqualInputEach": 1446.2655988079714,
+      "groveRegeneration": 924404.7619047617,
+      "groveDeliveryHoursWith100BasePlanters": 2.5677910052910047,
+      "finesForegoneRecoveryEquivalent": 184223.01304863577
+    },
+    {
+      "status": "hypothetical scale illustration; no AP threshold or quota adopted",
+      "alphaAP": 10000,
+      "referenceMaterialPoints": 290823.9700374531,
+      "band": {
+        "min": 261741.5730337078,
+        "max": 319906.3670411984
+      },
+      "mediumBotsFromEmpty": 3334,
+      "mediumSurplusAP": 2,
+      "commandBots": 500,
+      "foundryEqualInputEach": 2892.531197615943,
+      "groveRegeneration": 1848809.5238095233,
+      "groveDeliveryHoursWith100BasePlanters": 5.135582010582009,
+      "finesForegoneRecoveryEquivalent": 368446.02609727153
+    }
+  ],
+  "planterThroughputProposal": {
+    "question": "Q83",
+    "status": "adopted direction; runtime pending",
+    "availability": "Complex-era, before first final Core",
+    "direction": "substantial output increase; same materials per regeneration; proportional input demand",
+    "multiplier": 10,
+    "researchCost": {
+      "decision": "Q86",
+      "eachCoreThroughCommand": 100,
+      "totalPhysicalCores": 600,
+      "paidOnce": true,
+      "includesBothEffects": true
+    },
+    "deliveredRate": {
+      "basePerMinute": 600,
+      "withTreePlanter1PerMinute": 666.6666666666667,
+      "condition": "properly supplied and unblocked valid growth route; implementation pending"
+    },
+    "multiplierDecision": "Q84",
+    "transferDecision": "Q85"
+  },
+  "planterRateCandidates": [
+    {
+      "status": "unadopted alternative",
+      "multiplier": 5,
+      "baseGrowthPerMinute": 300,
+      "withTreePlanter1PerMinute": 333.33333333333337,
+      "baseDirectSupplyPerMinute": {
+        "wood": 30,
+        "ironPlate": 3,
+        "stone": 3,
+        "totalPhysicalItems": 36
+      },
+      "upgradedDirectSupplyPerMinute": {
+        "wood": 33.333333333333336,
+        "ironPlate": 3.333333333333334,
+        "stone": 3.333333333333334,
+        "totalPhysicalItems": 40
+      },
+      "currentOrdinarySingleRouteCeilingPerMinute": 150,
+      "requiresGrowthDeliveryUpgrade": true,
+      "hypothetical100PlanterGroveOnlyMinutes": 61.62698412698411
+    },
+    {
+      "status": "Q84 adopted target; runtime pending",
+      "multiplier": 10,
+      "baseGrowthPerMinute": 600,
+      "withTreePlanter1PerMinute": 666.6666666666667,
+      "baseDirectSupplyPerMinute": {
+        "wood": 60,
+        "ironPlate": 6,
+        "stone": 6,
+        "totalPhysicalItems": 72
+      },
+      "upgradedDirectSupplyPerMinute": {
+        "wood": 66.66666666666667,
+        "ironPlate": 6.666666666666668,
+        "stone": 6.666666666666668,
+        "totalPhysicalItems": 80
+      },
+      "currentOrdinarySingleRouteCeilingPerMinute": 150,
+      "requiresGrowthDeliveryUpgrade": true,
+      "hypothetical100PlanterGroveOnlyMinutes": 30.813492063492056
+    }
+  ],
+  "growthTransferProposal": {
+    "question": "Q85",
+    "status": "Q85 adopted mechanism; runtime pending",
+    "maximumUnitsPerDispatch": 10,
+    "launchCadenceMs": 400,
+    "travelMs": 1000,
+    "withinMap": true,
+    "serviceCeilingGrowthPerMinute": 1500,
+    "ordinaryMaterialAndRoadRates": "unchanged",
+    "partialGroups": true
+  },
+  "planterResearchPriceProposal": {
+    "question": "Q86",
+    "status": "Q86 adopted design price; runtime pending",
+    "cores": [
+      "simple-core",
+      "basic-core",
+      "automata-core",
+      "hydro-core",
+      "shiny-core",
+      "command-core"
+    ],
+    "recommendedEach": 100,
+    "alternativeEach": 200,
+    "sharedEffects": [
+      "tenfold output",
+      "up-to-ten-unit within-map growth transfers"
+    ],
+    "finalCoreRequired": false,
+    "adoptedEach": 100,
+    "totalPhysicalCores": 600
+  },
+  "alphaAnchorProposal": {
+    "question": "Q87",
+    "status": "Q87 adopted starting design anchor; runtime/pacing validation pending",
+    "recommendedAP": 10000,
+    "alternativesAP": [
+      5000,
+      20000
+    ],
+    "referenceMaterialTarget": 290823.9700374531,
+    "band": {
+      "min": 261741.5730337078,
+      "max": 319906.3670411984
+    },
+    "illustrativeFoundryEach": 2900,
+    "illustrativeFoundryScore": 291574.90636704117,
+    "illustrativeGroveGrowth": 1850000,
+    "illustrativeGroveScore": 291011.23595505615,
+    "illustrativeGroveMinutesWith100TenfoldPlanters": 30.833333333333332,
+    "adoptedAP": 10000,
+    "inputBufferCapacityBots": 100
+  },
+  "foundryBatchProposal": {
+    "question": "Q88",
+    "status": "Q88 recipe/yield and Q142 immediate atomic completion adopted; implemented locally November 4, 2026",
+    "inputs": {
+      "ceramic-electrode": 3000,
+      "sealed-frame": 3000,
+      "mythril-gear": 3000
+    },
+    "outputComponents": 1,
+    "totalDeliveredParts": 9000,
+    "referenceRawBasket": {
+      "iron": 90089.88764044944,
+      "copper": 83000,
+      "wood": 104494.38202247192,
+      "stone": 12044.943820224718,
+      "water": 23000,
+      "mythril": 12000
+    },
+    "referenceMaterialPoints": 301629.2134831461,
+    "deviationFraction": 0.03715389568576977,
+    "craftCycleMs": 0,
+    "atomicInputStorageRequiredIfSelected": 9000,
+    "adopted": true,
+    "processingQuestion": "Q142",
+    "inputCapacityPerIngredient": {
+      "ceramic-electrode": 3000,
+      "sealed-frame": 3000,
+      "mythril-gear": 3000
+    },
+    "totalInputCapacity": 9000,
+    "runtimeImplemented": true,
+    "runtimeImplementationDocument": "docs/master-plan/20-endgame-implementation.md"
+  },
+  "groveQuotaProposal": {
+    "question": "Q89",
+    "status": "adopted modified quantity/yield; runtime pending",
+    "growthPerComponent": 2000000,
+    "outputComponents": 1,
+    "fundingBatches": 20000,
+    "directFunding": {
+      "wood": 200000,
+      "ironPlate": 20000,
+      "stone": 20000
+    },
+    "referenceRawBasket": {
+      "iron": 44943.8202247191,
+      "copper": 0,
+      "wood": 247191.01123595505,
+      "stone": 22471.91011235955,
+      "water": 0,
+      "mythril": 0
+    },
+    "referenceMaterialPoints": 314606.74157303374,
+    "deviationFraction": 0.08177720540888633,
+    "hypothetical100TenfoldPlanterMinutes": 33.333333333333336,
+    "withTreePlanter1Minutes": 29.999999999999996,
+    "singleGroupedRouteMinimumMinutes": 1333.3333333333333
+  },
+  "groveQuotaEarlierProposal": {
+    "question": "Q89",
+    "status": "unadopted earlier proposal; Q89 user chose 2,000,000 instead",
+    "growthPerComponent": 1850000,
+    "outputComponents": 1,
+    "fundingBatches": 18500,
+    "directFunding": {
+      "wood": 185000,
+      "ironPlate": 18500,
+      "stone": 18500
+    },
+    "referenceRawBasket": {
+      "iron": 41573.033707865165,
+      "copper": 0,
+      "wood": 228651.68539325843,
+      "stone": 20786.516853932582,
+      "water": 0,
+      "mythril": 0
+    },
+    "referenceMaterialPoints": 291011.2359550562,
+    "deviationFraction": 0.0006439150032200303,
+    "hypothetical100TenfoldPlanterMinutes": 30.833333333333332,
+    "withTreePlanter1Minutes": 27.749999999999996,
+    "singleGroupedRouteMinimumMinutes": 1233.3333333333333
+  },
+  "groveIntakeProposal": {
+    "question": "Q90",
+    "status": "Q90 adopted topology; runtime pending",
+    "topology": "multiple direct incoming growth connections",
+    "perRouteLimits": "preserved",
+    "additionalAggregateRateCap": false,
+    "alternative": "separate fixed root-intake nodes",
+    "bufferCapacity": 100,
+    "progressAndFullBoxRules": "pause acceptance and consumption; preserve progress and all stock; resume when space returns"
+  },
+  "groveCycleProposal": {
+    "question": "Q91",
+    "status": "Q91 adopted cycle; runtime pending",
+    "threshold": 2000000,
+    "outputPerThreshold": 1,
+    "timeout": null,
+    "extraRewardDelayMs": 0,
+    "surplus": "carry",
+    "whenComponentBoxFull": "pause acceptance and consumption; preserve progress and all stock; resume when space returns",
+    "componentBoxCapacity": 10,
+    "inputBufferCapacity": 100
+  },
+  "cornerOutputCapacityProposal": {
+    "question": "Q92",
+    "status": "Q92 adopted capacity; runtime pending",
+    "recommendedPerBox": 10,
+    "alternativePerBox": 100,
+    "boxes": [
+      "alpha",
+      "foundry",
+      "reclamation",
+      "grove"
+    ],
+    "sharedPool": false,
+    "totalIfRecommended": 40,
+    "settlementAndInputCapacities": "separate",
+    "adoptedPerBox": 10,
+    "totalWorldwide": 40
+  },
+  "reclamationValuationProposal": {
+    "question": "Q93",
+    "status": "Q93 provisional recycling-value reference; final calibration deferred pending representative factory waste",
+    "recommendedBasis": "foregone local recovery material value; shared manufacturing counted once; useful-product demand and actual throughput checked",
+    "alternativeBasis": "explicit joint manufacturing-cost allocation between product and waste",
+    "singleTypeAnalyticalEquivalents": {
+      "metallic-fines": 368446.02609727153,
+      "spent-flux": 736892.0521945431,
+      "glassy-crust": 368446.02609727153,
+      "slag": 1163295.8801498124
+    },
+    "numericMeterCredits": {
+      "metallic-fines": 0.0000027141017385705094,
+      "spent-flux": 0.0000013570508692852547,
+      "glassy-crust": 0.0000027141017385705094,
+      "slag": 8.596265292981328e-7
+    },
+    "meterThreshold": 1,
+    "calibrationBasis": "representative measured waste flow and reviewed component cadence; compare existing and deliberate waste lines",
+    "parityConstraint": "retained for review; report conflicts with empirical flow/cadence",
+    "inputBufferCapacityWasteItems": 100,
+    "temporaryRuntimeBalanceAuthorized": true,
+    "calibrationStillRequiresMeasuredWasteFlow": true
+  },
+  "intermediateRecycling": {
+    "request": "Q93; specified Q94",
+    "status": "Q94 adopted direction/rule; runtime and details pending",
+    "machine": "dedicated Production Recycler (working name)",
+    "research": {
+      "name": "Recycling",
+      "prerequisite": "hydraulicAssembly",
+      "costs": {
+        "simple-core": 10,
+        "basic-core": 10,
+        "automata-core": 10,
+        "hydro-core": 10
+      },
+      "totalPhysicalCores": 40,
+      "includesNodeAndAdoptedCoverage": true
+    },
+    "input": "star/ANY; automatic handling by supplied item",
+    "basicResourceOutput": 0,
+    "intermediateReturn": "per input item, at most one unit of each qualifying solid basic resource",
+    "output": "one mixed stream of solid raw resources requiring filtering",
+    "constituentDefinition": "fixed standard manufacturing recipe chain; include fuel; exclude fluids; deduplicate solid raw types",
+    "cycleMs": 2000,
+    "bufferCapacity": {
+      "inputItemsTotal": 10,
+      "outputItemsTotal": 10
+    },
+    "otherGoodsEligibility": null,
+    "fractionalCostProposal": {
+      "question": "Q95",
+      "status": "Q95 batching proposal rejected; per-item cap reaffirmed; no source recipe changes adopted",
+      "recommended": "small fixed recycling batches where necessary",
+      "alternatives": [
+        "revise source recipes while keeping one-item recovery",
+        "retain one-item recovery despite material gains"
+      ],
+      "verifiedExample": {
+        "rawMythrilPerPlate": 2,
+        "compositePlates": 1,
+        "compositeGearOutput": 4,
+        "rawMythrilPerGear": 0.5,
+        "perItemRecoveryIfApplied": 1,
+        "proposedGearBatch": 2,
+        "proposedMythrilReturn": 1
+      }
+    },
+    "fluidOutputRule": {
+      "decision": "Q94A",
+      "status": "adopted restriction; runtime pending",
+      "fluidsReturned": false,
+      "fluidContent": "not returned as fluid",
+      "inputEligibility": "pending classification under existing star/ANY direction"
+    },
+    "maximumPerResourcePerInputItem": 1,
+    "complexityScaling": false,
+    "fuelConstituentProposal": {
+      "question": "Q96",
+      "status": "adopted inclusion; runtime pending",
+      "includeUpstreamSolidFuel": true,
+      "motorReturns": {
+        "iron": 1,
+        "copper": 1,
+        "wood": 1
+      },
+      "deduplicateResourceTypes": true
+    },
+    "compositionBasisProposal": {
+      "question": "Q97",
+      "status": "Q97 adopted fixed standard manufacturing basis",
+      "recommended": "one fixed entry from designated standard manufacturing recipes",
+      "alternative": "actual production-path constituents retained through transport/storage",
+      "standardGearExample": {
+        "mythril": 1,
+        "wood": 1
+      },
+      "actualCompositeGearExample": {
+        "mythril": 1,
+        "wood": 1,
+        "copper": 1
+      }
+    },
+    "compositionReference": {
+      "json": "outputs/planning/recycler-standard-contents.json",
+      "readable": "outputs/planning/recycler-standard-contents.md",
+      "primaryEntries": 40,
+      "inputEligibility": "Q101 adopted for forty mapped current goods"
+    },
+    "cycleProposal": {
+      "question": "Q98",
+      "status": "Q98 adopted two-second cycle; runtime pending",
+      "recommendedMs": 2000,
+      "alternativeMs": 1000,
+      "baseInputsPerMinute": 30,
+      "currentMaxOutputTypes": 5,
+      "worstOfferedOutputsPerMinute": 150,
+      "ordinaryOutputServiceCeilingPerMinute": 150,
+      "motorOutputsPerMinute": 90
+    },
+    "inputEligibilityProposal": {
+      "question": "Q101",
+      "status": "Q101 adopted current recipe-made goods including Cores/bots",
+      "recommended": "current recipe-made goods including research Cores and bots",
+      "alternative": "intermediate parts only",
+      "tablePrimaryProducts": 40,
+      "coreTypes": 6,
+      "botTypes": 4,
+      "spentResearchContributions": "not physical stock and not recyclable"
+    },
+    "acceptedCurrentCraftedInputs": [
+      "charcoal",
+      "iron-plate",
+      "copper-plate",
+      "mythril-plate",
+      "iron-gear",
+      "copper-gear",
+      "mythril-gear",
+      "iron-wire",
+      "copper-wire",
+      "mythril-wire",
+      "brick",
+      "simple-core",
+      "motor",
+      "circuit-a",
+      "basic-core",
+      "automata-core",
+      "simple-robot-frame",
+      "simple-robot-gun",
+      "suppression-bot",
+      "coolant",
+      "conductive-slurry",
+      "hydraulic-actuator",
+      "hydro-core",
+      "refined-mithril",
+      "shiny-core",
+      "precision-controller",
+      "advanced-actuator",
+      "command-core",
+      "ceramic-electrode",
+      "mithril-mesh",
+      "logic-substrate",
+      "sealed-frame",
+      "cooled-gun",
+      "medium-suppression-bot",
+      "mithril-frame",
+      "focused-gun",
+      "heavy-suppression-bot",
+      "servo-frame",
+      "pulse-cannon",
+      "command-suppression-bot"
+    ],
+    "researchUnlockProposal": {
+      "question": "Q103",
+      "status": "Q103 adopted gate/price; runtime pending",
+      "prerequisite": "hydraulicAssembly",
+      "cores": [
+        "simple-core",
+        "basic-core",
+        "automata-core",
+        "hydro-core"
+      ],
+      "recommendedEach": 10,
+      "totalRecommended": 40,
+      "alternativeEach": 20,
+      "totalAlternative": 80
+    },
+    "wasteInputProposal": {
+      "question": "Q104",
+      "status": "Q104 adopted rejection",
+      "wasteItems": [
+        "metallic-fines",
+        "spent-flux",
+        "glassy-crust",
+        "slag"
+      ],
+      "recommended": "reject; use dedicated recovery/reclamation",
+      "alternative": "consume with zero output at two seconds/item"
+    },
+    "rejectedWasteInputs": [
+      "metallic-fines",
+      "spent-flux",
+      "glassy-crust",
+      "slag"
+    ],
+    "bufferProposal": {
+      "question": "Q105",
+      "status": "Q105 adopted capacity/FIFO/commit rules; runtime pending",
+      "inputItemsTotal": 10,
+      "outputItemsTotal": 10,
+      "inputOrder": "arrival FIFO",
+      "outputOrder": "complete item return sets FIFO; iron/copper/wood/stone/mythril within each set",
+      "commit": "consume one input and add full return set together when space permits",
+      "whenBlocked": "pause and preserve input/output/progress",
+      "zeroOutput": "needs no return space but cannot overtake queue head",
+      "inputWhileBlocked": "accept only up to input capacity"
+    }
+  },
+  "expansionRescueDesign": {
+    "request": "Q98 extension",
+    "status": "user-requested direction; detailed rules/runtime pending",
+    "namedResources": [
+      "iron",
+      "copper",
+      "stone"
+    ],
+    "trigger": "proven next-Map-Node impossibility from resource depletion",
+    "requirements": [
+      "maintain player-accessible remaining-resource budget",
+      "large escalating congratulations modals",
+      "unlock matching Golem map and shortest route from explored maps",
+      "achievement for four distinct resource rescues"
+    ],
+    "currentGolems": [
+      "iron",
+      "copper",
+      "stone",
+      "mythril"
+    ],
+    "woodRosterProposal": {
+      "question": "Q99",
+      "status": "Q102 canceled Wood Golem addition",
+      "addWoodGolem": false,
+      "retainMythril": true,
+      "originalAchievementResources": [
+        "wood",
+        "iron",
+        "copper",
+        "stone"
+      ]
+    },
+    "openRecoveryRules": [
+      "renewable Wood and feasibility horizon",
+      "paid contributions and intermediate/stock/recipe feasibility",
+      "available Map Points and route unlock accounting",
+      "target-specific access/clearance integration and extraction readiness"
+    ],
+    "draftAchievementId": "destructive-testing",
+    "document": "docs/master-plan/14-expansion-solvability-and-golem-rescue.md",
+    "targetGolemActivation": {
+      "decision": "Q98B",
+      "status": "adopted requirement; runtime pending",
+      "completeTargetAccess": true,
+      "completeTargetAP": true,
+      "convertToInfiniteReserve": true,
+      "chargePlayerBots": false,
+      "chargePlayerMaterials": false,
+      "ordinaryGolems": "normal requirements preserved",
+      "unrelatedGlobalResearchGrant": "not assumed",
+      "extractionReadiness": "verify after integration"
+    },
+    "plannedGolems": [
+      "iron",
+      "copper",
+      "stone",
+      "mythril"
+    ],
+    "achievementResources": [
+      "iron",
+      "copper",
+      "stone"
+    ],
+    "woodTriggerProposal": {
+      "decision": "Q100A",
+      "status": "Wood excluded from emergency rescues",
+      "passiveRegrowthCounted": true,
+      "forestRuleChanged": false,
+      "woodGolem": "canceled by Q102"
+    },
+    "originalNamedResources": [
+      "wood",
+      "iron",
+      "copper",
+      "stone"
+    ],
+    "emergencyResourceCandidates": [
+      "iron",
+      "copper",
+      "stone"
+    ],
+    "previousAchievementResources": [
+      "wood",
+      "iron",
+      "copper",
+      "stone"
+    ],
+    "achievementScopeProposal": {
+      "question": "Q102",
+      "status": "Q102 resolved by removing Wood; remaining three named rescues",
+      "recommendedResources": [
+        "iron",
+        "copper",
+        "stone"
+      ],
+      "recommendedDistinctRescues": 3,
+      "alternative": "rework achievement requirement"
+    },
+    "achievementDistinctRescuesRequired": 3,
+    "modalStages": 3,
+    "multipleDeficitProposal": {
+      "question": "Q106",
+      "status": "Q106 adopted one-at-a-time policy; runtime pending",
+      "recommended": "one rescue then re-prove feasibility",
+      "selection": "fewest additional map unlocks to deficient-resource Golem",
+      "ties": [
+        "iron",
+        "copper",
+        "stone"
+      ],
+      "nextModal": "after prior dismissed and fresh proof",
+      "alternative": "all initial deficits at once",
+      "evaluateAt": "stable completed state updates"
+    },
+    "budgetDisplayProposal": {
+      "decision": "Q107",
+      "status": "adopted internal-only clarification",
+      "playerBudgetVisible": false,
+      "playerSolverDiagnostics": false,
+      "liveCalculation": "internal, independent of open UI",
+      "rescueOutcomeModal": true,
+      "normalResearchCostProgress": "separate existing UI"
+    }
+  },
+  "finalCoreRecipeProposal": {
+    "question": "Q109",
+    "status": "Q109 seeded structure, regular Assemblers and automatic unlock adopted; Q110 unit counts and Q111 base cycles adopted; runtime pending",
+    "historicalDirectRecipe": {
+      "question": "Q108",
+      "inputs": {
+        "alpha": 1,
+        "foundryComponent": 1,
+        "reclamationComponent": 1,
+        "groveComponent": 1
+      },
+      "outputFinalCores": 1,
+      "status": "direct structure replaced by Q109; one-of-each net input bill confirmed by Q110"
+    },
+    "componentTypes": [
+      "alpha",
+      "foundryComponent",
+      "reclamationComponent",
+      "groveComponent"
+    ],
+    "pairing": {
+      "rule": "Seeded disjoint partition into two pairs; all four types appear once",
+      "validUnorderedPartitions": [
+        [
+          [
+            "alpha",
+            "foundryComponent"
+          ],
+          [
+            "reclamationComponent",
+            "groveComponent"
+          ]
+        ],
+        [
+          [
+            "alpha",
+            "reclamationComponent"
+          ],
+          [
+            "foundryComponent",
+            "groveComponent"
+          ]
+        ],
+        [
+          [
+            "alpha",
+            "groveComponent"
+          ],
+          [
+            "foundryComponent",
+            "reclamationComponent"
+          ]
+        ]
+      ],
+      "persistResolvedMapping": true,
+      "independentOfCornerPlacement": true,
+      "rerollOnLoad": false
+    },
+    "intermediates": [
+      {
+        "workingName": "Core Half A",
+        "pairedInputUnitCount": 1,
+        "outputCount": 1,
+        "baseCycleMs": 10000
+      },
+      {
+        "workingName": "Core Half B",
+        "pairedInputUnitCount": 1,
+        "outputCount": 1,
+        "baseCycleMs": 10000
+      }
+    ],
+    "finalRecipe": {
+      "inputs": {
+        "coreHalfA": 1,
+        "coreHalfB": 1
+      },
+      "outputFinalCores": 1,
+      "additionalIngredients": [],
+      "baseCycleMs": 30000
+    },
+    "machine": "regular two-input Assembler for all three recipes",
+    "cycleMs": {
+      "coreHalfA": 10000,
+      "coreHalfB": 10000,
+      "finalCore": 30000
+    },
+    "unlock": {
+      "trigger": "first acquisition of any corner component, including award into its accessible Tribute box",
+      "recipesUnlockedTogether": 3,
+      "paidResearchRequired": false,
+      "persistentAfterSpending": true,
+      "discoveryAloneQualifies": false
+    },
+    "worldIsolation": "world-specific recipe resolution shared by UI/simulation/save; do not mutate global recipe registry",
+    "globalTransportAvailability": "after first Final Core production, research payment still required",
+    "endgameTheoryAssemblyGate": false,
+    "victoryUse": {
+      "question": "Q112",
+      "status": "adopted; runtime pending",
+      "project": "one-time victory research; final name open",
+      "cost": {
+        "finalCore": 1
+      },
+      "additionalIngredients": [],
+      "availableAfter": "first Final Core production",
+      "requiresExplicitSelection": true,
+      "consumptionCadence": "ordinary Research Center researched cadence",
+      "trigger": "project completion",
+      "continue": "same world",
+      "globalTransportAvailabilityUnchanged": true
+    },
+    "quantityClarification": {
+      "question": "Q110",
+      "status": "adopted option 1",
+      "pairedInputUnitCount": 1,
+      "scope": "units of each paired corner component per intermediate"
+    },
+    "document": "docs/master-plan/15-final-core-victory-and-postgame.md",
+    "netCornerInputsPerFinalCore": {
+      "alpha": 1,
+      "foundryComponent": 1,
+      "reclamationComponent": 1,
+      "groveComponent": 1
+    },
+    "timingProposal": {
+      "question": "Q111",
+      "status": "Q111 adopted option 1; runtime pending",
+      "baseHalfCycleMs": 10000,
+      "baseFinalCoreCycleMs": 30000,
+      "efficiency": "ordinary Assembler rules",
+      "alternative": {
+        "baseHalfCycleMs": 30000,
+        "baseFinalCoreCycleMs": 60000,
+        "status": "not selected"
+      }
+    },
+    "theoreticalBaseCapacityPerMinute": {
+      "perHalfAssembler": 6,
+      "perFinalCoreAssembler": 2,
+      "scope": "continuous supply, no blockage; machine capacity only, not measured corner-network throughput"
+    },
+    "victoryProposal": {
+      "question": "Q112",
+      "status": "Q112 adopted option 1 with user-defined glowing modal brief; runtime pending",
+      "mechanism": "one-time explicitly selected Research Center project",
+      "availableAfter": "first Final Core production",
+      "cost": {
+        "finalCore": 1
+      },
+      "additionalIngredients": [],
+      "consumptionCadence": "ordinary Research Center researched cadence",
+      "victoryTrigger": "project completion, not arrival or production alone",
+      "continue": "same world and ongoing factory",
+      "globalTransportGateUnchanged": true,
+      "alternative": "research enables a separate player-activated finale; form/cost would need review",
+      "alternativeStatus": "not selected"
+    },
+    "victoryPresentation": {
+      "question": "Q112",
+      "status": "requested brief adopted; finished draft copy and standalone preview authored; runtime pending",
+      "document": "docs/master-plan/16-victory-modal.md",
+      "preview": "outputs/planning/victory-modal-preview.html",
+      "verification": "outputs/planning/victory-modal-preview-checks.json",
+      "title": "Victory. Somehow.",
+      "eyebrow": "FINAL CORE ACCEPTED",
+      "subtitle": "All four corners. One Final Core. A remarkably indirect way to finish a to-do list.",
+      "paragraphs": [
+        "I've now asked you to do everything I wanted this game to offer: tame the corners, connect the world, and persuade a very large factory to cooperate. I hope you had fun along the way. Thank you for playing.",
+        "If you didn't, you're welcome to mod NODE until it's actually fun. I've done the difficult part: leaving room for improvement.",
+        "Still need more? Perhaps visit a planet. Or two. Launch a few rockets. I'm told this is how small factory projects remain small.",
+        "Alternatively, sign up with a very large company, travel to a perfectly good planet, and extract its resources. There will probably be a form confirming how satisfied you are."
+      ],
+      "continuationNote": "Your factory and progress are preserved. Keep building, keep improving, or just watch it work.",
+      "primaryAction": "Continue playing",
+      "buttonSubtext": "Optimization is now a personal problem.",
+      "appearance": "charcoal and steel, warm gold glow, faceted Final Core, four orbit points, slow halo with reduced-motion alternative",
+      "persistentAcknowledgement": true,
+      "repeatOnLaterResearch": false,
+      "moddingInvitationIsImplementedModSupport": false,
+      "userReview": {
+        "status": "deferred until later",
+        "approvalOfDraftOrRenderedPresentation": false
+      }
+    },
+    "postgameOptimizationProposal": {
+      "question": "Q113",
+      "status": "Q113 resolved with user-defined world-reshaping portfolio; generic speed/yield benefits not adopted",
+      "recommended": "faster Production-node cycles with unchanged recipe quantities",
+      "alternative": "material-saving or higher-yield production benefit",
+      "scopeAndPrices": null,
+      "globalStorageInventoryAllowanceTrack": "separate, already adopted direction",
+      "reviewStatus": "four requested research tracks adopted; movement scope and numbers pending",
+      "inventoryDocument": "docs/master-plan/15-final-core-victory-and-postgame.md",
+      "replacedByDocument": "docs/master-plan/17-endgame-research-and-world-reshaping.md"
+    }
+  },
+  "endgameResearchPortfolio": {
+    "question": "Q113",
+    "status": "seven endgame research directions adopted; integration and numbers open; runtime pending",
+    "document": "docs/master-plan/17-endgame-research-and-world-reshaping.md",
+    "era": "Final-Core endgame; exact Core bill and availability relative to first production/victory open",
+    "tracks": [
+      {
+        "workingName": "Resource Relocation",
+        "purchase": "one-time",
+        "effect": "resource nodes become movable",
+        "price": {
+          "question": "Q134",
+          "status": "adopted option 1; runtime pending",
+          "requiredCoreNames": [
+            "Simple Core",
+            "Basic Core",
+            "Automata Core",
+            "Hydro Core",
+            "Shiny Core",
+            "Complex Core",
+            "Final Core"
+          ],
+          "amountEachCore": 1,
+          "totalPhysicalCores": 7,
+          "globalOneTimePurchase": true
+        },
+        "targetCoverage": "Forests, ordinary valid mineral deposits and cleared-Golem reserves including infinite reserves",
+        "maximumPurchases": 1,
+        "extraMaterialCostPerEligibleMove": 0,
+        "sameMapOnly": true,
+        "availability": {
+          "question": "Q135",
+          "status": "adopted option 1; runtime pending",
+          "requiresVictoryResearchCompleted": true,
+          "requiredResearchIds": [],
+          "placedFeatureRequired": false,
+          "requiresVictoryNoticeAcknowledgement": false,
+          "eachProjectStillRequiresItsOwnPurchase": true,
+          "globalTransportFirstProductionGateUnchanged": true
+        },
+        "eligibility": {
+          "question": "Q136",
+          "status": "adopted option 1; runtime pending",
+          "includes": [
+            "Forests",
+            "ordinary valid mineral deposits",
+            "cleared-Golem mineral reserves including infinite reserves"
+          ],
+          "excludes": [
+            "Lakes, which have their own project",
+            "living or undefeated Golems",
+            "Deep Holes",
+            "monster camps",
+            "unique corner challenges"
+          ],
+          "preserve": [
+            "node identity",
+            "resource type",
+            "remaining quantity/capacity",
+            "regeneration progress",
+            "infinite status",
+            "defeated-Golem history"
+          ],
+          "sameMapOnly": true,
+          "createFreshMythrilSources": false,
+          "restoreWoodGolem": false
+        }
+      },
+      {
+        "workingName": "Efficient Landfill",
+        "purchase": "repeatable",
+        "increasingResearchCost": true,
+        "effect": "reduce Stone needed to fill Deep Holes",
+        "price": {
+          "question": "Q125",
+          "status": "Q125 adopted option 1; runtime pending",
+          "baseAmountPerRequiredCore": 1,
+          "requiredCoreNames": [
+            "Simple Core",
+            "Basic Core",
+            "Automata Core",
+            "Hydro Core",
+            "Shiny Core",
+            "Complex Core",
+            "Final Core"
+          ],
+          "formula": "ceil(1.5^(rank - 1)) of each required Core",
+          "amountsRanks12345": [
+            1,
+            2,
+            3,
+            4,
+            6
+          ],
+          "totalPhysicalCoresRanks12345": [
+            7,
+            14,
+            21,
+            28,
+            42
+          ],
+          "synchronizedSevenCoreConsumption": true
+        },
+        "costGrowth": 1.5,
+        "reductionPerRank": 0.2,
+        "minimumStone": 1,
+        "partialProgressPolicy": {
+          "question": "Q124",
+          "status": "adopted option 1; runtime pending",
+          "formula": "max(0, max(1, ceil(originalBase * (4/5)^rank)) - consumedStone)",
+          "creditAllConsumedStone": true,
+          "refundConsumedStone": false,
+          "whenSatisfied": "ready for normal clearing; no automatic removal",
+          "unusedBufferedOrInFlightIsNotConsumedFill": true,
+          "unusedStockPreserved": true,
+          "legacyHistoryMigrationPolicy": null
+        },
+        "formula": "max(1, ceil(originalStoneRequirement * (4/5)^rank))",
+        "availability": {
+          "question": "Q126",
+          "status": "adopted option 1; runtime pending",
+          "requiresVictoryResearchCompleted": true,
+          "requiredResearchIds": [],
+          "requiresVictoryNoticeAcknowledgement": false,
+          "explicitSelectionAndPaymentRequired": true,
+          "ordinaryHoleFillingAndClearingUnchanged": true,
+          "globalTransportFirstProductionGateUnchanged": true
+        },
+        "maximumRank": 45,
+        "maximumRankDecisionPending": false
+      },
+      {
+        "workingName": "Lake Relocation",
+        "purchase": "one-time",
+        "effect": "Lakes become movable",
+        "price": {
+          "question": "Q134",
+          "status": "adopted option 1; runtime pending",
+          "requiredCoreNames": [
+            "Simple Core",
+            "Basic Core",
+            "Automata Core",
+            "Hydro Core",
+            "Shiny Core",
+            "Complex Core",
+            "Final Core"
+          ],
+          "amountEachCore": 1,
+          "totalPhysicalCores": 7,
+          "globalOneTimePurchase": true
+        },
+        "maximumPurchases": 1,
+        "extraMaterialCostPerEligibleMove": 0,
+        "sameMapOnly": true,
+        "availability": {
+          "question": "Q135",
+          "status": "adopted option 1; runtime pending",
+          "requiresVictoryResearchCompleted": true,
+          "requiredResearchIds": [],
+          "placedFeatureRequired": false,
+          "requiresVictoryNoticeAcknowledgement": false,
+          "eachProjectStillRequiresItsOwnPurchase": true,
+          "globalTransportFirstProductionGateUnchanged": true
+        },
+        "targetCoverage": "Lakes; connected Intakes remain in place unless explicitly group-selected",
+        "movement": {
+          "question": "Q138",
+          "status": "adopted option 1; runtime pending",
+          "recommended": "move Lake alone; retain connected Intakes in place and preserve connections; allow explicit group selection",
+          "alternative": "automatically move Lake and all directly connected Intakes by equal displacement; reject entire move if any placement invalid",
+          "maximumConnectedIntakesUnchanged": 2,
+          "intakeProductionConnectionBased": true,
+          "noAutomaticDownstreamFactoryGrouping": true,
+          "preserve": [
+            "identity",
+            "Water stock",
+            "progress",
+            "connections",
+            "in-flight goods"
+          ],
+          "sameMapOnly": true,
+          "intakeCategory": "Production",
+          "sourceEvidence": [
+            "src/simulation/progression.ts",
+            "src/simulation/engine.ts"
+          ],
+          "selected": "move Lake alone; retain connected Intakes in place and preserve connections; allow explicit group selection",
+          "alternativeNotSelected": "automatically move Lake and all directly connected Intakes by equal displacement; reject entire move if any placement invalid",
+          "automaticallyMoveConnectedIntakes": false,
+          "explicitGroupSelectionAllowed": true,
+          "runtimeImplemented": false
+        }
+      },
+      {
+        "workingName": "Monster Camp Relocation",
+        "purchase": "one-time",
+        "effect": "monster camps become movable",
+        "price": {
+          "question": "Q134",
+          "status": "adopted option 1; runtime pending",
+          "requiredCoreNames": [
+            "Simple Core",
+            "Basic Core",
+            "Automata Core",
+            "Hydro Core",
+            "Shiny Core",
+            "Complex Core",
+            "Final Core"
+          ],
+          "amountEachCore": 1,
+          "totalPhysicalCores": 7,
+          "globalOneTimePurchase": true
+        },
+        "targetCoverage": "ordinary Goblin/Dwarven Camps, Villages and Kingdoms with linked Tribute boxes; exclude unique corners and living Golems",
+        "maximumPurchases": 1,
+        "extraMaterialCostPerEligibleMove": 0,
+        "sameMapOnly": true,
+        "availability": {
+          "question": "Q135",
+          "status": "adopted option 1; runtime pending",
+          "requiresVictoryResearchCompleted": true,
+          "requiredResearchIds": [],
+          "placedFeatureRequired": false,
+          "requiresVictoryNoticeAcknowledgement": false,
+          "eachProjectStillRequiresItsOwnPurchase": true,
+          "globalTransportFirstProductionGateUnchanged": true
+        },
+        "movement": {
+          "question": "Q137",
+          "status": "adopted option 1; runtime pending",
+          "ordinarySettlementFamilies": [
+            "Goblin",
+            "Dwarven"
+          ],
+          "settlementSizes": [
+            "Camp",
+            "Village",
+            "Kingdom"
+          ],
+          "recommended": "translate camp and linked Tribute box together by the same delta; reject entire move if either placement is invalid",
+          "alternative": "allow independent same-map repositioning of camp and linked Tribute box",
+          "noExistingBox": "move camp alone",
+          "preserve": [
+            "IDs and owner linkage",
+            "relative offset under coupled option",
+            "stock and capacity",
+            "suppression and AP credit",
+            "pressure/radius and timers",
+            "connections and in-flight goods"
+          ],
+          "noNewRewardsOrClockReset": true,
+          "uniqueCornersAndLivingGolemsExcluded": true,
+          "sourceEvidence": [
+            "src/simulation/goblinTribute.ts",
+            "src/simulation/campEffects.ts",
+            "src/simulation/engine.ts"
+          ],
+          "selected": "translate camp and linked Tribute box together by the same delta; reject entire move if either placement is invalid",
+          "alternativeNotSelected": "allow independent same-map repositioning of camp and linked Tribute box",
+          "relativeOffsetPreserved": true,
+          "invalidMemberRejectsWholeMove": true,
+          "initiatingEitherMemberKeepsGroup": true,
+          "translateEachMemberOnce": true,
+          "recomputeEncroachment": true,
+          "runtimeImplemented": false
+        }
+      },
+      {
+        "workingName": "Advanced Road Channels",
+        "purchase": "increasing-cost finite ranks",
+        "effect": "extend Road limit to four then five per map face",
+        "existingMaximum": 3,
+        "addedRankLimits": [
+          4,
+          5
+        ],
+        "maximumPerFace": 5,
+        "increasingResearchCost": true,
+        "sharedImportExportQuota": true,
+        "price": {
+          "question": "Q132",
+          "adoptedDate": "2026-11-04",
+          "status": "adopted option 1; runtime pending",
+          "requiredCoreNames": [
+            "Simple Core",
+            "Basic Core",
+            "Automata Core",
+            "Hydro Core",
+            "Shiny Core",
+            "Complex Core",
+            "Final Core"
+          ],
+          "baseAmountEach": 1,
+          "costGrowth": 1.5,
+          "formula": "ceil(1.5^(endgameLevel - 1)) each, for levels one/two only",
+          "amountsByEndgameLevel": [
+            1,
+            2
+          ],
+          "resultingSlotsPerFace": [
+            4,
+            5
+          ],
+          "totalPhysicalCoresByLevel": [
+            7,
+            14
+          ],
+          "cumulativePhysicalCoresBothLevels": 21,
+          "cumulativeAmountEachCoreBothLevels": 3,
+          "globalResearchPayment": true,
+          "maximumPaidLevels": 2
+        },
+        "costGrowth": 1.5,
+        "maximumCompletedEndgameLevels": 2,
+        "availability": {
+          "question": "Q133",
+          "status": "adopted option 1; runtime pending",
+          "requiresVictoryResearchCompleted": true,
+          "requiredResearchIds": [
+            "roadChannels2"
+          ],
+          "fifthSlotRequiresFourthLevelCompletion": true,
+          "ordinaryTrainsRequired": false,
+          "placedVehicleRequired": false,
+          "requiresVictoryNoticeAcknowledgement": false,
+          "previousRoadProgressionUnchanged": true,
+          "globalTransportFirstProductionGateUnchanged": true
+        }
+      },
+      {
+        "workingName": "Train Freight Capacity",
+        "purchase": "repeatable",
+        "increasingResearchCost": true,
+        "effect": "increase Train inventory and associated transfer quantities together",
+        "associatedVehicleResearchScaling": true,
+        "loadingUnloadingSupportRequired": true,
+        "price": {
+          "question": "Q129",
+          "status": "Q129 adopted option 1; runtime pending",
+          "baseAmountPerRequiredCore": 1,
+          "requiredCoreNames": [
+            "Simple Core",
+            "Basic Core",
+            "Automata Core",
+            "Hydro Core",
+            "Shiny Core",
+            "Complex Core",
+            "Final Core"
+          ],
+          "formula": "ceil(1.5^(rank - 1)) of each required Core",
+          "amountsRanks12345": [
+            1,
+            2,
+            3,
+            4,
+            6
+          ],
+          "totalPhysicalCoresRanks12345": [
+            7,
+            14,
+            21,
+            28,
+            42
+          ],
+          "synchronizedSevenCoreConsumption": true
+        },
+        "capacityGainPerRank": 20,
+        "payloadGainPerRank": 1,
+        "maximumRank": null,
+        "localBatchGainPerRank": 1,
+        "roadBatchGainPerRank": 1,
+        "capacityFormula": "80 + 20 * completedRank",
+        "batchFormula": "4 + completedRank",
+        "maximumRankDecisionPending": false,
+        "costGrowth": 1.5,
+        "usesFinalCores": true,
+        "availability": {
+          "question": "Q130",
+          "status": "adopted option 1; runtime pending",
+          "requiresVictoryResearchCompleted": true,
+          "requiredResearchIds": [
+            "trains"
+          ],
+          "placedVehicleRequired": false,
+          "requiresVictoryNoticeAcknowledgement": false,
+          "ordinaryVehicleProgressionUnchangedByThisGate": true,
+          "globalTransportFirstProductionGateUnchanged": true
+        },
+        "repeatableWithoutCap": true
+      },
+      {
+        "workingName": "Resource Regeneration",
+        "purchase": "repeatable",
+        "effect": "each completion increases passive resource-node regeneration, explicitly including Forests",
+        "includesForests": true,
+        "price": {
+          "question": "Q120",
+          "status": "adopted option 1; runtime pending",
+          "baseAmountPerRequiredCore": 1,
+          "requiredCoreNames": [
+            "Simple Core",
+            "Basic Core",
+            "Automata Core",
+            "Hydro Core",
+            "Shiny Core",
+            "Complex Core",
+            "Final Core"
+          ],
+          "formula": "ceil(1.5^(rank - 1)) of each required Core",
+          "amountsRanks12345": [
+            1,
+            2,
+            3,
+            4,
+            6
+          ],
+          "totalPhysicalCoresRanks12345": [
+            7,
+            14,
+            21,
+            28,
+            42
+          ],
+          "synchronizedSevenCoreConsumption": true
+        },
+        "bonusPerRank": 1,
+        "costGrowth": 1.5,
+        "maximumRank": null,
+        "integrationWithExistingMineralLine": "Q117 adopted separate Final-Core line alongside existing mineral projects",
+        "usesFinalCores": true,
+        "rateFormula": "ordinaryResearchedPassiveRate * (1 + endgameRank)",
+        "availability": {
+          "question": "Q121",
+          "status": "adopted option 1; runtime pending",
+          "requiresVictoryResearchCompleted": true,
+          "requiredResearchIds": [
+            "mineralRegeneration2"
+          ],
+          "ordinaryMineralRepeatableRanksRequired": 0,
+          "requiresVictoryNoticeAcknowledgement": false,
+          "subsequentRanksRequirePrecedingCompletion": true,
+          "globalTransportFirstProductionGateUnchanged": true
+        },
+        "maximumRankDecisionPending": false,
+        "repeatableWithoutCap": true
+      }
+    ],
+    "movementScope": {
+      "question": "Q114",
+      "status": "adopted option 1; runtime pending",
+      "allowed": "within the same map only",
+      "crossMapTransfer": false,
+      "preserveSectorIdentity": true
+    },
+    "preservationRequirements": [
+      "existing feature identity and quantities",
+      "finite/infinite status and regeneration",
+      "camp suppression/AP credit/timers and Tribute stock",
+      "connections/in-flight goods according to selected scope",
+      "no duplication, replenishment or repeat discovery reward"
+    ],
+    "candidates": [
+      {
+        "name": "Priority Overflow Routing",
+        "status": "deferred by Q144 until initial endgame playtesting; not adopted for implementation",
+        "benefit": "preferred destination plus fallback; particularly useful for filtered recycling/Reclamation streams"
+      },
+      {
+        "name": "Global Pool Item Capacity",
+        "status": "deferred by Q144 until initial endgame playtesting; not adopted for implementation",
+        "benefit": "higher shared-pool per-item storage ceiling"
+      },
+      {
+        "name": "Bulk Retrofitting",
+        "status": "deferred by Q144 until initial endgame playtesting; not adopted for implementation",
+        "benefit": "apply compatible recipe/filter settings to selected machines"
+      },
+      {
+        "name": "Factory Telemetry",
+        "status": "deferred by Q144 until initial endgame playtesting; not adopted for implementation",
+        "benefit": "world-scale production/demand and bottleneck views; basic warnings stay available"
+      },
+      {
+        "name": "Compact Installations",
+        "status": "deferred by Q144 until initial endgame playtesting; not adopted for implementation",
+        "benefit": "smaller eligible Production-node footprints"
+      },
+      {
+        "name": "Research Automation",
+        "status": "deferred by Q144 until initial endgame playtesting; not adopted for implementation",
+        "benefit": "repeat selected research to a target rank while respecting a Core reserve"
+      }
+    ],
+    "nextReview": null,
+    "questions": [
+      "Q113",
+      "Q114",
+      "Q115"
+    ],
+    "pendingTransportReviews": [],
+    "pendingReviews": []
+  },
+  "endgameTransportResearch": {
+    "question": "Q115",
+    "status": "Main recurring Train and advanced Road rules adopted; ordinary tier batches implemented in NODE-0297; new endgame lines remain unimplemented",
+    "document": "docs/master-plan/18-endgame-transport-research.md",
+    "baseline": {
+      "perFaceSlotProgression": [
+        1,
+        2,
+        3
+      ],
+      "vehicleCapacities": {
+        "cart": 20,
+        "truck": 40,
+        "train": 80
+      },
+      "roadItemsPerDispatch": 1,
+      "roadIntervalMs": 5000,
+      "roadHasOwnInventory": false,
+      "ordinaryLocalLaunchIntervalMs": 400,
+      "ordinaryLocalTravelDurationMs": 1000,
+      "captureStatus": "historical baseline before NODE-0297; see currentRuntimeStatus for current ordinary payloads"
+    },
+    "roadChannelExtension": {
+      "limits": [
+        4,
+        5
+      ],
+      "maximumPerFace": 5,
+      "increasingResearchCost": true,
+      "price": {
+        "question": "Q132",
+        "adoptedDate": "2026-11-04",
+        "status": "adopted option 1; runtime pending",
+        "requiredCoreNames": [
+          "Simple Core",
+          "Basic Core",
+          "Automata Core",
+          "Hydro Core",
+          "Shiny Core",
+          "Complex Core",
+          "Final Core"
+        ],
+        "baseAmountEach": 1,
+        "costGrowth": 1.5,
+        "formula": "ceil(1.5^(endgameLevel - 1)) each, for levels one/two only",
+        "amountsByEndgameLevel": [
+          1,
+          2
+        ],
+        "resultingSlotsPerFace": [
+          4,
+          5
+        ],
+        "totalPhysicalCoresByLevel": [
+          7,
+          14
+        ],
+        "cumulativePhysicalCoresBothLevels": 21,
+        "cumulativeAmountEachCoreBothLevels": 3,
+        "globalResearchPayment": true,
+        "maximumPaidLevels": 2
+      },
+      "importsExportsShareLimit": true,
+      "endgameLevels": 2,
+      "slotsByCompletedEndgameLevel": [
+        3,
+        4,
+        5
+      ],
+      "priceProposal": {
+        "question": "Q132",
+        "status": "Q132 adopted option 1; runtime pending",
+        "requiredCoreNames": [
+          "Simple Core",
+          "Basic Core",
+          "Automata Core",
+          "Hydro Core",
+          "Shiny Core",
+          "Complex Core",
+          "Final Core"
+        ],
+        "recommended": {
+          "baseAmountEach": 1,
+          "costGrowth": 1.5,
+          "fourthSlotEach": 1,
+          "fifthSlotEach": 2,
+          "totalPhysicalCores": [
+            7,
+            14
+          ]
+        },
+        "alternative": {
+          "baseAmountEach": 2,
+          "costGrowth": 1.5,
+          "fourthSlotEach": 2,
+          "fifthSlotEach": 3,
+          "totalPhysicalCores": [
+            14,
+            21
+          ]
+        },
+        "scope": "only two endgame slot levels; earlier Road-channel prices/access unchanged",
+        "selected": {
+          "baseAmountEach": 1,
+          "costGrowth": 1.5,
+          "fourthSlotEach": 1,
+          "fifthSlotEach": 2,
+          "totalPhysicalCores": [
+            7,
+            14
+          ]
+        },
+        "alternativeStatus": "not selected"
+      },
+      "costGrowth": 1.5,
+      "availabilityProposal": {
+        "question": "Q133",
+        "status": "Q133 adopted option 1; runtime pending",
+        "recommended": {
+          "milestone": "victory research completed",
+          "requiredResearchIds": [
+            "roadChannels2"
+          ]
+        },
+        "alternative": {
+          "milestone": "first Final Core produced",
+          "requiredResearchIds": [
+            "roadChannels2"
+          ]
+        },
+        "fifthSlotRequiresFourthLevelCompletion": true,
+        "ordinaryTrainsRequired": false,
+        "placedVehicleRequired": false,
+        "victoryNoticeAcknowledgementRequired": false,
+        "globalTransportFirstProductionGateUnchanged": true,
+        "selected": {
+          "milestone": "victory research completed",
+          "requiredResearchIds": [
+            "roadChannels2"
+          ]
+        },
+        "alternativeStatus": "not selected"
+      },
+      "availability": {
+        "question": "Q133",
+        "status": "adopted option 1; runtime pending",
+        "requiresVictoryResearchCompleted": true,
+        "requiredResearchIds": [
+          "roadChannels2"
+        ],
+        "fifthSlotRequiresFourthLevelCompletion": true,
+        "ordinaryTrainsRequired": false,
+        "placedVehicleRequired": false,
+        "requiresVictoryNoticeAcknowledgement": false,
+        "previousRoadProgressionUnchanged": true,
+        "globalTransportFirstProductionGateUnchanged": true
+      },
+      "mainResearchRulesAdopted": true
+    },
+    "trainResearch": {
+      "increasingCost": true,
+      "capacityAndTransferGainsTogether": true,
+      "includeAssociatedVehicleResearch": true,
+      "loadingUnloadingScaling": true,
+      "capacityGain": 20,
+      "price": {
+        "question": "Q129",
+        "status": "Q129 adopted option 1; runtime pending",
+        "baseAmountPerRequiredCore": 1,
+        "requiredCoreNames": [
+          "Simple Core",
+          "Basic Core",
+          "Automata Core",
+          "Hydro Core",
+          "Shiny Core",
+          "Complex Core",
+          "Final Core"
+        ],
+        "formula": "ceil(1.5^(rank - 1)) of each required Core",
+        "amountsRanks12345": [
+          1,
+          2,
+          3,
+          4,
+          6
+        ],
+        "totalPhysicalCoresRanks12345": [
+          7,
+          14,
+          21,
+          28,
+          42
+        ],
+        "synchronizedSevenCoreConsumption": true
+      },
+      "maximumRank": null,
+      "withinMapTransferIncreaseConfirmed": true,
+      "interMapPayloadIncrease": true,
+      "ordinaryLowerTierThroughputRequired": true,
+      "maximumRankDecisionPending": false,
+      "localBatchGainPerRank": 1,
+      "roadBatchGainPerRank": 1,
+      "capacityFormula": "80 + 20 * completedRank",
+      "batchFormula": "4 + completedRank",
+      "gainPolicy": {
+        "question": "Q128",
+        "status": "adopted",
+        "capacityPerRank": 20,
+        "localBatchPerRank": 1,
+        "roadBatchPerRank": 1,
+        "baseCapacity": 80,
+        "baseBatch": 4,
+        "localLaunchIntervalMs": 400,
+        "localTravelDurationMs": 1000,
+        "roadDispatchIntervalMs": 5000,
+        "offeredCapacityNotMeasuredThroughput": true
+      },
+      "costGrowth": 1.5,
+      "availabilityProposal": {
+        "question": "Q130",
+        "status": "Q130 adopted option 1; runtime pending",
+        "recommended": {
+          "milestone": "victory research completed",
+          "requiredResearchIds": [
+            "trains"
+          ]
+        },
+        "alternative": {
+          "milestone": "first Final Core produced",
+          "requiredResearchIds": [
+            "trains"
+          ]
+        },
+        "placedVehicleRequired": false,
+        "victoryNoticeAcknowledgementRequired": false,
+        "globalTransportFirstProductionGateUnchanged": true,
+        "selected": {
+          "milestone": "victory research completed",
+          "requiredResearchIds": [
+            "trains"
+          ]
+        },
+        "alternativeStatus": "not selected"
+      },
+      "status": "Main gain/price/victory-Trains prerequisite/uncapped-rank rules adopted; recurring implementation and balance pending",
+      "availability": {
+        "question": "Q130",
+        "status": "adopted option 1; runtime pending",
+        "requiresVictoryResearchCompleted": true,
+        "requiredResearchIds": [
+          "trains"
+        ],
+        "placedVehicleRequired": false,
+        "requiresVictoryNoticeAcknowledgement": false,
+        "ordinaryVehicleProgressionUnchangedByThisGate": true,
+        "globalTransportFirstProductionGateUnchanged": true
+      },
+      "rankLimitProposal": {
+        "question": "Q131",
+        "status": "Q131 adopted option 1; runtime pending",
+        "recommended": "no maximum rank",
+        "alternativeMaximumRank": 10,
+        "alternativeCapacity": 280,
+        "alternativeBatch": 14,
+        "alternativeTheoreticalLocalPerMinute": 2100,
+        "alternativeTheoreticalRoadPerMinute": 168,
+        "alternativeStatus": "not selected"
+      },
+      "repeatableWithoutCap": true,
+      "rankLimitPolicy": {
+        "question": "Q131",
+        "status": "adopted",
+        "unlimited": true,
+        "maximumRank": null
+      }
+    },
+    "payloadProposal": {
+      "question": "Q116",
+      "status": "Q116 resolved by Q116A: Road tier quantities and five-second interval adopted; later-rank formula open",
+      "recommended": {
+        "rule": "Cart/Truck/Train 1/2/4 per five-second Road dispatch; later repeatable-rank scaling remains open",
+        "cart": 1,
+        "truck": 2,
+        "train": 4
+      },
+      "alternative": {
+        "rule": "up to full available vehicle cargo, bounded by stock and receiving room",
+        "cart": 20,
+        "truck": 40,
+        "train": 80,
+        "status": "not selected"
+      },
+      "proposedIntervalMs": 5000,
+      "theoreticalItemsPerMinute": {
+        "recommendedTrainPerRoad": 48,
+        "recommendedFiveOutboundRoads": 240,
+        "fullLoadTrainPerRoad": 960,
+        "fullLoadFiveOutboundRoads": 4800
+      },
+      "scope": "unconstrained arithmetic only; endpoint/load-unload policy, partial batches, rank gains and sustained rates remain to finalize",
+      "historicalProportionalFormula": "max(1, floor(vehicleCapacity / 20)) items per dispatch; future capacity steps must increase both effects",
+      "formulaForLaterRanksAdopted": false
+    },
+    "genericLogisticsSortingDelayAdded": false,
+    "fluidOrGrowthUpgradeAdopted": false,
+    "scopeClarification": {
+      "question": "Q116A",
+      "userStatement": "Within a map node yes",
+      "withinMapTransfers": true,
+      "interMapPayloads": true,
+      "numericalChoice": "Q116A option 1: Road 1/2/4 every five seconds; resolves Q116",
+      "status": "local and inter-map increases confirmed; both tier quantities adopted",
+      "numericalChoiceScope": "inter-map Road payload remains unselected; Q118 local amounts are adopted separately",
+      "localNumericalChoice": "Q118 option 1: Cart 1, Truck 2, Train 4"
+    },
+    "lowerTierThroughputRequirement": {
+      "status": "explicitly adopted; runtime pending",
+      "scope": "within-map loading/unloading and actual transfer throughput",
+      "progression": [
+        "Cart baseline",
+        "Truck strictly higher than Cart",
+        "Train strictly higher than Truck"
+      ],
+      "unlockedBy": "ordinary corresponding vehicle research",
+      "requiresFinalCoreResearch": false,
+      "includesExistingNewAndCustomNamedVehicles": true,
+      "includesTemplatesAndAllMaps": true,
+      "largerBufferAloneSatisfiesRequirement": false
+    },
+    "localQuantitiesProposal": {
+      "question": "Q118",
+      "status": "Q118 ordinary tier implementation recorded locally in NODE-0297; sustainable balance unmeasured",
+      "cart": 1,
+      "truck": 2,
+      "train": 4,
+      "cadence": "existing ordinary connection cadence and travel",
+      "alternative": "defer exact quantities",
+      "roadQuantitiesAdoptedByThisProposal": false,
+      "launchIntervalMs": 400,
+      "travelDurationMs": 1000,
+      "theoreticalItemsPerMinute": {
+        "cart": 150,
+        "truck": 300,
+        "train": 600
+      },
+      "partialQuantitiesBoundedByStockAndRoom": true,
+      "alternativeStatus": "not selected"
+    },
+    "combinedRoadProposal": {
+      "questions": [
+        "Q116A",
+        "Q116"
+      ],
+      "status": "Q116A adopted option 1, also resolving Q116; runtime pending",
+      "recommended": {
+        "cart": 1,
+        "truck": 2,
+        "train": 4,
+        "intervalMs": 5000
+      },
+      "alternative": {
+        "allVehicleTiers": 1,
+        "intervalMs": 5000
+      },
+      "scope": "inter-map Road shipments only; Q118 local quantities unchanged",
+      "alternativeStatus": "not selected"
+    },
+    "roadTransferPolicy": {
+      "questions": [
+        "Q116A",
+        "Q116"
+      ],
+      "status": "Q116A/Q116 ordinary tier implementation recorded locally in NODE-0297; sustainable balance unmeasured",
+      "cart": 1,
+      "truck": 2,
+      "train": 4,
+      "intervalMs": 5000,
+      "theoreticalItemsPerMinute": {
+        "cart": 12,
+        "truck": 24,
+        "train": 48
+      },
+      "theoreticalFiveOutboundTrainRoadsPerMinute": 240,
+      "partialQuantitiesBoundedByStockAndRoom": true,
+      "sourceAndReceiverCompatibilityRequired": true,
+      "laterTrainRankGains": null,
+      "sharedDirectionalFaceLimit": 5
+    },
+    "trainRankGainProposal": {
+      "question": "Q128",
+      "status": "Q128 adopted option 1; runtime pending",
+      "baseCapacity": 80,
+      "baseLocalBatch": 4,
+      "baseRoadBatch": 4,
+      "recommended": {
+        "capacityPerRank": 20,
+        "localBatchPerRank": 1,
+        "roadBatchPerRank": 1,
+        "capacityRanks123": [
+          100,
+          120,
+          140
+        ],
+        "batchRanks123": [
+          5,
+          6,
+          7
+        ]
+      },
+      "alternative": {
+        "capacityPerRank": 40,
+        "localBatchPerRank": 2,
+        "roadBatchPerRank": 2,
+        "capacityRanks123": [
+          120,
+          160,
+          200
+        ],
+        "batchRanks123": [
+          6,
+          8,
+          10
+        ]
+      },
+      "localLaunchIntervalMs": 400,
+      "localTravelDurationMs": 1000,
+      "roadDispatchIntervalMs": 5000,
+      "offeredCapacityOnly": true,
+      "selected": {
+        "capacityPerRank": 20,
+        "localBatchPerRank": 1,
+        "roadBatchPerRank": 1,
+        "capacityRanks123": [
+          100,
+          120,
+          140
+        ],
+        "batchRanks123": [
+          5,
+          6,
+          7
+        ]
+      },
+      "alternativeStatus": "not selected"
+    },
+    "trainPriceProposal": {
+      "question": "Q129",
+      "status": "Q129 adopted option 1; runtime pending",
+      "recommended": {
+        "curve": "exponential",
+        "formula": "ceil(1.5^(rank - 1)) each",
+        "baseAmountEach": 1,
+        "costGrowth": 1.5,
+        "requiredCoreNames": [
+          "Simple Core",
+          "Basic Core",
+          "Automata Core",
+          "Hydro Core",
+          "Shiny Core",
+          "Complex Core",
+          "Final Core"
+        ],
+        "amountsRanks12345": [
+          1,
+          2,
+          3,
+          4,
+          6
+        ]
+      },
+      "alternative": {
+        "curve": "linear",
+        "formula": "rank of each Core type",
+        "requiredCoreNames": [
+          "Simple Core",
+          "Basic Core",
+          "Automata Core",
+          "Hydro Core",
+          "Shiny Core",
+          "Complex Core",
+          "Final Core"
+        ],
+        "amountsRanks12345": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
+      },
+      "scope": "Train research only; existing ordinary vehicle prices and other project caps/gates unchanged",
+      "selected": {
+        "curve": "exponential",
+        "formula": "ceil(1.5^(rank - 1)) each",
+        "baseAmountEach": 1,
+        "costGrowth": 1.5,
+        "requiredCoreNames": [
+          "Simple Core",
+          "Basic Core",
+          "Automata Core",
+          "Hydro Core",
+          "Shiny Core",
+          "Complex Core",
+          "Final Core"
+        ],
+        "amountsRanks12345": [
+          1,
+          2,
+          3,
+          4,
+          6
+        ]
+      },
+      "alternativeStatus": "not selected"
+    },
+    "currentRuntimeStatus": {
+      "implementationRecord": "NODE-0297",
+      "implementationDocument": "docs/master-plan/19-implementation-status.md",
+      "ordinaryVehicleLocalBatches": {
+        "cart": 1,
+        "truck": 2,
+        "train": 4
+      },
+      "ordinaryVehicleRoadBatches": {
+        "cart": 1,
+        "truck": 2,
+        "train": 4
+      },
+      "localLaunchIntervalMs": 400,
+      "localTravelDurationMs": 1000,
+      "roadDispatchIntervalMs": 5000,
+      "recurringTrainRanksImplemented": false,
+      "advancedRoadSlotsImplemented": false,
+      "verificationThisTurn": "source inspection; prior test/build evidence belongs to NODE-0297, not a new test run"
+    }
+  },
+  "resourceRegenerationResearch": {
+    "status": "Main line/rate/price/prerequisite/uncapped-rank rules adopted; runtime and balance validation pending",
+    "document": "docs/master-plan/17-endgame-research-and-world-reshaping.md",
+    "includesForests": true,
+    "baseline": {
+      "forestNaturalPeriodMs": 30000,
+      "mineralInitialPeriodMs": 30000,
+      "mineralAfterSecondUnlockPeriodMs": 15000,
+      "existingMineralRateBonusPerRank": 0.2,
+      "existingMineralRepeatableExcludesForests": true
+    },
+    "adoptedBenefit": "increasing passive resource regeneration per research completion",
+    "bonusPerRank": 1,
+    "price": {
+      "question": "Q120",
+      "status": "adopted option 1; runtime pending",
+      "baseAmountPerRequiredCore": 1,
+      "requiredCoreNames": [
+        "Simple Core",
+        "Basic Core",
+        "Automata Core",
+        "Hydro Core",
+        "Shiny Core",
+        "Complex Core",
+        "Final Core"
+      ],
+      "formula": "ceil(1.5^(rank - 1)) of each required Core",
+      "amountsRanks12345": [
+        1,
+        2,
+        3,
+        4,
+        6
+      ],
+      "totalPhysicalCoresRanks12345": [
+        7,
+        14,
+        21,
+        28,
+        42
+      ],
+      "synchronizedSevenCoreConsumption": true
+    },
+    "costGrowth": 1.5,
+    "maximumRank": null,
+    "integrationProposal": {
+      "question": "Q117",
+      "status": "Q117 adopted option 1; runtime pending",
+      "recommended": "new Final-Core research line alongside existing mineral research",
+      "alternative": "broaden existing mineral repeatable to Forests",
+      "stackingFormula": "current ordinary-researched passive rate * (1 + endgameRank)",
+      "selected": "new Final-Core line alongside existing mineral research",
+      "alternativeStatus": "not selected"
+    },
+    "existingCapacityLimitPreserved": true,
+    "treePlanterOrGroveDirectMultiplierAdopted": false,
+    "woodRescueOrWoodGolemRestored": false,
+    "usesFinalCores": true,
+    "preservesExistingMineralResearch": true,
+    "rankBonusProposal": {
+      "question": "Q119",
+      "status": "Q119 adopted option 1; runtime pending",
+      "recommendedAdditionPerRank": 1,
+      "alternativeAdditionPerRank": 0.5,
+      "formula": "current ordinary-researched passive rate * (1 + additionPerRank * endgameRank)",
+      "baseline": "recompute ordinary research effects, excluding this endgame line; no frozen snapshot",
+      "recommendedFactorsRanks123": [
+        2,
+        3,
+        4
+      ],
+      "alternativeFactorsRanks123": [
+        1.5,
+        2,
+        2.5
+      ],
+      "forestBaselinePerMinute": 2,
+      "recommendedForestPerMinuteRanks123": [
+        4,
+        6,
+        8
+      ],
+      "alternativeForestPerMinuteRanks123": [
+        3,
+        4,
+        5
+      ],
+      "treePlanterOrGroveDirectBoost": false,
+      "alternativeStatus": "not selected",
+      "forestPeriodsMsRanks123": [
+        15000,
+        10000,
+        7500
+      ]
+    },
+    "ratePolicy": {
+      "question": "Q119",
+      "status": "adopted",
+      "formula": "ordinaryResearchedPassiveRate * (1 + endgameRank)",
+      "baselineRecomputedFromCurrentOrdinaryResearch": true,
+      "compoundEndgameRanks": false,
+      "forestPerMinuteRanks0123": [
+        2,
+        4,
+        6,
+        8
+      ],
+      "capacityUnchanged": true,
+      "treePlanterAndGroveDirectOutputUnchanged": true
+    },
+    "priceProposal": {
+      "question": "Q120",
+      "status": "Q120 adopted option 1; runtime pending",
+      "baseAmountPerRequiredCore": 1,
+      "costGrowth": 1.5,
+      "rounding": "ceil(base * growth^(rank - 1)), independently from original base",
+      "amountsRanks12345": [
+        1,
+        2,
+        3,
+        4,
+        6
+      ],
+      "recommendedCurrency": "all seven Core types from Simple through Final",
+      "alternativeCurrency": "Final Cores only",
+      "recommendedTotalPhysicalCoresRanks12345": [
+        7,
+        14,
+        21,
+        28,
+        42
+      ],
+      "scope": "this regeneration line only; starting balance proposal, not measured payback",
+      "selectedCurrency": "all seven Core types from Simple through Final",
+      "alternativeStatus": "not selected"
+    },
+    "availabilityProposal": {
+      "question": "Q121",
+      "status": "Q121 adopted option 1; runtime pending",
+      "recommended": {
+        "milestone": "victory research completed",
+        "earlierResearch": "mineralRegeneration2"
+      },
+      "alternative": {
+        "milestone": "first Final Core produced",
+        "earlierResearch": "mineralRegeneration2"
+      },
+      "ordinaryMineralRepeatableRanksRequired": 0,
+      "preserveFirstProductionGlobalTransportAvailability": true,
+      "maximumRank": null,
+      "selected": {
+        "milestone": "victory research completed",
+        "earlierResearch": "mineralRegeneration2"
+      },
+      "alternativeStatus": "not selected"
+    },
+    "availability": {
+      "question": "Q121",
+      "status": "adopted option 1; runtime pending",
+      "requiresVictoryResearchCompleted": true,
+      "requiredResearchIds": [
+        "mineralRegeneration2"
+      ],
+      "ordinaryMineralRepeatableRanksRequired": 0,
+      "requiresVictoryNoticeAcknowledgement": false,
+      "subsequentRanksRequirePrecedingCompletion": true,
+      "globalTransportFirstProductionGateUnchanged": true
+    },
+    "rankLimitProposal": {
+      "question": "Q122",
+      "status": "Q122 adopted option 1; runtime pending",
+      "recommended": "no maximum rank",
+      "alternativeMaximumRank": 10,
+      "alternativeMaximumMultiplier": 11,
+      "alternativeForestPerMinute": 22,
+      "alternativeStatus": "not selected"
+    },
+    "maximumRankDecisionPending": false,
+    "repeatableWithoutCap": true,
+    "rankLimitPolicy": {
+      "question": "Q122",
+      "status": "adopted",
+      "maximumRank": null,
+      "unlimited": true
+    },
+    "runtimeImplemented": true,
+    "runtimeImplementationDocument": "docs/master-plan/20-endgame-implementation.md"
+  },
+  "efficientLandfillResearch": {
+    "status": "Main reduction/credit/price/access/rank-45 cap rules adopted; runtime, legacy and balance validation pending",
+    "document": "docs/master-plan/17-endgame-research-and-world-reshaping.md",
+    "increasingResearchCost": true,
+    "price": {
+      "question": "Q125",
+      "status": "Q125 adopted option 1; runtime pending",
+      "baseAmountPerRequiredCore": 1,
+      "requiredCoreNames": [
+        "Simple Core",
+        "Basic Core",
+        "Automata Core",
+        "Hydro Core",
+        "Shiny Core",
+        "Complex Core",
+        "Final Core"
+      ],
+      "formula": "ceil(1.5^(rank - 1)) of each required Core",
+      "amountsRanks12345": [
+        1,
+        2,
+        3,
+        4,
+        6
+      ],
+      "totalPhysicalCoresRanks12345": [
+        7,
+        14,
+        21,
+        28,
+        42
+      ],
+      "synchronizedSevenCoreConsumption": true
+    },
+    "costGrowth": 1.5,
+    "reductionPerRank": 0.2,
+    "minimumStone": 1,
+    "partialProgressPolicy": {
+      "question": "Q124",
+      "status": "adopted option 1; runtime pending",
+      "formula": "max(0, max(1, ceil(originalBase * (4/5)^rank)) - consumedStone)",
+      "creditAllConsumedStone": true,
+      "refundConsumedStone": false,
+      "whenSatisfied": "ready for normal clearing; no automatic removal",
+      "unusedBufferedOrInFlightIsNotConsumedFill": true,
+      "unusedStockPreserved": true,
+      "legacyHistoryMigrationPolicy": null
+    },
+    "maximumRank": 45,
+    "maximumRankDecisionPending": false,
+    "reductionProposal": {
+      "question": "Q123",
+      "status": "Q123 adopted option 2; runtime pending",
+      "scope": "discounted whole-hole total; Q124 credits all cumulative consumed fill",
+      "formula": "max(1, ceil(original Stone requirement * remainingFraction^rank))",
+      "proposedMinimumStone": 1,
+      "recommended": {
+        "discountPercentPerRank": 10,
+        "remainingNumerator": 9,
+        "remainingDenominator": 10,
+        "example250Ranks123": [
+          225,
+          203,
+          183
+        ]
+      },
+      "alternative": {
+        "discountPercentPerRank": 20,
+        "remainingNumerator": 8,
+        "remainingDenominator": 10,
+        "example250Ranks123": [
+          200,
+          160,
+          128
+        ]
+      },
+      "rounding": "ceil exact mathematical total from original base; avoid floating-point extra Stone",
+      "selectedOption": 2,
+      "selected": {
+        "discountPercentPerRank": 20,
+        "remainingNumerator": 8,
+        "remainingDenominator": 10,
+        "example250Ranks123": [
+          200,
+          160,
+          128
+        ]
+      },
+      "tenPercentAlternativeSelected": false
+    },
+    "remainingFractionPerRank": 0.8,
+    "effectPolicy": {
+      "question": "Q123",
+      "status": "adopted",
+      "formula": "max(1, ceil(originalStoneRequirement * (4/5)^rank))",
+      "remainingNumerator": 4,
+      "remainingDenominator": 5,
+      "minimumTotalStone": 1,
+      "roundFromOriginalRequirement": true,
+      "example250Ranks123": [
+        200,
+        160,
+        128
+      ],
+      "partialFillPolicyStillOpen": false
+    },
+    "partialProgressProposal": {
+      "question": "Q124",
+      "status": "Q124 adopted option 1; runtime pending",
+      "recommended": {
+        "rule": "recompute discounted whole-hole total, credit all consumed fill",
+        "formula": "max(0, discountedTotal - consumedStone)",
+        "refundConsumedStone": false,
+        "ifAlreadyPaid": "ready for normal clearing step; do not silently remove hole"
+      },
+      "alternative": {
+        "rule": "discount only the remaining unfilled balance at rank change"
+      },
+      "example": {
+        "originalBase": 250,
+        "consumedStone": 100,
+        "oldRemaining": 150,
+        "newRank": 1,
+        "newDiscountedTotal": 200,
+        "recommendedRemaining": 100,
+        "alternativeRemaining": 120
+      },
+      "unusedBufferOrInFlightIsNotConsumedFill": true,
+      "legacyOriginalBaseAndPaidHistoryPolicy": null,
+      "selected": {
+        "rule": "recompute discounted whole-hole total, credit all consumed fill",
+        "formula": "max(0, discountedTotal - consumedStone)",
+        "refundConsumedStone": false,
+        "ifAlreadyPaid": "ready for normal clearing step; do not silently remove hole"
+      },
+      "alternativeStatus": "not selected"
+    },
+    "priceProposal": {
+      "question": "Q125",
+      "status": "Q125 adopted option 1; runtime pending",
+      "recommended": {
+        "curve": "exponential",
+        "baseAmountEach": 1,
+        "costGrowth": 1.5,
+        "formula": "ceil(1.5^(rank - 1)) each",
+        "requiredCoreNames": [
+          "Simple Core",
+          "Basic Core",
+          "Automata Core",
+          "Hydro Core",
+          "Shiny Core",
+          "Complex Core",
+          "Final Core"
+        ],
+        "amountsRanks12345": [
+          1,
+          2,
+          3,
+          4,
+          6
+        ]
+      },
+      "alternative": {
+        "curve": "linear",
+        "formula": "rank of each Core type",
+        "requiredCoreNames": [
+          "Simple Core",
+          "Basic Core",
+          "Automata Core",
+          "Hydro Core",
+          "Shiny Core",
+          "Complex Core",
+          "Final Core"
+        ],
+        "amountsRanks12345": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
+      },
+      "scope": "Efficient Landfill price/currency adopted; availability/cap remain independent",
+      "selected": {
+        "curve": "exponential",
+        "baseAmountEach": 1,
+        "costGrowth": 1.5,
+        "formula": "ceil(1.5^(rank - 1)) each",
+        "requiredCoreNames": [
+          "Simple Core",
+          "Basic Core",
+          "Automata Core",
+          "Hydro Core",
+          "Shiny Core",
+          "Complex Core",
+          "Final Core"
+        ],
+        "amountsRanks12345": [
+          1,
+          2,
+          3,
+          4,
+          6
+        ]
+      },
+      "alternativeStatus": "not selected"
+    },
+    "availabilityProposal": {
+      "question": "Q126",
+      "status": "Q126 adopted option 1; runtime pending",
+      "recommendedMilestone": "victory research completed",
+      "alternativeMilestone": "first Final Core produced",
+      "additionalOrdinaryResearchPrerequisites": [],
+      "victoryNoticeAcknowledgementRequired": false,
+      "globalTransportFirstProductionGateUnchanged": true,
+      "selectedMilestone": "victory research completed",
+      "alternativeStatus": "not selected"
+    },
+    "availability": {
+      "question": "Q126",
+      "status": "adopted option 1; runtime pending",
+      "requiresVictoryResearchCompleted": true,
+      "requiredResearchIds": [],
+      "requiresVictoryNoticeAcknowledgement": false,
+      "explicitSelectionAndPaymentRequired": true,
+      "ordinaryHoleFillingAndClearingUnchanged": true,
+      "globalTransportFirstProductionGateUnchanged": true
+    },
+    "rankLimitProposal": {
+      "question": "Q127",
+      "status": "Q127 adopted option 1; runtime pending",
+      "recommendedMaximumRank": 45,
+      "basis": "last rank that can reduce the current normal-content maximum original hole requirement to one Stone",
+      "currentMaximumBase": 20000,
+      "currentMaximumSource": "src/simulation/worldGeneration.ts BIG_HOLE_MAX_STONE",
+      "maximumBaseCostAtRankBefore": 2,
+      "maximumBaseCostAtRank": 1,
+      "maximumBaseCostAtNextRank": 1,
+      "alternativeMaximumRank": 10,
+      "alternativeCostFor250": 27,
+      "alternativeCostForMaximumBase": 2148,
+      "scope": "content-bound ceiling, not a progression/pacing target; legacy/custom bases need review",
+      "alternativeStatus": "not selected"
+    },
+    "rankLimitPolicy": {
+      "question": "Q127",
+      "status": "adopted",
+      "maximumRank": 45,
+      "offerRank46": false,
+      "completedAtCap": true,
+      "currentNormalContentMaximumBase": 20000
+    },
+    "runtimeImplemented": true,
+    "runtimeImplementationDocument": "docs/master-plan/20-endgame-implementation.md"
+  },
+  "endgameRecurringResearchPresentation": {
+    "question": "Q127A",
+    "status": "user-defined adopted with Q127; future endgame integration pending",
+    "document": "docs/master-plan/05-interface-and-learning.md",
+    "oneEntryPerLine": true,
+    "stableProjectIdentityAcrossLevels": true,
+    "showOnlyCurrentPurchasableOrInProgressLevel": true,
+    "separateFutureLevelRows": false,
+    "separateCompletedLevelRows": false,
+    "advanceLevelAndCostOnlyAfterCompletion": true,
+    "preserveCurrentQuoteAndContributions": true,
+    "atCap": "one completed line at achieved maximum; no next purchase",
+    "uncapped": "same entry continues with next level and price",
+    "scope": [
+      "endgame regeneration",
+      "Efficient Landfill",
+      "Train capacity",
+      "global Storage/Inventory recurring placement and connection lines",
+      "finite advanced Road-channel sequence"
+    ],
+    "autoSelectOrPurchaseNextRank": false,
+    "unadoptedResearchAutomationGranted": false,
+    "example": {
+      "line": "Efficient Landfill",
+      "completedLevels": 2,
+      "shownLevel": 3,
+      "maximumLevel": 45,
+      "costEachCore": 3,
+      "afterCompletionShownLevel": 4,
+      "afterCompletionCostEachCore": 4
+    }
+  },
+  "relocationPricingProposal": {
+    "question": "Q134",
+    "status": "Q134 adopted option 1; runtime pending",
+    "projects": [
+      "Resource Relocation",
+      "Lake Relocation",
+      "Monster Camp Relocation"
+    ],
+    "requiredCoreNames": [
+      "Simple Core",
+      "Basic Core",
+      "Automata Core",
+      "Hydro Core",
+      "Shiny Core",
+      "Complex Core",
+      "Final Core"
+    ],
+    "separateOneTimeProjects": true,
+    "recommendedAmountEachCorePerProject": 1,
+    "alternativeAmountEachCorePerProject": 3,
+    "recommendedTotalPhysicalCoresPerProject": 7,
+    "alternativeTotalPhysicalCoresPerProject": 21,
+    "recommendedTotalPhysicalCoresAllThree": 21,
+    "alternativeTotalPhysicalCoresAllThree": 63,
+    "proposedExtraMaterialCostPerEligibleMove": 0,
+    "sameMapOnly": true,
+    "selectedAmountEachCorePerProject": 1,
+    "selectedTotalPhysicalCoresPerProject": 7,
+    "selectedTotalPhysicalCoresAllThree": 21,
+    "extraMaterialCostPerEligibleMove": 0,
+    "alternativeStatus": "not selected",
+    "availabilityAdopted": true,
+    "exactTargetHandlingStillOpen": true
+  },
+  "relocationResearchPolicy": {
+    "question": "Q134",
+    "status": "Prices, post-victory availability, same-map scope, resource eligibility, coupled camp/Tribute and Lake-only movement adopted; geometry/save integration and runtime pending",
+    "projects": [
+      "Resource Relocation",
+      "Lake Relocation",
+      "Monster Camp Relocation"
+    ],
+    "requiredCoreNames": [
+      "Simple Core",
+      "Basic Core",
+      "Automata Core",
+      "Hydro Core",
+      "Shiny Core",
+      "Complex Core",
+      "Final Core"
+    ],
+    "amountEachCorePerProject": 1,
+    "globalPurchasesPerProject": 1,
+    "separateProjects": true,
+    "extraMaterialCostPerEligibleMove": 0,
+    "sameMapOnly": true,
+    "featureStateMustBePreserved": true,
+    "availabilityProposal": {
+      "question": "Q135",
+      "status": "Q135 adopted option 1; runtime pending",
+      "recommendedMilestone": "victory research completed",
+      "alternativeMilestone": "first Final Core produced",
+      "additionalOrdinaryResearchPrerequisites": [],
+      "placedFeatureRequired": false,
+      "victoryNoticeAcknowledgementRequired": false,
+      "eachProjectStillRequiresItsOwnPurchase": true,
+      "globalTransportFirstProductionGateUnchanged": true,
+      "selectedMilestone": "victory research completed",
+      "alternativeStatus": "not selected"
+    },
+    "exactTargetAndLinkedObjectHandlingStillOpen": false,
+    "availability": {
+      "question": "Q135",
+      "status": "adopted option 1; runtime pending",
+      "requiresVictoryResearchCompleted": true,
+      "requiredResearchIds": [],
+      "placedFeatureRequired": false,
+      "requiresVictoryNoticeAcknowledgement": false,
+      "eachProjectStillRequiresItsOwnPurchase": true,
+      "globalTransportFirstProductionGateUnchanged": true
+    },
+    "requiresMatchingProjectCompletionToMove": true,
+    "resourceEligibility": {
+      "question": "Q136",
+      "status": "adopted option 1; runtime pending",
+      "includes": [
+        "Forests",
+        "ordinary valid mineral deposits",
+        "cleared-Golem mineral reserves including infinite reserves"
+      ],
+      "excludes": [
+        "Lakes, which have their own project",
+        "living or undefeated Golems",
+        "Deep Holes",
+        "monster camps",
+        "unique corner challenges"
+      ],
+      "preserve": [
+        "node identity",
+        "resource type",
+        "remaining quantity/capacity",
+        "regeneration progress",
+        "infinite status",
+        "defeated-Golem history"
+      ],
+      "sameMapOnly": true,
+      "createFreshMythrilSources": false,
+      "restoreWoodGolem": false
+    },
+    "campMovement": {
+      "question": "Q137",
+      "status": "adopted option 1; runtime pending",
+      "ordinarySettlementFamilies": [
+        "Goblin",
+        "Dwarven"
+      ],
+      "settlementSizes": [
+        "Camp",
+        "Village",
+        "Kingdom"
+      ],
+      "recommended": "translate camp and linked Tribute box together by the same delta; reject entire move if either placement is invalid",
+      "alternative": "allow independent same-map repositioning of camp and linked Tribute box",
+      "noExistingBox": "move camp alone",
+      "preserve": [
+        "IDs and owner linkage",
+        "relative offset under coupled option",
+        "stock and capacity",
+        "suppression and AP credit",
+        "pressure/radius and timers",
+        "connections and in-flight goods"
+      ],
+      "noNewRewardsOrClockReset": true,
+      "uniqueCornersAndLivingGolemsExcluded": true,
+      "sourceEvidence": [
+        "src/simulation/goblinTribute.ts",
+        "src/simulation/campEffects.ts",
+        "src/simulation/engine.ts"
+      ],
+      "selected": "translate camp and linked Tribute box together by the same delta; reject entire move if either placement is invalid",
+      "alternativeNotSelected": "allow independent same-map repositioning of camp and linked Tribute box",
+      "relativeOffsetPreserved": true,
+      "invalidMemberRejectsWholeMove": true,
+      "initiatingEitherMemberKeepsGroup": true,
+      "translateEachMemberOnce": true,
+      "recomputeEncroachment": true,
+      "runtimeImplemented": false
+    },
+    "lakeMovement": {
+      "question": "Q138",
+      "status": "adopted option 1; runtime pending",
+      "recommended": "move Lake alone; retain connected Intakes in place and preserve connections; allow explicit group selection",
+      "alternative": "automatically move Lake and all directly connected Intakes by equal displacement; reject entire move if any placement invalid",
+      "maximumConnectedIntakesUnchanged": 2,
+      "intakeProductionConnectionBased": true,
+      "noAutomaticDownstreamFactoryGrouping": true,
+      "preserve": [
+        "identity",
+        "Water stock",
+        "progress",
+        "connections",
+        "in-flight goods"
+      ],
+      "sameMapOnly": true,
+      "intakeCategory": "Production",
+      "sourceEvidence": [
+        "src/simulation/progression.ts",
+        "src/simulation/engine.ts"
+      ],
+      "selected": "move Lake alone; retain connected Intakes in place and preserve connections; allow explicit group selection",
+      "alternativeNotSelected": "automatically move Lake and all directly connected Intakes by equal displacement; reject entire move if any placement invalid",
+      "automaticallyMoveConnectedIntakes": false,
+      "explicitGroupSelectionAllowed": true,
+      "runtimeImplemented": false
+    }
+  },
+  "resourceRelocationEligibilityProposal": {
+    "question": "Q136",
+    "status": "adopted option 1; implemented locally November 4, 2026",
+    "recommended": [
+      "Forests",
+      "ordinary valid mineral deposits",
+      "cleared-Golem mineral reserves including infinite reserves"
+    ],
+    "alternative": [
+      "Forests",
+      "ordinary valid mineral deposits; cleared-Golem reserves remain fixed"
+    ],
+    "commonExclusions": [
+      "Lakes, which have their own project",
+      "living or undefeated Golems",
+      "Deep Holes",
+      "monster camps",
+      "unique corner challenges"
+    ],
+    "sameMapOnly": true,
+    "preserve": [
+      "node identity",
+      "resource type",
+      "remaining quantity/capacity",
+      "regeneration progress",
+      "infinite status",
+      "defeated-Golem history"
+    ],
+    "createFreshMythrilSources": false,
+    "restoreWoodGolem": false,
+    "sourceEvidence": [
+      "src/content/resourceGolems.ts",
+      "src/content/nodeModules.ts",
+      "src/content/nodeCapabilities.ts"
+    ],
+    "selected": [
+      "Forests",
+      "ordinary valid mineral deposits",
+      "cleared-Golem mineral reserves including infinite reserves"
+    ],
+    "alternativeNotSelected": [
+      "Forests",
+      "ordinary valid mineral deposits; cleared-Golem reserves remain fixed"
+    ],
+    "runtimeImplemented": true,
+    "runtimeImplementationDocument": "docs/master-plan/20-endgame-implementation.md"
+  },
+  "campRelocationMovementProposal": {
+    "question": "Q137",
+    "status": "adopted option 1; implemented locally November 4, 2026",
+    "ordinarySettlementFamilies": [
+      "Goblin",
+      "Dwarven"
+    ],
+    "settlementSizes": [
+      "Camp",
+      "Village",
+      "Kingdom"
+    ],
+    "recommended": "translate camp and linked Tribute box together by the same delta; reject entire move if either placement is invalid",
+    "alternative": "allow independent same-map repositioning of camp and linked Tribute box",
+    "noExistingBox": "move camp alone",
+    "preserve": [
+      "IDs and owner linkage",
+      "relative offset under coupled option",
+      "stock and capacity",
+      "suppression and AP credit",
+      "pressure/radius and timers",
+      "connections and in-flight goods"
+    ],
+    "noNewRewardsOrClockReset": true,
+    "uniqueCornersAndLivingGolemsExcluded": true,
+    "sourceEvidence": [
+      "src/simulation/goblinTribute.ts",
+      "src/simulation/campEffects.ts",
+      "src/simulation/engine.ts"
+    ],
+    "selected": "translate camp and linked Tribute box together by the same delta; reject entire move if either placement is invalid",
+    "alternativeNotSelected": "allow independent same-map repositioning of camp and linked Tribute box",
+    "relativeOffsetPreserved": true,
+    "invalidMemberRejectsWholeMove": true,
+    "initiatingEitherMemberKeepsGroup": true,
+    "translateEachMemberOnce": true,
+    "recomputeEncroachment": true,
+    "runtimeImplemented": true,
+    "runtimeImplementationDocument": "docs/master-plan/20-endgame-implementation.md"
+  },
+  "lakeRelocationMovementProposal": {
+    "question": "Q138",
+    "status": "adopted option 1; implemented locally November 4, 2026",
+    "recommended": "move Lake alone; retain connected Intakes in place and preserve connections; allow explicit group selection",
+    "alternative": "automatically move Lake and all directly connected Intakes by equal displacement; reject entire move if any placement invalid",
+    "maximumConnectedIntakesUnchanged": 2,
+    "intakeProductionConnectionBased": true,
+    "noAutomaticDownstreamFactoryGrouping": true,
+    "preserve": [
+      "identity",
+      "Water stock",
+      "progress",
+      "connections",
+      "in-flight goods"
+    ],
+    "sameMapOnly": true,
+    "intakeCategory": "Production",
+    "sourceEvidence": [
+      "src/simulation/progression.ts",
+      "src/simulation/engine.ts"
+    ],
+    "selected": "move Lake alone; retain connected Intakes in place and preserve connections; allow explicit group selection",
+    "alternativeNotSelected": "automatically move Lake and all directly connected Intakes by equal displacement; reject entire move if any placement invalid",
+    "automaticallyMoveConnectedIntakes": false,
+    "explicitGroupSelectionAllowed": true,
+    "runtimeImplemented": true,
+    "runtimeImplementationDocument": "docs/master-plan/20-endgame-implementation.md"
+  },
+  "globalTransportAccessPriceProposal": {
+    "question": "Q139",
+    "status": "adopted option 1; implemented locally November 4, 2026",
+    "researchId": "autonomousLogistics",
+    "availability": "after first Final Core production; no victory completion required",
+    "initialGlobalAllowances": {
+      "storage": 1,
+      "inventory": 1
+    },
+    "recommended": {
+      "amountEachCore": 1,
+      "coreNames": [
+        "Simple Core",
+        "Basic Core",
+        "Automata Core",
+        "Hydro Core",
+        "Shiny Core",
+        "Complex Core",
+        "Final Core"
+      ],
+      "totalPhysicalCores": 7,
+      "finalCores": 1
+    },
+    "alternative": {
+      "amountEachCore": 2,
+      "coreNames": [
+        "Simple Core",
+        "Basic Core",
+        "Automata Core",
+        "Hydro Core",
+        "Shiny Core",
+        "Complex Core"
+      ],
+      "totalPhysicalCores": 12,
+      "finalCores": 0
+    },
+    "additionalPrerequisitesProposed": [],
+    "progressivePlacementAndConnectionResearchUnchangedByProposal": true,
+    "sourceEvidence": [
+      "src/content/progression.ts",
+      "docs/master-plan/15-final-core-victory-and-postgame.md"
+    ],
+    "selected": {
+      "amountEachCore": 1,
+      "coreNames": [
+        "Simple Core",
+        "Basic Core",
+        "Automata Core",
+        "Hydro Core",
+        "Shiny Core",
+        "Complex Core",
+        "Final Core"
+      ],
+      "totalPhysicalCores": 7,
+      "finalCores": 1
+    },
+    "alternativeNotSelected": {
+      "amountEachCore": 2,
+      "coreNames": [
+        "Simple Core",
+        "Basic Core",
+        "Automata Core",
+        "Hydro Core",
+        "Shiny Core",
+        "Complex Core"
+      ],
+      "totalPhysicalCores": 12,
+      "finalCores": 0
+    },
+    "runtimePriceImplemented": true,
+    "runtimeImplemented": true,
+    "runtimeImplementationDocument": "docs/master-plan/20-endgame-implementation.md"
+  },
+  "globalTransportAccessResearch": {
+    "question": "Q139",
+    "researchId": "autonomousLogistics",
+    "status": "adopted option 1; implemented locally November 4, 2026",
+    "price": {
+      "amountEachCore": 1,
+      "coreNames": [
+        "Simple Core",
+        "Basic Core",
+        "Automata Core",
+        "Hydro Core",
+        "Shiny Core",
+        "Complex Core",
+        "Final Core"
+      ],
+      "totalPhysicalCores": 7,
+      "finalCores": 1,
+      "globalOneTimePurchase": true
+    },
+    "availability": "after first Final Core production; no victory completion required",
+    "initialGlobalAllowances": {
+      "storage": 1,
+      "inventory": 1
+    },
+    "requiresVictoryResearchCompleted": false,
+    "existingPrecisionControlPrerequisiteRetained": true,
+    "paymentSeparateFromVictory": true,
+    "runtimeImplemented": true,
+    "runtimeImplementationDocument": "docs/master-plan/20-endgame-implementation.md"
+  },
+  "globalPlacementResearchPriceProposal": {
+    "question": "Q140",
+    "status": "adopted option 1; implemented locally November 4, 2026",
+    "projects": [
+      {
+        "researchId": "storagePlacementCapacity",
+        "gainPerRank": 1,
+        "appliesTo": "global Storage allowance"
+      },
+      {
+        "researchId": "inventoryPlacementCapacity",
+        "gainPerRank": 1,
+        "appliesTo": "global Inventory allowance"
+      }
+    ],
+    "separatePurchases": true,
+    "recommended": {
+      "formula": "ceil(1.5^(rank - 1)) each of all seven Core types",
+      "coreNames": [
+        "Simple Core",
+        "Basic Core",
+        "Automata Core",
+        "Hydro Core",
+        "Shiny Core",
+        "Complex Core",
+        "Final Core"
+      ],
+      "amountEachRanks12345": [
+        1,
+        2,
+        3,
+        4,
+        6
+      ],
+      "totalPhysicalCoresRanks12345": [
+        7,
+        14,
+        21,
+        28,
+        42
+      ]
+    },
+    "alternative": {
+      "formula": "ceil(50 * 1.5^(rank - 1)) each of Simple through Complex",
+      "coreNames": [
+        "Simple Core",
+        "Basic Core",
+        "Automata Core",
+        "Hydro Core",
+        "Shiny Core",
+        "Complex Core"
+      ],
+      "amountEachRanks12345": [
+        50,
+        75,
+        113,
+        169,
+        254
+      ],
+      "totalPhysicalCoresRanks12345": [
+        300,
+        450,
+        678,
+        1014,
+        1524
+      ]
+    },
+    "noOtherEffectsOrPrerequisitesSelected": true,
+    "sourceEvidence": [
+      "src/content/progression.ts"
+    ],
+    "selected": {
+      "formula": "ceil(1.5^(rank - 1)) each of all seven Core types",
+      "coreNames": [
+        "Simple Core",
+        "Basic Core",
+        "Automata Core",
+        "Hydro Core",
+        "Shiny Core",
+        "Complex Core",
+        "Final Core"
+      ],
+      "amountEachRanks12345": [
+        1,
+        2,
+        3,
+        4,
+        6
+      ],
+      "totalPhysicalCoresRanks12345": [
+        7,
+        14,
+        21,
+        28,
+        42
+      ]
+    },
+    "alternativeNotSelected": {
+      "formula": "ceil(50 * 1.5^(rank - 1)) each of Simple through Complex",
+      "coreNames": [
+        "Simple Core",
+        "Basic Core",
+        "Automata Core",
+        "Hydro Core",
+        "Shiny Core",
+        "Complex Core"
+      ],
+      "amountEachRanks12345": [
+        50,
+        75,
+        113,
+        169,
+        254
+      ],
+      "totalPhysicalCoresRanks12345": [
+        300,
+        450,
+        678,
+        1014,
+        1524
+      ]
+    },
+    "runtimePriceImplemented": true,
+    "runtimeImplemented": true,
+    "runtimeImplementationDocument": "docs/master-plan/20-endgame-implementation.md"
+  },
+  "globalPlacementResearch": {
+    "question": "Q140",
+    "status": "adopted option 1; implemented locally November 4, 2026",
+    "projects": [
+      {
+        "researchId": "storagePlacementCapacity",
+        "gainPerRank": 1,
+        "appliesTo": "global Storage allowance"
+      },
+      {
+        "researchId": "inventoryPlacementCapacity",
+        "gainPerRank": 1,
+        "appliesTo": "global Inventory allowance"
+      }
+    ],
+    "separatePurchases": true,
+    "price": {
+      "formula": "ceil(1.5^(rank - 1)) each of all seven Core types",
+      "coreNames": [
+        "Simple Core",
+        "Basic Core",
+        "Automata Core",
+        "Hydro Core",
+        "Shiny Core",
+        "Complex Core",
+        "Final Core"
+      ],
+      "amountEachRanks12345": [
+        1,
+        2,
+        3,
+        4,
+        6
+      ],
+      "totalPhysicalCoresRanks12345": [
+        7,
+        14,
+        21,
+        28,
+        42
+      ]
+    },
+    "allowanceFormula": "1 + completed rank of corresponding placement project",
+    "recurringPresentation": "one updating entry per line",
+    "existingGainsLimitsAndPrerequisitesUnchanged": true,
+    "runtimeImplemented": true,
+    "runtimeImplementationDocument": "docs/master-plan/20-endgame-implementation.md"
+  },
+  "globalConnectionResearchPriceProposal": {
+    "question": "Q141",
+    "status": "adopted option 1; implemented locally November 4, 2026",
+    "projects": [
+      {
+        "researchId": "storageConnectionCapacity",
+        "gainPerRank": 1,
+        "appliesTo": "permitted connections on every Storage"
+      },
+      {
+        "researchId": "inventoryConnectionCapacity",
+        "gainPerRank": 1,
+        "appliesTo": "permitted output connections on every Inventory"
+      }
+    ],
+    "separatePurchases": true,
+    "recommended": {
+      "formula": "ceil(1.5^(rank - 1)) each of all seven Core types",
+      "coreNames": [
+        "Simple Core",
+        "Basic Core",
+        "Automata Core",
+        "Hydro Core",
+        "Shiny Core",
+        "Complex Core",
+        "Final Core"
+      ],
+      "amountEachRanks12345": [
+        1,
+        2,
+        3,
+        4,
+        6
+      ],
+      "totalPhysicalCoresRanks12345": [
+        7,
+        14,
+        21,
+        28,
+        42
+      ]
+    },
+    "alternative": {
+      "formula": "ceil(40 * 1.5^(rank - 1)) each of Simple through Complex",
+      "coreNames": [
+        "Simple Core",
+        "Basic Core",
+        "Automata Core",
+        "Hydro Core",
+        "Shiny Core",
+        "Complex Core"
+      ],
+      "amountEachRanks12345": [
+        40,
+        60,
+        90,
+        135,
+        203
+      ],
+      "totalPhysicalCoresRanks12345": [
+        240,
+        360,
+        540,
+        810,
+        1218
+      ]
+    },
+    "inventoryFilterDestinationRuleUnchanged": true,
+    "noOtherEffectsOrPrerequisitesSelected": true,
+    "sourceEvidence": [
+      "src/content/progression.ts"
+    ],
+    "selected": {
+      "formula": "ceil(1.5^(rank - 1)) each of all seven Core types",
+      "coreNames": [
+        "Simple Core",
+        "Basic Core",
+        "Automata Core",
+        "Hydro Core",
+        "Shiny Core",
+        "Complex Core",
+        "Final Core"
+      ],
+      "amountEachRanks12345": [
+        1,
+        2,
+        3,
+        4,
+        6
+      ],
+      "totalPhysicalCoresRanks12345": [
+        7,
+        14,
+        21,
+        28,
+        42
+      ]
+    },
+    "alternativeNotSelected": {
+      "formula": "ceil(40 * 1.5^(rank - 1)) each of Simple through Complex",
+      "coreNames": [
+        "Simple Core",
+        "Basic Core",
+        "Automata Core",
+        "Hydro Core",
+        "Shiny Core",
+        "Complex Core"
+      ],
+      "amountEachRanks12345": [
+        40,
+        60,
+        90,
+        135,
+        203
+      ],
+      "totalPhysicalCoresRanks12345": [
+        240,
+        360,
+        540,
+        810,
+        1218
+      ]
+    },
+    "runtimePriceImplemented": true,
+    "runtimeImplemented": true,
+    "runtimeImplementationDocument": "docs/master-plan/20-endgame-implementation.md"
+  },
+  "globalConnectionResearch": {
+    "question": "Q141",
+    "status": "adopted option 1; implemented locally November 4, 2026",
+    "projects": [
+      {
+        "researchId": "storageConnectionCapacity",
+        "gainPerRank": 1,
+        "appliesTo": "permitted connections on every Storage"
+      },
+      {
+        "researchId": "inventoryConnectionCapacity",
+        "gainPerRank": 1,
+        "appliesTo": "permitted output connections on every Inventory"
+      }
+    ],
+    "separatePurchases": true,
+    "price": {
+      "formula": "ceil(1.5^(rank - 1)) each of all seven Core types",
+      "coreNames": [
+        "Simple Core",
+        "Basic Core",
+        "Automata Core",
+        "Hydro Core",
+        "Shiny Core",
+        "Complex Core",
+        "Final Core"
+      ],
+      "amountEachRanks12345": [
+        1,
+        2,
+        3,
+        4,
+        6
+      ],
+      "totalPhysicalCoresRanks12345": [
+        7,
+        14,
+        21,
+        28,
+        42
+      ]
+    },
+    "inventoryFilterDestinationRuleUnchanged": true,
+    "existingGainsLimitsAndPrerequisitesUnchanged": true,
+    "recurringPresentation": "one updating entry per line",
+    "runtimeImplemented": true,
+    "runtimeImplementationDocument": "docs/master-plan/20-endgame-implementation.md"
+  },
+  "foundryProcessingProposal": {
+    "question": "Q142",
+    "status": "adopted option 2; implemented locally November 4, 2026",
+    "recommendedCycleMs": 60000,
+    "alternativeCycleMs": 0,
+    "atomicFullRecipeConsumption": true,
+    "reserveOutputSpaceBeforeStart": true,
+    "outputComponentsPerBatch": 1,
+    "outputBoxCapacity": 10,
+    "fullBoxStopsNewStarts": true,
+    "inputBufferSizing": "Q143 adopted one full recipe, 3,000 per ingredient",
+    "ordinaryAssemblerEfficiencyChangesProposed": false,
+    "measuredCadence": false,
+    "selectedCycleMs": 0,
+    "alternativeNotSelectedCycleMs": 60000,
+    "immediateAtomicInputOutput": true,
+    "activeTimedBatch": false,
+    "runtimeImplemented": true,
+    "preserveInputOutputStockAcrossSaveLoad": true,
+    "runtimeImplementationDocument": "docs/master-plan/20-endgame-implementation.md"
+  },
+  "endgameCloseoutReview": {
+    "status": "design interview complete; Q144 deferral adopted",
+    "remainingDecisionTopics": [],
+    "deferred": [
+      "Reclamation credits/quota until representative waste-flow measurement",
+      "victory copy review until user returns to it"
+    ],
+    "implementationAndBalanceWorkStillRequired": true,
+    "completedDate": "2026-11-04"
+  },
+  "cornerInputBufferProposal": {
+    "question": "Q143",
+    "status": "adopted option 1; implemented locally November 4, 2026",
+    "recommended": {
+      "foundryPerIngredient": 3000,
+      "foundryTotalParts": 9000,
+      "foundryRecipeSets": 1,
+      "alphaBotsTotal": 100,
+      "reclamationMixedWasteTotal": 100,
+      "groveGrowthTotal": 100
+    },
+    "alternative": {
+      "foundryPerIngredient": 6000,
+      "foundryTotalParts": 18000,
+      "foundryRecipeSets": 2,
+      "alphaBotsTotal": 1000,
+      "reclamationMixedWasteTotal": 1000,
+      "groveGrowthTotal": 1000
+    },
+    "separateFoundryIngredientReservations": true,
+    "progressMetersSeparateFromDeliveryBuffers": true,
+    "outputComponentCapacityUnchanged": 10,
+    "existingPerCornerFullOutputRulesUnchanged": true,
+    "noAdditionalProcessingDelayOrRateCap": true,
+    "inFlightReceivingReservationsRequired": true,
+    "measuredThroughput": false,
+    "selected": {
+      "foundryPerIngredient": 3000,
+      "foundryTotalParts": 9000,
+      "foundryRecipeSets": 1,
+      "alphaBotsTotal": 100,
+      "reclamationMixedWasteTotal": 100,
+      "groveGrowthTotal": 100
+    },
+    "alternativeNotSelected": {
+      "foundryPerIngredient": 6000,
+      "foundryTotalParts": 18000,
+      "foundryRecipeSets": 2,
+      "alphaBotsTotal": 1000,
+      "reclamationMixedWasteTotal": 1000,
+      "groveGrowthTotal": 1000
+    },
+    "runtimeImplemented": true,
+    "runtimeImplementationDocument": "docs/master-plan/20-endgame-implementation.md"
+  },
+  "cornerInputBuffers": {
+    "question": "Q143",
+    "status": "adopted option 1; implemented locally November 4, 2026",
+    "foundryPerIngredient": 3000,
+    "foundryTotalParts": 9000,
+    "foundryRecipeSets": 1,
+    "alphaBotsTotal": 100,
+    "reclamationMixedWasteTotal": 100,
+    "groveGrowthTotal": 100,
+    "separateFoundryIngredientReservations": true,
+    "progressMetersSeparateFromDeliveryBuffers": true,
+    "inFlightReceivingReservationsRequired": true,
+    "noAdditionalProcessingDelayOrRateCap": true,
+    "runtimeImplemented": true,
+    "runtimeImplementationDocument": "docs/master-plan/20-endgame-implementation.md"
+  },
+  "optionalQolScopeProposal": {
+    "question": "Q144",
+    "status": "adopted option 1: defer extra QoL until endgame playtesting",
+    "recommended": "defer all extra QoL candidates until initial endgame playtesting",
+    "alternativePriorityBacklog": [
+      "Priority Overflow Routing",
+      "Global Pool Item Capacity"
+    ],
+    "alternativeFullBacklog": [
+      "Priority Overflow Routing",
+      "Global Pool Item Capacity",
+      "Bulk Retrofitting",
+      "Factory Telemetry",
+      "Compact Installations",
+      "Research Automation"
+    ],
+    "backlogDoesNotAdoptUnreviewedEffectsOrPrices": true,
+    "noAdditionalQuestionsInThisPass": true,
+    "selected": "defer all extra QoL candidates until initial endgame playtesting"
+  },
+  "localImplementationSummary": {
+    "date": "2026-11-04",
+    "status": "implemented locally; normal-play balance and visual QA remain unverified",
+    "document": "docs/master-plan/20-endgame-implementation.md",
+    "optionalExtraQolDeferred": true,
+    "reclamationTemporaryReferenceAuthorized": true,
+    "rescueProofConservativeNotExhaustive": true,
+    "reviewedRecyclerManufacturedMappings": 40,
+    "unmappedNewGoodsRejected": true,
+    "noPlayerBudgetUi": true,
+    "noSaveReset": true,
+    "releasePublished": false
+  }
+}

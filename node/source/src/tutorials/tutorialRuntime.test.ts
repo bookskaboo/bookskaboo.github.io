@@ -116,12 +116,12 @@ describe('imported tutorial practice', () => {
     expect(engine.connect(outpostChest.id, roadId)).toBe(true);
     expect(lessonSatisfied('expansion-road-feed', game, null)).toBe(true);
     run(engine, 5);
-    expect(receiver.output.wood).toBeGreaterThan(0);
+    expect(receiver.input).toEqual({}); expect(receiver.output).toEqual({});
     expect(lessonSatisfied('expansion-deliver', game, null)).toBe(false);
     engine.switchSector(EXPANSION_HOME);
     expect(lessonSatisfied('expansion-home-receive', game, null)).toBe(true);
     expect(engine.connect(receiver.id, 'expansion-home-chest')).toBe(true);
-    run(engine, 2);
+    run(engine, 5);
     expect(lessonSatisfied('expansion-deliver', game, null)).toBe(true);
     expect(game.sectors[EXPANSION_HOME].nodes.find(node => node.id === 'expansion-home-lab')!.input).toEqual({});
   });
@@ -159,7 +159,7 @@ describe('imported tutorial practice', () => {
     expect(lessonSatisfied('make-charcoal', engine.getState(), null)).toBe(true);
     const copper = place('extractor', PRODUCTION_TARGETS.copperExtractor); connect('tutorial-copper', copper); run(engine, 7);
     expect(lessonSatisfied('mine-copper', engine.getState(), null)).toBe(true);
-    const smelter = place('smelter', PRODUCTION_TARGETS.smelter); connect(copper, smelter); connect(kiln, smelter, 1); run(engine, 20);
+    const smelter = place('smelter', PRODUCTION_TARGETS.smelter); expect(engine.setRecipe(smelter, 'smelt-copper')).toBe(true); connect(copper, smelter); connect(kiln, smelter, 1); run(engine, 20);
     expect(lessonSatisfied('make-plates', engine.getState(), null)).toBe(true);
     const gears = place('refiner', PRODUCTION_TARGETS.gearRefiner); expect(engine.setRecipe(gears, 'copper-gear')).toBe(true); connect(smelter, gears); run(engine, 30);
     expect(lessonSatisfied('make-gears', engine.getState(), null)).toBe(true);

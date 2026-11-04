@@ -1,0 +1,6493 @@
+{
+  "status": "Necessary-route optimization; one-hour scaled-cost candidate is sensitivity only, not adopted costs. Excludes exploration, finite supply, combat and waste stalls",
+  "assumption": "5 seconds for one node plus its first connection; 2.5 seconds per additional connection. No planning time. 50% support-node allowance and 1.5 connections per total node.",
+  "method": "Uniform-rate sweep followed by three coordinate-descent passes across six tier rates; grid-local optimum, not proof of global optimality",
+  "best": {
+    "profile": "speedrunner",
+    "policy": "capability-first",
+    "checkpointSeconds": 1185,
+    "allFixedSeconds": 1185,
+    "forcedWaitSeconds": 287.5,
+    "labActiveSeconds": 29,
+    "builds": [
+      {
+        "tier": 1,
+        "machines": {
+          "simple-core": 1,
+          "copper-gear": 1,
+          "copper-plate": 2,
+          "extract:copper": 2,
+          "charcoal": 1,
+          "extract:wood": 1
+        },
+        "actualRate": 3,
+        "machinesCount": 8,
+        "addedMachines": 8,
+        "addedSupport": 4,
+        "connections": 18,
+        "duration": 75,
+        "start": 0,
+        "first": 41.5,
+        "stable": 75,
+        "readyForNext": 75,
+        "wait": 0,
+        "researchDuringBuild": [
+          {
+            "id": "assembler",
+            "time": 72.5,
+            "tier": 1,
+            "kind": "unlock"
+          }
+        ],
+        "olderTierImprovements": 0,
+        "estimatedActiveNodes": 13
+      },
+      {
+        "tier": 2,
+        "machines": {
+          "simple-core": 1,
+          "copper-gear": 1,
+          "copper-plate": 3,
+          "extract:copper": 5,
+          "charcoal": 3,
+          "extract:wood": 4,
+          "basic-core": 1,
+          "iron-wire": 1,
+          "iron-plate": 2,
+          "extract:iron": 3
+        },
+        "actualRate": 6,
+        "machinesCount": 24,
+        "addedMachines": 16,
+        "addedSupport": 8,
+        "connections": 36,
+        "duration": 150,
+        "start": 75,
+        "first": 157.5,
+        "stable": 225,
+        "readyForNext": 225,
+        "wait": 5,
+        "researchDuringBuild": [
+          {
+            "id": "exploration",
+            "time": 180,
+            "tier": 2,
+            "kind": "unlock"
+          },
+          {
+            "id": "road",
+            "time": 208.5,
+            "tier": 2,
+            "kind": "unlock"
+          }
+        ],
+        "olderTierImprovements": 0,
+        "estimatedActiveNodes": 37
+      },
+      {
+        "tier": 3,
+        "machines": {
+          "simple-core": 1,
+          "copper-gear": 1,
+          "copper-plate": 4,
+          "extract:copper": 6,
+          "charcoal": 3,
+          "extract:wood": 4,
+          "basic-core": 1,
+          "iron-wire": 1,
+          "iron-plate": 2,
+          "extract:iron": 3,
+          "automata-core": 1,
+          "circuit-a": 1,
+          "copper-wire": 1,
+          "brick": 1,
+          "extract:stone": 1
+        },
+        "actualRate": 4,
+        "machinesCount": 31,
+        "addedMachines": 7,
+        "addedSupport": 4,
+        "connections": 17,
+        "duration": 70,
+        "start": 230,
+        "first": 268.5,
+        "stable": 300,
+        "readyForNext": 300,
+        "wait": 24,
+        "researchDuringBuild": [
+          {
+            "id": "Hydrochemistry",
+            "time": 293.5,
+            "tier": 3,
+            "kind": "unlock"
+          }
+        ],
+        "olderTierImprovements": 0,
+        "estimatedActiveNodes": 48
+      },
+      {
+        "tier": 4,
+        "machines": {
+          "simple-core": 1,
+          "copper-gear": 1,
+          "copper-plate": 6,
+          "extract:copper": 9,
+          "charcoal": 5,
+          "extract:wood": 7,
+          "basic-core": 1,
+          "iron-wire": 1,
+          "iron-plate": 3,
+          "extract:iron": 5,
+          "automata-core": 2,
+          "circuit-a": 1,
+          "copper-wire": 1,
+          "brick": 1,
+          "extract:stone": 1,
+          "hydro-core": 1,
+          "hydraulic-actuator": 1,
+          "iron-gear": 1,
+          "motor": 1,
+          "coolant": 1,
+          "lake-intake": 1,
+          "conductive-slurry": 1
+        },
+        "actualRate": 3,
+        "machinesCount": 52,
+        "addedMachines": 21,
+        "addedSupport": 11,
+        "connections": 48,
+        "duration": 200,
+        "start": 324,
+        "first": 434,
+        "stable": 524,
+        "readyForNext": 524,
+        "wait": 19.5,
+        "researchDuringBuild": [
+          {
+            "id": "Fluid Routing",
+            "time": 502,
+            "tier": 4,
+            "kind": "unlock"
+          }
+        ],
+        "olderTierImprovements": 0,
+        "estimatedActiveNodes": 79
+      },
+      {
+        "tier": 5,
+        "machines": {
+          "simple-core": 1,
+          "copper-gear": 1,
+          "copper-plate": 7,
+          "extract:copper": 11,
+          "charcoal": 7,
+          "extract:wood": 10,
+          "basic-core": 1,
+          "iron-wire": 1,
+          "iron-plate": 4,
+          "extract:iron": 7,
+          "automata-core": 2,
+          "circuit-a": 1,
+          "copper-wire": 1,
+          "brick": 1,
+          "extract:stone": 1,
+          "hydro-core": 2,
+          "hydraulic-actuator": 1,
+          "iron-gear": 1,
+          "motor": 1,
+          "coolant": 1,
+          "lake-intake": 1,
+          "conductive-slurry": 1,
+          "shiny-core": 1,
+          "refined-mithril": 1,
+          "extract:mythril": 1
+        },
+        "actualRate": 2,
+        "machinesCount": 67,
+        "addedMachines": 15,
+        "addedSupport": 8,
+        "connections": 35,
+        "duration": 145,
+        "start": 543.5,
+        "first": 623.5,
+        "stable": 688.5,
+        "readyForNext": 688.5,
+        "wait": 76.5,
+        "researchDuringBuild": [
+          {
+            "id": "Sealed Robotics",
+            "time": 583.5,
+            "tier": 4,
+            "kind": "unlock"
+          }
+        ],
+        "olderTierImprovements": 0,
+        "estimatedActiveNodes": 102
+      },
+      {
+        "tier": 6,
+        "machines": {
+          "simple-core": 1,
+          "copper-gear": 1,
+          "copper-plate": 9,
+          "extract:copper": 15,
+          "charcoal": 10,
+          "extract:wood": 14,
+          "basic-core": 1,
+          "iron-wire": 1,
+          "iron-plate": 6,
+          "extract:iron": 10,
+          "automata-core": 2,
+          "circuit-a": 2,
+          "copper-wire": 2,
+          "brick": 1,
+          "extract:stone": 1,
+          "hydro-core": 2,
+          "hydraulic-actuator": 1,
+          "iron-gear": 1,
+          "motor": 1,
+          "coolant": 2,
+          "lake-intake": 1,
+          "conductive-slurry": 1,
+          "shiny-core": 2,
+          "refined-mithril": 2,
+          "extract:mythril": 2,
+          "command-core": 1,
+          "precision-controller": 1,
+          "advanced-actuator": 1
+        },
+        "actualRate": 1.5,
+        "machinesCount": 94,
+        "addedMachines": 27,
+        "addedSupport": 14,
+        "connections": 62,
+        "duration": 257.5,
+        "start": 765,
+        "first": 907,
+        "stable": 1022.5,
+        "readyForNext": 1022.5,
+        "wait": 162.5,
+        "researchDuringBuild": [
+          {
+            "id": "Heavy Robotics",
+            "time": 825,
+            "tier": 5,
+            "kind": "unlock"
+          },
+          {
+            "id": "Mineral Regeneration",
+            "time": 885,
+            "tier": 5,
+            "kind": "unlock"
+          }
+        ],
+        "olderTierImprovements": 0,
+        "estimatedActiveNodes": 142
+      }
+    ],
+    "maxProductionAndSupportNodes": 142,
+    "meanWasteTreatmentNodesAtTier6Rate": 4,
+    "mapEquivalentsAt60Nodes": 3,
+    "exceeds6540NodeBudget": false,
+    "coreProduced": [
+      29,
+      28,
+      23,
+      20,
+      14,
+      6
+    ],
+    "remainingCores": [
+      0,
+      1.5631940186722204e-13,
+      5.435651928564766e-13,
+      0,
+      1.5942802633617248e-13,
+      0
+    ],
+    "raw": {
+      "copper": 1530,
+      "wood": 1354,
+      "iron": 942,
+      "stone": 63,
+      "water": 444,
+      "mythril": 144
+    },
+    "completions": [
+      {
+        "id": "assembler",
+        "time": 72.5,
+        "tier": 1,
+        "kind": "unlock"
+      },
+      {
+        "id": "exploration",
+        "time": 180,
+        "tier": 2,
+        "kind": "unlock"
+      },
+      {
+        "id": "road",
+        "time": 208.5,
+        "tier": 2,
+        "kind": "unlock"
+      },
+      {
+        "id": "automataCore",
+        "time": 230,
+        "tier": 2,
+        "kind": "unlock"
+      },
+      {
+        "id": "Hydrochemistry",
+        "time": 293.5,
+        "tier": 3,
+        "kind": "unlock"
+      },
+      {
+        "id": "Hydraulic Assembly",
+        "time": 324,
+        "tier": 3,
+        "kind": "unlock"
+      },
+      {
+        "id": "Fluid Routing",
+        "time": 502,
+        "tier": 4,
+        "kind": "unlock"
+      },
+      {
+        "id": "Ore Separation",
+        "time": 543.5,
+        "tier": 4,
+        "kind": "unlock"
+      },
+      {
+        "id": "Sealed Robotics",
+        "time": 583.5,
+        "tier": 4,
+        "kind": "unlock"
+      },
+      {
+        "id": "Mineral Recovery",
+        "time": 705,
+        "tier": 5,
+        "kind": "unlock"
+      },
+      {
+        "id": "Precision Control",
+        "time": 765,
+        "tier": 5,
+        "kind": "unlock"
+      },
+      {
+        "id": "Heavy Robotics",
+        "time": 825,
+        "tier": 5,
+        "kind": "unlock"
+      },
+      {
+        "id": "Mineral Regeneration",
+        "time": 885,
+        "tier": 5,
+        "kind": "unlock"
+      },
+      {
+        "id": "Autonomous Logistics",
+        "time": 1025,
+        "tier": 6,
+        "kind": "unlock"
+      },
+      {
+        "id": "Command Robotics",
+        "time": 1105,
+        "tier": 6,
+        "kind": "unlock"
+      },
+      {
+        "id": "Endgame Theory",
+        "time": 1185,
+        "tier": 6,
+        "kind": "unlock"
+      }
+    ],
+    "switches": [],
+    "completedProjects": 16,
+    "totalProjects": 16,
+    "truncated": false,
+    "uptime": 1,
+    "necessaryOnly": true,
+    "selectedResearch": [
+      {
+        "id": "assembler",
+        "tier": 1,
+        "each": 1
+      },
+      {
+        "id": "exploration",
+        "tier": 2,
+        "each": 1
+      },
+      {
+        "id": "road",
+        "tier": 2,
+        "each": 2
+      },
+      {
+        "id": "automataCore",
+        "tier": 2,
+        "each": 2
+      },
+      {
+        "id": "Hydrochemistry",
+        "tier": 3,
+        "each": 1
+      },
+      {
+        "id": "Hydraulic Assembly",
+        "tier": 3,
+        "each": 2
+      },
+      {
+        "id": "Fluid Routing",
+        "tier": 4,
+        "each": 2
+      },
+      {
+        "id": "Sealed Robotics",
+        "tier": 4,
+        "each": 2
+      },
+      {
+        "id": "Ore Separation",
+        "tier": 4,
+        "each": 2
+      },
+      {
+        "id": "Mineral Recovery",
+        "tier": 5,
+        "each": 2
+      },
+      {
+        "id": "Heavy Robotics",
+        "tier": 5,
+        "each": 2
+      },
+      {
+        "id": "Precision Control",
+        "tier": 5,
+        "each": 2
+      },
+      {
+        "id": "Autonomous Logistics",
+        "tier": 6,
+        "each": 2
+      },
+      {
+        "id": "Command Robotics",
+        "tier": 6,
+        "each": 2
+      },
+      {
+        "id": "Endgame Theory",
+        "tier": 6,
+        "each": 2
+      },
+      {
+        "id": "Mineral Regeneration",
+        "tier": 5,
+        "each": 2
+      }
+    ],
+    "rates": [
+      3,
+      6,
+      4,
+      3,
+      2,
+      1.5
+    ],
+    "elapsedSeconds": 1185,
+    "placementSeconds": 897.5,
+    "totalPlacedNodes": 143,
+    "totalConnections": 216
+  },
+  "candidate": {
+    "researchScale": 10,
+    "best": {
+      "profile": "speedrunner",
+      "policy": "capability-first",
+      "checkpointSeconds": 3564.5,
+      "allFixedSeconds": 3564.5,
+      "forcedWaitSeconds": 462,
+      "labActiveSeconds": 236,
+      "builds": [
+        {
+          "tier": 1,
+          "machines": {
+            "simple-core": 1,
+            "copper-gear": 1,
+            "copper-plate": 2,
+            "extract:copper": 2,
+            "charcoal": 1,
+            "extract:wood": 1
+          },
+          "actualRate": 3,
+          "machinesCount": 8,
+          "addedMachines": 8,
+          "addedSupport": 4,
+          "connections": 18,
+          "duration": 75,
+          "start": 0,
+          "first": 41.5,
+          "stable": 75,
+          "readyForNext": 75,
+          "wait": 0,
+          "researchDuringBuild": [
+            {
+              "id": "assembler",
+              "time": 72.5,
+              "tier": 1,
+              "kind": "unlock"
+            }
+          ],
+          "olderTierImprovements": 0,
+          "estimatedActiveNodes": 13
+        },
+        {
+          "tier": 2,
+          "machines": {
+            "simple-core": 1,
+            "copper-gear": 1,
+            "copper-plate": 3,
+            "extract:copper": 5,
+            "charcoal": 3,
+            "extract:wood": 4,
+            "basic-core": 1,
+            "iron-wire": 1,
+            "iron-plate": 2,
+            "extract:iron": 3
+          },
+          "actualRate": 6,
+          "machinesCount": 24,
+          "addedMachines": 16,
+          "addedSupport": 8,
+          "connections": 36,
+          "duration": 150,
+          "start": 75,
+          "first": 157.5,
+          "stable": 225,
+          "readyForNext": 225,
+          "wait": 5,
+          "researchDuringBuild": [
+            {
+              "id": "exploration",
+              "time": 180,
+              "tier": 2,
+              "kind": "unlock"
+            },
+            {
+              "id": "road",
+              "time": 208.5,
+              "tier": 2,
+              "kind": "unlock"
+            }
+          ],
+          "olderTierImprovements": 0,
+          "estimatedActiveNodes": 37
+        },
+        {
+          "tier": 3,
+          "machines": {
+            "simple-core": 1,
+            "copper-gear": 2,
+            "copper-plate": 10,
+            "extract:copper": 16,
+            "charcoal": 9,
+            "extract:wood": 12,
+            "basic-core": 2,
+            "iron-wire": 1,
+            "iron-plate": 5,
+            "extract:iron": 8,
+            "automata-core": 3,
+            "circuit-a": 1,
+            "copper-wire": 1,
+            "brick": 1,
+            "extract:stone": 1
+          },
+          "actualRate": 12,
+          "machinesCount": 73,
+          "addedMachines": 49,
+          "addedSupport": 25,
+          "connections": 111,
+          "duration": 462.5,
+          "start": 230,
+          "first": 484.5,
+          "stable": 692.5,
+          "readyForNext": 692.5,
+          "wait": 10,
+          "researchDuringBuild": [
+            {
+              "id": "Hydrochemistry",
+              "time": 584,
+              "tier": 3,
+              "kind": "unlock"
+            }
+          ],
+          "olderTierImprovements": 0,
+          "estimatedActiveNodes": 111
+        },
+        {
+          "tier": 4,
+          "machines": {
+            "simple-core": 1,
+            "copper-gear": 2,
+            "copper-plate": 21,
+            "extract:copper": 34,
+            "charcoal": 20,
+            "extract:wood": 28,
+            "basic-core": 2,
+            "iron-wire": 1,
+            "iron-plate": 12,
+            "extract:iron": 20,
+            "automata-core": 6,
+            "circuit-a": 2,
+            "copper-wire": 3,
+            "brick": 2,
+            "extract:stone": 2,
+            "hydro-core": 4,
+            "hydraulic-actuator": 2,
+            "iron-gear": 2,
+            "motor": 2,
+            "coolant": 2,
+            "lake-intake": 1,
+            "conductive-slurry": 2
+          },
+          "actualRate": 12,
+          "machinesCount": 171,
+          "addedMachines": 98,
+          "addedSupport": 49,
+          "connections": 221,
+          "duration": 920,
+          "start": 702.5,
+          "first": 1208.5,
+          "stable": 1622.5,
+          "readyForNext": 1622.5,
+          "wait": 0,
+          "researchDuringBuild": [
+            {
+              "id": "Fluid Routing",
+              "time": 1407,
+              "tier": 4,
+              "kind": "unlock"
+            },
+            {
+              "id": "Ore Separation",
+              "time": 1538,
+              "tier": 4,
+              "kind": "unlock"
+            }
+          ],
+          "olderTierImprovements": 0,
+          "estimatedActiveNodes": 258
+        },
+        {
+          "tier": 5,
+          "machines": {
+            "simple-core": 1,
+            "copper-gear": 1,
+            "copper-plate": 26,
+            "extract:copper": 43,
+            "charcoal": 27,
+            "extract:wood": 38,
+            "basic-core": 2,
+            "iron-wire": 1,
+            "iron-plate": 16,
+            "extract:iron": 26,
+            "automata-core": 6,
+            "circuit-a": 4,
+            "copper-wire": 4,
+            "brick": 2,
+            "extract:stone": 2,
+            "hydro-core": 5,
+            "hydraulic-actuator": 3,
+            "iron-gear": 2,
+            "motor": 2,
+            "coolant": 3,
+            "lake-intake": 1,
+            "conductive-slurry": 3,
+            "shiny-core": 4,
+            "refined-mithril": 3,
+            "extract:mythril": 4
+          },
+          "actualRate": 8,
+          "machinesCount": 229,
+          "addedMachines": 59,
+          "addedSupport": 30,
+          "connections": 134,
+          "duration": 557.5,
+          "start": 1622.5,
+          "first": 1929.5,
+          "stable": 2180,
+          "readyForNext": 2180,
+          "wait": 131,
+          "researchDuringBuild": [
+            {
+              "id": "Sealed Robotics",
+              "time": 1643.5,
+              "tier": 4,
+              "kind": "unlock"
+            },
+            {
+              "id": "Mineral Recovery",
+              "time": 2160.5,
+              "tier": 5,
+              "kind": "unlock"
+            }
+          ],
+          "olderTierImprovements": 0,
+          "estimatedActiveNodes": 345
+        },
+        {
+          "tier": 6,
+          "machines": {
+            "simple-core": 1,
+            "copper-gear": 1,
+            "copper-plate": 36,
+            "extract:copper": 59,
+            "charcoal": 39,
+            "extract:wood": 55,
+            "basic-core": 1,
+            "iron-wire": 1,
+            "iron-plate": 23,
+            "extract:iron": 38,
+            "automata-core": 6,
+            "circuit-a": 5,
+            "copper-wire": 6,
+            "brick": 2,
+            "extract:stone": 2,
+            "hydro-core": 6,
+            "hydraulic-actuator": 4,
+            "iron-gear": 3,
+            "motor": 3,
+            "coolant": 6,
+            "lake-intake": 2,
+            "conductive-slurry": 4,
+            "shiny-core": 5,
+            "refined-mithril": 5,
+            "extract:mythril": 8,
+            "command-core": 3,
+            "precision-controller": 2,
+            "advanced-actuator": 2
+          },
+          "actualRate": 6,
+          "machinesCount": 328,
+          "addedMachines": 100,
+          "addedSupport": 50,
+          "connections": 225,
+          "duration": 937.5,
+          "start": 2311,
+          "first": 2827,
+          "stable": 3248.5,
+          "readyForNext": 3248.5,
+          "wait": 316,
+          "researchDuringBuild": [
+            {
+              "id": "Heavy Robotics",
+              "time": 2461,
+              "tier": 5,
+              "kind": "unlock"
+            },
+            {
+              "id": "Mineral Regeneration",
+              "time": 2611,
+              "tier": 5,
+              "kind": "unlock"
+            },
+            {
+              "id": "Autonomous Logistics",
+              "time": 3158,
+              "tier": 6,
+              "kind": "unlock"
+            }
+          ],
+          "olderTierImprovements": 0,
+          "estimatedActiveNodes": 493
+        }
+      ],
+      "maxProductionAndSupportNodes": 493,
+      "meanWasteTreatmentNodesAtTier6Rate": 6,
+      "mapEquivalentsAt60Nodes": 9,
+      "exceeds6540NodeBudget": false,
+      "coreProduced": [
+        236,
+        235,
+        230,
+        200,
+        140,
+        60
+      ],
+      "remainingCores": [
+        2.7284841053187847e-12,
+        2.1032064978498966e-12,
+        1.5916157281026244e-12,
+        9.869438599707792e-12,
+        3.694822225952521e-13,
+        1.5583090373638697e-12
+      ],
+      "raw": {
+        "copper": 14778,
+        "wood": 13144,
+        "iron": 9150,
+        "stone": 630,
+        "water": 4440,
+        "mythril": 1440
+      },
+      "completions": [
+        {
+          "id": "assembler",
+          "time": 72.5,
+          "tier": 1,
+          "kind": "unlock"
+        },
+        {
+          "id": "exploration",
+          "time": 180,
+          "tier": 2,
+          "kind": "unlock"
+        },
+        {
+          "id": "road",
+          "time": 208.5,
+          "tier": 2,
+          "kind": "unlock"
+        },
+        {
+          "id": "automataCore",
+          "time": 230,
+          "tier": 2,
+          "kind": "unlock"
+        },
+        {
+          "id": "Hydrochemistry",
+          "time": 584,
+          "tier": 3,
+          "kind": "unlock"
+        },
+        {
+          "id": "Hydraulic Assembly",
+          "time": 702.5,
+          "tier": 3,
+          "kind": "unlock"
+        },
+        {
+          "id": "Fluid Routing",
+          "time": 1407,
+          "tier": 4,
+          "kind": "unlock"
+        },
+        {
+          "id": "Ore Separation",
+          "time": 1538,
+          "tier": 4,
+          "kind": "unlock"
+        },
+        {
+          "id": "Sealed Robotics",
+          "time": 1643.5,
+          "tier": 4,
+          "kind": "unlock"
+        },
+        {
+          "id": "Mineral Recovery",
+          "time": 2160.5,
+          "tier": 5,
+          "kind": "unlock"
+        },
+        {
+          "id": "Precision Control",
+          "time": 2311,
+          "tier": 5,
+          "kind": "unlock"
+        },
+        {
+          "id": "Heavy Robotics",
+          "time": 2461,
+          "tier": 5,
+          "kind": "unlock"
+        },
+        {
+          "id": "Mineral Regeneration",
+          "time": 2611,
+          "tier": 5,
+          "kind": "unlock"
+        },
+        {
+          "id": "Autonomous Logistics",
+          "time": 3158,
+          "tier": 6,
+          "kind": "unlock"
+        },
+        {
+          "id": "Command Robotics",
+          "time": 3364.5,
+          "tier": 6,
+          "kind": "unlock"
+        },
+        {
+          "id": "Endgame Theory",
+          "time": 3564.5,
+          "tier": 6,
+          "kind": "unlock"
+        }
+      ],
+      "switches": [],
+      "completedProjects": 16,
+      "totalProjects": 16,
+      "truncated": false,
+      "uptime": 1,
+      "necessaryOnly": true,
+      "selectedResearch": [
+        {
+          "id": "assembler",
+          "tier": 1,
+          "each": 1
+        },
+        {
+          "id": "exploration",
+          "tier": 2,
+          "each": 1
+        },
+        {
+          "id": "road",
+          "tier": 2,
+          "each": 2
+        },
+        {
+          "id": "automataCore",
+          "tier": 2,
+          "each": 2
+        },
+        {
+          "id": "Hydrochemistry",
+          "tier": 3,
+          "each": 10
+        },
+        {
+          "id": "Hydraulic Assembly",
+          "tier": 3,
+          "each": 20
+        },
+        {
+          "id": "Fluid Routing",
+          "tier": 4,
+          "each": 20
+        },
+        {
+          "id": "Sealed Robotics",
+          "tier": 4,
+          "each": 20
+        },
+        {
+          "id": "Ore Separation",
+          "tier": 4,
+          "each": 20
+        },
+        {
+          "id": "Mineral Recovery",
+          "tier": 5,
+          "each": 20
+        },
+        {
+          "id": "Heavy Robotics",
+          "tier": 5,
+          "each": 20
+        },
+        {
+          "id": "Precision Control",
+          "tier": 5,
+          "each": 20
+        },
+        {
+          "id": "Autonomous Logistics",
+          "tier": 6,
+          "each": 20
+        },
+        {
+          "id": "Command Robotics",
+          "tier": 6,
+          "each": 20
+        },
+        {
+          "id": "Endgame Theory",
+          "tier": 6,
+          "each": 20
+        },
+        {
+          "id": "Mineral Regeneration",
+          "tier": 5,
+          "each": 20
+        }
+      ],
+      "rates": [
+        3,
+        6,
+        12,
+        12,
+        8,
+        6
+      ],
+      "elapsedSeconds": 3564.5,
+      "placementSeconds": 3102.5,
+      "totalPlacedNodes": 496,
+      "totalConnections": 745
+    },
+    "seeds": [
+      {
+        "profile": "speedrunner",
+        "policy": "capability-first",
+        "checkpointSeconds": 44313.5,
+        "allFixedSeconds": 44313.5,
+        "forcedWaitSeconds": 43973.5,
+        "labActiveSeconds": 236,
+        "builds": [
+          {
+            "tier": 1,
+            "machines": {
+              "simple-core": 1,
+              "copper-gear": 1,
+              "copper-plate": 1,
+              "extract:copper": 1,
+              "charcoal": 1,
+              "extract:wood": 1
+            },
+            "actualRate": 1.5,
+            "machinesCount": 6,
+            "addedMachines": 6,
+            "addedSupport": 3,
+            "connections": 14,
+            "duration": 57.5,
+            "start": 0,
+            "first": 32,
+            "stable": 57.5,
+            "readyForNext": 57.5,
+            "wait": 23,
+            "researchDuringBuild": [],
+            "olderTierImprovements": 0,
+            "estimatedActiveNodes": 10
+          },
+          {
+            "tier": 2,
+            "machines": {
+              "simple-core": 1,
+              "copper-gear": 1,
+              "copper-plate": 1,
+              "extract:copper": 1,
+              "charcoal": 1,
+              "extract:wood": 1,
+              "basic-core": 1,
+              "iron-wire": 1,
+              "iron-plate": 1,
+              "extract:iron": 1
+            },
+            "actualRate": 1.2,
+            "machinesCount": 10,
+            "addedMachines": 4,
+            "addedSupport": 2,
+            "connections": 9,
+            "duration": 37.5,
+            "start": 80.5,
+            "first": 101.5,
+            "stable": 118,
+            "readyForNext": 118,
+            "wait": 239,
+            "researchDuringBuild": [],
+            "olderTierImprovements": 0,
+            "estimatedActiveNodes": 16
+          },
+          {
+            "tier": 3,
+            "machines": {
+              "simple-core": 1,
+              "copper-gear": 1,
+              "copper-plate": 1,
+              "extract:copper": 1,
+              "charcoal": 1,
+              "extract:wood": 1,
+              "basic-core": 1,
+              "iron-wire": 1,
+              "iron-plate": 1,
+              "extract:iron": 1,
+              "automata-core": 1,
+              "circuit-a": 1,
+              "copper-wire": 1,
+              "brick": 1,
+              "extract:stone": 1
+            },
+            "actualRate": 0.75,
+            "machinesCount": 15,
+            "addedMachines": 5,
+            "addedSupport": 3,
+            "connections": 12,
+            "duration": 50,
+            "start": 357,
+            "first": 384.5,
+            "stable": 407,
+            "readyForNext": 407,
+            "wait": 2385,
+            "researchDuringBuild": [],
+            "olderTierImprovements": 0,
+            "estimatedActiveNodes": 24
+          },
+          {
+            "tier": 4,
+            "machines": {
+              "simple-core": 1,
+              "copper-gear": 1,
+              "copper-plate": 1,
+              "extract:copper": 1,
+              "charcoal": 1,
+              "extract:wood": 1,
+              "basic-core": 1,
+              "iron-wire": 1,
+              "iron-plate": 1,
+              "extract:iron": 1,
+              "automata-core": 1,
+              "circuit-a": 1,
+              "copper-wire": 1,
+              "brick": 1,
+              "extract:stone": 1,
+              "hydro-core": 1,
+              "hydraulic-actuator": 1,
+              "iron-gear": 1,
+              "motor": 1,
+              "coolant": 1,
+              "lake-intake": 1,
+              "conductive-slurry": 1
+            },
+            "actualRate": 0.35294117647058826,
+            "machinesCount": 22,
+            "addedMachines": 7,
+            "addedSupport": 4,
+            "connections": 17,
+            "duration": 70,
+            "start": 2792,
+            "first": 2830.5,
+            "stable": 2862,
+            "readyForNext": 2862,
+            "wait": 6779,
+            "researchDuringBuild": [],
+            "olderTierImprovements": 0,
+            "estimatedActiveNodes": 34
+          },
+          {
+            "tier": 5,
+            "machines": {
+              "simple-core": 1,
+              "copper-gear": 1,
+              "copper-plate": 1,
+              "extract:copper": 2,
+              "charcoal": 1,
+              "extract:wood": 2,
+              "basic-core": 1,
+              "iron-wire": 1,
+              "iron-plate": 1,
+              "extract:iron": 1,
+              "automata-core": 1,
+              "circuit-a": 1,
+              "copper-wire": 1,
+              "brick": 1,
+              "extract:stone": 1,
+              "hydro-core": 1,
+              "hydraulic-actuator": 1,
+              "iron-gear": 1,
+              "motor": 1,
+              "coolant": 1,
+              "lake-intake": 1,
+              "conductive-slurry": 1,
+              "shiny-core": 1,
+              "refined-mithril": 1,
+              "extract:mythril": 1
+            },
+            "actualRate": 0.3034134007585335,
+            "machinesCount": 27,
+            "addedMachines": 5,
+            "addedSupport": 3,
+            "connections": 12,
+            "duration": 50,
+            "start": 9641,
+            "first": 9668.5,
+            "stable": 9691,
+            "readyForNext": 9691,
+            "wait": 11818,
+            "researchDuringBuild": [],
+            "olderTierImprovements": 0,
+            "estimatedActiveNodes": 42
+          },
+          {
+            "tier": 6,
+            "machines": {
+              "simple-core": 1,
+              "copper-gear": 1,
+              "copper-plate": 2,
+              "extract:copper": 3,
+              "charcoal": 2,
+              "extract:wood": 3,
+              "basic-core": 1,
+              "iron-wire": 1,
+              "iron-plate": 1,
+              "extract:iron": 2,
+              "automata-core": 1,
+              "circuit-a": 1,
+              "copper-wire": 1,
+              "brick": 1,
+              "extract:stone": 1,
+              "hydro-core": 1,
+              "hydraulic-actuator": 1,
+              "iron-gear": 1,
+              "motor": 1,
+              "coolant": 1,
+              "lake-intake": 1,
+              "conductive-slurry": 1,
+              "shiny-core": 1,
+              "refined-mithril": 1,
+              "extract:mythril": 1,
+              "command-core": 1,
+              "precision-controller": 1,
+              "advanced-actuator": 1
+            },
+            "actualRate": 0.2631578947368421,
+            "machinesCount": 35,
+            "addedMachines": 8,
+            "addedSupport": 4,
+            "connections": 18,
+            "duration": 75,
+            "start": 21509,
+            "first": 21550.5,
+            "stable": 21584,
+            "readyForNext": 21584,
+            "wait": 22729.5,
+            "researchDuringBuild": [],
+            "olderTierImprovements": 0,
+            "estimatedActiveNodes": 54
+          }
+        ],
+        "maxProductionAndSupportNodes": 54,
+        "meanWasteTreatmentNodesAtTier6Rate": 4,
+        "mapEquivalentsAt60Nodes": 1,
+        "exceeds6540NodeBudget": false,
+        "coreProduced": [
+          236,
+          235,
+          230,
+          200,
+          140,
+          60
+        ],
+        "remainingCores": [
+          1.7031354104801721e-10,
+          1.8269563639705666e-10,
+          2.1040058584276267e-10,
+          1.9212142987612424e-10,
+          1.2932588333569583e-10,
+          0
+        ],
+        "raw": {
+          "copper": 14778,
+          "wood": 13144,
+          "iron": 9150,
+          "stone": 630,
+          "water": 4440,
+          "mythril": 1440
+        },
+        "completions": [
+          {
+            "id": "assembler",
+            "time": 80.5,
+            "tier": 1,
+            "kind": "unlock"
+          },
+          {
+            "id": "exploration",
+            "time": 157,
+            "tier": 2,
+            "kind": "unlock"
+          },
+          {
+            "id": "road",
+            "time": 257,
+            "tier": 2,
+            "kind": "unlock"
+          },
+          {
+            "id": "automataCore",
+            "time": 357,
+            "tier": 2,
+            "kind": "unlock"
+          },
+          {
+            "id": "Hydrochemistry",
+            "time": 1192,
+            "tier": 3,
+            "kind": "unlock"
+          },
+          {
+            "id": "Hydraulic Assembly",
+            "time": 2792,
+            "tier": 3,
+            "kind": "unlock"
+          },
+          {
+            "id": "Fluid Routing",
+            "time": 6241,
+            "tier": 4,
+            "kind": "unlock"
+          },
+          {
+            "id": "Ore Separation",
+            "time": 9641,
+            "tier": 4,
+            "kind": "unlock"
+          },
+          {
+            "id": "Sealed Robotics",
+            "time": 13599,
+            "tier": 4,
+            "kind": "unlock"
+          },
+          {
+            "id": "Mineral Recovery",
+            "time": 17554,
+            "tier": 5,
+            "kind": "unlock"
+          },
+          {
+            "id": "Precision Control",
+            "time": 21509,
+            "tier": 5,
+            "kind": "unlock"
+          },
+          {
+            "id": "Heavy Robotics",
+            "time": 26073.5,
+            "tier": 5,
+            "kind": "unlock"
+          },
+          {
+            "id": "Mineral Regeneration",
+            "time": 30633.5,
+            "tier": 5,
+            "kind": "unlock"
+          },
+          {
+            "id": "Autonomous Logistics",
+            "time": 35193.5,
+            "tier": 6,
+            "kind": "unlock"
+          },
+          {
+            "id": "Command Robotics",
+            "time": 39753.5,
+            "tier": 6,
+            "kind": "unlock"
+          },
+          {
+            "id": "Endgame Theory",
+            "time": 44313.5,
+            "tier": 6,
+            "kind": "unlock"
+          }
+        ],
+        "switches": [],
+        "completedProjects": 16,
+        "totalProjects": 16,
+        "truncated": false,
+        "uptime": 1,
+        "necessaryOnly": true,
+        "selectedResearch": [
+          {
+            "id": "assembler",
+            "tier": 1,
+            "each": 1
+          },
+          {
+            "id": "exploration",
+            "tier": 2,
+            "each": 1
+          },
+          {
+            "id": "road",
+            "tier": 2,
+            "each": 2
+          },
+          {
+            "id": "automataCore",
+            "tier": 2,
+            "each": 2
+          },
+          {
+            "id": "Hydrochemistry",
+            "tier": 3,
+            "each": 10
+          },
+          {
+            "id": "Hydraulic Assembly",
+            "tier": 3,
+            "each": 20
+          },
+          {
+            "id": "Fluid Routing",
+            "tier": 4,
+            "each": 20
+          },
+          {
+            "id": "Sealed Robotics",
+            "tier": 4,
+            "each": 20
+          },
+          {
+            "id": "Ore Separation",
+            "tier": 4,
+            "each": 20
+          },
+          {
+            "id": "Mineral Recovery",
+            "tier": 5,
+            "each": 20
+          },
+          {
+            "id": "Heavy Robotics",
+            "tier": 5,
+            "each": 20
+          },
+          {
+            "id": "Precision Control",
+            "tier": 5,
+            "each": 20
+          },
+          {
+            "id": "Autonomous Logistics",
+            "tier": 6,
+            "each": 20
+          },
+          {
+            "id": "Command Robotics",
+            "tier": 6,
+            "each": 20
+          },
+          {
+            "id": "Endgame Theory",
+            "tier": 6,
+            "each": 20
+          },
+          {
+            "id": "Mineral Regeneration",
+            "tier": 5,
+            "each": 20
+          }
+        ],
+        "rates": [
+          0.25,
+          0.25,
+          0.25,
+          0.25,
+          0.25,
+          0.25
+        ],
+        "elapsedSeconds": 44313.5,
+        "placementSeconds": 340,
+        "totalPlacedNodes": 54,
+        "totalConnections": 82
+      },
+      {
+        "profile": "speedrunner",
+        "policy": "capability-first",
+        "checkpointSeconds": 25776,
+        "allFixedSeconds": 25776,
+        "forcedWaitSeconds": 25343.5,
+        "labActiveSeconds": 236,
+        "builds": [
+          {
+            "tier": 1,
+            "machines": {
+              "simple-core": 1,
+              "copper-gear": 1,
+              "copper-plate": 1,
+              "extract:copper": 1,
+              "charcoal": 1,
+              "extract:wood": 1
+            },
+            "actualRate": 1.5,
+            "machinesCount": 6,
+            "addedMachines": 6,
+            "addedSupport": 3,
+            "connections": 14,
+            "duration": 57.5,
+            "start": 0,
+            "first": 32,
+            "stable": 57.5,
+            "readyForNext": 57.5,
+            "wait": 23,
+            "researchDuringBuild": [],
+            "olderTierImprovements": 0,
+            "estimatedActiveNodes": 10
+          },
+          {
+            "tier": 2,
+            "machines": {
+              "simple-core": 1,
+              "copper-gear": 1,
+              "copper-plate": 1,
+              "extract:copper": 1,
+              "charcoal": 1,
+              "extract:wood": 1,
+              "basic-core": 1,
+              "iron-wire": 1,
+              "iron-plate": 1,
+              "extract:iron": 1
+            },
+            "actualRate": 1.2,
+            "machinesCount": 10,
+            "addedMachines": 4,
+            "addedSupport": 2,
+            "connections": 9,
+            "duration": 37.5,
+            "start": 80.5,
+            "first": 101.5,
+            "stable": 118,
+            "readyForNext": 118,
+            "wait": 239,
+            "researchDuringBuild": [],
+            "olderTierImprovements": 0,
+            "estimatedActiveNodes": 16
+          },
+          {
+            "tier": 3,
+            "machines": {
+              "simple-core": 1,
+              "copper-gear": 1,
+              "copper-plate": 1,
+              "extract:copper": 1,
+              "charcoal": 1,
+              "extract:wood": 1,
+              "basic-core": 1,
+              "iron-wire": 1,
+              "iron-plate": 1,
+              "extract:iron": 1,
+              "automata-core": 1,
+              "circuit-a": 1,
+              "copper-wire": 1,
+              "brick": 1,
+              "extract:stone": 1
+            },
+            "actualRate": 0.75,
+            "machinesCount": 15,
+            "addedMachines": 5,
+            "addedSupport": 3,
+            "connections": 12,
+            "duration": 50,
+            "start": 357,
+            "first": 384.5,
+            "stable": 407,
+            "readyForNext": 407,
+            "wait": 2385,
+            "researchDuringBuild": [],
+            "olderTierImprovements": 0,
+            "estimatedActiveNodes": 24
+          },
+          {
+            "tier": 4,
+            "machines": {
+              "simple-core": 1,
+              "copper-gear": 1,
+              "copper-plate": 1,
+              "extract:copper": 2,
+              "charcoal": 1,
+              "extract:wood": 2,
+              "basic-core": 1,
+              "iron-wire": 1,
+              "iron-plate": 1,
+              "extract:iron": 1,
+              "automata-core": 1,
+              "circuit-a": 1,
+              "copper-wire": 1,
+              "brick": 1,
+              "extract:stone": 1,
+              "hydro-core": 1,
+              "hydraulic-actuator": 1,
+              "iron-gear": 1,
+              "motor": 1,
+              "coolant": 1,
+              "lake-intake": 1,
+              "conductive-slurry": 1
+            },
+            "actualRate": 0.5882352941176471,
+            "machinesCount": 24,
+            "addedMachines": 9,
+            "addedSupport": 5,
+            "connections": 21,
+            "duration": 87.5,
+            "start": 2792,
+            "first": 2840.5,
+            "stable": 2879.5,
+            "readyForNext": 2879.5,
+            "wait": 4054,
+            "researchDuringBuild": [],
+            "olderTierImprovements": 0,
+            "estimatedActiveNodes": 37
+          },
+          {
+            "tier": 5,
+            "machines": {
+              "simple-core": 1,
+              "copper-gear": 1,
+              "copper-plate": 2,
+              "extract:copper": 3,
+              "charcoal": 2,
+              "extract:wood": 3,
+              "basic-core": 1,
+              "iron-wire": 1,
+              "iron-plate": 1,
+              "extract:iron": 2,
+              "automata-core": 1,
+              "circuit-a": 1,
+              "copper-wire": 1,
+              "brick": 1,
+              "extract:stone": 1,
+              "hydro-core": 1,
+              "hydraulic-actuator": 1,
+              "iron-gear": 1,
+              "motor": 1,
+              "coolant": 1,
+              "lake-intake": 1,
+              "conductive-slurry": 1,
+              "shiny-core": 1,
+              "refined-mithril": 1,
+              "extract:mythril": 1
+            },
+            "actualRate": 0.5128205128205128,
+            "machinesCount": 32,
+            "addedMachines": 8,
+            "addedSupport": 4,
+            "connections": 18,
+            "duration": 75,
+            "start": 6933.5,
+            "first": 6975,
+            "stable": 7008.5,
+            "readyForNext": 7008.5,
+            "wait": 6950,
+            "researchDuringBuild": [],
+            "olderTierImprovements": 0,
+            "estimatedActiveNodes": 49
+          },
+          {
+            "tier": 6,
+            "machines": {
+              "simple-core": 1,
+              "copper-gear": 1,
+              "copper-plate": 3,
+              "extract:copper": 5,
+              "charcoal": 4,
+              "extract:wood": 5,
+              "basic-core": 1,
+              "iron-wire": 1,
+              "iron-plate": 2,
+              "extract:iron": 4,
+              "automata-core": 1,
+              "circuit-a": 1,
+              "copper-wire": 1,
+              "brick": 1,
+              "extract:stone": 1,
+              "hydro-core": 1,
+              "hydraulic-actuator": 1,
+              "iron-gear": 1,
+              "motor": 1,
+              "coolant": 1,
+              "lake-intake": 1,
+              "conductive-slurry": 1,
+              "shiny-core": 1,
+              "refined-mithril": 1,
+              "extract:mythril": 1,
+              "command-core": 1,
+              "precision-controller": 1,
+              "advanced-actuator": 1
+            },
+            "actualRate": 0.5084745762711864,
+            "machinesCount": 45,
+            "addedMachines": 13,
+            "addedSupport": 7,
+            "connections": 30,
+            "duration": 125,
+            "start": 13958.5,
+            "first": 14027.5,
+            "stable": 14083.5,
+            "readyForNext": 14083.5,
+            "wait": 11692.5,
+            "researchDuringBuild": [],
+            "olderTierImprovements": 0,
+            "estimatedActiveNodes": 69
+          }
+        ],
+        "maxProductionAndSupportNodes": 69,
+        "meanWasteTreatmentNodesAtTier6Rate": 4,
+        "mapEquivalentsAt60Nodes": 2,
+        "exceeds6540NodeBudget": false,
+        "coreProduced": [
+          236,
+          235,
+          230,
+          200,
+          140,
+          60
+        ],
+        "remainingCores": [
+          2.7208990616145456e-10,
+          2.6841195932547635e-10,
+          2.6245450257533776e-10,
+          1.4456502661630566e-10,
+          0,
+          0
+        ],
+        "raw": {
+          "copper": 14778,
+          "wood": 13144,
+          "iron": 9150,
+          "stone": 630,
+          "water": 4440,
+          "mythril": 1440
+        },
+        "completions": [
+          {
+            "id": "assembler",
+            "time": 80.5,
+            "tier": 1,
+            "kind": "unlock"
+          },
+          {
+            "id": "exploration",
+            "time": 157,
+            "tier": 2,
+            "kind": "unlock"
+          },
+          {
+            "id": "road",
+            "time": 257,
+            "tier": 2,
+            "kind": "unlock"
+          },
+          {
+            "id": "automataCore",
+            "time": 357,
+            "tier": 2,
+            "kind": "unlock"
+          },
+          {
+            "id": "Hydrochemistry",
+            "time": 1192,
+            "tier": 3,
+            "kind": "unlock"
+          },
+          {
+            "id": "Hydraulic Assembly",
+            "time": 2792,
+            "tier": 3,
+            "kind": "unlock"
+          },
+          {
+            "id": "Fluid Routing",
+            "time": 4893.5,
+            "tier": 4,
+            "kind": "unlock"
+          },
+          {
+            "id": "Ore Separation",
+            "time": 6933.5,
+            "tier": 4,
+            "kind": "unlock"
+          },
+          {
+            "id": "Sealed Robotics",
+            "time": 9278.5,
+            "tier": 4,
+            "kind": "unlock"
+          },
+          {
+            "id": "Mineral Recovery",
+            "time": 11618.5,
+            "tier": 5,
+            "kind": "unlock"
+          },
+          {
+            "id": "Precision Control",
+            "time": 13958.5,
+            "tier": 5,
+            "kind": "unlock"
+          },
+          {
+            "id": "Heavy Robotics",
+            "time": 16336,
+            "tier": 5,
+            "kind": "unlock"
+          },
+          {
+            "id": "Mineral Regeneration",
+            "time": 18696,
+            "tier": 5,
+            "kind": "unlock"
+          },
+          {
+            "id": "Autonomous Logistics",
+            "time": 21056,
+            "tier": 6,
+            "kind": "unlock"
+          },
+          {
+            "id": "Command Robotics",
+            "time": 23416,
+            "tier": 6,
+            "kind": "unlock"
+          },
+          {
+            "id": "Endgame Theory",
+            "time": 25776,
+            "tier": 6,
+            "kind": "unlock"
+          }
+        ],
+        "switches": [],
+        "completedProjects": 16,
+        "totalProjects": 16,
+        "truncated": false,
+        "uptime": 1,
+        "necessaryOnly": true,
+        "selectedResearch": [
+          {
+            "id": "assembler",
+            "tier": 1,
+            "each": 1
+          },
+          {
+            "id": "exploration",
+            "tier": 2,
+            "each": 1
+          },
+          {
+            "id": "road",
+            "tier": 2,
+            "each": 2
+          },
+          {
+            "id": "automataCore",
+            "tier": 2,
+            "each": 2
+          },
+          {
+            "id": "Hydrochemistry",
+            "tier": 3,
+            "each": 10
+          },
+          {
+            "id": "Hydraulic Assembly",
+            "tier": 3,
+            "each": 20
+          },
+          {
+            "id": "Fluid Routing",
+            "tier": 4,
+            "each": 20
+          },
+          {
+            "id": "Sealed Robotics",
+            "tier": 4,
+            "each": 20
+          },
+          {
+            "id": "Ore Separation",
+            "tier": 4,
+            "each": 20
+          },
+          {
+            "id": "Mineral Recovery",
+            "tier": 5,
+            "each": 20
+          },
+          {
+            "id": "Heavy Robotics",
+            "tier": 5,
+            "each": 20
+          },
+          {
+            "id": "Precision Control",
+            "tier": 5,
+            "each": 20
+          },
+          {
+            "id": "Autonomous Logistics",
+            "tier": 6,
+            "each": 20
+          },
+          {
+            "id": "Command Robotics",
+            "tier": 6,
+            "each": 20
+          },
+          {
+            "id": "Endgame Theory",
+            "tier": 6,
+            "each": 20
+          },
+          {
+            "id": "Mineral Regeneration",
+            "tier": 5,
+            "each": 20
+          }
+        ],
+        "rates": [
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5
+        ],
+        "elapsedSeconds": 25776,
+        "placementSeconds": 432.5,
+        "totalPlacedNodes": 69,
+        "totalConnections": 104
+      },
+      {
+        "profile": "speedrunner",
+        "policy": "capability-first",
+        "checkpointSeconds": 18509.5,
+        "allFixedSeconds": 18509.5,
+        "forcedWaitSeconds": 17982,
+        "labActiveSeconds": 236,
+        "builds": [
+          {
+            "tier": 1,
+            "machines": {
+              "simple-core": 1,
+              "copper-gear": 1,
+              "copper-plate": 1,
+              "extract:copper": 1,
+              "charcoal": 1,
+              "extract:wood": 1
+            },
+            "actualRate": 1.5,
+            "machinesCount": 6,
+            "addedMachines": 6,
+            "addedSupport": 3,
+            "connections": 14,
+            "duration": 57.5,
+            "start": 0,
+            "first": 32,
+            "stable": 57.5,
+            "readyForNext": 57.5,
+            "wait": 23,
+            "researchDuringBuild": [],
+            "olderTierImprovements": 0,
+            "estimatedActiveNodes": 10
+          },
+          {
+            "tier": 2,
+            "machines": {
+              "simple-core": 1,
+              "copper-gear": 1,
+              "copper-plate": 1,
+              "extract:copper": 1,
+              "charcoal": 1,
+              "extract:wood": 1,
+              "basic-core": 1,
+              "iron-wire": 1,
+              "iron-plate": 1,
+              "extract:iron": 1
+            },
+            "actualRate": 1.2,
+            "machinesCount": 10,
+            "addedMachines": 4,
+            "addedSupport": 2,
+            "connections": 9,
+            "duration": 37.5,
+            "start": 80.5,
+            "first": 101.5,
+            "stable": 118,
+            "readyForNext": 118,
+            "wait": 239,
+            "researchDuringBuild": [],
+            "olderTierImprovements": 0,
+            "estimatedActiveNodes": 16
+          },
+          {
+            "tier": 3,
+            "machines": {
+              "simple-core": 1,
+              "copper-gear": 1,
+              "copper-plate": 1,
+              "extract:copper": 1,
+              "charcoal": 1,
+              "extract:wood": 1,
+              "basic-core": 1,
+              "iron-wire": 1,
+              "iron-plate": 1,
+              "extract:iron": 1,
+              "automata-core": 1,
+              "circuit-a": 1,
+              "copper-wire": 1,
+              "brick": 1,
+              "extract:stone": 1
+            },
+            "actualRate": 0.75,
+            "machinesCount": 15,
+            "addedMachines": 5,
+            "addedSupport": 3,
+            "connections": 12,
+            "duration": 50,
+            "start": 357,
+            "first": 384.5,
+            "stable": 407,
+            "readyForNext": 407,
+            "wait": 2385,
+            "researchDuringBuild": [],
+            "olderTierImprovements": 0,
+            "estimatedActiveNodes": 24
+          },
+          {
+            "tier": 4,
+            "machines": {
+              "simple-core": 1,
+              "copper-gear": 1,
+              "copper-plate": 2,
+              "extract:copper": 3,
+              "charcoal": 2,
+              "extract:wood": 2,
+              "basic-core": 1,
+              "iron-wire": 1,
+              "iron-plate": 1,
+              "extract:iron": 2,
+              "automata-core": 1,
+              "circuit-a": 1,
+              "copper-wire": 1,
+              "brick": 1,
+              "extract:stone": 1,
+              "hydro-core": 1,
+              "hydraulic-actuator": 1,
+              "iron-gear": 1,
+              "motor": 1,
+              "coolant": 1,
+              "lake-intake": 1,
+              "conductive-slurry": 1
+            },
+            "actualRate": 0.8571428571428571,
+            "machinesCount": 28,
+            "addedMachines": 13,
+            "addedSupport": 7,
+            "connections": 30,
+            "duration": 125,
+            "start": 2792,
+            "first": 2861,
+            "stable": 2917,
+            "readyForNext": 2917,
+            "wait": 2762.5,
+            "researchDuringBuild": [],
+            "olderTierImprovements": 0,
+            "estimatedActiveNodes": 43
+          },
+          {
+            "tier": 5,
+            "machines": {
+              "simple-core": 1,
+              "copper-gear": 1,
+              "copper-plate": 3,
+              "extract:copper": 4,
+              "charcoal": 3,
+              "extract:wood": 4,
+              "basic-core": 1,
+              "iron-wire": 1,
+              "iron-plate": 2,
+              "extract:iron": 3,
+              "automata-core": 1,
+              "circuit-a": 1,
+              "copper-wire": 1,
+              "brick": 1,
+              "extract:stone": 1,
+              "hydro-core": 1,
+              "hydraulic-actuator": 1,
+              "iron-gear": 1,
+              "motor": 1,
+              "coolant": 1,
+              "lake-intake": 1,
+              "conductive-slurry": 1,
+              "shiny-core": 1,
+              "refined-mithril": 1,
+              "extract:mythril": 1
+            },
+            "actualRate": 0.75,
+            "machinesCount": 38,
+            "addedMachines": 10,
+            "addedSupport": 5,
+            "connections": 23,
+            "duration": 95,
+            "start": 5679.5,
+            "first": 5732,
+            "stable": 5774.5,
+            "readyForNext": 5774.5,
+            "wait": 4711.5,
+            "researchDuringBuild": [],
+            "olderTierImprovements": 0,
+            "estimatedActiveNodes": 58
+          },
+          {
+            "tier": 6,
+            "machines": {
+              "simple-core": 1,
+              "copper-gear": 1,
+              "copper-plate": 5,
+              "extract:copper": 8,
+              "charcoal": 5,
+              "extract:wood": 7,
+              "basic-core": 1,
+              "iron-wire": 1,
+              "iron-plate": 3,
+              "extract:iron": 5,
+              "automata-core": 1,
+              "circuit-a": 1,
+              "copper-wire": 1,
+              "brick": 1,
+              "extract:stone": 1,
+              "hydro-core": 1,
+              "hydraulic-actuator": 1,
+              "iron-gear": 1,
+              "motor": 1,
+              "coolant": 1,
+              "lake-intake": 1,
+              "conductive-slurry": 1,
+              "shiny-core": 1,
+              "refined-mithril": 1,
+              "extract:mythril": 1,
+              "command-core": 1,
+              "precision-controller": 1,
+              "advanced-actuator": 1
+            },
+            "actualRate": 0.75,
+            "machinesCount": 55,
+            "addedMachines": 17,
+            "addedSupport": 9,
+            "connections": 39,
+            "duration": 162.5,
+            "start": 10486,
+            "first": 10575.5,
+            "stable": 10648.5,
+            "readyForNext": 10648.5,
+            "wait": 7861,
+            "researchDuringBuild": [],
+            "olderTierImprovements": 0,
+            "estimatedActiveNodes": 84
+          }
+        ],
+        "maxProductionAndSupportNodes": 84,
+        "meanWasteTreatmentNodesAtTier6Rate": 4,
+        "mapEquivalentsAt60Nodes": 2,
+        "exceeds6540NodeBudget": false,
+        "coreProduced": [
+          236,
+          235,
+          230,
+          200,
+          140,
+          60
+        ],
+        "remainingCores": [
+          1.4010570481559625e-10,
+          1.3923262542903103e-10,
+          1.351172507213505e-10,
+          1.1533973776067796e-10,
+          8.637712767267658e-11,
+          0
+        ],
+        "raw": {
+          "copper": 14778,
+          "wood": 13144,
+          "iron": 9150,
+          "stone": 630,
+          "water": 4440,
+          "mythril": 1440
+        },
+        "completions": [
+          {
+            "id": "assembler",
+            "time": 80.5,
+            "tier": 1,
+            "kind": "unlock"
+          },
+          {
+            "id": "exploration",
+            "time": 157,
+            "tier": 2,
+            "kind": "unlock"
+          },
+          {
+            "id": "road",
+            "time": 257,
+            "tier": 2,
+            "kind": "unlock"
+          },
+          {
+            "id": "automataCore",
+            "time": 357,
+            "tier": 2,
+            "kind": "unlock"
+          },
+          {
+            "id": "Hydrochemistry",
+            "time": 1192,
+            "tier": 3,
+            "kind": "unlock"
+          },
+          {
+            "id": "Hydraulic Assembly",
+            "time": 2792,
+            "tier": 3,
+            "kind": "unlock"
+          },
+          {
+            "id": "Fluid Routing",
+            "time": 4279.5,
+            "tier": 4,
+            "kind": "unlock"
+          },
+          {
+            "id": "Ore Separation",
+            "time": 5679.5,
+            "tier": 4,
+            "kind": "unlock"
+          },
+          {
+            "id": "Sealed Robotics",
+            "time": 7286,
+            "tier": 4,
+            "kind": "unlock"
+          },
+          {
+            "id": "Mineral Recovery",
+            "time": 8886,
+            "tier": 5,
+            "kind": "unlock"
+          },
+          {
+            "id": "Precision Control",
+            "time": 10486,
+            "tier": 5,
+            "kind": "unlock"
+          },
+          {
+            "id": "Heavy Robotics",
+            "time": 12109.5,
+            "tier": 5,
+            "kind": "unlock"
+          },
+          {
+            "id": "Mineral Regeneration",
+            "time": 13709.5,
+            "tier": 5,
+            "kind": "unlock"
+          },
+          {
+            "id": "Autonomous Logistics",
+            "time": 15309.5,
+            "tier": 6,
+            "kind": "unlock"
+          },
+          {
+            "id": "Command Robotics",
+            "time": 16909.5,
+            "tier": 6,
+            "kind": "unlock"
+          },
+          {
+            "id": "Endgame Theory",
+            "time": 18509.5,
+            "tier": 6,
+            "kind": "unlock"
+          }
+        ],
+        "switches": [],
+        "completedProjects": 16,
+        "totalProjects": 16,
+        "truncated": false,
+        "uptime": 1,
+        "necessaryOnly": true,
+        "selectedResearch": [
+          {
+            "id": "assembler",
+            "tier": 1,
+            "each": 1
+          },
+          {
+            "id": "exploration",
+            "tier": 2,
+            "each": 1
+          },
+          {
+            "id": "road",
+            "tier": 2,
+            "each": 2
+          },
+          {
+            "id": "automataCore",
+            "tier": 2,
+            "each": 2
+          },
+          {
+            "id": "Hydrochemistry",
+            "tier": 3,
+            "each": 10
+          },
+          {
+            "id": "Hydraulic Assembly",
+            "tier": 3,
+            "each": 20
+          },
+          {
+            "id": "Fluid Routing",
+            "tier": 4,
+            "each": 20
+          },
+          {
+            "id": "Sealed Robotics",
+            "tier": 4,
+            "each": 20
+          },
+          {
+            "id": "Ore Separation",
+            "tier": 4,
+            "each": 20
+          },
+          {
+            "id": "Mineral Recovery",
+            "tier": 5,
+            "each": 20
+          },
+          {
+            "id": "Heavy Robotics",
+            "tier": 5,
+            "each": 20
+          },
+          {
+            "id": "Precision Control",
+            "tier": 5,
+            "each": 20
+          },
+          {
+            "id": "Autonomous Logistics",
+            "tier": 6,
+            "each": 20
+          },
+          {
+            "id": "Command Robotics",
+            "tier": 6,
+            "each": 20
+          },
+          {
+            "id": "Endgame Theory",
+            "tier": 6,
+            "each": 20
+          },
+          {
+            "id": "Mineral Regeneration",
+            "tier": 5,
+            "each": 20
+          }
+        ],
+        "rates": [
+          0.75,
+          0.75,
+          0.75,
+          0.75,
+          0.75,
+          0.75
+        ],
+        "elapsedSeconds": 18509.5,
+        "placementSeconds": 527.5,
+        "totalPlacedNodes": 84,
+        "totalConnections": 127
+      },
+      {
+        "profile": "speedrunner",
+        "policy": "capability-first",
+        "checkpointSeconds": 14247.5,
+        "allFixedSeconds": 14247.5,
+        "forcedWaitSeconds": 13605,
+        "labActiveSeconds": 236,
+        "builds": [
+          {
+            "tier": 1,
+            "machines": {
+              "simple-core": 1,
+              "copper-gear": 1,
+              "copper-plate": 1,
+              "extract:copper": 1,
+              "charcoal": 1,
+              "extract:wood": 1
+            },
+            "actualRate": 1.5,
+            "machinesCount": 6,
+            "addedMachines": 6,
+            "addedSupport": 3,
+            "connections": 14,
+            "duration": 57.5,
+            "start": 0,
+            "first": 32,
+            "stable": 57.5,
+            "readyForNext": 57.5,
+            "wait": 23,
+            "researchDuringBuild": [],
+            "olderTierImprovements": 0,
+            "estimatedActiveNodes": 10
+          },
+          {
+            "tier": 2,
+            "machines": {
+              "simple-core": 1,
+              "copper-gear": 1,
+              "copper-plate": 1,
+              "extract:copper": 1,
+              "charcoal": 1,
+              "extract:wood": 1,
+              "basic-core": 1,
+              "iron-wire": 1,
+              "iron-plate": 1,
+              "extract:iron": 1
+            },
+            "actualRate": 1.2,
+            "machinesCount": 10,
+            "addedMachines": 4,
+            "addedSupport": 2,
+            "connections": 9,
+            "duration": 37.5,
+            "start": 80.5,
+            "first": 101.5,
+            "stable": 118,
+            "readyForNext": 118,
+            "wait": 239,
+            "researchDuringBuild": [],
+            "olderTierImprovements": 0,
+            "estimatedActiveNodes": 16
+          },
+          {
+            "tier": 3,
+            "machines": {
+              "simple-core": 1,
+              "copper-gear": 1,
+              "copper-plate": 1,
+              "extract:copper": 2,
+              "charcoal": 1,
+              "extract:wood": 1,
+              "basic-core": 1,
+              "iron-wire": 1,
+              "iron-plate": 1,
+              "extract:iron": 1,
+              "automata-core": 1,
+              "circuit-a": 1,
+              "copper-wire": 1,
+              "brick": 1,
+              "extract:stone": 1
+            },
+            "actualRate": 1,
+            "machinesCount": 16,
+            "addedMachines": 6,
+            "addedSupport": 3,
+            "connections": 14,
+            "duration": 57.5,
+            "start": 357,
+            "first": 389,
+            "stable": 414.5,
+            "readyForNext": 414.5,
+            "wait": 1783,
+            "researchDuringBuild": [],
+            "olderTierImprovements": 0,
+            "estimatedActiveNodes": 25
+          },
+          {
+            "tier": 4,
+            "machines": {
+              "simple-core": 1,
+              "copper-gear": 1,
+              "copper-plate": 2,
+              "extract:copper": 3,
+              "charcoal": 2,
+              "extract:wood": 3,
+              "basic-core": 1,
+              "iron-wire": 1,
+              "iron-plate": 1,
+              "extract:iron": 2,
+              "automata-core": 1,
+              "circuit-a": 1,
+              "copper-wire": 1,
+              "brick": 1,
+              "extract:stone": 1,
+              "hydro-core": 1,
+              "hydraulic-actuator": 1,
+              "iron-gear": 1,
+              "motor": 1,
+              "coolant": 1,
+              "lake-intake": 1,
+              "conductive-slurry": 1
+            },
+            "actualRate": 1,
+            "machinesCount": 29,
+            "addedMachines": 13,
+            "addedSupport": 7,
+            "connections": 30,
+            "duration": 125,
+            "start": 2197.5,
+            "first": 2266.5,
+            "stable": 2322.5,
+            "readyForNext": 2322.5,
+            "wait": 2362.5,
+            "researchDuringBuild": [],
+            "olderTierImprovements": 0,
+            "estimatedActiveNodes": 45
+          },
+          {
+            "tier": 5,
+            "machines": {
+              "simple-core": 1,
+              "copper-gear": 1,
+              "copper-plate": 4,
+              "extract:copper": 6,
+              "charcoal": 4,
+              "extract:wood": 5,
+              "basic-core": 1,
+              "iron-wire": 1,
+              "iron-plate": 2,
+              "extract:iron": 4,
+              "automata-core": 1,
+              "circuit-a": 1,
+              "copper-wire": 1,
+              "brick": 1,
+              "extract:stone": 1,
+              "hydro-core": 1,
+              "hydraulic-actuator": 1,
+              "iron-gear": 1,
+              "motor": 1,
+              "coolant": 1,
+              "lake-intake": 1,
+              "conductive-slurry": 1,
+              "shiny-core": 1,
+              "refined-mithril": 1,
+              "extract:mythril": 1
+            },
+            "actualRate": 1.0256410256410255,
+            "machinesCount": 44,
+            "addedMachines": 15,
+            "addedSupport": 8,
+            "connections": 35,
+            "duration": 145,
+            "start": 4685,
+            "first": 4765,
+            "stable": 4830,
+            "readyForNext": 4830,
+            "wait": 3388,
+            "researchDuringBuild": [],
+            "olderTierImprovements": 0,
+            "estimatedActiveNodes": 67
+          },
+          {
+            "tier": 6,
+            "machines": {
+              "simple-core": 1,
+              "copper-gear": 1,
+              "copper-plate": 6,
+              "extract:copper": 10,
+              "charcoal": 7,
+              "extract:wood": 10,
+              "basic-core": 1,
+              "iron-wire": 1,
+              "iron-plate": 4,
+              "extract:iron": 7,
+              "automata-core": 1,
+              "circuit-a": 1,
+              "copper-wire": 1,
+              "brick": 1,
+              "extract:stone": 1,
+              "hydro-core": 1,
+              "hydraulic-actuator": 1,
+              "iron-gear": 1,
+              "motor": 1,
+              "coolant": 1,
+              "lake-intake": 1,
+              "conductive-slurry": 1,
+              "shiny-core": 1,
+              "refined-mithril": 1,
+              "extract:mythril": 2,
+              "command-core": 1,
+              "precision-controller": 1,
+              "advanced-actuator": 1
+            },
+            "actualRate": 1,
+            "machinesCount": 67,
+            "addedMachines": 23,
+            "addedSupport": 12,
+            "connections": 53,
+            "duration": 220,
+            "start": 8218,
+            "first": 8339,
+            "stable": 8438,
+            "readyForNext": 8438,
+            "wait": 5809.5,
+            "researchDuringBuild": [],
+            "olderTierImprovements": 0,
+            "estimatedActiveNodes": 102
+          }
+        ],
+        "maxProductionAndSupportNodes": 102,
+        "meanWasteTreatmentNodesAtTier6Rate": 4,
+        "mapEquivalentsAt60Nodes": 2,
+        "exceeds6540NodeBudget": false,
+        "coreProduced": [
+          236,
+          235,
+          230,
+          200,
+          140,
+          60
+        ],
+        "remainingCores": [
+          7.177858307727547e-11,
+          7.082334718688799e-11,
+          6.638378735601691e-11,
+          2.219247008383718e-11,
+          0,
+          0
+        ],
+        "raw": {
+          "copper": 14778,
+          "wood": 13144,
+          "iron": 9150,
+          "stone": 630,
+          "water": 4440,
+          "mythril": 1440
+        },
+        "completions": [
+          {
+            "id": "assembler",
+            "time": 80.5,
+            "tier": 1,
+            "kind": "unlock"
+          },
+          {
+            "id": "exploration",
+            "time": 157,
+            "tier": 2,
+            "kind": "unlock"
+          },
+          {
+            "id": "road",
+            "time": 257,
+            "tier": 2,
+            "kind": "unlock"
+          },
+          {
+            "id": "automataCore",
+            "time": 357,
+            "tier": 2,
+            "kind": "unlock"
+          },
+          {
+            "id": "Hydrochemistry",
+            "time": 997.5,
+            "tier": 3,
+            "kind": "unlock"
+          },
+          {
+            "id": "Hydraulic Assembly",
+            "time": 2197.5,
+            "tier": 3,
+            "kind": "unlock"
+          },
+          {
+            "id": "Fluid Routing",
+            "time": 3485,
+            "tier": 4,
+            "kind": "unlock"
+          },
+          {
+            "id": "Ore Separation",
+            "time": 4685,
+            "tier": 4,
+            "kind": "unlock"
+          },
+          {
+            "id": "Sealed Robotics",
+            "time": 5878,
+            "tier": 4,
+            "kind": "unlock"
+          },
+          {
+            "id": "Mineral Recovery",
+            "time": 7048,
+            "tier": 5,
+            "kind": "unlock"
+          },
+          {
+            "id": "Precision Control",
+            "time": 8218,
+            "tier": 5,
+            "kind": "unlock"
+          },
+          {
+            "id": "Heavy Robotics",
+            "time": 9447.5,
+            "tier": 5,
+            "kind": "unlock"
+          },
+          {
+            "id": "Mineral Regeneration",
+            "time": 10647.5,
+            "tier": 5,
+            "kind": "unlock"
+          },
+          {
+            "id": "Autonomous Logistics",
+            "time": 11847.5,
+            "tier": 6,
+            "kind": "unlock"
+          },
+          {
+            "id": "Command Robotics",
+            "time": 13047.5,
+            "tier": 6,
+            "kind": "unlock"
+          },
+          {
+            "id": "Endgame Theory",
+            "time": 14247.5,
+            "tier": 6,
+            "kind": "unlock"
+          }
+        ],
+        "switches": [],
+        "completedProjects": 16,
+        "totalProjects": 16,
+        "truncated": false,
+        "uptime": 1,
+        "necessaryOnly": true,
+        "selectedResearch": [
+          {
+            "id": "assembler",
+            "tier": 1,
+            "each": 1
+          },
+          {
+            "id": "exploration",
+            "tier": 2,
+            "each": 1
+          },
+          {
+            "id": "road",
+            "tier": 2,
+            "each": 2
+          },
+          {
+            "id": "automataCore",
+            "tier": 2,
+            "each": 2
+          },
+          {
+            "id": "Hydrochemistry",
+            "tier": 3,
+            "each": 10
+          },
+          {
+            "id": "Hydraulic Assembly",
+            "tier": 3,
+            "each": 20
+          },
+          {
+            "id": "Fluid Routing",
+            "tier": 4,
+            "each": 20
+          },
+          {
+            "id": "Sealed Robotics",
+            "tier": 4,
+            "each": 20
+          },
+          {
+            "id": "Ore Separation",
+            "tier": 4,
+            "each": 20
+          },
+          {
+            "id": "Mineral Recovery",
+            "tier": 5,
+            "each": 20
+          },
+          {
+            "id": "Heavy Robotics",
+            "tier": 5,
+            "each": 20
+          },
+          {
+            "id": "Precision Control",
+            "tier": 5,
+            "each": 20
+          },
+          {
+            "id": "Autonomous Logistics",
+            "tier": 6,
+            "each": 20
+          },
+          {
+            "id": "Command Robotics",
+            "tier": 6,
+            "each": 20
+          },
+          {
+            "id": "Endgame Theory",
+            "tier": 6,
+            "each": 20
+          },
+          {
+            "id": "Mineral Regeneration",
+            "tier": 5,
+            "each": 20
+          }
+        ],
+        "rates": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "elapsedSeconds": 14247.5,
+        "placementSeconds": 642.5,
+        "totalPlacedNodes": 102,
+        "totalConnections": 155
+      },
+      {
+        "profile": "speedrunner",
+        "policy": "capability-first",
+        "checkpointSeconds": 9548,
+        "allFixedSeconds": 9548,
+        "forcedWaitSeconds": 8658,
+        "labActiveSeconds": 236,
+        "builds": [
+          {
+            "tier": 1,
+            "machines": {
+              "simple-core": 1,
+              "copper-gear": 1,
+              "copper-plate": 1,
+              "extract:copper": 1,
+              "charcoal": 1,
+              "extract:wood": 1
+            },
+            "actualRate": 1.5,
+            "machinesCount": 6,
+            "addedMachines": 6,
+            "addedSupport": 3,
+            "connections": 14,
+            "duration": 57.5,
+            "start": 0,
+            "first": 32,
+            "stable": 57.5,
+            "readyForNext": 57.5,
+            "wait": 23,
+            "researchDuringBuild": [],
+            "olderTierImprovements": 0,
+            "estimatedActiveNodes": 10
+          },
+          {
+            "tier": 2,
+            "machines": {
+              "simple-core": 1,
+              "copper-gear": 1,
+              "copper-plate": 1,
+              "extract:copper": 2,
+              "charcoal": 1,
+              "extract:wood": 1,
+              "basic-core": 1,
+              "iron-wire": 1,
+              "iron-plate": 1,
+              "extract:iron": 1
+            },
+            "actualRate": 1.5,
+            "machinesCount": 11,
+            "addedMachines": 5,
+            "addedSupport": 3,
+            "connections": 12,
+            "duration": 50,
+            "start": 80.5,
+            "first": 108,
+            "stable": 130.5,
+            "readyForNext": 130.5,
+            "wait": 185,
+            "researchDuringBuild": [],
+            "olderTierImprovements": 0,
+            "estimatedActiveNodes": 18
+          },
+          {
+            "tier": 3,
+            "machines": {
+              "simple-core": 1,
+              "copper-gear": 1,
+              "copper-plate": 2,
+              "extract:copper": 2,
+              "charcoal": 2,
+              "extract:wood": 2,
+              "basic-core": 1,
+              "iron-wire": 1,
+              "iron-plate": 1,
+              "extract:iron": 1,
+              "automata-core": 1,
+              "circuit-a": 1,
+              "copper-wire": 1,
+              "brick": 1,
+              "extract:stone": 1
+            },
+            "actualRate": 1.5,
+            "machinesCount": 19,
+            "addedMachines": 8,
+            "addedSupport": 4,
+            "connections": 18,
+            "duration": 75,
+            "start": 315.5,
+            "first": 357,
+            "stable": 390.5,
+            "readyForNext": 390.5,
+            "wait": 1177.5,
+            "researchDuringBuild": [],
+            "olderTierImprovements": 0,
+            "estimatedActiveNodes": 30
+          },
+          {
+            "tier": 4,
+            "machines": {
+              "simple-core": 1,
+              "copper-gear": 1,
+              "copper-plate": 3,
+              "extract:copper": 5,
+              "charcoal": 3,
+              "extract:wood": 4,
+              "basic-core": 1,
+              "iron-wire": 1,
+              "iron-plate": 2,
+              "extract:iron": 3,
+              "automata-core": 1,
+              "circuit-a": 1,
+              "copper-wire": 1,
+              "brick": 1,
+              "extract:stone": 1,
+              "hydro-core": 1,
+              "hydraulic-actuator": 1,
+              "iron-gear": 1,
+              "motor": 1,
+              "coolant": 1,
+              "lake-intake": 1,
+              "conductive-slurry": 1
+            },
+            "actualRate": 1.7142857142857142,
+            "machinesCount": 36,
+            "addedMachines": 17,
+            "addedSupport": 9,
+            "connections": 39,
+            "duration": 162.5,
+            "start": 1568,
+            "first": 1657.5,
+            "stable": 1730.5,
+            "readyForNext": 1730.5,
+            "wait": 1351,
+            "researchDuringBuild": [],
+            "olderTierImprovements": 0,
+            "estimatedActiveNodes": 55
+          },
+          {
+            "tier": 5,
+            "machines": {
+              "simple-core": 1,
+              "copper-gear": 1,
+              "copper-plate": 5,
+              "extract:copper": 8,
+              "charcoal": 5,
+              "extract:wood": 8,
+              "basic-core": 1,
+              "iron-wire": 1,
+              "iron-plate": 3,
+              "extract:iron": 5,
+              "automata-core": 2,
+              "circuit-a": 1,
+              "copper-wire": 1,
+              "brick": 1,
+              "extract:stone": 1,
+              "hydro-core": 1,
+              "hydraulic-actuator": 1,
+              "iron-gear": 1,
+              "motor": 1,
+              "coolant": 1,
+              "lake-intake": 1,
+              "conductive-slurry": 1,
+              "shiny-core": 1,
+              "refined-mithril": 1,
+              "extract:mythril": 1
+            },
+            "actualRate": 1.5,
+            "machinesCount": 54,
+            "addedMachines": 18,
+            "addedSupport": 9,
+            "connections": 41,
+            "duration": 170,
+            "start": 3081.5,
+            "first": 3175,
+            "stable": 3251.5,
+            "readyForNext": 3251.5,
+            "wait": 2241.5,
+            "researchDuringBuild": [],
+            "olderTierImprovements": 0,
+            "estimatedActiveNodes": 82
+          },
+          {
+            "tier": 6,
+            "machines": {
+              "simple-core": 1,
+              "copper-gear": 1,
+              "copper-plate": 9,
+              "extract:copper": 15,
+              "charcoal": 10,
+              "extract:wood": 14,
+              "basic-core": 1,
+              "iron-wire": 1,
+              "iron-plate": 6,
+              "extract:iron": 10,
+              "automata-core": 2,
+              "circuit-a": 2,
+              "copper-wire": 2,
+              "brick": 1,
+              "extract:stone": 1,
+              "hydro-core": 2,
+              "hydraulic-actuator": 1,
+              "iron-gear": 1,
+              "motor": 1,
+              "coolant": 2,
+              "lake-intake": 1,
+              "conductive-slurry": 1,
+              "shiny-core": 2,
+              "refined-mithril": 2,
+              "extract:mythril": 2,
+              "command-core": 1,
+              "precision-controller": 1,
+              "advanced-actuator": 1
+            },
+            "actualRate": 1.5,
+            "machinesCount": 94,
+            "addedMachines": 40,
+            "addedSupport": 20,
+            "connections": 90,
+            "duration": 375,
+            "start": 5493,
+            "first": 5699.5,
+            "stable": 5868,
+            "readyForNext": 5868,
+            "wait": 3680,
+            "researchDuringBuild": [],
+            "olderTierImprovements": 0,
+            "estimatedActiveNodes": 142
+          }
+        ],
+        "maxProductionAndSupportNodes": 142,
+        "meanWasteTreatmentNodesAtTier6Rate": 4,
+        "mapEquivalentsAt60Nodes": 3,
+        "exceeds6540NodeBudget": false,
+        "coreProduced": [
+          236,
+          235,
+          230,
+          200,
+          140,
+          60
+        ],
+        "remainingCores": [
+          8.334755108307945e-11,
+          8.29691870762872e-11,
+          8.148681729380769e-11,
+          4.620370752661529e-11,
+          0,
+          0
+        ],
+        "raw": {
+          "copper": 14778,
+          "wood": 13144,
+          "iron": 9150,
+          "stone": 630,
+          "water": 4440,
+          "mythril": 1440
+        },
+        "completions": [
+          {
+            "id": "assembler",
+            "time": 80.5,
+            "tier": 1,
+            "kind": "unlock"
+          },
+          {
+            "id": "exploration",
+            "time": 155.5,
+            "tier": 2,
+            "kind": "unlock"
+          },
+          {
+            "id": "road",
+            "time": 235.5,
+            "tier": 2,
+            "kind": "unlock"
+          },
+          {
+            "id": "automataCore",
+            "time": 315.5,
+            "tier": 2,
+            "kind": "unlock"
+          },
+          {
+            "id": "Hydrochemistry",
+            "time": 768,
+            "tier": 3,
+            "kind": "unlock"
+          },
+          {
+            "id": "Hydraulic Assembly",
+            "time": 1568,
+            "tier": 3,
+            "kind": "unlock"
+          },
+          {
+            "id": "Fluid Routing",
+            "time": 2381.5,
+            "tier": 4,
+            "kind": "unlock"
+          },
+          {
+            "id": "Ore Separation",
+            "time": 3081.5,
+            "tier": 4,
+            "kind": "unlock"
+          },
+          {
+            "id": "Sealed Robotics",
+            "time": 3893,
+            "tier": 4,
+            "kind": "unlock"
+          },
+          {
+            "id": "Mineral Recovery",
+            "time": 4693,
+            "tier": 5,
+            "kind": "unlock"
+          },
+          {
+            "id": "Precision Control",
+            "time": 5493,
+            "tier": 5,
+            "kind": "unlock"
+          },
+          {
+            "id": "Heavy Robotics",
+            "time": 6348,
+            "tier": 5,
+            "kind": "unlock"
+          },
+          {
+            "id": "Mineral Regeneration",
+            "time": 7148,
+            "tier": 5,
+            "kind": "unlock"
+          },
+          {
+            "id": "Autonomous Logistics",
+            "time": 7948,
+            "tier": 6,
+            "kind": "unlock"
+          },
+          {
+            "id": "Command Robotics",
+            "time": 8748,
+            "tier": 6,
+            "kind": "unlock"
+          },
+          {
+            "id": "Endgame Theory",
+            "time": 9548,
+            "tier": 6,
+            "kind": "unlock"
+          }
+        ],
+        "switches": [],
+        "completedProjects": 16,
+        "totalProjects": 16,
+        "truncated": false,
+        "uptime": 1,
+        "necessaryOnly": true,
+        "selectedResearch": [
+          {
+            "id": "assembler",
+            "tier": 1,
+            "each": 1
+          },
+          {
+            "id": "exploration",
+            "tier": 2,
+            "each": 1
+          },
+          {
+            "id": "road",
+            "tier": 2,
+            "each": 2
+          },
+          {
+            "id": "automataCore",
+            "tier": 2,
+            "each": 2
+          },
+          {
+            "id": "Hydrochemistry",
+            "tier": 3,
+            "each": 10
+          },
+          {
+            "id": "Hydraulic Assembly",
+            "tier": 3,
+            "each": 20
+          },
+          {
+            "id": "Fluid Routing",
+            "tier": 4,
+            "each": 20
+          },
+          {
+            "id": "Sealed Robotics",
+            "tier": 4,
+            "each": 20
+          },
+          {
+            "id": "Ore Separation",
+            "tier": 4,
+            "each": 20
+          },
+          {
+            "id": "Mineral Recovery",
+            "tier": 5,
+            "each": 20
+          },
+          {
+            "id": "Heavy Robotics",
+            "tier": 5,
+            "each": 20
+          },
+          {
+            "id": "Precision Control",
+            "tier": 5,
+            "each": 20
+          },
+          {
+            "id": "Autonomous Logistics",
+            "tier": 6,
+            "each": 20
+          },
+          {
+            "id": "Command Robotics",
+            "tier": 6,
+            "each": 20
+          },
+          {
+            "id": "Endgame Theory",
+            "tier": 6,
+            "each": 20
+          },
+          {
+            "id": "Mineral Regeneration",
+            "tier": 5,
+            "each": 20
+          }
+        ],
+        "rates": [
+          1.5,
+          1.5,
+          1.5,
+          1.5,
+          1.5,
+          1.5
+        ],
+        "elapsedSeconds": 9548,
+        "placementSeconds": 890,
+        "totalPlacedNodes": 142,
+        "totalConnections": 214
+      },
+      {
+        "profile": "speedrunner",
+        "policy": "capability-first",
+        "checkpointSeconds": 7457,
+        "allFixedSeconds": 7457,
+        "forcedWaitSeconds": 6334.5,
+        "labActiveSeconds": 236,
+        "builds": [
+          {
+            "tier": 1,
+            "machines": {
+              "simple-core": 1,
+              "copper-gear": 1,
+              "copper-plate": 1,
+              "extract:copper": 2,
+              "charcoal": 1,
+              "extract:wood": 1
+            },
+            "actualRate": 2.5,
+            "machinesCount": 7,
+            "addedMachines": 7,
+            "addedSupport": 4,
+            "connections": 17,
+            "duration": 70,
+            "start": 0,
+            "first": 38.5,
+            "stable": 70,
+            "readyForNext": 70,
+            "wait": 3,
+            "researchDuringBuild": [],
+            "olderTierImprovements": 0,
+            "estimatedActiveNodes": 12
+          },
+          {
+            "tier": 2,
+            "machines": {
+              "simple-core": 1,
+              "copper-gear": 1,
+              "copper-plate": 1,
+              "extract:copper": 2,
+              "charcoal": 1,
+              "extract:wood": 2,
+              "basic-core": 1,
+              "iron-wire": 1,
+              "iron-plate": 1,
+              "extract:iron": 1
+            },
+            "actualRate": 2,
+            "machinesCount": 12,
+            "addedMachines": 5,
+            "addedSupport": 3,
+            "connections": 12,
+            "duration": 50,
+            "start": 73,
+            "first": 100.5,
+            "stable": 123,
+            "readyForNext": 123,
+            "wait": 135,
+            "researchDuringBuild": [],
+            "olderTierImprovements": 0,
+            "estimatedActiveNodes": 19
+          },
+          {
+            "tier": 3,
+            "machines": {
+              "simple-core": 1,
+              "copper-gear": 1,
+              "copper-plate": 2,
+              "extract:copper": 3,
+              "charcoal": 2,
+              "extract:wood": 2,
+              "basic-core": 1,
+              "iron-wire": 1,
+              "iron-plate": 1,
+              "extract:iron": 2,
+              "automata-core": 1,
+              "circuit-a": 1,
+              "copper-wire": 1,
+              "brick": 1,
+              "extract:stone": 1
+            },
+            "actualRate": 2,
+            "machinesCount": 21,
+            "addedMachines": 9,
+            "addedSupport": 5,
+            "connections": 21,
+            "duration": 87.5,
+            "start": 258,
+            "first": 306.5,
+            "stable": 345.5,
+            "readyForNext": 345.5,
+            "wait": 874,
+            "researchDuringBuild": [],
+            "olderTierImprovements": 0,
+            "estimatedActiveNodes": 33
+          },
+          {
+            "tier": 4,
+            "machines": {
+              "simple-core": 1,
+              "copper-gear": 1,
+              "copper-plate": 4,
+              "extract:copper": 6,
+              "charcoal": 4,
+              "extract:wood": 5,
+              "basic-core": 1,
+              "iron-wire": 1,
+              "iron-plate": 2,
+              "extract:iron": 4,
+              "automata-core": 1,
+              "circuit-a": 1,
+              "copper-wire": 1,
+              "brick": 1,
+              "extract:stone": 1,
+              "hydro-core": 1,
+              "hydraulic-actuator": 1,
+              "iron-gear": 1,
+              "motor": 1,
+              "coolant": 1,
+              "lake-intake": 1,
+              "conductive-slurry": 1
+            },
+            "actualRate": 2,
+            "machinesCount": 41,
+            "addedMachines": 20,
+            "addedSupport": 10,
+            "connections": 45,
+            "duration": 187.5,
+            "start": 1219.5,
+            "first": 1323,
+            "stable": 1407,
+            "readyForNext": 1407,
+            "wait": 1143.5,
+            "researchDuringBuild": [],
+            "olderTierImprovements": 0,
+            "estimatedActiveNodes": 63
+          },
+          {
+            "tier": 5,
+            "machines": {
+              "simple-core": 1,
+              "copper-gear": 1,
+              "copper-plate": 7,
+              "extract:copper": 11,
+              "charcoal": 7,
+              "extract:wood": 10,
+              "basic-core": 1,
+              "iron-wire": 1,
+              "iron-plate": 4,
+              "extract:iron": 7,
+              "automata-core": 2,
+              "circuit-a": 1,
+              "copper-wire": 1,
+              "brick": 1,
+              "extract:stone": 1,
+              "hydro-core": 2,
+              "hydraulic-actuator": 1,
+              "iron-gear": 1,
+              "motor": 1,
+              "coolant": 1,
+              "lake-intake": 1,
+              "conductive-slurry": 1,
+              "shiny-core": 1,
+              "refined-mithril": 1,
+              "extract:mythril": 1
+            },
+            "actualRate": 2,
+            "machinesCount": 67,
+            "addedMachines": 26,
+            "addedSupport": 13,
+            "connections": 59,
+            "duration": 245,
+            "start": 2550.5,
+            "first": 2685.5,
+            "stable": 2795.5,
+            "readyForNext": 2795.5,
+            "wait": 1591,
+            "researchDuringBuild": [],
+            "olderTierImprovements": 0,
+            "estimatedActiveNodes": 102
+          },
+          {
+            "tier": 6,
+            "machines": {
+              "simple-core": 1,
+              "copper-gear": 1,
+              "copper-plate": 12,
+              "extract:copper": 20,
+              "charcoal": 13,
+              "extract:wood": 19,
+              "basic-core": 1,
+              "iron-wire": 1,
+              "iron-plate": 8,
+              "extract:iron": 13,
+              "automata-core": 2,
+              "circuit-a": 2,
+              "copper-wire": 2,
+              "brick": 1,
+              "extract:stone": 1,
+              "hydro-core": 2,
+              "hydraulic-actuator": 2,
+              "iron-gear": 1,
+              "motor": 1,
+              "coolant": 2,
+              "lake-intake": 1,
+              "conductive-slurry": 2,
+              "shiny-core": 2,
+              "refined-mithril": 2,
+              "extract:mythril": 3,
+              "command-core": 1,
+              "precision-controller": 1,
+              "advanced-actuator": 1
+            },
+            "actualRate": 2,
+            "machinesCount": 118,
+            "addedMachines": 51,
+            "addedSupport": 26,
+            "connections": 116,
+            "duration": 482.5,
+            "start": 4386.5,
+            "first": 4652,
+            "stable": 4869,
+            "readyForNext": 4869,
+            "wait": 2588,
+            "researchDuringBuild": [],
+            "olderTierImprovements": 0,
+            "estimatedActiveNodes": 178
+          }
+        ],
+        "maxProductionAndSupportNodes": 178,
+        "meanWasteTreatmentNodesAtTier6Rate": 4,
+        "mapEquivalentsAt60Nodes": 3,
+        "exceeds6540NodeBudget": false,
+        "coreProduced": [
+          236,
+          235,
+          230,
+          200,
+          140,
+          60
+        ],
+        "remainingCores": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "raw": {
+          "copper": 14778,
+          "wood": 13144,
+          "iron": 9150,
+          "stone": 630,
+          "water": 4440,
+          "mythril": 1440
+        },
+        "completions": [
+          {
+            "id": "assembler",
+            "time": 73,
+            "tier": 1,
+            "kind": "unlock"
+          },
+          {
+            "id": "exploration",
+            "time": 138,
+            "tier": 2,
+            "kind": "unlock"
+          },
+          {
+            "id": "road",
+            "time": 198,
+            "tier": 2,
+            "kind": "unlock"
+          },
+          {
+            "id": "automataCore",
+            "time": 258,
+            "tier": 2,
+            "kind": "unlock"
+          },
+          {
+            "id": "Hydrochemistry",
+            "time": 619.5,
+            "tier": 3,
+            "kind": "unlock"
+          },
+          {
+            "id": "Hydraulic Assembly",
+            "time": 1219.5,
+            "tier": 3,
+            "kind": "unlock"
+          },
+          {
+            "id": "Fluid Routing",
+            "time": 1950.5,
+            "tier": 4,
+            "kind": "unlock"
+          },
+          {
+            "id": "Ore Separation",
+            "time": 2550.5,
+            "tier": 4,
+            "kind": "unlock"
+          },
+          {
+            "id": "Sealed Robotics",
+            "time": 3186.5,
+            "tier": 4,
+            "kind": "unlock"
+          },
+          {
+            "id": "Mineral Recovery",
+            "time": 3786.5,
+            "tier": 5,
+            "kind": "unlock"
+          },
+          {
+            "id": "Precision Control",
+            "time": 4386.5,
+            "tier": 5,
+            "kind": "unlock"
+          },
+          {
+            "id": "Heavy Robotics",
+            "time": 5057,
+            "tier": 5,
+            "kind": "unlock"
+          },
+          {
+            "id": "Mineral Regeneration",
+            "time": 5657,
+            "tier": 5,
+            "kind": "unlock"
+          },
+          {
+            "id": "Autonomous Logistics",
+            "time": 6257,
+            "tier": 6,
+            "kind": "unlock"
+          },
+          {
+            "id": "Command Robotics",
+            "time": 6857,
+            "tier": 6,
+            "kind": "unlock"
+          },
+          {
+            "id": "Endgame Theory",
+            "time": 7457,
+            "tier": 6,
+            "kind": "unlock"
+          }
+        ],
+        "switches": [],
+        "completedProjects": 16,
+        "totalProjects": 16,
+        "truncated": false,
+        "uptime": 1,
+        "necessaryOnly": true,
+        "selectedResearch": [
+          {
+            "id": "assembler",
+            "tier": 1,
+            "each": 1
+          },
+          {
+            "id": "exploration",
+            "tier": 2,
+            "each": 1
+          },
+          {
+            "id": "road",
+            "tier": 2,
+            "each": 2
+          },
+          {
+            "id": "automataCore",
+            "tier": 2,
+            "each": 2
+          },
+          {
+            "id": "Hydrochemistry",
+            "tier": 3,
+            "each": 10
+          },
+          {
+            "id": "Hydraulic Assembly",
+            "tier": 3,
+            "each": 20
+          },
+          {
+            "id": "Fluid Routing",
+            "tier": 4,
+            "each": 20
+          },
+          {
+            "id": "Sealed Robotics",
+            "tier": 4,
+            "each": 20
+          },
+          {
+            "id": "Ore Separation",
+            "tier": 4,
+            "each": 20
+          },
+          {
+            "id": "Mineral Recovery",
+            "tier": 5,
+            "each": 20
+          },
+          {
+            "id": "Heavy Robotics",
+            "tier": 5,
+            "each": 20
+          },
+          {
+            "id": "Precision Control",
+            "tier": 5,
+            "each": 20
+          },
+          {
+            "id": "Autonomous Logistics",
+            "tier": 6,
+            "each": 20
+          },
+          {
+            "id": "Command Robotics",
+            "tier": 6,
+            "each": 20
+          },
+          {
+            "id": "Endgame Theory",
+            "tier": 6,
+            "each": 20
+          },
+          {
+            "id": "Mineral Regeneration",
+            "tier": 5,
+            "each": 20
+          }
+        ],
+        "rates": [
+          2,
+          2,
+          2,
+          2,
+          2,
+          2
+        ],
+        "elapsedSeconds": 7457,
+        "placementSeconds": 1122.5,
+        "totalPlacedNodes": 179,
+        "totalConnections": 270
+      },
+      {
+        "profile": "speedrunner",
+        "policy": "capability-first",
+        "checkpointSeconds": 5229,
+        "allFixedSeconds": 5229,
+        "forcedWaitSeconds": 3619,
+        "labActiveSeconds": 236,
+        "builds": [
+          {
+            "tier": 1,
+            "machines": {
+              "simple-core": 1,
+              "copper-gear": 1,
+              "copper-plate": 2,
+              "extract:copper": 2,
+              "charcoal": 1,
+              "extract:wood": 1
+            },
+            "actualRate": 3,
+            "machinesCount": 8,
+            "addedMachines": 8,
+            "addedSupport": 4,
+            "connections": 18,
+            "duration": 75,
+            "start": 0,
+            "first": 41.5,
+            "stable": 75,
+            "readyForNext": 75,
+            "wait": 0,
+            "researchDuringBuild": [
+              {
+                "id": "assembler",
+                "time": 72.5,
+                "tier": 1,
+                "kind": "unlock"
+              }
+            ],
+            "olderTierImprovements": 0,
+            "estimatedActiveNodes": 13
+          },
+          {
+            "tier": 2,
+            "machines": {
+              "simple-core": 1,
+              "copper-gear": 1,
+              "copper-plate": 2,
+              "extract:copper": 3,
+              "charcoal": 2,
+              "extract:wood": 2,
+              "basic-core": 1,
+              "iron-wire": 1,
+              "iron-plate": 1,
+              "extract:iron": 2
+            },
+            "actualRate": 3,
+            "machinesCount": 16,
+            "addedMachines": 8,
+            "addedSupport": 4,
+            "connections": 18,
+            "duration": 75,
+            "start": 75,
+            "first": 116.5,
+            "stable": 150,
+            "readyForNext": 150,
+            "wait": 77.5,
+            "researchDuringBuild": [
+              {
+                "id": "exploration",
+                "time": 147.5,
+                "tier": 2,
+                "kind": "unlock"
+              }
+            ],
+            "olderTierImprovements": 0,
+            "estimatedActiveNodes": 25
+          },
+          {
+            "tier": 3,
+            "machines": {
+              "simple-core": 1,
+              "copper-gear": 1,
+              "copper-plate": 3,
+              "extract:copper": 4,
+              "charcoal": 3,
+              "extract:wood": 3,
+              "basic-core": 1,
+              "iron-wire": 1,
+              "iron-plate": 2,
+              "extract:iron": 2,
+              "automata-core": 1,
+              "circuit-a": 1,
+              "copper-wire": 1,
+              "brick": 1,
+              "extract:stone": 1
+            },
+            "actualRate": 3,
+            "machinesCount": 26,
+            "addedMachines": 10,
+            "addedSupport": 5,
+            "connections": 23,
+            "duration": 95,
+            "start": 227.5,
+            "first": 280,
+            "stable": 322.5,
+            "readyForNext": 322.5,
+            "wait": 571.5,
+            "researchDuringBuild": [],
+            "olderTierImprovements": 0,
+            "estimatedActiveNodes": 40
+          },
+          {
+            "tier": 4,
+            "machines": {
+              "simple-core": 1,
+              "copper-gear": 1,
+              "copper-plate": 6,
+              "extract:copper": 9,
+              "charcoal": 5,
+              "extract:wood": 7,
+              "basic-core": 1,
+              "iron-wire": 1,
+              "iron-plate": 3,
+              "extract:iron": 5,
+              "automata-core": 2,
+              "circuit-a": 1,
+              "copper-wire": 1,
+              "brick": 1,
+              "extract:stone": 1,
+              "hydro-core": 1,
+              "hydraulic-actuator": 1,
+              "iron-gear": 1,
+              "motor": 1,
+              "coolant": 1,
+              "lake-intake": 1,
+              "conductive-slurry": 1
+            },
+            "actualRate": 3,
+            "machinesCount": 52,
+            "addedMachines": 26,
+            "addedSupport": 13,
+            "connections": 59,
+            "duration": 245,
+            "start": 894,
+            "first": 1029,
+            "stable": 1139,
+            "readyForNext": 1139,
+            "wait": 726,
+            "researchDuringBuild": [],
+            "olderTierImprovements": 0,
+            "estimatedActiveNodes": 79
+          },
+          {
+            "tier": 5,
+            "machines": {
+              "simple-core": 1,
+              "copper-gear": 1,
+              "copper-plate": 10,
+              "extract:copper": 16,
+              "charcoal": 10,
+              "extract:wood": 15,
+              "basic-core": 1,
+              "iron-wire": 1,
+              "iron-plate": 6,
+              "extract:iron": 10,
+              "automata-core": 3,
+              "circuit-a": 2,
+              "copper-wire": 2,
+              "brick": 1,
+              "extract:stone": 1,
+              "hydro-core": 2,
+              "hydraulic-actuator": 1,
+              "iron-gear": 1,
+              "motor": 1,
+              "coolant": 2,
+              "lake-intake": 1,
+              "conductive-slurry": 1,
+              "shiny-core": 2,
+              "refined-mithril": 1,
+              "extract:mythril": 2
+            },
+            "actualRate": 3,
+            "machinesCount": 94,
+            "addedMachines": 42,
+            "addedSupport": 21,
+            "connections": 95,
+            "duration": 395,
+            "start": 1865,
+            "first": 2082.5,
+            "stable": 2260,
+            "readyForNext": 2260,
+            "wait": 863,
+            "researchDuringBuild": [],
+            "olderTierImprovements": 0,
+            "estimatedActiveNodes": 142
+          },
+          {
+            "tier": 6,
+            "machines": {
+              "simple-core": 1,
+              "copper-gear": 1,
+              "copper-plate": 18,
+              "extract:copper": 30,
+              "charcoal": 20,
+              "extract:wood": 28,
+              "basic-core": 1,
+              "iron-wire": 1,
+              "iron-plate": 12,
+              "extract:iron": 19,
+              "automata-core": 3,
+              "circuit-a": 3,
+              "copper-wire": 3,
+              "brick": 1,
+              "extract:stone": 1,
+              "hydro-core": 3,
+              "hydraulic-actuator": 2,
+              "iron-gear": 2,
+              "motor": 2,
+              "coolant": 3,
+              "lake-intake": 1,
+              "conductive-slurry": 2,
+              "shiny-core": 3,
+              "refined-mithril": 3,
+              "extract:mythril": 4,
+              "command-core": 2,
+              "precision-controller": 1,
+              "advanced-actuator": 1
+            },
+            "actualRate": 3,
+            "machinesCount": 171,
+            "addedMachines": 77,
+            "addedSupport": 39,
+            "connections": 174,
+            "duration": 725,
+            "start": 3123,
+            "first": 3522,
+            "stable": 3848,
+            "readyForNext": 3848,
+            "wait": 1381,
+            "researchDuringBuild": [
+              {
+                "id": "Heavy Robotics",
+                "time": 3524,
+                "tier": 5,
+                "kind": "unlock"
+              }
+            ],
+            "olderTierImprovements": 0,
+            "estimatedActiveNodes": 258
+          }
+        ],
+        "maxProductionAndSupportNodes": 258,
+        "meanWasteTreatmentNodesAtTier6Rate": 5,
+        "mapEquivalentsAt60Nodes": 5,
+        "exceeds6540NodeBudget": false,
+        "coreProduced": [
+          236,
+          235,
+          230,
+          200,
+          140,
+          60
+        ],
+        "remainingCores": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "raw": {
+          "copper": 14778,
+          "wood": 13144,
+          "iron": 9150,
+          "stone": 630,
+          "water": 4440,
+          "mythril": 1440
+        },
+        "completions": [
+          {
+            "id": "assembler",
+            "time": 72.5,
+            "tier": 1,
+            "kind": "unlock"
+          },
+          {
+            "id": "exploration",
+            "time": 147.5,
+            "tier": 2,
+            "kind": "unlock"
+          },
+          {
+            "id": "road",
+            "time": 187.5,
+            "tier": 2,
+            "kind": "unlock"
+          },
+          {
+            "id": "automataCore",
+            "time": 227.5,
+            "tier": 2,
+            "kind": "unlock"
+          },
+          {
+            "id": "Hydrochemistry",
+            "time": 494,
+            "tier": 3,
+            "kind": "unlock"
+          },
+          {
+            "id": "Hydraulic Assembly",
+            "time": 894,
+            "tier": 3,
+            "kind": "unlock"
+          },
+          {
+            "id": "Fluid Routing",
+            "time": 1465,
+            "tier": 4,
+            "kind": "unlock"
+          },
+          {
+            "id": "Ore Separation",
+            "time": 1865,
+            "tier": 4,
+            "kind": "unlock"
+          },
+          {
+            "id": "Sealed Robotics",
+            "time": 2323,
+            "tier": 4,
+            "kind": "unlock"
+          },
+          {
+            "id": "Mineral Recovery",
+            "time": 2723,
+            "tier": 5,
+            "kind": "unlock"
+          },
+          {
+            "id": "Precision Control",
+            "time": 3123,
+            "tier": 5,
+            "kind": "unlock"
+          },
+          {
+            "id": "Heavy Robotics",
+            "time": 3524,
+            "tier": 5,
+            "kind": "unlock"
+          },
+          {
+            "id": "Mineral Regeneration",
+            "time": 4029,
+            "tier": 5,
+            "kind": "unlock"
+          },
+          {
+            "id": "Autonomous Logistics",
+            "time": 4429,
+            "tier": 6,
+            "kind": "unlock"
+          },
+          {
+            "id": "Command Robotics",
+            "time": 4829,
+            "tier": 6,
+            "kind": "unlock"
+          },
+          {
+            "id": "Endgame Theory",
+            "time": 5229,
+            "tier": 6,
+            "kind": "unlock"
+          }
+        ],
+        "switches": [],
+        "completedProjects": 16,
+        "totalProjects": 16,
+        "truncated": false,
+        "uptime": 1,
+        "necessaryOnly": true,
+        "selectedResearch": [
+          {
+            "id": "assembler",
+            "tier": 1,
+            "each": 1
+          },
+          {
+            "id": "exploration",
+            "tier": 2,
+            "each": 1
+          },
+          {
+            "id": "road",
+            "tier": 2,
+            "each": 2
+          },
+          {
+            "id": "automataCore",
+            "tier": 2,
+            "each": 2
+          },
+          {
+            "id": "Hydrochemistry",
+            "tier": 3,
+            "each": 10
+          },
+          {
+            "id": "Hydraulic Assembly",
+            "tier": 3,
+            "each": 20
+          },
+          {
+            "id": "Fluid Routing",
+            "tier": 4,
+            "each": 20
+          },
+          {
+            "id": "Sealed Robotics",
+            "tier": 4,
+            "each": 20
+          },
+          {
+            "id": "Ore Separation",
+            "tier": 4,
+            "each": 20
+          },
+          {
+            "id": "Mineral Recovery",
+            "tier": 5,
+            "each": 20
+          },
+          {
+            "id": "Heavy Robotics",
+            "tier": 5,
+            "each": 20
+          },
+          {
+            "id": "Precision Control",
+            "tier": 5,
+            "each": 20
+          },
+          {
+            "id": "Autonomous Logistics",
+            "tier": 6,
+            "each": 20
+          },
+          {
+            "id": "Command Robotics",
+            "tier": 6,
+            "each": 20
+          },
+          {
+            "id": "Endgame Theory",
+            "tier": 6,
+            "each": 20
+          },
+          {
+            "id": "Mineral Regeneration",
+            "tier": 5,
+            "each": 20
+          }
+        ],
+        "rates": [
+          3,
+          3,
+          3,
+          3,
+          3,
+          3
+        ],
+        "elapsedSeconds": 5229,
+        "placementSeconds": 1610,
+        "totalPlacedNodes": 257,
+        "totalConnections": 387
+      },
+      {
+        "profile": "speedrunner",
+        "policy": "capability-first",
+        "checkpointSeconds": 4207,
+        "allFixedSeconds": 4207,
+        "forcedWaitSeconds": 2064.5,
+        "labActiveSeconds": 236,
+        "builds": [
+          {
+            "tier": 1,
+            "machines": {
+              "simple-core": 1,
+              "copper-gear": 1,
+              "copper-plate": 2,
+              "extract:copper": 3,
+              "charcoal": 1,
+              "extract:wood": 2
+            },
+            "actualRate": 4.285714285714286,
+            "machinesCount": 10,
+            "addedMachines": 10,
+            "addedSupport": 5,
+            "connections": 23,
+            "duration": 95,
+            "start": 0,
+            "first": 52.5,
+            "stable": 95,
+            "readyForNext": 95,
+            "wait": 0,
+            "researchDuringBuild": [
+              {
+                "id": "assembler",
+                "time": 78.5,
+                "tier": 1,
+                "kind": "unlock"
+              }
+            ],
+            "olderTierImprovements": 0,
+            "estimatedActiveNodes": 16
+          },
+          {
+            "tier": 2,
+            "machines": {
+              "simple-core": 1,
+              "copper-gear": 1,
+              "copper-plate": 2,
+              "extract:copper": 4,
+              "charcoal": 2,
+              "extract:wood": 3,
+              "basic-core": 1,
+              "iron-wire": 1,
+              "iron-plate": 2,
+              "extract:iron": 2
+            },
+            "actualRate": 4,
+            "machinesCount": 19,
+            "addedMachines": 9,
+            "addedSupport": 5,
+            "connections": 21,
+            "duration": 87.5,
+            "start": 95,
+            "first": 143.5,
+            "stable": 182.5,
+            "readyForNext": 182.5,
+            "wait": 49,
+            "researchDuringBuild": [
+              {
+                "id": "exploration",
+                "time": 170,
+                "tier": 2,
+                "kind": "unlock"
+              }
+            ],
+            "olderTierImprovements": 0,
+            "estimatedActiveNodes": 30
+          },
+          {
+            "tier": 3,
+            "machines": {
+              "simple-core": 1,
+              "copper-gear": 1,
+              "copper-plate": 4,
+              "extract:copper": 6,
+              "charcoal": 3,
+              "extract:wood": 4,
+              "basic-core": 1,
+              "iron-wire": 1,
+              "iron-plate": 2,
+              "extract:iron": 3,
+              "automata-core": 1,
+              "circuit-a": 1,
+              "copper-wire": 1,
+              "brick": 1,
+              "extract:stone": 1
+            },
+            "actualRate": 4,
+            "machinesCount": 31,
+            "addedMachines": 12,
+            "addedSupport": 6,
+            "connections": 27,
+            "duration": 112.5,
+            "start": 231.5,
+            "first": 293.5,
+            "stable": 344,
+            "readyForNext": 344,
+            "wait": 416.5,
+            "researchDuringBuild": [],
+            "olderTierImprovements": 0,
+            "estimatedActiveNodes": 48
+          },
+          {
+            "tier": 4,
+            "machines": {
+              "simple-core": 1,
+              "copper-gear": 1,
+              "copper-plate": 7,
+              "extract:copper": 12,
+              "charcoal": 7,
+              "extract:wood": 10,
+              "basic-core": 1,
+              "iron-wire": 1,
+              "iron-plate": 4,
+              "extract:iron": 7,
+              "automata-core": 2,
+              "circuit-a": 1,
+              "copper-wire": 1,
+              "brick": 1,
+              "extract:stone": 1,
+              "hydro-core": 2,
+              "hydraulic-actuator": 1,
+              "iron-gear": 1,
+              "motor": 1,
+              "coolant": 1,
+              "lake-intake": 1,
+              "conductive-slurry": 1
+            },
+            "actualRate": 4,
+            "machinesCount": 65,
+            "addedMachines": 34,
+            "addedSupport": 17,
+            "connections": 77,
+            "duration": 320,
+            "start": 760.5,
+            "first": 936.5,
+            "stable": 1080.5,
+            "readyForNext": 1080.5,
+            "wait": 503,
+            "researchDuringBuild": [],
+            "olderTierImprovements": 0,
+            "estimatedActiveNodes": 99
+          },
+          {
+            "tier": 5,
+            "machines": {
+              "simple-core": 1,
+              "copper-gear": 1,
+              "copper-plate": 13,
+              "extract:copper": 22,
+              "charcoal": 14,
+              "extract:wood": 19,
+              "basic-core": 1,
+              "iron-wire": 1,
+              "iron-plate": 8,
+              "extract:iron": 13,
+              "automata-core": 3,
+              "circuit-a": 2,
+              "copper-wire": 2,
+              "brick": 1,
+              "extract:stone": 1,
+              "hydro-core": 3,
+              "hydraulic-actuator": 2,
+              "iron-gear": 1,
+              "motor": 1,
+              "coolant": 2,
+              "lake-intake": 1,
+              "conductive-slurry": 2,
+              "shiny-core": 2,
+              "refined-mithril": 2,
+              "extract:mythril": 2
+            },
+            "actualRate": 4,
+            "machinesCount": 120,
+            "addedMachines": 55,
+            "addedSupport": 28,
+            "connections": 125,
+            "duration": 520,
+            "start": 1583.5,
+            "first": 1869.5,
+            "stable": 2103.5,
+            "readyForNext": 2103.5,
+            "wait": 456.5,
+            "researchDuringBuild": [
+              {
+                "id": "Sealed Robotics",
+                "time": 1905,
+                "tier": 4,
+                "kind": "unlock"
+              }
+            ],
+            "olderTierImprovements": 0,
+            "estimatedActiveNodes": 181
+          },
+          {
+            "tier": 6,
+            "machines": {
+              "simple-core": 1,
+              "copper-gear": 1,
+              "copper-plate": 24,
+              "extract:copper": 40,
+              "charcoal": 26,
+              "extract:wood": 37,
+              "basic-core": 1,
+              "iron-wire": 1,
+              "iron-plate": 16,
+              "extract:iron": 26,
+              "automata-core": 4,
+              "circuit-a": 4,
+              "copper-wire": 4,
+              "brick": 2,
+              "extract:stone": 2,
+              "hydro-core": 4,
+              "hydraulic-actuator": 3,
+              "iron-gear": 2,
+              "motor": 2,
+              "coolant": 4,
+              "lake-intake": 1,
+              "conductive-slurry": 3,
+              "shiny-core": 4,
+              "refined-mithril": 4,
+              "extract:mythril": 6,
+              "command-core": 2,
+              "precision-controller": 1,
+              "advanced-actuator": 2
+            },
+            "actualRate": 4,
+            "machinesCount": 227,
+            "addedMachines": 107,
+            "addedSupport": 54,
+            "connections": 242,
+            "duration": 1007.5,
+            "start": 2560,
+            "first": 3114.5,
+            "stable": 3567.5,
+            "readyForNext": 3567.5,
+            "wait": 639.5,
+            "researchDuringBuild": [
+              {
+                "id": "Heavy Robotics",
+                "time": 2860,
+                "tier": 5,
+                "kind": "unlock"
+              },
+              {
+                "id": "Mineral Regeneration",
+                "time": 3221,
+                "tier": 5,
+                "kind": "unlock"
+              }
+            ],
+            "olderTierImprovements": 0,
+            "estimatedActiveNodes": 342
+          }
+        ],
+        "maxProductionAndSupportNodes": 342,
+        "meanWasteTreatmentNodesAtTier6Rate": 5,
+        "mapEquivalentsAt60Nodes": 6,
+        "exceeds6540NodeBudget": false,
+        "coreProduced": [
+          236,
+          235,
+          230,
+          200,
+          140,
+          60
+        ],
+        "remainingCores": [
+          1.587707743055944e-11,
+          1.5496937066927785e-11,
+          7.789324740770098e-12,
+          6.95177249099288e-12,
+          4.04432043410452e-12,
+          8.730793865652231e-13
+        ],
+        "raw": {
+          "copper": 14778,
+          "wood": 13144,
+          "iron": 9150,
+          "stone": 630,
+          "water": 4440,
+          "mythril": 1440
+        },
+        "completions": [
+          {
+            "id": "assembler",
+            "time": 78.5,
+            "tier": 1,
+            "kind": "unlock"
+          },
+          {
+            "id": "exploration",
+            "time": 170,
+            "tier": 2,
+            "kind": "unlock"
+          },
+          {
+            "id": "road",
+            "time": 201.5,
+            "tier": 2,
+            "kind": "unlock"
+          },
+          {
+            "id": "automataCore",
+            "time": 231.5,
+            "tier": 2,
+            "kind": "unlock"
+          },
+          {
+            "id": "Hydrochemistry",
+            "time": 460.5,
+            "tier": 3,
+            "kind": "unlock"
+          },
+          {
+            "id": "Hydraulic Assembly",
+            "time": 760.5,
+            "tier": 3,
+            "kind": "unlock"
+          },
+          {
+            "id": "Fluid Routing",
+            "time": 1283.5,
+            "tier": 4,
+            "kind": "unlock"
+          },
+          {
+            "id": "Ore Separation",
+            "time": 1583.5,
+            "tier": 4,
+            "kind": "unlock"
+          },
+          {
+            "id": "Sealed Robotics",
+            "time": 1905,
+            "tier": 4,
+            "kind": "unlock"
+          },
+          {
+            "id": "Mineral Recovery",
+            "time": 2260,
+            "tier": 5,
+            "kind": "unlock"
+          },
+          {
+            "id": "Precision Control",
+            "time": 2560,
+            "tier": 5,
+            "kind": "unlock"
+          },
+          {
+            "id": "Heavy Robotics",
+            "time": 2860,
+            "tier": 5,
+            "kind": "unlock"
+          },
+          {
+            "id": "Mineral Regeneration",
+            "time": 3221,
+            "tier": 5,
+            "kind": "unlock"
+          },
+          {
+            "id": "Autonomous Logistics",
+            "time": 3607,
+            "tier": 6,
+            "kind": "unlock"
+          },
+          {
+            "id": "Command Robotics",
+            "time": 3907,
+            "tier": 6,
+            "kind": "unlock"
+          },
+          {
+            "id": "Endgame Theory",
+            "time": 4207,
+            "tier": 6,
+            "kind": "unlock"
+          }
+        ],
+        "switches": [],
+        "completedProjects": 16,
+        "totalProjects": 16,
+        "truncated": false,
+        "uptime": 1,
+        "necessaryOnly": true,
+        "selectedResearch": [
+          {
+            "id": "assembler",
+            "tier": 1,
+            "each": 1
+          },
+          {
+            "id": "exploration",
+            "tier": 2,
+            "each": 1
+          },
+          {
+            "id": "road",
+            "tier": 2,
+            "each": 2
+          },
+          {
+            "id": "automataCore",
+            "tier": 2,
+            "each": 2
+          },
+          {
+            "id": "Hydrochemistry",
+            "tier": 3,
+            "each": 10
+          },
+          {
+            "id": "Hydraulic Assembly",
+            "tier": 3,
+            "each": 20
+          },
+          {
+            "id": "Fluid Routing",
+            "tier": 4,
+            "each": 20
+          },
+          {
+            "id": "Sealed Robotics",
+            "tier": 4,
+            "each": 20
+          },
+          {
+            "id": "Ore Separation",
+            "tier": 4,
+            "each": 20
+          },
+          {
+            "id": "Mineral Recovery",
+            "tier": 5,
+            "each": 20
+          },
+          {
+            "id": "Heavy Robotics",
+            "tier": 5,
+            "each": 20
+          },
+          {
+            "id": "Precision Control",
+            "tier": 5,
+            "each": 20
+          },
+          {
+            "id": "Autonomous Logistics",
+            "tier": 6,
+            "each": 20
+          },
+          {
+            "id": "Command Robotics",
+            "tier": 6,
+            "each": 20
+          },
+          {
+            "id": "Endgame Theory",
+            "tier": 6,
+            "each": 20
+          },
+          {
+            "id": "Mineral Regeneration",
+            "tier": 5,
+            "each": 20
+          }
+        ],
+        "rates": [
+          4,
+          4,
+          4,
+          4,
+          4,
+          4
+        ],
+        "elapsedSeconds": 4207,
+        "placementSeconds": 2142.5,
+        "totalPlacedNodes": 342,
+        "totalConnections": 515
+      },
+      {
+        "profile": "speedrunner",
+        "policy": "capability-first",
+        "checkpointSeconds": 3942,
+        "allFixedSeconds": 3942,
+        "forcedWaitSeconds": 852,
+        "labActiveSeconds": 236,
+        "builds": [
+          {
+            "tier": 1,
+            "machines": {
+              "simple-core": 1,
+              "copper-gear": 1,
+              "copper-plate": 3,
+              "extract:copper": 4,
+              "charcoal": 2,
+              "extract:wood": 2
+            },
+            "actualRate": 6,
+            "machinesCount": 13,
+            "addedMachines": 13,
+            "addedSupport": 7,
+            "connections": 30,
+            "duration": 125,
+            "start": 0,
+            "first": 69,
+            "stable": 125,
+            "readyForNext": 125,
+            "wait": 0,
+            "researchDuringBuild": [
+              {
+                "id": "assembler",
+                "time": 90.5,
+                "tier": 1,
+                "kind": "unlock"
+              }
+            ],
+            "olderTierImprovements": 0,
+            "estimatedActiveNodes": 21
+          },
+          {
+            "tier": 2,
+            "machines": {
+              "simple-core": 1,
+              "copper-gear": 1,
+              "copper-plate": 3,
+              "extract:copper": 5,
+              "charcoal": 3,
+              "extract:wood": 4,
+              "basic-core": 1,
+              "iron-wire": 1,
+              "iron-plate": 2,
+              "extract:iron": 3
+            },
+            "actualRate": 6,
+            "machinesCount": 24,
+            "addedMachines": 11,
+            "addedSupport": 6,
+            "connections": 26,
+            "duration": 107.5,
+            "start": 125,
+            "first": 184.5,
+            "stable": 232.5,
+            "readyForNext": 232.5,
+            "wait": 18,
+            "researchDuringBuild": [
+              {
+                "id": "exploration",
+                "time": 205,
+                "tier": 2,
+                "kind": "unlock"
+              },
+              {
+                "id": "road",
+                "time": 230.5,
+                "tier": 2,
+                "kind": "unlock"
+              }
+            ],
+            "olderTierImprovements": 0,
+            "estimatedActiveNodes": 37
+          },
+          {
+            "tier": 3,
+            "machines": {
+              "simple-core": 1,
+              "copper-gear": 1,
+              "copper-plate": 5,
+              "extract:copper": 8,
+              "charcoal": 5,
+              "extract:wood": 6,
+              "basic-core": 1,
+              "iron-wire": 1,
+              "iron-plate": 3,
+              "extract:iron": 4,
+              "automata-core": 2,
+              "circuit-a": 1,
+              "copper-wire": 1,
+              "brick": 1,
+              "extract:stone": 1
+            },
+            "actualRate": 6,
+            "machinesCount": 41,
+            "addedMachines": 17,
+            "addedSupport": 9,
+            "connections": 39,
+            "duration": 162.5,
+            "start": 250.5,
+            "first": 340,
+            "stable": 413,
+            "readyForNext": 413,
+            "wait": 251,
+            "researchDuringBuild": [],
+            "olderTierImprovements": 0,
+            "estimatedActiveNodes": 63
+          },
+          {
+            "tier": 4,
+            "machines": {
+              "simple-core": 1,
+              "copper-gear": 1,
+              "copper-plate": 11,
+              "extract:copper": 17,
+              "charcoal": 10,
+              "extract:wood": 14,
+              "basic-core": 1,
+              "iron-wire": 1,
+              "iron-plate": 6,
+              "extract:iron": 10,
+              "automata-core": 3,
+              "circuit-a": 1,
+              "copper-wire": 2,
+              "brick": 1,
+              "extract:stone": 1,
+              "hydro-core": 2,
+              "hydraulic-actuator": 1,
+              "iron-gear": 1,
+              "motor": 1,
+              "coolant": 1,
+              "lake-intake": 1,
+              "conductive-slurry": 1
+            },
+            "actualRate": 6,
+            "machinesCount": 88,
+            "addedMachines": 47,
+            "addedSupport": 24,
+            "connections": 107,
+            "duration": 445,
+            "start": 664,
+            "first": 909,
+            "stable": 1109,
+            "readyForNext": 1109,
+            "wait": 265.5,
+            "researchDuringBuild": [],
+            "olderTierImprovements": 0,
+            "estimatedActiveNodes": 133
+          },
+          {
+            "tier": 5,
+            "machines": {
+              "simple-core": 1,
+              "copper-gear": 1,
+              "copper-plate": 20,
+              "extract:copper": 32,
+              "charcoal": 20,
+              "extract:wood": 29,
+              "basic-core": 1,
+              "iron-wire": 1,
+              "iron-plate": 12,
+              "extract:iron": 20,
+              "automata-core": 5,
+              "circuit-a": 3,
+              "copper-wire": 3,
+              "brick": 2,
+              "extract:stone": 2,
+              "hydro-core": 4,
+              "hydraulic-actuator": 2,
+              "iron-gear": 2,
+              "motor": 2,
+              "coolant": 3,
+              "lake-intake": 1,
+              "conductive-slurry": 2,
+              "shiny-core": 3,
+              "refined-mithril": 2,
+              "extract:mythril": 3
+            },
+            "actualRate": 6,
+            "machinesCount": 176,
+            "addedMachines": 88,
+            "addedSupport": 44,
+            "connections": 198,
+            "duration": 825,
+            "start": 1374.5,
+            "first": 1828.5,
+            "stable": 2199.5,
+            "readyForNext": 2199.5,
+            "wait": 150,
+            "researchDuringBuild": [
+              {
+                "id": "Sealed Robotics",
+                "time": 1574.5,
+                "tier": 4,
+                "kind": "unlock"
+              },
+              {
+                "id": "Mineral Recovery",
+                "time": 2147,
+                "tier": 5,
+                "kind": "unlock"
+              }
+            ],
+            "olderTierImprovements": 0,
+            "estimatedActiveNodes": 265
+          },
+          {
+            "tier": 6,
+            "machines": {
+              "simple-core": 1,
+              "copper-gear": 1,
+              "copper-plate": 36,
+              "extract:copper": 59,
+              "charcoal": 39,
+              "extract:wood": 55,
+              "basic-core": 1,
+              "iron-wire": 1,
+              "iron-plate": 23,
+              "extract:iron": 38,
+              "automata-core": 6,
+              "circuit-a": 5,
+              "copper-wire": 6,
+              "brick": 2,
+              "extract:stone": 2,
+              "hydro-core": 6,
+              "hydraulic-actuator": 4,
+              "iron-gear": 3,
+              "motor": 3,
+              "coolant": 6,
+              "lake-intake": 2,
+              "conductive-slurry": 4,
+              "shiny-core": 5,
+              "refined-mithril": 5,
+              "extract:mythril": 8,
+              "command-core": 3,
+              "precision-controller": 2,
+              "advanced-actuator": 2
+            },
+            "actualRate": 6,
+            "machinesCount": 328,
+            "addedMachines": 152,
+            "addedSupport": 76,
+            "connections": 342,
+            "duration": 1425,
+            "start": 2349.5,
+            "first": 3133.5,
+            "stable": 3774.5,
+            "readyForNext": 3774.5,
+            "wait": 167.5,
+            "researchDuringBuild": [
+              {
+                "id": "Heavy Robotics",
+                "time": 2549.5,
+                "tier": 5,
+                "kind": "unlock"
+              },
+              {
+                "id": "Mineral Regeneration",
+                "time": 2749.5,
+                "tier": 5,
+                "kind": "unlock"
+              },
+              {
+                "id": "Autonomous Logistics",
+                "time": 3505.5,
+                "tier": 6,
+                "kind": "unlock"
+              },
+              {
+                "id": "Command Robotics",
+                "time": 3741.5,
+                "tier": 6,
+                "kind": "unlock"
+              }
+            ],
+            "olderTierImprovements": 0,
+            "estimatedActiveNodes": 493
+          }
+        ],
+        "maxProductionAndSupportNodes": 493,
+        "meanWasteTreatmentNodesAtTier6Rate": 6,
+        "mapEquivalentsAt60Nodes": 9,
+        "exceeds6540NodeBudget": false,
+        "coreProduced": [
+          236,
+          235,
+          230,
+          200,
+          140,
+          60
+        ],
+        "remainingCores": [
+          0,
+          0,
+          0,
+          0,
+          4.511946372076636e-12,
+          9.463541061904834e-13
+        ],
+        "raw": {
+          "copper": 14778,
+          "wood": 13144,
+          "iron": 9150,
+          "stone": 630,
+          "water": 4440,
+          "mythril": 1440
+        },
+        "completions": [
+          {
+            "id": "assembler",
+            "time": 90.5,
+            "tier": 1,
+            "kind": "unlock"
+          },
+          {
+            "id": "exploration",
+            "time": 205,
+            "tier": 2,
+            "kind": "unlock"
+          },
+          {
+            "id": "road",
+            "time": 230.5,
+            "tier": 2,
+            "kind": "unlock"
+          },
+          {
+            "id": "automataCore",
+            "time": 250.5,
+            "tier": 2,
+            "kind": "unlock"
+          },
+          {
+            "id": "Hydrochemistry",
+            "time": 464,
+            "tier": 3,
+            "kind": "unlock"
+          },
+          {
+            "id": "Hydraulic Assembly",
+            "time": 664,
+            "tier": 3,
+            "kind": "unlock"
+          },
+          {
+            "id": "Fluid Routing",
+            "time": 1174.5,
+            "tier": 4,
+            "kind": "unlock"
+          },
+          {
+            "id": "Ore Separation",
+            "time": 1374.5,
+            "tier": 4,
+            "kind": "unlock"
+          },
+          {
+            "id": "Sealed Robotics",
+            "time": 1574.5,
+            "tier": 4,
+            "kind": "unlock"
+          },
+          {
+            "id": "Mineral Recovery",
+            "time": 2147,
+            "tier": 5,
+            "kind": "unlock"
+          },
+          {
+            "id": "Precision Control",
+            "time": 2349.5,
+            "tier": 5,
+            "kind": "unlock"
+          },
+          {
+            "id": "Heavy Robotics",
+            "time": 2549.5,
+            "tier": 5,
+            "kind": "unlock"
+          },
+          {
+            "id": "Mineral Regeneration",
+            "time": 2749.5,
+            "tier": 5,
+            "kind": "unlock"
+          },
+          {
+            "id": "Autonomous Logistics",
+            "time": 3505.5,
+            "tier": 6,
+            "kind": "unlock"
+          },
+          {
+            "id": "Command Robotics",
+            "time": 3741.5,
+            "tier": 6,
+            "kind": "unlock"
+          },
+          {
+            "id": "Endgame Theory",
+            "time": 3942,
+            "tier": 6,
+            "kind": "unlock"
+          }
+        ],
+        "switches": [],
+        "completedProjects": 16,
+        "totalProjects": 16,
+        "truncated": false,
+        "uptime": 1,
+        "necessaryOnly": true,
+        "selectedResearch": [
+          {
+            "id": "assembler",
+            "tier": 1,
+            "each": 1
+          },
+          {
+            "id": "exploration",
+            "tier": 2,
+            "each": 1
+          },
+          {
+            "id": "road",
+            "tier": 2,
+            "each": 2
+          },
+          {
+            "id": "automataCore",
+            "tier": 2,
+            "each": 2
+          },
+          {
+            "id": "Hydrochemistry",
+            "tier": 3,
+            "each": 10
+          },
+          {
+            "id": "Hydraulic Assembly",
+            "tier": 3,
+            "each": 20
+          },
+          {
+            "id": "Fluid Routing",
+            "tier": 4,
+            "each": 20
+          },
+          {
+            "id": "Sealed Robotics",
+            "tier": 4,
+            "each": 20
+          },
+          {
+            "id": "Ore Separation",
+            "tier": 4,
+            "each": 20
+          },
+          {
+            "id": "Mineral Recovery",
+            "tier": 5,
+            "each": 20
+          },
+          {
+            "id": "Heavy Robotics",
+            "tier": 5,
+            "each": 20
+          },
+          {
+            "id": "Precision Control",
+            "tier": 5,
+            "each": 20
+          },
+          {
+            "id": "Autonomous Logistics",
+            "tier": 6,
+            "each": 20
+          },
+          {
+            "id": "Command Robotics",
+            "tier": 6,
+            "each": 20
+          },
+          {
+            "id": "Endgame Theory",
+            "tier": 6,
+            "each": 20
+          },
+          {
+            "id": "Mineral Regeneration",
+            "tier": 5,
+            "each": 20
+          }
+        ],
+        "rates": [
+          6,
+          6,
+          6,
+          6,
+          6,
+          6
+        ],
+        "elapsedSeconds": 3942,
+        "placementSeconds": 3090,
+        "totalPlacedNodes": 494,
+        "totalConnections": 742
+      },
+      {
+        "profile": "speedrunner",
+        "policy": "capability-first",
+        "checkpointSeconds": 4242.5,
+        "allFixedSeconds": 4242.5,
+        "forcedWaitSeconds": 277,
+        "labActiveSeconds": 236,
+        "builds": [
+          {
+            "tier": 1,
+            "machines": {
+              "simple-core": 1,
+              "copper-gear": 1,
+              "copper-plate": 4,
+              "extract:copper": 6,
+              "charcoal": 2,
+              "extract:wood": 3
+            },
+            "actualRate": 8.571428571428571,
+            "machinesCount": 17,
+            "addedMachines": 17,
+            "addedSupport": 9,
+            "connections": 39,
+            "duration": 162.5,
+            "start": 0,
+            "first": 89.5,
+            "stable": 162.5,
+            "readyForNext": 162.5,
+            "wait": 0,
+            "researchDuringBuild": [
+              {
+                "id": "assembler",
+                "time": 106.5,
+                "tier": 1,
+                "kind": "unlock"
+              }
+            ],
+            "olderTierImprovements": 0,
+            "estimatedActiveNodes": 27
+          },
+          {
+            "tier": 2,
+            "machines": {
+              "simple-core": 1,
+              "copper-gear": 1,
+              "copper-plate": 4,
+              "extract:copper": 7,
+              "charcoal": 4,
+              "extract:wood": 6,
+              "basic-core": 2,
+              "iron-wire": 1,
+              "iron-plate": 3,
+              "extract:iron": 4
+            },
+            "actualRate": 8,
+            "machinesCount": 33,
+            "addedMachines": 16,
+            "addedSupport": 8,
+            "connections": 36,
+            "duration": 150,
+            "start": 162.5,
+            "first": 245,
+            "stable": 312.5,
+            "readyForNext": 312.5,
+            "wait": 0,
+            "researchDuringBuild": [
+              {
+                "id": "exploration",
+                "time": 262.5,
+                "tier": 2,
+                "kind": "unlock"
+              },
+              {
+                "id": "road",
+                "time": 286.5,
+                "tier": 2,
+                "kind": "unlock"
+              },
+              {
+                "id": "automataCore",
+                "time": 304.5,
+                "tier": 2,
+                "kind": "unlock"
+              }
+            ],
+            "olderTierImprovements": 0,
+            "estimatedActiveNodes": 51
+          },
+          {
+            "tier": 3,
+            "machines": {
+              "simple-core": 1,
+              "copper-gear": 1,
+              "copper-plate": 7,
+              "extract:copper": 11,
+              "charcoal": 6,
+              "extract:wood": 8,
+              "basic-core": 2,
+              "iron-wire": 1,
+              "iron-plate": 4,
+              "extract:iron": 6,
+              "automata-core": 2,
+              "circuit-a": 1,
+              "copper-wire": 1,
+              "brick": 1,
+              "extract:stone": 1
+            },
+            "actualRate": 8,
+            "machinesCount": 53,
+            "addedMachines": 20,
+            "addedSupport": 10,
+            "connections": 45,
+            "duration": 187.5,
+            "start": 312.5,
+            "first": 416,
+            "stable": 500,
+            "readyForNext": 500,
+            "wait": 168.5,
+            "researchDuringBuild": [],
+            "olderTierImprovements": 0,
+            "estimatedActiveNodes": 81
+          },
+          {
+            "tier": 4,
+            "machines": {
+              "simple-core": 1,
+              "copper-gear": 1,
+              "copper-plate": 14,
+              "extract:copper": 23,
+              "charcoal": 14,
+              "extract:wood": 19,
+              "basic-core": 2,
+              "iron-wire": 1,
+              "iron-plate": 8,
+              "extract:iron": 14,
+              "automata-core": 4,
+              "circuit-a": 2,
+              "copper-wire": 2,
+              "brick": 2,
+              "extract:stone": 2,
+              "hydro-core": 3,
+              "hydraulic-actuator": 2,
+              "iron-gear": 1,
+              "motor": 1,
+              "coolant": 1,
+              "lake-intake": 1,
+              "conductive-slurry": 2
+            },
+            "actualRate": 8,
+            "machinesCount": 120,
+            "addedMachines": 67,
+            "addedSupport": 34,
+            "connections": 152,
+            "duration": 632.5,
+            "start": 668.5,
+            "first": 1016.5,
+            "stable": 1301,
+            "readyForNext": 1301,
+            "wait": 108.5,
+            "researchDuringBuild": [
+              {
+                "id": "Fluid Routing",
+                "time": 1257,
+                "tier": 4,
+                "kind": "unlock"
+              }
+            ],
+            "olderTierImprovements": 0,
+            "estimatedActiveNodes": 181
+          },
+          {
+            "tier": 5,
+            "machines": {
+              "simple-core": 1,
+              "copper-gear": 1,
+              "copper-plate": 26,
+              "extract:copper": 43,
+              "charcoal": 27,
+              "extract:wood": 38,
+              "basic-core": 2,
+              "iron-wire": 1,
+              "iron-plate": 16,
+              "extract:iron": 26,
+              "automata-core": 6,
+              "circuit-a": 4,
+              "copper-wire": 4,
+              "brick": 2,
+              "extract:stone": 2,
+              "hydro-core": 5,
+              "hydraulic-actuator": 3,
+              "iron-gear": 2,
+              "motor": 2,
+              "coolant": 3,
+              "lake-intake": 1,
+              "conductive-slurry": 3,
+              "shiny-core": 4,
+              "refined-mithril": 3,
+              "extract:mythril": 4
+            },
+            "actualRate": 8,
+            "machinesCount": 229,
+            "addedMachines": 109,
+            "addedSupport": 55,
+            "connections": 246,
+            "duration": 1025,
+            "start": 1409.5,
+            "first": 1973.5,
+            "stable": 2434.5,
+            "readyForNext": 2434.5,
+            "wait": 0,
+            "researchDuringBuild": [
+              {
+                "id": "Sealed Robotics",
+                "time": 1559.5,
+                "tier": 4,
+                "kind": "unlock"
+              },
+              {
+                "id": "Mineral Recovery",
+                "time": 2249.5,
+                "tier": 5,
+                "kind": "unlock"
+              },
+              {
+                "id": "Precision Control",
+                "time": 2423.5,
+                "tier": 5,
+                "kind": "unlock"
+              }
+            ],
+            "olderTierImprovements": 0,
+            "estimatedActiveNodes": 345
+          },
+          {
+            "tier": 6,
+            "machines": {
+              "simple-core": 1,
+              "copper-gear": 1,
+              "copper-plate": 48,
+              "extract:copper": 79,
+              "charcoal": 51,
+              "extract:wood": 73,
+              "basic-core": 2,
+              "iron-wire": 1,
+              "iron-plate": 31,
+              "extract:iron": 51,
+              "automata-core": 8,
+              "circuit-a": 7,
+              "copper-wire": 8,
+              "brick": 3,
+              "extract:stone": 3,
+              "hydro-core": 8,
+              "hydraulic-actuator": 6,
+              "iron-gear": 4,
+              "motor": 4,
+              "coolant": 8,
+              "lake-intake": 2,
+              "conductive-slurry": 5,
+              "shiny-core": 7,
+              "refined-mithril": 7,
+              "extract:mythril": 11,
+              "command-core": 4,
+              "precision-controller": 2,
+              "advanced-actuator": 3
+            },
+            "actualRate": 8,
+            "machinesCount": 438,
+            "addedMachines": 209,
+            "addedSupport": 105,
+            "connections": 471,
+            "duration": 1962.5,
+            "start": 2434.5,
+            "first": 3514,
+            "stable": 4397,
+            "readyForNext": 4397,
+            "wait": 0,
+            "researchDuringBuild": [
+              {
+                "id": "Heavy Robotics",
+                "time": 2573.5,
+                "tier": 5,
+                "kind": "unlock"
+              },
+              {
+                "id": "Mineral Regeneration",
+                "time": 2723.5,
+                "tier": 5,
+                "kind": "unlock"
+              },
+              {
+                "id": "Autonomous Logistics",
+                "time": 3835,
+                "tier": 6,
+                "kind": "unlock"
+              },
+              {
+                "id": "Command Robotics",
+                "time": 4059,
+                "tier": 6,
+                "kind": "unlock"
+              },
+              {
+                "id": "Endgame Theory",
+                "time": 4242.5,
+                "tier": 6,
+                "kind": "unlock"
+              }
+            ],
+            "olderTierImprovements": 0,
+            "estimatedActiveNodes": 658
+          }
+        ],
+        "maxProductionAndSupportNodes": 658,
+        "meanWasteTreatmentNodesAtTier6Rate": 7,
+        "mapEquivalentsAt60Nodes": 11,
+        "exceeds6540NodeBudget": false,
+        "coreProduced": [
+          236,
+          235,
+          230,
+          200,
+          140,
+          60
+        ],
+        "remainingCores": [
+          3.495870259939693e-12,
+          5.5848659030743875e-12,
+          5.3717030823463574e-12,
+          6.970424237806583e-12,
+          4.497735517361434e-12,
+          0
+        ],
+        "raw": {
+          "copper": 14778,
+          "wood": 13144,
+          "iron": 9150,
+          "stone": 630,
+          "water": 4440,
+          "mythril": 1440
+        },
+        "completions": [
+          {
+            "id": "assembler",
+            "time": 106.5,
+            "tier": 1,
+            "kind": "unlock"
+          },
+          {
+            "id": "exploration",
+            "time": 262.5,
+            "tier": 2,
+            "kind": "unlock"
+          },
+          {
+            "id": "road",
+            "time": 286.5,
+            "tier": 2,
+            "kind": "unlock"
+          },
+          {
+            "id": "automataCore",
+            "time": 304.5,
+            "tier": 2,
+            "kind": "unlock"
+          },
+          {
+            "id": "Hydrochemistry",
+            "time": 518.5,
+            "tier": 3,
+            "kind": "unlock"
+          },
+          {
+            "id": "Hydraulic Assembly",
+            "time": 668.5,
+            "tier": 3,
+            "kind": "unlock"
+          },
+          {
+            "id": "Fluid Routing",
+            "time": 1257,
+            "tier": 4,
+            "kind": "unlock"
+          },
+          {
+            "id": "Ore Separation",
+            "time": 1409.5,
+            "tier": 4,
+            "kind": "unlock"
+          },
+          {
+            "id": "Sealed Robotics",
+            "time": 1559.5,
+            "tier": 4,
+            "kind": "unlock"
+          },
+          {
+            "id": "Mineral Recovery",
+            "time": 2249.5,
+            "tier": 5,
+            "kind": "unlock"
+          },
+          {
+            "id": "Precision Control",
+            "time": 2423.5,
+            "tier": 5,
+            "kind": "unlock"
+          },
+          {
+            "id": "Heavy Robotics",
+            "time": 2573.5,
+            "tier": 5,
+            "kind": "unlock"
+          },
+          {
+            "id": "Mineral Regeneration",
+            "time": 2723.5,
+            "tier": 5,
+            "kind": "unlock"
+          },
+          {
+            "id": "Autonomous Logistics",
+            "time": 3835,
+            "tier": 6,
+            "kind": "unlock"
+          },
+          {
+            "id": "Command Robotics",
+            "time": 4059,
+            "tier": 6,
+            "kind": "unlock"
+          },
+          {
+            "id": "Endgame Theory",
+            "time": 4242.5,
+            "tier": 6,
+            "kind": "unlock"
+          }
+        ],
+        "switches": [],
+        "completedProjects": 16,
+        "totalProjects": 16,
+        "truncated": false,
+        "uptime": 1,
+        "necessaryOnly": true,
+        "selectedResearch": [
+          {
+            "id": "assembler",
+            "tier": 1,
+            "each": 1
+          },
+          {
+            "id": "exploration",
+            "tier": 2,
+            "each": 1
+          },
+          {
+            "id": "road",
+            "tier": 2,
+            "each": 2
+          },
+          {
+            "id": "automataCore",
+            "tier": 2,
+            "each": 2
+          },
+          {
+            "id": "Hydrochemistry",
+            "tier": 3,
+            "each": 10
+          },
+          {
+            "id": "Hydraulic Assembly",
+            "tier": 3,
+            "each": 20
+          },
+          {
+            "id": "Fluid Routing",
+            "tier": 4,
+            "each": 20
+          },
+          {
+            "id": "Sealed Robotics",
+            "tier": 4,
+            "each": 20
+          },
+          {
+            "id": "Ore Separation",
+            "tier": 4,
+            "each": 20
+          },
+          {
+            "id": "Mineral Recovery",
+            "tier": 5,
+            "each": 20
+          },
+          {
+            "id": "Heavy Robotics",
+            "tier": 5,
+            "each": 20
+          },
+          {
+            "id": "Precision Control",
+            "tier": 5,
+            "each": 20
+          },
+          {
+            "id": "Autonomous Logistics",
+            "tier": 6,
+            "each": 20
+          },
+          {
+            "id": "Command Robotics",
+            "tier": 6,
+            "each": 20
+          },
+          {
+            "id": "Endgame Theory",
+            "tier": 6,
+            "each": 20
+          },
+          {
+            "id": "Mineral Regeneration",
+            "tier": 5,
+            "each": 20
+          }
+        ],
+        "rates": [
+          8,
+          8,
+          8,
+          8,
+          8,
+          8
+        ],
+        "elapsedSeconds": 4397,
+        "placementSeconds": 4120,
+        "totalPlacedNodes": 659,
+        "totalConnections": 989
+      },
+      {
+        "profile": "speedrunner",
+        "policy": "capability-first",
+        "checkpointSeconds": 5438,
+        "allFixedSeconds": 5438,
+        "forcedWaitSeconds": 72.5,
+        "labActiveSeconds": 236,
+        "builds": [
+          {
+            "tier": 1,
+            "machines": {
+              "simple-core": 1,
+              "copper-gear": 2,
+              "copper-plate": 5,
+              "extract:copper": 8,
+              "charcoal": 3,
+              "extract:wood": 4
+            },
+            "actualRate": 12,
+            "machinesCount": 23,
+            "addedMachines": 23,
+            "addedSupport": 12,
+            "connections": 53,
+            "duration": 220,
+            "start": 0,
+            "first": 121,
+            "stable": 220,
+            "readyForNext": 220,
+            "wait": 0,
+            "researchDuringBuild": [
+              {
+                "id": "assembler",
+                "time": 134,
+                "tier": 1,
+                "kind": "unlock"
+              }
+            ],
+            "olderTierImprovements": 0,
+            "estimatedActiveNodes": 36
+          },
+          {
+            "tier": 2,
+            "machines": {
+              "simple-core": 1,
+              "copper-gear": 2,
+              "copper-plate": 6,
+              "extract:copper": 10,
+              "charcoal": 6,
+              "extract:wood": 8,
+              "basic-core": 2,
+              "iron-wire": 1,
+              "iron-plate": 4,
+              "extract:iron": 6
+            },
+            "actualRate": 12,
+            "machinesCount": 46,
+            "addedMachines": 23,
+            "addedSupport": 12,
+            "connections": 53,
+            "duration": 220,
+            "start": 220,
+            "first": 341,
+            "stable": 440,
+            "readyForNext": 440,
+            "wait": 0,
+            "researchDuringBuild": [
+              {
+                "id": "exploration",
+                "time": 354,
+                "tier": 2,
+                "kind": "unlock"
+              },
+              {
+                "id": "road",
+                "time": 374,
+                "tier": 2,
+                "kind": "unlock"
+              },
+              {
+                "id": "automataCore",
+                "time": 390.5,
+                "tier": 2,
+                "kind": "unlock"
+              }
+            ],
+            "olderTierImprovements": 0,
+            "estimatedActiveNodes": 70
+          },
+          {
+            "tier": 3,
+            "machines": {
+              "simple-core": 1,
+              "copper-gear": 2,
+              "copper-plate": 10,
+              "extract:copper": 16,
+              "charcoal": 9,
+              "extract:wood": 12,
+              "basic-core": 2,
+              "iron-wire": 1,
+              "iron-plate": 5,
+              "extract:iron": 8,
+              "automata-core": 3,
+              "circuit-a": 1,
+              "copper-wire": 1,
+              "brick": 1,
+              "extract:stone": 1
+            },
+            "actualRate": 12,
+            "machinesCount": 73,
+            "addedMachines": 27,
+            "addedSupport": 14,
+            "connections": 62,
+            "duration": 257.5,
+            "start": 440,
+            "first": 582,
+            "stable": 697.5,
+            "readyForNext": 697.5,
+            "wait": 72.5,
+            "researchDuringBuild": [
+              {
+                "id": "Hydrochemistry",
+                "time": 667,
+                "tier": 3,
+                "kind": "unlock"
+              }
+            ],
+            "olderTierImprovements": 0,
+            "estimatedActiveNodes": 111
+          },
+          {
+            "tier": 4,
+            "machines": {
+              "simple-core": 1,
+              "copper-gear": 2,
+              "copper-plate": 21,
+              "extract:copper": 34,
+              "charcoal": 20,
+              "extract:wood": 28,
+              "basic-core": 2,
+              "iron-wire": 1,
+              "iron-plate": 12,
+              "extract:iron": 20,
+              "automata-core": 6,
+              "circuit-a": 2,
+              "copper-wire": 3,
+              "brick": 2,
+              "extract:stone": 2,
+              "hydro-core": 4,
+              "hydraulic-actuator": 2,
+              "iron-gear": 2,
+              "motor": 2,
+              "coolant": 2,
+              "lake-intake": 1,
+              "conductive-slurry": 2
+            },
+            "actualRate": 12,
+            "machinesCount": 171,
+            "addedMachines": 98,
+            "addedSupport": 49,
+            "connections": 221,
+            "duration": 920,
+            "start": 770,
+            "first": 1276,
+            "stable": 1690,
+            "readyForNext": 1690,
+            "wait": 0,
+            "researchDuringBuild": [
+              {
+                "id": "Fluid Routing",
+                "time": 1474.5,
+                "tier": 4,
+                "kind": "unlock"
+              },
+              {
+                "id": "Ore Separation",
+                "time": 1605.5,
+                "tier": 4,
+                "kind": "unlock"
+              }
+            ],
+            "olderTierImprovements": 0,
+            "estimatedActiveNodes": 258
+          },
+          {
+            "tier": 5,
+            "machines": {
+              "simple-core": 1,
+              "copper-gear": 2,
+              "copper-plate": 39,
+              "extract:copper": 64,
+              "charcoal": 40,
+              "extract:wood": 57,
+              "basic-core": 2,
+              "iron-wire": 1,
+              "iron-plate": 24,
+              "extract:iron": 39,
+              "automata-core": 9,
+              "circuit-a": 5,
+              "copper-wire": 6,
+              "brick": 3,
+              "extract:stone": 3,
+              "hydro-core": 8,
+              "hydraulic-actuator": 4,
+              "iron-gear": 3,
+              "motor": 3,
+              "coolant": 5,
+              "lake-intake": 1,
+              "conductive-slurry": 4,
+              "shiny-core": 5,
+              "refined-mithril": 4,
+              "extract:mythril": 6
+            },
+            "actualRate": 12,
+            "machinesCount": 338,
+            "addedMachines": 167,
+            "addedSupport": 84,
+            "connections": 377,
+            "duration": 1570,
+            "start": 1690,
+            "first": 2553.5,
+            "stable": 3260,
+            "readyForNext": 3260,
+            "wait": 0,
+            "researchDuringBuild": [
+              {
+                "id": "Sealed Robotics",
+                "time": 1711,
+                "tier": 4,
+                "kind": "unlock"
+              },
+              {
+                "id": "Mineral Recovery",
+                "time": 2775,
+                "tier": 5,
+                "kind": "unlock"
+              },
+              {
+                "id": "Precision Control",
+                "time": 2934.5,
+                "tier": 5,
+                "kind": "unlock"
+              },
+              {
+                "id": "Heavy Robotics",
+                "time": 3066,
+                "tier": 5,
+                "kind": "unlock"
+              },
+              {
+                "id": "Mineral Regeneration",
+                "time": 3180.5,
+                "tier": 5,
+                "kind": "unlock"
+              }
+            ],
+            "olderTierImprovements": 0,
+            "estimatedActiveNodes": 508
+          },
+          {
+            "tier": 6,
+            "machines": {
+              "simple-core": 1,
+              "copper-gear": 2,
+              "copper-plate": 71,
+              "extract:copper": 118,
+              "charcoal": 77,
+              "extract:wood": 109,
+              "basic-core": 2,
+              "iron-wire": 1,
+              "iron-plate": 46,
+              "extract:iron": 76,
+              "automata-core": 12,
+              "circuit-a": 10,
+              "copper-wire": 11,
+              "brick": 4,
+              "extract:stone": 4,
+              "hydro-core": 11,
+              "hydraulic-actuator": 8,
+              "iron-gear": 5,
+              "motor": 6,
+              "coolant": 11,
+              "lake-intake": 3,
+              "conductive-slurry": 7,
+              "shiny-core": 10,
+              "refined-mithril": 10,
+              "extract:mythril": 16,
+              "command-core": 6,
+              "precision-controller": 3,
+              "advanced-actuator": 4
+            },
+            "actualRate": 12,
+            "machinesCount": 644,
+            "addedMachines": 306,
+            "addedSupport": 153,
+            "connections": 689,
+            "duration": 2870,
+            "start": 3260,
+            "first": 4838.5,
+            "stable": 6130,
+            "readyForNext": 6130,
+            "wait": 0,
+            "researchDuringBuild": [
+              {
+                "id": "Autonomous Logistics",
+                "time": 5082,
+                "tier": 6,
+                "kind": "unlock"
+              },
+              {
+                "id": "Command Robotics",
+                "time": 5274,
+                "tier": 6,
+                "kind": "unlock"
+              },
+              {
+                "id": "Endgame Theory",
+                "time": 5438,
+                "tier": 6,
+                "kind": "unlock"
+              }
+            ],
+            "olderTierImprovements": 0,
+            "estimatedActiveNodes": 967
+          }
+        ],
+        "maxProductionAndSupportNodes": 967,
+        "meanWasteTreatmentNodesAtTier6Rate": 8,
+        "mapEquivalentsAt60Nodes": 17,
+        "exceeds6540NodeBudget": false,
+        "coreProduced": [
+          236,
+          235,
+          230,
+          200,
+          140,
+          60
+        ],
+        "remainingCores": [
+          3.979039320256561e-13,
+          2.3874235921539366e-12,
+          1.3926637620897964e-12,
+          3.922195901395753e-12,
+          3.154809746774845e-12,
+          1.0658141036401503e-14
+        ],
+        "raw": {
+          "copper": 14778,
+          "wood": 13144,
+          "iron": 9150,
+          "stone": 630,
+          "water": 4440,
+          "mythril": 1440
+        },
+        "completions": [
+          {
+            "id": "assembler",
+            "time": 134,
+            "tier": 1,
+            "kind": "unlock"
+          },
+          {
+            "id": "exploration",
+            "time": 354,
+            "tier": 2,
+            "kind": "unlock"
+          },
+          {
+            "id": "road",
+            "time": 374,
+            "tier": 2,
+            "kind": "unlock"
+          },
+          {
+            "id": "automataCore",
+            "time": 390.5,
+            "tier": 2,
+            "kind": "unlock"
+          },
+          {
+            "id": "Hydrochemistry",
+            "time": 667,
+            "tier": 3,
+            "kind": "unlock"
+          },
+          {
+            "id": "Hydraulic Assembly",
+            "time": 770,
+            "tier": 3,
+            "kind": "unlock"
+          },
+          {
+            "id": "Fluid Routing",
+            "time": 1474.5,
+            "tier": 4,
+            "kind": "unlock"
+          },
+          {
+            "id": "Ore Separation",
+            "time": 1605.5,
+            "tier": 4,
+            "kind": "unlock"
+          },
+          {
+            "id": "Sealed Robotics",
+            "time": 1711,
+            "tier": 4,
+            "kind": "unlock"
+          },
+          {
+            "id": "Mineral Recovery",
+            "time": 2775,
+            "tier": 5,
+            "kind": "unlock"
+          },
+          {
+            "id": "Precision Control",
+            "time": 2934.5,
+            "tier": 5,
+            "kind": "unlock"
+          },
+          {
+            "id": "Heavy Robotics",
+            "time": 3066,
+            "tier": 5,
+            "kind": "unlock"
+          },
+          {
+            "id": "Mineral Regeneration",
+            "time": 3180.5,
+            "tier": 5,
+            "kind": "unlock"
+          },
+          {
+            "id": "Autonomous Logistics",
+            "time": 5082,
+            "tier": 6,
+            "kind": "unlock"
+          },
+          {
+            "id": "Command Robotics",
+            "time": 5274,
+            "tier": 6,
+            "kind": "unlock"
+          },
+          {
+            "id": "Endgame Theory",
+            "time": 5438,
+            "tier": 6,
+            "kind": "unlock"
+          }
+        ],
+        "switches": [],
+        "completedProjects": 16,
+        "totalProjects": 16,
+        "truncated": false,
+        "uptime": 1,
+        "necessaryOnly": true,
+        "selectedResearch": [
+          {
+            "id": "assembler",
+            "tier": 1,
+            "each": 1
+          },
+          {
+            "id": "exploration",
+            "tier": 2,
+            "each": 1
+          },
+          {
+            "id": "road",
+            "tier": 2,
+            "each": 2
+          },
+          {
+            "id": "automataCore",
+            "tier": 2,
+            "each": 2
+          },
+          {
+            "id": "Hydrochemistry",
+            "tier": 3,
+            "each": 10
+          },
+          {
+            "id": "Hydraulic Assembly",
+            "tier": 3,
+            "each": 20
+          },
+          {
+            "id": "Fluid Routing",
+            "tier": 4,
+            "each": 20
+          },
+          {
+            "id": "Sealed Robotics",
+            "tier": 4,
+            "each": 20
+          },
+          {
+            "id": "Ore Separation",
+            "tier": 4,
+            "each": 20
+          },
+          {
+            "id": "Mineral Recovery",
+            "tier": 5,
+            "each": 20
+          },
+          {
+            "id": "Heavy Robotics",
+            "tier": 5,
+            "each": 20
+          },
+          {
+            "id": "Precision Control",
+            "tier": 5,
+            "each": 20
+          },
+          {
+            "id": "Autonomous Logistics",
+            "tier": 6,
+            "each": 20
+          },
+          {
+            "id": "Command Robotics",
+            "tier": 6,
+            "each": 20
+          },
+          {
+            "id": "Endgame Theory",
+            "tier": 6,
+            "each": 20
+          },
+          {
+            "id": "Mineral Regeneration",
+            "tier": 5,
+            "each": 20
+          }
+        ],
+        "rates": [
+          12,
+          12,
+          12,
+          12,
+          12,
+          12
+        ],
+        "elapsedSeconds": 6130,
+        "placementSeconds": 6057.5,
+        "totalPlacedNodes": 968,
+        "totalConnections": 1455
+      }
+    ]
+  },
+  "costSweep": [
+    {
+      "scale": 1,
+      "endMinutes": 19.75,
+      "waitMinutes": 4.791666666666667,
+      "nodes": 143
+    },
+    {
+      "scale": 2,
+      "endMinutes": 26.691666666666666,
+      "waitMinutes": 7.941666666666666,
+      "nodes": 180
+    },
+    {
+      "scale": 4,
+      "endMinutes": 36.225,
+      "waitMinutes": 9.225,
+      "nodes": 259
+    },
+    {
+      "scale": 8,
+      "endMinutes": 51.291666666666664,
+      "waitMinutes": 15.25,
+      "nodes": 346
+    },
+    {
+      "scale": 16,
+      "endMinutes": 70.59166666666667,
+      "waitMinutes": 18.883333333333333,
+      "nodes": 496
+    },
+    {
+      "scale": 32,
+      "endMinutes": 105.75,
+      "waitMinutes": 36.833333333333336,
+      "nodes": 661
+    },
+    {
+      "scale": 5,
+      "endMinutes": 42.016666666666666,
+      "waitMinutes": 5.975,
+      "nodes": 346
+    },
+    {
+      "scale": 6,
+      "endMinutes": 44.68333333333333,
+      "waitMinutes": 8.641666666666667,
+      "nodes": 346
+    },
+    {
+      "scale": 7,
+      "endMinutes": 47.541666666666664,
+      "waitMinutes": 11.5,
+      "nodes": 346
+    },
+    {
+      "scale": 9,
+      "endMinutes": 57.74166666666667,
+      "waitMinutes": 6.033333333333333,
+      "nodes": 496
+    },
+    {
+      "scale": 10,
+      "endMinutes": 59.40833333333333,
+      "waitMinutes": 7.7,
+      "nodes": 496
+    },
+    {
+      "scale": 11,
+      "endMinutes": 61.15833333333333,
+      "waitMinutes": 9.45,
+      "nodes": 496
+    },
+    {
+      "scale": 12,
+      "endMinutes": 62.90833333333333,
+      "waitMinutes": 11.2,
+      "nodes": 496
+    }
+  ],
+  "seeds": [
+    {
+      "rate": 0.25,
+      "elapsedSeconds": 4835,
+      "nodes": 54
+    },
+    {
+      "rate": 0.5,
+      "elapsedSeconds": 3006,
+      "nodes": 69
+    },
+    {
+      "rate": 0.75,
+      "elapsedSeconds": 2309.5,
+      "nodes": 84
+    },
+    {
+      "rate": 1,
+      "elapsedSeconds": 1908.5,
+      "nodes": 102
+    },
+    {
+      "rate": 1.5,
+      "elapsedSeconds": 1522,
+      "nodes": 142
+    },
+    {
+      "rate": 2,
+      "elapsedSeconds": 1468,
+      "nodes": 179
+    },
+    {
+      "rate": 3,
+      "elapsedSeconds": 1725,
+      "nodes": 257
+    },
+    {
+      "rate": 4,
+      "elapsedSeconds": 2203,
+      "nodes": 342
+    },
+    {
+      "rate": 6,
+      "elapsedSeconds": 3108,
+      "nodes": 494
+    },
+    {
+      "rate": 8,
+      "elapsedSeconds": 4120,
+      "nodes": 659
+    },
+    {
+      "rate": 12,
+      "elapsedSeconds": 6057.5,
+      "nodes": 968
+    }
+  ]
+}

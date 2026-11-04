@@ -1,0 +1,550 @@
+{
+  "date": "2026-11-03",
+  "decision": "Q97 fixed standard-recipe constituent types, fuel included, fluids excluded, per-item cap one",
+  "status": "Q97 composition and Q101 forty-item input coverage adopted; runtime pending",
+  "sources": [
+    "src/content/recipes.ts",
+    "src/content/progression.ts"
+  ],
+  "exclusions": [
+    "optional composite recipes as composition sources",
+    "six retired recovery recipes",
+    "secondary/chance waste outputs as primary manufactured items"
+  ],
+  "basicResourceReturns": {
+    "iron": {},
+    "copper": {},
+    "wood": {},
+    "stone": {},
+    "mythril": {},
+    "water": {}
+  },
+  "entries": [
+    {
+      "item": "charcoal",
+      "name": "Charcoal",
+      "standardRecipe": "charcoal",
+      "returns": {
+        "wood": 1
+      },
+      "mixedOutputCount": 1,
+      "eligibility": "Q101 accepted current craftable input",
+      "acceptedRecyclerInput": true
+    },
+    {
+      "item": "iron-plate",
+      "name": "Iron Plate",
+      "standardRecipe": "smelt-iron",
+      "returns": {
+        "iron": 1,
+        "wood": 1
+      },
+      "mixedOutputCount": 2,
+      "eligibility": "Q101 accepted current craftable input",
+      "acceptedRecyclerInput": true
+    },
+    {
+      "item": "copper-plate",
+      "name": "Copper Plate",
+      "standardRecipe": "smelt-copper",
+      "returns": {
+        "copper": 1,
+        "wood": 1
+      },
+      "mixedOutputCount": 2,
+      "eligibility": "Q101 accepted current craftable input",
+      "acceptedRecyclerInput": true
+    },
+    {
+      "item": "mythril-plate",
+      "name": "Mythril Plate",
+      "standardRecipe": "smelt-mythril",
+      "returns": {
+        "wood": 1,
+        "mythril": 1
+      },
+      "mixedOutputCount": 2,
+      "eligibility": "Q101 accepted current craftable input",
+      "acceptedRecyclerInput": true
+    },
+    {
+      "item": "iron-gear",
+      "name": "Iron Gear",
+      "standardRecipe": "iron-gear",
+      "returns": {
+        "iron": 1,
+        "wood": 1
+      },
+      "mixedOutputCount": 2,
+      "eligibility": "Q101 accepted current craftable input",
+      "acceptedRecyclerInput": true
+    },
+    {
+      "item": "copper-gear",
+      "name": "Copper Gear",
+      "standardRecipe": "copper-gear",
+      "returns": {
+        "copper": 1,
+        "wood": 1
+      },
+      "mixedOutputCount": 2,
+      "eligibility": "Q101 accepted current craftable input",
+      "acceptedRecyclerInput": true
+    },
+    {
+      "item": "mythril-gear",
+      "name": "Mythril Gear",
+      "standardRecipe": "mythril-gear",
+      "returns": {
+        "wood": 1,
+        "mythril": 1
+      },
+      "mixedOutputCount": 2,
+      "eligibility": "Q101 accepted current craftable input",
+      "acceptedRecyclerInput": true
+    },
+    {
+      "item": "iron-wire",
+      "name": "Iron Wire",
+      "standardRecipe": "iron-wire",
+      "returns": {
+        "iron": 1,
+        "wood": 1
+      },
+      "mixedOutputCount": 2,
+      "eligibility": "Q101 accepted current craftable input",
+      "acceptedRecyclerInput": true
+    },
+    {
+      "item": "copper-wire",
+      "name": "Copper Wire",
+      "standardRecipe": "copper-wire",
+      "returns": {
+        "copper": 1,
+        "wood": 1
+      },
+      "mixedOutputCount": 2,
+      "eligibility": "Q101 accepted current craftable input",
+      "acceptedRecyclerInput": true
+    },
+    {
+      "item": "mythril-wire",
+      "name": "Mythril Wire",
+      "standardRecipe": "mythril-wire",
+      "returns": {
+        "wood": 1,
+        "mythril": 1
+      },
+      "mixedOutputCount": 2,
+      "eligibility": "Q101 accepted current craftable input",
+      "acceptedRecyclerInput": true
+    },
+    {
+      "item": "brick",
+      "name": "Brick",
+      "standardRecipe": "brick",
+      "returns": {
+        "stone": 1
+      },
+      "mixedOutputCount": 1,
+      "eligibility": "Q101 accepted current craftable input",
+      "acceptedRecyclerInput": true
+    },
+    {
+      "item": "simple-core",
+      "name": "Simple Core",
+      "standardRecipe": "simple-core",
+      "returns": {
+        "copper": 1,
+        "wood": 1
+      },
+      "mixedOutputCount": 2,
+      "eligibility": "Q101 accepted current craftable input",
+      "acceptedRecyclerInput": true
+    },
+    {
+      "item": "motor",
+      "name": "Motor",
+      "standardRecipe": "motor",
+      "returns": {
+        "iron": 1,
+        "copper": 1,
+        "wood": 1
+      },
+      "mixedOutputCount": 3,
+      "eligibility": "Q101 accepted current craftable input",
+      "acceptedRecyclerInput": true
+    },
+    {
+      "item": "circuit-a",
+      "name": "Circuit A",
+      "standardRecipe": "circuit-a",
+      "returns": {
+        "iron": 1,
+        "copper": 1,
+        "wood": 1
+      },
+      "mixedOutputCount": 3,
+      "eligibility": "Q101 accepted current craftable input",
+      "acceptedRecyclerInput": true
+    },
+    {
+      "item": "basic-core",
+      "name": "Basic Core",
+      "standardRecipe": "basic-core",
+      "returns": {
+        "iron": 1,
+        "copper": 1,
+        "wood": 1
+      },
+      "mixedOutputCount": 3,
+      "eligibility": "Q101 accepted current craftable input",
+      "acceptedRecyclerInput": true
+    },
+    {
+      "item": "automata-core",
+      "name": "Automata Core",
+      "standardRecipe": "automata-core",
+      "returns": {
+        "iron": 1,
+        "copper": 1,
+        "wood": 1,
+        "stone": 1
+      },
+      "mixedOutputCount": 4,
+      "eligibility": "Q101 accepted current craftable input",
+      "acceptedRecyclerInput": true
+    },
+    {
+      "item": "simple-robot-frame",
+      "name": "Robot Frame",
+      "standardRecipe": "robot-frame",
+      "returns": {
+        "iron": 1,
+        "copper": 1,
+        "wood": 1
+      },
+      "mixedOutputCount": 3,
+      "eligibility": "Q101 accepted current craftable input",
+      "acceptedRecyclerInput": true
+    },
+    {
+      "item": "simple-robot-gun",
+      "name": "Robot Gun",
+      "standardRecipe": "robot-gun",
+      "returns": {
+        "iron": 1,
+        "copper": 1,
+        "wood": 1
+      },
+      "mixedOutputCount": 3,
+      "eligibility": "Q101 accepted current craftable input",
+      "acceptedRecyclerInput": true
+    },
+    {
+      "item": "suppression-bot",
+      "name": "Small Bot",
+      "standardRecipe": "suppression-bot",
+      "returns": {
+        "iron": 1,
+        "copper": 1,
+        "wood": 1
+      },
+      "mixedOutputCount": 3,
+      "eligibility": "Q101 accepted current craftable input",
+      "acceptedRecyclerInput": true
+    },
+    {
+      "item": "coolant",
+      "name": "Coolant",
+      "standardRecipe": "coolant",
+      "returns": {
+        "iron": 1,
+        "wood": 1
+      },
+      "mixedOutputCount": 2,
+      "eligibility": "Q101 accepted current craftable input",
+      "acceptedRecyclerInput": true
+    },
+    {
+      "item": "conductive-slurry",
+      "name": "Copper Slurry",
+      "standardRecipe": "conductive-slurry",
+      "returns": {
+        "copper": 1,
+        "wood": 1
+      },
+      "mixedOutputCount": 2,
+      "eligibility": "Q101 accepted current craftable input",
+      "acceptedRecyclerInput": true
+    },
+    {
+      "item": "hydraulic-actuator",
+      "name": "Hydro Piston",
+      "standardRecipe": "hydraulic-actuator",
+      "returns": {
+        "iron": 1,
+        "copper": 1,
+        "wood": 1
+      },
+      "mixedOutputCount": 3,
+      "eligibility": "Q101 accepted current craftable input",
+      "acceptedRecyclerInput": true
+    },
+    {
+      "item": "hydro-core",
+      "name": "Hydro Core",
+      "standardRecipe": "hydro-core",
+      "returns": {
+        "iron": 1,
+        "copper": 1,
+        "wood": 1,
+        "stone": 1
+      },
+      "mixedOutputCount": 4,
+      "eligibility": "Q101 accepted current craftable input",
+      "acceptedRecyclerInput": true
+    },
+    {
+      "item": "refined-mithril",
+      "name": "Pure Mythril",
+      "standardRecipe": "refined-mithril",
+      "returns": {
+        "iron": 1,
+        "wood": 1,
+        "mythril": 1
+      },
+      "mixedOutputCount": 3,
+      "eligibility": "Q101 accepted current craftable input",
+      "acceptedRecyclerInput": true
+    },
+    {
+      "item": "shiny-core",
+      "name": "Shiny Core",
+      "standardRecipe": "shiny-core",
+      "returns": {
+        "iron": 1,
+        "copper": 1,
+        "wood": 1,
+        "mythril": 1
+      },
+      "mixedOutputCount": 4,
+      "eligibility": "Q101 accepted current craftable input",
+      "acceptedRecyclerInput": true
+    },
+    {
+      "item": "precision-controller",
+      "name": "Controller",
+      "standardRecipe": "precision-controller",
+      "returns": {
+        "iron": 1,
+        "copper": 1,
+        "wood": 1,
+        "mythril": 1
+      },
+      "mixedOutputCount": 4,
+      "eligibility": "Q101 accepted current craftable input",
+      "acceptedRecyclerInput": true
+    },
+    {
+      "item": "advanced-actuator",
+      "name": "Servo Piston",
+      "standardRecipe": "advanced-actuator",
+      "returns": {
+        "iron": 1,
+        "copper": 1,
+        "wood": 1,
+        "mythril": 1
+      },
+      "mixedOutputCount": 4,
+      "eligibility": "Q101 accepted current craftable input",
+      "acceptedRecyclerInput": true
+    },
+    {
+      "item": "command-core",
+      "name": "Complex Core",
+      "standardRecipe": "command-core",
+      "returns": {
+        "iron": 1,
+        "copper": 1,
+        "wood": 1,
+        "stone": 1,
+        "mythril": 1
+      },
+      "mixedOutputCount": 5,
+      "eligibility": "Q101 accepted current craftable input",
+      "acceptedRecyclerInput": true
+    },
+    {
+      "item": "ceramic-electrode",
+      "name": "Circuit B",
+      "standardRecipe": "ceramic-electrode",
+      "returns": {
+        "copper": 1,
+        "wood": 1,
+        "stone": 1
+      },
+      "mixedOutputCount": 3,
+      "eligibility": "Q101 accepted current craftable input",
+      "acceptedRecyclerInput": true
+    },
+    {
+      "item": "mithril-mesh",
+      "name": "Mythril Mesh",
+      "standardRecipe": "mithril-mesh",
+      "returns": {
+        "iron": 1,
+        "copper": 1,
+        "wood": 1,
+        "mythril": 1
+      },
+      "mixedOutputCount": 4,
+      "eligibility": "Q101 accepted current craftable input",
+      "acceptedRecyclerInput": true
+    },
+    {
+      "item": "logic-substrate",
+      "name": "Circuit C",
+      "standardRecipe": "logic-substrate",
+      "returns": {
+        "iron": 1,
+        "copper": 1,
+        "wood": 1,
+        "stone": 1,
+        "mythril": 1
+      },
+      "mixedOutputCount": 5,
+      "eligibility": "Q101 accepted current craftable input",
+      "acceptedRecyclerInput": true
+    },
+    {
+      "item": "sealed-frame",
+      "name": "Sealed Frame",
+      "standardRecipe": "sealed-frame",
+      "returns": {
+        "iron": 1,
+        "copper": 1,
+        "wood": 1,
+        "stone": 1
+      },
+      "mixedOutputCount": 4,
+      "eligibility": "Q101 accepted current craftable input",
+      "acceptedRecyclerInput": true
+    },
+    {
+      "item": "cooled-gun",
+      "name": "Cooled Gun",
+      "standardRecipe": "cooled-gun",
+      "returns": {
+        "iron": 1,
+        "copper": 1,
+        "wood": 1
+      },
+      "mixedOutputCount": 3,
+      "eligibility": "Q101 accepted current craftable input",
+      "acceptedRecyclerInput": true
+    },
+    {
+      "item": "medium-suppression-bot",
+      "name": "Medium Bot",
+      "standardRecipe": "medium-suppression-bot",
+      "returns": {
+        "iron": 1,
+        "copper": 1,
+        "wood": 1,
+        "stone": 1
+      },
+      "mixedOutputCount": 4,
+      "eligibility": "Q101 accepted current craftable input",
+      "acceptedRecyclerInput": true
+    },
+    {
+      "item": "mithril-frame",
+      "name": "Mythril Frame",
+      "standardRecipe": "mithril-frame",
+      "returns": {
+        "iron": 1,
+        "copper": 1,
+        "wood": 1,
+        "stone": 1,
+        "mythril": 1
+      },
+      "mixedOutputCount": 5,
+      "eligibility": "Q101 accepted current craftable input",
+      "acceptedRecyclerInput": true
+    },
+    {
+      "item": "focused-gun",
+      "name": "Focused Gun",
+      "standardRecipe": "focused-gun",
+      "returns": {
+        "iron": 1,
+        "copper": 1,
+        "wood": 1,
+        "mythril": 1
+      },
+      "mixedOutputCount": 4,
+      "eligibility": "Q101 accepted current craftable input",
+      "acceptedRecyclerInput": true
+    },
+    {
+      "item": "heavy-suppression-bot",
+      "name": "Heavy Bot",
+      "standardRecipe": "heavy-suppression-bot",
+      "returns": {
+        "iron": 1,
+        "copper": 1,
+        "wood": 1,
+        "stone": 1,
+        "mythril": 1
+      },
+      "mixedOutputCount": 5,
+      "eligibility": "Q101 accepted current craftable input",
+      "acceptedRecyclerInput": true
+    },
+    {
+      "item": "servo-frame",
+      "name": "Servo Frame",
+      "standardRecipe": "servo-frame",
+      "returns": {
+        "iron": 1,
+        "copper": 1,
+        "wood": 1,
+        "stone": 1,
+        "mythril": 1
+      },
+      "mixedOutputCount": 5,
+      "eligibility": "Q101 accepted current craftable input",
+      "acceptedRecyclerInput": true
+    },
+    {
+      "item": "pulse-cannon",
+      "name": "Pulse Cannon",
+      "standardRecipe": "pulse-cannon",
+      "returns": {
+        "iron": 1,
+        "copper": 1,
+        "wood": 1,
+        "mythril": 1
+      },
+      "mixedOutputCount": 4,
+      "eligibility": "Q101 accepted current craftable input",
+      "acceptedRecyclerInput": true
+    },
+    {
+      "item": "command-suppression-bot",
+      "name": "Command Bot",
+      "standardRecipe": "command-suppression-bot",
+      "returns": {
+        "iron": 1,
+        "copper": 1,
+        "wood": 1,
+        "stone": 1,
+        "mythril": 1
+      },
+      "mixedOutputCount": 5,
+      "eligibility": "Q101 accepted current craftable input",
+      "acceptedRecyclerInput": true
+    }
+  ]
+}

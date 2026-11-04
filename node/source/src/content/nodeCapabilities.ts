@@ -1,7 +1,9 @@
-import type { ItemId, NodeKind } from '../domain/types';
+import type { ItemId, MachineNode, NodeKind } from '../domain/types';
 import { LATE_CAPABILITIES } from './progression';
 
 export type NodeBehavior =
+  | 'recycler' | 'corner'
+  | 'dev-source'
   | 'intake' | 'landmark' | 'golem'
   | 'resource' | 'lake' | 'extractor' | 'recipe' | 'router'
   | 'buffer' | 'storage' | 'research' | 'generator' | 'planter'
@@ -46,6 +48,10 @@ const passThrough = (overrides: Omit<NodeCapabilities, 'behavior' | 'passThrough
 
 export const NODE_CAPABILITIES: Record<NodeKind, NodeCapabilities> = {
   ...LATE_CAPABILITIES,
+  recycler: capability('recycler', {inputCapacity:10,defaultCapacity:10,multiInput:true}),
+  cornerChallenge: capability('corner', {inputCapacity:100,multiInput:true,worldObstacle:true,duplicateAllowed:false}),
+  cornerTribute: capability('tribute', {defaultCapacity:10,multiOutput:true,duplicateAllowed:false}),
+  devSource: capability('dev-source', { multiOutput: true, defaultCapacity: 0 }),
   forest: passiveResource(),
   deposit: passiveResource(),
   iron: passiveResource(),
@@ -58,14 +64,14 @@ export const NODE_CAPABILITIES: Record<NodeKind, NodeCapabilities> = {
   miningDrill: capability('mining-drill', { defaultMiningTarget: 'iron' }),
 
   kiln: recipe('charcoal', 'kiln'),
-  smelter: recipe('smelt-iron', 'smelter'),
+  smelter: recipe(undefined, 'smelter'),
   refiner: recipe(undefined, 'refiner'),
   assembler: recipe(undefined, 'assembler'),
 
   splitter: passThrough({ alternatingOutputs: true }),
   merger: passThrough(),
-  joint: passThrough({ acceptsPowerRelay: true }),
-  road: capability('road', { pairedSectorPlacement: true, duplicateAllowed: false }),
+  joint: passThrough(),
+  road: capability('road', { inputCapacity: 0, defaultCapacity: 0, pairedSectorPlacement: true, duplicateAllowed: false }),
   powerSplitter: passThrough(),
   filter: capability('filter', { passThrough: true, defaultFilterItem: 'wood' }),
   inventory: capability('inventory', { multiOutput: true, duplicateAllowed: false }),
@@ -74,7 +80,7 @@ export const NODE_CAPABILITIES: Record<NodeKind, NodeCapabilities> = {
   storage: capability('storage', { inputCapacity: 64, perItemInputCapacity:true, multiInput: true, duplicateAllowed: false }),
 
   charcoalGenerator: capability('generator', { inputCapacity: 5, defaultCapacity: 100, multiOutput: true }),
-  treePlanter: capability('planter', { inputCapacity: 10 }),
+  treePlanter: capability('planter', { inputCapacity: 10, perItemInputCapacity: true }),
   researchCenter: capability('research', { inputCapacity: 5, perItemInputCapacity: true, multiInput: true, efficiencyFamily: 'researchCenter', globallyUnique: true, duplicateAllowed: false }),
 
   'monster-camp': capability('monster-camp', { worldObstacle: true, duplicateAllowed: false }),
@@ -84,11 +90,14 @@ export const NODE_CAPABILITIES: Record<NodeKind, NodeCapabilities> = {
   // Save-file aliases deliberately preserve the canonical runtime behavior.
   chest: capability('buffer', { inputCapacity: 20, defaultCapacity: 20, multiInput: true, multiOutput: true }),
   generator: capability('generator', { inputCapacity: 5, defaultCapacity: 100, multiOutput: true }),
-  'tree-planter': capability('planter', { inputCapacity: 10 }),
+  'tree-planter': capability('planter', { inputCapacity: 10, perItemInputCapacity: true }),
   'research-center': capability('research', { inputCapacity: 5, perItemInputCapacity: true, multiInput: true, efficiencyFamily: 'researchCenter', globallyUnique: true, duplicateAllowed: false }),
 };
 
 export const getNodeCapabilities = (kind: NodeKind) => NODE_CAPABILITIES[kind];
 export const hasNodeBehavior = (kind: NodeKind, behavior: NodeBehavior) => getNodeCapabilities(kind).behavior === behavior;
+export const needsRecipeSelection = (node: Pick<MachineNode, 'kind' | 'recipeId'>) => hasNodeBehavior(node.kind, 'recipe') && !node.recipeId;
 export const isResourceBehavior = (kind: NodeKind) => ['resource', 'lake'].includes(getNodeCapabilities(kind).behavior);
 export const isWorldObstacle = (kind: NodeKind) => Boolean(getNodeCapabilities(kind).worldObstacle);
+
+export const BASE_NODE_CAPABILITIES = structuredClone(NODE_CAPABILITIES);

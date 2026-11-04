@@ -1,0 +1,69 @@
+Outpost-use playtest checkpoint — November 1, 2026
+Seed: 1875186765
+Historical checkpoint below; completed Complex and remote waste results follow at the end.
+
+Verified: Simple and Basic at Home; local Automata and Motor production at 6,5; lake-local Hydro and Shiny production at 7,5; Iron Plate production at 8,5; Mithril Plate and dry Refined Mithril at 9,5; Slag routed into its own hopper. Automata, Hydro and Shiny delivered Home. Precision Control completed using normally produced cores.
+
+Research completion times (elapsed game clock):
+Fluid Routing 62:35
+Ore Separation 67:32
+Road Channels 1 69:14
+Precision Control 82:01
+Checkpoint 85:55
+
+Checkpoint cumulative extraction:
+Wood 1878; Copper 2002; Iron 1420; Stone 204; Water 525; Mithril 76.
+
+Checkpoint cumulative core production:
+Simple 54; Basic 28; Automata 86; Hydro 37; Shiny 3; Complex 0.
+Intermediate examples: Refined Mithril 46; Slag 46; Mithril Mesh 7.
+These totals include buffers and are not minimum recipe costs or research spending.
+
+Maps: seven active, including Home. Four purchased maps support production; two purchased maps are currently relay-only. Direct map-point research cost: 26 Simple + 1 Basic, including initial Exploration. Two Hydro bypass maps cost 10 Simple in total.
+
+No game-rule changes, grants, developer actions, save injection or accelerated simulation. No progression blocker required a source fix. Storage and inventory placement were not used. No ordinary Chest was needed. Slag Hopper is a normally unlocked waste buffer.
+
+Important timing limitation: this is an observed UI-driven run, not an optimized speed record. Elapsed time includes construction, route planning, reports and operator corrections. Several mis-targeted cable drags and placements were corrected through normal UI actions. Production waiting has not been isolated. Recipe costs and capacities were not changed to work around them.
+
+Queued findings:
+1. Compact logistics bodies and neighboring sockets are hard to target at low zoom. Zooming and inspecting supplies worked without a code fix.
+2. Cable rejection needs clearer feedback. Natural resources and holes required Joint detours.
+3. Placement overlays can cover intended canvas positions. Rapid-placement instructions and Shift behavior need a separate focused reproduction.
+4. Earlier notes inferred automatic cable insertion from resulting wiring. Current source explicitly does not implement it; that diagnosis remains unverified and must not be treated as a confirmed bug. The live-build version was not compared during this source review.
+5. Paired-road clearance can reject a valid-looking source placement; both maps need to be explained.
+6. Existing direct Road-to-lab connection was rejected due to mixed lab storage. Dedicated core Filters worked.
+
+Pending testing:
+Complex components and core production; sustained six-core deliveries; waste export and remote recovery; payoff of optional efficiency research. At Complex entry, the lake imports Iron Plate and Refined Mithril on its two eastern channels. Test local lake Iron Plate production to free an import channel for Mithril Plate, or expand routes through normal purchases. Do not silently alter channel capacity, reverse roads to bypass limits, or grant materials.
+
+Evidence snapshots: start.json; first-outpost-and-lake.json; hydro-imports.json; mithril-chain-built.json; shiny-route.json; precision-control-checkpoint.json.
+COMPLETED COMMAND / REMOTE WASTE TEST — November 1, 2026
+
+Same seed 1875186765 and original normal run, resumed from 85:55.
+First Complex Core produced by 130:06; first synchronized six-core research set delivered Home thereafter.
+Autonomous Logistics completed at 133:30. Paused at 134:38 (2:14:38).
+This completes the requested Complex production/delivery and remote Slag recovery test. It does not complete Endgame Theory or the robotics/camp branches.
+
+Cumulative extraction at pause:
+Wood 3855; Copper 3798; Iron 2770; Stone 274; Water 1038; Mithril 588.
+Cumulative cores: Simple 76; Basic 30; Automata 88; Hydro 69; Shiny 12; Complex 2.
+Complex components: Precision Controller 2; Advanced Actuator 2; Logic Substrate 4.
+These are measured extraction/production totals, including research, surplus and buffers, not minimum resource costs per Complex Core.
+
+Waste: 56 Slag exported from mine 9,5 through 9,4 -> 8,4 -> 7,4 to lake 7,5 and washed using local Water. Actual products: 28 Aggregate and 14 Residue. Five recovered Bricks and seven recovered Iron Plates were made and routed into normal manufacturing. Eighteen Aggregate remained in buffers. Recovery stopped normally when its product routes filled. Complex's actual Metallic Fines (1) and Glassy Crust (1) reached the unlocked Waste Hopper; recovery of every random Complex waste type was not exercised. No Spent Flux happened in these two Advanced Actuator batches.
+
+Expansion: 11 active maps including Home. Four non-Home production maps and six relay-only maps. Four additional Map Node purchases (#6–9) cost 20 Simple Cores, making the direct map access research total 46 Simple + 1 Basic including Exploration. The northern branch's three new relay maps cost 15 Simple; the new southern Complex relay cost 5. These are route choices, not mandatory map costs for all players.
+
+Complex route: lake 7,5 -> 7,6 -> 6,6 -> 5,6 -> Home. A dedicated Complex Filter feeds the sole Research Center. Two of each of all six core types were spent normally on Autonomous Logistics. No Storage, Inventory or ordinary Chest was used before or after that unlock during the measured run.
+
+Measured clock limitations: substantial placement, routing, report inspection, controller recovery and operator correction time is included. Copper Wire supply competed among Dispersion, Ceramic, Mesh and Circuit branches. Capacity was increased using a third lake Copper Extractor, second Copper Smelter, another local Wood Extractor/Kiln and plate merging. Circuit deliveries were temporarily prioritized for the second Logic Substrate, then the split route restored. No efficiency research was bought. This is a reproducible gameplay checkpoint, not an optimized speed record or an isolated production-time benchmark.
+
+Operator mistakes are not balance defects: several rejected low-zoom drags snapped to neighboring sockets before the UI fixes, leaving Copper Plates in an unused relay. A late Wood feed also replaced a Coolant Splitter's supply and contaminated the coolant chain; existing component buffers allowed the two final Complex Cores. The final saved network therefore does not establish sustained Complex throughput. These routing errors have ordinary in-game repair options (disconnect, filter/drain, reconnect); they do not justify relaxing material, collision or transport rules. The saved report retains the exact contents for review.
+
+No grants, developer actions, save injection, accelerated simulation, recipe edits, price edits, generation changes or progression-blocker source fixes were used during the run. All queued source changes began after the paused final report was saved.
+
+Evidence: command-resume.json, northern-branch-built.json, command-line-built.json, first-command-delivered.json, command-complete.json, command-complete.png. The final report includes the completed research log and exact node/link/buffer snapshot.
+
+POST-RUN IMPLEMENTATION
+Implemented cursor-local expandable rejection notices, geometric nearest-socket selection with a selectable compact body, invalid-target highlighting without drag enlargement, exact production-wait/buffer explanations on hover and in the inspector, Shift-repeat tutorial/Build hints, matching road preview/commit channel checks and specific local/adjacent clearance explanations, and a click-through placement banner with interactive Cancel. Road reversal now also enforces the existing outgoing-channel allowance and explains rejection; it does not change the allowance.
+Validation: 296 tests passed, one skipped; TypeScript and production build passed. Browser verification covered incompatible-socket details, road channel explanation, inspector counts, Shift-repeat followed by plain placement, and placing a Filter through banner text/background in isolated practice. The measured run remained paused and intact.

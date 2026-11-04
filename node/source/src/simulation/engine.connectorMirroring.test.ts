@@ -38,16 +38,16 @@ describe('Connector Mirroring', () => {
     engine.selectResearch(CONNECTOR_MIRRORING_RESEARCH);
     for (let i = 0; i < 99; i++) {
       lab.input = Object.fromEntries(cores.map(core => [core, 1]));
-      engine.tick(1000);
+      for (let cycleStep = 0; cycleStep < 5; cycleStep++) engine.tick(1000);
     }
     expect(state.research.contributed).toEqual(Object.fromEntries(cores.map(core => [core, 99])));
     expect(engine.mirrorProductionConnectors('extractor')).toBe(false);
     lab.input = { 'simple-core': 1, 'basic-core': 1, 'automata-core': 1 };
-    engine.tick(1000);
+    for (let cycleStep = 0; cycleStep < 5; cycleStep++) engine.tick(1000);
     expect(lab.input['simple-core']).toBe(1);
     expect(engine.mirrorProductionConnectors('extractor')).toBe(false);
     lab.input['hydro-core'] = 1;
-    engine.tick(1000);
+    for (let cycleStep = 0; cycleStep < 5; cycleStep++) engine.tick(1000);
     expect(cores.every(core => lab.input[core] === 0)).toBe(true);
     expect(state.research.completed).toContain(CONNECTOR_MIRRORING_RESEARCH);
     expect(engine.mirrorProductionConnectors('extractor')).toBe(true);

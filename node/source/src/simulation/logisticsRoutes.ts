@@ -2,6 +2,7 @@ import { getNodeCapabilities } from '../content/nodeCapabilities';
 import { getEffectiveNodeOutputFamilies, NODE_DEFINITIONS } from '../content/nodes';
 import type { Connection, ItemId, MachineNode, SectorState } from '../domain/types';
 import { inputPortAcceptsItem, portFamiliesCompatible, portFamilyAcceptsItem } from './connectionRules';
+import { filterOutlet } from './mixedOutput';
 
 export interface LogisticsRoute { connections: Connection[]; target: MachineNode; routers: Array<{ node: MachineNode; outputIndex: number }>; }
 
@@ -19,12 +20,13 @@ export function logisticsRoute(first: Connection, item: ItemId, sector: SectorSt
     if (!capabilities.passThrough || (target.processingPaused && NODE_DEFINITIONS[target.kind].category !== 'Logistics') || !outputs.length) {
       return canReceive(target, cable.toPort ?? 0) ? { connections: [cable], target, routers: [] } : undefined;
     }
-    if (target.kind === 'filter' && target.filterItem && target.filterItem !== item) return;
+    if (target.kind === 'filter' && !canReceive(target, cable.toPort ?? 0)) return;
     if (target.kind === 'merger' && !canReceive(target, cable.toPort ?? 0)) return;
     const path = new Set(seen).add(target.id);
     for (let offset = 0; offset < outputs.length; offset++) {
       const outputIndex = ((capabilities.alternatingOutputs ? target.alternator ?? 0 : 0) + offset) % outputs.length;
       const next = outputs[outputIndex];
+      if (target.kind === 'filter' && (next.fromPort ?? 0) !== filterOutlet(target, item)) continue;
       if (!portFamilyAcceptsItem(getEffectiveNodeOutputFamilies(target)[next.fromPort ?? 0] ?? 'ANY', item)) continue;
       const route = visit(next, path);
       if (route) return { ...route, connections: [cable, ...route.connections], routers: [{ node: target, outputIndex }, ...route.routers] };

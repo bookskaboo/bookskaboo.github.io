@@ -82,8 +82,8 @@ describe('single-material road connections', () => {
 
   it('retires Fluid Roads and rejects any new connection to one', () => {
     const engine = setup(true);
-    expect(engine.connectPorts('copper', 0, 'source', 0)).toBe(true);
-    expect(engine.connectPorts('source', 0, 'send', 0)).toBe(false);
+    expect(engine.connectPorts('copper', 0, 'source', 0)).toBe(false); // Carts also exclude fluids.
+    expect(engine.connectPorts('copper', 0, 'send', 0)).toBe(false);
     expect(engine.placeNode('fluidRoad', 2500, 500)).toBeUndefined();
     expect(BUILDABLE_NODES.some(n => n.kind === 'fluidRoad')).toBe(false);
     expect(isNodeUnlocked('fluidRoad', ['fluidRouting'])).toBe(false);
@@ -97,7 +97,7 @@ describe('single-material road connections', () => {
     expect(engine.connectPorts('copper', 0, 'send', 0)).toBe(false);
     expect(engine.connectPorts('source', 0, 'send', 0)).toBe(true);
     expect(engine.connectPorts('copper', 0, 'source', 0)).toBe(false);
-    expect(engine.getRoadConnectionError('copper', 0, 'source', 0)).toContain('Fluids cannot use roads');
+    expect(engine.getConnectionFailure('copper', 0, 'source', 0)?.detail).toContain('cannot store fluids');
     engine.getSector().connections.push({ id: 'legacy-fluid', from: 'copper', to: 'source', fromPort: 0, toPort: 0, createdAt: 0 });
     engine.getSector().nodes.find(n => n.id === 'copper')!.output[item] = 4;
     advance(engine, 10);
@@ -111,9 +111,15 @@ describe('single-material road connections', () => {
     source.output[item] = 8;
     expect(engine.connectPorts('source', 0, 'send', 0)).toBe(true);
     const receiver = engine.getState().sectors['6,5'].nodes.find(n => n.id === 'receive')!;
-    advance(engine, 4.9); expect(receiver.output[item] ?? 0).toBe(0);
-    advance(engine, .1); expect(receiver.output[item]).toBe(1);
-    advance(engine, 5); expect(receiver.output[item]).toBe(2);
+    engine.switchSector('6,5');
+    expect(engine.connectPorts('receive', 0, 'sink', 0)).toBe(true);
+    const sink = engine.getSector().nodes.find(n => n.id === 'sink')!;
+    engine.switchSector('5,5');
+    const received = () => (sink.input[item] ?? 0) + (sink.output[item] ?? 0);
+    advance(engine, 4.9); expect(received()).toBe(0);
+    advance(engine, .1); expect(received()).toBe(1);
+    advance(engine, 5); expect(received()).toBe(2);
+    expect(receiver.input).toEqual({}); expect(receiver.output).toEqual({});
     expect(source.output[item]).toBe(6);
   });
 
@@ -145,10 +151,14 @@ describe('single-material road connections', () => {
     expect(engine.connectPorts('source', 0, 'send', 0)).toBe(true);
     expect(engine.connectPorts('iron', 0, 'source', 0)).toBe(true);
     expect(engine.connectPorts('charcoal', 0, 'source', 1)).toBe(true);
+    engine.switchSector('6,5');
+    expect(engine.connectPorts('receive', 0, 'sink', 0)).toBe(true);
+    engine.switchSector('5,5');
     advance(engine, 15);
     const source = engine.getSector().nodes.find(n => n.id === 'source')!;
     expect(source.input.charcoal).toBeGreaterThan(2);
-    expect(engine.getState().sectors['6,5'].nodes.find(n => n.id === 'receive')!.output['iron-plate']).toBeGreaterThan(0);
+    const sink = engine.getState().sectors['6,5'].nodes.find(n => n.id === 'sink')!;
+    expect((sink.input['iron-plate'] ?? 0) + (sink.output['iron-plate'] ?? 0)).toBeGreaterThan(0);
   });
 
   it('preserves legacy mixed stock, stops dispatch, and allows a Filter to drain it', () => {
@@ -164,8 +174,8 @@ describe('single-material road connections', () => {
     expect(engine.connectPorts('receive', 0, 'drain', 0)).toBe(true);
     advance(engine, 10);
     expect(receiver.output.iron).toBe(2);
-    expect(receiver.output.copper).toBe(0);
-    expect(engine.getSector().nodes.find(n => n.id === 'drain')!.output.copper).toBe(2);
+    expect(receiver.output.copper).toBe(2);
+    expect(engine.getSector().nodes.find(n => n.id === 'drain')!.filterBlocked).toBeDefined();
     const sourceNow = engine.getState().sectors['5,5'].nodes.find(n => n.id === 'source')!;
     expect((sourceNow.input.copper ?? 0) + (sourceNow.output.copper ?? 0)).toBe(4);
     expect((sourceNow.input.iron ?? 0) + (sourceNow.output.iron ?? 0)).toBe(3);

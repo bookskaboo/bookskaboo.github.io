@@ -73,7 +73,7 @@ describe('goblin settlements', () => {
     expect(result.input['suppression-bot']).toBeUndefined();
   });
 
-  it('grows below the AP threshold and consumes mixed excess supply without banking it', () => {
+  it('grows below the AP threshold and keeps excess supply after a successful check', () => {
     const state = createInitialState(37);
     const camp = settlement(9);
     camp.input['command-suppression-bot'] = 3;
@@ -89,7 +89,7 @@ describe('goblin settlements', () => {
     engine.getState().research.completed.push('commandRobotics');
     for (let i = 0; i < 60; i++) engine.tick(1000);
     expect(current.campStrength).toBe(25);
-    expect(current.input).toEqual({});
+    expect(current.input).toEqual({ 'heavy-suppression-bot': 1 });
     expect(current.attackRequirement).toBe(80);
   });
 

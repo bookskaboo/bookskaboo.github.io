@@ -1,4 +1,5 @@
 import type { Connection, GameState, InFlightTransfer, ItemId, MachineNode, SectorState } from '../domain/types';
+import { obstructedConnections } from './obstructedConnections';
 
 /** Transient indexes for one simulation phase. Never saved or retained across edits. */
 export class SimulationLookups {
@@ -20,7 +21,9 @@ export class SimulationLookups {
     if (!index) {
       index = { nodes: new Map(), connections: new Map(), incoming: new Map(), outgoing: new Map() };
       for (const node of sector.nodes) index.nodes.set(node.id, node);
+      const blocked = obstructedConnections(sector);
       for (const connection of sector.connections) {
+        if (blocked.has(connection.id)) continue;
         index.connections.set(connection.id, connection);
         for (const [map, id] of [[index.incoming, connection.to], [index.outgoing, connection.from]] as const) {
           const list = map.get(id);
@@ -33,12 +36,13 @@ export class SimulationLookups {
   }
 
   private indexTransfer(transfer: InFlightTransfer) {
+    if (transfer.cosmeticOnly) return;
     let sector = this.pending!.get(transfer.sectorId);
     if (!sector) this.pending!.set(transfer.sectorId, sector = new Map());
     let target = sector.get(transfer.to);
     if (!target) sector.set(transfer.to, target = { transfers: [], counts: {} });
     target.transfers.push(transfer);
-    target.counts[transfer.item] = (target.counts[transfer.item] ?? 0) + 1;
+    target.counts[transfer.item] = (target.counts[transfer.item] ?? 0) + (transfer.amount ?? 1);
   }
 
   target(sectorId: string, nodeId: string) {

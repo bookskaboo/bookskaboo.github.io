@@ -1,0 +1,2075 @@
+{
+  "status": "Conditional encounter/scheduling simulation, not a world-map or calibrated human-play simulation",
+  "general": [
+    {
+      "profile": "Theoretical maximum throughput",
+      "runs": [
+        {
+          "case": "before",
+          "profile": "maximum",
+          "endpointSeconds": 10743,
+          "endgameTheorySeconds": 8476,
+          "tier6StableSeconds": 10743,
+          "allFixedSeconds": 8476,
+          "waitingSeconds": 0,
+          "preparationSeconds": 0,
+          "explorationSeconds": 0,
+          "researchItems": 5360,
+          "placedNodes": 5971,
+          "discoveries": [],
+          "tiers": [
+            {
+              "tier": 1,
+              "start": 0,
+              "first": 169,
+              "stable": 307.5,
+              "waitingSeconds": 0,
+              "prebuiltSeconds": 0
+            },
+            {
+              "tier": 2,
+              "start": 307.5,
+              "first": 488,
+              "stable": 636,
+              "waitingSeconds": 0,
+              "prebuiltSeconds": 0
+            },
+            {
+              "tier": 3,
+              "start": 636,
+              "first": 915,
+              "stable": 1143,
+              "waitingSeconds": 0,
+              "prebuiltSeconds": 0
+            },
+            {
+              "tier": 4,
+              "start": 1143,
+              "first": 1943.5,
+              "stable": 2598.5,
+              "waitingSeconds": 0,
+              "prebuiltSeconds": 0
+            },
+            {
+              "tier": 5,
+              "start": 2598.5,
+              "first": 4290,
+              "stable": 5674,
+              "waitingSeconds": 0,
+              "prebuiltSeconds": 0
+            },
+            {
+              "tier": 6,
+              "start": 5674,
+              "first": 8462,
+              "stable": 10743,
+              "waitingSeconds": 0,
+              "prebuiltSeconds": 0
+            }
+          ]
+        },
+        {
+          "case": "instant",
+          "profile": "maximum",
+          "endpointSeconds": 10743,
+          "endgameTheorySeconds": 8476,
+          "tier6StableSeconds": 10743,
+          "allFixedSeconds": 8476,
+          "waitingSeconds": 0,
+          "preparationSeconds": 0,
+          "explorationSeconds": 0,
+          "researchItems": 5360,
+          "placedNodes": 5971,
+          "discoveries": [
+            {
+              "id": "lake-and-fabricator",
+              "tier": 3,
+              "start": 915.5,
+              "end": 915.5,
+              "completed": 915.5
+            },
+            {
+              "id": "mithril",
+              "tier": 4,
+              "start": 1944,
+              "end": 1944,
+              "completed": 1944
+            }
+          ],
+          "tiers": [
+            {
+              "tier": 1,
+              "start": 0,
+              "first": 169,
+              "stable": 307.5,
+              "waitingSeconds": 0,
+              "prebuiltSeconds": 0
+            },
+            {
+              "tier": 2,
+              "start": 307.5,
+              "first": 488,
+              "stable": 636,
+              "waitingSeconds": 0,
+              "prebuiltSeconds": 0
+            },
+            {
+              "tier": 3,
+              "start": 636,
+              "first": 915,
+              "stable": 1143,
+              "waitingSeconds": 0,
+              "prebuiltSeconds": 0
+            },
+            {
+              "tier": 4,
+              "start": 1143,
+              "first": 1943.5,
+              "stable": 2598.5,
+              "waitingSeconds": 0,
+              "prebuiltSeconds": 0
+            },
+            {
+              "tier": 5,
+              "start": 2598.5,
+              "first": 4290,
+              "stable": 5674,
+              "waitingSeconds": 0,
+              "prebuiltSeconds": 0
+            },
+            {
+              "tier": 6,
+              "start": 5674,
+              "first": 8462,
+              "stable": 10743,
+              "waitingSeconds": 0,
+              "prebuiltSeconds": 0
+            }
+          ]
+        },
+        {
+          "case": "nearby",
+          "profile": "maximum",
+          "endpointSeconds": 10863,
+          "endgameTheorySeconds": 8596,
+          "tier6StableSeconds": 10863,
+          "allFixedSeconds": 8596,
+          "waitingSeconds": 0,
+          "preparationSeconds": 0,
+          "explorationSeconds": 120,
+          "researchItems": 5360,
+          "placedNodes": 5971,
+          "discoveries": [
+            {
+              "id": "lake-and-fabricator",
+              "tier": 3,
+              "start": 915.5,
+              "end": 975.5,
+              "completed": 975.5
+            },
+            {
+              "id": "mithril",
+              "tier": 4,
+              "start": 2004,
+              "end": 2064,
+              "completed": 2064
+            }
+          ],
+          "tiers": [
+            {
+              "tier": 1,
+              "start": 0,
+              "first": 169,
+              "stable": 307.5,
+              "waitingSeconds": 0,
+              "prebuiltSeconds": 0
+            },
+            {
+              "tier": 2,
+              "start": 307.5,
+              "first": 488,
+              "stable": 636,
+              "waitingSeconds": 0,
+              "prebuiltSeconds": 0
+            },
+            {
+              "tier": 3,
+              "start": 636,
+              "first": 915,
+              "stable": 1203,
+              "waitingSeconds": 0,
+              "prebuiltSeconds": 0
+            },
+            {
+              "tier": 4,
+              "start": 1203,
+              "first": 2003.5,
+              "stable": 2718.5,
+              "waitingSeconds": 0,
+              "prebuiltSeconds": 0
+            },
+            {
+              "tier": 5,
+              "start": 2718.5,
+              "first": 4410,
+              "stable": 5794,
+              "waitingSeconds": 0,
+              "prebuiltSeconds": 0
+            },
+            {
+              "tier": 6,
+              "start": 5794,
+              "first": 8582,
+              "stable": 10863,
+              "waitingSeconds": 0,
+              "prebuiltSeconds": 0
+            }
+          ]
+        },
+        {
+          "case": "delayed",
+          "profile": "maximum",
+          "endpointSeconds": 11103,
+          "endgameTheorySeconds": 8836,
+          "tier6StableSeconds": 11103,
+          "allFixedSeconds": 8836,
+          "waitingSeconds": 0,
+          "preparationSeconds": 0,
+          "explorationSeconds": 360,
+          "researchItems": 5360,
+          "placedNodes": 5971,
+          "discoveries": [
+            {
+              "id": "lake-and-fabricator",
+              "tier": 3,
+              "start": 915.5,
+              "end": 1095.5,
+              "completed": 1095.5
+            },
+            {
+              "id": "mithril",
+              "tier": 4,
+              "start": 2124,
+              "end": 2304,
+              "completed": 2304
+            }
+          ],
+          "tiers": [
+            {
+              "tier": 1,
+              "start": 0,
+              "first": 169,
+              "stable": 307.5,
+              "waitingSeconds": 0,
+              "prebuiltSeconds": 0
+            },
+            {
+              "tier": 2,
+              "start": 307.5,
+              "first": 488,
+              "stable": 636,
+              "waitingSeconds": 0,
+              "prebuiltSeconds": 0
+            },
+            {
+              "tier": 3,
+              "start": 636,
+              "first": 915,
+              "stable": 1323,
+              "waitingSeconds": 0,
+              "prebuiltSeconds": 0
+            },
+            {
+              "tier": 4,
+              "start": 1323,
+              "first": 2123.5,
+              "stable": 2958.5,
+              "waitingSeconds": 0,
+              "prebuiltSeconds": 0
+            },
+            {
+              "tier": 5,
+              "start": 2958.5,
+              "first": 4650,
+              "stable": 6034,
+              "waitingSeconds": 0,
+              "prebuiltSeconds": 0
+            },
+            {
+              "tier": 6,
+              "start": 6034,
+              "first": 8822,
+              "stable": 11103,
+              "waitingSeconds": 0,
+              "prebuiltSeconds": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "Experienced / efficient",
+      "runs": [
+        {
+          "case": "before",
+          "profile": "efficient",
+          "endpointSeconds": 3674.5,
+          "endgameTheorySeconds": 3291.5,
+          "tier6StableSeconds": 3674.5,
+          "allFixedSeconds": 18976,
+          "waitingSeconds": 0,
+          "preparationSeconds": 0,
+          "explorationSeconds": 0,
+          "researchItems": 5360,
+          "placedNodes": 343,
+          "discoveries": [],
+          "tiers": [
+            {
+              "tier": 1,
+              "start": 0,
+              "first": 112,
+              "stable": 204,
+              "waitingSeconds": 0,
+              "prebuiltSeconds": 0
+            },
+            {
+              "tier": 2,
+              "start": 204,
+              "first": 329.5,
+              "stable": 432,
+              "waitingSeconds": 0,
+              "prebuiltSeconds": 0
+            },
+            {
+              "tier": 3,
+              "start": 432,
+              "first": 631.5,
+              "stable": 794.5,
+              "waitingSeconds": 0,
+              "prebuiltSeconds": 0
+            },
+            {
+              "tier": 4,
+              "start": 794.5,
+              "first": 1138,
+              "stable": 1419,
+              "waitingSeconds": 0,
+              "prebuiltSeconds": 0
+            },
+            {
+              "tier": 5,
+              "start": 1419,
+              "first": 1941,
+              "stable": 2368,
+              "waitingSeconds": 0,
+              "prebuiltSeconds": 0
+            },
+            {
+              "tier": 6,
+              "start": 2368,
+              "first": 3087,
+              "stable": 3674.5,
+              "waitingSeconds": 0,
+              "prebuiltSeconds": 0
+            }
+          ]
+        },
+        {
+          "case": "instant",
+          "profile": "efficient",
+          "endpointSeconds": 3674.5,
+          "endgameTheorySeconds": 3291.5,
+          "tier6StableSeconds": 3674.5,
+          "allFixedSeconds": 18976,
+          "waitingSeconds": 0,
+          "preparationSeconds": 0,
+          "explorationSeconds": 0,
+          "researchItems": 5360,
+          "placedNodes": 343,
+          "discoveries": [
+            {
+              "id": "lake-and-fabricator",
+              "tier": 3,
+              "start": 632,
+              "end": 632,
+              "completed": 632
+            },
+            {
+              "id": "mithril",
+              "tier": 4,
+              "start": 1138.5,
+              "end": 1138.5,
+              "completed": 1138.5
+            }
+          ],
+          "tiers": [
+            {
+              "tier": 1,
+              "start": 0,
+              "first": 112,
+              "stable": 204,
+              "waitingSeconds": 0,
+              "prebuiltSeconds": 0
+            },
+            {
+              "tier": 2,
+              "start": 204,
+              "first": 329.5,
+              "stable": 432,
+              "waitingSeconds": 0,
+              "prebuiltSeconds": 0
+            },
+            {
+              "tier": 3,
+              "start": 432,
+              "first": 631.5,
+              "stable": 794.5,
+              "waitingSeconds": 0,
+              "prebuiltSeconds": 0
+            },
+            {
+              "tier": 4,
+              "start": 794.5,
+              "first": 1138,
+              "stable": 1419,
+              "waitingSeconds": 0,
+              "prebuiltSeconds": 0
+            },
+            {
+              "tier": 5,
+              "start": 1419,
+              "first": 1941,
+              "stable": 2368,
+              "waitingSeconds": 0,
+              "prebuiltSeconds": 0
+            },
+            {
+              "tier": 6,
+              "start": 2368,
+              "first": 3087,
+              "stable": 3674.5,
+              "waitingSeconds": 0,
+              "prebuiltSeconds": 0
+            }
+          ]
+        },
+        {
+          "case": "nearby",
+          "profile": "efficient",
+          "endpointSeconds": 3794.5,
+          "endgameTheorySeconds": 3411.5,
+          "tier6StableSeconds": 3794.5,
+          "allFixedSeconds": 19022,
+          "waitingSeconds": 0,
+          "preparationSeconds": 0,
+          "explorationSeconds": 120,
+          "researchItems": 5360,
+          "placedNodes": 343,
+          "discoveries": [
+            {
+              "id": "lake-and-fabricator",
+              "tier": 3,
+              "start": 632,
+              "end": 692,
+              "completed": 692
+            },
+            {
+              "id": "mithril",
+              "tier": 4,
+              "start": 1198.5,
+              "end": 1258.5,
+              "completed": 1258.5
+            }
+          ],
+          "tiers": [
+            {
+              "tier": 1,
+              "start": 0,
+              "first": 112,
+              "stable": 204,
+              "waitingSeconds": 0,
+              "prebuiltSeconds": 0
+            },
+            {
+              "tier": 2,
+              "start": 204,
+              "first": 329.5,
+              "stable": 432,
+              "waitingSeconds": 0,
+              "prebuiltSeconds": 0
+            },
+            {
+              "tier": 3,
+              "start": 432,
+              "first": 631.5,
+              "stable": 854.5,
+              "waitingSeconds": 0,
+              "prebuiltSeconds": 0
+            },
+            {
+              "tier": 4,
+              "start": 854.5,
+              "first": 1198,
+              "stable": 1539,
+              "waitingSeconds": 0,
+              "prebuiltSeconds": 0
+            },
+            {
+              "tier": 5,
+              "start": 1539,
+              "first": 2061,
+              "stable": 2488,
+              "waitingSeconds": 0,
+              "prebuiltSeconds": 0
+            },
+            {
+              "tier": 6,
+              "start": 2488,
+              "first": 3207,
+              "stable": 3794.5,
+              "waitingSeconds": 0,
+              "prebuiltSeconds": 0
+            }
+          ]
+        },
+        {
+          "case": "delayed",
+          "profile": "efficient",
+          "endpointSeconds": 4034.5,
+          "endgameTheorySeconds": 3651.5,
+          "tier6StableSeconds": 4034.5,
+          "allFixedSeconds": 19115,
+          "waitingSeconds": 0,
+          "preparationSeconds": 0,
+          "explorationSeconds": 360,
+          "researchItems": 5360,
+          "placedNodes": 343,
+          "discoveries": [
+            {
+              "id": "lake-and-fabricator",
+              "tier": 3,
+              "start": 632,
+              "end": 812,
+              "completed": 812
+            },
+            {
+              "id": "mithril",
+              "tier": 4,
+              "start": 1318.5,
+              "end": 1498.5,
+              "completed": 1498.5
+            }
+          ],
+          "tiers": [
+            {
+              "tier": 1,
+              "start": 0,
+              "first": 112,
+              "stable": 204,
+              "waitingSeconds": 0,
+              "prebuiltSeconds": 0
+            },
+            {
+              "tier": 2,
+              "start": 204,
+              "first": 329.5,
+              "stable": 432,
+              "waitingSeconds": 0,
+              "prebuiltSeconds": 0
+            },
+            {
+              "tier": 3,
+              "start": 432,
+              "first": 631.5,
+              "stable": 974.5,
+              "waitingSeconds": 0,
+              "prebuiltSeconds": 0
+            },
+            {
+              "tier": 4,
+              "start": 974.5,
+              "first": 1318,
+              "stable": 1779,
+              "waitingSeconds": 0,
+              "prebuiltSeconds": 0
+            },
+            {
+              "tier": 5,
+              "start": 1779,
+              "first": 2301,
+              "stable": 2728,
+              "waitingSeconds": 0,
+              "prebuiltSeconds": 0
+            },
+            {
+              "tier": 6,
+              "start": 2728,
+              "first": 3447,
+              "stable": 4034.5,
+              "waitingSeconds": 0,
+              "prebuiltSeconds": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "First playthrough",
+      "runs": [
+        {
+          "case": "before",
+          "profile": "first",
+          "endpointSeconds": 6041,
+          "endgameTheorySeconds": 5868.5,
+          "tier6StableSeconds": 6041,
+          "allFixedSeconds": 84719,
+          "waitingSeconds": 4,
+          "preparationSeconds": 0,
+          "explorationSeconds": 0,
+          "researchItems": 5360,
+          "placedNodes": 103,
+          "discoveries": [],
+          "tiers": [
+            {
+              "tier": 1,
+              "start": 0,
+              "first": 210,
+              "stable": 381.5,
+              "waitingSeconds": 0,
+              "prebuiltSeconds": 0
+            },
+            {
+              "tier": 2,
+              "start": 381.5,
+              "first": 588,
+              "stable": 757,
+              "waitingSeconds": 4,
+              "prebuiltSeconds": 0
+            },
+            {
+              "tier": 3,
+              "start": 761,
+              "first": 1092.5,
+              "stable": 1363.5,
+              "waitingSeconds": 0,
+              "prebuiltSeconds": 0
+            },
+            {
+              "tier": 4,
+              "start": 1363.5,
+              "first": 2048.5,
+              "stable": 2609,
+              "waitingSeconds": 0,
+              "prebuiltSeconds": 0
+            },
+            {
+              "tier": 5,
+              "start": 2609,
+              "first": 3437,
+              "stable": 4114.5,
+              "waitingSeconds": 0,
+              "prebuiltSeconds": 0
+            },
+            {
+              "tier": 6,
+              "start": 4114.5,
+              "first": 5174.5,
+              "stable": 6041,
+              "waitingSeconds": 0,
+              "prebuiltSeconds": 0
+            }
+          ]
+        },
+        {
+          "case": "instant",
+          "profile": "first",
+          "endpointSeconds": 6041,
+          "endgameTheorySeconds": 5868.5,
+          "tier6StableSeconds": 6041,
+          "allFixedSeconds": 84719,
+          "waitingSeconds": 4,
+          "preparationSeconds": 0,
+          "explorationSeconds": 0,
+          "researchItems": 5360,
+          "placedNodes": 103,
+          "discoveries": [
+            {
+              "id": "lake-and-fabricator",
+              "tier": 3,
+              "start": 1093,
+              "end": 1093,
+              "completed": 1093
+            },
+            {
+              "id": "mithril",
+              "tier": 4,
+              "start": 2049,
+              "end": 2049,
+              "completed": 2049
+            }
+          ],
+          "tiers": [
+            {
+              "tier": 1,
+              "start": 0,
+              "first": 210,
+              "stable": 381.5,
+              "waitingSeconds": 0,
+              "prebuiltSeconds": 0
+            },
+            {
+              "tier": 2,
+              "start": 381.5,
+              "first": 588,
+              "stable": 757,
+              "waitingSeconds": 4,
+              "prebuiltSeconds": 0
+            },
+            {
+              "tier": 3,
+              "start": 761,
+              "first": 1092.5,
+              "stable": 1363.5,
+              "waitingSeconds": 0,
+              "prebuiltSeconds": 0
+            },
+            {
+              "tier": 4,
+              "start": 1363.5,
+              "first": 2048.5,
+              "stable": 2609,
+              "waitingSeconds": 0,
+              "prebuiltSeconds": 0
+            },
+            {
+              "tier": 5,
+              "start": 2609,
+              "first": 3437,
+              "stable": 4114.5,
+              "waitingSeconds": 0,
+              "prebuiltSeconds": 0
+            },
+            {
+              "tier": 6,
+              "start": 4114.5,
+              "first": 5174.5,
+              "stable": 6041,
+              "waitingSeconds": 0,
+              "prebuiltSeconds": 0
+            }
+          ]
+        },
+        {
+          "case": "nearby",
+          "profile": "first",
+          "endpointSeconds": 6161,
+          "endgameTheorySeconds": 5988.5,
+          "tier6StableSeconds": 6161,
+          "allFixedSeconds": 84754.5,
+          "waitingSeconds": 4,
+          "preparationSeconds": 0,
+          "explorationSeconds": 120,
+          "researchItems": 5360,
+          "placedNodes": 103,
+          "discoveries": [
+            {
+              "id": "lake-and-fabricator",
+              "tier": 3,
+              "start": 1093,
+              "end": 1153,
+              "completed": 1153
+            },
+            {
+              "id": "mithril",
+              "tier": 4,
+              "start": 2109,
+              "end": 2169,
+              "completed": 2169
+            }
+          ],
+          "tiers": [
+            {
+              "tier": 1,
+              "start": 0,
+              "first": 210,
+              "stable": 381.5,
+              "waitingSeconds": 0,
+              "prebuiltSeconds": 0
+            },
+            {
+              "tier": 2,
+              "start": 381.5,
+              "first": 588,
+              "stable": 757,
+              "waitingSeconds": 4,
+              "prebuiltSeconds": 0
+            },
+            {
+              "tier": 3,
+              "start": 761,
+              "first": 1092.5,
+              "stable": 1423.5,
+              "waitingSeconds": 0,
+              "prebuiltSeconds": 0
+            },
+            {
+              "tier": 4,
+              "start": 1423.5,
+              "first": 2108.5,
+              "stable": 2729,
+              "waitingSeconds": 0,
+              "prebuiltSeconds": 0
+            },
+            {
+              "tier": 5,
+              "start": 2729,
+              "first": 3557,
+              "stable": 4234.5,
+              "waitingSeconds": 0,
+              "prebuiltSeconds": 0
+            },
+            {
+              "tier": 6,
+              "start": 4234.5,
+              "first": 5294.5,
+              "stable": 6161,
+              "waitingSeconds": 0,
+              "prebuiltSeconds": 0
+            }
+          ]
+        },
+        {
+          "case": "delayed",
+          "profile": "first",
+          "endpointSeconds": 6401,
+          "endgameTheorySeconds": 6228.5,
+          "tier6StableSeconds": 6401,
+          "allFixedSeconds": 84826.5,
+          "waitingSeconds": 4,
+          "preparationSeconds": 0,
+          "explorationSeconds": 360,
+          "researchItems": 5360,
+          "placedNodes": 103,
+          "discoveries": [
+            {
+              "id": "lake-and-fabricator",
+              "tier": 3,
+              "start": 1093,
+              "end": 1273,
+              "completed": 1273
+            },
+            {
+              "id": "mithril",
+              "tier": 4,
+              "start": 2229,
+              "end": 2409,
+              "completed": 2409
+            }
+          ],
+          "tiers": [
+            {
+              "tier": 1,
+              "start": 0,
+              "first": 210,
+              "stable": 381.5,
+              "waitingSeconds": 0,
+              "prebuiltSeconds": 0
+            },
+            {
+              "tier": 2,
+              "start": 381.5,
+              "first": 588,
+              "stable": 757,
+              "waitingSeconds": 4,
+              "prebuiltSeconds": 0
+            },
+            {
+              "tier": 3,
+              "start": 761,
+              "first": 1092.5,
+              "stable": 1543.5,
+              "waitingSeconds": 0,
+              "prebuiltSeconds": 0
+            },
+            {
+              "tier": 4,
+              "start": 1543.5,
+              "first": 2228.5,
+              "stable": 2969,
+              "waitingSeconds": 0,
+              "prebuiltSeconds": 0
+            },
+            {
+              "tier": 5,
+              "start": 2969,
+              "first": 3797,
+              "stable": 4474.5,
+              "waitingSeconds": 0,
+              "prebuiltSeconds": 0
+            },
+            {
+              "tier": 6,
+              "start": 4474.5,
+              "first": 5534.5,
+              "stable": 6401,
+              "waitingSeconds": 0,
+              "prebuiltSeconds": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "Exploratory / low throughput",
+      "runs": [
+        {
+          "case": "before",
+          "profile": "explore",
+          "endpointSeconds": 10321.5,
+          "endgameTheorySeconds": 10304.5,
+          "tier6StableSeconds": 10321.5,
+          "allFixedSeconds": 189913.5,
+          "waitingSeconds": 74,
+          "preparationSeconds": 0,
+          "explorationSeconds": 0,
+          "researchItems": 5360,
+          "placedNodes": 70,
+          "discoveries": [],
+          "tiers": [
+            {
+              "tier": 1,
+              "start": 0,
+              "first": 315.5,
+              "stable": 573,
+              "waitingSeconds": 0,
+              "prebuiltSeconds": 0
+            },
+            {
+              "tier": 2,
+              "start": 573,
+              "first": 921.5,
+              "stable": 1207,
+              "waitingSeconds": 74,
+              "prebuiltSeconds": 0
+            },
+            {
+              "tier": 3,
+              "start": 1281,
+              "first": 1922,
+              "stable": 2446,
+              "waitingSeconds": 0,
+              "prebuiltSeconds": 0
+            },
+            {
+              "tier": 4,
+              "start": 2446,
+              "first": 3520,
+              "stable": 4398,
+              "waitingSeconds": 0,
+              "prebuiltSeconds": 0
+            },
+            {
+              "tier": 5,
+              "start": 4398,
+              "first": 5915.5,
+              "stable": 7156.5,
+              "waitingSeconds": 0,
+              "prebuiltSeconds": 0
+            },
+            {
+              "tier": 6,
+              "start": 7156.5,
+              "first": 8897.5,
+              "stable": 10321.5,
+              "waitingSeconds": 0,
+              "prebuiltSeconds": 0
+            }
+          ]
+        },
+        {
+          "case": "instant",
+          "profile": "explore",
+          "endpointSeconds": 10321.5,
+          "endgameTheorySeconds": 10304.5,
+          "tier6StableSeconds": 10321.5,
+          "allFixedSeconds": 189913.5,
+          "waitingSeconds": 74,
+          "preparationSeconds": 0,
+          "explorationSeconds": 0,
+          "researchItems": 5360,
+          "placedNodes": 70,
+          "discoveries": [
+            {
+              "id": "lake-and-fabricator",
+              "tier": 3,
+              "start": 1922.5,
+              "end": 1922.5,
+              "completed": 1922.5
+            },
+            {
+              "id": "mithril",
+              "tier": 4,
+              "start": 3520.5,
+              "end": 3520.5,
+              "completed": 3520.5
+            }
+          ],
+          "tiers": [
+            {
+              "tier": 1,
+              "start": 0,
+              "first": 315.5,
+              "stable": 573,
+              "waitingSeconds": 0,
+              "prebuiltSeconds": 0
+            },
+            {
+              "tier": 2,
+              "start": 573,
+              "first": 921.5,
+              "stable": 1207,
+              "waitingSeconds": 74,
+              "prebuiltSeconds": 0
+            },
+            {
+              "tier": 3,
+              "start": 1281,
+              "first": 1922,
+              "stable": 2446,
+              "waitingSeconds": 0,
+              "prebuiltSeconds": 0
+            },
+            {
+              "tier": 4,
+              "start": 2446,
+              "first": 3520,
+              "stable": 4398,
+              "waitingSeconds": 0,
+              "prebuiltSeconds": 0
+            },
+            {
+              "tier": 5,
+              "start": 4398,
+              "first": 5915.5,
+              "stable": 7156.5,
+              "waitingSeconds": 0,
+              "prebuiltSeconds": 0
+            },
+            {
+              "tier": 6,
+              "start": 7156.5,
+              "first": 8897.5,
+              "stable": 10321.5,
+              "waitingSeconds": 0,
+              "prebuiltSeconds": 0
+            }
+          ]
+        },
+        {
+          "case": "nearby",
+          "profile": "explore",
+          "endpointSeconds": 10441.5,
+          "endgameTheorySeconds": 10424.5,
+          "tier6StableSeconds": 10441.5,
+          "allFixedSeconds": 189951,
+          "waitingSeconds": 74,
+          "preparationSeconds": 0,
+          "explorationSeconds": 120,
+          "researchItems": 5360,
+          "placedNodes": 70,
+          "discoveries": [
+            {
+              "id": "lake-and-fabricator",
+              "tier": 3,
+              "start": 1922.5,
+              "end": 1982.5,
+              "completed": 1982.5
+            },
+            {
+              "id": "mithril",
+              "tier": 4,
+              "start": 3580.5,
+              "end": 3640.5,
+              "completed": 3640.5
+            }
+          ],
+          "tiers": [
+            {
+              "tier": 1,
+              "start": 0,
+              "first": 315.5,
+              "stable": 573,
+              "waitingSeconds": 0,
+              "prebuiltSeconds": 0
+            },
+            {
+              "tier": 2,
+              "start": 573,
+              "first": 921.5,
+              "stable": 1207,
+              "waitingSeconds": 74,
+              "prebuiltSeconds": 0
+            },
+            {
+              "tier": 3,
+              "start": 1281,
+              "first": 1922,
+              "stable": 2506,
+              "waitingSeconds": 0,
+              "prebuiltSeconds": 0
+            },
+            {
+              "tier": 4,
+              "start": 2506,
+              "first": 3580,
+              "stable": 4518,
+              "waitingSeconds": 0,
+              "prebuiltSeconds": 0
+            },
+            {
+              "tier": 5,
+              "start": 4518,
+              "first": 6035.5,
+              "stable": 7276.5,
+              "waitingSeconds": 0,
+              "prebuiltSeconds": 0
+            },
+            {
+              "tier": 6,
+              "start": 7276.5,
+              "first": 9017.5,
+              "stable": 10441.5,
+              "waitingSeconds": 0,
+              "prebuiltSeconds": 0
+            }
+          ]
+        },
+        {
+          "case": "delayed",
+          "profile": "explore",
+          "endpointSeconds": 10681.5,
+          "endgameTheorySeconds": 10664.5,
+          "tier6StableSeconds": 10681.5,
+          "allFixedSeconds": 190025.5,
+          "waitingSeconds": 74,
+          "preparationSeconds": 0,
+          "explorationSeconds": 360,
+          "researchItems": 5360,
+          "placedNodes": 70,
+          "discoveries": [
+            {
+              "id": "lake-and-fabricator",
+              "tier": 3,
+              "start": 1922.5,
+              "end": 2102.5,
+              "completed": 2102.5
+            },
+            {
+              "id": "mithril",
+              "tier": 4,
+              "start": 3700.5,
+              "end": 3880.5,
+              "completed": 3880.5
+            }
+          ],
+          "tiers": [
+            {
+              "tier": 1,
+              "start": 0,
+              "first": 315.5,
+              "stable": 573,
+              "waitingSeconds": 0,
+              "prebuiltSeconds": 0
+            },
+            {
+              "tier": 2,
+              "start": 573,
+              "first": 921.5,
+              "stable": 1207,
+              "waitingSeconds": 74,
+              "prebuiltSeconds": 0
+            },
+            {
+              "tier": 3,
+              "start": 1281,
+              "first": 1922,
+              "stable": 2626,
+              "waitingSeconds": 0,
+              "prebuiltSeconds": 0
+            },
+            {
+              "tier": 4,
+              "start": 2626,
+              "first": 3700,
+              "stable": 4758,
+              "waitingSeconds": 0,
+              "prebuiltSeconds": 0
+            },
+            {
+              "tier": 5,
+              "start": 4758,
+              "first": 6275.5,
+              "stable": 7516.5,
+              "waitingSeconds": 0,
+              "prebuiltSeconds": 0
+            },
+            {
+              "tier": 6,
+              "start": 7516.5,
+              "first": 9257.5,
+              "stable": 10681.5,
+              "waitingSeconds": 0,
+              "prebuiltSeconds": 0
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "speedFixed": [
+    {
+      "case": "before",
+      "profile": "speedrunner",
+      "endpointSeconds": 3564.5,
+      "endgameTheorySeconds": 3564.5,
+      "tier6StableSeconds": 3248.5,
+      "allFixedSeconds": 3564.5,
+      "waitingSeconds": 462,
+      "preparationSeconds": 0,
+      "explorationSeconds": 0,
+      "researchItems": 1101,
+      "placedNodes": 496,
+      "discoveries": [],
+      "tiers": [
+        {
+          "tier": 1,
+          "start": 0,
+          "first": 41.5,
+          "stable": 75,
+          "waitingSeconds": 0,
+          "prebuiltSeconds": 0
+        },
+        {
+          "tier": 2,
+          "start": 75,
+          "first": 157.5,
+          "stable": 225,
+          "waitingSeconds": 5,
+          "prebuiltSeconds": 0
+        },
+        {
+          "tier": 3,
+          "start": 230,
+          "first": 484.5,
+          "stable": 692.5,
+          "waitingSeconds": 10,
+          "prebuiltSeconds": 0
+        },
+        {
+          "tier": 4,
+          "start": 702.5,
+          "first": 1208.5,
+          "stable": 1622.5,
+          "waitingSeconds": 0,
+          "prebuiltSeconds": 0
+        },
+        {
+          "tier": 5,
+          "start": 1622.5,
+          "first": 1929.5,
+          "stable": 2180,
+          "waitingSeconds": 131,
+          "prebuiltSeconds": 0
+        },
+        {
+          "tier": 6,
+          "start": 2311,
+          "first": 2827,
+          "stable": 3248.5,
+          "waitingSeconds": 316,
+          "prebuiltSeconds": 0
+        }
+      ]
+    },
+    {
+      "case": "instant",
+      "profile": "speedrunner",
+      "endpointSeconds": 3423.5,
+      "endgameTheorySeconds": 3423.5,
+      "tier6StableSeconds": 3107.5,
+      "allFixedSeconds": 3423.5,
+      "waitingSeconds": 321,
+      "preparationSeconds": 141,
+      "explorationSeconds": 0,
+      "researchItems": 1101,
+      "placedNodes": 496,
+      "discoveries": [
+        {
+          "id": "lake-and-fabricator",
+          "tier": 3,
+          "start": 485,
+          "end": 485,
+          "completed": 485
+        },
+        {
+          "id": "mithril",
+          "tier": 4,
+          "start": 1199,
+          "end": 1199,
+          "completed": 1199
+        }
+      ],
+      "tiers": [
+        {
+          "tier": 1,
+          "start": 0,
+          "first": 41.5,
+          "stable": 75,
+          "waitingSeconds": 0,
+          "prebuiltSeconds": 0
+        },
+        {
+          "tier": 2,
+          "start": 75,
+          "first": 157.5,
+          "stable": 225,
+          "waitingSeconds": 5,
+          "prebuiltSeconds": 0
+        },
+        {
+          "tier": 3,
+          "start": 230,
+          "first": 484.5,
+          "stable": 692.5,
+          "waitingSeconds": 0,
+          "prebuiltSeconds": 0
+        },
+        {
+          "tier": 4,
+          "start": 702.5,
+          "first": 1198.5,
+          "stable": 1612.5,
+          "waitingSeconds": 0,
+          "prebuiltSeconds": 10
+        },
+        {
+          "tier": 5,
+          "start": 1612.5,
+          "first": 1919.5,
+          "stable": 2170,
+          "waitingSeconds": 0,
+          "prebuiltSeconds": 0
+        },
+        {
+          "tier": 6,
+          "start": 2301,
+          "first": 2686,
+          "stable": 3107.5,
+          "waitingSeconds": 316,
+          "prebuiltSeconds": 131
+        }
+      ]
+    },
+    {
+      "case": "nearby",
+      "profile": "speedrunner",
+      "endpointSeconds": 3543.5,
+      "endgameTheorySeconds": 3543.5,
+      "tier6StableSeconds": 3227.5,
+      "allFixedSeconds": 3543.5,
+      "waitingSeconds": 321,
+      "preparationSeconds": 131,
+      "explorationSeconds": 120,
+      "researchItems": 1101,
+      "placedNodes": 496,
+      "discoveries": [
+        {
+          "id": "lake-and-fabricator",
+          "tier": 3,
+          "start": 485,
+          "end": 545,
+          "completed": 545
+        },
+        {
+          "id": "mithril",
+          "tier": 4,
+          "start": 1259,
+          "end": 1319,
+          "completed": 1319
+        }
+      ],
+      "tiers": [
+        {
+          "tier": 1,
+          "start": 0,
+          "first": 41.5,
+          "stable": 75,
+          "waitingSeconds": 0,
+          "prebuiltSeconds": 0
+        },
+        {
+          "tier": 2,
+          "start": 75,
+          "first": 157.5,
+          "stable": 225,
+          "waitingSeconds": 5,
+          "prebuiltSeconds": 0
+        },
+        {
+          "tier": 3,
+          "start": 230,
+          "first": 484.5,
+          "stable": 752.5,
+          "waitingSeconds": 0,
+          "prebuiltSeconds": 0
+        },
+        {
+          "tier": 4,
+          "start": 752.5,
+          "first": 1258.5,
+          "stable": 1732.5,
+          "waitingSeconds": 0,
+          "prebuiltSeconds": 0
+        },
+        {
+          "tier": 5,
+          "start": 1732.5,
+          "first": 2039.5,
+          "stable": 2290,
+          "waitingSeconds": 0,
+          "prebuiltSeconds": 0
+        },
+        {
+          "tier": 6,
+          "start": 2421,
+          "first": 2806,
+          "stable": 3227.5,
+          "waitingSeconds": 316,
+          "prebuiltSeconds": 131
+        }
+      ]
+    },
+    {
+      "case": "delayed",
+      "profile": "speedrunner",
+      "endpointSeconds": 3783.5,
+      "endgameTheorySeconds": 3783.5,
+      "tier6StableSeconds": 3467.5,
+      "allFixedSeconds": 3783.5,
+      "waitingSeconds": 321,
+      "preparationSeconds": 131,
+      "explorationSeconds": 360,
+      "researchItems": 1101,
+      "placedNodes": 496,
+      "discoveries": [
+        {
+          "id": "lake-and-fabricator",
+          "tier": 3,
+          "start": 485,
+          "end": 665,
+          "completed": 665
+        },
+        {
+          "id": "mithril",
+          "tier": 4,
+          "start": 1379,
+          "end": 1559,
+          "completed": 1559
+        }
+      ],
+      "tiers": [
+        {
+          "tier": 1,
+          "start": 0,
+          "first": 41.5,
+          "stable": 75,
+          "waitingSeconds": 0,
+          "prebuiltSeconds": 0
+        },
+        {
+          "tier": 2,
+          "start": 75,
+          "first": 157.5,
+          "stable": 225,
+          "waitingSeconds": 5,
+          "prebuiltSeconds": 0
+        },
+        {
+          "tier": 3,
+          "start": 230,
+          "first": 484.5,
+          "stable": 872.5,
+          "waitingSeconds": 0,
+          "prebuiltSeconds": 0
+        },
+        {
+          "tier": 4,
+          "start": 872.5,
+          "first": 1378.5,
+          "stable": 1972.5,
+          "waitingSeconds": 0,
+          "prebuiltSeconds": 0
+        },
+        {
+          "tier": 5,
+          "start": 1972.5,
+          "first": 2279.5,
+          "stable": 2530,
+          "waitingSeconds": 0,
+          "prebuiltSeconds": 0
+        },
+        {
+          "tier": 6,
+          "start": 2661,
+          "first": 3046,
+          "stable": 3467.5,
+          "waitingSeconds": 316,
+          "prebuiltSeconds": 131
+        }
+      ]
+    }
+  ],
+  "optimized": [
+    {
+      "discoverySeconds": 0,
+      "researchScale": 10,
+      "profile": "speedrunner",
+      "endpointSeconds": 3267.5,
+      "endgameTheorySeconds": 3267.5,
+      "tier6StableSeconds": 3100,
+      "allFixedSeconds": 3267.5,
+      "waitingSeconds": 172.5,
+      "preparationSeconds": 488,
+      "explorationSeconds": 0,
+      "researchItems": 1101,
+      "placedNodes": 495,
+      "discoveries": [
+        {
+          "id": "lake-and-fabricator",
+          "tier": 3,
+          "start": 382,
+          "end": 382,
+          "completed": 382
+        },
+        {
+          "id": "mithril",
+          "tier": 4,
+          "start": 853.5,
+          "end": 853.5,
+          "completed": 853.5
+        }
+      ],
+      "tiers": [
+        {
+          "tier": 1,
+          "start": 0,
+          "first": 41.5,
+          "stable": 75,
+          "waitingSeconds": 0,
+          "prebuiltSeconds": 0
+        },
+        {
+          "tier": 2,
+          "start": 75,
+          "first": 157.5,
+          "stable": 225,
+          "waitingSeconds": 5,
+          "prebuiltSeconds": 0
+        },
+        {
+          "tier": 3,
+          "start": 230,
+          "first": 381.5,
+          "stable": 505,
+          "waitingSeconds": 0,
+          "prebuiltSeconds": 0
+        },
+        {
+          "tier": 4,
+          "start": 647,
+          "first": 853,
+          "stable": 1137.5,
+          "waitingSeconds": 0,
+          "prebuiltSeconds": 142
+        },
+        {
+          "tier": 5,
+          "start": 1246,
+          "first": 1433.5,
+          "stable": 1675,
+          "waitingSeconds": 0,
+          "prebuiltSeconds": 108.5
+        },
+        {
+          "tier": 6,
+          "start": 1912.5,
+          "first": 2459,
+          "stable": 3100,
+          "waitingSeconds": 167.5,
+          "prebuiltSeconds": 237.5
+        }
+      ],
+      "rates": [
+        3,
+        6,
+        8,
+        8,
+        6,
+        6
+      ]
+    },
+    {
+      "discoverySeconds": 60,
+      "researchScale": 10,
+      "profile": "speedrunner",
+      "endpointSeconds": 3382.5,
+      "endgameTheorySeconds": 3382.5,
+      "tier6StableSeconds": 3215,
+      "allFixedSeconds": 3382.5,
+      "waitingSeconds": 167.5,
+      "preparationSeconds": 472.5,
+      "explorationSeconds": 120,
+      "researchItems": 1101,
+      "placedNodes": 495,
+      "discoveries": [
+        {
+          "id": "lake-and-fabricator",
+          "tier": 3,
+          "start": 416.5,
+          "end": 476.5,
+          "completed": 476.5
+        },
+        {
+          "id": "mithril",
+          "tier": 4,
+          "start": 908.5,
+          "end": 968.5,
+          "completed": 968.5
+        }
+      ],
+      "tiers": [
+        {
+          "tier": 1,
+          "start": 0,
+          "first": 41.5,
+          "stable": 75,
+          "waitingSeconds": 0,
+          "prebuiltSeconds": 0
+        },
+        {
+          "tier": 2,
+          "start": 75,
+          "first": 206,
+          "stable": 312.5,
+          "waitingSeconds": 0,
+          "prebuiltSeconds": 0
+        },
+        {
+          "tier": 3,
+          "start": 312.5,
+          "first": 416,
+          "stable": 560,
+          "waitingSeconds": 0,
+          "prebuiltSeconds": 0
+        },
+        {
+          "tier": 4,
+          "start": 707.5,
+          "first": 908,
+          "stable": 1252.5,
+          "waitingSeconds": 0,
+          "prebuiltSeconds": 147.5
+        },
+        {
+          "tier": 5,
+          "start": 1340,
+          "first": 1548.5,
+          "stable": 1790,
+          "waitingSeconds": 0,
+          "prebuiltSeconds": 87.5
+        },
+        {
+          "tier": 6,
+          "start": 2027.5,
+          "first": 2574,
+          "stable": 3215,
+          "waitingSeconds": 167.5,
+          "prebuiltSeconds": 237.5
+        }
+      ],
+      "rates": [
+        3,
+        8,
+        8,
+        8,
+        6,
+        6
+      ]
+    },
+    {
+      "discoverySeconds": 180,
+      "researchScale": 10,
+      "profile": "speedrunner",
+      "endpointSeconds": 3622.5,
+      "endgameTheorySeconds": 3622.5,
+      "tier6StableSeconds": 3455,
+      "allFixedSeconds": 3622.5,
+      "waitingSeconds": 167.5,
+      "preparationSeconds": 388,
+      "explorationSeconds": 360,
+      "researchItems": 1101,
+      "placedNodes": 495,
+      "discoveries": [
+        {
+          "id": "lake-and-fabricator",
+          "tier": 3,
+          "start": 416.5,
+          "end": 596.5,
+          "completed": 596.5
+        },
+        {
+          "id": "mithril",
+          "tier": 4,
+          "start": 1028.5,
+          "end": 1208.5,
+          "completed": 1208.5
+        }
+      ],
+      "tiers": [
+        {
+          "tier": 1,
+          "start": 0,
+          "first": 41.5,
+          "stable": 75,
+          "waitingSeconds": 0,
+          "prebuiltSeconds": 0
+        },
+        {
+          "tier": 2,
+          "start": 75,
+          "first": 206,
+          "stable": 312.5,
+          "waitingSeconds": 0,
+          "prebuiltSeconds": 0
+        },
+        {
+          "tier": 3,
+          "start": 312.5,
+          "first": 416,
+          "stable": 680,
+          "waitingSeconds": 0,
+          "prebuiltSeconds": 0
+        },
+        {
+          "tier": 4,
+          "start": 785,
+          "first": 1028,
+          "stable": 1492.5,
+          "waitingSeconds": 0,
+          "prebuiltSeconds": 105
+        },
+        {
+          "tier": 5,
+          "start": 1538,
+          "first": 1788.5,
+          "stable": 2030,
+          "waitingSeconds": 0,
+          "prebuiltSeconds": 45.5
+        },
+        {
+          "tier": 6,
+          "start": 2267.5,
+          "first": 2814,
+          "stable": 3455,
+          "waitingSeconds": 167.5,
+          "prebuiltSeconds": 237.5
+        }
+      ],
+      "rates": [
+        3,
+        8,
+        8,
+        8,
+        6,
+        6
+      ]
+    }
+  ],
+  "optimizedControl": {
+    "discoverySeconds": 0,
+    "researchScale": 10,
+    "profile": "speedrunner",
+    "endpointSeconds": 3564.5,
+    "endgameTheorySeconds": 3564.5,
+    "tier6StableSeconds": 3248.5,
+    "allFixedSeconds": 3564.5,
+    "waitingSeconds": 462,
+    "preparationSeconds": 0,
+    "explorationSeconds": 0,
+    "researchItems": 1101,
+    "placedNodes": 496,
+    "discoveries": [],
+    "tiers": [
+      {
+        "tier": 1,
+        "start": 0,
+        "first": 41.5,
+        "stable": 75,
+        "waitingSeconds": 0,
+        "prebuiltSeconds": 0
+      },
+      {
+        "tier": 2,
+        "start": 75,
+        "first": 157.5,
+        "stable": 225,
+        "waitingSeconds": 5,
+        "prebuiltSeconds": 0
+      },
+      {
+        "tier": 3,
+        "start": 230,
+        "first": 484.5,
+        "stable": 692.5,
+        "waitingSeconds": 10,
+        "prebuiltSeconds": 0
+      },
+      {
+        "tier": 4,
+        "start": 702.5,
+        "first": 1208.5,
+        "stable": 1622.5,
+        "waitingSeconds": 0,
+        "prebuiltSeconds": 0
+      },
+      {
+        "tier": 5,
+        "start": 1622.5,
+        "first": 1929.5,
+        "stable": 2180,
+        "waitingSeconds": 131,
+        "prebuiltSeconds": 0
+      },
+      {
+        "tier": 6,
+        "start": 2311,
+        "first": 2827,
+        "stable": 3248.5,
+        "waitingSeconds": 316,
+        "prebuiltSeconds": 0
+      }
+    ],
+    "rates": [
+      3,
+      6,
+      12,
+      12,
+      8,
+      6
+    ]
+  },
+  "cheapOptimized": {
+    "discoverySeconds": 60,
+    "researchScale": 1,
+    "profile": "speedrunner",
+    "endpointSeconds": 1281,
+    "endgameTheorySeconds": 1279,
+    "tier6StableSeconds": 1281,
+    "allFixedSeconds": 1279,
+    "waitingSeconds": 45.75,
+    "preparationSeconds": 184.25,
+    "explorationSeconds": 120,
+    "researchItems": 120,
+    "placedNodes": 178,
+    "discoveries": [
+      {
+        "id": "lake-and-fabricator",
+        "tier": 3,
+        "start": 269,
+        "end": 329,
+        "completed": 329
+      },
+      {
+        "id": "mithril",
+        "tier": 4,
+        "start": 413,
+        "end": 473,
+        "completed": 473
+      }
+    ],
+    "tiers": [
+      {
+        "tier": 1,
+        "start": 0,
+        "first": 41.5,
+        "stable": 75,
+        "waitingSeconds": 0,
+        "prebuiltSeconds": 0
+      },
+      {
+        "tier": 2,
+        "start": 75,
+        "first": 157.5,
+        "stable": 225,
+        "waitingSeconds": 5,
+        "prebuiltSeconds": 0
+      },
+      {
+        "tier": 3,
+        "start": 230,
+        "first": 268.5,
+        "stable": 360,
+        "waitingSeconds": 0,
+        "prebuiltSeconds": 0
+      },
+      {
+        "tier": 4,
+        "start": 363,
+        "first": 412.5,
+        "stable": 515,
+        "waitingSeconds": 39.25,
+        "prebuiltSeconds": 3
+      },
+      {
+        "tier": 5,
+        "start": 585.5,
+        "first": 623,
+        "stable": 679.5,
+        "waitingSeconds": 1.5,
+        "prebuiltSeconds": 31.25
+      },
+      {
+        "tier": 6,
+        "start": 831,
+        "first": 1011,
+        "stable": 1281,
+        "waitingSeconds": 0,
+        "prebuiltSeconds": 150
+      }
+    ],
+    "rates": [
+      3,
+      6,
+      4,
+      2,
+      1.5,
+      2
+    ]
+  },
+  "paired": [
+    {
+      "profile": "Theoretical maximum throughput",
+      "pairedRuns": 50,
+      "beforeEndpoint": [
+        9850.5,
+        10726.5,
+        11618.5
+      ],
+      "afterEndpoint": [
+        9970.5,
+        10846.5,
+        11738.5
+      ],
+      "beforeWaiting": [
+        0,
+        0,
+        0
+      ],
+      "afterWaiting": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "profile": "Experienced / efficient",
+      "pairedRuns": 50,
+      "beforeEndpoint": [
+        3423,
+        3632.5,
+        3919
+      ],
+      "afterEndpoint": [
+        3543,
+        3752.5,
+        4039
+      ],
+      "beforeWaiting": [
+        0,
+        0,
+        0
+      ],
+      "afterWaiting": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "profile": "First playthrough",
+      "pairedRuns": 50,
+      "beforeEndpoint": [
+        5643,
+        5973,
+        6439.5
+      ],
+      "afterEndpoint": [
+        5763,
+        6093,
+        6559.5
+      ],
+      "beforeWaiting": [
+        0,
+        5.5,
+        20.5
+      ],
+      "afterWaiting": [
+        0,
+        5.5,
+        20.5
+      ]
+    },
+    {
+      "profile": "Exploratory / low throughput",
+      "pairedRuns": 50,
+      "beforeEndpoint": [
+        9784,
+        10311,
+        11007.5
+      ],
+      "afterEndpoint": [
+        9904,
+        10431,
+        11127.5
+      ],
+      "beforeWaiting": [
+        55.5,
+        112,
+        242
+      ],
+      "afterWaiting": [
+        55.5,
+        112,
+        242
+      ]
+    }
+  ],
+  "assumptions": [
+    "Required discovery waves become eligible at first working Automata production (Lake + Fabricator, assumed co-located/one scouting wave), then first working Hydro production (Mythril). This is a scheduling proxy, not a generated-world route.",
+    "Each wave takes 0, 60 or 180 seconds of active scouting, with two required waves total. Scouting pauses the single player’s current construction while production and research continue. An encounter is credited at the end of its wave.",
+    "Optional Sorting Station scouting is skipped because Precision Control supplies the fallback and this model cannot value earlier waste routing.",
+    "When current construction is finished but next-tier research is pending, a discovered machine set allows preparation of up to 25% of the next tier’s placement/connection work. Existing profile planning time is excluded from that cap. This fraction is a sensitivity assumption, not a node-by-node layout.",
+    "One worker performs scouting, current construction or future preparation. Preparation is subtracted from subsequent construction, never counted as parallel labor. New cores cannot be produced before paid access and required discoveries.",
+    "Counts, core quantities, recipe work, paid prerequisites and the five-second speedrunner action assumption stay unchanged between matched before/after runs. The optimized cases rerun the same rate-grid search without retuning prices to force one hour.",
+    "Endpoint means Endgame Theory and stable planned tier-6 construction. General all-fixed research is reported separately. Sensitivity percentiles come from 50 matched seeds per profile, not player population statistics.",
+    "Finite deposits, actual map access/research costs, adjacency, source placement, combat, power, recipe-pipeline timing and explicit waste/transport queues remain excluded. No complete playable one-hour route is claimed."
+  ],
+  "checks": [
+    "Core conservation",
+    "Required discoveries before commissioning",
+    "Single-worker placement budget",
+    "Preparation work capped",
+    "Zero-cost/no-preparation control matches previous timing",
+    "Paid route completes"
+  ]
+}

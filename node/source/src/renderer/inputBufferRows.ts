@@ -9,8 +9,7 @@ export function inputBufferRows(node: MachineNode) {
   const capabilities = getNodeCapabilities(node.kind);
   const recipe = RECIPES[node.recipeId ?? ''];
   const items: ItemId[] = recipe ? Object.keys(recipe.inputs) as ItemId[]
-    : capabilities.behavior === 'generator' ? ['charcoal']
-    : capabilities.behavior === 'planter' ? ['power'] : [];
+    : capabilities.behavior === 'generator' ? ['charcoal'] : capabilities.behavior === 'planter' ? ['wood', 'iron-plate', 'stone'] : [];
   const families = getEffectiveNodeInputFamilies(node, []);
   return items.map((item, index) => {
     const matched = families.findIndex(family => family === item || (family === 'METAL' && ['iron', 'copper', 'mythril'].includes(item)));

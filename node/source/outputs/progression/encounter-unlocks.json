@@ -1,0 +1,20 @@
+{
+  "status": "Implemented encounter unlocks; geography and pacing remain subject to playtesting",
+  "principle": "Encountering a world node grants its first processing tools. Core recipes and efficiency/capacity improvements remain researched.",
+  "encounterDefinition": "First entry into an activated node map containing the matching world node. No extra click or camera hunt. Locked or merely generated maps do not count.",
+  "rules": [
+    { "id": "lake-tools", "encounter": "Lake", "worldNode": "lake", "unlocks": ["Lake Intake", "Hydro Processor", "Coolant recipe", "local fluid links"], "researchRetains": { "Hydrochemistry": ["Copper–Carbon Dispersion recipe"], "Hydraulic Assembly": ["Hydraulic Actuator recipe", "Ceramic Electrode recipe", "Hydro Core recipe"] }, "progression": "Build water collection and coolant routing while preceding-core research runs. Hydrochemistry no longer owns these machines or initial fluid links." },
+    { "id": "mithril-tools", "encounter": "Mythril Deposit", "worldNode": "mythril", "unlocks": ["Separation Furnace", "Refined Mythril recipe", "Slag Hopper"], "researchRetains": { "Ore Separation": ["Mythril Mesh recipe", "Shiny Core recipe"], "Mineral Recovery": ["Slag washing", "Recovered Brick", "Recovered Iron"] }, "progression": "Prepare refining before Shiny Core access. Slag stays guaranteed; random waste still starts with tier-6 intermediaries." },
+    { "id": "fabricator-tools", "encounter": "Abandoned Fabricator", "worldNode": "abandoned-fabricator", "proposedWorldNode": true, "unlocks": ["Advanced Assembler", "compatibility with already-known Motor and Iron Gear recipes"], "researchRetains": { "Hydraulic Assembly": ["Hydraulic Actuator recipe", "Hydro Core recipe"], "Precision Control": ["Precision Controller recipe", "Advanced Actuator recipe", "Complex Core recipe"] }, "progression": "Introduce the machine with familiar recipes before researching advanced applications. The landmark cannot require its own output to reach." },
+    { "id": "sorting-tools", "encounter": "Derelict Sorting Station", "worldNode": "derelict-sorting-station", "proposedWorldNode": true, "unlocks": ["Waste Sorter", "mixed Waste Hopper", "waste batch links"], "researchRetains": { "Precision Control": ["tier-6 waste-producing intermediaries", "Fines settling", "Flux stabilization", "Crust milling"] }, "fallback": "Precision Control also grants these handling tools if the station has not been encountered.", "progression": "Scouting can prepare handling early; probabilistic waste production remains tier 6." }
+  ],
+  "worldRequirements": [
+    "Guarantee a reachable Lake and Abandoned Fabricator before Hydro production, and reachable Mythril before Shiny. Random alternatives do not replace these guarantees.",
+    "Required encounters must be accessible with preceding map access, roads and early combat. Never require the tools, cores or advanced bots the encounter unlocks.",
+    "Retain early discoveries permanently. Machine access is immediate; advanced recipes still check research prerequisites.",
+    "Identify encountered nodes on the map and show granted tools and remaining research. Do not reveal encounters from undiscovered generated maps.",
+    "Persist discovered node categories and granted unlocks. Older saves credit qualifying maps already visited."
+  ],
+  "simulationImpact": "No core costs or research prerequisites are automatically removed. Existing simulations group construction by tier and assume resource access; they cannot measure early preparation or scouting delays. Their numbers remain the previous construction model until discovery and cross-tier building are explicitly scheduled.",
+  "unchanged": ["Equal quantities of every core through the highest required tier", "Single Home Research Center", "Five-second Extractor base cycle", "Tier-6 introduction of probabilistic waste", "Paid escalating efficiency and convenience research"]
+}

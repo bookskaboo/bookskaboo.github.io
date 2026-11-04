@@ -1,0 +1,1783 @@
+{
+  "exportedAt": "2026-11-01T19:12:46.038Z",
+  "simulationTimeMs": 1256414.200000167,
+  "seed": 1875186765,
+  "extracted": {
+    "wood": 348,
+    "copper": 345,
+    "iron": 250,
+    "stone": 48
+  },
+  "produced": {
+    "charcoal": 320,
+    "copper-plate": 168,
+    "copper-gear": 45,
+    "simple-core": 22,
+    "iron-plate": 117,
+    "iron-wire": 27,
+    "basic-core": 17,
+    "brick": 45,
+    "copper-wire": 18,
+    "circuit-a": 17,
+    "automata-core": 7
+  },
+  "state": {
+    "version": 1,
+    "seed": 1875186765,
+    "activeSectorId": "7,5",
+    "sectors": {
+      "5,5": {
+        "id": "5,5",
+        "x": 5,
+        "y": 5,
+        "name": "Home Factory",
+        "label": "H",
+        "unlocked": true,
+        "nodes": [
+          {
+            "id": "forest",
+            "kind": "forest",
+            "name": "Forest",
+            "x": 406,
+            "y": 749,
+            "rotation": 0,
+            "input": {},
+            "output": {},
+            "progressMs": 0,
+            "cycleMs": 5000,
+            "constructedAt": 0,
+            "constructionMs": 0,
+            "resourceItem": "wood",
+            "resourceRemaining": 797,
+            "resourceCapacity": 1000,
+            "regenMs": 13315.700000166893,
+            "capacity": 5
+          },
+          {
+            "id": "copper",
+            "kind": "copper",
+            "name": "Copper",
+            "x": 406,
+            "y": 1257,
+            "rotation": 0,
+            "input": {},
+            "output": {},
+            "progressMs": 0,
+            "cycleMs": 5000,
+            "constructedAt": 0,
+            "constructionMs": 0,
+            "resourceItem": "copper",
+            "resourceRemaining": 765,
+            "resourceCapacity": 1000,
+            "capacity": 5
+          },
+          {
+            "id": "iron",
+            "kind": "iron",
+            "name": "Iron",
+            "x": 406,
+            "y": 1765,
+            "rotation": 0,
+            "input": {},
+            "output": {},
+            "progressMs": 0,
+            "cycleMs": 5000,
+            "constructedAt": 0,
+            "constructionMs": 0,
+            "resourceItem": "iron",
+            "resourceRemaining": 812,
+            "resourceCapacity": 1000,
+            "capacity": 5
+          },
+          {
+            "id": "ironExtractor",
+            "kind": "extractor",
+            "name": "Extractor",
+            "x": 829,
+            "y": 748.5,
+            "rotation": 0,
+            "input": {},
+            "output": {
+              "wood": 4
+            },
+            "progressMs": 199.9000000357628,
+            "cycleMs": 5000,
+            "constructedAt": 0,
+            "constructionMs": 0
+          },
+          {
+            "id": "extractor-2",
+            "kind": "extractor",
+            "name": "Extractor",
+            "x": 929,
+            "y": 1176.5,
+            "rotation": 0,
+            "input": {},
+            "output": {
+              "copper": 0
+            },
+            "progressMs": 1110.9000000953674,
+            "cycleMs": 5000,
+            "constructedAt": 0,
+            "constructionMs": 0
+          },
+          {
+            "id": "kiln-853d1c42-94c2-4173-ab11-a01e66479f2b",
+            "kind": "kiln",
+            "name": "Kiln",
+            "x": 1328.9404659671227,
+            "y": 738.9999999999999,
+            "rotation": 0,
+            "recipeId": "charcoal",
+            "input": {
+              "wood": 4
+            },
+            "output": {
+              "charcoal": 5
+            },
+            "progressMs": 0,
+            "cycleMs": 3500,
+            "constructedAt": 1793559126355,
+            "constructionMs": 1500
+          },
+          {
+            "id": "smelter-8a49364f-a461-41f9-83b8-4451837a113f",
+            "kind": "smelter",
+            "name": "Smelter",
+            "x": 1328.9404659671227,
+            "y": 1182.9999247233072,
+            "rotation": 0,
+            "recipeId": "smelt-copper",
+            "input": {
+              "copper": 1,
+              "charcoal": 5
+            },
+            "output": {
+              "copper-plate": 0
+            },
+            "progressMs": 0,
+            "cycleMs": 6000,
+            "constructedAt": 1793559137535,
+            "constructionMs": 1500
+          },
+          {
+            "id": "extractor-b3df4e71-30e8-4500-b4f6-ac03fb4db1c5",
+            "kind": "extractor",
+            "name": "Extractor",
+            "x": 872.6044119384266,
+            "y": 1466.6666666666665,
+            "rotation": 0,
+            "input": {},
+            "output": {
+              "copper": 5
+            },
+            "progressMs": 0,
+            "cycleMs": 5000,
+            "constructedAt": 1793559164394,
+            "constructionMs": 1500
+          },
+          {
+            "id": "refiner-89e0899b-1acd-4308-a716-a20e3507189a",
+            "kind": "refiner",
+            "name": "Refiner",
+            "x": 1785.2763694415362,
+            "y": 1182.9999247233072,
+            "rotation": 0,
+            "recipeId": "copper-gear",
+            "input": {
+              "copper-plate": 2
+            },
+            "output": {
+              "copper-gear": 0
+            },
+            "progressMs": 1299.9000000357628,
+            "cycleMs": 3000,
+            "constructedAt": 1793559194079,
+            "constructionMs": 1500
+          },
+          {
+            "id": "refiner-95d0ce47-1228-4ee0-a707-e250bd03b965",
+            "kind": "refiner",
+            "name": "Refiner",
+            "x": 2204.612353427594,
+            "y": 1182.9999247233072,
+            "rotation": 0,
+            "recipeId": "simple-core",
+            "input": {
+              "copper-gear": 1
+            },
+            "output": {
+              "simple-core": 4
+            },
+            "progressMs": 0,
+            "cycleMs": 5000,
+            "constructedAt": 1793559194172,
+            "constructionMs": 1500
+          },
+          {
+            "id": "researchCenter-a66bead2-0cae-4d45-9f61-bc41e9de67cc",
+            "kind": "researchCenter",
+            "name": "Research Center",
+            "x": 2673.2818143219306,
+            "y": 1166.666591389974,
+            "rotation": 0,
+            "input": {
+              "simple-core": 5,
+              "basic-core": 5
+            },
+            "output": {},
+            "progressMs": 0,
+            "cycleMs": 1000,
+            "constructedAt": 1793559317742,
+            "constructionMs": 1500
+          },
+          {
+            "id": "extractor-47fa75da-7494-41ff-b9ef-5499bbbdee8e",
+            "kind": "extractor",
+            "name": "Extractor",
+            "x": 872.6044119384266,
+            "y": 1943.6665161132812,
+            "rotation": 0,
+            "input": {},
+            "output": {
+              "iron": 1
+            },
+            "progressMs": 200.5,
+            "cycleMs": 5000,
+            "constructedAt": 1793559339893,
+            "constructionMs": 1500
+          },
+          {
+            "id": "extractor-b1406101-2ebe-42f3-aefb-9aa4214b8dcf",
+            "kind": "extractor",
+            "name": "Extractor",
+            "x": 1735.9427419789745,
+            "y": 722.6666666666667,
+            "rotation": 0,
+            "input": {},
+            "output": {
+              "wood": 5
+            },
+            "progressMs": 0,
+            "cycleMs": 5000,
+            "constructedAt": 1793559394579,
+            "constructionMs": 1500
+          },
+          {
+            "id": "kiln-c1fef8ae-0115-441b-ab45-97b6633694cb",
+            "kind": "kiln",
+            "name": "Kiln",
+            "x": 2155.278725965032,
+            "y": 722.6666666666667,
+            "rotation": 0,
+            "recipeId": "charcoal",
+            "input": {
+              "wood": 5
+            },
+            "output": {
+              "charcoal": 5
+            },
+            "progressMs": 0,
+            "cycleMs": 3500,
+            "constructedAt": 1793559406702,
+            "constructionMs": 1500
+          },
+          {
+            "id": "smelter-87fbec2b-5585-46f7-9601-1e0288be9798",
+            "kind": "smelter",
+            "name": "Smelter",
+            "x": 1328.9404659671227,
+            "y": 1943.6665161132812,
+            "rotation": 0,
+            "recipeId": "smelt-iron",
+            "input": {
+              "iron": 5,
+              "charcoal": 5
+            },
+            "output": {
+              "iron-plate": 5
+            },
+            "progressMs": 0,
+            "cycleMs": 6000,
+            "constructedAt": 1793559407381,
+            "constructionMs": 1500
+          },
+          {
+            "id": "refiner-a865a2ab-dc34-42d2-b227-680ace6f7d39",
+            "kind": "refiner",
+            "name": "Refiner",
+            "x": 1785.2763694415362,
+            "y": 1943.6665161132812,
+            "rotation": 0,
+            "recipeId": "iron-wire",
+            "input": {
+              "iron-plate": 5
+            },
+            "output": {
+              "iron-wire": 5
+            },
+            "progressMs": 0,
+            "cycleMs": 3000,
+            "constructedAt": 1793559462496,
+            "constructionMs": 1500
+          },
+          {
+            "id": "assembler-4489ffbd-b848-4f2b-9d9b-8f6aa5b72b56",
+            "kind": "assembler",
+            "name": "Assembler",
+            "x": 2204.612353427594,
+            "y": 1943.6665161132812,
+            "rotation": 0,
+            "recipeId": "basic-core",
+            "input": {
+              "iron-wire": 5,
+              "copper-plate": 5
+            },
+            "output": {
+              "basic-core": 5
+            },
+            "progressMs": 0,
+            "cycleMs": 10000,
+            "constructedAt": 1793559490035,
+            "constructionMs": 1500
+          },
+          {
+            "id": "splitter-287044ea-0446-4b42-8486-c2076fd8b333",
+            "kind": "splitter",
+            "name": "Splitter",
+            "x": 1735.9427419789745,
+            "y": 1524.3333333333335,
+            "rotation": 0,
+            "input": {
+              "copper-plate": 0
+            },
+            "output": {
+              "copper-plate": 0
+            },
+            "progressMs": 0,
+            "cycleMs": 1000,
+            "constructedAt": 1793559517519,
+            "constructionMs": 1500,
+            "alternator": 1
+          },
+          {
+            "id": "road-a7bd72a6-f2a5-42a3-9a04-bdf0241233e1",
+            "kind": "road",
+            "name": "Road",
+            "x": 3532.5,
+            "y": 1270.3620232362848,
+            "rotation": 0,
+            "input": {},
+            "output": {
+              "automata-core": 7
+            },
+            "progressMs": 0,
+            "cycleMs": 1000,
+            "constructedAt": 1793559921888,
+            "constructionMs": 1500,
+            "roadMode": "import",
+            "pairedSectorId": "6,5",
+            "roadFacing": "west",
+            "pairedRoadId": "road-fba57756-6bef-4400-9887-9da1d8b06ffa"
+          }
+        ],
+        "connections": [
+          {
+            "id": "cable-101ea95e-f97a-4a06-833c-df93a2ce07fd",
+            "from": "forest",
+            "to": "ironExtractor",
+            "fromPort": 0,
+            "toPort": 0,
+            "item": "wood",
+            "createdAt": 1793559114990
+          },
+          {
+            "id": "cable-b46dd84f-1f55-419d-9b7d-e156196f6d6e",
+            "from": "copper",
+            "to": "extractor-2",
+            "fromPort": 0,
+            "toPort": 0,
+            "item": "copper",
+            "createdAt": 1793559115186
+          },
+          {
+            "id": "cable-dbe5d534-619d-41d4-959d-2ac5caaf4c39",
+            "from": "ironExtractor",
+            "to": "kiln-853d1c42-94c2-4173-ab11-a01e66479f2b",
+            "fromPort": 0,
+            "toPort": 0,
+            "item": "wood",
+            "createdAt": 1793559137132
+          },
+          {
+            "id": "cable-76edf7cf-787b-497a-8386-33a0f93590d7",
+            "from": "extractor-2",
+            "to": "smelter-8a49364f-a461-41f9-83b8-4451837a113f",
+            "fromPort": 0,
+            "toPort": 0,
+            "item": "copper",
+            "createdAt": 1793559163808
+          },
+          {
+            "id": "cable-115cf70b-69a8-4a59-883c-d35fbb8e39cf",
+            "from": "kiln-853d1c42-94c2-4173-ab11-a01e66479f2b",
+            "to": "smelter-8a49364f-a461-41f9-83b8-4451837a113f",
+            "fromPort": 0,
+            "toPort": 1,
+            "item": "charcoal",
+            "createdAt": 1793559163936
+          },
+          {
+            "id": "cable-65e65460-646f-4380-84e5-cface8dd5fb1",
+            "from": "refiner-89e0899b-1acd-4308-a716-a20e3507189a",
+            "to": "refiner-95d0ce47-1228-4ee0-a707-e250bd03b965",
+            "fromPort": 0,
+            "toPort": 0,
+            "item": "copper-gear",
+            "createdAt": 1793559317284
+          },
+          {
+            "id": "cable-6228cf16-d4a2-4d5a-aff7-2b2575f62369",
+            "from": "refiner-95d0ce47-1228-4ee0-a707-e250bd03b965",
+            "to": "researchCenter-a66bead2-0cae-4d45-9f61-bc41e9de67cc",
+            "fromPort": 0,
+            "toPort": 0,
+            "item": "simple-core",
+            "createdAt": 1793559324511
+          },
+          {
+            "id": "cable-5e875d4a-0a87-4917-b4cc-63908856e0f3",
+            "from": "iron",
+            "to": "extractor-47fa75da-7494-41ff-b9ef-5499bbbdee8e",
+            "fromPort": 0,
+            "toPort": 0,
+            "item": "iron",
+            "createdAt": 1793559367744
+          },
+          {
+            "id": "cable-1144a4c8-b924-426b-b88f-c70c130815ee",
+            "from": "copper",
+            "to": "extractor-b3df4e71-30e8-4500-b4f6-ac03fb4db1c5",
+            "fromPort": 0,
+            "toPort": 0,
+            "item": "copper",
+            "createdAt": 1793559367926
+          },
+          {
+            "id": "cable-99513f09-8bca-4ced-9f07-68fcb94e5a2d",
+            "from": "forest",
+            "to": "extractor-b1406101-2ebe-42f3-aefb-9aa4214b8dcf",
+            "fromPort": 0,
+            "toPort": 0,
+            "item": "wood",
+            "createdAt": 1793559406230
+          },
+          {
+            "id": "cable-b7e4fd02-1144-49be-8846-578399e6fce0",
+            "from": "extractor-b1406101-2ebe-42f3-aefb-9aa4214b8dcf",
+            "to": "kiln-c1fef8ae-0115-441b-ab45-97b6633694cb",
+            "fromPort": 0,
+            "toPort": 0,
+            "item": "wood",
+            "createdAt": 1793559431813
+          },
+          {
+            "id": "cable-0819df34-0b53-4180-9549-44d29638ad47",
+            "from": "kiln-c1fef8ae-0115-441b-ab45-97b6633694cb",
+            "to": "smelter-87fbec2b-5585-46f7-9601-1e0288be9798",
+            "fromPort": 0,
+            "toPort": 1,
+            "item": "charcoal",
+            "createdAt": 1793559432027
+          },
+          {
+            "id": "cable-e0d0db7e-18a5-4263-b393-90b29d2e8113",
+            "from": "extractor-47fa75da-7494-41ff-b9ef-5499bbbdee8e",
+            "to": "smelter-87fbec2b-5585-46f7-9601-1e0288be9798",
+            "fromPort": 0,
+            "toPort": 0,
+            "item": "iron",
+            "createdAt": 1793559432261
+          },
+          {
+            "id": "cable-39a9062c-2e91-46c4-9f80-c71a92d4251e",
+            "from": "smelter-87fbec2b-5585-46f7-9601-1e0288be9798",
+            "to": "refiner-a865a2ab-dc34-42d2-b227-680ace6f7d39",
+            "fromPort": 0,
+            "toPort": 0,
+            "item": "iron-plate",
+            "createdAt": 1793559517838
+          },
+          {
+            "id": "cable-749a0310-612a-4316-bb42-03ade12d8fd2",
+            "from": "smelter-8a49364f-a461-41f9-83b8-4451837a113f",
+            "to": "splitter-287044ea-0446-4b42-8486-c2076fd8b333",
+            "fromPort": 0,
+            "toPort": 0,
+            "item": "copper-plate",
+            "createdAt": 1793559539237
+          },
+          {
+            "id": "cable-d869c148-5813-4bc9-b718-8257e7fa9fc1",
+            "from": "splitter-287044ea-0446-4b42-8486-c2076fd8b333",
+            "to": "refiner-89e0899b-1acd-4308-a716-a20e3507189a",
+            "fromPort": 0,
+            "toPort": 0,
+            "item": "copper-plate",
+            "createdAt": 1793559539578
+          },
+          {
+            "id": "cable-0f01e0c8-ceb9-432b-9c7e-9befcd6069d4",
+            "from": "splitter-287044ea-0446-4b42-8486-c2076fd8b333",
+            "to": "assembler-4489ffbd-b848-4f2b-9d9b-8f6aa5b72b56",
+            "fromPort": 1,
+            "toPort": 0,
+            "item": "copper-plate",
+            "createdAt": 1793559539894
+          },
+          {
+            "id": "cable-e023abd3-3797-4d69-a660-1dd3cf4a4abd",
+            "from": "refiner-a865a2ab-dc34-42d2-b227-680ace6f7d39",
+            "to": "assembler-4489ffbd-b848-4f2b-9d9b-8f6aa5b72b56",
+            "fromPort": 0,
+            "toPort": 1,
+            "item": "iron-wire",
+            "createdAt": 1793559540284
+          },
+          {
+            "id": "cable-8314a70f-a4c1-488b-bca0-192101d82e02",
+            "from": "assembler-4489ffbd-b848-4f2b-9d9b-8f6aa5b72b56",
+            "to": "researchCenter-a66bead2-0cae-4d45-9f61-bc41e9de67cc",
+            "fromPort": 0,
+            "toPort": 0,
+            "item": "basic-core",
+            "createdAt": 1793559540549
+          }
+        ],
+        "camera": {
+          "x": 72.02702702702697,
+          "y": 107.8513513513513,
+          "zoom": 0.2955405405405406
+        },
+        "lastSimulatedAt": 1793560365990,
+        "visited": true
+      },
+      "6,5": {
+        "id": "6,5",
+        "x": 6,
+        "y": 5,
+        "name": "Unnamed Node",
+        "label": "◆",
+        "unlocked": true,
+        "nodes": [
+          {
+            "id": "6-5-big-hole-0",
+            "kind": "big-hole",
+            "name": "Deep Hole",
+            "x": 1540.9236294105087,
+            "y": 1978.5315572706827,
+            "rotation": 0,
+            "input": {},
+            "output": {},
+            "progressMs": 0,
+            "cycleMs": 1000,
+            "constructedAt": 0,
+            "constructionMs": 0,
+            "obstructionRadius": 388.9226888657145,
+            "resourceRemaining": 272
+          },
+          {
+            "id": "6-5-big-hole-1",
+            "kind": "big-hole",
+            "name": "Deep Hole",
+            "x": 2536.8097438584127,
+            "y": 355.64554139577155,
+            "rotation": 0,
+            "input": {},
+            "output": {},
+            "progressMs": 0,
+            "cycleMs": 1000,
+            "constructedAt": 0,
+            "constructionMs": 0,
+            "obstructionRadius": 233.3536133194287,
+            "resourceRemaining": 160
+          },
+          {
+            "id": "6-5-big-hole-2",
+            "kind": "big-hole",
+            "name": "Deep Hole",
+            "x": 1338.1971237947812,
+            "y": 594.6467348382658,
+            "rotation": 0,
+            "input": {},
+            "output": {},
+            "progressMs": 0,
+            "cycleMs": 1000,
+            "constructedAt": 0,
+            "constructionMs": 0,
+            "obstructionRadius": 311.1381510925716,
+            "resourceRemaining": 216
+          },
+          {
+            "id": "6-5-big-hole-3",
+            "kind": "big-hole",
+            "name": "Deep Hole",
+            "x": 3261.8472402359394,
+            "y": 2101.4532761890646,
+            "rotation": 0,
+            "input": {},
+            "output": {},
+            "progressMs": 0,
+            "cycleMs": 1000,
+            "constructedAt": 0,
+            "constructionMs": 0,
+            "obstructionRadius": 272.24588220600015,
+            "resourceRemaining": 188
+          },
+          {
+            "id": "6-5-big-hole-4",
+            "kind": "big-hole",
+            "name": "Deep Hole",
+            "x": 1088.5527188944618,
+            "y": 1424.2179132489705,
+            "rotation": 0,
+            "input": {},
+            "output": {},
+            "progressMs": 0,
+            "cycleMs": 1000,
+            "constructedAt": 0,
+            "constructionMs": 0,
+            "obstructionRadius": 350.03041997914306,
+            "resourceRemaining": 244
+          },
+          {
+            "id": "6-5-iron-5",
+            "kind": "iron",
+            "name": "Iron",
+            "x": 2139.3416755211733,
+            "y": 1108.2103350344255,
+            "rotation": 0,
+            "input": {},
+            "output": {},
+            "progressMs": 0,
+            "cycleMs": 5000,
+            "constructedAt": 0,
+            "constructionMs": 0,
+            "resourceItem": "iron",
+            "resourceRemaining": 1438,
+            "resourceCapacity": 1500,
+            "capacity": 5
+          },
+          {
+            "id": "6-5-copper-6",
+            "kind": "copper",
+            "name": "Copper",
+            "x": 1585.367787182331,
+            "y": 1129.5274197962135,
+            "rotation": 0,
+            "input": {},
+            "output": {},
+            "progressMs": 0,
+            "cycleMs": 5000,
+            "constructedAt": 0,
+            "constructionMs": 0,
+            "resourceItem": "copper",
+            "resourceRemaining": 1390,
+            "resourceCapacity": 1500,
+            "capacity": 5
+          },
+          {
+            "id": "6-5-stoneDeposit-7",
+            "kind": "stoneDeposit",
+            "name": "Stone Deposit",
+            "x": 698.187276202451,
+            "y": 663.6711635466505,
+            "rotation": 0,
+            "input": {},
+            "output": {},
+            "progressMs": 0,
+            "cycleMs": 5000,
+            "constructedAt": 0,
+            "constructionMs": 0,
+            "resourceItem": "stone",
+            "resourceRemaining": 1452,
+            "resourceCapacity": 1500,
+            "capacity": 5
+          },
+          {
+            "id": "6-5-forest-8",
+            "kind": "forest",
+            "name": "Forest",
+            "x": 1959.5726841742799,
+            "y": 482.5242623286967,
+            "rotation": 0,
+            "input": {},
+            "output": {},
+            "progressMs": 0,
+            "cycleMs": 5000,
+            "constructedAt": 0,
+            "constructionMs": 0,
+            "resourceItem": "wood",
+            "resourceRemaining": 1414,
+            "resourceCapacity": 1500,
+            "regenMs": 15007.700000047684,
+            "capacity": 5
+          },
+          {
+            "id": "extractor-3de0bc5b-c0d3-4007-947b-4959f4d178f4",
+            "kind": "extractor",
+            "name": "Extractor",
+            "x": 613.9690351297164,
+            "y": 992.3892321730123,
+            "rotation": 0,
+            "input": {},
+            "output": {
+              "stone": 0
+            },
+            "progressMs": 797.8000000119209,
+            "cycleMs": 5000,
+            "constructedAt": 1793559741952,
+            "constructionMs": 1500
+          },
+          {
+            "id": "refiner-751698aa-bf09-447b-b232-fd427f3762c6",
+            "kind": "refiner",
+            "name": "Refiner",
+            "x": 216.862853455701,
+            "y": 992.3892321730123,
+            "rotation": 0,
+            "recipeId": "brick",
+            "input": {
+              "stone": 2
+            },
+            "output": {
+              "brick": 3
+            },
+            "progressMs": 195.69999998807907,
+            "cycleMs": 4000,
+            "constructedAt": 1793559742340,
+            "constructionMs": 1500
+          },
+          {
+            "id": "extractor-392fc9d7-bc4e-4f4b-ab2a-a9d63a404fc9",
+            "kind": "extractor",
+            "name": "Extractor",
+            "x": 2281.814755786203,
+            "y": 714.4166834826733,
+            "rotation": 0,
+            "input": {},
+            "output": {
+              "wood": 4
+            },
+            "progressMs": 3399.800000011921,
+            "cycleMs": 5000,
+            "constructedAt": 1793559780012,
+            "constructionMs": 1500
+          },
+          {
+            "id": "extractor-5eeb2fb1-41d1-4817-a5a2-5d2a00c99d2f",
+            "kind": "extractor",
+            "name": "Extractor",
+            "x": 2520.0784647906116,
+            "y": 1111.5204975923957,
+            "rotation": 0,
+            "input": {},
+            "output": {
+              "iron": 5
+            },
+            "progressMs": 0,
+            "cycleMs": 5000,
+            "constructedAt": 1793559780054,
+            "constructionMs": 1500
+          },
+          {
+            "id": "extractor-d8eec94e-2986-43eb-8d2a-19c28c88622a",
+            "kind": "extractor",
+            "name": "Extractor",
+            "x": 1924.4194346539673,
+            "y": 1468.913930291146,
+            "rotation": 0,
+            "input": {},
+            "output": {
+              "copper": 0
+            },
+            "progressMs": 4300.400000095367,
+            "cycleMs": 5000,
+            "constructedAt": 1793559780222,
+            "constructionMs": 1500
+          },
+          {
+            "id": "kiln-08099280-bbbd-45af-b4ea-86bc45a0afcb",
+            "kind": "kiln",
+            "name": "Kiln",
+            "x": 2758.3424161693993,
+            "y": 714.4166834826733,
+            "rotation": 0,
+            "recipeId": "charcoal",
+            "input": {
+              "wood": 5
+            },
+            "output": {
+              "charcoal": 5
+            },
+            "progressMs": 0,
+            "cycleMs": 3500,
+            "constructedAt": 1793559805954,
+            "constructionMs": 1500
+          },
+          {
+            "id": "smelter-876f43bd-5126-4f47-942a-40cc9ab401b9",
+            "kind": "smelter",
+            "name": "Smelter",
+            "x": 3076.0273615086116,
+            "y": 1111.5204975923957,
+            "rotation": 0,
+            "recipeId": "smelt-iron",
+            "input": {
+              "iron": 5,
+              "charcoal": 5
+            },
+            "output": {
+              "iron-plate": 4
+            },
+            "progressMs": 5799.900000035763,
+            "cycleMs": 6000,
+            "constructedAt": 1793559806506,
+            "constructionMs": 1500
+          },
+          {
+            "id": "smelter-07f67635-fd7f-4d43-9dab-c4359653e07e",
+            "kind": "smelter",
+            "name": "Smelter",
+            "x": 3076.0273615086116,
+            "y": 1468.913930291146,
+            "rotation": 0,
+            "recipeId": "smelt-copper",
+            "input": {
+              "copper": 2,
+              "charcoal": 5
+            },
+            "output": {
+              "copper-plate": 0
+            },
+            "progressMs": 3300.100000023842,
+            "cycleMs": 6000,
+            "constructedAt": 1793559806657,
+            "constructionMs": 1500
+          },
+          {
+            "id": "splitter-059e6d01-88be-44a9-8a56-4717f98e9f50",
+            "kind": "splitter",
+            "name": "Splitter",
+            "x": 2758.3424161693993,
+            "y": 952.67885076204,
+            "rotation": 0,
+            "input": {
+              "charcoal": 0
+            },
+            "output": {
+              "charcoal": 0
+            },
+            "progressMs": 0,
+            "cycleMs": 1000,
+            "constructedAt": 1793559833763,
+            "constructionMs": 1500,
+            "alternator": 2
+          },
+          {
+            "id": "refiner-de6effaa-faf1-4cdc-92f3-020f2e06e235",
+            "kind": "refiner",
+            "name": "Refiner",
+            "x": 3512.8441613500286,
+            "y": 1468.913930291146,
+            "rotation": 0,
+            "recipeId": "copper-wire",
+            "input": {
+              "copper-plate": 0
+            },
+            "output": {
+              "copper-wire": 0
+            },
+            "progressMs": 0,
+            "cycleMs": 3000,
+            "constructedAt": 1793559857880,
+            "constructionMs": 1500
+          },
+          {
+            "id": "assembler-22bac9ae-74e6-4ed8-ac83-c03a5377896b",
+            "kind": "assembler",
+            "name": "Assembler",
+            "x": 3512.8441613500286,
+            "y": 1111.5204975923957,
+            "rotation": 0,
+            "recipeId": "circuit-a",
+            "input": {
+              "iron-plate": 5,
+              "copper-wire": 1
+            },
+            "output": {
+              "circuit-a": 5
+            },
+            "progressMs": 0,
+            "cycleMs": 5000,
+            "constructedAt": 1793559873307,
+            "constructionMs": 1500
+          },
+          {
+            "id": "assembler-520c2236-dfa6-4559-93b8-32747ed32918",
+            "kind": "assembler",
+            "name": "Assembler",
+            "x": 2758.3424161693993,
+            "y": 1866.0177444008684,
+            "rotation": 0,
+            "recipeId": "automata-core",
+            "input": {
+              "circuit-a": 5,
+              "brick": 5
+            },
+            "output": {
+              "automata-core": 0
+            },
+            "progressMs": 11397.900000035763,
+            "cycleMs": 15000,
+            "constructedAt": 1793559888874,
+            "constructionMs": 1500
+          },
+          {
+            "id": "road-fba57756-6bef-4400-9887-9da1d8b06ffa",
+            "kind": "road",
+            "name": "Road",
+            "x": 67.5,
+            "y": 1270.3620232362848,
+            "rotation": 0,
+            "input": {
+              "automata-core": 0
+            },
+            "output": {},
+            "progressMs": 2302.400000035763,
+            "cycleMs": 1000,
+            "constructedAt": 1793559921888,
+            "constructionMs": 1500,
+            "roadMode": "export",
+            "pairedSectorId": "5,5",
+            "roadFacing": "east",
+            "pairedRoadId": "road-a7bd72a6-f2a5-42a3-9a04-bdf0241233e1"
+          },
+          {
+            "id": "joint-e3267809-21a6-4f28-a7b7-06acfc1a6d63",
+            "kind": "joint",
+            "name": "Joint",
+            "x": 504.9604014935926,
+            "y": 745.6763019074261,
+            "rotation": 0,
+            "input": {},
+            "output": {},
+            "progressMs": 0,
+            "cycleMs": 1000,
+            "constructedAt": 1793560053528,
+            "constructionMs": 1500
+          },
+          {
+            "id": "joint-60cb121f-eddf-4285-b268-41f5833861a7",
+            "kind": "joint",
+            "name": "Joint",
+            "x": 1847.5432846889862,
+            "y": 1044.0261838933434,
+            "rotation": 0,
+            "input": {
+              "brick": 5
+            },
+            "output": {
+              "brick": 5
+            },
+            "progressMs": 0,
+            "cycleMs": 1000,
+            "constructedAt": 1793560118529,
+            "constructionMs": 1500
+          },
+          {
+            "id": "joint-a3506e38-4d89-411c-8852-73502d1d7fab",
+            "kind": "joint",
+            "name": "Joint",
+            "x": 1847.5432846889862,
+            "y": 1193.201261460081,
+            "rotation": 0,
+            "input": {
+              "automata-core": 0
+            },
+            "output": {
+              "automata-core": 0
+            },
+            "progressMs": 0,
+            "cycleMs": 1000,
+            "constructedAt": 1793560118622,
+            "constructionMs": 1500
+          },
+          {
+            "id": "joint-b7a26158-7ddd-49ff-a289-d90fc85670d8",
+            "kind": "joint",
+            "name": "Joint",
+            "x": 325.94932763844116,
+            "y": 775.5112992109365,
+            "rotation": 0,
+            "input": {},
+            "output": {},
+            "progressMs": 0,
+            "cycleMs": 1000,
+            "constructedAt": 1793560118681,
+            "constructionMs": 1500
+          },
+          {
+            "id": "joint-20e1d771-ad03-45f9-a4ec-fbcf8c5c0743",
+            "kind": "joint",
+            "name": "Joint",
+            "x": 1847.5432846889862,
+            "y": 1312.5412506741222,
+            "rotation": 0,
+            "input": {
+              "brick": 5
+            },
+            "output": {
+              "brick": 5
+            },
+            "progressMs": 0,
+            "cycleMs": 1000,
+            "constructedAt": 1793560203953,
+            "constructionMs": 1500
+          },
+          {
+            "id": "joint-07b6c361-42fd-4fb2-9c21-f246041f38f7",
+            "kind": "joint",
+            "name": "Joint",
+            "x": 2444.2467883313834,
+            "y": 1581.0562264057155,
+            "rotation": 0,
+            "input": {
+              "brick": 5
+            },
+            "output": {
+              "brick": 5
+            },
+            "progressMs": 0,
+            "cycleMs": 1000,
+            "constructedAt": 1793560204029,
+            "constructionMs": 1500
+          },
+          {
+            "id": "joint-3572dc68-0b30-4c37-9fe7-e958e746e950",
+            "kind": "joint",
+            "name": "Joint",
+            "x": 1847.5432846889862,
+            "y": 954.5211919828123,
+            "rotation": 0,
+            "input": {
+              "automata-core": 0
+            },
+            "output": {
+              "automata-core": 0
+            },
+            "progressMs": 0,
+            "cycleMs": 1000,
+            "constructedAt": 1793560204116,
+            "constructionMs": 1500
+          },
+          {
+            "id": "joint-a0c0cb20-5a4a-4127-9fbf-c33e14eb8daf",
+            "kind": "joint",
+            "name": "Joint",
+            "x": 415.454875947233,
+            "y": 954.5211919828123,
+            "rotation": 0,
+            "input": {
+              "automata-core": 0
+            },
+            "output": {
+              "automata-core": 0
+            },
+            "progressMs": 0,
+            "cycleMs": 1000,
+            "constructedAt": 1793560204188,
+            "constructionMs": 1500
+          }
+        ],
+        "connections": [
+          {
+            "id": "cable-337812cc-20bf-44ad-8545-1ad4dc786ba1",
+            "from": "6-5-stoneDeposit-7",
+            "to": "extractor-3de0bc5b-c0d3-4007-947b-4959f4d178f4",
+            "fromPort": 0,
+            "toPort": 0,
+            "item": "stone",
+            "createdAt": 1793559779378
+          },
+          {
+            "id": "cable-2c025d58-10bd-44e8-b287-4bfd878a6d71",
+            "from": "extractor-3de0bc5b-c0d3-4007-947b-4959f4d178f4",
+            "to": "refiner-751698aa-bf09-447b-b232-fd427f3762c6",
+            "fromPort": 0,
+            "toPort": 0,
+            "item": "stone",
+            "createdAt": 1793559779541
+          },
+          {
+            "id": "cable-91621828-6399-4e5d-8698-321d16084e4b",
+            "from": "6-5-forest-8",
+            "to": "extractor-392fc9d7-bc4e-4f4b-ab2a-a9d63a404fc9",
+            "fromPort": 0,
+            "toPort": 0,
+            "item": "wood",
+            "createdAt": 1793559805033
+          },
+          {
+            "id": "cable-68e744c0-2ecb-4206-adc5-c389ac281cd9",
+            "from": "6-5-iron-5",
+            "to": "extractor-5eeb2fb1-41d1-4817-a5a2-5d2a00c99d2f",
+            "fromPort": 0,
+            "toPort": 0,
+            "item": "iron",
+            "createdAt": 1793559805301
+          },
+          {
+            "id": "cable-93b9b247-a03d-4cf6-8d34-c82c37c95495",
+            "from": "6-5-copper-6",
+            "to": "extractor-d8eec94e-2986-43eb-8d2a-19c28c88622a",
+            "fromPort": 0,
+            "toPort": 0,
+            "item": "copper",
+            "createdAt": 1793559805438
+          },
+          {
+            "id": "cable-7f0ff8c4-6f06-48a2-8e2f-a7d8536a5802",
+            "from": "extractor-392fc9d7-bc4e-4f4b-ab2a-a9d63a404fc9",
+            "to": "kiln-08099280-bbbd-45af-b4ea-86bc45a0afcb",
+            "fromPort": 0,
+            "toPort": 0,
+            "item": "wood",
+            "createdAt": 1793559834001
+          },
+          {
+            "id": "cable-9340346c-6b78-4253-9e45-ddb747a56f40",
+            "from": "kiln-08099280-bbbd-45af-b4ea-86bc45a0afcb",
+            "to": "splitter-059e6d01-88be-44a9-8a56-4717f98e9f50",
+            "fromPort": 0,
+            "toPort": 0,
+            "item": "charcoal",
+            "createdAt": 1793559834323
+          },
+          {
+            "id": "cable-014b86e2-174c-412a-a58e-e73511c4a968",
+            "from": "splitter-059e6d01-88be-44a9-8a56-4717f98e9f50",
+            "to": "smelter-876f43bd-5126-4f47-942a-40cc9ab401b9",
+            "fromPort": 0,
+            "toPort": 1,
+            "item": "charcoal",
+            "createdAt": 1793559834686
+          },
+          {
+            "id": "cable-d7cbc9b7-9f66-41a5-a4bc-bd948b592460",
+            "from": "splitter-059e6d01-88be-44a9-8a56-4717f98e9f50",
+            "to": "smelter-07f67635-fd7f-4d43-9dab-c4359653e07e",
+            "fromPort": 1,
+            "toPort": 1,
+            "item": "charcoal",
+            "createdAt": 1793559834956
+          },
+          {
+            "id": "cable-8a44772b-6d2a-45c3-a5e6-ec3031a78a82",
+            "from": "extractor-5eeb2fb1-41d1-4817-a5a2-5d2a00c99d2f",
+            "to": "smelter-876f43bd-5126-4f47-942a-40cc9ab401b9",
+            "fromPort": 0,
+            "toPort": 0,
+            "item": "iron",
+            "createdAt": 1793559835430
+          },
+          {
+            "id": "cable-af8f352f-4357-43b9-b51a-0815945995fd",
+            "from": "extractor-d8eec94e-2986-43eb-8d2a-19c28c88622a",
+            "to": "smelter-07f67635-fd7f-4d43-9dab-c4359653e07e",
+            "fromPort": 0,
+            "toPort": 0,
+            "item": "copper",
+            "createdAt": 1793559835735
+          },
+          {
+            "id": "cable-d17227e8-f426-4eac-aa90-4495086f474f",
+            "from": "smelter-876f43bd-5126-4f47-942a-40cc9ab401b9",
+            "to": "assembler-22bac9ae-74e6-4ed8-ac83-c03a5377896b",
+            "fromPort": 0,
+            "toPort": 1,
+            "item": "iron-plate",
+            "createdAt": 1793559888058
+          },
+          {
+            "id": "cable-06fa47d7-b0d6-49f1-8956-04953fb41579",
+            "from": "smelter-07f67635-fd7f-4d43-9dab-c4359653e07e",
+            "to": "refiner-de6effaa-faf1-4cdc-92f3-020f2e06e235",
+            "fromPort": 0,
+            "toPort": 0,
+            "item": "copper-plate",
+            "createdAt": 1793559888249
+          },
+          {
+            "id": "cable-31925f73-0566-4d80-badc-a81cf11874ae",
+            "from": "refiner-de6effaa-faf1-4cdc-92f3-020f2e06e235",
+            "to": "assembler-22bac9ae-74e6-4ed8-ac83-c03a5377896b",
+            "fromPort": 0,
+            "toPort": 0,
+            "item": "copper-wire",
+            "createdAt": 1793559888442
+          },
+          {
+            "id": "cable-a5e54be3-0726-43c1-a3df-0226197e023d",
+            "from": "assembler-22bac9ae-74e6-4ed8-ac83-c03a5377896b",
+            "to": "assembler-520c2236-dfa6-4559-93b8-32747ed32918",
+            "fromPort": 0,
+            "toPort": 0,
+            "item": "circuit-a",
+            "createdAt": 1793559902510
+          },
+          {
+            "id": "cable-84c24343-29f5-4a4f-935b-14114b3bf93c",
+            "from": "refiner-751698aa-bf09-447b-b232-fd427f3762c6",
+            "to": "joint-60cb121f-eddf-4285-b268-41f5833861a7",
+            "fromPort": 0,
+            "toPort": 0,
+            "item": "brick",
+            "createdAt": 1793560118983
+          },
+          {
+            "id": "cable-d21b3ef3-be3c-4a54-9a3f-66cd0dc9a428",
+            "from": "joint-60cb121f-eddf-4285-b268-41f5833861a7",
+            "to": "joint-20e1d771-ad03-45f9-a4ec-fbcf8c5c0743",
+            "fromPort": 0,
+            "toPort": 0,
+            "item": "brick",
+            "createdAt": 1793560245254
+          },
+          {
+            "id": "cable-657eef20-4f0b-4fd0-a0d0-671eb9d097b7",
+            "from": "joint-20e1d771-ad03-45f9-a4ec-fbcf8c5c0743",
+            "to": "joint-07b6c361-42fd-4fb2-9c21-f246041f38f7",
+            "fromPort": 0,
+            "toPort": 0,
+            "item": "brick",
+            "createdAt": 1793560245494
+          },
+          {
+            "id": "cable-f4cde368-a05b-4e1c-8b52-ccec805c50fe",
+            "from": "joint-07b6c361-42fd-4fb2-9c21-f246041f38f7",
+            "to": "assembler-520c2236-dfa6-4559-93b8-32747ed32918",
+            "fromPort": 0,
+            "toPort": 1,
+            "item": "brick",
+            "createdAt": 1793560245738
+          },
+          {
+            "id": "cable-5429cee4-13ad-454b-b167-73fec90896e7",
+            "from": "assembler-520c2236-dfa6-4559-93b8-32747ed32918",
+            "to": "joint-a3506e38-4d89-411c-8852-73502d1d7fab",
+            "fromPort": 0,
+            "toPort": 0,
+            "item": "automata-core",
+            "createdAt": 1793560245946
+          },
+          {
+            "id": "cable-9869a8cb-6f3c-41c2-a9ce-c226a3496fc7",
+            "from": "joint-a3506e38-4d89-411c-8852-73502d1d7fab",
+            "to": "joint-3572dc68-0b30-4c37-9fe7-e958e746e950",
+            "fromPort": 0,
+            "toPort": 0,
+            "item": "automata-core",
+            "createdAt": 1793560246168
+          },
+          {
+            "id": "cable-de8b6faa-7241-4808-b4ec-597b9c54ba63",
+            "from": "joint-3572dc68-0b30-4c37-9fe7-e958e746e950",
+            "to": "joint-a0c0cb20-5a4a-4127-9fbf-c33e14eb8daf",
+            "fromPort": 0,
+            "toPort": 0,
+            "item": "automata-core",
+            "createdAt": 1793560246380
+          },
+          {
+            "id": "cable-ccdb677a-4036-413b-ade8-e9c60beec2c5",
+            "from": "joint-a0c0cb20-5a4a-4127-9fbf-c33e14eb8daf",
+            "to": "road-fba57756-6bef-4400-9887-9da1d8b06ffa",
+            "fromPort": 0,
+            "toPort": 0,
+            "item": "automata-core",
+            "createdAt": 1793560246608
+          }
+        ],
+        "camera": {
+          "x": -19.250135395533363,
+          "y": 20.066576402977773,
+          "zoom": 0.3351768360583502
+        },
+        "lastSimulatedAt": 1793560365990,
+        "visited": true
+      },
+      "7,5": {
+        "id": "7,5",
+        "x": 7,
+        "y": 5,
+        "name": "Unnamed Node",
+        "label": "◆",
+        "unlocked": true,
+        "nodes": [
+          {
+            "id": "7-5-lake-0",
+            "kind": "lake",
+            "name": "Lake",
+            "x": 2037.795693292348,
+            "y": 1674.8041011009614,
+            "rotation": 0,
+            "input": {},
+            "output": {
+              "water": 5
+            },
+            "progressMs": 0.5,
+            "cycleMs": 1000,
+            "constructedAt": 0,
+            "constructionMs": 0,
+            "resourceItem": "water",
+            "capacity": 5,
+            "obstructionWidth": 2057.9703773958986,
+            "obstructionHeight": 1303.1708195203341
+          },
+          {
+            "id": "7-5-iron-1",
+            "kind": "iron",
+            "name": "Iron",
+            "x": 1772.6197916734964,
+            "y": 2688.537446372211,
+            "rotation": 0,
+            "input": {},
+            "output": {},
+            "progressMs": 0,
+            "cycleMs": 5000,
+            "constructedAt": 0,
+            "constructionMs": 0,
+            "resourceItem": "iron",
+            "resourceRemaining": 2000,
+            "resourceCapacity": 2000,
+            "capacity": 5
+          },
+          {
+            "id": "7-5-copper-2",
+            "kind": "copper",
+            "name": "Copper",
+            "x": 3855.1415057480335,
+            "y": 2452.8174698911607,
+            "rotation": 0,
+            "input": {},
+            "output": {},
+            "progressMs": 0,
+            "cycleMs": 5000,
+            "constructedAt": 0,
+            "constructionMs": 0,
+            "resourceItem": "copper",
+            "resourceRemaining": 2000,
+            "resourceCapacity": 2000,
+            "capacity": 5
+          },
+          {
+            "id": "7-5-stoneDeposit-3",
+            "kind": "stoneDeposit",
+            "name": "Stone Deposit",
+            "x": 823.1017215504073,
+            "y": 713.5968994438517,
+            "rotation": 0,
+            "input": {},
+            "output": {},
+            "progressMs": 0,
+            "cycleMs": 5000,
+            "constructedAt": 0,
+            "constructionMs": 0,
+            "resourceItem": "stone",
+            "resourceRemaining": 2000,
+            "resourceCapacity": 2000,
+            "capacity": 5
+          },
+          {
+            "id": "7-5-forest-4",
+            "kind": "forest",
+            "name": "Forest",
+            "x": 2141.3597466072288,
+            "y": 550.2171848399882,
+            "rotation": 0,
+            "input": {},
+            "output": {},
+            "progressMs": 0,
+            "cycleMs": 5000,
+            "constructedAt": 0,
+            "constructionMs": 0,
+            "resourceItem": "wood",
+            "resourceRemaining": 2000,
+            "resourceCapacity": 2000,
+            "regenMs": 0,
+            "capacity": 5
+          }
+        ],
+        "connections": [],
+        "camera": {
+          "x": 60.06163344399977,
+          "y": 99.8744222959998,
+          "zoom": 0.2518233178500001
+        },
+        "lastSimulatedAt": 1793560365990,
+        "visited": true
+      }
+    },
+    "research": {
+      "unlocked": [
+        "extractor",
+        "woodenChest",
+        "joint",
+        "kiln",
+        "smelter",
+        "refiner",
+        "researchCenter",
+        "assembler",
+        "splitter",
+        "merger",
+        "exploration",
+        "road",
+        "automataCore",
+        "fabricatorTools",
+        "lakeTools"
+      ],
+      "contributed": {},
+      "completed": [
+        "joint",
+        "kiln",
+        "smelter",
+        "refiner",
+        "researchCenter",
+        "assembler",
+        "splitter",
+        "merger",
+        "exploration",
+        "road",
+        "automataCore",
+        "fabricatorTools",
+        "lakeTools"
+      ],
+      "mapPoints": 0,
+      "repeatableCompletions": {
+        "mapNode": 1
+      },
+      "projectContributions": {}
+    },
+    "paused": false,
+    "playTimeMs": 1256414.200000167,
+    "achievements": [],
+    "preferences": {
+      "autosaveMinutes": 5,
+      "confirmDelete": true,
+      "particles": true,
+      "showGrid": true,
+      "sound": false
+    },
+    "tutorialStep": 0,
+    "events": [
+      {
+        "id": "event-33114a3a-c075-46f2-a2c3-404e88c149f5",
+        "type": "ItemProduced",
+        "message": "Refiner completed Brick.",
+        "at": 1793560365890
+      },
+      {
+        "id": "event-60bcd3a1-318a-4f48-8b15-cd6b7cf29693",
+        "type": "TransferStarted",
+        "message": "wood routed to Kiln.",
+        "at": 1793560365790
+      },
+      {
+        "id": "event-07b30431-ed8a-40fe-a440-cdb0b79a7870",
+        "type": "ItemProduced",
+        "message": "Extractor extracted 1 iron.",
+        "at": 1793560365790
+      },
+      {
+        "id": "event-960704f6-2fa1-46ce-a3ab-160147ed7a53",
+        "type": "ItemProduced",
+        "message": "Kiln completed Charcoal.",
+        "at": 1793560365691
+      },
+      {
+        "id": "event-91fe9f1e-e221-4073-80da-65da1844448d",
+        "type": "TransferStarted",
+        "message": "stone routed to Refiner.",
+        "at": 1793560365390
+      },
+      {
+        "id": "event-dea5e201-9903-489e-9400-4cdef6855aa3",
+        "type": "ItemProduced",
+        "message": "Extractor extracted 1 stone.",
+        "at": 1793560365290
+      },
+      {
+        "id": "event-9dca73b9-8c22-4ae3-8650-201831ab8cac",
+        "type": "TransferStarted",
+        "message": "copper routed to Smelter.",
+        "at": 1793560364991
+      },
+      {
+        "id": "event-558a231b-62fd-44ba-9973-f17cd991a0d4",
+        "type": "ItemProduced",
+        "message": "Extractor extracted 1 copper.",
+        "at": 1793560364890
+      },
+      {
+        "id": "event-16a678e6-c0d6-45b2-bcac-6fd03b6bb18c",
+        "type": "ItemProduced",
+        "message": "Extractor extracted 1 wood.",
+        "at": 1793560364390
+      },
+      {
+        "id": "event-bedfa580-53c6-45ce-ab61-c58eb97d096b",
+        "type": "TransferStarted",
+        "message": "copper-plate routed to Refiner.",
+        "at": 1793560363790
+      },
+      {
+        "id": "event-00c28096-7c1d-428c-b288-258d590317d4",
+        "type": "TransferStarted",
+        "message": "copper-wire routed to Assembler.",
+        "at": 1793560362990
+      },
+      {
+        "id": "event-394cfd62-f437-4b88-8fc0-b90c1dd11245",
+        "type": "ItemProduced",
+        "message": "Refiner completed Copper Wire.",
+        "at": 1793560362990
+      }
+    ],
+    "revision": 3012,
+    "produced": {
+      "charcoal": 320,
+      "copper-plate": 168,
+      "copper-gear": 45,
+      "simple-core": 22,
+      "iron-plate": 117,
+      "iron-wire": 27,
+      "basic-core": 17,
+      "brick": 45,
+      "copper-wire": 18,
+      "circuit-a": 17,
+      "automata-core": 7
+    },
+    "extracted": {
+      "wood": 348,
+      "copper": 345,
+      "iron": 250,
+      "stone": 48
+    },
+    "hasCreatedConnection": true,
+    "inFlightTransfers": [
+      {
+        "id": "transfer-21e2579b-a699-4b5d-8fe5-75192f050b0e",
+        "sectorId": "5,5",
+        "connectionId": "cable-76edf7cf-787b-497a-8386-33a0f93590d7",
+        "from": "extractor-2",
+        "to": "smelter-8a49364f-a461-41f9-83b8-4451837a113f",
+        "item": "copper",
+        "launchedAtMs": 1255414.700000167,
+        "arrivesAtMs": 1256414.700000167
+      },
+      {
+        "id": "pulse-00b31925-ba78-415b-b41b-85b6c4c9a480",
+        "sectorId": "6,5",
+        "connectionId": "cable-337812cc-20bf-44ad-8545-1ad4dc786ba1",
+        "from": "6-5-stoneDeposit-7",
+        "to": "extractor-3de0bc5b-c0d3-4007-947b-4959f4d178f4",
+        "item": "stone",
+        "launchedAtMs": 1255714.100000143,
+        "arrivesAtMs": 1256714.100000143,
+        "cosmeticOnly": true
+      },
+      {
+        "id": "transfer-7e7c5f9c-d895-4dc2-987d-e45f43b6dd25",
+        "sectorId": "6,5",
+        "connectionId": "cable-2c025d58-10bd-44e8-b287-4bfd878a6d71",
+        "from": "extractor-3de0bc5b-c0d3-4007-947b-4959f4d178f4",
+        "to": "refiner-751698aa-bf09-447b-b232-fd427f3762c6",
+        "item": "stone",
+        "launchedAtMs": 1255814.200000167,
+        "arrivesAtMs": 1256814.200000167
+      },
+      {
+        "id": "pulse-dd754703-c07b-4c05-bf42-fd5987ef25eb",
+        "sectorId": "5,5",
+        "connectionId": "cable-5e875d4a-0a87-4917-b4cc-63908856e0f3",
+        "from": "iron",
+        "to": "extractor-47fa75da-7494-41ff-b9ef-5499bbbdee8e",
+        "item": "iron",
+        "launchedAtMs": 1256214.3000001311,
+        "arrivesAtMs": 1257214.3000001311,
+        "cosmeticOnly": true
+      },
+      {
+        "id": "transfer-ed39f85c-1c20-4f73-bef0-8fe6f89b0907",
+        "sectorId": "5,5",
+        "connectionId": "cable-dbe5d534-619d-41d4-959d-2ac5caaf4c39",
+        "from": "ironExtractor",
+        "to": "kiln-853d1c42-94c2-4173-ab11-a01e66479f2b",
+        "item": "wood",
+        "launchedAtMs": 1256214.3000001311,
+        "arrivesAtMs": 1257214.3000001311
+      }
+    ],
+    "encounters": [
+      "forest",
+      "copper",
+      "iron",
+      "extractor",
+      "kiln",
+      "smelter",
+      "refiner",
+      "researchCenter",
+      "assembler",
+      "splitter",
+      "big-hole",
+      "stoneDeposit",
+      "road",
+      "joint",
+      "lake"
+    ],
+    "globalPool": {},
+    "factoryTemplates": [],
+    "randomState": 1875186765,
+    "progressionVersion": 1,
+    "discoveryTimes": {
+      "joint": 8000.199999988079,
+      "kiln": 13098.5,
+      "smelter": 13098.5,
+      "refiner": 64199,
+      "researchCenter": 64199,
+      "assembler": 224403.30000007153,
+      "splitter": 382404.3000000715,
+      "merger": 455004.3000000715,
+      "road": 497204.60000008345,
+      "advancedAssembler": 1197013.8000001311,
+      "lakeIntake": 1212214.200000167,
+      "hydroProcessor": 1212214.200000167,
+      "fluidLink": 1212214.200000167
+    },
+    "researchLog": [
+      {
+        "id": "event-80279ca1-6462-420c-b3e1-e49ebcd4f48f",
+        "type": "ResearchCompleted",
+        "message": "Water Tools research complete. Unlocks Water Tools.",
+        "at": 1793560321857,
+        "projectId": "lakeTools",
+        "elapsedMs": 1212214.200000167
+      },
+      {
+        "id": "event-65d69f4d-248a-4d6b-a067-3f763e5b8a7c",
+        "type": "ResearchCompleted",
+        "message": "Advanced Fabrication research complete. Unlocks the Advanced Assembler node.",
+        "at": 1793560306590,
+        "projectId": "fabricatorTools",
+        "elapsedMs": 1197013.8000001311
+      },
+      {
+        "id": "event-973100f7-310b-4fde-92f4-a39fc9d678bb",
+        "type": "ResearchCompleted",
+        "message": "Automata Core research complete. Unlocks the Automata Core recipe in the Assembler",
+        "at": 1793559859368,
+        "projectId": "automataCore",
+        "elapsedMs": 750506.5000000596
+      },
+      {
+        "id": "event-3e9084d5-3a68-476f-a743-1a8c8ee6a265",
+        "type": "ResearchCompleted",
+        "message": "Map Node research complete. Awards 1 Map Point. First 9 purchases cost 5 Simple. Each later ten-purchase phase adds a core tier and raises the price by 1 every two purchases: 6–10 each through Basic, then 11–15, 16–20, 21–25 and 26–30. After purchase 59, prices rise by 1 every five purchases to 42 each. Locked cores are not required.",
+        "at": 1793559726402,
+        "projectId": "mapNode",
+        "elapsedMs": 617706.1000000834
+      },
+      {
+        "id": "event-6a430a16-6a80-4886-9abb-868138a00075",
+        "type": "ResearchCompleted",
+        "message": "Road research complete. Unlocks the Road node",
+        "at": 1793559605669,
+        "projectId": "road",
+        "elapsedMs": 497204.60000008345
+      },
+      {
+        "id": "event-96d0a7fe-cad7-4b74-9e2a-0a21949b305b",
+        "type": "ResearchCompleted",
+        "message": "Exploration research complete. Unlocks the Map and awards 1 Map Point",
+        "at": 1793559565769,
+        "projectId": "exploration",
+        "elapsedMs": 457305.0000000596
+      },
+      {
+        "id": "event-d86f9ab8-87e1-4ecd-bf88-6eef1440c801",
+        "type": "ResearchCompleted",
+        "message": "Merger research complete. Unlocks the Merger node",
+        "at": 1793559563469,
+        "projectId": "merger",
+        "elapsedMs": 455004.3000000715
+      },
+      {
+        "id": "event-a957d51b-7e1f-465e-a86d-e297d5f6b71b",
+        "type": "ResearchCompleted",
+        "message": "Splitter research complete. Unlocks the Splitter node",
+        "at": 1793559490035,
+        "projectId": "splitter",
+        "elapsedMs": 382404.3000000715
+      },
+      {
+        "id": "event-e59652f5-43bd-45dc-a217-592faecaed1d",
+        "type": "ResearchCompleted",
+        "message": "Assembler research complete. Unlocks the Assembler node",
+        "at": 1793559331992,
+        "projectId": "assembler",
+        "elapsedMs": 224403.30000007153
+      },
+      {
+        "id": "event-d7f37c1d-1b41-4674-9282-18b412329c23",
+        "type": "ResearchCompleted",
+        "message": "Research Center research complete. Unlocks the Research Center node",
+        "at": 1793559171325,
+        "projectId": "researchCenter",
+        "elapsedMs": 64199
+      },
+      {
+        "id": "event-f9ab447d-7798-483b-8478-e48445d39bde",
+        "type": "ResearchCompleted",
+        "message": "Refiner research complete. Unlocks the Refiner, its Simple Core recipe, and the Research Center",
+        "at": 1793559171325,
+        "projectId": "refiner",
+        "elapsedMs": 64199
+      },
+      {
+        "id": "event-b8e757fe-27fa-40d0-a09c-e2222144254e",
+        "type": "ResearchCompleted",
+        "message": "Smelter research complete. Unlocks the Smelter node",
+        "at": 1793559120225,
+        "projectId": "smelter",
+        "elapsedMs": 13098.5
+      },
+      {
+        "id": "event-3502678a-b215-45e6-80fc-55b57c6919c1",
+        "type": "ResearchCompleted",
+        "message": "Kiln research complete. Unlocks the Kiln node",
+        "at": 1793559120225,
+        "projectId": "kiln",
+        "elapsedMs": 13098.5
+      },
+      {
+        "id": "event-aca9eca5-b34a-4d10-8923-beb6691c35c3",
+        "type": "ResearchCompleted",
+        "message": "Joint research complete. Unlocks the Joint node",
+        "at": 1793559114990,
+        "projectId": "joint",
+        "elapsedMs": 8000.199999988079
+      }
+    ]
+  }
+}

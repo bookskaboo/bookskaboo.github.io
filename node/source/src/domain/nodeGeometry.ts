@@ -1,39 +1,52 @@
 import { getEffectiveNodeInputFamilies, getEffectiveNodeOutputFamilies, NODE_DEFINITIONS } from '../content/nodes';
 import { isProductionMachine } from '../content/productionNodes';
 import { getNodeModule } from '../content/nodeModules';
+import { isCartKind } from '../content/cartUpgrades';
 import type { MachineNode } from './types';
+import { modNode } from '../mods/modRules';
 
 export interface NodeSize { w: number; h: number }
 export interface Point { x: number; y: number }
 
-export const RESOURCE_NODE_SIZE: NodeSize = { w: 310, h: 242 };
-export const STANDARD_NODE_WIDTH = 258;
-export const POWER_SPLITTER_SIZE = 54;
-export const JOINT_SIZE = 36;
-export const COMPACT_NODE_SIZE = 67.5;
-export const ROAD_NODE_SIZE = 135;
-export const WOODEN_CHEST_SIZE: NodeSize = { w: 129, h: 101 };
+export const RESOURCE_NODE_SIZE: NodeSize = { w: 320, h: 256 };
+export const GOLEM_NODE_SIZE: NodeSize = { w: 512, h: 768 };
+export const STANDARD_NODE_WIDTH = 256;
+export const POWER_SPLITTER_SIZE = 64;
+export const JOINT_SIZE = 64;
+export const COMPACT_NODE_SIZE = 64;
+export const ROAD_NODE_SIZE = 128;
+export const WOODEN_CHEST_SIZE: NodeSize = { w: 128, h: 128 };
 export const RESEARCH_CENTER_SCALE = 1.2;
 
 export function isResourceNode(node: MachineNode) { return getNodeModule(node.kind).appearance.shape === 'resource'; }
-export function isOrganicNode(node: MachineNode) { return ['lake', 'hole', 'camp'].includes(getNodeModule(node.kind).appearance.shape); }
+export function isOrganicNode(node: MachineNode) { return ['lake', 'hole', 'camp', 'golem'].includes(getNodeModule(node.kind).appearance.shape); }
 export function isCompactNode(node: MachineNode) { return ['joint', 'compact', 'road'].includes(getNodeModule(node.kind).appearance.shape); }
 
-export function getNodeSize(node: MachineNode): NodeSize {
+const gridSize = (size: NodeSize): NodeSize => ({ w: Math.max(64, Math.round(size.w / 64) * 64), h: Math.max(64, Math.round(size.h / 64) * 64) });
+
+export function getNodeSize(node: Pick<MachineNode, 'kind'> & Partial<MachineNode>): NodeSize {
+  const size = getBaseNodeSize(node);
+  const scale = modNode(node.kind)?.obstructionScale ?? 1;
+  return scale === 1 ? size : { w: size.w * scale, h: size.h * scale };
+}
+
+function getBaseNodeSize(node: Pick<MachineNode, 'kind'> & Partial<MachineNode>): NodeSize {
+  if(node.kind==='cornerChallenge'&&node.cornerType==='alpha')return {w:512,h:640};
   const shape = getNodeModule(node.kind).appearance.shape;
   if (shape === 'resource') return RESOURCE_NODE_SIZE;
-  if (shape === 'lake') return { w: node.obstructionWidth ?? 350, h: node.obstructionHeight ?? 245 };
+  if (shape === 'golem') return GOLEM_NODE_SIZE;
+  if (shape === 'lake') return gridSize({ w: node.obstructionWidth ?? 350, h: node.obstructionHeight ?? 245 });
   if (shape === 'hole') {
     const radius = node.obstructionRadius;
-    return radius ? { w: radius * 2, h: radius * 2 } : { w: 210, h: 190 };
+    return gridSize(radius ? { w: radius * 2, h: radius * 2 } : { w: 210, h: 190 });
   }
   if (shape === 'camp') {
     if (node.obstructionMaxRadius) {
       const diameter = node.obstructionMaxRadius * 2 * Math.sqrt(Math.max(.1, (node.campStrength ?? 25) / 100));
-      return { w: diameter, h: diameter };
+      return gridSize({ w: diameter, h: diameter });
     }
     const scale = .55 + Math.max(10, node.campStrength ?? 25) / 100;
-    return { w: 260 * scale, h: 220 * scale };
+    return gridSize({ w: 260 * scale, h: 220 * scale });
   }
   if (shape === 'joint') return { w: JOINT_SIZE, h: JOINT_SIZE };
   if (shape === 'compact') return node.kind === 'powerSplitter' ? { w: POWER_SPLITTER_SIZE, h: POWER_SPLITTER_SIZE } : { w: COMPACT_NODE_SIZE, h: COMPACT_NODE_SIZE };
@@ -42,9 +55,9 @@ export function getNodeSize(node: MachineNode): NodeSize {
   const definition = NODE_DEFINITIONS[node.kind];
   const rows = Math.max(definition.input.length, definition.output.length, 1);
   const size = { w: STANDARD_NODE_WIDTH, h: 171 + rows * 30 };
-  return shape === 'research'
+  return gridSize(shape === 'research'
     ? { w: size.w * RESEARCH_CENTER_SCALE, h: size.h * RESEARCH_CENTER_SCALE }
-    : size;
+    : size);
 }
 
 function rotate(point: Point, turns: number): Point {
@@ -80,7 +93,7 @@ export function getPortAnchor(node: MachineNode, direction: 'input' | 'output', 
     const side = node.roadFacing ?? (direction === 'input' ? 'west' : 'east');
     return side === 'north' ? { x: 0, y: -size.h / 2 } : side === 'south' ? { x: 0, y: size.h / 2 } : { x: side === 'west' ? -size.w / 2 : size.w / 2, y: 0 };
   }
-  if (node.kind === 'big-hole' || node.kind === 'monster-camp') return { x: 0, y: 0 };
+  if (node.kind === 'big-hole' || node.kind === 'monster-camp' || node.kind === 'resourceGolem') return { x: 0, y: 0 };
   if (node.kind === 'joint') return { x: 0, y: 0 };
   if (node.kind === 'powerSplitter') {
     if (direction === 'input') return rotate({ x: -size.w / 2, y: 0 }, Math.round(node.rotation / 90));
@@ -106,7 +119,7 @@ export function getPortAnchor(node: MachineNode, direction: 'input' | 'output', 
   const outputOffset = direction === 'output' ? Math.min(maximumOutputOffset, Math.max(0, node.outputRowOffset ?? 0)) : 0;
   const mirror = production && node.connectorsMirrored ? -1 : 1;
   const anchor = { x: (direction === 'input' ? -size.w / 2 : size.w / 2) * mirror, y: top + (slot + outputOffset) * row };
-  return NODE_DEFINITIONS[node.kind].category === 'Logistics' ? rotate(anchor, Math.round(node.rotation / 90)) : anchor;
+  return NODE_DEFINITIONS[node.kind].category === 'Logistics' && !isCartKind(node.kind) ? rotate(anchor, Math.round(node.rotation / 90)) : anchor;
 }
 
 export function organicPolygon(node: MachineNode, points: number, scale = 1): number[] {

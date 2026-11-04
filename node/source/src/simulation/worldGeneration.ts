@@ -1,7 +1,10 @@
+import { createCornerNodes } from './endgameRuntime';
 import type { ItemId, MachineNode, SectorState } from '../domain/types';
-import { canPlaceNode, nodesOverlap } from './collisions';
+import { modNode, modRule } from '../mods/modRules';
+import { canPlaceNode, nodesOverlap, NODE_CLEARANCE } from './collisions';
+import { overlapsMaximumCampRadius } from '../domain/obstructionGeometry';
 import { getGoblinSettlementForMapTier, GOBLIN_CHECK_INTERVAL_MS } from '../content/goblinSettlements';
-import { GOLEM_AP_COST, GOLEM_MINERALS, GOLEM_NAMES } from '../content/resourceGolems';
+import { GOLEM_MINERALS, GOLEM_NAMES } from '../content/resourceGolems';
 import { getLizardSettlementForMapTier } from '../content/lizardSettlements';
 
 const HOME = 5;
@@ -9,9 +12,6 @@ export const MAP_GRID_SIZE = 11;
 export const MAX_MAP_NODE_VALUE = 10;
 const BASE_RESOURCE_CAPACITY = 1000;
 const RESOURCE_CAPACITY_PER_TIER = 500;
-const MYTHRIL_MIN_TIER = 4;
-const MYTHRIL_TIER_FOUR_CHANCE = .6;
-const MYTHRIL_GUARANTEED_TIER = 9;
 const MAP_OBSTRUCTION_MARGIN = 72;
 const MAX_GENERATED_BIG_HOLE_COUNT = 5;
 const BIG_HOLE_RADIUS = 38;
@@ -36,14 +36,11 @@ function rng(seed: number) {
 export const sectorId = (x: number, y: number) => `${x},${y}`;
 export const sectorDistance = (x: number, y: number) => Math.abs(x - HOME) + Math.abs(y - HOME);
 /** Original-game maximum reserve rule: 1,000 base plus 500 for each map tier. */
-export const getMapNodeMaximumResourceCapacity = (x: number, y: number) => BASE_RESOURCE_CAPACITY + Math.min(MAX_MAP_NODE_VALUE, sectorDistance(x, y)) * RESOURCE_CAPACITY_PER_TIER;
+export const getMapNodeMaximumResourceCapacity = (x: number, y: number) => Math.round((BASE_RESOURCE_CAPACITY + Math.min(MAX_MAP_NODE_VALUE, sectorDistance(x, y)) * RESOURCE_CAPACITY_PER_TIER) * modRule('mapResourceMultiplier'));
 /** Tier-ten map nodes are exhausted/unavailable at generation time, as in the original game. */
 export const getMapNodeResourceCapacity = (x: number, y: number) => sectorDistance(x, y) >= MAX_MAP_NODE_VALUE ? 0 : getMapNodeMaximumResourceCapacity(x, y);
-export const getMythrilSpawnChance = (tier: number) => {
-  if (tier < MYTHRIL_MIN_TIER || tier >= MAX_MAP_NODE_VALUE) return 0;
-  const progression = Math.min(1, (tier - MYTHRIL_MIN_TIER) / (MYTHRIL_GUARANTEED_TIER - MYTHRIL_MIN_TIER));
-  return MYTHRIL_TIER_FOUR_CHANCE + (1 - MYTHRIL_TIER_FOUR_CHANCE) * progression;
-};
+/** Mythril comes from Dwarven Tribute and the approved Golem reserve only. */
+export const getMythrilSpawnChance = (_tier: number) => 0;
 
 export const BASE_WORLD_SIZE = { width: 3600, height: 2400 } as const;
 
@@ -93,15 +90,18 @@ export function getSectorWorldSize(sector: Pick<SectorState, 'x' | 'y'>, complet
   const distanceMultiplier = 1 + Math.min(10, sectorDistance(sector.x, sector.y)) / 10;
   const researchMultiplier = completedResearch.includes('areaExpansion2') ? 1.5 : completedResearch.includes('areaExpansion1') ? 1.25 : 1;
   return {
-    width: Math.round(BASE_WORLD_SIZE.width * distanceMultiplier * researchMultiplier),
-    height: Math.round(BASE_WORLD_SIZE.height * distanceMultiplier * researchMultiplier),
+    width: Math.round(BASE_WORLD_SIZE.width * distanceMultiplier * researchMultiplier * modRule('mapWidthMultiplier')),
+    height: Math.round(BASE_WORLD_SIZE.height * distanceMultiplier * researchMultiplier * modRule('mapHeightMultiplier')),
   };
 }
 
 function node(kind: MachineNode['kind'], name: string, x: number, y: number, extra: Partial<MachineNode> = {}): MachineNode {
+  const patch = modNode(kind);
   return {
     id: id(kind), kind, name, x, y, rotation: 0, input: {}, output: {}, progressMs: 0, cycleMs: 1000,
     constructedAt: 0, constructionMs: 0, ...extra,
+    ...(patch?.name ? { name: patch.name, modBaseName: name } : {}),
+    ...(patch?.resourceCapacity !== undefined && extra.resourceCapacity !== undefined ? { resourceCapacity: patch.resourceCapacity, resourceRemaining: patch.resourceCapacity } : {}),
   };
 }
 
@@ -232,7 +232,7 @@ function mapGenerationRule(x: number, y: number, seed: number) {
   const reservedGolems = new Set(golemSectors.slice(0, GOLEM_MINERALS.length).map(cell => sectorId(cell.x, cell.y)));
   const lizards = new Set<string>();
   const lizardRandom = rng(seed ^ 0x112a4d);
-  // Five of each Lizard subtype: 2/3 across tiers 4/5, 6/7, and 8/9.
+  // Five of each Dwarven subtype: 2/3 across tiers 4/5, 6/7, and 8/9.
   for (let tier = 4; tier <= 9; tier++) {
     const eligible = cells.filter(cell => sectorDistance(cell.x, cell.y) === tier && !camps.has(sectorId(cell.x, cell.y)) && !reservedGolems.has(sectorId(cell.x, cell.y)));
     shuffled(eligible, lizardRandom).slice(0, tier % 2 === 0 ? 2 : 3).forEach(cell => lizards.add(sectorId(cell.x, cell.y)));
@@ -254,13 +254,13 @@ export function generateSector(x: number, y: number, seed: number, now = Date.no
   if (distance > 0 && distance < MAX_MAP_NODE_VALUE && (rule.camp || rule.lizard)) {
     const settlement = rule.lizard ? getLizardSettlementForMapTier(distance) : getGoblinSettlementForMapTier(distance);
     worldNodes.push(node('monster-camp', settlement.name, field.width / 2, field.height / 2, {
-      ...(rule.lizard ? { lizardSettlement: settlement.settlement } : { goblinSettlement: settlement.settlement }), attackRequirement: settlement.attackRequirement,
+      ...(rule.lizard ? { lizardSettlement: settlement.settlement, settlementMapTier: distance, tributeItem: 'mythril', tributeSelectionVersion: 1 } : { goblinSettlement: settlement.settlement }), attackRequirement: settlement.attackRequirement,
       campStrength: 25, cycleMs: GOBLIN_CHECK_INTERVAL_MS, obstructionMaxRadius: settlement.maxRadius,
     }));
   }
-  if(x===5&&y===7)worldNodes.push(node('sortingStation','Derelict Sorting Station',300,350));
-  if(rule.golemMineral)worldNodes.push(node('resourceGolem',`${GOLEM_NAMES[rule.golemMineral]} Golem`,field.width / 2,field.height / 2,{health:GOLEM_AP_COST,golemMineral:rule.golemMineral,golemOutputs:[rule.golemMineral]}));
-  const nodes: MachineNode[] = [...worldNodes];
+  if(x===5&&y===7)worldNodes.push(node('sortingStation','Sorting Ruin',300,350));
+  if(rule.golemMineral)worldNodes.push(node('resourceGolem',`${GOLEM_NAMES[rule.golemMineral]} Golem`,field.width / 2,field.height / 2,{health:rule.golemMineral==='mythril'?20000:10000,golemCostVersion:1,golemMineral:rule.golemMineral,golemOutputs:[rule.golemMineral]}));
+  const nodes: MachineNode[] = [...worldNodes, ...createCornerNodes(x,y,seed,field)];
   const resources: ItemId[] = distance >= MAX_MAP_NODE_VALUE ? [] : ['iron', 'copper', 'stone', 'wood'];
   if (random() < getMythrilSpawnChance(distance)) resources.push('mythril');
   resources.forEach((item, index) => {
@@ -274,14 +274,15 @@ export function generateSector(x: number, y: number, seed: number, now = Date.no
       nodes.push(node(kind, name, px, py, { resourceItem: item, resourceRemaining: capacity, resourceCapacity: capacity, cycleMs: 5000, capacity: 5 }));
     }
   });
-  nodes.forEach((entry, index) => { entry.id = `${x}-${y}-${entry.kind}-${index}`; });
+  nodes.forEach((entry, index) => { if(entry.kind==='cornerChallenge'||entry.kind==='cornerTribute')return; entry.id = `${x}-${y}-${entry.kind}-${index}`; });
   const placed: MachineNode[] = [];
   nodes.forEach((entry) => {
     if (entry.kind === 'big-hole' || entry.kind === 'lake') { placed.push(entry); return; }
     const campStrength = entry.kind === 'monster-camp' ? entry.campStrength : undefined;
     if (entry.kind === 'monster-camp') entry.campStrength = 100;
     const isResource = (candidate: MachineNode) => Boolean(candidate.resourceItem && candidate.kind !== 'lake');
-    const valid = () => canPlaceNode(entry, placed, field) && (!isResource(entry) || !placed.some((other) => isResource(other) && nodesOverlap(entry, other, 160)));
+    const valid = () => canPlaceNode(entry, placed, field) && (!isResource(entry) || !placed.some((other) =>
+      (isResource(other) && nodesOverlap(entry, other, 160)) || (other.kind === 'monster-camp' && overlapsMaximumCampRadius(entry, other, NODE_CLEARANCE))));
     for (let attempt = 0; attempt < 1000 && !valid(); attempt++) {
       entry.x = 220 + random() * (field.width - 440);
       entry.y = 190 + random() * (field.height - 380);
@@ -292,7 +293,9 @@ export function generateSector(x: number, y: number, seed: number, now = Date.no
         if (valid()) break search;
       }
     }
+    const located = valid();
     if (campStrength !== undefined) entry.campStrength = campStrength;
+    if (!located) throw new Error(`No clear position for ${entry.name} on map ${x},${y}`);
     placed.push(entry);
   });
   return { id: sectorId(x, y), x, y, name: 'Unnamed Node', label: '◆', unlocked: false, nodes, connections: [], camera: { x: -450, y: -260, zoom: .65 }, lastSimulatedAt: now };

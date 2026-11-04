@@ -1,7 +1,11 @@
+import { validateMod } from '../mods/modValidation';
 import { NODE_DEFINITIONS } from '../content/nodes';
 import { RECIPES } from '../content/recipes';
 import { getResearchProject, getResearchCosts, RESEARCH_PROJECTS } from '../content/research';
 import { migrateRetiredNodes } from '../content/retiredNodes';
+import { DEFERRED_POWER_RESEARCH } from '../content/deferredPower';
+import { LATE_RESEARCH } from '../content/progression';
+import { RESEARCH_CENTER_BASE_CYCLE_MS } from '../content/researchTiming';
 import { normalizeControlGroups } from '../domain/controlGroups';
 import type { GameState, ItemId, MachineNode, NodeKind, SectorState } from '../domain/types';
 
@@ -70,7 +74,7 @@ function migrateFactory(factoryValue: unknown, sectorKey: string, unlocked: bool
       id, kind, name: typeof oldNode.title === 'string' ? oldNode.title : NODE_DEFINITIONS[kind].name,
       x: number(position.x, 800), y: number(position.y, 600), rotation: number(oldNode.portRotation) * 90,
       recipeId, input: legacyBag(processor.inputs), output: {}, progressMs: number(processor.progress ?? extractor.progress),
-      cycleMs: kind === 'researchCenter' ? 5000 : recipeId ? RECIPES[recipeId]?.cycleMs ?? 1000 : 1000, constructedAt: 0, constructionMs: constructed.complete === false ? 1500 : 0,
+      cycleMs: kind === 'researchCenter' ? RESEARCH_CENTER_BASE_CYCLE_MS : recipeId ? RECIPES[recipeId]?.cycleMs ?? 1000 : 1000, constructedAt: 0, constructionMs: constructed.complete === false ? 1500 : 0,
     };
     if (oldNode.kind === 'automataCoreAssembler' && node.name === 'Automata Core Assembler') node.name = 'Assembler';
     if (outputItem) node.output[outputItem] = Math.max(0, Math.floor(number(extractor.stored ?? processor.stored)));
@@ -83,7 +87,7 @@ function migrateFactory(factoryValue: unknown, sectorKey: string, unlocked: bool
       node.capacity = 5;
     }
     if (kind === 'charcoalGenerator') { const value = record(record(runtime.charcoalGenerators)[id]); node.input.charcoal = number(value.charcoal); node.output.power = number(value.power); node.capacity = 100; }
-    if (kind === 'researchCenter') { const value = record(record(runtime.researchCenters)[id]); for (const core of Array.isArray(value.coreItems) ? value.coreItems : []) { const item = legacyItem(core); if (item) node.input[item] = (node.input[item] ?? 0) + 1; } node.progressMs = number(value.progress); node.cycleMs = 5000; }
+    if (kind === 'researchCenter') { const value = record(record(runtime.researchCenters)[id]); for (const core of Array.isArray(value.coreItems) ? value.coreItems : []) { const item = legacyItem(core); if (item) node.input[item] = (node.input[item] ?? 0) + 1; } node.progressMs = number(value.progress); node.cycleMs = RESEARCH_CENTER_BASE_CYCLE_MS; }
     if (kind === 'miningDrill') { const value = record(record(runtime.miningDrills)[id]); node.miningTarget = legacyItem(value.selectedType) as MachineNode['miningTarget']; node.miningProgress = number(value.iterations); node.progressMs = number(value.progress); }
     if (kind === 'woodenChest') { const value = record(record(runtime.woodenChests)[id]); const item = legacyItem(value.itemType); if (item) node.output[item] = number(value.stored); node.capacity = 20; node.transferProgressMs = number(value.outputTransferElapsed); }
     if (kind === 'storage') node.input = legacyBag(record(record(runtime.storages)[id]).items);
@@ -121,12 +125,12 @@ function migrateOriginalPayload(payloadValue: unknown): GameState | null {
     if (typeof progress.mapLabel === 'string') sectors[key].label = progress.mapLabel.slice(0, 3).toUpperCase();
   }
   const runtime = record(payload.runtime); const oldResearch = record(runtime.research);
-  const unlocked = RESEARCH_PROJECTS.filter((project) => oldResearch[`${project.id}Unlocked`] === true).map((project) => project.id);
+  const unlocked = [...RESEARCH_PROJECTS.map(project => project.id), ...DEFERRED_POWER_RESEARCH].filter(id => oldResearch[`${id}Unlocked`] === true);
   const activeProject = typeof oldResearch.activeProject === 'string' ? oldResearch.activeProject : undefined;
   const repeatableCompletions = { mapNode: Math.max(0, Math.floor(number(oldResearch.mapNodeResearchCompletions))) };
   const contributed: Partial<Record<ItemId, number>> = {};
   if (activeProject) {
-    const project = getResearchProject(activeProject);
+    const project = getResearchProject(activeProject) ?? (DEFERRED_POWER_RESEARCH.has(activeProject) ? LATE_RESEARCH.find(project => project.id === activeProject) : undefined);
     let progress = Math.max(0, Math.floor(number(record(oldResearch.progress)[activeProject])));
     if (project) for (const [item, cost] of Object.entries(getResearchCosts(project, repeatableCompletions.mapNode, unlocked))) { const amount = Math.min(progress, cost ?? 0); contributed[item as ItemId] = amount; progress -= amount; }
   }
@@ -134,7 +138,7 @@ function migrateOriginalPayload(payloadValue: unknown): GameState | null {
     version: 1, seed: 1, activeSectorId, sectors,
     research: { unlocked: Array.from(new Set(['extractor', 'woodenChest', ...unlocked])), selected: activeProject, contributed, completed: unlocked.filter((id) => id !== 'mapNode'), mapPoints: Math.max(0, Math.floor(number(runtime.mapPoints))), repeatableCompletions },
     paused: payload.isRunning === false, playTimeMs: Math.max(0, number(payload.gameElapsedMs)), achievements: Array.isArray(payload.achievements) ? payload.achievements.filter((value): value is string => typeof value === 'string') : [],
-    preferences: { autosaveMinutes: 5, confirmDelete: !record(payload.promptPreferences).skipNodeDestructionConfirmation, particles: true, showGrid: true, sound: false },
+    preferences: { autosaveMinutes: 5, confirmDelete: !record(payload.promptPreferences).skipNodeDestructionConfirmation, particles: true, showGrid: true, snapToGrid: false, sound: false, skipMultiConnectionTooltip: Boolean(record(payload.promptPreferences).skipMultiConnectionTooltip) },
     tutorialStep: 0, events: [], revision: 1, produced: legacyBag(runtime.produced), extracted: legacyBag(runtime.extractorProduced), hasCreatedConnection: sectors[activeSectorId].connections.length > 0,
     discoveryTimes: Object.fromEntries(entries(payload.unlockTimes).filter(([kind, time]) => kind in NODE_DEFINITIONS && Number.isFinite(Number(time))).map(([kind, time]) => [kind, Math.max(0, Number(time))])),
   };
@@ -142,10 +146,14 @@ function migrateOriginalPayload(payloadValue: unknown): GameState | null {
 
 function normalizeGameState(value: GameState) {
   const state = structuredClone(value);
+  if (state.mod) {
+    try { state.mod = validateMod(state.mod); } catch { return null; }
+  }
   migrateRetiredNodes(state);
   for (const sector of Object.values(state.sectors)) if (sector.controlGroups !== undefined) sector.controlGroups = normalizeControlGroups(sector.controlGroups, sector.nodes);
   state.produced ??= {}; state.extracted ??= {}; state.hasCreatedConnection ??= false; state.research.completed ??= []; state.research.repeatableCompletions ??= {};
-  state.preferences ??= { autosaveMinutes: 5, confirmDelete: true, particles: true, showGrid: true, sound: false };
+  state.preferences ??= { autosaveMinutes: 5, confirmDelete: true, particles: true, showGrid: true, snapToGrid: false, sound: false };
+  state.preferences.snapToGrid ??= false;
   state.events ??= []; state.achievements ??= [];
   return state;
 }
@@ -154,6 +162,7 @@ export function normalizeLegacy(payload: unknown): GameState | null {
   if (!payload || typeof payload !== 'object') return null;
   const value = payload as Partial<GameState>;
   if (value.version === 1 && value.sectors && value.activeSectorId && value.research) return normalizeGameState(value as GameState);
-  return migrateOriginalPayload(payload);
+  const migrated = migrateOriginalPayload(payload);
+  return migrated ? normalizeGameState(migrated) : null;
 }
 

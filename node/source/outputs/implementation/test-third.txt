@@ -1,0 +1,46 @@
+
+> factorinode-reconstruction@0.1.0 test
+> vitest run --reporter=dot
+
+
+ RUN  v5.0.5 D:/node factory v2
+
+················································································································································································x···············································································································································································································································································································································································································································································-
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/simulation/engine.progression.test.ts > six-tier gameplay progression > consumes a whole six-core set and waits without draining partial sets
+AssertionError: expected [] to deeply equal [ 1, 1, 1, 1, 1, 1 ]
+
+- Expected
++ Received
+
+- [
+-   1,
+-   1,
+-   1,
+-   1,
+-   1,
+-   1,
+- ]
++ []
+
+ ❯ src/simulation/engine.progression.test.ts:105:98
+    103|   const e=setup([machine('researchCenter','lab')],['precisionControl']…
+    104|   const lab=e.getSector().nodes[0];lab.input=Object.fromEntries(CORE_I…
+    105|   lab.input['command-core']=1;tick(e,5);expect(Object.values(e.getStat…
+       |                                                                                                  ^
+    106|  });
+    107|  it('completes saved contributions above a newly reduced price without…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 69 passed | 1 skipped (71)
+      Tests  1 failed | 639 passed | 1 skipped (641)
+   Start at  23:39:02
+   Duration  3.43s (transform 42%, import 38%, tests 18%, worker 2%)
+
+    Isolate  71 workers spawned · ~373ms startup each (spawn + environment, per file)
+             at least ~778ms faster with isolate: false — reuses workers across files instead of one per file
+
