@@ -43,6 +43,13 @@
       "title": "Current NODE factory game reconstruction",
       "commit": "a571e87d48f0e824dc1042f44d03b9a91c31dda6",
       "url": "https://github.com/bookskaboo/bookskaboo.github.io/commit/a571e87d48f0e824dc1042f44d03b9a91c31dda6"
+    },
+    {
+      "id": "eca1c2d",
+      "date": "2026-11-04",
+      "title": "Seeded corner endgame, recycling and continued-play research",
+      "commit": "eca1c2d99d74c906999f4b95c90575155d4c4f29",
+      "url": "https://github.com/bookskaboo/bookskaboo.github.io/commit/eca1c2d99d74c906999f4b95c90575155d4c4f29"
     }
   ],
   "sources": [
@@ -3385,7 +3392,7 @@
       "dateBasis": "chat",
       "kind": "changed",
       "state": "implemented",
-      "delivery": "local",
+      "delivery": "published",
       "title": "Remove playable Power pending a useful integration design",
       "summary": "Apply Q10: remove Generators, Power Splitters, Power Lines, Basic Electricity and Power Distribution from playable catalogs. Tree Planters restore Forest without Power and Hydrochemistry no longer depends on Basic Electricity.",
       "topics": [
@@ -3418,7 +3425,8 @@
         "Keep Tree Planter upgrades usable without Power Distribution; remove stale Power shortcut access and the Build Power category. Update production feedback, current reference documentation and progression reports.",
         "Power integration is deliberately deferred with no scheduled return: the user questioned whether its added complexity fits the game direction. The next planning question is Q11 on shared Inventory."
       ],
-      "validation": "558 tests passed, one existing skip; TypeScript and production build passed; npm run progression passed and refreshed live analysis. Regression checks cover retired placement/research access, Hydro prerequisites, Tree Planter output/feedback and full buffers, save/template/original-import migration, retained research payments, in-flight fuel/energy and idempotence. Planning links verified; changelog generation and checks passed. No browser playtest, balance run or publication performed. Build retains its large-chunk warning."
+      "validation": "558 tests passed, one existing skip; TypeScript and production build passed; npm run progression passed and refreshed live analysis. Regression checks cover retired placement/research access, Hydro prerequisites, Tree Planter output/feedback and full buffers, save/template/original-import migration, retained research payments, in-flight fuel/energy and idempotence. Planning links verified; changelog generation and checks passed. No browser playtest, balance run or publication performed. Build retains its large-chunk warning.",
+      "publishedBy": "eca1c2d"
     },
     {
       "id": "NODE-0139",
@@ -4050,7 +4058,7 @@
       "dateBasis": "chat",
       "kind": "fixed",
       "state": "implemented",
-      "delivery": "local",
+      "delivery": "published",
       "title": "Use a five-second Research Center baseline before further balance calculations",
       "summary": "Apply Q26A: new and loaded Research Centers consume synchronized Core sets every five seconds before upgrades. Existing six research ranks reduce the interval to 4.5, 4, 3.5, 3, 2.5 and 2 seconds. Record Q26 starter-camp support for a modest Shiny factory with expansion room.",
       "topics": [
@@ -4085,7 +4093,8 @@
         "Live analysis separates successful-set counts from lab seconds, uses five seconds per base set and sizes fully supplied base-speed factories at that rate. Older analytical experiments are marked requiring revalidation; historical playtest elapsed times are not rescaled.",
         "Existing pacing goals require renewed assessment; no claim that the revised three-hour or full-endgame targets are met. Q27 next reviews Medium Bot upkeep capacity before choosing Dwarven AP/reward values."
       ],
-      "validation": "568 tests passed, one existing skip; TypeScript and production build passed; npm run progression passed and regenerated live reports. Timing regressions cover new placement, aliases, saved nodes/templates, state replacement, exact pre/post-consumption boundaries and all six speed ranks; synchronized payment tests and analytical time conversion checks pass. Changelog generation and checks passed. No browser/balance run or publication; older models remain unrebased and build retains its chunk-size warning."
+      "validation": "568 tests passed, one existing skip; TypeScript and production build passed; npm run progression passed and regenerated live reports. Timing regressions cover new placement, aliases, saved nodes/templates, state replacement, exact pre/post-consumption boundaries and all six speed ranks; synchronized payment tests and analytical time conversion checks pass. Changelog generation and checks passed. No browser/balance run or publication; older models remain unrebased and build retains its chunk-size warning.",
+      "publishedBy": "eca1c2d"
     },
     {
       "id": "NODE-0160",
@@ -8797,7 +8806,7 @@
       "dateBasis": "chat",
       "kind": "changed",
       "state": "implemented",
-      "delivery": "local",
+      "delivery": "published",
       "title": "Implement Dwarven Mythril-only supply, retained upkeep credit and lossless shortage recovery",
       "summary": "Apply settled six-step Dwarven AP/output/capacity rules, unlock processing on first Dwarven Mythril production, remove unsupported fresh sources, and raise only the Mythril Golem to 20,000 AP.",
       "topics": [
@@ -8825,7 +8834,8 @@
       "validation": "Full Vitest suite: 647 passed, one pre-existing skip; TypeScript/Vite production build passed with existing large-chunk warning. npm run progression passed and refreshed analytical reports. Isolated localhost:4177 browser fixture verified blocked Filter notice, zero deliveries, then one Controller/one Fines and cleared notice after connecting remainder. No normal-play balance run or publication. See docs/master-plan/19-implementation-status.md for migration and QA limits.",
       "supersedes": [
         "NODE-0130"
-      ]
+      ],
+      "publishedBy": "eca1c2d"
     },
     {
       "id": "NODE-0296",
@@ -8833,7 +8843,7 @@
       "dateBasis": "chat",
       "kind": "changed",
       "state": "implemented",
-      "delivery": "local",
+      "delivery": "published",
       "title": "Implement clean Shiny, guaranteed Complex waste, efficient recipes and ordered mixed-stream filtering",
       "summary": "Add both independent 50/100-of-each-Core alternative sets, four direct recovery recipes and Circuit B/C labels; share product/waste ports and dispatch saved batches in order through selected/remainder Filters.",
       "topics": [
@@ -8866,7 +8876,8 @@
       "supersedes": [
         "NODE-0012",
         "NODE-0076"
-      ]
+      ],
+      "publishedBy": "eca1c2d"
     },
     {
       "id": "NODE-0297",
@@ -8874,7 +8885,7 @@
       "dateBasis": "chat",
       "kind": "changed",
       "state": "implemented",
-      "delivery": "local",
+      "delivery": "published",
       "title": "Implement paid industrial forestry, tier-scaled vehicle shipments and the first-Final-Core global gate",
       "summary": "Fund 100 growth per 10 Wood/1 Iron Plate/1 Stone; add 600-Core tenfold forestry research and grouped growth. Ordinary vehicles ship 1/2/4 locally and across Roads, with global access unavailable before first Final Core production.",
       "topics": [
@@ -8904,7 +8915,8 @@
         "Final Core production has a persistent milestone hook but the Final Core route is not implemented, so fresh-game global access remains unavailable. Legacy completed access is retained; access prices are not redesigned.",
         "Recycler plus its resource-deadlock failsafe, full corner/Final-Core/victory route, post-victory research and unresolved later vehicle ranks remain pending. No new user-facing decision was inferred."
       ],
-      "validation": "Full Vitest suite: 647 passed, one pre-existing skip; TypeScript/Vite production build passed with existing large-chunk warning. npm run progression passed and refreshed analytical reports. Isolated localhost:4177 browser fixture verified blocked Filter notice, zero deliveries, then one Controller/one Fines and cleared notice after connecting remainder. No normal-play balance run or publication. See docs/master-plan/19-implementation-status.md for migration and QA limits."
+      "validation": "Full Vitest suite: 647 passed, one pre-existing skip; TypeScript/Vite production build passed with existing large-chunk warning. npm run progression passed and refreshed analytical reports. Isolated localhost:4177 browser fixture verified blocked Filter notice, zero deliveries, then one Controller/one Fines and cleared notice after connecting remainder. No normal-play balance run or publication. See docs/master-plan/19-implementation-status.md for migration and QA limits.",
+      "publishedBy": "eca1c2d"
     },
     {
       "id": "NODE-0298",
@@ -9367,7 +9379,7 @@
       "dateBasis": "chat",
       "kind": "changed",
       "state": "implemented",
-      "delivery": "local",
+      "delivery": "published",
       "title": "Rename the tier-six Core to Complex Core throughout the game and documentation",
       "summary": "Use Complex Core and Complex tier labels in recipes, research, current documentation, planning notes and textual reports while preserving the serialized command-core item and recipe IDs.",
       "topics": [
@@ -9397,7 +9409,8 @@
         "Normalize wording in historical prose without changing record IDs, dates, measured totals or publication metadata. Immutable source/publication snapshots, binary archives and original screenshots retain their captured contents. Generated history is refreshed from its canonical records.",
         "The reviewed content generator preserves Complex Core on regeneration; history searches accept the former full Core name."
       ],
-      "validation": "648 Vitest tests passed, one pre-existing skip. TypeScript/Vite production build and npm run progression passed; existing bundle-size warning remains. Save-load regression verifies renamed labels alongside unchanged saved inventory, recipe IDs, template IDs, research contributions and Command Bot text. Documentation audit found only intentional legacy-name regression inputs and archived snapshots. No browser balance run or publication."
+      "validation": "648 Vitest tests passed, one pre-existing skip. TypeScript/Vite production build and npm run progression passed; existing bundle-size warning remains. Save-load regression verifies renamed labels alongside unchanged saved inventory, recipe IDs, template IDs, research contributions and Command Bot text. Documentation audit found only intentional legacy-name regression inputs and archived snapshots. No browser balance run or publication.",
+      "publishedBy": "eca1c2d"
     },
     {
       "id": "NODE-0312",
@@ -9405,7 +9418,7 @@
       "dateBasis": "chat",
       "kind": "added",
       "state": "implemented",
-      "delivery": "local",
+      "delivery": "published",
       "title": "Create, apply and share data mods through guided factory editors",
       "summary": "Options now opens a Mods modal with category editors, base-game templates, local drafts, a change review, save-aware activation and copy/paste NODEMOD1 share codes.",
       "topics": [
@@ -9444,7 +9457,8 @@
         "Application and removal reject incompatible attached cables atomically. Reserve settings affect newly generated nodes/maps; build and travel settings affect future construction/shipments. Removing a package restores rules without rewinding stock, research or generated maps. Existing milestone triggers, scripted effects/caps and routing roles remain.",
         "A separate local paused factory verified Options to Mods, a named Wood-to-Timber draft, review/application, generated-code copy/reimport, damaged-code feedback, base-template recovery after development updates and Production-editor controls. No existing browser factory or save was used for these edits."
       ],
-      "validation": "19 focused mod tests pass. Full Vitest run: 699 passed, one pre-existing skip; TypeScript/Vite production build passes with the existing large-bundle warning. Browser interaction checked at http://127.0.0.1:4180/ in the default 1280 by 720 viewport. No full balance run, cross-device browser certification or publication."
+      "validation": "19 focused mod tests pass. Full Vitest run: 699 passed, one pre-existing skip; TypeScript/Vite production build passes with the existing large-bundle warning. Browser interaction checked at http://127.0.0.1:4180/ in the default 1280 by 720 viewport. No full balance run, cross-device browser certification or publication.",
+      "publishedBy": "eca1c2d"
     },
     {
       "date": "2026-11-04",
@@ -9481,7 +9495,7 @@
     {
       "date": "2026-11-04",
       "dateBasis": "chat",
-      "delivery": "local",
+      "delivery": "published",
       "sources": [
         "chat-current",
         "local-code"
@@ -9515,12 +9529,13 @@
         "Alpha uses cumulative 10,000 AP; Foundry atomically consumes 3,000 of each adopted part immediately; Grove needs two million growth. Preserve surplus, full-box behavior, ten-component outputs and adopted input capacities.",
         "Reclamation uses explicitly authorized temporary recycling-value credits pending measurements. Add saved victory acknowledgement, glowing modal, dry humor and continued play; copy remains open to later editorial review."
       ],
-      "validation": "Full Vitest report: 699 passed, one pre-existing skip; TypeScript/Vite build and progression analysis passed. Focused engine tests cover conserved stock and selected endgame behavior. Browser fixture navigation timed out and error-page recovery was blocked by URL policy, so no successful visual/interactive browser QA is claimed. No normal-play endgame pacing or sustained waste-flow balance run; no live publication confirmed."
+      "validation": "Full Vitest report: 699 passed, one pre-existing skip; TypeScript/Vite build and progression analysis passed. Focused engine tests cover conserved stock and selected endgame behavior. Browser fixture navigation timed out and error-page recovery was blocked by URL policy, so no successful visual/interactive browser QA is claimed. No normal-play endgame pacing or sustained waste-flow balance run; no live publication confirmed.",
+      "publishedBy": "eca1c2d"
     },
     {
       "date": "2026-11-04",
       "dateBasis": "chat",
-      "delivery": "local",
+      "delivery": "published",
       "sources": [
         "chat-current",
         "local-code"
@@ -9553,12 +9568,13 @@
         "The internal shortage relaxation counts paid research, stock, pending/committed output and accessible supply without exposing a player budget. Proven Iron/Copper/Stone deficits open a shortest route and administratively clear the target Golem, preserving quote/progress and Map Points. Wood is excluded.",
         "Persist one notice at a time and distinct rescue history for Destructive Testing. The proof is conservative rather than exhaustive; custom mods, Dev Sources and tutorials disable it. Broader normal-play coverage and achievement attainability require further validation."
       ],
-      "validation": "Full Vitest report: 699 passed, one pre-existing skip; TypeScript/Vite build and progression analysis passed. Focused engine tests cover conserved stock and selected endgame behavior. Browser fixture navigation timed out and error-page recovery was blocked by URL policy, so no successful visual/interactive browser QA is claimed. No normal-play endgame pacing or sustained waste-flow balance run; no live publication confirmed."
+      "validation": "Full Vitest report: 699 passed, one pre-existing skip; TypeScript/Vite build and progression analysis passed. Focused engine tests cover conserved stock and selected endgame behavior. Browser fixture navigation timed out and error-page recovery was blocked by URL policy, so no successful visual/interactive browser QA is claimed. No normal-play endgame pacing or sustained waste-flow balance run; no live publication confirmed.",
+      "publishedBy": "eca1c2d"
     },
     {
       "date": "2026-11-04",
       "dateBasis": "chat",
-      "delivery": "local",
+      "delivery": "published",
       "sources": [
         "chat-current",
         "local-code"
@@ -9594,7 +9610,39 @@
         "Use exact compounded Landfill totals with paid-fill credit, a one-Stone floor and rank-45 cap. Preserve unused fill stock when clearing. Legacy missing provenance uses a documented best-effort remaining-bill base.",
         "Allow eligible same-map resource relocation including cleared reserves; move camp/Tribute groups atomically and Lakes independently of Intakes. Retain IDs, stock, timers, wiring, undo and placement validation. Living Golems/corner challenges remain fixed; protected world features cannot be copied through templates."
       ],
-      "validation": "Full Vitest report: 699 passed, one pre-existing skip; TypeScript/Vite build and progression analysis passed. Focused engine tests cover conserved stock and selected endgame behavior. Browser fixture navigation timed out and error-page recovery was blocked by URL policy, so no successful visual/interactive browser QA is claimed. No normal-play endgame pacing or sustained waste-flow balance run; no live publication confirmed."
+      "validation": "Full Vitest report: 699 passed, one pre-existing skip; TypeScript/Vite build and progression analysis passed. Focused engine tests cover conserved stock and selected endgame behavior. Browser fixture navigation timed out and error-page recovery was blocked by URL policy, so no successful visual/interactive browser QA is claimed. No normal-play endgame pacing or sustained waste-flow balance run; no live publication confirmed.",
+      "publishedBy": "eca1c2d"
+    },
+    {
+      "id": "NODE-0317",
+      "date": "2026-11-04",
+      "dateBasis": "chat",
+      "kind": "changed",
+      "state": "implemented",
+      "delivery": "published",
+      "publishedBy": "eca1c2d",
+      "title": "Publish the verified endgame build to main and GitHub Pages",
+      "summary": "Fast-forward main to the reviewed implementation and confirm the live NODE page serves its expected build and seven matching assets.",
+      "topics": [
+        "Publication",
+        "Documentation",
+        "Progression"
+      ],
+      "sources": [
+        "chat-current",
+        "local-code"
+      ],
+      "evidence": [
+        "outputs/implementation/endgame-publication-receipt.json",
+        "outputs/implementation/published-endgame-index.html",
+        "docs/master-plan/20-endgame-implementation.md"
+      ],
+      "details": [
+        "User explicitly authorizes merging the implementation branch into main and updating the live game. Only the NODE directory changes; other games are preserved.",
+        "The live page references index-nuknd2F3.js and index-CODTac_4.css. All seven directly referenced assets match the tested release by SHA-256.",
+        "Associate the confirmed release with the known delivered Power/research-cadence, production, Complex naming, mod, corner, Recycler/recovery and continued-play research changes. Older unmapped publication histories remain intact."
+      ],
+      "validation": "Git push confirmed main advanced from 1e2e410 to eca1c2d99d74c906999f4b95c90575155d4c4f29. HTTPS returned 200 and the expected new asset references; seven live asset hashes matched the release files. Prior validation remains 699 passing tests, one skip, build/progression/changelog checks. This is static deployment verification, not interactive browser QA or normal-play balance evidence."
     }
   ]
 }

@@ -941,6 +941,8 @@
     }
   ],
   "releaseBase": "/node/",
-  "livePublicationVerified": false,
-  "browserVisualQaVerified": false
+  "livePublicationVerified": true,
+  "browserVisualQaVerified": false,
+  "publishedContentCommit": "eca1c2d99d74c906999f4b95c90575155d4c4f29",
+  "publicationReceipt": "outputs/implementation/endgame-publication-receipt.json"
 }

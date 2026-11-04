@@ -58,3 +58,7 @@ Normal-play six-Core throughput, first-ending pacing, Reclamation calibration, h
 ## Git delivery location
 
 The existing deployment repository is `bookskaboo/bookskaboo.github.io`; the prepared branch is `codex/node-endgame-2026-11-04`. It contains the static NODE build under `node/` and the matching source under `node/source/`, preserving the other games. The working Git checkout is `outputs/endgame-git-worktree`; the older deployment checkout and `D:\Node Game` working copy are preserved. [Delivery manifest](../../outputs/implementation/endgame-delivery-manifest.json) records source hashes and verification. A branch push does not update the live main-branch site.
+
+## Confirmed live publication — November 4, 2026
+
+Following the user’s explicit merge/publish request, main advanced to `eca1c2d99d74c906999f4b95c90575155d4c4f29`. [The live NODE game](https://bookskaboo.github.io/node/) now references the new JavaScript/CSS bundle; all seven directly referenced assets match the tested release by SHA-256. [Publication receipt](../../outputs/implementation/endgame-publication-receipt.json) records the check. Other games were preserved. Browser-interactive QA and normal-play balance limits above remain unchanged.

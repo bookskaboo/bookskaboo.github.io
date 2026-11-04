@@ -2,7 +2,7 @@
 
 A searchable record of completed changes, design decisions, and relevant review findings. Stable NODE IDs can be cited in chats and searched in the repository.
 
-**316 records · 2026-10-12–2026-11-04 · America/Los_Angeles**
+**317 records · 2026-10-12–2026-11-04 · America/Los_Angeles**
 
 [Open searchable history](<docs/changelog/index.html>) · [How to review and maintain it](<docs/changelog/README.md>) · [Sources and coverage gaps](<docs/changelog/sources.md>)
 
@@ -12,14 +12,6 @@ These changes follow the latest confirmed game publication, e177479. Creating th
 
 | ID | Change | Topics |
 | --- | --- | --- |
-| [NODE-0316](<docs/changelog/2026-11.md#node-0316>) | Apply adopted endgame research prices, freight growth and state-preserving relocation | Research, Logistics, Resources, Interface, Persistence, World |
-| [NODE-0315](<docs/changelog/2026-11.md#node-0315>) | Add fixed-composition recycling with a hidden Golem recovery failsafe | Production, Resources, Research, Encounters, Persistence, Interface |
-| [NODE-0314](<docs/changelog/2026-11.md#node-0314>) | Connect four seeded corner challenges to Final Core assembly and victory | Production, Encounters, Progression, Research, Interface, Persistence |
-| [NODE-0312](<docs/changelog/2026-11.md#node-0312>) | Create, apply and share data mods through guided factory editors | Mods, Interface, Production, Logistics, Connections, Recipes, Research, World generation, Persistence, Documentation |
-| [NODE-0311](<docs/changelog/2026-11.md#node-0311>) | Rename the tier-six Core to Complex Core throughout the game and documentation | Naming, Recipes, Research, Documentation, Persistence |
-| [NODE-0297](<docs/changelog/2026-11.md#node-0297>) | Implement paid industrial forestry, tier-scaled vehicle shipments and the first-Final-Core global gate | Production, Research, Logistics, Roads, Progression, Persistence, Testing |
-| [NODE-0296](<docs/changelog/2026-11.md#node-0296>) | Implement clean Shiny, guaranteed Complex waste, efficient recipes and ordered mixed-stream filtering | Recipes, Waste, Research, Logistics, Interface, Persistence |
-| [NODE-0295](<docs/changelog/2026-11.md#node-0295>) | Implement Dwarven Mythril-only supply, retained upkeep credit and lossless shortage recovery | Combat, Resources, Mythril, Progression, Persistence, Research |
 | [NODE-0242](<docs/changelog/2026-11.md#node-0242>) | Show recipes on one line with equal larger bubbles and flavor-only hover | Recipes, Interface, Accessibility |
 | [NODE-0241](<docs/changelog/2026-11.md#node-0241>) | Apply normal Cart shortcut rules and hide the empty third bar at startup | Shortcuts, Progression, Persistence, Interface, Testing |
 | [NODE-0234](<docs/changelog/2026-11.md#node-0234>) | Condense Options and shortcut node selection | Interface, Controls, Shortcuts, Documentation |
@@ -31,9 +23,7 @@ These changes follow the latest confirmed game publication, e177479. Creating th
 | [NODE-0211](<docs/changelog/2026-11.md#node-0211>) | Check Research Center Cores immediately on project selection | Research, Simulation, Testing, Persistence |
 | [NODE-0207](<docs/changelog/2026-11.md#node-0207>) | Pulse Research Centers between successful Core payments | Research, Interface, Animation, Simulation |
 | [NODE-0195](<docs/changelog/2026-11.md#node-0195>) | Keep history date-filter checks valid as new entries are added | Documentation, Tooling |
-| [NODE-0159](<docs/changelog/2026-11.md#node-0159>) | Use a five-second Research Center baseline before further balance calculations | Research, Progression, Planning, Persistence, Testing |
 | [NODE-0140](<docs/changelog/2026-11.md#node-0140>) | Add a universal Dev Source that automatically supplies connected inputs | Controls, Interface, Production, Research, Connections, Playtesting |
-| [NODE-0138](<docs/changelog/2026-11.md#node-0138>) | Remove playable Power pending a useful integration design | Power, Research, Persistence, Planning |
 | [NODE-0131](<docs/changelog/2026-11.md#node-0131>) | Enlarge mineral Golems into colored humanoid placeholders | Combat, World map, Interface |
 | [NODE-0129](<docs/changelog/2026-11.md#node-0129>) | Unlock Tribute at minimum camp size and allow material changes with stock sacrifice | Combat, Logistics, Interface, Controls |
 | [NODE-0128](<docs/changelog/2026-11.md#node-0128>) | Camp checks consume only the bots needed and display their AP requirement | Combat, Controls, Interface |
@@ -72,7 +62,7 @@ These changes follow the latest confirmed game publication, e177479. Creating th
 
 ## Dated history
 
-- [2026-11](<docs/changelog/2026-11.md>) — 298 records
+- [2026-11](<docs/changelog/2026-11.md>) — 299 records
 - [2026-10](<docs/changelog/2026-10.md>) — 18 records
 
 “Known by” dates are implementation/publication bounds, not exact change dates. “Backfilled” dates mark records with uncertain original dates. Supersession links explain reversals. Original-game records do not certify current rebuild behavior.
@@ -83,6 +73,7 @@ These changes follow the latest confirmed game publication, e177479. Creating th
 - 2026-11-01 — [341b2f0: Responsive UI and production node redesign](https://github.com/bookskaboo/bookskaboo.github.io/commit/341b2f0d2e87f7aeb38e5f75c768079b4d9b9d61)
 - 2026-11-01 — [6ebdb7f: Tutorials, logistics controls, and player interface](https://github.com/bookskaboo/bookskaboo.github.io/commit/6ebdb7f109f6df3de447a4bfb5fa06d26eb29a96)
 - 2026-11-01 — [a571e87: Current NODE factory game reconstruction](https://github.com/bookskaboo/bookskaboo.github.io/commit/a571e87d48f0e824dc1042f44d03b9a91c31dda6)
+- 2026-11-04 — [eca1c2d: Seeded corner endgame, recycling and continued-play research](https://github.com/bookskaboo/bookskaboo.github.io/commit/eca1c2d99d74c906999f4b95c90575155d4c4f29)
 
 A record marked “Published by” was known in that snapshot; it may have appeared earlier. Local publication history was inspected without a network fetch.
 
@@ -102,7 +93,7 @@ A record marked “Published by” was known in that snapshot; it may have appea
 - [Deployment](<docs/changelog/index.html?topic=Deployment>) (1)
 - [Design](<docs/changelog/index.html?topic=Design>) (7)
 - [Discovery](<docs/changelog/index.html?topic=Discovery>) (5)
-- [Documentation](<docs/changelog/index.html?topic=Documentation>) (176)
+- [Documentation](<docs/changelog/index.html?topic=Documentation>) (177)
 - [Encounters](<docs/changelog/index.html?topic=Encounters>) (38)
 - [Exploration](<docs/changelog/index.html?topic=Exploration>) (1)
 - [Interface](<docs/changelog/index.html?topic=Interface>) (86)
@@ -119,7 +110,8 @@ A record marked “Published by” was known in that snapshot; it may have appea
 - [Playtesting](<docs/changelog/index.html?topic=Playtesting>) (9)
 - [Power](<docs/changelog/index.html?topic=Power>) (2)
 - [Production](<docs/changelog/index.html?topic=Production>) (27)
-- [Progression](<docs/changelog/index.html?topic=Progression>) (118)
+- [Progression](<docs/changelog/index.html?topic=Progression>) (119)
+- [Publication](<docs/changelog/index.html?topic=Publication>) (1)
 - [Recipes](<docs/changelog/index.html?topic=Recipes>) (77)
 - [Research](<docs/changelog/index.html?topic=Research>) (115)
 - [Resources](<docs/changelog/index.html?topic=Resources>) (75)
