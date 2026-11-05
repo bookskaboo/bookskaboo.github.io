@@ -1,5 +1,7 @@
 # Intermediate recycling and the waste-output benchmark
 
+**November 5 balance revision (NODE-0320):** Reclamation uses the user's five-minute base-producer target: ten standard Controller Fines, or 66 Flux / 36 Crust / 22 Slag from their respective alternative-recipe producers. Mixed credits add proportionally. This replaces the temporary recycling-value quota and old shared-material-parity requirement below; recycling rules and the historical benchmark discussion remain intact. These rates are analytically sized and engine-tested, not measured average-factory waste. See [current implementation](20-endgame-implementation.md).
+
 ## Recorded direction (Q93, November 3, 2026)
 
 The user provisionally favors local recycling value as the waste-credit reference, but defers final reclamation calibration until representative factory waste output is known. The corner should absorb roughly an average factory's ongoing waste, creating a choice between collecting existing byproducts and building lines deliberately for waste. Average factory composition and desired component cadence are undefined; there is no measured average waste rate.

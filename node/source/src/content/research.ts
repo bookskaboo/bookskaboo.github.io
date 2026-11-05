@@ -4,6 +4,7 @@ import { LATE_RESEARCH } from './progression';
 import { EFFICIENCY_FLAVOR, RESEARCH_FLAVOR } from './flavor';
 import { CONNECTOR_MIRRORING_RESEARCH } from './productionNodes';
 import { DEFERRED_POWER_RESEARCH } from './deferredPower';
+import { RETIRED_RESEARCH } from './retiredResearch';
 import { modResearch } from '../mods/modRules';
 
 const simple = (amount: number): Partial<Record<ItemId, number>> => ({ 'simple-core': amount });
@@ -38,7 +39,7 @@ const MACHINE_EFFICIENCY_RESEARCH: ResearchProject[] = [
 /** Complete research catalog and player-facing copy from the source game. */
 export const RESEARCH_PROJECTS: ResearchProject[] = [
   ...ENDGAME_RESEARCH,
-  ...LATE_RESEARCH.filter(project => !DEFERRED_POWER_RESEARCH.has(project.id) && !MACHINE_EFFICIENCY_RESEARCH.some(upgrade => upgrade.id === project.id)).map(project => ({
+  ...LATE_RESEARCH.filter(project => !DEFERRED_POWER_RESEARCH.has(project.id) && !RETIRED_RESEARCH.has(project.id) && !MACHINE_EFFICIENCY_RESEARCH.some(upgrade => upgrade.id === project.id)).map(project => ({
     ...project,
     prerequisites: project.prerequisites?.filter(id => !DEFERRED_POWER_RESEARCH.has(id)),
     ...(project.id === 'treePlanter1' ? {
@@ -113,9 +114,6 @@ export function isResearchAvailable(project: ResearchProject, completedResearch:
 }
 
 // General low-wait balance. The separate one-hour speedrun cost multiplier is not live.
-const theory=RESEARCH_PROJECTS.find(p=>p.id==='endgameTheory')!;
-theory.description='Study the four corner challenges and the distributed supply needed for a Final Core.';
-theory.unlock='Final production briefing: obtain all four repeatable corner components. The first component reveals this world’s paired Core Half recipes; combine both halves into a Final Core and submit one through victory research.';
 const mythrilDiscovery = RESEARCH_PROJECTS.find(project => project.id === 'mithrilTools')!;
 mythrilDiscovery.description = 'Produce the first Mythril Tribute at a Dwarven settlement to discover its production recipes.';
 mythrilDiscovery.unlock = 'Unlocks Mythril Gear and Mythril Wire in the Refiner, Mythril Plate in the Smelter, and the Separator.';

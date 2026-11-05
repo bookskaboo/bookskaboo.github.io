@@ -1,3 +1,4 @@
+import { campStatus } from '../simulation/campStatus';
 import { ALPHA_AP, GROVE_GROWTH, FOUNDRY_INPUTS } from '../content/endgame';
 import { vehiclePayload } from '../content/cartUpgrades';
 import { itemColorCss, FILTERABLE_ITEMS, ITEM_NAMES } from '../content/items';
@@ -9,8 +10,7 @@ import type { GameState, ItemId, MachineNode } from '../domain/types';
 import type { GameEngine } from '../simulation/engine';
 import { NodeIcon } from './NodeIcon';
 import { WASTE_ITEMS } from '../content/progression';
-import { getGoblinAttackRequirement, getMonsterSettlementDefinition } from '../content/goblinSettlements';
-import { attackPower } from '../simulation/progression';
+import { getMonsterSettlementDefinition } from '../content/goblinSettlements';
 import { getTributeItems, isCampFullySuppressed, tributeAmount, tributeMaterial, tributeCapacity, type TributeItem } from '../simulation/goblinTribute';
 import { golemApCost } from '../content/resourceGolems';
 import { isResearchCycleActive, researchCoreStorage } from '../simulation/researchStatus';
@@ -41,7 +41,7 @@ export function NodeInspector({ node, game, engine, onClose, onConfigureRecipe, 
   const researchCosts = research ? getResearchCostsForState(research, game.research) : undefined;
   const constructing = Date.now() - node.constructedAt < node.constructionMs;
   const coreStorage = configuration === 'research' ? researchCoreStorage(node, game.research) : [];
-  const progress = configuration === 'research' && !isResearchCycleActive(node, game.research) ? 0 : progressPercent(node);
+  const progress = node.kind === 'monster-camp' ? campStatus(node).fraction * 100 : configuration === 'research' && !isResearchCycleActive(node, game.research) ? 0 : progressPercent(node);
   const roadMaterial = engine.getRoadTransportStatus(node.id);
   const sector = game.sectors[game.activeSectorId];
   const production = productionExplanation(node, game, sector);
@@ -75,7 +75,7 @@ export function NodeInspector({ node, game, engine, onClose, onConfigureRecipe, 
       {node.kind === 'big-hole' && <div className="resource-readout"><span>STONE REQUIRED</span><b>{Math.floor(node.resourceRemaining ?? 0).toLocaleString()}</b><small>remaining</small></div>}
       {node.kind === 'goblinTribute' && <div className="resource-readout"><span>TRIBUTE STORED</span><b>{Object.values(node.output).reduce((sum, count) => sum + (count ?? 0), 0)} / {tributeCamp ? tributeCapacity(tributeCamp) : node.capacity ?? 100}</b><small>{tributeCamp?.lizardSettlement ? 'Stock and wiring survive missed suppression checks' : 'Lost entirely if suppression fails'}</small></div>}
       {tributeCamp && <><label className="field-label">TRIBUTE MATERIAL<select value={tributeMaterial(tributeCamp)} onChange={event => engine.setGoblinTributeItem(node.id, event.target.value as TributeItem)}>{getTributeItems(game, tributeCamp).map(item => <option key={item} value={item}>{ITEM_NAMES[item]}</option>)}</select></label><p className="field-help">{tributeAmount(tributeCamp)} materials every 5 seconds, delivered directly from the tribute node without an Extractor. {isCampFullySuppressed(tributeCamp) ? tributeNode ? 'Tribute active. Keep meeting every AP check to retain it.' : 'Suppressed. Clear room nearby; tribute placement retries at the next successful AP check.' : 'Shrink the settlement to 10% to activate tribute.'} {tributeCamp.lizardSettlement ? 'Missed checks pause new Mythril; stock, wiring and insufficient bots are preserved. Payment retries as soon as enough AP arrives.' : 'A failed check removes the tribute node, its stored output and its cables. Changing material discards other stored tribute.'}</p></>}
-      {node.kind === 'monster-camp' && <><div className="resource-readout"><span>ATTACK POWER SUPPLIED</span><b>{attackPower(node) + (node.suppressionCredit ?? 0)} / {getGoblinAttackRequirement(node)} AP</b><small>required every 60 seconds{node.lizardSettlement ? ` · ${node.suppressionCredit ?? 0} AP credit retained` : ''}</small></div><p className="field-help">Next check in {Math.ceil((60000 - node.progressMs % 60000) / 1000)}s. Each successful check consumes only the bots needed; surplus bots remain. {node.lizardSettlement ? 'Overpaid AP carries forward. Failed checks preserve bots and credit.' : 'Failed checks consume insufficient bots.'} Meet the requirement to shrink the settlement; otherwise it grows. Suggested research: {getMonsterSettlementDefinition(node).research}.</p></>}
+      {node.kind === 'monster-camp' && <><div className="resource-readout"><span>ATTACK POWER SUPPLIED</span><b>{campStatus(node).suppliedAp} / {campStatus(node).requiredAp} AP</b><small>required every 60 seconds{node.lizardSettlement ? ` · ${node.suppressionCredit ?? 0} AP credit retained` : ''}</small></div><p className="field-help">Next check in {campStatus(node).secondsRemaining}s. {node.campLastCheck ? `Last check ${node.campLastCheck.passed ? 'passed' : 'failed'} (${node.campLastCheck.suppliedAp} / ${node.campLastCheck.requiredAp} AP).` : 'No check completed yet.'} Each successful check consumes only the bots needed; surplus bots remain. {node.lizardSettlement ? 'Overpaid AP carries forward. Failed checks preserve bots and credit.' : 'Failed checks consume insufficient bots.'} Meet the requirement to shrink the settlement; otherwise it grows. Suggested research: {getMonsterSettlementDefinition(node).research}.</p></>}
       {configuration === 'research' ? <section className="research-core-storage" aria-label="Core storage"><span className="field-label">CORE STORAGE</span><div className="research-core-grid">{coreStorage.map(({ item, amount, capacity }) => <div key={item}><span style={{ color: itemColorCss(item) }}>{ITEM_NAMES[item]}</span><b>{amount}/{capacity}</b><small>stored</small></div>)}</div></section> : <><Buffer title="Input buffer" values={node.input} /><Buffer title="Output buffer" values={Object.fromEntries(Object.entries(node.output).filter(([i])=>!WASTE_ITEMS.includes(i as ItemId)))} /></>}
       {(recipe?.chanceOutputs?.length||Object.keys(node.output).some(i=>WASTE_ITEMS.includes(i as ItemId)))?<Buffer title="Waste stock · shared output" values={Object.fromEntries(Object.entries(node.output).filter(([i])=>WASTE_ITEMS.includes(i as ItemId)))} />:null}
       {recipe?.chanceOutputs?.map(o=><p className="field-help" key={o.item}>{o.amount} {ITEM_NAMES[o.item]} · {o.probability*100}% independent chance per batch</p>)}

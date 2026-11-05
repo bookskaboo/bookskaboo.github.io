@@ -3494,5 +3494,43 @@
     "releasePublished": true,
     "publishedContentCommit": "eca1c2d99d74c906999f4b95c90575155d4c4f29",
     "publicationReceipt": "outputs/implementation/endgame-publication-receipt.json"
+  },
+  "balanceRevision": {
+    "date": "2026-11-05",
+    "record": "NODE-0321",
+    "status": "explicit quotas implemented locally; Alpha/Foundry/Grove supersede five-minute sizing; Reclamation retains it",
+    "document": "docs/master-plan/20-endgame-implementation.md",
+    "producerTargetMs": null,
+    "baseRates": true,
+    "industrialForestryIncluded": false,
+    "alphaAp": 50,
+    "foundryInputs": {
+      "ceramic-electrode": 50,
+      "sealed-frame": 25,
+      "mythril-gear": 100
+    },
+    "groveGrowth": 500,
+    "reclamationSingleTypeQuotas": {
+      "metallic-fines": 10,
+      "spent-flux": 66,
+      "glassy-crust": 36,
+      "slag": 22
+    },
+    "firstDeliveryLatencyAdditional": true,
+    "normalPlayPacingVerified": false,
+    "published": false,
+    "reclamationProducerTargetMs": 300000,
+    "endgameTheoryRetired": true,
+    "victoryRequiresExplicitSelection": true,
+    "victoryCosts": {
+      "simple-core": 1,
+      "basic-core": 1,
+      "automata-core": 1,
+      "hydro-core": 1,
+      "shiny-core": 1,
+      "command-core": 1,
+      "final-core": 1
+    },
+    "fixedRequiredResearchCoreItems": 97
   }
 }

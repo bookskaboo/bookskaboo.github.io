@@ -1,0 +1,118 @@
+CURRENT REVISION — NODE-0321, November 5, 2026
+Alpha: 50 AP (17 Medium Bots supply 51, with surplus retained).
+Foundry: 50 Circuit B, 25 Sealed Frames, 100 Mythril Gears.
+Grove: 500 growth. Reclamation values are unchanged.
+Base producer work: Alpha first payment 425 seconds; Foundry inputs 500/450/300
+seconds; Grove 500 seconds. These explicit quotas supersede the earlier five-minute
+values below for those corners. Upgrades and parallel suppliers finish sooner.
+Endgame Theory is retired. Victory is a manually selected Research Center project
+consuming one each of all seven Core types; Final Core production alone never wins.
+
+REQUIRED RESEARCH CORE COUNT
+Fixed required research: 30 Simple + 29 Basic + 24 Automata + 9 Hydro + 3 Shiny +
+1 Complex + 1 Final = 97 physical Cores. Optional research is excluded.
+Exploration remains additional and depends on unlocked maps and research order.
+An ideal H route across both outer columns and the middle row reaches all corners
+with 30 new maps. Exploration grants one point; 29 Map Node purchases add 255
+Simple + 210 Basic + 130 Automata if Automata is unlocked by its scheduled phase.
+That example totals 692 research Cores. Delaying Automata until after those map
+purchases lowers the example to 562. Neither is a seed-independent completion
+claim: Lake/Dwarven access, available resources and actual routing can need more
+maps. Basic Cores inside bots are additional: Alpha alone needs 17 if supplied by
+Medium Bots; Dwarven upkeep depends on source tier and operating time.
+
+HISTORICAL INITIAL REVIEW AND FIRST BALANCE PASS
+NODE cost review — November 5, 2026
+
+IMPLEMENTED CORNER TARGET
+The user selects five minutes of one continuously supplied BASE producer per
+required input, without speed upgrades or Industrial Forestry. Foundry uses one
+producer per ingredient. Alpha retains Medium Bots as its reference.
+
+Corner        Before                               Now
+Alpha         10,000 AP                            36 AP / 12 Medium Bots
+Foundry       3,000 each                           30 Circuit B, 16 Sealed Frames,
+                                                   100 Mythril Gears
+Grove         2,000,000 growth                     300 growth
+Reclamation   ~368,446 Fines / ~736,892 Flux /      10 Fines / 66 Flux /
+              ~368,446 Crust / ~1,163,296 Slag      36 Crust / 22 Slag
+
+Five-minute production references:
+- Alpha: 12 Medium Bots x 25 seconds = 300 seconds.
+- Foundry: Circuit B 30 x 10 = 300 seconds; Frames 16 x 18 = 288;
+  Gears 100 x 3 = 300. All three streams can run concurrently.
+- Grove: 300 growth at one/second = 300 seconds. Three paid funding batches
+  cost 30 Wood, three Iron Plates and three Stone. Standard smelting expands
+  that to 33 harvested Wood, six Iron and three Stone, before forestry support.
+- Reclamation: Controller 10 x 30 seconds = 300 seconds. Alternative sources
+  use whole batches: Efficient Hydro Piston 33 x 9 = 297 seconds for 66 Flux;
+  Efficient Mythril Mesh 18 x 16 = 288 for 36 Crust; Efficient Circuit C
+  11 x 27 = 297 for 22 Slag. Other useful/waste outputs must also drain.
+  Mixed waste adds proportional credit and can finish sooner.
+
+Five minutes measures producer work with continuous supply and free output.
+Setup, upstream manufacturing, map travel and cable latency are additional.
+Wired synthetic QA verifies five-minute repeated-component intervals, with a
+few seconds of cold-cable latency. Upgrades and parallel factories accelerate
+completion. This replaces the old shared-material anchor and +/-10% parity;
+the different corners intentionally no longer have equal raw-material bills.
+
+PRESERVATION
+Absolute saved Alpha AP/Grove growth remains earned work and can now yield
+multiple components. Full Tribute pauses with surplus intact. Foundry legacy
+overstock survives the smaller per-ingredient capacities. Reclamation retains
+its saved normalized fraction; only new waste receives revised credits because
+the consumed historical mixture cannot be reconstructed. No user save was
+loaded or edited. The ordinary recipe/research prices remain unchanged.
+
+EARLIER-TIER PROPOSALS — NOT APPLIED
+1. Wire: three Plates -> two, for Iron/Copper/Mythril Wire. Basic Core Iron
+   falls 6 -> 4; Automata Copper 6 -> 4; Hydro Copper 15 -> 10. The production
+   operations remain while recurring extraction/smelting demand decreases.
+2. Optionally lower Cooled Gun's extra Iron Plates 2 -> 1. Together with Wire,
+   Medium Bot costs fall from 34 Iron / 20 Copper / 27 Wood to 30 / 14 / 22.
+   Water stays eight and Stone two, averaged over complete ingredient batches.
+3. A Wire change also needs Efficient Circuit A/Motor Copper Plates 2 -> 1
+   to retain their material advantage. Test Mythril/composite recipes and fixed
+   Recycler returns before adopting. No such adjustments are implemented here.
+4. Reassess Map Node tier transitions after recipe changes: with Hydro access,
+   purchase 29 costs 240 Copper / 120 Iron and purchase 30 costs 496 / 320.
+   The lab time rises only 75 -> 80 seconds; adding Hydro to the synchronized
+   sets creates the material spike. Locked tiers are not charged. Avoid stacking
+   a cheaper map curve onto cheaper recipes without assessing combined demand.
+5. Retain current early unlock prices for now. The playtest reached Automata
+   unlock at 4:53 and Hydraulic Assembly at 15:17; these are not first-item or
+   steady-production timestamps. Wiring/guidance stalls need separate treatment.
+
+RESOURCE PRESSURE
+The easiest Dwarven settlement needs two Medium Bots/minute: 68 Iron, 40 Copper,
+54 harvested Wood, 16 Water and four Stone/minute at standard recipes, before
+replanting support. Its final assembler runs at 83.3% theoretical capacity.
+The Wire/Gun proposal lowers this to 60 Iron / 28 Copper / 44 Wood per minute
+without changing assembly speed or AP. Tier-five settlement upkeep is twice the
+bot demand; inspect the actual settlement tier rather than assuming the easiest.
+
+The 34 completed Map purchases cost 339 Simple, 294 Basic, 214 Automata and
+84 Hydro Cores. Recipe expansion: 5,844 Copper / 3,200 Iron / 4,564 Wood /
+298 Stone / 756 Water. Wire alone reduces the same purchases to 4,996 Copper /
+2,612 Iron / 3,846 Wood. These are calculated bills for the recorded sequence,
+excluding other research, buffers and rework, not minimum victory requirements
+or measured gross extraction. Some exploration was avoidable operator overhead.
+
+Recovery: 20 Motors cost 80 Iron / 120 Copper / 100 Wood to create a 1,000-unit
+drill deposit. Mineral regeneration supplies two/minute, or four after its second
+research, far below sustained bot-factory metal demand. Infinite Golem reserves
+still need extraction and logistics. Recovery does not establish smooth pacing.
+
+EVIDENCE AND LIMITS
+Use outputs/live-ui-playtest-2026-11-04/halt-review-2026-11-05.txt as the corrected
+run conclusion. It stopped at 06:38:18 without Shiny/Complex/Final production.
+Setup, rewiring, exploration, waiting on incorrect feeds and Undo confound elapsed
+time and deposit drawdowns. Final research lacked Automata, not Hydro alone.
+This is neither a six-hour production-only estimate nor a completed endgame test.
+
+before-corner-balance.json preserves the original analytical snapshot. Reproduce
+the current audit with npm run balance:audit. analysis.json separates standard
+and composite recipes, Mythril upkeep, forestry support, byproducts, machine work,
+map prices and recovery. It never runs gameplay or alters saves. Synthetic engine
+tests are feature QA. Normal-play first-victory and sustained pacing remain untested.

@@ -1,4 +1,5 @@
 import { groveProgress } from './groveProgress';
+import { ALPHA_AP, FOUNDRY_INPUTS, GROVE_GROWTH, RECLAMATION_QUOTAS } from '../content/endgame';
 import { modNode } from '../mods/modRules';
 import { getNodeCapabilities, isResourceBehavior } from '../content/nodeCapabilities';
 import { getEffectiveNodeOutputFamilies, NODE_DEFINITIONS } from '../content/nodes';
@@ -26,7 +27,7 @@ export function productionExplanation(node: MachineNode, game: GameState, sector
   const cue = productionVisual(node, game, sector);
   let summary = '';
   if(node.kind==='recycler')summary='Recycle one item every 2s. Mixed recovered solids need filtering; basic resources return nothing.';
-  else if(node.kind==='cornerChallenge')summary=node.cornerType==='foundry'?'Deliver 3,000 Circuit B, 3,000 Sealed Frames and 3,000 Mythril Gears for one immediate component.':node.cornerType==='alpha'?`Cumulative AP: ${(node.cornerProgress??0).toLocaleString()} / 10,000. Full Tribute pauses consumption.`:node.cornerType==='grove'?`Forest Growth: ${groveProgress(node)?.label}. Tree Planters supply growth; it accumulates without a timeout. Every 2,000,000 growth produces one Grove Component immediately, preserving surplus. Collect Tribute when its 10 component spaces are full to resume intake.`:`Reclamation: ${((node.cornerProgress??0)*100).toFixed(3)}%. All four waste types contribute credits.`;
+  else if(node.kind==='cornerChallenge')summary=node.cornerType==='foundry'?`Deliver ${Object.entries(FOUNDRY_INPUTS).map(([item, count]) => `${count} ${ITEM_NAMES[item as ItemId]}`).join(', ')} for one immediate component. All three ingredient streams are required.`:node.cornerType==='alpha'?`Cumulative AP: ${(node.cornerProgress??0).toLocaleString()} / ${ALPHA_AP}. Bots supply AP; surplus carries toward the next Alpha. Full Tribute pauses consumption.`:node.cornerType==='grove'?`Forest Growth: ${groveProgress(node)?.label}. Every ${GROVE_GROWTH} growth produces one Grove Component immediately. Tree Planters supply growth; it accumulates without a timeout and surplus is preserved. Collect Tribute when its 10 component spaces are full to resume intake.`:`Reclamation: ${((node.cornerProgress??0)*100).toFixed(3)}%. One component needs ${Object.entries(RECLAMATION_QUOTAS).map(([item, count]) => `${count} ${ITEM_NAMES[item as ItemId]}`).join(' or ')}. Mixed waste adds proportional progress. Ten Fines are five minutes of standard Controller production; drain its useful output too.`;
   else if (node.disabled) summary = 'Node disabled.';
   else if (Date.now() - node.constructedAt < node.constructionMs) summary = 'Under construction.';
   else if (node.processingPaused && NODE_DEFINITIONS[node.kind].category !== 'Logistics') summary = 'Production paused.';

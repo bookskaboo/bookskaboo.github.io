@@ -7,15 +7,19 @@ export const CORNER_ITEMS: Record<CornerType, ItemId> = { alpha: 'alpha', foundr
 export const CORNER_NAMES: Record<CornerType, string> = { alpha: 'Ancient Dragon', foundry: 'Ancient Foundry', reclamation: 'Ancient Reclamation', grove: 'Elder Grove' };
 export const FINAL_ITEMS = { alpha: 'Alpha', 'foundry-component': 'Foundry Component', 'reclamation-component': 'Reclamation Component', 'grove-component': 'Grove Component', 'core-half-a': 'Core Half A', 'core-half-b': 'Core Half B', 'final-core': 'Final Core' };
 export const SEVEN_CORES: ItemId[] = ['simple-core', 'basic-core', 'automata-core', 'hydro-core', 'shiny-core', 'command-core', 'final-core'];
-export const FOUNDRY_INPUTS: Partial<Record<ItemId, number>> = { 'ceramic-electrode': 3000, 'sealed-frame': 3000, 'mythril-gear': 3000 };
-export const ALPHA_AP = 10000;
-export const GROVE_GROWTH = 2000000;
-/** Temporary Q93 reference, explicitly authorized for implementation on November 4.
- * Fractions of one component per item; replace only after measured waste-flow review. */
-export const RECLAMATION_VALUE: Partial<Record<ItemId, number>> = {
-  'metallic-fines': 1 / 368446.02609727153, 'spent-flux': 1 / 736892.0521945431,
-  'glassy-crust': 1 / 368446.02609727153, slag: 1 / 1163295.8801498124,
+/** Explicit November 5 quotas supersede the earlier five-minute sizing for these corners.
+ * Upgrades/parallel producers shorten the work; setup and delivery latency are separate. */
+export const FOUNDRY_INPUTS: Partial<Record<ItemId, number>> = { 'ceramic-electrode': 50, 'sealed-frame': 25, 'mythril-gear': 100 };
+export const ALPHA_AP = 50; // Seventeen Medium Bots supply 51 AP; surplus carries.
+export const GROVE_GROWTH = 500; // 500 seconds from one base Planter.
+export const RECLAMATION_PRODUCTION_TARGET_MS = 300000;
+/** Whole output batches from Controller, efficient Piston/Mesh/Circuit C respectively.
+ * Standard Controller waste is the Fines baseline; other Fines sources can finish sooner.
+ * Saved normalized Reclamation progress is retained; these credits apply to new intake. */
+export const RECLAMATION_QUOTAS: Partial<Record<ItemId, number>> = {
+  'metallic-fines': 10, 'spent-flux': 66, 'glassy-crust': 36, slag: 22,
 };
+export const RECLAMATION_VALUE = Object.fromEntries(Object.entries(RECLAMATION_QUOTAS).map(([item, count]) => [item, 1 / count!])) as Partial<Record<ItemId, number>>;
 
 function hash(seed: number, salt: number) { let n = (seed ^ salt) >>> 0; n = Math.imul(n ^ n >>> 16, 0x45d9f3b); n = Math.imul(n ^ n >>> 16, 0x45d9f3b); return (n ^ n >>> 16) >>> 0; }
 export function seededCornerOrder(seed: number): CornerType[] {
@@ -40,7 +44,7 @@ const bill = () => Object.fromEntries(SEVEN_CORES.map(i => [i, 1]));
 const project = (id: string, name: string, unlock: string, prerequisites: string[], repeatable = false): ResearchProject => ({ id, name, category: 'Endgame', description: unlock, unlock, costs: bill(), prerequisites, ...(repeatable ? { repeatable: true, costGrowth: 1.5 } : {}) });
 export const ENDGAME_RESEARCH: ResearchProject[] = [
   { id: 'cornerComponents', name: 'Corner Components', category: 'Milestone', description: 'Acquire a component from any corner to reveal this world’s paired assembly recipes.', unlock: 'Unlocks both Core Half recipes and Final Core assembly.', costs: {}, trigger: { id: 'corner-component-obtained', pending: 'Obtain any corner component', complete: 'Corner component acquired' } },
-  { id: 'victory', name: 'A Remarkably Indirect Conclusion', category: 'Endgame', description: 'Submit one Final Core. The factory may continue after its point has been made.', unlock: 'Achieve victory and continue playing in this world.', costs: { 'final-core': 1 }, prerequisites: ['finalCoreProduction'] },
+  { id: 'victory', name: 'A Remarkably Indirect Conclusion', category: 'Endgame', description: 'Select this project at the Research Center and deliver one of every Core, Simple through Final. The factory may continue after its point has been made.', unlock: 'Complete this research to achieve victory and continue playing in this world.', costs: bill(), prerequisites: ['finalCoreProduction'] },
   project('resourceRelocation', 'Resource Relocation', 'Move Forests, deposits and cleared-Golem reserves within their original map, preserving all stock and history.', ['victory']),
   project('lakeRelocation', 'Lake Relocation', 'Move Lakes within their original map. Intakes stay connected and move only when explicitly selected.', ['victory']),
   project('campRelocation', 'Monster Camp Relocation', 'Move ordinary settlements and their linked Tribute boxes together within their map.', ['victory']),

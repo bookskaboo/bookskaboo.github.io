@@ -1,5 +1,7 @@
 # Endgame component cost model
 
+**Current revision — November 5, 2026 (NODE-0321):** explicit user quotas replace five-minute sizing for Alpha (50 AP), Foundry (50 Circuit B / 25 Sealed Frames / 100 Mythril Gears) and Grove (500 growth). Reclamation retains its five-minute credits. Endgame Theory is retired. Victory is a manually selected Research Center project costing one each of all seven Core types; producing a Final Core alone does not win. See [current implementation](20-endgame-implementation.md).
+
 ## Agreed target
 
 Q73, November 3, 2026: one unit of each of the four corner components should have a similar overall base-resource cost. Derive corner recipe amounts and AP requirements together against a shared budget. The Foundry ten-of-each suggestion is not adopted. This unit comparison does not settle the ingredient counts in the final Core recipe.

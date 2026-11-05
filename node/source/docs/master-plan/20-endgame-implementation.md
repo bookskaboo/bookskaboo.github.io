@@ -1,5 +1,7 @@
 # Endgame implementation — November 4, 2026
 
+**Current revision — November 5, 2026 (NODE-0321):** explicit user quotas replace five-minute sizing for Alpha (50 AP), Foundry (50 Circuit B / 25 Sealed Frames / 100 Mythril Gears) and Grove (500 growth). Reclamation retains its five-minute credits. Endgame Theory is retired. Victory is a manually selected Research Center project costing one each of all seven Core types; producing a Final Core alone does not win. See [current implementation](20-endgame-implementation.md).
+
 The Q01–Q144 interview is closed. Q144 defers the six extra QoL candidates until initial endgame playtesting. The user subsequently authorized implementing the agreed work and pushing the local game to Git. This document supersedes earlier statements that these features have no runtime implementation; dated decision logs remain historical evidence.
 
 ## Implemented locally
@@ -7,13 +9,13 @@ The Q01–Q144 interview is closed. Q144 defers the six extra QoL candidates unt
 | Area | Delivered behavior |
 | --- | --- |
 | Four corners | All four challenges occur once in a seeded random corner permutation. Saved corner order and independent assembly partition persist. |
-| Alpha | The dragon accumulates 10,000 AP per Alpha; excess carries forward. Full output preserves progress and stops further consumption/intake. |
-| Ancient Foundry | 3,000 Circuit B + 3,000 Sealed Frames + 3,000 Mythril Gears atomically become one component immediately when output has room. Separate ingredient storage holds one recipe. |
-| Elder Grove | Two million supplied Tree Planter growth per component, immediate threshold rewards, surplus carry and full-output pause. |
-| Reclamation | Any mixture of the four waste types contributes to a shared meter. Full output pauses intake/consumption and preserves progress. Temporary values are described below. |
+| Alpha | 50 AP per Alpha. Seventeen base Medium Bots supply 51 AP in 425 seconds; the extra AP carries forward. Full output preserves progress and stops further consumption/intake. |
+| Ancient Foundry | 50 Circuit B + 25 Sealed Frames + 100 Mythril Gears atomically become one component. One base producer per ingredient needs 500/450/300 seconds. Separate ingredient storage holds the corresponding quantity. |
+| Elder Grove | 500 supplied growth per component: one base Tree Planter in 500 seconds, without Industrial Forestry. Immediate rewards, surplus carry and full-output pause remain. |
+| Reclamation | Any mix contributes proportional credit; ten Fines, 66 Flux, 36 Crust or 22 Slag alone produces one component. Full output preserves stock/progress. See production references below. |
 | Buffers | Ten components per corner Tribute box. Alpha/Reclamation/Grove have 100 incoming units total, independently of accumulated progress. Receiving reservations participate in normal routing capacity checks. |
 | Final Core | First corner-component acquisition unlocks the saved pair of two-input half recipes and the Final Core recipe. Halves take ten seconds; Final Core thirty seconds, with ordinary Assembler efficiency. One of each corner component is required overall. |
-| Victory | One selected Research Center project consumes one Final Core, records victory and displays the glowing dry-humor modal. Continue preserves the world. Notice acknowledgement is saved separately. Draft wording remains available for later editorial review. |
+| Victory | One manually selected Research Center project consumes one each of Simple, Basic, Automata, Hydro, Shiny, Complex and Final Cores, then records victory and displays the glowing dry-humor modal. Continue preserves the world. Notice acknowledgement is saved separately. Draft wording remains available for later editorial review. |
 | Global transport | Access research remains behind first Final Core production, independently of victory; it costs one each of all seven Core types. Separate placement and connection lines use the shared seven-Core 1.5-growth ladder. Inventory destination rules remain intact. |
 | Post-victory research | Resource/Lake/camp relocation, exact compounded Landfill discounts, fourth/fifth Road slots, uncapped Train freight ranks and Forest-inclusive regeneration use the adopted prices, prerequisites and caps. Recurring lines have one updating entry. |
 | Relocation | Resources include cleared-Golem reserves; living Golems and corner challenges stay fixed. Camps and linked Tribute boxes move together atomically; Lakes leave Intakes in place unless explicitly group-selected. Identity, stock, timers and wiring are retained, with undo and placement validation. |
@@ -22,18 +24,18 @@ The Q01–Q144 interview is closed. Q144 defers the six extra QoL candidates unt
 
 Previously delivered Dwarven Mythril, mixed waste/filtering, paid forestry and ordinary Cart/Truck/Train gains are retained. Concurrent local mod-support work is preserved; the extra Q144 research candidates were not implemented as part of this pass.
 
-## Temporary Reclamation balance
+## Five-minute Reclamation balance — November 5
 
-The user explicitly authorized the existing provisional recycling-value reference for a playable implementation, pending factory-waste measurements. One component is a normalized meter of one; each item adds the reciprocal of the following documented single-type equivalent:
+The user replaces the temporary recycling-value quotas with at most five minutes of one fully supplied base producer. One component is a normalized meter of one; each item adds the reciprocal of its single-type quota. Whole output batches round down within the five-minute window:
 
-| Waste | Items per component if supplied alone |
-| --- | ---: |
-| Metallic Fines | 368,446.0261 |
-| Spent Flux | 736,892.0522 |
-| Glassy Crust | 368,446.0261 |
-| Slag | 1,163,295.8801 |
+| Waste | Items alone | Base reference producer | Production seconds |
+| --- | ---: | --- | ---: |
+| Metallic Fines | 10 | Controller, one per 30 seconds | 300 |
+| Spent Flux | 66 | Efficient Hydro Piston, two per nine seconds | 297 |
+| Glassy Crust | 36 | Efficient Mythril Mesh, two per 16 seconds | 288 |
+| Slag | 22 | Efficient Circuit C, two per 27 seconds | 297 |
 
-Fractional progress carries; no fractional physical item is consumed. These are temporary reference values, **not a measured average-factory waste quota**. See [cost model](12-endgame-component-costs.md) and [waste benchmark](13-recycling-and-waste-benchmark.md).
+Fractional progress carries; no fractional physical item is consumed. Drain other outputs to sustain the reference producer. Mixed waste, alternative Fines sources and upgrades can finish sooner. Saved normalized Reclamation progress remains intact and revised credits apply to new waste. Legacy Alpha/Grove absolute credit and Foundry overstock are retained without resetting saves. Rate sizing and wired engine tests are not a measured average-factory or normal-play endgame result. See [cost model](12-endgame-component-costs.md) and [waste benchmark](13-recycling-and-waste-benchmark.md).
 
 ## Validation and limits
 

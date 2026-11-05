@@ -11,7 +11,8 @@ describe('research browsing', () => {
     expect(sections.milestones.map(p => p.id)).toEqual(expect.arrayContaining(['joint', 'kiln', 'smelter']));
     expect(researchSection(project('lakeTools'), state)).toBe('future');
     expect(researchSection(project('assembler'), state)).toBe('future');
-    expect(sections.future.map(p => p.id)).toContain('endgameTheory');
+    expect(sections.future.map(p => p.id)).toContain('victory');
+    expect(Object.values(sections).flat().map(p => p.id)).not.toContain('endgameTheory');
     const ids = Object.values(sections).flat().map(p => p.id);
     expect(ids.length).toBe(RESEARCH_PROJECTS.length);
     expect(new Set(ids).size).toBe(RESEARCH_PROJECTS.length);
@@ -51,7 +52,8 @@ describe('research browsing', () => {
     state.research.selected = 'extractor1';
     const before = structuredClone(state);
     expect(searchResearch(state, 'Assembler')[0].id).toBe('assembler');
-    expect(searchResearch(state, project('endgameTheory').name)[0].id).toBe('endgameTheory');
+    expect(searchResearch(state, project('victory').name)[0].id).toBe('victory');
+    expect(searchResearch(state, 'Endgame Theory')).toEqual([]);
     expect(state).toEqual(before);
   });
 

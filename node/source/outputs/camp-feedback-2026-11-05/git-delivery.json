@@ -1,0 +1,64 @@
+{
+  "date": "2026-11-05",
+  "repository": "bookskaboo/bookskaboo.github.io",
+  "branch": "codex/node-corner-balance-2026-11-05",
+  "parentCommit": "36c19a066760eba26acf01889f9441aaec67d6c6",
+  "sourceDirectory": "node/source",
+  "runtimeDirectory": "node",
+  "changeRecord": "NODE-0322",
+  "tests": {
+    "passed": 725,
+    "skipped": 1
+  },
+  "build": true,
+  "changelogCheck": true,
+  "visualVerification": false,
+  "visualVerificationLimit": "Recorded browser timeout and error-page URL-policy block; no bypass used.",
+  "publicationConfirmed": false,
+  "runtimeHashes": [
+    {
+      "file": "assets/browserAll-CR0Rvcj3.js",
+      "sha256": "c1bb047fe92ac6fb1fca4cd23251251d4f2de52a3298aeac3f26b4251a53b1bd"
+    },
+    {
+      "file": "assets/CanvasPool-O_8k9jVW.js",
+      "sha256": "9cf12a9f53a878bb8f9f46337b799031a6986b5f87dd775ef57b2902ae0dc9cd"
+    },
+    {
+      "file": "assets/canvasUtils-DHiBpmSz.js",
+      "sha256": "8843c3459529c72ffb9a82655454eff39f3458448dd2ae362764f3be4933288f"
+    },
+    {
+      "file": "assets/getTexelRangeRects-5CG6mIA2.js",
+      "sha256": "aea8c02569d6923eec2b28e6973b032101297b4fc9acc85b573146bd074d4974"
+    },
+    {
+      "file": "assets/getTextureBatchBindGroup-CDnZS9mH.js",
+      "sha256": "2b2eff79ef557432774e0acd98963de65847a16840f0b738b07556ea37e21caa"
+    },
+    {
+      "file": "assets/index-CODTac_4.css",
+      "sha256": "6379cec341a6efa7a7b9c729c80f2b645d5b916a7ae63647060f494a0db4db55"
+    },
+    {
+      "file": "assets/index-DPOVVa_r.js",
+      "sha256": "3f71f4012a3d48e9fc13f0b1cb87a3a804326e7fd8f9ce169676d99b002d1658"
+    },
+    {
+      "file": "assets/init-DCqdZiah.js",
+      "sha256": "c22395d17562c1d58674adb1d4fb79188fdfa3b024cf865f5128b10c059463b5"
+    },
+    {
+      "file": "assets/RenderTargetSystem-CHWUCnC7.js",
+      "sha256": "39880073141b4419980d7b5baf22961675d208105c37f87c54a099e6433ad70f"
+    },
+    {
+      "file": "assets/webworkerAll-DC71xJe3.js",
+      "sha256": "3b36f00000550adca03ef156b7f3bc53285eb1ac6fde7a16078b529fd57b950c"
+    },
+    {
+      "file": "index.html",
+      "sha256": "5476c04a17ae8dad127e537c0f4cd440fd502be37ad17f08654cefe327311254"
+    }
+  ]
+}

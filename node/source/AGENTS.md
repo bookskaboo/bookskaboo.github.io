@@ -20,6 +20,8 @@ Dry, understated humor is the canonical voice of NODE: Another Factory Game. Use
 
 Read `docs/browser-playtest.md` before starting or recovering browser playtests. It records the verified browser discovery and recovery procedure. Follow current tool documentation if it differs from a recorded example. Preserve the current game during browser recovery.
 
+Before a new run, read `docs/playtest-build-guide.md` and reuse its verified functional node/connection plans through normal gameplay. Preserve successful supply branches while scaling; keep unverified routing experiments separate and update the guide after later verified improvements.
+
 For balance runs, use normal gameplay without grants, save injection, accelerated simulation, or changes to game rules. Queue ordinary bugs and suggested design changes until the run is over. If a progression blocker needs a fix, make the smallest authorized fix, record it, and continue. Keep resource totals and elapsed game time in exported playtest reports; distinguish setup and interaction overhead from production waiting.
 
 # Change history

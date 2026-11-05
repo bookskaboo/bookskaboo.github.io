@@ -1,5 +1,7 @@
 # Progression and economy design
 
+**Current revision — November 5, 2026 (NODE-0321):** explicit user quotas replace five-minute sizing for Alpha (50 AP), Foundry (50 Circuit B / 25 Sealed Frames / 100 Mythril Gears) and Grove (500 growth). Reclamation retains its five-minute credits. Endgame Theory is retired. Victory is a manually selected Research Center project costing one each of all seven Core types; producing a Final Core alone does not win. See [current implementation](20-endgame-implementation.md).
+
 ## Existing constraints
 
 **Timing prerequisite (Q26A, November 2, 2026), implemented locally:** start Research Center consumption at five seconds per synchronized Core set. Keep the existing six speed-research ranks, yielding 4.5, 4, 3.5, 3, 2.5 and 2 seconds. Use the corrected baseline before further calculations; refreshed live analysis is current, while older experimental timing and throughput reports require revalidation. This changes research timing, not Core recipes or prices. Existing elapsed-time targets remain hypotheses.

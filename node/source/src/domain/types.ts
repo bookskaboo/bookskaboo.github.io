@@ -79,6 +79,8 @@ export interface MachineNode {
   lizardSettlement?: 'camp' | 'village' | 'kingdom';
   /** Tribute stays active at minimum size between successful recurring suppression checks. */
   suppressed?: boolean;
+  /** Last completed AP check, retained for feedback until the next actual check. */
+  campLastCheck?: { passed: boolean; atMs: number; suppliedAp: number; requiredAp: number };
   /** Dwarven successful-check overpayment, retained until the next payment. */
   suppressionCredit?: number;
   suppressionRetry?: boolean;

@@ -4,6 +4,7 @@ import { getNodeCapabilities } from '../content/nodeCapabilities';
 import { getEffectiveNodeInputFamilies, getEffectiveNodeOutputFamilies, NODE_DEFINITIONS } from '../content/nodes';
 import { RECIPES } from '../content/recipes';
 import { WASTE_ITEMS } from '../content/progression';
+import { FOUNDRY_INPUTS } from '../content/endgame';
 import type { ItemId, MachineNode, SectorState } from '../domain/types';
 import { devExtractorMaterial } from '../simulation/devSource';
 
@@ -41,7 +42,7 @@ export function productionPortRow(node: MachineNode, direction: 'input' | 'outpu
     const family=(direction==='input'?getEffectiveNodeInputFamilies(node,[]):getEffectiveNodeOutputFamilies(node))[index];
     const perIngredient=node.kind==='cornerChallenge'&&node.cornerType==='foundry';
     const keys=Object.keys(bag).filter(i=>!perIngredient||i===family) as ItemId[];
-    const amount=keys.reduce((n,i)=>n+(bag[i]??0),0),capacity=node.kind==='recycler'?10:perIngredient?3000:100;
+    const amount=keys.reduce((n,i)=>n+(bag[i]??0),0),capacity=node.kind==='recycler'?10:perIngredient?(FOUNDRY_INPUTS[family as ItemId]??0):100;
     return {name:perIngredient?ITEM_NAMES[family as ItemId]:direction==='input'?'Incoming supplies':'Recovered solids',amount,capacity,color:NODE_DEFINITIONS[node.kind].accent,detail:keys.filter(i=>(bag[i]??0)>0).map(i=>ITEM_NAMES[i]+': '+bag[i]).join(' · ')};
   }
   if (node.kind === 'extractor') {

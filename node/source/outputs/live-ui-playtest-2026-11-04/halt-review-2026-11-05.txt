@@ -1,0 +1,55 @@
+Published normal-UI playtest — halted review
+Date: 2026-11-05
+Site: https://bookskaboo.github.io/node/
+Checkpoint: paused at 06:38:18, Slot 1 "UI playtest — halted routing review".
+Preserved: Slot 2, Medium Bots sustained, 05:09:24; Slot 3, original stalled Medium Bots, 03:16:52.
+Victory: not reached. Mythril Tribute, Shiny/Complex/Final/Command production and waste handling not verified.
+
+Why this attempt halted
+The S2 Iron Plate distribution could not be restored reliably across the whole Medium Bot chain after my scaling/merge change. Gear and Frame inputs starved while a Smelter held Plates. A direct Smelter-to-Gear test made the Gear Refiner and Sealed Frame assembler cycle; that temporary diagnostic was undone. This narrows the failure to the distribution path but does not establish an engine bug. Operator wiring assumptions and missed/ambiguous connections are a material confound. The added Merger/Joint route remains unverified. The Road route itself previously carried an actual bot to S5.
+
+Confirmed observations
+- Earlier checkpoint: seven stored Medium Bots, with consecutive completions verified.
+- After further plate/fuel repairs: an isolated Cart accumulated two fresh Medium Bots with no wiring changes between those completions, within 248 wall seconds. The first bot was already in final assembly at the start; do not treat this as a clean steady-state rate.
+- One bot was traced through isolated inventories on S3, S4 and S5. These are successive observations of delivery, not three independent completed bots.
+- A later isolated S5 receiving Cart accumulated no additional bots during the failed source scaling. Its outlet has been restored to the camp supply Cart.
+- N1.W2 now extracts Copper, smelts it locally, makes Copper Wire and ships it through a direct Cart/Road/Cart pair to N1.W1. Imported wire was visibly stored at the destination. Motor, slurry, Piston and Hydro Core machines resumed cycling. Repeated new Hydro Core delivery was not separately counted.
+- Final Home Research Center: Simple 5, Basic 5, Hydro 5, Automata 0. The actual immediate research bottleneck is Automata supply. My earlier assumption that Hydro alone caused the stall was incorrect.
+
+Core spending added during this continuation
+Map purchase 33 completed at 362:07: 17 each Simple/Basic/Automata/Hydro = 68 Cores.
+Map purchase 34 completed at 365:11: 18 each = 72 Cores.
+Map purchase 35 incomplete: 3/18 sets consumed = 12 Cores so far, with no Map Point awarded.
+Combined: 38 of each of those four types, 152 Cores consumed by these projects.
+Known research-spending lower bounds including prior recorded history and this partial project: Simple 378, Basic 332, Automata 250, Hydro 95. These exclude unknown early costs and non-research consumption. Later core tiers were not reached.
+
+Resource balances at halt — remaining deposits, not gross consumption
+S2: Iron 718, Copper 1148, Stone 1922, Wood 1338, Water unlimited.
+Compared with the 05:09:24 checkpoint: net drawdown 497 Iron, 306 Copper, 24 Stone and 225 Wood. Wood regenerates. These totals include buffering and operator rework; they are not the cost of a fixed number of bots.
+N1.W1: Iron 125, Copper depleted, Stone 1842, Wood 705, Water unlimited.
+N1.W2: Iron 2500, Copper 2257, Stone 2500, Wood 2404. Copper net drawdown 243 since the new supply factory began.
+S5: Iron depleted, Copper depleted, Stone 3500, Wood 467. Its local Small Bot factory has exhausted both metals.
+
+Progression guidance to review after the run
+1. The research modal should identify the missing supplied Core, e.g. "Waiting for Automata Core". Identical 3/18 counters do not reveal which input is absent; I had to inspect the Home Research Center.
+2. Mythril Refining asks for Tribute at a Dwarven settlement. The camp tutorial explains 60-second AP checks and shrink/growth, but the inspected UI did not explain which Dwarven locations qualify, how a settlement/Tribute is obtained, or the measurable completion condition. I pursued the S5 Camp and then explored a Village at S5.E2 without confirming the intended Tribute step.
+3. Show bot AP values and received/required AP for the next check, plus the effect of a successful check. Current observations do not establish whether a camp-to-settlement conversion exists.
+4. Show a concrete production-block reason such as "Waiting for Charcoal" and numerical buffer counts. Gray filled/empty pips and typed cable colors are easy to misread at map-fit zoom.
+5. Road help clearly states direct Carts at both endpoints and 12 items/minute. Connections that cannot transfer should explain that locally. Typed/colored cables alone were repeatedly misleading as delivery proof.
+6. Make depletion and the unlocked Mining Drill discoverable from the current stalled objective. The normal catalog says 20 Motors create a 1000-unit deposit; this option was found but not used.
+
+Measurement and control limitations
+This is not a clean speedrun or completion-cost estimate. Much of the elapsed 6:38:18 was operator setup, rewiring, diagnosis and waiting for incorrectly supplied chains. Undo was used as a normal gameplay control and was observed to restore the running/paused state and resource snapshot; gross extraction and cumulative consumption cannot be reconstructed from remaining deposits alone. Use the CSV observations as snapshots and the research spending file as confirmed project costs.
+The user allowed artificial time acceleration for this test. No global speed control was found or applied; the test remained at 1x. In-game Dev/Mods overviews were inspected only for such a control; no grants, unlocks, exports, rule edits or mod application were used. Browser DevTools and game source were not used.
+Browser controller calls containing longer action batches twice timed out at 30 seconds and reset the controller. ID-based rebinding recovered the same game without reload. Smaller action batches and a longer tool-call timeout worked afterward. This does not prove the cause of earlier connection problems.
+
+Evidence and detailed logs
+run-log.txt
+research-core-spending.csv
+resource-observations.csv
+medium-bots-two-fresh-after-fuel-repair.png
+medium-bot-arrived-s3-verified.png
+medium-bot-arrived-s4-verified.png
+medium-bot-arrived-s5-verified.png
+halted-save-slot-1.png
+halted-research-center.png

@@ -4,6 +4,7 @@ import { RECIPES } from '../content/recipes';
 import { getResearchProject, getResearchCosts, RESEARCH_PROJECTS } from '../content/research';
 import { migrateRetiredNodes } from '../content/retiredNodes';
 import { DEFERRED_POWER_RESEARCH } from '../content/deferredPower';
+import { RETIRED_RESEARCH } from '../content/retiredResearch';
 import { LATE_RESEARCH } from '../content/progression';
 import { RESEARCH_CENTER_BASE_CYCLE_MS } from '../content/researchTiming';
 import { normalizeControlGroups } from '../domain/controlGroups';
@@ -125,12 +126,12 @@ function migrateOriginalPayload(payloadValue: unknown): GameState | null {
     if (typeof progress.mapLabel === 'string') sectors[key].label = progress.mapLabel.slice(0, 3).toUpperCase();
   }
   const runtime = record(payload.runtime); const oldResearch = record(runtime.research);
-  const unlocked = [...RESEARCH_PROJECTS.map(project => project.id), ...DEFERRED_POWER_RESEARCH].filter(id => oldResearch[`${id}Unlocked`] === true);
+  const unlocked = [...RESEARCH_PROJECTS.map(project => project.id), ...DEFERRED_POWER_RESEARCH, ...RETIRED_RESEARCH].filter(id => oldResearch[`${id}Unlocked`] === true);
   const activeProject = typeof oldResearch.activeProject === 'string' ? oldResearch.activeProject : undefined;
   const repeatableCompletions = { mapNode: Math.max(0, Math.floor(number(oldResearch.mapNodeResearchCompletions))) };
   const contributed: Partial<Record<ItemId, number>> = {};
   if (activeProject) {
-    const project = getResearchProject(activeProject) ?? (DEFERRED_POWER_RESEARCH.has(activeProject) ? LATE_RESEARCH.find(project => project.id === activeProject) : undefined);
+    const project = getResearchProject(activeProject) ?? (DEFERRED_POWER_RESEARCH.has(activeProject) || RETIRED_RESEARCH.has(activeProject) ? LATE_RESEARCH.find(project => project.id === activeProject) : undefined);
     let progress = Math.max(0, Math.floor(number(record(oldResearch.progress)[activeProject])));
     if (project) for (const [item, cost] of Object.entries(getResearchCosts(project, repeatableCompletions.mapNode, unlocked))) { const amount = Math.min(progress, cost ?? 0); contributed[item as ItemId] = amount; progress -= amount; }
   }

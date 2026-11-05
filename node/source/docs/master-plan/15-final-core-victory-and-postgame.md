@@ -1,5 +1,7 @@
 # Final Core, victory and continued play
 
+**Current revision — November 5, 2026 (NODE-0321):** explicit user quotas replace five-minute sizing for Alpha (50 AP), Foundry (50 Circuit B / 25 Sealed Frames / 100 Mythril Gears) and Grove (500 growth). Reclamation retains its five-minute credits. Endgame Theory is retired. Victory is a manually selected Research Center project costing one each of all seven Core types; producing a Final Core alone does not win. See [current implementation](20-endgame-implementation.md).
+
 ## Adopted direction
 
 The four seeded corner challenges repeatedly supply distinct components. Players transport them into an assembly network, make Final Cores and deliver those to the Research Center. Final Core production enables the win condition, comparable in purpose to a Factorio rocket launch. Q112 adopts victory upon completion of a one-time Research Center project consuming one Final Core without extra ingredients.
@@ -42,7 +44,7 @@ Resolve seeded recipes per world and use the same data for recipe menus, machine
 
 ## Adopted victory through the Research Center (Q112, November 3, 2026)
 
-A one-time victory research project becomes available after first Final Core production. The player selects it and the Research Center consumes **one Final Core, with no other Core/material cost**, using its ordinary researched consumption cadence. Completing that project records victory and opens the victory modal; delivery or production alone does not complete it. Continue returns to the same world, with repeatable Final Core production and later optimization research. The user selected option 1; no separate player-activated finale is required.
+A one-time victory research project becomes available after first Final Core production. The player explicitly selects A Remarkably Indirect Conclusion and the Research Center consumes **one each of Simple, Basic, Automata, Hydro, Shiny, Complex and Final Cores**, using its ordinary researched consumption cadence. Completing that project records victory and opens the victory modal; delivery or production alone does not complete it. Continue returns to the same world, with repeatable Final Core production and later optimization research. The user selected option 1; no separate player-activated finale is required.
 
 Global Storage/Inventory research remains independently available after first Final Core production; victory or delivery is not an added gate. Do not consume a Core merely upon arrival if no applicable project is selected. The project name and postgame research still need review. The user requests a fancy glowing victory modal with a developer thank-you, modding invitation and affectionate Factorio/Satisfactory homages; [finished draft copy and presentation](16-victory-modal.md) and the [interactive design preview](../../outputs/planning/victory-modal-preview.html) make that request concrete. The preview is not integrated runtime.
 
@@ -53,7 +55,7 @@ Global Storage/Inventory research remains independently available after first Fi
 - Which optimizations use later Final Cores, with what prices, effects and repeatability?
 - How do postgame research and escalating Storage/Inventory allowances interact without bypassing first-Core transport?
 
-The victory bill is one Final Core. Resource Regeneration has adopted Q119 effects and Q120 prices; Efficient Landfill has Q123/Q124 effects and Q125 prices. Both use all seven Core types; other projects’ unresolved prices/effects remain open. Avoid repeated victory interruptions on later Core production/research; save victory completion persistently.
+The current victory bill is one of every Core, Simple through Final (seven total). The former one-Final-Core-only bill was superseded on November 5. Resource Regeneration has adopted Q119 effects and Q120 prices; Efficient Landfill has Q123/Q124 effects and Q125 prices. Both use all seven Core types; other projects’ unresolved prices/effects remain open. Avoid repeated victory interruptions on later Core production/research; save victory completion persistently.
 
 ## Research inventory before choosing another Final-Core upgrade
 
@@ -82,7 +84,7 @@ The five non-Map repeatables currently cost Cores only through Complex. Regenera
 | Earlier alternative recipe set | Circuit A, Motor and Bot Frame; 50 of each Core through Complex | Runtime integration and measured savings/payback |
 | Higher alternative recipe set | Hydro Piston, Mythril Mesh and Circuit C; 100 of each Core through Complex; independent of earlier set; includes adopted higher-waste recovery recipes | Runtime integration and measured savings/payback |
 | Recycler access | Hydro-era research, ten each Simple/Basic/Automata/Hydro; all adopted manufactured-item coverage together | Runtime integration; not itself a postgame Final-Core project |
-| Victory research | One selected, one-time project consuming one Final Core, no extras; continue the same world afterward | Project name and runtime integration; modal review deferred |
+| Victory research | Manually select A Remarkably Indirect Conclusion and research one of every Core, Simple through Final; continue the same world afterward | Implemented locally; modal review deferred |
 | Continued Final-Core optimization | Q113–Q115 adopt three one-time relocation projects, repeatable Deep Hole Stone efficiency, Road channels up to five per face, Train capacity with associated transfer gains, and Forest-inclusive repeatable regeneration | Q114: same-map relocation; local/Road 1/2/4 batches adopted at distinct cadences; target coverage, prices, later rank effects and regeneration integration remain open; see documents 17–18 |
 
 An older **Global Pool Item Capacity** repeatable proposal would enlarge the shared pool per-item limit; **Automatic Inventory Selection** is also an older candidate. Neither is adopted in this interview. Earlier catalog sample prices are proposals, not decisions; automatic destination selection must be reconciled with the agreed filtering role before adoption.

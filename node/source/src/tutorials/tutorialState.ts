@@ -81,7 +81,7 @@ export function createTutorialState(kind: TutorialKind, board = ''): GameState {
   } else if (kind === 'monster-camps') {
     sector.nodes = [];
     add('monster-camp', 'tutorial-camp', 1000, 440, { campStrength: 25, attackRequirement: 3, progressMs: 54000 });
-    add('woodenChest', 'tutorial-bots', 450, 440, { output: { 'suppression-bot': 5 }, capacity: 20 });
+    add('woodenChest', 'tutorial-bots', 450, 440, { output: { 'suppression-bot': 20 }, capacity: 20 });
     state.research.completed = ['suppressionBot'];
   }
   // Basics lends the Cart schematic for its buffer lesson; normal games require Road research.

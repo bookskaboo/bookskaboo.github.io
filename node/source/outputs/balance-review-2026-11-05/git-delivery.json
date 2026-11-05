@@ -1,0 +1,62 @@
+{
+  "date": "2026-11-05",
+  "repository": "bookskaboo/bookskaboo.github.io",
+  "branch": "codex/node-corner-balance-2026-11-05",
+  "sourceDirectory": "node/source",
+  "runtimeDirectory": "node",
+  "publicationConfirmed": false,
+  "validation": {
+    "testsPassed": 715,
+    "testsSkipped": 1,
+    "build": true,
+    "progression": true,
+    "balanceAudit": true,
+    "changelog": true
+  },
+  "runtimeHashes": [
+    {
+      "file": "assets/browserAll-5FWZ7Sqb.js",
+      "sha256": "0ee479d87434dc4eb2e382468a68551ea3dd4de2789710749af3524837b00680"
+    },
+    {
+      "file": "assets/CanvasPool-O_8k9jVW.js",
+      "sha256": "9cf12a9f53a878bb8f9f46337b799031a6986b5f87dd775ef57b2902ae0dc9cd"
+    },
+    {
+      "file": "assets/canvasUtils-DHiBpmSz.js",
+      "sha256": "8843c3459529c72ffb9a82655454eff39f3458448dd2ae362764f3be4933288f"
+    },
+    {
+      "file": "assets/getTexelRangeRects-5CG6mIA2.js",
+      "sha256": "aea8c02569d6923eec2b28e6973b032101297b4fc9acc85b573146bd074d4974"
+    },
+    {
+      "file": "assets/getTextureBatchBindGroup-CDnZS9mH.js",
+      "sha256": "2b2eff79ef557432774e0acd98963de65847a16840f0b738b07556ea37e21caa"
+    },
+    {
+      "file": "assets/index-C145akAp.js",
+      "sha256": "14ad6d5f65581a11bb57ed669f8e5d0a27677a1fdb7cd3e0aabdb3e474e67c3d"
+    },
+    {
+      "file": "assets/index-CODTac_4.css",
+      "sha256": "6379cec341a6efa7a7b9c729c80f2b645d5b916a7ae63647060f494a0db4db55"
+    },
+    {
+      "file": "assets/init-BudbnYOg.js",
+      "sha256": "538817deb3c3a5a6036c95cdd0999d423832b337a2a26b24ff4d2829f6eeb457"
+    },
+    {
+      "file": "assets/RenderTargetSystem-CHWUCnC7.js",
+      "sha256": "39880073141b4419980d7b5baf22961675d208105c37f87c54a099e6433ad70f"
+    },
+    {
+      "file": "assets/webworkerAll-CxKc2Xf6.js",
+      "sha256": "217aae0abffc294c9ad412b18454186301bbcc015237faee77bd2e74168f20f4"
+    },
+    {
+      "file": "index.html",
+      "sha256": "1c7c3f43f362bd822dd446c34c6bc4e5cf31324c193e8b30314c72d51f393e92"
+    }
+  ]
+}

@@ -1,0 +1,2779 @@
+{
+  "date": "2026-11-05",
+  "type": "analytical-review-no-gameplay-or-runtime-cost-changes",
+  "assumptions": [
+    "Live local catalogs; no mods, efficiency upgrades, recovery credits, buffers, startup, routing blockage, camp shrink/recovery time, travel or player setup.",
+    "Recipe unit costs average complete batches. A fractional unit bill is not a first-item shopping list.",
+    "Standard Mythril Gear/Wire unless explicitly labelled composite. Raw Mythril acquisition support and paid forestry are separate scenarios; no double credit for waste recovery.",
+    "Work seconds sum demand per operation. They are machine work and ideal supply requirements, not predicted elapsed progression time.",
+    "Corners proceed concurrently; do not add their ideal hours. Forestry rates assume enough upkeep, output room and direct growth connections.",
+    "Reclamation Controller scenarios require useful-output sinks; neither represents measured average factory waste.",
+    "Proposed costs exist only in cloned analytical catalogs. Other research prices and the existing 20–30-hour efficient-endgame design goal remain unchanged."
+  ],
+  "unitBills": {
+    "currentStandard": {
+      "simple-core": {
+        "raw": {
+          "copper": 8,
+          "wood": 4
+        },
+        "workSeconds": {
+          "simple-core": 5,
+          "copper-gear": 6,
+          "smelt-copper": 24,
+          "extract:copper": 40,
+          "charcoal": 14,
+          "extract:wood": 20
+        },
+        "byproducts": {}
+      },
+      "basic-core": {
+        "raw": {
+          "copper": 2,
+          "wood": 4,
+          "iron": 6
+        },
+        "workSeconds": {
+          "basic-core": 10,
+          "smelt-copper": 6,
+          "extract:copper": 10,
+          "charcoal": 14,
+          "extract:wood": 20,
+          "iron-wire": 3,
+          "smelt-iron": 18,
+          "extract:iron": 30
+        },
+        "byproducts": {}
+      },
+      "automata-core": {
+        "raw": {
+          "copper": 6,
+          "wood": 4,
+          "iron": 2,
+          "stone": 1
+        },
+        "workSeconds": {
+          "automata-core": 15,
+          "circuit-a": 5,
+          "copper-wire": 3,
+          "smelt-copper": 18,
+          "extract:copper": 30,
+          "charcoal": 14,
+          "extract:wood": 20,
+          "smelt-iron": 6,
+          "extract:iron": 10,
+          "brick": 4,
+          "extract:stone": 5
+        },
+        "byproducts": {}
+      },
+      "hydro-core": {
+        "raw": {
+          "iron": 12,
+          "wood": 14,
+          "copper": 15,
+          "water": 9,
+          "stone": 1
+        },
+        "workSeconds": {
+          "hydro-core": 18,
+          "hydraulic-actuator": 10,
+          "iron-gear": 6,
+          "smelt-iron": 36,
+          "extract:iron": 60,
+          "charcoal": 49,
+          "extract:wood": 70,
+          "motor": 6.5,
+          "copper-wire": 7.5,
+          "smelt-copper": 45,
+          "extract:copper": 75,
+          "coolant": 12,
+          "extract:water": 2.25,
+          "ceramic-electrode": 10,
+          "brick": 4,
+          "extract:stone": 5,
+          "conductive-slurry": 4
+        },
+        "byproducts": {}
+      },
+      "shiny-core": {
+        "raw": {
+          "mythril": 2,
+          "wood": 26,
+          "iron": 24,
+          "copper": 24,
+          "water": 8
+        },
+        "workSeconds": {
+          "shiny-core": 24,
+          "mithril-mesh": 18,
+          "refined-mithril": 12,
+          "smelt-mythril": 6,
+          "extract:mythril": 10,
+          "charcoal": 91,
+          "extract:wood": 130,
+          "smelt-iron": 72,
+          "extract:iron": 120,
+          "copper-wire": 12,
+          "smelt-copper": 72,
+          "extract:copper": 120,
+          "coolant": 12,
+          "extract:water": 2,
+          "hydraulic-actuator": 10,
+          "iron-gear": 6,
+          "motor": 6.5,
+          "circuit-a": 10
+        },
+        "byproducts": {}
+      },
+      "command-core": {
+        "raw": {
+          "copper": 51,
+          "wood": 49.5,
+          "iron": 31,
+          "stone": 1,
+          "water": 17,
+          "mythril": 12
+        },
+        "workSeconds": {
+          "command-core": 36,
+          "logic-substrate": 30,
+          "circuit-a": 20,
+          "copper-wire": 25.5,
+          "smelt-copper": 153,
+          "extract:copper": 255,
+          "charcoal": 173.25,
+          "extract:wood": 247.5,
+          "smelt-iron": 93,
+          "extract:iron": 155,
+          "ceramic-electrode": 10,
+          "brick": 4,
+          "extract:stone": 5,
+          "conductive-slurry": 12,
+          "extract:water": 4.25,
+          "mythril-wire": 3,
+          "smelt-mythril": 36,
+          "extract:mythril": 60,
+          "precision-controller": 30,
+          "mythril-gear": 3,
+          "advanced-actuator": 30,
+          "hydraulic-actuator": 10,
+          "iron-gear": 6,
+          "motor": 6.5,
+          "coolant": 21,
+          "mithril-mesh": 18,
+          "refined-mithril": 12
+        },
+        "byproducts": {
+          "metallic-fines": 1
+        }
+      },
+      "motor": {
+        "raw": {
+          "iron": 4,
+          "wood": 5,
+          "copper": 6
+        },
+        "workSeconds": {
+          "motor": 6.5,
+          "iron-gear": 3,
+          "smelt-iron": 12,
+          "extract:iron": 20,
+          "charcoal": 17.5,
+          "extract:wood": 25,
+          "copper-wire": 3,
+          "smelt-copper": 18,
+          "extract:copper": 30
+        },
+        "byproducts": {}
+      },
+      "suppression-bot": {
+        "raw": {
+          "iron": 12,
+          "wood": 12,
+          "copper": 12
+        },
+        "workSeconds": {
+          "suppression-bot": 10,
+          "robot-frame": 6.5,
+          "smelt-iron": 36,
+          "extract:iron": 60,
+          "charcoal": 42,
+          "extract:wood": 60,
+          "motor": 6.5,
+          "iron-gear": 3,
+          "copper-wire": 6,
+          "smelt-copper": 36,
+          "extract:copper": 60,
+          "robot-gun": 6.5
+        },
+        "byproducts": {}
+      },
+      "medium-suppression-bot": {
+        "raw": {
+          "iron": 34,
+          "wood": 27,
+          "copper": 20,
+          "water": 8,
+          "stone": 2
+        },
+        "workSeconds": {
+          "medium-suppression-bot": 25,
+          "sealed-frame": 18,
+          "robot-frame": 6.5,
+          "smelt-iron": 102,
+          "extract:iron": 170,
+          "charcoal": 94.5,
+          "extract:wood": 135,
+          "motor": 13,
+          "iron-gear": 9,
+          "copper-wire": 9,
+          "smelt-copper": 60,
+          "extract:copper": 100,
+          "hydraulic-actuator": 10,
+          "coolant": 12,
+          "extract:water": 2,
+          "brick": 8,
+          "extract:stone": 10,
+          "cooled-gun": 16,
+          "robot-gun": 6.5,
+          "basic-core": 10,
+          "iron-wire": 3
+        },
+        "byproducts": {}
+      },
+      "heavy-suppression-bot": {
+        "raw": {
+          "iron": 72,
+          "wood": 70,
+          "copper": 57,
+          "water": 17,
+          "stone": 3,
+          "mythril": 5
+        },
+        "workSeconds": {
+          "heavy-suppression-bot": 40,
+          "mithril-frame": 24,
+          "sealed-frame": 18,
+          "robot-frame": 6.5,
+          "smelt-iron": 216,
+          "extract:iron": 360,
+          "charcoal": 245,
+          "extract:wood": 350,
+          "motor": 32.5,
+          "iron-gear": 21,
+          "copper-wire": 28.5,
+          "smelt-copper": 171,
+          "extract:copper": 285,
+          "hydraulic-actuator": 20,
+          "coolant": 24,
+          "extract:water": 4.25,
+          "brick": 12,
+          "extract:stone": 15,
+          "refined-mithril": 30,
+          "smelt-mythril": 15,
+          "extract:mythril": 25,
+          "focused-gun": 22,
+          "cooled-gun": 16,
+          "robot-gun": 6.5,
+          "circuit-a": 10,
+          "hydro-core": 18,
+          "ceramic-electrode": 10,
+          "conductive-slurry": 4
+        },
+        "byproducts": {}
+      },
+      "command-suppression-bot": {
+        "raw": {
+          "iron": 153,
+          "wood": 188.5,
+          "copper": 171,
+          "water": 67,
+          "stone": 3,
+          "mythril": 33
+        },
+        "workSeconds": {
+          "command-suppression-bot": 60,
+          "servo-frame": 32,
+          "mithril-frame": 24,
+          "sealed-frame": 18,
+          "robot-frame": 6.5,
+          "smelt-iron": 459,
+          "extract:iron": 765,
+          "charcoal": 659.75,
+          "extract:wood": 942.5,
+          "motor": 45.5,
+          "iron-gear": 33,
+          "copper-wire": 85.5,
+          "smelt-copper": 513,
+          "extract:copper": 855,
+          "hydraulic-actuator": 40,
+          "coolant": 87,
+          "extract:water": 16.75,
+          "brick": 12,
+          "extract:stone": 15,
+          "refined-mithril": 66,
+          "smelt-mythril": 99,
+          "extract:mythril": 165,
+          "advanced-actuator": 90,
+          "mithril-mesh": 54,
+          "precision-controller": 120,
+          "circuit-a": 60,
+          "mythril-gear": 12,
+          "conductive-slurry": 36,
+          "pulse-cannon": 30,
+          "focused-gun": 22,
+          "cooled-gun": 16,
+          "robot-gun": 6.5,
+          "command-core": 36,
+          "logic-substrate": 30,
+          "ceramic-electrode": 10,
+          "mythril-wire": 3
+        },
+        "byproducts": {
+          "metallic-fines": 4
+        }
+      }
+    },
+    "currentComposite": {
+      "simple-core": {
+        "raw": {
+          "copper": 8,
+          "wood": 4
+        },
+        "workSeconds": {
+          "simple-core": 5,
+          "copper-gear": 6,
+          "smelt-copper": 24,
+          "extract:copper": 40,
+          "charcoal": 14,
+          "extract:wood": 20
+        },
+        "byproducts": {}
+      },
+      "basic-core": {
+        "raw": {
+          "copper": 2,
+          "wood": 4,
+          "iron": 6
+        },
+        "workSeconds": {
+          "basic-core": 10,
+          "smelt-copper": 6,
+          "extract:copper": 10,
+          "charcoal": 14,
+          "extract:wood": 20,
+          "iron-wire": 3,
+          "smelt-iron": 18,
+          "extract:iron": 30
+        },
+        "byproducts": {}
+      },
+      "automata-core": {
+        "raw": {
+          "copper": 6,
+          "wood": 4,
+          "iron": 2,
+          "stone": 1
+        },
+        "workSeconds": {
+          "automata-core": 15,
+          "circuit-a": 5,
+          "copper-wire": 3,
+          "smelt-copper": 18,
+          "extract:copper": 30,
+          "charcoal": 14,
+          "extract:wood": 20,
+          "smelt-iron": 6,
+          "extract:iron": 10,
+          "brick": 4,
+          "extract:stone": 5
+        },
+        "byproducts": {}
+      },
+      "hydro-core": {
+        "raw": {
+          "iron": 12,
+          "wood": 14,
+          "copper": 15,
+          "water": 9,
+          "stone": 1
+        },
+        "workSeconds": {
+          "hydro-core": 18,
+          "hydraulic-actuator": 10,
+          "iron-gear": 6,
+          "smelt-iron": 36,
+          "extract:iron": 60,
+          "charcoal": 49,
+          "extract:wood": 70,
+          "motor": 6.5,
+          "copper-wire": 7.5,
+          "smelt-copper": 45,
+          "extract:copper": 75,
+          "coolant": 12,
+          "extract:water": 2.25,
+          "ceramic-electrode": 10,
+          "brick": 4,
+          "extract:stone": 5,
+          "conductive-slurry": 4
+        },
+        "byproducts": {}
+      },
+      "shiny-core": {
+        "raw": {
+          "mythril": 2,
+          "wood": 26,
+          "iron": 24,
+          "copper": 24,
+          "water": 8
+        },
+        "workSeconds": {
+          "shiny-core": 24,
+          "mithril-mesh": 18,
+          "refined-mithril": 12,
+          "smelt-mythril": 6,
+          "extract:mythril": 10,
+          "charcoal": 91,
+          "extract:wood": 130,
+          "smelt-iron": 72,
+          "extract:iron": 120,
+          "copper-wire": 12,
+          "smelt-copper": 72,
+          "extract:copper": 120,
+          "coolant": 12,
+          "extract:water": 2,
+          "hydraulic-actuator": 10,
+          "iron-gear": 6,
+          "motor": 6.5,
+          "circuit-a": 10
+        },
+        "byproducts": {}
+      },
+      "command-core": {
+        "raw": {
+          "copper": 55,
+          "wood": 50,
+          "iron": 37,
+          "stone": 1,
+          "water": 17,
+          "mythril": 3
+        },
+        "workSeconds": {
+          "command-core": 36,
+          "logic-substrate": 30,
+          "circuit-a": 20,
+          "copper-wire": 25.5,
+          "smelt-copper": 165,
+          "extract:copper": 275,
+          "charcoal": 175,
+          "extract:wood": 250,
+          "smelt-iron": 111,
+          "extract:iron": 185,
+          "ceramic-electrode": 10,
+          "brick": 4,
+          "extract:stone": 5,
+          "conductive-slurry": 12,
+          "extract:water": 4.25,
+          "composite-mythril-wire": 3,
+          "iron-wire": 3,
+          "smelt-mythril": 9,
+          "extract:mythril": 15,
+          "precision-controller": 30,
+          "composite-mythril-gear": 3,
+          "copper-gear": 3,
+          "advanced-actuator": 30,
+          "hydraulic-actuator": 10,
+          "iron-gear": 6,
+          "motor": 6.5,
+          "coolant": 21,
+          "mithril-mesh": 18,
+          "refined-mithril": 12
+        },
+        "byproducts": {
+          "metallic-fines": 1
+        }
+      },
+      "motor": {
+        "raw": {
+          "iron": 4,
+          "wood": 5,
+          "copper": 6
+        },
+        "workSeconds": {
+          "motor": 6.5,
+          "iron-gear": 3,
+          "smelt-iron": 12,
+          "extract:iron": 20,
+          "charcoal": 17.5,
+          "extract:wood": 25,
+          "copper-wire": 3,
+          "smelt-copper": 18,
+          "extract:copper": 30
+        },
+        "byproducts": {}
+      },
+      "suppression-bot": {
+        "raw": {
+          "iron": 12,
+          "wood": 12,
+          "copper": 12
+        },
+        "workSeconds": {
+          "suppression-bot": 10,
+          "robot-frame": 6.5,
+          "smelt-iron": 36,
+          "extract:iron": 60,
+          "charcoal": 42,
+          "extract:wood": 60,
+          "motor": 6.5,
+          "iron-gear": 3,
+          "copper-wire": 6,
+          "smelt-copper": 36,
+          "extract:copper": 60,
+          "robot-gun": 6.5
+        },
+        "byproducts": {}
+      },
+      "medium-suppression-bot": {
+        "raw": {
+          "iron": 34,
+          "wood": 27,
+          "copper": 20,
+          "water": 8,
+          "stone": 2
+        },
+        "workSeconds": {
+          "medium-suppression-bot": 25,
+          "sealed-frame": 18,
+          "robot-frame": 6.5,
+          "smelt-iron": 102,
+          "extract:iron": 170,
+          "charcoal": 94.5,
+          "extract:wood": 135,
+          "motor": 13,
+          "iron-gear": 9,
+          "copper-wire": 9,
+          "smelt-copper": 60,
+          "extract:copper": 100,
+          "hydraulic-actuator": 10,
+          "coolant": 12,
+          "extract:water": 2,
+          "brick": 8,
+          "extract:stone": 10,
+          "cooled-gun": 16,
+          "robot-gun": 6.5,
+          "basic-core": 10,
+          "iron-wire": 3
+        },
+        "byproducts": {}
+      },
+      "heavy-suppression-bot": {
+        "raw": {
+          "iron": 72,
+          "wood": 70,
+          "copper": 57,
+          "water": 17,
+          "stone": 3,
+          "mythril": 5
+        },
+        "workSeconds": {
+          "heavy-suppression-bot": 40,
+          "mithril-frame": 24,
+          "sealed-frame": 18,
+          "robot-frame": 6.5,
+          "smelt-iron": 216,
+          "extract:iron": 360,
+          "charcoal": 245,
+          "extract:wood": 350,
+          "motor": 32.5,
+          "iron-gear": 21,
+          "copper-wire": 28.5,
+          "smelt-copper": 171,
+          "extract:copper": 285,
+          "hydraulic-actuator": 20,
+          "coolant": 24,
+          "extract:water": 4.25,
+          "brick": 12,
+          "extract:stone": 15,
+          "refined-mithril": 30,
+          "smelt-mythril": 15,
+          "extract:mythril": 25,
+          "focused-gun": 22,
+          "cooled-gun": 16,
+          "robot-gun": 6.5,
+          "circuit-a": 10,
+          "hydro-core": 18,
+          "ceramic-electrode": 10,
+          "conductive-slurry": 4
+        },
+        "byproducts": {}
+      },
+      "command-suppression-bot": {
+        "raw": {
+          "iron": 159,
+          "wood": 189.75,
+          "copper": 187,
+          "water": 67,
+          "stone": 3,
+          "mythril": 13.5
+        },
+        "workSeconds": {
+          "command-suppression-bot": 60,
+          "servo-frame": 32,
+          "mithril-frame": 24,
+          "sealed-frame": 18,
+          "robot-frame": 6.5,
+          "smelt-iron": 477,
+          "extract:iron": 795,
+          "charcoal": 664.125,
+          "extract:wood": 948.75,
+          "motor": 45.5,
+          "iron-gear": 33,
+          "copper-wire": 85.5,
+          "smelt-copper": 561,
+          "extract:copper": 935,
+          "hydraulic-actuator": 40,
+          "coolant": 87,
+          "extract:water": 16.75,
+          "brick": 12,
+          "extract:stone": 15,
+          "refined-mithril": 66,
+          "smelt-mythril": 40.5,
+          "extract:mythril": 67.5,
+          "advanced-actuator": 90,
+          "mithril-mesh": 54,
+          "precision-controller": 120,
+          "circuit-a": 60,
+          "composite-mythril-gear": 12,
+          "copper-gear": 12,
+          "conductive-slurry": 36,
+          "pulse-cannon": 30,
+          "focused-gun": 22,
+          "cooled-gun": 16,
+          "robot-gun": 6.5,
+          "command-core": 36,
+          "logic-substrate": 30,
+          "ceramic-electrode": 10,
+          "composite-mythril-wire": 3,
+          "iron-wire": 3
+        },
+        "byproducts": {
+          "metallic-fines": 4
+        }
+      }
+    },
+    "proposedWire": {
+      "simple-core": {
+        "raw": {
+          "copper": 8,
+          "wood": 4
+        },
+        "workSeconds": {
+          "simple-core": 5,
+          "copper-gear": 6,
+          "smelt-copper": 24,
+          "extract:copper": 40,
+          "charcoal": 14,
+          "extract:wood": 20
+        },
+        "byproducts": {}
+      },
+      "basic-core": {
+        "raw": {
+          "copper": 2,
+          "wood": 3,
+          "iron": 4
+        },
+        "workSeconds": {
+          "basic-core": 10,
+          "smelt-copper": 6,
+          "extract:copper": 10,
+          "charcoal": 10.5,
+          "extract:wood": 15,
+          "iron-wire": 3,
+          "smelt-iron": 12,
+          "extract:iron": 20
+        },
+        "byproducts": {}
+      },
+      "automata-core": {
+        "raw": {
+          "copper": 4,
+          "wood": 3,
+          "iron": 2,
+          "stone": 1
+        },
+        "workSeconds": {
+          "automata-core": 15,
+          "circuit-a": 5,
+          "copper-wire": 3,
+          "smelt-copper": 12,
+          "extract:copper": 20,
+          "charcoal": 10.5,
+          "extract:wood": 15,
+          "smelt-iron": 6,
+          "extract:iron": 10,
+          "brick": 4,
+          "extract:stone": 5
+        },
+        "byproducts": {}
+      },
+      "hydro-core": {
+        "raw": {
+          "iron": 12,
+          "wood": 11.5,
+          "copper": 10,
+          "water": 9,
+          "stone": 1
+        },
+        "workSeconds": {
+          "hydro-core": 18,
+          "hydraulic-actuator": 10,
+          "iron-gear": 6,
+          "smelt-iron": 36,
+          "extract:iron": 60,
+          "charcoal": 40.25,
+          "extract:wood": 57.5,
+          "motor": 6.5,
+          "copper-wire": 7.5,
+          "smelt-copper": 30,
+          "extract:copper": 50,
+          "coolant": 12,
+          "extract:water": 2.25,
+          "ceramic-electrode": 10,
+          "brick": 4,
+          "extract:stone": 5,
+          "conductive-slurry": 4
+        },
+        "byproducts": {}
+      },
+      "shiny-core": {
+        "raw": {
+          "mythril": 2,
+          "wood": 22,
+          "iron": 24,
+          "copper": 16,
+          "water": 8
+        },
+        "workSeconds": {
+          "shiny-core": 24,
+          "mithril-mesh": 18,
+          "refined-mithril": 12,
+          "smelt-mythril": 6,
+          "extract:mythril": 10,
+          "charcoal": 77,
+          "extract:wood": 110,
+          "smelt-iron": 72,
+          "extract:iron": 120,
+          "copper-wire": 12,
+          "smelt-copper": 48,
+          "extract:copper": 80,
+          "coolant": 12,
+          "extract:water": 2,
+          "hydraulic-actuator": 10,
+          "iron-gear": 6,
+          "motor": 6.5,
+          "circuit-a": 10
+        },
+        "byproducts": {}
+      },
+      "command-core": {
+        "raw": {
+          "copper": 34,
+          "wood": 40,
+          "iron": 31,
+          "stone": 1,
+          "water": 17,
+          "mythril": 10
+        },
+        "workSeconds": {
+          "command-core": 36,
+          "logic-substrate": 30,
+          "circuit-a": 20,
+          "copper-wire": 25.5,
+          "smelt-copper": 102,
+          "extract:copper": 170,
+          "charcoal": 140,
+          "extract:wood": 200,
+          "smelt-iron": 93,
+          "extract:iron": 155,
+          "ceramic-electrode": 10,
+          "brick": 4,
+          "extract:stone": 5,
+          "conductive-slurry": 12,
+          "extract:water": 4.25,
+          "mythril-wire": 3,
+          "smelt-mythril": 30,
+          "extract:mythril": 50,
+          "precision-controller": 30,
+          "mythril-gear": 3,
+          "advanced-actuator": 30,
+          "hydraulic-actuator": 10,
+          "iron-gear": 6,
+          "motor": 6.5,
+          "coolant": 21,
+          "mithril-mesh": 18,
+          "refined-mithril": 12
+        },
+        "byproducts": {
+          "metallic-fines": 1
+        }
+      },
+      "motor": {
+        "raw": {
+          "iron": 4,
+          "wood": 4,
+          "copper": 4
+        },
+        "workSeconds": {
+          "motor": 6.5,
+          "iron-gear": 3,
+          "smelt-iron": 12,
+          "extract:iron": 20,
+          "charcoal": 14,
+          "extract:wood": 20,
+          "copper-wire": 3,
+          "smelt-copper": 12,
+          "extract:copper": 20
+        },
+        "byproducts": {}
+      },
+      "suppression-bot": {
+        "raw": {
+          "iron": 12,
+          "wood": 10,
+          "copper": 8
+        },
+        "workSeconds": {
+          "suppression-bot": 10,
+          "robot-frame": 6.5,
+          "smelt-iron": 36,
+          "extract:iron": 60,
+          "charcoal": 35,
+          "extract:wood": 50,
+          "motor": 6.5,
+          "iron-gear": 3,
+          "copper-wire": 6,
+          "smelt-copper": 24,
+          "extract:copper": 40,
+          "robot-gun": 6.5
+        },
+        "byproducts": {}
+      },
+      "medium-suppression-bot": {
+        "raw": {
+          "iron": 32,
+          "wood": 23,
+          "copper": 14,
+          "water": 8,
+          "stone": 2
+        },
+        "workSeconds": {
+          "medium-suppression-bot": 25,
+          "sealed-frame": 18,
+          "robot-frame": 6.5,
+          "smelt-iron": 96,
+          "extract:iron": 160,
+          "charcoal": 80.5,
+          "extract:wood": 115,
+          "motor": 13,
+          "iron-gear": 9,
+          "copper-wire": 9,
+          "smelt-copper": 42,
+          "extract:copper": 70,
+          "hydraulic-actuator": 10,
+          "coolant": 12,
+          "extract:water": 2,
+          "brick": 8,
+          "extract:stone": 10,
+          "cooled-gun": 16,
+          "robot-gun": 6.5,
+          "basic-core": 10,
+          "iron-wire": 3
+        },
+        "byproducts": {}
+      },
+      "heavy-suppression-bot": {
+        "raw": {
+          "iron": 72,
+          "wood": 60.5,
+          "copper": 38,
+          "water": 17,
+          "stone": 3,
+          "mythril": 5
+        },
+        "workSeconds": {
+          "heavy-suppression-bot": 40,
+          "mithril-frame": 24,
+          "sealed-frame": 18,
+          "robot-frame": 6.5,
+          "smelt-iron": 216,
+          "extract:iron": 360,
+          "charcoal": 211.75,
+          "extract:wood": 302.5,
+          "motor": 32.5,
+          "iron-gear": 21,
+          "copper-wire": 28.5,
+          "smelt-copper": 114,
+          "extract:copper": 190,
+          "hydraulic-actuator": 20,
+          "coolant": 24,
+          "extract:water": 4.25,
+          "brick": 12,
+          "extract:stone": 15,
+          "refined-mithril": 30,
+          "smelt-mythril": 15,
+          "extract:mythril": 25,
+          "focused-gun": 22,
+          "cooled-gun": 16,
+          "robot-gun": 6.5,
+          "circuit-a": 10,
+          "hydro-core": 18,
+          "ceramic-electrode": 10,
+          "conductive-slurry": 4
+        },
+        "byproducts": {}
+      },
+      "command-suppression-bot": {
+        "raw": {
+          "iron": 153,
+          "wood": 159,
+          "copper": 114,
+          "water": 67,
+          "stone": 3,
+          "mythril": 31
+        },
+        "workSeconds": {
+          "command-suppression-bot": 60,
+          "servo-frame": 32,
+          "mithril-frame": 24,
+          "sealed-frame": 18,
+          "robot-frame": 6.5,
+          "smelt-iron": 459,
+          "extract:iron": 765,
+          "charcoal": 556.5,
+          "extract:wood": 795,
+          "motor": 45.5,
+          "iron-gear": 33,
+          "copper-wire": 85.5,
+          "smelt-copper": 342,
+          "extract:copper": 570,
+          "hydraulic-actuator": 40,
+          "coolant": 87,
+          "extract:water": 16.75,
+          "brick": 12,
+          "extract:stone": 15,
+          "refined-mithril": 66,
+          "smelt-mythril": 93,
+          "extract:mythril": 155,
+          "advanced-actuator": 90,
+          "mithril-mesh": 54,
+          "precision-controller": 120,
+          "circuit-a": 60,
+          "mythril-gear": 12,
+          "conductive-slurry": 36,
+          "pulse-cannon": 30,
+          "focused-gun": 22,
+          "cooled-gun": 16,
+          "robot-gun": 6.5,
+          "command-core": 36,
+          "logic-substrate": 30,
+          "ceramic-electrode": 10,
+          "mythril-wire": 3
+        },
+        "byproducts": {
+          "metallic-fines": 4
+        }
+      }
+    },
+    "proposedWireAndGun": {
+      "simple-core": {
+        "raw": {
+          "copper": 8,
+          "wood": 4
+        },
+        "workSeconds": {
+          "simple-core": 5,
+          "copper-gear": 6,
+          "smelt-copper": 24,
+          "extract:copper": 40,
+          "charcoal": 14,
+          "extract:wood": 20
+        },
+        "byproducts": {}
+      },
+      "basic-core": {
+        "raw": {
+          "copper": 2,
+          "wood": 3,
+          "iron": 4
+        },
+        "workSeconds": {
+          "basic-core": 10,
+          "smelt-copper": 6,
+          "extract:copper": 10,
+          "charcoal": 10.5,
+          "extract:wood": 15,
+          "iron-wire": 3,
+          "smelt-iron": 12,
+          "extract:iron": 20
+        },
+        "byproducts": {}
+      },
+      "automata-core": {
+        "raw": {
+          "copper": 4,
+          "wood": 3,
+          "iron": 2,
+          "stone": 1
+        },
+        "workSeconds": {
+          "automata-core": 15,
+          "circuit-a": 5,
+          "copper-wire": 3,
+          "smelt-copper": 12,
+          "extract:copper": 20,
+          "charcoal": 10.5,
+          "extract:wood": 15,
+          "smelt-iron": 6,
+          "extract:iron": 10,
+          "brick": 4,
+          "extract:stone": 5
+        },
+        "byproducts": {}
+      },
+      "hydro-core": {
+        "raw": {
+          "iron": 12,
+          "wood": 11.5,
+          "copper": 10,
+          "water": 9,
+          "stone": 1
+        },
+        "workSeconds": {
+          "hydro-core": 18,
+          "hydraulic-actuator": 10,
+          "iron-gear": 6,
+          "smelt-iron": 36,
+          "extract:iron": 60,
+          "charcoal": 40.25,
+          "extract:wood": 57.5,
+          "motor": 6.5,
+          "copper-wire": 7.5,
+          "smelt-copper": 30,
+          "extract:copper": 50,
+          "coolant": 12,
+          "extract:water": 2.25,
+          "ceramic-electrode": 10,
+          "brick": 4,
+          "extract:stone": 5,
+          "conductive-slurry": 4
+        },
+        "byproducts": {}
+      },
+      "shiny-core": {
+        "raw": {
+          "mythril": 2,
+          "wood": 22,
+          "iron": 24,
+          "copper": 16,
+          "water": 8
+        },
+        "workSeconds": {
+          "shiny-core": 24,
+          "mithril-mesh": 18,
+          "refined-mithril": 12,
+          "smelt-mythril": 6,
+          "extract:mythril": 10,
+          "charcoal": 77,
+          "extract:wood": 110,
+          "smelt-iron": 72,
+          "extract:iron": 120,
+          "copper-wire": 12,
+          "smelt-copper": 48,
+          "extract:copper": 80,
+          "coolant": 12,
+          "extract:water": 2,
+          "hydraulic-actuator": 10,
+          "iron-gear": 6,
+          "motor": 6.5,
+          "circuit-a": 10
+        },
+        "byproducts": {}
+      },
+      "command-core": {
+        "raw": {
+          "copper": 34,
+          "wood": 40,
+          "iron": 31,
+          "stone": 1,
+          "water": 17,
+          "mythril": 10
+        },
+        "workSeconds": {
+          "command-core": 36,
+          "logic-substrate": 30,
+          "circuit-a": 20,
+          "copper-wire": 25.5,
+          "smelt-copper": 102,
+          "extract:copper": 170,
+          "charcoal": 140,
+          "extract:wood": 200,
+          "smelt-iron": 93,
+          "extract:iron": 155,
+          "ceramic-electrode": 10,
+          "brick": 4,
+          "extract:stone": 5,
+          "conductive-slurry": 12,
+          "extract:water": 4.25,
+          "mythril-wire": 3,
+          "smelt-mythril": 30,
+          "extract:mythril": 50,
+          "precision-controller": 30,
+          "mythril-gear": 3,
+          "advanced-actuator": 30,
+          "hydraulic-actuator": 10,
+          "iron-gear": 6,
+          "motor": 6.5,
+          "coolant": 21,
+          "mithril-mesh": 18,
+          "refined-mithril": 12
+        },
+        "byproducts": {
+          "metallic-fines": 1
+        }
+      },
+      "motor": {
+        "raw": {
+          "iron": 4,
+          "wood": 4,
+          "copper": 4
+        },
+        "workSeconds": {
+          "motor": 6.5,
+          "iron-gear": 3,
+          "smelt-iron": 12,
+          "extract:iron": 20,
+          "charcoal": 14,
+          "extract:wood": 20,
+          "copper-wire": 3,
+          "smelt-copper": 12,
+          "extract:copper": 20
+        },
+        "byproducts": {}
+      },
+      "suppression-bot": {
+        "raw": {
+          "iron": 12,
+          "wood": 10,
+          "copper": 8
+        },
+        "workSeconds": {
+          "suppression-bot": 10,
+          "robot-frame": 6.5,
+          "smelt-iron": 36,
+          "extract:iron": 60,
+          "charcoal": 35,
+          "extract:wood": 50,
+          "motor": 6.5,
+          "iron-gear": 3,
+          "copper-wire": 6,
+          "smelt-copper": 24,
+          "extract:copper": 40,
+          "robot-gun": 6.5
+        },
+        "byproducts": {}
+      },
+      "medium-suppression-bot": {
+        "raw": {
+          "iron": 30,
+          "wood": 22,
+          "copper": 14,
+          "water": 8,
+          "stone": 2
+        },
+        "workSeconds": {
+          "medium-suppression-bot": 25,
+          "sealed-frame": 18,
+          "robot-frame": 6.5,
+          "smelt-iron": 90,
+          "extract:iron": 150,
+          "charcoal": 77,
+          "extract:wood": 110,
+          "motor": 13,
+          "iron-gear": 9,
+          "copper-wire": 9,
+          "smelt-copper": 42,
+          "extract:copper": 70,
+          "hydraulic-actuator": 10,
+          "coolant": 12,
+          "extract:water": 2,
+          "brick": 8,
+          "extract:stone": 10,
+          "cooled-gun": 16,
+          "robot-gun": 6.5,
+          "basic-core": 10,
+          "iron-wire": 3
+        },
+        "byproducts": {}
+      },
+      "heavy-suppression-bot": {
+        "raw": {
+          "iron": 70,
+          "wood": 59.5,
+          "copper": 38,
+          "water": 17,
+          "stone": 3,
+          "mythril": 5
+        },
+        "workSeconds": {
+          "heavy-suppression-bot": 40,
+          "mithril-frame": 24,
+          "sealed-frame": 18,
+          "robot-frame": 6.5,
+          "smelt-iron": 210,
+          "extract:iron": 350,
+          "charcoal": 208.25,
+          "extract:wood": 297.5,
+          "motor": 32.5,
+          "iron-gear": 21,
+          "copper-wire": 28.5,
+          "smelt-copper": 114,
+          "extract:copper": 190,
+          "hydraulic-actuator": 20,
+          "coolant": 24,
+          "extract:water": 4.25,
+          "brick": 12,
+          "extract:stone": 15,
+          "refined-mithril": 30,
+          "smelt-mythril": 15,
+          "extract:mythril": 25,
+          "focused-gun": 22,
+          "cooled-gun": 16,
+          "robot-gun": 6.5,
+          "circuit-a": 10,
+          "hydro-core": 18,
+          "ceramic-electrode": 10,
+          "conductive-slurry": 4
+        },
+        "byproducts": {}
+      },
+      "command-suppression-bot": {
+        "raw": {
+          "iron": 151,
+          "wood": 158,
+          "copper": 114,
+          "water": 67,
+          "stone": 3,
+          "mythril": 31
+        },
+        "workSeconds": {
+          "command-suppression-bot": 60,
+          "servo-frame": 32,
+          "mithril-frame": 24,
+          "sealed-frame": 18,
+          "robot-frame": 6.5,
+          "smelt-iron": 453,
+          "extract:iron": 755,
+          "charcoal": 553,
+          "extract:wood": 790,
+          "motor": 45.5,
+          "iron-gear": 33,
+          "copper-wire": 85.5,
+          "smelt-copper": 342,
+          "extract:copper": 570,
+          "hydraulic-actuator": 40,
+          "coolant": 87,
+          "extract:water": 16.75,
+          "brick": 12,
+          "extract:stone": 15,
+          "refined-mithril": 66,
+          "smelt-mythril": 93,
+          "extract:mythril": 155,
+          "advanced-actuator": 90,
+          "mithril-mesh": 54,
+          "precision-controller": 120,
+          "circuit-a": 60,
+          "mythril-gear": 12,
+          "conductive-slurry": 36,
+          "pulse-cannon": 30,
+          "focused-gun": 22,
+          "cooled-gun": 16,
+          "robot-gun": 6.5,
+          "command-core": 36,
+          "logic-substrate": 30,
+          "ceramic-electrode": 10,
+          "mythril-wire": 3
+        },
+        "byproducts": {
+          "metallic-fines": 4
+        }
+      }
+    }
+  },
+  "supplyScenarios": {
+    "currentStandard": {
+      "4": {
+        "simple-core": {
+          "acquisition": {
+            "copper": 8,
+            "wood": 4,
+            "iron": 0,
+            "water": 0,
+            "stone": 0
+          },
+          "sustainable": {
+            "copper": 8,
+            "wood": 4.49438202247191,
+            "iron": 0.08988764044943821,
+            "water": 0,
+            "stone": 0.04494382022471911
+          }
+        },
+        "basic-core": {
+          "acquisition": {
+            "copper": 2,
+            "wood": 4,
+            "iron": 6,
+            "water": 0,
+            "stone": 0
+          },
+          "sustainable": {
+            "copper": 2,
+            "wood": 4.49438202247191,
+            "iron": 6.089887640449438,
+            "water": 0,
+            "stone": 0.04494382022471911
+          }
+        },
+        "automata-core": {
+          "acquisition": {
+            "copper": 6,
+            "wood": 4,
+            "iron": 2,
+            "stone": 1,
+            "water": 0
+          },
+          "sustainable": {
+            "copper": 6,
+            "wood": 4.49438202247191,
+            "iron": 2.0898876404494384,
+            "stone": 1.0449438202247192,
+            "water": 0
+          }
+        },
+        "hydro-core": {
+          "acquisition": {
+            "iron": 12,
+            "wood": 14,
+            "copper": 15,
+            "water": 9,
+            "stone": 1
+          },
+          "sustainable": {
+            "iron": 12.314606741573034,
+            "wood": 15.730337078651685,
+            "copper": 15,
+            "water": 9,
+            "stone": 1.1573033707865168
+          }
+        },
+        "shiny-core": {
+          "acquisition": {
+            "mythril": 2,
+            "wood": 35,
+            "iron": 35.33333333333333,
+            "copper": 30.666666666666664,
+            "water": 10.666666666666666,
+            "stone": 0.6666666666666666
+          },
+          "sustainable": {
+            "mythril": 2,
+            "wood": 39.325842696629216,
+            "iron": 36.11985018726591,
+            "copper": 30.666666666666664,
+            "water": 10.666666666666666,
+            "stone": 1.0599250936329587
+          }
+        },
+        "command-core": {
+          "acquisition": {
+            "copper": 91,
+            "wood": 103.5,
+            "iron": 99,
+            "stone": 5,
+            "water": 33,
+            "mythril": 12
+          },
+          "sustainable": {
+            "copper": 91,
+            "wood": 116.29213483146067,
+            "iron": 101.32584269662921,
+            "stone": 6.162921348314606,
+            "water": 33,
+            "mythril": 12
+          }
+        }
+      },
+      "9": {
+        "simple-core": {
+          "acquisition": {
+            "copper": 8,
+            "wood": 4,
+            "iron": 0,
+            "water": 0,
+            "stone": 0
+          },
+          "sustainable": {
+            "copper": 8,
+            "wood": 4.49438202247191,
+            "iron": 0.08988764044943821,
+            "water": 0,
+            "stone": 0.04494382022471911
+          }
+        },
+        "basic-core": {
+          "acquisition": {
+            "copper": 2,
+            "wood": 4,
+            "iron": 6,
+            "water": 0,
+            "stone": 0
+          },
+          "sustainable": {
+            "copper": 2,
+            "wood": 4.49438202247191,
+            "iron": 6.089887640449438,
+            "water": 0,
+            "stone": 0.04494382022471911
+          }
+        },
+        "automata-core": {
+          "acquisition": {
+            "copper": 6,
+            "wood": 4,
+            "iron": 2,
+            "stone": 1,
+            "water": 0
+          },
+          "sustainable": {
+            "copper": 6,
+            "wood": 4.49438202247191,
+            "iron": 2.0898876404494384,
+            "stone": 1.0449438202247192,
+            "water": 0
+          }
+        },
+        "hydro-core": {
+          "acquisition": {
+            "iron": 12,
+            "wood": 14,
+            "copper": 15,
+            "water": 9,
+            "stone": 1
+          },
+          "sustainable": {
+            "iron": 12.314606741573034,
+            "wood": 15.730337078651685,
+            "copper": 15,
+            "water": 9,
+            "stone": 1.1573033707865168
+          }
+        },
+        "shiny-core": {
+          "acquisition": {
+            "mythril": 2,
+            "wood": 30.5,
+            "iron": 29.666666666666664,
+            "copper": 27.333333333333332,
+            "water": 9.333333333333334,
+            "stone": 0.3333333333333333
+          },
+          "sustainable": {
+            "mythril": 2,
+            "wood": 34.26966292134831,
+            "iron": 30.35205992509363,
+            "copper": 27.333333333333332,
+            "water": 9.333333333333334,
+            "stone": 0.6760299625468165
+          }
+        },
+        "command-core": {
+          "acquisition": {
+            "copper": 71,
+            "wood": 76.5,
+            "iron": 65,
+            "stone": 3,
+            "water": 25,
+            "mythril": 12
+          },
+          "sustainable": {
+            "copper": 71,
+            "wood": 85.95505617977528,
+            "iron": 66.71910112359551,
+            "stone": 3.859550561797753,
+            "water": 25,
+            "mythril": 12
+          }
+        }
+      }
+    },
+    "currentComposite": {
+      "4": {
+        "simple-core": {
+          "acquisition": {
+            "copper": 8,
+            "wood": 4,
+            "iron": 0,
+            "water": 0,
+            "stone": 0
+          },
+          "sustainable": {
+            "copper": 8,
+            "wood": 4.49438202247191,
+            "iron": 0.08988764044943821,
+            "water": 0,
+            "stone": 0.04494382022471911
+          }
+        },
+        "basic-core": {
+          "acquisition": {
+            "copper": 2,
+            "wood": 4,
+            "iron": 6,
+            "water": 0,
+            "stone": 0
+          },
+          "sustainable": {
+            "copper": 2,
+            "wood": 4.49438202247191,
+            "iron": 6.089887640449438,
+            "water": 0,
+            "stone": 0.04494382022471911
+          }
+        },
+        "automata-core": {
+          "acquisition": {
+            "copper": 6,
+            "wood": 4,
+            "iron": 2,
+            "stone": 1,
+            "water": 0
+          },
+          "sustainable": {
+            "copper": 6,
+            "wood": 4.49438202247191,
+            "iron": 2.0898876404494384,
+            "stone": 1.0449438202247192,
+            "water": 0
+          }
+        },
+        "hydro-core": {
+          "acquisition": {
+            "iron": 12,
+            "wood": 14,
+            "copper": 15,
+            "water": 9,
+            "stone": 1
+          },
+          "sustainable": {
+            "iron": 12.314606741573034,
+            "wood": 15.730337078651685,
+            "copper": 15,
+            "water": 9,
+            "stone": 1.1573033707865168
+          }
+        },
+        "shiny-core": {
+          "acquisition": {
+            "mythril": 2,
+            "wood": 35,
+            "iron": 35.33333333333333,
+            "copper": 30.666666666666664,
+            "water": 10.666666666666666,
+            "stone": 0.6666666666666666
+          },
+          "sustainable": {
+            "mythril": 2,
+            "wood": 39.325842696629216,
+            "iron": 36.11985018726591,
+            "copper": 30.666666666666664,
+            "water": 10.666666666666666,
+            "stone": 1.0599250936329587
+          }
+        },
+        "command-core": {
+          "acquisition": {
+            "copper": 65,
+            "wood": 63.5,
+            "iron": 54,
+            "stone": 2,
+            "water": 21,
+            "mythril": 3
+          },
+          "sustainable": {
+            "copper": 65,
+            "wood": 71.34831460674157,
+            "iron": 55.42696629213483,
+            "stone": 2.7134831460674156,
+            "water": 21,
+            "mythril": 3
+          }
+        }
+      },
+      "9": {
+        "simple-core": {
+          "acquisition": {
+            "copper": 8,
+            "wood": 4,
+            "iron": 0,
+            "water": 0,
+            "stone": 0
+          },
+          "sustainable": {
+            "copper": 8,
+            "wood": 4.49438202247191,
+            "iron": 0.08988764044943821,
+            "water": 0,
+            "stone": 0.04494382022471911
+          }
+        },
+        "basic-core": {
+          "acquisition": {
+            "copper": 2,
+            "wood": 4,
+            "iron": 6,
+            "water": 0,
+            "stone": 0
+          },
+          "sustainable": {
+            "copper": 2,
+            "wood": 4.49438202247191,
+            "iron": 6.089887640449438,
+            "water": 0,
+            "stone": 0.04494382022471911
+          }
+        },
+        "automata-core": {
+          "acquisition": {
+            "copper": 6,
+            "wood": 4,
+            "iron": 2,
+            "stone": 1,
+            "water": 0
+          },
+          "sustainable": {
+            "copper": 6,
+            "wood": 4.49438202247191,
+            "iron": 2.0898876404494384,
+            "stone": 1.0449438202247192,
+            "water": 0
+          }
+        },
+        "hydro-core": {
+          "acquisition": {
+            "iron": 12,
+            "wood": 14,
+            "copper": 15,
+            "water": 9,
+            "stone": 1
+          },
+          "sustainable": {
+            "iron": 12.314606741573034,
+            "wood": 15.730337078651685,
+            "copper": 15,
+            "water": 9,
+            "stone": 1.1573033707865168
+          }
+        },
+        "shiny-core": {
+          "acquisition": {
+            "mythril": 2,
+            "wood": 30.5,
+            "iron": 29.666666666666664,
+            "copper": 27.333333333333332,
+            "water": 9.333333333333334,
+            "stone": 0.3333333333333333
+          },
+          "sustainable": {
+            "mythril": 2,
+            "wood": 34.26966292134831,
+            "iron": 30.35205992509363,
+            "copper": 27.333333333333332,
+            "water": 9.333333333333334,
+            "stone": 0.6760299625468165
+          }
+        },
+        "command-core": {
+          "acquisition": {
+            "copper": 60,
+            "wood": 56.75,
+            "iron": 45.5,
+            "stone": 1.5,
+            "water": 19,
+            "mythril": 3
+          },
+          "sustainable": {
+            "copper": 60,
+            "wood": 63.764044943820224,
+            "iron": 46.7752808988764,
+            "stone": 2.1376404494382024,
+            "water": 19,
+            "mythril": 3
+          }
+        }
+      }
+    },
+    "proposedWire": {
+      "4": {
+        "simple-core": {
+          "acquisition": {
+            "copper": 8,
+            "wood": 4,
+            "iron": 0,
+            "water": 0,
+            "stone": 0
+          },
+          "sustainable": {
+            "copper": 8,
+            "wood": 4.49438202247191,
+            "iron": 0.08988764044943821,
+            "water": 0,
+            "stone": 0.04494382022471911
+          }
+        },
+        "basic-core": {
+          "acquisition": {
+            "copper": 2,
+            "wood": 3,
+            "iron": 4,
+            "water": 0,
+            "stone": 0
+          },
+          "sustainable": {
+            "copper": 2,
+            "wood": 3.3707865168539324,
+            "iron": 4.067415730337078,
+            "water": 0,
+            "stone": 0.033707865168539325
+          }
+        },
+        "automata-core": {
+          "acquisition": {
+            "copper": 4,
+            "wood": 3,
+            "iron": 2,
+            "stone": 1,
+            "water": 0
+          },
+          "sustainable": {
+            "copper": 4,
+            "wood": 3.3707865168539324,
+            "iron": 2.067415730337079,
+            "stone": 1.0337078651685394,
+            "water": 0
+          }
+        },
+        "hydro-core": {
+          "acquisition": {
+            "iron": 12,
+            "wood": 11.5,
+            "copper": 10,
+            "water": 9,
+            "stone": 1
+          },
+          "sustainable": {
+            "iron": 12.258426966292134,
+            "wood": 12.92134831460674,
+            "copper": 10,
+            "water": 9,
+            "stone": 1.1292134831460674
+          }
+        },
+        "shiny-core": {
+          "acquisition": {
+            "mythril": 2,
+            "wood": 29.666666666666664,
+            "iron": 34.666666666666664,
+            "copper": 20.666666666666664,
+            "water": 10.666666666666666,
+            "stone": 0.6666666666666666
+          },
+          "sustainable": {
+            "mythril": 2,
+            "wood": 33.33333333333333,
+            "iron": 35.33333333333333,
+            "copper": 20.666666666666664,
+            "water": 10.666666666666666,
+            "stone": 1
+          }
+        },
+        "command-core": {
+          "acquisition": {
+            "copper": 57.33333333333333,
+            "wood": 78.33333333333333,
+            "iron": 84.33333333333333,
+            "stone": 4.333333333333333,
+            "water": 30.333333333333332,
+            "mythril": 10
+          },
+          "sustainable": {
+            "copper": 57.33333333333333,
+            "wood": 88.01498127340824,
+            "iron": 86.09363295880149,
+            "stone": 5.213483146067415,
+            "water": 30.333333333333332,
+            "mythril": 10
+          }
+        }
+      },
+      "9": {
+        "simple-core": {
+          "acquisition": {
+            "copper": 8,
+            "wood": 4,
+            "iron": 0,
+            "water": 0,
+            "stone": 0
+          },
+          "sustainable": {
+            "copper": 8,
+            "wood": 4.49438202247191,
+            "iron": 0.08988764044943821,
+            "water": 0,
+            "stone": 0.04494382022471911
+          }
+        },
+        "basic-core": {
+          "acquisition": {
+            "copper": 2,
+            "wood": 3,
+            "iron": 4,
+            "water": 0,
+            "stone": 0
+          },
+          "sustainable": {
+            "copper": 2,
+            "wood": 3.3707865168539324,
+            "iron": 4.067415730337078,
+            "water": 0,
+            "stone": 0.033707865168539325
+          }
+        },
+        "automata-core": {
+          "acquisition": {
+            "copper": 4,
+            "wood": 3,
+            "iron": 2,
+            "stone": 1,
+            "water": 0
+          },
+          "sustainable": {
+            "copper": 4,
+            "wood": 3.3707865168539324,
+            "iron": 2.067415730337079,
+            "stone": 1.0337078651685394,
+            "water": 0
+          }
+        },
+        "hydro-core": {
+          "acquisition": {
+            "iron": 12,
+            "wood": 11.5,
+            "copper": 10,
+            "water": 9,
+            "stone": 1
+          },
+          "sustainable": {
+            "iron": 12.258426966292134,
+            "wood": 12.92134831460674,
+            "copper": 10,
+            "water": 9,
+            "stone": 1.1292134831460674
+          }
+        },
+        "shiny-core": {
+          "acquisition": {
+            "mythril": 2,
+            "wood": 25.833333333333332,
+            "iron": 29.333333333333332,
+            "copper": 18.333333333333332,
+            "water": 9.333333333333334,
+            "stone": 0.3333333333333333
+          },
+          "sustainable": {
+            "mythril": 2,
+            "wood": 29.026217228464418,
+            "iron": 29.91385767790262,
+            "copper": 18.333333333333332,
+            "water": 9.333333333333334,
+            "stone": 0.6235955056179775
+          }
+        },
+        "command-core": {
+          "acquisition": {
+            "copper": 45.666666666666664,
+            "wood": 59.166666666666664,
+            "iron": 57.666666666666664,
+            "stone": 2.6666666666666665,
+            "water": 23.666666666666664,
+            "mythril": 10
+          },
+          "sustainable": {
+            "copper": 45.666666666666664,
+            "wood": 66.47940074906367,
+            "iron": 58.99625468164794,
+            "stone": 3.331460674157303,
+            "water": 23.666666666666664,
+            "mythril": 10
+          }
+        }
+      }
+    },
+    "proposedWireAndGun": {
+      "4": {
+        "simple-core": {
+          "acquisition": {
+            "copper": 8,
+            "wood": 4,
+            "iron": 0,
+            "water": 0,
+            "stone": 0
+          },
+          "sustainable": {
+            "copper": 8,
+            "wood": 4.49438202247191,
+            "iron": 0.08988764044943821,
+            "water": 0,
+            "stone": 0.04494382022471911
+          }
+        },
+        "basic-core": {
+          "acquisition": {
+            "copper": 2,
+            "wood": 3,
+            "iron": 4,
+            "water": 0,
+            "stone": 0
+          },
+          "sustainable": {
+            "copper": 2,
+            "wood": 3.3707865168539324,
+            "iron": 4.067415730337078,
+            "water": 0,
+            "stone": 0.033707865168539325
+          }
+        },
+        "automata-core": {
+          "acquisition": {
+            "copper": 4,
+            "wood": 3,
+            "iron": 2,
+            "stone": 1,
+            "water": 0
+          },
+          "sustainable": {
+            "copper": 4,
+            "wood": 3.3707865168539324,
+            "iron": 2.067415730337079,
+            "stone": 1.0337078651685394,
+            "water": 0
+          }
+        },
+        "hydro-core": {
+          "acquisition": {
+            "iron": 12,
+            "wood": 11.5,
+            "copper": 10,
+            "water": 9,
+            "stone": 1
+          },
+          "sustainable": {
+            "iron": 12.258426966292134,
+            "wood": 12.92134831460674,
+            "copper": 10,
+            "water": 9,
+            "stone": 1.1292134831460674
+          }
+        },
+        "shiny-core": {
+          "acquisition": {
+            "mythril": 2,
+            "wood": 29.333333333333332,
+            "iron": 34,
+            "copper": 20.666666666666664,
+            "water": 10.666666666666666,
+            "stone": 0.6666666666666666
+          },
+          "sustainable": {
+            "mythril": 2,
+            "wood": 32.958801498127336,
+            "iron": 34.659176029962545,
+            "copper": 20.666666666666664,
+            "water": 10.666666666666666,
+            "stone": 0.9962546816479401
+          }
+        },
+        "command-core": {
+          "acquisition": {
+            "copper": 57.33333333333333,
+            "wood": 76.66666666666666,
+            "iron": 81,
+            "stone": 4.333333333333333,
+            "water": 30.333333333333332,
+            "mythril": 10
+          },
+          "sustainable": {
+            "copper": 57.33333333333333,
+            "wood": 86.14232209737827,
+            "iron": 82.72284644194757,
+            "stone": 5.194756554307116,
+            "water": 30.333333333333332,
+            "mythril": 10
+          }
+        }
+      },
+      "9": {
+        "simple-core": {
+          "acquisition": {
+            "copper": 8,
+            "wood": 4,
+            "iron": 0,
+            "water": 0,
+            "stone": 0
+          },
+          "sustainable": {
+            "copper": 8,
+            "wood": 4.49438202247191,
+            "iron": 0.08988764044943821,
+            "water": 0,
+            "stone": 0.04494382022471911
+          }
+        },
+        "basic-core": {
+          "acquisition": {
+            "copper": 2,
+            "wood": 3,
+            "iron": 4,
+            "water": 0,
+            "stone": 0
+          },
+          "sustainable": {
+            "copper": 2,
+            "wood": 3.3707865168539324,
+            "iron": 4.067415730337078,
+            "water": 0,
+            "stone": 0.033707865168539325
+          }
+        },
+        "automata-core": {
+          "acquisition": {
+            "copper": 4,
+            "wood": 3,
+            "iron": 2,
+            "stone": 1,
+            "water": 0
+          },
+          "sustainable": {
+            "copper": 4,
+            "wood": 3.3707865168539324,
+            "iron": 2.067415730337079,
+            "stone": 1.0337078651685394,
+            "water": 0
+          }
+        },
+        "hydro-core": {
+          "acquisition": {
+            "iron": 12,
+            "wood": 11.5,
+            "copper": 10,
+            "water": 9,
+            "stone": 1
+          },
+          "sustainable": {
+            "iron": 12.258426966292134,
+            "wood": 12.92134831460674,
+            "copper": 10,
+            "water": 9,
+            "stone": 1.1292134831460674
+          }
+        },
+        "shiny-core": {
+          "acquisition": {
+            "mythril": 2,
+            "wood": 25.666666666666668,
+            "iron": 29,
+            "copper": 18.333333333333332,
+            "water": 9.333333333333334,
+            "stone": 0.3333333333333333
+          },
+          "sustainable": {
+            "mythril": 2,
+            "wood": 28.838951310861425,
+            "iron": 29.576779026217228,
+            "copper": 18.333333333333332,
+            "water": 9.333333333333334,
+            "stone": 0.6217228464419475
+          }
+        },
+        "command-core": {
+          "acquisition": {
+            "copper": 45.666666666666664,
+            "wood": 58.33333333333333,
+            "iron": 56,
+            "stone": 2.6666666666666665,
+            "water": 23.666666666666664,
+            "mythril": 10
+          },
+          "sustainable": {
+            "copper": 45.666666666666664,
+            "wood": 65.54307116104869,
+            "iron": 57.31086142322097,
+            "stone": 3.3220973782771535,
+            "water": 23.666666666666664,
+            "mythril": 10
+          }
+        }
+      }
+    }
+  },
+  "maps": [
+    {
+      "purchase": 9,
+      "quote": {
+        "simple-core": 5
+      },
+      "hydroQuote": {
+        "simple-core": 5
+      },
+      "currentRaw": {
+        "copper": 40,
+        "wood": 20
+      },
+      "proposedRaw": {
+        "copper": 40,
+        "wood": 20
+      },
+      "labSeconds": 25
+    },
+    {
+      "purchase": 10,
+      "quote": {
+        "simple-core": 6,
+        "basic-core": 6
+      },
+      "hydroQuote": {
+        "simple-core": 6,
+        "basic-core": 6
+      },
+      "currentRaw": {
+        "copper": 60,
+        "wood": 48,
+        "iron": 36
+      },
+      "proposedRaw": {
+        "copper": 60,
+        "wood": 42,
+        "iron": 24
+      },
+      "labSeconds": 30
+    },
+    {
+      "purchase": 19,
+      "quote": {
+        "simple-core": 10,
+        "basic-core": 10
+      },
+      "hydroQuote": {
+        "simple-core": 10,
+        "basic-core": 10
+      },
+      "currentRaw": {
+        "copper": 100,
+        "wood": 80,
+        "iron": 60
+      },
+      "proposedRaw": {
+        "copper": 100,
+        "wood": 70,
+        "iron": 40
+      },
+      "labSeconds": 50
+    },
+    {
+      "purchase": 20,
+      "quote": {
+        "simple-core": 11,
+        "basic-core": 11,
+        "automata-core": 11
+      },
+      "hydroQuote": {
+        "simple-core": 11,
+        "basic-core": 11,
+        "automata-core": 11
+      },
+      "currentRaw": {
+        "copper": 176,
+        "wood": 132,
+        "iron": 88,
+        "stone": 11
+      },
+      "proposedRaw": {
+        "copper": 154,
+        "wood": 110,
+        "iron": 66,
+        "stone": 11
+      },
+      "labSeconds": 55
+    },
+    {
+      "purchase": 29,
+      "quote": {
+        "simple-core": 15,
+        "basic-core": 15,
+        "automata-core": 15
+      },
+      "hydroQuote": {
+        "simple-core": 15,
+        "basic-core": 15,
+        "automata-core": 15
+      },
+      "currentRaw": {
+        "copper": 240,
+        "wood": 180,
+        "iron": 120,
+        "stone": 15
+      },
+      "proposedRaw": {
+        "copper": 210,
+        "wood": 150,
+        "iron": 90,
+        "stone": 15
+      },
+      "labSeconds": 75
+    },
+    {
+      "purchase": 30,
+      "quote": {
+        "simple-core": 16,
+        "basic-core": 16,
+        "automata-core": 16,
+        "hydro-core": 16
+      },
+      "hydroQuote": {
+        "simple-core": 16,
+        "basic-core": 16,
+        "automata-core": 16,
+        "hydro-core": 16
+      },
+      "currentRaw": {
+        "copper": 496,
+        "wood": 416,
+        "iron": 320,
+        "stone": 32,
+        "water": 144
+      },
+      "proposedRaw": {
+        "copper": 384,
+        "wood": 344,
+        "iron": 288,
+        "stone": 32,
+        "water": 144
+      },
+      "labSeconds": 80
+    },
+    {
+      "purchase": 34,
+      "quote": {
+        "simple-core": 18,
+        "basic-core": 18,
+        "automata-core": 18,
+        "hydro-core": 18
+      },
+      "hydroQuote": {
+        "simple-core": 18,
+        "basic-core": 18,
+        "automata-core": 18,
+        "hydro-core": 18
+      },
+      "currentRaw": {
+        "copper": 558,
+        "wood": 468,
+        "iron": 360,
+        "stone": 36,
+        "water": 162
+      },
+      "proposedRaw": {
+        "copper": 432,
+        "wood": 387,
+        "iron": 324,
+        "stone": 36,
+        "water": 162
+      },
+      "labSeconds": 90
+    },
+    {
+      "purchase": 39,
+      "quote": {
+        "simple-core": 20,
+        "basic-core": 20,
+        "automata-core": 20,
+        "hydro-core": 20
+      },
+      "hydroQuote": {
+        "simple-core": 20,
+        "basic-core": 20,
+        "automata-core": 20,
+        "hydro-core": 20
+      },
+      "currentRaw": {
+        "copper": 620,
+        "wood": 520,
+        "iron": 400,
+        "stone": 40,
+        "water": 180
+      },
+      "proposedRaw": {
+        "copper": 480,
+        "wood": 430,
+        "iron": 360,
+        "stone": 40,
+        "water": 180
+      },
+      "labSeconds": 100
+    },
+    {
+      "purchase": 40,
+      "quote": {
+        "simple-core": 21,
+        "basic-core": 21,
+        "automata-core": 21,
+        "hydro-core": 21,
+        "shiny-core": 21
+      },
+      "hydroQuote": {
+        "simple-core": 21,
+        "basic-core": 21,
+        "automata-core": 21,
+        "hydro-core": 21
+      },
+      "currentRaw": {
+        "copper": 1155,
+        "wood": 1092,
+        "iron": 924,
+        "stone": 42,
+        "water": 357,
+        "mythril": 42
+      },
+      "proposedRaw": {
+        "copper": 840,
+        "wood": 913.5,
+        "iron": 882,
+        "stone": 42,
+        "water": 357,
+        "mythril": 42
+      },
+      "labSeconds": 105
+    },
+    {
+      "purchase": 49,
+      "quote": {
+        "simple-core": 25,
+        "basic-core": 25,
+        "automata-core": 25,
+        "hydro-core": 25,
+        "shiny-core": 25
+      },
+      "hydroQuote": {
+        "simple-core": 25,
+        "basic-core": 25,
+        "automata-core": 25,
+        "hydro-core": 25
+      },
+      "currentRaw": {
+        "copper": 1375,
+        "wood": 1300,
+        "iron": 1100,
+        "stone": 50,
+        "water": 425,
+        "mythril": 50
+      },
+      "proposedRaw": {
+        "copper": 1000,
+        "wood": 1087.5,
+        "iron": 1050,
+        "stone": 50,
+        "water": 425,
+        "mythril": 50
+      },
+      "labSeconds": 125
+    },
+    {
+      "purchase": 50,
+      "quote": {
+        "simple-core": 26,
+        "basic-core": 26,
+        "automata-core": 26,
+        "hydro-core": 26,
+        "shiny-core": 26,
+        "command-core": 26
+      },
+      "hydroQuote": {
+        "simple-core": 26,
+        "basic-core": 26,
+        "automata-core": 26,
+        "hydro-core": 26
+      },
+      "currentRaw": {
+        "copper": 2756,
+        "wood": 2639,
+        "iron": 1950,
+        "stone": 78,
+        "water": 884,
+        "mythril": 364
+      },
+      "proposedRaw": {
+        "copper": 1924,
+        "wood": 2171,
+        "iron": 1898,
+        "stone": 78,
+        "water": 884,
+        "mythril": 312
+      },
+      "labSeconds": 130
+    },
+    {
+      "purchase": 59,
+      "quote": {
+        "simple-core": 30,
+        "basic-core": 30,
+        "automata-core": 30,
+        "hydro-core": 30,
+        "shiny-core": 30,
+        "command-core": 30
+      },
+      "hydroQuote": {
+        "simple-core": 30,
+        "basic-core": 30,
+        "automata-core": 30,
+        "hydro-core": 30
+      },
+      "currentRaw": {
+        "copper": 3180,
+        "wood": 3045,
+        "iron": 2250,
+        "stone": 90,
+        "water": 1020,
+        "mythril": 420
+      },
+      "proposedRaw": {
+        "copper": 2220,
+        "wood": 2505,
+        "iron": 2190,
+        "stone": 90,
+        "water": 1020,
+        "mythril": 360
+      },
+      "labSeconds": 150
+    },
+    {
+      "purchase": 60,
+      "quote": {
+        "simple-core": 31,
+        "basic-core": 31,
+        "automata-core": 31,
+        "hydro-core": 31,
+        "shiny-core": 31,
+        "command-core": 31
+      },
+      "hydroQuote": {
+        "simple-core": 31,
+        "basic-core": 31,
+        "automata-core": 31,
+        "hydro-core": 31
+      },
+      "currentRaw": {
+        "copper": 3286,
+        "wood": 3146.5,
+        "iron": 2325,
+        "stone": 93,
+        "water": 1054,
+        "mythril": 434
+      },
+      "proposedRaw": {
+        "copper": 2294,
+        "wood": 2588.5,
+        "iron": 2263,
+        "stone": 93,
+        "water": 1054,
+        "mythril": 372
+      },
+      "labSeconds": 155
+    },
+    {
+      "purchase": 119,
+      "quote": {
+        "simple-core": 42,
+        "basic-core": 42,
+        "automata-core": 42,
+        "hydro-core": 42,
+        "shiny-core": 42,
+        "command-core": 42
+      },
+      "hydroQuote": {
+        "simple-core": 42,
+        "basic-core": 42,
+        "automata-core": 42,
+        "hydro-core": 42
+      },
+      "currentRaw": {
+        "copper": 4452,
+        "wood": 4263,
+        "iron": 3150,
+        "stone": 126,
+        "water": 1428,
+        "mythril": 588
+      },
+      "proposedRaw": {
+        "copper": 3108,
+        "wood": 3507,
+        "iron": 3066,
+        "stone": 126,
+        "water": 1428,
+        "mythril": 504
+      },
+      "labSeconds": 210
+    }
+  ],
+  "completedMapPurchases34": {
+    "costs": {
+      "simple-core": 339,
+      "basic-core": 294,
+      "automata-core": 214,
+      "hydro-core": 84
+    },
+    "currentRaw": {
+      "copper": 5844,
+      "wood": 4564,
+      "iron": 3200,
+      "stone": 298,
+      "water": 756
+    },
+    "proposedWireRaw": {
+      "copper": 4996,
+      "wood": 3846,
+      "iron": 2612,
+      "stone": 298,
+      "water": 756
+    }
+  },
+  "camps": [
+    {
+      "tier": 4,
+      "apPerMinute": 6,
+      "mythrilPerMinute": 12,
+      "mediumBotsPerMinute": 2,
+      "finalAssemblersAtBaseSpeed": 0.8333333333333334,
+      "rawPerMinute": {
+        "iron": 68,
+        "wood": 54,
+        "copper": 40,
+        "water": 16,
+        "stone": 4
+      },
+      "proposedRawPerMinute": {
+        "iron": 60,
+        "wood": 44,
+        "copper": 28,
+        "water": 16,
+        "stone": 4
+      }
+    },
+    {
+      "tier": 5,
+      "apPerMinute": 12,
+      "mythrilPerMinute": 36,
+      "mediumBotsPerMinute": 4,
+      "finalAssemblersAtBaseSpeed": 1.6666666666666667,
+      "rawPerMinute": {
+        "iron": 136,
+        "wood": 108,
+        "copper": 80,
+        "water": 32,
+        "stone": 8
+      },
+      "proposedRawPerMinute": {
+        "iron": 120,
+        "wood": 88,
+        "copper": 56,
+        "water": 32,
+        "stone": 8
+      }
+    },
+    {
+      "tier": 9,
+      "apPerMinute": 72,
+      "mythrilPerMinute": 288,
+      "mediumBotsPerMinute": 24,
+      "finalAssemblersAtBaseSpeed": 10,
+      "rawPerMinute": {
+        "iron": 816,
+        "wood": 648,
+        "copper": 480,
+        "water": 192,
+        "stone": 48
+      },
+      "proposedRawPerMinute": {
+        "iron": 720,
+        "wood": 528,
+        "copper": 336,
+        "water": 192,
+        "stone": 48
+      }
+    }
+  ],
+  "corners": {
+    "current": {
+      "alpha": {
+        "ap": 10000,
+        "mediumBots": 3334,
+        "finalAssemblerHoursOneBase": 23.15277777777778,
+        "raw": {
+          "iron": 113356,
+          "wood": 90018,
+          "copper": 66680,
+          "water": 26672,
+          "stone": 6668
+        }
+      },
+      "foundry": {
+        "inputs": {
+          "ceramic-electrode": 3000,
+          "sealed-frame": 3000,
+          "mythril-gear": 3000
+        },
+        "standardWithTier9AndPaidForestry": {
+          "stone": 12044.943820224718,
+          "copper": 83000,
+          "wood": 104494.38202247191,
+          "water": 23000,
+          "iron": 90089.88764044944,
+          "mythril": 12000
+        },
+        "cartRoadHoursOneSharedLane": 12.5,
+        "trainRoadHoursOneSharedLane": 3.125
+      },
+      "grove": {
+        "growth": 2000000,
+        "directUpkeepRaw": {
+          "wood": 220000,
+          "iron": 40000,
+          "stone": 20000
+        },
+        "includingPaidForestry": {
+          "wood": 247191.01123595505,
+          "iron": 44943.8202247191,
+          "stone": 22471.91011235955
+        },
+        "hoursTwoBasePlanters": 277.77777777777777,
+        "hoursEightIndustrialPlanters": 6.944444444444445
+      }
+    },
+    "candidateTenfoldReduction": {
+      "alpha": {
+        "ap": 1000,
+        "mediumBots": 334,
+        "finalAssemblerHoursOneBase": 2.3194444444444446,
+        "raw": {
+          "iron": 11356,
+          "wood": 9018,
+          "copper": 6680,
+          "water": 2672,
+          "stone": 668
+        }
+      },
+      "foundry": {
+        "inputs": {
+          "ceramic-electrode": 300,
+          "sealed-frame": 300,
+          "mythril-gear": 300
+        },
+        "standardWithTier9AndPaidForestry": {
+          "stone": 1204.4943820224719,
+          "copper": 8300,
+          "wood": 10449.438202247191,
+          "water": 2300,
+          "iron": 9008.988764044943,
+          "mythril": 1200
+        },
+        "cartRoadHoursOneSharedLane": 1.25,
+        "trainRoadHoursOneSharedLane": 0.3125
+      },
+      "grove": {
+        "growth": 200000,
+        "directUpkeepRaw": {
+          "wood": 22000,
+          "iron": 4000,
+          "stone": 2000
+        },
+        "includingPaidForestry": {
+          "wood": 24719.101123595505,
+          "iron": 4494.38202247191,
+          "stone": 2247.191011235955
+        },
+        "hoursTwoBasePlanters": 27.77777777777778,
+        "hoursEightIndustrialPlanters": 0.6944444444444444
+      }
+    }
+  },
+  "reclamation": {
+    "currentSingleTypeQuotas": {
+      "metallic-fines": 368447,
+      "spent-flux": 736893,
+      "glassy-crust": 368447,
+      "slag": 1163296
+    },
+    "controllerFinesPerMinute": 2,
+    "currentHoursTenBaseControllers": 307.0383550810596,
+    "currentComplexCoresPerComponentAtStandardWasteYield": 368446.02609727153,
+    "candidateSingleTypeQuotas": {
+      "metallic-fines": 1000,
+      "spent-flux": 2000,
+      "glassy-crust": 1000,
+      "slag": 3200
+    },
+    "candidateHoursTenBaseControllers": 0.8333333333333334,
+    "candidateHoursTwoBaseControllers": 4.166666666666667
+  },
+  "recovery": {
+    "motorCostTwentyCurrent": {
+      "iron": 80,
+      "wood": 100,
+      "copper": 120
+    },
+    "motorCostTwentyProposed": {
+      "iron": 80,
+      "wood": 80,
+      "copper": 80
+    },
+    "drillDeposit": 1000,
+    "naturalForestPerMinute": 2,
+    "ordinaryMineralRegenerationPerMinute": 2,
+    "improvedMineralRegenerationPerMinute": 4
+  },
+  "alternativeRecipeFollowup": {
+    "reason": "Reducing Wire to two Plates removes the Copper savings of existing Efficient Circuit A/Motor; preserve their resource advantage if adopting this change.",
+    "proposedInputs": {
+      "efficient-circuit-a": {
+        "copper-plate": 1,
+        "iron-plate": 1
+      },
+      "efficient-motor": {
+        "iron-plate": 2,
+        "copper-plate": 1
+      }
+    },
+    "note": "Other inputs, cycles, guaranteed waste, unlocks and outputs stay as defined. Mythril/composite and fixed Recycler returns also need regression coverage before implementation."
+  }
+}

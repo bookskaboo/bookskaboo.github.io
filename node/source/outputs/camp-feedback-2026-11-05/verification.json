@@ -1,0 +1,27 @@
+{
+  "date": "2026-11-05",
+  "kind": "synthetic-feature-QA-not-a-balance-run",
+  "tests": {
+    "passed": 725,
+    "skipped": 1
+  },
+  "verified": [
+    "Sixty-second check timing, reset and neutral pre-check state",
+    "Red/green result persists until an actual following check, including Dwarven immediate retries",
+    "Current AP includes retained Dwarven credit; paid check records pre-consumption AP",
+    "Last-result persistence across JSON save/load and frozen simulation while paused",
+    "Renderer helper emits current AP, next-check countdown and pass/fail colors",
+    "Dwarven sighting requires a visited unlocked map, excludes practice worlds and Goblins, and stays dismissed after reload/undo",
+    "Practice bots can fully suppress a camp and produce real Goblin Tribute",
+    "Tutorial copy distinguishes Goblin/Dwarven resources, output rates and failure behavior"
+  ],
+  "browser": {
+    "verified": false,
+    "url": "http://127.0.0.1:4176/outputs/camp-feedback-2026-11-05/qa.html",
+    "initialFailure": "net::ERR_CONNECTION_TIMED_OUT",
+    "recoveryFailure": "Browser Use URL policy blocked access to generated data: error page",
+    "limit": "Stopped browser actions after the policy block; no alternate browser or native automation used. Visual layout/interaction not certified."
+  },
+  "userSavesModified": false,
+  "publicationConfirmed": false
+}

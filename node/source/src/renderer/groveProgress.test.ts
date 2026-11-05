@@ -6,9 +6,9 @@ import { groveProgress } from './groveProgress';
 describe('Grove cumulative progress', () => {
   it('shows exact sub-percent growth and uses saved cumulative work rather than cycle time', () => {
     const node = tutorialNode('cornerChallenge', 'grove', 500, 500, { cornerType: 'grove', cornerProgress: 1, progressMs: 0 });
-    expect(groveProgress(node)).toEqual({ fraction: 1 / GROVE_GROWTH, label: '1 / 2,000,000' });
+    expect(groveProgress(node)).toEqual({ fraction: 1 / GROVE_GROWTH, label: '1 / 500' });
     node.cornerProgress = GROVE_GROWTH / 2;
-    expect(groveProgress(node)).toEqual({ fraction: .5, label: '1,000,000 / 2,000,000' });
+    expect(groveProgress(node)).toEqual({ fraction: .5, label: '250 / 500' });
   });
 
   it('shows Tribute inventory independently of the next component progress', () => {

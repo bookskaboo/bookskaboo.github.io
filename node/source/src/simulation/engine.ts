@@ -1,5 +1,6 @@
 import { applyExpansionRescue } from './expansionRescue';
-import { endgameRank, reconcileHole, worldRecipeAllowed, CORNER_MAPS } from '../content/endgame';
+import { firstSpottedDwarvenCamp, DWARVEN_DISCOVERY_PROMPT } from '../tutorials/dwarvenDiscovery';
+import { endgameRank, reconcileHole, worldRecipeAllowed, CORNER_MAPS, FOUNDRY_INPUTS } from '../content/endgame';
 import { initializeEndgame, createCornerNodes, simulateCorner, simulateRecycler, cornerInputAllowed } from './endgameRuntime';
 import { recyclerAccepts } from '../content/recycling';
 import { simulatePlanter } from '../content/forestry';
@@ -271,6 +272,7 @@ export class GameEngine {
           const attack = attackPower(node) + credit;
           const requirement = getGoblinAttackRequirement(node);
           node.suppressed = attack >= requirement;
+          node.campLastCheck = { passed: node.suppressed, atMs: this.state.playTimeMs, suppliedAp: attack, requiredAp: requirement };
           checkedCamps.push(node);
           node.campStrength = attack >= requirement ? Math.max(10, (node.campStrength ?? 25) - 10) : Math.min(100, (node.campStrength ?? 25) + 10);
           if (node.lizardSettlement) {
@@ -550,9 +552,9 @@ export class GameEngine {
     }
   }
 
-  private inputCapacity(node: MachineNode, _item: ItemId) {
+  private inputCapacity(node: MachineNode, item: ItemId) {
     if (isCartKind(node.kind)) return Math.max(0, Math.min(modNode(node.kind)?.inputCapacity ?? Infinity, cartCapacity(node) - sum(node.output)));
-    if(node.kind==='cornerChallenge')return node.cornerType==='foundry'?3000:100;
+    if(node.kind==='cornerChallenge')return node.cornerType==='foundry'?(FOUNDRY_INPUTS[item]??0):100;
     if (node.kind === 'road') return 0;
     if (modNode(node.kind)?.inputCapacity !== undefined) return modNode(node.kind)!.inputCapacity!;
     if (node.kind === 'forest' && this.state.research.completed.includes('planterThroughput')) return 20;
@@ -1329,6 +1331,11 @@ export class GameEngine {
     return true;
   }
   togglePause() { this.state.paused = !this.state.paused; this.publish(); }
+  acknowledgeDwarvenDiscovery() {
+    if (!firstSpottedDwarvenCamp(this.state)) return false;
+    (this.state.tutorialPromptsSeen ??= []).push(DWARVEN_DISCOVERY_PROMPT);
+    this.publish(); return true;
+  }
   acknowledgeTutorialInvitation(kind: ProgressiveTutorialKind) {
     if (!isTutorialUnlocked(kind, this.state) || this.state.tutorialPromptsSeen?.includes(kind)) return false;
     (this.state.tutorialPromptsSeen ??= []).push(kind);
