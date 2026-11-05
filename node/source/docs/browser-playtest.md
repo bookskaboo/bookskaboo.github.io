@@ -1,5 +1,7 @@
 # Browser playtest startup and recovery
 
+Before starting a future run, read the [working factory build guide](playtest-build-guide.md). It preserves the last verified Medium Bot wiring, fuel/Plate repairs, proven Road delivery and the later unverified scaling change. Rebuild through normal gameplay; it is not a save or starter-factory grant.
+
 ## Published playtest target
 
 The current published game is **https://bookskaboo.github.io/node/**, confirmed by the user on November 2, 2026. Use this URL when the user requests the GitHub/published version. Do not infer the deployment from an older checkout's Git remote or its README: `ForzenAcademy/nodes` links to an older, different FACTORINODE build at `forzenacademy.com/node/`.

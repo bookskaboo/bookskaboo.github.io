@@ -111,6 +111,11 @@ research bill; the older simulation pages are analytical experiments.
   waste. Endgame Theory is retired. Victory requires manually researching
   A Remarkably Indirect Conclusion at the Research Center with one of every
   Core, Simple through Final. See the [cost review](outputs/balance-review-2026-11-05/review.txt).
+- Monster Camps display current/required AP, a sixty-second check bar, and a
+  persistent green/red glow for the last passed/failed check. A first Dwarven
+  sighting explains Mythril Tribute; the camp tutorial covers differing Tribute
+  resources/rates and collection from the separate box. Future playtests should
+  reuse the [verified factory build guide](docs/playtest-build-guide.md).
 - Perfect play should complete tier 6, including the research opening tier 7,
   within three hours from a fresh start while maximizing Research Center use.
   This is a separate checkpoint from the endgame target. Include startup,

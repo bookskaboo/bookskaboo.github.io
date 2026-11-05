@@ -5,9 +5,8 @@ import type { SelectionInfo } from '../renderer/PixiPlayfield';
 import type { GameEngine } from '../simulation/engine';
 import type { CameraState, GameState, MachineNode, NodeKind } from '../domain/types';
 import { getNodeSize, getPortAnchor } from '../domain/nodeGeometry';
-import { attackPower } from '../simulation/progression';
+import { campStatus } from '../simulation/campStatus';
 import { availableTutorials } from '../tutorials/tutorialUnlocks';
-import { getGoblinAttackRequirement } from '../content/goblinSettlements';
 import { type GuidedTutorialKind } from '../tutorials/originalTutorials';
 import { BASIC_STAGES, createTutorialState, EXPANSION_HOME, EXPANSION_OUTPOST, expansionDelivered, type TutorialKind, lessonCopy, lessonSatisfied, MANUAL_STAGES, TUTORIAL_NAMES } from '../tutorials/tutorialRuntime';
 
@@ -19,7 +18,7 @@ export function TutorialMenu({ game, onStart, onClose }: { game: GameState; onSt
     <header className="panel-header"><div><small>LEARN TO PLAY</small><h2>{reference ? `${TUTORIAL_NAMES[reference]} guide` : 'Tutorials'}</h2></div><button aria-label="Close tutorials" onClick={onClose}>×</button></header>
     {reference ? <><p className="tutorial-library-note">Reference guides for routing, cable insertion, and factory controls. The cables have a syllabus.</p><button onClick={() => setReference(undefined)}>← Back to tutorials</button><div className="tutorial-reference">{tutorialStages(reference).map((stage, index) => { const copy = lessonCopy(stage); return <article key={stage}><small>STEP {index + 1}</small><h3>{copy.title}</h3><p>{copy.body}</p><b>{copy.instruction}</b></article>; })}</div></> : <>
     <p className="tutorial-library-note">Practice in a separate factory. Your main game stays paused. No lasting evidence.</p>
-    {availableTutorials(game).map(kind => <article className="tutorial-choice" key={kind}><h3>{TUTORIAL_NAMES[kind]}</h3><p>{kind === 'basic' ? 'Turn Wood and Copper into a Simple Core, then research. A small industrial incident.' : kind === 'expansion' ? 'Visit another map and bring Wood Home by Road. Local Wood was apparently insufficient.' : kind === 'logistics' ? 'Route, split, and merge materials. Untangle your intentions.' : kind === 'monster-camps' ? 'Learn camp borders and recurring Attack Power checks. The neighbors keep a schedule.' : 'Group machines, move them together, and control individual members. A committee that actually works.'}</p><div>{<button className="primary-cta" onClick={() => onStart(kind)}>Start {TUTORIAL_NAMES[kind]}</button>}{kind !== 'expansion' && <button onClick={() => setReference(kind)}>Read guide</button>}</div></article>)}
+    {availableTutorials(game).map(kind => <article className="tutorial-choice" key={kind}><h3>{TUTORIAL_NAMES[kind]}</h3><p>{kind === 'basic' ? 'Turn Wood and Copper into a Simple Core, then research. A small industrial incident.' : kind === 'expansion' ? 'Visit another map and bring Wood Home by Road. Local Wood was apparently insufficient.' : kind === 'logistics' ? 'Route, split, and merge materials. Untangle your intentions.' : kind === 'monster-camps' ? 'Learn AP checks, camp suppression and the Tribute different settlements provide. The neighbors keep a schedule.' : 'Group machines, move them together, and control individual members. A committee that actually works.'}</p><div>{<button className="primary-cta" onClick={() => onStart(kind)}>Start {TUTORIAL_NAMES[kind]}</button>}{kind !== 'expansion' && <button onClick={() => setReference(kind)}>Read guide</button>}</div></article>)}
     </>}
   </section></div>;
 }
@@ -124,7 +123,7 @@ export function TutorialGuide({ session, game, camera, nodePositions, panel, pla
       {stage === 'control-group-move' && <p className="tutorial-goal" role="status">{movedMembers} / 3 nodes moved{movedMembers === 3 ? ' · Release to confirm.' : ' · Drag a node header, away from its sockets.'}</p>}
       {kind === 'basic' && <p className="tutorial-goal">Goal: make a Simple Core · {(game.produced?.['simple-core'] ?? 0) > 0 ? <span className="tutorial-goal-achieved">Achieved ✓</span> : 'In progress'}</p>}
       {kind === 'expansion' && <p className="tutorial-goal">Goal: bring Wood Home · {expansionDelivered(game) ? <span className="tutorial-goal-achieved">Achieved ✓</span> : 'In progress'}</p>}
-      {camp && <p className="tutorial-camp-status">Attack Power: {attackPower(camp)} / {getGoblinAttackRequirement(camp)} · Next check: {Math.ceil((60000 - camp.progressMs % 60000) / 1000)}s · {camp.suppressed ? 'Suppressed' : 'Not suppressed'}</p>}
+      {camp && <p className="tutorial-camp-status">Attack Power: {campStatus(camp).suppliedAp} / {campStatus(camp).requiredAp} · Next check: {campStatus(camp).secondsRemaining}s · {camp.suppressed ? 'Suppressed' : 'Not suppressed'}</p>}
       <div className="tutorial-guide-actions"><button onClick={() => { engine.replaceState(createTutorialState(kind)); onPanel(null); setIndex(0); }}>Restart lesson</button>{!finish && MANUAL_STAGES.has(stage) && <button className="tutorial-continue" onClick={advance}>{stage === 'options-open' ? 'Open Options →' : 'Continue →'}</button>}</div>
       <footer className="tutorial-footer"><small className="tutorial-safe-note">Practice factory · Your real factory is spared the experiment</small><button className="tutorial-exit" onClick={finish ? onFinish : onExit}>{finish ? 'Finish tutorial' : 'Exit practice'}</button></footer>
     </aside>

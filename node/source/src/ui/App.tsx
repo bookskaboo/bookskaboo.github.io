@@ -1,4 +1,6 @@
 import { EndgameNotice } from './components/EndgameNotice';
+import { DwarvenDiscoveryNotice } from './components/DwarvenDiscoveryNotice';
+import { firstSpottedDwarvenCamp } from '../tutorials/dwarvenDiscovery';
 import { readShortcutBars, readShortcutBarGroups, readKnownShortcutUnlocks, readNewShortcutAssignments } from './shortcutPreferences';
 import { SHORTCUT_BARS_KEY, SHORTCUT_BAR_GROUPS_KEY, SHORTCUT_UNLOCKS_KEY, SHORTCUT_NEW_ASSIGNMENTS_KEY } from '../persistence/storageKeys';
 import { Stat } from './components/Stat';
@@ -86,7 +88,9 @@ export function App() {
   const [welcome, setWelcome] = useState(true);
   const [training, setTraining] = useState<TrainingSession>();
   const [tutorialMenu, setTutorialMenu] = useState(false);
-  const tutorialInvitation = !welcome && !training && !tutorialMenu ? nextTutorialInvitation(ENGINE.getState()) : undefined;
+  const dwarvenDiscovery = !welcome && !training && !tutorialMenu ? firstSpottedDwarvenCamp(ENGINE.getState()) : undefined;
+  const dismissDwarvenDiscovery = useCallback(() => { ENGINE.acknowledgeDwarvenDiscovery(); }, []);
+  const tutorialInvitation = !welcome && !training && !tutorialMenu && !dwarvenDiscovery ? nextTutorialInvitation(ENGINE.getState()) : undefined;
   const invitationOpen = Boolean(tutorialInvitation);
   const dismissTutorialInvitation = useCallback(() => { if (tutorialInvitation) ENGINE.acknowledgeTutorialInvitation(tutorialInvitation); }, [tutorialInvitation]);
   useEffect(() => {
@@ -103,7 +107,7 @@ export function App() {
     setTraining(undefined);
     setTutorialMenu(false);
   };
-  return <><FactoryApp key={training?.id ?? 'factory'} engine={training?.engine ?? ENGINE} training={training} welcome={!training && welcome} onShowWelcome={() => setWelcome(true)} onCloseWelcome={() => setWelcome(false)} onTutorials={() => setTutorialMenu(true)} onExitTutorial={exitTutorial} onFinishTutorial={finishTutorial} />{tutorialMenu && <TutorialMenu game={ENGINE.getState()} onStart={startTutorial} onClose={() => setTutorialMenu(false)} />}{tutorialInvitation && <TutorialUnlockInvitation kind={tutorialInvitation} onStart={() => startTutorial(tutorialInvitation)} onLater={dismissTutorialInvitation} />}</>;
+  return <><FactoryApp key={training?.id ?? 'factory'} engine={training?.engine ?? ENGINE} training={training} welcome={!training && welcome} onShowWelcome={() => setWelcome(true)} onCloseWelcome={() => setWelcome(false)} onTutorials={() => setTutorialMenu(true)} onExitTutorial={exitTutorial} onFinishTutorial={finishTutorial} />{dwarvenDiscovery && <DwarvenDiscoveryNotice camp={dwarvenDiscovery.camp} onDismiss={dismissDwarvenDiscovery} />}{tutorialMenu && <TutorialMenu game={ENGINE.getState()} onStart={startTutorial} onClose={() => setTutorialMenu(false)} />}{tutorialInvitation && <TutorialUnlockInvitation kind={tutorialInvitation} onStart={() => startTutorial(tutorialInvitation)} onLater={dismissTutorialInvitation} />}</>;
 }
 
 function FactoryApp({ engine, training, welcome, onShowWelcome, onCloseWelcome, onTutorials, onExitTutorial, onFinishTutorial }: { engine: GameEngine; training?: TrainingSession; welcome: boolean; onShowWelcome(): void; onCloseWelcome(): void; onTutorials(): void; onExitTutorial(): void; onFinishTutorial(): void }) {

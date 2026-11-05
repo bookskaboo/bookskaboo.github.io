@@ -9829,6 +9829,61 @@
         "Required fixed capability/victory research totals 97 Cores: 30 Simple, 29 Basic, 24 Automata, 9 Hydro, 3 Shiny, 1 Complex, 1 Final. Map Node purchases and Basic Cores consumed inside bots are additional. An ideal H route to all corners uses 30 new maps/29 repeat purchases: 692 research Cores with scheduled Automata access, or 562 if Automata is delayed until after exploration. These are geometric/unlock-order examples, not a seed-independent solvability or total factory-consumption claim. Update the reproducible audit and maintain ordinary Wire/Gun suggestions as unimplemented."
       ],
       "validation": "715 tests passed, one pre-existing skip; TypeScript/Vite build, progression analysis and balance:audit passed. Tests verify revised real-cable component cadence and input capacities, legacy stock/progress, retired research search/selection and current/original-format payment preservation, and manually selected seven-Core victory without automatic trigger or partial-input consumption. Changelog generation/checks run with this record. No browser playtest, user-save edits, Git publication or live deployment; the existing build chunk-size warning remains."
+    },
+    {
+      "id": "NODE-0322",
+      "date": "2026-11-05",
+      "dateBasis": "chat",
+      "kind": "added",
+      "state": "implemented",
+      "delivery": "local",
+      "title": "Explain Tribute and show live camp AP, check timing and persistent results",
+      "summary": "Teach differing camp Tribute, display a sixty-second progress bar and current/required AP with red/green last-check glow, introduce Dwarven Mythril on first sighting and retain verified factory wiring for later playtests.",
+      "topics": [
+        "Tutorials",
+        "Interface",
+        "Encounters",
+        "Resources",
+        "Persistence",
+        "Playtesting",
+        "Documentation"
+      ],
+      "sources": [
+        "chat-balance-2026-11-05",
+        "local-code"
+      ],
+      "evidence": [
+        "src/domain/types.ts",
+        "src/simulation/engine.ts",
+        "src/simulation/campStatus.ts",
+        "src/simulation/campStatus.test.ts",
+        "src/renderer/campNodeStatus.ts",
+        "src/renderer/campNodeStatus.test.ts",
+        "src/renderer/PixiPlayfield.tsx",
+        "src/ui/NodeInspector.tsx",
+        "src/ui/Tutorials.tsx",
+        "src/ui/TutorialUnlockInvitation.tsx",
+        "src/ui/App.tsx",
+        "src/ui/components/DwarvenDiscoveryNotice.tsx",
+        "src/tutorials/dwarvenDiscovery.ts",
+        "src/tutorials/dwarvenDiscovery.test.ts",
+        "src/tutorials/tutorialDialogue.ts",
+        "src/tutorials/tutorialState.ts",
+        "src/tutorials/tutorialRuntime.test.ts",
+        "docs/playtest-build-guide.md",
+        "docs/browser-playtest.md",
+        "AGENTS.md",
+        "outputs/camp-feedback-2026-11-05/verification.json",
+        "outputs/camp-feedback-2026-11-05/qa.html",
+        "outputs/camp-feedback-2026-11-05/qa.tsx"
+      ],
+      "details": [
+        "Camp checks record passed/failed, simulation time and pre-consumption supplied/required AP. The map renders a real sixty-second check-progress bar, live AP stock/requirement and a steady green/red outline until another actual check; text identifies PASSED/FAILED as well. Newly encountered and legacy camps without a recorded result remain neutral. Current stock is separate from the previous result, including retained Dwarven credit and immediate retry behavior. Timers pause with simulation and saved check results survive reload.",
+        "The first visited, unlocked Dwarven settlement in each factory gets a dry-humor Mythril Tribute modal: Suppressing this one is probably a good idea. It names the actual AP/check and Mythril rate, explains minimum size and first production unlock, and distinguishes Goblin/Dwarven Tribute. Acknowledgement uses saved invitation history, survives undo and excludes tutorial factories; it takes priority over generic tutorial invitations.",
+        "Camp lessons explain 1/3/8/20 bot AP, bar/results, minimum-size Tribute, direct collection from the separate box, selectable Goblin basic resources versus Dwarven Mythril, varying demand/rates and different failed-check consequences. Increase only the isolated practice Cart from five to twenty Small Bots, enough to demonstrate fully suppressed real Tribute. Main-game camp timing, prices, payments and outputs are unchanged.",
+        "The user selects a persistent playtest build guide rather than cross-game factory-template carryover. Preserve verified Simple-through-Hydro wiring, the successful S2 Medium Bot checkpoint and real Road delivery, fuel/Plate repairs, isolated-inventory verification and later failed scaling limitations. Exact successful node positions/graph were not exported, so the guide labels functional recipe reconstructions honestly. AGENTS/browser-startup instructions require consulting it before later runs; new games get no stock or factory grants."
+      ],
+      "validation": "725 tests passed, one pre-existing skip; TypeScript/Vite production build passed. Ten added checks cover real AP timing, reset, persistent result versus live stock, save/load/pause, Dwarven retained credit and immediate retry, first sighting/acknowledgement/undo, tutorial copy, renderer labels/colors and a wired practice camp producing actual Goblin Tribute. Browser visual QA timed out opening the isolated localhost fixture; rebinding encountered a Browser Use URL-policy block on its generated error page. Stopped browser actions without another browser/native control path, so visual layout, focus behavior and interactive rendering remain unverified. No user saves edited, no normal-play balance run, no publication; existing build chunk-size warning remains. Changelog generation/checks run with this entry."
     }
   ]
 }
