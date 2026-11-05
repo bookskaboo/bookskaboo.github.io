@@ -24,9 +24,11 @@ Before a new run, read `docs/playtest-build-guide.md` and reuse its verified fun
 
 For balance runs, use normal gameplay without grants, save injection, accelerated simulation, or changes to game rules. Queue ordinary bugs and suggested design changes until the run is over. If a progression blocker needs a fix, make the smallest authorized fix, record it, and continue. Keep resource totals and elapsed game time in exported playtest reports; distinguish setup and interaction overhead from production waiting.
 
-# Change history
+# Publishing
 
 The live game is `https://bookskaboo.github.io/node/`, published from `main` in `bookskaboo/bookskaboo.github.io`. For a requested live publication, use `npm run build:site` so generated assets use the `/node/` base, copy the matching build to `node/` and source to `node/source/`, preserve other projects, and verify served asset hashes after the push. A feature-branch push alone does not publish the live game.
+
+# Change history
 
 Maintain `docs/changelog/entries.json` after each completed meaningful game, documentation, or tooling change. Read `docs/changelog/README.md` for the format. Add a stable NODE ID, local date, concise outcome, topics, source/evidence, actual verification and material limits. Batch related changes; do not log unimplemented proposals as completed. Search the history when checking earlier decisions or regressions.
 

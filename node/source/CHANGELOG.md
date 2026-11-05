@@ -2,7 +2,7 @@
 
 A searchable record of completed changes, design decisions, and relevant review findings. Stable NODE IDs can be cited in chats and searched in the repository.
 
-**322 records · 2026-10-12–2026-11-05 · America/Los_Angeles**
+**323 records · 2026-10-12–2026-11-05 · America/Los_Angeles**
 
 [Open searchable history](<docs/changelog/index.html>) · [How to review and maintain it](<docs/changelog/README.md>) · [Sources and coverage gaps](<docs/changelog/sources.md>)
 
@@ -12,8 +12,6 @@ These changes follow the latest confirmed game publication, e177479. Creating th
 
 | ID | Change | Topics |
 | --- | --- | --- |
-| [NODE-0322](<docs/changelog/2026-11.md#node-0322>) | Explain Tribute and show live camp AP, check timing and persistent results | Tutorials, Interface, Encounters, Resources, Persistence, Playtesting, Documentation |
-| [NODE-0321](<docs/changelog/2026-11.md#node-0321>) | Apply explicit corner quotas and a seven-Core Research Center victory | Balance, Progression, Research, Production, Interface, Persistence, Documentation |
 | [NODE-0242](<docs/changelog/2026-11.md#node-0242>) | Show recipes on one line with equal larger bubbles and flavor-only hover | Recipes, Interface, Accessibility |
 | [NODE-0241](<docs/changelog/2026-11.md#node-0241>) | Apply normal Cart shortcut rules and hide the empty third bar at startup | Shortcuts, Progression, Persistence, Interface, Testing |
 | [NODE-0234](<docs/changelog/2026-11.md#node-0234>) | Condense Options and shortcut node selection | Interface, Controls, Shortcuts, Documentation |
@@ -64,13 +62,14 @@ These changes follow the latest confirmed game publication, e177479. Creating th
 
 ## Dated history
 
-- [2026-11](<docs/changelog/2026-11.md>) — 304 records
+- [2026-11](<docs/changelog/2026-11.md>) — 305 records
 - [2026-10](<docs/changelog/2026-10.md>) — 18 records
 
 “Known by” dates are implementation/publication bounds, not exact change dates. “Backfilled” dates mark records with uncertain original dates. Supersession links explain reversals. Original-game records do not certify current rebuild behavior.
 
 ## Published releases
 
+- 2026-11-05 — [df69900: Corner balance, paid seven-Core victory and camp Tribute feedback](https://github.com/bookskaboo/bookskaboo.github.io/commit/df69900fd71d89b911057eeb90a1fb0ae63a2824) — User authorizes publishing to the live NODE game. Main preserves newer Chapter 1 work; live HTML and all ten runtime asset hashes match the /node/ publication build.
 - 2026-11-04 — [0c7c924: Elder Grove cumulative progress display](https://github.com/bookskaboo/bookskaboo.github.io/commit/0c7c924bfc75644ebe9de75739248b7fe6f188a8) — User-authorized main-branch publication. All seven referenced live assets match the tested build; preserved 2:07:01 player checkpoint restored through normal Save/Load and Grove shows 1,057/2,000,000.
 - 2026-11-02 — [e177479: Refactored NODE game and source](https://github.com/bookskaboo/bookskaboo.github.io/commit/e177479113d773e1b74bdaf2fafd46776ea4a786) — Latest game publication found in the local clone. Contains readable source at node/source. Published-by references are upper bounds, not necessarily first release dates.
 - 2026-11-01 — [341b2f0: Responsive UI and production node redesign](https://github.com/bookskaboo/bookskaboo.github.io/commit/341b2f0d2e87f7aeb38e5f75c768079b4d9b9d61)
@@ -86,7 +85,7 @@ A record marked “Published by” was known in that snapshot; it may have appea
 - [Animation](<docs/changelog/index.html?topic=Animation>) (6)
 - [Architecture](<docs/changelog/index.html?topic=Architecture>) (3)
 - [Audio](<docs/changelog/index.html?topic=Audio>) (1)
-- [Balance](<docs/changelog/index.html?topic=Balance>) (31)
+- [Balance](<docs/changelog/index.html?topic=Balance>) (32)
 - [Camera](<docs/changelog/index.html?topic=Camera>) (3)
 - [Combat](<docs/changelog/index.html?topic=Combat>) (12)
 - [Connections](<docs/changelog/index.html?topic=Connections>) (15)
@@ -96,10 +95,10 @@ A record marked “Published by” was known in that snapshot; it may have appea
 - [Deployment](<docs/changelog/index.html?topic=Deployment>) (1)
 - [Design](<docs/changelog/index.html?topic=Design>) (7)
 - [Discovery](<docs/changelog/index.html?topic=Discovery>) (5)
-- [Documentation](<docs/changelog/index.html?topic=Documentation>) (180)
+- [Documentation](<docs/changelog/index.html?topic=Documentation>) (181)
 - [Encounters](<docs/changelog/index.html?topic=Encounters>) (41)
 - [Exploration](<docs/changelog/index.html?topic=Exploration>) (1)
-- [Interface](<docs/changelog/index.html?topic=Interface>) (89)
+- [Interface](<docs/changelog/index.html?topic=Interface>) (90)
 - [Logistics](<docs/changelog/index.html?topic=Logistics>) (61)
 - [Map](<docs/changelog/index.html?topic=Map>) (3)
 - [Mods](<docs/changelog/index.html?topic=Mods>) (1)
@@ -114,9 +113,9 @@ A record marked “Published by” was known in that snapshot; it may have appea
 - [Power](<docs/changelog/index.html?topic=Power>) (2)
 - [Production](<docs/changelog/index.html?topic=Production>) (29)
 - [Progression](<docs/changelog/index.html?topic=Progression>) (122)
-- [Publication](<docs/changelog/index.html?topic=Publication>) (1)
+- [Publication](<docs/changelog/index.html?topic=Publication>) (2)
 - [Recipes](<docs/changelog/index.html?topic=Recipes>) (77)
-- [Research](<docs/changelog/index.html?topic=Research>) (116)
+- [Research](<docs/changelog/index.html?topic=Research>) (117)
 - [Resources](<docs/changelog/index.html?topic=Resources>) (77)
 - [Responsive](<docs/changelog/index.html?topic=Responsive>) (2)
 - [Roads](<docs/changelog/index.html?topic=Roads>) (5)
@@ -127,8 +126,8 @@ A record marked “Published by” was known in that snapshot; it may have appea
 - [Storage](<docs/changelog/index.html?topic=Storage>) (7)
 - [Testing](<docs/changelog/index.html?topic=Testing>) (17)
 - [Text](<docs/changelog/index.html?topic=Text>) (6)
-- [Tooling](<docs/changelog/index.html?topic=Tooling>) (1)
-- [Tutorials](<docs/changelog/index.html?topic=Tutorials>) (23)
+- [Tooling](<docs/changelog/index.html?topic=Tooling>) (2)
+- [Tutorials](<docs/changelog/index.html?topic=Tutorials>) (24)
 - [UI](<docs/changelog/index.html?topic=UI>) (2)
 - [Undo](<docs/changelog/index.html?topic=Undo>) (4)
 - [Waste](<docs/changelog/index.html?topic=Waste>) (16)

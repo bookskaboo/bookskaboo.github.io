@@ -16,6 +16,14 @@
   },
   "releases": [
     {
+      "id": "df69900",
+      "date": "2026-11-05",
+      "title": "Corner balance, paid seven-Core victory and camp Tribute feedback",
+      "commit": "df69900fd71d89b911057eeb90a1fb0ae63a2824",
+      "url": "https://github.com/bookskaboo/bookskaboo.github.io/commit/df69900fd71d89b911057eeb90a1fb0ae63a2824",
+      "notes": "User authorizes publishing to the live NODE game. Main preserves newer Chapter 1 work; live HTML and all ten runtime asset hashes match the /node/ publication build."
+    },
+    {
       "id": "0c7c924",
       "date": "2026-11-04",
       "title": "Elder Grove cumulative progress display",
@@ -9786,7 +9794,7 @@
       "dateBasis": "chat",
       "kind": "changed",
       "state": "implemented",
-      "delivery": "local",
+      "delivery": "published",
       "title": "Apply explicit corner quotas and a seven-Core Research Center victory",
       "summary": "Set Alpha to 50 AP, Foundry to 50 Circuit B/25 Sealed Frames/100 Mythril Gears and Grove to 500 growth; retire Endgame Theory and require manually selected victory research costing one of every Core.",
       "topics": [
@@ -9828,7 +9836,8 @@
         "Victory remains an ordinary explicitly selected Research Center project after first Final Core production, with no trigger. It now atomically consumes one each of Simple, Basic, Automata, Hydro, Shiny, Complex and Final Cores. Merely producing/delivering the Final Core never wins. Missing any Core preserves all supplied inputs; completed victory acknowledgement remains saved.",
         "Required fixed capability/victory research totals 97 Cores: 30 Simple, 29 Basic, 24 Automata, 9 Hydro, 3 Shiny, 1 Complex, 1 Final. Map Node purchases and Basic Cores consumed inside bots are additional. An ideal H route to all corners uses 30 new maps/29 repeat purchases: 692 research Cores with scheduled Automata access, or 562 if Automata is delayed until after exploration. These are geometric/unlock-order examples, not a seed-independent solvability or total factory-consumption claim. Update the reproducible audit and maintain ordinary Wire/Gun suggestions as unimplemented."
       ],
-      "validation": "715 tests passed, one pre-existing skip; TypeScript/Vite build, progression analysis and balance:audit passed. Tests verify revised real-cable component cadence and input capacities, legacy stock/progress, retired research search/selection and current/original-format payment preservation, and manually selected seven-Core victory without automatic trigger or partial-input consumption. Changelog generation/checks run with this record. No browser playtest, user-save edits, Git publication or live deployment; the existing build chunk-size warning remains."
+      "validation": "715 tests passed, one pre-existing skip; TypeScript/Vite build, progression analysis and balance:audit passed. Tests verify revised real-cable component cadence and input capacities, legacy stock/progress, retired research search/selection and current/original-format payment preservation, and manually selected seven-Core victory without automatic trigger or partial-input consumption. Changelog generation/checks run with this record. No browser playtest, user-save edits, Git publication or live deployment; the existing build chunk-size warning remains.",
+      "publishedBy": "df69900"
     },
     {
       "id": "NODE-0322",
@@ -9836,7 +9845,7 @@
       "dateBasis": "chat",
       "kind": "added",
       "state": "implemented",
-      "delivery": "local",
+      "delivery": "published",
       "title": "Explain Tribute and show live camp AP, check timing and persistent results",
       "summary": "Teach differing camp Tribute, display a sixty-second progress bar and current/required AP with red/green last-check glow, introduce Dwarven Mythril on first sighting and retain verified factory wiring for later playtests.",
       "topics": [
@@ -9883,7 +9892,49 @@
         "Camp lessons explain 1/3/8/20 bot AP, bar/results, minimum-size Tribute, direct collection from the separate box, selectable Goblin basic resources versus Dwarven Mythril, varying demand/rates and different failed-check consequences. Increase only the isolated practice Cart from five to twenty Small Bots, enough to demonstrate fully suppressed real Tribute. Main-game camp timing, prices, payments and outputs are unchanged.",
         "The user selects a persistent playtest build guide rather than cross-game factory-template carryover. Preserve verified Simple-through-Hydro wiring, the successful S2 Medium Bot checkpoint and real Road delivery, fuel/Plate repairs, isolated-inventory verification and later failed scaling limitations. Exact successful node positions/graph were not exported, so the guide labels functional recipe reconstructions honestly. AGENTS/browser-startup instructions require consulting it before later runs; new games get no stock or factory grants."
       ],
-      "validation": "725 tests passed, one pre-existing skip; TypeScript/Vite production build passed. Ten added checks cover real AP timing, reset, persistent result versus live stock, save/load/pause, Dwarven retained credit and immediate retry, first sighting/acknowledgement/undo, tutorial copy, renderer labels/colors and a wired practice camp producing actual Goblin Tribute. Browser visual QA timed out opening the isolated localhost fixture; rebinding encountered a Browser Use URL-policy block on its generated error page. Stopped browser actions without another browser/native control path, so visual layout, focus behavior and interactive rendering remain unverified. No user saves edited, no normal-play balance run, no publication; existing build chunk-size warning remains. Changelog generation/checks run with this entry."
+      "validation": "725 tests passed, one pre-existing skip; TypeScript/Vite production build passed. Ten added checks cover real AP timing, reset, persistent result versus live stock, save/load/pause, Dwarven retained credit and immediate retry, first sighting/acknowledgement/undo, tutorial copy, renderer labels/colors and a wired practice camp producing actual Goblin Tribute. Browser visual QA timed out opening the isolated localhost fixture; rebinding encountered a Browser Use URL-policy block on its generated error page. Stopped browser actions without another browser/native control path, so visual layout, focus behavior and interactive rendering remain unverified. No user saves edited, no normal-play balance run, no publication; existing build chunk-size warning remains. Changelog generation/checks run with this entry.",
+      "publishedBy": "df69900"
+    },
+    {
+      "id": "NODE-0323",
+      "date": "2026-11-05",
+      "dateBasis": "chat",
+      "kind": "changed",
+      "state": "implemented",
+      "delivery": "published",
+      "publishedBy": "df69900",
+      "title": "Publish corner balance, seven-Core victory and camp Tribute feedback to the live game",
+      "summary": "Merge the reviewed NODE changes into main, build with the /node/ deployment base and confirm the public game serves the matching assets.",
+      "topics": [
+        "Publication",
+        "Balance",
+        "Research",
+        "Tutorials",
+        "Interface",
+        "Documentation",
+        "Tooling"
+      ],
+      "sources": [
+        "chat-balance-2026-11-05",
+        "local-code"
+      ],
+      "evidence": [
+        "package.json",
+        "AGENTS.md",
+        "README.md",
+        "docs/master-plan/20-endgame-implementation.md",
+        "outputs/camp-feedback-2026-11-05/site-build.json",
+        "outputs/camp-feedback-2026-11-05/publication-receipt.json",
+        "outputs/camp-feedback-2026-11-05/published-index.html",
+        "outputs/camp-feedback-2026-11-05/verify-live.mjs"
+      ],
+      "details": [
+        "The user clarifies that pushing the changes was intended to update the public game and authorizes live publication. Merge the balance/camp branch with the latest main, preserving the newer Chapter 1 commit and changing only node/ relative to main.",
+        "Add npm run build:site using Vite --base=/node/ and document publication versus feature-branch Git push. Correct the root-relative branch build before live delivery; validate all seven direct index asset references resolve within /node/assets/ and retain existing assets.",
+        "Publish source/build commit df69900fd71d89b911057eeb90a1fb0ae63a2824 to main. The live page references /node/assets/index-GUR7pxZM.js; all ten runtime assets match the prepared build by SHA-256. Record a receipt and associate NODE-0321/0322 with the confirmed release. NODE-0320 remains a superseded local intermediate and its unshipped quantities are not presented as live.",
+        "The reproducible development tests remain 725 passing and one existing skip. This publication check verifies static delivery, not browser interaction or normal-play balance; the prior browser URL-policy limitation remains recorded."
+      ],
+      "validation": "Main push succeeded from fa670ba to df69900. HTTPS returned the expected new index; all ten runtime asset hashes matched and seven direct references use /node/assets/. The /node/ production build and staged diff checks passed; prior packaged source validation is 725 passing tests, one skip, and changelog checks. Publication changelog generation and checks passed. No unrelated game paths changed and no user save was modified."
     }
   ]
 }

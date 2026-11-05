@@ -3518,7 +3518,7 @@
     },
     "firstDeliveryLatencyAdditional": true,
     "normalPlayPacingVerified": false,
-    "published": false,
+    "published": true,
     "reclamationProducerTargetMs": 300000,
     "endgameTheoryRetired": true,
     "victoryRequiresExplicitSelection": true,
@@ -3531,6 +3531,8 @@
       "command-core": 1,
       "final-core": 1
     },
-    "fixedRequiredResearchCoreItems": 97
+    "fixedRequiredResearchCoreItems": 97,
+    "publishedContentCommit": "df69900fd71d89b911057eeb90a1fb0ae63a2824",
+    "publicationReceipt": "outputs/camp-feedback-2026-11-05/publication-receipt.json"
   }
 }

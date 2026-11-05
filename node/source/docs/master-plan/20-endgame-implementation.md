@@ -64,3 +64,7 @@ The existing deployment repository is `bookskaboo/bookskaboo.github.io`; the pre
 ## Confirmed live publication — November 4, 2026
 
 Following the user’s explicit merge/publish request, main advanced to `eca1c2d99d74c906999f4b95c90575155d4c4f29`. [The live NODE game](https://bookskaboo.github.io/node/) now references the new JavaScript/CSS bundle; all seven directly referenced assets match the tested release by SHA-256. [Publication receipt](../../outputs/implementation/endgame-publication-receipt.json) records the check. Other games were preserved. Browser-interactive QA and normal-play balance limits above remain unchanged.
+
+## Confirmed live publication — November 5, 2026
+
+The user clarifies that the requested Git push was intended to publish the public game. Main now includes the explicit 50-AP / 50–25–100 Foundry / 500-growth corner quotas, retired Endgame Theory, manually researched seven-Core victory and camp Tribute/AP/check feedback. Source/build commit `df69900fd71d89b911057eeb90a1fb0ae63a2824` preserves the newer Chapter 1 main-branch work. `npm run build:site` builds for `/node/`; the live page references `index-GUR7pxZM.js`, and all ten runtime assets match the release by SHA-256. [Publication receipt](../../outputs/camp-feedback-2026-11-05/publication-receipt.json) records the verification. Browser interaction and normal-play pacing remain separate unverified work.

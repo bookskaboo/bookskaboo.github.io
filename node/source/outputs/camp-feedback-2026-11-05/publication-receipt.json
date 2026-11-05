@@ -1,0 +1,66 @@
+{
+  "date": "2026-11-05",
+  "verifiedAtUtc": "2026-11-05T17:15:47.879Z",
+  "url": "https://bookskaboo.github.io/node/",
+  "repository": "bookskaboo/bookskaboo.github.io",
+  "contentCommit": "df69900fd71d89b911057eeb90a1fb0ae63a2824",
+  "mainUpdated": true,
+  "livePublicationVerified": true,
+  "expectedScript": "/node/assets/index-GUR7pxZM.js",
+  "directlyReferencedAssets": 7,
+  "matchedRuntimeAssets": 10,
+  "assets": [
+    {
+      "file": "assets/browserAll-B6AZDgJM.js",
+      "sha256": "78ace3ac4c053b76d6097ee88e76abd1e2c468a249ab91804110ca197065a823",
+      "matched": true
+    },
+    {
+      "file": "assets/CanvasPool-O_8k9jVW.js",
+      "sha256": "9cf12a9f53a878bb8f9f46337b799031a6986b5f87dd775ef57b2902ae0dc9cd",
+      "matched": true
+    },
+    {
+      "file": "assets/canvasUtils-DHiBpmSz.js",
+      "sha256": "8843c3459529c72ffb9a82655454eff39f3458448dd2ae362764f3be4933288f",
+      "matched": true
+    },
+    {
+      "file": "assets/getTexelRangeRects-5CG6mIA2.js",
+      "sha256": "aea8c02569d6923eec2b28e6973b032101297b4fc9acc85b573146bd074d4974",
+      "matched": true
+    },
+    {
+      "file": "assets/getTextureBatchBindGroup-CDnZS9mH.js",
+      "sha256": "2b2eff79ef557432774e0acd98963de65847a16840f0b738b07556ea37e21caa",
+      "matched": true
+    },
+    {
+      "file": "assets/index-CODTac_4.css",
+      "sha256": "6379cec341a6efa7a7b9c729c80f2b645d5b916a7ae63647060f494a0db4db55",
+      "matched": true
+    },
+    {
+      "file": "assets/index-GUR7pxZM.js",
+      "sha256": "7b259021e1a100cbabfd1107fbc0b78211429dbab24be1dc418353892f5bc3e5",
+      "matched": true
+    },
+    {
+      "file": "assets/init-Cpr9d2tm.js",
+      "sha256": "f86601b8e2a41c88d0b7ee6feb8968d0da876047faefa27a6e4e06bb0a449844",
+      "matched": true
+    },
+    {
+      "file": "assets/RenderTargetSystem-CHWUCnC7.js",
+      "sha256": "39880073141b4419980d7b5baf22961675d208105c37f87c54a099e6433ad70f",
+      "matched": true
+    },
+    {
+      "file": "assets/webworkerAll-CVDmgcjL.js",
+      "sha256": "a79f6fef4d00b9d2e480621a38d9ae64b9626bfe1c4ee79c41133f84a23c40db",
+      "matched": true
+    }
+  ],
+  "verification": "Live HTML names the expected /node/ build and every runtime asset matches the published package by SHA-256.",
+  "interactiveBrowserVerified": false
+}
