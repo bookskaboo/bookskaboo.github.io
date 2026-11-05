@@ -48,6 +48,27 @@ describe('repeatable corner production and seeded assembly',()=>{
     expect(box.output['grove-component']).toBe(1);expect(node.cornerProgress).toBe(7);
     box.output['grove-component']=10;node.input['forest-growth']=10;simulateCorner(state,sector,node);expect(node.input['forest-growth']).toBe(10);expect(node.cornerProgress).toBe(7);
   });
+  it('delivers paid Planter growth through a real cable, persists it and awards a component',()=>{
+    const {state,sector,node,box}=corner('grove');
+    state.research.completed=['treePlanter'];state.research.unlocked=['treePlanter'];
+    const planter=machine('treePlanter','planter',node.x-700,node.y);
+    planter.input={wood:20,'iron-plate':2,stone:2};
+    sector.nodes.push(planter);
+    const engine=new GameEngine(state,{autosave:false});
+    expect(engine.connect(planter.id,node.id)).toBe(true);
+    ticks(engine,110);
+    const grown=engine.getSector().nodes.find(n=>n.id===node.id)!;
+    expect(grown.cornerProgress).toBeGreaterThan(100);
+    expect(engine.getSector().nodes.find(n=>n.id===planter.id)!.input.wood).toBe(0);
+    const resumed=new GameEngine(structuredClone(engine.getState()),{autosave:false});
+    const saved=resumed.getSector().nodes.find(n=>n.id===node.id)!;
+    expect(saved.cornerProgress).toBe(grown.cornerProgress);
+    saved.cornerProgress=GROVE_GROWTH-2;
+    ticks(resumed,5);
+    expect(resumed.getSector().nodes.find(n=>n.id===box.id)!.output['grove-component']).toBe(1);
+    expect(resumed.getState().research.completed).toContain('cornerComponents');
+    expect(saved.cornerProgress).toBeLessThan(10);
+  });
   it('accepts mixed Reclamation waste with provisional type-specific credits and conserved surplus',()=>{
     const {state,sector,node,box}=corner('reclamation');node.cornerProgress=.999999;node.input={'metallic-fines':1,'spent-flux':1};simulateCorner(state,sector,node);
     expect(box.output['reclamation-component']).toBe(1);expect(node.cornerProgress).toBeGreaterThan(0);expect(node.input['spent-flux']).toBe(0);

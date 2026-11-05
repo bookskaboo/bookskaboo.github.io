@@ -171,6 +171,21 @@
   ],
   "entries": [
     {
+      "id": "NODE-0318",
+      "date": "2026-11-04",
+      "dateBasis": "chat",
+      "kind": "fixed",
+      "state": "implemented",
+      "delivery": "local",
+      "title": "Show accumulated Elder Grove growth and Tribute stock",
+      "summary": "The Grove bar now follows saved cumulative growth instead of an unused cycle timer. Exact received/required counts remain visible below one percent; its Tribute shows stored components out of capacity.",
+      "topics": ["Encounters", "UI", "Progression"],
+      "sources": ["local-code"],
+      "evidence": ["src/renderer/groveProgress.ts", "src/renderer/PixiPlayfield.tsx", "src/renderer/productionVisuals.ts", "src/renderer/groveProgress.test.ts", "src/simulation/endgame.test.ts", "outputs/live-ui-playtest-2026-11-04/playtest-review.txt"],
+      "details": ["Preserves the adopted two-million-growth quota, paid Planter recipes, saved progress and simulation rules. The explanation states cumulative work, immediate awards, surplus preservation and full-Tribute pause.", "The prior UI-only playtest halt established a visibility dead end, not a confirmed simulation failure. A separate engine regression verifies paid Planter delivery across multiple funding batches, save/reload and a real threshold award."],
+      "validation": "34 focused Vitest tests passed across groveProgress, productionVisuals and endgame; npm run build passed with the existing bundle-size advisory. Published playtest save remains paused and untouched. Local implementation only; browser visual QA and GitHub Pages publication have not been performed."
+    },
+    {
       "id": "NODE-0001",
       "date": "2026-10-12",
       "dateBasis": "chat",
