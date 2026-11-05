@@ -1,0 +1,46 @@
+{
+  "date": "2026-11-04",
+  "url": "https://bookskaboo.github.io/node/",
+  "repository": "bookskaboo/bookskaboo.github.io",
+  "contentCommit": "0c7c924bfc75644ebe9de75739248b7fe6f188a8",
+  "livePublicationVerified": true,
+  "assets": [
+    {
+      "asset": "index-DS_zmNnL.js",
+      "sha256": "49622E9950390D725B396EF6DAEB8DA03FA3DD6276DEC5C2F09FF786BF4D6C5D",
+      "matched": true
+    },
+    {
+      "asset": "CanvasPool-O_8k9jVW.js",
+      "sha256": "9CF12A9F53A878BB8F9F46337B799031A6986B5F87DD775EF57B2902AE0DC9CD",
+      "matched": true
+    },
+    {
+      "asset": "canvasUtils-DHiBpmSz.js",
+      "sha256": "8843C3459529C72FFB9A82655454EFF39F3458448DD2AE362764F3BE4933288F",
+      "matched": true
+    },
+    {
+      "asset": "RenderTargetSystem-CHWUCnC7.js",
+      "sha256": "39880073141B4419980D7B5BAF22961675D208105C37F87C54A099E6433AD70F",
+      "matched": true
+    },
+    {
+      "asset": "getTextureBatchBindGroup-CDnZS9mH.js",
+      "sha256": "2B2EFF79EF557432774E0ACD98963DE65847A16840F0B738B07556EA37E21CAA",
+      "matched": true
+    },
+    {
+      "asset": "getTexelRangeRects-5CG6mIA2.js",
+      "sha256": "AEA8C02569D6923EEC2B28E6973B032101297B4FC9ACC85B573146BD074D4974",
+      "matched": true
+    },
+    {
+      "asset": "index-CODTac_4.css",
+      "sha256": "6379CEC341A6EFA7A7B9C729C80F2B645D5B916A7AE63647060F494A0DB4DB55",
+      "matched": true
+    }
+  ],
+  "testsPassed": 702,
+  "existingSkipped": 1
+}

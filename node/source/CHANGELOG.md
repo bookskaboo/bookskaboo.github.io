@@ -2,7 +2,7 @@
 
 A searchable record of completed changes, design decisions, and relevant review findings. Stable NODE IDs can be cited in chats and searched in the repository.
 
-**318 records · 2026-10-12–2026-11-04 · America/Los_Angeles**
+**319 records · 2026-10-12–2026-11-04 · America/Los_Angeles**
 
 [Open searchable history](<docs/changelog/index.html>) · [How to review and maintain it](<docs/changelog/README.md>) · [Sources and coverage gaps](<docs/changelog/sources.md>)
 
@@ -12,7 +12,6 @@ These changes follow the latest confirmed game publication, e177479. Creating th
 
 | ID | Change | Topics |
 | --- | --- | --- |
-| [NODE-0318](<docs/changelog/2026-11.md#node-0318>) | Show accumulated Elder Grove growth and Tribute stock | Encounters, UI, Progression |
 | [NODE-0242](<docs/changelog/2026-11.md#node-0242>) | Show recipes on one line with equal larger bubbles and flavor-only hover | Recipes, Interface, Accessibility |
 | [NODE-0241](<docs/changelog/2026-11.md#node-0241>) | Apply normal Cart shortcut rules and hide the empty third bar at startup | Shortcuts, Progression, Persistence, Interface, Testing |
 | [NODE-0234](<docs/changelog/2026-11.md#node-0234>) | Condense Options and shortcut node selection | Interface, Controls, Shortcuts, Documentation |
@@ -63,13 +62,14 @@ These changes follow the latest confirmed game publication, e177479. Creating th
 
 ## Dated history
 
-- [2026-11](<docs/changelog/2026-11.md>) — 300 records
+- [2026-11](<docs/changelog/2026-11.md>) — 301 records
 - [2026-10](<docs/changelog/2026-10.md>) — 18 records
 
 “Known by” dates are implementation/publication bounds, not exact change dates. “Backfilled” dates mark records with uncertain original dates. Supersession links explain reversals. Original-game records do not certify current rebuild behavior.
 
 ## Published releases
 
+- 2026-11-04 — [0c7c924: Elder Grove cumulative progress display](https://github.com/bookskaboo/bookskaboo.github.io/commit/0c7c924bfc75644ebe9de75739248b7fe6f188a8) — User-authorized main-branch publication. All seven referenced live assets match the tested build; preserved 2:07:01 player checkpoint restored through normal Save/Load and Grove shows 1,057/2,000,000.
 - 2026-11-02 — [e177479: Refactored NODE game and source](https://github.com/bookskaboo/bookskaboo.github.io/commit/e177479113d773e1b74bdaf2fafd46776ea4a786) — Latest game publication found in the local clone. Contains readable source at node/source. Published-by references are upper bounds, not necessarily first release dates.
 - 2026-11-01 — [341b2f0: Responsive UI and production node redesign](https://github.com/bookskaboo/bookskaboo.github.io/commit/341b2f0d2e87f7aeb38e5f75c768079b4d9b9d61)
 - 2026-11-01 — [6ebdb7f: Tutorials, logistics controls, and player interface](https://github.com/bookskaboo/bookskaboo.github.io/commit/6ebdb7f109f6df3de447a4bfb5fa06d26eb29a96)
@@ -95,7 +95,7 @@ A record marked “Published by” was known in that snapshot; it may have appea
 - [Design](<docs/changelog/index.html?topic=Design>) (7)
 - [Discovery](<docs/changelog/index.html?topic=Discovery>) (5)
 - [Documentation](<docs/changelog/index.html?topic=Documentation>) (177)
-- [Encounters](<docs/changelog/index.html?topic=Encounters>) (39)
+- [Encounters](<docs/changelog/index.html?topic=Encounters>) (40)
 - [Exploration](<docs/changelog/index.html?topic=Exploration>) (1)
 - [Interface](<docs/changelog/index.html?topic=Interface>) (86)
 - [Logistics](<docs/changelog/index.html?topic=Logistics>) (61)
@@ -108,7 +108,7 @@ A record marked “Published by” was known in that snapshot; it may have appea
 - [Performance](<docs/changelog/index.html?topic=Performance>) (1)
 - [Persistence](<docs/changelog/index.html?topic=Persistence>) (15)
 - [Planning](<docs/changelog/index.html?topic=Planning>) (169)
-- [Playtesting](<docs/changelog/index.html?topic=Playtesting>) (9)
+- [Playtesting](<docs/changelog/index.html?topic=Playtesting>) (10)
 - [Power](<docs/changelog/index.html?topic=Power>) (2)
 - [Production](<docs/changelog/index.html?topic=Production>) (27)
 - [Progression](<docs/changelog/index.html?topic=Progression>) (120)
@@ -127,7 +127,7 @@ A record marked “Published by” was known in that snapshot; it may have appea
 - [Text](<docs/changelog/index.html?topic=Text>) (6)
 - [Tooling](<docs/changelog/index.html?topic=Tooling>) (1)
 - [Tutorials](<docs/changelog/index.html?topic=Tutorials>) (22)
-- [UI](<docs/changelog/index.html?topic=UI>) (1)
+- [UI](<docs/changelog/index.html?topic=UI>) (2)
 - [Undo](<docs/changelog/index.html?topic=Undo>) (4)
 - [Waste](<docs/changelog/index.html?topic=Waste>) (15)
 - [Workflow](<docs/changelog/index.html?topic=Workflow>) (1)

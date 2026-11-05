@@ -16,6 +16,14 @@
   },
   "releases": [
     {
+      "id": "0c7c924",
+      "date": "2026-11-04",
+      "title": "Elder Grove cumulative progress display",
+      "commit": "0c7c924bfc75644ebe9de75739248b7fe6f188a8",
+      "url": "https://github.com/bookskaboo/bookskaboo.github.io/commit/0c7c924bfc75644ebe9de75739248b7fe6f188a8",
+      "notes": "User-authorized main-branch publication. All seven referenced live assets match the tested build; preserved 2:07:01 player checkpoint restored through normal Save/Load and Grove shows 1,057/2,000,000."
+    },
+    {
       "id": "e177479",
       "date": "2026-11-02",
       "title": "Refactored NODE game and source",
@@ -171,19 +179,35 @@
   ],
   "entries": [
     {
+      "id": "NODE-0319",
+      "date": "2026-11-04",
+      "dateBasis": "chat",
+      "kind": "changed",
+      "state": "implemented",
+      "delivery": "published",
+      "publishedBy": "0c7c924",
+      "title": "Publish the Grove display fix and restore the live playtest",
+      "summary": "Published the isolated Grove fix to the existing GitHub Pages site, refreshed the same in-app tab and restored the paused factory through normal Save/Load.",
+      "topics": ["UI", "Encounters", "Playtesting"],
+      "sources": ["local-code"],
+      "evidence": ["outputs/grove-publication-2026-11-04/receipt.json", "outputs/live-ui-playtest-2026-11-04/published-grove-fix.png", "outputs/live-ui-playtest-2026-11-04/run-log.txt"],
+      "validation": "702 Vitest tests passed with one existing skip; production build passed. Main advanced aa740af to 0c7c924. HTTP200 and SHA256 equality verified all seven referenced assets. Normal browser UI shows restored Grove growth1,057/2,000,000 and Tribute0/10. Quotas and gameplay state preserved; ongoing playtest is not a completed victory or balance run."
+    },
+    {
       "id": "NODE-0318",
       "date": "2026-11-04",
       "dateBasis": "chat",
       "kind": "fixed",
       "state": "implemented",
-      "delivery": "local",
+      "delivery": "published",
+      "publishedBy": "0c7c924",
       "title": "Show accumulated Elder Grove growth and Tribute stock",
       "summary": "The Grove bar now follows saved cumulative growth instead of an unused cycle timer. Exact received/required counts remain visible below one percent; its Tribute shows stored components out of capacity.",
       "topics": ["Encounters", "UI", "Progression"],
       "sources": ["local-code"],
       "evidence": ["src/renderer/groveProgress.ts", "src/renderer/PixiPlayfield.tsx", "src/renderer/productionVisuals.ts", "src/renderer/groveProgress.test.ts", "src/simulation/endgame.test.ts", "outputs/live-ui-playtest-2026-11-04/playtest-review.txt"],
       "details": ["Preserves the adopted two-million-growth quota, paid Planter recipes, saved progress and simulation rules. The explanation states cumulative work, immediate awards, surplus preservation and full-Tribute pause.", "The prior UI-only playtest halt established a visibility dead end, not a confirmed simulation failure. A separate engine regression verifies paid Planter delivery across multiple funding batches, save/reload and a real threshold award."],
-      "validation": "34 focused Vitest tests passed across groveProgress, productionVisuals and endgame; npm run build passed with the existing bundle-size advisory. Published playtest save remains paused and untouched. Local implementation only; browser visual QA and GitHub Pages publication have not been performed."
+      "validation": "Initially34 focused Vitest tests and production build passed. Before publication the full suite passed702 tests with one existing skip. NODE-0319 records subsequent asset verification and normal browser QA of exact live counts. Saved factory retained its accumulated growth and two Planters."
     },
     {
       "id": "NODE-0001",
