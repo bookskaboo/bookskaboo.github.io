@@ -30,7 +30,7 @@ describe('linear machine efficiency progression', () => {
       if (rank > 1) expect(isResearchAvailable(p, completed.filter(id => id !== `${family}${rank - 1}`))).toBe(false);
       if (access) expect(isResearchAvailable(p, completed.filter(id => id !== access))).toBe(false);
     }
-    for (const id of ['automataCore', 'hydraulicAssembly', 'oreSeparation', 'precisionControl', 'endgameTheory']) {
+    for (const id of ['automataCore', 'hydraulicAssembly', 'oreSeparation', 'precisionControl', 'victory']) {
       const p = project(id);
       expect([p.prerequisite, ...(p.prerequisites ?? [])].filter(Boolean).some(id => /^(extractor|kiln|smelter|refiner|assembler|researchCenter)[1-6]$/.test(id!))).toBe(false);
     }

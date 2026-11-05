@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import type { GameState, ItemId, MachineNode } from '../domain/types';
-import { ALPHA_AP, CORNER_MAPS, ENDGAME_CAPS, GROVE_GROWTH, PAIRS, SEVEN_CORES, atResearchCap, landfillTotal, reconcileHole, seededCornerOrder, seededPairIndex } from '../content/endgame';
+import { ALPHA_AP, CORNER_MAPS, ENDGAME_CAPS, FOUNDRY_INPUTS, GROVE_GROWTH, PAIRS, SEVEN_CORES, atResearchCap, landfillTotal, reconcileHole, seededCornerOrder, seededPairIndex } from '../content/endgame';
 import { applyCartUpgrades, vehiclePayload } from '../content/cartUpgrades';
 import { isPlayerMovableNode } from '../content/nodeModules';
 import { RECYCLER_RETURNS, recyclerAccepts } from '../content/recycling';
@@ -12,6 +12,7 @@ import { applyExpansionRescue, nextExpansionShortages, shortestRescuePath } from
 import { generateSector } from './worldGeneration';
 import { roadChannels } from './progression';
 import { researchCardDetails, researchSection } from '../ui/researchPresentation';
+import { normalizeLegacy } from '../persistence/saves';
 
 function corner(type: NonNullable<MachineNode['cornerType']>) {
   const state=createInitialState(123); initializeEndgame(state);
@@ -38,9 +39,9 @@ describe('repeatable corner production and seeded assembly',()=>{
     expect(state.endgame?.componentObtained).toBe(true);
   });
   it('requires all Foundry parts and converts atomically with no extra timer',()=>{
-    const {state,sector,node,box}=corner('foundry');node.input={'ceramic-electrode':3000,'sealed-frame':2999,'mythril-gear':3000};
-    simulateCorner(state,sector,node);expect(node.input['ceramic-electrode']).toBe(3000);expect(box.output).toEqual({});
-    node.input['sealed-frame']=3000;box.output['foundry-component']=10;simulateCorner(state,sector,node);expect(node.input['ceramic-electrode']).toBe(3000);
+    const {state,sector,node,box}=corner('foundry');node.input={...FOUNDRY_INPUTS,'sealed-frame':FOUNDRY_INPUTS['sealed-frame']!-1};
+    simulateCorner(state,sector,node);expect(node.input['ceramic-electrode']).toBe(FOUNDRY_INPUTS['ceramic-electrode']);expect(box.output).toEqual({});
+    node.input['sealed-frame']=FOUNDRY_INPUTS['sealed-frame'];box.output['foundry-component']=10;simulateCorner(state,sector,node);expect(node.input['ceramic-electrode']).toBe(FOUNDRY_INPUTS['ceramic-electrode']);
     box.output['foundry-component']=9;simulateCorner(state,sector,node);expect(box.output['foundry-component']).toBe(10);expect(Object.values(node.input)).toEqual([0,0,0]);expect(node.batch).toBeUndefined();
   });
   it('carries Grove growth and preserves waiting supplies across full output',()=>{
@@ -69,7 +70,7 @@ describe('repeatable corner production and seeded assembly',()=>{
     expect(resumed.getState().research.completed).toContain('cornerComponents');
     expect(saved.cornerProgress).toBeLessThan(10);
   });
-  it('accepts mixed Reclamation waste with provisional type-specific credits and conserved surplus',()=>{
+  it('accepts mixed Reclamation waste with type-specific credits and conserved surplus',()=>{
     const {state,sector,node,box}=corner('reclamation');node.cornerProgress=.999999;node.input={'metallic-fines':1,'spent-flux':1};simulateCorner(state,sector,node);
     expect(box.output['reclamation-component']).toBe(1);expect(node.cornerProgress).toBeGreaterThan(0);expect(node.input['spent-flux']).toBe(0);
     box.output['reclamation-component']=10;node.input.slag=5;simulateCorner(state,sector,node);expect(node.input.slag).toBe(5);
@@ -120,9 +121,37 @@ describe('endgame research and preservation',()=>{
   });
   it('pays victory through the ordinary lab cadence and persists acknowledgement separately',()=>{
     const s=createInitialState();s.sectors['5,5'].nodes=[machine('researchCenter','lab')];s.produced!['final-core']=1;
-    const e=new GameEngine(s,{autosave:false});e.selectResearch('victory');e.getSector().nodes[0].input['final-core']=1;
+    const e=new GameEngine(s,{autosave:false}),lab=e.getSector().nodes[0];
+    expect(getResearchProject('victory')!.trigger).toBeUndefined();
+    expect(getResearchProject('victory')!.costs).toEqual(Object.fromEntries(SEVEN_CORES.map(core=>[core,1])));
+    lab.input=Object.fromEntries(SEVEN_CORES.map(core=>[core,1]));
+    ticks(e,6);expect(e.getState().research.completed).not.toContain('victory');
+    expect(lab.input['final-core']).toBe(1);
+    delete lab.input['command-core'];e.selectResearch('victory');ticks(e,5);
+    expect(e.getState().research.completed).not.toContain('victory');
+    expect(lab.input['final-core']).toBe(1);expect(lab.input['simple-core']).toBe(1);
+    lab.input['command-core']=1;
     ticks(e,4);expect(e.getState().research.completed).not.toContain('victory');ticks(e,1);expect(e.getState().research.completed).toContain('victory');
+    expect(SEVEN_CORES.map(core=>lab.input[core])).toEqual(SEVEN_CORES.map(()=>0));
     expect(e.getState().endgame!.victoryAcknowledged).toBeUndefined();e.acknowledgeVictory();expect(new GameEngine(e.getState(),{autosave:false}).getState().endgame!.victoryAcknowledged).toBe(true);
+  });
+  it('retires Endgame Theory without dropping historical completion or archived payments',()=>{
+    const s=createInitialState();s.research.completed.push('endgameTheory');
+    s.research.selected='endgameTheory';s.research.contributed={'simple-core':1,'basic-core':1};
+    const e=new GameEngine(s,{autosave:false});
+    expect(getResearchProject('endgameTheory')).toBeUndefined();
+    expect(e.getState().research.selected).toBeUndefined();expect(e.getState().research.contributed).toEqual({});
+    expect(e.getState().research.projectContributions?.endgameTheory).toEqual({'simple-core':1,'basic-core':1});
+    expect(e.getState().research.completed).toContain('endgameTheory');
+    const loaded=new GameEngine(structuredClone(e.getState()),{autosave:false});
+    expect(loaded.getState().research).toEqual(e.getState().research);
+    loaded.selectResearch('endgameTheory');expect(loaded.getState().research.selected).toBeUndefined();
+  });
+  it('archives an original-format Endgame Theory payment during import',()=>{
+    const loaded=normalizeLegacy({version:1,nodes:[],positions:{},connections:[],runtime:{research:{activeProject:'endgameTheory',progress:{endgameTheory:1}}}})!;
+    expect(loaded.research.selected).toBeUndefined();
+    expect(loaded.research.projectContributions?.endgameTheory).toMatchObject({'simple-core':1});
+    expect(normalizeLegacy(loaded)).toEqual(loaded);
   });
   it('caps finite recurring lines and retains a single completed research entry',()=>{
     const s=createInitialState();s.research.completed=['victory','roadChannels2'];s.research.repeatableCompletions={advancedRoadChannels:2,efficientLandfill:45};

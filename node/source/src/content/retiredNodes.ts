@@ -1,6 +1,7 @@
 import type { Connection, DeferredPowerInfrastructure, GameState, MachineNode } from '../domain/types';
 import { RECIPES } from './recipes';
 import { DEFERRED_POWER_NODES, DEFERRED_POWER_RESEARCH } from './deferredPower';
+import { RETIRED_RESEARCH } from './retiredResearch';
 import { RESEARCH_CENTER_BASE_CYCLE_MS } from './researchTiming';
 
 /** Retain old factories and templates while removing the dedicated machine kind. */
@@ -30,7 +31,7 @@ export function migrateRetiredNodes(state: GameState) {
     const ids = new Set(transfers.map(transfer => transfer.id));
     state.inFlightTransfers = state.inFlightTransfers?.filter(transfer => !ids.has(transfer.id));
   }
-  if (state.research.selected && DEFERRED_POWER_RESEARCH.has(state.research.selected)) {
+  if (state.research.selected && (DEFERRED_POWER_RESEARCH.has(state.research.selected) || RETIRED_RESEARCH.has(state.research.selected))) {
     (state.research.projectContributions ??= {})[state.research.selected] = { ...state.research.contributed };
     delete state.research.selected;
     state.research.contributed = {};

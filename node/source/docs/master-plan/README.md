@@ -1,5 +1,7 @@
 # NODE master development plan
 
+**Current revision — November 5, 2026 (NODE-0321):** explicit user quotas replace five-minute sizing for Alpha (50 AP), Foundry (50 Circuit B / 25 Sealed Frames / 100 Mythril Gears) and Grove (500 growth). Reclamation retains its five-minute credits. Endgame Theory is retired. Victory is a manually selected Research Center project costing one each of all seven Core types; producing a Final Core alone does not win. See [current implementation](20-endgame-implementation.md).
+
 **November 4 implementation:** the [endgame implementation report](20-endgame-implementation.md) records the delivered corner/Final Core route, Recycler/recovery, research, relocation, verification and limitations. The Q01–Q144 interview is complete; optional extra QoL waits for endgame playtesting.
 
 **Runtime update, November 3:** the [local implementation status](19-implementation-status.md) records the delivered Dwarven, Complex-waste/filtering, forestry and ordinary vehicle changes, verification, migration boundary and work still pending. Earlier dated planning descriptions are not delivery claims.

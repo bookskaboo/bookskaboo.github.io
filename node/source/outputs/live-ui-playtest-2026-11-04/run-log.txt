@@ -1,0 +1,309 @@
+2026-11-04T21:21:04.128Z Fresh live-site run https://bookskaboo.github.io/node/ tab8. Normal UI only. No developer controls, reports, code inspection/manipulation, grants, time acceleration or fixes. Prior local unlock preview is on a separate localhost origin and excluded. Started from welcome, clicked Play, paused initial preparation. Research has Final tier and A Remarkably Indirect Conclusion; will use only current presented UI.
+2026-11-04T21:21:04.146Z GUIDANCE G01: Initial Next milestones lists8 triggers. First5 are Corner Components, Mythril Refining via Dwarven Tribute, Waste Handling/ Mineral Recovery via Precision Control, and Final Core Production; immediate Joint/Wood/metal tasks appear afterward. Advanced tasks crowd initial guidance. Recommend prioritize near-term actionable milestones and collapse distant triggers behind prerequisites; retain optional future browsing.
+2026-11-04T21:22:30.307Z GUIDANCE G02: After first Plate, Refiner/Research Center unlock. Next milestones now contains only5 distant final/Mythril/waste triggers; immediate next challenge is under Available research (Assembler1Simple). Expanded Assembler -> View Simple Core recipe successfully opens highlighted recipe and clickable ingredients. Recommend a near-term Produce Simple Core/Deliver to Research Center milestone while keeping this useful recipe linkage.
+2026-11-04T21:23:51.494Z First Journal checkpoint (normal UI):
+- main:
+  - generic "Factory node canvas"
+  - 'button "About NODE: Another Factory Game"':
+    - generic: NODE
+    - generic: Another Factory Game
+  - generic: H
+  - generic: /
+  - navigation "Factory systems":
+    - button "⌁ Research":
+      - generic: ⌁
+      - generic: Research
+    - button "＋ Build":
+      - generic: ＋
+      - generic: Build
+    - button "⚙ Options":
+      - generic: ⚙
+      - generic: Options
+    - button "⚛ Dev":
+      - generic: ⚛
+      - generic: Dev
+  - button "PAUSE Ⅱ"
+  - region "Discovery Journal":
+    - text: DISCOVERIES
+    - heading "Discovery Journal" [level=2]
+    - button "Close journal": ×
+    - paragraph: A record of discoveries. Memory has other commitments.
+    - text: Discovered nodes
+    - generic: 9 / 28
+    - group "Filter journal by category":
+      - button "All" [pressed]
+      - button "Production"
+      - button "Logistics"
+      - button "Storage"
+      - button "Research"
+      - button "Achievements"
+    - article:
+      - text: Logistics
+      - heading "Splitter" [level=3]
+      - paragraph: Alternates each incoming item between two smart outputs. Divides the work without resolving the argument.
+      - text: Splitter
+      - generic: 2:35
+      - button "View unlock →"
+    - article:
+      - text: Production
+      - heading "Assembler" [level=3]
+      - paragraph: Combines two input items into another product. Some assembly now delegated.
+      - text: Assembler
+      - generic: 2:02
+      - button "View unlock →"
+    - article:
+      - text: Production
+      - heading "Refiner" [level=3]
+      - paragraph: Changes one input item into another product. Changes the item. Keeps the workload.
+      - text: Refiner
+      - generic: 0:56
+      - button "View unlock →"
+    - article:
+      - text: Production
+      - heading "Research Center" [level=3]
+      - paragraph: Studies the selected project by consuming one of every required Core together each cycle. Waits for a complete set. Accepts Cores. Declines suggestions.
+      - text: Research Center
+      - generic: 0:56
+      - button "View unlock →"
+    - article:
+      - text: Production
+      - heading "Kiln" [level=3]
+      - paragraph: Fires Wood into Charcoal for metal processing. Wood, with fewer aspirations.
+      - text: Kiln
+      - generic: 0:18
+      - button "View unlock →"
+    - article:
+      - text: Production
+      - heading "Smelter" [level=3]
+      - paragraph: Smelts metal with Charcoal into matching Plates. Everything looks workable at this temperature.
+      - text: Smelter
+      - generic: 0:18
+      - button "View unlock →"
+    - article:
+      - text: Logistics
+      - heading "Joint" [level=3]
+      - paragraph: A compact pass-through for shaping and organizing cable routes. A small concession to cable management.
+      - text: Joint
+      - generic: 0:13
+      - button "View unlock →"
+    - article:
+      - text: Production
+      - heading "Extractor" [level=3]
+      - paragraph: Automates resource gathering from any natural source. Takes the manual out of manual labor.
+      - generic: Available at start
+    - article:
+      - text: Logistics
+      - heading "Filter" [level=3]
+      - paragraph: Sends the selected material through its first outlet and everything else through the remainder. A blocked required outlet stops both paths. Selectively helpful.
+      - generic: Available at start
+    - article:
+      - generic: ⌁
+      - text: Research completed
+      - heading "Splitter" [level=3]
+      - paragraph: Unlocks the Splitter node
+      - generic: 2:35
+      - button "View unlock →"
+    - article:
+      - generic: ⌁
+      - text: Research completed
+      - heading "Assembler" [level=3]
+      - paragraph: Unlocks the Assembler node
+      - generic: 2:02
+      - button "View unlock →"
+    - article:
+      - generic: ⌁
+      - text: Research completed
+      - heading "Research Center" [level=3]
+      - paragraph: Unlocks the Research Center node
+      - generic: 0:56
+      - button "View unlock →"
+    - article:
+      - generic: ⌁
+      - text: Research completed
+      - heading "Refiner" [level=3]
+      - paragraph: Unlocks the Refiner, its Simple Core recipe, and the Research Center
+      - generic: 0:56
+      - button "View unlock →"
+    - article:
+      - generic: ⌁
+      - text: Research completed
+      - heading "Smelter" [level=3]
+      - paragraph: Unlocks the Smelter node
+      - generic: 0:18
+      - button "View unlock →"
+    - article:
+      - generic: ⌁
+      - text: Research completed
+      - heading "Kiln" [level=3]
+      - paragraph: Unlocks the Kiln node
+      - generic: 0:18
+      - button "View unlock →"
+    - article:
+      - generic: ⌁
+      - text: Research completed
+      - heading "Joint" [level=3]
+      - paragraph: Unlocks the Joint node
+      - generic: 0:13
+      - button "View unlock →"
+  - generic "Node shortcut bars"
+2026-11-04T21:24:29.108Z GUIDANCE G03: Basic Core production completed Merger and Exploration; Expansion tutorial invitation explicitly explains map activation/travel/Road delivery and offers separate practice factory (positive). Deferred tutorial to keep main run. Will inspect Map normally.
+2026-11-04T21:25:57.137Z W1 first expansion: finite Iron/Copper/Stone/Wood1500 each; four Deep Holes. Road/Cart descriptions explicitly explain Cart->Road pair->Cart, 12 items/min, one material and one Road per face. Positive guidance: requirements stated in construction catalog. Automata Core research selected2Simple+2Basic while Home chains continue.
+2026-11-04T21:29:25.753Z GUIDANCE G04: After Automata Core research, Next milestones still has only landmark/endgame triggers; no explicit Produce Automata Core or deliver remote Cores home goal. Available research costs imply this next step. Recommend near-term production/delivery milestones linked to recipes, and show what each unlocked Core enables. Map Node description does explain why scaling Simple Core production helps (positive).
+2026-11-04T21:31:01.116Z N1.W1 second map visited: Lake plus finite base resources2000 each, no camp visible. Water Tools unlocked on visit. GUIDANCE G05: Water Tools unlock toast only says Unlocks Water Tools; no Produce Coolant near-term milestone replaces it. Recipe/build catalog can reveal the next machine. Hydrochemistry currently waits for Simple Core; remote Automata delivery not yet claimed as verified.
+2026-11-04T21:35:45.137Z Hydrochemistry completed via normal production and remote Automata delivery. Home Copper shared Merger now connected; duplicate connection rejected (normal UI explanation). Earlier suspected stalled gear was partly inactive research/backpressure, not established game bug. Next milestones still distant; immediate Advanced Fabrication/Hydraulic Assembly only in Available section.
+2026-11-04T21:38:27.950Z Run paused for automatic approval review. Normal Decommission of accidental splitter400580 was rejected as prohibited mid-run fix, although it is ordinary player UI editing. No decommission executed. Awaiting user clarification. Not a game progression blocker. Advanced Fabrication completed; Hydraulic Assembly selected; current lake production still being wired.
+2026-11-04T21:39:20.443Z Recovered same paused live tab8 after browser controller reset. In-app browser shown so user can watch while retaining desktop use. Ordinary UI decommission of accidental splitter now succeeded; no game code or rules changed.
+2026-11-04T21:40:21.523Z Hydraulic Assembly completed using2each Simple/Basic/Automata after Advanced Fabrication2each. Repeated remote Automata consumption established across3research projects. Normal UI next milestones unchanged6distant triggers; Fluid Routing available2ofeachincludingHydro gives next requirement implicitly.
+2026-11-04T21:41:55.128Z N1 explored after secondMapNode5Simple. Monster Camp tutorial invitation explains borders/bots/AttackPower; deferred practice. Strong contextual guidance compared with static Research nextmilestones.
+2026-11-04T21:42:51.809Z Lake Hydro Core assembler visibly progressing and output wired toCart→eastRoad. N1 receivingCart250420→Joints450370/980370→sendingCart1000650→southRoad. Home receivingCart1050180→ResearchCenter. Awaiting actual Hydro research consumption; not yet claimed sustained. Terrain route avoids holes andcamp withordinaryJoints.
+2026-11-04T21:43:02.855Z Current normalUI recipe guide: Hydro1Piston+1CircuitB+2Coolant18s; Piston1IronGear+1Motor+2Coolant10s; CircuitB1Brick+1CuWire+1Slurry10s. Clickable ingredient recipes in research useful for planning. Research description FluidRouting only generic synchronizedcoretext; couldstate whatunlock andnextchallenge.
+2026-11-04T21:47:32.480Z Hydro cores visibly reached Home north Cart (blue inventory). Cart output was unconnected; corrected through normalUI at1068205→lab780380. Delay was player wiring error, notroadblocker. Shows importance recipient verification after placement/camera settling.
+2026-11-04T21:48:03.028Z Fluid Routing completed with2eachS/B/A/H after HomeCartoutput connected. FirstHydrodelivery andconsumptionverified. NeedfurtherHydroprojectsfor sustained replenishment.
+2026-11-04T21:48:17.582Z Ore Separation completed2eachS/B/A/H. FourHydroconsumed acrossFluidRouting+OreSeparation with ongoingfactory; Hydrochainreplenishmentverifiedatleastmultiplecycles. NextmilestonesstillCornerComponents/MythrilRefining/WasteHandling/MineralRecovery/FinalCoreProduction; noexplicitFindDwarves/ProduceShinygoal.
+2026-11-04T21:53:25.835Z Built separate normalUI WoodExtractor/Kiln/CopperExtractor/Smelter/CuWireRefiner feeding Motor, routedaroundLakeviaJoints. Sharedbranchbackpressure suspected, notprovenbug. Severalpriorwiringmisses causedbyautoedgepanandtinyports; zoomandfreshscreenshotsnecessary. No midrun game/code fixes.
+2026-11-04T21:53:51.732Z After fifthHydroconsumption SealedRobotics1/2 nowwaitBasic. HomeIronWireinputunconnected; restoredIronSmelt585384→IronWire637561 throughnormalUI. InitialBasicstockhadmaskedmissingconnection. Runhasrevealedownwiringerrors; no provenhardgameblocker.
+2026-11-04T21:54:35.310Z SealedRoboticscompletedafterIronWirefeedrestored; sixthHydroconsumed. OrdinarysustainedproductioncheckcaughtHomeBasicinitialstockmaskingmissingfeed.
+2026-11-04T21:55:28.661Z ExploredN2.W1(thirdpaidMapPoint5Simple): basic4resourcesandlargeBigHole; noLake/Dwarvenlandmark. No directionhintfrommapbeforeactivation; playermustexploreblindly.
+2026-11-04T21:56:25.188Z N2.W2fourthpaidpoint5Simple: ordinaryfourresources,3largeholes, noDwarvenlandmark. ContinuingblindexplorationforrequiredMythril; noingamedirectionalhintobserved.
+2026-11-04T21:57:15.867Z N3.W2fifthpaidpoint5Simple:4resources5holesnoDwarvenlandmark. ContinuingoutwardnormalUI.
+2026-11-04T21:58:09.007Z N4.W2sixthpaidpoint5Simple: ordinary4resourcesand5holes,noDwarvenlandmark.
+2026-11-04T21:58:53.292Z N5.W2seventhpaidpoint5Simple:ordinary4resources2holes,noDwarvenlandmark. Northernedge reached; proceedingtowardcorner usingvisibleMap.
+2026-11-04T21:59:36.723Z N5.W3eighthpaidpoint5Simple:4resources2largeholesandcamp,noDwarvenlandmark.
+2026-11-04T22:01:00.866Z N5.W4ninthpaidpoint5Simple:basicresources2holesandgreenForestGolemlabel; noDwarvenlandmark.
+2026-11-04T22:01:51.396Z TenthMapNodepurchasecost6Simple+6Basicafterfirst9at5Simple. Waitingnormalproductionforcorneractivation. Explorationguidancegapmeasured9paidmaps45Simplebeforecorner; noDwarvenlandmarkyet.
+2026-11-04T22:04:26.001Z ReachedN5.W5cornerby10paidpoints51Simple+6Basic(totalincludingallpaidmapnodes). ElderGrove(inputsocket) andElderGroveTribute(outputsocket), both0%,emptysector. Clickingbodydoesnotopenexplanation. NoDwarvenlandmark; cornergoalpresentbutnoexplanatoryencountermodalobserved.
+2026-11-04T22:05:46.120Z EleventhpaidMapPoint6Simple+6BasiccompletedwhileaddingindependentsecondSimpleCorelineatHome; newnormalproductionWood/Copper/Kiln/Smelter/Gear/Coremachinechainfeedinglab. Needsconsumptionverificationafterstartup.
+2026-11-04T22:06:03.509Z N4.W5eleventhpaidmap6Simple6Basic:ordinaryresources2largeholesandcamp,nosettlement. BeforefurtherblindsearchcheckingnormalTutorialUIforlandmarkinstructions.
+2026-11-04T22:06:23.010Z TutoriallibrarynormalUIhasBasics/Logistics/ControlGroups/Expansion/MonsterCamps only; noDwarven/Mythril/cornerguide listed. Nohiddenreports/sourceused.
+2026-11-04T22:08:53.645Z N1.W2twelfthpaidpoint7Simple7Basic:4resources4holes,nosettlement. Cumulativepaidpoints64Simple19Basic; closersearchstillblind.
+2026-11-04T22:12:04.166Z W2thirteenthpaidpoint7Simple7Basic:Lakeplusfourresources,noDwarvenlandmark. Totalpaid71Simple26Basic. SwitchingtoE1closestunexploredhomeaxis.
+2026-11-04T22:15:00.771Z E1fourteenthpaidmap8Simple8Basic:ordinary4resources3holes,noDwarvenlandmark. Totalpaid79Simple34Basic.
+2026-11-04T22:18:11.065Z PossibleUIstaleMapPointdisplay: E2selectedMapviewkept0points/disabledactivationthroughseveralpolls. OpeningResearchshowednoproject(active0),reopeningMapandreselectingE2showed1point. No gamefixapplied; ordinaryclose/reopenworkaround. Do notconflateallwaittimewithproduction.
+2026-11-04T22:19:04.786Z E2fifteenthpaidmap8Simple8Basic:Lake+fourresources,nosettlement. Totalpaid87Simple42Basic. BeforefurthersearchpreparingremoteSimple/BasicproductioninE1toavoidHomeCopperdepletion; normalresearchRoadChannels1chosenfor2materialroads.
+2026-11-04T22:22:18.917Z HomeCopperdepletedintonamedDeepHole(normalgameplay). No hardblock: E1hasfreshCopperandnewlocalSimple/Basicfactory. FirstSimpleRoadpairedtoHomeeast, receivingCart1100230wiredRoad1110175→Cart1082235→lab780380. RoadChannels1still1/2waitingSimpleuntilremotearrival. AttemptedextraHomeSimplelinehadnotbeenverified; screenshotshowsmissingWoodExtractornear1050550soitmustnotbecountedassustainedcapacity.
+2026-11-04T22:23:18.161Z RoadChannels1completedafterE1remoteSimplearrival; HomeCopperdepletionrecoverablethroughnormalremoteproduction. Unlocks2Roadslotsperface.
+2026-11-04T22:29:31.654Z E1secondindependentSimplechainbuiltwithnormalUI. MisplacedJoints345440/340190andRefiner650180decommissionednormally; newCore700550fedCopperGearsfromRefiner350580. CartfirstSimple→Joint541150→Merger350150; extraCore700550→Joint600500→Joint700300→Merger350150spareinput; outputthroughJoint291150→westSimpleRoad. CopperExtractor300400feedtosecondCuSmelt350650restored. BasicRoadsecondwest600pairedHomeeast677→Cart1100550→lab. Needactualsustainedconsumptionverification.
+2026-11-04T22:30:18.712Z SixteenthMapNode9Simple9BasiccompletedafterHomeCopperdepletionandremoteE1recovery. Research7/9→completewithin30saftersecondSimplechainconnection; actualremoteconsumptionverified. Totalpaid96Simple51Basic.
+2026-11-04T22:30:30.486Z S1sixteenthpaidmap9Simple9Basic:ordinaryresources4holes,nosettlement.
+2026-11-04T22:32:29.568Z ExpandedCornerComponentsguidance: Acquireacomponentfromanycornertorevealpairedassemblyrecipes. DoesnotlocateDwarvenlandmark. NWcornerisElderGrove. Playerinference: othercornersmayholdothernamedlandmarks; consideringNEcornersearchratherthanmoreordinarymapscans. ThisisinferencefromvisibleUI,notsourceknowledge.
+2026-11-04T22:39:25.985Z Close-zoomdiagnosisconfirmedsecondE1CuSmelter350650hadNOCharcoalfeed; dedicatedKiln300310outputunconnected. ConnectednormalUIathighzoom138136→124686. Thiswasmissedconnection/operatorerror,notprovenautoinsertionbug. NormalcableinspectorconfirmedBasicCart→Jointcableintact,soearlierautoslicingSmelterhypothesisunsupported. Correctedassessment: tinyports/setupverificationoverheadmustnotbeblamedonbalance.
+2026-11-04T22:41:33.878Z NormalResearchsearchDwarvenreturnssoleMythrilRefiningmilestone; fulldetailsonlyproducefirstTribute,nolocationclue. ElderGrovebody/progress/socketnormalclick/hoverandAboutwelcomeprovidednorequirements. Usingearned17thpointtowardnortheastcornerbasedonCornerComponentsinference,notconfirmedDwarvenlocation.
+2026-11-04T22:41:49.230Z Seventeenthpaidpoint9Simple9BasicspentN5.W1:4ordinaryresources3holes. Cumulativepaid105Simple60Basic. ContinuingeasttowardNEcornerinference.
+2026-11-04T22:42:19.564Z NormalJournalcheckpoint: latest17thMapNodecompleted74:59;16th66:59;RoadChannels1 59:29;15thMap55:02;14th51:52. Theseincludeoursetupandsearchmistakes,notoptimizedproductionbenchmark. SavednormalJournalUItext.
+2026-11-04T22:43:22.572Z EighteenthpaidMapNode10Simple10Basiccompleted; active5/10→completeafter45snormalwait. RemoteSimple/Basiccontinuedconsumptionverifiedaftercharcoalcorrection. Totalpaid115Simple70Basic.
+2026-11-04T22:43:39.892Z N5eighteenthpaidmap:4ordinaryresources2holes,noDwarvenlandmark.
+2026-11-04T22:47:15.336Z NineteenthMapNode10Simple10Basiccompleted; totalpaid125Simple80Basic. Nextpurchase20requires11eachSimpleBasicAutomata(normalUIcost33total).
+2026-11-04T22:47:27.978Z N5.E1nineteenthpaidmap:ordinaryresourcesandlargeCopperGolem,noholes. NewvisualencounterbutnoDwarvenlandmark. Noexplicittutorialencountermodalobserved.
+2026-11-04T22:49:21.606Z NormalFilterWood→ElderGroverejected;expandedconnectionexplanationexplicitlyrequiresForestGrowth. ThisisthefirstconcretesupplyrequirementfoundforGroveviaordinaryUI. InspectingTreePlanter/MiningDrillnormalresearchdetailsbeforefurtherblindlandmarksearch. Filterinspectoropenedbytinyconfigurationicon,notbodyclick.
+2026-11-04T22:49:58.199Z NormalUIbaseTreePlanterdescription:restoredepletedForestcapacity. MiningDrill: motor-driven deep-bore surveyingcreatesfreshoredeposit. Neitherdescriptionexplicitlylinkslandmarkrequirements. CornerinputrequirementForestGrowthonlyfoundviaexpandedincompatibilityfeedback. Map20active7/11S/B/A; renewedAutomataconsumption7verified.
+2026-11-04T22:51:28.328Z TwentiethMapNode11eachS/B/Acompletednormalproduction. Cumulativepaid136Simple91Basic11Automata.
+2026-11-04T22:51:48.464Z N5.E2twentiethpaidmap:4ordinaryresources1verylargehole,noDwarvenlandmark.
+2026-11-04T22:55:45.395Z Twenty-firstMapNode11eachS/B/Acompletednormalproduction.Totalpaid147Simple102Basic22Automata.
+2026-11-04T22:55:53.138Z N5.E3twenty-firstpaidmap:ordinary4resources4holes,noDwarvenlandmark.
+2026-11-04T22:59:10.764Z EnlargedHomeResearchCentercanvasnormalUIshowsseparatebuffersBasic/Automata/HydrostockedwhileSimplearrivesandisconsumed. LabiconopensResearchprojects,notgenericinspector. Screenshothome-remote-core-recovery.pngcapturesactualfactory.
+2026-11-04T23:00:38.124Z Twenty-secondMapNode12eachS/B/Acompleted; totalpaid159Simple114Basic34Automata.
+2026-11-04T23:01:16.734Z N5.E4twenty-secondpaidmap:ordinary4resources5holes,noDwarvenlandmark.
+2026-11-04T23:02:00.363Z VerifiedResearchsearchForestGrowth0results,despiteElderGroverejectionexplicitlyrequiresForestGrowth. Searchhelpmaterial/Coretype,butTreePlanterdescriptionnotindexedbyForestGrowthoutput. Concreteguidancegap; screenshotforest-growth-search-no-results.png.
+2026-11-04T23:03:07.962Z NormalFutureVictoryprojectAremarkablyIndirectConclusion:submit1FinalCore. ViewFinalCorerecipelinkaccessiblewithoutunlock; FinalCore=1CoreHalfA+1CoreHalfB30s. IngredientlinksCoreHalfA=Alpha+FoundryComponent10s;CoreHalfB=ReclamationComponent+GroveComponent10s. Fourcornercomponentsrequiredforvictory; usefulnormalUIplanningbutburiedinFutureprojectlinks. No source/devtoolsused.
+2026-11-04T23:05:17.209Z Twenty-thirdMapNode12eachS/B/Acompleted.Totalpaid171Simple126Basic46Automata. ReachingNEcornerafterUIonlyexploration.
+2026-11-04T23:06:29.591Z NEcornerN5.E5containsAncientDragon+AncientDragonTribute(outputAlpha). NormalWoodFilterconnectionrejectionrequiresATTACK_POWER(rawidentifierUI). Dwarvenlocationinferencewrong; notatNEcorner. NoDragonencountermilestone/tutorialguidanceobserved. ResearchingavailableMiningDrillnowforstatedfreshoredepositfunctionafterHomeCopperdepletion,notassuminghiddenrules.
+2026-11-04T23:12:12.376Z Mining Drill completed. Normal inspector reached via tiny circle/i next to selected node title (not body/title icon). Materials Iron, Copper, Stone only; requires20Motors ->1000deposit. Commands/Basics did not mention this inspector control. No Mythril drill option.
+2026-11-04T23:12:56.077Z Monster Camps guide explicitly teaches Suppression Bots -> Attack Power, recurring60s checks, other threats may need stronger response. Dragon raw ATTACK_POWER can be interpreted from this guide, though no Dragon-specific requirement/count shown.
+2026-11-04T23:13:40.745Z Tree Planter unlocked10S10B10A and build catalog explicitly describes10Wood+1IronPlate+1Stone ->100growth at1/s. Planter placed at ElderGrove; normal ForestGrowth cable connected. Three material feeds still needed from adjoining map, since corner has no resources.
+2026-11-04T23:15:02.962Z Important correction from NORMAL MAP UI: N5.W4 obstruction list explicitly says Dwarven Kingdom1 (not Forest Golem as earlier visual inference). Revisit now. This is the Dwarven settlement clue.
+2026-11-04T23:16:54.927Z Grove now visibly4% after Wood and IronPlate supply from N4.W5 south-face pair + Stone from N5.W4 east-face. Normal TreePlanter ForestGrowth cable green. Research Map24 active13SBA. DwarvenKingdom compatibility explanation requires ATTACK_POWER; normalCamp guide indicates SuppressionBots. Needlocalbotfactory.
+2026-11-04T23:18:31.107Z Map24 completed13SBA, unspentpoint1. During bot wiring a completion toast over the top work area opened Research; subsequent coordinate drags hit modal rather than factory. Operator/UI overlap, not production bug. Need verify all wiring after dismissing.
+2026-11-04T23:20:23.650Z Correction: earlier Grove4% visual inference was unreliable; at larger zoom Grove currently reads0%, while TreePlanter cycles and its ForestGrowth output cable remains green. Will verify collected tribute before claiming production milestone. All3inputs visiblybuffered. AddedcollectionCart.
+2026-11-04T23:22:50.975Z Bot chain check at readable zoom found missing IronPlate feed into Frame assembler (missed tinySplittertopoutput). Connected it via normal UI. Previous claim connectedfactory was premature; no codebug. Dwarven central visible label appears72AP /0%? Needread accurately.
+2026-11-04T23:24:35.061Z Consumption baseline normalMapUI N4.W5: Iron5380,Wood5336,Copper5500,Stone5500. Grove still0% visually, TreePlanterbarcycles. Needobserve resource consumption to distinguish cosmeticprogress/wait vsblockedinput. Tiny5boxes are not proof actualcapacity5.
+2026-11-04T23:26:54.296Z Used normal MonsterCamps practice (separate factory, main preserved/paused) to understandAP. StartingCart4SmallBots depleted byshipping intoCamp; HUD rose0->2 AP withrequired3 and60scheck. ThusSmallBot roughly1AP each; Dwarf72AP/min likely needs scaled/strongerBots or storedburst. No tutorial grants enteredmain.
+2026-11-04T23:28:51.743Z Spent Map24 point onS2: Lake +smallGoblinCamp +SortingRuins +4resources visible. This is newlyexploredsouthernroute.
+2026-11-04T23:30:28.235Z HALT: MainrunpausedatN5.W5 ElderGrove. TwoTreePlanters havebufferedWood/IronPlate/Stone, cyclingbars, greenForestGrowthcables; connectiontooltip explicitlyFORESTGROWTH TreePlanter[1]->ElderGrove[1]. Grove/Tributestill0% andnocomponentcollected. ResearchGrove0results; ForestGrowth0results; CornerComponentsonlysaysobtainanycornercomponent. NormalTreePlanter1only90%cycle; norequiredGroveamountorprerequisitefound. UI-only progressionstuck: cannotdistinguishlongworkrequirementfrommissingprerequisiteorlogicfault. Noenginebugrootcauseasserted. Nofixes/rulechanges/source/devtools/reports. Victorynotreached.
+2026-11-05T01:17:37.217Z User-authorized deployment boundary: Grove display fix0c7c924 published;7liveassets matchtestedbuild. RefreshedsameIABtab8, restorednormalpermanentSlot1 UIplaytest—beforeGrove refresh02:07:01. Stillpaused. Grove1057/2000000, Tribute0/10 nowvisible. Save/Loadresetshortcutbarsvisibility; toggledF1/F2/F3tonormalprevioushiddenstate. Noresources/rules altered. Source inspection/testing restrictedtofix/deploymentphase; resumeUI-onlysegmentaftermetadata.
+2026-11-05T01:20:00.035Z UI-only segment resumedafterpublishedGrovefix, from02:07:01 savedcheckpoint; Grove1057, twoPlanters. NormalResearchconfirmsMap25completed13SBA; nextMap26starts14SBA. ResourcebaselinecapturednormalMaplists inresource-checkpoint-grove-fix-resume.json. E1Copper18 andLakeN1.W1Copper108 warn depletion. Plan replacementS/BfactoryE2, shipfinishedcoresviaE1. Futureordinarybugsqueued; noadditionalfixes/source/devtools/reportsallowed.
+2026-11-05T01:23:39.779Z E2S/Bfactorybuiltfromfreshresources,2westRoads600Basic/650Simple. E1receivingBasicCart1070550 visiblyorange; mergedintoexistingBasicCart1020650 viaMerger1000600. SimpleCart950600->Joint1090580->Joint1100200->Merger1000330->existingSimpleCart1020250. AddedJoint1090330autosplicedCopperPlatefeed; leftinthatstream, notusedforCores. NeedverifySimpleandnewresearchload.
+2026-11-05T01:25:14.631Z NormalUI: Map25completed13SBA, Map26completed14SBA beforeE2 replacementverification; spentpoints25onS3(4base resources2500,4DeepHoles) and26onS4(4base resources3000,1DeepHole). Map27active14SBA. E2extraCopperSmelter/Extractor/Kiln/WoodExtractor->Merger600580->Gear addedtoincreaseSimplethroughput; no game/rulefix.
+2026-11-05T01:29:29.060Z Published fix verified under ongoingproduction: Grovecounterrose1057->1867 throughnormalUI, bothPlantersrunning. Direct2pxdragdidnotrevealadditionalnodetooltip; nocodedatausedinresumedrun.
+2026-11-05T01:33:26.320Z NormalUI botstockpileexperiment: redirectedSmallBotassemblerfromKingdomtoJoint1060120->Joint1060660->Splitter900670->Splitters800670/600670->fourCarts450/550/650/750at670. Collectbeforeburst; notclaimingkingdomclear. AddedsecondCu/IronExtractors220550/220440, oreMergers200300/200200 andWood/Kiln767120/767180 fuelMerger667180. Waitingtoverifyinventorygrowth. CalculatedfromnormalUI Grovequota2M andPlanter10Wood+1IronPlate+1Stone/100growth: onecomponentrequires200000Wood+20000IronPlate+20000Stone directly; expandingbaseplates/fuel gives220000Wood+40000Iron+20000Stone. Theoreticalrequirement, NOTactualconsumption.
+2026-11-05T01:36:04.619Z S5discoverypoint27:4base resources3500,1DeepHole,DwarvenCamp. Normalportreadout12AP/60s, muchlowerthanN5.W4Kingdom72AP. Investigatelocal12APstockpile; earlierhigh-tierKingdomroutewasavoidablecost.
+2026-11-05T01:42:41.799Z JournalnormalUIconfirmsMap25 126:34(13SBA),26 128:06(14SBA),27 135:14(14SBA),28 142:34(15SBA). Map28pointunspent. CumulativeMapspending240Simple195Basic115Automata; knowncompletedresearchsubtotal276Simple230Basic148Automata8Hydro (still excludesunknownearlycosts). Map27->28deliveryinterval7:20 includesresearchstart/setup, notisolatedmachinebenchmark.
+2026-11-05T01:45:14.872Z S5botsetupdelayedbyincorrectsmall-splitteroutletcoordinates, failedsplitterplacementoverStoneandedgepan. CorrectednormalUI: movedIronbranchSplitterto900450, linkedpreviouslyemptyloweroutlettoplateFrameatreadablezoom1052635->870258. Theseareoperator/setupcosts, notprovenrecipebug. Cartstillunverifieduntilbotsarrive.
+2026-11-05T01:46:02.996Z SpentMap28pointonS5.W1:4base resources4000,3DeepHoles. Map29active15SBA. Campstockpilewillonlybeclaimedafteractualinventory.
+2026-11-05T01:49:04.253Z S5readableverificationfoundFeCharcoalinputemptywhileCuWire/Copperbuffersfull. AddedindependentWoodExtractor700500->Kiln700400->FeSmelterCoal788555(normalUIcoordinatesatthatzoom). After45s, IronSmelterandFrameassembler visiblycycling. Sharedsplitterbackpressure suspected; notprovenrootcause. AwaitactualBotCartstock.
+2026-11-05T01:51:42.381Z Map Node 29 completed; next project UI costs16 each Simple, Basic, Automata, Hydro. Exact completion time not yet checked in Journal.
+2026-11-05T01:53:01.736Z S5 gun assembler found missing visible ingredient connections; reconnected its Iron Plate and Copper Wire feeds using normal sockets. This is setup overhead, not a confirmed simulation bug.
+2026-11-05T01:53:08.540Z Map Node30 completed after selecting16 each Simple/Basic/Automata/Hydro. Hydro transport remains functional under research demand. Known research lower bound throughMap30:307 Simple,261 Basic,179 Automata,24 Hydro.
+2026-11-05T01:54:12.952Z Confirmed visible Iron Plate cable into Robot Gun after precise zoomed connection1009,638→955,243. Earlier attempted connections did not establish it; setup delay explicitly excluded from recipe throughput.
+2026-11-05T01:54:31.913Z Spent Map29/30 points activating S5.W2 and S5.W3 toward southwest corner.
+2026-11-05T01:54:37.019Z S5.W3 ordinary4resources5000 each,4DeepHoles; no new progression landmark.
+2026-11-05T01:55:01.514Z First confirmed S5 Small Bot accumulated in Cart (one green slot), after correcting Gun Iron input; assembler visibly running. Beginning sustained-output observation.
+2026-11-05T01:55:16.197Z N5.W4 four-cart stockpile still visually empty; old chain not confirmed sustained. Prior extra extractor throughput and stockpile attempts did not establish bots. Focus on functioning lower-AP S5 Camp chain.
+2026-11-05T01:55:29.399Z Map31 active7/16 eachS/B/A/H; all four streams advancing together. Nextmilestones stillCornerComponents/MythrilRefining/WasteHandling/MineralRecovery/FinalCore, no camp suppression-specific intermediate hint.
+2026-11-05T01:56:43.023Z Normal Research preview IndustrialForestry:600 cores total acrossS/B/A/H/Shiny/Complex, requiresPrecisionControl; TreePlanters10x faster and up to10 fundedgrowth/localshipment. Potential futureGrove scaling route identified; no purchase yet.
+2026-11-05T01:56:51.089Z Map31 complete16eachSBAH; selectedMap32 cost17each. Known completed lower bound323S/277B/195A/40H.
+2026-11-05T01:57:04.938Z Map31 point activatedS5.W4:4resources5500 each,2DeepHoles. S5.W5 corner nowadjacent; awaitingMap32.
+2026-11-05T01:57:22.338Z S5 Cart4bots confirmed; optionalSmelter1 UI promises90%basecycletime for10Simple, notselectedwhileMap32pending.
+2026-11-05T01:59:54.654Z Grove currentUI5,837/2,000,000, Tribute0/10; twoPlantersactivelycycling. Publishedfixcontinuouslyaccumulatescorrectdisplay.
+2026-11-05T02:00:12.166Z NormalMapcheckpointN4.W5 Iron5240 Copper5500 Stone5500 Wood4822; savedbaselineIron5336 Wood5271:96Irondrawdown,449Woodnetdrawdown (Forestregenerates, nottotalharvest). GroveGrowth5837.
+2026-11-05T02:01:31.609Z Zoomed Cart count confirmed9SmallBots (5+4slots). Earlier small-scale count estimates approximate; exact9 now. All20slots readable at enlargedzoom.
+2026-11-05T02:03:18.084Z S5 stockpile at least12SmallBots (readable3rows) released fromCart753452 toCamp434279 forfirstsuppressionattempt.
+2026-11-05T02:03:29.007Z Map32 completed17eachSBAH; completedknownlowerbound340Simple294Basic212Automata57Hydro.
+2026-11-05T02:03:40.518Z SurveypreviewrevealsGolemsrequiring10000APonce; deferredwhileSmallBotsworkingon12APCamp.
+2026-11-05T02:05:25.193Z NormalMonsterCampsguideconfirmsrecurring60sAPchecks: sufficientshrinks, insufficientgrows; maincampstilldoesnotshowcurrentstoredAP. Singlebatchworkingbutnotlasting solution; needscaleorstrongerbots.
+2026-11-05T02:05:47.841Z Map32 point spentS5.W5 corner: AncientReclamation andAncientReclamationTribute. VisibleinputWaste; display0%, no exactquotavisibleunlikefixedGrove. OrdinaryUIguidancegapqueued; nofixduringrun.
+2026-11-05T02:06:25.500Z S5 camp visiblyregrewafterburst; singleSmallBotlineinsufficientforsustained12AP/min. NeedscaleorMediumBots, whichareavailablethroughSealedRobotics; normalRecipeslistsSealedFrame+CoolGun+BasicCore→MediumBot25s.
+2026-11-05T02:07:29.509Z Checkpoint saved normallySlot2 UI playtest — published Grove checkpoint at02:54:10; gamepausedS2. NoMediumBotfactorybuiltyet. Notcompletelystuck; furtherplayneedsstrongerorparallelbotproduction. Victorynotreached. KnownresearchlowerboundthroughMap32 340S294B212A57H; exactrawextractionnotavailablethroughUI.
+2026-11-05T02:16:59.332Z NormalCommandsUI revealsCtrl+C copiesselectedbuildablenodesandinternalcables; FactoryTemplatesresearchnotrequiredforlocalduplication. Usefulscalingtoolnotpreviouslyused.
+2026-11-05T02:20:53.077Z S2 parallelFeSmelteroutputsverifiedatreadablezoom; reconnectingexistingRootMerger→Splittergavealreadyconnectedexplanation, confirmingthatleg. SomeearlierwiresmissedbecauseportsverySmallatfitzoom; treatasoperatoroverhead.
+2026-11-05T02:23:22.617Z BuiltnormalS2→S3→S4→S5 singlematerialRoadrelaywithCarts; S3rightedgeJointsavoidholes. S5receivingCartconnectedtoCamp, whichreplacedearlierSmallBotCartfeed(singleincomingport). SmallBotstockpilestillruns, nowbuffered. RelayconfiguredbutactualMediumdeliverynotyetverified.
+2026-11-05T02:31:27.327Z HALTEDpernormalUIstuckruleat03:16:52, pausedS2, Slot3saved. FinalresourcecheckpointIron1670Copper1800Stone1975Wood1727; stalledMediumBotdiagnosisunresolved, notconfirmedenginebug. Reviewnotesandresourceledgerupdated.
+2026-11-05T03:08:51.022Z OUT-OF-RUN UI diagnosis: restored same tab after controller reset; original Slot3 preserved. Motor CopperWire visibly0 while IronGear stocked. Direct secondaryCuSmelter→WireRefiner and routedJoint→Motor bypass restored visible motor cycles. WholeMediumchain still unverified. Logisticsguide explicitly says Splitters try other route when blocked; strictbackpressure hypothesis withdrawn. SocketDetails confirmed supposedWireSplitter suppliesBrick; freshlogisticsplacement alsoauto-insertednaturalresourcecable, givingExtractorRequired/rawCopper mismatch. Mainconfirmedcause is mistaken wiring/material identification and unnoticedauto-insertion, notprovenenginebug. AddedtwoSplittersandtwoJoints via normalUI; someauto-insertedotherflows. Currentdiagnosticwiringnotprovensustained; sourcepermissionrequestedforisolateddiagnosis, no source/devtools/exports/fixesused. Pausedcurrentfactory; do not overwriteoriginalhaltSlot3.
+2026-11-05T03:24:06.972Z WIRING REPAIR normalUI: Added CopperWireRefiner in clear upper-left with dedicated CopperPlate route via twoJoints outsideLake. Reused verifiedWireSplitteroutputsMotor/Gun (duplicateconnection notices confirmed). Restored GearRefiner→GearSplitter→Motor/Piston, removing diagnostic directGear bypass. After30s normalrun motor,piston,sealedframe visiblycycling; firstdownstreamadvancedprogress. No enginefix/rulechange/code/devtools. AwaitactualMediumBots/sustaineddelivery.
+2026-11-05T03:33:50.674Z Further normalUI repair: primaryIronSmelter→existingIronPlateJoints→CooledGunIronPlate; restored charcoal splitter output to thatSmelter. CooledGun still0 revealedmissingCoolant. RootCoolantSplitterspare→actualCoolantJoint (wrongSealedFrameJoint trial rejected harmlessly)→upperCoolantJoint→CooledGunCoolant. FinalMediumBotassembler visiblycycling afterrepair; no completedMediumverifiedyet. NewcollectionCart receivesfinaloutput, temporarilybypassesRoad tocountrepeatedcrafts.
+2026-11-05T03:39:38.690Z VERIFIED threeMediumBots in newcollectionCart, finalAssemblerII inanothercycle. CooledGunCoolant/Plate and primaryIronSmeltercharcoal repairs restoredrepeatedoutput. Initialwireproducer/gearrepairs alone wereinsufficient; allremaininginputshortagestracedthroughnormalUI. No code/devtools/ruleschanges. Proceedingtodelivery.
+2026-11-05T03:40:43.569Z VERIFIED delivery: connectednewS2collectionCart→SouthRoad. NormalUItravel confirmedMedium-coloredflow onS3relay, S4relay, and S5receivingCart→DwarvenCamp input. LocalSmallBotCart full20andnotconnectedtoCamp (preservedstockpile). Waitingrecurringcampcheck; noconversion/Tributeclaimed.
+2026-11-05T03:47:53.116Z Sustainedrepairfollowup: identifiedCharcoalcablebyUItooltip(Kiln→Smelter), intentionallyinsertedfreshSplitterthereandconnectedsparetoCopperSmelterfuel. BothFe/Cu fuelrestoredafterdirectdiagnosticbypass. S5localSmallBotCart20stockaddedalongsideRoadMediumBotCartthroughseparatenewCartoffRoad; normalUIacceptedbothinputs. RoadreceivingCartremainsMediumonly. CombinedCart→Camp configuredto uselocalearnedstock.
+2026-11-05T03:54:33.760Z Extendedverification: pausedcheckpoint3:58:02savedSlot2, thenresumedforsecondbatchtest. RedirectedMediumoutputtooriginalemptyCart (itsRoadoutputwasreplacedbynewCart). After45s a newMediumBotinoldCart andanotherfinalcyclevisible, beyondfirstthreealreadyshipped. RepairsallnormalUI; no sourceinspectionpermissionused. CampmixedCartacceptedlocalSmallandremoteMedium; bordershrankafterdeliverybutno clear/Tributeyet.
+2026-11-05T04:01:22.255Z CORRECTION: closerCartviewshowedempty slots. EarlierclaimsofthreeMediumBots,secondbatch,andactualRoaddeliverywereNOTverified; colorpropagationwasmistakenforitemflow. Withdrawthosecompletionclaims; donotcount3or6BotsorBasicCoresasspentbasedonthatclaim. Finalassemblerwasstillmissingcomponents. Newplanrelocatefinalassemblynearproducersforverifieddirectlinks. Preservepriorentriesasaudittrail,butthiscorrectionsupersedesthem.
+
+2026-11-04 — WIRING REPAIR FINAL CHECKPOINT
+Normal published UI only. Repositioned Stone Extractor, added a central Medium Bot assembler and isolated collection Cart, and connected component feeds directly. Restored a direct Stone-to-Brick input. Added an isolated wood-fed Kiln and routing Joint; its progress bar visibly cycled, confirming simulation production was active. Connected charcoal bypass to primary iron smelter and traced Iron Plate merger/distribution. Some attempted connections missed because of small sockets and edge auto-pan; others explicitly reported already connected. Do not treat every drag as a successful repair. Reloaded page normally and loaded preserved manual Slot 2, without injection or grants.
+Result: no reliably verified completed Medium Bot, sustained Medium Bot output, or road delivery. Still blocked in the component chain; exact remaining cause unestablished using normal UI. Paused and saved Slot 2 as UI playtest — wiring repair still stalled at 04:22:42. Original halted Slot 3 at 03:16:52 preserved. No research purchased or code/rules changed in this repair. Repair time includes substantial operator routing/inspection overhead and is not a clean balance estimate. The earlier stalled-clock hypothesis was not established: manual save time advanced, and isolated Kiln cycled.
+CORRECTION: earlier counts of 3 Medium Bots, subsequent batches, and confirmed road delivery are withdrawn. Empty pips/type-colored cables were misread. Do not count any Medium Bot output or derive Basic Core consumption from those claims.
+
+2026-11-04 renewed normal-UI trace: the Copper Plate smelter feeding the shared Copper Wire chain lacked a working raw Copper input. Connected the Copper Extractor output directly to its Copper socket with both endpoints safely away from auto-pan edges. Charcoal connection reported already connected. Copper source declined 1708->1700 and smelter visibly cycled; subsequently Motor, Cooled Gun, Sealed Frame and Medium Bot progress bars ran. Also restored Plate merger distribution after temporary direct Gear diagnosis. First reliable completed Medium Bot observation: one clearly filled pale-cyan square in the isolated collection Cart, final assembler beginning next cycle. Screenshot medium-bot-first-verified.png. Sustained test still in progress; no new research/rules/source inspection.
+Close zoom confirmation: exactly 2 pale-cyan Medium Bot squares in collection Cart first row. Cooled Gun buffer 5 and Basic Core buffer 5; Sealed Frame buffer empty, so next throughput observation must verify renewed Sealed Frames rather than assume sustained output. No factory edits during this observation.
+Further trace: the initial Copper repair produced only 2 verified bots then paused for Sealed Frames. Copper Wire costs 3 Copper Plates per batch (3 sec), verified in recipe picker. Copper smelter had full raw Copper but stopped until a direct Charcoal feed from the isolated Kiln was connected. Moved that Kiln to clear lower-right land and wired its output directly to the wire-chain copper smelter Charcoal socket. Copper source then declined 1672->1666->1654, Iron 1346->1339, and a third Medium Bot craft visibly began. Two added left-edge relay Joints remain; unused diagnostic Splitter and Cart were undone. No further factory edits during sustained observation. Starting count 2 stored bots, next craft ~40%; screenshot reading at close zoom.
+Iron Plate replenishment correction: after five stored bots, restored the shared plate supply with three explicit Splitters. Root from the existing two-smelter plate Merger; two branches feed Gear and Iron Wire refiners, and the other branch feeds the Frame/Gun plate relay and Cooled Gun plate input. Temporary direct tests in this repair had disturbed the shared distribution, so this is operator wiring rework, not evidence of an engine defect. Two duplicate branch reconnections were explicitly rejected as already connected; final Cooled Gun plate link accepted. No diagnostic Cart remains; attempted placements were rejected and the earlier valid diagnostic Cart had been undone. New unchanged-factory observation begins at five stored bots.
+Final upstream Iron correction: the right-side Iron Plate smelter was fed directly from the visibly Iron-producing Extractor and a working lower Kiln, then its Iron Plate output was connected directly to the new root Splitter (bypassing the uncertain older merger route). Smelter immediately cycled; Iron source fell 1334->1320 over the next observation. Copper Wire source and both Gun/Motor Copper Wire buffers are now visibly stocked at upper-chain view. Gear production is the remaining throughput wait, with the new split branches physically visible. Sustained count remains 5 before this replenishment check; do not count speculative later slots.
+After user confirmed concurrent manual play, stopped input and resumed only after user said continue; traveled back to S2 through normal UI without loading a save. The decisive fuel check used close zoom: right-side Iron smelter had stocked raw Iron, EMPTY Charcoal input and EMPTY Plate output, while isolated Kiln had stocked Wood/Charcoal. Moved the Kiln inward to avoid edge auto-pan and connected its output directly to that smelter Charcoal input. Both cycled and Iron fell1320->1317->1310. Direct Gear diagnostic output then restored to new root Splitter. This is the final unchanged-wiring test baseline: five stored Medium Bots, Iron1310, Copper1463. Earlier optimistic claims of completed full repairs before this point are provisional; judge completion by following actual output.
+Added fourth plate Splitter to retain BOTH Cooled Gun and Hydro Plant plate inputs; the Hydro Plant had been waiting for Iron Plates, leaving Hydro Piston Coolant short. Both explicit new consumer links accepted. Lower fuel source was moved inward again and visibly connected at close zoom (Kiln output1014,781 -> Iron smelter charcoal666,795 in that camera); this caused immediate production and Iron drawdown. Current single Iron smelter limits replenishment; do not infer a freeze from intermittent Gear/Frame waiting. New baseline remains5stored bots; Iron1280 at latest screen. All observations are normal UI.
+Final unchanged-wiring observation: Cart now6actualMediumBots (5filledfirstrow+1secondrow), Iron1240 vs1280 baseline, Stone1946. Fresh output after complete fuel/plate/Coolant repair verified. Waiting for another completion before declaring sustained.
+
+VERIFIED REPAIR CHECKPOINT — 2026-11-04
+Slot 2 saved through normal UI as UI playtest — Medium Bots sustained at05:09:24; paused. Slot3 originalhalt03:16:52 preserved. Seven actual Medium Bots stored in the isolated collection Cart: first row5filled and second row2filled, remaining slotsblack. Verified transitions5->6->7 after final repairs, with no wiring changes between these completions. These consumed at least7BasicCores in completed bot recipes; do not count buffered or incomplete items as consumption. Final resource snapshot S2 Iron1215 Copper1454 Stone1946 Wood1563, capacity2000each. Relative to original03:16:52 halt: net declines455Iron346Copper29Stone164Wood; Wood regeneration and many buffered intermediates/rework prevent treating these as seven-bot recipe costs. No research purchased by this agent during repair. No code, grants, dev tools, exports or rule changes used.
+Confirmed wiring failures: shared Copper Wire smelting lacked working Copper/fuel supply; Iron Plate smelter had raw Iron but empty Charcoal while Kiln had charcoal available; plate distribution needed explicit feeds for Gear, Iron Wire, Frame/Gun, Cooled Gun and Hydro Plant/Coolant after diagnostic rewiring disturbed branches. Decisive Iron fix was inward Kiln relocation plus a visually confirmed direct Charcoal cable; direct Iron supply and four explicit plate Splitters retain all six consumers. Some earlier diagnoses were provisional; engine defect not established.
+Limits: seven-bot stock is now verified; earlier pre-repair output/delivery claims remain withdrawn. Road delivery of these seven bots is not yet tested; collection Cart has no outgoing delivery link. Old final assembler/old carts remain, some with buffered Basic Cores. This repair interval04:22:42->05:09:24 contains substantial operator inspection/rework and concurrent user gameplay before the user yielded control; do not use it as clean production balance time. Some early UI changes during run were user interaction, not browser malfunction. Four new plate Splitters and two left-edge relay Joints remain; unused diagnostic Splitter and Cart were undone.
+
+2026-11-04 continuation from05:09:24: user explicitly permits artificial TIME SPEED ONLY for this test. Inspected in-game Dev controls solely for a speed control and Mods overview without applying edits. No global simulation-speed control exposed; speed unchanged1x, no grants/unlocks/exports/code used. Active rules Base game,0editedentries. Added one Joint below the Medium Bot collection Cart, connected Cart output->Joint->S2SouthRoad around camp. Some additional Joint placement attempts rejected dueclearance; no extra bend required. Need verify actual delivery, not cabletype.
+
+Continuation: S3 added south sending Cart; rerouted lower Joint into Cart input, outlet isolated for arrival proof. Restored north receiving Cart -> upper Joint. S2 routed collection Cart -> Joint -> existing lower sending Cart -> south Road directly. Duplicate Road cable attempt rejected as already connected (generic message also mentions mismatched Merger material). No confirmed Medium Bot arrival yet. Source stalled on Sealed Frame; Gear Refiner starved while Iron Wire buffers full. Reassigned spare output on third plate Splitter to Gear Refiner input through normal UI. Iron changed 1126 ->1124 afterward, confirming simulation is advancing. No rules/code changed; 1x speed.
+Confirmed: S3 isolated south Cart visibly holds one filled pale-cyan Medium Bot pip after Road/Cart and Gear plate-feed repairs. This is actual inter-map cargo proof, unlike earlier cable-color-only observations.
+Confirmed: S4 temporarily isolated receiving Cart visibly holds one filled pale-cyan pip. Restored onward cable with Undo after recording. S5 Road receiver remains temporarily isolated; local Small Bot -> mixed Cart -> camp has been restored. Exact S5 Node Map resources logged: Iron492 Copper443 Stone3500 Wood819. Earlier visual estimates were unreliable; use Node Map values.
+Confirmed: final S5 isolated receiving Cart visibly holds one pale-cyan pip. Medium Bot transport now proven S2 -> S3 -> S4 -> S5 by isolated inventories. Restored S5 receiving Cart output -> mixed supply Cart input. S4 Road flow normal UI confirms S4 -> S5, 12 items/minute. No time acceleration available/applied.
+Started repeated-delivery sample at 2026-11-05T07:27:56.824Z: isolated S5 Road receiving Cart output, inventory initially empty. Local Small Bot supply remains connected to camp. No simulation speed change.
+Timed sample: 196 wall seconds at 1x with no menus, final S5 receiver stayed empty after initial delivery. This does NOT meet sustained-delivery criterion. Local Small Bot supply remained connected. Restoring final receiver output and tracing source again.
+Source recheck: Gear Refiner now has full output, but Motor Copper Wire input empty; shared left/central Copper Smelter had Copper but no Charcoal. Connected stocked bottom-left Kiln output directly to that Copper Smelter Charcoal input at map-fit coordinates348804->400734. Visible Smelter cycle and copper/upper wire-chain transfer pulses resumed. This is wiring rework, not an established engine bug.
+Fresh output verification: isolated S2 collection Cart held one Medium Bot by +30s, and two by +248s after latest Copper fuel repair. No wiring changed between those completions. One bot was already in final assembly at sample start, so 2/248s is not a clean steady-state rate. Iron remaining893/2000, Stone1932/2000. Restoring collection output -> transport Joint.
+Normal gameplay scaling: connected full left/top Kiln to existing lower-left Iron Smelter Charcoal input; Smelter cycled. Built one Merger on clear ground900630 (first placement610375 auto-inserted into an existing cable, undone before proceeding), one Joint800800. Combined old Iron Smelter347682 and working right Iron Smelter764634 into Merger inputs892626/892634; Merger908630->Joint800800->first plate Splitter520359. All four cables visibly present; no rule or recipe changes. Need verify sustained additional throughput. Build catalog also reveals Mining Drill:20Motors->1000-unitselecteddeposit, an in-game option for later depletion; not used yet.
+Completed Map Node purchase33, cost17each Simple/Basic/Automata/Hydro =68Cores. Earned1MapPoint and activated S5.E1; traveling to inspect normal visible map.
+S5.E1 revealed four basic resources at4000 each and three Deep Holes; no settlement visible. Started Map Node purchase34 at18each Simple/Basic/Automata/Hydro,72Cores total; not completed yet.
+Explored S5.E2 using MapPoint34. Found Dwarven Village, visibly30AP/60s, green like Camp family. No normal click/title/center interaction opened a production explanation. Do not yet assume this is the milestone settlement. Testing whether supplied Dwarven center has an output is next. MapNode35 active at18each.
+Normal UI output test: placed isolated Cart beside S5 Camp, dragged center port to Cart input. This rerouted the EXISTING incoming bot cable, so center is behaving as an input, not exposing Tribute output. Immediately undid cable reroute and test Cart creation; must not count it as output evidence. Camp feed restored.
+MapNode35 is stalled at3/18sets (UI). N1.W1 Copper depleted. Isolated S5 Road receiving Cart output to accumulate Medium Bots for a batch AP-check test while restoring Hydro supply. Local Small Bot resources exhausted. This deliberately pauses camp imports; compare AP response after release, not during accumulation.
+N1.W2 recovery factory built through normal UI: WoodExtractor450280->Kiln450350; CopperExtractor450430->CopperSmelter580460; CopperWireRefiner450500->Cart690530->eastRoad1112530. SourceForest2500/Copper2500 initially. CopperWire visibly accumulated in Cart; source production working. Destination not connected yet. Two controller calls with several drag/state operations timed out after30seconds and reset REPL; same game preserved by ID recovery, no reload. Smaller action batches continue.
+Verified N1.W1 receiving Cart contains imported orange Copper Wire pips. Added Splitter160670: Cart116636->input152670; output168666->oldCopperWireSplitter235680 (CircuitB and slurry branch), output168674->MotorCopperWire684635. Visible HydroPlant, Motor, HydroPiston, HydroCore cycles resumed. Local Iron173remaining at reconnection; future Iron depletion will need in-game resupply. No recipe time/rules changed.
+Post-scaling check: S5 isolated receiver accumulated no bots. S2 still had Iron738 Copper1148 Stone1922 Wood1331. Gear and Frame plate inputs empty, right Iron Smelter output full. Bypassed added Merger/Joint path by reconnecting right Iron Smelter directly to first plate Splitter (828854->474447 at4x zoom). Smelter output drained and raw Iron extraction resumed. Added merge route remains unverified; may be missed/invalid cable, so do not label engine bug. Normal UI repair only.
+
+HALT CHECKPOINT: Slot1 "UI playtest — halted routing review" saved paused at06:38:18 on2026-11-05. Slot2 working MediumBot sample05:09:24 and Slot3 original halted03:16:52 preserved. Temporary direct Smelter->Gear diagnostic was undone; Undo also restored running state, so paused again explicitly. After Undo S2Iron718 (not712 from temporary test), Copper1148 Stone1922 Wood1338. S5 receiving Cart output restored to mixed camp supply Cart; no batch ever accumulated after failed scaling. Source plate distribution still unresolved. Direct Gear test cycled Gear and SealedFrame, but whole bot chain remains unverified after scaling.
+Final Home ResearchCenter inspection confirms Simple5 Basic5 Hydro5, Automata0. MapNode35 remains3/18 because Automata supply is empty; earlier assumption that Hydro was the immediate limiting Core was incorrect. New CopperWire import restored Hydro machine cycles, not the research stall. No claim of victory or of a confirmed engine bug. No acceleration was applied: global speed control was not exposed in inspected normal UI.

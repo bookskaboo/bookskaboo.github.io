@@ -175,6 +175,13 @@
       "title": "2026-11-03 — Check discussed game features",
       "chatId": "01a1a56e-7dc2-7541-8a88-e891f632036e",
       "notes": "User authorized implementation of ready plans after reviewing actual implementation status."
+    },
+    {
+      "id": "chat-balance-2026-11-05",
+      "type": "chat",
+      "title": "Smooth recipe cost progression",
+      "chatId": "01a1aaed-82e5-7e31-a612-22d4c0ffe13f",
+      "notes": "November 5 cost review after the published playtest. User selects five minutes of one fully supplied base producer per corner input, excluding speed upgrades and Industrial Forestry."
     }
   ],
   "entries": [
@@ -188,9 +195,19 @@
       "publishedBy": "0c7c924",
       "title": "Publish the Grove display fix and restore the live playtest",
       "summary": "Published the isolated Grove fix to the existing GitHub Pages site, refreshed the same in-app tab and restored the paused factory through normal Save/Load.",
-      "topics": ["UI", "Encounters", "Playtesting"],
-      "sources": ["local-code"],
-      "evidence": ["outputs/grove-publication-2026-11-04/receipt.json", "outputs/live-ui-playtest-2026-11-04/published-grove-fix.png", "outputs/live-ui-playtest-2026-11-04/run-log.txt"],
+      "topics": [
+        "UI",
+        "Encounters",
+        "Playtesting"
+      ],
+      "sources": [
+        "local-code"
+      ],
+      "evidence": [
+        "outputs/grove-publication-2026-11-04/receipt.json",
+        "outputs/live-ui-playtest-2026-11-04/published-grove-fix.png",
+        "outputs/live-ui-playtest-2026-11-04/run-log.txt"
+      ],
       "validation": "702 Vitest tests passed with one existing skip; production build passed. Main advanced aa740af to 0c7c924. HTTP200 and SHA256 equality verified all seven referenced assets. Normal browser UI shows restored Grove growth1,057/2,000,000 and Tribute0/10. Quotas and gameplay state preserved; ongoing playtest is not a completed victory or balance run."
     },
     {
@@ -203,10 +220,26 @@
       "publishedBy": "0c7c924",
       "title": "Show accumulated Elder Grove growth and Tribute stock",
       "summary": "The Grove bar now follows saved cumulative growth instead of an unused cycle timer. Exact received/required counts remain visible below one percent; its Tribute shows stored components out of capacity.",
-      "topics": ["Encounters", "UI", "Progression"],
-      "sources": ["local-code"],
-      "evidence": ["src/renderer/groveProgress.ts", "src/renderer/PixiPlayfield.tsx", "src/renderer/productionVisuals.ts", "src/renderer/groveProgress.test.ts", "src/simulation/endgame.test.ts", "outputs/live-ui-playtest-2026-11-04/playtest-review.txt"],
-      "details": ["Preserves the adopted two-million-growth quota, paid Planter recipes, saved progress and simulation rules. The explanation states cumulative work, immediate awards, surplus preservation and full-Tribute pause.", "The prior UI-only playtest halt established a visibility dead end, not a confirmed simulation failure. A separate engine regression verifies paid Planter delivery across multiple funding batches, save/reload and a real threshold award."],
+      "topics": [
+        "Encounters",
+        "UI",
+        "Progression"
+      ],
+      "sources": [
+        "local-code"
+      ],
+      "evidence": [
+        "src/renderer/groveProgress.ts",
+        "src/renderer/PixiPlayfield.tsx",
+        "src/renderer/productionVisuals.ts",
+        "src/renderer/groveProgress.test.ts",
+        "src/simulation/endgame.test.ts",
+        "outputs/live-ui-playtest-2026-11-04/playtest-review.txt"
+      ],
+      "details": [
+        "Preserves the adopted two-million-growth quota, paid Planter recipes, saved progress and simulation rules. The explanation states cumulative work, immediate awards, surplus preservation and full-Tribute pause.",
+        "The prior UI-only playtest halt established a visibility dead end, not a confirmed simulation failure. A separate engine regression verifies paid Planter delivery across multiple funding batches, save/reload and a real threshold award."
+      ],
       "validation": "Initially34 focused Vitest tests and production build passed. Before publication the full suite passed702 tests with one existing skip. NODE-0319 records subsequent asset verification and normal browser QA of exact live counts. Saved factory retained its accumulated growth and two Planters."
     },
     {
@@ -6141,7 +6174,7 @@
       "date": "2026-11-03",
       "dateBasis": "chat",
       "kind": "decision",
-      "state": "recorded",
+      "state": "superseded",
       "delivery": "not-applicable",
       "title": "Balance all four endgame components against comparable base-resource cost",
       "summary": "Record Q73 clarification: derive corner requirements against a shared per-unit resource budget instead of adopting an arbitrary Foundry batch.",
@@ -6171,7 +6204,8 @@
       "details": [
         "Ten of each Foundry input is not adopted. Compare one output unit per corner; this does not settle final-Core ingredient counts, a weighted cost score or numerical tolerance.",
         "Calculated gross standard manufacturing baskets and aggregate machine work for Foundry inputs and Medium/Heavy/Command Bots. Acquisition, transport, composite/optional variants and recycling credits are explicitly excluded from the reference, to be added consistently for a full model.",
-        "Q74 proposes bottom-right Ancient Waterworks fluid/cooling engineering with guaranteed local Water. Role and mechanics remain unapproved; Alpha AP and bottom-left inputs also remain missing."
+        "Q74 proposes bottom-right Ancient Waterworks fluid/cooling engineering with guaranteed local Water. Role and mechanics remain unapproved; Alpha AP and bottom-left inputs also remain missing.",
+        "NODE-0320 supersedes corner material-parity targets and/or numerical quotas only. Other recorded behavior, closed interview/deferred scope, production mechanisms, assembly, victory, progress preservation and historical publication remain intact."
       ],
       "validation": "Recursively expanded current standard recipes programmatically, selecting ordinary smelting/gear/wire production and excluding recovery/composite variants. Verified known per-part baskets and distinguished aggregate work from elapsed time. Changelog generation/checks passed. Documentation analysis only; runtime unchanged and no playtest."
     },
@@ -6690,7 +6724,7 @@
       "date": "2026-11-03",
       "dateBasis": "chat",
       "kind": "decision",
-      "state": "recorded",
+      "state": "superseded",
       "delivery": "not-applicable",
       "title": "Adopt a ten-percent endgame component cost-parity band",
       "summary": "Record Q81 option 1: target each corner component within plus/minus ten percent of the eventual common material score under one declared supply scenario.",
@@ -6712,7 +6746,8 @@
       ],
       "details": [
         "The 100,000-point example remains illustrative. Common budget, Alpha AP, Grove conversion and exact recipe quantities are not adopted.",
-        "Q82 proposes tier-9 Dwarven Mythril supplied by standard Medium Bots, and the same bots for Alpha AP, as the primary reference. Other scenarios remain comparisons; no reference selection is adopted yet."
+        "Q82 proposes tier-9 Dwarven Mythril supplied by standard Medium Bots, and the same bots for Alpha AP, as the primary reference. Other scenarios remain comparisons; no reference selection is adopted yet.",
+        "NODE-0320 supersedes corner material-parity targets and/or numerical quotas only. Other recorded behavior, closed interview/deferred scope, production mechanisms, assembly, victory, progress preservation and historical publication remain intact."
       ],
       "validation": "Verified ±10% bound arithmetic and paid-forestry net balance. Expanded the ordinary Small Bot into 12 Iron/12 Copper/12 Wood, then compared all four standard bot scores per AP in both declared acquisition scenarios. Checked the approximately 28.9% starter Mythril premium for the Foundry reference group. Documentation/analytical metadata only; runtime unchanged and no playtest."
     },
@@ -7069,7 +7104,7 @@
       "date": "2026-11-03",
       "dateBasis": "chat",
       "kind": "decision",
-      "state": "recorded",
+      "state": "superseded",
       "delivery": "not-applicable",
       "title": "Adopt ten-thousand AP per Alpha as the endgame cost anchor",
       "summary": "Record Q87 option 1: each Alpha defeat takes 10,000 AP, anchoring about 290,824 reference material points per corner component under the agreed supply scenario.",
@@ -7091,7 +7126,8 @@
       ],
       "details": [
         "Preserve AP accumulation, surplus, full-AP respawn and lossless full-box pause. Runtime implementation and measured balance remain pending.",
-        "Q88 proposes 3,000 of each adopted Foundry input for one component, about 301,629 material points (+3.72%), within the adopted band. Batch and crafting/storage/output behavior are not adopted yet. Shortened the master index status row while preserving detailed decision history."
+        "Q88 proposes 3,000 of each adopted Foundry input for one component, about 301,629 material points (+3.72%), within the adopted band. Batch and crafting/storage/output behavior are not adopted yet. Shortened the master index status row while preserving detailed decision history.",
+        "NODE-0320 supersedes corner material-parity targets and/or numerical quotas only. Other recorded behavior, closed interview/deferred scope, production mechanisms, assembly, victory, progress preservation and historical publication remain intact."
       ],
       "validation": "Mapped typed 1 to the pending Q87 recommended option. Checked bot AP equivalents/surplus, common ±10% band, proposed 9,000 delivered parts, expanded material-score sum and 23,000 upstream Water separately. Proposed batch score matched 301,629.213483 within 1e-7. Documentation/analysis only; runtime unchanged and no playtest."
     },
@@ -7100,7 +7136,7 @@
       "date": "2026-11-03",
       "dateBasis": "chat",
       "kind": "decision",
-      "state": "recorded",
+      "state": "superseded",
       "delivery": "not-applicable",
       "title": "Adopt the Foundry three-thousand-of-each component recipe",
       "summary": "Record Q88 option 1: the immovable Foundry crafts one corner component from 3,000 Circuit B, 3,000 Sealed Frames and 3,000 Mythril Gears.",
@@ -7123,7 +7159,8 @@
       ],
       "details": [
         "9,000 delivered parts score about 301,629 under the adopted reference, +3.72% versus Alpha. Craft time, consumption/storage, output/full-box behavior and runtime implementation remain pending.",
-        "Q89 proposes 1,850,000 regeneration per Grove component, about 291,011 reference points. Parallel intake and support are explicitly required for fast delivery; quota/yield are not yet adopted. Condensed the current queue summary without removing history."
+        "Q89 proposes 1,850,000 regeneration per Grove component, about 291,011 reference points. Parallel intake and support are explicitly required for fast delivery; quota/yield are not yet adopted. Condensed the current queue summary without removing history.",
+        "NODE-0320 supersedes corner material-parity targets and/or numerical quotas only. Other recorded behavior, closed interview/deferred scope, production mechanisms, assembly, victory, progress preservation and historical publication remain intact."
       ],
       "validation": "Mapped typed 1 to pending Q88 recommended recipe/yield. Verified Grove proposal expansion, 18,500 whole funding batches, score within the adopted band, 27.75-minute unconstrained 100-planter upgraded illustration and approximately 20.56-hour single grouped-route minimum. Documentation/analysis only; runtime unchanged and no playtest."
     },
@@ -7132,7 +7169,7 @@
       "date": "2026-11-03",
       "dateBasis": "chat",
       "kind": "decision",
-      "state": "recorded",
+      "state": "superseded",
       "delivery": "not-applicable",
       "title": "Adopt exactly two million regeneration per Grove component",
       "summary": "Record the user-modified Q89 decision: 2,000,000 supplied regeneration produces one Elder Grove component, replacing the unadopted 1,850,000 proposal.",
@@ -7157,7 +7194,8 @@
       ],
       "details": [
         "Expanded reference cost is about 314,607 material points (+8.18% versus Alpha), inside the adopted band. Requires 20,000 planter funding batches. Intake/progress/full-box handling and runtime remain pending.",
-        "Q90 proposes multiple direct incoming growth connections using the existing multiInput convention; separate fixed roots are an alternative. Neither topology is adopted yet."
+        "Q90 proposes multiple direct incoming growth connections using the existing multiInput convention; separate fixed roots are an alternative. Neither topology is adopted yet.",
+        "NODE-0320 supersedes corner material-parity targets and/or numerical quotas only. Other recorded behavior, closed interview/deferred scope, production mechanisms, assembly, victory, progress preservation and historical publication remain intact."
       ],
       "validation": "Recomputed direct funding, expanded paid-forestry basket, material-score sum and deviation; checked the ±10% upper bound and 30-minute unconstrained 100-planter illustration with Tree Planter 1. Read existing multiInput connection coexistence/replacement rules. Documentation/analysis only; runtime unchanged and no playtest."
     },
@@ -8016,7 +8054,7 @@
       "date": "2026-11-03",
       "dateBasis": "chat",
       "kind": "decision",
-      "state": "recorded",
+      "state": "superseded",
       "delivery": "not-applicable",
       "title": "Adopt one-Core victory research and author a glowing ending modal",
       "summary": "Record Q112 option 1 and the requested developer thanks, modding invitation and Factorio/Satisfactory homages; create finished draft copy and a local glowing modal preview.",
@@ -8045,7 +8083,8 @@
       "details": [
         "Victory follows completion of an explicitly selected one-time Research Center project costing one Final Core without extras. Preserve same-world play and independently available first-production global transport research. Specify saved victory and notice acknowledgement to avoid repeated celebrations. Runtime remains pending.",
         "The standalone design uses charcoal/steel/warm-gold styling, a glowing faceted Core, slow halo/reduced-motion styling, a scrollable four-passage message and Continue playing. Original homage prose and the modding invitation make no claim of integrated mod support.",
-        "Q113 proposes faster production cycles with unchanged recipe quantities as the first repeatable Final-Core optimization benefit; material-saving/yield improvement is the alternative. No benefit, increment or price is adopted."
+        "Q113 proposes faster production cycles with unchanged recipe quantities as the first repeatable Final-Core optimization benefit; material-saving/yield improvement is the alternative. No benefit, increment or price is adopted.",
+        "NODE-0321 supersedes the Alpha/Foundry/Grove five-minute quotas and/or one-Final-Core-only victory price. Reclamation credits, progress preservation, ordinary paid Research Center completion, continued play and other unaffected behavior remain current."
       ],
       "validation": "Compiled preview JavaScript with Node vm.Script; checked all four preview passages exactly match the design document, labelled native dialog and Continue handler, and scrolling/reduced-motion source rules. Checked one-Core/no-extra payment metadata, next proposal status and preview/index links. Headless inspection was unavailable and browser security policy blocked file URLs; no rendered layout or interaction pass is claimed. Generated/checked changelog. No runtime game code, end-to-end research/save integration or balance run."
     },
@@ -9509,7 +9548,7 @@
       ],
       "id": "NODE-0313",
       "kind": "decision",
-      "state": "recorded",
+      "state": "superseded",
       "title": "Close the endgame interview and authorize temporary Reclamation calibration",
       "summary": "Q144 defers six optional QoL candidates until endgame playtesting; the subsequent implementation clarification authorizes the documented provisional recycling-value Reclamation model.",
       "topics": [
@@ -9527,7 +9566,8 @@
       ],
       "details": [
         "No additional candidate prices or effects are adopted, and no interview questions remain in this pass.",
-        "Temporary Reclamation credits use the existing single-type reference equivalents; final calibration still requires measured factory waste. The user authorizes local implementation and a Git push."
+        "Temporary Reclamation credits use the existing single-type reference equivalents; final calibration still requires measured factory waste. The user authorizes local implementation and a Git push.",
+        "NODE-0320 supersedes corner material-parity targets and/or numerical quotas only. Other recorded behavior, closed interview/deferred scope, production mechanisms, assembly, victory, progress preservation and historical publication remain intact."
       ],
       "validation": "Checked closed review queue, deferred candidate states, preserved measurement/copy-review limits and explicit temporary-value authorization. Documentation/metadata only for this record; runtime delivery is recorded separately."
     },
@@ -9541,7 +9581,7 @@
       ],
       "id": "NODE-0314",
       "kind": "added",
-      "state": "implemented",
+      "state": "superseded",
       "title": "Connect four seeded corner challenges to Final Core assembly and victory",
       "summary": "Add repeatable Alpha, Foundry, Reclamation and Grove challenges, seeded two-half assembly and a one-Core victory project that preserves continued play.",
       "topics": [
@@ -9566,7 +9606,8 @@
       "details": [
         "Save independent corner permutation and pair partition; unlock recipes on actual component acquisition. Halves use ordinary Assemblers at ten seconds and Final Core at thirty, with normal efficiency.",
         "Alpha uses cumulative 10,000 AP; Foundry atomically consumes 3,000 of each adopted part immediately; Grove needs two million growth. Preserve surplus, full-box behavior, ten-component outputs and adopted input capacities.",
-        "Reclamation uses explicitly authorized temporary recycling-value credits pending measurements. Add saved victory acknowledgement, glowing modal, dry humor and continued play; copy remains open to later editorial review."
+        "Reclamation uses explicitly authorized temporary recycling-value credits pending measurements. Add saved victory acknowledgement, glowing modal, dry humor and continued play; copy remains open to later editorial review.",
+        "NODE-0320 supersedes corner material-parity targets and/or numerical quotas only. Other recorded behavior, closed interview/deferred scope, production mechanisms, assembly, victory, progress preservation and historical publication remain intact."
       ],
       "validation": "Full Vitest report: 699 passed, one pre-existing skip; TypeScript/Vite build and progression analysis passed. Focused engine tests cover conserved stock and selected endgame behavior. Browser fixture navigation timed out and error-page recovery was blocked by URL policy, so no successful visual/interactive browser QA is claimed. No normal-play endgame pacing or sustained waste-flow balance run; no live publication confirmed.",
       "publishedBy": "eca1c2d"
@@ -9682,6 +9723,112 @@
         "Associate the confirmed release with the known delivered Power/research-cadence, production, Complex naming, mod, corner, Recycler/recovery and continued-play research changes. Older unmapped publication histories remain intact."
       ],
       "validation": "Git push confirmed main advanced from 1e2e410 to eca1c2d99d74c906999f4b95c90575155d4c4f29. HTTPS returned 200 and the expected new asset references; seven live asset hashes matched the release files. Prior validation remains 699 passing tests, one skip, build/progression/changelog checks. This is static deployment verification, not interactive browser QA or normal-play balance evidence."
+    },
+    {
+      "id": "NODE-0320",
+      "date": "2026-11-05",
+      "dateBasis": "chat",
+      "kind": "changed",
+      "state": "superseded",
+      "delivery": "local",
+      "title": "Size corner components to five minutes of one fully supplied base producer",
+      "summary": "Replace the large material-parity corner bills with 36 Alpha AP, Foundry inputs of 30 Circuit B/16 Sealed Frames/100 Mythril Gears, 300 Grove growth and five-minute waste-production credits.",
+      "topics": [
+        "Balance",
+        "Progression",
+        "Production",
+        "Resources",
+        "Waste",
+        "Interface",
+        "Persistence",
+        "Documentation"
+      ],
+      "sources": [
+        "chat-balance-2026-11-05",
+        "local-code"
+      ],
+      "supersedes": [
+        "NODE-0219",
+        "NODE-0233",
+        "NODE-0243",
+        "NODE-0244",
+        "NODE-0245",
+        "NODE-0313",
+        "NODE-0314"
+      ],
+      "evidence": [
+        "src/content/endgame.ts",
+        "src/simulation/engine.ts",
+        "src/simulation/cornerPacing.test.ts",
+        "src/simulation/endgame.test.ts",
+        "src/renderer/productionPortRows.ts",
+        "src/renderer/productionVisuals.ts",
+        "src/renderer/groveProgress.test.ts",
+        "scripts/balance-audit.mjs",
+        "outputs/balance-review-2026-11-05/review.txt",
+        "outputs/balance-review-2026-11-05/analysis.json",
+        "outputs/balance-review-2026-11-05/before-corner-balance.json",
+        "outputs/live-ui-playtest-2026-11-04/halt-review-2026-11-05.txt",
+        "docs/master-plan/20-endgame-implementation.md"
+      ],
+      "details": [
+        "The user explicitly selects base rates without efficiency upgrades or Industrial Forestry. Foundry has one producer per ingredient; Alpha retains Medium Bots as the reference. Whole batches take 300 seconds for twelve Medium Bots, 300/288/300 seconds for Foundry parts, and 300 seconds for base Planter growth. Setup, upstream supply and delivery latency are additional; upgrades and parallel supply finish sooner.",
+        "Reclamation needs ten Metallic Fines, 66 Spent Flux, 36 Glassy Crust or 22 Slag alone, with additive proportional mixed credit. References are standard Controller and Efficient Hydro Piston/Mythril Mesh/Circuit C, respectively, at 300/297/288/297 seconds. Useful outputs and other byproducts must drain. This replaces temporary recycling-value quotas and shared raw-cost parity, rather than claiming empirical average-factory waste.",
+        "Foundry simulation and rendered rows use the actual distinct new ingredient capacities; tooltips display current quotas. Retain legacy Foundry overstock and absolute Alpha/Grove credit, lossless full-box behavior and normalized saved Reclamation progress; revised waste credits apply to new intake. No user save was loaded or reset.",
+        "Add a reproducible read-only analytical audit with explicit standard/composite, Mythril-upkeep and paid-forestry assumptions and a preserved before snapshot. Review recurring Wire costs, Medium Bot upkeep and exploration price transitions; Wire/Gun and efficient-recipe changes remain proposals, not implemented gameplay. Ordinary recipes and research prices are unchanged.",
+        "NODE-0321 supersedes the Alpha/Foundry/Grove five-minute quotas and/or one-Final-Core-only victory price. Reclamation credits, progress preservation, ordinary paid Research Center completion, continued play and other unaffected behavior remain current."
+      ],
+      "validation": "713 tests passed, one pre-existing skip; TypeScript/Vite production build, progression analysis and balance:audit passed. New tests cover real wired two-component cadence for all four corners (including standard Controller filtering), single-producer alternative waste quotas, ingredient capacities and current descriptions, legacy Grove credit/full-box/reload, Foundry overstock and normalized Reclamation progress. First cold delivery includes a few seconds of cable latency; repeated components meet 300-second intervals. Synthetic supplied-machine QA is not normal-play pacing evidence. No browser playtest, user-save edits or publication. Build retains its existing large-chunk warning. Changelog generation/checks run with this entry."
+    },
+    {
+      "id": "NODE-0321",
+      "date": "2026-11-05",
+      "dateBasis": "chat",
+      "kind": "changed",
+      "state": "implemented",
+      "delivery": "local",
+      "title": "Apply explicit corner quotas and a seven-Core Research Center victory",
+      "summary": "Set Alpha to 50 AP, Foundry to 50 Circuit B/25 Sealed Frames/100 Mythril Gears and Grove to 500 growth; retire Endgame Theory and require manually selected victory research costing one of every Core.",
+      "topics": [
+        "Balance",
+        "Progression",
+        "Research",
+        "Production",
+        "Interface",
+        "Persistence",
+        "Documentation"
+      ],
+      "sources": [
+        "chat-balance-2026-11-05",
+        "local-code"
+      ],
+      "supersedes": [
+        "NODE-0320",
+        "NODE-0271"
+      ],
+      "evidence": [
+        "src/content/endgame.ts",
+        "src/content/research.ts",
+        "src/content/retiredResearch.ts",
+        "src/content/retiredNodes.ts",
+        "src/persistence/legacyMigration.ts",
+        "src/simulation/cornerPacing.test.ts",
+        "src/simulation/endgame.test.ts",
+        "src/ui/researchPresentation.test.ts",
+        "src/renderer/groveProgress.test.ts",
+        "scripts/balance-audit.mjs",
+        "scripts/progression.test.ts",
+        "outputs/balance-review-2026-11-05/analysis.json",
+        "outputs/balance-review-2026-11-05/review.txt",
+        "docs/master-plan/20-endgame-implementation.md"
+      ],
+      "details": [
+        "Explicit user quantities replace five-minute sizing for Alpha, Foundry and Grove. Whole-bot Alpha first payment takes 17 Medium Bots/425 base seconds and preserves one AP surplus; Foundry producer work is 500/450/300 seconds; Grove is 500 base seconds. Reclamation retains ten Fines/66 Flux/36 Crust/22 Slag and proportional mixed credit. Existing progress/overstock remains intact.",
+        "Endgame Theory is absent from live catalogs, browsing, search and selection. Retain its serialized legacy definition for importing historical payments/completions. Retired selections archive contributions and clear safely on load/replace; already completed history is preserved, not refunded or replayed.",
+        "Victory remains an ordinary explicitly selected Research Center project after first Final Core production, with no trigger. It now atomically consumes one each of Simple, Basic, Automata, Hydro, Shiny, Complex and Final Cores. Merely producing/delivering the Final Core never wins. Missing any Core preserves all supplied inputs; completed victory acknowledgement remains saved.",
+        "Required fixed capability/victory research totals 97 Cores: 30 Simple, 29 Basic, 24 Automata, 9 Hydro, 3 Shiny, 1 Complex, 1 Final. Map Node purchases and Basic Cores consumed inside bots are additional. An ideal H route to all corners uses 30 new maps/29 repeat purchases: 692 research Cores with scheduled Automata access, or 562 if Automata is delayed until after exploration. These are geometric/unlock-order examples, not a seed-independent solvability or total factory-consumption claim. Update the reproducible audit and maintain ordinary Wire/Gun suggestions as unimplemented."
+      ],
+      "validation": "715 tests passed, one pre-existing skip; TypeScript/Vite build, progression analysis and balance:audit passed. Tests verify revised real-cable component cadence and input capacities, legacy stock/progress, retired research search/selection and current/original-format payment preservation, and manually selected seven-Core victory without automatic trigger or partial-input consumption. Changelog generation/checks run with this record. No browser playtest, user-save edits, Git publication or live deployment; the existing build chunk-size warning remains."
     }
   ]
 }

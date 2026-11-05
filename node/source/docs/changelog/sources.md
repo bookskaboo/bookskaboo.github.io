@@ -159,3 +159,12 @@ Source ID: `chat-ready-plan-implementation` · Type: chat
 Chat ID: `01a1a56e-7dc2-7541-8a88-e891f632036e`
 
 User authorized implementation of ready plans after reviewing actual implementation status.
+
+<a id="chat-balance-2026-11-05"></a>
+### Smooth recipe cost progression
+
+Source ID: `chat-balance-2026-11-05` · Type: chat
+
+Chat ID: `01a1aaed-82e5-7e31-a612-22d4c0ffe13f`
+
+November 5 cost review after the published playtest. User selects five minutes of one fully supplied base producer per corner input, excluding speed upgrades and Industrial Forestry.

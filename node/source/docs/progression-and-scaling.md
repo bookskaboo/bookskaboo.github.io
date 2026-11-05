@@ -1,5 +1,7 @@
 # Progression and Scaling Design
 
+**November 5 revision (NODE-0321):** corner quotas are 50 Alpha AP, Foundry 50 Circuit B / 25 Sealed Frames / 100 Mythril Gears, and 500 Grove growth; Reclamation retains its five-minute credits. Endgame Theory is retired. Victory requires a manually selected Research Center project costing one of every Core, Simple through Final. See [current implementation](master-plan/20-endgame-implementation.md). Ordinary production recipes are unchanged.
+
 Updated November 2, 2026.
 
 Research timing correction: new and loaded Research Centers now use a five-second base synchronized-set cycle, reduced through the existing six ranks to 4.5, 4, 3.5, 3, 2.5 and 2 seconds. Refresh live analysis with `npm run progression`; older analytical timing/throughput conclusions require revalidation as described in [analysis status](../outputs/progression/README.md). Historical runs below retain their original-build evidence and do not validate the corrected timing or the proposed Dwarven supply transition.

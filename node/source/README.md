@@ -106,6 +106,11 @@ research bill; the older simulation pages are analytical experiments.
   core tier; a cheap unlock must not hide an expensive mandatory upgrade gate.
 - Efficient play should reach endgame in 20–30 hours. A factory with minimum
   viable research throughput may take substantially longer.
+- Corner costs: Alpha 50 AP; Foundry 50 Circuit B, 25 Sealed Frames and 100
+  Mythril Gears; Grove 500 growth; Reclamation ten Fines or proportionally mixed
+  waste. Endgame Theory is retired. Victory requires manually researching
+  A Remarkably Indirect Conclusion at the Research Center with one of every
+  Core, Simple through Final. See the [cost review](outputs/balance-review-2026-11-05/review.txt).
 - Perfect play should complete tier 6, including the research opening tier 7,
   within three hours from a fresh start while maximizing Research Center use.
   This is a separate checkpoint from the endgame target. Include startup,
@@ -363,7 +368,7 @@ Living discussion list, updated 2026-10-30. Values marked provisional below are
 implemented defaults to review, not settled endgame balance.
 
 - [ ] **Tier 7 and victory:** choose the final core, intermediates, research,
-  geographic requirements and completion condition. Endgame Theory is active;
+  geographic requirements and completion condition. Endgame Theory is retired;
   it does not invent a seventh core or victory screen. Complex Core is the canonical tier-six name.
 - [ ] **Playthrough pace:** measure actual learning, exploration, building and
   rebuilding time. Targets remain about one hour necessary-only speedrunning,

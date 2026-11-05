@@ -1,5 +1,7 @@
 # Factorinode Current and Planned Research
 
+**November 5 update (NODE-0321):** Endgame Theory is retired. Victory is A Remarkably Indirect Conclusion, manually selected at the Research Center after first Final Core production, costing one each of Simple, Basic, Automata, Hydro, Shiny, Complex and Final Cores. The dated baseline below predates current endgame implementation; live prices are authoritative in src/content/research.ts and src/content/endgame.ts.
+
 Updated November 2, 2026. Factorinode currently has six core types and 103 research entries: 12 free milestones and discoveries, 85 fixed paid projects, and 6 repeatable projects. Nine machine research lines now have six ranks through Complex; tier 7 research remains planned. Power is removed pending a useful integration design: Basic Electricity and Power Distribution are no longer live projects. Tree Planters operate without Power. This catalog includes every live entry, its requirements and its effect, followed by the remaining planned research.
 
 # Research rules
@@ -20,7 +22,7 @@ Core production follows Simple → Basic → Automata → Hydro → Shiny → Co
 | 4 Hydro | Hydraulic Assembly after Hydrochemistry; Water Tools for processing | Implemented |
 | 5 Shiny | Ore Separation; Mythril Refining discovery for processing | Implemented |
 | 6 Complex | Precision Control; Advanced Fabrication for assembly | Implemented; Complex Core is the canonical name |
-| 7 Endgame core | Endgame Theory is the current entry checkpoint | Core name, recipe and full progression undecided |
+| 7 Final Core | Acquire corner components and assemble both seeded halves | Implemented; research victory with all seven Core types |
 
 # Production chain revision
 
@@ -111,7 +113,7 @@ These entries consume no cores. Discoveries require visiting the relevant map; P
 
 # Implemented advanced progression
 
-Endgame Theory is a research checkpoint; completing it does not provide a playable tier 7 chain or victory condition.
+Endgame Theory was retired on November 5. Corner components unlock seeded Core Half recipes; assembling both halves produces a Final Core. Victory is a separate paid Research Center project.
 
 | Research | Core cost | Research prerequisites | Unlock or benefit |
 | --- | --- | --- | --- |
@@ -124,7 +126,7 @@ Endgame Theory is a research checkpoint; completing it does not provide a playab
 | Precision Control | 2 each through Shiny | Ore Separation + Mineral Recovery | Logic Wafer, Controller, Servo Piston and Complex Core; advanced recovery recipes and Waste Handling fallback. |
 | Autonomous Logistics | 2 each through Complex | Precision Control | Storage and Inventory use one global transfer pool. Inventory initially outputs through Filters. Pool capacity is currently 1,000 per item. |
 | Command Robotics | 2 each through Complex | Precision Control + Heavy Robotics | Servo Frame, Pulse Cannon and Command Bot recipes. |
-| Endgame Theory | 2 each through Complex | Autonomous Logistics + Command Robotics + Mineral Regeneration + Precision Control | Implemented research checkpoint marking access to future tier 7. The tier 7 core, research tree and final objective are not implemented. |
+| A Remarkably Indirect Conclusion | 1 each through Final | First Final Core produced | Select at the Research Center; consuming the complete seven-Core set records victory and opens the modal. |
 | Resource Golem Survey | 3 each through Hydro | Sealed Robotics | Reveals four mineral Golems in separate clear tier 6 sectors. Each requires 10,000 AP once, then becomes an infinite mineral reserve with four star connections for Extractors. |
 | Mineral Regeneration | 2 each through Shiny | Mineral Recovery + Ore Separation | Ordinary non-wood deposits recover 1 unit every 30 seconds up to capacity. Depleted deposits remain after this unlock; existing Deep Holes are not restored. |
 

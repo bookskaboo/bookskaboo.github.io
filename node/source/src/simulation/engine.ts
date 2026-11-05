@@ -1,5 +1,5 @@
 import { applyExpansionRescue } from './expansionRescue';
-import { endgameRank, reconcileHole, worldRecipeAllowed, CORNER_MAPS } from '../content/endgame';
+import { endgameRank, reconcileHole, worldRecipeAllowed, CORNER_MAPS, FOUNDRY_INPUTS } from '../content/endgame';
 import { initializeEndgame, createCornerNodes, simulateCorner, simulateRecycler, cornerInputAllowed } from './endgameRuntime';
 import { recyclerAccepts } from '../content/recycling';
 import { simulatePlanter } from '../content/forestry';
@@ -550,9 +550,9 @@ export class GameEngine {
     }
   }
 
-  private inputCapacity(node: MachineNode, _item: ItemId) {
+  private inputCapacity(node: MachineNode, item: ItemId) {
     if (isCartKind(node.kind)) return Math.max(0, Math.min(modNode(node.kind)?.inputCapacity ?? Infinity, cartCapacity(node) - sum(node.output)));
-    if(node.kind==='cornerChallenge')return node.cornerType==='foundry'?3000:100;
+    if(node.kind==='cornerChallenge')return node.cornerType==='foundry'?(FOUNDRY_INPUTS[item]??0):100;
     if (node.kind === 'road') return 0;
     if (modNode(node.kind)?.inputCapacity !== undefined) return modNode(node.kind)!.inputCapacity!;
     if (node.kind === 'forest' && this.state.research.completed.includes('planterThroughput')) return 20;
