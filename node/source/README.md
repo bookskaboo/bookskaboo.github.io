@@ -470,3 +470,11 @@ every remaining map.
 With each core unlocked by its scheduled phase, full-world access costs 17,287
 physical cores in 3,136 synchronized sets, including Exploration. This is a
 research bill, not elapsed playtime or productive-map coverage.
+
+## Publishing the live game
+
+The public game is https://bookskaboo.github.io/node/. Use `npm run build:site`
+for the `/node/` deployment asset path; ordinary `npm run build` targets local
+root hosting. Publish the matching build and source to `node/` and `node/source/`
+in bookskaboo/bookskaboo.github.io, merge into `main`, then verify served assets.
+A feature-branch push preserves work in Git without updating the live game.

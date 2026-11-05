@@ -26,6 +26,8 @@ For balance runs, use normal gameplay without grants, save injection, accelerate
 
 # Change history
 
+The live game is `https://bookskaboo.github.io/node/`, published from `main` in `bookskaboo/bookskaboo.github.io`. For a requested live publication, use `npm run build:site` so generated assets use the `/node/` base, copy the matching build to `node/` and source to `node/source/`, preserve other projects, and verify served asset hashes after the push. A feature-branch push alone does not publish the live game.
+
 Maintain `docs/changelog/entries.json` after each completed meaningful game, documentation, or tooling change. Read `docs/changelog/README.md` for the format. Add a stable NODE ID, local date, concise outcome, topics, source/evidence, actual verification and material limits. Batch related changes; do not log unimplemented proposals as completed. Search the history when checking earlier decisions or regressions.
 
 Keep past records intact. Mark replaced behavior superseded and link the replacing record. Distinguish exact dates from retrospective known-by dates, original-game behavior from the rebuild, and local changes from confirmed publications. Only associate a release after publication is verified. Run `npm run changelog` and `npm run changelog:check` to refresh and verify the generated Markdown and searchable view. Update this history as part of the authorized work without asking for a separate approval.
