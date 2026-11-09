@@ -1,6 +1,8 @@
 # Progression and economy design
 
-**Current revision — November 5, 2026 (NODE-0321):** explicit user quotas replace five-minute sizing for Alpha (50 AP), Foundry (50 Circuit B / 25 Sealed Frames / 100 Mythril Gears) and Grove (500 growth). Reclamation retains its five-minute credits. Endgame Theory is retired. Victory is a manually selected Research Center project costing one each of all seven Core types; producing a Final Core alone does not win. See [current implementation](20-endgame-implementation.md).
+**November 8 update.** The Ancient Dragon now requires 500 AP per α Piece. Final Robotics requires a Final Core and unlocks the 72 AP Final Bot. See the [current implementation](20-endgame-implementation.md).
+
+**November 5, 2026 balance record (NODE-0321):** explicit user quotas replace five-minute sizing for Alpha (50 AP), Foundry (50 Circuit B / 25 Sealed Frames / 100 Mythril Gears) and Grove (500 growth). Reclamation retains its five-minute credits. Endgame Theory is retired. Victory is a manually selected Research Center project costing one each of all seven Core types; producing a Final Core alone does not win. See [current implementation](20-endgame-implementation.md).
 
 ## Existing constraints
 
@@ -32,7 +34,23 @@ Exact recipes, research costs and cycle times belong in the [research catalog](.
 
 Q26 sets a modest Shiny factory with expansion room as the supply target. Q27 sets upkeep around one fully supplied base Medium Bot assembler, plus its upstream support. Q28 adopts 6 AP per 60-second check (two Medium Bots, about 83% final-assembler utilization). Q29 adopts one Mythril per five seconds while fully suppressed: enough raw Mythril for two base Shiny assemblers with a small surplus, subject to processing/transport and other supplies. Q30 pauses new Dwarven Tribute after a missed check but preserves its box, stock and wiring; stored Mythril remains transportable and production resumes at full suppression. These are agreed design values/behavior, not yet runtime changes or measured end-to-end results. Include Basic Core diversion, startup and interruption recovery when validating them; Q31 assigns those values only to the easiest camp; harder Dwarven settlements require more AP and produce Mythril faster, with all supplying Mythril. Q61 adopts six map-tier steps (4–9); Q62 adopts upkeep AP 6/12/18/30/48/72 per sixty seconds; Q63 adopts Mythril/minute 12/36/60/108/180/288 (five-second batches 1/3/5/9/15/24); Q64 adopts retained successful-check AP credit, used before further bot consumption; Q65 adopts preserving insufficient bots/credit after failed checks; Q66 adopts immediate failed-check retry and resets upkeep sixty seconds after successful payment; Q67 adopts fifteen Dwarven settlements in the existing tier distribution; Q68 adopts 20,000 AP for the Mythril Golem; Q69 retains upkeep when full and pauses only new Mythril; Q70 adopts Dwarven capacities 100/100/120/216/360/576; implementation and sustained factory validation remain pending.
 
-Q14B1 keeps the Mythril Golem and its infinite Mythril reserve reward, on a random tier-6 map, with Q68 adopting a 20,000 AP clearing cost above the current 10,000. Include this exception in sustainable-supply and AP-investment comparisons; do not apply the increase to other Golems without a separate decision. The first Dwarven Mythril Tribute still unlocks processing under Q14A.
+The Mythril Golem and its infinite reserve remain the exception from Q14B1. New worlds place it on a seed-selected tier-5 map. NODE-0334 sets its clearing cost at 360 AP, double the ordinary Golem price of 180 AP. Include this exception in sustainable-supply and AP-investment comparisons. The first Dwarven Mythril Tribute unlocks processing under Q14A.
+
+### Hydro to first Mythril
+
+**Adopted November 7, 2026 (NODE-0327).** Use regional expansion to smooth the transition from Hydro to Mythril. When the player reaches Hydro, offer a scouting clue toward a manageable Dwarven Camp and express its upkeep as both AP per check and the equivalent Medium Bots per minute. Keep the starter check at 6 AP every 60 seconds. When Hydro research and bot production compete for a supply, point to the missing ingredient and suggest supplying it from a new sector. For example, a new sector can ship Basic Cores while the Lake sector makes Coolant and Hydro Pistons. The player chooses which materials to make locally and which to import.
+
+The playtest saw the Camp pass several checks, then miss when Hydro research drew from its shared Piston supply. Retest with a newly opened sector supplying one of the lines. Check for 15 minutes of concurrent Hydro research progress and successful Camp upkeep at normal speed. Consider a lower Cooled Gun Iron Plate cost only if a clearly routed regional build still struggles. [Playtest log](../../outputs/live-ui-playtest-2026-11-05-replacement/run-log.txt)
+
+### Bot tier balance
+
+**Medium Bot (November 8, 2026, NODE-0335).** One Sealed Frame, one Cooled Gun and one Basic Core make a 3 AP Medium Bot in 20 seconds. A fully supplied base Assembler II delivers three bots or 9 AP per minute. The starter Camp's two-bot demand uses 40 of every 60 assembler-seconds. With the standard upstream recipes, the Medium Bot costs 92 material points or about 30.7 points per AP. A Small Bot costs 36 points per AP and supplies 6 AP per minute.
+
+For this bot review, score Copper ore, Iron ore and Wood at 1 each, Stone and Water at 1.1 each, and raw Mythril at 1.5. Count upstream fuel in the recipe bill. Compare cost per bot, cost per AP and AP per minute from one fully supplied base final assembler. Measure upstream supply, Tribute upkeep and delivery separately during playtesting.
+
+**Heavy Bot (November 8, 2026, NODE-0336).** Keep the Mythril Frame, Focused Gun and Hydro Core recipe at 8 AP and a 40-second base cycle. Its standard inputs cost 228.5 weighted points, or about 28.6 per AP. A fully supplied Assembler II supplies 12 AP per minute, one third more than Medium, at about 7% lower material cost per AP.
+
+**Command Bot (November 8, 2026, NODE-0337).** One Servo Frame, one Pulse Cannon and one Complex Core make a 24 AP Command Bot in 90 seconds. One fully supplied base Assembler II supplies 16 AP per minute. Standard inputs cost 639 weighted points, or 26.625 per AP. This is one third more AP per minute and about 7% lower material cost per AP than Heavy. One Command Bot and one Heavy Bot pay the current 32 AP Dwarven Kingdom check exactly (NODE-0346).
 
 ## Waste introduction at Complex
 
@@ -90,12 +108,12 @@ The saved Refiner stage does not automatically mean fewer total factory nodes. I
 
 | Research set | Alternative recipe members | Price and status |
 | --- | --- | --- |
-| Earlier intermediates | Circuit A, Motor, Bot Frame | 50 of each Core through Complex (300 physical Cores), adopted Q46A; All three alternative formulas/cycles adopted; runtime implementation pending |
-| Higher intermediates | Hydro Piston, Mythril Mesh, Circuit C | Separate research: 100 of each Core through Complex (600 physical Cores), adopted Q46A; Hydro Piston and Mythril Mesh inputs/cycles adopted; Q52B adopts higher mixed waste amounts; Circuit C formula/cycle adopted Q56; all six alternative recipes designed, runtime pending |
+| Efficient Intermediates | Circuit A, Motor, Bot Frame | 25 of each Core through Complex (150 Cores), implemented locally in NODE-0352 |
+| Efficient Higher Intermediates | Hydro Piston, Mythril Mesh, Circuit C | 50 of each Core through Complex (300 Cores), implemented locally in NODE-0353 |
 
 Motor serves several established production/support chains, while Bot Frame feeds Small Bots and the Sealed Frame branch for Medium Bots. Their standard recipes are regular Assembler recipes. The second set spans Hydro, Shiny and Complex production using existing Assembler II intermediates. Circuit B remains the adopted identity of Electrode without automatically receiving an alternative in either initial set.
 
-**Adopted expensive research prices (Q46A, November 2, 2026):** the user selected option 2: 50 of each Core through Complex for the earlier set (300 physical Cores; 4 minutes 10 seconds fully supplied base lab time), and 100 of each for the higher set (600 physical Cores; 8 minutes 20 seconds base lab time). At the current 36-second standard Complex cycle, one fully supplied unupgraded final assembler needs 30 or 60 minutes respectively to produce just the Complex-Core share. Parallel production and efficiency research reduce that time. These figures exclude upstream shortages, delivery and other research, and do not establish measured progression or full investment payback. Assess the combined benefits of all three recipes per set after the remaining formulas are specified. Runtime research remains unchanged.
+Q46A originally priced Efficient Intermediates at 50 of each Core through Complex and Efficient Higher Intermediates at 100 each. NODE-0352 and NODE-0353 halve those prices. With standard recipes and full batches, the projects cost about 8,341 and 16,675 raw units respectively, including fuel and Water.
 
 Q59 makes the two projects independent after Precision Control; neither requires the other, and they are not sequential ranks. Each set unlocks all its listed variants once, retains standard recipes and needs usable handling for its waste types. Exact extra waste outputs, handling/sorting grants and machine/cycle choices require recipe review before implementation.
 
@@ -219,6 +237,10 @@ The live `autonomousLogistics` unlock currently precedes and is required by `end
 ## Pacing targets and evidence
 
 **Agreed renewable-supply purpose (Q15):** reduce repetitive resource maintenance while preserving throughput and transport decisions. Include sustainable capacity and remaining upkeep when comparing renewable investments, rather than treating an infinite reserve as unlimited production. Existing supply restrictions and the approved Mythril Golem exception remain in force; rates and costs still need measurement.
+
+**Mining Drill costs (November 7, 2026, NODE-0328).** Adopt both reductions. Mining Drill research costs 5 each of Simple, Basic and Automata Cores, down from 10 each. Each Drill takes 10 Motors, down from 20, to create a 1,000-unit deposit of the selected material. The cheaper Drill gives established production a way to recover while new sectors offer larger reserves and space for new supply lines. In the next playtest, track where players choose to drill and where they open a new sector for supply. Gameplay implementation is pending.
+
+**Map Node tier transitions (November 8, 2026).** A new tier resets the price to 5 of each Core when it first enters the bill. Over the next nine purchases, the price rises evenly to the existing ceiling of 10, 15, 20, 25 or 30 each for Basic through Complex. A late unlock starts its own ramp and an active quote holds across that unlock. The playtest ended during #39, so the reset and the subsequent increases still need a normal gameplay check. See the [implemented schedule](../research-catalog.md#prices-for-the-first-59-completions).
 
 **Agreed session rhythm (Q03):** pacing should accommodate useful progress in short sessions and sustained planning and construction in longer sessions. Evaluate achievable stopping points and the ease of returning to unfinished work alongside total progression time. Exact session lengths remain open; this choice does not alter the existing total-playtime targets or adopt offline production.
 

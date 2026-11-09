@@ -98,7 +98,17 @@ function migrateFactory(factoryValue: unknown, sectorKey: string, unlocked: bool
     nodes.push(node);
   }
 
-  for (const [id, value] of entries(runtime.bigHoles)) { const hole = record(value); nodes.push({ id, kind: 'big-hole', name: 'Deep Hole', x: number(hole.x), y: number(hole.y), rotation: number(hole.rotation), input: { stone: 0 }, output: {}, progressMs: 0, cycleMs: 1000, constructedAt: 0, constructionMs: 0, resourceRemaining: Math.max(0, number(hole.stoneRequirement, 250) - number(hole.stoneFilled)), obstructionRadius: Math.max(1, number(hole.radius, 105)) }); }
+  for (const [id, value] of entries(runtime.bigHoles)) {
+    const hole = record(value);
+    const holeBaseStone = Math.max(1, Math.ceil(number(hole.stoneRequirement, 250)));
+    const holeStoneConsumed = Math.max(0, Math.floor(number(hole.stoneFilled)));
+    nodes.push({
+      id, kind: 'big-hole', name: 'Deep Hole', x: number(hole.x), y: number(hole.y), rotation: number(hole.rotation),
+      input: { stone: 0 }, output: {}, progressMs: 0, cycleMs: 1000, constructedAt: 0, constructionMs: 0,
+      holeBaseStone, holeStoneConsumed, resourceRemaining: Math.max(0, holeBaseStone - holeStoneConsumed),
+      obstructionRadius: Math.max(1, number(hole.radius, 105)),
+    });
+  }
   for (const [id, value] of entries(runtime.lakes)) { const lake = record(value); nodes.push({ id, kind: 'lake', name: 'Lake', x: number(lake.x), y: number(lake.y), rotation: 0, input: {}, output: {}, progressMs: number(lake.productionElapsed), cycleMs: 1000, constructedAt: 0, constructionMs: 0, resourceItem: 'water', capacity: 5, obstructionWidth: Math.max(1, number(lake.width, 350)), obstructionHeight: Math.max(1, number(lake.height, 245)) }); }
   for (const [id, value] of entries(runtime.monsterCamps)) { const camp = record(value); nodes.push({ id, kind: 'monster-camp', name: typeof camp.title === 'string' ? camp.title : 'Monster Camp', x: number(camp.x), y: number(camp.y), rotation: number(camp.rotation), input: { 'suppression-bot': number(camp.storedAttackPower) }, output: {}, progressMs: number(camp.checkElapsed), cycleMs: number(camp.expansionCheckIntervalMs, 60000), constructedAt: 0, constructionMs: 0, campStrength: Math.max(10, Math.round(number(camp.sizeRatio, .25) * 100)), obstructionMaxRadius: Math.max(1, number(camp.maxRadius, 600)) }); }
 

@@ -36,7 +36,7 @@ describe('goblin tribute', () => {
     expect(camp(engine).campStrength).toBe(20);
     expect(tribute(engine)).toBeUndefined();
   });
-  it.each([[1, 5], [4, 15], [9, 30]])('rewards tier %i with %i materials per five seconds only after suppression', (tier, amount) => {
+  it.each([[1, 6], [4, 18], [5, 18], [6, 18], [9, 36]])('rewards tier %i with %i materials per five seconds only after suppression', (tier, amount) => {
     const engine = setup(tier);
     advance(engine, 59.9);
     expect(tribute(engine)).toBeUndefined();
@@ -56,16 +56,16 @@ describe('goblin tribute', () => {
     const engine = setup(9);
     advance(engine, 60);
     const reward = tribute(engine)!;
-    camp(engine).input['command-suppression-bot'] = 4;
+    camp(engine).input['heavy-suppression-bot'] = 2;
     advance(engine, 60);
     expect(tribute(engine)).toBe(reward);
-    expect(reward.output.iron).toBe(100); // Partial final batch fills 90 to exactly 100.
+    expect(reward.output.iron).toBe(100); // Partial final batch fills 72 to exactly 100.
     expect(engine.getState().extracted?.iron).toBe(100);
     expect(engine.getSector().nodes.filter(node => node.kind === 'goblinTribute')).toHaveLength(1);
     advance(engine, 60);
     expect(camp(engine).suppressed).toBe(false);
     expect(tribute(engine)).toBeUndefined();
-    camp(engine).input['command-suppression-bot'] = 4;
+    camp(engine).input['heavy-suppression-bot'] = 2;
     advance(engine, 60);
     expect(tribute(engine)?.output).toEqual({});
   });
@@ -78,7 +78,7 @@ describe('goblin tribute', () => {
     engine.getSector().nodes.push(receiver);
     expect(engine.connect(reward.id, receiver.id)).toBe(true);
     advance(engine, 6);
-    expect((receiver.input.iron ?? 0) + (receiver.output.iron ?? 0)).toBe(5);
+    expect((receiver.input.iron ?? 0) + (receiver.output.iron ?? 0)).toBe(6);
     const extractor = { ...receiver, id: 'extractor', kind: 'extractor' as const, x: reward.x, y: reward.y + 400 };
     engine.getSector().nodes.push(extractor);
     expect(engine.connect(reward.id, extractor.id)).toBe(false);
@@ -96,19 +96,19 @@ describe('goblin tribute', () => {
     expect(engine.setGoblinTributeItem('camp', 'mythril')).toBe(false);
     advance(engine, 65);
     const reward = tribute(engine)!;
-    expect(reward.output).toEqual({ copper: 5 });
+    expect(reward.output).toEqual({ copper: 6 });
     expect(engine.setGoblinTributeItem(reward.id, 'mythril')).toBe(false);
-    expect(reward.output).toEqual({ copper: 5 });
+    expect(reward.output).toEqual({ copper: 6 });
     reward.output.stone = 2;
     expect(engine.setGoblinTributeItem(reward.id, 'stone')).toBe(true);
     expect(reward.output).toEqual({ stone: 2 });
     advance(engine, 5);
-    expect(reward.output).toEqual({ stone: 7 });
+    expect(reward.output).toEqual({ stone: 8 });
     reward.output = {};
     engine.getState().research.completed.push('mithrilTools');
     expect(engine.setGoblinTributeItem('camp', 'mythril')).toBe(false);
     advance(engine, 5);
-    expect(reward.output).toEqual({ stone: 5 });
+    expect(reward.output).toEqual({ stone: 6 });
     advance(engine, 45);
     expect(tribute(engine)).toBeUndefined();
     camp(engine).input['suppression-bot'] = 3;
@@ -149,7 +149,7 @@ describe('goblin tribute', () => {
     const loaded = new GameEngine(saved);
     expect(camp(loaded).suppressed).toBe(true);
     expect(camp(loaded).progressMs).toBe(7000);
-    expect(tribute(loaded)?.output.copper).toBe(5);
+    expect(tribute(loaded)?.output.copper).toBe(6);
     expect(tribute(loaded)?.progressMs).toBe(2000);
     advance(loaded, 53);
     expect(tribute(loaded)).toBeUndefined();

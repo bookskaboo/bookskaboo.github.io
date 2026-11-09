@@ -8,6 +8,7 @@ import { normalizeLegacy } from '../persistence/saves';
 
 const families = ['extractor', 'kiln', 'smelter', 'refiner', 'assembler', 'researchCenter', 'hydroProcessor', 'advancedAssembler', 'separationFurnace'] as const;
 const cores = ['simple-core', 'basic-core', 'automata-core', 'hydro-core', 'shiny-core', 'command-core'];
+const costsByRank = [10, 15, 20, 25, 30, 35];
 const project = (id: string) => RESEARCH_PROJECTS.find(p => p.id === id)!;
 const machine = (kind: NodeKind, recipeId?: string): MachineNode => ({
   id: 'machine', name: kind, kind, recipeId, x: 1000, y: 1000, rotation: 0,
@@ -22,7 +23,7 @@ describe('linear machine efficiency progression', () => {
     for (const family of families) for (let rank = 1; rank <= 6; rank++) {
       const p = project(`${family}${rank}`);
       expect(RESEARCH_PROJECTS.filter(candidate => candidate.id === p.id)).toHaveLength(1);
-      expect(getResearchCosts(p)).toEqual(Object.fromEntries(cores.slice(0, rank).map(core => [core, rank * 10])));
+      expect(getResearchCosts(p)).toEqual(Object.fromEntries(cores.slice(0, rank).map(core => [core, costsByRank[rank - 1]])));
       const access = [undefined, undefined, 'automataCore', 'hydraulicAssembly', 'oreSeparation', 'precisionControl'][rank - 1];
       const machineAccess: Record<string, string> = { hydroProcessor: 'lakeTools', advancedAssembler: 'fabricatorTools', separationFurnace: 'mithrilTools' };
       const completed = [rank > 1 ? `${family}${rank - 1}` : machineAccess[family] ?? family, access].filter((id): id is string => Boolean(id));
@@ -66,11 +67,11 @@ describe('linear machine efficiency progression', () => {
   it('preserves saved ranks and completes a six-core project in synchronized 2000ms cycles', () => {
     const state = createInitialState(301);
     state.research.completed.push('researchCenter1', 'researchCenter2', 'researchCenter6', 'extractor5', 'precisionControl');
+    state.research.selected = 'extractor6';
+    state.research.contributed = Object.fromEntries(cores.map(core => [core, 34]));
     state.sectors['5,5'].nodes = [machine('researchCenter')];
     const loaded = normalizeLegacy(JSON.parse(JSON.stringify(state)))!;
     const engine = new GameEngine(loaded);
-    engine.selectResearch('extractor6');
-    engine.getState().research.contributed = Object.fromEntries(cores.map(core => [core, 59]));
     const lab = engine.getSector().nodes[0];
     lab.input = Object.fromEntries(cores.map(core => [core, 1]));
     engine.tick(1000);
@@ -79,6 +80,20 @@ describe('linear machine efficiency progression', () => {
     engine.tick(1);
     expect(engine.getState().research.completed).toContain('extractor6');
     expect(Object.values(lab.input)).toEqual([0, 0, 0, 0, 0, 0]);
+  });
+
+  it('completes an already funded saved rank at the lower price without consuming stock', () => {
+    const state = createInitialState(301);
+    state.research.completed.push('extractor5', 'precisionControl');
+    state.research.selected = 'extractor6';
+    state.research.contributed = Object.fromEntries(cores.map(core => [core, 40]));
+    const lab = machine('researchCenter');
+    lab.input = Object.fromEntries(cores.map(core => [core, 1]));
+    state.sectors['5,5'].nodes = [lab];
+    const engine = new GameEngine(normalizeLegacy(structuredClone(state))!);
+    engine.tick(100);
+    expect(engine.getState().research.completed).toContain('extractor6');
+    expect(engine.getSector().nodes[0].input).toEqual(lab.input);
   });
 
   it('applies recovery research after the Separator cycle upgrade', () => {

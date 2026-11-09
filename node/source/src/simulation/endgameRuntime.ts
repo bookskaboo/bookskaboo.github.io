@@ -2,15 +2,54 @@ import { ALPHA_AP, CORNER_ITEMS, CORNER_MAPS, CORNER_NAMES, FOUNDRY_INPUTS, GROV
 import { BOT_STRENGTH } from '../content/progression';
 import { RECYCLER_RETURNS } from '../content/recycling';
 import type { GameState, ItemId, MachineNode, SectorState } from '../domain/types';
+import { canPlaceNode } from './collisions';
 import { queueOutputs, reconcileQueue } from './mixedOutput';
+import { obstructedConnections } from './obstructedConnections';
+
+const CORNER_QUADRANTS = ['northwest', 'northeast', 'southeast', 'southwest'] as const;
+const CAMP_EDGE_MARGIN = 24;
 
 export function createCornerNodes(x: number, y: number, seed: number, field: { width: number; height: number }, order = seededCornerOrder(seed)): MachineNode[] {
   const index = CORNER_MAPS.indexOf(`${x},${y}`); if (index < 0) return [];
   const type = order[index], cx = field.width / 2, cy = field.height / 2;
   const base = { rotation: 0, input: {}, output: {}, progressMs: 0, cycleMs: 0, constructedAt: 0, constructionMs: 0, cornerType: type };
-  const challenge: MachineNode = { ...base, id: `corner-${x}-${y}`, kind: 'cornerChallenge', name: CORNER_NAMES[type], x: cx, y: cy, cornerProgress: 0 };
-  const tribute: MachineNode = { ...base, id: `corner-tribute-${x}-${y}`, kind: 'cornerTribute', name: `${CORNER_NAMES[type]} Tribute`, x: cx + 460, y: cy, capacity: 10, tributeCampId: challenge.id, input: {}, output: {} };
+  const challenge: MachineNode = {
+    ...base, id: `corner-${x}-${y}`, kind: 'cornerChallenge', name: CORNER_NAMES[type],
+    x: cx * (x === 0 ? .5 : 1.5), y: cy * (y === 0 ? .5 : 1.5), cornerProgress: 0,
+    cornerCampQuadrant: CORNER_QUADRANTS[index], obstructionWidth: cx - CAMP_EDGE_MARGIN * 2, obstructionHeight: cy - CAMP_EDGE_MARGIN * 2,
+  };
+  const tribute: MachineNode = { ...base, id: `corner-tribute-${x}-${y}`, kind: 'cornerTribute', name: `${CORNER_NAMES[type]} Tribute`, x: cx, y: cy, capacity: 10, tributeCampId: challenge.id, input: {}, output: {} };
   return [challenge, tribute];
+}
+
+/** Upgrade old layouts and follow field expansion only when the entire move fits. */
+export function syncCornerLayout(sector: SectorState, field: { width: number; height: number }, state: GameState) {
+  if (!CORNER_MAPS.includes(sector.id)) return;
+  const [campLayout, tributeLayout] = createCornerNodes(sector.x, sector.y, state.seed, field, state.endgame?.cornerOrder);
+  if (!campLayout || !tributeLayout) return;
+  const oldCamp = sector.nodes.find(node => node.kind === 'cornerChallenge');
+  const oldTribute = sector.nodes.find(node => node.kind === 'cornerTribute');
+  const { x, y, cornerCampQuadrant, obstructionWidth, obstructionHeight } = campLayout;
+  if (oldCamp?.x === x && oldCamp.y === y && oldCamp.cornerCampQuadrant === cornerCampQuadrant
+    && oldCamp.obstructionWidth === obstructionWidth && oldCamp.obstructionHeight === obstructionHeight
+    && oldTribute?.x === tributeLayout.x && oldTribute.y === tributeLayout.y && oldTribute.tributeCampId === oldCamp.id) return;
+
+  const type = oldCamp?.cornerType ?? campLayout.cornerType!;
+  const camp = oldCamp ? { ...oldCamp, x, y, cornerType: type, cornerCampQuadrant, obstructionWidth, obstructionHeight } : campLayout;
+  const tribute = {
+    ...(oldTribute ?? { ...tributeLayout, name: `${CORNER_NAMES[type]} Tribute` }),
+    x: tributeLayout.x, y: tributeLayout.y, cornerType: type, tributeCampId: camp.id,
+  };
+  const nodes = sector.nodes.filter(node => node !== oldCamp && node !== oldTribute);
+  nodes.push(camp, tribute);
+  if (!canPlaceNode(camp, nodes, field) || !canPlaceNode(tribute, nodes, field)) return;
+  const blocked = obstructedConnections({ ...sector, nodes });
+  if (blocked.size) {
+    const alreadyBlocked = obstructedConnections(sector);
+    if ([...blocked].some(id => !alreadyBlocked.has(id))) return;
+  }
+  if (oldCamp) Object.assign(oldCamp, camp); else sector.nodes.push(camp);
+  if (oldTribute) Object.assign(oldTribute, tribute); else sector.nodes.push(tribute);
 }
 
 export function initializeEndgame(state: GameState) {

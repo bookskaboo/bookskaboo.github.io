@@ -1,11 +1,12 @@
 import { createCampNodeStatus, updateCampNodeStatus } from './campNodeStatus';
+import { createCornerCampStatus, drawCornerCamp, updateCornerCampStatus } from './cornerCampView';
 import { campStatus } from '../simulation/campStatus';
 import { groveProgress } from './groveProgress';
 import { researchCenterView } from './researchCenterView';
 import { researchConsumptionGlow } from './researchConsumptionGlow';
 import { createResearchNodeStatus, updateResearchNodeStatus } from './researchNodeStatus';
 import { THEME } from './playfieldTheme';
-import { outputTotal, inputTotal, outputCapacity, resourceCapacityReadout, resourceReserveFraction, nodeTextScale, isItemId, portRoleLabel, canDeleteNode, canCyclePortPositions, nodeCycleDuration } from './playfieldNodeState';
+import { outputTotal, inputTotal, outputCapacity, resourceCapacityReadout, resourceReserveFraction, deepHoleStoneReadout, nodeTextScale, isItemId, portLabelText, portRoleLabel, canDeleteNode, canCyclePortPositions, nodeCycleDuration } from './playfieldNodeState';
 import { connectionPoints, curvePoint, buildTransferMotionPath, sampleCurveMotion } from './cableGeometry';
 import { drawCurve, label, drawTrashIcon, drawRoadFlowArrow, escapeHtml } from './playfieldDrawing';
 import { drawBufferSquares, updateProductionPort, updateBufferSquares, drawProductionCue, updateInputSquares } from './nodeBuffers';
@@ -19,6 +20,7 @@ import { nearestSocket, socketHitContains } from './socketTargeting';
 import { useEffect, useRef } from 'react';
 import { Application, Container, Graphics, Rectangle, Text, type FederatedPointerEvent } from 'pixi.js';
 import { ITEM_COLORS, ITEM_NAMES } from '../content/items';
+import { endgameRank } from '../content/endgame';
 import { getNodeCapabilities } from '../content/nodeCapabilities';
 import { getEffectiveNodeInputFamilies, getEffectiveNodeOutputFamilies, getNodeDisplayDefinition } from '../content/nodes';
 import { getNodeModule, isPlayerMovableNode } from '../content/nodeModules';
@@ -32,9 +34,14 @@ import { getPortSide, isMultiConnectionPort } from '../simulation/connectionRule
 import { getNodeSize, getPortAnchor, isCompactNode, isOrganicNode, isResourceNode, organicPolygon } from '../domain/nodeGeometry';
 import { obstructionOutline } from '../domain/obstructionGeometry';
 import { drawNodeIcon } from './drawNodeIcon';
+import { drawEncounterArt } from './encounterArt';
+import { getNodeArt } from '../art/nodeArt';
 import { MAX_VISIBLE_TRANSFERS, transferProgress } from '../simulation/transfers';
 import { RESEARCH_CORE_TYPES, researchCoreStorage } from '../simulation/researchStatus';
 import { modNode } from '../mods/modRules';
+
+const CORNER_SOCKET_RADIUS = 13;
+const cornerSocketScale = (zoom: number, limit: number) => Math.min(Math.max(2, 1 / zoom), limit);
 
 export function PixiPlayfield(props: Props) {
   const hostRef = useRef<HTMLDivElement>(null); const propsRef = useRef(props); propsRef.current = props;
@@ -85,10 +92,13 @@ export function PixiPlayfield(props: Props) {
         const node = propsRef.current.engine.getSector().nodes.find(n => n.id === handle.nodeId);
         const point = portScreenPoint(handle);
         if (!canSelectNode(handle.nodeId) || !node || !point || (node.kind === 'joint' && handle.direction === 'input')) return [];
-        if (!socketHitContains(x - point.x, y - point.y, getPortSide(node, handle.direction, handle.index), isCompactNode(node))) return [];
+        const dx = x - point.x, dy = y - point.y;
+        if (handle.cornerScaleLimit !== undefined
+          ? Math.hypot(dx, dy) > CORNER_SOCKET_RADIUS * handle.root.scale.x * camera.zoom
+          : !socketHitContains(dx, dy, getPortSide(node, handle.direction, handle.index), isCompactNode(node))) return [];
         return [{ ...point, key: portKey(handle), handle }];
       });
-      return nearestSocket(candidates, x, y, 10)?.handle;
+      return nearestSocket(candidates, x, y, Infinity)?.handle;
     };
     const activeHandleForTarget = (state: ConnectionDragState, target: PortHandle): PortHandle => state.adaptiveJointDirection
       ? { nodeId: state.originNodeId, direction: target.direction === 'input' ? 'output' : 'input', index: 0 }
@@ -101,7 +111,8 @@ export function PixiPlayfield(props: Props) {
         const active = activeHandleForTarget(state, handle);
         if (handle.nodeId === active.nodeId || handle.direction === active.direction) return;
         const point = portScreenPoint(handle); if (!point) return; const distance = Math.hypot(point.x - x, point.y - y);
-        if (distance <= 44 && (!nearest || distance < nearest.distance)) nearest = { handle, distance };
+        const radius = candidate.cornerScaleLimit === undefined ? 44 : Math.max(44, CORNER_SOCKET_RADIUS * candidate.root.scale.x * camera.zoom);
+        if (distance <= radius && (!nearest || distance < nearest.distance)) nearest = { handle, distance };
       });
       return nearest?.handle;
     };
@@ -164,7 +175,10 @@ export function PixiPlayfield(props: Props) {
     };
     const applyCamera = () => { world.x = camera.x; world.y = camera.y; world.scale.set(camera.zoom);
       const radius = Math.max(18, 10 / camera.zoom);
-      portViews.forEach((port) => { port.root.hitArea = new Rectangle(-radius, -radius, radius * 2, radius * 2); });
+      portViews.forEach((port) => {
+        if (port.cornerScaleLimit !== undefined) port.root.scale.set(cornerSocketScale(camera.zoom, port.cornerScaleLimit));
+        else port.root.hitArea = new Rectangle(-radius, -radius, radius * 2, radius * 2);
+      });
     };
     const clampCamera = () => {
       if (initialized) camera = clampFieldCamera(camera, worldSize, app.screen);
@@ -190,29 +204,20 @@ export function PixiPlayfield(props: Props) {
 
     const drawFrame = (node: MachineNode, body: Graphics, header: Graphics) => {
       const size = getNodeSize(node); const selected = propsRef.current.selectedIds.includes(node.id); const definition = getNodeDisplayDefinition(node);
+      if (node.kind === 'cornerChallenge') { drawCornerCamp(body, node, selected); return; }
       if (isOrganicNode(node)) {
         const points = obstructionOutline(node);
-        const fill = node.kind === 'resourceGolem' ? definition.accent : node.lizardSettlement ? 0x183a2a : node.kind === 'lake' ? 0x17334a : node.kind === 'monster-camp' ? 0x3b2023 : 0x090a0c;
-        body.poly(points).fill({ color: fill, alpha: .98 }).stroke({ color: selected ? THEME.selected : definition.accent, width: selected ? 4 : 2, alpha: .86 });
+        const fill = node.kind === 'resourceGolem' ? 0x20272b : node.lizardSettlement ? 0x183a2a : node.kind === 'lake' ? 0x17334a : node.kind === 'monster-camp' ? 0x3b2023 : 0x090a0c;
+        const outlineWidth = node.kind === 'resourceGolem' ? 6 : 2;
+        body.poly(points).fill({ color: fill, alpha: .98 }).stroke({ color: selected ? THEME.selected : definition.accent, width: outlineWidth + (selected ? 2 : 0), alpha: .86 });
         if (node.kind === 'lake') body.poly(organicPolygon(node, 18, .78)).stroke({ color: 0x55bde8, width: 2, alpha: .28 });
         if (node.kind === 'big-hole') body.poly(organicPolygon(node, 11, .72)).fill({ color: 0x000000, alpha: .82 });
-        if (node.kind === 'resourceGolem') {
-          body.rect(-size.w * .09, -size.h * .43, size.w * .055, size.h * .025).fill(0x101820);
-          body.rect(size.w * .035, -size.h * .43, size.w * .055, size.h * .025).fill(0x101820);
-          body.moveTo(-size.w * .12, -size.h * .21).lineTo(size.w * .12, -size.h * .21).stroke({ color: 0x101820, width: 5, alpha: .4 });
-        }
-        if (node.kind === 'monster-camp') [-.25, .05, .31].forEach((offset, index) => body.poly([-18 + offset * size.w, 12 + (index - 1) * 9, offset * size.w, -18 - index * 2 + (index - 1) * 9, 18 + offset * size.w, 12 + (index - 1) * 9]).fill({ color: node.lizardSettlement ? 0x326b4b : 0x6c3732 }).stroke({ color: node.lizardSettlement ? 0x71c99a : 0xc76a5f, width: 1 }));
         return;
       }
       if (node.kind === 'joint') { body.circle(0, 0, size.w / 2).fill({ color: THEME.body }).stroke({ color: selected ? THEME.selected : definition.accent, width: selected ? 3 : 1.5 }); body.circle(0, 0, 5).fill({ color: 0x202226 }).stroke({ color: definition.accent, width: 1.2 }); return; }
       const radius = isCompactNode(node) || node.kind === 'woodenChest' || node.kind === 'chest' ? 9 : 12;
       body.roundRect(-size.w / 2 + 1, -size.h / 2 + 8, size.w, size.h, radius).fill({ color: 0x000000, alpha: .42 });
       body.roundRect(-size.w / 2, -size.h / 2, size.w, size.h, radius).fill({ color: node.disabled ? 0x351d21 : THEME.body }).stroke({ color: selected ? THEME.selected : THEME.border, width: selected ? 3 : 1.25 });
-      if(node.kind==='cornerChallenge'&&node.cornerType==='alpha') {
-        body.poly([-20,20,-155,-75,-210,95,-110,50,-48,115,0,145,48,115,110,50,210,95,155,-75,20,20]).fill({color:0x873b38,alpha:.65}).stroke({color:0xe9a25e,width:3});
-        body.poly([-38,5,-22,-40,0,-20,22,-40,38,5,24,50,0,72,-24,50]).fill({color:0xb66a43}).stroke({color:0xf4c17a,width:3});
-        body.circle(-14,8,5).fill(0xffdf8c);body.circle(14,8,5).fill(0xffdf8c);
-      }
       const shape = getNodeModule(node.kind).appearance.shape;
       const headerHeight = shape === 'road' || shape === 'chest' ? 42 : isCompactNode(node) ? 30 : isResourceNode(node) ? 73 : 61;
       header.roundRect(-size.w / 2 + 1, -size.h / 2 + 1, size.w - 2, headerHeight, Math.max(2, radius - 1)).fill({ color: node.disabled ? 0x542a2f : THEME.header });
@@ -251,7 +256,20 @@ export function PixiPlayfield(props: Props) {
     const addPort = (node: MachineNode, root: Container, direction: 'input' | 'output', index: number, family: string, interactive = true) => {
       const anchor = getPortAnchor(node, direction, index); const definition = getNodeDisplayDefinition(node); const portRoot = new Container();
       portRoot.position.set(anchor.x, anchor.y); portRoot.eventMode = 'static'; portRoot.cursor = 'grab';
-      portRoot.hitArea = { contains: (x: number, y: number) => socketHitContains(x * camera.zoom, y * camera.zoom, getPortSide(node, direction, index), isCompactNode(node)) };
+      const corner = node.kind === 'cornerChallenge' || node.kind === 'cornerTribute';
+      let cornerScaleLimit: number | undefined;
+      if (corner) {
+        cornerScaleLimit = Infinity;
+        if (node.kind === 'cornerChallenge' && getEffectiveNodeInputFamilies(node, []).length > 1) {
+          const first = getPortAnchor(node, direction, 0), next = getPortAnchor(node, direction, 1);
+          // Keep adjacent Foundry sockets and their badges distinct, including in older compact camps.
+          cornerScaleLimit = Math.hypot(next.x - first.x, next.y - first.y) / (2 * CORNER_SOCKET_RADIUS + 2);
+        }
+        portRoot.scale.set(cornerSocketScale(camera.zoom, cornerScaleLimit));
+        portRoot.hitArea = { contains: (x: number, y: number) => Math.hypot(x, y) <= CORNER_SOCKET_RADIUS };
+      } else {
+        portRoot.hitArea = { contains: (x: number, y: number) => socketHitContains(x * camera.zoom, y * camera.zoom, getPortSide(node, direction, index), isCompactNode(node)) };
+      }
       const pulse = new Graphics(); const shape = new Graphics(); const sector = propsRef.current.engine.getSector(); const connections = sector.connections;
       const related = connections.filter((connection) => direction === 'input' ? connection.to === node.id && (connection.toPort ?? 0) === index : connection.from === node.id && (connection.fromPort ?? 0) === index);
       const connected = related.length > 0; const connectedItem = related.find((connection) => connection.item)?.item;
@@ -267,13 +285,44 @@ export function PixiPlayfield(props: Props) {
       else if (multi) { const points: number[] = []; for (let point = 0; point < 16; point++) { const angle = -Math.PI / 2 + point * Math.PI / 8; const radius = point % 2 === 0 ? 11 : 5.5; points.push(Math.cos(angle) * radius, Math.sin(angle) * radius); } shape.poly(points).fill({ color: connected ? portColor : 0x121315 }).stroke({ color: portColor, width: 2 }); }
       else shape.circle(0, 0, 9).fill({ color: connected ? portColor : 0x121315 }).stroke({ color: portColor, width: 2 });
       const highlight = new Graphics(); highlight.eventMode = 'none'; portRoot.addChild(highlight, pulse, shape);
-      const roleLabel = portRoleLabel(node, direction, index, family, routedItem); if (!production && roleLabel && !(direction === 'output' && (isResourceNode(node) || node.kind === 'lake' || node.infiniteResource)) && !isStorageNode(node.kind) && definition.category !== 'Logistics' && getNodeCapabilities(node.kind).behavior !== 'research') { const side = getPortSide(node, direction, index); const displayName = roleLabel.length > 15 ? `${roleLabel.slice(0, 14)}…` : roleLabel; const text = label(displayName.toUpperCase(), 9, 0xf0f4f7, 'bold', 'monospace'); text.anchor.set(.5); const width = Math.max(28, text.width + 12); const badge = new Container(); badge.eventMode = 'none'; badge.addChild(new Graphics().roundRect(-width / 2, -9, width, 18, 4).fill({ color: 0x111419, alpha: .96 }).stroke({ color: portColor, width: 1, alpha: .78 })); badge.addChild(text); if (side === 'east') badge.position.set(-12 - width / 2, 0); else if (side === 'west') badge.position.set(12 + width / 2, 0); else if (side === 'north') badge.position.set(0, 18); else badge.position.set(0, -18); portRoot.addChild(badge); }
+      const stoneInput = node.kind === 'big-hole' && direction === 'input';
+      const roleLabel = portRoleLabel(node, direction, index, family, routedItem);
+      if (!stoneInput && !production && roleLabel && !(direction === 'output' && (isResourceNode(node) || node.kind === 'lake' || node.infiniteResource)) && !isStorageNode(node.kind) && definition.category !== 'Logistics' && getNodeCapabilities(node.kind).behavior !== 'research') {
+        const side = getPortSide(node, direction, index);
+        const name = portLabelText(roleLabel);
+        const displayName = !corner && name.length > 15 ? `${name.slice(0, 14)}…` : name;
+        const text = label(displayName, corner ? 14 : 9, 0xf0f4f7, 'bold', 'monospace');
+        text.anchor.set(.5);
+        const width = Math.max(28, text.width + (corner ? 16 : 12));
+        const height = corner ? 22 : 18;
+        const offset = corner ? 17 : 12;
+        const badge = new Container(); badge.eventMode = 'none';
+        badge.addChild(new Graphics().roundRect(-width / 2, -height / 2, width, height, 4).fill({ color: 0x111419, alpha: .96 }).stroke({ color: portColor, width: 1, alpha: .78 }), text);
+        if (node.kind === 'cornerTribute') badge.position.set(offset + width / 2, height + 1);
+        else if (side === 'east') badge.position.set(-offset - width / 2, 0);
+        else if (side === 'west') badge.position.set(offset + width / 2, 0);
+        else if (side === 'north') badge.position.set(0, 18);
+        else badge.position.set(0, -18);
+        portRoot.addChild(badge);
+      }
+      let stoneCounter: PortView['stoneCounter'];
+      if (stoneInput) {
+        const badge = new Container();
+        badge.eventMode = 'none';
+        badge.position.set(anchor.x, anchor.y);
+        const plate = new Graphics();
+        const text = label('', 13, 0xf0f4f7, 'bold', 'monospace');
+        text.anchor.set(.5);
+        badge.addChild(plate, text);
+        root.addChild(badge);
+        stoneCounter = { root: badge, plate, text };
+      }
       let materialLabel: Text | undefined, materialBuffer: Graphics | undefined;
       if (production) {
         materialLabel = label('', 11, 0xe7ebef, 'bold'); materialLabel.eventMode = 'none';
         materialBuffer = new Graphics(); materialBuffer.eventMode = 'none'; portRoot.addChild(materialLabel, materialBuffer);
       }
-      const view: PortView = { nodeId: node.id, direction, index, root: portRoot, highlight, pulse, pulseColor: THEME.flow, pulseStartedAt: 0, hovered: false, materialShape: production ? shape : undefined, materialLabel, materialBuffer };
+      const view: PortView = { nodeId: node.id, direction, index, root: portRoot, highlight, pulse, pulseColor: THEME.flow, pulseStartedAt: 0, hovered: false, cornerScaleLimit, materialShape: production ? shape : undefined, materialLabel, materialBuffer, stoneCounter };
       if (production) updateProductionPort(view, node, sector);
       root.addChild(portRoot); if (!interactive) { portRoot.eventMode = 'none'; portRoot.cursor = 'default'; return; }
       const key = `${node.id}:${direction}:${index}`; portViews.set(key, view);
@@ -298,10 +347,12 @@ export function PixiPlayfield(props: Props) {
 
     const createNodeView = (node: MachineNode, placementPreview = false): NodeView => {
       const definition = getNodeDisplayDefinition(node); const size = getNodeSize(node); const compact = isCompactNode(node); const root = new Container();
+      const isCornerTribute = node.kind === 'cornerTribute';
       const readabilityLabels: Text[] = [];
       const movable = isPlayerMovableNode(node.kind, propsRef.current.engine.getState(), node);
       root.x = node.x; root.y = node.y; root.eventMode = placementPreview || node.disabled ? 'none' : 'static'; root.cursor = placementPreview ? 'default' : node.disabled ? 'not-allowed' : movable ? 'grab' : 'default'; root.alpha = placementPreview ? .78 : node.disabled ? .68 : 1;
       const body = new Graphics(); const header = new Graphics(); drawFrame(node, body, header); root.addChild(body, header);
+      drawEncounterArt(root, node, definition.accent);
       const controlGroup = !placementPreview && propsRef.current.engine.getSector().controlGroups?.find(group => group.nodeIds.includes(node.id));
       if (controlGroup) {
         const marker = new Graphics(); marker.eventMode = 'none';
@@ -315,13 +366,13 @@ export function PixiPlayfield(props: Props) {
         const chest = getNodeModule(node.kind).appearance.shape === 'chest';
         const iconSize = road || chest ? 33 : compact ? 24 : isResourceNode(node) ? 40 : 33; const iconX = compact || chest ? 0 : -size.w / 2 + (isResourceNode(node) ? 34 : 29); const iconY = -size.h / 2 + (road || chest ? 21 : compact ? 15 : isResourceNode(node) ? 36 : 30);
         root.addChild(new Graphics().roundRect(iconX - iconSize / 2, iconY - iconSize / 2, iconSize, iconSize, 7).fill({ color: definition.accent, alpha: .1 }).stroke({ color: definition.accent, width: 1, alpha: .42 }));
-        drawNodeIcon(root, getNodeModule(node.kind).appearance.icon, iconX, iconY, road || chest ? 21 : compact ? 16 : isResourceNode(node) ? 25 : 21, definition.accent, modNode(node.kind)?.icon);
-        if (!compact && !chest) {
+        drawNodeIcon(root, getNodeArt(node.kind, node, propsRef.current.engine.getState().research.completed), iconX, iconY, road || chest ? 21 : compact ? 16 : isResourceNode(node) ? 25 : 21, definition.accent, modNode(node.kind)?.icon);
+        if (!compact && !chest && !isCornerTribute) {
           const title = label(node.name, isResourceNode(node) ? 20 : 17, 0xf3f5f7, 'bold'); title.x = -size.w / 2 + (isResourceNode(node) ? 63 : 55) + (controlGroup ? 16 : 0); title.y = -size.h / 2 + (isResourceNode(node) ? 22 : 17); root.addChild(title); readabilityLabels.push(title);
         }
       }
-      if (isOrganicNode(node)) {
-        const title = label(node.name.toUpperCase(), 16, 0xf3f5f7, 'bold', 'monospace'); title.anchor.set(.5); title.position.set(0, node.kind === 'resourceGolem' ? -size.h / 2 - 30 : node.kind === 'lake' ? 0 : -72); root.addChild(title); readabilityLabels.push(title);
+      if (isOrganicNode(node) && node.kind !== 'cornerChallenge') {
+        const title = label(node.name.toUpperCase(), 16, 0xf3f5f7, 'bold', 'monospace'); title.anchor.set(.5); title.position.set(0, node.kind === 'resourceGolem' || node.kind === 'monster-camp' ? -size.h / 2 - 30 : node.kind === 'lake' ? 0 : -72); root.addChild(title); readabilityLabels.push(title);
       }
       if (getNodeModule(node.kind).appearance.shape === 'road') drawRoadFlowArrow(root, node);
       if (node.kind === 'devSource') {
@@ -330,19 +381,39 @@ export function PixiPlayfield(props: Props) {
       const grove = groveProgress(node); const initialProgress = grove ? grove.fraction : isResourceNode(node) ? resourceReserveFraction(node) : getNodeCapabilities(node.kind).behavior === 'research' ? researchCenterView(node, propsRef.current.engine.getState()).progress : 0;
       const campView = node.kind === 'monster-camp' ? createCampNodeStatus() : undefined;
       if (campView) { root.addChild(campView.halo, campView.root); updateCampNodeStatus(campView, node, 0, 1); }
+      const cornerCampStatus = node.kind === 'cornerChallenge' ? createCornerCampStatus(node) : undefined;
+      if (cornerCampStatus) { root.addChild(cornerCampStatus.root); updateCornerCampStatus(cornerCampStatus, node, camera.zoom); }
+      let cornerTributeLabel: Text | undefined;
+      if (isCornerTribute) {
+        const camp = propsRef.current.engine.getSector().nodes.find(candidate => candidate.id === node.tributeCampId);
+        const below = !camp?.cornerCampQuadrant?.startsWith('south');
+        cornerTributeLabel = label('TRIBUTE', 13, definition.accent, 'bold', 'monospace');
+        cornerTributeLabel.eventMode = 'none';
+        cornerTributeLabel.anchor.set(.5, below ? 0 : 1);
+        cornerTributeLabel.y = (below ? 1 : -1) * (size.h / 2 + 32);
+        root.addChild(cornerTributeLabel);
+      }
       const progress = new Graphics(); const progressTrack = new Graphics(); let progressLabel: Text | undefined; let bufferLabel: Text | undefined; let bufferSquares: Graphics | undefined; let inputSquares: Graphics | undefined; let coreStorageLabels: Text[] | undefined; let coreStorageSquares: Graphics[] | undefined;
       if (!compact && !isOrganicNode(node)) {
         const progressWidth = size.w - (isResourceNode(node) ? 32 : 26); const progressY = size.h / 2 - (isResourceNode(node) ? 26 : 22);
         if (!isStorageNode(node.kind) && node.kind !== 'goblinTribute' && node.kind !== 'devSource') {
         progressTrack.roundRect(-progressWidth / 2, progressY, progressWidth, isResourceNode(node) ? 10 : 8, 4).fill({ color: THEME.progressTrack }).stroke({ color: 0x0e0f11, width: 1 });
-        progress.roundRect(0, 0, progressWidth, isResourceNode(node) ? 10 : 8, 4).fill({ color: isProductionMachine(node) ? 0x8ea0a6 : definition.accent }); progress.position.set(-progressWidth / 2, progressY);
+        progress.roundRect(0, 0, progressWidth, isResourceNode(node) ? 10 : 8, 4).fill({ color: definition.accent }); progress.position.set(-progressWidth / 2, progressY);
         progress.scale.x = initialProgress;
-        if (!isProductionMachine(node) && getNodeCapabilities(node.kind).behavior !== 'research') { progressLabel = label(grove?.label ?? `${Math.round(initialProgress * 100)}%`, 12, 0xf0f2f4, 'bold', 'monospace'); progressLabel.anchor.set(1, .5); progressLabel.position.set(size.w / 2 - 14, progressY - 14); readabilityLabels.push(progressLabel); } root.addChild(progressTrack, progress); if (progressLabel) root.addChild(progressLabel);
+        if (!isCornerTribute && !isProductionMachine(node) && getNodeCapabilities(node.kind).behavior !== 'research') {
+          progressLabel = label(grove?.label ?? `${Math.round(initialProgress * 100)}%`, 12, 0xf0f2f4, 'bold', 'monospace');
+          progressLabel.anchor.set(1, .5);
+          progressLabel.position.set(size.w / 2 - 14, progressY - 14);
+          readabilityLabels.push(progressLabel);
+        }
+        root.addChild(progressTrack, progress);
+        if (progressLabel) root.addChild(progressLabel);
         }
         if (getNodeCapabilities(node.kind).behavior === 'research') {
           coreStorageSquares = RESEARCH_CORE_TYPES.map(() => { const squares = new Graphics(); squares.eventMode = 'none'; root.addChild(squares); return squares; });
           coreStorageLabels = RESEARCH_CORE_TYPES.map((item) => {
             const text = label('', 11, ITEM_COLORS[item], 'bold', 'monospace');
+            text.anchor.set(.5, 0);
             root.addChild(text); return text;
           });
         } else {
@@ -423,7 +494,7 @@ export function PixiPlayfield(props: Props) {
           }
         });
       }
-      return { root, campStatus: campView, jointMoveHandle, researchStatus, productionCue, progress, progressLabel, bufferLabel, bufferSquares, inputSquares, coreStorageLabels, coreStorageSquares, readabilityLabels, flash, marqueeHighlight, invalidOverlay, invalidVisible: false, displayedProgress: initialProgress };
+      return { root, campStatus: campView, cornerCampStatus, cornerTributeLabel, jointMoveHandle, researchStatus, productionCue, progress, progressLabel, bufferLabel, bufferSquares, inputSquares, coreStorageLabels, coreStorageSquares, readabilityLabels, flash, marqueeHighlight, invalidOverlay, invalidVisible: false, displayedProgress: initialProgress };
     };
 
     const drawInsertionPreview = (node?: MachineNode, valid = true) => {
@@ -686,17 +757,32 @@ export function PixiPlayfield(props: Props) {
         particles.forEach((particle) => { const connection = sector.connections.find((candidate) => candidate.id === particle.connectionId); if (!connection) { particle.root.visible = false; return; } const phase = transferProgress(particle.transfer, animationPlayTimeMs); particle.passages.forEach(passage => { if (phase >= passage.phase && !particle.passed.has(passage.nodeId)) { particle.passed.add(passage.nodeId); flashStartedAt.set(passage.nodeId, frameNow); portViews.forEach(port => { if (port.nodeId === passage.nodeId) port.pulseStartedAt = frameNow; }); } }); const motion = sampleCurveMotion(particle.path, phase); if (!motion) return; particle.root.visible = phase < 1; particle.root.position.set(motion.x, motion.y); particle.root.rotation = motion.angle; particle.root.alpha = Math.max(0, Math.min(1, phase / .08, (1 - phase) / .12)); });
         nodeViews.forEach((view, id) => { const node = nodeMap.get(id); if (!node) return; const selectable = canSelectNode(id); view.root.eventMode = node.disabled || !selectable ? 'none' : 'static'; view.root.alpha = node.disabled ? .68 : selectable ? 1 : .45; const controlsVisible = selectable && !propsRef.current.placing && controlHover.visible(id, frameNow); view.root.children.forEach(child => { if (child.label === 'node-control') child.visible = controlsVisible; }); if (view.jointMoveHandle) { view.jointMoveHandle.visible = !propsRef.current.placing && (controlsVisible || Boolean(propsRef.current.jointMoveHint)); view.jointMoveHandle.cursor = drag?.ids.includes(id) ? 'grabbing' : 'grab'; } const dragPosition = drag?.desired?.[id]; view.root.position.set(dragPosition?.x ?? node.x, dragPosition?.y ?? node.y); const readabilityScale = nodeTextScale(camera.zoom); view.readabilityLabels.forEach((text) => text.scale.set(readabilityScale)); const invalid = Boolean(drag?.moved && !drag.valid && drag.ids.includes(id)); if (invalid !== view.invalidVisible) { view.invalidVisible = invalid; view.invalidOverlay.clear(); if (invalid) { const size = getNodeSize(node); view.invalidOverlay.roundRect(-size.w / 2 - 5, -size.h / 2 - 5, size.w + 10, size.h + 10, 16).fill({ color: THEME.danger, alpha: .18 }).stroke({ color: THEME.danger, width: 3, alpha: .98 }); } } const currentInput = inputTotal(node); if (getNodeCapabilities(node.kind).behavior !== 'research' && (lastInputTotals.get(id) ?? currentInput) < currentInput) flashStartedAt.set(id, frameNow); lastInputTotals.set(id, currentInput); const duration = nodeCycleDuration(node, gameState.research.completed); const interpolation = !gameState.paused && !node.disabled && !node.processingPaused && node.progressMs > 0 ? (animationPlayTimeMs - gameState.playTimeMs) / (modNode(node.kind)?.cycleMultiplier ?? 1) : 0; const cycleProgress = duration ? Math.min(1, (node.progressMs + interpolation) / duration) : 0; if (view.campStatus) updateCampNodeStatus(view.campStatus, node, interpolation, readabilityScale); const cue = productionCues.get(id); drawProductionCue(view.productionCue, node, cue, gameState.research.completed); const grove = groveProgress(node); const target = grove ? grove.fraction : isResourceNode(node) ? resourceReserveFraction(node) : getNodeCapabilities(node.kind).behavior === 'research' ? researchCenterView(node, gameState).progress : cue?.working ? cycleProgress : 0; view.displayedProgress = target; view.progress.scale.x = target; if (view.progressLabel) view.progressLabel.text = grove?.label ?? `${Math.round(target * 100)}%`; if (node.kind === 'filter') { if (!view.filterNotice) { view.filterNotice = new Text({ text: '', style: { fontSize: 13, fill: 0xffc46b, fontWeight: 'bold' } }); view.filterNotice.anchor.set(.5, 0); view.filterNotice.position.set(0, getNodeSize(node).h / 2 + 10); view.root.addChild(view.filterNotice); } view.filterNotice.text = node.filterBlocked ? `! ${node.filterBlocked.toUpperCase()} OUTLET BLOCKED` : ''; } if (view.bufferLabel) view.bufferLabel.text = node.resourceItem ? resourceCapacityReadout(node) : `${outputTotal(node)} / ${outputCapacity(node)}`; updateBufferSquares(view, node); updateInputSquares(view, node); if (view.researchStatus) updateResearchNodeStatus(view.researchStatus, researchCenterView(node, gameState).projectName, readabilityScale); if (view.coreStorageLabels) {
           const storage = researchCoreStorage(node, gameState.research);
+          const { w } = getNodeSize(node);
+          const gridTop = getPortAnchor(node, 'input', 0).y + 28;
+          const columnOffset = (w - 36) / 4;
+          const pipSize = 11, pipGap = 4, maxPips = 5;
           view.coreStorageLabels.forEach((text, index) => {
-            const core = storage[index]; text.visible = Boolean(core); if (view.coreStorageSquares?.[index]) view.coreStorageSquares[index].visible = Boolean(core);
+            const core = storage[index];
+            const squares = view.coreStorageSquares?.[index];
+            text.visible = Boolean(core);
+            if (squares) squares.visible = Boolean(core);
             if (!core) return;
             text.style.fill = ITEM_COLORS[core.item];
             text.text = ITEM_NAMES[core.item].replace(' Core', '');
-            const size = getNodeSize(node);
-            text.scale.set(1);
-            text.position.set(-size.w / 2 + 18 + (index % 2) * ((size.w - 36) / 2), getPortAnchor(node, 'input', 0).y + 28 + Math.floor(index / 2) * 36);
-            const squares = view.coreStorageSquares?.[index];
-            if (squares) { drawBufferSquares(squares, core.amount, core.capacity, ITEM_COLORS[core.item], 11, 4, 5); squares.position.set(text.x, text.y + 16); }
+            text.scale.set(readabilityScale);
+            text.position.set(index % 2 === 0 ? -columnOffset : columnOffset, gridTop + Math.floor(index / 2) * 42);
+            if (squares) {
+              const pipCount = Math.min(maxPips, Math.ceil(core.capacity));
+              const pipWidth = pipCount * (pipSize + pipGap) - pipGap;
+              drawBufferSquares(squares, core.amount, core.capacity, ITEM_COLORS[core.item], pipSize, pipGap, maxPips, maxPips);
+              squares.position.set(text.x - pipWidth / 2, text.y + 22);
+            }
           });
+        }
+        if (view.cornerCampStatus) updateCornerCampStatus(view.cornerCampStatus, node, camera.zoom);
+        if (view.cornerTributeLabel) {
+          view.cornerTributeLabel.visible = camera.zoom < .55;
+          view.cornerTributeLabel.scale.set(1 / camera.zoom);
         }
         let flashAlpha = 0;
         if (getNodeCapabilities(node.kind).behavior === 'research') {
@@ -712,12 +798,29 @@ export function PixiPlayfield(props: Props) {
         view.flash.clear();
         if (flashAlpha > 0) {
           const size = getNodeSize(node);
-          view.flash.roundRect(-size.w / 2 - 3, -size.h / 2 - 3, size.w + 6, size.h + 6, 14)
-            .fill({ color: 0x168cf0, alpha: flashAlpha * .08 }).stroke({ color: 0x55baff, width: 2, alpha: flashAlpha });
+          if (node.kind === 'cornerChallenge') view.flash.poly(obstructionOutline(node));
+          else view.flash.roundRect(-size.w / 2 - 3, -size.h / 2 - 3, size.w + 6, size.h + 6, 14);
+          view.flash.fill({ color: 0x168cf0, alpha: flashAlpha * .08 }).stroke({ color: 0x55baff, width: 2, alpha: flashAlpha });
         }
         });
         portViews.forEach((port) => {
           const live = nodeMap.get(port.nodeId); if (live && port.materialBuffer) updateProductionPort(port, live, sector);
+          if (live && port.stoneCounter) {
+            const { root, plate, text } = port.stoneCounter;
+            const zoom = camera.zoom;
+            const scale = Math.max(1 / zoom, nodeTextScale(zoom));
+            // Clear the screen-space hit area and the arrival pulse, which reaches 42 world units.
+            const socketClearance = Math.max(12 / zoom, 42);
+            root.scale.set(scale);
+            root.y = port.root.y + socketClearance + 10 * scale + 4 / zoom;
+            const readout = deepHoleStoneReadout(live, endgameRank(gameState, 'efficientLandfill'));
+            if (text.text !== readout) {
+              text.text = readout;
+              const width = text.width + 12;
+              plate.clear().roundRect(-width / 2, -10, width, 20, 4)
+                .fill({ color: 0x111419, alpha: .96 }).stroke({ color: ITEM_COLORS.stone, width: 1, alpha: .78 });
+            }
+          }
           port.highlight.clear();
           const active = connectionDrag && portKey(connectionDrag.active) === portKey(port);
           const snapped = snappedPortKey === portKey(port);
@@ -726,7 +829,7 @@ export function PixiPlayfield(props: Props) {
             let invalid = false;
             if (snapped && connectionDrag) { const { output, input } = normalizedConnection(activeHandleForTarget(connectionDrag, port), port); invalid = Boolean(propsRef.current.engine.getConnectionFailure(output.nodeId, output.index, input.nodeId, input.index, connectionDrag.replaceConnectionId)); }
             const color = invalid ? THEME.danger : snapped ? 0x9de0c1 : 0xffdf91;
-            port.highlight.circle(0, 0, connectionDrag ? 12 : 19).fill({ color, alpha: .18 }).stroke({ color, width: 2.5, alpha: 1 });
+            port.highlight.circle(0, 0, port.cornerScaleLimit !== undefined ? 13 : connectionDrag ? 12 : 19).fill({ color, alpha: .18 }).stroke({ color, width: 2.5, alpha: 1 });
             // Outward/inward arrows show connector direction without a label.
             const node = nodeMap.get(port.nodeId);
             if (node) {
@@ -739,7 +842,19 @@ export function PixiPlayfield(props: Props) {
             }
           }
           port.root.cursor = connectionDrag ? 'grabbing' : 'grab';
-          port.pulse.clear(); let arrivalScale = 1; if (port.pulseStartedAt) { const progress = (frameNow - port.pulseStartedAt) / 520; if (progress >= 1) port.pulseStartedAt = 0; else { const intensity = 1 - progress; arrivalScale = 1 + Math.sin(Math.PI * progress) * .48; port.pulse.circle(0, 0, 13 + progress * 22).fill({ color: port.pulseColor, alpha: intensity * .18 }).stroke({ color: port.pulseColor, width: 3, alpha: intensity }); port.pulse.circle(0, 0, 8 + progress * 9).stroke({ color: THEME.flowHighlight, width: 1.5, alpha: intensity * .72 }); } } port.root.scale.set(connectionDrag || port.materialBuffer ? 1 : arrivalScale); });
+          port.pulse.clear(); let arrivalScale = 1;
+          if (port.pulseStartedAt) {
+            const progress = (frameNow - port.pulseStartedAt) / 520;
+            if (progress >= 1) port.pulseStartedAt = 0;
+            else {
+              const intensity = 1 - progress;
+              arrivalScale = 1 + Math.sin(Math.PI * progress) * .48;
+              port.pulse.circle(0, 0, 13 + progress * (port.cornerScaleLimit === undefined ? 22 : 6)).fill({ color: port.pulseColor, alpha: intensity * .18 }).stroke({ color: port.pulseColor, width: 3, alpha: intensity });
+              port.pulse.circle(0, 0, 8 + progress * 9).stroke({ color: THEME.flowHighlight, width: 1.5, alpha: intensity * .72 });
+            }
+          }
+          if (port.cornerScaleLimit === undefined) port.root.scale.set(connectionDrag || port.materialBuffer ? 1 : arrivalScale);
+        });
         if (connectionDrag) {
           const active = connectionDrag.snapped ? activeHandleForTarget(connectionDrag, connectionDrag.snapped) : connectionDrag.active;
           const activePoint = portScreenPoint(active);

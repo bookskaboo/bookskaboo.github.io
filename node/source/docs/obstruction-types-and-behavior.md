@@ -15,16 +15,18 @@ Map tier below means Manhattan distance from Home at world coordinate `5,5`. Dim
 | Deep Hole | `big-hole`; generated terrain or a collapsed mineral deposit | `bigHole`; generated terrain, collapsed mineral deposit, or rapid field clicking | Deliver processed Stone, then manually clear the filled hole |
 | Lake | `lake`; permanent obstruction, buffered Water output, and Lake Intake support | `lake`; permanent obstruction that attempts direct Water delivery | Route around it and connect its directional outputs |
 | Monster settlement | `monster-camp`; three Goblin tiers and three Dwarven tiers with periodic size changes and nearby-node disabling | `monsterCamp`, subtype `smallGoblinCamp`; periodic size changes and polygon-based encroachment | Maintain a recurring supply of suppression bots |
-| Resource Golem | `resourceGolem`; one centered mineral boss in each of four clear tier 6 sectors | No corresponding type in the old obstruction catalog | Pay 10,000 AP once to create an infinite mineral reserve for Extractors |
+| Resource Golem | `resourceGolem`, one centered mineral boss in each of four clear tier 5 sectors in new worlds | No corresponding type in the old obstruction catalog | Pay 180 AP for Iron, Copper or Stone, or 360 AP for Mythril, to create an infinite mineral reserve |
 
 All three are fixed world features rather than ordinary movable factory machines. Neither game provides a normal removal action for Lakes or Monster Camps. Suppression reduces a camp to a minimum size; it does not destroy it.
 
 ## Deep Holes
 
+**Clear outposts (November 8, 2026, NODE-0347).** The first sector east of Home (E1) always generates clear. In later map tiers, the seed selects about one quarter of ordinary sectors as clear outposts, rounding to the nearest whole sector per tier. Ordinary sectors in this selection have no Lake, settlement, or Golem. The standard grid has 20 clear outposts including E1, each with Iron, Copper, Stone, and Wood.
+
 ### Shared behavior
 
-- Generated hole maps contain up to five holes. The target sum of circular hole areas rises linearly from **15% of field area at tier 1** to **50% at tier 9**.
-- Generated hole sizes vary. Stone requirements depend on radius and tier: the minimum is **20 Stone**, the tier 1 maximum is **500**, and the maximum rises linearly to **20,000 at tier 9**. These are per-hole bounds, not a single cost for clearing the map.
+- Generated hole maps contain up to five holes. Since NODE-0348, the current game's target sum of circular hole areas rises linearly from **15% of field area at tier 1** to **35% at tier 9**. The drawn outlines cover less than the target circles. The old game's target reaches 50% at tier 9.
+- Generated hole sizes vary. In the current game, the base fill requirement uses each hole's radius relative to the field size. The minimum is **20 Stone**, and the per-hole maximum rises linearly from **500 at tier 1** to **4,000 at tier 9** (NODE-0349). A hole with the same relative size has the same price across Area Expansion levels. Saved holes keep their recorded base requirements and fill progress. The old game's tier-9 maximum is 20,000 Stone.
 - Each hole has one Stone input and no output. A direct Stone Deposit to Deep Hole connection is rejected; mine the Stone and deliver it through the production or logistics network.
 - Filling a hole does not gradually shrink its footprint. When full, incoming fill connections are removed, but the obstruction remains until the player clears it.
 - Depleting a non-forest mineral deposit creates a hole with radius `38 × sqrt(10)`, approximately **120.17**, and a fixed **250 Stone** requirement. The original deposit connections are removed. An empty Forest does not collapse into a hole.
@@ -81,48 +83,62 @@ New worlds have exactly **five of each subtype**, for **15 Goblin settlements an
 | Small Goblin Camp | 2 | 2 | 3 | Suppression Bot; 3 Small Bots |
 | Small Goblin Camp | 3 | 2 | 3 | Suppression Bot; 3 Small Bots |
 | Goblin Village | 4 | 2 | 9 | Sealed Robotics; 3 Medium Bots |
-| Goblin Village | 5 | 2 | 16 | Heavy Robotics; 2 Heavy Bots |
-| Goblin Village | 6 | 1 | 24 | Heavy Robotics; 3 Heavy Bots |
-| Goblin Kingdom | 7 | 2 | 40 | Command Robotics; 2 Command Bots |
-| Goblin Kingdom | 8 | 2 | 60 | Command Robotics; 3 Command Bots |
-| Goblin Kingdom | 9 | 1 | 80 | Command Robotics; 4 Command Bots |
+| Goblin Village | 5 | 2 | 9 | Sealed Robotics; 3 Medium Bots |
+| Goblin Village | 6 | 1 | 9 | Sealed Robotics; 3 Medium Bots |
+| Goblin Kingdom | 7 | 2 | 16 | Heavy Robotics; 2 Heavy Bots |
+| Goblin Kingdom | 8 | 2 | 16 | Heavy Robotics; 2 Heavy Bots |
+| Goblin Kingdom | 9 | 1 | 16 | Heavy Robotics; 2 Heavy Bots |
 
-Requirements follow the existing robotics progression and remain fixed for the settlement. Completing research does not raise existing requirements. Any mixture of bots meeting the AP threshold works. Input capacity accommodates enough Small Bots to meet the full requirement, so stronger bots improve efficiency without imposing a hard technology gate. The camp connector shows its AP requirement per 60-second check. The inspector retains supplied AP, countdown, and suggested research.
+Each settlement has a fixed AP requirement. Small, Medium, Heavy and Command Bots contribute 1, 3, 8 and 24 AP respectively. Any mix meeting the threshold works. To combine separate bot lines, feed a shared Cart and connect that Cart to the camp's single AP input. The input holds enough Small Bots to meet the full requirement. The camp connector shows the required AP per 60-second check, and the inspector shows supplied AP and the last result. A successful Goblin check keeps unused whole bots. A failed Goblin check consumes the insufficient supply.
+
+**Tier 1 balance review (November 8, 2026, NODE-0339).** Keep the Small Goblin Camp at 3 AP per check. Three Small Bots per minute use half a fully supplied base assembler and cost 36 each of Iron ore, Copper ore and Wood.
+
+**Tier 2 balance review (November 8, 2026, NODE-0340).** Lake and Golem sectors exclude camps in new generation. The two tier-2 camps keep the same Small Bot supply target as tier 1.
+
+**Settlement balance by size (November 8, 2026, NODE-0341).** Within each faction, a settlement of a given size should have the same AP requirement and Tribute rate across map tiers. AP and Tribute should both increase from Camp to Village to Kingdom.
+
+**Goblin Village and Tribute update (November 8, 2026, NODE-0342).** Every Goblin Village takes 9 AP per check, or three Medium Bots per minute. All Goblin Tribute batches increase by 20%, including the earlier Small Camp reward. Saved Villages adopt the new AP threshold on load.
+
+**Goblin Kingdom upkeep (November 8, 2026, NODE-0343).** Every Goblin Kingdom takes 16 AP per check, or two Heavy Bots per minute, for up to 432 Tribute per minute. Saved Kingdoms adopt the new AP threshold on load.
 
 ### Dwarven settlement tiers and rewards
 
-Dwarven settlements occupy later map tiers and require more AP than Goblins at the same map tier. Their tribute produces larger batches and defaults to **Mythril**, available without Mythril Tools. Players may also select Iron, Copper, Stone, or Wood. Dwarven settlements and their Tribute nodes use green accents to distinguish them from Goblins.
+Dwarven settlements occupy later map tiers and produce **Mythril**. The first Mythril Tribute unlocks Mythril Refining. Dwarven settlements and their Tribute nodes use green accents.
 
-| Settlement | Map tier | Count at this tier | AP per 60 seconds | Tribute every 5 seconds |
-| --- | --- | --- | --- | --- |
-| Dwarven Camp | 4 | 2 | 24 | 20 |
-| Dwarven Camp | 5 | 3 | 40 | 20 |
-| Dwarven Village | 6 | 2 | 60 | 40 |
-| Dwarven Village | 7 | 3 | 80 | 40 |
-| Dwarven Kingdom | 8 | 2 | 120 | 60 |
-| Dwarven Kingdom | 9 | 3 | 160 | 60 |
+| Settlement | Map tier | Count at this tier | AP per 60 seconds | Mythril every 5 seconds | Tribute capacity |
+| --- | --- | --- | --- | --- | --- |
+| Dwarven Camp | 4 | 2 | 6 | 1 | 100 |
+| Dwarven Camp | 5 | 3 | 6 | 1 | 100 |
+| Dwarven Village | 6 | 2 | 16 | 5 | 120 |
+| Dwarven Village | 7 | 3 | 16 | 5 | 120 |
+| Dwarven Kingdom | 8 | 2 | 32 | 12 | 288 |
+| Dwarven Kingdom | 9 | 3 | 32 | 12 | 288 |
 
-Each group totals five settlements across its two map tiers. Dwarven sectors are selected after reserving the Goblin and Golem sectors, so each map contains at most one settlement and the four clear Golem sectors remain free of other obstructions. Tier 10 stays empty. Camp costs align with stronger Medium and Heavy Bot supplies; Village and Kingdom costs favor Heavy and Command Bots.
+Each group totals five settlements across its two map tiers. Dwarven sectors are selected after reserving the Goblin and Golem sectors, so each map contains at most one settlement and the four clear Golem sectors remain free of other obstructions. Tier 10 stays empty.
 
-Dwarves use the same suppression, expansion, and tribute lifecycle as Goblins. A successful check at the 10% minimum activates or preserves direct-output tribute; failing a check removes the Tribute node, its entire stockpile, and its connections. Stockpiles hold **100 materials**, including selectable Wood or Mythril, and pause production when full. Saved subtype, selected material, suppression countdown, and stored tribute persist through version 1 saves.
+**Dwarven Camp balance (November 8, 2026, NODE-0344).** Two Medium Bots pay each 6 AP check. Any fully suppressed Dwarven Camp supplies one Mythril every five seconds, up to 12 per minute. Saved Camps adopt the same rates while retaining previously earned Tribute.
+
+**Dwarven Village balance (November 8, 2026, NODE-0345).** Two Heavy Bots pay each 16 AP check. Any fully suppressed Dwarven Village supplies five Mythril every five seconds, up to 60 per minute. Saved Villages adopt the same rates and 120-unit capacity. Any existing stock above capacity can still be withdrawn. Production resumes when the box has room.
+
+**Dwarven Kingdom balance (November 8, 2026, NODE-0346).** Four Heavy Bots pay each 32 AP check. Any fully suppressed Dwarven Kingdom supplies 12 Mythril every five seconds, up to 144 per minute. Four standard Heavy Bots consume 20 raw Mythril to make, leaving up to 124 per minute for other production. Saved Kingdoms adopt the same rates and 288-unit capacity while retaining existing Tribute.
+
+Dwarven checks spend saved AP credit first. A successful check keeps unused bots and carries over any excess AP from the bots it spends. A failed check retains bots, credit, stored Mythril and Tribute wiring. Enough new AP triggers an immediate retry and starts a fresh 60-second countdown. New Mythril resumes when the settlement is suppressed at 10% size and its Tribute box has room.
 
 Sources: [Dwarven settlement settings](../src/content/lizardSettlements.ts), [shared settlement settings](../src/content/goblinSettlements.ts), [exclusive world placement](../src/simulation/worldGeneration.ts), and [shared tribute simulation](../src/simulation/goblinTribute.ts).
 
 ### Tribute from continued suppression
 
-A successful AP check creates a separate **Tribute** node only after the settlement reaches its **10% minimum size**. A fresh 25% camp needs two successful checks: 25% → 15% → 10%. Tribute produces the selected material directly; connect it to machines or storage without an Extractor. Continuing successful checks maintain it at minimum size. Growth above 10% removes it.
+A successful AP check creates a separate **Tribute** node after the settlement reaches its **10% minimum size**. Two successful checks take a fresh camp from 25% to 15% to 10%. Connect Tribute directly to machines or storage. A missed check removes Goblin Tribute and pauses new Dwarven Mythril.
 
 | Settlement | Output every 5 seconds | Maximum stored tribute |
 | --- | --- | --- |
-| Small Goblin Camp | 5 materials | 100 |
-| Goblin Village | 15 materials | 100 |
-| Goblin Kingdom | 30 materials | 100 |
+| Small Goblin Camp | 6 materials | 100 |
+| Goblin Village | 18 materials | 100 |
+| Goblin Kingdom | 36 materials | 100 |
 
-Click a Tribute node to open its **right-side resource chooser**, styled like the production recipe chooser. Choose **Iron, Copper, Stone, or Wood**; Goblin **Mythril** becomes available with Mythril Tools. Changing material immediately destroys stored materials that differ from the selection, retains matching stock, and resets the production cycle. Already dispatched deliveries remain committed. The selection stays on the settlement if tribute disappears. Tribute displays stock boxes without a progress bar or percentage.
+Click a Goblin Tribute node to open its **right-side resource chooser**. Choose **Iron, Copper, Stone, or Wood**. Changing material removes stock of the old material and resets the production cycle. Already dispatched deliveries remain committed. The selection stays on the settlement if Tribute disappears. Dwarven Tribute supplies Mythril.
 
-Dwarven tribute defaults to **Mythril**, with the larger batches above and the same stockpile limit. Legacy Lizard subtype IDs remain readable; existing camps receive the Dwarven name and Mythril default once. Later player selections persist through saves. Previously stored legacy materials remain until changed or lost through failed suppression.
-
-Unused tribute accumulates to **exactly 100 materials**. A partially fitting final batch fills the remaining space. Production then pauses until materials are withdrawn. Continuing suppression preserves both the node and its existing stockpile, providing a renewable supply in exchange for recurring bot production.
+Unused Tribute accumulates up to the box's capacity. A partial batch can fill the remaining space. Production then pauses until materials are withdrawn. Settlements continue to check upkeep while the Tribute box is full.
 
 A failed AP check removes the Tribute node, **all its accumulated materials**, its cables, and pending deliveries. Previously delivered materials remain in the factory. Restoring suppression creates a fresh, empty Tribute node; the player must reconnect it. An orphaned Tribute node also disappears if its parent settlement is absent.
 
@@ -136,7 +152,7 @@ The current game consumes the least total bot AP that meets a successful check, 
 
 | Rule | Current game | Old game |
 | --- | --- | --- |
-| Attack requirement | **3 to 160 AP per check**, according to settlement and map tier above | Fresh Small Goblin Camps require **1 AP per check** |
+| Attack requirement | **3 to 80 AP per check**, according to settlement and map tier above | Fresh Small Goblin Camps require **1 AP per check** |
 | Bot values | Small **1**, Medium **3**, Heavy **8**, Complex **20** AP | Small Bot **1 AP** |
 | Supply storage | Bot items in the camp input; only the sufficient payment is consumed on success; surplus remains | Delivered attack items add to `storedAttackPower`; the accumulated value resets at a check |
 | Size and geometry | Generated `obstructionMaxRadius = 600`; size radius is `600 × sqrt(campStrength / 100)` | `maxRadius = 600`; size radius is `600 × sqrt(sizeRatio)`, with a stored irregular polygon |
@@ -163,14 +179,16 @@ Sources: [current settlement definitions](../src/content/goblinSettlements.ts), 
 | Location | Current game | Old game |
 | --- | --- | --- |
 | Home | Starts without the three core obstructions | Remote obstruction generation excludes Home |
-| Tier 1 | Hole maps; exactly one Small Goblin Camp outside the reserved encounter sector | Hole maps; one randomly chosen Small Goblin Camp sector |
-| Tier 2 | Selects 5 to 7 Lake sectors out of 8 before the guaranteed Lake exception; other sectors receive holes; exactly two Small Goblin Camps | Selects 5 to 7 Lake sectors out of 8; other sectors receive holes; up to two camps, subject to placement and area checks |
-| Tier 3 | Hole maps; two Small Goblin Camps | Hole maps |
-| Tiers 4 to 6 | Hole maps, five Goblin Villages, five Dwarven Camps and two Dwarven Villages, except four clear tier 6 Golem sectors | Hole maps |
-| Tiers 7 to 9 | Hole maps, five Goblin Kingdoms, three Dwarven Villages and five Dwarven Kingdoms | Hole maps |
+| Tier 1 | Clear E1 and three hole maps, including one Small Goblin Camp sector | Hole maps; one randomly chosen Small Goblin Camp sector |
+| Tier 2 | Five or six Lake sectors out of eight, including the guaranteed Lake. Two Small Goblin Camps occupy separate sectors with holes. | Selects 5 to 7 Lake sectors out of 8; other sectors receive holes; up to two camps, subject to placement and area checks |
+| Tier 3 | One Lake, three clear outposts and eight hole maps, including two Small Goblin Camp sectors | Hole maps |
+| Tiers 4 to 6 | One Lake per tier, ten clear outposts, four tier-5 Golem sectors, and 39 hole maps, including five Goblin Villages, five Dwarven Camps, and two Dwarven Villages | Hole maps |
+| Tiers 7 to 9 | One Lake per tier, six clear outposts and 27 hole maps, including five Goblin Kingdoms, three Dwarven Villages, and five Dwarven Kingdoms | Hole maps |
 | Tier 10 | No normal generated holes, Lakes, camps, or resource deposits | Empty tier 10 maps without normal obstruction or resource generation |
 
-The current game reserves **6,5** for the Fabricator encounter and **7,5** for guaranteed Lake access. Both are excluded before settlement selection, preserving exact settlement counts. The forced tier 2 Lake can raise the final Lake total above the initial selection of 5 to 7.
+The current generator reserves **6,5** (E1) as a clear outpost and **7,5** (E2) for guaranteed Lake access. New camps occupy sectors without Lakes or Resource Golems. Reserving two tier-2 sectors for camps caps the Lake count at six, including E2. Each Lake in tiers 3 through 9 is seed-selected from ordinary sectors after reserving camps, Golems and clear outposts. Existing sectors retain their saved terrain.
+
+New worlds balance encounters across the four quadrants around Home. The north, east, south and west axes count toward the northwest, northeast, southeast and southwest quadrants, respectively. Camp and Lake placement favors quadrants with fewer of that encounter, and each quadrant receives one Golem away from the axes. Older saves with sectors already generated outside Home keep their previous encounter layout.
 
 The old tier 2 generator checks that existing obstruction area plus maximum camp area fits within **50% of the field**, then searches for a nonoverlapping placement. A selected camp can therefore be omitted when those checks fail.
 
@@ -194,13 +212,13 @@ Fabricators and Sorting Stations provide encounter unlocks.
 
 ### Mineral Golems
 
-New worlds contain exactly **four Resource Golems**, one each for **Iron, Copper, Stone, and Mythril**. Each occupies a different **tier 6** map sector. Their sectors exclude **Deep Holes, Lakes, and Goblin settlements**, while retaining normal mineral and Forest nodes. The Golem starts at the center of its play area; generation accounts for Area Expansion research already completed when creating the sector. Selection is deterministic for the world seed.
+New worlds contain exactly **four Resource Golems**, one each for **Iron, Copper, Stone, and Mythril**. Each occupies a different **tier 5** map sector. Their sectors exclude **Deep Holes, Lakes, and settlements**, while retaining normal mineral and Forest nodes. The Golem starts at the center of its play area, using the field size at the time of generation. Selection is deterministic for the world seed. Older worlds with sectors already generated at tier 5 or farther out retain their seeded tier-6 assignments.
 
-After **Resource Golem Survey**, bot deliveries permanently reduce the Golem's **10,000 AP** remaining health. This is a one-time combat cost rather than a recurring suppression check. It is equivalent to 500 Command Bots or 1,250 Heavy Bots; mixed bot deliveries also work. Partial damage persists through saves and never regenerates.
+After **Resource Golem Survey**, bot deliveries permanently reduce the Golem's remaining health. Iron, Copper and Stone start at **180 AP**, covered by 180 Small Bots or eight Command Bots. Mythril starts at **360 AP**, covered by 360 Small Bots or 15 Command Bots. Mixed deliveries also work. Partial damage persists through saves.
 
 At zero health, the same node becomes **Infinite Iron**, **Infinite Copper**, **Infinite Stone**, or **Infinite Mythril** at the same position. Its bot input and incoming attack cables are removed. The new reserve has **four multi-connection star outputs**, centered on its north, east, south, and west faces. Connect Extractors to any face. All four sockets expose only that Golem's mineral, and mining never reduces a finite resource counter or creates a depletion hole. There is no recurring bot cost after victory.
 
-Existing saves retain their explored layouts and partial Golem damage. Existing defeated Golems become infinite reserves using their saved primary mineral; saved items and node IDs remain intact. The new four-sector distribution applies to newly generated worlds and sectors.
+Existing saves retain their explored layouts and the exact AP already paid. Loading a save converts a Golem whose prior damage covers the new price and returns its in-flight bots to their source. Any unspent bots already in that Golem's input go to the global pool. Existing infinite reserves retain their node IDs and minerals.
 
 Sources: [Golem costs and conversion](../src/content/resourceGolems.ts), [current capability catalog](../src/content/nodeCapabilities.ts), [additional capability definitions](../src/content/progression.ts), [encounters and Golem simulation](../src/simulation/progression.ts), [infinite extraction](../src/simulation/engine.ts), [directional socket geometry](../src/renderer/nodeLayout.ts), and [world placement](../src/simulation/worldGeneration.ts).
 

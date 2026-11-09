@@ -4,7 +4,7 @@ export type ItemId =
   | 'refined-mithril' | 'slag' | 'mithril-mesh' | 'shiny-core' | 'precision-controller'
   | 'metallic-fines' | 'glassy-crust' | 'advanced-actuator' | 'spent-flux' | 'logic-substrate'
   | 'command-core' | 'sealed-frame' | 'cooled-gun' | 'medium-suppression-bot' | 'mithril-frame'
-  | 'focused-gun' | 'heavy-suppression-bot' | 'servo-frame' | 'pulse-cannon' | 'command-suppression-bot'
+  | 'focused-gun' | 'heavy-suppression-bot' | 'servo-frame' | 'pulse-cannon' | 'command-suppression-bot' | 'final-suppression-bot'
   | 'mineral-aggregate' | 'metal-residue'
   | 'wood' | 'iron' | 'copper' | 'mythril' | 'stone' | 'water'
   | 'brick' | 'charcoal' | 'iron-plate' | 'copper-plate' | 'mythril-plate'
@@ -114,8 +114,9 @@ export interface MachineNode {
   defeated?: boolean;
   golemOutputs?: ItemId[];
   golemMineral?: 'iron' | 'copper' | 'stone' | 'mythril';
-  golemCostVersion?: 1;
+  golemCostVersion?: 1 | 2;
   cornerType?: import('../content/endgame').CornerType;
+  cornerCampQuadrant?: 'northwest' | 'northeast' | 'southeast' | 'southwest';
   cornerProgress?: number;
   holeBaseStone?: number;
   holeStoneConsumed?: number;
@@ -184,6 +185,10 @@ export interface ResearchProject {
     complete: string;
   };
 }
+export interface MapNodePricingPhase {
+  tier: number;
+  startedAt: number;
+}
 export interface ResearchState {
   unlocked: string[];
   selected?: string;
@@ -195,6 +200,8 @@ export interface ResearchState {
   projectContributions?: Record<string, Partial<Record<ItemId, number>>>;
   /** The selected Map Node purchase's fixed bill, keyed to its completion count. */
   mapNodeQuote?: { completion: number; costs: Partial<Record<ItemId, number>> };
+  /** The tier and starting completion count of the last quoted pricing phase. */
+  mapNodePricingPhase?: MapNodePricingPhase;
 }
 export interface GameEvent { id: string; type: 'ItemProduced' | 'TransferStarted' | 'ResearchCompleted' | 'DepositDepleted' | 'NodePlaced'; message: string; at: number; projectId?: string; elapsedMs?: number; }
 export interface GamePreferences { autosaveMinutes: number; confirmDelete: boolean; particles: boolean; showGrid: boolean; snapToGrid: boolean; sound: boolean; skipMultiConnectionTooltip?: boolean; }
@@ -204,11 +211,15 @@ export interface GameState {
   seed: number;
   activeSectorId: string;
   sectors: Record<string, SectorState>;
+  devMapSurveysRevealed?: true;
+  golemPlacementTier?: import('../content/resourceGolems').GolemPlacementTier;
+  encounterLayoutVersion?: 1 | 2;
   research: ResearchState;
   isTraining?: boolean;
   paused: boolean;
   playTimeMs: number;
   achievements: string[];
+  achievementTimes?: Record<string, number>;
   /** Persistent discovery history, independent of the short live event feed. */
   researchLog?: GameEvent[];
   discoveryTimes?: Partial<Record<NodeKind, number>>;

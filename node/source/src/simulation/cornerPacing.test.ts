@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { ALPHA_AP, CORNER_ITEMS, RECLAMATION_PRODUCTION_TARGET_MS, FOUNDRY_INPUTS, GROVE_GROWTH, RECLAMATION_QUOTAS, type CornerType } from '../content/endgame';
-import { BOT_STRENGTH } from '../content/progression';
-import { RECIPES } from '../content/recipes';
+import { RECIPES, isRecipeUnlocked } from '../content/recipes';
+import { getResearchProject, isResearchAvailable } from '../content/research';
 import type { ItemId, MachineNode } from '../domain/types';
 import { productionPortRow } from '../renderer/productionPortRows';
 import { productionExplanation } from '../renderer/productionVisuals';
@@ -14,9 +14,10 @@ const producer = (kind: MachineNode['kind'], recipeId?: string, y = 900): Machin
 });
 function fixture(type: CornerType) {
   const state = createInitialState(204), sector = state.sectors['5,5'];
-  sector.nodes = createCornerNodes(0, 0, state.seed, { width: 4800, height: 1800 }, [type, 'foundry', 'reclamation', 'grove']);
+  sector.nodes = createCornerNodes(10, 0, state.seed, { width: 4800, height: 1800 }, ['alpha', type, 'reclamation', 'grove']);
   sector.connections = [];
   state.research.completed = ['assembler', 'treePlanter', 'hydraulicAssembly', 'sealedRobotics', 'precisionControl'];
+  if (type === 'alpha') state.research.completed.push('finalRobotics');
   state.research.unlocked = [...state.research.completed];
   const engine = new GameEngine(state, { autosave: false });
   return { engine, state: engine.getState(), sector: engine.getSector(), node: engine.getSector().nodes[0], box: engine.getSector().nodes[1] };
@@ -50,11 +51,28 @@ function twoComponents(type: CornerType, suppliers: MachineNode[], productionMs:
 }
 
 describe('explicit corner quotas and production cadence', () => {
-  it('sizes Alpha to fifty AP with whole-bot surplus and completes through a real supply cable', () => {
-    expect(ALPHA_AP).toBe(50);
-    expect(Math.ceil(ALPHA_AP / BOT_STRENGTH['medium-suppression-bot']!) * RECIPES['medium-suppression-bot'].cycleMs).toBe(425000);
-    const f = twoComponents('alpha', [producer('advancedAssembler', 'medium-suppression-bot')], 425000);
-    expect(f.node.cornerProgress).toBe(2);
+  it('awards a piece at 500 AP using Final Bots from a real supply cable and carries the surplus', () => {
+    expect(ALPHA_AP).toBe(500);
+    const f = twoComponents('alpha', [producer('advancedAssembler', 'final-suppression-bot')], 1470000);
+    expect(f.node.cornerProgress).toBe(8);
+  });
+  it('makes Final Robotics payable only after the first Final Core and charges a Final Core', () => {
+    const f = fixture('reclamation');
+    f.state.research.completed.push('commandRobotics', 'cornerComponents');
+    const project = getResearchProject('finalRobotics')!;
+    expect(isResearchAvailable(project, f.state.research.completed)).toBe(false);
+    expect(isRecipeUnlocked('final-suppression-bot', f.state.research.completed)).toBe(false);
+    const lab = producer('researchCenter');
+    lab.input = { ...project.costs };
+    f.sector.nodes.push(lab);
+    f.state.produced!['final-core'] = 1;
+    f.engine.tick(100);
+    expect(f.state.research.completed).toContain('finalCoreProduction');
+    f.engine.selectResearch(project.id);
+    for (let i = 0; i < 5; i++) f.engine.tick(1000);
+    expect(f.state.research.completed).toContain(project.id);
+    expect(lab.input['final-core']).toBe(0);
+    expect(isRecipeUnlocked('final-suppression-bot', f.state.research.completed)).toBe(true);
   });
   it('delivers each Foundry ingredient from one base producer without overfilling its distinct buffer', () => {
     const ids = ['ceramic-electrode', 'sealed-frame', 'mythril-gear'];
@@ -71,38 +89,44 @@ describe('explicit corner quotas and production cadence', () => {
       expect(f.node.input[id as ItemId] ?? 0).toBeLessThanOrEqual(FOUNDRY_INPUTS[id as ItemId]!);
     }
   });
-  it('funds and delivers Grove growth from one base Planter without Industrial Forestry', () => {
-    expect(GROVE_GROWTH).toBe(500);
-    twoComponents('grove', [producer('treePlanter')], 500000);
+  it('funds and delivers 1,000 Grove growth from two parallel base planters', () => {
+    expect(GROVE_GROWTH).toBe(1000);
+    const first = { ...producer('treePlanter', undefined, 400), id: 'planter-a' };
+    const second = { ...producer('treePlanter', undefined, 1400), id: 'planter-b' };
+    twoComponents('grove', [first, second], 500000);
   });
   it('delivers standard Controller waste through a Filter while draining its useful output', () => {
     expect(RECLAMATION_QUOTAS['metallic-fines']! * RECIPES['precision-controller'].cycleMs).toBe(RECLAMATION_PRODUCTION_TARGET_MS);
     twoComponents('reclamation', [producer('advancedAssembler', 'precision-controller')], RECLAMATION_PRODUCTION_TARGET_MS, true);
   });
   it.each([
-    ['spent-flux', 'efficient-hydro-piston'], ['glassy-crust', 'efficient-mythril-mesh'], ['slag', 'efficient-circuit-c'],
-  ] as const)('accepts five minutes of %s from one base %s producer as a complete component', (waste, recipeId) => {
-    const recipe = RECIPES[recipeId], batches = Math.floor(RECLAMATION_PRODUCTION_TARGET_MS / recipe.cycleMs);
+    ['spent-flux', 'efficient-hydro-piston', 132], ['glassy-crust', 'efficient-mythril-mesh', 72], ['slag', 'efficient-circuit-c', 44],
+  ] as const)('accepts %s from %s and awards one piece at %i units', (waste, recipeId, quota) => {
+    const recipe = RECIPES[recipeId];
     const f = fixture('reclamation'), batchWaste = recipe.outputs[waste]!;
-    expect(RECLAMATION_QUOTAS[waste]).toBe(batches * batchWaste);
-    f.node.input[waste] = (batches - 1) * batchWaste;
-    simulateCorner(f.state, f.sector, f.node);
+    expect(RECLAMATION_QUOTAS[waste]).toBe(quota);
+    for (let remaining = quota - batchWaste; remaining > 0;) {
+      const delivery = Math.min(100, remaining);
+      f.node.input[waste] = delivery;
+      simulateCorner(f.state, f.sector, f.node);
+      remaining -= delivery;
+    }
     expect(f.box.output['reclamation-component'] ?? 0).toBe(0);
     f.node.input[waste] = batchWaste;
     simulateCorner(f.state, f.sector, f.node);
     expect(f.box.output['reclamation-component']).toBe(1);
   });
-  it('preserves legacy Grove credit across the smaller quota, full output and reload', () => {
-    const f = fixture('grove'); f.node.cornerProgress = 5837;
+  it('preserves accumulated Grove credit across full output and reload', () => {
+    const f = fixture('grove'); f.node.cornerProgress = 11837;
     f.engine.tick(100);
     expect(f.box.output['grove-component']).toBe(10);
-    expect(f.node.cornerProgress).toBe(837);
+    expect(f.node.cornerProgress).toBe(1837);
     const loaded = new GameEngine(structuredClone(f.state), { autosave: false });
     loaded.tick(100);
     const [node, box] = loaded.getSector().nodes;
-    expect(node.cornerProgress).toBe(837);
+    expect(node.cornerProgress).toBe(1837);
     box.output['grove-component'] = 9; loaded.tick(100);
-    expect(node.cornerProgress).toBe(337);
+    expect(node.cornerProgress).toBe(837);
     expect(box.output['grove-component']).toBe(10);
   });
   it('preserves legacy Foundry overstock and consumes only the new bill', () => {
@@ -118,12 +142,15 @@ describe('explicit corner quotas and production cadence', () => {
     const loaded = new GameEngine(structuredClone(f.state), { autosave: false });
     const [node, box] = loaded.getSector().nodes;
     expect(node.cornerProgress).toBe(.75);
-    node.input['metallic-fines'] = 3; loaded.tick(100);
+    node.input['metallic-fines'] = 2; loaded.tick(100);
+    expect(box.output['reclamation-component'] ?? 0).toBe(0);
+    expect(node.cornerProgress).toBeCloseTo(.85);
+    node.input.slag = 11; loaded.tick(100);
     expect(box.output['reclamation-component']).toBe(1);
-    expect(node.cornerProgress).toBeCloseTo(.05);
+    expect(node.cornerProgress).toBeCloseTo(.10);
   });
   it('shows the current quotas in corner explanations', () => {
-    for (const [type, wording] of [['alpha', '/ 50'], ['foundry', '25 Sealed Frame'], ['grove', 'Every 500 growth'], ['reclamation', '10 Metallic Fines']] as const) {
+    for (const [type, wording] of [['alpha', '/ 500'], ['foundry', '25 Sealed Frame'], ['grove', 'Every 1,000 growth'], ['reclamation', '20 Metallic Fines']] as const) {
       const f = fixture(type);
       expect(productionExplanation(f.node, f.state, f.sector).summary).toContain(wording);
     }

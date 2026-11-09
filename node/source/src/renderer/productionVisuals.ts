@@ -1,5 +1,5 @@
 import { groveProgress } from './groveProgress';
-import { ALPHA_AP, FOUNDRY_INPUTS, GROVE_GROWTH, RECLAMATION_QUOTAS } from '../content/endgame';
+import { ALPHA_AP, CORNER_ITEMS, FOUNDRY_INPUTS, GROVE_GROWTH, RECLAMATION_QUOTAS } from '../content/endgame';
 import { modNode } from '../mods/modRules';
 import { getNodeCapabilities, isResourceBehavior } from '../content/nodeCapabilities';
 import { getEffectiveNodeOutputFamilies, NODE_DEFINITIONS } from '../content/nodes';
@@ -27,7 +27,22 @@ export function productionExplanation(node: MachineNode, game: GameState, sector
   const cue = productionVisual(node, game, sector);
   let summary = '';
   if(node.kind==='recycler')summary='Recycle one item every 2s. Mixed recovered solids need filtering; basic resources return nothing.';
-  else if(node.kind==='cornerChallenge')summary=node.cornerType==='foundry'?`Deliver ${Object.entries(FOUNDRY_INPUTS).map(([item, count]) => `${count} ${ITEM_NAMES[item as ItemId]}`).join(', ')} for one immediate component. All three ingredient streams are required.`:node.cornerType==='alpha'?`Cumulative AP: ${(node.cornerProgress??0).toLocaleString()} / ${ALPHA_AP}. Bots supply AP; surplus carries toward the next Alpha. Full Tribute pauses consumption.`:node.cornerType==='grove'?`Forest Growth: ${groveProgress(node)?.label}. Every ${GROVE_GROWTH} growth produces one Grove Component immediately. Tree Planters supply growth; it accumulates without a timeout and surplus is preserved. Collect Tribute when its 10 component spaces are full to resume intake.`:`Reclamation: ${((node.cornerProgress??0)*100).toFixed(3)}%. One component needs ${Object.entries(RECLAMATION_QUOTAS).map(([item, count]) => `${count} ${ITEM_NAMES[item as ItemId]}`).join(' or ')}. Mixed waste adds proportional progress. Ten Fines are five minutes of standard Controller production; drain its useful output too.`;
+  else if (node.kind === 'cornerChallenge') {
+    const piece = ITEM_NAMES[CORNER_ITEMS[node.cornerType ?? 'reclamation']];
+    switch (node.cornerType) {
+      case 'foundry':
+        summary = `Deliver ${Object.entries(FOUNDRY_INPUTS).map(([item, count]) => `${count} ${ITEM_NAMES[item as ItemId]}`).join(', ')} for one ${piece} immediately. All three ingredient streams are required.`;
+        break;
+      case 'alpha':
+        summary = `Cumulative AP: ${(node.cornerProgress ?? 0).toLocaleString()} / ${ALPHA_AP}. Bots supply AP. Surplus carries toward the next ${piece}. Full Tribute pauses consumption.`;
+        break;
+      case 'grove':
+        summary = `Forest Growth: ${groveProgress(node)?.label}. Every ${GROVE_GROWTH.toLocaleString('en-US')} growth produces one ${piece} immediately. Tree Planters supply growth. It accumulates without a timeout and surplus is preserved. Collect Tribute when all 10 spaces are full to resume intake.`;
+        break;
+      default:
+        summary = `Reclamation: ${((node.cornerProgress ?? 0) * 100).toFixed(3)}%. One ${piece} needs ${Object.entries(RECLAMATION_QUOTAS).map(([item, count]) => `${count} ${ITEM_NAMES[item as ItemId]}`).join(' or ')}. Mixed waste adds proportional progress. Standard Controllers produce one Metallic Fines per batch. Drain the Controller output to keep the line running.`;
+    }
+  }
   else if (node.disabled) summary = 'Node disabled.';
   else if (Date.now() - node.constructedAt < node.constructionMs) summary = 'Under construction.';
   else if (node.processingPaused && NODE_DEFINITIONS[node.kind].category !== 'Logistics') summary = 'Production paused.';

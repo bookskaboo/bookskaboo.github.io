@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { GOLEM_AP_COST, GOLEM_MINERALS, type GolemMineral } from '../content/resourceGolems';
+import { GOLEM_COST_VERSION, GOLEM_MINERALS, golemApCost, type GolemMineral } from '../content/resourceGolems';
 import { getEffectiveNodeInputFamilies, getEffectiveNodeOutputFamilies } from '../content/nodes';
 import type { MachineNode } from '../domain/types';
 import { normalizeLegacy } from '../persistence/saves';
@@ -14,14 +14,15 @@ function setup(item: GolemMineral = 'iron') {
   const state = createInitialState(37);
   state.research.completed = ['resourceGolemSurvey'];
   const golem: MachineNode = { id: 'golem', kind: 'resourceGolem', name: 'Golem', golemMineral: item,
-    health: GOLEM_AP_COST, x: 1800, y: 1200, rotation: 0, input: {}, output: {}, progressMs: 0,
+    health: golemApCost({ golemMineral: item }), golemCostVersion: GOLEM_COST_VERSION,
+    x: 1800, y: 1200, rotation: 0, input: {}, output: {}, progressMs: 0,
     cycleMs: 1000, constructedAt: 0, constructionMs: 0 };
   state.sectors['5,5'].nodes = [golem];
   return new GameEngine(state);
 }
 
 describe('resource Golems', () => {
-  it.each([1, 37, 98765, 2147483647])('places one of each mineral in separate unobstructed tier six sectors for seed %i', seed => {
+  it.each([1, 37, 98765, 2147483647])('places one of each mineral in separate unobstructed tier five sectors for seed %i', seed => {
     const minerals: string[] = [];
     const sectors = new Set<string>();
     for (let x = 0; x < 11; x++) for (let y = 0; y < 11; y++) {
@@ -30,11 +31,12 @@ describe('resource Golems', () => {
       expect(golems.length).toBeLessThanOrEqual(1);
       for (const golem of golems) {
         minerals.push(golem.golemMineral!); sectors.add(sector.id);
-        expect(sectorDistance(x, y)).toBe(6);
+        expect(sectorDistance(x, y)).toBe(5);
         const field = getSectorWorldSize(sector, []);
         expect(golem.x).toBe(field.width / 2);
         expect(golem.y).toBe(field.height / 2);
-        expect(golem.health).toBe(golem.golemMineral === 'mythril' ? 20000 : 10000);
+        expect(golem.health).toBe(golem.golemMineral === 'mythril' ? 360 : 180);
+        expect(golem.golemCostVersion).toBe(GOLEM_COST_VERSION);
         expect(golem.golemOutputs).toEqual([golem.golemMineral]);
         expect(sector.nodes.some(node => ['monster-camp', 'big-hole', 'lake'].includes(node.kind))).toBe(false);
         expect(sector.nodes.filter(node => node.id !== golem.id).some(node => nodesOverlap(golem, node))).toBe(false);
@@ -50,23 +52,48 @@ describe('resource Golems', () => {
     expect(sectors.size).toBe(4);
   });
 
+  it.each([5, 6] as const)('keeps a legacy tier-%i layout with an already generated Golem sector', tier => {
+    const state = createInitialState(37);
+    if (tier === 6) delete state.golemPlacementTier;
+    delete state.encounterLayoutVersion;
+    const oldGolemSectors = Array.from({ length: 121 }, (_, index) => ({ x: index % 11, y: Math.floor(index / 11) }))
+      .filter(({ x, y }) => sectorDistance(x, y) === tier)
+      .map(({ x, y }) => generateSector(x, y, state.seed, 0, [], tier, 1))
+      .filter(sector => sector.nodes.some(node => node.kind === 'resourceGolem'));
+    const [oldSector] = oldGolemSectors;
+    const oldGolem = oldSector.nodes.find(node => node.kind === 'resourceGolem')!;
+    oldGolem.health = 90;
+    oldSector.unlocked = true;
+    state.sectors[oldSector.id] = oldSector;
+    const engine = new GameEngine(state, { autosave: false });
+    engine.developerUnlockAllSectors();
+    const restored = new GameEngine(normalizeLegacy(engine.getState())!, { autosave: false }).getState();
+    expect(restored.golemPlacementTier).toBe(tier);
+    expect(restored.encounterLayoutVersion).toBe(1);
+    expect(restored.sectors[oldSector.id].nodes.find(node => node.id === oldGolem.id)?.health).toBe(90);
+    const golemSectors = Object.values(restored.sectors).filter(sector => sector.nodes.some(node => node.kind === 'resourceGolem'));
+    expect(golemSectors.map(sector => sector.id).sort()).toEqual(oldGolemSectors.map(sector => sector.id).sort());
+    const minerals = golemSectors.flatMap(sector => sector.nodes.filter(node => node.kind === 'resourceGolem').map(node => node.golemMineral));
+    expect(minerals.sort()).toEqual([...GOLEM_MINERALS].sort());
+  });
+
   it('banks permanent AP damage through saves, requires the full one-time cost, and retires bot cables at victory', () => {
     let engine = setup();
     let golem = engine.getSector().nodes[0];
     expect(getEffectiveNodeOutputFamilies(golem)).toEqual([]);
-    golem.input['heavy-suppression-bot'] = 625; // 5,000 AP.
+    golem.input['heavy-suppression-bot'] = 20;
     advance(engine, .1);
-    expect(golem.health).toBe(5000);
+    expect(golem.health).toBe(20);
     engine = new GameEngine(normalizeLegacy(JSON.parse(JSON.stringify(engine.getState())))!);
     golem = engine.getSector().nodes[0];
     advance(engine, 60);
-    expect(golem.health).toBe(5000);
-    golem.input['command-suppression-bot'] = 249; // Another 4,980 AP.
+    expect(golem.health).toBe(20);
+    golem.input['suppression-bot'] = 19;
     advance(engine, .1);
     expect(golem.kind).toBe('resourceGolem');
-    expect(golem.health).toBe(20);
+    expect(golem.health).toBe(1);
     engine.getSector().connections.push({ id: 'attack', from: 'supply', to: golem.id, createdAt: 0 });
-    golem.input['command-suppression-bot'] = 1;
+    golem.input['suppression-bot'] = 1;
     advance(engine, .1);
     expect(golem.kind).toBe('iron');
     expect(golem.defeated).toBe(true);
@@ -76,10 +103,37 @@ describe('resource Golems', () => {
     expect(getEffectiveNodeInputFamilies(golem, [])).toEqual([]);
   });
 
+  it('credits the AP already paid at the old Mythril price on load and reload', () => {
+    const engine = setup('mythril');
+    const old = structuredClone(engine.getState());
+    Object.assign(old.sectors['5,5'].nodes[0], { health: 19880, golemCostVersion: 1 });
+    engine.replaceState(old);
+    expect(engine.getSector().nodes[0]).toMatchObject({ kind: 'resourceGolem', health: 240, golemCostVersion: 2 });
+    const reloaded = new GameEngine(normalizeLegacy(structuredClone(engine.getState()))!);
+    expect(reloaded.getSector().nodes[0].health).toBe(240);
+  });
+
+  it('converts an old Golem that is already paid for and returns pending bots', () => {
+    const engine = setup();
+    const old = structuredClone(engine.getState());
+    const sector = old.sectors['5,5'];
+    const golem = sector.nodes[0];
+    Object.assign(golem, { health: 9800, golemCostVersion: 1, input: { 'suppression-bot': 2 } });
+    sector.nodes.push({ ...golem, id: 'cart', kind: 'woodenChest', x: 1300, input: {}, output: {} });
+    sector.connections.push({ id: 'attack', from: 'cart', to: golem.id, createdAt: 0 });
+    old.inFlightTransfers = [{ id: 'bot', sectorId: sector.id, connectionId: 'attack', from: 'cart', to: golem.id, item: 'suppression-bot', launchedAtMs: 0, arrivesAtMs: 1000 }];
+    engine.replaceState(old);
+    expect(engine.getSector().nodes[0]).toMatchObject({ kind: 'iron', infiniteResource: true, health: 0, input: {} });
+    expect(engine.getSector().connections).toEqual([]);
+    expect(engine.getState().inFlightTransfers).toEqual([]);
+    expect(engine.getSector().nodes[1].output).toEqual({ 'suppression-bot': 1 });
+    expect(engine.getState().globalPool).toMatchObject({ 'suppression-bot': 2 });
+  });
+
   it.each(GOLEM_MINERALS)('turns a defeated %s Golem into an endless reserve with four working star faces', item => {
     const engine = setup(item);
     const source = engine.getSector().nodes[0];
-    source.input['command-suppression-bot'] = item === 'mythril' ? 1000 : 500;
+    source.input['command-suppression-bot'] = item === 'mythril' ? 15 : 8;
     advance(engine, .1);
     expect(source.resourceItem).toBe(item);
     expect(source.name).toMatch(/^Infinite /);

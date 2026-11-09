@@ -93,8 +93,6 @@
 .research-section .research-grid { padding: 0; overflow: visible; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
 .research-section .research-card { min-height: 132px; gap: 8px; }
 .research-section .research-card-name { font-size: 12px; }
-.research-card-status, .research-card-cost { font-size: 10px; line-height: 1.4; color: #b6c1ca; overflow-wrap: anywhere; text-align: center; }
-.research-card-cost { color: #e2cc8f; }
 .research-completed > summary { cursor: pointer; padding: 8px 0; }
 .research-section .research-section-empty { color: #8f9aa3; font-size: 11px; }
 .research-project-detail { margin: 12px 0; padding: 16px; border: 1px solid #7e9fae; border-radius: 8px; background: #263039; scroll-margin: 12px; }
@@ -139,6 +137,7 @@
 .discovery-entry p { margin: 4px 0; font-size: 11px; line-height: 1.5; color: #afb9c1; }
 .discovery-entry small { font-size: 10px; color: #a99c8e; }
 .discovery-entry-actions { display: grid; justify-items: end; gap: 8px; }
+.discovery-time { color: #e4c4a4; font-size: 12px; font-variant-numeric: tabular-nums; white-space: nowrap; }
 .discovery-entry button { padding: 7px 8px; border: 1px solid #bc8f6f66; border-radius: 4px; color: #e4c4a4; font-size: 11px; white-space: nowrap; }
 .discovery-entry button:hover { background: #bc8f6f20; }
 @media (max-width: 480px) { .discovery-entry { grid-template-columns: 28px minmax(0, 1fr); }.discovery-entry-actions, .discovery-entry > button { grid-column: 2; justify-self: start; justify-items: start; } }

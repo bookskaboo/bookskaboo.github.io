@@ -1,24 +1,28 @@
 import { atResearchCap, reconcileHole, CORNER_ITEMS } from '../content/endgame';
-import { getResearchCosts, getResearchCostsForState, getResearchProject, isResearchAvailable, remainingMapNodePurchases, RESEARCH_PROJECTS } from '../content/research';
+import { getResearchCostsForState, getResearchProject, isResearchAvailable, mapNodePricingPhaseForState, remainingMapNodePurchases, RESEARCH_PROJECTS } from '../content/research';
 import { NODE_DEFINITIONS } from '../content/nodes';
 import { hasNodeBehavior } from '../content/nodeCapabilities';
 import type { GameEvent, GameState, ItemId, MachineNode, NodeKind } from '../domain/types';
 import { isResearchCycleActive } from './researchStatus';
 import { RESEARCH_CENTER_BASE_CYCLE_MS } from '../content/researchTiming';
 import { applyCartUpgrades } from '../content/cartUpgrades';
+import { syncCornerLayouts } from './worldGeneration';
 
 /** Research lifecycle owns payments, milestones, and project selection. State is read lazily so undo/load remain valid. */
 export class ResearchRuntime {
   constructor(
     private readonly getState: () => GameState,
     private readonly publish: () => void,
-    private readonly event: (type: GameEvent['type'], message: string, projectId?: string) => void,
+    private readonly event: (type: GameEvent['type'], message: string, projectId: string, elapsedMs: number) => void,
+    private readonly journalElapsedMs: () => number,
     private readonly efficiencyMultiplier: (kind: NodeKind) => number,
   ) {}
 
   private get state() { return this.getState(); }
 
   reconcileResearchSelection() {
+    const research = this.state.research;
+    research.mapNodePricingPhase ??= mapNodePricingPhaseForState(research);
     const selectedId = this.state.research.selected;
     if (selectedId !== 'mapNode') delete this.state.research.mapNodeQuote;
     if (!selectedId) return;
@@ -37,11 +41,13 @@ export class ResearchRuntime {
     const research = this.state.research;
     const completion = research.repeatableCompletions?.mapNode ?? 0;
     if (research.mapNodeQuote?.completion === completion) return;
-    research.mapNodeQuote = { completion, costs: getResearchCosts(getResearchProject('mapNode')!, completion, research.completed) };
+    const phase = mapNodePricingPhaseForState(research);
+    if (phase) research.mapNodePricingPhase = phase;
+    research.mapNodeQuote = { completion, costs: getResearchCostsForState(getResearchProject('mapNode')!, research) };
   }
 
 
-  completeResearch(projectId: string) {
+  completeResearch(projectId: string, elapsedMs = this.journalElapsedMs()) {
     const project = getResearchProject(projectId);
     if (!project || atResearchCap(project, this.state.research)) return;
     if (!project.repeatable && !this.state.research.unlocked.includes(projectId)) this.state.research.unlocked.push(projectId);
@@ -52,20 +58,22 @@ export class ResearchRuntime {
       this.state.research.completed.push(projectId);
     }
     if (projectId === 'trucks' || projectId === 'trains' || projectId === 'trainFreightCapacity') applyCartUpgrades(this.state);
+    if (projectId === 'areaExpansion1' || projectId === 'areaExpansion2') syncCornerLayouts(this.state);
     if (projectId === 'efficientLandfill') for (const sector of Object.values(this.state.sectors)) for (const node of sector.nodes) if(node.kind==='big-hole') reconcileHole(node,this.state);
     if (projectId === 'exploration' || projectId === 'mapNode') this.state.research.mapPoints++;
     if (projectId === 'mapNode') delete this.state.research.mapNodeQuote;
     if (this.state.research.projectContributions) delete this.state.research.projectContributions[projectId];
     if (this.state.research.selected === projectId) { this.state.research.contributed = {}; this.state.research.selected = undefined; this.resetResearchCycles(); }
-    if(projectId==='precisionControl'&&!this.state.research.completed.includes('sortingTools'))this.completeResearch('sortingTools');
+    if(projectId==='precisionControl'&&!this.state.research.completed.includes('sortingTools'))this.completeResearch('sortingTools', elapsedMs);
     for (const definition of Object.values(NODE_DEFINITIONS)) {
-      if (!definition.hidden && definition.unlockResearch === projectId) (this.state.discoveryTimes ??= {})[definition.kind] ??= this.state.playTimeMs;
+      if (!definition.hidden && definition.unlockResearch === projectId) (this.state.discoveryTimes ??= {})[definition.kind] ??= elapsedMs;
     }
-    this.event('ResearchCompleted', `${project.name} research complete. ${project.unlock}`, projectId);
+    this.event('ResearchCompleted', `${project.name} research complete. ${project.unlock}`, projectId, elapsedMs);
   }
 
 
   evaluateMilestones() {
+    const elapsedMs = this.journalElapsedMs();
     const produced = this.state.produced ?? {};
     if((produced['final-core']??0)>0)this.state.finalCoreProduced=true;
     if(this.state.endgame&&!this.state.endgame.componentObtained&&Object.values(this.state.sectors).some(s=>s.nodes.some(n=>Object.values(CORNER_ITEMS).some(i=>(n.input[i]??0)+(n.output[i]??0)>0))))this.state.endgame.componentObtained=true;
@@ -88,7 +96,7 @@ export class ResearchRuntime {
         : project.trigger.id === 'refiner-unlocked' ? this.state.research.completed.includes('refiner')
         : project.trigger.id === 'monster-camp' ? nodes.some((node) => node.kind === 'monster-camp')
         : false;
-      if (complete) this.completeResearch(project.id);
+      if (complete) this.completeResearch(project.id, elapsedMs);
     }
   }
 

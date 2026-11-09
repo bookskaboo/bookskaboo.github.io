@@ -30,6 +30,7 @@ describe('goblin settlements', () => {
         expect(camp.name).toBe(spec.name);
         expect(camp.attackRequirement).toBe(spec.attackRequirement);
         expect(camp.campStrength).toBe(25);
+        expect(sector.nodes.some(node => node.kind === 'lake' || node.kind === 'resourceGolem')).toBe(false);
         expect(sector.nodes.filter(other => other.id !== camp.id).some(other => nodesOverlap(camp, other))).toBe(false);
         expect(generateSector(x, y, seed, 0).nodes.find((n) => n.id === camp.id)).toEqual(camp);
       }
@@ -42,12 +43,12 @@ describe('goblin settlements', () => {
 
   it.each<[number, ItemId, number]>([
     [1, 'suppression-bot', 3], [4, 'medium-suppression-bot', 3],
-    [5, 'heavy-suppression-bot', 2], [6, 'heavy-suppression-bot', 3],
-    [7, 'command-suppression-bot', 2], [8, 'command-suppression-bot', 3], [9, 'command-suppression-bot', 4],
+    [5, 'medium-suppression-bot', 3], [6, 'medium-suppression-bot', 3],
+    [7, 'heavy-suppression-bot', 2], [8, 'heavy-suppression-bot', 2], [9, 'heavy-suppression-bot', 2],
   ])('suppresses tier %i with its research-aligned bot supply', (tier, item, count) => {
     const state = createInitialState(37);
     const camp = settlement(tier);
-    expect(count * BOT_STRENGTH[item]!).toBe(camp.attackRequirement);
+    expect(count).toBe(Math.ceil(camp.attackRequirement! / BOT_STRENGTH[item]!));
     camp.input[item] = count;
     state.sectors['5,5'].nodes = [camp];
     const engine = new GameEngine(state);
@@ -63,7 +64,7 @@ describe('goblin settlements', () => {
   it('can deliver enough weaker bots for a kingdom through its input buffer', () => {
     const state = createInitialState(37);
     const camp = settlement(9);
-    const chest: MachineNode = { ...settlement(1), id: 'supply', kind: 'woodenChest', name: 'Chest', x: 500, input: {}, output: { 'suppression-bot': 80 } };
+    const chest: MachineNode = { ...settlement(1), id: 'supply', kind: 'woodenChest', name: 'Chest', x: 500, input: {}, output: { 'suppression-bot': 16 } };
     state.sectors['5,5'].nodes = [chest, camp];
     const engine = new GameEngine(state);
     expect(engine.connect(chest.id, camp.id)).toBe(true);
@@ -76,21 +77,21 @@ describe('goblin settlements', () => {
   it('grows below the AP threshold and keeps excess supply after a successful check', () => {
     const state = createInitialState(37);
     const camp = settlement(9);
-    camp.input['command-suppression-bot'] = 3;
-    camp.input['heavy-suppression-bot'] = 2; // 76 AP against 80 required.
+    camp.input['heavy-suppression-bot'] = 1;
+    camp.input['medium-suppression-bot'] = 2;
+    camp.input['suppression-bot'] = 1; // 15 AP against 16 required.
     state.sectors['5,5'].nodes = [camp];
     const engine = new GameEngine(state);
     for (let i = 0; i < 60; i++) engine.tick(1000);
     const current = engine.getSector().nodes[0];
     expect(current.campStrength).toBe(35);
     expect(current.input).toEqual({});
-    current.input['command-suppression-bot'] = 4;
-    current.input['heavy-suppression-bot'] = 1; // 88 AP, including excess.
-    engine.getState().research.completed.push('commandRobotics');
+    current.input['command-suppression-bot'] = 1;
+    current.input['heavy-suppression-bot'] = 2;
     for (let i = 0; i < 60; i++) engine.tick(1000);
     expect(current.campStrength).toBe(25);
-    expect(current.input).toEqual({ 'heavy-suppression-bot': 1 });
-    expect(current.attackRequirement).toBe(80);
+    expect(current.input).toEqual({ 'command-suppression-bot': 1 });
+    expect(current.attackRequirement).toBe(16);
   });
 
   it('preserves new settlement metadata and legacy camp state through version one save round trips', () => {
@@ -99,13 +100,16 @@ describe('goblin settlements', () => {
     delete oldCamp.goblinSettlement;
     oldCamp.id = 'legacy'; oldCamp.attackRequirement = 7; oldCamp.progressMs = 12345;
     oldCamp.input['suppression-bot'] = 4;
-    state.sectors['5,5'].nodes = [oldCamp, { ...settlement(4), id: 'village' }, { ...settlement(9), id: 'kingdom' }];
+    const village = { ...settlement(4), id: 'village' };
+    const kingdom = { ...settlement(9), id: 'kingdom', progressMs: 59000, input: { 'heavy-suppression-bot': 2 } };
+    state.sectors['5,5'].nodes = [oldCamp, { ...village, attackRequirement: 24 }, { ...kingdom, attackRequirement: 80 }];
     state.sectors['5,5'].connections = [{ id: 'saved-cable', from: 'village', to: 'kingdom', createdAt: 1 }];
     const loaded = normalizeLegacy(JSON.parse(JSON.stringify(state)))!;
     const engine = new GameEngine(loaded);
     const saved = normalizeLegacy(JSON.parse(JSON.stringify(engine.getState())))!;
     expect(saved.version).toBe(1);
-    expect(saved.sectors['5,5'].nodes).toEqual(state.sectors['5,5'].nodes);
+    expect(saved.sectors['5,5'].nodes).toEqual([oldCamp, village, kingdom]);
+    expect(saved.sectors['5,5'].nodes.map(node => node.attackRequirement)).toEqual([7, 9, 16]);
     expect(saved.sectors['5,5'].connections).toEqual(state.sectors['5,5'].connections);
   });
 });

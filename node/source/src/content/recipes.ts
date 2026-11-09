@@ -1,9 +1,10 @@
-import { ENDGAME_RECIPES } from './endgame';
+import { ENDGAME_RECIPES, FINAL_BOT_RECIPE } from './endgame';
 import type { Recipe } from '../domain/types';
 import { LATE_RECIPES, LATE_GROUPS } from './progression';
 
 export const RECIPES: Record<string, Recipe> = {
   ...LATE_RECIPES, ...ENDGAME_RECIPES,
+  [FINAL_BOT_RECIPE.id]: FINAL_BOT_RECIPE,
   charcoal: { id: 'charcoal', name: 'Charcoal', inputs: { wood: 1 }, outputs: { charcoal: 1 }, cycleMs: 3500 },
   'smelt-iron': { id: 'smelt-iron', name: 'Iron Plate', inputs: { iron: 2, charcoal: 1 }, outputs: { 'iron-plate': 1 }, cycleMs: 6000 },
   'smelt-copper': { id: 'smelt-copper', name: 'Copper Plate', inputs: { copper: 2, charcoal: 1 }, outputs: { 'copper-plate': 1 }, cycleMs: 6000 },
@@ -31,6 +32,7 @@ export const RECIPE_GROUPS: Record<string, string[]> = {
   kiln: ['charcoal'],
   smelter: ['smelt-iron', 'smelt-copper', 'smelt-mythril'],
   ...LATE_GROUPS,
+  advancedAssembler: [...(LATE_GROUPS.advancedAssembler ?? []), FINAL_BOT_RECIPE.id],
   refiner: ['iron-gear', 'copper-gear', 'mythril-gear', 'iron-wire', 'copper-wire', 'mythril-wire', 'brick', 'simple-core', ...(LATE_GROUPS.refiner ?? [])],
   assembler: [...Object.keys(ENDGAME_RECIPES), 'composite-mythril-gear', 'composite-mythril-wire', 'motor', 'circuit-a', 'basic-core', 'automata-core', 'robot-frame', 'robot-gun', 'suppression-bot'],
 };

@@ -153,12 +153,12 @@ describe('Dev Source', () => {
   });
 
   it('powers Lake Intakes and Golem fights without pretending to be an ordinary Lake or deposit', () => {
-    const { engine, node } = setup([machine('lakeIntake', 'intake', 1100), machine('resourceGolem', 'golem', 2700, { health: 10000, golemMineral: 'iron' })]);
+    const { engine, node } = setup([machine('lakeIntake', 'intake', 1100), machine('resourceGolem', 'golem', 2700, { health: 180, golemCostVersion: 2, golemMineral: 'iron' })]);
     expect(engine.connect('dev', 'intake')).toBe(true);
     expect(engine.connect('dev', 'golem')).toBe(true);
     advance(engine, 1);
     expect(node('intake').output.water).toBeGreaterThan(0);
-    expect(node('golem').health).toBeLessThan(10000);
+    expect(node('golem').health).toBeLessThan(180);
   });
 
   it('retains ordinary compatibility checks for player production sources', () => {

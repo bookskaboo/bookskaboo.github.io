@@ -1,6 +1,6 @@
 # Progression and Scaling Design
 
-**November 5 revision (NODE-0321):** corner quotas are 50 Alpha AP, Foundry 50 Circuit B / 25 Sealed Frames / 100 Mythril Gears, and 500 Grove growth; Reclamation retains its five-minute credits. Endgame Theory is retired. Victory requires a manually selected Research Center project costing one of every Core, Simple through Final. See [current implementation](master-plan/20-endgame-implementation.md). Ordinary production recipes are unchanged.
+**November 8 revision.** Corner quotas are 500 Dragon AP, 50 Circuit B / 25 Sealed Frames / 100 Mythril Gears at the Foundry, and 1,000 Grove growth. Reclamation takes 20 Metallic Fines or equivalent mixed waste. Final Robotics and Victory each cost one of every Core through Final. See the [current implementation](master-plan/20-endgame-implementation.md).
 
 Updated November 2, 2026.
 
@@ -61,7 +61,7 @@ Keep the Basic Core recipe unchanged: one Copper Plate plus one Iron Wire. Each 
 
 Without upgrades, a fully supplied Basic Core Assembler produces 6 cores per minute. Its inputs require 18 Iron Plates and 6 Copper Plates per minute: 1.8 Iron Smelters and 0.6 Copper Smelters of sustained capacity, plus adequate ore, charcoal and wire processing. These figures exclude the continuing demand from Simple Cores and other consumers.
 
-The implemented Basic-phase Map Node prices of 6–10 each through Basic provide sustained demand for both core streams. Validate whether players can identify the iron-wire bottleneck and resolve it through extraction, smelting and deliberate supply branches before changing ingredients or adding further costs. Efficiency upgrades remain optional.
+The implemented Basic phase starts at 5 of each Core through Basic and rises to 10 each over ten purchases. Validate whether players can identify the Iron Wire bottleneck and resolve it through extraction, smelting and deliberate supply branches before changing ingredients or adding further costs. Efficiency upgrades remain optional.
 
 ### Adopted Automata Core scaling and delivery to Home
 
@@ -236,6 +236,8 @@ The first constraint is at Home, not at the Mythril deposit. Maps have four card
 Road Channels 1 unlocks after Road and Ore Separation. Its previous price was 60 each through Hydro, or 240 cores total; its current price is 2 each through Hydro, or eight cores total. It doubles channels per direction, allowing up to eight distinct incoming streams around Home when all four neighboring maps are connected and there is space for the endpoints. That capability also helps separate product and waste streams, but its current price makes basic access to the intended late-tier layout a substantial investment.
 
 Implemented fix: keep its prerequisites and two-channel effect, but price Road Channels 1 at 2 each through Hydro, consistent with other capability unlocks. Leave Road Channels 2 at 130 each through Shiny as the larger optional capacity investment. Keep roads single-material, solid-only and fixed at one item every five seconds. Do not change map prices or generation as part of this fix. This makes more routes affordable without making bulk shipments faster or teaching an overt preferred strategy.
+
+**Road Channels 2 (November 7, 2026, NODE-0331).** The third slot costs 20 each of Simple, Basic, Automata and Hydro Cores, for 80 total. Completing Road Channels 1 and Ore Separation makes this purchase available. It adds a third slot to every map face, counting sending and receiving endpoints together. The lower price gives players a way to connect new supply sectors when both slots on an existing border are in use.
 
 Next, assess the value of the maps themselves. Ordinary resource-bearing non-Home maps already provide Iron, Copper, Stone and Forest, with larger reserves farther from Home. Lakes, Mythril and special encounters add geographic differences. A map can therefore support supplies or processing as well as transit; determine through playtesting whether this works in actual layouts before adding new map rewards or mandatory expansion requirements.
 

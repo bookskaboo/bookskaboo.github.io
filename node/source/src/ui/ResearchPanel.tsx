@@ -1,18 +1,23 @@
 import { useEffect, useRef, useState, type CSSProperties } from 'react';
 import { getResearchProject } from '../content/research';
-import type { GameState } from '../domain/types';
+import type { GameState, ResearchProject } from '../domain/types';
 import type { GameEngine } from '../simulation/engine';
 import { permitsTutorialChoice, type TutorialChoice } from '../tutorials/tutorialChoices';
 import { PanelHeader } from './PanelHeader';
 import { ResearchCard } from './ResearchCard';
 import { ResearchProjectDetail } from './ResearchProjectDetail';
 import { ResearchTreeModal } from './ResearchTreeModal';
-import { groupResearch, searchResearch } from './researchPresentation';
-import { RESEARCH_FILTER_OPTIONS, RESEARCH_SECTIONS, type RequirementFilter, type ResearchBrowserSection } from './researchUiConfig';
+import { searchResearch } from './researchPresentation';
+import { researchCatalog } from './researchCatalog';
+import { getResearchMilestones } from './researchMilestones';
+import { RESEARCH_FILTER_OPTIONS, type RequirementFilter } from './researchUiConfig';
+
+const MILESTONES_HEADING = 'Obligatory hand holding';
 
 interface ResearchPanelProps {
   focusProjectId?: string;
   allowedProjectId?: TutorialChoice;
+  showMilestones?: boolean;
   game: GameState;
   engine: GameEngine;
   onClose(): void;
@@ -27,20 +32,19 @@ function revealResearchElement(selector: string, block: ScrollLogicalPosition, f
   if (focus) target?.focus({ preventScroll: true });
 }
 
-export function ResearchPanel({ focusProjectId, allowedProjectId, game, engine, onClose, onOpenRecipe }: ResearchPanelProps) {
+export function ResearchPanel({ focusProjectId, allowedProjectId, showMilestones = true, game, engine, onClose, onOpenRecipe }: ResearchPanelProps) {
   const [treeOpen, setTreeOpen] = useState(false);
   const [query, setQuery] = useState('');
   const [requirementFilters, setRequirementFilters] = useState<RequirementFilter[]>([]);
-  const [inspectedId, setInspectedId] = useState<string | undefined>(focusProjectId ?? game.research.selected);
+  const [inspectedId, setInspectedId] = useState(focusProjectId);
   const treeButton = useRef<HTMLButtonElement>(null);
   const listRef = useRef<HTMLDivElement>(null);
   const browseScrollTop = useRef(0);
 
   const normalizedQuery = query.trim().toLowerCase();
-  const groups = groupResearch(game);
+  const { active, projects, completed } = researchCatalog(game);
   const results = normalizedQuery ? searchResearch(game, query) : [];
-  const sections: ResearchBrowserSection[] = normalizedQuery
-    ? ['search'] : ['active', 'milestones', 'available', 'future', 'completed'];
+  const listed = normalizedQuery ? results.filter(project => project.id !== active?.id) : projects;
   const canInspect = (id: string) => permitsTutorialChoice(allowedProjectId, id);
 
   useEffect(() => {
@@ -84,47 +88,17 @@ export function ResearchPanel({ focusProjectId, allowedProjectId, game, engine, 
   const toggleProject = (id: string) => setInspectedId(current => current === id ? undefined : id);
   const toggleRequirement = (id: RequirementFilter) => setRequirementFilters(current =>
     current.includes(id) ? current.filter(filter => filter !== id) : [...current, id]);
-
-  const renderSection = (section: ResearchBrowserSection) => {
-    const copy = RESEARCH_SECTIONS[section];
-    const entries = section === 'search' ? results : groups[section];
-    const inspected = entries.find(project => project.id === inspectedId && canInspect(project.id));
-    const detail = inspected && (
-      <ResearchProjectDetail
-        canInspect={canInspect} project={inspected} game={game} engine={engine}
-        onPrerequisite={inspectPrerequisite} onOpenRecipe={onOpenRecipe}
-      />
-    );
-    const cards = (
-      <div className="research-grid">
-        {entries.map(project => (
-          <ResearchCard
-            key={project.id} project={project} game={game}
-            disabled={!canInspect(project.id)} expanded={inspectedId === project.id}
-            tutorialChoice={allowedProjectId === project.id} filters={requirementFilters}
-            onToggle={toggleProject}
-          />
-        ))}
-      </div>
-    );
-    if (section === 'completed') {
-      return (
-        <details className="research-section research-completed" key={section}>
-          <summary>{copy.name} · {entries.length}</summary>
-          <p>{copy.description}</p>
-          {cards}{detail}
-        </details>
-      );
-    }
-    return (
-      <section className="research-section" key={section} aria-label={copy.name}>
-        <h3>{copy.name} <small>{entries.length}</small></h3>
-        <p>{copy.description}</p>
-        {detail}
-        {entries.length ? cards : <p className="research-section-empty">{copy.empty}</p>}
-      </section>
-    );
-  };
+  const card = (project: ResearchProject, filters = requirementFilters) => (
+    <ResearchCard key={project.id} project={project} game={game}
+      disabled={!canInspect(project.id)} expanded={inspectedId === project.id}
+      tutorialChoice={allowedProjectId === project.id} filters={filters} onToggle={toggleProject} />
+  );
+  const inspected = inspectedId && canInspect(inspectedId) ? getResearchProject(inspectedId) : undefined;
+  const archived = !normalizedQuery && completed.some(project => project.id === inspectedId);
+  const detail = inspected && (
+    <ResearchProjectDetail canInspect={canInspect} project={inspected} game={game} engine={engine}
+      onPrerequisite={inspectPrerequisite} onOpenRecipe={onOpenRecipe} />
+  );
 
   return (
     <>
@@ -172,7 +146,43 @@ export function ResearchPanel({ focusProjectId, allowedProjectId, game, engine, 
                   </div>
                 )}
               </div>
-              <div className="research-sections" ref={listRef}>{sections.map(renderSection)}</div>
+              <div className="research-sections" ref={listRef}>
+                <div className="research-summary-row">
+                  <section className="research-active-slot" aria-label="Active project">
+                    <h3>Active project</h3>
+                    {active ? card(active, []) : <div className="research-active-empty">
+                      <strong>No project selected</strong><span>Science is awaiting direction.</span>
+                    </div>}
+                  </section>
+                  {showMilestones && <section className="research-next-slot" aria-label={MILESTONES_HEADING}>
+                    <h3>{MILESTONES_HEADING}</h3>
+                    <ul className="research-milestone-grid">
+                      {getResearchMilestones(game).map((milestone, index) => (
+                        <li className="research-milestone" key={milestone.title}>
+                          <small>{index === 0 ? 'Recommended' : 'Also useful'}</small>
+                          <strong>{milestone.title}</strong>
+                          <span>{milestone.detail}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </section>}
+                </div>
+                {!archived && detail}
+                <section className="research-section" aria-label={normalizedQuery ? 'Search results' : 'Research'}>
+                  <div className="research-catalog-heading">
+                    <h3>{normalizedQuery ? 'Search results' : 'Research'}</h3>
+                    <span className="research-catalog-key"><i /> Within reach <i /> Requires progress</span>
+                  </div>
+                  {listed.length > 0 && <div className="research-grid">{listed.map(project => card(project))}</div>}
+                  {normalizedQuery && !results.length && <p className="research-section-empty">No matches. Try a project, material, or Core type.</p>}
+                  {normalizedQuery && results.length > listed.length && <p className="research-section-empty">The active project matches your search.</p>}
+                </section>
+                {!normalizedQuery && completed.length > 0 && <details className="research-section research-completed">
+                  <summary>Completed research · {completed.length}</summary>
+                  {archived && detail}
+                  <div className="research-grid">{completed.map(project => card(project))}</div>
+                </details>}
+              </div>
             </div>
           </div>
         </section>

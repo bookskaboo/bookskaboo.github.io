@@ -6,7 +6,13 @@ import type { RequirementFilter } from './researchUiConfig';
 
 export type ResearchSection = 'active' | 'milestones' | 'available' | 'future' | 'completed';
 const CORE_ACCESS: Partial<Record<ItemId, string>> = { 'simple-core': 'refiner', 'basic-core': 'assembler', 'automata-core': 'automataCore', 'hydro-core': 'hydraulicAssembly', 'shiny-core': 'oreSeparation', 'command-core': 'precisionControl', 'final-core': 'finalCoreProduction' };
-const milestoneAccess: Partial<Record<NonNullable<ResearchProject['trigger']>['id'], string>> = { 'plate-produced': 'smelter', 'refiner-unlocked': 'refiner', 'assembler-built': 'assembler', 'basic-core-produced': 'assembler', 'motor-produced': 'assembler', 'monster-camp': 'exploration', encounter: 'exploration' };
+const milestoneAccess: Partial<Record<NonNullable<ResearchProject['trigger']>['id'], string>> = {
+  'plate-produced': 'smelter', 'refiner-unlocked': 'refiner', 'assembler-built': 'assembler',
+  'basic-core-produced': 'assembler', 'motor-produced': 'assembler', 'monster-camp': 'exploration',
+  encounter: 'exploration', 'dwarven-mythril-produced': 'exploration',
+  'precision-control': 'precisionControl', 'corner-component-obtained': 'exploration',
+  'final-core-produced': 'cornerComponents',
+};
 
 export function researchDependencies(project: ResearchProject, costs = project.costs) {
   const ids = [project.prerequisite, ...(project.prerequisites ?? [])].filter((id): id is string => Boolean(id));
@@ -31,15 +37,6 @@ export function researchSection(project: ResearchProject, game: GameState): Rese
   if (game.research.selected === project.id) return 'active';
   if (!isResearchAvailable(project, game.research.completed) || missingResearchAccess(project, game).length) return 'future';
   return project.trigger ? 'milestones' : 'available';
-}
-
-export function groupResearch(game: GameState) {
-  const groups: Record<ResearchSection, ResearchProject[]> = { active: [], milestones: [], available: [], future: [], completed: [] };
-  for (const project of RESEARCH_PROJECTS) groups[researchSection(project, game)].push(project);
-  // Preserve authored order within capability/upgrade groups so cards do not
-  // reshuffle as buffers change. Production access is based on unlocks, not stock.
-  groups.available.sort((a,b) => Number(a.category === 'Efficiency') - Number(b.category === 'Efficiency'));
-  return groups;
 }
 
 /** Search spans every progression section; project names outrank related mentions. */
@@ -82,12 +79,15 @@ export function researchCardDetails(project: ResearchProject, game: GameState) {
     : project.repeatable ? `Repeatable · ${game.research.repeatableCompletions?.[project.id] ?? 0} completed`
     : 'Available research';
   const paid = active ? game.research.contributed : game.research.projectContributions?.[project.id] ?? {};
+  const totalRequired = Object.values(costs).reduce((sum, count) => sum + (count ?? 0), 0);
+  const totalPaid = Object.entries(costs).reduce((sum, [item, count]) =>
+    sum + Math.min(count ?? 0, paid[item as ItemId] ?? 0), 0);
   const costSummary = project.trigger ? '' : Object.entries(costs)
     .map(([item, cost]) => `${ITEM_NAMES[item as ItemId]} ${Math.min(cost ?? 0, paid[item as ItemId] ?? 0)}/${cost}`).join(' + ');
   return {
-    section, active, complete, available, milestone, requirement, status, costSummary,
+    section, active, complete, milestone, requirement, status, totalRequired, totalPaid,
     selectable: available && section !== 'future' && !milestone && !complete,
-    tooltip: [...new Set([status, project.description, project.unlock, costSummary].filter(Boolean))].join(' · '),
+    tooltip: [...new Set([status, project.description, project.unlock, costSummary].filter(Boolean))].join('\n'),
     tooltipTone: complete ? '#77b5e6' : active ? '#74c9a2' : '#d5b666',
   };
 }

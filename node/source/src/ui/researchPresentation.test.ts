@@ -1,31 +1,51 @@
 import { describe, expect, it } from 'vitest';
 import { RESEARCH_PROJECTS } from '../content/research';
 import { createInitialState } from '../simulation/engine';
-import { groupResearch, researchSection, searchResearch } from './researchPresentation';
+import { researchSection, searchResearch } from './researchPresentation';
+import { researchCatalog } from './researchCatalog';
 
 const project = (id: string) => RESEARCH_PROJECTS.find(p => p.id === id)!;
 describe('research browsing', () => {
   it('starts with achievable milestones while preserving every long-term project', () => {
     const state = createInitialState(1);
-    const sections = groupResearch(state);
-    expect(sections.milestones.map(p => p.id)).toEqual(expect.arrayContaining(['joint', 'kiln', 'smelter']));
+    const { projects } = researchCatalog(state);
+    expect(projects.slice(0, 3).map(p => p.id)).toEqual(['joint', 'kiln', 'smelter']);
     expect(researchSection(project('lakeTools'), state)).toBe('future');
     expect(researchSection(project('assembler'), state)).toBe('future');
-    expect(sections.future.map(p => p.id)).toContain('victory');
-    expect(Object.values(sections).flat().map(p => p.id)).not.toContain('endgameTheory');
-    const ids = Object.values(sections).flat().map(p => p.id);
+    const ids = projects.map(p => p.id);
+    expect(ids).toContain('victory');
+    expect(ids).not.toContain('endgameTheory');
     expect(ids.length).toBe(RESEARCH_PROJECTS.length);
     expect(new Set(ids).size).toBe(RESEARCH_PROJECTS.length);
   });
   it('puts capabilities before efficiency upgrades when Core production is unlocked', () => {
     const state = createInitialState(1);
     state.research.completed = ['joint', 'kiln', 'smelter', 'refiner', 'researchCenter'];
-    const sections = groupResearch(state);
-    expect(sections.available[0].id).toBe('assembler');
-    expect(sections.completed.map(p => p.id)).toContain('joint');
+    const catalog = researchCatalog(state);
+    expect(catalog.projects[0].id).toBe('assembler');
+    expect(catalog.completed.map(p => p.id)).toContain('joint');
     expect(researchSection(project('exploration'), state)).toBe('future');
     state.research.completed.push('assembler');
     expect(researchSection(project('exploration'), state)).toBe('available');
+  });
+
+  it('groups reachable discoveries and unlocks before blue upgrades and repeatables, then orders grey cards by complexity', () => {
+    const state = createInitialState(1);
+    state.research.completed = ['joint', 'kiln', 'smelter', 'refiner', 'researchCenter', 'assembler', 'exploration'];
+    state.research.selected = 'road';
+    const { active, projects } = researchCatalog(state);
+    expect(active?.id).toBe('road');
+    const firstLocked = projects.findIndex(p => researchSection(p, state) === 'future');
+    const reachable = projects.slice(0, firstLocked).map(p => p.id);
+    const locked = projects.slice(firstLocked).map(p => p.id);
+    expect(reachable).toContain('lakeTools');
+    expect(reachable.indexOf('automataCore')).toBeLessThan(reachable.indexOf('extractor1'));
+    expect(reachable.indexOf('extractor1')).toBeLessThan(reachable.indexOf('mapNode'));
+    expect(reachable.at(-1)).toBe('mapNode');
+    expect(projects.slice(firstLocked).every(p => researchSection(p, state) === 'future')).toBe(true);
+    expect(locked.indexOf('hydraulicAssembly')).toBeLessThan(locked.indexOf('precisionControl'));
+    expect(locked.indexOf('finalCoreProduction')).toBeLessThan(locked.indexOf('victory'));
+    expect(projects.some(p => p.id === active?.id)).toBe(false);
   });
   it('keeps active and repeatable projects out of the completed archive', () => {
     const state = createInitialState(1);

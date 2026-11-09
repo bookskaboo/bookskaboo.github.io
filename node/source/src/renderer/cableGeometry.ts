@@ -1,4 +1,4 @@
-import { NODE_DEFINITIONS } from '../content/nodes';
+import { getEffectiveNodeInputFamilies, NODE_DEFINITIONS } from '../content/nodes';
 import type { Connection, InFlightTransfer, MachineNode } from '../domain/types';
 import { getConnectionControlPoints, getPortSide } from '../simulation/connectionRules';
 import { getPortAnchor } from '../domain/nodeGeometry';
@@ -9,7 +9,8 @@ export function connectionPoints(connection: Connection, nodes: Map<string, Mach
   const outgoing = connections.filter((candidate) => candidate.from === from.id);
   const outputCount = Math.max(1, NODE_DEFINITIONS[from.kind].output.length);
   const outputIndex = Math.min(outputCount - 1, Math.max(0, connection.fromPort ?? outgoing.findIndex((candidate) => candidate.id === connection.id)));
-  const inputIndex = Math.min(Math.max(0, NODE_DEFINITIONS[to.kind].input.length - 1), Math.max(0, connection.toPort ?? 0));
+  const inputCount = to.kind === 'cornerChallenge' ? getEffectiveNodeInputFamilies(to, []).length : NODE_DEFINITIONS[to.kind].input.length;
+  const inputIndex = Math.min(Math.max(0, inputCount - 1), Math.max(0, connection.toPort ?? 0));
   const startAnchor = getPortAnchor(from, 'output', outputIndex); const endAnchor = getPortAnchor(to, 'input', inputIndex);
   return { from, to, outputIndex, inputIndex, sourceSide: getPortSide(from, 'output', outputIndex), targetSide: getPortSide(to, 'input', inputIndex), start: { x: from.x + startAnchor.x, y: from.y + startAnchor.y }, end: { x: to.x + endAnchor.x, y: to.y + endAnchor.y } };
 }

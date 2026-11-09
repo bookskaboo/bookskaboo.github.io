@@ -1,5 +1,6 @@
 import { GUIDED_TUTORIAL_COPY, type GuidedTutorialStage } from './originalTutorials';
 import { TUTORIAL_CORE_COST, type TutorialStage } from './tutorialDefinitions';
+import { BOT_STRENGTH } from '../content/progression';
 
 const corePayment = `${TUTORIAL_CORE_COST} Simple ${TUTORIAL_CORE_COST === 1 ? 'Core' : 'Cores'}`;
 
@@ -47,7 +48,7 @@ export function lessonCopy(stage: TutorialStage) {
     'control-group-select-forward': { body: 'Drag a selection box down and right across the highlighted Extractor. Touching one group member includes all three. The rest arrive uninvited.', instruction: 'Drag down-right across the highlighted Extractor.' },
     'control-group-select-reverse': { body: 'Drag a selection box up and left across only the highlighted Extractor. This direction selects only the machines touched, even inside a group. A rare escape from collective responsibility.', instruction: 'Drag up-left across only the highlighted Extractor.' },
     'monster-camp-boundary': { instruction: 'Inspect the camp and continue to practice supplying Attack Power.' },
-    'monster-camp-suppression': { body: 'Send bots to the camp’s center input before its AP check every 60 seconds. Small / Medium / Heavy / Command Bots supply 1 / 3 / 8 / 20 AP each. The bar fills toward the next check; AP shows current supply / required AP. A passed check shrinks the camp and leaves a green glow; a failed check lets it grow and leaves a red glow until the next check. This practice Cart contains bots.', instruction: 'Connect the bot Cart output to the camp input and wait for a successful check.' },
+    'monster-camp-suppression': { body: `Send bots to the camp’s center input before its AP check every 60 seconds. Small / Medium / Heavy / Command Bots supply ${BOT_STRENGTH['suppression-bot']} / ${BOT_STRENGTH['medium-suppression-bot']} / ${BOT_STRENGTH['heavy-suppression-bot']} / ${BOT_STRENGTH['command-suppression-bot']} AP each. The bar fills toward the next check. AP shows current supply and required AP. A passed check shrinks the camp and leaves a green glow. A failed check lets it grow and leaves a red glow until the next check. This practice Cart contains bots.`, instruction: 'Connect the bot Cart output to the camp input and wait for a successful check.' },
     'monster-camp-growth': { title: 'Suppression comes with a supply contract', body: 'Keep passing checks until the camp reaches 10% size. A separate Tribute box then appears: connect its output directly to a Cart or production node, without an Extractor. Goblins let you choose Iron, Copper, Stone or Wood in the Tribute picker. Dwarves supply Mythril instead. Different settlement types and tiers demand different AP and produce different Tribute amounts; inspect each one. Missing a Goblin check removes its Tribute box, stock and cables. A missed Dwarven check pauses new Mythril while preserving stored Tribute and wiring. The neighbors have discovered recurring billing.', instruction: 'Inspect each camp’s AP requirement and Tribute rate. Keep bot production running; collect Tribute from its separate box.' },
   };
   const lesson = { ...copy, ...adaptations[stage] };

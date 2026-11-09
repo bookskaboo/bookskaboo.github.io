@@ -121,6 +121,7 @@ interface Props {
   bars: ShortcutBarsState;
   groups: ShortcutBarGroup[];
   unlockedResearch: readonly string[];
+  completedResearch: readonly string[];
   newAssignmentKeys: ReadonlySet<string>;
   placing?: NodeKind;
   onChange(bars: ShortcutBarsState): void;
@@ -133,7 +134,7 @@ interface Props {
   onAcknowledgeAssignment(barId: ShortcutBarId, slot: number): void;
 }
 
-export function ShortcutBars({ dockLayout, canBuild, bars, groups, unlockedResearch, newAssignmentKeys, placing, onChange, onGroupsChange, onBuild, onBuildDragEnd, onBuildDragCancel, onAcknowledgeAssignment }: Props) {
+export function ShortcutBars({ dockLayout, canBuild, bars, groups, unlockedResearch, completedResearch, newAssignmentKeys, placing, onChange, onGroupsChange, onBuild, onBuildDragEnd, onBuildDragCancel, onAcknowledgeAssignment }: Props) {
   const [menu, setMenu] = useState<{ barId: ShortcutBarId; slot: number; x: number; y: number }>();
   const menuRef = useRef<HTMLDivElement>(null);
   const [assignmentFilter, setAssignmentFilter] = useState<'All' | 'Production' | 'Logistics'>('All');
@@ -219,7 +220,7 @@ export function ShortcutBars({ dockLayout, canBuild, bars, groups, unlockedResea
     event.preventDefault(); event.stopPropagation(); suppressClickRef.current = `${drag.barId}:${drag.slot}`; if (commit) onBuildDragEnd(drag.kind, event.clientX, event.clientY, event.shiftKey); else onBuildDragCancel(); window.setTimeout(() => { if (suppressClickRef.current === `${drag.barId}:${drag.slot}`) suppressClickRef.current = undefined; }, 0);
   };
 
-  const assignmentChoices = BUILDABLE_NODES.filter(definition => (!definition.unlockResearch || unlockedResearch.includes(definition.unlockResearch)) && (assignmentFilter === 'All' || definition.category === assignmentFilter)).map(definition => getBuildNodeDefinition(definition.kind, unlockedResearch));
+  const assignmentChoices = BUILDABLE_NODES.filter(definition => (!definition.unlockResearch || unlockedResearch.includes(definition.unlockResearch)) && (assignmentFilter === 'All' || definition.category === assignmentFilter)).map(definition => getBuildNodeDefinition(definition.kind, completedResearch));
   const menuLayout = menu ? fitShortcutAssignmentMenu(viewport, menu, assignmentChoices.length) : undefined;
 
   return <div className="shortcut-bars-layer" data-docked={dockLayout.docked} data-stacked={dockLayout.stacked} aria-label="Node shortcut bars" onPointerDown={() => setMenu(undefined)}>
@@ -236,16 +237,22 @@ export function ShortcutBars({ dockLayout, canBuild, bars, groups, unlockedResea
       {/* A new lock must not receive the click that finishes dragging its former grip. */}
       {releaseHandle ? <button key="release" type="button" className="shortcut-drag-handle shortcut-group-release" aria-label={`Detach ${SHORTCUT_BAR_LABELS[barId]} shortcut bar`} data-tooltip="Detach shortcut bar" data-tooltip-detail="Release this bar from its attached group. It has filed for independence." onPointerDown={event => event.stopPropagation()} onClick={event => { event.stopPropagation(); detachBar(barId); }} onContextMenu={event => { event.preventDefault(); event.stopPropagation(); }}>
         <svg viewBox="0 0 16 18" width="13" height="15" aria-hidden="true"><path d="M4 7V5a4 4 0 0 1 8 0v2" /><rect x="2" y="7" width="12" height="9" rx="2" /><path d="M8 10v3" /></svg>
-      </button> : <button key="drag" type="button" className="shortcut-drag-handle" aria-label={group ? 'Move attached shortcut bars' : `Move ${SHORTCUT_BAR_LABELS[barId]} shortcut bar`} data-tooltip={`${SHORTCUT_BAR_LABELS[barId]} shortcuts`} data-tooltip-detail={dockLayout.docked ? 'Widen the window to drag this bar.' : bar.locked ? 'This shortcut bar is locked.' : group ? 'Drag to move the attached bars. Click another bar’s lock to detach it.' : 'Drag near another bar to attach.'} disabled={bar.locked || dockLayout.docked} onPointerDown={(event) => beginDrag(event, barId)}><i /><i /><i /><i /><i /><i /></button>}
+      </button> : <button key="drag" type="button" className="shortcut-drag-handle"
+        aria-label={group ? 'Move attached shortcut bars' : `Move ${SHORTCUT_BAR_LABELS[barId]} shortcut bar`}
+        data-tooltip={barId === 'production' ? undefined : `${SHORTCUT_BAR_LABELS[barId]} shortcuts`}
+        data-tooltip-detail={dockLayout.docked ? 'Widen the window to drag this bar.' : bar.locked ? 'This shortcut bar is locked.' : group ? 'Drag to move the attached bars. Click another bar’s lock to detach it.' : 'Drag near another bar to attach.'}
+        disabled={bar.locked || dockLayout.docked} onPointerDown={(event) => beginDrag(event, barId)}>
+        <i /><i /><i /><i /><i /><i />
+      </button>}
       <div className="shortcut-slots">
-        {bar.assignments.map((kind, slot) => { const definition = kind ? getBuildNodeDefinition(kind, unlockedResearch) : undefined; const unlocked = !definition?.unlockResearch || unlockedResearch.includes(definition.unlockResearch); const slotKey = `${barId}:${slot}`; const isNewlyAdded = Boolean(kind && newAssignmentKeys.has(`${slotKey}:${kind}`)); return <span key={slot} className="shortcut-slot" data-tooltip={definition?.name ?? 'Unassigned shortcut'} data-tooltip-detail={definition ? `${definition.category} · ${canBuild && kind && !canBuild(kind) ? 'Available in another tutorial step.' : 'Click or drag to build · Right-click to reassign.'}` : 'Click or right-click to choose a node.'} data-tooltip-tone={definition?.accentCss} onPointerEnter={() => { if (isNewlyAdded) onAcknowledgeAssignment(barId, slot); }}><button
+        {bar.assignments.map((kind, slot) => { const definition = kind ? getBuildNodeDefinition(kind, completedResearch) : undefined; const unlocked = !definition?.unlockResearch || unlockedResearch.includes(definition.unlockResearch); const slotKey = `${barId}:${slot}`; const isNewlyAdded = Boolean(kind && newAssignmentKeys.has(`${slotKey}:${kind}`)); return <span key={slot} className="shortcut-slot" data-tooltip={definition?.name ?? 'Unassigned shortcut'} data-tooltip-detail={definition ? `${definition.category} · ${canBuild && kind && !canBuild(kind) ? 'Available in another tutorial step.' : 'Click or drag to build · Right-click to reassign.'}` : 'Click or right-click to choose a node.'} data-tooltip-tone={definition?.accentCss} onPointerEnter={() => { if (isNewlyAdded) onAcknowledgeAssignment(barId, slot); }}><button
            className={`${kind === placing ? 'active' : ''} ${!kind ? 'empty' : ''} ${draggingSlot === slotKey ? 'dragging-build' : ''} ${isNewlyAdded ? 'new-auto-assignment' : ''}`} disabled={Boolean(kind && (!unlocked || placing || (canBuild && !canBuild(kind))))}
           data-shortcut-kind={kind ?? undefined}
           style={{ '--node-color': definition?.accentCss ?? '#87939b' } as React.CSSProperties}
           onPointerDown={(event) => { if (kind && unlocked && (!canBuild || canBuild(kind))) beginShortcutDrag(event, barId, slot, kind); }} onPointerMove={updateShortcutDrag} onPointerUp={(event) => finishShortcutDrag(event, true)} onPointerCancel={(event) => finishShortcutDrag(event, false)}
           onClick={(event) => { event.stopPropagation(); if (suppressClickRef.current === slotKey) { suppressClickRef.current = undefined; event.preventDefault(); return; } if (kind && unlocked && !placing && (!canBuild || canBuild(kind))) onBuild(kind); else if (!kind) { const bounds = event.currentTarget.getBoundingClientRect(); openMenu({ barId, slot, x: bounds.left + bounds.width / 2, y: bounds.bottom + 5 }); } }}
           onContextMenu={(event) => { event.preventDefault(); event.stopPropagation(); openMenu({ barId, slot, x: event.clientX, y: event.clientY }); }}
-        ><kbd>{barIndex === 0 ? '' : barIndex === 1 ? '⇧' : '⌃'}{slot + 1}</kbd><i>{kind ? <NodeIcon kind={kind} /> : '+'}</i><span>{definition?.name ?? 'Assign'}</span></button></span>; })}
+        ><kbd>{barIndex === 0 ? '' : barIndex === 1 ? '⇧' : '⌃'}{slot + 1}</kbd><i>{kind ? <NodeIcon kind={kind} completedResearch={completedResearch} /> : '+'}</i><span>{definition?.name ?? 'Assign'}</span></button></span>; })}
       </div>
       <button className="shortcut-resize-handle" data-tooltip="Resize shortcut bar" data-tooltip-detail={bar.locked ? 'Unlock this bar before resizing it.' : 'Drag to change the bar scale.'} disabled={bar.locked} onPointerDown={(event) => { if (event.button !== 0 || bar.locked) return; event.stopPropagation(); event.currentTarget.setPointerCapture(event.pointerId); resizeRef.current = { barId, pointerId: event.pointerId, startX: event.clientX, startY: event.clientY, scale: bar.scale }; }} />
     </section>; })}
@@ -258,7 +265,7 @@ export function ShortcutBars({ dockLayout, canBuild, bars, groups, unlockedResea
           onClick={() => setAssignmentFilter(current => current === category ? 'All' : category)}>{category}</button>)}
       </div>
       <div className="shortcut-assignment-choices" style={{ gridTemplateRows: `repeat(${menuLayout.rows}, 38px)` }}>
-        {assignmentChoices.map((definition) => <button role="menuitem" key={definition.kind} disabled={Boolean(canBuild && !canBuild(definition.kind))} onClick={() => { const bar = barsRef.current[menu.barId]; patchBar(menu.barId, { assignments: bar.assignments.map((value, index) => index === menu.slot ? definition.kind : value) }); setMenu(undefined); }}><i style={{ color: definition.accentCss }}><NodeIcon kind={definition.kind} /></i><span>{definition.name}</span></button>)}
+        {assignmentChoices.map((definition) => <button role="menuitem" key={definition.kind} disabled={Boolean(canBuild && !canBuild(definition.kind))} onClick={() => { const bar = barsRef.current[menu.barId]; patchBar(menu.barId, { assignments: bar.assignments.map((value, index) => index === menu.slot ? definition.kind : value) }); setMenu(undefined); }}><i style={{ color: definition.accentCss }}><NodeIcon kind={definition.kind} completedResearch={completedResearch} /></i><span>{definition.name}</span></button>)}
       </div>
       <button className="clear" onClick={() => { const bar = bars[menu.barId]; patchBar(menu.barId, { assignments: bar.assignments.map((value, index) => index === menu.slot ? null : value) }); setMenu(undefined); }}>CLEAR SLOT</button>
     </div>}

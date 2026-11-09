@@ -11,7 +11,7 @@ import type { ItemId, MachineNode, SectorState } from '../domain/types';
 import { getPortSide } from '../simulation/connectionRules';
 import { getNodeSize, getPortAnchor, isOrganicNode, isResourceNode } from '../domain/nodeGeometry';
 import type { NodeView, PortView } from './playfieldTypes';
-import { outputTotal, inputTotal, outputCapacity } from './playfieldNodeState';
+import { outputTotal, inputTotal, outputCapacity, portLabelText } from './playfieldNodeState';
 
 export function updateProductionPort(view: PortView, node: MachineNode, sector: SectorState) {
   if (!view.materialBuffer || !view.materialShape || !view.materialLabel) return;
@@ -23,7 +23,7 @@ export function updateProductionPort(view: PortView, node: MachineNode, sector: 
   view.materialShape.clear().circle(0, 0, 10).fill(row.color);
   const text = view.materialLabel;
   text.anchor.set(left ? 0 : 1, .5); text.position.set(left ? 18 : -18, -9);
-  text.text = row.name.toUpperCase();
+  text.text = portLabelText(row.name);
   const available = getNodeSize(node).w / 2 - 26;
   while (text.width > available && text.text.length > 4) text.text = text.text.replace(/…$/, '').slice(0, -1) + '…';
   const graphics = view.materialBuffer; graphics.clear();

@@ -462,7 +462,7 @@
         "medium-suppression-bot": 1
       },
       "primaryAmount": 1,
-      "seconds": 25,
+      "seconds": 20,
       "node": "Advanced Assembler",
       "proposed": true
     },
@@ -546,7 +546,7 @@
         "command-suppression-bot": 1
       },
       "primaryAmount": 1,
-      "seconds": 60,
+      "seconds": 90,
       "node": "Advanced Assembler",
       "proposed": true
     }
@@ -822,7 +822,7 @@
         "stone": 2
       },
       "workSeconds": {
-        "medium-suppression-bot": 25,
+        "medium-suppression-bot": 20,
         "sealed-frame": 18,
         "simple-robot-frame": 6.5,
         "iron-plate": 102,
@@ -893,7 +893,7 @@
     },
     {
       "bot": "command-suppression-bot",
-      "strength": 20,
+      "strength": 24,
       "raw": {
         "iron": 159,
         "wood": 189.75,
@@ -903,7 +903,7 @@
         "mythril": 13.5
       },
       "workSeconds": {
-        "command-suppression-bot": 60,
+        "command-suppression-bot": 90,
         "servo-frame": 32,
         "mithril-frame": 24,
         "sealed-frame": 18,
@@ -1784,7 +1784,7 @@
       "prerequisites": [
         "Sealed Robotics"
       ],
-      "effect": "Reveals four mineral Golems in separate clear tier 6 sectors. Each requires 10,000 AP once, then becomes an infinite mineral reserve with four star connections for Extractors."
+      "effect": "Allows Bot attacks on four mineral Golems in separate sectors. Iron, Copper and Stone each cost 180 AP. Mythril costs 360 AP. Defeating a Golem creates an infinite mineral reserve with four star connections for Extractors."
     },
     {
       "name": "Mineral Regeneration",

@@ -12,6 +12,7 @@
     "progression": "node scripts/run-progression.mjs",
     "balance:audit": "node scripts/balance-audit.mjs",
     "preview": "vite preview --host 127.0.0.1",
+    "preview:milestones": "node scripts/build-milestone-preview.mjs",
     "changelog": "node scripts/changelog.mjs",
     "changelog:check": "node scripts/changelog.mjs --check && node --test scripts/check-changelog.mjs"
   },

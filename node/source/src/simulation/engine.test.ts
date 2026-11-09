@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { GameEngine, createInitialState } from './engine';
-import { createHomeSector, generateSector, getMapNodeBigHoleAreaRatio, getMapNodeMaximumResourceCapacity, getMapNodeResourceCapacity, getMythrilSpawnChance, getSectorWorldSize } from './worldGeneration';
+import { createHomeSector, generateSector, getBigHoleStoneRequirementForRadius, getMapNodeMaximumResourceCapacity, getMapNodeResourceCapacity, getMythrilSpawnChance, getSectorWorldSize, sectorDistance } from './worldGeneration';
 import { nodesOverlap } from './collisions';
 import { NODE_MODULES } from '../content/nodeModules';
 import { getEffectiveNodeInputFamilies, getNodeInputFamilies, INVENTORY_UNLOCK_ID, isNodeUnlocked, NODE_DEFINITIONS } from '../content/nodes';
@@ -137,7 +137,7 @@ describe('simulation architecture', () => {
     expect(tierTen.nodes.map(n=>n.kind)).toEqual(['cornerChallenge','cornerTribute']);
   });
 
-  it('uses the source-game tier-one and tier-two encounter distribution', () => {
+  it('reserves room for the tier-one and tier-two camps and guaranteed Lake', () => {
     const tierOne = [[5, 4], [6, 5], [5, 6], [4, 5]].map(([x, y]) => generateSector(x, y, 98765, 1));
     const tierTwoCoordinates = Array.from({ length: 121 }, (_, index) => [index % 11, Math.floor(index / 11)] as const)
       .filter(([x, y]) => Math.abs(x - 5) + Math.abs(y - 5) === 2);
@@ -145,7 +145,8 @@ describe('simulation architecture', () => {
     expect(tierOne.filter((sector) => sector.nodes.some((node) => node.kind === 'monster-camp'))).toHaveLength(1);
     expect(tierTwo.filter((sector) => sector.nodes.some((node) => node.kind === 'monster-camp'))).toHaveLength(2);
     expect(tierTwo.filter((sector) => sector.nodes.some((node) => node.kind === 'lake')).length).toBeGreaterThanOrEqual(5);
-    expect(tierTwo.filter((sector) => sector.nodes.some((node) => node.kind === 'lake')).length).toBeLessThanOrEqual(7);
+    expect(tierTwo.filter((sector) => sector.nodes.some((node) => node.kind === 'lake')).length).toBeLessThanOrEqual(6);
+    expect(tierTwo.find(sector => sector.id === '7,5')!.nodes.some(node => node.kind === 'lake')).toBe(true);
   });
 
   it('uses the source-game obstruction area, geometry, and fill rules', () => {
@@ -153,7 +154,7 @@ describe('simulation architecture', () => {
     const field = getSectorWorldSize(tierOne, []);
     const holes = tierOne.nodes.filter((node) => node.kind === 'big-hole');
     const holeArea = holes.reduce((total, hole) => total + Math.PI * (hole.obstructionRadius ?? 0) ** 2, 0);
-    expect(holeArea / (field.width * field.height)).toBeCloseTo(getMapNodeBigHoleAreaRatio(1), 5);
+    expect(holeArea / (field.width * field.height)).toBeCloseTo(.15, 5);
     expect(holes.length).toBeGreaterThanOrEqual(1);
     expect(holes.length).toBeLessThanOrEqual(5);
     expect(holes.every((hole) => (hole.resourceRemaining ?? 0) >= 20 && (hole.resourceRemaining ?? 0) <= 500)).toBe(true);
@@ -168,6 +169,83 @@ describe('simulation architecture', () => {
     expect(lakeAreaRatio).toBeGreaterThanOrEqual(.15);
     expect(lakeAreaRatio).toBeLessThan(.25);
     expect(tierTwo.flatMap((sector) => sector.nodes).filter((node) => node.kind === 'monster-camp').every((camp) => camp.obstructionMaxRadius === 600 && camp.campStrength === 25)).toBe(true);
+  });
+
+  it.each([
+    { x: 5, y: 4, tier: 1, coverage: .15, maximum: 500 },
+    { x: 5, y: 0, tier: 5, coverage: .25, maximum: 2250 },
+    { x: 1, y: 0, tier: 9, coverage: .35, maximum: 4000 },
+  ])('prices tier-$tier holes by their relative field size', ({ x, y, tier, coverage, maximum }) => {
+    const field = getSectorWorldSize({ x, y }, []);
+    const largeRadius = Math.sqrt(field.width * field.height * coverage / Math.PI);
+    const smallRadius = largeRadius / 2;
+    const smallBill = getBigHoleStoneRequirementForRadius(smallRadius, tier, field);
+    expect(getBigHoleStoneRequirementForRadius(largeRadius, tier, field)).toBe(maximum);
+    expect(smallBill).toBeLessThan(maximum);
+    const expandedField = getSectorWorldSize({ x, y }, ['areaExpansion2']);
+    expect(getBigHoleStoneRequirementForRadius(smallRadius * 1.5, tier, expandedField)).toBe(smallBill);
+  });
+
+  it.each([1, 26, 37, 98765, 2147483647])('balances encounters by quadrant and keeps 20 clear outposts for seed %i', seed => {
+    const clearByTier = Array<number>(10).fill(0);
+    const lakesByTier = Array<number>(11).fill(0);
+    const quadrants = Array.from({ length: 4 }, () => ({ camps: 0, lakes: 0, golems: 0 }));
+    for (let y = 0; y < 11; y++) for (let x = 0; x < 11; x++) {
+      const tier = sectorDistance(x, y);
+      if (tier === 0) continue;
+      const sector = generateSector(x, y, seed, 1);
+      const { nodes } = sector;
+      const quadrant = x <= 5 && y < 5 ? 0 : x > 5 && y <= 5 ? 1 : x >= 5 && y > 5 ? 2 : 3;
+      const counts = quadrants[quadrant];
+      if (nodes.some(node => node.kind === 'monster-camp')) counts.camps++;
+      if (nodes.some(node => node.kind === 'resourceGolem')) {
+        expect(x).not.toBe(5);
+        expect(y).not.toBe(5);
+        counts.golems++;
+      }
+      const holes = nodes.filter(node => node.kind === 'big-hole');
+      if (nodes.some(node => node.kind === 'lake')) {
+        lakesByTier[tier]++;
+        counts.lakes++;
+        expect(nodes.some(node => ['big-hole', 'monster-camp', 'resourceGolem'].includes(node.kind))).toBe(false);
+        expect(nodes.filter(node => node.kind !== 'lake').map(node => node.resourceItem).filter(Boolean).sort()).toEqual(['copper', 'iron', 'stone', 'wood']);
+        continue;
+      }
+      if (tier === 10) continue;
+      if (nodes.some(node => node.kind === 'monster-camp')) expect(holes.length).toBeGreaterThan(0);
+      if (holes.length) {
+        const field = getSectorWorldSize(sector, []);
+        const holeArea = holes.reduce((total, hole) => total + Math.PI * (hole.obstructionRadius ?? 0) ** 2, 0);
+        expect(holeArea / (field.width * field.height)).toBeCloseTo(.15 + .025 * (tier - 1), 5);
+        continue;
+      }
+      if (nodes.some(node => ['lake', 'resourceGolem', 'monster-camp'].includes(node.kind))) continue;
+      clearByTier[tier]++;
+      expect(nodes.map(node => node.resourceItem).sort()).toEqual(['copper', 'iron', 'stone', 'wood']);
+    }
+    expect(lakesByTier.slice(3)).toEqual([1, 1, 1, 1, 1, 1, 1, 0]);
+    expect(quadrants.map(counts => counts.golems)).toEqual([1, 1, 1, 1]);
+    expect(quadrants.map(counts => counts.camps).sort()).toEqual([7, 7, 8, 8]);
+    const lakesByQuadrant = quadrants.map(counts => counts.lakes).sort();
+    expect(lakesByQuadrant).toEqual(lakesByTier[2] === 5 ? [3, 3, 3, 3] : [3, 3, 3, 4]);
+    expect(clearByTier).toEqual([0, 1, 0, 3, 3, 3, 4, 3, 2, 1]);
+    expect(generateSector(6, 5, seed, 1).nodes.map(node => node.resourceItem).sort()).toEqual(['copper', 'iron', 'stone', 'wood']);
+  });
+
+  it('opens a clear E1 through normal expansion and keeps Deep Holes already saved there', () => {
+    const state = createInitialState(98765);
+    state.research.mapPoints = 1;
+    const engine = new GameEngine(state);
+    expect(engine.unlockSector(6, 5)).toBe(true);
+    expect(engine.getState().sectors['6,5'].nodes.map(node => node.resourceItem).sort()).toEqual(['copper', 'iron', 'stone', 'wood']);
+
+    const saved = structuredClone(engine.getState());
+    const previousHole = generateSector(5, 4, 98765, 1).nodes.find(node => node.kind === 'big-hole')!;
+    saved.sectors['6,5'].nodes.push(previousHole);
+    const loaded = new GameEngine(normalizeLegacy(saved)!);
+    expect(loaded.getState().sectors['6,5'].nodes.find(node => node.id === previousHole.id)).toMatchObject({
+      kind: 'big-hole', x: previousHole.x, y: previousHole.y, resourceRemaining: previousHole.resourceRemaining,
+    });
   });
 
   it('keeps deposits passive and lets Extractors mine their connected reserve', () => {
@@ -651,7 +729,7 @@ describe('simulation architecture', () => {
   it('uses the original trigger requirements and keeps them out of manual research selection', () => {
     const triggerRequirements = Object.fromEntries(RESEARCH_PROJECTS.filter((project) => project.trigger && project.trigger.id!=='encounter').map((project) => [project.id, project.trigger?.pending]));
     expect(triggerRequirements).toEqual({
-      cornerComponents: 'Obtain any corner component',
+      cornerComponents: 'Obtain any corner piece',
       finalCoreProduction: 'Produce the first Final Core',
       mithrilTools: 'Produce Mythril Tribute at a Dwarven settlement',
       sortingTools: 'Complete Precision Control',
@@ -700,8 +778,8 @@ describe('simulation architecture', () => {
     const mapNode = RESEARCH_PROJECTS.find((project) => project.id === 'mapNode')!;
     expect(getResearchCosts(mapNode, 0)).toEqual({ 'simple-core': 5 });
     expect(getResearchCosts(mapNode, 8)).toEqual({ 'simple-core': 5 });
-    expect(getResearchCosts(mapNode, 9)).toEqual({ 'simple-core': 6, 'basic-core': 6 });
-    expect(getResearchCosts(mapNode, 19)).toEqual({ 'simple-core': 11, 'basic-core': 11, 'automata-core': 11 });
+    expect(getResearchCosts(mapNode, 9)).toEqual({ 'simple-core': 5, 'basic-core': 5 });
+    expect(getResearchCosts(mapNode, 19)).toEqual({ 'simple-core': 5, 'basic-core': 5, 'automata-core': 5 });
   });
 
   it('resets and requires reselection after each repeatable research completion', () => {

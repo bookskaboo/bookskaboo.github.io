@@ -24,23 +24,23 @@ function setup(nodes: MachineNode[], researched = false) {
 }
 
 describe('Connector Mirroring', () => {
-  it('requires Hydraulic Assembly and 100 of every core through tier 4', () => {
+  it('requires Hydraulic Assembly and 10 of every core through tier 4', () => {
     const project = RESEARCH_PROJECTS.find(project => project.id === CONNECTOR_MIRRORING_RESEARCH)!;
-    expect(project.costs).toEqual(Object.fromEntries(cores.map(core => [core, 100])));
+    expect(project.costs).toEqual(Object.fromEntries(cores.map(core => [core, 10])));
     expect(isResearchAvailable(project, ['automataCore'])).toBe(false);
     expect(isResearchAvailable(project, ['hydraulicAssembly'])).toBe(true);
   });
 
-  it('stays locked until all 100 four-core sets are paid together', () => {
+  it('stays locked until all 10 four-core sets are paid', () => {
     const engine = setup([machine('researchCenter'), machine('extractor')]);
     const state = engine.getState();
     const lab = engine.getSector().nodes.find(node => node.kind === 'researchCenter')!;
     engine.selectResearch(CONNECTOR_MIRRORING_RESEARCH);
-    for (let i = 0; i < 99; i++) {
+    for (let i = 0; i < 9; i++) {
       lab.input = Object.fromEntries(cores.map(core => [core, 1]));
       for (let cycleStep = 0; cycleStep < 5; cycleStep++) engine.tick(1000);
     }
-    expect(state.research.contributed).toEqual(Object.fromEntries(cores.map(core => [core, 99])));
+    expect(state.research.contributed).toEqual(Object.fromEntries(cores.map(core => [core, 9])));
     expect(engine.mirrorProductionConnectors('extractor')).toBe(false);
     lab.input = { 'simple-core': 1, 'basic-core': 1, 'automata-core': 1 };
     for (let cycleStep = 0; cycleStep < 5; cycleStep++) engine.tick(1000);

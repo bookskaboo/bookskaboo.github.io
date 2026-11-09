@@ -1,6 +1,6 @@
 # Endgame implementation — November 4, 2026
 
-**Current revision — November 5, 2026 (NODE-0321):** explicit user quotas replace five-minute sizing for Alpha (50 AP), Foundry (50 Circuit B / 25 Sealed Frames / 100 Mythril Gears) and Grove (500 growth). Reclamation retains its five-minute credits. Endgame Theory is retired. Victory is a manually selected Research Center project costing one each of all seven Core types; producing a Final Core alone does not win. See [current implementation](20-endgame-implementation.md).
+**Current revision — November 8, 2026.** The Dragon requires 500 AP per α Piece. Final Robotics costs one of every Core, including a Final Core, and unlocks the 72 AP Final Bot. Victory is a separate Research Center project.
 
 The Q01–Q144 interview is closed. Q144 defers the six extra QoL candidates until initial endgame playtesting. The user subsequently authorized implementing the agreed work and pushing the local game to Git. This document supersedes earlier statements that these features have no runtime implementation; dated decision logs remain historical evidence.
 
@@ -9,12 +9,13 @@ The Q01–Q144 interview is closed. Q144 defers the six extra QoL candidates unt
 | Area | Delivered behavior |
 | --- | --- |
 | Four corners | All four challenges occur once in a seeded random corner permutation. Saved corner order and independent assembly partition persist. |
-| Alpha | 50 AP per Alpha. Seventeen base Medium Bots supply 51 AP in 425 seconds; the extra AP carries forward. Full output preserves progress and stops further consumption/intake. |
-| Ancient Foundry | 50 Circuit B + 25 Sealed Frames + 100 Mythril Gears atomically become one component. One base producer per ingredient needs 500/450/300 seconds. Separate ingredient storage holds the corresponding quantity. |
-| Elder Grove | 500 supplied growth per component: one base Tree Planter in 500 seconds, without Industrial Forestry. Immediate rewards, surplus carry and full-output pause remain. |
-| Reclamation | Any mix contributes proportional credit; ten Fines, 66 Flux, 36 Crust or 22 Slag alone produces one component. Full output preserves stock/progress. See production references below. |
-| Buffers | Ten components per corner Tribute box. Alpha/Reclamation/Grove have 100 incoming units total, independently of accumulated progress. Receiving reservations participate in normal routing capacity checks. |
-| Final Core | First corner-component acquisition unlocks the saved pair of two-input half recipes and the Final Core recipe. Halves take ten seconds; Final Core thirty seconds, with ordinary Assembler efficiency. One of each corner component is required overall. |
+| Ancient Dragon | 500 AP per α Piece. The first piece can use 21 Command Bots for 504 AP. Surplus AP carries forward. Full output pauses intake and preserves progress. |
+| Ancient Foundry | 50 Circuit B + 25 Sealed Frames + 100 Mythril Gears atomically become one β Piece. One base producer per ingredient needs 500/450/300 seconds. Separate ingredient storage holds the corresponding quantity. |
+| Elder Grove | 1,000 supplied growth per γ Piece. Two fully supplied base Tree Planters produce that in 8 minutes 20 seconds. Ten funding batches use 100 Wood, 10 Iron Plates and 10 Stone. Surplus growth carries forward and a full Tribute box pauses intake. |
+| Reclamation | Any mix contributes proportional credit. Twenty Metallic Fines, 132 Spent Flux, 72 Glassy Crust or 44 Slag alone produces one δ Piece. Full output preserves stock and progress. |
+| Buffers | Ten pieces per corner Tribute box. Dragon, Reclamation and Grove have 100 incoming units total, independently of accumulated progress. Receiving reservations participate in normal routing capacity checks. |
+| Final Core | The first piece awarded to a corner Tribute box unlocks the seeded Yin and Yang recipes and the Final Core recipe. Yin and Yang each take ten seconds at base speed. One of each makes a Final Core in thirty seconds at base speed. One of each corner piece is required overall. |
+| Final Robotics | After producing a Final Core and completing Command Robotics, pay one of every Core through Final. An Assembler II uses 2 Command Bots, 1 Complex Core and 1 Servo Frame to make a 72 AP Final Bot in 210 seconds. Seven Final Bots deliver 504 AP for a subsequent α Piece. |
 | Victory | One manually selected Research Center project consumes one each of Simple, Basic, Automata, Hydro, Shiny, Complex and Final Cores, then records victory and displays the glowing dry-humor modal. Continue preserves the world. Notice acknowledgement is saved separately. Draft wording remains available for later editorial review. |
 | Global transport | Access research remains behind first Final Core production, independently of victory; it costs one each of all seven Core types. Separate placement and connection lines use the shared seven-Core 1.5-growth ladder. Inventory destination rules remain intact. |
 | Post-victory research | Resource/Lake/camp relocation, exact compounded Landfill discounts, fourth/fifth Road slots, uncapped Train freight ranks and Forest-inclusive regeneration use the adopted prices, prerequisites and caps. Recurring lines have one updating entry. |
@@ -24,16 +25,16 @@ The Q01–Q144 interview is closed. Q144 defers the six extra QoL candidates unt
 
 Previously delivered Dwarven Mythril, mixed waste/filtering, paid forestry and ordinary Cart/Truck/Train gains are retained. Concurrent local mod-support work is preserved; the extra Q144 research candidates were not implemented as part of this pass.
 
-## Five-minute Reclamation balance — November 5
+## Reclamation quotas — November 8
 
-The user replaces the temporary recycling-value quotas with at most five minutes of one fully supplied base producer. One component is a normalized meter of one; each item adds the reciprocal of its single-type quota. Whole output batches round down within the five-minute window:
+Each single-material quota is twice its November 5 value. Every item adds the reciprocal of its quota to the same meter. A full meter yields one δ Piece.
 
 | Waste | Items alone | Base reference producer | Production seconds |
 | --- | ---: | --- | ---: |
-| Metallic Fines | 10 | Controller, one per 30 seconds | 300 |
-| Spent Flux | 66 | Efficient Hydro Piston, two per nine seconds | 297 |
-| Glassy Crust | 36 | Efficient Mythril Mesh, two per 16 seconds | 288 |
-| Slag | 22 | Efficient Circuit C, two per 27 seconds | 297 |
+| Metallic Fines | 20 | Controller, one per 30 seconds | 600 |
+| Spent Flux | 132 | Efficient Hydro Piston, two per nine seconds | 594 |
+| Glassy Crust | 72 | Efficient Mythril Mesh, two per 16 seconds | 576 |
+| Slag | 44 | Efficient Circuit C, two per 27 seconds | 594 |
 
 Fractional progress carries; no fractional physical item is consumed. Drain other outputs to sustain the reference producer. Mixed waste, alternative Fines sources and upgrades can finish sooner. Saved normalized Reclamation progress remains intact and revised credits apply to new waste. Legacy Alpha/Grove absolute credit and Foundry overstock are retained without resetting saves. Rate sizing and wired engine tests are not a measured average-factory or normal-play endgame result. See [cost model](12-endgame-component-costs.md) and [waste benchmark](13-recycling-and-waste-benchmark.md).
 

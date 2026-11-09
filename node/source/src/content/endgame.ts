@@ -5,19 +5,35 @@ export const CORNERS: CornerType[] = ['alpha', 'foundry', 'reclamation', 'grove'
 export const CORNER_MAPS = ['0,0', '10,0', '10,10', '0,10'];
 export const CORNER_ITEMS: Record<CornerType, ItemId> = { alpha: 'alpha', foundry: 'foundry-component', reclamation: 'reclamation-component', grove: 'grove-component' };
 export const CORNER_NAMES: Record<CornerType, string> = { alpha: 'Ancient Dragon', foundry: 'Ancient Foundry', reclamation: 'Ancient Reclamation', grove: 'Elder Grove' };
-export const FINAL_ITEMS = { alpha: 'Alpha', 'foundry-component': 'Foundry Component', 'reclamation-component': 'Reclamation Component', 'grove-component': 'Grove Component', 'core-half-a': 'Core Half A', 'core-half-b': 'Core Half B', 'final-core': 'Final Core' };
+export const FINAL_ITEMS = {
+  alpha: 'α Piece',
+  'foundry-component': 'β Piece',
+  'reclamation-component': 'δ Piece',
+  'grove-component': 'γ Piece',
+  'core-half-a': 'Yin',
+  'core-half-b': 'Yang',
+  'final-core': 'Final Core',
+};
 export const SEVEN_CORES: ItemId[] = ['simple-core', 'basic-core', 'automata-core', 'hydro-core', 'shiny-core', 'command-core', 'final-core'];
 /** Explicit November 5 quotas supersede the earlier five-minute sizing for these corners.
  * Upgrades/parallel producers shorten the work; setup and delivery latency are separate. */
 export const FOUNDRY_INPUTS: Partial<Record<ItemId, number>> = { 'ceramic-electrode': 50, 'sealed-frame': 25, 'mythril-gear': 100 };
-export const ALPHA_AP = 50; // Seventeen Medium Bots supply 51 AP; surplus carries.
-export const GROVE_GROWTH = 500; // 500 seconds from one base Planter.
-export const RECLAMATION_PRODUCTION_TARGET_MS = 300000;
-/** Whole output batches from Controller, efficient Piston/Mesh/Circuit C respectively.
- * Standard Controller waste is the Fines baseline; other Fines sources can finish sooner.
+export const ALPHA_AP = 500;
+export const FINAL_BOT_AP = 72;
+export const FINAL_BOT_RECIPE: Recipe = {
+  id: 'final-suppression-bot', name: 'Final Bot',
+  inputs: { 'command-suppression-bot': 2, 'command-core': 1, 'servo-frame': 1 },
+  outputs: { 'final-suppression-bot': 1 },
+  cycleMs: 210000,
+  unlockResearch: 'finalRobotics',
+};
+export const GROVE_GROWTH = 1000;
+export const RECLAMATION_PRODUCTION_TARGET_MS = 600000;
+/** Twice the former five-minute quotas, preserving the relative value of every waste type.
+ * Standard Controller waste is the Fines baseline. Other Fines sources can finish sooner.
  * Saved normalized Reclamation progress is retained; these credits apply to new intake. */
 export const RECLAMATION_QUOTAS: Partial<Record<ItemId, number>> = {
-  'metallic-fines': 10, 'spent-flux': 66, 'glassy-crust': 36, slag: 22,
+  'metallic-fines': 20, 'spent-flux': 132, 'glassy-crust': 72, slag: 44,
 };
 export const RECLAMATION_VALUE = Object.fromEntries(Object.entries(RECLAMATION_QUOTAS).map(([item, count]) => [item, 1 / count!])) as Partial<Record<ItemId, number>>;
 
@@ -32,8 +48,16 @@ export const PAIRS: Array<[[CornerType, CornerType], [CornerType, CornerType]]> 
   [['alpha', 'foundry'], ['reclamation', 'grove']], [['alpha', 'reclamation'], ['foundry', 'grove']], [['alpha', 'grove'], ['foundry', 'reclamation']],
 ];
 export const ENDGAME_RECIPES: Record<string, Recipe> = Object.fromEntries(PAIRS.flatMap((pairs, p) => pairs.map((pair, half) => {
-  const id = `core-half-${half ? 'b' : 'a'}-${p}`;
-  return [id, { id, name: `Core Half ${half ? 'B' : 'A'}`, inputs: Object.fromEntries(pair.map(c => [CORNER_ITEMS[c], 1])), outputs: { [half ? 'core-half-b' : 'core-half-a']: 1 }, cycleMs: 10000, unlockResearch: 'cornerComponents' }];
+  const output = half === 0 ? 'core-half-a' : 'core-half-b';
+  const id = `${output}-${p}`;
+  return [id, {
+    id,
+    name: FINAL_ITEMS[output],
+    inputs: Object.fromEntries(pair.map(c => [CORNER_ITEMS[c], 1])),
+    outputs: { [output]: 1 },
+    cycleMs: 10000,
+    unlockResearch: 'cornerComponents',
+  }];
 })));
 ENDGAME_RECIPES['final-core'] = { id: 'final-core', name: 'Final Core', inputs: { 'core-half-a': 1, 'core-half-b': 1 }, outputs: { 'final-core': 1 }, cycleMs: 30000, unlockResearch: 'cornerComponents' };
 export function worldRecipeAllowed(id: string, state: GameState) { return !id.match(/^core-half-[ab]-\d$/) || Number(id.at(-1)) === (state.endgame?.pairIndex ?? seededPairIndex(state.seed)); }
@@ -43,7 +67,14 @@ export function atResearchCap(project: ResearchProject, research: GameState['res
 const bill = () => Object.fromEntries(SEVEN_CORES.map(i => [i, 1]));
 const project = (id: string, name: string, unlock: string, prerequisites: string[], repeatable = false): ResearchProject => ({ id, name, category: 'Endgame', description: unlock, unlock, costs: bill(), prerequisites, ...(repeatable ? { repeatable: true, costGrowth: 1.5 } : {}) });
 export const ENDGAME_RESEARCH: ResearchProject[] = [
-  { id: 'cornerComponents', name: 'Corner Components', category: 'Milestone', description: 'Acquire a component from any corner to reveal this world’s paired assembly recipes.', unlock: 'Unlocks both Core Half recipes and Final Core assembly.', costs: {}, trigger: { id: 'corner-component-obtained', pending: 'Obtain any corner component', complete: 'Corner component acquired' } },
+  { id: 'cornerComponents', name: 'Corner Pieces', category: 'Milestone', description: 'Acquire a piece from any corner to reveal this world’s paired assembly recipes.', unlock: 'Unlocks Yin, Yang and Final Core assembly.', costs: {}, trigger: { id: 'corner-component-obtained', pending: 'Obtain any corner piece', complete: 'Corner piece acquired' } },
+  {
+    id: 'finalRobotics', name: 'Final Robotics', category: 'Endgame',
+    description: 'Use Final Core research to build a heavier Bot. Management has approved another layer of management.',
+    unlock: `Unlocks the Final Bot recipe in Assembler II. Each Final Bot supplies ${FINAL_BOT_AP} AP.`,
+    costs: bill(),
+    prerequisites: ['finalCoreProduction', 'commandRobotics'],
+  },
   { id: 'victory', name: 'A Remarkably Indirect Conclusion', category: 'Endgame', description: 'Select this project at the Research Center and deliver one of every Core, Simple through Final. The factory may continue after its point has been made.', unlock: 'Complete this research to achieve victory and continue playing in this world.', costs: bill(), prerequisites: ['finalCoreProduction'] },
   project('resourceRelocation', 'Resource Relocation', 'Move Forests, deposits and cleared-Golem reserves within their original map, preserving all stock and history.', ['victory']),
   project('lakeRelocation', 'Lake Relocation', 'Move Lakes within their original map. Intakes stay connected and move only when explicitly selected.', ['victory']),

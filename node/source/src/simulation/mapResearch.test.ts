@@ -19,12 +19,17 @@ function setup(completions = 0, unlocked = access) {
 }
 
 describe('half-world Map Node research', () => {
-  it.each([[0, 1, 5], [8, 1, 5], [9, 2, 6], [10, 2, 6], [11, 2, 7], [16, 2, 9], [17, 2, 10], [18, 2, 10], [19, 3, 11], [28, 3, 15], [29, 4, 16], [38, 4, 20], [39, 5, 21], [48, 5, 25], [49, 6, 26], [58, 6, 30], [59, 6, 31], [63, 6, 31], [64, 6, 32], [113, 6, 41], [114, 6, 42], [118, 6, 42]])('prices %i prior completions at tier %i and %i each', (completed, tier, amount) => {
+  it.each([
+    [0, 1, 5], [8, 1, 5], [9, 2, 5], [10, 2, 6], [11, 2, 6], [16, 2, 9], [17, 2, 9], [18, 2, 10],
+    [19, 3, 5], [28, 3, 15], [29, 4, 5], [38, 4, 20], [39, 5, 5], [44, 5, 16], [48, 5, 25],
+    [49, 6, 5], [50, 6, 8], [54, 6, 19], [58, 6, 30], [59, 6, 31], [63, 6, 31], [64, 6, 32],
+    [113, 6, 41], [114, 6, 42], [118, 6, 42],
+  ])('prices %i prior completions at tier %i and %i each', (completed, tier, amount) => {
     expect(getResearchCosts(project, completed)).toEqual(Object.fromEntries(cores.slice(0, tier).map(core => [core, amount])));
   });
 
   it('matches the adopted half-world and full-world budgets including Exploration', () => {
-    for (const [count, expected] of [[59, 4147], [119, 17287]]) {
+    for (const [count, expected] of [[59, 2797], [119, 15937]]) {
       let total = 2;
       for (let i = 0; i < count; i++) total += Object.values(getResearchCosts(project, i)).reduce((sum, q) => sum + (q ?? 0), 0);
       expect(total).toBe(expected);
@@ -43,8 +48,10 @@ describe('half-world Map Node research', () => {
     let engine = setup(39, access.slice(0, 4));
     engine.selectResearch('mapNode');
     const quote = getResearchCostsForState(project, engine.getState().research);
+    expect(quote).toEqual({ 'simple-core': 21, 'basic-core': 21, 'automata-core': 21, 'hydro-core': 21 });
     engine.getState().research.completed.push('oreSeparation');
     engine.selectResearch('mapNode');
+    delete engine.getState().research.mapNodePricingPhase;
     engine = new GameEngine(normalizeLegacy(JSON.parse(JSON.stringify(engine.getState())))!, { autosave: false });
     expect(getResearchCostsForState(project, engine.getState().research)).toEqual(quote);
     expect(outstandingResearchCores(engine.getState().research)).toEqual(cores.slice(0, 4));
@@ -55,7 +62,7 @@ describe('half-world Map Node research', () => {
     expect(engine.getState().research.mapPoints).toBe(1);
     expect(engine.getState().research.mapNodeQuote).toBeUndefined();
     engine.selectResearch('mapNode');
-    expect(getResearchCostsForState(project, engine.getState().research)['shiny-core']).toBe(21);
+    expect(getResearchCostsForState(project, engine.getState().research)['shiny-core']).toBe(5);
   });
 
   it('reprices after changing projects without losing delivered progress', () => {
@@ -66,32 +73,54 @@ describe('half-world Map Node research', () => {
     engine.selectResearch('extractor1');
     engine.selectResearch('mapNode');
     expect(engine.getState().research.contributed).toEqual({ 'simple-core': 3 });
-    expect(getResearchCostsForState(project, engine.getState().research)['shiny-core']).toBe(21);
+    expect(getResearchCostsForState(project, engine.getState().research)['shiny-core']).toBe(5);
   });
 
-  it('honors a saved pre-ramp quote and uses the ramp for the following purchase', () => {
-    const state = setup(9).getState();
+  it('honors a saved quote at the former Shiny price and uses the new price for the following purchase', () => {
+    const state = setup(39).getState();
+    delete state.research.mapNodePricingPhase;
+    const shinyCores = cores.slice(0, 5);
+    const oldCosts = Object.fromEntries(shinyCores.map(core => [core, 16]));
     state.research.selected = 'mapNode';
-    state.research.mapNodeQuote = { completion: 9, costs: { 'simple-core': 10, 'basic-core': 10 } };
-    state.research.contributed = { 'simple-core': 9, 'basic-core': 9 };
-    state.sectors['5,5'].nodes[0].input = { 'simple-core': 1, 'basic-core': 1 };
+    state.research.mapNodeQuote = { completion: 39, costs: oldCosts };
+    state.research.contributed = Object.fromEntries(shinyCores.map(core => [core, 15]));
+    state.sectors['5,5'].nodes[0].input = Object.fromEntries(shinyCores.map(core => [core, 1]));
     const loaded = new GameEngine(normalizeLegacy(JSON.parse(JSON.stringify(state)))!);
-    expect(getResearchCostsForState(project, loaded.getState().research)).toEqual({ 'simple-core': 10, 'basic-core': 10 });
+    expect(getResearchCostsForState(project, loaded.getState().research)).toEqual(oldCosts);
     for (let cycleStep = 0; cycleStep < 5; cycleStep++) loaded.tick(1000);
-    expect(loaded.getState().research.repeatableCompletions?.mapNode).toBe(10);
+    expect(loaded.getState().research.repeatableCompletions?.mapNode).toBe(40);
     loaded.selectResearch('mapNode');
-    expect(getResearchCostsForState(project, loaded.getState().research)).toEqual({ 'simple-core': 6, 'basic-core': 6 });
+    expect(getResearchCostsForState(project, loaded.getState().research)).toEqual(Object.fromEntries(shinyCores.map(core => [core, 7])));
   });
 
   it('preserves old saves and derives a quote for an already selected purchase', () => {
     const engine = setup(65, access.slice(0, 3));
     const state = engine.getState();
+    delete state.research.mapNodePricingPhase;
     state.research.selected = 'mapNode';
     state.research.mapPoints = 7;
     state.research.contributed = { 'simple-core': 12, 'basic-core': 9 };
     const loaded = new GameEngine(normalizeLegacy(JSON.parse(JSON.stringify(state)))!);
     expect(loaded.getState().research).toMatchObject({ mapPoints: 7, repeatableCompletions: { mapNode: 65 }, contributed: { 'simple-core': 12, 'basic-core': 9 } });
-    expect(getResearchCostsForState(project, loaded.getState().research)).toEqual({ 'simple-core': 32, 'basic-core': 32, 'automata-core': 32 });
+    expect(getResearchCostsForState(project, loaded.getState().research)).toEqual({ 'simple-core': 23, 'basic-core': 23, 'automata-core': 23 });
+  });
+
+  it('starts a late Complex phase at five each and remembers its starting purchase across saves', () => {
+    const engine = setup(59, access.slice(0, 5));
+    const state = engine.getState();
+    expect(getResearchCostsForState(project, state.research)).toEqual(Object.fromEntries(cores.slice(0, 5).map(core => [core, 28])));
+    state.research.completed.push('precisionControl');
+    const resetBill = Object.fromEntries(cores.map(core => [core, 5]));
+    expect(getResearchCostsForState(project, state.research)).toEqual(resetBill);
+    engine.selectResearch('mapNode');
+    state.research.contributed = Object.fromEntries(cores.map(core => [core, 4]));
+    engine.getSector().nodes[0].input = Object.fromEntries(cores.map(core => [core, 1]));
+    for (let cycleStep = 0; cycleStep < 5; cycleStep++) engine.tick(1000);
+    expect(state.research.repeatableCompletions?.mapNode).toBe(60);
+
+    const loaded = new GameEngine(normalizeLegacy(JSON.parse(JSON.stringify(state)))!, { autosave: false });
+    loaded.selectResearch('mapNode');
+    expect(getResearchCostsForState(project, loaded.getState().research)).toEqual(Object.fromEntries(cores.map(core => [core, 8])));
   });
 
   it('can fund and unlock the entire world and refuses excess map research', () => {

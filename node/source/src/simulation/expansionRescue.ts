@@ -3,8 +3,8 @@ import { getResearchCostsForState, getResearchProject, isResearchAvailable, rema
 import { RECIPES } from '../content/recipes';
 import { RECYCLER_RETURNS } from '../content/recycling';
 import { BOT_STRENGTH } from '../content/progression';
-import { defeatResourceGolem, getGolemMineral } from '../content/resourceGolems';
-import { generateSector } from './worldGeneration';
+import { defeatResourceGolem, getGolemMineral, golemApCost } from '../content/resourceGolems';
+import { getEncounterLayoutVersion, getGolemPlacementTier, MAP_GRID_SIZE, sectorDistance, sectorForState, sectorId } from './worldGeneration';
 
 export const RESCUE_RESOURCES = ['iron', 'copper', 'stone'] as const;
 type Resource = typeof RESCUE_RESOURCES[number];
@@ -72,7 +72,7 @@ export function nextExpansionShortages(state: GameState): Resource[] {
     const bufferedAp=nodes.reduce((sum,n)=>sum+Object.entries(BOT_STRENGTH).reduce((a,[i,p])=>a+(n.input[i as ItemId]??0)*(p??0)+(n.output[i as ItemId]??0)*(p??0),0),0);
     if(nodes.some(n=>n.kind==='monster-camp'&&!n.lizardSettlement)&&(bufferedAp>0 || botCost<=available))return false;
     const perAp=Math.min(...Object.entries(BOT_STRENGTH).map(([i,p])=>(cost[i as ItemId]??Infinity)/p!));
-    if(nodes.some(n=>n.kind==='resourceGolem'&&getGolemMineral(n)===resource&&Math.max(0,(n.health??10000)-bufferedAp)*perAp<=available))return false;
+    if(nodes.some(n=>n.kind==='resourceGolem'&&getGolemMineral(n)===resource&&Math.max(0,(n.health??golemApCost(n))-bufferedAp)*perAp<=available))return false;
     return true;
   });
 }
@@ -93,18 +93,24 @@ export function shortestRescuePath(state: GameState, target: string) {
 export function applyExpansionRescue(state: GameState) {
   const shortages=nextExpansionShortages(state);if(!shortages.length)return false;
   const candidates:Array<{resource:Resource;sectorId:string;node:MachineNode;path:string[]}>=[];
-  for(let y=0;y<=10;y++)for(let x=0;x<=10;x++){
-    if(Math.abs(x-5)+Math.abs(y-5)!==6)continue;
-    const key=`${x},${y}`,sector=state.sectors[key]??generateSector(x,y,state.seed);
+  const golemTier = getGolemPlacementTier(state);
+  for(let y=0;y<MAP_GRID_SIZE;y++)for(let x=0;x<MAP_GRID_SIZE;x++){
+    if(sectorDistance(x,y)!==golemTier)continue;
+    const key=sectorId(x,y),sector=sectorForState(state,x,y);
     for(const node of sector.nodes)if(node.kind==='resourceGolem'&&shortages.includes(getGolemMineral(node) as Resource))candidates.push({resource:getGolemMineral(node) as Resource,sectorId:key,node,path:shortestRescuePath(state,key)});
   }
   candidates.sort((a,b)=>a.path.length-b.path.length||RESCUE_RESOURCES.indexOf(a.resource)-RESCUE_RESOURCES.indexOf(b.resource));
   const choice=candidates[0];if(!choice)return false;
-  for(const key of choice.path){const [x,y]=key.split(',').map(Number);state.sectors[key]??=generateSector(x,y,state.seed);state.sectors[key].unlocked=true;}
+  state.golemPlacementTier ??= golemTier;
+  state.encounterLayoutVersion ??= getEncounterLayoutVersion(state);
+  for(const key of choice.path){const [x,y]=key.split(',').map(Number);state.sectors[key]=sectorForState(state,x,y);state.sectors[key].unlocked=true;}
   const target=state.sectors[choice.sectorId]?.nodes.find(n=>n.id===choice.node.id);if(!target)return false;
   defeatResourceGolem(target); // Target-specific clearance bypasses Survey without granting unrelated tech.
   state.rescue??={resources:[]};state.rescue.resources.push(choice.resource);
   state.rescue.pending={resource:choice.resource,sectorId:choice.sectorId,newMaps:choice.path.length};
-  if(RESCUE_RESOURCES.every(r=>state.rescue!.resources.includes(r))&&!state.achievements.includes('destructive-testing'))state.achievements.push('destructive-testing');
+  if (RESCUE_RESOURCES.every(resource => state.rescue!.resources.includes(resource)) && !state.achievements.includes('destructive-testing')) {
+    state.achievements.push('destructive-testing');
+    (state.achievementTimes ??= {})['destructive-testing'] = state.playTimeMs;
+  }
   return true;
 }

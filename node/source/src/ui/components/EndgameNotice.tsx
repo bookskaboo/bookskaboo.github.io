@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
 import type { GameState } from '../../domain/types';
 import type { GameEngine } from '../../simulation/engine';
+import { IconGlyph } from '../NodeIcon';
 import '../../styles/endgame.css';
 
 export function EndgameNotice({ game, engine }: { game: GameState; engine: GameEngine }) {
@@ -26,7 +27,7 @@ export function EndgameNotice({ game, engine }: { game: GameState; engine: GameE
       if (buttons.length === 1 || (event.shiftKey && document.activeElement === buttons[0]) || (!event.shiftKey && document.activeElement === buttons.at(-1))) { event.preventDefault(); (event.shiftKey ? buttons.at(-1) : buttons[0])?.focus(); }
     }
   }}><section ref={card} className={`endgame-notice ${rescue ? 'endgame-rescue' : ''}`} role="dialog" aria-modal="true" aria-labelledby="endgame-title">
-    <div className="endgame-orbit" aria-hidden="true"><span>✦</span><i/><i/><i/><i/></div>
+    <div className="endgame-orbit" aria-hidden="true">{rescue ? <span>✦</span> : <IconGlyph icon="final-core" className="endgame-core" />}<i/><i/><i/><i/></div>
     <small>{rescue ? 'EMERGENCY PROCEDURE: SUCCESSFUL' : 'FINAL CORE ACCEPTED'}</small>
     <h1 id="endgame-title">{title}</h1>
     {rescue ? <>

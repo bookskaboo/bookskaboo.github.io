@@ -1,0 +1,31 @@
+/** Large corner illustration. The 24-unit Dragon icon has its own simpler outline. */
+export const DRAGON_ILLUSTRATION = {
+  width: 120,
+  height: 96,
+  layers: [
+    {
+      path: 'M62 57C64 38 68 19 83 9L92 6C86 12 83 19 85 25Q79 25 77 34Q73 34 69 43L68 56Z M47 69L51 80L47 85H56L59 73Z M76 68L82 77L80 86H89L86 73Z',
+      filled: true,
+      width: 1.6,
+      opacity: .66,
+    },
+    {
+      path: 'M78 45C82 43 82 36 87 32L83 23Q89 24 93 30L96 31V26Q100 28 101 33L110 35L115 40L114 44L104 45L100 48H94C94 56 89 62 85 67V75L89 82L96 84V88H83L78 83L76 72C69 76 62 78 53 75L48 82L50 86H57V89H43L39 84L42 74C27 78 14 75 8 67L3 68L5 58L14 61L10 63C17 68 27 68 34 64C42 57 51 56 61 55C67 54 72 50 78 45Z',
+      filled: true,
+      width: 1.9,
+      opacity: 1,
+    },
+    {
+      path: 'M70 59C64 39 51 21 32 8L24 6L17 12Q12 16 7 22C15 20 22 23 26 31C32 27 40 32 42 41C48 38 55 42 58 50L62 58Z',
+      filled: true,
+      width: 1.9,
+      opacity: 1,
+    },
+    {
+      path: 'M25 7Q22 20 26 31 M29 8Q36 20 42 41 M39 14Q51 27 58 50 M81 11Q74 20 77 34 M95 36L99 37 M110 39L111 40 M104 43L112 42 M89 48Q92 49 94 48 M86 53L91 54 M84 57L88 59 M82 61L85 63 M73 64Q76 67 76 72 M42 74Q43 67 49 66 M49 72Q61 75 71 70 M53 64L56 66L59 64 M61 62L64 64L67 62 M29 69L30 72 M23 70L24 73 M88 84L88 88 M50 86V89',
+      filled: false,
+      width: 1.08,
+      opacity: .82,
+    },
+  ],
+} as const;

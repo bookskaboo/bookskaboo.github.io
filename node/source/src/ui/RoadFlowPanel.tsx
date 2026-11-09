@@ -19,7 +19,7 @@ export function RoadFlowPanel({ node, game, engine, training, onClose }: {
 
   return <aside className="inspector recipe-picker-panel road-flow-panel glass" aria-label="Road flow">
     <header className="recipe-picker-header">
-      <span><NodeIcon kind="road" /></span>
+      <span><NodeIcon kind={node.kind} node={node} /></span>
       <div><h2>Road flow</h2></div>
       <button onClick={onClose} aria-label="Close Road flow">×</button>
     </header>

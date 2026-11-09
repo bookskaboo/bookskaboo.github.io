@@ -2,7 +2,7 @@ import type { GameState, MachineNode, NodeKind } from '../domain/types';
 import { modNode } from '../mods/modRules';
 
 export const isCartKind = (kind: NodeKind) => kind === 'woodenChest' || kind === 'chest';
-export function cartUpgrade(completed: readonly string[], rank = 0) {
+export function cartUpgrade(completed: readonly string[], rank = 0): { name: 'Cart' | 'Truck' | 'Train'; capacity: number } {
   return completed.includes('trains') ? { name: 'Train', capacity: 80 + 20 * rank }
     : completed.includes('trucks') ? { name: 'Truck', capacity: 40 } : { name: 'Cart', capacity: 20 };
 }

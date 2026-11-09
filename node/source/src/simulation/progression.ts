@@ -70,10 +70,10 @@ export function initializeProgression(state:GameState){
   if(['hydroProcessor','advancedAssembler','separationFurnace'].includes(node.kind))node.capacity=5;
  // Refresh revised base times without changing saved items or already-committed batch outputs.
  for(const sector of Object.values(state.sectors))for(const node of sector.nodes)
-  if(node.recipeId&&['refined-mithril','mithril-mesh','precision-controller','logic-substrate','advanced-actuator','command-core'].includes(node.recipeId))node.cycleMs=RECIPES[node.recipeId].cycleMs;
+  if(node.recipeId&&['refined-mithril','mithril-mesh','precision-controller','logic-substrate','advanced-actuator','command-core','medium-suppression-bot','command-suppression-bot'].includes(node.recipeId))node.cycleMs=RECIPES[node.recipeId].cycleMs;
  for(const sector of Object.values(state.sectors))for(const node of sector.nodes)
   if(node.kind==='resourceGolem'&&node.defeated)defeatResourceGolem(node);
- for(const sector of Object.values(state.sectors))if(legacy&&sector.unlocked)sector.visited=true;
+ for(const sector of Object.values(state.sectors))if(legacy&&sector.unlocked)sector.visited??=true;
  if(legacy)for(const [id,kinds]of [['7,5',['lake','mythril']],['5,7',['sortingStation']]]as const){
   const sector=state.sectors[id];if(!sector)continue;
   const [x,y]=id.split(',').map(Number),generated=generateSector(x,y,state.seed);

@@ -29,12 +29,23 @@ export function applyReviewedProduction({ names, recipes, groups, research, node
   add('efficient-circuit-c', 'Efficient Circuit C', 'advancedAssembler', { 'circuit-a': 1, 'ceramic-electrode': 1, 'mythril-wire': 1 }, { 'logic-substrate': 1, slag: 2, 'glassy-crust': 1 }, 27000, 'efficientHigherIntermediates');
   const cores = ['simple-core', 'basic-core', 'automata-core', 'hydro-core', 'shiny-core', 'command-core'];
   for (const [id, name, amount, unlock] of [
-    ['efficientIntermediates', 'Efficient Intermediates', 50, 'Unlocks efficient Circuit A, Motor and Bot Frame recipes. Products and waste share one output; use Filters.'],
-    ['efficientHigherIntermediates', 'Efficient Higher Intermediates', 100, 'Unlocks efficient Hydro Piston, Mythril Mesh and Circuit C, plus direct Flux, Crust and Slag recovery.'],
-    ['planterThroughput', 'Industrial Forestry', 100, 'Tree Planters produce ten times faster and send up to ten funded growth units per local shipment.'],
+    ['efficientIntermediates', 'Efficient Intermediates', 25, 'Unlocks efficient Circuit A, Motor and Bot Frame recipes. Products and waste share one output; use Filters.'],
+    ['efficientHigherIntermediates', 'Efficient Higher Intermediates', 50, 'Unlocks efficient Hydro Piston, Mythril Mesh and Circuit C, plus direct Flux, Crust and Slag recovery.'],
+    ['planterThroughput', 'Industrial Forestry', 25, 'Tree Planters produce ten times faster and send up to ten funded growth units per local shipment.'],
   ]) research.push({ id, name, category: 'Efficiency', description: unlock, unlock, costs: Object.fromEntries(cores.map(core => [core, amount])), prerequisites: id === 'planterThroughput' ? ['precisionControl', 'treePlanter'] : ['precisionControl'] });
   research.push({ id: 'finalCoreProduction', name: 'Final Core Production', category: 'Discovery', description: 'Produce the first Final Core to make global transport research available. The Final Core route is still under development.', unlock: 'Makes Autonomous Logistics research available.', costs: {}, trigger: { id: 'final-core-produced', pending: 'Produce the first Final Core', complete: 'First Final Core produced' } });
   for (const project of research) {
+    if (project.id === 'areaExpansion2') project.costs = Object.fromEntries(cores.slice(0, 5).map(core => [core, 50]));
+    if (project.id === 'factoryTemplates') project.costs = Object.fromEntries(cores.slice(0, 3).map(core => [core, 15]));
+    if (project.id === 'treePlanter1') project.costs = Object.fromEntries(cores.slice(0, 3).map(core => [core, 10]));
+    if (project.id === 'warehouseLogistics') project.costs = Object.fromEntries(cores.slice(0, 4).map(core => [core, 20]));
+    if (project.id === 'roadChannels2') {
+      project.costs = Object.fromEntries(cores.slice(0, 4).map(core => [core, 20]));
+      project.description = 'Adds a third Road slot to every map face. Sending and receiving endpoints share the three-slot limit.';
+    }
+    if (project.id === 'highPressureIntakes') project.costs = Object.fromEntries(cores.slice(0, 5).map(core => [core, 60]));
+    if (project.id === 'mineralRegeneration2') project.costs = Object.fromEntries(cores.slice(0, 5).map(core => [core, 30]));
+    if (project.id === 'mineralRegenerationRate') project.costs = Object.fromEntries(cores.map(core => [core, 10]));
     if (project.id === 'autonomousLogistics') project.prerequisites = [...new Set([...project.prerequisites, 'finalCoreProduction'])];
     if (project.id === 'endgameTheory') project.prerequisites = project.prerequisites.filter(id => id !== 'autonomousLogistics');
     if (project.id === 'mithrilTools') {
@@ -50,7 +61,10 @@ export function applyReviewedProduction({ names, recipes, groups, research, node
       project.prerequisites = project.prerequisites.filter(id => id !== 'mineralRecovery');
       project.unlock = 'Unlocks Complex production, Waste Bin, Waste Link, sorting and direct Fines-to-Iron recovery.';
     }
-    if (project.id === 'mineralRecovery1') project.description = project.unlock = 'Direct waste recovery recipes take 10% less time after machine efficiency; quantities stay unchanged.';
+    if (project.id === 'mineralRecovery1') {
+      project.costs = Object.fromEntries(cores.slice(0, 4).map(core => [core, 10]));
+      project.description = project.unlock = 'Direct waste recovery recipes take 10% less time after machine efficiency; quantities stay unchanged.';
+    }
   }
   if (nodes) {
     nodes.slagHopper.unlockResearch = 'sortingTools';

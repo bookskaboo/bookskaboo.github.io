@@ -1,6 +1,15 @@
 import { ITEM_NAMES } from '../content/items';
 import { isWorldObstacle } from '../content/nodeCapabilities';
+import type { LineArtId } from '../art/lineArt';
 import type { GameState, ItemId, SectorState } from '../domain/types';
+
+export const MAP_LANDMARKS = {
+  camps: { label: 'Monster camps', icon: 'goblin-camp' },
+  lakes: { label: 'Lakes', icon: 'lake' },
+  golems: { label: 'Golems', icon: 'golem' },
+} as const satisfies Record<string, { label: string; icon: LineArtId }>;
+
+export type MapLandmark = keyof typeof MAP_LANDMARKS;
 
 /** Display coordinates relative to Home; serialized sector IDs remain unchanged. */
 export function mapNodePosition(x: number, y: number) {
@@ -14,10 +23,33 @@ export function mapNodeName(sector: SectorState) {
   return generic ? mapNodePosition(sector.x, sector.y) : sector.name;
 }
 
-/** Unlocking permits travel; the survey becomes visible after actually visiting. */
+/** Normal play surveys a map on arrival. The dev override reveals surveys without travelling. */
+function isSurveyed(game: GameState, sector: SectorState | undefined): sector is SectorState {
+  return Boolean(sector?.unlocked && (game.devMapSurveysRevealed === true || sector.visited || sector.id === game.activeSectorId));
+}
+
+export function mapLandmarkSurvey(game: GameState) {
+  const discovered = new Set<MapLandmark>();
+  // An encountered Golem can become a mineral reserve, leaving no live marker.
+  if (game.encounters?.includes('resourceGolem')) discovered.add('golems');
+  const bySector = new Map<string, Set<MapLandmark>>();
+  for (const sector of Object.values(game.sectors)) {
+    if (!isSurveyed(game, sector)) continue;
+    const landmarks = new Set<MapLandmark>();
+    for (const node of sector.nodes) {
+      if (node.kind === 'monster-camp' || node.kind === 'cornerChallenge') landmarks.add('camps');
+      if (node.kind === 'lake') landmarks.add('lakes');
+      if (node.kind === 'resourceGolem') landmarks.add('golems');
+    }
+    if (landmarks.size) bySector.set(sector.id, landmarks);
+    for (const landmark of landmarks) discovered.add(landmark);
+  }
+  return { discovered, bySector };
+}
+
 export function mapNodeSurvey(game: GameState, id: string) {
   const sector = game.sectors[id];
-  const explored = Boolean(sector?.unlocked && (sector.visited || id === game.activeSectorId));
+  const explored = isSurveyed(game, sector);
   const resources = new Map<ItemId, number>();
   const obstructions = new Map<string, number>();
   if (explored) for (const node of sector.nodes) {

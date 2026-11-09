@@ -4,7 +4,7 @@
 
 The interface includes Build, recipe selection and guide, Research and prerequisite navigation, Node Map, discovery journal, inspector, save/load, options and command help. The graph supports panning, zoom, selection, groups, recipe copying, grid alignment, shortcut bars and undo. Production uses motion, shapes and buffer indicators; rejected cable drops have visual feedback.
 
-Research separates active work, next milestones, available capabilities, future projects and completed projects. Future research stays browsable. Configurable machines require a recipe before connections; Basics explicitly teaches Copper Plate selection.
+Research separates active work, guidance under Obligatory hand holding, available capabilities, future projects and completed projects. Future research stays browsable. Configurable machines require a recipe before connections; Basics explicitly teaches Copper Plate selection.
 
 ## Learning baseline
 
@@ -37,6 +37,12 @@ Q33 makes baseline Complex waste mandatory; the first lesson should cover its gu
 Q34–Q35 assign the single initial waste stream to Controllers: one Metallic Fines alongside each Controller. Standard Controller/Servo Piston chance wastes are removed in the intended design. Explain this predictable secondary output, waste-buffer blockage and handling before the first batch; introduce additional waste types when researched efficient alternatives arrive. Q36 settles the initial handling path as recycling, described below.
 
 Q36–Q39 adopt one-step Hydro Plant recycling: four Fines plus one Water produce one Iron Plate in ten base seconds, unlocked alongside Waste Bin and Waste Link by Precision Control without extra payment. The first waste lesson should arrive with this access, distinguish buffering from recovery and show where Plates can join existing production. No permanent-disposal behavior is assumed for a Waste Bin. Efficient alternative recipes remain a later research purchase.
+
+### Connect Research to the factory
+
+**Adopted November 7, 2026 (NODE-0332).** Lead with the next milestone the player can act on. When active Research is waiting on a Core, let the player select that Core to jump to the first shortage the game can identify along its supply line. For example, a Hydro Core shortage can lead to an assembler waiting for a Hydro Piston. Select the affected machine and show the missing ingredient with its stored and required counts. If the game cannot identify a shortage, show the Core recipe and the outstanding delivery requirement.
+
+Check the jump on a known missing input, on an existing supply route that crosses a sector border, and with no producer for the missing Core. Verify that a fresh player can find the next milestone when there is no active research. Implementation and player testing are pending. [Playtest notes](../../outputs/live-ui-playtest-2026-11-05-replacement/queued-ui-improvements.txt)
 
 ## Accessibility commitment
 

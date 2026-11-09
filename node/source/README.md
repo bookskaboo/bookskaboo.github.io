@@ -59,7 +59,7 @@ Open `http://127.0.0.1:4173/`.
 - Multi-node selections regain the original outlined selection and batch-delete button. It uses the deletion preference, removes attached cables together, and restores the batch with one undo.
 - Five Goblin Camps, five Villages and five Kingdoms per new world, with research-aligned AP requirements and configurable direct-output Tribute while suppressed; tribute stores up to 100 materials and is lost on a failed AP check. See [obstruction behavior](docs/obstruction-types-and-behavior.md).
 - Five Dwarven Camps, five Dwarven Villages and five Dwarven Kingdoms in separate map tiers 4–9 sectors, with higher recurring AP costs and larger tribute batches defaulting to Mythril. Their sectors exclude Goblins and the reserved Golem encounters.
-- Four mineral Golems centered in separate clear tier 6 sectors. Each costs 10,000 AP once and becomes an infinite reserve of its mineral, with four directional star sockets for Extractors.
+- Four mineral Golems centered in separate clear tier 5 sectors in new worlds. Iron, Copper and Stone cost 180 AP each, and Mythril costs 360 AP. Each becomes an infinite reserve with four directional star sockets for Extractors.
 
 The implementation intentionally has no analytics, remote APIs, hosted assets, or cloud persistence.
 

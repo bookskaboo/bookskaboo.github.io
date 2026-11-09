@@ -9,10 +9,11 @@ import { isRecipeAvailable } from '../content/recipeAvailability';
 import { createInitialState, GameEngine } from './engine';
 import { createCornerNodes, initializeEndgame, simulateCorner, simulateRecycler } from './endgameRuntime';
 import { applyExpansionRescue, nextExpansionShortages, shortestRescuePath } from './expansionRescue';
-import { generateSector } from './worldGeneration';
+import { generateSector, sectorDistance } from './worldGeneration';
 import { roadChannels } from './progression';
 import { researchCardDetails, researchSection } from '../ui/researchPresentation';
 import { normalizeLegacy } from '../persistence/saves';
+import { deepHoleStoneReadout } from '../renderer/playfieldNodeState';
 
 function corner(type: NonNullable<MachineNode['cornerType']>) {
   const state=createInitialState(123); initializeEndgame(state);
@@ -35,7 +36,7 @@ describe('repeatable corner production and seeded assembly',()=>{
   it('carries Alpha overpayment and stops consuming bots while output is full',()=>{
     const {state,sector,node,box}=corner('alpha');node.cornerProgress=ALPHA_AP-3;node.input['command-suppression-bot']=1;
     box.output.alpha=10;simulateCorner(state,sector,node);expect(node.input['command-suppression-bot']).toBe(1);
-    box.output.alpha=9;simulateCorner(state,sector,node);expect(box.output.alpha).toBe(10);expect(node.cornerProgress).toBe(17);expect(node.input['command-suppression-bot']).toBe(0);
+    box.output.alpha=9;simulateCorner(state,sector,node);expect(box.output.alpha).toBe(10);expect(node.cornerProgress).toBe(21);expect(node.input['command-suppression-bot']).toBe(0);
     expect(state.endgame?.componentObtained).toBe(true);
   });
   it('requires all Foundry parts and converts atomically with no extra timer',()=>{
@@ -160,8 +161,54 @@ describe('endgame research and preservation',()=>{
   });
   it('credits paid hole fill against exact compounded bills and never refunds',()=>{
     expect(landfillTotal(250,2)).toBe(160);expect(landfillTotal(20000,44)).toBe(2);expect(landfillTotal(20000,45)).toBe(1);
+    expect([1, 3, 5].map(rank => landfillTotal(4000, rank))).toEqual([3200, 2048, 1311]);
     const s=createInitialState();s.research.repeatableCompletions={efficientLandfill:1};const n=machine('big-hole');n.holeBaseStone=250;n.holeStoneConsumed=100;reconcileHole(n,s);expect(n.resourceRemaining).toBe(100);
     s.research.repeatableCompletions.efficientLandfill=4;reconcileHole(n,s);expect(n.resourceRemaining).toBe(3);s.research.repeatableCompletions.efficientLandfill=5;reconcileHole(n,s);expect(n.resourceRemaining).toBe(0);expect(n.holeStoneConsumed).toBe(100);
+  });
+  it('counts Stone when it reaches the Deep Hole connector and retains the count after it is used', () => {
+    const state = createInitialState(6);
+    const source = machine('woodenChest', 'stone-cart', 1300);
+    const hole = machine('big-hole', 'hole', 1800);
+    source.output.stone = 1;
+    hole.resourceRemaining = 250;
+    state.sectors['5,5'].nodes = [source, hole];
+    const engine = new GameEngine(state, { autosave: false });
+    const liveHole = engine.getSector().nodes.find(node => node.id === hole.id)!;
+    expect(engine.connect(source.id, hole.id)).toBe(true);
+    liveHole.processingPaused = true;
+
+    engine.tick(400);
+    expect(engine.getActiveTransfers()).toHaveLength(1);
+    expect(deepHoleStoneReadout(liveHole, 0)).toBe('STONE 0 / 250');
+    engine.tick(1000);
+    expect(liveHole.input.stone).toBe(1);
+    expect(deepHoleStoneReadout(liveHole, 0)).toBe('STONE 1 / 250');
+    liveHole.processingPaused = false;
+    engine.tick(400);
+    expect(liveHole.holeStoneConsumed).toBe(1);
+    expect(deepHoleStoneReadout(liveHole, 0)).toBe('STONE 1 / 250');
+  });
+  it('uses the discounted bill even when Stone deliveries exceed the new total', () => {
+    const state = createInitialState();
+    const hole = machine('big-hole');
+    hole.holeBaseStone = 250;
+    hole.holeStoneConsumed = 100;
+    hole.input.stone = 3;
+    state.research.repeatableCompletions = { efficientLandfill: 4 };
+    reconcileHole(hole, state);
+    expect(deepHoleStoneReadout(hole, 4)).toBe('STONE 103 / 103');
+    state.research.repeatableCompletions.efficientLandfill = 5;
+    reconcileHole(hole, state);
+    expect(deepHoleStoneReadout(hole, 5)).toBe('STONE 103 / 82');
+  });
+  it('retains the original save’s Stone requirement and fill progress', () => {
+    const state = normalizeLegacy({
+      version: 1, nodes: [], runtime: { bigHoles: { hole: { stoneRequirement: 250, stoneFilled: 75 } } },
+    })!;
+    const engine = new GameEngine(state, { autosave: false });
+    const hole = engine.getSector().nodes.find(node => node.id === 'hole')!;
+    expect(hole.resourceRemaining).toBe(175);
+    expect(deepHoleStoneReadout(hole, 0)).toBe('STONE 75 / 250');
   });
   it('preserves unused Stone when a discounted, already-paid hole is cleared',()=>{
     const s=createInitialState();s.research.repeatableCompletions={efficientLandfill:5};const n=machine('big-hole','hole');n.holeBaseStone=250;n.holeStoneConsumed=100;n.input.stone=3;s.sectors['5,5'].nodes=[n];
@@ -202,9 +249,25 @@ describe('hidden expansion recovery',()=>{
     s.sectors['5,5'].nodes.find(n=>n.resourceItem==='copper')!.resourceRemaining=0;s.globalPool={'simple-core':5};expect(nextExpansionShortages(s)).toEqual([]);
     s.globalPool={};s.research.projectContributions={mapNode:{'simple-core':5}};expect(nextExpansionShortages(s)).toEqual([]);s.research.projectContributions={};s.research.mapPoints=1;expect(nextExpansionShortages(s)).toEqual([]);
   });
-  it('opens a shortest path and usable reserve once, retaining quote, paid progress and map points',()=>{
-    const s=depleted();s.research.projectContributions={mapNode:{'simple-core':1}};expect(applyExpansionRescue(s)).toBe(true);expect(s.rescue!.resources).toEqual(['copper']);const p=s.rescue!.pending!;expect(s.sectors[p.sectorId].nodes.some(n=>n.infiniteResource&&n.resourceItem==='copper')).toBe(true);expect(s.research.projectContributions.mapNode['simple-core']).toBe(1);expect(s.research.mapPoints).toBe(0);expect(applyExpansionRescue(s)).toBe(false);expect(shortestRescuePath(s,p.sectorId)).toEqual([]);
-    const e=new GameEngine(s,{autosave:false});e.acknowledgeRescue();ticks(e,2);expect(e.getState().rescue!.resources).toEqual(['copper']);
+  it.each([5, 6] as const)('opens a shortest path to a tier %i reserve once, retaining quote, paid progress and map points', tier => {
+    const state = depleted();
+    state.golemPlacementTier = tier;
+    state.encounterLayoutVersion = tier === 6 ? 1 : 2;
+    state.research.projectContributions = { mapNode: { 'simple-core': 1 } };
+    expect(applyExpansionRescue(state)).toBe(true);
+    expect(state.rescue!.resources).toEqual(['copper']);
+    const pending = state.rescue!.pending!;
+    const sector = state.sectors[pending.sectorId];
+    expect(sectorDistance(sector.x, sector.y)).toBe(tier);
+    expect(sector.nodes.some(node => node.infiniteResource && node.resourceItem === 'copper')).toBe(true);
+    expect(state.research.projectContributions.mapNode['simple-core']).toBe(1);
+    expect(state.research.mapPoints).toBe(0);
+    expect(applyExpansionRescue(state)).toBe(false);
+    expect(shortestRescuePath(state, pending.sectorId)).toEqual([]);
+    const engine = new GameEngine(state, { autosave: false });
+    engine.acknowledgeRescue();
+    ticks(engine, 2);
+    expect(engine.getState().rescue!.resources).toEqual(['copper']);
   });
   it('ignores renewable Wood and worlds without further map purchases',()=>{
     const s=createInitialState();s.research.completed=['exploration'];s.sectors['5,5'].nodes.find(n=>n.kind==='forest')!.resourceRemaining=0;expect(nextExpansionShortages(s)).toEqual([]);s.research.mapPoints=120;expect(nextExpansionShortages(s)).toEqual([]);

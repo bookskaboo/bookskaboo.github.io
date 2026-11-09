@@ -1,6 +1,6 @@
 # Intermediate recycling and the waste-output benchmark
 
-**November 5 balance revision (NODE-0320):** Reclamation uses the user's five-minute base-producer target: ten standard Controller Fines, or 66 Flux / 36 Crust / 22 Slag from their respective alternative-recipe producers. Mixed credits add proportionally. This replaces the temporary recycling-value quota and old shared-material-parity requirement below; recycling rules and the historical benchmark discussion remain intact. These rates are analytically sized and engine-tested, not measured average-factory waste. See [current implementation](20-endgame-implementation.md).
+**November 8 revision.** Reclamation takes 20 Metallic Fines, 132 Spent Flux, 72 Glassy Crust or 44 Slag, double the November 5 quotas from NODE-0320. Mixed waste contributes proportionally. See the [current implementation](20-endgame-implementation.md#reclamation-quotas--november-8).
 
 ## Recorded direction (Q93, November 3, 2026)
 

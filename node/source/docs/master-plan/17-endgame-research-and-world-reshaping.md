@@ -64,6 +64,8 @@ Current Intakes obtain Water through a Lake connection, not a shoreline-distance
 
 ## Deep Hole efficiency rules to resolve
 
+**Current generated fill prices (November 8, 2026, NODE-0349).** The tier-9 per-hole maximum is 4,000 Stone. Efficient Landfill prices a hole at that maximum at 3,200 Stone at rank 1, 2,048 at rank 3, and 1,311 at rank 5, before credit for Stone already consumed. Older saves can still contain 20,000-Stone holes, which the rank-45 limit below covers.
+
 The user adopts a progressively more expensive research line that reduces Stone demand. Q123 adopts the reduction, upward rounding and one-Stone minimum below. Q124 adopts crediting consumed fill below; Q125 adopts research cost growth below; Q126 adopts post-victory availability below; Q127 adopts a rank-45 limit below. Keep delivered Stone progress accounted for; do not silently remove or refund prior deliveries during a price/rank change. Update the remaining-fill display and accepted deliveries consistently with the chosen formula.
 
 Current source consumes one Stone per fill unit. Holes from depleted deposits currently start at 250 units; generated holes derive their requirement from size and map tier. The new line should respect those distinct base requirements unless a later decision explicitly changes them. This is not a new blanket 250-Stone cost for every hole.

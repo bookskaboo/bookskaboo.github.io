@@ -168,3 +168,12 @@ Source ID: `chat-balance-2026-11-05` · Type: chat
 Chat ID: `01a1aaed-82e5-7e31-a612-22d4c0ffe13f`
 
 November 5 cost review after the published playtest. User selects five minutes of one fully supplied base producer per corner input, excluding speed upgrades and Industrial Forestry.
+
+<a id="chat-progression-smoothness-2026-11-07"></a>
+### Review playtest progression smoothness
+
+Source ID: `chat-progression-smoothness-2026-11-07` · Type: chat
+
+Chat ID: `01a1b957-2880-7761-9126-53d74e04617e`
+
+Sequential review of the live playtest. User asks to preserve the incentive to open new maps and use their resources.

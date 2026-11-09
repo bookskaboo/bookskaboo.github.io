@@ -2,7 +2,7 @@ import { getEffectiveNodeInputFamilies, getEffectiveNodeOutputFamilies, NODE_DEF
 import { getNodeCapabilities, hasNodeBehavior, isWorldObstacle, needsRecipeSelection } from '../content/nodeCapabilities';
 import { isProductionMachine } from '../content/productionNodes';
 import type { Connection, ItemId, MachineNode, PortFamily } from '../domain/types';
-import { getPortAnchor } from '../domain/nodeGeometry';
+import { cornerCampInward, getPortAnchor } from '../domain/nodeGeometry';
 import { segmentCrossesObstruction, type Point } from '../domain/obstructionGeometry';
 import { FILTERABLE_ITEMS, isFluidItem } from '../content/items';
 import { isCartKind } from '../content/cartUpgrades';
@@ -104,6 +104,7 @@ const rotatedSide = (base: PortSide, rotation: number): PortSide => {
 };
 
 export function getPortSide(node: MachineNode, direction: PortDirection, port: number): PortSide {
+  if (node.kind === 'cornerChallenge' && node.cornerCampQuadrant && direction === 'input') return cornerCampInward(node.cornerCampQuadrant).x > 0 ? 'east' : 'west';
   if (node.infiniteResource && direction === 'output') return (['north', 'east', 'south', 'west'] as PortSide[])[port % 4];
   if ((node.kind === 'road' || node.kind === 'fluidRoad') && node.roadFacing) return node.roadFacing;
   if (node.kind === 'lake') return (['north', 'east', 'south', 'west'] as PortSide[])[port % 4];

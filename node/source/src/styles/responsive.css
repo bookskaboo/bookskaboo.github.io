@@ -40,7 +40,7 @@
 .research-section .research-grid { grid-template-columns: repeat(auto-fit, minmax(min(155px, 100%), 1fr)); }
 .research-section .research-card { min-width: 0; }
 .research-section .research-card-name { font-size: clamp(12px, .8vw, 15px); }
-.research-card-status, .research-card-cost, .research-project-detail p { font-size: clamp(11px, .7vw, 13px); }
+.research-project-detail p { font-size: clamp(11px, .7vw, 13px); }
 .research-requirement-filters { flex-wrap: wrap; }
 .research-requirement-filter { flex: 1 1 70px; min-height: 32px; }
 .recipe-picker-copy small { white-space: normal; font-size: 11px; line-height: 1.5; }
@@ -162,7 +162,6 @@
   .welcome-copy h1 { font-size: clamp(40px, 11vw, 66px); }
   .welcome-points { grid-template-columns: 1fr; gap: 10px; }
   .inspector { top: var(--hud-clear); bottom: auto; left: var(--hud-gap); right: var(--hud-gap); width: auto; max-height: calc(100dvh - var(--hud-clear) - var(--hud-bottom)); }
-  .commands-grid { grid-template-columns: 1fr; }
   .recipe-guide-formula { flex-wrap: wrap; }
   .recipe-guide-material { white-space: normal; }
   .recipe-picker-card { grid-template-columns: 30px minmax(0, 1fr) auto; gap: 8px; }

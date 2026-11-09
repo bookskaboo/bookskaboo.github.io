@@ -1,8 +1,43 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { createInitialState, GameEngine } from '../simulation/engine';
+import { applyExpansionRescue } from '../simulation/expansionRescue';
 import { normalizeLegacy } from './saves';
 
 describe('durable discovery journal and version 1 saves', () => {
+  it('timestamps an action between ticks and excludes time spent paused', () => {
+    const clock = vi.spyOn(performance, 'now').mockReturnValue(1000);
+    try {
+      const engine = new GameEngine(createInitialState(301), { autosave: false });
+      engine.startRealtimeClock();
+      clock.mockReturnValue(1047.25);
+      engine.togglePause();
+      clock.mockReturnValue(2047.25);
+      engine.tickRealtime();
+      expect(engine.getState().playTimeMs).toBe(0);
+      expect(engine.connect('forest', 'ironExtractor')).toBe(true);
+      expect(engine.getState().researchLog?.find(event => event.projectId === 'joint')?.elapsedMs).toBe(47.25);
+      expect(engine.getState().discoveryTimes?.joint).toBe(47.25);
+      engine.togglePause();
+      clock.mockReturnValue(2110.5);
+      engine.tickRealtime();
+      expect(engine.getState().playTimeMs).toBe(110.5);
+    } finally {
+      clock.mockRestore();
+    }
+  });
+
+  it('records the final emergency rescue time and retains it in a save', () => {
+    const state = createInitialState(7);
+    state.research.completed = ['exploration'];
+    state.rescue = { resources: ['iron', 'stone'] };
+    state.sectors['5,5'].nodes.find(node => node.resourceItem === 'copper')!.resourceRemaining = 0;
+    state.playTimeMs = 71234.75;
+    expect(applyExpansionRescue(state)).toBe(true);
+    expect(state.achievements).toContain('destructive-testing');
+    const restored = normalizeLegacy(JSON.parse(JSON.stringify(state)))!;
+    expect(restored.achievementTimes?.['destructive-testing']).toBe(71234.75);
+  });
+
   it('retains discoveries after production fills the short activity feed, then round-trips the factory', () => {
     const engine = new GameEngine(createInitialState(301), { autosave: false });
     expect(engine.connect('forest', 'ironExtractor')).toBe(true);

@@ -1,8 +1,9 @@
 import type { GameState, ItemId } from '../domain/types';
-import { getDwarvenSettlement, getLizardSettlementForMapTier } from '../content/lizardSettlements';
-import { getGolemMineral } from '../content/resourceGolems';
+import { getDwarvenSettlement } from '../content/lizardSettlements';
+import { GOBLIN_SETTLEMENTS } from '../content/goblinSettlements';
+import { defeatResourceGolem, getGolemMineral, GOLEM_COST_VERSION, golemApCost } from '../content/resourceGolems';
 import { RECIPES, RETIRED_RECIPES } from '../content/recipes';
-import { WASTE_ITEMS } from '../content/progression';
+import { BOT_STRENGTH, WASTE_ITEMS } from '../content/progression';
 import { reconcileQueue } from './mixedOutput';
 import { getNodeCapabilities } from '../content/nodeCapabilities';
 
@@ -33,19 +34,29 @@ export function migrateReviewedProduction(state: GameState) {
     for (const node of sector.nodes) {
       if (node.lizardSettlement && node.kind === 'monster-camp') {
         const tier = Math.abs(sector.x - 5) + Math.abs(sector.y - 5);
-        // Fixture/legacy home placements can still recover their old difficulty.
-        const oldTier = ({ 24: 4, 40: 5, 60: 6, 80: 7, 120: 8, 160: 9 } as Record<number, number>)[node.attackRequirement ?? 0];
-        const newTier = [4,5,6,7,8,9].find(t => getLizardSettlementForMapTier(t).attackRequirement === node.attackRequirement);
-        node.settlementMapTier ??= tier >= 4 ? tier : oldTier ?? newTier ?? getDwarvenSettlement(node).mapTier;
         const spec = getDwarvenSettlement(node);
+        node.settlementMapTier ??= tier >= 4 ? tier : spec.mapTier;
         node.attackRequirement = spec.attackRequirement;
         node.tributeItem = 'mythril';
         node.suppressionCredit ??= 0;
+      } else if (node.kind === 'monster-camp' && node.goblinSettlement) {
+        node.attackRequirement = GOBLIN_SETTLEMENTS[node.goblinSettlement].attackRequirement;
       }
       if (node.kind === 'miningDrill' && node.miningTarget === 'mythril') node.miningTarget = 'iron';
-      if (node.kind === 'resourceGolem' && !node.golemCostVersion) {
-        if (getGolemMineral(node) === 'mythril') node.health = 10000 + (node.health ?? 10000);
-        node.golemCostVersion = 1;
+      if (node.kind === 'resourceGolem' && node.golemCostVersion !== GOLEM_COST_VERSION) {
+        const oldCost = node.golemCostVersion === 1 && getGolemMineral(node) === 'mythril' ? 20000 : 10000;
+        const paid = Math.max(0, oldCost - (node.health ?? oldCost));
+        node.health = Math.max(0, golemApCost(node) - paid);
+        node.golemCostVersion = GOLEM_COST_VERSION;
+        if (node.health === 0) {
+          const pool = state.globalPool ??= {};
+          for (const item of Object.keys(BOT_STRENGTH) as ItemId[]) {
+            const stored = node.input[item] ?? 0;
+            if (stored > 0) pool[item] = (pool[item] ?? 0) + stored;
+            delete node.input[item];
+          }
+          defeatResourceGolem(node);
+        }
       }
       if (node.recipeId && RETIRED_RECIPES.has(node.recipeId) && !node.batch) { delete node.recipeId; node.progressMs = 0; }
       const recipe = node.recipeId && RECIPES[node.recipeId];

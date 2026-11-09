@@ -37,13 +37,27 @@ describe('reviewed production implementation', () => {
     expect(RECIPES['precision-controller'].chanceOutputs).toBeUndefined();
     expect(RECIPES['advanced-actuator'].chanceOutputs).toBeUndefined();
     expect(getResearchProject('efficientHigherIntermediates')?.prerequisites).toEqual(['precisionControl']);
-    expect(Object.values(getResearchProject('efficientIntermediates')!.costs)).toEqual([50,50,50,50,50,50]);
-    expect(Object.values(getResearchProject('efficientHigherIntermediates')!.costs)).toEqual([100,100,100,100,100,100]);
+    expect(Object.values(getResearchProject('efficientIntermediates')!.costs)).toEqual([25,25,25,25,25,25]);
+    expect(Object.values(getResearchProject('efficientHigherIntermediates')!.costs)).toEqual([50,50,50,50,50,50]);
     expect(isRecipeUnlocked('slagwashing', ['mineralRecovery'])).toBe(false);
     expect(isRecipeUnlocked('recover-fines', ['precisionControl'])).toBe(true);
   });
 
-  it.each([4,5,6,7,8,9])('uses adopted Dwarven map-tier %i AP, output and capacity', tier => {
+  it('finishes a saved Command Bot batch at the new cycle without charging the inputs again', () => {
+    const recipeId = 'command-suppression-bot';
+    const engine = setup([machine('advancedAssembler', 'command', {
+      recipeId, cycleMs: 60000, progressMs: 59000, batch: { recipeId, outputs: { [recipeId]: 1 } },
+    })], ['commandRobotics']);
+    const assembler = engine.getSector().nodes[0];
+    expect(assembler.cycleMs).toBe(90000);
+    advance(engine, 30900);
+    expect(assembler.output).toEqual({});
+    advance(engine, 100);
+    expect(assembler.output).toEqual({ [recipeId]: 1 });
+    expect(assembler.batch).toBeUndefined();
+  });
+
+  it.each([[4,1],[5,1],[6,1],[7,1],[8,2],[9,2]])('uses adopted Dwarven map-tier %i AP, output and capacity', (tier, bots) => {
     const spec = getLizardSettlementForMapTier(tier);
     const camp = machine('monster-camp', 'camp', { lizardSettlement: spec.settlement, settlementMapTier: tier, campStrength: 10, suppressed: true });
     const engine = setup([camp]); advance(engine, 5000);
@@ -51,7 +65,7 @@ describe('reviewed production implementation', () => {
     // First normal check still occurs at sixty seconds, not at first delivery.
     expect(engine.getSector().nodes[0].attackRequirement).toBe(spec.attackRequirement);
     expect(box).toBeUndefined();
-    engine.getSector().nodes[0].input['command-suppression-bot'] = Math.ceil(spec.attackRequirement / 20);
+    engine.getSector().nodes[0].input['command-suppression-bot'] = bots;
     advance(engine, 60000);
     const tribute = engine.getSector().nodes.find(node => node.kind === 'goblinTribute')!;
     expect(tribute.capacity).toBe(spec.capacity);
@@ -61,25 +75,25 @@ describe('reviewed production implementation', () => {
   });
 
   it('retains Dwarven overpayment, insufficient bots, Tribute and wiring and retries once', () => {
-    const engine = setup([machine('monster-camp', 'camp', { lizardSettlement: 'kingdom', settlementMapTier: 9, campStrength: 10, input: { 'command-suppression-bot': 4 } })]);
+    const engine = setup([machine('monster-camp', 'camp', { lizardSettlement: 'village', settlementMapTier: 7, campStrength: 10, input: { 'command-suppression-bot': 1 } })]);
     advance(engine, 65000);
     const camp = engine.getSector().nodes[0];
     const tribute = engine.getSector().nodes.find(node => node.kind === 'goblinTribute')!;
-    expect(camp.suppressionCredit).toBe(8); expect(tribute.output.mythril).toBe(24);
+    expect(camp.suppressionCredit).toBe(8); expect(tribute.output.mythril).toBe(5);
     link(engine, tribute.id, 'unconnected-legacy-destination');
-    camp.input['medium-suppression-bot'] = 3;
+    camp.input['medium-suppression-bot'] = 2;
     advance(engine, 55000);
-    expect(camp.suppressionRetry).toBe(true); expect(camp.input['medium-suppression-bot']).toBe(3);
+    expect(camp.suppressionRetry).toBe(true); expect(camp.input['medium-suppression-bot']).toBe(2);
     expect(engine.getSector().nodes).toContain(tribute); expect(engine.getSector().connections).toHaveLength(1);
     const stock = tribute.output.mythril;
     advance(engine, 5000); expect(tribute.output.mythril).toBe(stock);
-    camp.input['command-suppression-bot'] = 3;
+    camp.input['medium-suppression-bot'] = 3;
     advance(engine, 100);
-    expect(camp.suppressionRetry).toBe(false); expect(camp.suppressionCredit).toBe(2);
+    expect(camp.suppressionRetry).toBe(false); expect(camp.suppressionCredit).toBe(1);
     const after = camp.suppressionCredit;
     advance(engine, 100); expect(camp.suppressionCredit).toBe(after);
     const reloaded = new GameEngine(normalizeLegacy(structuredClone(engine.getState()))!);
-    expect(reloaded.getSector().nodes[0].suppressionCredit).toBe(2);
+    expect(reloaded.getSector().nodes[0].suppressionCredit).toBe(1);
     expect(reloaded.getSector().nodes.find(node => node.id === tribute.id)?.output).toEqual(tribute.output);
   });
 
@@ -181,15 +195,15 @@ describe('reviewed production implementation', () => {
   });
 
   it('archives unsupported legacy Mythril reserves and preserves Golem damage and paid recovery batches', () => {
-    const engine=setup([machine('mythril','old',{resourceItem:'mythril',resourceRemaining:100}),machine('resourceGolem','golem',{golemMineral:'mythril',health:7500}),machine('hydroProcessor','legacy',{recipeId:'slagwashing',progressMs:11900,batch:{recipeId:'slagwashing',outputs:{'mineral-aggregate':2,'metal-residue':1}}})]);
+    const engine=setup([machine('mythril','old',{resourceItem:'mythril',resourceRemaining:100}),machine('resourceGolem','golem',{golemMineral:'mythril',health:9875}),machine('hydroProcessor','legacy',{recipeId:'slagwashing',progressMs:11900,batch:{recipeId:'slagwashing',outputs:{'mineral-aggregate':2,'metal-residue':1}}})]);
     expect(engine.getSector().retiredMythril?.nodes[0].id).toBe('old');
     expect(engine.getSector().nodes.some(node=>node.id==='old')).toBe(false);
-    expect(engine.getSector().nodes.find(node=>node.id==='golem')?.health).toBe(17500);
+    expect(engine.getSector().nodes.find(node=>node.id==='golem')?.health).toBe(235);
     advance(engine,100);
     const legacy=engine.getSector().nodes.find(node=>node.id==='legacy')!;
     expect(legacy.output).toEqual({'mineral-aggregate':2,'metal-residue':1});expect(legacy.recipeId).toBeUndefined();
     const loaded=new GameEngine(normalizeLegacy(structuredClone(engine.getState()))!);
     expect(loaded.getSector().retiredMythril?.nodes).toHaveLength(1);
-    expect(loaded.getSector().nodes.find(node=>node.id==='golem')?.health).toBe(17500);
+    expect(loaded.getSector().nodes.find(node=>node.id==='golem')?.health).toBe(235);
   });
 });

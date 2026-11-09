@@ -4,6 +4,8 @@
 
 **Implemented:** charcoal, steel and gold UI colors; vector node silhouettes and icons; material-colored cables; star/circle port affordances; production animation and resource bars. The visual system carries functional information, so art changes must preserve recognition at normal play zoom.
 
+The [approved art preview](../art-preview.html) is the reference for future art adjustments. It includes the node palette, corner and encounter illustrations, and before-and-after comparisons for machine and recipe icons.
+
 **Agreed:** Mythril is the canonical spelling. Extractors are Production nodes. Dry, understated humor belongs in introductions, help, tutorials and modal subtext. Commands, counts and goals stay clear. Preserve serialized IDs even when display text changes.
 
 Q40–Q41 adopt Circuit B as the former Electrode at Hydro and Circuit C as the former Logic Wafer at Complex. Keep Controller distinct. Retain serialized item/recipe IDs, ingredients, cycles and unlocks while updating current names/icons, recipes, research and tooltips consistently during implementation. No runtime naming or art change is made by this design record.

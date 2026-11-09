@@ -200,9 +200,12 @@ function FactoryApp({ engine, training, welcome, onShowWelcome, onCloseWelcome, 
 
   useEffect(() => engine.subscribe(() => forceRender((v) => v + 1)), [engine]);
   useEffect(() => {
-    let previous = performance.now();
-    const timer = window.setInterval(() => { const now = performance.now(); engine.tick(now - previous); previous = now; }, 100);
-    return () => window.clearInterval(timer);
+    engine.startRealtimeClock();
+    const timer = window.setInterval(() => engine.tickRealtime(), 100);
+    return () => {
+      window.clearInterval(timer);
+      engine.stopRealtimeClock();
+    };
   }, [engine]);
 
   const choices = training ? tutorialChoices(training.kind, tutorialStage, engine.getState()) : undefined;
@@ -211,6 +214,7 @@ function FactoryApp({ engine, training, welcome, onShowWelcome, onCloseWelcome, 
   useEffect(() => { if (training && placing && placing !== allowedBuildKind) setPlacing(undefined); }, [training, placing, allowedBuildKind]);
   useEffect(() => { if (training) setBuildCategory('All'); }, [training, allowedBuildKind]);
   const game = engine.getState();
+  const mapAvailable = game.devMapSurveysRevealed === true || game.research.completed.includes('exploration');
   const sector = engine.getSector();
   const selected = sector.nodes.filter((node) => selectedIds.includes(node.id));
   const selectedNode = selected.length === 1 ? selected[0] : undefined;
@@ -234,6 +238,7 @@ function FactoryApp({ engine, training, welcome, onShowWelcome, onCloseWelcome, 
     else if (returnPanel) { setPanel(returnPanel); setReturnPanel(null); }
     else setPanel(null);
   }, [panel, returnPanel]);
+  useEffect(() => { if (panel === 'map' && !mapAvailable) dismissPanel(); }, [panel, mapAvailable, dismissPanel]);
   const openResearchRecipe = (recipeId: string) => {
     researchRecipeParent.current = returnPanel;
     researchRecipeFocus.current = document.activeElement instanceof HTMLElement ? document.activeElement : null;
@@ -331,8 +336,8 @@ function FactoryApp({ engine, training, welcome, onShowWelcome, onCloseWelcome, 
       if (!event.repeat && plainKey && key === 'j') { event.preventDefault(); togglePanel('journal'); return; }
       if (!event.repeat && plainKey && key === 'o') { event.preventDefault(); togglePanel('options'); return; }
       if (!event.repeat && plainKey && key === 'q') { event.preventDefault(); togglePanel('research'); return; }
-      if (!event.repeat && !commandModifier && !event.altKey && event.shiftKey && key === 'm') { event.preventDefault(); if (game.research.completed.includes('exploration')) togglePanel('map'); return; }
-      if (!event.repeat && plainKey && key === 'm') { event.preventDefault(); if (game.research.completed.includes('exploration')) { if (panel === 'map') { dismissPanel(); setMinimapVisible(false); } else setMinimapVisible((visible) => !visible); } return; }
+      if (!event.repeat && !commandModifier && !event.altKey && event.shiftKey && key === 'm') { event.preventDefault(); if (mapAvailable) togglePanel('map'); return; }
+      if (!event.repeat && plainKey && key === 'm') { event.preventDefault(); if (mapAvailable) { if (panel === 'map') { dismissPanel(); setMinimapVisible(false); } else setMinimapVisible((visible) => !visible); } return; }
       if (!event.repeat && !commandModifier && !event.altKey && (key === '?' || (key === '/' && event.shiftKey))) { event.preventDefault(); togglePanel('commands'); return; }
       if (!event.repeat && plainKey && key === 'r') { const node = sector.nodes.find((candidate) => candidate.id === hoveredNodeId) ?? selectedNode; if (node && getNodeModule(node.kind).controls.rotatable) { event.preventDefault(); engine.rotateNode(node.id); } return; }
       const functionBarShortcut = /^F([1-3])$/.exec(event.code);
@@ -345,7 +350,7 @@ function FactoryApp({ engine, training, welcome, onShowWelcome, onCloseWelcome, 
       }
     };
     window.addEventListener('keydown', onKey); return () => window.removeEventListener('keydown', onKey);
-  }, [changeShortcutBars, closePanels, configuringNodeId, confirmDelete, dismissPanel, engine, game.research.unlocked, hoveredNodeId, pendingGroupNodes, pendingDisbandGroup, requestDelete, sector.nodes, selectedIds, selectedNode, shortcutBars, togglePanel, welcome, training?.kind, tutorialStage]);
+  }, [changeShortcutBars, closePanels, configuringNodeId, confirmDelete, dismissPanel, engine, game.research.unlocked, hoveredNodeId, mapAvailable, panel, pendingGroupNodes, pendingDisbandGroup, requestDelete, sector.nodes, selectedIds, selectedNode, shortcutBars, togglePanel, welcome, training?.kind, tutorialStage]);
 
   useEffect(() => {
     if (!placing) return;
@@ -454,7 +459,7 @@ function FactoryApp({ engine, training, welcome, onShowWelcome, onCloseWelcome, 
         </button>
         <div className="sector-crumb"><span className="status-dot" /> <b>{sector.label}</b><span>/</span><strong>{sector.name}</strong><small>LVL {sectorDistance(sector.x, sector.y)}</small></div>
         <nav className="modal-trigger-strip" aria-label="Factory systems">
-          {game.research.completed.includes('exploration') && <RailButton tone="map" icon="◎" label="Map" shortcut="⇧M" active={panel === 'map'} onClick={() => togglePanel('map')} />}
+          {mapAvailable && <RailButton tone="map" icon="◎" label="Map" shortcut="⇧M" active={panel === 'map'} onClick={() => togglePanel('map')} />}
           <RailButton tone="research" icon="⌁" label="Research" shortcut="Q" active={panel === 'research'} onClick={() => togglePanel('research')} />
           <RailButton tone="build" icon="＋" label="Build" shortcut="B" active={panel === 'build'} onClick={() => togglePanel('build')} />
           <RailButton tone="options" icon="⚙" label="Options" shortcut="O" active={panel === 'options'} onClick={() => togglePanel('options')} />
@@ -477,15 +482,20 @@ function FactoryApp({ engine, training, welcome, onShowWelcome, onCloseWelcome, 
       {panel === 'journal' && <DiscoveryJournal game={game} onClose={dismissPanel} onOpen={(id, kind) => openUnlock(id, true, kind)} />}
       {panel === 'options' && <OptionsPanel game={game} engine={engine} shortcutBars={shortcutBars} onShortcutBars={changeShortcutBars} onResetShortcutBars={() => { changeShortcutBars(createDefaultShortcutBars(window.innerWidth, window.innerHeight)); changeShortcutBarGroups(DEFAULT_SHORTCUT_BAR_GROUPS); }} onJournal={() => openSubPanel('journal', 'options')} onSaveLoad={() => openSubPanel('save', 'options')} onMods={() => openSubPanel('mods', 'options')} onCommands={() => openSubPanel('commands', 'options')} onRecipes={() => openSubPanel('recipes', 'options')} onTutorials={onTutorials} training={Boolean(training)} onClose={dismissPanel} />}
       {panel === 'recipes' && <RecipesPanel key={unlockVisit} initialRecipeId={unlockFocus?.panel === 'recipes' ? unlockFocus.recipeId : undefined} backToResearch={returnPanel === 'research'} game={game} onClose={dismissPanel} />}
-      {(panel === 'research' || (panel === 'recipes' && returnPanel === 'research')) && <div hidden={panel !== 'research'}><ResearchPanel allowedProjectId={choices?.researchProjectId} key={unlockVisit} focusProjectId={unlockFocus?.panel === 'research' ? unlockFocus.projectId : undefined} game={game} engine={engine} onClose={dismissPanel} onOpenRecipe={openResearchRecipe} /></div>}
+      {(panel === 'research' || (panel === 'recipes' && returnPanel === 'research')) && <div hidden={panel !== 'research'}>
+        <ResearchPanel allowedProjectId={choices?.researchProjectId} showMilestones={!training} key={unlockVisit}
+          focusProjectId={unlockFocus?.panel === 'research' ? unlockFocus.projectId : undefined} game={game} engine={engine}
+          onClose={dismissPanel} onOpenRecipe={openResearchRecipe}
+        />
+      </div>}
 
       {panel === 'save' && !training && <SavePanel game={game} engine={engine} slots={saveSlots} setSlots={setSaveSlots} onClose={dismissPanel} />}
       {panel === 'commands' && <CommandsPanel onClose={dismissPanel} />}
       {panel === 'mods' && !training && <ModsModal game={game} engine={engine} onClose={dismissPanel} />}
       {panel === 'dev' && !training && <DevPanel game={game} engine={engine} showAllBuildNodes={showAllBuildNodes} onShowAllBuildNodes={setShowAllBuildNodes} onPlaceSource={() => startPlacement('devSource')} onClose={dismissPanel} />}
 
-      <ShortcutBars dockLayout={dockLayout} canBuild={canBuild} bars={shortcutBars} groups={shortcutBarGroups} unlockedResearch={game.research.unlocked} newAssignmentKeys={newShortcutAssignmentKeys} placing={placing} onChange={changeShortcutBars} onGroupsChange={changeShortcutBarGroups} onBuild={startPlacement} onBuildDragEnd={finishShortcutBuildDrag} onBuildDragCancel={() => setPlacing(undefined)} onAcknowledgeAssignment={acknowledgeShortcutAssignment} />
-      {(minimapVisible || panel === 'map') && game.research.completed.includes('exploration') && <NodeMinimap expanded={panel === 'map'} dockHeight={dockLayout.height} allowedSectorId={choices?.sectorId} game={game} engine={engine} onTravel={id => { travelToSector(id); if (panel === 'map') closePanels(); }} onOpenMap={() => togglePanel('map')} onClose={() => { if (panel === 'map') dismissPanel(); else setMinimapVisible(false); }} onHoverChange={handleMinimapHover} />}
+      <ShortcutBars dockLayout={dockLayout} canBuild={canBuild} bars={shortcutBars} groups={shortcutBarGroups} unlockedResearch={game.research.unlocked} completedResearch={game.research.completed} newAssignmentKeys={newShortcutAssignmentKeys} placing={placing} onChange={changeShortcutBars} onGroupsChange={changeShortcutBarGroups} onBuild={startPlacement} onBuildDragEnd={finishShortcutBuildDrag} onBuildDragCancel={() => setPlacing(undefined)} onAcknowledgeAssignment={acknowledgeShortcutAssignment} />
+      {mapAvailable && (minimapVisible || panel === 'map') && <NodeMinimap expanded={panel === 'map'} dockHeight={dockLayout.height} allowedSectorId={choices?.sectorId} game={game} engine={engine} onTravel={id => { travelToSector(id); if (panel === 'map') closePanels(); }} onOpenMap={() => togglePanel('map')} onClose={() => { if (panel === 'map') dismissPanel(); else setMinimapVisible(false); }} onHoverChange={handleMinimapHover} />}
       {configuringNode && configuringNode.kind === 'road' && !panel && !welcome && <RoadFlowPanel node={configuringNode} game={game} engine={engine} training={Boolean(training)} onClose={() => setConfiguringNodeId(undefined)} />}
       {inspectingNode && !training && !panel && !welcome && !configuringNode && <NodeInspector node={inspectingNode} game={game} engine={engine} onFailure={setInteractionFailure} onClose={() => setInspectingNodeId(undefined)} onConfigureRecipe={() => configureNode(inspectingNode.id)} onOpenResearch={() => togglePanel('research')} onDelete={() => requestDeleteNode(inspectingNode.id)} />}
 

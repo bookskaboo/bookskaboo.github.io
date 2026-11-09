@@ -1,10 +1,11 @@
-import { createCornerNodes } from './endgameRuntime';
-import type { ItemId, MachineNode, SectorState } from '../domain/types';
+import { createCornerNodes, syncCornerLayout } from './endgameRuntime';
+import { CORNER_MAPS } from '../content/endgame';
+import type { GameState, ItemId, MachineNode, SectorState } from '../domain/types';
 import { modNode, modRule } from '../mods/modRules';
 import { canPlaceNode, nodesOverlap, NODE_CLEARANCE } from './collisions';
 import { overlapsMaximumCampRadius } from '../domain/obstructionGeometry';
 import { getGoblinSettlementForMapTier, GOBLIN_CHECK_INTERVAL_MS } from '../content/goblinSettlements';
-import { GOLEM_MINERALS, GOLEM_NAMES } from '../content/resourceGolems';
+import { GOLEM_COST_VERSION, GOLEM_MINERALS, GOLEM_NAMES, GOLEM_PLACEMENT_TIER, LEGACY_GOLEM_PLACEMENT_TIER, golemApCost, type GolemPlacementTier } from '../content/resourceGolems';
 import { getLizardSettlementForMapTier } from '../content/lizardSettlements';
 
 const HOME = 5;
@@ -19,7 +20,7 @@ const BIG_HOLE_MAX_RADIUS_MULTIPLIER = 1.25;
 const BIG_HOLE_CENTER_SPACING = 1.7;
 const BIG_HOLE_MIN_STONE = 20;
 const BIG_HOLE_TIER_ONE_MAX_STONE = 500;
-const BIG_HOLE_MAX_STONE = 20000;
+const BIG_HOLE_MAX_STONE = 4000;
 const id = (prefix: string) => `${prefix}-${Math.random().toString(36).slice(2, 9)}`;
 
 function rng(seed: number) {
@@ -95,6 +96,13 @@ export function getSectorWorldSize(sector: Pick<SectorState, 'x' | 'y'>, complet
   };
 }
 
+export function syncCornerLayouts(state: GameState) {
+  for (const id of CORNER_MAPS) {
+    const sector = state.sectors[id];
+    if (sector) syncCornerLayout(sector, getSectorWorldSize(sector, state.research.completed), state);
+  }
+}
+
 function node(kind: MachineNode['kind'], name: string, x: number, y: number, extra: Partial<MachineNode> = {}): MachineNode {
   const patch = modNode(kind);
   return {
@@ -124,7 +132,7 @@ function shuffled<T>(values: T[], random: () => number) {
 
 export function getMapNodeBigHoleAreaRatio(tier: number) {
   const progression = Math.max(0, Math.min(9, tier) - 1) / 8;
-  return .15 + (.5 - .15) * progression;
+  return .15 + (.35 - .15) * progression;
 }
 
 function bigHoleLayouts(field: { width: number; height: number }, targetArea: number) {
@@ -156,16 +164,17 @@ function variedRadii(count: number, targetArea: number, maximumCellRadius: numbe
   return Array.from({ length: count }, () => equalRadius);
 }
 
-function maximumGeneratedHoleRadius(tier: number) {
-  const field = getSectorWorldSize({ x: HOME + Math.min(10, Math.max(0, tier)), y: HOME }, []);
+function maximumGeneratedHoleRadius(tier: number, field: { width: number; height: number }) {
   const target = field.width * field.height * getMapNodeBigHoleAreaRatio(tier);
   return Math.max(BIG_HOLE_RADIUS, ...bigHoleLayouts(field, target).map((layout) => layout.radius * (layout.count > 1 ? BIG_HOLE_MAX_RADIUS_MULTIPLIER : 1)));
 }
 
-export function getBigHoleStoneRequirementForRadius(radius: number, tier: number) {
+export function getBigHoleStoneRequirementForRadius(radius: number, tier: number, field?: { width: number; height: number }) {
   const clampedTier = Math.min(9, Math.max(1, tier));
+  const baseField = getSectorWorldSize({ x: HOME + clampedTier, y: HOME }, []);
+  const baseRadius = field ? radius * Math.sqrt((baseField.width * baseField.height) / (field.width * field.height)) : radius;
   const tierMaximum = Math.round(BIG_HOLE_TIER_ONE_MAX_STONE + (BIG_HOLE_MAX_STONE - BIG_HOLE_TIER_ONE_MAX_STONE) * (clampedTier - 1) / 8);
-  const sizeProgress = Math.max(0, Math.min(1, (radius - BIG_HOLE_RADIUS) / Math.max(1, maximumGeneratedHoleRadius(clampedTier) - BIG_HOLE_RADIUS)));
+  const sizeProgress = Math.max(0, Math.min(1, (baseRadius - BIG_HOLE_RADIUS) / Math.max(1, maximumGeneratedHoleRadius(clampedTier, baseField) - BIG_HOLE_RADIUS)));
   return Math.max(1, Math.round(BIG_HOLE_MIN_STONE + (tierMaximum - BIG_HOLE_MIN_STONE) * sizeProgress));
 }
 
@@ -192,7 +201,7 @@ function makeBigHoles(tier: number, field: { width: number; height: number }, ra
   });
   return centers.map((center, index) => node('big-hole', 'Deep Hole', center.x, center.y, {
     obstructionRadius: radii[index],
-    resourceRemaining: getBigHoleStoneRequirementForRadius(radii[index], tier),
+    resourceRemaining: getBigHoleStoneRequirementForRadius(radii[index], tier, field),
   }));
 }
 
@@ -208,58 +217,142 @@ function makeLake(field: { width: number; height: number }, random: () => number
   );
 }
 
-function mapGenerationRule(x: number, y: number, seed: number) {
+type MapCell = { x: number; y: number; key: string; quadrant: number };
+
+// Clockwise from northwest, with each quadrant owning one adjacent Home axis.
+function mapQuadrant(x: number, y: number) {
+  if (y < HOME) return x <= HOME ? 0 : 1;
+  if (y > HOME) return x < HOME ? 3 : 2;
+  return x > HOME ? 1 : 3;
+}
+
+function takeBalanced(candidates: MapCell[], count: number, totals: number[]) {
+  const remaining = [...candidates];
+  const chosen: MapCell[] = [];
+  while (chosen.length < count && remaining.length) {
+    // Candidates are shuffled, so the seed breaks ties between equally served quadrants.
+    const index = remaining.reduce((best, cell, index) => totals[cell.quadrant] < totals[remaining[best].quadrant] ? index : best, 0);
+    const [cell] = remaining.splice(index, 1);
+    chosen.push(cell);
+    totals[cell.quadrant]++;
+  }
+  return chosen;
+}
+
+function buildMapLayout(seed: number, golemTier: GolemPlacementTier, balanced: boolean) {
   const random = rng(seed ^ 0x51f15e);
   const campRandom = rng(seed ^ 0xcab005e);
-  const cells = Array.from({ length: MAP_GRID_SIZE * MAP_GRID_SIZE }, (_, index) => ({ x: index % MAP_GRID_SIZE, y: Math.floor(index / MAP_GRID_SIZE) }));
-  // Keep this shuffle to preserve the seeded RNG sequence for later tiers.
-  shuffled(cells.filter((cell) => sectorDistance(cell.x, cell.y) === 1), random);
-  const tierTwo = shuffled(cells.filter((cell) => sectorDistance(cell.x, cell.y) === 2), random);
+  const tiers: MapCell[][] = Array.from({ length: MAX_MAP_NODE_VALUE + 1 }, () => []);
+  for (let y = 0; y < MAP_GRID_SIZE; y++) for (let x = 0; x < MAP_GRID_SIZE; x++) {
+    tiers[sectorDistance(x, y)].push({ x, y, key: sectorId(x, y), quadrant: mapQuadrant(x, y) });
+  }
+  const countsByTier = [0, 1, 2, 2, 2, 2, 1, 2, 2, 1];
+  // Keep this shuffle to preserve the seeded tier-two Lake layout.
+  shuffled(tiers[1], random);
+  const tierTwo = shuffled(tiers[2], random);
   const minimumLakes = Math.ceil(tierTwo.length * .6);
   const lakeCount = tierTwo.length > minimumLakes ? minimumLakes + Math.floor(random() * (tierTwo.length - minimumLakes)) : minimumLakes;
-  const lakes = new Set(tierTwo.slice(0, lakeCount).map((cell) => sectorId(cell.x, cell.y)));
+  const guaranteedLake = sectorId(7, 5);
+  const otherLakeSlots = tierTwo.length - countsByTier[2] - 1;
+  const earlyLakes = tierTwo.slice(0, lakeCount).filter(cell => cell.key !== guaranteedLake).slice(0, otherLakeSlots);
+  earlyLakes.push(tierTwo.find(cell => cell.key === guaranteedLake)!);
+  const lakes = new Set(earlyLakes.map(cell => cell.key));
   // Fifteen settlements in distinct sectors: five of each subtype. Keep early
   // discovery reachable and spread stronger settlements across robotics tiers.
   const camps = new Set<string>();
-  const countsByTier = [0, 1, 2, 2, 2, 2, 1, 2, 2, 1];
+  const campTotals = [0, 0, 0, 0];
   for (let tier = 1; tier <= 9; tier++) {
-    const eligible = cells.filter((cell) => sectorDistance(cell.x, cell.y) === tier && !(cell.y === 5 && (cell.x === 6 || cell.x === 7)));
-    shuffled(eligible, campRandom).slice(0, countsByTier[tier]).forEach((cell) => camps.add(sectorId(cell.x, cell.y)));
+    const eligible = tiers[tier].filter(cell => !(cell.y === HOME && (cell.x === HOME + 1 || cell.x === HOME + 2)));
+    // Filter after shuffling so Lake exclusions do not move camps on later tiers.
+    const available = shuffled(eligible, campRandom).filter(cell => !lakes.has(cell.key));
+    const chosen = balanced ? takeBalanced(available, countsByTier[tier], campTotals) : available.slice(0, countsByTier[tier]);
+    chosen.forEach(cell => camps.add(cell.key));
   }
-  const key = sectorId(x, y);
-  const golemSectors = shuffled(cells.filter(cell => sectorDistance(cell.x, cell.y) === 6 && !camps.has(sectorId(cell.x, cell.y))), rng(seed ^ 0x601e6));
-  const golemIndex = golemSectors.slice(0, GOLEM_MINERALS.length).findIndex(cell => sectorId(cell.x, cell.y) === key);
-  const reservedGolems = new Set(golemSectors.slice(0, GOLEM_MINERALS.length).map(cell => sectorId(cell.x, cell.y)));
+  const golemCandidates = shuffled(tiers[golemTier].filter(cell => !camps.has(cell.key)
+    && (!balanced || (cell.x !== HOME && cell.y !== HOME))), rng(seed ^ 0x601e6));
+  const golemSectors = balanced ? takeBalanced(golemCandidates, GOLEM_MINERALS.length, [0, 0, 0, 0]) : golemCandidates.slice(0, GOLEM_MINERALS.length);
+  const golems = new Map(golemSectors.map((cell, index) => [cell.key, GOLEM_MINERALS[index]]));
   const lizards = new Set<string>();
   const lizardRandom = rng(seed ^ 0x112a4d);
   // Five of each Dwarven subtype: 2/3 across tiers 4/5, 6/7, and 8/9.
   for (let tier = 4; tier <= 9; tier++) {
-    const eligible = cells.filter(cell => sectorDistance(cell.x, cell.y) === tier && !camps.has(sectorId(cell.x, cell.y)) && !reservedGolems.has(sectorId(cell.x, cell.y)));
-    shuffled(eligible, lizardRandom).slice(0, tier % 2 === 0 ? 2 : 3).forEach(cell => lizards.add(sectorId(cell.x, cell.y)));
+    const available = shuffled(tiers[tier].filter(cell => !camps.has(cell.key) && !golems.has(cell.key)), lizardRandom);
+    const count = tier % 2 === 0 ? 2 : 3;
+    const chosen = balanced ? takeBalanced(available, count, campTotals) : available.slice(0, count);
+    chosen.forEach(cell => lizards.add(cell.key));
   }
-  return { obstruction: lakes.has(key) ? 'lake' as const : 'big-hole' as const, camp: camps.has(key), lizard: lizards.has(key), golemMineral: golemIndex >= 0 ? GOLEM_MINERALS[golemIndex] : undefined };
+  const clear = new Set([sectorId(HOME + 1, HOME)]);
+  const reserved = new Set([...lakes, ...camps, ...lizards, ...golems.keys()]);
+  const laterLakeChoices: { candidates: MapCell[]; quadrantCount: number }[] = [];
+  for (let tier = 2; tier < MAX_MAP_NODE_VALUE; tier++) {
+    const ordinary = shuffled(tiers[tier].filter(cell => !reserved.has(cell.key)), rng(seed ^ 0xace71 ^ tier));
+    const clearCount = Math.round(ordinary.length / 4);
+    ordinary.slice(0, clearCount).forEach(cell => clear.add(cell.key));
+    const candidates = ordinary.slice(clearCount);
+    if (tier < 3 || !candidates.length) continue;
+    const lakeRandom = rng(seed ^ 0x1a4e ^ tier);
+    if (balanced) laterLakeChoices.push({ candidates: shuffled(candidates, lakeRandom), quadrantCount: new Set(candidates.map(cell => cell.quadrant)).size });
+    else lakes.add(candidates[Math.floor(lakeRandom() * candidates.length)].key);
+  }
+  const lakeTotals = [0, 0, 0, 0];
+  earlyLakes.forEach(cell => lakeTotals[cell.quadrant]++);
+  // Place Lakes in constrained tiers first so tiers with more choices can fill the gaps.
+  laterLakeChoices.sort((a, b) => a.quadrantCount - b.quadrantCount);
+  for (const { candidates } of laterLakeChoices) lakes.add(takeBalanced(candidates, 1, lakeTotals)[0].key);
+  return { lakes, clear, camps, lizards, golems };
 }
 
-export function generateSector(x: number, y: number, seed: number, now = Date.now(), completedResearch: readonly string[] = []): SectorState {
+let cachedLayout: { seed: number; golemTier: GolemPlacementTier; balanced: boolean; layout: ReturnType<typeof buildMapLayout> } | undefined;
+
+function getMapLayout(seed: number, golemTier: GolemPlacementTier, balanced: boolean) {
+  if (cachedLayout?.seed !== seed || cachedLayout.golemTier !== golemTier || cachedLayout.balanced !== balanced) {
+    cachedLayout = { seed, golemTier, balanced, layout: buildMapLayout(seed, golemTier, balanced) };
+  }
+  return cachedLayout.layout;
+}
+
+export function getGolemPlacementTier(state: GameState): GolemPlacementTier {
+  // Keep old reserved locations once a save has generated sectors in the affected tiers.
+  return state.golemPlacementTier ?? (Object.values(state.sectors).some(sector => sectorDistance(sector.x, sector.y) >= GOLEM_PLACEMENT_TIER)
+    ? LEGACY_GOLEM_PLACEMENT_TIER : GOLEM_PLACEMENT_TIER);
+}
+
+export function getEncounterLayoutVersion(state: GameState): 1 | 2 {
+  // Mixing layouts could lose or duplicate encounters in a partly generated world.
+  return state.encounterLayoutVersion ?? (Object.values(state.sectors).some(sector => sectorDistance(sector.x, sector.y) > 0) ? 1 : 2);
+}
+
+export function sectorForState(state: GameState, x: number, y: number): SectorState {
+  return state.sectors[sectorId(x, y)] ?? generateSector(x, y, state.seed, Date.now(), state.research.completed, getGolemPlacementTier(state), getEncounterLayoutVersion(state));
+}
+
+export function generateSector(x: number, y: number, seed: number, now = Date.now(), completedResearch: readonly string[] = [], golemTier: GolemPlacementTier = GOLEM_PLACEMENT_TIER, encounterLayoutVersion: 1 | 2 = golemTier === LEGACY_GOLEM_PLACEMENT_TIER ? 1 : 2): SectorState {
   const distance = sectorDistance(x, y);
   const random = rng(seed ^ (x * 73856093) ^ (y * 19349663));
   const capacity = getMapNodeResourceCapacity(x, y);
   const field = getSectorWorldSize({ x, y }, completedResearch);
   const worldNodes: MachineNode[] = [];
-  const rule = mapGenerationRule(x, y, seed);
-  if (distance > 0 && distance < MAX_MAP_NODE_VALUE && !rule.golemMineral) {
-    if (rule.obstruction === 'lake' || (x===7&&y===5)) worldNodes.push(makeLake(field, random));
-    else worldNodes.push(...makeBigHoles(distance, field, random));
+  const key = sectorId(x, y);
+  const layout = getMapLayout(seed, golemTier, encounterLayoutVersion === 2);
+  const golemMineral = layout.golems.get(key);
+  const dwarvenCamp = layout.lizards.has(key);
+  if (distance > 0 && distance < MAX_MAP_NODE_VALUE && !golemMineral) {
+    if (layout.lakes.has(key)) worldNodes.push(makeLake(field, random));
+    else if (!layout.clear.has(key)) worldNodes.push(...makeBigHoles(distance, field, random));
   }
-  if (distance > 0 && distance < MAX_MAP_NODE_VALUE && (rule.camp || rule.lizard)) {
-    const settlement = rule.lizard ? getLizardSettlementForMapTier(distance) : getGoblinSettlementForMapTier(distance);
+  if (dwarvenCamp || layout.camps.has(key)) {
+    const settlement = dwarvenCamp ? getLizardSettlementForMapTier(distance) : getGoblinSettlementForMapTier(distance);
     worldNodes.push(node('monster-camp', settlement.name, field.width / 2, field.height / 2, {
-      ...(rule.lizard ? { lizardSettlement: settlement.settlement, settlementMapTier: distance, tributeItem: 'mythril', tributeSelectionVersion: 1 } : { goblinSettlement: settlement.settlement }), attackRequirement: settlement.attackRequirement,
+      ...(dwarvenCamp ? { lizardSettlement: settlement.settlement, settlementMapTier: distance, tributeItem: 'mythril', tributeSelectionVersion: 1 } : { goblinSettlement: settlement.settlement }), attackRequirement: settlement.attackRequirement,
       campStrength: 25, cycleMs: GOBLIN_CHECK_INTERVAL_MS, obstructionMaxRadius: settlement.maxRadius,
     }));
   }
   if(x===5&&y===7)worldNodes.push(node('sortingStation','Sorting Ruin',300,350));
-  if(rule.golemMineral)worldNodes.push(node('resourceGolem',`${GOLEM_NAMES[rule.golemMineral]} Golem`,field.width / 2,field.height / 2,{health:rule.golemMineral==='mythril'?20000:10000,golemCostVersion:1,golemMineral:rule.golemMineral,golemOutputs:[rule.golemMineral]}));
+  if (golemMineral) {
+    worldNodes.push(node('resourceGolem', `${GOLEM_NAMES[golemMineral]} Golem`, field.width / 2, field.height / 2, {
+      health: golemApCost({ golemMineral }), golemCostVersion: GOLEM_COST_VERSION, golemMineral, golemOutputs: [golemMineral],
+    }));
+  }
   const nodes: MachineNode[] = [...worldNodes, ...createCornerNodes(x,y,seed,field)];
   const resources: ItemId[] = distance >= MAX_MAP_NODE_VALUE ? [] : ['iron', 'copper', 'stone', 'wood'];
   if (random() < getMythrilSpawnChance(distance)) resources.push('mythril');

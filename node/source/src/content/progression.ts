@@ -2,6 +2,7 @@
 import type { ItemId, NodeKind, NodeDefinition, Recipe, ResearchProject } from '../domain/types';
 import type { NodeCapabilities } from './nodeCapabilities';
 import type { NodeModule } from './nodeModules';
+import { FINAL_BOT_AP } from './endgame';
 export const LATE_ITEM_NAMES = {
   "coolant": "Coolant",
   "conductive-slurry": "Copper Slurry",
@@ -268,7 +269,7 @@ export const LATE_RECIPES = {
     "outputs": {
       "medium-suppression-bot": 1
     },
-    "cycleMs": 25000,
+    "cycleMs": 20000,
     "unlockResearch": "sealedRobotics"
   },
   "mithril-frame": {
@@ -352,7 +353,7 @@ export const LATE_RECIPES = {
     "outputs": {
       "command-suppression-bot": 1
     },
-    "cycleMs": 60000,
+    "cycleMs": 90000,
     "unlockResearch": "commandRobotics"
   },
   "slagwashing": {
@@ -878,11 +879,11 @@ export const LATE_RESEARCH = [
     "description": "Proposed base regeneration improves to one unit per 15 seconds and opens indefinitely repeatable rate research. This replaces the earlier automated-drill proposal.",
     "unlock": "Proposed base regeneration improves to one unit per 15 seconds and opens indefinitely repeatable rate research. This replaces the earlier automated-drill proposal.",
     "costs": {
-      "simple-core": 90,
-      "basic-core": 90,
-      "automata-core": 90,
-      "hydro-core": 90,
-      "shiny-core": 90
+      "simple-core": 30,
+      "basic-core": 30,
+      "automata-core": 30,
+      "hydro-core": 30,
+      "shiny-core": 30
     },
     "prerequisites": [
       "mineralRegeneration",
@@ -896,11 +897,11 @@ export const LATE_RESEARCH = [
     "description": "Develop High Pressure Intakes using synchronized core sets.",
     "unlock": "Unlocks High Pressure Intakes recipes and systems.",
     "costs": {
-      "simple-core": 100,
-      "basic-core": 100,
-      "automata-core": 100,
-      "hydro-core": 100,
-      "shiny-core": 100
+      "simple-core": 60,
+      "basic-core": 60,
+      "automata-core": 60,
+      "hydro-core": 60,
+      "shiny-core": 60
     },
     "prerequisites": [
       "pressureSystems",
@@ -934,9 +935,9 @@ export const LATE_RESEARCH = [
     "description": "Paid core research for saved layouts and batch placement previews; existing duplicate controls remain available.",
     "unlock": "Paid core research for saved layouts and batch placement previews; existing duplicate controls remain available.",
     "costs": {
-      "simple-core": 30,
-      "basic-core": 30,
-      "automata-core": 30
+      "simple-core": 15,
+      "basic-core": 15,
+      "automata-core": 15
     },
     "prerequisites": [
       "hydraulicAssembly"
@@ -996,9 +997,9 @@ export const LATE_RESEARCH = [
     "description": "Tree Planter cycles use 90% of base time; each growth unit still consumes five power units.",
     "unlock": "Tree Planter cycles use 90% of base time; each growth unit still consumes five power units.",
     "costs": {
-      "simple-core": 30,
-      "basic-core": 30,
-      "automata-core": 30
+      "simple-core": 10,
+      "basic-core": 10,
+      "automata-core": 10
     },
     "prerequisites": [
       "treePlanter",
@@ -1029,10 +1030,10 @@ export const LATE_RESEARCH = [
     "description": "Direct waste recovery recipes take 10% less time after machine efficiency; quantities stay unchanged.",
     "unlock": "Direct waste recovery recipes take 10% less time after machine efficiency; quantities stay unchanged.",
     "costs": {
-      "simple-core": 55,
-      "basic-core": 55,
-      "automata-core": 55,
-      "hydro-core": 55
+      "simple-core": 10,
+      "basic-core": 10,
+      "automata-core": 10,
+      "hydro-core": 10
     },
     "prerequisites": [
       "mineralRecovery",
@@ -1046,10 +1047,10 @@ export const LATE_RESEARCH = [
     "description": "Dedicated one-item Warehouse holds 250 items with a filtered outlet; Inventory retrieval stays a later unlock.",
     "unlock": "Dedicated one-item Warehouse holds 250 items with a filtered outlet; Inventory retrieval stays a later unlock.",
     "costs": {
-      "simple-core": 55,
-      "basic-core": 55,
-      "automata-core": 55,
-      "hydro-core": 55
+      "simple-core": 20,
+      "basic-core": 20,
+      "automata-core": 20,
+      "hydro-core": 20
     },
     "prerequisites": [
       "oreSeparation",
@@ -1116,11 +1117,11 @@ export const LATE_RESEARCH = [
     "description": "Field dimensions use a 1.5 multiplier over tier-scaled base dimensions, replacing 1.25.",
     "unlock": "Field dimensions use a 1.5 multiplier over tier-scaled base dimensions, replacing 1.25.",
     "costs": {
-      "simple-core": 150,
-      "basic-core": 150,
-      "automata-core": 150,
-      "hydro-core": 150,
-      "shiny-core": 150
+      "simple-core": 50,
+      "basic-core": 50,
+      "automata-core": 50,
+      "hydro-core": 50,
+      "shiny-core": 50
     },
     "prerequisites": [
       "areaExpansion1",
@@ -1131,8 +1132,8 @@ export const LATE_RESEARCH = [
     "id": "resourceGolemSurvey",
     "name": "Resource Golem Survey",
     "category": "Progression",
-    "description": "Reveals four mineral Golems in separate clear tier 6 sectors. Each requires 10,000 AP once, then becomes an infinite mineral reserve with four star connections for Extractors.",
-    "unlock": "Reveals four mineral Golems in separate clear tier 6 sectors. Each requires 10,000 AP once, then becomes an infinite mineral reserve with four star connections for Extractors.",
+    "description": "Allows Bot attacks on four mineral Golems in separate sectors. Iron, Copper and Stone each cost 180 AP. Mythril costs 360 AP. Defeating a Golem creates an infinite mineral reserve with four star connections for Extractors.",
+    "unlock": "Allows Bot attacks on four mineral Golems in separate sectors. Iron, Copper and Stone each cost 180 AP. Mythril costs 360 AP. Defeating a Golem creates an infinite mineral reserve with four star connections for Extractors.",
     "costs": {
       "simple-core": 3,
       "basic-core": 3,
@@ -1165,14 +1166,13 @@ export const LATE_RESEARCH = [
     "id": "roadChannels2",
     "name": "Road Channels 2",
     "category": "Logistics",
-    "description": "Adds a third Road slot to every map face. Sending and receiving endpoints share the three-slot limit. Each Road carries one item every five seconds.",
+    "description": "Adds a third Road slot to every map face. Sending and receiving endpoints share the three-slot limit.",
     "unlock": "Allows three Roads per map face, counting sending and receiving endpoints together.",
     "costs": {
-      "simple-core": 130,
-      "basic-core": 130,
-      "automata-core": 130,
-      "hydro-core": 130,
-      "shiny-core": 130
+      "simple-core": 20,
+      "basic-core": 20,
+      "automata-core": 20,
+      "hydro-core": 20
     },
     "prerequisites": [
       "roadChannels1",
@@ -1186,12 +1186,12 @@ export const LATE_RESEARCH = [
     "description": "Each rank adds 20% of the post-Regeneration-2 base regeneration rate; no maximum rank.",
     "unlock": "Each rank adds 20% of the post-Regeneration-2 base regeneration rate; no maximum rank.",
     "costs": {
-      "simple-core": 40,
-      "basic-core": 40,
-      "automata-core": 40,
-      "hydro-core": 40,
-      "shiny-core": 40,
-      "command-core": 40
+      "simple-core": 10,
+      "basic-core": 10,
+      "automata-core": 10,
+      "hydro-core": 10,
+      "shiny-core": 10,
+      "command-core": 10
     },
     "prerequisites": [
       "mineralRegeneration2"
@@ -1286,12 +1286,12 @@ export const LATE_RESEARCH = [
     "description": "Unlocks efficient Circuit A, Motor and Bot Frame recipes. Products and waste share one output; use Filters.",
     "unlock": "Unlocks efficient Circuit A, Motor and Bot Frame recipes. Products and waste share one output; use Filters.",
     "costs": {
-      "simple-core": 50,
-      "basic-core": 50,
-      "automata-core": 50,
-      "hydro-core": 50,
-      "shiny-core": 50,
-      "command-core": 50
+      "simple-core": 25,
+      "basic-core": 25,
+      "automata-core": 25,
+      "hydro-core": 25,
+      "shiny-core": 25,
+      "command-core": 25
     },
     "prerequisites": [
       "precisionControl"
@@ -1304,12 +1304,12 @@ export const LATE_RESEARCH = [
     "description": "Unlocks efficient Hydro Piston, Mythril Mesh and Circuit C, plus direct Flux, Crust and Slag recovery.",
     "unlock": "Unlocks efficient Hydro Piston, Mythril Mesh and Circuit C, plus direct Flux, Crust and Slag recovery.",
     "costs": {
-      "simple-core": 100,
-      "basic-core": 100,
-      "automata-core": 100,
-      "hydro-core": 100,
-      "shiny-core": 100,
-      "command-core": 100
+      "simple-core": 50,
+      "basic-core": 50,
+      "automata-core": 50,
+      "hydro-core": 50,
+      "shiny-core": 50,
+      "command-core": 50
     },
     "prerequisites": [
       "precisionControl"
@@ -1322,12 +1322,12 @@ export const LATE_RESEARCH = [
     "description": "Tree Planters produce ten times faster and send up to ten funded growth units per local shipment.",
     "unlock": "Tree Planters produce ten times faster and send up to ten funded growth units per local shipment.",
     "costs": {
-      "simple-core": 100,
-      "basic-core": 100,
-      "automata-core": 100,
-      "hydro-core": 100,
-      "shiny-core": 100,
-      "command-core": 100
+      "simple-core": 25,
+      "basic-core": 25,
+      "automata-core": 25,
+      "hydro-core": 25,
+      "shiny-core": 25,
+      "command-core": 25
     },
     "prerequisites": [
       "precisionControl",
@@ -1606,7 +1606,7 @@ export const LATE_NODES = {
       "RESOURCE",
       "RESOURCE"
     ],
-    "description": "Supply 10,000 AP once after Resource Golem Survey. Victory creates an infinite mineral reserve with a star connection on each face for Extractors.",
+    "description": "Deliver Bots after Resource Golem Survey to pay the AP shown in the inspector. Defeating a Golem creates an infinite mineral reserve with a star connection on each face for Extractors.",
     "accent": 7716801,
     "accentCss": "#75bfc1",
     "icon": "◆",
@@ -1727,7 +1727,7 @@ export const LATE_CAPABILITIES = {
 export const LATE_MODULES = {
   "lakeIntake": {
     "appearance": {
-      "icon": "lake",
+      "icon": "intake",
       "shape": "standard"
     },
     "controls": {
@@ -1739,7 +1739,7 @@ export const LATE_MODULES = {
   },
   "hydroProcessor": {
     "appearance": {
-      "icon": "cog",
+      "icon": "hydro-processor",
       "shape": "standard"
     },
     "controls": {
@@ -1752,7 +1752,7 @@ export const LATE_MODULES = {
   },
   "advancedAssembler": {
     "appearance": {
-      "icon": "cog",
+      "icon": "advanced-assembler",
       "shape": "standard"
     },
     "controls": {
@@ -1765,7 +1765,7 @@ export const LATE_MODULES = {
   },
   "separationFurnace": {
     "appearance": {
-      "icon": "cog",
+      "icon": "furnace",
       "shape": "standard"
     },
     "controls": {
@@ -1778,7 +1778,7 @@ export const LATE_MODULES = {
   },
   "slagHopper": {
     "appearance": {
-      "icon": "filter",
+      "icon": "hopper",
       "shape": "standard"
     },
     "controls": {
@@ -1790,7 +1790,7 @@ export const LATE_MODULES = {
   },
   "wasteHopper": {
     "appearance": {
-      "icon": "filter",
+      "icon": "archive",
       "shape": "standard"
     },
     "controls": {
@@ -1802,7 +1802,7 @@ export const LATE_MODULES = {
   },
   "fluidStorage": {
     "appearance": {
-      "icon": "filter",
+      "icon": "tank",
       "shape": "standard"
     },
     "controls": {
@@ -1814,7 +1814,7 @@ export const LATE_MODULES = {
   },
   "warehouse": {
     "appearance": {
-      "icon": "filter",
+      "icon": "warehouse",
       "shape": "standard"
     },
     "controls": {
@@ -1826,7 +1826,7 @@ export const LATE_MODULES = {
   },
   "wasteSorter": {
     "appearance": {
-      "icon": "filter",
+      "icon": "waste-sorter",
       "shape": "standard"
     },
     "controls": {
@@ -1838,7 +1838,7 @@ export const LATE_MODULES = {
   },
   "fluidLink": {
     "appearance": {
-      "icon": "filter",
+      "icon": "fluid-link",
       "shape": "standard"
     },
     "controls": {
@@ -1850,7 +1850,7 @@ export const LATE_MODULES = {
   },
   "wasteLink": {
     "appearance": {
-      "icon": "filter",
+      "icon": "waste-link",
       "shape": "standard"
     },
     "controls": {
@@ -1862,7 +1862,7 @@ export const LATE_MODULES = {
   },
   "powerConduit": {
     "appearance": {
-      "icon": "filter",
+      "icon": "zap",
       "shape": "standard"
     },
     "controls": {
@@ -1886,7 +1886,7 @@ export const LATE_MODULES = {
   },
   "abandonedFabricator": {
     "appearance": {
-      "icon": "archive",
+      "icon": "advanced-assembler",
       "shape": "standard"
     },
     "controls": {
@@ -1898,7 +1898,7 @@ export const LATE_MODULES = {
   },
   "sortingStation": {
     "appearance": {
-      "icon": "archive",
+      "icon": "waste-sorter",
       "shape": "standard"
     },
     "controls": {
@@ -1910,7 +1910,7 @@ export const LATE_MODULES = {
   },
   "resourceGolem": {
     "appearance": {
-      "icon": "camp",
+      "icon": "golem",
       "shape": "golem"
     },
     "controls": {
@@ -1923,4 +1923,4 @@ export const LATE_MODULES = {
 } satisfies Partial<Record<NodeKind,NodeModule>>;
 export const CORE_ITEMS: ItemId[] = ['simple-core','basic-core','automata-core','hydro-core','shiny-core','command-core','final-core'];
 export const WASTE_ITEMS: ItemId[] = ['slag','metallic-fines','spent-flux','glassy-crust'];
-export const BOT_STRENGTH: Partial<Record<ItemId,number>> = {'suppression-bot':1,'medium-suppression-bot':3,'heavy-suppression-bot':8,'command-suppression-bot':20};
+export const BOT_STRENGTH: Partial<Record<ItemId,number>> = {'suppression-bot':1,'medium-suppression-bot':3,'heavy-suppression-bot':8,'command-suppression-bot':24,'final-suppression-bot':FINAL_BOT_AP};

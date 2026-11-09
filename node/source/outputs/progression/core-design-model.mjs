@@ -41,13 +41,13 @@ recipes['advanced-actuator'].chanceOutputs = [
 ];
 add('sealed-frame', { 'simple-robot-frame': 1, 'hydraulic-actuator': 1, brick: 2 }, 18, 'Advanced Assembler');
 add('cooled-gun', { 'simple-robot-gun': 1, coolant: 2, 'iron-plate': 2 }, 16, 'Advanced Assembler');
-add('medium-suppression-bot', { 'sealed-frame': 1, 'cooled-gun': 1, 'basic-core': 1 }, 25, 'Advanced Assembler');
+add('medium-suppression-bot', { 'sealed-frame': 1, 'cooled-gun': 1, 'basic-core': 1 }, 20, 'Advanced Assembler');
 add('mithril-frame', { 'sealed-frame': 1, 'refined-mithril': 3, motor: 2 }, 24, 'Advanced Assembler');
 add('focused-gun', { 'cooled-gun': 1, 'refined-mithril': 2, 'circuit-a': 2 }, 22, 'Advanced Assembler');
 add('heavy-suppression-bot', { 'mithril-frame': 1, 'focused-gun': 1, 'hydro-core': 1 }, 40, 'Advanced Assembler');
 add('servo-frame', { 'mithril-frame': 1, 'advanced-actuator': 2, 'precision-controller': 1 }, 32, 'Advanced Assembler');
 add('pulse-cannon', { 'focused-gun': 1, 'precision-controller': 2, coolant: 4 }, 30, 'Advanced Assembler');
-add('command-suppression-bot', { 'servo-frame': 1, 'pulse-cannon': 1, 'command-core': 1 }, 60, 'Advanced Assembler');
+add('command-suppression-bot', { 'servo-frame': 1, 'pulse-cannon': 1, 'command-core': 1 }, 90, 'Advanced Assembler');
 for (const [id, overrides] of Object.entries(balance.recipes)) Object.assign(recipes[id], overrides);
 recipes['conductive-slurry'].name = 'Copper–Carbon Dispersion';
 // Cores may share intermediaries, but may not depend on any core at any depth.
@@ -97,7 +97,7 @@ assert.equal(recipes['refined-mithril'].chanceOutputs, undefined);
 assert.deepEqual(byId['shiny-core'].byproducts, { slag: 2 });
 assert.ok(Math.abs(byId['command-core'].byproducts['metallic-fines'] - .65) < 1e-9);
 const bots = [
-  ['suppression-bot', 1], ['medium-suppression-bot', 3], ['heavy-suppression-bot', 8], ['command-suppression-bot', 20],
+  ['suppression-bot', 1], ['medium-suppression-bot', 3], ['heavy-suppression-bot', 8], ['command-suppression-bot', 24],
 ].map(([bot, strength]) => ({ bot, strength, ...expand(bot) }));
 const output = { status: 'Implemented general baseline through tier 6; analytical estimates exclude support systems', assumptions: ['Unupgraded production and Extractors at five seconds; the intended lab consumes one of each required core per synchronized tick.',
   'Single-core chain tables are isolated production references. Full research requires all types simultaneously at the lab tick rate; minimum illustrative rate is one complete set per minute.',
@@ -168,7 +168,7 @@ output.frameworkResearch = [
   { name: 'Hydro Processor 2', prerequisites: ['Hydro Processor 1', 'Precision Control'], effect: 'Hydro Processor cycles use 80% of base time, replacing the 90% factor.' },
   { name: 'Advanced Assembler 2', prerequisites: ['Advanced Assembler 1', 'Precision Control'], effect: 'Advanced Assembler cycles use 80% of base time, replacing the 90% factor.' },
   { name: 'Area Expansion 2', prerequisites: ['Area Expansion 1', 'Precision Control'], effect: 'Field dimensions use a 1.5 multiplier over tier-scaled base dimensions, replacing 1.25.' },
-  { name: 'Resource Golem Survey', prerequisites: ['Sealed Robotics'], effect: 'Reveals four mineral Golems in separate clear tier 6 sectors. Each requires 10,000 AP once, then becomes an infinite mineral reserve with four star connections for Extractors.' },
+  { name: 'Resource Golem Survey', prerequisites: ['Sealed Robotics'], effect: 'Reveals four mineral Golems in separate tier 6 sectors. Iron, Copper and Stone each cost 180 AP. Mythril costs 360 AP. Defeating a Golem creates an infinite mineral reserve with four star connections for Extractors.' },
   { name: 'Mineral Regeneration', prerequisites: ['Mineral Recovery'], effect: 'Proposed base recovery of one unit per 30 seconds in ordinary non-wood deposits, up to capacity. Empty deposits remain to regenerate after this unlock; existing Deep Holes do not become deposits.' },
   { name: 'Mineral Regeneration 2', prerequisites: ['Mineral Regeneration', 'Precision Control'], effect: 'Proposed base regeneration improves to one unit per 15 seconds and opens indefinitely repeatable rate research. This replaces the earlier automated-drill proposal.' },
   { name: 'Road Channels 2', prerequisites: ['Road Channels 1', 'Precision Control'], effect: 'Allows four one-way Road channels per direction. Each carries one solid item every five seconds; fluids cannot use roads.' },

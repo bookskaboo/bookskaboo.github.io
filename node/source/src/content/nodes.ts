@@ -9,7 +9,54 @@ import { cartUpgrade, isCartKind } from './cartUpgrades';
 import type { MachineNode, NodeDefinition, NodeKind, PortFamily } from '../domain/types';
 import { modNode } from '../mods/modRules';
 
-const node = (definition: NodeDefinition) => definition;
+const NODE_PALETTE = {
+  water: 0x70c7ee,
+  steel: 0xaab4bf,
+  storage: 0xc2a3e5,
+  logistics: 0xdaa971,
+  forestry: 0x8bc98d,
+  research: 0x84d5c0,
+  power: 0xf2d45c,
+};
+
+const CATEGORY_ACCENTS: Record<NodeDefinition['category'], number> = {
+  Extraction: NODE_PALETTE.steel,
+  Production: NODE_PALETTE.steel,
+  Logistics: NODE_PALETTE.logistics,
+  Storage: NODE_PALETTE.storage,
+  Power: NODE_PALETTE.power,
+  Research: NODE_PALETTE.research,
+  World: NODE_PALETTE.steel,
+};
+
+const KIND_ACCENTS: Partial<Record<NodeKind, number>> = {
+  lake: NODE_PALETTE.water,
+  lakeIntake: NODE_PALETTE.water,
+  hydroProcessor: NODE_PALETTE.water,
+  fluidLink: NODE_PALETTE.water,
+  fluidRoad: NODE_PALETTE.water,
+  fluidStorage: NODE_PALETTE.water,
+  inventory: NODE_PALETTE.storage,
+  sortingStation: NODE_PALETTE.logistics,
+  forest: NODE_PALETTE.forestry,
+  treePlanter: NODE_PALETTE.forestry,
+  'tree-planter': NODE_PALETTE.forestry,
+  powerSplitter: NODE_PALETTE.power,
+  cornerChallenge: 0xe0b765,
+  cornerTribute: 0xffd77d,
+  devSource: 0xc99cff,
+  'monster-camp': 0xe15759,
+  goblinTribute: 0xa7df67,
+  'big-hole': 0x465064,
+  resourceGolem: 0x75bfc1,
+};
+
+const accentFields = (accent: number) => ({ accent, accentCss: `#${accent.toString(16).padStart(6, '0')}` });
+
+const node = (definition: Omit<NodeDefinition, 'accent' | 'accentCss'>): NodeDefinition => ({
+  ...definition,
+  ...accentFields(KIND_ACCENTS[definition.kind] ?? CATEGORY_ACCENTS[definition.category]),
+});
 
 /** Reserved progression key until the player-facing Inventory requirement is designed. */
 export const INVENTORY_UNLOCK_ID = 'autonomousLogistics' as const;
@@ -17,51 +64,53 @@ export const INVENTORY_UNLOCK_ID = 'autonomousLogistics' as const;
 /** Player-facing catalog from NODE: Another Factory Game. */
 export const NODE_DEFINITIONS: Record<NodeKind, NodeDefinition> = {
   ...LATE_NODES,
-  recycler: node({kind:'recycler',name:'Recycler',category:'Production',description:'Processes one item every two seconds. Returns at most one of each constituent solid resource; raw inputs return nothing. Mixed output needs filtering.',accent:0x91b396,accentCss:'#91b396',icon:'♻',input:['ANY'],output:['ANY'],unlockResearch:'recycler'}),
-  cornerChallenge: node({kind:'cornerChallenge',name:'Ancient Challenge',category:'World',description:'A fixed, repeatable corner challenge. Deliver its required supplies; collect its component from the linked Tribute box.',accent:0xe0b765,accentCss:'#e0b765',icon:'✦',input:['ANY'],output:[],hidden:true,size:'large'}),
-  cornerTribute: node({kind:'cornerTribute',name:'Corner Tribute',category:'World',description:'Holds ten corner components. Transport them to the seeded Core Half assembly lines.',accent:0xffd77d,accentCss:'#ffd77d',icon:'✧',input:[],output:['ANY'],hidden:true}),
-  devSource: node({ kind: 'devSource', name: 'Dev Source', category: 'World', description: 'Automatically supplies each connected input with its required material. Procurement has been excused.', accent: 0xc99cff, accentCss: '#c99cff', icon: '∞', input: [], output: ['ANY'], hidden: true }),
-  forest: node({ kind: 'forest', name: 'Forest', category: 'World', description: 'Renewable Wood source. Restores one unit naturally every 30 seconds.', accent: 0x72a873, accentCss: '#72a873', icon: '♣', input: ['forest-growth'], output: ['wood'], size: 'large', hidden: true }),
-  deposit: node({ kind: 'deposit', name: 'Deposit', category: 'World', description: 'Finite mineral reserve.', accent: 0x8296a6, accentCss: '#8296a6', icon: '◆', input: [], output: ['RESOURCE'], size: 'large', hidden: true }),
-  iron: node({ kind: 'iron', name: 'Iron', category: 'World', description: 'Finite Iron reserve.', accent: 0x8296a6, accentCss: '#8296a6', icon: '◆', input: [], output: ['iron'], size: 'large', hidden: true }),
-  copper: node({ kind: 'copper', name: 'Copper', category: 'World', description: 'Finite Copper reserve.', accent: 0xd17b55, accentCss: '#d17b55', icon: '◆', input: [], output: ['copper'], size: 'large', hidden: true }),
-  mythril: node({ kind: 'mythril', name: 'Mythril', category: 'World', description: 'Rare finite Mythril reserve.', accent: 0x55c97a, accentCss: '#55c97a', icon: '◆', input: [], output: ['mythril'], size: 'large', hidden: true }),
-  stoneDeposit: node({ kind: 'stoneDeposit', name: 'Stone Deposit', category: 'World', description: 'Finite Stone reserve.', accent: 0x8c918f, accentCss: '#8c918f', icon: '▲', input: [], output: ['stone'], size: 'large', hidden: true }),
-  lake: node({ kind: 'lake', name: 'Lake', category: 'World', description: 'Produces Water from four directional outlets.', accent: 0x55bde8, accentCss: '#55bde8', icon: '≈', input: [], output: ['water', 'water', 'water', 'water'], size: 'large', hidden: true }),
+  recycler: node({kind:'recycler',name:'Recycler',category:'Production',description:'Processes one item every two seconds. Returns at most one of each constituent solid resource; raw inputs return nothing. Mixed output needs filtering.',icon:'♻',input:['ANY'],output:['ANY'],unlockResearch:'recycler'}),
+  cornerChallenge: node({kind:'cornerChallenge',name:'Ancient Camp',category:'World',description:'A fixed corner camp with a repeatable supply challenge. Deliver supplies to the camp and collect its piece from the linked Tribute box.',icon:'✦',input:['ANY'],output:[],hidden:true,size:'large'}),
+  cornerTribute: node({kind:'cornerTribute',name:'Corner Tribute',category:'World',description:'Holds ten corner pieces. Transport them to the Yin and Yang assembly lines.',icon:'✧',input:[],output:['ANY'],hidden:true}),
+  devSource: node({ kind: 'devSource', name: 'Dev Source', category: 'World', description: 'Automatically supplies each connected input with its required material. Procurement has been excused.', icon: '∞', input: [], output: ['ANY'], hidden: true }),
+  forest: node({ kind: 'forest', name: 'Forest', category: 'World', description: 'Renewable Wood source. Restores one unit naturally every 30 seconds.', icon: '♣', input: ['forest-growth'], output: ['wood'], size: 'large', hidden: true }),
+  deposit: node({ kind: 'deposit', name: 'Deposit', category: 'World', description: 'Finite mineral reserve.', icon: '◆', input: [], output: ['RESOURCE'], size: 'large', hidden: true }),
+  iron: node({ kind: 'iron', name: 'Iron', category: 'World', description: 'Finite Iron reserve.', icon: '◆', input: [], output: ['iron'], size: 'large', hidden: true }),
+  copper: node({ kind: 'copper', name: 'Copper', category: 'World', description: 'Finite Copper reserve.', icon: '◆', input: [], output: ['copper'], size: 'large', hidden: true }),
+  mythril: node({ kind: 'mythril', name: 'Mythril', category: 'World', description: 'Rare finite Mythril reserve.', icon: '◆', input: [], output: ['mythril'], size: 'large', hidden: true }),
+  stoneDeposit: node({ kind: 'stoneDeposit', name: 'Stone Deposit', category: 'World', description: 'Finite Stone reserve.', icon: '▲', input: [], output: ['stone'], size: 'large', hidden: true }),
+  lake: node({ kind: 'lake', name: 'Lake', category: 'World', description: 'Produces Water from four directional outlets.', icon: '≈', input: [], output: ['water', 'water', 'water', 'water'], size: 'large', hidden: true }),
 
-  extractor: node({ kind: 'extractor', name: 'Extractor', category: 'Production', description: 'Automates resource gathering from any natural source.', accent: 0x8ea0a6, accentCss: '#8ea0a6', icon: 'E', input: ['RESOURCE'], output: ['RESOURCE'] }),
-  miningDrill: node({ kind: 'miningDrill', name: 'Mining Drill', category: 'Extraction', description: 'Consumes 20 Motors, then becomes a 1,000-unit deposit of the selected material.', accent: 0xd9a54a, accentCss: '#d9a54a', icon: 'D', input: ['motor'], output: [], size: 'large', unlockResearch: 'miningDrill' }),
+  extractor: node({ kind: 'extractor', name: 'Extractor', category: 'Production', description: 'Automates resource gathering from any natural source.', icon: 'E', input: ['RESOURCE'], output: ['RESOURCE'] }),
+  miningDrill: node({ kind: 'miningDrill', name: 'Mining Drill', category: 'Extraction', description: 'Consumes 20 Motors, then becomes a 1,000-unit deposit of the selected material.', icon: 'D', input: ['motor'], output: [], size: 'large', unlockResearch: 'miningDrill' }),
 
-  kiln: node({ kind: 'kiln', name: 'Kiln', category: 'Production', description: 'Fires Wood into Charcoal for metal processing.', accent: 0x6f7782, accentCss: '#6f7782', icon: 'K', input: ['wood'], output: ['charcoal'], unlockResearch: 'kiln' }),
-  smelter: node({ kind: 'smelter', name: 'Smelter', category: 'Production', description: 'Smelts metal with Charcoal into matching Plates.', accent: 0x8296a6, accentCss: '#8296a6', icon: 'S', input: ['METAL', 'charcoal'], output: ['PLATE'], unlockResearch: 'smelter' }),
-  refiner: node({ kind: 'refiner', name: 'Refiner', category: 'Production', description: 'Changes one input item into another product.', accent: 0xb99362, accentCss: '#b99362', icon: 'R', input: ['ANY'], output: ['ANY'], unlockResearch: 'refiner' }),
-  assembler: node({ kind: 'assembler', name: 'Assembler', category: 'Production', description: 'Combines two input items into another product.', accent: 0x8fa3b8, accentCss: '#8fa3b8', icon: 'A', input: ['ANY', 'ANY'], output: ['ANY'], size: 'large', unlockResearch: 'assembler' }),
+  kiln: node({ kind: 'kiln', name: 'Kiln', category: 'Production', description: 'Fires Wood into Charcoal for metal processing.', icon: 'K', input: ['wood'], output: ['charcoal'], unlockResearch: 'kiln' }),
+  smelter: node({ kind: 'smelter', name: 'Smelter', category: 'Production', description: 'Smelts metal with Charcoal into matching Plates.', icon: 'S', input: ['METAL', 'charcoal'], output: ['PLATE'], unlockResearch: 'smelter' }),
+  refiner: node({ kind: 'refiner', name: 'Refiner', category: 'Production', description: 'Changes one input item into another product.', icon: 'R', input: ['ANY'], output: ['ANY'], unlockResearch: 'refiner' }),
+  assembler: node({ kind: 'assembler', name: 'Assembler', category: 'Production', description: 'Combines two input items into another product.', icon: 'A', input: ['ANY', 'ANY'], output: ['ANY'], size: 'large', unlockResearch: 'assembler' }),
 
-  splitter: node({ kind: 'splitter', name: 'Splitter', category: 'Logistics', description: 'Alternates each incoming item between two smart outputs.', accent: 0x9c8ed4, accentCss: '#9c8ed4', icon: 'Y', input: ['ANY'], output: ['ANY', 'ANY'], size: 'small', unlockResearch: 'splitter' }),
-  merger: node({ kind: 'merger', name: 'Merger', category: 'Logistics', description: 'Combines two matching item streams into one smart output.', accent: 0x8b9cc9, accentCss: '#8b9cc9', icon: 'λ', input: ['ANY', 'ANY'], output: ['ANY'], size: 'small', unlockResearch: 'merger' }),
-  joint: node({ kind: 'joint', name: 'Joint', category: 'Logistics', description: 'A compact pass-through for shaping and organizing cable routes.', accent: 0x7dc8ff, accentCss: '#7dc8ff', icon: '•', input: ['ANY'], output: ['ANY'], size: 'small', unlockResearch: 'joint' }),
-  road: node({ kind: 'road', name: 'Road', category: 'Logistics', description: 'Connect a sending Cart to this Road and its paired receiving Road to another Cart. Transfers 12 items per minute directly between connected nodes, with no internal storage. One material per pair; one Road per map face before upgrades. Fluids cannot use roads.', accent: 0x9facbd, accentCss: '#9facbd', icon: '⇥', input: ['ANY'], output: ['ANY'], size: 'large', unlockResearch: 'road' }),
-  powerSplitter: node({ kind: 'powerSplitter', name: 'Power Splitter', category: 'Logistics', description: 'Branches one Power cable into three compact directional outputs.', accent: 0xf2d45c, accentCss: '#f2d45c', icon: 'ϟ', input: ['POWER'], output: ['POWER', 'POWER', 'POWER'], size: 'small', unlockResearch: 'basicElectricity' }),
-  filter: node({ kind: 'filter', name: 'Filter', category: 'Logistics', description: 'Sends the selected material through its first outlet and everything else through the remainder. A blocked required outlet stops both paths.', accent: 0xd39c62, accentCss: '#d39c62', icon: '▽', input: ['ANY'], output: ['ANY', 'ANY'], size: 'small' }),
-  inventory: node({ kind: 'inventory', name: 'Inventory', category: 'Logistics', description: 'Withdraws one global-pool item per connected Filter each second. Placement and connection limits improve through research.', accent: 0xad8bd5, accentCss: '#ad8bd5', icon: '▦', input: [], output: ['ANY'], unlockResearch: INVENTORY_UNLOCK_ID }),
+  splitter: node({ kind: 'splitter', name: 'Splitter', category: 'Logistics', description: 'Alternates each incoming item between two smart outputs.', icon: 'Y', input: ['ANY'], output: ['ANY', 'ANY'], size: 'small', unlockResearch: 'splitter' }),
+  merger: node({ kind: 'merger', name: 'Merger', category: 'Logistics', description: 'Combines two matching item streams into one smart output.', icon: 'λ', input: ['ANY', 'ANY'], output: ['ANY'], size: 'small', unlockResearch: 'merger' }),
+  joint: node({ kind: 'joint', name: 'Joint', category: 'Logistics', description: 'A compact pass-through for shaping and organizing cable routes.', icon: '•', input: ['ANY'], output: ['ANY'], size: 'small', unlockResearch: 'joint' }),
+  road: node({ kind: 'road', name: 'Road', category: 'Logistics', description: 'Connect a sending Cart to this Road and its paired receiving Road to another Cart. Transfers 12 items per minute directly between connected nodes, with no internal storage. One material per pair; one Road per map face before upgrades. Fluids cannot use roads.', icon: '⇥', input: ['ANY'], output: ['ANY'], size: 'large', unlockResearch: 'road' }),
+  powerSplitter: node({ kind: 'powerSplitter', name: 'Power Splitter', category: 'Logistics', description: 'Branches one Power cable into three compact directional outputs.', icon: 'ϟ', input: ['POWER'], output: ['POWER', 'POWER', 'POWER'], size: 'small', unlockResearch: 'basicElectricity' }),
+  filter: node({ kind: 'filter', name: 'Filter', category: 'Logistics', description: 'Sends the selected material through its first outlet and everything else through the remainder. A blocked required outlet stops both paths.', icon: '▽', input: ['ANY'], output: ['ANY', 'ANY'], size: 'small' }),
+  inventory: node({ kind: 'inventory', name: 'Inventory', category: 'Logistics', description: 'Withdraws one global-pool item per connected Filter each second. Placement and connection limits improve through research.', icon: '▦', input: [], output: ['ANY'], unlockResearch: INVENTORY_UNLOCK_ID }),
 
-  woodenChest: node({ kind: 'woodenChest', name: 'Cart', category: 'Logistics', description: 'Stores up to 20 solid items of any tier with ordinary local transfers. Use a Cart at each end of a Road pair. Trucks and Trains increase capacity globally; fluids are excluded.', accent: 0xc69767, accentCss: '#c69767', icon: '□', input: ['ANY'], output: ['ANY'], unlockResearch: 'road' }),
-  storage: node({ kind: 'storage', name: 'Storage', category: 'Storage', description: 'Deposits materials into the shared global pool. Starts with a 1,000-item limit per material.', accent: 0x72e1d1, accentCss: '#72e1d1', icon: '▣', input: ['ANY'], output: [], size: 'large', unlockResearch: 'autonomousLogistics' }),
+  woodenChest: node({ kind: 'woodenChest', name: 'Cart', category: 'Logistics', description: 'Stores up to 20 solid items of any tier with ordinary local transfers. Use a Cart at each end of a Road pair. Trucks and Trains increase capacity globally; fluids are excluded.', icon: '□', input: ['ANY'], output: ['ANY'], unlockResearch: 'road' }),
+  storage: node({ kind: 'storage', name: 'Storage', category: 'Storage', description: 'Deposits materials into the shared global pool. Starts with a 1,000-item limit per material.', icon: '▣', input: ['ANY'], output: [], size: 'large', unlockResearch: 'autonomousLogistics' }),
 
-  charcoalGenerator: node({ kind: 'charcoalGenerator', name: 'Generator', category: 'Power', description: 'Burns Charcoal into a shared 100W reserve for advanced machines.', accent: 0xf2d45c, accentCss: '#f2d45c', icon: '⚡', input: ['charcoal'], output: ['POWER'], unlockResearch: 'basicElectricity' }),
-  treePlanter: node({ kind: 'treePlanter', name: 'Tree Planter', category: 'Production', description: 'Consumes 10 Wood, 1 Iron Plate and 1 Stone to fund 100 growth units. Emits one per second; Industrial Forestry makes production ten times faster.', accent: 0x82d982, accentCss: '#82d982', icon: 'T', input: ['wood', 'iron-plate', 'stone'], output: ['forest-growth'], unlockResearch: 'treePlanter' }),
-  researchCenter: node({ kind: 'researchCenter', name: 'Research Center', category: 'Research', description: 'Studies the selected project by consuming one of every required Core together each cycle. Waits for a complete set.', accent: 0x8baadf, accentCss: '#8baadf', icon: 'Q', input: ['CORE'], output: [], size: 'large', unlockResearch: 'researchCenter' }),
+  charcoalGenerator: node({ kind: 'charcoalGenerator', name: 'Generator', category: 'Power', description: 'Burns Charcoal into a shared 100W reserve for advanced machines.', icon: '⚡', input: ['charcoal'], output: ['POWER'], unlockResearch: 'basicElectricity' }),
+  treePlanter: node({ kind: 'treePlanter', name: 'Tree Planter', category: 'Production', description: 'Consumes 10 Wood, 1 Iron Plate and 1 Stone to fund 100 growth units. Emits one per second; Industrial Forestry makes production ten times faster.', icon: 'T', input: ['wood', 'iron-plate', 'stone'], output: ['forest-growth'], unlockResearch: 'treePlanter' }),
+  researchCenter: node({ kind: 'researchCenter', name: 'Research Center', category: 'Research', description: 'Studies the selected project by consuming one of every required Core together each cycle. Waits for a complete set.', icon: 'Q', input: ['CORE'], output: [], size: 'large', unlockResearch: 'researchCenter' }),
 
-  'monster-camp': node({ kind: 'monster-camp', name: 'Monster Camp', category: 'World', description: 'Expands unless supplied with Attack Power.', accent: 0xe15759, accentCss: '#e15759', icon: 'M', input: ['ATTACK_POWER'], output: [], size: 'large', hidden: true }),
-  goblinTribute: node({ kind: 'goblinTribute', name: 'Tribute', category: 'World', description: 'Produces your chosen material directly while its settlement stays suppressed. Miss an AP check and this node and its stored tribute disappear.', accent: 0xa7df67, accentCss: '#a7df67', icon: '▣', input: [], output: ['RESOURCE'], hidden: true }),
-  'big-hole': node({ kind: 'big-hole', name: 'Deep Hole', category: 'World', description: 'Fill with processed Stone to clear.', accent: 0x465064, accentCss: '#465064', icon: '◉', input: ['stone'], output: [], size: 'large', hidden: true }),
+  'monster-camp': node({ kind: 'monster-camp', name: 'Monster Camp', category: 'World', description: 'Expands unless supplied with Attack Power.', icon: 'M', input: ['ATTACK_POWER'], output: [], size: 'large', hidden: true }),
+  goblinTribute: node({ kind: 'goblinTribute', name: 'Tribute', category: 'World', description: 'Produces your chosen material directly while its settlement stays suppressed. Miss an AP check and this node and its stored tribute disappear.', icon: '▣', input: [], output: ['RESOURCE'], hidden: true }),
+  'big-hole': node({ kind: 'big-hole', name: 'Deep Hole', category: 'World', description: 'Fill with processed Stone to clear.', icon: '◉', input: ['stone'], output: [], size: 'large', hidden: true }),
 
   // Early reconstruction aliases remain loadable without appearing twice.
-  chest: node({ kind: 'chest', name: 'Cart', category: 'Logistics', description: 'Stores up to 20 solid items of any tier with ordinary local transfers. Fluids are excluded.', accent: 0xc69767, accentCss: '#c69767', icon: '□', input: ['ANY'], output: ['ANY'], unlockResearch: 'road', hidden: true, legacyAlias: true }),
-  generator: node({ kind: 'generator', name: 'Generator', category: 'Power', description: 'Legacy Generator identifier.', accent: 0xf2d45c, accentCss: '#f2d45c', icon: '⚡', input: ['charcoal'], output: ['POWER'], hidden: true, legacyAlias: true }),
-  'tree-planter': node({ kind: 'tree-planter', name: 'Tree Planter', category: 'Production', description: 'Consumes 10 Wood, 1 Iron Plate and 1 Stone to fund 100 growth units. Emits one per second; Industrial Forestry makes production ten times faster.', accent: 0x82d982, accentCss: '#82d982', icon: 'T', input: ['wood', 'iron-plate', 'stone'], output: ['forest-growth'], hidden: true, legacyAlias: true }),
-  'research-center': node({ kind: 'research-center', name: 'Research Center', category: 'Research', description: 'Legacy Research Center identifier.', accent: 0x8baadf, accentCss: '#8baadf', icon: 'Q', input: ['CORE'], output: [], size: 'large', hidden: true, legacyAlias: true }),
+  chest: node({ kind: 'chest', name: 'Cart', category: 'Logistics', description: 'Stores up to 20 solid items of any tier with ordinary local transfers. Fluids are excluded.', icon: '□', input: ['ANY'], output: ['ANY'], unlockResearch: 'road', hidden: true, legacyAlias: true }),
+  generator: node({ kind: 'generator', name: 'Generator', category: 'Power', description: 'Legacy Generator identifier.', icon: '⚡', input: ['charcoal'], output: ['POWER'], hidden: true, legacyAlias: true }),
+  'tree-planter': node({ kind: 'tree-planter', name: 'Tree Planter', category: 'Production', description: 'Consumes 10 Wood, 1 Iron Plate and 1 Stone to fund 100 growth units. Emits one per second; Industrial Forestry makes production ten times faster.', icon: 'T', input: ['wood', 'iron-plate', 'stone'], output: ['forest-growth'], hidden: true, legacyAlias: true }),
+  'research-center': node({ kind: 'research-center', name: 'Research Center', category: 'Research', description: 'Legacy Research Center identifier.', icon: 'Q', input: ['CORE'], output: [], size: 'large', hidden: true, legacyAlias: true }),
 };
+
+for (const definition of Object.values(LATE_NODES)) NODE_DEFINITIONS[definition.kind] = node(definition);
 
 for (const kind of DEFERRED_POWER_NODES) {
   NODE_DEFINITIONS[kind].hidden = true;
@@ -86,7 +135,7 @@ export function getBuildNodeDefinition(kind: NodeKind, completedResearch: readon
 export const getNodeDisplayDefinition = (node: MachineNode): NodeDefinition => {
   if (modNode(node.kind)?.accentCss) return NODE_DEFINITIONS[node.kind];
   const accent = node.kind === 'resourceGolem' ? ITEM_COLORS[getGolemMineral(node)] : node.lizardSettlement ? 0x71c99a : undefined;
-  return accent === undefined ? NODE_DEFINITIONS[node.kind] : { ...NODE_DEFINITIONS[node.kind], accent, accentCss: `#${accent.toString(16).padStart(6, '0')}` };
+  return accent === undefined ? NODE_DEFINITIONS[node.kind] : { ...NODE_DEFINITIONS[node.kind], ...accentFields(accent) };
 };
 
 export const isNodeUnlocked = (kind: NodeKind, unlockedResearch: readonly string[]) => {

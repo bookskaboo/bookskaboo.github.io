@@ -1,7 +1,7 @@
 import { applyExpansionRescue } from './expansionRescue';
 import { firstSpottedDwarvenCamp, DWARVEN_DISCOVERY_PROMPT } from '../tutorials/dwarvenDiscovery';
-import { endgameRank, reconcileHole, worldRecipeAllowed, CORNER_MAPS, FOUNDRY_INPUTS } from '../content/endgame';
-import { initializeEndgame, createCornerNodes, simulateCorner, simulateRecycler, cornerInputAllowed } from './endgameRuntime';
+import { endgameRank, reconcileHole, worldRecipeAllowed, FOUNDRY_INPUTS } from '../content/endgame';
+import { initializeEndgame, simulateCorner, simulateRecycler, cornerInputAllowed, syncCornerLayout } from './endgameRuntime';
 import { recyclerAccepts } from '../content/recycling';
 import { simulatePlanter } from '../content/forestry';
 import { activateMod, BASE_MOD_CONTENT } from '../mods/modContent';
@@ -20,7 +20,7 @@ import { migrateRetiredNodes } from '../content/retiredNodes';
 import { LEGACY_NODE_DISPLAY_NAMES } from '../content/displayNameChanges';
 import { CONTROL_GROUP_COLORS, copyControlGroups, normalizeControlGroups, regroupControlNodes } from '../domain/controlGroups';
 import type { Connection, GameEvent, GameState, InFlightTransfer, ItemId, MachineNode, NodeKind, SectorState } from '../domain/types';
-import { generateSector, sectorDistance, sectorId } from './worldGeneration';
+import { getEncounterLayoutVersion, getGolemPlacementTier, getSectorWorldSize, MAP_GRID_SIZE, sectorDistance, sectorForState, sectorId, syncCornerLayouts } from './worldGeneration';
 import { logisticsRoute } from './logisticsRoutes';
 import { routedConnectionFailure } from './connectionMaterials';
 import { isTutorialUnlocked, type ProgressiveTutorialKind } from '../tutorials/tutorialUnlocks';
@@ -33,7 +33,6 @@ import { updateCampEncroachment } from './campEffects';
 import { obstructedConnections } from './obstructedConnections';
 import { devExtractorMaterial, devInputItems, supplyDevInputs } from './devSource';
 import { roadFeedCandidates, recoverRoadStock } from './roadTransport';
-import { getSectorWorldSize } from './worldGeneration';
 import { connectionBlockedByWorld, connectionObstruction, inputPortAcceptsItem, portFamilyAcceptsItem, portFamiliesCompatible, resolveConnectionPlan, resolveExactConnectionPlan } from './connectionRules';
 import { getNodeModule, isPlayerMovableNode } from '../content/nodeModules';
 import { CONNECTOR_MIRRORING_RESEARCH, isProductionMachine } from '../content/productionNodes';
@@ -71,7 +70,8 @@ export class GameEngine {
   private readonly research = new ResearchRuntime(
     () => this.getState(),
     () => this.publish(),
-    (type, message, projectId) => this.event(type, message, projectId),
+    (type, message, projectId, elapsedMs) => this.event(type, message, projectId, elapsedMs),
+    () => this.journalElapsedMs(),
     kind => this.efficiencyMultiplier(kind),
   );
   private state: GameState;
@@ -81,6 +81,8 @@ export class GameEngine {
   private publishAccumulator = 0;
   private autosaveAccumulator = 0;
   private rescueAccumulator = 0;
+  private realtimeTickAt?: number;
+  private realtimePendingMs = 0;
   private visibleTransferSource?: InFlightTransfer[];
   private visibleTransferCount = -1;
   private visibleTransferSectorId?: string;
@@ -113,6 +115,7 @@ export class GameEngine {
     this.checkpoint();
     this.state.mod = candidate;
     activateMod(candidate);
+    syncCornerLayouts(this.state);
     applyModNames(this.state);
     applyCartUpgrades(this.state);
     applyModNames(this.state);
@@ -122,14 +125,12 @@ export class GameEngine {
     this.publish();
   }
   private normalizeExtractorCycles() {
+    this.state.golemPlacementTier ??= getGolemPlacementTier(this.state);
+    this.state.encounterLayoutVersion ??= getEncounterLayoutVersion(this.state);
     migrateRetiredNodes(this.state);
     initializeProgression(this.state);
     migrateReviewedProduction(this.state);
     initializeEndgame(this.state);
-    for(const sector of Object.values(this.state.sectors))if(CORNER_MAPS.includes(sector.id)&&!sector.nodes.some(n=>n.kind==='cornerChallenge')) {
-      const additions=createCornerNodes(sector.x,sector.y,this.state.seed,getSectorWorldSize(sector,this.state.research.completed),this.state.endgame!.cornerOrder);
-      if(additions.every(n=>canPlaceNode(n,sector.nodes,getSectorWorldSize(sector,this.state.research.completed))))sector.nodes.push(...additions);
-    }
     applyCartUpgrades(this.state);
     for (const node of [...Object.values(this.state.sectors).flatMap(sector => sector.nodes), ...(this.state.factoryTemplates ?? []).flatMap(template => template.nodes)]) {
       node.name = LEGACY_NODE_DISPLAY_NAMES[node.name] ?? node.name;
@@ -158,7 +159,9 @@ export class GameEngine {
         if (camp) tribute.tributeItem = tributeMaterial(camp);
       }
       this.removeInactiveTribute(sector);
+      this.removeDefeatedGolemCables(sector);
     }
+    syncCornerLayouts(this.state);
     const roadCables = new Set(Object.values(this.state.sectors).flatMap(sector => {
       const roads = new Set(sector.nodes.filter(node => node.kind === 'road').map(node => node.id));
       return sector.connections.filter(cable => roads.has(cable.from) || roads.has(cable.to)).map(cable => cable.id);
@@ -185,8 +188,8 @@ export class GameEngine {
   };
   private publish() { this.state.revision++; this.listeners.forEach((listener) => listener()); }
   private checkpoint() { this.history.push(clone(this.state)); if (this.history.length > 50) this.history.shift(); }
-  private event(type: GameEvent['type'], message: string, projectId?: string) {
-    const event: GameEvent = { id: makeId('event'), type, message, at: Date.now(), ...(projectId ? { projectId, elapsedMs: this.state.playTimeMs } : {}) };
+  private event(type: GameEvent['type'], message: string, projectId?: string, elapsedMs = this.state.playTimeMs) {
+    const event: GameEvent = { id: makeId('event'), type, message, at: Date.now(), ...(projectId ? { projectId, elapsedMs } : {}) };
     this.state.events.unshift(event);
     if (type === 'ResearchCompleted') (this.state.researchLog ??= []).unshift(clone(event));
     this.state.events = this.state.events.slice(0, 12);
@@ -210,6 +213,37 @@ export class GameEngine {
   }
 
   private evaluateMilestones() { this.research.evaluateMilestones(); }
+
+  startRealtimeClock() {
+    this.realtimeTickAt = performance.now();
+    this.realtimePendingMs = 0;
+  }
+
+  stopRealtimeClock() { this.realtimeTickAt = undefined; }
+
+  private activeTimeSinceTick(now: number) {
+    return this.realtimeTickAt === undefined || this.state.paused ? 0 : Math.max(0, now - this.realtimeTickAt);
+  }
+
+  private journalElapsedMs() {
+    if (this.realtimeTickAt === undefined) return this.state.playTimeMs;
+    return this.state.playTimeMs + Math.min(1000, this.realtimePendingMs + this.activeTimeSinceTick(performance.now()));
+  }
+
+  tickRealtime() {
+    if (this.realtimeTickAt === undefined) return;
+    const now = performance.now();
+    if (this.state.paused) return;
+    const deltaMs = this.realtimePendingMs + this.activeTimeSinceTick(now);
+    this.realtimePendingMs = 0;
+    // While the tick commits events, its elapsed time already includes this interval.
+    this.realtimeTickAt = undefined;
+    try {
+      this.tick(deltaMs);
+    } finally {
+      this.realtimeTickAt = now;
+    }
+  }
 
   tick(deltaMs: number) {
     activateMod(this.state.mod);
@@ -435,12 +469,7 @@ export class GameEngine {
       this.cancelTransfers(filledConnectionIds);
       sector.connections = sector.connections.filter((connection) => !filledHoles.includes(connection.to));
     }
-    const defeatedGolemIds = new Set(sector.nodes.filter(node => node.infiniteResource && node.golemMineral).map(node => node.id));
-    const defeatedGolemCables = new Set(sector.connections.filter(connection => defeatedGolemIds.has(connection.to)).map(connection => connection.id));
-    if (defeatedGolemCables.size) {
-      this.cancelTransfers(defeatedGolemCables);
-      sector.connections = sector.connections.filter(connection => !defeatedGolemCables.has(connection.id));
-    }
+    this.removeDefeatedGolemCables(sector);
     this.removeInactiveTribute(sector);
     for (const camp of checkedCamps) {
       if (!isCampFullySuppressed(camp) || sector.nodes.some(node => node.kind === 'goblinTribute' && node.tributeCampId === camp.id)) continue;
@@ -448,6 +477,14 @@ export class GameEngine {
       if (tribute) { sector.nodes.push(tribute); this.event('NodePlaced', `${camp.name} is suppressed and now supplies configurable tribute.`); }
     }
     sector.lastSimulatedAt = Date.now();
+  }
+
+  private removeDefeatedGolemCables(sector: SectorState) {
+    const reserves = new Set(sector.nodes.filter(node => node.infiniteResource && node.golemMineral).map(node => node.id));
+    const removed = new Set(sector.connections.filter(connection => reserves.has(connection.to)).map(connection => connection.id));
+    if (!removed.size) return;
+    this.cancelTransfers(removed);
+    sector.connections = sector.connections.filter(connection => !removed.has(connection.id));
   }
 
   private removeInactiveTribute(sector: SectorState) {
@@ -1330,7 +1367,16 @@ export class GameEngine {
     this.publish();
     return true;
   }
-  togglePause() { this.state.paused = !this.state.paused; this.publish(); }
+  togglePause() {
+    if (this.realtimeTickAt !== undefined) {
+      const now = performance.now();
+      // Carry the active fraction across the pause without running an extra simulation step.
+      this.realtimePendingMs = Math.min(1000, this.realtimePendingMs + this.activeTimeSinceTick(now));
+      this.realtimeTickAt = now;
+    }
+    this.state.paused = !this.state.paused;
+    this.publish();
+  }
   acknowledgeDwarvenDiscovery() {
     if (!firstSpottedDwarvenCamp(this.state)) return false;
     (this.state.tutorialPromptsSeen ??= []).push(DWARVEN_DISCOVERY_PROMPT);
@@ -1396,14 +1442,18 @@ export class GameEngine {
     this.state.research.mapPoints = Math.max(this.state.research.mapPoints, 121);
     this.research.resetResearchCycles();
     applyCartUpgrades(this.state);
+    syncCornerLayouts(this.state);
     this.publish();
   }
   developerUnlockAllSectors() {
     this.checkpoint();
-    for (let y = 0; y < 11; y++) for (let x = 0; x < 11; x++) {
-      const id = sectorId(x, y); const sector = this.state.sectors[id] ?? generateSector(x, y, this.state.seed, Date.now(), this.state.research.completed); sector.unlocked = true; this.state.sectors[id] = sector;
+    for (let y = 0; y < MAP_GRID_SIZE; y++) for (let x = 0; x < MAP_GRID_SIZE; x++) {
+      const sector = this.ensureSector(x, y);
+      sector.unlocked = true;
+      this.state.sectors[sector.id] = sector;
     }
-    this.state.research.mapPoints = Math.max(this.state.research.mapPoints, 121);
+    this.state.devMapSurveysRevealed = true;
+    this.state.research.mapPoints = Math.max(this.state.research.mapPoints, MAP_GRID_SIZE ** 2);
     this.publish();
   }
   setTutorialStep(step: number) { this.state.tutorialStep = step; this.publish(); }
@@ -1413,23 +1463,26 @@ export class GameEngine {
     previous.encounters = [...new Set([...(previous.encounters ?? []), ...(this.state.encounters ?? [])])];
     previous.tutorialPromptsSeen = [...new Set([...(previous.tutorialPromptsSeen ?? []), ...(this.state.tutorialPromptsSeen ?? [])])];
     for (const [id, sector] of Object.entries(this.state.sectors)) if (sector.visited && previous.sectors[id]) previous.sectors[id].visited = true;
-    this.state = previous; activateMod(this.state.mod); initializeProgression(this.state); applyCartUpgrades(this.state); applyModNames(this.state); this.evaluateMilestones(); this.publish();
+    this.state = previous;
+    if (this.realtimeTickAt !== undefined) this.startRealtimeClock();
+    activateMod(this.state.mod); initializeProgression(this.state); applyCartUpgrades(this.state); applyModNames(this.state); this.evaluateMilestones(); this.publish();
   } }
-  replaceState(state: GameState) { const next = clone(state); if (next.mod) next.mod = validateMod(next.mod); this.state = next; activateMod(this.state.mod); applyModNames(this.state); this.state.produced ??= {}; this.state.extracted ??= {}; this.state.hasCreatedConnection ??= false; this.state.research.completed ??= []; this.state.research.repeatableCompletions ??= {}; this.state.research.projectContributions ??= {}; this.state.inFlightTransfers ??= []; this.normalizeExtractorCycles(); applyModNames(this.state); this.research.reconcileResearchSelection(); this.pruneLockedForestInputs(); this.history = []; this.publish(); }
+  replaceState(state: GameState) { const next = clone(state); if (next.mod) next.mod = validateMod(next.mod); this.state = next; if (this.realtimeTickAt !== undefined) this.startRealtimeClock(); activateMod(this.state.mod); applyModNames(this.state); this.state.produced ??= {}; this.state.extracted ??= {}; this.state.hasCreatedConnection ??= false; this.state.research.completed ??= []; this.state.research.repeatableCompletions ??= {}; this.state.research.projectContributions ??= {}; this.state.inFlightTransfers ??= []; this.normalizeExtractorCycles(); applyModNames(this.state); this.research.reconcileResearchSelection(); this.pruneLockedForestInputs(); this.history = []; this.publish(); }
   unlockSector(x: number, y: number) {
     if (this.state.research.mapPoints < 1 || x < 0 || y < 0 || x > 10 || y > 10) return false;
     const adjacent = Object.values(this.state.sectors).some((s) => s.unlocked && Math.abs(s.x - x) + Math.abs(s.y - y) === 1);
     if (!adjacent) return false;
     const id = sectorId(x, y);
-    const sector = this.state.sectors[id] ?? generateSector(x, y, this.state.seed, Date.now(), this.state.research.completed);
+    const sector = this.ensureSector(x, y);
     if (sector.unlocked) return false;
     this.checkpoint(); sector.unlocked = true; this.state.sectors[id] = sector; this.state.research.mapPoints--; this.publish(); return true;
   }
   switchSector(id: string, firstVisitCamera?: SectorState['camera']) {
     const sector = this.state.sectors[id]; if (!sector?.unlocked) return;
+    syncCornerLayout(sector, getSectorWorldSize(sector, this.state.research.completed), this.state);
     if (!sector.visited && firstVisitCamera) sector.camera = { ...firstVisitCamera };
     this.state.activeSectorId = id; discoverActiveSector(this.state);this.evaluateMilestones();this.publish();
   }
-  ensureSector(x: number, y: number) { const id = sectorId(x, y); return this.state.sectors[id] ?? generateSector(x, y, this.state.seed, Date.now(), this.state.research.completed); }
+  ensureSector(x: number, y: number) { return sectorForState(this.state, x, y); }
   sectorLevel() { const s = this.getSector(); return sectorDistance(s.x, s.y); }
 }

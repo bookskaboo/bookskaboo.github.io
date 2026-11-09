@@ -13,15 +13,17 @@ The world is an 11 × 11 grid, with Home at 5,5. Map tier is Manhattan distance 
 | Encounter | Current role | Evaluation need |
 | --- | --- | --- |
 | Deep Hole | Blocks space; processed Stone fills it, followed by manual clearing | Cost versus useful reclaimed space; depletion recovery |
-| Lake | Permanent obstacle and local Water source with directional outputs and Intake support | Shoreline layout, intake competition and readable capacity |
+| Lake | Permanent obstacle and local Water source with directional outputs and Intake support. One seed-selected Lake appears per tier from 3 through 9, in addition to the early tier-2 Lakes. | Shoreline layout, intake competition and readable capacity |
 | Goblin settlements | Five Camps, five Villages and five Kingdoms per new world; recurring AP suppression and configurable Tribute | Q14 keeps them an early optional bonus; exclude Mythril from their rewards |
 | Dwarven settlements | Formerly Lizard settlements; current display names are Dwarven Camp, Village and Kingdom; five of each across tiers 4–9; internal IDs retain `lizardSettlement` | Q14 makes their Tribute the regular Mythril source; Q14B1 permits the retained Mythril Golem exception; source/progression changes remain pending |
-| Mineral Golems | Four clear tier-6 encounters; each takes 10,000 AP once and becomes an infinite mineral reserve | Investment payoff against drills and regeneration |
+| Mineral Golems | Four clear tier-5 encounters in new worlds that become infinite mineral reserves. Iron, Copper and Stone cost 180 AP each. Mythril costs 360 AP. | Investment payoff against drills and regeneration |
 | Four corner obstructions | Q06 requires a unique obstruction and final-Core component at each world corner; tier 10 currently empty | Challenge identities, solving conditions, repeatable component supply and routes |
 
 The current Golem reward is a mineral reserve worked by Extractors. Older notes describing a 100-health, two-output producing machine are obsolete for current behavior. Exact AP tables, generation rules and obstruction geometry remain in [obstruction behavior](../obstruction-types-and-behavior.md).
 
 ## Dwarven Tribute as the Mythril gate
+
+**Current balance (November 8, 2026, NODE-0344 through NODE-0346).** Upkeep and Tribute are uniform by settlement size. Camps pay 6 AP for up to 12 Mythril per minute, Villages pay 16 for 60, and Kingdoms pay 32 for 144. The map tier determines which size can spawn. The design decisions below record the earlier progression model. [Current encounter rules](../obstruction-types-and-behavior.md#dwarven-settlement-tiers-and-rewards)
 
 **Agreed direction (Q14, amended by Q14B1, November 2, 2026):** Goblin settlements are an early optional bonus. The former Lizard settlements are Dwarven settlements whose Tribute supplies Mythril instead of ordinary Mythril resource nodes. The Mythril Golem retains its infinite mineral reward as an explicit exception. Use Dwarven in current player-facing discussion and text, retaining existing serialized IDs for save compatibility. The earlier absolute exclusivity clause is superseded by this exception; other source exclusions remain in force.
 
@@ -31,7 +33,7 @@ This makes Dwarven management part of progression toward Mythril-dependent produ
 
 **Agreed upkeep effort (Q27, November 2, 2026):** a small dedicated line around one continuously supplied Medium Bot assembler should maintain a starter camp. Its upstream Sealed Frame, Cooled Gun and Basic Core production are additional capacity, not included in the one final-assembler count. Base machines must support this target without requiring efficiency upgrades.
 
-**Agreed starter upkeep (Q28, November 2, 2026):** 6 AP every 60 seconds, equivalent to two Medium Bots per check. The current Medium Bot recipe produces one bot in 25 seconds, worth 3 AP. One fully supplied unupgraded final assembler makes 2.4 bots/minute; the agreed upkeep uses 50 of 60 assembler-seconds (about 83% utilization). This leaves modest throughput headroom, not a guarantee against input shortages or delayed deliveries; buffers and startup need testing. Replace the current earliest 24-AP requirement in the eventual starter-camp implementation. This answer does not set costs for other camps, Villages or Kingdoms.
+**Agreed starter upkeep (Q28, November 2, 2026):** 6 AP every 60 seconds, equivalent to two Medium Bots per check. Under NODE-0335, a fully supplied base Assembler II makes one 3 AP Medium Bot every 20 seconds. Upkeep uses 40 of 60 assembler-seconds, down from 50 at the original rate. Buffers, startup and uninterrupted delivery need testing.
 
 Q28 is adopted as design; runtime values remain unchanged pending the complete starter-camp specification. The calculation assumes normal recurring settlement checks, sufficient inputs, continuous operation and adequate delivery; it does not use the corner dragon's accumulated-AP rule. The corrected five-second Research Center baseline is in force, and Basic Cores spent on bots compete with research supply. Q29 adopts the starter reward below; stronger settlement costs remain separate design work.
 
@@ -47,13 +49,13 @@ Q61–Q70 define Dwarven tier structure, AP/rewards, payment/recovery, populatio
 
 **Adopted AP ladder (Q62, November 3, 2026):** the user selected option 2: tier-4–9 upkeep is 6, 12, 18, 30, 48 and 72 AP respectively, per sixty-second check. The doubling proposal is not adopted. Camps use 6/12, Villages 18/30 and Kingdoms 48/72. These are starting design targets pending sustained factory validation; the existing runtime values are unchanged.
 
-Current bot AP is Small 1, Medium 3, Heavy 8 and Command 20. Six AP requires two Medium Bots; eighteen AP can use six Medium Bots, and seventy-two AP exactly matches nine Heavy Bots. With the current forty-second Heavy Bot cycle, six fully supplied unupgraded final assemblers can make those nine Heavy Bots/minute; four Command Bots instead provide eighty AP, with successful-check surplus retained under Q64. Count upstream inputs/Core use, delivery, whole-bot payments and interruptions; AP arithmetic alone does not establish affordable upkeep.
+Current bot AP is Small 1, Medium 3, Heavy 8 and Command 24. Six AP takes two Medium Bots and eighteen AP takes six. A seventy-two AP check takes nine Heavy Bots or three Command Bots. With fully supplied base assemblers, meeting that check every minute takes six Heavy Bot lines or five Command Bot lines. Include upstream inputs, Core use, delivery and interruptions when sizing the factory.
 
 **Adopted Mythril rewards (Q63, November 3, 2026):** twelve, thirty-six, sixty, 108, 180 and 288 Mythril/minute at tiers 4–9 while fully suppressed. At the existing five-second Tribute cadence this is 1/3/5/9/15/24 Mythril per batch. Starter output remains unchanged. Rewards increase at every step, and raw Mythril per AP increases from 2 at tier 4 to 4 at tier 9, making more distant/harder settlements attractive despite their higher recurring supply and logistics burden. Intermediate ratios are 3, 10/3, 18/5 and 15/4 Mythril/AP; these compare AP units, not full bot production costs.
 
 The user selected option 1; the proportional alternative is not adopted. These are starting design targets, not runtime changes or measured sustainable output. Validate output with bot upstream consumption, transport and local use, full-box behavior and the provisional world-coverage targets. Do not treat production capacity as guaranteed delivery or multiply rates by settlement count without a real supply model.
 
-**Adopted surplus AP credit (Q64, November 3, 2026):** retain overpayment from a successful Dwarven upkeep check as settlement-local AP credit toward later sixty-second checks. Use that credit first, then consume only the bots needed to cover the remaining requirement, retaining unused whole bots in their input buffer. Example: four Command Bots provide eighty AP against seventy-two, leaving eight credit. With only Command Bots, a five-check sequence can use 4/4/3/4/3 bots, eighteen total for 360 required AP, without pretending to consume fractional bots.
+**Adopted surplus AP credit (Q64, November 3, 2026):** retain overpayment from a successful Dwarven upkeep check as settlement-local AP credit toward later sixty-second checks. Use that credit first, then consume only the bots needed to cover the remaining requirement, retaining unused whole bots in their input buffer. Two Command Bots supply forty-eight AP against a thirty AP Village check, leaving eighteen credit toward the next check.
 
 The user selected option 1. This preserves the value of consumed bots without converting all buffered deliveries into an unrestricted AP bank. It needs visible remaining credit and save/load behavior. The discard-overpayment alternative is not adopted. Current runtime has no retained AP credit; implementation is pending. Q65 subsequently preserves insufficient whole bots and credit on failed checks; Q64 addresses successful-check surplus. Goblin behavior is outside this decision; the Alpha corner's adopted carry-forward rule remains in force independently.
 
@@ -85,7 +87,7 @@ At the adopted rates, fifteen fully supplied/suppressed settlements represent 1,
 | Dwarven Tribute | Display names and default Mythril selection already exist; other rewards remain selectable | Make this the regular Mythril supply, with the Golem exception; tune earliest camp, AP burden, output and usable routes |
 | Goblin Tribute | Mythril becomes selectable after Mythril Tools | Remove that Mythril option, including existing selections, without blocking ordinary Goblin rewards |
 | Mining Drills | Mythril is an available deposit target | Exclude Mythril generation and define saved drill/target handling |
-| Mythril Golem | Converts into an infinite Mythril reserve; current AP is 10,000 and placement is seed-selected tier 6 | Q14B1 retains the encounter/reward on a random tier-6 map and Q68 adopts a 20,000 AP clearing cost; implementation and old-save handling pending |
+| Mythril Golem | Converts into an infinite Mythril reserve at 360 AP. Placement is seed-selected at tier 5 in new worlds. | Q14B1 retains the encounter and reserve. NODE-0334 supersedes the Q68 price. |
 | Mythril processing discovery | Currently tied to encountering Mythril, including retained legacy access | Q14A uses first Dwarven Mythril Tribute production; persist that milestone, while Q32 moves waste-tool introduction to Complex; apply Q21 save policy |
 | Discovery guarantees | Q13 guarantees important progression access with seeded variation | Guarantee reachable/manageable Dwarven access in the appropriate range, rather than guaranteeing Mythril deposits |
 
@@ -100,6 +102,8 @@ The observed naming changes do not establish that the intended source restrictio
 At twenty AP per Command Bot and its sixty-second base cycle, the adopted 20,000 represents 1,000 base final-assembler minutes (16h40m of aggregate machine work), not an elapsed-time requirement; parallel machines and efficiency research reduce elapsed assembly time, while upstream supply/delivery add constraints. Validate the reserve's extraction capacity and actual factory payback against the adopted Dwarven options before calling this balanced. Do not alter Iron, Copper or Stone Golems: current source uses one shared cost constant, so Mythril-specific cost and existing health/save behavior need an explicit implementation change. 20,000 is adopted design, with runtime cost and health handling still unchanged.
 
 Q14A still unlocks processing on first Dwarven Mythril Tribute production. The Golem exception allows an alternate mineral reserve, but does not by itself change that discovery trigger. Verify the interaction and legacy states when implementing the revised supply design. No AP-cost or source-generation change is implemented by this plan update.
+
+**Current Golem costs (November 8, 2026, NODE-0333 and NODE-0334).** Iron, Copper and Stone cost 180 AP each. A fully supplied base Small Bot assembler takes 30 minutes and consumes 2,160 each of Iron ore, Copper ore and Wood across the production chain. Mythril costs 360 AP, equal to 60 minutes and 4,320 of each resource. A tier-5 sector starts with 3,500 of each, so the Mythril bill can draw on regional supply. This replaces the previous 10,000 and 20,000 AP prices. Existing saves credit AP already paid toward the lower requirement. Implemented locally. Normal-play balance testing is pending.
 
 ## Agreed corner endgame
 

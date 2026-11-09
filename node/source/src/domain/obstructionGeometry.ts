@@ -1,4 +1,4 @@
-import { getNodeSize, isOrganicNode, organicPolygon } from './nodeGeometry';
+import { cornerCampInward, getNodeSize, isOrganicNode, organicPolygon } from './nodeGeometry';
 import type { MachineNode } from './types';
 
 export interface Point { x: number; y: number }
@@ -8,6 +8,17 @@ const outlines = new WeakMap<MachineNode, { key: string; points: Point[]; bounds
 
 /** The exact outline drawn by the renderer, in local node coordinates. */
 export function obstructionOutline(node: MachineNode): number[] {
+  if (node.kind === 'cornerChallenge') {
+    const { w, h } = getNodeSize(node);
+    const x = w / 2, y = h / 2;
+    if (!node.cornerCampQuadrant) return [-x, -y, x, -y, x, y, -x, y];
+    const inward = cornerCampInward(node.cornerCampQuadrant);
+    const trim = 56;
+    const recess = 288;
+    return [-x + trim, -y, x - trim, -y, x, -y + trim, x, y - recess,
+      x - recess, y, -x + trim, y, -x, y - trim, -x, -y + trim]
+      .map((value, index) => value * (index % 2 === 0 ? inward.x : inward.y));
+  }
   if (node.kind === 'resourceGolem') {
     const { w, h } = getNodeSize(node);
     // One closed silhouette also defines placement, cable, and field boundaries.
@@ -21,7 +32,7 @@ export function obstructionOutline(node: MachineNode): number[] {
 
 function footprint(node: MachineNode) {
   const size = getNodeSize(node);
-  const key = `${node.id}:${node.kind}:${size.w}:${size.h}`;
+  const key = `${node.id}:${node.kind}:${size.w}:${size.h}:${node.cornerCampQuadrant ?? ''}`;
   const cached = outlines.get(node);
   if (cached?.key === key) return cached;
   const raw = isOrganicNode(node) ? obstructionOutline(node) : [-size.w / 2, -size.h / 2, size.w / 2, -size.h / 2, size.w / 2, size.h / 2, -size.w / 2, size.h / 2];

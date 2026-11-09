@@ -9,6 +9,7 @@ export const ITEM_NAMES: Record<ItemId, string> = {
   'iron-gear': 'Iron Gear', 'copper-gear': 'Copper Gear', 'mythril-gear': 'Mythril Gear', 'iron-wire': 'Iron Wire', 'copper-wire': 'Copper Wire', 'mythril-wire': 'Mythril Wire',
   motor: 'Motor', 'circuit-a': 'Circuit A', 'simple-core': 'Simple Core', 'basic-core': 'Basic Core', 'automata-core': 'Automata Core',
   'simple-robot-frame': 'Bot Frame', 'simple-robot-gun': 'Bot Gun', 'suppression-bot': 'Small Bot', power: 'Power', 'forest-growth': 'Forest Growth',
+  'final-suppression-bot': 'Final Bot',
 };
 
 export const ITEM_COLORS: Record<ItemId, number> = {
@@ -18,6 +19,7 @@ export const ITEM_COLORS: Record<ItemId, number> = {
   'iron-gear': 0x8296a6, 'copper-gear': 0xd69a72, 'mythril-gear': 0x58bd78, 'iron-wire': 0x8296a6, 'copper-wire': 0xe79a70, 'mythril-wire': 0x73dd96,
   motor: 0xd9a54a, 'circuit-a': 0x6fcf9b, 'simple-core': 0xe45757, 'basic-core': 0xff6b00, 'automata-core': 0xf2c94c,
   'simple-robot-frame': 0x7eb0c7, 'simple-robot-gun': 0xd37b6f, 'suppression-bot': 0xa7df67, power: 0xf2d45c, 'forest-growth': 0x82d982,
+  'final-suppression-bot': 0xffd77d,
 };
 
 /** Physical materials that can be routed through a Filter. */

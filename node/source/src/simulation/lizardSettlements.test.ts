@@ -40,7 +40,7 @@ describe('Dwarven settlements (legacy lizard save key)', () => {
         expect(node.attackRequirement).toBe(spec.attackRequirement);
         expect(node.goblinSettlement).toBeUndefined();
         expect(node.campStrength).toBe(25);
-        expect(sector.nodes.some(other => other.kind === 'resourceGolem' || (other.kind === 'monster-camp' && other.id !== node.id))).toBe(false);
+        expect(sector.nodes.some(other => other.kind === 'lake' || other.kind === 'resourceGolem' || (other.kind === 'monster-camp' && other.id !== node.id))).toBe(false);
         expect(sector.nodes.filter(other => other.id !== node.id).some(other => nodesOverlap(node, other))).toBe(false);
         expect(generateSector(x, y, seed, 0).nodes.find(other => other.id === node.id)).toEqual(node);
       }
@@ -51,11 +51,11 @@ describe('Dwarven settlements (legacy lizard save key)', () => {
     expect(goblins).toBe(15); expect(golems).toBe(4);
   });
 
-  it.each<[number, ItemId, number, number]>([
-    [4, 'medium-suppression-bot', 2, 6], [5, 'medium-suppression-bot', 4, 12],
-    [6, 'medium-suppression-bot', 6, 18], [7, 'medium-suppression-bot', 10, 30],
-    [8, 'heavy-suppression-bot', 6, 48], [9, 'heavy-suppression-bot', 9, 72],
-  ])('uses the higher research-aligned suppression requirement at map tier %i', (tier, bot, count, ap) => {
+  it.each<[number, ItemId, number, number, number]>([
+    [4, 'medium-suppression-bot', 2, 6, 1], [5, 'medium-suppression-bot', 2, 6, 1],
+    [6, 'heavy-suppression-bot', 2, 16, 5], [7, 'heavy-suppression-bot', 2, 16, 5],
+    [8, 'heavy-suppression-bot', 4, 32, 12], [9, 'heavy-suppression-bot', 4, 32, 12],
+  ])('uses the expected upkeep and Mythril rate at map tier %i', (tier, bot, count, ap, batch) => {
     const engine = setup(tier);
     const node = camp(engine);
     expect(node.attackRequirement).toBe(ap);
@@ -70,7 +70,7 @@ describe('Dwarven settlements (legacy lizard save key)', () => {
     expect(reward(engine)?.lizardSettlement).toBe(node.lizardSettlement);
     expect(getNodeDisplayDefinition(node).accentCss).toBe('#71c99a');
     advance(engine, 5);
-    expect(reward(engine)?.output.mythril).toBe(tributeAmount(node));
+    expect(reward(engine)?.output.mythril).toBe(batch);
     advance(engine, 55);
     expect(node.campStrength).toBe(20);
     expect(reward(engine)).toBeDefined();
@@ -96,12 +96,12 @@ describe('Dwarven settlements (legacy lizard save key)', () => {
 
   it('preserves earned Mythril stock and the box through save/load and failed upkeep', () => {
     let engine = setup(9); camp(engine).campStrength = 15;
-    camp(engine).input['command-suppression-bot'] = 4;
+    camp(engine).input['heavy-suppression-bot'] = 4;
     advance(engine, 70);
-    expect(reward(engine)?.output.mythril).toBe(48);
+    expect(reward(engine)?.output.mythril).toBe(24);
     const id = reward(engine)!.id;
     engine = new GameEngine(normalizeLegacy(JSON.parse(JSON.stringify(engine.getState())))!);
-    expect(reward(engine)?.output.mythril).toBe(48);
+    expect(reward(engine)?.output.mythril).toBe(24);
     advance(engine, 50);
     expect(camp(engine).suppressionRetry).toBe(true);
     expect(reward(engine)?.id).toBe(id);
@@ -117,25 +117,53 @@ describe('Dwarven settlements (legacy lizard save key)', () => {
     expect(engine.setGoblinTributeItem(node.id, 'water')).toBe(false);
     expect(getTributeItems(engine.getState(), node)).toContain('wood');
     expect(getTributeItems(engine.getState(), node)).not.toContain('mythril');
-    expect(tributeAmount(node)).toBe(5);
+    expect(tributeAmount(node)).toBe(6);
   });
 
-  it('renames saved Lizard camps without changing IDs, countdowns, bots or existing tribute stock', () => {
-    const engine = setup(6);
+  it.each([
+    { tier: 5, label: 'Camp', kind: 'camp', savedAp: 12, expectedAp: 6, batch: 1 },
+    { tier: 6, label: 'Village', kind: 'village', savedAp: 18, expectedAp: 16, batch: 5 },
+  ])('loads old Lizard $label saves at the current rates while preserving stock and progress', ({ tier, label, kind, savedAp, expectedAp, batch }) => {
+    const engine = setup(tier);
     const state = engine.getState();
     const node = camp(engine);
-    node.name = 'Lizard Village'; node.tributeItem = 'water'; node.campStrength = 10;
+    node.name = `Lizard ${label}`; node.tributeItem = 'water'; node.campStrength = 10; node.attackRequirement = savedAp;
     delete node.tributeSelectionVersion;
     node.suppressed = true; node.progressMs = 12345; node.input = { 'heavy-suppression-bot': 4 };
-    state.sectors['5,5'].nodes.push({ ...node, kind: 'goblinTribute', id: 'old-tribute', tributeCampId: node.id, name: 'Lizard Village Tribute', x: node.x + 1000, progressMs: 0, output: { water: 40 }, input: {} });
+    state.sectors['5,5'].nodes.push({ ...node, kind: 'goblinTribute', id: 'old-tribute', tributeCampId: node.id, name: `Lizard ${label} Tribute`, x: node.x + 1000, progressMs: 0, output: { water: 40 }, input: {} });
     const loaded = new GameEngine(normalizeLegacy(JSON.parse(JSON.stringify(state)))!);
-    expect(camp(loaded)).toMatchObject({ id: 'lizard', name: 'Dwarven Village', lizardSettlement: 'village', tributeItem: 'mythril', progressMs: 12345, input: { 'heavy-suppression-bot': 4 } });
+    expect(camp(loaded)).toMatchObject({ id: 'lizard', name: `Dwarven ${label}`, lizardSettlement: kind, attackRequirement: expectedAp, tributeItem: 'mythril', progressMs: 12345, input: { 'heavy-suppression-bot': 4 } });
     expect(reward(loaded)).toMatchObject({ id: 'old-tribute', name: 'Tribute', output: { water: 40 } });
     advance(loaded, 5);
-    expect(reward(loaded)?.output).toEqual({ water: 40, mythril: 5 });
+    expect(reward(loaded)?.output).toEqual({ water: 40, mythril: batch });
     expect(loaded.setGoblinTributeItem('old-tribute', 'copper')).toBe(false);
     expect(loaded.setGoblinTributeItem('old-tribute', 'copper')).toBe(false);
     const reloaded = new GameEngine(normalizeLegacy(JSON.parse(JSON.stringify(loaded.getState())))!);
     expect(camp(reloaded).tributeItem).toBe('mythril');
+  });
+
+  it.each([
+    { tier: 7, bots: 2, savedAp: 30, savedCapacity: 216, savedStock: 190, ap: 16, capacity: 120, batch: 5 },
+    { tier: 9, bots: 4, savedAp: 72, savedCapacity: 576, savedStock: 500, ap: 32, capacity: 288, batch: 12 },
+  ])('preserves a saved tier-$tier stockpile above the new capacity', ({ tier, bots, savedAp, savedCapacity, savedStock, ap, capacity, batch }) => {
+    const engine = setup(tier);
+    camp(engine).campStrength = 15;
+    camp(engine).input['heavy-suppression-bot'] = bots;
+    advance(engine, 60);
+    camp(engine).attackRequirement = savedAp;
+    delete camp(engine).settlementMapTier;
+    const previousBox = reward(engine)!;
+    previousBox.capacity = savedCapacity;
+    previousBox.output.mythril = savedStock;
+
+    const loaded = new GameEngine(normalizeLegacy(structuredClone(engine.getState()))!);
+    const box = reward(loaded)!;
+    expect(camp(loaded).attackRequirement).toBe(ap);
+    expect(box.capacity).toBe(capacity);
+    advance(loaded, 5);
+    expect(box.output.mythril).toBe(savedStock);
+    box.output.mythril = capacity - batch;
+    advance(loaded, 5);
+    expect(box.output.mythril).toBe(capacity);
   });
 });

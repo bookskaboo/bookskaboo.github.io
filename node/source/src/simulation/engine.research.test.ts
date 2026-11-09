@@ -133,10 +133,10 @@ describe('synchronized Research Center cycles', () => {
 
   it('does not consume already-fulfilled core types from uneven saved progress', () => {
     const { engine, center, state } = setup();
-    state.research.contributed = { 'simple-core': 20, 'basic-core': 18 };
+    state.research.contributed = { 'simple-core': 15, 'basic-core': 13 };
     center.input = { 'simple-core': 2, 'basic-core': 3 };
     advance(engine, 5000);
-    expect(state.research.contributed).toEqual({ 'simple-core': 20, 'basic-core': 19 });
+    expect(state.research.contributed).toEqual({ 'simple-core': 15, 'basic-core': 14 });
     expect(center.input['simple-core']).toBe(2);
     advance(engine, 5000);
     expect(state.research.completed).toContain('extractor2');

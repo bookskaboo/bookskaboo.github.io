@@ -2,20 +2,14 @@ import { NODE_DEFINITIONS } from './nodes';
 import { getNodeCapabilities } from './nodeCapabilities';
 import type { NodeKind } from '../domain/types';
 import { LATE_MODULES } from './progression';
+import type { LineArtId } from '../art/lineArt';
 
-/** Icon names intentionally mirror the visual language used by the original game. */
-export type NodeIconId =
-  | 'gem' | 'mountain' | 'tree' | 'lake' | 'pickaxe' | 'mining-drill'
-  | 'flame' | 'smelter' | 'cog' | 'hammer' | 'atom'
-  | 'split' | 'merge' | 'cable' | 'road' | 'zap' | 'filter'
-  | 'package' | 'archive' | 'sprout' | 'flask' | 'camp' | 'hole';
-
-export type NodeShape = 'resource' | 'standard' | 'research' | 'compact' | 'joint' | 'road' | 'chest' | 'lake' | 'hole' | 'camp' | 'golem';
+export type NodeShape = 'resource' | 'standard' | 'research' | 'compact' | 'joint' | 'road' | 'chest' | 'lake' | 'hole' | 'camp' | 'corner-camp' | 'golem';
 export type NodeConfiguration = 'recipe' | 'filter' | 'mining-target' | 'research' | 'tribute' | 'road';
 
 export interface NodeModule {
   appearance: {
-    icon: NodeIconId;
+    icon: LineArtId;
     shape: NodeShape;
   };
   controls: {
@@ -35,7 +29,7 @@ const controls = (overrides: Partial<NodeModule['controls']> = {}): NodeModule['
   ...overrides,
 });
 
-const module = (icon: NodeIconId, shape: NodeShape = 'standard', overrides?: Partial<NodeModule['controls']>): NodeModule => ({
+const module = (icon: LineArtId, shape: NodeShape = 'standard', overrides?: Partial<NodeModule['controls']>): NodeModule => ({
   appearance: { icon, shape },
   controls: controls(overrides),
 });
@@ -49,10 +43,10 @@ const worldControls = { deletable: false, movable: false, pauseable: false } as 
  */
 export const NODE_MODULES: Record<NodeKind, NodeModule> = {
   ...LATE_MODULES,
-  recycler: module('archive'),
-  cornerChallenge: module('atom', 'standard', worldControls),
+  recycler: module('recycler'),
+  cornerChallenge: module('dragon', 'corner-camp', worldControls),
   cornerTribute: module('package', 'standard', worldControls),
-  devSource: module('atom', 'standard', { pauseable: false }),
+  devSource: module('infinity', 'standard', { pauseable: false }),
   forest: module('tree', 'resource', worldControls),
   deposit: module('gem', 'resource', worldControls),
   iron: module('gem', 'resource', worldControls),
@@ -72,18 +66,18 @@ export const NODE_MODULES: Record<NodeKind, NodeModule> = {
   road: module('road', 'road', { configuration: 'road' }),
   powerSplitter: module('zap', 'compact'),
   filter: module('filter', 'compact', { configuration: 'filter' }),
-  inventory: module('package'),
-  woodenChest: module('archive', 'chest'),
-  storage: module('package'),
+  inventory: module('inventory'),
+  woodenChest: module('cart', 'chest'),
+  storage: module('storage'),
   charcoalGenerator: module('zap'),
   treePlanter: module('sprout'),
   researchCenter: module('flask', 'research', { configuration: 'research', pauseable: false }),
-  'monster-camp': module('camp', 'camp', worldControls),
+  'monster-camp': module('goblin-camp', 'camp', worldControls),
   goblinTribute: module('package', 'standard', { ...worldControls, configuration: 'tribute' }),
   'big-hole': module('hole', 'hole', worldControls),
 
   // Save-file aliases share the same modules as their canonical node kinds.
-  chest: module('archive', 'chest'),
+  chest: module('cart', 'chest'),
   generator: module('zap'),
   'tree-planter': module('sprout'),
   'research-center': module('flask', 'research', { configuration: 'research', pauseable: false }),

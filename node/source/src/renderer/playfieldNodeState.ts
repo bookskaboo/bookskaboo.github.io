@@ -3,6 +3,7 @@ import { getNodeCapabilities } from '../content/nodeCapabilities';
 import { NODE_DEFINITIONS } from '../content/nodes';
 import { getNodeModule } from '../content/nodeModules';
 import { getEfficiencyMultiplier } from '../content/efficiency';
+import { CORNER_ITEMS, landfillTotal } from '../content/endgame';
 import { modNode } from '../mods/modRules';
 import { RECIPES } from '../content/recipes';
 import { getGoblinAttackRequirement } from '../content/goblinSettlements';
@@ -17,7 +18,22 @@ export const resourceReserveFraction = (node: MachineNode) => {
   const capacity = node.resourceCapacity ?? node.resourceRemaining ?? 0;
   return capacity > 0 ? Math.max(0, Math.min(1, (node.resourceRemaining ?? 0) / capacity)) : 0;
 };
+export function deepHoleStoneReadout(node: MachineNode, landfillRank: number) {
+  const consumed = node.holeStoneConsumed ?? 0;
+  const delivered = consumed + (node.input.stone ?? 0);
+  const remaining = node.resourceRemaining ?? 0;
+  const required = remaining === 0 && node.holeBaseStone !== undefined
+    ? landfillTotal(node.holeBaseStone, landfillRank)
+    : consumed + remaining;
+  return `STONE ${delivered.toLocaleString()} / ${required.toLocaleString()}`;
+}
 export const nodeTextScale = (zoom: number) => Math.min(1.55, 1.12 + Math.max(0, 1 - zoom) * .9);
+
+const cornerPieceItems = Object.values(CORNER_ITEMS);
+export function portLabelText(name: string) {
+  // Keep the lowercase Greek symbols distinct from Latin letters on the canvas.
+  return cornerPieceItems.some(item => ITEM_NAMES[item] === name) ? name : name.toUpperCase();
+}
 
 export const isItemId = (value: string): value is ItemId => value in ITEM_NAMES;
 export const familyLabel = (family: string) => ({

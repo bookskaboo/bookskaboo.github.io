@@ -212,6 +212,13 @@ export const RECYCLER_RETURNS: Partial<Record<ItemId, Partial<Record<ItemId, num
     "wood": 1,
     "stone": 1,
     "mythril": 1
+  },
+  "final-suppression-bot": {
+    "iron": 1,
+    "copper": 1,
+    "wood": 1,
+    "stone": 1,
+    "mythril": 1
   }
 };
 export const recyclerAccepts = (item: ItemId) => Object.hasOwn(RECYCLER_RETURNS, item);
