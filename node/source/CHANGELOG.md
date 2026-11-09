@@ -2,26 +2,17 @@
 
 A searchable record of completed changes, design decisions, and relevant review findings. Stable NODE IDs can be cited in chats and searched in the repository.
 
-**421 records · 2026-10-12–2026-11-08 · America/Los_Angeles**
+**423 records · 2026-10-12–2026-11-09 · America/Los_Angeles**
 
 [Open searchable history](<docs/changelog/index.html>) · [How to review and maintain it](<docs/changelog/README.md>) · [Sources and coverage gaps](<docs/changelog/sources.md>)
 
 ## Local changes awaiting publication
 
-Latest confirmed game publication: [19dc40f](https://github.com/bookskaboo/bookskaboo.github.io/commit/19dc40fff3a1c8d201352a726cdb494ec5521655).
+Latest confirmed game publication: [ad996a7](https://github.com/bookskaboo/bookskaboo.github.io/commit/ad996a79ee0a3588bc9aeeef6db9d79b2863d32e).
 
 | ID | Change | Topics |
 | --- | --- | --- |
-| [NODE-0421](<docs/changelog/2026-11.md#node-0421>) | Choose the world map size in Mods | Mods, World generation, Interface, Research, Persistence |
-| [NODE-0420](<docs/changelog/2026-11.md#node-0420>) | Rename Corner Pieces research to End of the World | Research, Progression, Interface |
-| [NODE-0419](<docs/changelog/2026-11.md#node-0419>) | Set obstruction spawn and placement rules in Mods | Mods, World generation, Interface, Persistence |
-| [NODE-0418](<docs/changelog/2026-11.md#node-0418>) | Import and export editable mod files | Mods, Interface, Persistence, Documentation |
-| [NODE-0417](<docs/changelog/2026-11.md#node-0417>) | Create custom Mods entries and combine the Lake editor | Mods, Interface, Production, Research, World generation, Persistence |
-| [NODE-0416](<docs/changelog/2026-11.md#node-0416>) | Align Commands columns and simplify modal titles | Interface, Controls, Shortcuts |
-| [NODE-0415](<docs/changelog/2026-11.md#node-0415>) | Refine Commands and show the newest Journal entries first | Interface, Controls, Accessibility |
-| [NODE-0414](<docs/changelog/2026-11.md#node-0414>) | Match top bar dialogs and subdialogs to Research card typography | Interface, Research, Controls |
-| [NODE-0413](<docs/changelog/2026-11.md#node-0413>) | Credit research after full cycles and set a five-Core minimum | Research, Simulation, Progression |
-| [NODE-0412](<docs/changelog/2026-11.md#node-0412>) | Remove the placement card from shortcut pickups | Interface, Controls, Shortcuts |
+| [NODE-0423](<docs/changelog/2026-11.md#node-0423>) | Run the full release on an explicit live publication request | Publishing, Documentation |
 | [NODE-0338](<docs/changelog/2026-11.md#node-0338>) | Verify Monster Camp AP delivery for all four bot tiers | Encounters, Connections, Playtesting, Documentation |
 | [NODE-0325](<docs/changelog/2026-11.md#node-0325>) | Record verified Hydro delivery and Tree Planter recovery through the normal UI | Playtesting, Documentation, Logistics, Production |
 | [NODE-0324](<docs/changelog/2026-11.md#node-0324>) | Record the normal-UI fuel repair and sustained Medium Bot verification | Documentation, Logistics, Production, Playtesting |
@@ -73,13 +64,14 @@ Latest confirmed game publication: [19dc40f](https://github.com/bookskaboo/books
 
 ## Dated history
 
-- [2026-11](<docs/changelog/2026-11.md>) — 403 records
+- [2026-11](<docs/changelog/2026-11.md>) — 405 records
 - [2026-10](<docs/changelog/2026-10.md>) — 18 records
 
 “Known by” dates are implementation/publication bounds, not exact change dates. “Backfilled” dates mark records with uncertain original dates. Supersession links explain reversals. Original-game records do not certify current rebuild behavior.
 
 ## Published releases
 
+- 2026-11-08 — [ad996a7: Editable mod packs, adjustable world maps and research updates](https://github.com/bookskaboo/bookskaboo.github.io/commit/ad996a79ee0a3588bc9aeeef6db9d79b2863d32e) — Published the /node/ build and matching source on main. The standard live URL served matching HTML and all ten runtime assets matched the build by SHA-256.
 - 2026-11-08 — [19dc40f: World balance, illustrated corner camps and interface improvements](https://github.com/bookskaboo/bookskaboo.github.io/commit/19dc40fff3a1c8d201352a726cdb494ec5521655) — Published the /node/ build and matching source on main. The normal live URL served matching HTML and all ten runtime assets matched the build by SHA-256.
 - 2026-11-05 — [df69900: Corner balance, paid seven-Core victory and camp Tribute feedback](https://github.com/bookskaboo/bookskaboo.github.io/commit/df69900fd71d89b911057eeb90a1fb0ae63a2824) — User authorizes publishing to the live NODE game. Main preserves newer Chapter 1 work; live HTML and all ten runtime asset hashes match the /node/ publication build.
 - 2026-11-04 — [0c7c924: Elder Grove cumulative progress display](https://github.com/bookskaboo/bookskaboo.github.io/commit/0c7c924bfc75644ebe9de75739248b7fe6f188a8) — User-authorized main-branch publication. All seven referenced live assets match the tested build; preserved 2:07:01 player checkpoint restored through normal Save/Load and Grove shows 1,057/2,000,000.
@@ -107,14 +99,14 @@ A record marked “Published by” was known in that snapshot and may have appea
 - [Deployment](<docs/changelog/index.html?topic=Deployment>) (1)
 - [Design](<docs/changelog/index.html?topic=Design>) (7)
 - [Discovery](<docs/changelog/index.html?topic=Discovery>) (5)
-- [Documentation](<docs/changelog/index.html?topic=Documentation>) (185)
+- [Documentation](<docs/changelog/index.html?topic=Documentation>) (186)
 - [Encounters](<docs/changelog/index.html?topic=Encounters>) (77)
 - [Exploration](<docs/changelog/index.html?topic=Exploration>) (20)
 - [Extraction](<docs/changelog/index.html?topic=Extraction>) (1)
-- [Interface](<docs/changelog/index.html?topic=Interface>) (135)
+- [Interface](<docs/changelog/index.html?topic=Interface>) (136)
 - [Logistics](<docs/changelog/index.html?topic=Logistics>) (70)
 - [Map](<docs/changelog/index.html?topic=Map>) (3)
-- [Mods](<docs/changelog/index.html?topic=Mods>) (5)
+- [Mods](<docs/changelog/index.html?topic=Mods>) (6)
 - [Mythril](<docs/changelog/index.html?topic=Mythril>) (14)
 - [Naming](<docs/changelog/index.html?topic=Naming>) (7)
 - [Nodes](<docs/changelog/index.html?topic=Nodes>) (2)
@@ -127,9 +119,9 @@ A record marked “Published by” was known in that snapshot and may have appea
 - [Production](<docs/changelog/index.html?topic=Production>) (43)
 - [Progression](<docs/changelog/index.html?topic=Progression>) (176)
 - [Publication](<docs/changelog/index.html?topic=Publication>) (2)
-- [Publishing](<docs/changelog/index.html?topic=Publishing>) (1)
+- [Publishing](<docs/changelog/index.html?topic=Publishing>) (3)
 - [Recipes](<docs/changelog/index.html?topic=Recipes>) (80)
-- [Research](<docs/changelog/index.html?topic=Research>) (162)
+- [Research](<docs/changelog/index.html?topic=Research>) (163)
 - [Resources](<docs/changelog/index.html?topic=Resources>) (86)
 - [Responsive](<docs/changelog/index.html?topic=Responsive>) (2)
 - [Roads](<docs/changelog/index.html?topic=Roads>) (5)
@@ -147,7 +139,7 @@ A record marked “Published by” was known in that snapshot and may have appea
 - [Waste](<docs/changelog/index.html?topic=Waste>) (18)
 - [Workflow](<docs/changelog/index.html?topic=Workflow>) (1)
 - [World](<docs/changelog/index.html?topic=World>) (37)
-- [World generation](<docs/changelog/index.html?topic=World%20generation>) (5)
+- [World generation](<docs/changelog/index.html?topic=World%20generation>) (6)
 - [World map](<docs/changelog/index.html?topic=World%20map>) (18)
 - [Writing](<docs/changelog/index.html?topic=Writing>) (1)
 

@@ -26,7 +26,9 @@ For balance runs, use normal gameplay without grants, save injection, accelerate
 
 # Publishing
 
-The live game is `https://bookskaboo.github.io/node/`, published from `main` in `bookskaboo/bookskaboo.github.io`. For a requested live publication, use `npm run build:site` so generated assets use the `/node/` base, copy the matching build to `node/` and source to `node/source/`, preserve other projects, and verify served asset hashes after the push. A feature-branch push alone does not publish the live game.
+The live game is `https://bookskaboo.github.io/node/`, published from `main` in `bookskaboo/bookskaboo.github.io`. An explicit request to publish NODE live authorizes the whole release. Build with `npm run build:site` for the `/node/` base, run the workspace tests, and prepare the matching build in `node/` and source in `node/source/`. Confirm the release changes only `node/` and can fast-forward the current remote `main`, then submit the exact commit and destination through Codex's configured approval flow. Use the request to publish as authorization without asking for a second confirmation in chat.
+
+After the push, wait for GitHub Pages and verify the HTML at the normal live URL and the SHA-256 hashes of every asset in the new build. Update the publication history only after verification. If the configured reviewer denies the push, preserve the tested commit and report the denial and the exact command the user can run. A feature-branch push alone does not publish the live game.
 
 # Change history
 

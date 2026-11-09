@@ -16,6 +16,14 @@
   },
   "releases": [
     {
+      "id": "ad996a7",
+      "date": "2026-11-08",
+      "title": "Editable mod packs, adjustable world maps and research updates",
+      "commit": "ad996a79ee0a3588bc9aeeef6db9d79b2863d32e",
+      "url": "https://github.com/bookskaboo/bookskaboo.github.io/commit/ad996a79ee0a3588bc9aeeef6db9d79b2863d32e",
+      "notes": "Published the /node/ build and matching source on main. The standard live URL served matching HTML and all ten runtime assets matched the build by SHA-256."
+    },
+    {
       "id": "19dc40f",
       "date": "2026-11-08",
       "title": "World balance, illustrated corner camps and interface improvements",
@@ -10034,9 +10042,20 @@
       "publishedBy": "19dc40f",
       "title": "Show live Stone delivery at the Deep Hole connector",
       "summary": "The input connector displays Stone delivered against the current fill requirement. The count includes Stone waiting in the hole's input buffer and updates when Efficient Landfill reduces the bill.",
-      "topics": ["Interface", "World", "Connections"],
-      "sources": ["local-code"],
-      "evidence": ["src/renderer/PixiPlayfield.tsx", "src/renderer/playfieldNodeState.ts", "src/persistence/legacyMigration.ts", "src/simulation/endgame.test.ts"],
+      "topics": [
+        "Interface",
+        "World",
+        "Connections"
+      ],
+      "sources": [
+        "local-code"
+      ],
+      "evidence": [
+        "src/renderer/PixiPlayfield.tsx",
+        "src/renderer/playfieldNodeState.ts",
+        "src/persistence/legacyMigration.ts",
+        "src/simulation/endgame.test.ts"
+      ],
       "details": [
         "Original-game save imports retain their saved fill counts and requirements. Older rebuild saves that store only the remaining bill have no earlier delivery count to display."
       ],
@@ -10051,9 +10070,21 @@
       "delivery": "not-applicable",
       "title": "Use regional expansion to smooth the Hydro to Mythril transition",
       "summary": "Guide players toward a manageable Dwarven Camp and suggest a supply job for a new sector when Hydro research and Medium Bots compete for inputs. Keep the starter Camp at 6 AP per minute.",
-      "topics": ["Progression", "Exploration", "Encounters", "Playtesting"],
-      "sources": ["chat-progression-smoothness-2026-11-07", "chat-playtest"],
-      "evidence": ["docs/master-plan/03-progression-and-economy.md", "outputs/live-ui-playtest-2026-11-05-replacement/run-log.txt", "src/content/lizardSettlements.ts"],
+      "topics": [
+        "Progression",
+        "Exploration",
+        "Encounters",
+        "Playtesting"
+      ],
+      "sources": [
+        "chat-progression-smoothness-2026-11-07",
+        "chat-playtest"
+      ],
+      "evidence": [
+        "docs/master-plan/03-progression-and-economy.md",
+        "outputs/live-ui-playtest-2026-11-05-replacement/run-log.txt",
+        "src/content/lizardSettlements.ts"
+      ],
       "details": [
         "The user selects option 1. Give players a scouting clue and show the expected Medium Bot delivery rate. Keep the choice of sector and production layout open.",
         "Retest 15 minutes of concurrent Hydro research and Camp upkeep with a newly opened sector contributing supply. A Cooled Gun cost reduction remains a fallback to consider after that test."
@@ -10069,9 +10100,23 @@
       "delivery": "not-applicable",
       "title": "Adopt lower Mining Drill research and Motor costs",
       "summary": "Set the Mining Drill research bill at 5 each of Simple, Basic and Automata Cores. Set each 1,000-unit replacement deposit at 10 Motors.",
-      "topics": ["Progression", "Research", "Balance", "Extraction", "Playtesting"],
-      "sources": ["chat-progression-smoothness-2026-11-07", "chat-playtest"],
-      "evidence": ["docs/master-plan/03-progression-and-economy.md", "src/content/research.ts", "src/simulation/engine.ts", "outputs/live-ui-playtest-2026-11-05-replacement/resource-observations.csv"],
+      "topics": [
+        "Progression",
+        "Research",
+        "Balance",
+        "Extraction",
+        "Playtesting"
+      ],
+      "sources": [
+        "chat-progression-smoothness-2026-11-07",
+        "chat-playtest"
+      ],
+      "evidence": [
+        "docs/master-plan/03-progression-and-economy.md",
+        "src/content/research.ts",
+        "src/simulation/engine.ts",
+        "outputs/live-ui-playtest-2026-11-05-replacement/resource-observations.csv"
+      ],
       "details": [
         "The user combines options 2 and 3 to make research easier to fund before depletion and to reduce the cost of replacing a depleted deposit.",
         "In later playtesting, track local drilling alongside opening and using new sectors for supply."
@@ -10088,10 +10133,22 @@
       "publishedBy": "19dc40f",
       "title": "Keep the Deep Hole Stone counter readable and clear of the socket",
       "summary": "Give the Stone counter a minimum on-screen size and keep the badge below the connector's interaction area and arrival pulse as the player zooms.",
-      "topics": ["Interface", "World", "Connections", "Playtesting"],
-      "sources": ["local-code"],
-      "evidence": ["src/renderer/PixiPlayfield.tsx", "outputs/deep-hole-connector-verified.jpg"],
-      "details": ["Follow-up to NODE-0326. The original world-scaled text was hard to read at overview zoom, and the delivery pulse crossed the badge at high zoom."],
+      "topics": [
+        "Interface",
+        "World",
+        "Connections",
+        "Playtesting"
+      ],
+      "sources": [
+        "local-code"
+      ],
+      "evidence": [
+        "src/renderer/PixiPlayfield.tsx",
+        "outputs/deep-hole-connector-verified.jpg"
+      ],
+      "details": [
+        "Follow-up to NODE-0326. The original world-scaled text was hard to read at overview zoom, and the delivery pulse crossed the badge at high zoom."
+      ],
       "validation": "Checked the game renderer in the in-app browser at 25%, 72% and 220% in an isolated local scene. Dragging the badge did not start a cable, and dragging from the socket at 25% connected the Cart. The display rose from 120 to 124 out of 1,250 after four deliveries. The production build passed and 728 tests passed with one existing skip. Existing saves were not used for this check."
     },
     {
@@ -10103,9 +10160,21 @@
       "delivery": "not-applicable",
       "title": "Start new Map Node tiers with smaller equal Core sets",
       "summary": "Set the first five-tier quote at #40 to 16 of each Core when Shiny is available. Raise the set count gradually on later purchases to support continuing exploration as the new line scales.",
-      "topics": ["Progression", "Research", "Balance", "Exploration"],
-      "sources": ["chat-progression-smoothness-2026-11-07", "chat-playtest"],
-      "evidence": ["docs/master-plan/03-progression-and-economy.md", "src/content/research.ts", "outputs/balance-review-2026-11-05/analysis.json"],
+      "topics": [
+        "Progression",
+        "Research",
+        "Balance",
+        "Exploration"
+      ],
+      "sources": [
+        "chat-progression-smoothness-2026-11-07",
+        "chat-playtest"
+      ],
+      "evidence": [
+        "docs/master-plan/03-progression-and-economy.md",
+        "src/content/research.ts",
+        "outputs/balance-review-2026-11-05/analysis.json"
+      ],
       "details": [
         "The user chooses smaller equal sets. Both #39 at 20 of four tiers and the adopted #40 at 16 of five tiers total 80 Cores.",
         "Follow-on prices and pacing when a new Core tier is unlocked late need validation."
@@ -10121,9 +10190,21 @@
       "delivery": "not-applicable",
       "title": "Price the third Road slot at 80 Cores",
       "summary": "Adopt 20 each of Simple, Basic, Automata and Hydro Cores for Road Channels 2 after Road Channels 1 and Ore Separation. The upgrade adds a third slot on every map face.",
-      "topics": ["Balance", "Research", "Logistics", "Exploration"],
-      "sources": ["chat-progression-smoothness-2026-11-07", "chat-playtest"],
-      "evidence": ["docs/progression-and-scaling.md", "src/content/progression.ts", "outputs/live-ui-playtest-2026-11-05-replacement/queued-ui-improvements.txt"],
+      "topics": [
+        "Balance",
+        "Research",
+        "Logistics",
+        "Exploration"
+      ],
+      "sources": [
+        "chat-progression-smoothness-2026-11-07",
+        "chat-playtest"
+      ],
+      "evidence": [
+        "docs/progression-and-scaling.md",
+        "src/content/progression.ts",
+        "outputs/live-ui-playtest-2026-11-05-replacement/queued-ui-improvements.txt"
+      ],
       "details": [
         "The user selects the network-wide upgrade at a lower price. In the playtest, two Mythril imports occupied the same border and the Metallic Fines shipment needed a detour."
       ],
@@ -10138,9 +10219,21 @@
       "delivery": "not-applicable",
       "title": "Connect Research milestones and missing Cores to the factory",
       "summary": "Show the next actionable milestone. Let players select a missing Core to jump to the first shortage the game can identify along its supply line.",
-      "topics": ["Interface", "Research", "Progression", "Playtesting"],
-      "sources": ["chat-progression-smoothness-2026-11-07", "chat-playtest"],
-      "evidence": ["docs/master-plan/05-interface-and-learning.md", "src/renderer/productionVisuals.ts", "outputs/live-ui-playtest-2026-11-05-replacement/run-log.txt"],
+      "topics": [
+        "Interface",
+        "Research",
+        "Progression",
+        "Playtesting"
+      ],
+      "sources": [
+        "chat-progression-smoothness-2026-11-07",
+        "chat-playtest"
+      ],
+      "evidence": [
+        "docs/master-plan/05-interface-and-learning.md",
+        "src/renderer/productionVisuals.ts",
+        "outputs/live-ui-playtest-2026-11-05-replacement/run-log.txt"
+      ],
       "details": [
         "The user chooses guidance that starts in Research and leads to the affected production node. The playtest repeatedly showed Hydro Core as missing while the actual shortage was farther upstream.",
         "Use the Core recipe and outstanding delivery requirement as a fallback when a shortage cannot be identified. Test known and untraceable shortages and a route crossing a sector border."
@@ -10156,9 +10249,21 @@
       "delivery": "not-applicable",
       "title": "Size ordinary Golem unlocks to thirty minutes of Small Bot production",
       "summary": "Set Iron, Copper and Stone Golem defeat at 180 AP each, equal to thirty minutes from one fully supplied base Small Bot assembler.",
-      "topics": ["Balance", "Encounters", "Progression"],
-      "sources": ["chat-progression-smoothness-2026-11-07", "local-code"],
-      "evidence": ["docs/master-plan/04-world-and-encounters.md", "src/content/recipes.ts", "src/content/resourceGolems.ts", "outputs/balance-review-2026-11-05/analysis.json"],
+      "topics": [
+        "Balance",
+        "Encounters",
+        "Progression"
+      ],
+      "sources": [
+        "chat-progression-smoothness-2026-11-07",
+        "local-code"
+      ],
+      "evidence": [
+        "docs/master-plan/04-world-and-encounters.md",
+        "src/content/recipes.ts",
+        "src/content/resourceGolems.ts",
+        "outputs/balance-review-2026-11-05/analysis.json"
+      ],
       "details": [
         "At one AP every ten seconds, 180 Small Bots cost 2,160 each of Iron ore, Copper ore and Wood. The Mythril price is a separate decision."
       ],
@@ -10174,10 +10279,27 @@
       "publishedBy": "19dc40f",
       "title": "Lower Resource Golem costs to 180 AP and Mythril to 360 AP",
       "summary": "Make Iron, Copper and Stone Golems a thirty-minute Small Bot investment. Keep Mythril at twice that investment and update the Survey and encounter text.",
-      "topics": ["Balance", "Encounters", "Progression", "Persistence"],
-      "sources": ["chat-progression-smoothness-2026-11-07", "local-code"],
-      "supersedes": ["NODE-0209"],
-      "evidence": ["src/content/resourceGolems.ts", "src/content/progression.ts", "src/simulation/worldGeneration.ts", "src/simulation/reviewedProductionMigration.ts", "src/simulation/resourceGolems.test.ts", "docs/master-plan/04-world-and-encounters.md"],
+      "topics": [
+        "Balance",
+        "Encounters",
+        "Progression",
+        "Persistence"
+      ],
+      "sources": [
+        "chat-progression-smoothness-2026-11-07",
+        "local-code"
+      ],
+      "supersedes": [
+        "NODE-0209"
+      ],
+      "evidence": [
+        "src/content/resourceGolems.ts",
+        "src/content/progression.ts",
+        "src/simulation/worldGeneration.ts",
+        "src/simulation/reviewedProductionMigration.ts",
+        "src/simulation/resourceGolems.test.ts",
+        "docs/master-plan/04-world-and-encounters.md"
+      ],
       "details": [
         "The user chooses 360 AP for the Mythril Golem. Small Bot equivalents use 2,160 each of Iron ore, Copper ore and Wood for an ordinary Golem and 4,320 each for Mythril.",
         "Credit exact previously paid AP when loading either older price version. Convert Golems already paid for, remove attack cables, return in-flight bots to their sources and store unspent input bots in the global pool."
@@ -10194,9 +10316,22 @@
       "publishedBy": "19dc40f",
       "title": "Produce 3 AP Medium Bots in twenty seconds",
       "summary": "Shorten the base Medium Bot cycle from 25 to 20 seconds. One fully supplied Assembler II now makes three Medium Bots or 9 AP per minute.",
-      "topics": ["Balance", "Production", "Encounters", "Progression"],
-      "sources": ["chat-progression-smoothness-2026-11-07", "local-code"],
-      "evidence": ["src/content/progression.ts", "src/simulation/progression.ts", "src/simulation/cornerPacing.test.ts", "docs/master-plan/03-progression-and-economy.md"],
+      "topics": [
+        "Balance",
+        "Production",
+        "Encounters",
+        "Progression"
+      ],
+      "sources": [
+        "chat-progression-smoothness-2026-11-07",
+        "local-code"
+      ],
+      "evidence": [
+        "src/content/progression.ts",
+        "src/simulation/progression.ts",
+        "src/simulation/cornerPacing.test.ts",
+        "docs/master-plan/03-progression-and-economy.md"
+      ],
       "details": [
         "The user selects 3 AP, a 20-second cycle, and the existing Sealed Frame, Cooled Gun and Basic Core recipe.",
         "Two Medium Bots for a starter Camp occupy 40 of 60 base assembler-seconds. Saved Medium Bot assemblers load the new cycle with their existing batch and elapsed time."
@@ -10212,9 +10347,21 @@
       "delivery": "not-applicable",
       "title": "Retain the Heavy Bot recipe, AP and cycle",
       "summary": "Keep Heavy Bots at 8 AP and a 40-second cycle. The existing recipe gives a fully supplied assembler 12 AP per minute at 28.6 weighted material points per AP.",
-      "topics": ["Balance", "Production", "Encounters", "Progression"],
-      "sources": ["chat-progression-smoothness-2026-11-07", "local-code"],
-      "evidence": ["src/content/progression.ts", "docs/master-plan/03-progression-and-economy.md", "outputs/balance-review-2026-11-05/analysis.json"],
+      "topics": [
+        "Balance",
+        "Production",
+        "Encounters",
+        "Progression"
+      ],
+      "sources": [
+        "chat-progression-smoothness-2026-11-07",
+        "local-code"
+      ],
+      "evidence": [
+        "src/content/progression.ts",
+        "docs/master-plan/03-progression-and-economy.md",
+        "outputs/balance-review-2026-11-05/analysis.json"
+      ],
       "validation": "Recomputed the standard raw recipe with the selected weights and compared with Medium's 20-second cycle. Heavy provides 33% more AP per minute and about 7% lower material cost per AP. This is a balance decision supported by arithmetic. Production and delivery rates still need normal-play observation."
     },
     {
@@ -10227,9 +10374,24 @@
       "publishedBy": "19dc40f",
       "title": "Make Command Bots deliver 24 AP on a ninety-second cycle",
       "summary": "One fully supplied base Assembler II delivers 16 AP per minute. Three Command Bots pay a 72 AP Dwarven Kingdom check exactly.",
-      "topics": ["Balance", "Production", "Encounters", "Progression", "Persistence"],
-      "sources": ["chat-progression-smoothness-2026-11-07", "local-code"],
-      "evidence": ["src/content/progression.ts", "src/simulation/progression.ts", "src/simulation/reviewedProduction.test.ts", "src/tutorials/tutorialDialogue.ts", "docs/master-plan/03-progression-and-economy.md"],
+      "topics": [
+        "Balance",
+        "Production",
+        "Encounters",
+        "Progression",
+        "Persistence"
+      ],
+      "sources": [
+        "chat-progression-smoothness-2026-11-07",
+        "local-code"
+      ],
+      "evidence": [
+        "src/content/progression.ts",
+        "src/simulation/progression.ts",
+        "src/simulation/reviewedProduction.test.ts",
+        "src/tutorials/tutorialDialogue.ts",
+        "docs/master-plan/03-progression-and-economy.md"
+      ],
       "details": [
         "The user chooses 24 AP and a 90-second base cycle with the Servo Frame, Pulse Cannon and Complex Core recipe. Standard material cost is 639 weighted points, or 26.625 per AP.",
         "Existing paid batches retain their elapsed assembly time under the new cycle. The tutorial reads AP from the same catalog as simulation.",
@@ -10246,9 +10408,22 @@
       "delivery": "local",
       "title": "Verify Monster Camp AP delivery for all four bot tiers",
       "summary": "Exercise real cable deliveries to Goblin and Dwarven camps and correct the camp documentation to match current AP, Tribute and recovery rules.",
-      "topics": ["Encounters", "Connections", "Playtesting", "Documentation"],
-      "sources": ["chat-progression-smoothness-2026-11-07", "local-code"],
-      "evidence": ["src/simulation/campStatus.test.ts", "src/simulation/goblinSettlements.test.ts", "src/simulation/reviewedProduction.test.ts", "docs/obstruction-types-and-behavior.md"],
+      "topics": [
+        "Encounters",
+        "Connections",
+        "Playtesting",
+        "Documentation"
+      ],
+      "sources": [
+        "chat-progression-smoothness-2026-11-07",
+        "local-code"
+      ],
+      "evidence": [
+        "src/simulation/campStatus.test.ts",
+        "src/simulation/goblinSettlements.test.ts",
+        "src/simulation/reviewedProduction.test.ts",
+        "docs/obstruction-types-and-behavior.md"
+      ],
       "details": [
         "Verify delivered Small, Medium, Heavy and Command Bots contribute 1, 3, 8 and 24 AP on the same cable. Combine two separate bot lines through a shared Cart and reject Iron Plates at the AP input.",
         "Check the sixty-second payment, preservation of unused whole bots, Dwarven immediate retry and use of carried AP on the following check. The existing tier-nine test covers three Command Bots paying 72 AP."
@@ -10264,10 +10439,24 @@
       "delivery": "not-applicable",
       "title": "Retain tier-one Goblin upkeep and Tribute",
       "summary": "Keep the first Small Goblin Camp at 3 AP per sixty seconds and 5 Tribute every five seconds, up to 60 units per minute of one chosen resource.",
-      "topics": ["Balance", "Encounters", "Progression"],
-      "sources": ["chat-progression-smoothness-2026-11-07", "local-code"],
-      "evidence": ["src/content/goblinSettlements.ts", "src/simulation/goblinTribute.ts", "docs/obstruction-types-and-behavior.md", "outputs/balance-review-2026-11-05/analysis.json"],
-      "details": ["NODE-0342 replaces the Tribute rate. The 3 AP upkeep remains current."],
+      "topics": [
+        "Balance",
+        "Encounters",
+        "Progression"
+      ],
+      "sources": [
+        "chat-progression-smoothness-2026-11-07",
+        "local-code"
+      ],
+      "evidence": [
+        "src/content/goblinSettlements.ts",
+        "src/simulation/goblinTribute.ts",
+        "docs/obstruction-types-and-behavior.md",
+        "outputs/balance-review-2026-11-05/analysis.json"
+      ],
+      "details": [
+        "NODE-0342 replaces the Tribute rate. The 3 AP upkeep remains current."
+      ],
       "validation": "Checked the catalog and expanded standard Small Bot recipes. Three bots per minute use half a base assembler and cost 108 weighted points. This review records the choice to retain the current rates."
     },
     {
@@ -10279,9 +10468,23 @@
       "delivery": "local",
       "title": "Generate monster camps in sectors without Lakes or Golems",
       "summary": "Reserve two separate tier-two camp sectors and generate five or six Lakes including E2. Keep tier-two Small Goblin Camp upkeep at 3 AP per minute and Tribute at up to 60 per minute.",
-      "topics": ["World", "Encounters", "Balance", "Playtesting"],
-      "sources": ["chat-progression-smoothness-2026-11-07", "local-code"],
-      "evidence": ["src/simulation/worldGeneration.ts", "src/simulation/engine.test.ts", "src/simulation/goblinSettlements.test.ts", "src/simulation/lizardSettlements.test.ts", "docs/obstruction-types-and-behavior.md"],
+      "topics": [
+        "World",
+        "Encounters",
+        "Balance",
+        "Playtesting"
+      ],
+      "sources": [
+        "chat-progression-smoothness-2026-11-07",
+        "local-code"
+      ],
+      "evidence": [
+        "src/simulation/worldGeneration.ts",
+        "src/simulation/engine.test.ts",
+        "src/simulation/goblinSettlements.test.ts",
+        "src/simulation/lizardSettlements.test.ts",
+        "docs/obstruction-types-and-behavior.md"
+      ],
       "details": [
         "The user retains tier-two camp rates and asks for separate Lake, Golem and camp sectors. Apply the placement rule on generation and keep seeded selection for camps in other tiers.",
         "Count the guaranteed E2 Lake toward the tier-two Lake total so both camps always have room. Existing generated sectors retain their layouts.",
@@ -10298,9 +10501,20 @@
       "delivery": "not-applicable",
       "title": "Scale settlement upkeep and Tribute by size",
       "summary": "Set one AP requirement and one Tribute rate per settlement size within each faction. Increase both rates from Camp to Village to Kingdom.",
-      "topics": ["Balance", "Encounters", "Progression"],
-      "sources": ["chat-progression-smoothness-2026-11-07", "local-code"],
-      "evidence": ["src/content/goblinSettlements.ts", "src/content/lizardSettlements.ts", "docs/obstruction-types-and-behavior.md"],
+      "topics": [
+        "Balance",
+        "Encounters",
+        "Progression"
+      ],
+      "sources": [
+        "chat-progression-smoothness-2026-11-07",
+        "local-code"
+      ],
+      "evidence": [
+        "src/content/goblinSettlements.ts",
+        "src/content/lizardSettlements.ts",
+        "docs/obstruction-types-and-behavior.md"
+      ],
       "validation": "Checked that Small Goblin Camps already share 3 AP per check and 5 Tribute every five seconds across tiers 1–3. This entry records the design decision. Other uniform rates are under review."
     },
     {
@@ -10313,10 +10527,26 @@
       "publishedBy": "19dc40f",
       "title": "Standardize Goblin Village upkeep and raise Goblin Tribute",
       "summary": "Charge every Goblin Village 9 AP per minute. Increase all Goblin Tribute batches by 20%, to 6, 18 and 36 every five seconds for Camps, Villages and Kingdoms.",
-      "topics": ["Balance", "Encounters", "Progression"],
-      "sources": ["chat-progression-smoothness-2026-11-07", "local-code"],
-      "evidence": ["src/content/goblinSettlements.ts", "src/simulation/reviewedProductionMigration.ts", "src/simulation/goblinSettlements.test.ts", "src/simulation/goblinTribute.test.ts", "docs/obstruction-types-and-behavior.md"],
-      "supersedes": ["NODE-0339", "NODE-0340"],
+      "topics": [
+        "Balance",
+        "Encounters",
+        "Progression"
+      ],
+      "sources": [
+        "chat-progression-smoothness-2026-11-07",
+        "local-code"
+      ],
+      "evidence": [
+        "src/content/goblinSettlements.ts",
+        "src/simulation/reviewedProductionMigration.ts",
+        "src/simulation/goblinSettlements.test.ts",
+        "src/simulation/goblinTribute.test.ts",
+        "docs/obstruction-types-and-behavior.md"
+      ],
+      "supersedes": [
+        "NODE-0339",
+        "NODE-0340"
+      ],
       "details": [
         "Saved Villages adopt the same upkeep as newly generated Villages. The change replaces the Small Camp Tribute decisions in NODE-0339 and NODE-0340. The 3 AP Small Camp upkeep and the Lake and Golem placement rules remain current.",
         "Uniform Kingdom AP upkeep is a separate pending decision."
@@ -10333,9 +10563,22 @@
       "publishedBy": "19dc40f",
       "title": "Standardize Goblin Kingdom upkeep at 16 AP per minute",
       "summary": "Two Heavy Bots pay any Goblin Kingdom's 60-second check. Each fully suppressed Kingdom offers up to 432 Tribute per minute.",
-      "topics": ["Balance", "Encounters", "Progression"],
-      "sources": ["chat-progression-smoothness-2026-11-07", "local-code"],
-      "evidence": ["src/content/goblinSettlements.ts", "src/simulation/reviewedProductionMigration.ts", "src/simulation/goblinSettlements.test.ts", "src/simulation/goblinTribute.test.ts", "docs/obstruction-types-and-behavior.md"],
+      "topics": [
+        "Balance",
+        "Encounters",
+        "Progression"
+      ],
+      "sources": [
+        "chat-progression-smoothness-2026-11-07",
+        "local-code"
+      ],
+      "evidence": [
+        "src/content/goblinSettlements.ts",
+        "src/simulation/reviewedProductionMigration.ts",
+        "src/simulation/goblinSettlements.test.ts",
+        "src/simulation/goblinTribute.test.ts",
+        "docs/obstruction-types-and-behavior.md"
+      ],
       "details": [
         "Replace the previous 40, 60 and 80 AP requirements at map tiers 7–9 with the same 16 AP check. Saved Kingdoms adopt the new threshold on load while keeping their countdown, bot inventory and wiring.",
         "Two Heavy Bots cost 457 weighted material points, about 66% more than the three Medium Bots for a Village. Kingdom Tribute is twice the Village rate."
@@ -10352,10 +10595,27 @@
       "publishedBy": "19dc40f",
       "title": "Standardize Dwarven Camp upkeep and Mythril Tribute",
       "summary": "Every Dwarven Camp charges 6 AP per minute and produces up to 12 Mythril per minute when fully suppressed.",
-      "topics": ["Balance", "Encounters", "Progression", "Mythril"],
-      "sources": ["chat-progression-smoothness-2026-11-07", "local-code"],
-      "evidence": ["src/content/lizardSettlements.ts", "src/simulation/lizardSettlements.test.ts", "src/simulation/reviewedProductionMigration.ts", "docs/obstruction-types-and-behavior.md"],
-      "supersedes": ["NODE-0201", "NODE-0202", "NODE-0203"],
+      "topics": [
+        "Balance",
+        "Encounters",
+        "Progression",
+        "Mythril"
+      ],
+      "sources": [
+        "chat-progression-smoothness-2026-11-07",
+        "local-code"
+      ],
+      "evidence": [
+        "src/content/lizardSettlements.ts",
+        "src/simulation/lizardSettlements.test.ts",
+        "src/simulation/reviewedProductionMigration.ts",
+        "docs/obstruction-types-and-behavior.md"
+      ],
+      "supersedes": [
+        "NODE-0201",
+        "NODE-0202",
+        "NODE-0203"
+      ],
       "details": [
         "Apply the established starter rate to Camps across both map tiers. This replaces the tier-5 Camp's 12 AP upkeep and 36 Mythril per minute from the earlier ladder. Map placement ranges still apply; larger settlements are under separate review.",
         "Two Medium Bots per minute sustain upkeep. Saved Camps adopt the new rates while keeping earned Tribute and progress."
@@ -10372,10 +10632,26 @@
       "publishedBy": "19dc40f",
       "title": "Standardize Dwarven Village upkeep and Mythril Tribute",
       "summary": "Every Dwarven Village charges 16 AP per minute and produces up to 60 Mythril per minute when fully suppressed.",
-      "topics": ["Balance", "Encounters", "Progression", "Mythril"],
-      "sources": ["chat-progression-smoothness-2026-11-07", "local-code"],
-      "evidence": ["src/content/lizardSettlements.ts", "src/simulation/lizardSettlements.test.ts", "src/simulation/reviewedProduction.test.ts", "docs/obstruction-types-and-behavior.md"],
-      "supersedes": ["NODE-0202", "NODE-0203"],
+      "topics": [
+        "Balance",
+        "Encounters",
+        "Progression",
+        "Mythril"
+      ],
+      "sources": [
+        "chat-progression-smoothness-2026-11-07",
+        "local-code"
+      ],
+      "evidence": [
+        "src/content/lizardSettlements.ts",
+        "src/simulation/lizardSettlements.test.ts",
+        "src/simulation/reviewedProduction.test.ts",
+        "docs/obstruction-types-and-behavior.md"
+      ],
+      "supersedes": [
+        "NODE-0202",
+        "NODE-0203"
+      ],
       "details": [
         "Replace the tier-6 and tier-7 Village rates with a single 16 AP and five-Mythril batch setting. Two standard Heavy Bots pay each check and cost 10 raw Mythril to make, leaving up to 50 Mythril per minute for other production.",
         "Standardize Village capacity at 120, preserving saved stock above the cap. Those boxes pause new production until stock falls below the cap."
@@ -10392,10 +10668,26 @@
       "publishedBy": "19dc40f",
       "title": "Standardize Dwarven Kingdom upkeep and Mythril Tribute",
       "summary": "Every Dwarven Kingdom charges 32 AP per minute and produces up to 144 Mythril per minute. This completes the transition to uniform upkeep and Tribute by size across both factions.",
-      "topics": ["Balance", "Encounters", "Progression", "Mythril"],
-      "sources": ["chat-progression-smoothness-2026-11-07", "local-code"],
-      "evidence": ["src/content/lizardSettlements.ts", "src/simulation/lizardSettlements.test.ts", "src/simulation/reviewedProductionMigration.ts", "docs/obstruction-types-and-behavior.md"],
-      "supersedes": ["NODE-0202", "NODE-0203"],
+      "topics": [
+        "Balance",
+        "Encounters",
+        "Progression",
+        "Mythril"
+      ],
+      "sources": [
+        "chat-progression-smoothness-2026-11-07",
+        "local-code"
+      ],
+      "evidence": [
+        "src/content/lizardSettlements.ts",
+        "src/simulation/lizardSettlements.test.ts",
+        "src/simulation/reviewedProductionMigration.ts",
+        "docs/obstruction-types-and-behavior.md"
+      ],
+      "supersedes": [
+        "NODE-0202",
+        "NODE-0203"
+      ],
       "details": [
         "Replace the tier-8 and tier-9 rates with a single 32 AP check and 12 Mythril per five seconds. Four standard Heavy Bots cost 20 raw Mythril to make, leaving up to 124 Mythril per minute for other production.",
         "Use saved settlement size to select current Dwarven rates. Standardize Kingdom capacity at 288 while preserving previously earned Tribute above the cap."
@@ -10412,9 +10704,23 @@
       "publishedBy": "19dc40f",
       "title": "Reserve a clear starter sector and seed clear resource outposts",
       "summary": "Generate E1 as a clear resource sector and set aside about a quarter of ordinary sectors in later tiers as hole-free outposts, for 20 clear outposts per world.",
-      "topics": ["World", "Balance", "Exploration", "Progression"],
-      "sources": ["chat-progression-smoothness-2026-11-07", "chat-playtest", "local-code"],
-      "evidence": ["src/simulation/worldGeneration.ts", "src/simulation/engine.test.ts", "docs/obstruction-types-and-behavior.md", "outputs/live-ui-playtest-2026-11-05-replacement/run-log.txt"],
+      "topics": [
+        "World",
+        "Balance",
+        "Exploration",
+        "Progression"
+      ],
+      "sources": [
+        "chat-progression-smoothness-2026-11-07",
+        "chat-playtest",
+        "local-code"
+      ],
+      "evidence": [
+        "src/simulation/worldGeneration.ts",
+        "src/simulation/engine.test.ts",
+        "docs/obstruction-types-and-behavior.md",
+        "outputs/live-ui-playtest-2026-11-05-replacement/run-log.txt"
+      ],
       "details": [
         "The playtest used a Joint to bypass a Deep Hole on an early Brick route. A 256-seed review found generated holes in 106 or 107 of the 116 resource sectors outside Home before this change.",
         "Use an independent seeded selection after reserving settlements, Lakes and Golems. Round the clear-outpost quota per map tier. Clear outposts retain the four ordinary resources. Existing saved terrain is preserved."
@@ -10431,9 +10737,21 @@
       "publishedBy": "19dc40f",
       "title": "Ease Deep Hole coverage growth on later map tiers",
       "summary": "Generate hole sectors with circular coverage targets of 15% at tier 1 through 35% at tier 9, replacing the previous 15% to 50% ramp.",
-      "topics": ["World", "Balance", "Exploration", "Progression"],
-      "sources": ["chat-progression-smoothness-2026-11-07", "local-code"],
-      "evidence": ["src/simulation/worldGeneration.ts", "src/simulation/engine.test.ts", "docs/obstruction-types-and-behavior.md"],
+      "topics": [
+        "World",
+        "Balance",
+        "Exploration",
+        "Progression"
+      ],
+      "sources": [
+        "chat-progression-smoothness-2026-11-07",
+        "local-code"
+      ],
+      "evidence": [
+        "src/simulation/worldGeneration.ts",
+        "src/simulation/engine.test.ts",
+        "docs/obstruction-types-and-behavior.md"
+      ],
       "details": [
         "Increase target coverage by 2.5 percentage points per tier, giving later resource sectors more buildable space. Apply the curve when terrain first generates.",
         "The updated sweep measured a 25.8% median visible footprint at tier 9. The prior sweep measured 36.6%. The revised layout also made all five hole counts feasible across the sampled tiers."
@@ -10450,9 +10768,23 @@
       "publishedBy": "19dc40f",
       "title": "Cap generated tier-nine Deep Holes at 4,000 Stone",
       "summary": "Raise the per-hole maximum linearly from 500 Stone at tier 1 to 4,000 at tier 9. Price smaller holes by their radius relative to the field.",
-      "topics": ["World", "Balance", "Resources", "Research"],
-      "sources": ["chat-progression-smoothness-2026-11-07", "local-code"],
-      "evidence": ["src/simulation/worldGeneration.ts", "src/simulation/engine.test.ts", "src/simulation/endgame.test.ts", "docs/obstruction-types-and-behavior.md", "docs/master-plan/17-endgame-research-and-world-reshaping.md"],
+      "topics": [
+        "World",
+        "Balance",
+        "Resources",
+        "Research"
+      ],
+      "sources": [
+        "chat-progression-smoothness-2026-11-07",
+        "local-code"
+      ],
+      "evidence": [
+        "src/simulation/worldGeneration.ts",
+        "src/simulation/engine.test.ts",
+        "src/simulation/endgame.test.ts",
+        "docs/obstruction-types-and-behavior.md",
+        "docs/master-plan/17-endgame-research-and-world-reshaping.md"
+      ],
       "details": [
         "The user chooses an even 4,000 Stone maximum for tier 9. A hole with the same relative size costs the same across Area Expansion levels. Existing saved holes retain their recorded base requirements and fill progress.",
         "Efficient Landfill reduces a 4,000-Stone bill to 3,200 at rank 1, 2,048 at rank 3, and 1,311 at rank 5. At base size, sampled tier-9 hole sectors had a median cheapest hole of 2,027 Stone and a median full clear of 6,847 Stone, against a 5,500-Stone local reserve."
@@ -10469,10 +10801,26 @@
       "publishedBy": "19dc40f",
       "title": "Lower the six machine-efficiency research bills",
       "summary": "Charge 10, 15, 20, 25, 30 and 35 of each required Core at ranks 1–6. The nine machine-efficiency lines now total 5,040 Cores.",
-      "topics": ["Research", "Balance", "Production", "Progression"],
-      "sources": ["chat-progression-smoothness-2026-11-07", "local-code"],
-      "evidence": ["src/content/research.ts", "src/simulation/engine.efficiency.test.ts", "src/simulation/engine.research.test.ts", "docs/research-catalog.md", "outputs/progression/analysis.json"],
-      "supersedes": ["NODE-0021"],
+      "topics": [
+        "Research",
+        "Balance",
+        "Production",
+        "Progression"
+      ],
+      "sources": [
+        "chat-progression-smoothness-2026-11-07",
+        "local-code"
+      ],
+      "evidence": [
+        "src/content/research.ts",
+        "src/simulation/engine.efficiency.test.ts",
+        "src/simulation/engine.research.test.ts",
+        "docs/research-catalog.md",
+        "outputs/progression/analysis.json"
+      ],
+      "supersedes": [
+        "NODE-0021"
+      ],
       "details": [
         "Each rank still uses all Core tiers up to its access tier. Per-line totals fall from 910 to 560 Cores. Standard recipes reduce the combined raw-unit estimate from 304,560 to 182,282, including fuel and Water.",
         "Preserve completed ranks, saved Core credit and existing speed effects. Saved projects already funded at the lower price can complete without another payment."
@@ -10489,9 +10837,22 @@
       "publishedBy": "19dc40f",
       "title": "Give each endgame corner a quadrant-sized camp and central Tribute",
       "summary": "The four seeded challenges use distinct camp colors, emblems and progress displays. Each camp occupies its outward map quadrant, with inward-facing inputs and a recessed corner that leaves the central Tribute output accessible.",
-      "topics": ["World", "Encounters", "Interface", "Connections"],
-      "sources": ["local-code"],
-      "evidence": ["src/simulation/endgameRuntime.ts", "src/domain/obstructionGeometry.ts", "src/renderer/cornerCampView.ts", "src/simulation/cornerLayout.test.ts", "outputs/northwest-camp-verified.jpg"],
+      "topics": [
+        "World",
+        "Encounters",
+        "Interface",
+        "Connections"
+      ],
+      "sources": [
+        "local-code"
+      ],
+      "evidence": [
+        "src/simulation/endgameRuntime.ts",
+        "src/domain/obstructionGeometry.ts",
+        "src/renderer/cornerCampView.ts",
+        "src/simulation/cornerLayout.test.ts",
+        "outputs/northwest-camp-verified.jpg"
+      ],
       "details": [
         "Keep the world seed's camp assignment, supply mechanics, saved progress and Tribute inventory. The camp outline is shared by drawing, placement and cable blocking. Foundry cables terminate at their individual ingredient sockets.",
         "Move existing pairs on load, travel or field expansion when the new layout leaves machines and existing cables clear. A conflicting factory keeps its prior geometry until the footprint can fit."
@@ -10508,10 +10869,26 @@
       "publishedBy": "19dc40f",
       "title": "Halve the Efficient Intermediates research bill",
       "summary": "Charge 25 of each Core through Complex to unlock efficient Circuit A, Motor and Bot Frame recipes after Precision Control. The project costs 150 Cores.",
-      "topics": ["Research", "Balance", "Production", "Progression"],
-      "sources": ["chat-progression-smoothness-2026-11-07", "local-code"],
-      "evidence": ["src/content/progression.ts", "scripts/apply-reviewed-production.mjs", "src/simulation/reviewedProduction.test.ts", "docs/master-plan/03-progression-and-economy.md", "outputs/progression/analysis.json"],
-      "supersedes": ["NODE-0181"],
+      "topics": [
+        "Research",
+        "Balance",
+        "Production",
+        "Progression"
+      ],
+      "sources": [
+        "chat-progression-smoothness-2026-11-07",
+        "local-code"
+      ],
+      "evidence": [
+        "src/content/progression.ts",
+        "scripts/apply-reviewed-production.mjs",
+        "src/simulation/reviewedProduction.test.ts",
+        "docs/master-plan/03-progression-and-economy.md",
+        "outputs/progression/analysis.json"
+      ],
+      "supersedes": [
+        "NODE-0181"
+      ],
       "details": [
         "Replace the former 50-of-each price with the selected 25-of-each bill. Standard recipes and full batches put its direct material cost at about 8,341 raw units including fuel and Water.",
         "The recipe projects can each be researched directly after Precision Control. Apply the new price in the runtime catalog and in its regeneration source."
@@ -10528,10 +10905,26 @@
       "publishedBy": "19dc40f",
       "title": "Halve the Efficient Higher Intermediates research bill",
       "summary": "Charge 50 of each Core through Complex to unlock efficient Hydro Piston, Mythril Mesh and Circuit C recipes plus Flux, Crust and Slag recovery. The project costs 300 Cores.",
-      "topics": ["Research", "Balance", "Production", "Progression"],
-      "sources": ["chat-progression-smoothness-2026-11-07", "local-code"],
-      "evidence": ["src/content/progression.ts", "scripts/apply-reviewed-production.mjs", "src/simulation/reviewedProduction.test.ts", "docs/master-plan/03-progression-and-economy.md", "outputs/progression/analysis.json"],
-      "supersedes": ["NODE-0181"],
+      "topics": [
+        "Research",
+        "Balance",
+        "Production",
+        "Progression"
+      ],
+      "sources": [
+        "chat-progression-smoothness-2026-11-07",
+        "local-code"
+      ],
+      "evidence": [
+        "src/content/progression.ts",
+        "scripts/apply-reviewed-production.mjs",
+        "src/simulation/reviewedProduction.test.ts",
+        "docs/master-plan/03-progression-and-economy.md",
+        "outputs/progression/analysis.json"
+      ],
+      "supersedes": [
+        "NODE-0181"
+      ],
       "details": [
         "The user selects 50 each through Complex, twice the 150-Core Efficient Intermediates price. The higher bundle costs 16,675 raw units with standard recipes, or about 15,283 when the earlier efficient recipes and Composite Mythril recipes supply the bill.",
         "The project remains independently accessible after Precision Control. Its runtime catalog and regeneration source use the new price."
@@ -10548,10 +10941,29 @@
       "publishedBy": "19dc40f",
       "title": "Refine the factory and encounter line art",
       "summary": "Share one set of line drawings across the playfield and menus, distinguish machines and recipe products, and give all four corners, four mineral Golems, and six Goblin and Dwarven settlement types their own art.",
-      "topics": ["Interface", "World", "Encounters", "Production", "Logistics", "Recipes"],
-      "sources": ["local-code"],
-      "evidence": ["src/art/lineArt.ts", "src/art/nodeArt.ts", "src/ui/RecipeIcon.tsx", "src/renderer/cornerCampView.ts", "src/renderer/encounterArt.ts", "src/ui/components/WelcomeModal.tsx", "src/ui/components/EndgameNotice.tsx"],
-      "supersedes": ["NODE-0131"],
+      "topics": [
+        "Interface",
+        "World",
+        "Encounters",
+        "Production",
+        "Logistics",
+        "Recipes"
+      ],
+      "sources": [
+        "local-code"
+      ],
+      "evidence": [
+        "src/art/lineArt.ts",
+        "src/art/nodeArt.ts",
+        "src/ui/RecipeIcon.tsx",
+        "src/renderer/cornerCampView.ts",
+        "src/renderer/encounterArt.ts",
+        "src/ui/components/WelcomeModal.tsx",
+        "src/ui/components/EndgameNotice.tsx"
+      ],
+      "supersedes": [
+        "NODE-0131"
+      ],
       "details": [
         "Make the Hydro Processor, Advanced Assembler, Separation Furnace, Warehouse, Fluid Storage and other related nodes recognizable by shape. Cart, Truck and Train art follows completed research. Recipe icons depict the product, including Circuits A through C, Controllers, Bots and Core Halves.",
         "Use a winged dragon, furnace, reclamation hopper and conifer for the four corners. Replace generic tents with Goblin and Dwarven drawings by settlement size. Replace the solid Golem placeholder from NODE-0131 with mineral-colored outlines and inlays while retaining its silhouette and footprint.",
@@ -10570,9 +10982,23 @@
       "publishedBy": "19dc40f",
       "title": "Lower Area Expansion 2 to 250 Cores",
       "summary": "Charge 50 of each Core from Simple through Shiny after Area Expansion 1 and Precision Control. The upgrade adds 44% field area over Area Expansion 1.",
-      "topics": ["Research", "Balance", "World", "Progression"],
-      "sources": ["chat-progression-smoothness-2026-11-07", "local-code"],
-      "evidence": ["src/content/progression.ts", "scripts/apply-reviewed-production.mjs", "scripts/progression.test.ts", "docs/research-catalog.md", "outputs/progression/analysis.json"],
+      "topics": [
+        "Research",
+        "Balance",
+        "World",
+        "Progression"
+      ],
+      "sources": [
+        "chat-progression-smoothness-2026-11-07",
+        "local-code"
+      ],
+      "evidence": [
+        "src/content/progression.ts",
+        "scripts/apply-reviewed-production.mjs",
+        "scripts/progression.test.ts",
+        "docs/research-catalog.md",
+        "outputs/progression/analysis.json"
+      ],
       "details": [
         "Replace the former 150-of-each bill. Standard recipes and full batches price the new bill at 8,600 raw units including fuel and Water, down from 25,800. The upgrade increases both field dimensions from 1.25 to 1.5 times base size across the world.",
         "Apply the selected price in the runtime catalog and in its regeneration source."
@@ -10589,9 +11015,18 @@
       "publishedBy": "19dc40f",
       "title": "Give the Ancient Dragon a full-body profile",
       "summary": "Draw the Ancient Dragon side-on with a broad body, visible legs, a tail, a horned head and raised wings.",
-      "topics": ["Interface", "World", "Encounters"],
-      "sources": ["local-code"],
-      "evidence": ["src/art/lineArt.ts", "src/renderer/cornerCampView.ts"],
+      "topics": [
+        "Interface",
+        "World",
+        "Encounters"
+      ],
+      "sources": [
+        "local-code"
+      ],
+      "evidence": [
+        "src/art/lineArt.ts",
+        "src/renderer/cornerCampView.ts"
+      ],
       "details": [
         "Replace the front-facing emblem from NODE-0354 in the shared line art, so the corner and its related symbols use the same Western dragon profile.",
         "NODE-0358 replaces the emblem in the corner scene with a larger illustration. This profile remains the small icon."
@@ -10608,10 +11043,26 @@
       "publishedBy": "19dc40f",
       "title": "Lower Industrial Forestry to 150 Cores",
       "summary": "Charge 25 of each Core from Simple through Complex for tenfold Tree Planter output and grouped growth deliveries.",
-      "topics": ["Research", "Balance", "Production", "Resources"],
-      "sources": ["chat-progression-smoothness-2026-11-07", "local-code"],
-      "evidence": ["src/content/progression.ts", "scripts/apply-reviewed-production.mjs", "scripts/progression.test.ts", "docs/research-catalog.md", "outputs/progression/analysis.json"],
-      "supersedes": ["NODE-0240"],
+      "topics": [
+        "Research",
+        "Balance",
+        "Production",
+        "Resources"
+      ],
+      "sources": [
+        "chat-progression-smoothness-2026-11-07",
+        "local-code"
+      ],
+      "evidence": [
+        "src/content/progression.ts",
+        "scripts/apply-reviewed-production.mjs",
+        "scripts/progression.test.ts",
+        "docs/research-catalog.md",
+        "outputs/progression/analysis.json"
+      ],
+      "supersedes": [
+        "NODE-0240"
+      ],
       "details": [
         "Replace the former 100-of-each bill with the selected 25-of-each price. Standard recipes and full batches put the new bill at about 8,341 raw units including fuel and Water.",
         "Players can buy it after Tree Planter and Precision Control. Each funding set of 10 Wood, one Iron Plate and one Stone pays for 100 growth units."
@@ -10628,9 +11079,18 @@
       "publishedBy": "19dc40f",
       "title": "Fill the Ancient Dragon corner with a detailed illustration",
       "summary": "Give the Dragon a larger full-body drawing with layered wings, a horned profile, scale lines and defined legs. Place the encounter title and AP below the drawing.",
-      "topics": ["Interface", "World", "Encounters"],
-      "sources": ["local-code"],
-      "evidence": ["src/art/dragonIllustration.ts", "src/renderer/cornerCampView.ts"],
+      "topics": [
+        "Interface",
+        "World",
+        "Encounters"
+      ],
+      "sources": [
+        "local-code"
+      ],
+      "evidence": [
+        "src/art/dragonIllustration.ts",
+        "src/renderer/cornerCampView.ts"
+      ],
       "details": [
         "The illustration fills roughly three quarters of the game frame's width across the standard expansion sizes. The corner scene replaces the small illustration treatment from NODE-0356. Small symbols still use that profile."
       ],
@@ -10646,9 +11106,23 @@
       "publishedBy": "19dc40f",
       "title": "Lower High Pressure Intakes to 300 Cores",
       "summary": "Charge 60 of each Core from Simple through Shiny for the upgrade that raises each Lake Intake to 16 Water per second.",
-      "topics": ["Research", "Balance", "Production", "Resources"],
-      "sources": ["chat-progression-smoothness-2026-11-07", "local-code"],
-      "evidence": ["src/content/progression.ts", "scripts/apply-reviewed-production.mjs", "scripts/progression.test.ts", "docs/research-catalog.md", "outputs/progression/analysis.json"],
+      "topics": [
+        "Research",
+        "Balance",
+        "Production",
+        "Resources"
+      ],
+      "sources": [
+        "chat-progression-smoothness-2026-11-07",
+        "local-code"
+      ],
+      "evidence": [
+        "src/content/progression.ts",
+        "scripts/apply-reviewed-production.mjs",
+        "scripts/progression.test.ts",
+        "docs/research-catalog.md",
+        "outputs/progression/analysis.json"
+      ],
       "details": [
         "Replace the former 100-of-each bill. Standard recipes price the new bill at 10,320 raw units including fuel and Water, down from 17,200.",
         "Players can buy it after Pressure Systems and Precision Control. The price remains above the 225-Core Pressure Systems bill for the first doubling."
@@ -10665,9 +11139,23 @@
       "publishedBy": "19dc40f",
       "title": "Lower Mineral Regeneration 2 to 150 Cores",
       "summary": "Charge 30 of each Core from Simple through Shiny for the upgrade that raises ordinary mineral recovery from two to four units per minute.",
-      "topics": ["Research", "Balance", "Resources", "Progression"],
-      "sources": ["chat-progression-smoothness-2026-11-07", "local-code"],
-      "evidence": ["src/content/progression.ts", "scripts/apply-reviewed-production.mjs", "scripts/progression.test.ts", "docs/research-catalog.md", "outputs/progression/analysis.json"],
+      "topics": [
+        "Research",
+        "Balance",
+        "Resources",
+        "Progression"
+      ],
+      "sources": [
+        "chat-progression-smoothness-2026-11-07",
+        "local-code"
+      ],
+      "evidence": [
+        "src/content/progression.ts",
+        "scripts/apply-reviewed-production.mjs",
+        "scripts/progression.test.ts",
+        "docs/research-catalog.md",
+        "outputs/progression/analysis.json"
+      ],
       "details": [
         "Replace the former 90-of-each bill. Standard recipes price the new bill at 5,160 raw units including fuel and Water, down from 15,480.",
         "After Mineral Regeneration and Precision Control, the upgrade improves recovery at established outposts and opens repeatable rate research. A base Extractor can draw up to twelve units per minute from a supplied deposit."
@@ -10684,9 +11172,18 @@
       "publishedBy": "19dc40f",
       "title": "Illustrate the Foundry, Reclamation and Grove corners",
       "summary": "Give all three corners large line drawings to match the Ancient Dragon. The Foundry pours into a mold, Reclamation sorts scrap onto a conveyor, and the Elder Grove features an old tree flanked by pines.",
-      "topics": ["Interface", "World", "Encounters"],
-      "sources": ["local-code"],
-      "evidence": ["src/art/cornerIllustrations.ts", "src/renderer/cornerCampView.ts"],
+      "topics": [
+        "Interface",
+        "World",
+        "Encounters"
+      ],
+      "sources": [
+        "local-code"
+      ],
+      "evidence": [
+        "src/art/cornerIllustrations.ts",
+        "src/renderer/cornerCampView.ts"
+      ],
       "details": [
         "Use the same illustration area and bottom readout for all four corners. The compact emblems from NODE-0354 remain available for small icons."
       ],
@@ -10702,9 +11199,22 @@
       "publishedBy": "19dc40f",
       "title": "Add discovery-gated landmark filters to the Node Map",
       "summary": "Toggle Monster camps, Lakes and Golems independently in the expanded Node Map. Each control appears after discovery, and its icons mark matching surveyed maps in both map views.",
-      "topics": ["Interface", "World", "Exploration", "Encounters"],
-      "sources": ["local-code"],
-      "evidence": ["src/ui/NodeMinimap.tsx", "src/ui/mapNodePresentation.ts", "src/ui/mapNodePresentation.test.ts", "src/simulation/progression.ts", "outputs/node-map-filters-verified.jpg"],
+      "topics": [
+        "Interface",
+        "World",
+        "Exploration",
+        "Encounters"
+      ],
+      "sources": [
+        "local-code"
+      ],
+      "evidence": [
+        "src/ui/NodeMinimap.tsx",
+        "src/ui/mapNodePresentation.ts",
+        "src/ui/mapNodePresentation.test.ts",
+        "src/simulation/progression.ts",
+        "outputs/node-map-filters-verified.jpg"
+      ],
       "details": [
         "The camp category includes ordinary settlements and the four unique corner camps. Clearing a Golem removes its marker and keeps the discovered control available. Legacy saves retain explicit unvisited flags.",
         "Filters add markers while preserving travel, selection and Road indicators. Unvisited maps remain unmarked even after their landmark category is known."
@@ -10721,9 +11231,22 @@
       "publishedBy": "19dc40f",
       "title": "Start Mineral Regeneration Rate at 60 Cores",
       "summary": "Charge 10 of each Core from Simple through Complex for the first rank. Subsequent ranks increase the price by 50% and round up per Core.",
-      "topics": ["Research", "Balance", "Resources", "Progression"],
-      "sources": ["chat-progression-smoothness-2026-11-07", "local-code"],
-      "evidence": ["src/content/progression.ts", "scripts/apply-reviewed-production.mjs", "src/simulation/engine.progression.test.ts", "docs/research-catalog.md"],
+      "topics": [
+        "Research",
+        "Balance",
+        "Resources",
+        "Progression"
+      ],
+      "sources": [
+        "chat-progression-smoothness-2026-11-07",
+        "local-code"
+      ],
+      "evidence": [
+        "src/content/progression.ts",
+        "scripts/apply-reviewed-production.mjs",
+        "src/simulation/engine.progression.test.ts",
+        "docs/research-catalog.md"
+      ],
       "details": [
         "Replace the former 40-of-each starting bill. The first three ranks cost 60, 90 and 138 Cores. Standard recipes price the first rank at 3,335 raw units including fuel and Water.",
         "Each purchased rank adds 0.8 units per minute of recovery per ordinary mineral deposit after Mineral Regeneration 2."
@@ -10762,9 +11285,22 @@
       "publishedBy": "19dc40f",
       "title": "Price Warehouse Logistics at 80 Cores",
       "summary": "Charge 20 of each Core through Hydro, down from 55 each, so regional supply buffers are affordable alongside Map Node purchases.",
-      "topics": ["Research", "Logistics", "Balance", "Progression"],
-      "sources": ["chat-progression-smoothness-2026-11-07", "local-code"],
-      "evidence": ["src/content/progression.ts", "scripts/apply-reviewed-production.mjs", "docs/research-catalog.md", "outputs/progression/analysis.json"],
+      "topics": [
+        "Research",
+        "Logistics",
+        "Balance",
+        "Progression"
+      ],
+      "sources": [
+        "chat-progression-smoothness-2026-11-07",
+        "local-code"
+      ],
+      "evidence": [
+        "src/content/progression.ts",
+        "scripts/apply-reviewed-production.mjs",
+        "docs/research-catalog.md",
+        "outputs/progression/analysis.json"
+      ],
       "details": [
         "The research bill falls from 220 to 80 Cores. Standard recipes use 1,760 raw units, including fuel and Water.",
         "Warehouses still hold 250 units of a single item. Ore Separation and Fluid Routing remain prerequisites."
@@ -10781,9 +11317,15 @@
       "publishedBy": "19dc40f",
       "title": "Rename the welcome diagram stages to Harvest, Build and Science",
       "summary": "The three labels on the start modal illustration now read Harvest, Build and Science in order.",
-      "topics": ["Interface"],
-      "sources": ["local-code"],
-      "evidence": ["src/ui/components/WelcomeModal.tsx"],
+      "topics": [
+        "Interface"
+      ],
+      "sources": [
+        "local-code"
+      ],
+      "evidence": [
+        "src/ui/components/WelcomeModal.tsx"
+      ],
       "validation": "Verified the three labels in the component and passed the production build. No browser check."
     },
     {
@@ -10818,10 +11360,25 @@
       "publishedBy": "19dc40f",
       "title": "Price Connector Mirroring at 40 Cores",
       "summary": "Charge 10 each of Simple, Basic, Automata, and Hydro Cores so players can afford to mirror Production node connectors while developing new sectors.",
-      "topics": ["Research", "Balance", "Connections", "Progression"],
-      "sources": ["chat-progression-smoothness-2026-11-07", "local-code"],
-      "evidence": ["src/content/research.ts", "src/simulation/engine.connectorMirroring.test.ts", "docs/research-catalog.md", "outputs/progression/analysis.json"],
-      "supersedes": ["NODE-0071"],
+      "topics": [
+        "Research",
+        "Balance",
+        "Connections",
+        "Progression"
+      ],
+      "sources": [
+        "chat-progression-smoothness-2026-11-07",
+        "local-code"
+      ],
+      "evidence": [
+        "src/content/research.ts",
+        "src/simulation/engine.connectorMirroring.test.ts",
+        "docs/research-catalog.md",
+        "outputs/progression/analysis.json"
+      ],
+      "supersedes": [
+        "NODE-0071"
+      ],
       "details": [
         "The bill drops from 400 to 40 Cores, or from 8,800 to 880 raw units with standard recipes. Hydraulic Assembly is the prerequisite."
       ],
@@ -10837,10 +11394,24 @@
       "publishedBy": "19dc40f",
       "title": "Reveal Node Map surveys with Unlock all map nodes",
       "summary": "The developer action unlocks all 121 maps, opens access to the Node Map, and reveals resource surveys, obstructions and landmark filter results without travelling.",
-      "topics": ["Tooling", "Interface", "Exploration"],
-      "sources": ["local-code"],
-      "evidence": ["src/simulation/engine.ts", "src/ui/App.tsx", "src/ui/panels/DevPanel.tsx", "src/ui/mapNodePresentation.ts", "src/ui/mapNodePresentation.test.ts"],
-      "details": ["The reveal is saved with the factory and undone with the unlock action. First visits and encounter history still come from actual travel. Saves that already used the previous unlock can apply the reveal."],
+      "topics": [
+        "Tooling",
+        "Interface",
+        "Exploration"
+      ],
+      "sources": [
+        "local-code"
+      ],
+      "evidence": [
+        "src/simulation/engine.ts",
+        "src/ui/App.tsx",
+        "src/ui/panels/DevPanel.tsx",
+        "src/ui/mapNodePresentation.ts",
+        "src/ui/mapNodePresentation.test.ts"
+      ],
+      "details": [
+        "The reveal is saved with the factory and undone with the unlock action. First visits and encounter history still come from actual travel. Saves that already used the previous unlock can apply the reveal."
+      ],
       "validation": "Production build passed. 759 tests passed with one existing skip. The new regression verifies all 121 unlocks, remote resources and obstructions, landmark filters, save normalization, first-visit camera, encounter and research preservation, and undo. No browser check."
     },
     {
@@ -10853,9 +11424,22 @@
       "publishedBy": "19dc40f",
       "title": "Price Factory Templates at 45 Cores",
       "summary": "Charge 15 each of Simple, Basic, and Automata Cores so players can afford to reuse factory layouts when opening outposts.",
-      "topics": ["Research", "Logistics", "Balance", "Progression"],
-      "sources": ["chat-progression-smoothness-2026-11-07", "local-code"],
-      "evidence": ["src/content/progression.ts", "scripts/apply-reviewed-production.mjs", "docs/research-catalog.md", "outputs/progression/analysis.json"],
+      "topics": [
+        "Research",
+        "Logistics",
+        "Balance",
+        "Progression"
+      ],
+      "sources": [
+        "chat-progression-smoothness-2026-11-07",
+        "local-code"
+      ],
+      "evidence": [
+        "src/content/progression.ts",
+        "scripts/apply-reviewed-production.mjs",
+        "docs/research-catalog.md",
+        "outputs/progression/analysis.json"
+      ],
       "details": [
         "The bill drops from 90 to 45 Cores, or from 1,110 to 555 raw units with standard recipes. Factory Templates become available after Hydraulic Assembly."
       ],
@@ -10871,9 +11455,23 @@
       "publishedBy": "19dc40f",
       "title": "Price Mineral Recovery 1 at 40 Cores",
       "summary": "Charge 10 each of Simple, Basic, Automata, and Hydro Cores for the 10% waste recovery cycle reduction.",
-      "topics": ["Research", "Balance", "Waste", "Progression"],
-      "sources": ["chat-progression-smoothness-2026-11-07", "local-code"],
-      "evidence": ["src/content/progression.ts", "scripts/apply-reviewed-production.mjs", "src/simulation/engine.efficiency.test.ts", "docs/research-catalog.md", "outputs/progression/analysis.json"],
+      "topics": [
+        "Research",
+        "Balance",
+        "Waste",
+        "Progression"
+      ],
+      "sources": [
+        "chat-progression-smoothness-2026-11-07",
+        "local-code"
+      ],
+      "evidence": [
+        "src/content/progression.ts",
+        "scripts/apply-reviewed-production.mjs",
+        "src/simulation/engine.efficiency.test.ts",
+        "docs/research-catalog.md",
+        "outputs/progression/analysis.json"
+      ],
       "details": [
         "The bill drops from 220 to 40 Cores, or from about 4,846 to 880 raw units with standard recipes. The smaller investment suits outposts with active waste recovery."
       ],
@@ -10889,9 +11487,22 @@
       "publishedBy": "19dc40f",
       "title": "Price Tree Planter 1 at 30 Cores",
       "summary": "Charge 10 each of Simple, Basic, and Automata Cores for the first Tree Planter speed upgrade so early forestry outposts can afford it.",
-      "topics": ["Research", "Balance", "Resources", "Progression"],
-      "sources": ["chat-progression-smoothness-2026-11-07", "local-code"],
-      "evidence": ["src/content/progression.ts", "scripts/apply-reviewed-production.mjs", "docs/research-catalog.md", "outputs/progression/analysis.json"],
+      "topics": [
+        "Research",
+        "Balance",
+        "Resources",
+        "Progression"
+      ],
+      "sources": [
+        "chat-progression-smoothness-2026-11-07",
+        "local-code"
+      ],
+      "evidence": [
+        "src/content/progression.ts",
+        "scripts/apply-reviewed-production.mjs",
+        "docs/research-catalog.md",
+        "outputs/progression/analysis.json"
+      ],
       "details": [
         "The bill drops from 90 to 30 Cores, or from 1,110 to 370 raw units with standard recipes. The upgrade cuts cycle time by 10%."
       ],
@@ -10906,9 +11517,21 @@
       "delivery": "not-applicable",
       "title": "Keep Pressure Systems at 225 Cores",
       "summary": "Retain the cost of 45 each of Simple, Basic, Automata, Hydro, and Shiny Cores for the first Lake Intake output doubling.",
-      "topics": ["Research", "Balance", "Resources", "Exploration"],
-      "sources": ["chat-progression-smoothness-2026-11-07", "local-code"],
-      "evidence": ["src/content/progression.ts", "src/simulation/progression.ts", "docs/research-catalog.md"],
+      "topics": [
+        "Research",
+        "Balance",
+        "Resources",
+        "Exploration"
+      ],
+      "sources": [
+        "chat-progression-smoothness-2026-11-07",
+        "local-code"
+      ],
+      "evidence": [
+        "src/content/progression.ts",
+        "src/simulation/progression.ts",
+        "docs/research-catalog.md"
+      ],
       "details": [
         "Pressure Systems raises output from 4 to 8 Water per second per Lake Intake. The price keeps developing another lake attractive and is below the 300-Core High Pressure Intakes upgrade."
       ],
@@ -10983,10 +11606,28 @@
       "publishedBy": "19dc40f",
       "title": "Scatter later Lakes and move mineral Golems one tier toward Home",
       "summary": "Add one seed-selected Lake per tier from 3 through 9. New worlds place Iron, Copper, Stone and Mythril Golems in separate clear tier-5 sectors.",
-      "topics": ["World", "Exploration", "Encounters", "Resources", "Persistence"],
-      "sources": ["local-code"],
-      "evidence": ["src/simulation/worldGeneration.ts", "src/simulation/expansionRescue.ts", "src/simulation/engine.test.ts", "src/simulation/resourceGolems.test.ts", "src/simulation/endgame.test.ts", "docs/obstruction-types-and-behavior.md"],
-      "supersedes": ["NODE-0018", "NODE-0147"],
+      "topics": [
+        "World",
+        "Exploration",
+        "Encounters",
+        "Resources",
+        "Persistence"
+      ],
+      "sources": [
+        "local-code"
+      ],
+      "evidence": [
+        "src/simulation/worldGeneration.ts",
+        "src/simulation/expansionRescue.ts",
+        "src/simulation/engine.test.ts",
+        "src/simulation/resourceGolems.test.ts",
+        "src/simulation/endgame.test.ts",
+        "docs/obstruction-types-and-behavior.md"
+      ],
+      "supersedes": [
+        "NODE-0018",
+        "NODE-0147"
+      ],
       "details": [
         "Later Lakes occupy ordinary sectors after settlements, Golems and clear outposts are reserved. The guaranteed E2 Lake and twenty clear outposts remain part of the generation plan.",
         "Saved sectors retain their terrain. Older worlds with generated sectors at tier 5 or farther retain their tier-6 Golem assignments. Newly generated sectors can receive the added Lakes, and the expansion rescue uses the same Golem layout as ordinary generation."
@@ -11148,9 +11789,21 @@
       "publishedBy": "19dc40f",
       "title": "Balance camps, Lakes and Golems across world quadrants",
       "summary": "Seeded generation favors quadrants with fewer camps or Lakes and reserves one off-axis tier-5 Golem per quadrant.",
-      "topics": ["World", "Exploration", "Encounters", "Persistence"],
-      "sources": ["local-code"],
-      "evidence": ["src/simulation/worldGeneration.ts", "src/simulation/engine.test.ts", "src/simulation/resourceGolems.test.ts", "docs/obstruction-types-and-behavior.md"],
+      "topics": [
+        "World",
+        "Exploration",
+        "Encounters",
+        "Persistence"
+      ],
+      "sources": [
+        "local-code"
+      ],
+      "evidence": [
+        "src/simulation/worldGeneration.ts",
+        "src/simulation/engine.test.ts",
+        "src/simulation/resourceGolems.test.ts",
+        "docs/obstruction-types-and-behavior.md"
+      ],
       "details": [
         "Assign each Home axis to one adjacent quadrant. Keep the guaranteed E2 Lake, one later Lake per tier, camp counts by tier and twenty clear outposts.",
         "Older saves with sectors generated outside Home keep their previous seeded assignments, including for ungenerated sectors. This prevents duplicated or missing encounters."
@@ -11167,10 +11820,21 @@
       "publishedBy": "19dc40f",
       "title": "Enlarge corner camp and Tribute connectors",
       "summary": "Give corner camp inputs and Tribute outputs larger sockets, larger click targets and full material labels that stay legible at the sector overview.",
-      "topics": ["Connections", "Encounters", "Interface"],
-      "sources": ["local-code"],
-      "evidence": ["src/renderer/PixiPlayfield.tsx", "src/renderer/playfieldTypes.ts"],
-      "details": ["Leave space between adjacent Foundry sockets and place the Tribute output label clear of the socket and the box title."],
+      "topics": [
+        "Connections",
+        "Encounters",
+        "Interface"
+      ],
+      "sources": [
+        "local-code"
+      ],
+      "evidence": [
+        "src/renderer/PixiPlayfield.tsx",
+        "src/renderer/playfieldTypes.ts"
+      ],
+      "details": [
+        "Leave space between adjacent Foundry sockets and place the Tribute output label clear of the socket and the box title."
+      ],
       "validation": "In the local browser, inspected all four corner overviews and a closer Foundry view. Started cable drags at the enlarged target edges and connected each Foundry input plus the Tribute output. The production build and ten focused tests passed. The full suite had one failure in the unrelated Map Node research pricing assertion."
     },
     {
@@ -11225,9 +11889,16 @@
       "publishedBy": "19dc40f",
       "title": "Remove text from inside corner Tribute boxes",
       "summary": "Remove the interior title and numeric readout. Use the outside labels to identify the box and output, and the stock pips to show how much is stored.",
-      "topics": ["Interface", "Encounters"],
-      "sources": ["local-code"],
-      "evidence": ["src/renderer/PixiPlayfield.tsx"],
+      "topics": [
+        "Interface",
+        "Encounters"
+      ],
+      "sources": [
+        "local-code"
+      ],
+      "evidence": [
+        "src/renderer/PixiPlayfield.tsx"
+      ],
       "validation": "Checked a stocked Grove Tribute box in the local browser at close zoom and sector overview. The production build and 768 tests passed with one existing skip."
     },
     {
@@ -11240,10 +11911,23 @@
       "publishedBy": "19dc40f",
       "title": "Give the four corner pieces Greek names",
       "summary": "Name the Dragon, Foundry, Reclamation and Grove rewards α Piece, β Piece, δ Piece and γ Piece in that order.",
-      "topics": ["Interface", "Encounters", "Progression"],
-      "sources": ["local-code"],
-      "evidence": ["src/content/endgame.ts", "src/renderer/playfieldNodeState.ts", "src/renderer/productionVisuals.ts", "docs/master-plan/20-endgame-implementation.md"],
-      "details": ["Use the lowercase Greek glyphs on the playfield, update the milestone and help text, and retain the existing item and research IDs for saved factories."],
+      "topics": [
+        "Interface",
+        "Encounters",
+        "Progression"
+      ],
+      "sources": [
+        "local-code"
+      ],
+      "evidence": [
+        "src/content/endgame.ts",
+        "src/renderer/playfieldNodeState.ts",
+        "src/renderer/productionVisuals.ts",
+        "docs/master-plan/20-endgame-implementation.md"
+      ],
+      "details": [
+        "Use the lowercase Greek glyphs on the playfield, update the milestone and help text, and retain the existing item and research IDs for saved factories."
+      ],
       "validation": "Verified all four Tribute labels in the local browser at sector overview. The production build and 768 tests passed with one existing skip."
     },
     {
@@ -11256,9 +11940,18 @@
       "publishedBy": "19dc40f",
       "title": "Name the Final Core ingredients Yin and Yang",
       "summary": "Rename Core Half A to Yin and Core Half B to Yang in item labels, seeded recipes and help text. Retain serialized IDs for saved factories.",
-      "topics": ["Interface", "Progression"],
-      "sources": ["local-code"],
-      "evidence": ["src/content/endgame.ts", "src/ui/NodeInspector.tsx", "docs/research-catalog.md"],
+      "topics": [
+        "Interface",
+        "Progression"
+      ],
+      "sources": [
+        "local-code"
+      ],
+      "evidence": [
+        "src/content/endgame.ts",
+        "src/ui/NodeInspector.tsx",
+        "docs/research-catalog.md"
+      ],
       "validation": "Verified the Yin, Yang and Final Core cards in the local browser's Assembler recipe picker, including the Final Core's one Yin and one Yang ingredient line. The production build and 768 tests passed with one existing skip."
     },
     {
@@ -11529,9 +12222,18 @@
       "publishedBy": "19dc40f",
       "title": "Rename Next milestones to Obligatory hand holding",
       "summary": "Use Obligatory hand holding as the visible heading and accessible label for the milestone guidance in Research.",
-      "topics": ["Interface", "Research"],
-      "sources": ["local-code"],
-      "evidence": ["src/ui/ResearchPanel.tsx", "src/ui/ResearchPanel.test.tsx", "docs/research-catalog.md"],
+      "topics": [
+        "Interface",
+        "Research"
+      ],
+      "sources": [
+        "local-code"
+      ],
+      "evidence": [
+        "src/ui/ResearchPanel.tsx",
+        "src/ui/ResearchPanel.test.tsx",
+        "docs/research-catalog.md"
+      ],
       "validation": "Production build and Research panel render test passed. Regenerated the standalone milestone preview and checked the new label in its bundle."
     },
     {
@@ -11544,9 +12246,17 @@
       "publishedBy": "19dc40f",
       "title": "Make the Research Center square and fit all seven Cores",
       "summary": "Use a 320 × 320 Research Center footprint and give each Core type a labeled stock display above the progress bar.",
-      "topics": ["Interface", "Research"],
-      "sources": ["local-code"],
-      "evidence": ["src/domain/nodeGeometry.ts", "src/renderer/PixiPlayfield.tsx"],
+      "topics": [
+        "Interface",
+        "Research"
+      ],
+      "sources": [
+        "local-code"
+      ],
+      "evidence": [
+        "src/domain/nodeGeometry.ts",
+        "src/renderer/PixiPlayfield.tsx"
+      ],
       "validation": "Inspected a Research Center stocked with all seven Core types and an active victory project in the local browser at 100% and 55% zoom. The production build passed and 780 tests passed with one skip."
     },
     {
@@ -11559,10 +12269,24 @@
       "publishedBy": "19dc40f",
       "title": "Make the Commands reference searchable and easier to read",
       "summary": "Put General, Mouse and trackpad, Nodes and shortcut bars, then Control groups in one column with larger text, category filters and search above the results.",
-      "topics": ["Interface", "Controls", "Accessibility"],
-      "sources": ["local-code"],
-      "evidence": ["src/ui/panels/CommandsPanel.tsx", "src/ui/App.tsx", "src/renderer/PixiPlayfield.tsx", "src/ui/ShortcutBars.tsx", "src/styles/dialogs.css"],
-      "details": ["Checked command descriptions against the input handlers, including supported rotation, group right-click priority, recipe copying, and the three shortcut bar bindings."],
+      "topics": [
+        "Interface",
+        "Controls",
+        "Accessibility"
+      ],
+      "sources": [
+        "local-code"
+      ],
+      "evidence": [
+        "src/ui/panels/CommandsPanel.tsx",
+        "src/ui/App.tsx",
+        "src/renderer/PixiPlayfield.tsx",
+        "src/ui/ShortcutBars.tsx",
+        "src/styles/dialogs.css"
+      ],
+      "details": [
+        "Checked command descriptions against the input handlers, including supported rotation, group right-click priority, recipe copying, and the three shortcut bar bindings."
+      ],
       "validation": "In the local browser, checked the layout, category order, keyboard activation of filters, search combined with a filter, empty results, reset and Escape from search. The production build and 780 tests passed with one skip."
     },
     {
@@ -11575,9 +12299,20 @@
       "publishedBy": "19dc40f",
       "title": "Enlarge Research card icons and move requirements to the tooltip",
       "summary": "Use larger icons and remove inline requirement text. Show requirements, costs and progress details in the larger tooltip on hover or keyboard focus.",
-      "topics": ["Interface", "Research", "Accessibility"],
-      "sources": ["local-code"],
-      "evidence": ["src/ui/ResearchCard.tsx", "src/ui/researchPresentation.ts", "src/ui/components/UiTooltipLayer.tsx", "src/styles/research-details.css"],
+      "topics": [
+        "Interface",
+        "Research",
+        "Accessibility"
+      ],
+      "sources": [
+        "local-code"
+      ],
+      "evidence": [
+        "src/ui/ResearchCard.tsx",
+        "src/ui/researchPresentation.ts",
+        "src/ui/components/UiTooltipLayer.tsx",
+        "src/styles/research-details.css"
+      ],
       "validation": "Verified the 42-pixel icon, 15-pixel tooltip detail, active progress bar and Core cost in the local browser. Checked both hover and keyboard focus. The production build, milestone preview generation and 780 tests passed with one skip."
     },
     {
@@ -11590,9 +12325,16 @@
       "publishedBy": "19dc40f",
       "title": "Remove the Production shortcuts tooltip from its drag handle",
       "summary": "Suppress the Production shortcuts bubble on the Production bar's six-dot handle.",
-      "topics": ["Interface", "Controls"],
-      "sources": ["local-code"],
-      "evidence": ["src/ui/ShortcutBars.tsx"],
+      "topics": [
+        "Interface",
+        "Controls"
+      ],
+      "sources": [
+        "local-code"
+      ],
+      "evidence": [
+        "src/ui/ShortcutBars.tsx"
+      ],
       "validation": "In the local browser, verified that the Production handle had no tooltip and still moved the bar. The Logistics handle still displayed its tooltip. The production build and 780 tests passed with one skip."
     },
     {
@@ -11605,10 +12347,23 @@
       "publishedBy": "19dc40f",
       "title": "Make Research milestone cards informational",
       "summary": "Keep one recommended step and two alternatives in Obligatory hand holding as plain cards. Players act on the suggestions through the normal game controls.",
-      "topics": ["Research", "Progression", "Interface"],
-      "sources": ["local-code"],
-      "evidence": ["src/ui/ResearchPanel.tsx", "src/ui/ResearchPanel.test.tsx", "docs/research-catalog.md", "scripts/build-milestone-preview.mjs"],
-      "supersedes": ["NODE-0394"],
+      "topics": [
+        "Research",
+        "Progression",
+        "Interface"
+      ],
+      "sources": [
+        "local-code"
+      ],
+      "evidence": [
+        "src/ui/ResearchPanel.tsx",
+        "src/ui/ResearchPanel.test.tsx",
+        "docs/research-catalog.md",
+        "scripts/build-milestone-preview.mjs"
+      ],
+      "supersedes": [
+        "NODE-0394"
+      ],
       "validation": "Clicked all three cards in the standalone local browser preview. Research stayed open without a project detail, and clicking the active project still opened its detail. The production build and nine focused tests passed."
     },
     {
@@ -11816,10 +12571,24 @@
       "publishedBy": "19dc40f",
       "title": "Show Discovery Journal times to the hundredth of a second",
       "summary": "Display elapsed game time as minutes, seconds and hundredths for node discoveries, research and achievements. Mark older entries without a saved time as Time not recorded.",
-      "topics": ["Interface", "Research", "Persistence"],
-      "sources": ["local-code"],
-      "evidence": ["src/ui/DiscoveryJournal.tsx", "src/simulation/engine.ts", "src/simulation/researchRuntime.ts", "src/simulation/expansionRescue.ts", "src/persistence/discoveryJournal.test.ts"],
-      "details": ["Use one timestamp for a research completion and its discoveries. Capture user actions between simulation updates, exclude paused time, and timestamp Destructive Testing when awarded. Simulation events use the game clock when their update commits."],
+      "topics": [
+        "Interface",
+        "Research",
+        "Persistence"
+      ],
+      "sources": [
+        "local-code"
+      ],
+      "evidence": [
+        "src/ui/DiscoveryJournal.tsx",
+        "src/simulation/engine.ts",
+        "src/simulation/researchRuntime.ts",
+        "src/simulation/expansionRescue.ts",
+        "src/persistence/discoveryJournal.test.ts"
+      ],
+      "details": [
+        "Use one timestamp for a research completion and its discoveries. Capture user actions between simulation updates, exclude paused time, and timestamp Destructive Testing when awarded. Simulation events use the game clock when their update commits."
+      ],
       "validation": "Checked node, research and achievement times in the local browser, including minute rollover and missing legacy times. Automated tests covered an action between ticks, pause accounting and a saved achievement timestamp. The production build passed and 782 tests passed with one skip."
     },
     {
@@ -11852,13 +12621,22 @@
       "dateBasis": "chat",
       "kind": "changed",
       "state": "implemented",
-      "delivery": "local",
+      "delivery": "published",
       "title": "Remove the placement card from shortcut pickups",
       "summary": "Show the playfield preview without the placement card when picking up a node from a shortcut slot or its keyboard binding.",
-      "topics": ["Interface", "Controls", "Shortcuts"],
-      "sources": ["local-code"],
-      "evidence": ["src/ui/App.tsx"],
-      "validation": "Verified slot and key pickup in the local game. Placed by click and drag, canceled by right-click, and confirmed that the Build menu still shows the placement card. Production build and 60 focused tests passed."
+      "topics": [
+        "Interface",
+        "Controls",
+        "Shortcuts"
+      ],
+      "sources": [
+        "local-code"
+      ],
+      "evidence": [
+        "src/ui/App.tsx"
+      ],
+      "validation": "Verified slot and key pickup in the local game. Placed by click and drag, canceled by right-click, and confirmed that the Build menu still shows the placement card. Production build and 60 focused tests passed.",
+      "publishedBy": "ad996a7"
     },
     {
       "id": "NODE-0413",
@@ -11866,15 +12644,34 @@
       "dateBasis": "chat",
       "kind": "changed",
       "state": "implemented",
-      "delivery": "local",
+      "delivery": "published",
       "title": "Credit research after full cycles and set a five-Core minimum",
       "summary": "The Research Center consumes and credits a stocked set only at the end of each cycle. Standard paid research costs at least five of every required Core type; Assembler takes five Simple Cores.",
-      "topics": ["Research", "Simulation", "Progression"],
-      "sources": ["chat-current", "local-code"],
-      "evidence": ["src/simulation/researchRuntime.ts", "src/content/research.ts", "src/simulation/researchSelection.test.ts", "src/simulation/researchTiming.test.ts", "src/simulation/engine.research.test.ts", "docs/research-catalog.md"],
-      "details": ["Project switches restart the unpaid cycle and keep paid Cores. Free milestones, existing prices above five, and explicit mod prices retain their behavior. The five-Core floor also applies to Final Robotics and Victory."],
+      "topics": [
+        "Research",
+        "Simulation",
+        "Progression"
+      ],
+      "sources": [
+        "chat-current",
+        "local-code"
+      ],
+      "evidence": [
+        "src/simulation/researchRuntime.ts",
+        "src/content/research.ts",
+        "src/simulation/researchSelection.test.ts",
+        "src/simulation/researchTiming.test.ts",
+        "src/simulation/engine.research.test.ts",
+        "docs/research-catalog.md"
+      ],
+      "details": [
+        "Project switches restart the unpaid cycle and keep paid Cores. Free milestones, existing prices above five, and explicit mod prices retain their behavior. The five-Core floor also applies to Final Robotics and Victory."
+      ],
       "validation": "A local browser fixture using the game’s research detail showed a stocked Assembler at 0/5 after 4,999 ms, 1/5 at 5,000 ms, and complete at 25,000 ms. The production build and 782 workspace tests passed with one skip. This was a timing check, not a full balance run.",
-      "supersedes": ["NODE-0211"]
+      "supersedes": [
+        "NODE-0211"
+      ],
+      "publishedBy": "ad996a7"
     },
     {
       "id": "NODE-0414",
@@ -11882,14 +12679,28 @@
       "dateBasis": "chat",
       "kind": "changed",
       "state": "implemented",
-      "delivery": "local",
+      "delivery": "published",
       "title": "Match top bar dialogs and subdialogs to Research card typography",
       "summary": "Use the Research card font and size for comparable labels, and use the Research hover treatment for tooltips throughout the dialogs.",
-      "topics": ["Interface", "Research", "Controls"],
-      "sources": ["chat-current", "local-code"],
-      "evidence": ["src/styles/readability.css", "src/styles/research-details.css", "src/ui/components/UiTooltipLayer.tsx"],
-      "details": ["Apply shared label and body styles to Build, Map, Options, Dev, About and their nested views. Let the Save / Load list scroll within its dialog so longer labels do not hide slots."],
-      "validation": "Checked computed typography in the local desktop browser across the top bar dialogs, Options subdialogs, the tutorial guide and Research tree. Verified the Save / Load scroll region and opened a modal tooltip by keyboard. The production build and 782 workspace tests passed with one skip."
+      "topics": [
+        "Interface",
+        "Research",
+        "Controls"
+      ],
+      "sources": [
+        "chat-current",
+        "local-code"
+      ],
+      "evidence": [
+        "src/styles/readability.css",
+        "src/styles/research-details.css",
+        "src/ui/components/UiTooltipLayer.tsx"
+      ],
+      "details": [
+        "Apply shared label and body styles to Build, Map, Options, Dev, About and their nested views. Let the Save / Load list scroll within its dialog so longer labels do not hide slots."
+      ],
+      "validation": "Checked computed typography in the local desktop browser across the top bar dialogs, Options subdialogs, the tutorial guide and Research tree. Verified the Save / Load scroll region and opened a modal tooltip by keyboard. The production build and 782 workspace tests passed with one skip.",
+      "publishedBy": "ad996a7"
     },
     {
       "id": "NODE-0415",
@@ -11897,13 +12708,26 @@
       "dateBasis": "chat",
       "kind": "changed",
       "state": "implemented",
-      "delivery": "local",
+      "delivery": "published",
       "title": "Refine Commands and show the newest Journal entries first",
       "summary": "Align Commands with the other dialogs and bring descriptions closer to their shortcuts. Sort Journal discoveries, research, and achievements together by elapsed game time, with untimed entries at the bottom.",
-      "topics": ["Interface", "Controls", "Accessibility"],
-      "sources": ["chat-current", "local-code"],
-      "evidence": ["src/ui/panels/CommandsPanel.tsx", "src/styles/dialogs.css", "src/ui/DiscoveryJournal.tsx", "src/ui/DiscoveryJournal.test.tsx"],
-      "validation": "Checked the Commands layout, category order, combined search and filtering, reset, Escape, and Journal filters in the local desktop browser. A rendering test verified mixed Journal entries, including entries that display the same hundredth and entries without timestamps. The production build and 783 workspace tests passed with one skip."
+      "topics": [
+        "Interface",
+        "Controls",
+        "Accessibility"
+      ],
+      "sources": [
+        "chat-current",
+        "local-code"
+      ],
+      "evidence": [
+        "src/ui/panels/CommandsPanel.tsx",
+        "src/styles/dialogs.css",
+        "src/ui/DiscoveryJournal.tsx",
+        "src/ui/DiscoveryJournal.test.tsx"
+      ],
+      "validation": "Checked the Commands layout, category order, combined search and filtering, reset, Escape, and Journal filters in the local desktop browser. A rendering test verified mixed Journal entries, including entries that display the same hundredth and entries without timestamps. The production build and 783 workspace tests passed with one skip.",
+      "publishedBy": "ad996a7"
     },
     {
       "id": "NODE-0416",
@@ -11911,13 +12735,28 @@
       "dateBasis": "chat",
       "kind": "fixed",
       "state": "implemented",
-      "delivery": "local",
+      "delivery": "published",
       "title": "Align Commands columns and simplify modal titles",
       "summary": "Keep the shortcut and description columns aligned across Commands categories and filters. Remove the labels above top bar modal titles and the visible Shortcut Bar Visibility heading in Options.",
-      "topics": ["Interface", "Controls", "Shortcuts"],
-      "sources": ["chat-current", "local-code"],
-      "evidence": ["src/styles/dialogs.css", "src/ui/PanelHeader.tsx", "src/ui/panels/OptionsPanel.tsx", "src/ui/ResearchTreeModal.tsx", "src/ui/DiscoveryJournal.tsx", "src/ui/RecipesPanel.tsx"],
-      "validation": "Measured matching column positions for all four Commands sections and after filtering and searching in the local desktop browser. Checked title-only headers in the main dialogs and subdialogs and confirmed that all three shortcut visibility controls remain in Options. The production build and 783 workspace tests passed with one skip."
+      "topics": [
+        "Interface",
+        "Controls",
+        "Shortcuts"
+      ],
+      "sources": [
+        "chat-current",
+        "local-code"
+      ],
+      "evidence": [
+        "src/styles/dialogs.css",
+        "src/ui/PanelHeader.tsx",
+        "src/ui/panels/OptionsPanel.tsx",
+        "src/ui/ResearchTreeModal.tsx",
+        "src/ui/DiscoveryJournal.tsx",
+        "src/ui/RecipesPanel.tsx"
+      ],
+      "validation": "Measured matching column positions for all four Commands sections and after filtering and searching in the local desktop browser. Checked title-only headers in the main dialogs and subdialogs and confirmed that all three shortcut visibility controls remain in Options. The production build and 783 workspace tests passed with one skip.",
+      "publishedBy": "ad996a7"
     },
     {
       "id": "NODE-0417",
@@ -11925,14 +12764,37 @@
       "dateBasis": "chat",
       "kind": "changed",
       "state": "implemented",
-      "delivery": "local",
+      "delivery": "published",
       "title": "Create custom Mods entries and combine the Lake editor",
       "summary": "Add creation to all eight Mods cards. Support custom items, node variants, recipes, and research, plus named map and connection presets. Show one name per entry and edit Lake and Lake Intake together.",
-      "topics": ["Mods", "Interface", "Production", "Research", "World generation", "Persistence"],
-      "sources": ["chat-current", "local-code"],
-      "evidence": ["src/ui/ModsModal.tsx", "src/ui/ModEntryEditor.tsx", "src/mods/modCatalog.ts", "src/mods/modContent.ts", "src/mods/modValidation.ts", "src/mods/modRuntime.ts", "src/mods/mods.test.ts", "docs/mods.md"],
-      "details": ["Custom Production and Logistics nodes reuse supported machine, buffer, or router templates. Custom world entries can replace mineral reserves on newly generated maps. One preset can be selected per settings category.", "Remove retired and unreachable entries from the base-game editor lists while retaining definitions used by older saves and share codes. Split the entry editor from navigation, remove the obsolete ID subtitle styling and duplicate material lookup, and index cables once per graph when checking whether a mod can apply."],
-      "validation": "Created an entry in each category in an isolated local browser, found Lake through a Lake Intake search, imported both sections, applied the draft, and verified that the custom machine appeared in Build. Tests exercised real custom research and production, generation, preset selection, share codes, save reload, and removal protection. The production build and 785 workspace tests passed with one skip."
+      "topics": [
+        "Mods",
+        "Interface",
+        "Production",
+        "Research",
+        "World generation",
+        "Persistence"
+      ],
+      "sources": [
+        "chat-current",
+        "local-code"
+      ],
+      "evidence": [
+        "src/ui/ModsModal.tsx",
+        "src/ui/ModEntryEditor.tsx",
+        "src/mods/modCatalog.ts",
+        "src/mods/modContent.ts",
+        "src/mods/modValidation.ts",
+        "src/mods/modRuntime.ts",
+        "src/mods/mods.test.ts",
+        "docs/mods.md"
+      ],
+      "details": [
+        "Custom Production and Logistics nodes reuse supported machine, buffer, or router templates. Custom world entries can replace mineral reserves on newly generated maps. One preset can be selected per settings category.",
+        "Remove retired and unreachable entries from the base-game editor lists while retaining definitions used by older saves and share codes. Split the entry editor from navigation, remove the obsolete ID subtitle styling and duplicate material lookup, and index cables once per graph when checking whether a mod can apply."
+      ],
+      "validation": "Created an entry in each category in an isolated local browser, found Lake through a Lake Intake search, imported both sections, applied the draft, and verified that the custom machine appeared in Build. Tests exercised real custom research and production, generation, preset selection, share codes, save reload, and removal protection. The production build and 785 workspace tests passed with one skip.",
+      "publishedBy": "ad996a7"
     },
     {
       "id": "NODE-0418",
@@ -11940,13 +12802,29 @@
       "dateBasis": "chat",
       "kind": "changed",
       "state": "implemented",
-      "delivery": "local",
+      "delivery": "published",
       "title": "Import and export editable mod files",
       "summary": "Download an editable UTF-8 mod pack, then import a validated text file into the draft. Show the name of the pack embedded in each modded save. Freeze base catalog templates so edits apply only to the factory’s runtime rules.",
-      "topics": ["Mods", "Interface", "Persistence", "Documentation"],
-      "sources": ["chat-current", "local-code"],
-      "evidence": ["src/mods/modSharing.ts", "src/mods/modContent.ts", "src/mods/modTextFiles.test.ts", "src/ui/ModsModal.tsx", "src/ui/panels/SavePanel.tsx", "docs/mods.md"],
-      "validation": "Imported a text pack with a new resource in an isolated local browser, confirmed the download, applied the pack, and reloaded it from a manual save after restoring base rules. Automated checks covered text edits, invalid files, manual saves, autosaves, copying an autosave, and read-only base templates. The production build and 788 workspace tests passed with one skip."
+      "topics": [
+        "Mods",
+        "Interface",
+        "Persistence",
+        "Documentation"
+      ],
+      "sources": [
+        "chat-current",
+        "local-code"
+      ],
+      "evidence": [
+        "src/mods/modSharing.ts",
+        "src/mods/modContent.ts",
+        "src/mods/modTextFiles.test.ts",
+        "src/ui/ModsModal.tsx",
+        "src/ui/panels/SavePanel.tsx",
+        "docs/mods.md"
+      ],
+      "validation": "Imported a text pack with a new resource in an isolated local browser, confirmed the download, applied the pack, and reloaded it from a manual save after restoring base rules. Automated checks covered text edits, invalid files, manual saves, autosaves, copying an autosave, and read-only base templates. The production build and 788 workspace tests passed with one skip.",
+      "publishedBy": "ad996a7"
     },
     {
       "id": "NODE-0419",
@@ -11954,14 +12832,31 @@
       "dateBasis": "chat",
       "kind": "added",
       "state": "implemented",
-      "delivery": "local",
+      "delivery": "published",
       "title": "Set obstruction spawn and placement rules in Mods",
       "summary": "Set map tiers, per-map chance, count, and playfield region for Lakes, Deep Holes, Goblin camps, Forests, and natural reserves. Rules can add or replace spawns on future maps and travel with mod packs and saves.",
-      "topics": ["Mods", "World generation", "Interface", "Persistence"],
-      "sources": ["chat-current", "local-code"],
-      "evidence": ["src/ui/ModEntryEditor.tsx", "src/mods/modValidation.ts", "src/simulation/worldGeneration.ts", "src/mods/mods.test.ts", "docs/mods.md"],
-      "details": ["Placement uses the world seed and skips entries that cannot fit in the selected region. Home, fixed corner camps, Dwarven settlements, and progression Golems keep their normal generation. Custom reserve packs with only the legacy replacement chance still work."],
-      "validation": "Checked adding, editing, and removing a Lake rule in the local browser draft. Automated tests covered import validation, legacy reserve replacement, deterministic regional placement, Lake, Deep Hole and Goblin camp creation, saved rules on unlock after reload, and preservation of generated maps. The production build and 793 workspace tests passed with one skip."
+      "topics": [
+        "Mods",
+        "World generation",
+        "Interface",
+        "Persistence"
+      ],
+      "sources": [
+        "chat-current",
+        "local-code"
+      ],
+      "evidence": [
+        "src/ui/ModEntryEditor.tsx",
+        "src/mods/modValidation.ts",
+        "src/simulation/worldGeneration.ts",
+        "src/mods/mods.test.ts",
+        "docs/mods.md"
+      ],
+      "details": [
+        "Placement uses the world seed and skips entries that cannot fit in the selected region. Home, fixed corner camps, Dwarven settlements, and progression Golems keep their normal generation. Custom reserve packs with only the legacy replacement chance still work."
+      ],
+      "validation": "Checked adding, editing, and removing a Lake rule in the local browser draft. Automated tests covered import validation, legacy reserve replacement, deterministic regional placement, Lake, Deep Hole and Goblin camp creation, saved rules on unlock after reload, and preservation of generated maps. The production build and 793 workspace tests passed with one skip.",
+      "publishedBy": "ad996a7"
     },
     {
       "id": "NODE-0420",
@@ -11969,7 +12864,7 @@
       "dateBasis": "chat",
       "kind": "changed",
       "state": "implemented",
-      "delivery": "local",
+      "delivery": "published",
       "title": "Rename Corner Pieces research to End of the World",
       "summary": "Show End of the World when players acquire their first corner piece and unlock Yin, Yang and Final Core assembly.",
       "topics": [
@@ -11984,7 +12879,8 @@
         "src/content/endgame.ts",
         "docs/research-catalog.md"
       ],
-      "validation": "82 focused tests passed, including the endgame discovery and save reload. Regenerated the standalone milestone preview."
+      "validation": "82 focused tests passed, including the endgame discovery and save reload. Regenerated the standalone milestone preview.",
+      "publishedBy": "ad996a7"
     },
     {
       "id": "NODE-0421",
@@ -11992,14 +12888,72 @@
       "dateBasis": "chat",
       "kind": "added",
       "state": "implemented",
-      "delivery": "local",
+      "delivery": "published",
       "title": "Choose the world map size in Mods",
       "summary": "Choose an odd square grid from 11×11 through 21×21 in Map nodes or a map preset before activating the first map beyond Home. Saves keep their chosen grid, and exploration, the map UI, developer reveal, and the four corner camps use it.",
-      "topics": ["Mods", "World generation", "Interface", "Research", "Persistence"],
-      "sources": ["chat-current", "local-code"],
-      "evidence": ["src/domain/worldGrid.ts", "src/ui/ModsModal.tsx", "src/ui/NodeMinimap.tsx", "src/simulation/worldGeneration.ts", "src/mods/worldGrid.test.ts", "docs/mods.md"],
-      "details": ["Keep Home and existing sector coordinates stable. Larger worlds support obstruction spawn rules through tier 19, and Map Point research retains the standard price ceiling for each Core tier."],
-      "validation": "Applied 21×21 to a paused factory in a separate local browser tab. Verified 441 visible cells, centered Home, zoom, readable corner labels, and four corner camp filter markers. Automated tests covered preset precedence, mod file import, normal unlock at negative coordinates, out-of-bounds rejection, undo, save reload, late Map Point pricing and generation of all 441 maps. The production build and 796 workspace tests passed with one skip."
+      "topics": [
+        "Mods",
+        "World generation",
+        "Interface",
+        "Research",
+        "Persistence"
+      ],
+      "sources": [
+        "chat-current",
+        "local-code"
+      ],
+      "evidence": [
+        "src/domain/worldGrid.ts",
+        "src/ui/ModsModal.tsx",
+        "src/ui/NodeMinimap.tsx",
+        "src/simulation/worldGeneration.ts",
+        "src/mods/worldGrid.test.ts",
+        "docs/mods.md"
+      ],
+      "details": [
+        "Keep Home and existing sector coordinates stable. Larger worlds support obstruction spawn rules through tier 19, and Map Point research retains the standard price ceiling for each Core tier."
+      ],
+      "validation": "Applied 21×21 to a paused factory in a separate local browser tab. Verified 441 visible cells, centered Home, zoom, readable corner labels, and four corner camp filter markers. Automated tests covered preset precedence, mod file import, normal unlock at negative coordinates, out-of-bounds rejection, undo, save reload, late Map Point pricing and generation of all 441 maps. The production build and 796 workspace tests passed with one skip.",
+      "publishedBy": "ad996a7"
+    },
+    {
+      "id": "NODE-0422",
+      "date": "2026-11-08",
+      "dateBasis": "chat",
+      "kind": "docs",
+      "state": "implemented",
+      "delivery": "published",
+      "publishedBy": "ad996a7",
+      "title": "Publish editable mod packs and adjustable world maps",
+      "summary": "Publish the current NODE build and source to GitHub Pages, including editable mod files, configurable obstruction placement, worlds up to 21×21, and research and interface updates.",
+      "topics": [
+        "Publishing",
+        "Mods",
+        "World generation",
+        "Research",
+        "Interface"
+      ],
+      "sources": [
+        "local-code"
+      ],
+      "evidence": [
+        "outputs/node-mods-release-2026-11-08/publication-receipt.json"
+      ],
+      "validation": "The /node/ production build passed. Vitest passed 796 workspace tests with one skip, excluding deployment copies. The main-branch commit changed only node/. The normal live HTML and all ten runtime assets matched the tested build and commit by SHA-256. No live gameplay run was performed."
+    },
+    {
+      "id": "NODE-0423",
+      "date": "2026-11-09",
+      "dateBasis": "chat",
+      "kind": "docs",
+      "state": "implemented",
+      "delivery": "local",
+      "title": "Run the full release on an explicit live publication request",
+      "summary": "Document that one live publication request covers building, testing, pushing the verified NODE commit through the configured approval flow, checking the public site, and recording the result.",
+      "topics": ["Publishing", "Documentation"],
+      "sources": ["local-code"],
+      "evidence": ["AGENTS.md", "outputs/node-mods-release-2026-11-08/publication-receipt.json"],
+      "validation": "The changelog generator and checks passed. The instructions reflect the verified November 8 release and retain the configured approval flow. No deployment or permissions change was made."
     }
   ]
 }
