@@ -1,0 +1,57 @@
+{
+  "date": "2026-11-08",
+  "verifiedAtUtc": "2026-11-09T04:27:51.390Z",
+  "url": "https://bookskaboo.github.io/node/",
+  "repository": "bookskaboo/bookskaboo.github.io",
+  "contentCommit": "19dc40fff3a1c8d201352a726cdb494ec5521655",
+  "livePublicationVerified": true,
+  "standardUrlMatches": true,
+  "expectedScript": "/node/assets/index-BTXj1lUh.js",
+  "matchedRuntimeFiles": 11,
+  "assets": [
+    {
+      "file": "index.html",
+      "sha256": "8abf14c416bc705a73a853c6257f3c6ddad94e681514450ce51e8682f409a4fa"
+    },
+    {
+      "file": "assets/browserAll-rgCiCZO1.js",
+      "sha256": "1ce570419d686a3fe747101e8c4fd76666cd92338b4597c71d8059d3ca2d9105"
+    },
+    {
+      "file": "assets/CanvasPool-O_8k9jVW.js",
+      "sha256": "9cf12a9f53a878bb8f9f46337b799031a6986b5f87dd775ef57b2902ae0dc9cd"
+    },
+    {
+      "file": "assets/canvasUtils-DHiBpmSz.js",
+      "sha256": "8843c3459529c72ffb9a82655454eff39f3458448dd2ae362764f3be4933288f"
+    },
+    {
+      "file": "assets/getTexelRangeRects-5CG6mIA2.js",
+      "sha256": "aea8c02569d6923eec2b28e6973b032101297b4fc9acc85b573146bd074d4974"
+    },
+    {
+      "file": "assets/getTextureBatchBindGroup-CDnZS9mH.js",
+      "sha256": "2b2eff79ef557432774e0acd98963de65847a16840f0b738b07556ea37e21caa"
+    },
+    {
+      "file": "assets/index-BTXj1lUh.js",
+      "sha256": "4c4d9703606f045685b760bd55d3ee13867002101225b14b115e67d756511a6d"
+    },
+    {
+      "file": "assets/index-nkqlHR6x.css",
+      "sha256": "c9e71e6a5541c4b0ba01800f2409097a974f0b76593202382dc677f71b828a66"
+    },
+    {
+      "file": "assets/init-C9k8G68E.js",
+      "sha256": "e09236e0d003dc353919948596fff43334187833b6afd40bf8505e268bdfb416"
+    },
+    {
+      "file": "assets/RenderTargetSystem-CHWUCnC7.js",
+      "sha256": "39880073141b4419980d7b5baf22961675d208105c37f87c54a099e6433ad70f"
+    },
+    {
+      "file": "assets/webworkerAll-yCoTeGzF.js",
+      "sha256": "8da928107c694a47bfe4348c829096d61d3581c47dc81fb8143dbe9e01ea8288"
+    }
+  ]
+}

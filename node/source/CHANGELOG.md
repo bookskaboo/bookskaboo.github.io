@@ -2,82 +2,17 @@
 
 A searchable record of completed changes, design decisions, and relevant review findings. Stable NODE IDs can be cited in chats and searched in the repository.
 
-**410 records · 2026-10-12–2026-11-08 · America/Los_Angeles**
+**411 records · 2026-10-12–2026-11-08 · America/Los_Angeles**
 
 [Open searchable history](<docs/changelog/index.html>) · [How to review and maintain it](<docs/changelog/README.md>) · [Sources and coverage gaps](<docs/changelog/sources.md>)
 
 ## Local changes awaiting publication
 
-These changes follow the latest confirmed game publication, e177479. Creating this log did not publish them.
+Latest confirmed game publication: [19dc40f](https://github.com/bookskaboo/bookskaboo.github.io/commit/19dc40fff3a1c8d201352a726cdb494ec5521655).
 
 | ID | Change | Topics |
 | --- | --- | --- |
-| [NODE-0410](<docs/changelog/2026-11.md#node-0410>) | Show Discovery Journal times to the hundredth of a second | Interface, Research, Persistence |
-| [NODE-0409](<docs/changelog/2026-11.md#node-0409>) | Give the final milestone a speed run hint | Research, Progression, Interface |
-| [NODE-0408](<docs/changelog/2026-11.md#node-0408>) | End milestone guidance with one encouragement | Research, Progression, Interface |
-| [NODE-0407](<docs/changelog/2026-11.md#node-0407>) | Revise the Final Core milestone hint | Research, Progression, Interface |
-| [NODE-0406](<docs/changelog/2026-11.md#node-0406>) | Make Dwarven cooperation feel essential | Research, Progression, Interface |
-| [NODE-0405](<docs/changelog/2026-11.md#node-0405>) | Use one Dwarven Tribute milestone | Research, Progression, Interface |
-| [NODE-0404](<docs/changelog/2026-11.md#node-0404>) | Remove redundant and recurring Research hints | Research, Progression, Interface |
-| [NODE-0403](<docs/changelog/2026-11.md#node-0403>) | Show Iron prospects after the Research Center | Research, Progression, Interface |
-| [NODE-0402](<docs/changelog/2026-11.md#node-0402>) | Turn Research milestones into short hints | Research, Progression, Interface |
-| [NODE-0401](<docs/changelog/2026-11.md#node-0401>) | Make Research milestone cards informational | Research, Progression, Interface |
-| [NODE-0400](<docs/changelog/2026-11.md#node-0400>) | Remove the Production shortcuts tooltip from its drag handle | Interface, Controls |
-| [NODE-0399](<docs/changelog/2026-11.md#node-0399>) | Enlarge Research card icons and move requirements to the tooltip | Interface, Research, Accessibility |
-| [NODE-0398](<docs/changelog/2026-11.md#node-0398>) | Make the Commands reference searchable and easier to read | Interface, Controls, Accessibility |
-| [NODE-0397](<docs/changelog/2026-11.md#node-0397>) | Make the Research Center square and fit all seven Cores | Interface, Research |
-| [NODE-0396](<docs/changelog/2026-11.md#node-0396>) | Rename Next milestones to Obligatory hand holding | Interface, Research |
-| [NODE-0395](<docs/changelog/2026-11.md#node-0395>) | Put Research milestones and the active project on one row | Research, Progression, UI |
-| [NODE-0393](<docs/changelog/2026-11.md#node-0393>) | Require 1,000 growth at the Elder Grove | Balance, Encounters, Resources, Progression |
-| [NODE-0392](<docs/changelog/2026-11.md#node-0392>) | Double Ancient Reclamation's waste quotas | Balance, Encounters, Waste, Progression |
-| [NODE-0391](<docs/changelog/2026-11.md#node-0391>) | Raise the Dragon to 500 AP and add Final Robotics | Balance, Encounters, Research, Progression, Production |
-| [NODE-0387](<docs/changelog/2026-11.md#node-0387>) | Name the Final Core ingredients Yin and Yang | Interface, Progression |
-| [NODE-0386](<docs/changelog/2026-11.md#node-0386>) | Give the four corner pieces Greek names | Interface, Encounters, Progression |
-| [NODE-0385](<docs/changelog/2026-11.md#node-0385>) | Remove text from inside corner Tribute boxes | Interface, Encounters |
-| [NODE-0384](<docs/changelog/2026-11.md#node-0384>) | Reset Map Node prices when a Core tier enters | Research, Balance, Progression, Exploration, Persistence |
-| [NODE-0383](<docs/changelog/2026-11.md#node-0383>) | Enlarge corner camp and Tribute connectors | Connections, Encounters, Interface |
-| [NODE-0382](<docs/changelog/2026-11.md#node-0382>) | Balance camps, Lakes and Golems across world quadrants | World, Exploration, Encounters, Persistence |
-| [NODE-0378](<docs/changelog/2026-11.md#node-0378>) | Lower the research cost of Trucks and the third Road slot | Research, Balance, Logistics, Exploration |
-| [NODE-0377](<docs/changelog/2026-11.md#node-0377>) | Draw Wire recipe icons as spirals | Interface, Recipes |
-| [NODE-0376](<docs/changelog/2026-11.md#node-0376>) | Scatter later Lakes and move mineral Golems one tier toward Home | World, Exploration, Encounters, Resources, Persistence |
-| [NODE-0373](<docs/changelog/2026-11.md#node-0373>) | Standardize node colors by function | Interface, Production, Logistics |
-| [NODE-0372](<docs/changelog/2026-11.md#node-0372>) | Price Tree Planter 1 at 30 Cores | Research, Balance, Resources, Progression |
-| [NODE-0371](<docs/changelog/2026-11.md#node-0371>) | Price Mineral Recovery 1 at 40 Cores | Research, Balance, Waste, Progression |
-| [NODE-0370](<docs/changelog/2026-11.md#node-0370>) | Price Factory Templates at 45 Cores | Research, Logistics, Balance, Progression |
-| [NODE-0369](<docs/changelog/2026-11.md#node-0369>) | Reveal Node Map surveys with Unlock all map nodes | Tooling, Interface, Exploration |
-| [NODE-0368](<docs/changelog/2026-11.md#node-0368>) | Price Connector Mirroring at 40 Cores | Research, Balance, Connections, Progression |
-| [NODE-0367](<docs/changelog/2026-11.md#node-0367>) | Remove knee lines from the Golem drawings | Interface, Encounters |
-| [NODE-0366](<docs/changelog/2026-11.md#node-0366>) | Rename the welcome diagram stages to Harvest, Build and Science | Interface |
-| [NODE-0365](<docs/changelog/2026-11.md#node-0365>) | Price Warehouse Logistics at 80 Cores | Research, Logistics, Balance, Progression |
-| [NODE-0364](<docs/changelog/2026-11.md#node-0364>) | Simplify the four Golem drawings | Interface, Encounters |
-| [NODE-0363](<docs/changelog/2026-11.md#node-0363>) | Start Mineral Regeneration Rate at 60 Cores | Research, Balance, Resources, Progression |
-| [NODE-0362](<docs/changelog/2026-11.md#node-0362>) | Add discovery-gated landmark filters to the Node Map | Interface, World, Exploration, Encounters |
-| [NODE-0361](<docs/changelog/2026-11.md#node-0361>) | Illustrate the Foundry, Reclamation and Grove corners | Interface, World, Encounters |
-| [NODE-0360](<docs/changelog/2026-11.md#node-0360>) | Lower Mineral Regeneration 2 to 150 Cores | Research, Balance, Resources, Progression |
-| [NODE-0359](<docs/changelog/2026-11.md#node-0359>) | Lower High Pressure Intakes to 300 Cores | Research, Balance, Production, Resources |
-| [NODE-0358](<docs/changelog/2026-11.md#node-0358>) | Fill the Ancient Dragon corner with a detailed illustration | Interface, World, Encounters |
-| [NODE-0357](<docs/changelog/2026-11.md#node-0357>) | Lower Industrial Forestry to 150 Cores | Research, Balance, Production, Resources |
-| [NODE-0356](<docs/changelog/2026-11.md#node-0356>) | Give the Ancient Dragon a full-body profile | Interface, World, Encounters |
-| [NODE-0355](<docs/changelog/2026-11.md#node-0355>) | Lower Area Expansion 2 to 250 Cores | Research, Balance, World, Progression |
-| [NODE-0354](<docs/changelog/2026-11.md#node-0354>) | Refine the factory and encounter line art | Interface, World, Encounters, Production, Logistics, Recipes |
-| [NODE-0353](<docs/changelog/2026-11.md#node-0353>) | Halve the Efficient Higher Intermediates research bill | Research, Balance, Production, Progression |
-| [NODE-0352](<docs/changelog/2026-11.md#node-0352>) | Halve the Efficient Intermediates research bill | Research, Balance, Production, Progression |
-| [NODE-0351](<docs/changelog/2026-11.md#node-0351>) | Give each endgame corner a quadrant-sized camp and central Tribute | World, Encounters, Interface, Connections |
-| [NODE-0350](<docs/changelog/2026-11.md#node-0350>) | Lower the six machine-efficiency research bills | Research, Balance, Production, Progression |
-| [NODE-0349](<docs/changelog/2026-11.md#node-0349>) | Cap generated tier-nine Deep Holes at 4,000 Stone | World, Balance, Resources, Research |
-| [NODE-0348](<docs/changelog/2026-11.md#node-0348>) | Ease Deep Hole coverage growth on later map tiers | World, Balance, Exploration, Progression |
-| [NODE-0347](<docs/changelog/2026-11.md#node-0347>) | Reserve a clear starter sector and seed clear resource outposts | World, Balance, Exploration, Progression |
-| [NODE-0346](<docs/changelog/2026-11.md#node-0346>) | Standardize Dwarven Kingdom upkeep and Mythril Tribute | Balance, Encounters, Progression, Mythril |
-| [NODE-0345](<docs/changelog/2026-11.md#node-0345>) | Standardize Dwarven Village upkeep and Mythril Tribute | Balance, Encounters, Progression, Mythril |
-| [NODE-0344](<docs/changelog/2026-11.md#node-0344>) | Standardize Dwarven Camp upkeep and Mythril Tribute | Balance, Encounters, Progression, Mythril |
-| [NODE-0343](<docs/changelog/2026-11.md#node-0343>) | Standardize Goblin Kingdom upkeep at 16 AP per minute | Balance, Encounters, Progression |
-| [NODE-0342](<docs/changelog/2026-11.md#node-0342>) | Standardize Goblin Village upkeep and raise Goblin Tribute | Balance, Encounters, Progression |
 | [NODE-0338](<docs/changelog/2026-11.md#node-0338>) | Verify Monster Camp AP delivery for all four bot tiers | Encounters, Connections, Playtesting, Documentation |
-| [NODE-0337](<docs/changelog/2026-11.md#node-0337>) | Make Command Bots deliver 24 AP on a ninety-second cycle | Balance, Production, Encounters, Progression, Persistence |
-| [NODE-0335](<docs/changelog/2026-11.md#node-0335>) | Produce 3 AP Medium Bots in twenty seconds | Balance, Production, Encounters, Progression |
-| [NODE-0334](<docs/changelog/2026-11.md#node-0334>) | Lower Resource Golem costs to 180 AP and Mythril to 360 AP | Balance, Encounters, Progression, Persistence |
-| [NODE-0329](<docs/changelog/2026-11.md#node-0329>) | Keep the Deep Hole Stone counter readable and clear of the socket | Interface, World, Connections, Playtesting |
-| [NODE-0326](<docs/changelog/2026-11.md#node-0326>) | Show live Stone delivery at the Deep Hole connector | Interface, World, Connections |
 | [NODE-0325](<docs/changelog/2026-11.md#node-0325>) | Record verified Hydro delivery and Tree Planter recovery through the normal UI | Playtesting, Documentation, Logistics, Production |
 | [NODE-0324](<docs/changelog/2026-11.md#node-0324>) | Record the normal-UI fuel repair and sustained Medium Bot verification | Documentation, Logistics, Production, Playtesting |
 | [NODE-0242](<docs/changelog/2026-11.md#node-0242>) | Show recipes on one line with equal larger bubbles and flavor-only hover | Recipes, Interface, Accessibility |
@@ -129,13 +64,14 @@ These changes follow the latest confirmed game publication, e177479. Creating th
 
 ## Dated history
 
-- [2026-11](<docs/changelog/2026-11.md>) — 392 records
+- [2026-11](<docs/changelog/2026-11.md>) — 393 records
 - [2026-10](<docs/changelog/2026-10.md>) — 18 records
 
 “Known by” dates are implementation/publication bounds, not exact change dates. “Backfilled” dates mark records with uncertain original dates. Supersession links explain reversals. Original-game records do not certify current rebuild behavior.
 
 ## Published releases
 
+- 2026-11-08 — [19dc40f: World balance, illustrated corner camps and interface improvements](https://github.com/bookskaboo/bookskaboo.github.io/commit/19dc40fff3a1c8d201352a726cdb494ec5521655) — Published the /node/ build and matching source on main. The normal live URL served matching HTML and all ten runtime assets matched the build by SHA-256.
 - 2026-11-05 — [df69900: Corner balance, paid seven-Core victory and camp Tribute feedback](https://github.com/bookskaboo/bookskaboo.github.io/commit/df69900fd71d89b911057eeb90a1fb0ae63a2824) — User authorizes publishing to the live NODE game. Main preserves newer Chapter 1 work; live HTML and all ten runtime asset hashes match the /node/ publication build.
 - 2026-11-04 — [0c7c924: Elder Grove cumulative progress display](https://github.com/bookskaboo/bookskaboo.github.io/commit/0c7c924bfc75644ebe9de75739248b7fe6f188a8) — User-authorized main-branch publication. All seven referenced live assets match the tested build; preserved 2:07:01 player checkpoint restored through normal Save/Load and Grove shows 1,057/2,000,000.
 - 2026-11-02 — [e177479: Refactored NODE game and source](https://github.com/bookskaboo/bookskaboo.github.io/commit/e177479113d773e1b74bdaf2fafd46776ea4a786) — Latest game publication found in the local clone. Contains readable source at node/source. Published-by references are upper bounds, not necessarily first release dates.
@@ -144,7 +80,7 @@ These changes follow the latest confirmed game publication, e177479. Creating th
 - 2026-11-01 — [a571e87: Current NODE factory game reconstruction](https://github.com/bookskaboo/bookskaboo.github.io/commit/a571e87d48f0e824dc1042f44d03b9a91c31dda6)
 - 2026-11-04 — [eca1c2d: Seeded corner endgame, recycling and continued-play research](https://github.com/bookskaboo/bookskaboo.github.io/commit/eca1c2d99d74c906999f4b95c90575155d4c4f29)
 
-A record marked “Published by” was known in that snapshot; it may have appeared earlier. Local publication history was inspected without a network fetch.
+A record marked “Published by” was known in that snapshot and may have appeared earlier. The release notes describe how each publication was verified.
 
 ## Topics
 
@@ -166,7 +102,7 @@ A record marked “Published by” was known in that snapshot; it may have appea
 - [Encounters](<docs/changelog/index.html?topic=Encounters>) (77)
 - [Exploration](<docs/changelog/index.html?topic=Exploration>) (20)
 - [Extraction](<docs/changelog/index.html?topic=Extraction>) (1)
-- [Interface](<docs/changelog/index.html?topic=Interface>) (125)
+- [Interface](<docs/changelog/index.html?topic=Interface>) (126)
 - [Logistics](<docs/changelog/index.html?topic=Logistics>) (70)
 - [Map](<docs/changelog/index.html?topic=Map>) (3)
 - [Mods](<docs/changelog/index.html?topic=Mods>) (1)
@@ -180,8 +116,9 @@ A record marked “Published by” was known in that snapshot; it may have appea
 - [Playtesting](<docs/changelog/index.html?topic=Playtesting>) (19)
 - [Power](<docs/changelog/index.html?topic=Power>) (2)
 - [Production](<docs/changelog/index.html?topic=Production>) (42)
-- [Progression](<docs/changelog/index.html?topic=Progression>) (173)
+- [Progression](<docs/changelog/index.html?topic=Progression>) (174)
 - [Publication](<docs/changelog/index.html?topic=Publication>) (2)
+- [Publishing](<docs/changelog/index.html?topic=Publishing>) (1)
 - [Recipes](<docs/changelog/index.html?topic=Recipes>) (80)
 - [Research](<docs/changelog/index.html?topic=Research>) (157)
 - [Resources](<docs/changelog/index.html?topic=Resources>) (86)
@@ -200,7 +137,7 @@ A record marked “Published by” was known in that snapshot; it may have appea
 - [Undo](<docs/changelog/index.html?topic=Undo>) (4)
 - [Waste](<docs/changelog/index.html?topic=Waste>) (18)
 - [Workflow](<docs/changelog/index.html?topic=Workflow>) (1)
-- [World](<docs/changelog/index.html?topic=World>) (36)
+- [World](<docs/changelog/index.html?topic=World>) (37)
 - [World generation](<docs/changelog/index.html?topic=World%20generation>) (2)
 - [World map](<docs/changelog/index.html?topic=World%20map>) (18)
 - [Writing](<docs/changelog/index.html?topic=Writing>) (1)

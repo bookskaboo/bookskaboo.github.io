@@ -86,6 +86,7 @@ function renderEntry(entry, data) {
 
 function renderIndex(data) {
   const current = sorted(data.entries.filter((entry) => entry.delivery === 'local' && entry.state === 'implemented'));
+  const latestRelease = [...data.releases].sort((a, b) => b.date.localeCompare(a.date))[0];
   const months = [...new Set(data.entries.map((entry) => entry.date.slice(0, 7)))].sort().reverse();
   const topics = [...new Set(data.entries.flatMap((entry) => entry.topics))].sort();
   return [
@@ -94,7 +95,7 @@ function renderIndex(data) {
     `**${data.entries.length} records · ${[...data.entries].sort((a, b) => a.date.localeCompare(b.date))[0].date}–${sorted(data.entries)[0].date} · ${data.timezone}**`, '',
     `${link('docs/changelog/index.html', 'Open searchable history')} · ${link('docs/changelog/README.md', 'How to review and maintain it')} · ${link('docs/changelog/sources.md', 'Sources and coverage gaps')}`, '',
     '## Local changes awaiting publication', '',
-    'These changes follow the latest confirmed game publication, e177479. Creating this log did not publish them.', '',
+    latestRelease ? `Latest confirmed game publication: [${latestRelease.id}](${latestRelease.url}).` : 'No game publication is recorded.', '',
     '| ID | Change | Topics |', '| --- | --- | --- |',
     ...current.map((entry) => `| ${link(`docs/changelog/${recordPath(entry)}`, entry.id)} | ${entry.title} | ${entry.topics.join(', ')} |`), '',
     '## Dated history', '',
@@ -102,7 +103,7 @@ function renderIndex(data) {
     '“Known by” dates are implementation/publication bounds, not exact change dates. “Backfilled” dates mark records with uncertain original dates. Supersession links explain reversals. Original-game records do not certify current rebuild behavior.', '',
     '## Published releases', '',
     ...data.releases.map((release) => `- ${release.date} — [${release.id}: ${release.title}](${release.url})${release.notes ? ` — ${release.notes}` : ''}`), '',
-    'A record marked “Published by” was known in that snapshot; it may have appeared earlier. Local publication history was inspected without a network fetch.', '',
+    'A record marked “Published by” was known in that snapshot and may have appeared earlier. The release notes describe how each publication was verified.', '',
     '## Topics', '',
     ...topics.map((topic) => `- ${link(`docs/changelog/index.html?topic=${encodeURIComponent(topic)}`, topic)} (${data.entries.filter((entry) => entry.topics.includes(topic)).length})`), '',
     '## Search from the repository', '',
