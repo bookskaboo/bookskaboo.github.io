@@ -23,7 +23,7 @@ describe('five-second Research Center baseline', () => {
     expect(engine.getSector().nodes[0].cycleMs).toBe(RESEARCH_CENTER_BASE_CYCLE_MS);
   });
 
-  it.each(Array.from({ length: 7 }, (_, rank) => rank))('checks immediately, then waits the correct rank-%i interval', rank => {
+  it.each(Array.from({ length: 7 }, (_, rank) => rank))('credits only at the end of each rank-%i cycle', rank => {
     const state = createInitialState(402);
     state.sectors['5,5'].nodes = [{ ...lab(), input: { 'simple-core': 2, 'basic-core': 2 } }];
     state.sectors['5,5'].connections = [];
@@ -33,7 +33,11 @@ describe('five-second Research Center baseline', () => {
     const center = engine.getSector().nodes[0];
     const duration = 5000 - rank * 500;
     expect(center.cycleMs).toBe(5000);
-    expect(center.input).toEqual({ 'simple-core': 1, 'basic-core': 1 });
+    expect(center.input).toEqual({ 'simple-core': 2, 'basic-core': 2 });
+    expect(engine.getState().research.contributed).toEqual({});
+    advance(engine, duration - 1);
+    expect(center.input['simple-core']).toBe(2);
+    advance(engine, 1);
     expect(engine.getState().research.contributed).toEqual({ 'simple-core': 1, 'basic-core': 1 });
     advance(engine, duration - 1);
     expect(center.input['simple-core']).toBe(1);

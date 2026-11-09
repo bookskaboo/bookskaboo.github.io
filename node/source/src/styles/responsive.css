@@ -24,7 +24,7 @@
   height: calc(100dvh - var(--hud-clear) - var(--hud-gap));
   max-height: calc(100dvh - var(--hud-clear) - var(--hud-gap));
 }
-.build-modal, .options-modal, .inventory-modal, .save-modal, .dev-modal { width: min(780px, calc(100vw - var(--hud-gap) * 2)); }
+.build-modal, .options-modal, .inventory-modal, .save-modal, .dev-modal, .commands-modal { width: min(780px, calc(100vw - var(--hud-gap) * 2)); }
 .modal .panel-header { min-height: 68px; padding: clamp(12px, 1.5vw, 22px); gap: 12px; flex-shrink: 0; }
 .panel-header > div { min-width: 0; }
 .panel-header h2 { font-size: clamp(18px, 1.35vw, 25px); }

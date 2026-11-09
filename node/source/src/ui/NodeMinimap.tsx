@@ -2,6 +2,7 @@ import { NODE_MAP_LAYOUT_KEY as LAYOUT_KEY } from '../persistence/storageKeys';
 import { useEffect, useRef, useState, type CSSProperties, type PointerEvent as ReactPointerEvent } from 'react';
 import { ITEM_COLORS, ITEM_NAMES } from '../content/items';
 import type { GameState } from '../domain/types';
+import { DEFAULT_WORLD_GRID_SIZE, HOME_SECTOR_ID, worldGridBounds, worldGridSize } from '../domain/worldGrid';
 import { GameEngine } from '../simulation/engine';
 import { permitsTutorialChoice, type TutorialChoice } from '../tutorials/tutorialChoices';
 import { fitMinimap } from './responsiveLayout';
@@ -13,6 +14,8 @@ import { roadMaterialState } from '../simulation/roadMaterials';
 import { MAP_LANDMARKS, mapLandmarkSurvey, mapNodeName, mapNodePosition, mapNodeResourceSummary, type MapLandmark } from './mapNodePresentation';
 
 const landmarkOrder = Object.keys(MAP_LANDMARKS) as MapLandmark[];
+const hasUnlockedNeighbor = (game: GameState, x: number, y: number) =>
+  [sectorId(x - 1, y), sectorId(x + 1, y), sectorId(x, y - 1), sectorId(x, y + 1)].some(id => game.sectors[id]?.unlocked);
 
 interface Props {
   expanded?: boolean;
@@ -58,13 +61,15 @@ export function NodeMinimap({ game, engine, allowedSectorId, dockHeight = 0, exp
   }, [expanded]);
   const dragRef = useRef<{ pointerId: number; start: Point; origin: Point } | undefined>(undefined);
   const resizeRef = useRef<{ pointerId: number; start: Point; size: number } | undefined>(undefined);
-  useEffect(() => { setSelected(null); }, [allowedSectorId]);
+  const gridSize = worldGridSize(game);
+  const { min } = worldGridBounds(gridSize);
+  useEffect(() => { setSelected(null); }, [allowedSectorId, gridSize]);
   const selectedKey = selected ?? game.activeSectorId;
   const sector = game.sectors[selectedKey];
   const unlocked = Boolean(sector?.unlocked);
   const active = selectedKey === game.activeSectorId;
   const [x, y] = selectedKey.split(',').map(Number);
-  const available = Boolean(selected) && !unlocked && Object.values(game.sectors).some((candidate) => candidate.unlocked && Math.abs(candidate.x - x) + Math.abs(candidate.y - y) === 1);
+  const available = Boolean(selected) && !unlocked && hasUnlockedNeighbor(game, x, y);
   const { discovered, bySector } = mapLandmarkSurvey(game);
   const availableFilters = landmarkOrder.filter(landmark => discovered.has(landmark));
   const activeFilters = availableFilters.filter(landmark => filters.has(landmark));
@@ -98,10 +103,12 @@ export function NodeMinimap({ game, engine, allowedSectorId, dockHeight = 0, exp
   return <div className={expanded ? 'node-map-host node-map-expansion modal-backdrop' : 'node-map-host'}><aside className={`node-minimap world-node-minimap glass${expanded ? ' expanded modal map-modal' : ''}`} role={expanded ? 'dialog' : undefined} aria-modal={expanded || undefined} aria-label="Interactive Node Map" onPointerEnter={() => onHoverChange(true)} onPointerLeave={() => onHoverChange(false)} onContextMenu={event => { event.preventDefault(); event.stopPropagation(); }} style={expanded ? undefined : { width: fitted.size, left: fitted.x, top: fitted.y, right: 'auto', bottom: 'auto' }}>
     <header onPointerDown={beginDrag} onPointerMove={moveDrag} onPointerUp={endDrag} onPointerCancel={endDrag}>
       <div className="minimap-drag-handle" aria-label={expanded ? 'Node Map' : 'Move Node Map'} data-tooltip={expanded ? undefined : 'Move Node Map'} data-tooltip-detail={expanded ? undefined : 'Drag this header to move the map. Press M to hide or show it.'}><span>{expanded ? 'NODE MAP' : <>⠿ NODE MAP <kbd>M</kbd></>}</span></div>
-      {!expanded && <>
-        <button className="minimap-open" aria-label="Expand Node Map" onClick={onOpenMap} data-tooltip="Expand Node Map">↗</button>
-        <div className="minimap-zoom"><button onClick={() => setZoom((value) => Math.max(.65, +(value - .15).toFixed(2)))}>−</button><button onClick={() => setZoom(1)}>{Math.round(zoom * 100)}%</button><button onClick={() => setZoom((value) => Math.min(2.5, +(value + .15).toFixed(2)))}>+</button></div>
-      </>}
+      {!expanded && <button className="minimap-open" aria-label="Expand Node Map" onClick={onOpenMap} data-tooltip="Expand Node Map">↗</button>}
+      {(!expanded || gridSize > DEFAULT_WORLD_GRID_SIZE) && <div className="minimap-zoom">
+        <button aria-label="Zoom out" onClick={() => setZoom(value => Math.max(.65, +(value - .15).toFixed(2)))}>−</button>
+        <button aria-label={`Reset map zoom, currently ${Math.round(zoom * 100)}%`} onClick={() => setZoom(1)}>{Math.round(zoom * 100)}%</button>
+        <button aria-label="Zoom in" onClick={() => setZoom(value => Math.min(2.5, +(value + .15).toFixed(2)))}>+</button>
+      </div>}
       <button className="minimap-close" aria-label={expanded ? 'Close expanded Node Map' : 'Hide Node Map'} onClick={onClose} data-tooltip={expanded ? 'Close expanded Node Map' : 'Hide Node Map'} data-tooltip-detail={expanded ? 'Return to the minimap.' : 'Press M to show it again.'}>×</button>
     </header>
     {expanded && availableFilters.length > 0 && <div className="node-map-filters" role="group" aria-label="Map landmark filters">
@@ -112,13 +119,16 @@ export function NodeMinimap({ game, engine, allowedSectorId, dockHeight = 0, exp
       </button>)}
     </div>}
     <div className={expanded ? 'minimap-content map-content' : 'minimap-content'}><div ref={mapViewportRef} className="node-map-viewport" onWheel={(event) => { if (!event.ctrlKey && !event.metaKey) return; event.preventDefault(); setZoom((value) => Math.min(2.5, Math.max(.65, +(value + (event.deltaY < 0 ? .1 : -.1)).toFixed(2)))); }}>
-      <div className="node-map-grid" style={{ width: expanded && expandedGridSize > 0 ? expandedGridSize * zoom : `${zoom * 100}%` }}>
-        {Array.from({ length: 121 }, (_, index) => {
-          const cx = index % 11; const cy = Math.floor(index / 11); const id = sectorId(cx, cy);
+      <div className={`node-map-grid${gridSize > DEFAULT_WORLD_GRID_SIZE ? ' larger-grid' : ''}`} style={{ '--map-grid-size': gridSize, width: expanded && expandedGridSize > 0 ? expandedGridSize * zoom : `${zoom * 100}%` } as CSSProperties}>
+        {Array.from({ length: gridSize ** 2 }, (_, index) => {
+          const cx = min + index % gridSize; const cy = min + Math.floor(index / gridSize); const id = sectorId(cx, cy);
           const known = game.sectors[id]; const isUnlocked = Boolean(known?.unlocked);
           const isActive = id === game.activeSectorId; const isSelected = id === selected;
-          const isAvailable = !isUnlocked && Object.values(game.sectors).some((candidate) => candidate.unlocked && Math.abs(candidate.x - cx) + Math.abs(candidate.y - cy) === 1);
+          const isAvailable = !isUnlocked && hasUnlockedNeighbor(game, cx, cy);
           const location = mapNodePosition(cx, cy);
+          const locationLabel = gridSize > DEFAULT_WORLD_GRID_SIZE && location.includes('.')
+            ? <strong>{location.split('.').map(direction => <span key={direction}>{direction}</span>)}</strong>
+            : <strong>{location}</strong>;
           const name = known ? mapNodeName(known) : location;
           const landmarks = bySector.get(id);
           const markers = landmarks ? activeFilters.filter(landmark => landmarks.has(landmark)) : [];
@@ -126,18 +136,18 @@ export function NodeMinimap({ game, engine, allowedSectorId, dockHeight = 0, exp
           return isUnlocked || isAvailable ? <button key={id} data-map-sector={id}
             aria-label={`Map Node ${location}: ${isUnlocked ? isActive ? 'current map' : 'travel available' : 'activate for 1 Map Point'}${markerNames ? ` · ${markerNames}` : ''}`}
             disabled={!permitsTutorialChoice(allowedSectorId, id)} type="button"
-            className={`node-map-sector ${id === '5,5' ? 'home' : isUnlocked ? 'explored' : 'adjacent'} ${isActive ? 'current' : ''} ${isSelected ? 'selected' : ''}${markers.length ? ' has-landmarks' : ''}`}
+            className={`node-map-sector ${id === HOME_SECTOR_ID ? 'home' : isUnlocked ? 'explored' : 'adjacent'} ${isActive ? 'current' : ''} ${isSelected ? 'selected' : ''}${markers.length ? ' has-landmarks' : ''}`}
             onClick={() => setSelected(id)}
             onDoubleClick={() => { setSelected(id); if (isUnlocked && !isActive) { onTravel(id); setSelected(null); } else if (isAvailable && game.research.mapPoints > 0 && engine.unlockSector(cx, cy) && !expanded) setSelected(null); }}
             data-tooltip={expanded ? undefined : name}
             data-tooltip-detail={expanded ? undefined : `${isActive ? 'Current Node' : isUnlocked ? `${mapNodeResourceSummary(game, id)} · Double-click to travel` : `Map Node Unexplored · ${game.research.mapPoints ? 'Double-click to activate for 1 Map Point' : 'Requires 1 Map Point'}`}${markerNames ? ` · ${markerNames}` : ''}`}>
-            <strong>{expanded ? location : known?.label ?? (isSelected ? '●' : '?')}</strong>
+            {expanded ? locationLabel : <strong>{known?.label ?? (isSelected ? '●' : '?')}</strong>}
             {markers.length > 0 && <span className="node-map-landmarks" aria-hidden="true">
               {markers.map(landmark => <IconGlyph key={landmark} icon={MAP_LANDMARKS[landmark].icon} className={`map-landmark-${landmark}`} />)}
             </span>}
-          </button> : <i key={id} className="node-map-sector uncharted">{expanded && <strong>{location}</strong>}</i>;
+          </button> : <i key={id} className="node-map-sector uncharted">{expanded && locationLabel}</i>;
         })}
-        {roads.map((road) => { const left = ((road.source.x + road.target.x + 1) / 22) * 100; const top = ((road.source.y + road.target.y + 1) / 22) * 100; const color = road.item ? `#${ITEM_COLORS[road.item].toString(16).padStart(6, '0')}` : '#7aa99e'; return <span key={road.id} className={`node-map-road ${road.item ? 'assigned' : 'idle'} ${road.source.id === game.activeSectorId ? 'active' : ''}`} style={{ left: `${left}%`, top: `${top}%`, '--road-color': color } as CSSProperties}
+        {roads.map((road) => { const left = ((road.source.x + road.target.x - 2 * min + 1) / (2 * gridSize)) * 100; const top = ((road.source.y + road.target.y - 2 * min + 1) / (2 * gridSize)) * 100; const color = road.item ? `#${ITEM_COLORS[road.item].toString(16).padStart(6, '0')}` : '#7aa99e'; return <span key={road.id} className={`node-map-road ${road.item ? 'assigned' : 'idle'} ${road.source.id === game.activeSectorId ? 'active' : ''}`} style={{ left: `${left}%`, top: `${top}%`, '--road-color': color } as CSSProperties}
           data-tooltip={`${mapNodePosition(road.source.x, road.source.y)} → ${mapNodePosition(road.target.x, road.target.y)}`}
           data-tooltip-detail={road.itemLabel} />; })}
       </div>

@@ -688,9 +688,14 @@ describe('simulation architecture', () => {
 
   it('uses the current research core requirements and prerequisites', () => {
     const project = (id: string) => RESEARCH_PROJECTS.find((candidate) => candidate.id === id)!;
-    expect(getResearchCosts(project('assembler'))).toEqual({ 'simple-core': 1 });
-    expect(getResearchCosts(project('exploration'))).toEqual({ 'simple-core': 1, 'basic-core': 1 });
-    expect(getResearchCosts(project('road'))).toEqual({ 'simple-core': 2, 'basic-core': 2 });
+    expect(getResearchCosts(project('assembler'))).toEqual({ 'simple-core': 5 });
+    expect(getResearchCosts(project('exploration'))).toEqual({ 'simple-core': 5, 'basic-core': 5 });
+    expect(getResearchCosts(project('road'))).toEqual({ 'simple-core': 5, 'basic-core': 5 });
+    for (const entry of RESEARCH_PROJECTS) {
+      const costs = Object.values(getResearchCosts(entry));
+      if (entry.trigger) expect(costs, entry.id).toEqual([]);
+      else for (const amount of costs) expect(amount, entry.id).toBeGreaterThanOrEqual(5);
+    }
     expect(getResearchCosts(project('extractor1'))).toEqual({ 'simple-core': 10 });
     expect(getResearchCosts(project('researchCenter1'))).toEqual({ 'simple-core': 10 });
     expect(isResearchAvailable(project('road'), [])).toBe(true);

@@ -1,9 +1,9 @@
 import type { ReactNode } from 'react';
 
-export function PanelHeader({ eyebrow, title, actions, onClose }: { eyebrow: string; title: string; actions?: ReactNode; onClose(): void }) {
+export function PanelHeader({ eyebrow, title, actions, onClose }: { eyebrow?: string; title: string; actions?: ReactNode; onClose(): void }) {
   return (
     <div className="panel-header">
-      <div><small>{eyebrow}</small><h2>{title}</h2></div>
+      <div>{eyebrow && <small>{eyebrow}</small>}<h2>{title}</h2></div>
       {actions && <div className="panel-header-actions">{actions}</div>}
       <button
         onClick={onClose} aria-label={`Close ${title}`}

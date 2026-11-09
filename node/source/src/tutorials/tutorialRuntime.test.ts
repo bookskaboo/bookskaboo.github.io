@@ -141,7 +141,7 @@ describe('imported tutorial practice', () => {
     expect(Object.values(engine.getState().sectors).flatMap(sector => sector.nodes).some(node => node.kind === 'road')).toBe(false);
   });
 
-  it('produces the first Core from raw resources and spends it without resetting the factory', () => {
+  it('produces five Simple Cores from raw resources and spends them without resetting the factory', () => {
     const engine = new GameEngine(createTutorialState('basic'), { autosave: false });
     expect(engine.getSector().nodes.every(n => Object.keys(n.input).length === 0 && Object.keys(n.output).length === 0)).toBe(true);
     const place = (kind: Parameters<GameEngine['placeNode']>[0], point: {x:number;y:number}) => {
@@ -170,10 +170,10 @@ describe('imported tutorial practice', () => {
     expect(engine.getState().extracted!.copper).toBeGreaterThan(0);
     const lab = place('researchCenter', PRODUCTION_TARGETS.researchCenter); connect(cores, lab); run(engine, 5);
     expect(lessonSatisfied('deliver-core', engine.getState(), null)).toBe(true);
-    engine.selectResearch('assembler'); run(engine, 20);
+    engine.selectResearch('assembler'); run(engine, 150);
     expect(lessonSatisfied('cores-explain', engine.getState(), null)).toBe(true);
     expect(engine.getSector().nodes.some(n => n.id === wood)).toBe(true);
-    expect(engine.getState().produced!['simple-core']).toBeGreaterThan(0);
+    expect(engine.getState().produced!['simple-core']).toBeGreaterThanOrEqual(5);
   });
 
   it('never autosaves practice or mutates the original factory', () => {

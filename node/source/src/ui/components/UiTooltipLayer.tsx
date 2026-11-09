@@ -1,7 +1,7 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 
 export function UiTooltipLayer() {
-  const [tip, setTip] = useState<{ title: string; detail?: string; flavor?: string; tone?: string; research: boolean; x: number; y: number }>();
+  const [tip, setTip] = useState<{ title: string; detail?: string; flavor?: string; tone?: string; modal: boolean; x: number; y: number }>();
   const tooltipRef = useRef<HTMLDivElement>(null);
   useLayoutEffect(() => {
     if (!tip || !tooltipRef.current) return;
@@ -9,7 +9,7 @@ export function UiTooltipLayer() {
     const x = Math.max(8, Math.min(tip.x + 15, window.innerWidth - tooltip.offsetWidth - 8));
     const bottomLimit = window.innerHeight - tooltip.offsetHeight - 8;
     const above = tip.y - tooltip.offsetHeight - 10;
-    const y = tip.research && tip.y + 17 > bottomLimit && above >= 8
+    const y = tip.modal && tip.y + 17 > bottomLimit && above >= 8
       ? above
       : Math.max(8, Math.min(tip.y + 17, bottomLimit));
     tooltip.style.left = `${x}px`;
@@ -32,7 +32,7 @@ export function UiTooltipLayer() {
         const tone = target.dataset.tooltipTone ?? getComputedStyle(target).getPropertyValue('--tooltip-tone').trim();
         setTip({
           title: target.dataset.tooltip ?? '', detail: target.dataset.tooltipDetail, flavor: target.dataset.tooltipFlavor,
-          tone: tone || undefined, research: target.dataset.tooltipVariant === 'research', ...pointRef.current,
+          tone: tone || undefined, modal: Boolean(target.closest('.modal, .welcome-modal, .confirm-modal')), ...pointRef.current,
         });
       };
       if (immediate) reveal(); else timerRef.current = window.setTimeout(reveal, Number(target.dataset.tooltipDelay ?? 260));
@@ -50,7 +50,7 @@ export function UiTooltipLayer() {
     return () => { observer.disconnect(); document.removeEventListener('keydown', clear); if (timerRef.current) window.clearTimeout(timerRef.current); document.removeEventListener('pointerover', over); document.removeEventListener('pointermove', move); document.removeEventListener('pointerout', out); document.removeEventListener('focusin', focus); document.removeEventListener('focusout', blur); };
   }, []);
   return tip ? (
-    <div ref={tooltipRef} className={tip.research ? 'ui-hover-tooltip research-tooltip' : 'ui-hover-tooltip'}
+    <div ref={tooltipRef} className={tip.modal ? 'ui-hover-tooltip modal-tooltip' : 'ui-hover-tooltip'}
       role="tooltip" style={{ '--tooltip-tone': tip.tone || '#87939b' } as React.CSSProperties}>
       {tip.title && <b>{tip.title}</b>}
       {tip.detail && <span>{tip.detail}</span>}

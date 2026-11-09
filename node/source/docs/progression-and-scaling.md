@@ -1,6 +1,6 @@
 # Progression and Scaling Design
 
-**November 8 revision.** Corner quotas are 500 Dragon AP, 50 Circuit B / 25 Sealed Frames / 100 Mythril Gears at the Foundry, and 1,000 Grove growth. Reclamation takes 20 Metallic Fines or equivalent mixed waste. Final Robotics and Victory each cost one of every Core through Final. See the [current implementation](master-plan/20-endgame-implementation.md).
+**November 8 revision.** Corner quotas are 500 Dragon AP, 50 Circuit B / 25 Sealed Frames / 100 Mythril Gears at the Foundry, and 1,000 Grove growth. Reclamation takes 20 Metallic Fines or equivalent mixed waste. Final Robotics and Victory each cost five of every Core through Final. See the [current implementation](master-plan/20-endgame-implementation.md).
 
 Updated November 2, 2026.
 
@@ -51,7 +51,7 @@ Affordable access is already an intentional design rule. The next decision is wh
 
 ### Adopted Simple Core scaling and exploration
 
-Keep Assembler research at 1 Simple Core so the starter factory can introduce Basic Core production quickly. Exploration remains 1 Simple + 1 Basic and grants the first Map Point. The first nine repeatable Map Node purchases cost 5 Simple Cores each; exploration is the first sustained reason to expand Simple Core production.
+Assembler research costs 5 Simple Cores. Exploration costs 5 Simple + 5 Basic and grants the first Map Point. The first nine repeatable Map Node purchases cost 5 Simple Cores each; exploration is the first sustained reason to expand Simple Core production.
 
 One Simple Core consumes two Copper Gears, requiring four Copper Plates and eight Copper Ore plus smelting charcoal. Without upgrades, one fully supplied Copper Smelter supports 2.5 Simple Cores per minute. Five adequately supplied Smelters can support one core Refiner at its limit of 12 per minute. A 5-core purchase therefore takes approximately two minutes versus 25 seconds of sustained production, excluding startup and delivery. Additional extraction, charcoal supply and smelting create the scaling benefit; efficiency research remains optional.
 

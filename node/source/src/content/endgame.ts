@@ -1,8 +1,9 @@
 import type { GameState, ItemId, MachineNode, Recipe, ResearchProject } from '../domain/types';
+import { DEFAULT_WORLD_GRID_SIZE, worldCornerIds } from '../domain/worldGrid';
 
 export type CornerType = 'alpha' | 'foundry' | 'reclamation' | 'grove';
 export const CORNERS: CornerType[] = ['alpha', 'foundry', 'reclamation', 'grove'];
-export const CORNER_MAPS = ['0,0', '10,0', '10,10', '0,10'];
+export const CORNER_MAPS = worldCornerIds(DEFAULT_WORLD_GRID_SIZE);
 export const CORNER_ITEMS: Record<CornerType, ItemId> = { alpha: 'alpha', foundry: 'foundry-component', reclamation: 'reclamation-component', grove: 'grove-component' };
 export const CORNER_NAMES: Record<CornerType, string> = { alpha: 'Ancient Dragon', foundry: 'Ancient Foundry', reclamation: 'Ancient Reclamation', grove: 'Elder Grove' };
 export const FINAL_ITEMS = {
@@ -67,7 +68,7 @@ export function atResearchCap(project: ResearchProject, research: GameState['res
 const bill = () => Object.fromEntries(SEVEN_CORES.map(i => [i, 1]));
 const project = (id: string, name: string, unlock: string, prerequisites: string[], repeatable = false): ResearchProject => ({ id, name, category: 'Endgame', description: unlock, unlock, costs: bill(), prerequisites, ...(repeatable ? { repeatable: true, costGrowth: 1.5 } : {}) });
 export const ENDGAME_RESEARCH: ResearchProject[] = [
-  { id: 'cornerComponents', name: 'Corner Pieces', category: 'Milestone', description: 'Acquire a piece from any corner to reveal this world’s paired assembly recipes.', unlock: 'Unlocks Yin, Yang and Final Core assembly.', costs: {}, trigger: { id: 'corner-component-obtained', pending: 'Obtain any corner piece', complete: 'Corner piece acquired' } },
+  { id: 'cornerComponents', name: 'End of the World', category: 'Milestone', description: 'Acquire a piece from any corner to reveal this world’s paired assembly recipes.', unlock: 'Unlocks Yin, Yang and Final Core assembly.', costs: {}, trigger: { id: 'corner-component-obtained', pending: 'Obtain any corner piece', complete: 'Corner piece acquired' } },
   {
     id: 'finalRobotics', name: 'Final Robotics', category: 'Endgame',
     description: 'Use Final Core research to build a heavier Bot. Management has approved another layer of management.',
@@ -75,7 +76,7 @@ export const ENDGAME_RESEARCH: ResearchProject[] = [
     costs: bill(),
     prerequisites: ['finalCoreProduction', 'commandRobotics'],
   },
-  { id: 'victory', name: 'A Remarkably Indirect Conclusion', category: 'Endgame', description: 'Select this project at the Research Center and deliver one of every Core, Simple through Final. The factory may continue after its point has been made.', unlock: 'Complete this research to achieve victory and continue playing in this world.', costs: bill(), prerequisites: ['finalCoreProduction'] },
+  { id: 'victory', name: 'A Remarkably Indirect Conclusion', category: 'Endgame', description: 'Select this project at the Research Center and deliver five of every Core, Simple through Final. The factory may continue after its point has been made.', unlock: 'Complete this research to achieve victory and continue playing in this world.', costs: bill(), prerequisites: ['finalCoreProduction'] },
   project('resourceRelocation', 'Resource Relocation', 'Move Forests, deposits and cleared-Golem reserves within their original map, preserving all stock and history.', ['victory']),
   project('lakeRelocation', 'Lake Relocation', 'Move Lakes within their original map. Intakes stay connected and move only when explicitly selected.', ['victory']),
   project('campRelocation', 'Monster Camp Relocation', 'Move ordinary settlements and their linked Tribute boxes together within their map.', ['victory']),

@@ -79,7 +79,7 @@ export function researchCardDetails(project: ResearchProject, game: GameState) {
     : project.repeatable ? `Repeatable · ${game.research.repeatableCompletions?.[project.id] ?? 0} completed`
     : 'Available research';
   const paid = active ? game.research.contributed : game.research.projectContributions?.[project.id] ?? {};
-  const totalRequired = Object.values(costs).reduce((sum, count) => sum + (count ?? 0), 0);
+  const totalRequired = Object.values(costs).reduce<number>((sum, count) => sum + (count ?? 0), 0);
   const totalPaid = Object.entries(costs).reduce((sum, [item, count]) =>
     sum + Math.min(count ?? 0, paid[item as ItemId] ?? 0), 0);
   const costSummary = project.trigger ? '' : Object.entries(costs)

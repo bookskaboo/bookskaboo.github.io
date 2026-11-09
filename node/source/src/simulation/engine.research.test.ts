@@ -27,6 +27,7 @@ function setup(project = 'extractor2') {
 describe('synchronized Research Center cycles', () => {
   it('clears leftover progress on completion and stays idle on following ticks', () => {
     const { engine, center, state } = setup('assembler');
+    state.research.contributed = { 'simple-core': 4 };
     center.input = { 'simple-core': 1 };
     center.progressMs = 4950;
     advance(engine, 100);
@@ -143,19 +144,18 @@ describe('synchronized Research Center cycles', () => {
     expect(center.input).toEqual({ 'simple-core': 2, 'basic-core': 1 });
   });
 
-  it('keeps single-core research working and preserves synchronized credit across project switches', () => {
+  it('completes Assembler only after five full cycles with five stocked Simple Cores', () => {
     const { engine, center, state } = setup('assembler');
+    engine.selectResearch();
     center.input = { 'simple-core': 5, 'basic-core': 5 };
-    advance(engine, 5000);
+    engine.selectResearch('assembler');
+    expect(state.research.contributed).toEqual({});
+    expect(center.input['simple-core']).toBe(5);
+    advance(engine, 24999);
+    expect(state.research.contributed).toEqual({ 'simple-core': 4 });
+    expect(state.research.completed).not.toContain('assembler');
+    advance(engine, 1);
     expect(state.research.completed).toContain('assembler');
-    expect(center.input['basic-core']).toBe(5);
-    engine.selectResearch('road');
-    advance(engine, 5000);
-    engine.selectResearch('extractor1');
-    engine.selectResearch('road');
-    expect(center.progressMs).toBe(0);
-    expect(state.research.contributed).toEqual({ 'simple-core': 1, 'basic-core': 1 });
-    advance(engine, 5000);
-    expect(state.research.completed).toContain('road');
+    expect(center.input).toEqual({ 'simple-core': 0, 'basic-core': 5 });
   });
 });

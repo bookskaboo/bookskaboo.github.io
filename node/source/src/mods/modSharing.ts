@@ -1,7 +1,43 @@
 import { validateMod } from './modValidation';
-import type { GameMod } from './modTypes';
+import { emptyMod, type GameMod } from './modTypes';
 
 export const MAX_MOD_CODE_LENGTH = 500000;
+export const MAX_MOD_FILE_BYTES = 2_000_000;
+const TEXT_FORMAT = 'NODE Mod Pack';
+
+function checkFileSize(bytes: number) {
+  if (bytes > MAX_MOD_FILE_BYTES) throw new Error('Mod text files must be 2 MB or smaller.');
+}
+
+/** A plain, editable representation of the same pack stored in a save. */
+export function exportModText(mod: GameMod): string {
+  const text = `${JSON.stringify({ format: TEXT_FORMAT, ...validateMod(mod) }, null, 2)}\n`;
+  checkFileSize(new TextEncoder().encode(text).length);
+  return text;
+}
+
+export function modTextFilename(name: string): string {
+  const slug = name.toLowerCase().normalize('NFKD').replace(/[^a-z0-9]+/g, '-').slice(0, 60).replace(/^-|-$/g, '');
+  return `${slug ? `node-${slug}` : 'node-mod-pack'}.node-mod.txt`;
+}
+
+export async function readModTextFile(file: Blob): Promise<GameMod> {
+  checkFileSize(file.size);
+  let value: unknown;
+  try {
+    const text = new TextDecoder('utf-8', { fatal: true }).decode(await file.arrayBuffer());
+    value = JSON.parse(text);
+  } catch {
+    throw new Error('Use a UTF-8 text file containing valid JSON. Check commas, quotes, and brackets.');
+  }
+  if (!value || typeof value !== 'object' || Array.isArray(value) || !('format' in value) || value.format !== TEXT_FORMAT) {
+    throw new Error('Choose a NODE Mod Pack text file. Export a draft to see the format.');
+  }
+  const { format: _format, ...pack } = value;
+  // A hand-written pack may omit empty sections. Require its own version and name.
+  return validateMod({ ...emptyMod(), version: undefined, name: undefined, ...pack });
+}
+
 function checksum(bytes: Uint8Array) {
   let hash = 2166136261;
   for (const byte of bytes) hash = Math.imul(hash ^ byte, 16777619);

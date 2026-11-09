@@ -1,4 +1,5 @@
-import { modNode } from '../mods/modRules';
+import { modNode, modNodeTemplate } from '../mods/modRules';
+import { isCustomContentId } from '../mods/modTypes';
 import { endgameRank } from '../content/endgame';
 import type { GameState, ItemId, MachineNode, SectorState } from '../domain/types';
 import { RECIPES } from '../content/recipes';
@@ -94,7 +95,7 @@ export function discoverActiveSector(state:GameState){
 function random(state:GameState){let n=state.randomState??state.seed??1;n^=n<<13;n^=n>>>17;n^=n<<5;state.randomState=n>>>0;return state.randomState/4294967296;}
 export function simulateExtendedRecipe(state:GameState,node:MachineNode,dt:number,multiplier:number):boolean {
  const recipe=node.recipeId?RECIPES[node.recipeId]:undefined;
- if(!recipe||(!recipe.chanceOutputs?.length&&!Object.hasOwn(LATE_RECIPES,recipe.id)&&!['advancedAssembler','hydroProcessor','separationFurnace'].includes(node.kind)))return false;
+ if(!recipe||(!isCustomContentId(recipe.id)&&!recipe.chanceOutputs?.length&&!Object.hasOwn(LATE_RECIPES,recipe.id)&&!['advancedAssembler','hydroProcessor','separationFurnace'].includes(modNodeTemplate(node.kind))))return false;
  if(recipe.unlockResearch&&!state.research.completed.includes(recipe.unlockResearch)&&!node.batch)return true;
  if(RETIRED_RECIPES.has(recipe.id)&&!node.batch){delete node.recipeId;node.progressMs=0;return true;}
  if(!node.batch){
@@ -146,9 +147,9 @@ export function simulateProgressionNode(state:GameState,sector:SectorState,node:
    if((state.globalPool![i]??0)>0&&total(filter.input)+pending<5){state.globalPool![i]!--;filter.input[i]=(filter.input[i]??0)+1;}}
   return true;
  }
- if(['slagHopper','wasteHopper','fluidStorage','warehouse'].includes(node.kind)){
+ if(['slagHopper','wasteHopper','fluidStorage','warehouse'].includes(modNodeTemplate(node.kind))){
   node.inputQueue=reconcileQueue(node.inputQueue,node.input);
-  while(node.inputQueue.length&&total(node.output)<(node.capacity??200)){
+  while(node.inputQueue.length&&total(node.output)<(modNode(node.kind)?.capacity??node.capacity??200)){
    const item=node.inputQueue.shift()!;node.input[item]!--;queueOutputs(node,{[item]:1});
   }
   return true;

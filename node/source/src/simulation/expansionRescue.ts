@@ -4,7 +4,8 @@ import { RECIPES } from '../content/recipes';
 import { RECYCLER_RETURNS } from '../content/recycling';
 import { BOT_STRENGTH } from '../content/progression';
 import { defeatResourceGolem, getGolemMineral, golemApCost } from '../content/resourceGolems';
-import { getEncounterLayoutVersion, getGolemPlacementTier, MAP_GRID_SIZE, sectorDistance, sectorForState, sectorId } from './worldGeneration';
+import { getEncounterLayoutVersion, getGolemPlacementTier, sectorDistance, sectorForState, sectorId } from './worldGeneration';
+import { isWorldGridCell, worldGridBounds, worldGridSize } from '../domain/worldGrid';
 
 export const RESCUE_RESOURCES = ['iron', 'copper', 'stone'] as const;
 type Resource = typeof RESCUE_RESOURCES[number];
@@ -78,12 +79,13 @@ export function nextExpansionShortages(state: GameState): Resource[] {
 }
 
 export function shortestRescuePath(state: GameState, target: string) {
+  const gridSize = worldGridSize(state);
   const queue=Object.keys(state.sectors).filter(k=>state.sectors[k].unlocked).sort();
   const previous=new Map<string,string|undefined>(queue.map(k=>[k,undefined]));
   for(let index=0;index<queue.length;index++){
     const key=queue[index];if(key===target)break;
     const [x,y]=key.split(',').map(Number);
-    for(const [nx,ny]of [[x,y-1],[x+1,y],[x,y+1],[x-1,y]]){const next=`${nx},${ny}`;if(nx<0||ny<0||nx>10||ny>10||previous.has(next))continue;previous.set(next,key);queue.push(next);}
+    for(const [nx,ny]of [[x,y-1],[x+1,y],[x,y+1],[x-1,y]]){const next=`${nx},${ny}`;if(!isWorldGridCell(nx,ny,gridSize)||previous.has(next))continue;previous.set(next,key);queue.push(next);}
   }
   const path:string[]=[];let key:string|undefined=target;
   while(key!==undefined){if(!state.sectors[key]?.unlocked)path.unshift(key);key=previous.get(key);}
@@ -94,7 +96,8 @@ export function applyExpansionRescue(state: GameState) {
   const shortages=nextExpansionShortages(state);if(!shortages.length)return false;
   const candidates:Array<{resource:Resource;sectorId:string;node:MachineNode;path:string[]}>=[];
   const golemTier = getGolemPlacementTier(state);
-  for(let y=0;y<MAP_GRID_SIZE;y++)for(let x=0;x<MAP_GRID_SIZE;x++){
+  const { min, max } = worldGridBounds(worldGridSize(state));
+  for(let y=min;y<=max;y++)for(let x=min;x<=max;x++){
     if(sectorDistance(x,y)!==golemTier)continue;
     const key=sectorId(x,y),sector=sectorForState(state,x,y);
     for(const node of sector.nodes)if(node.kind==='resourceGolem'&&shortages.includes(getGolemMineral(node) as Resource))candidates.push({resource:getGolemMineral(node) as Resource,sectorId:key,node,path:shortestRescuePath(state,key)});

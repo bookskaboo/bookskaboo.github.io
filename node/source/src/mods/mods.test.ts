@@ -1,7 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import { activateMod, BASE_MOD_CONTENT } from './modContent';
 import { emptyMod } from './modTypes';
-import { exportMod, importMod } from './modSharing';
+import { exportMod, exportModText, importMod, readModTextFile } from './modSharing';
 import { validateMod } from './modValidation';
 import { modRule } from './modRules';
 import { createInitialState, GameEngine } from '../simulation/engine';
@@ -13,7 +13,9 @@ import { normalizeLegacy } from '../persistence/saves';
 import { cartCapacity } from '../content/cartUpgrades';
 import { getMapNodeResourceCapacity, getSectorWorldSize, generateSector } from '../simulation/worldGeneration';
 import { getNodeSize } from '../domain/nodeGeometry';
+import { canPlaceNode } from '../simulation/collisions';
 import type { MachineNode, NodeKind } from '../domain/types';
+import { createEntry, entriesFor } from './modCatalog';
 
 const machine = (kind: NodeKind, id: string = kind, x = 500): MachineNode => ({ id, kind, name: BASE_MOD_CONTENT.nodes[kind].name, x, y: 500, rotation: 0, input: {}, output: {}, progressMs: 0, cycleMs: 1000, constructedAt: 0, constructionMs: 0 });
 function setup(nodes: MachineNode[] = []) {
@@ -61,9 +63,146 @@ describe('data mod sharing and validation', () => {
     mod.recipes = {}; mod.research.assembler = { prerequisite: 'assembler' };
     expect(() => validateMod(mod)).toThrow(/dependency cycle/);
   });
+  it('validates generation settings before importing a mod', () => {
+    const mod = emptyMod();
+    mod.nodes.lake = { worldSpawn: { minTier: 6, maxTier: 2 } };
+    expect(() => validateMod(mod)).toThrow(/minimum map tier/);
+    mod.nodes.lake.worldSpawn = { count: 1.5 };
+    expect(() => validateMod(mod)).toThrow(/whole number/);
+    mod.nodes.lake.worldSpawn = { chance: 1.01 };
+    expect(() => validateMod(mod)).toThrow(/between 0 and 1/);
+    mod.nodes.lake.worldSpawn = { region: 'outside' as never };
+    expect(() => validateMod(mod)).toThrow(/region/);
+    delete mod.nodes.lake;
+    mod.nodes.lakeIntake = { worldSpawn: {} };
+    expect(() => validateMod(mod)).toThrow(/does not support map spawn rules/);
+  });
 });
 
 describe('applied mod behavior', () => {
+  it('creates a custom item, machine, recipe, and research project and keeps them through saves', () => {
+    const lab = machine('researchCenter');
+    const engine = setup([lab]);
+    const mod = emptyMod();
+    const item = createEntry(mod, 'resources', 'Copper Powder');
+    const recipe = createEntry(mod, 'recipes', 'Powdered Copper');
+    const research = createEntry(mod, 'research', 'Powder Metallurgy');
+    const kind = createEntry(mod, 'production', 'Powder Mill', 'refiner');
+    mod.recipes[recipe] = { name: 'Powdered Copper', inputs: { copper: 2 }, outputs: { [item]: 3 }, cycleMs: 1000 };
+    mod.research[research].costs = { wood: 1 };
+    Object.assign(mod.nodes[kind]!, { recipeIds: [recipe], unlockResearch: research, constructionMs: 0 });
+
+    engine.applyMod(importMod(exportMod(mod)));
+    expect(engine.placeNode(kind, 1800, 900)).toBeUndefined();
+    engine.selectResearch(research);
+    engine.getSector().nodes[0].input.wood = 1;
+    for (let step = 0; step < 50; step++) engine.tick(100);
+    expect(engine.getState().research.completed).toContain(research);
+    const id = engine.placeNode(kind, 1800, 900)!;
+    expect(id).toBeTruthy();
+    expect(engine.setRecipe(id, recipe)).toBe(true);
+    const mill = engine.getSector().nodes.find(node => node.id === id)!;
+    expect(getEffectiveNodeInputFamilies(mill, [])).toEqual(['copper']);
+    mill.input.copper = 2;
+    for (let step = 0; step < 10; step++) engine.tick(100);
+    expect(mill.output[item]).toBe(3);
+    expect(ITEM_NAMES[item]).toBe('Copper Powder');
+    const restored = new GameEngine(normalizeLegacy(JSON.parse(JSON.stringify(engine.getState())))!, { autosave: false });
+    expect(restored.getSector().nodes.find(node => node.id === id)?.output[item]).toBe(3);
+    expect(() => restored.applyMod()).toThrow(/node type this mod would remove/);
+    expect(getResearchProject(research)?.name).toBe('Powder Metallurgy');
+    const unmodded = setup();
+    expect(unmodded.getState().mod).toBeUndefined();
+    expect(getResearchProject(research)).toBeUndefined();
+    expect(RECIPES[recipe]).toBeUndefined();
+  });
+
+  it('generates custom reserves, builds logistics variants, and applies only selected preset rules', () => {
+    const engine = setup();
+    const mod = emptyMod();
+    const reserve = createEntry(mod, 'obstructions', 'Zinc Outcrop', 'iron');
+    const item = createEntry(mod, 'resources', 'Zinc');
+    const junction = createEntry(mod, 'logistics', 'Zinc Junction', 'joint');
+    const map = createEntry(mod, 'maps', 'Larger Fields');
+    const cables = createEntry(mod, 'connections', 'Quick Cables');
+    mod.nodes[reserve] = { name: 'Zinc Outcrop', template: 'iron', resourceItem: item, resourceCapacity: 1900, worldChance: 1 };
+    mod.nodes[junction]!.unlockResearch = '';
+    mod.rules.cableTravelMs = 900;
+    mod.profiles!.maps!.entries[map].rules.mapWidthMultiplier = 2;
+    mod.profiles!.connections!.entries[cables].rules.cableTravelMs = 250;
+    engine.applyMod(mod);
+    expect(modRule('mapWidthMultiplier')).toBe(2);
+    expect(modRule('cableTravelMs')).toBe(250);
+    expect(engine.placeNode(junction, 1500, 900)).toBeTruthy();
+    const sector = generateSector(6, 5, 82);
+    expect(sector.nodes.find(node => node.kind === reserve)).toMatchObject({ name: 'Zinc Outcrop', resourceItem: item, resourceRemaining: 1900 });
+    delete mod.profiles!.connections!.selected;
+    engine.applyMod(mod);
+    expect(modRule('cableTravelMs')).toBe(900);
+    expect(entriesFor('production', mod).some(([id]) => id === 'lakeIntake')).toBe(false);
+    expect(entriesFor('obstructions', mod)).toEqual(expect.arrayContaining([['lake', 'Lake'], [reserve, 'Zinc Outcrop']]));
+    expect(entriesFor('recipes', mod).some(([id]) => id === 'slagwashing')).toBe(false);
+  });
+
+  it('places seeded obstruction spawns on eligible new maps and restores their rules with the save', async () => {
+    const engine = setup();
+    const state = engine.getState();
+    state.research.mapPoints = 3;
+    expect(engine.unlockSector(4, 5)).toBe(true);
+    const existing = structuredClone(state.sectors['4,5'].nodes);
+    expect(engine.ensureSector(7, 5).nodes.some(node => node.kind === 'lake')).toBe(true);
+
+    const mod = emptyMod();
+    const reserve = createEntry(mod, 'obstructions', 'Zinc Outcrop', 'iron');
+    const item = createEntry(mod, 'resources', 'Zinc');
+    mod.nodes[reserve] = {
+      name: 'Zinc Outcrop', template: 'iron', resourceItem: item, worldChance: 1,
+      worldSpawn: { minTier: 1, maxTier: 1, chance: 1, count: 2, region: 'southeast' },
+    };
+    mod.nodes.lake = { worldSpawn: { mode: 'replace', chance: 0 } };
+    engine.applyMod(await readModTextFile(new Blob([exportModText(mod)])));
+    expect(engine.ensureSector(4, 5).nodes).toEqual(existing);
+    expect(engine.ensureSector(7, 5).nodes.some(node => node.kind === 'lake' || node.kind === reserve)).toBe(false);
+
+    const next = engine.ensureSector(6, 5);
+    const field = getSectorWorldSize(next, state.research.completed);
+    const outcrops = next.nodes.filter(node => node.kind === reserve);
+    expect(outcrops).toHaveLength(2);
+    expect(next.nodes.some(node => node.kind === 'iron')).toBe(true);
+    for (const node of outcrops) {
+      expect(node.x).toBeGreaterThanOrEqual(field.width / 2);
+      expect(node.y).toBeGreaterThanOrEqual(field.height / 2);
+      expect(node.resourceItem).toBe(item);
+      expect(canPlaceNode(node, next.nodes, field)).toBe(true);
+    }
+    expect(engine.ensureSector(6, 5).nodes).toEqual(next.nodes);
+    const reloaded = new GameEngine(normalizeLegacy(JSON.parse(JSON.stringify(engine.getState())))!);
+    const base = setup();
+    expect(base.ensureSector(6, 5).nodes.some(node => node.kind === reserve)).toBe(false);
+    expect(reloaded.unlockSector(6, 5)).toBe(true);
+    expect(reloaded.getState().sectors['6,5'].nodes).toEqual(next.nodes);
+    expect(reloaded.getState().mod?.nodes[reserve]?.worldSpawn).toEqual(mod.nodes[reserve]?.worldSpawn);
+  });
+
+  it.each([
+    ['lake', { resourceItem: 'water', obstructionWidth: expect.any(Number) }],
+    ['big-hole', { resourceRemaining: expect.any(Number), obstructionRadius: expect.any(Number) }],
+    ['monster-camp', { goblinSettlement: 'camp', attackRequirement: 3 }],
+  ] as const)('generates a functional %s on a map where it does not usually spawn', (kind, fields) => {
+    const engine = setup();
+    expect(engine.ensureSector(6, 5).nodes.some(node => node.kind === kind)).toBe(false);
+    const mod = emptyMod();
+    mod.nodes[kind] = { worldSpawn: { region: 'northeast' } };
+    engine.applyMod(mod);
+    const sector = engine.ensureSector(6, 5);
+    const field = getSectorWorldSize(sector, engine.getState().research.completed);
+    const spawned = sector.nodes.find(node => node.kind === kind)!;
+    expect(spawned).toMatchObject(fields);
+    expect(spawned.x).toBeGreaterThanOrEqual(field.width / 2);
+    expect(spawned.y).toBeLessThanOrEqual(field.height / 2);
+    expect(canPlaceNode(spawned, sector.nodes, field)).toBe(true);
+  });
+
   it('changes real recipe quantities and timings while leaving the base snapshot intact', () => {
     const kiln = machine('kiln'); kiln.recipeId = 'charcoal'; kiln.input.wood = 4;
     const engine = setup([kiln]); const mod = emptyMod();

@@ -29,9 +29,10 @@ describe('half-world Map Node research', () => {
   });
 
   it('matches the adopted half-world and full-world budgets including Exploration', () => {
-    for (const [count, expected] of [[59, 2797], [119, 15937]]) {
-      let total = 2;
-      for (let i = 0; i < count; i++) total += Object.values(getResearchCosts(project, i)).reduce((sum, q) => sum + (q ?? 0), 0);
+    const exploration = RESEARCH_PROJECTS.find(p => p.id === 'exploration')!;
+    for (const [count, expected] of [[59, 2805], [119, 15945]]) {
+      let total = Object.values(getResearchCosts(exploration)).reduce<number>((sum, q) => sum + (q ?? 0), 0);
+      for (let i = 0; i < count; i++) total += Object.values(getResearchCosts(project, i)).reduce<number>((sum, q) => sum + (q ?? 0), 0);
       expect(total).toBe(expected);
     }
     expect(getResearchCosts(project, -1)).toEqual(getResearchCosts(project, 0));

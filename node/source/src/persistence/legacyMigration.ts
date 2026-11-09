@@ -1,4 +1,5 @@
 import { validateMod } from '../mods/modValidation';
+import { isWorldGridSize } from '../domain/worldGrid';
 import { NODE_DEFINITIONS } from '../content/nodes';
 import { RECIPES } from '../content/recipes';
 import { getResearchProject, getResearchCosts, RESEARCH_PROJECTS } from '../content/research';
@@ -156,6 +157,7 @@ function migrateOriginalPayload(payloadValue: unknown): GameState | null {
 }
 
 function normalizeGameState(value: GameState) {
+  if (value.worldGridSize !== undefined && !isWorldGridSize(value.worldGridSize)) return null;
   const state = structuredClone(value);
   if (state.mod) {
     try { state.mod = validateMod(state.mod); } catch { return null; }

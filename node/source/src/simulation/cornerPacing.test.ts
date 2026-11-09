@@ -56,10 +56,11 @@ describe('explicit corner quotas and production cadence', () => {
     const f = twoComponents('alpha', [producer('advancedAssembler', 'final-suppression-bot')], 1470000);
     expect(f.node.cornerProgress).toBe(8);
   });
-  it('makes Final Robotics payable only after the first Final Core and charges a Final Core', () => {
+  it('makes Final Robotics payable only after the first Final Core and charges five Final Cores', () => {
     const f = fixture('reclamation');
     f.state.research.completed.push('commandRobotics', 'cornerComponents');
     const project = getResearchProject('finalRobotics')!;
+    expect(project.costs['final-core']).toBe(5);
     expect(isResearchAvailable(project, f.state.research.completed)).toBe(false);
     expect(isRecipeUnlocked('final-suppression-bot', f.state.research.completed)).toBe(false);
     const lab = producer('researchCenter');
@@ -69,7 +70,7 @@ describe('explicit corner quotas and production cadence', () => {
     f.engine.tick(100);
     expect(f.state.research.completed).toContain('finalCoreProduction');
     f.engine.selectResearch(project.id);
-    for (let i = 0; i < 5; i++) f.engine.tick(1000);
+    for (let i = 0; i < 25; i++) f.engine.tick(1000);
     expect(f.state.research.completed).toContain(project.id);
     expect(lab.input['final-core']).toBe(0);
     expect(isRecipeUnlocked('final-suppression-bot', f.state.research.completed)).toBe(true);

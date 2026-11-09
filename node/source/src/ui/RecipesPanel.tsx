@@ -3,7 +3,7 @@ import { itemColorCss, ITEM_NAMES } from '../content/items';
 import { isNodeUnlocked, NODE_DEFINITIONS } from '../content/nodes';
 import { isRecipeUnlocked, RECIPES, RECIPE_GROUPS } from '../content/recipes';
 import { accessibleRecipeMaterials, isRecipeAvailable } from '../content/recipeAvailability';
-import { RECIPE_GUIDE_GROUPS, recipeGuideGroups, recipeGuideCycle } from './recipeGuide';
+import { getRecipeGuideGroups, recipeGuideGroups, recipeGuideCycle } from './recipeGuide';
 import { WASTE_ITEMS } from '../content/progression';
 import { getResearchProject } from '../content/research';
 import type { GameState, ItemId, NodeKind, Recipe } from '../domain/types';
@@ -13,7 +13,6 @@ import { RecipeViewToggle, useRecipeIconView } from './RecipeViewToggle';
 import { recipeTooltip } from './recipePresentation';
 
 const ALL_FILTER = 'all';
-const GROUPS = RECIPE_GUIDE_GROUPS;
 
 
 const recipeColor = (recipe: Recipe) => {
@@ -27,8 +26,9 @@ export function RecipesPanel({ game, onClose, initialRecipeId, backToResearch = 
   const [expandedCompactRecipe, setExpandedCompactRecipe] = useState<string>();
   const materials = useMemo(() => accessibleRecipeMaterials(game), [game, game.revision]);
   const groups = useMemo(() => recipeGuideGroups(game, previewRecipeId), [game, game.revision, previewRecipeId]);
+  const catalogGroups = useMemo(getRecipeGuideGroups, [game, game.revision]);
   const [filters, setFilters] = useState<string[]>([]);
-  const [filterOrder, setFilterOrder] = useState(() => [ALL_FILTER, ...GROUPS.map((group) => group.id)]);
+  const [filterOrder, setFilterOrder] = useState(() => [ALL_FILTER, ...catalogGroups.map((group) => group.id)]);
   const [draggedFilter, setDraggedFilter] = useState<string>();
   const [navigationTarget, setNavigationTarget] = useState<string | undefined>(initialRecipeId);
   const suppressFilterClick = useRef(false);
@@ -37,7 +37,7 @@ export function RecipesPanel({ game, onClose, initialRecipeId, backToResearch = 
   const producers = useMemo(() => {
     const result = new Map<ItemId, { recipeId: string; groupId: string; node: NodeKind }>();
     // Index the complete catalog so ingredient links can open an explicit preview.
-    const candidates = GROUPS.flatMap(group => (RECIPE_GROUPS[group.id] ?? []).map(recipeId => ({ ...group, recipe: RECIPES[recipeId] })))
+    const candidates = catalogGroups.flatMap(group => (RECIPE_GROUPS[group.id] ?? []).map(recipeId => ({ ...group, recipe: RECIPES[recipeId] })))
       .filter(entry => entry.recipe)
       .sort((a, b) => Number(isRecipeAvailable(b.recipe.id, game, b.node)) - Number(isRecipeAvailable(a.recipe.id, game, a.node)));
     candidates.forEach(({ id, node, recipe }) => {
@@ -45,7 +45,7 @@ export function RecipesPanel({ game, onClose, initialRecipeId, backToResearch = 
       outputs.forEach(item => { if (!result.has(item)) result.set(item, { recipeId: recipe.id, groupId: id, node }); });
     });
     return result;
-  }, [game, game.revision, materials]);
+  }, [game, game.revision, catalogGroups]);
 
   useEffect(() => {
     if (!navigationTarget) return;
@@ -73,7 +73,7 @@ export function RecipesPanel({ game, onClose, initialRecipeId, backToResearch = 
   return <div className="modal-backdrop"><section className="modal recipes-modal glass" aria-labelledby="recipes-title">
     <header className="recipes-dialog-header">
       <div className="recipes-title-mark"><NodeIcon kind="researchCenter" /></div>
-      <div><small>PRODUCTION GUIDE</small><h2 id="recipes-title">Recipes</h2><p>Exact ingredients. Optimism is not a substitute.</p></div>
+      <div><h2 id="recipes-title">Recipes</h2><p>Exact ingredients. Optimism is not a substitute.</p></div>
       <button className={`recipes-close ${backToResearch ? 'recipes-back' : ''}`} onClick={onClose} aria-label={backToResearch ? 'Back to research' : 'Close Recipes'} data-tooltip={backToResearch ? 'Back to research' : 'Close Recipes'} data-tooltip-detail={backToResearch ? 'Return to the same research project.' : 'Close the recipe guide.'}>{backToResearch ? '← Research' : '×'}</button>
     </header>
     <div className="recipe-view-toolbar"><RecipeViewToggle compact={compact} onToggle={toggle} /></div>

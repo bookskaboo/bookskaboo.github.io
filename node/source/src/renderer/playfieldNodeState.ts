@@ -9,8 +9,8 @@ import { RECIPES } from '../content/recipes';
 import { getGoblinAttackRequirement } from '../content/goblinSettlements';
 import type { ItemId, MachineNode } from '../domain/types';
 
-export const outputTotal = (node: MachineNode) => Object.values(node.output).reduce((sum, value) => sum + (value ?? 0), 0);
-export const inputTotal = (node: MachineNode) => Object.values(node.input).reduce((sum, value) => sum + (value ?? 0), 0);
+export const outputTotal = (node: MachineNode) => Object.values(node.output).reduce<number>((sum, value) => sum + (value ?? 0), 0);
+export const inputTotal = (node: MachineNode) => Object.values(node.input).reduce<number>((sum, value) => sum + (value ?? 0), 0);
 export const outputCapacity = (node: MachineNode) => NODE_DEFINITIONS[node.kind].output.length > 0 ? (modNode(node.kind)?.capacity ?? node.capacity ?? getNodeCapabilities(node.kind).defaultCapacity ?? 5) : 0;
 export const resourceCapacityReadout = (node: MachineNode) => node.infiniteResource ? 'INFINITE' : `${Math.floor(node.resourceRemaining ?? 0).toLocaleString()} / ${Math.floor(node.resourceCapacity ?? node.resourceRemaining ?? 0).toLocaleString()}`;
 export const resourceReserveFraction = (node: MachineNode) => {

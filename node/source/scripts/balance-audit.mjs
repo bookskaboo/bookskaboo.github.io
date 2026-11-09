@@ -158,7 +158,7 @@ try {
       'The 30-map ideal forms an H: both outer columns plus the middle row, including Home. It reaches every corner with 30 new maps; Exploration supplies one point, leaving 29 repeat purchases.',
       'This is a geometric route-cost example, not a seed-independent solvability claim. Lake/Dwarven access and available resources can require extra maps; unlock order affects repeat prices.',
       'Basic Cores used inside Medium Bots are additional. Alpha alone needs 17 Medium Bots at 50 AP, consuming 17 Basic Cores and preserving one AP surplus; Dwarven Mythril upkeep adds more.',
-      'Victory is explicitly selected at the Research Center and costs one each of all seven Core types. Endgame Theory is retired. Optional efficiencies, transport upgrades and post-victory research are excluded.',
+      'Victory is explicitly selected at the Research Center and costs five each of all seven Core types. Endgame Theory is retired. Optional efficiencies, transport upgrades and post-victory research are excluded.',
     ],
   };
   const report = {

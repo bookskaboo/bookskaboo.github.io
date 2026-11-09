@@ -7,7 +7,8 @@ import { simulatePlanter } from '../content/forestry';
 import { activateMod, BASE_MOD_CONTENT } from '../mods/modContent';
 import { validateMod } from '../mods/modValidation';
 import { applyModNames, modCompatibilityError } from '../mods/modRuntime';
-import { modNode, modRule } from '../mods/modRules';
+import { modNode, modNodeTemplate, modRule, modWorldGridSize } from '../mods/modRules';
+import { HOME_SECTOR_ID, isWorldGridCell, worldGridBounds, worldGridSize } from '../domain/worldGrid';
 import type { GameMod } from '../mods/modTypes';
 import { FactoryTemplateRuntime } from './factoryTemplateRuntime';
 import { ResearchRuntime } from './researchRuntime';
@@ -20,7 +21,7 @@ import { migrateRetiredNodes } from '../content/retiredNodes';
 import { LEGACY_NODE_DISPLAY_NAMES } from '../content/displayNameChanges';
 import { CONTROL_GROUP_COLORS, copyControlGroups, normalizeControlGroups, regroupControlNodes } from '../domain/controlGroups';
 import type { Connection, GameEvent, GameState, InFlightTransfer, ItemId, MachineNode, NodeKind, SectorState } from '../domain/types';
-import { getEncounterLayoutVersion, getGolemPlacementTier, getSectorWorldSize, MAP_GRID_SIZE, sectorDistance, sectorForState, sectorId, syncCornerLayouts } from './worldGeneration';
+import { getEncounterLayoutVersion, getGolemPlacementTier, getSectorWorldSize, sectorDistance, sectorForState, sectorId, syncCornerLayouts } from './worldGeneration';
 import { logisticsRoute } from './logisticsRoutes';
 import { routedConnectionFailure } from './connectionMaterials';
 import { isTutorialUnlocked, type ProgressiveTutorialKind } from '../tutorials/tutorialUnlocks';
@@ -50,7 +51,7 @@ import { initializeProgression, discoverActiveSector, simulateProgressionNode, s
 
 const clone = <T,>(value: T): T => structuredClone(value);
 const makeId = (prefix: string) => `${prefix}-${crypto.randomUUID?.() ?? Math.random().toString(36).slice(2)}`;
-const sum = (bag: Partial<Record<ItemId, number>>) => Object.values(bag).reduce((a, b) => a + (b ?? 0), 0);
+const sum = (bag: Partial<Record<ItemId, number>>) => Object.values(bag).reduce<number>((a, b) => a + (b ?? 0), 0);
 const nonItemFamilies = new Set(['FLUID', 'WASTE','ANY', 'RESOURCE', 'METAL', 'PLATE', 'GEAR', 'CORE', 'ROBOT_FRAME', 'ROBOT_WEAPON', 'ATTACK_POWER', 'POWER']);
 const concreteOutputItem = (node: MachineNode, port: number) => {
   if (node.kind === 'refiner' && node.recipeId?.match(/-(gear|wire)$/) &&
@@ -110,10 +111,15 @@ export class GameEngine {
   getSector = () => { activateMod(this.state.mod); return this.state.sectors[this.state.activeSectorId]; };
   applyMod(mod?: GameMod) {
     const candidate = mod ? validateMod(mod) : undefined;
+    const gridSize = modWorldGridSize(candidate);
+    if (gridSize !== undefined && gridSize !== worldGridSize(this.state) && Object.keys(this.state.sectors).some(id => id !== HOME_SECTOR_ID)) {
+      throw new Error('Choose the world map size before opening your first map beyond Home. Start a new factory to use a different size.');
+    }
     const error = modCompatibilityError(this.state, candidate);
     if (error) throw new Error(error);
     this.checkpoint();
     this.state.mod = candidate;
+    if (gridSize !== undefined) this.state.worldGridSize = gridSize;
     activateMod(candidate);
     syncCornerLayouts(this.state);
     applyModNames(this.state);
@@ -628,7 +634,7 @@ export class GameEngine {
       if (routingPath.has(node.id)) return false;
       return !this.filterBlockage(node, sector, lookups, new Set(routingPath).add(node.id), item);
     }
-    if (node.kind === 'splitter') {
+    if (modNodeTemplate(node.kind) === 'splitter') {
       if (routingPath.has(node.id)) return false;
       const path = new Set(routingPath).add(node.id);
       const index = lookups.sector(sector);
@@ -646,7 +652,7 @@ export class GameEngine {
       }
       return space > queued;
     }
-    if (node.kind === 'merger') {
+    if (modNodeTemplate(node.kind) === 'merger') {
       const retained = this.mergerItem(node, sector, lookups);
       return !retained || retained === item;
     }
@@ -808,7 +814,7 @@ export class GameEngine {
         const pending = lookups.target(sector.id, target.id);
         return this.inputOccupancy(target, item) + (this.inputUsesPerItemCapacity(target) ? pending?.counts[item] ?? 0 : pending?.transfers.reduce((n, t) => n + (t.amount ?? 1), 0) ?? 0) < this.inputCapacity(target, item);
       });
-      const preferred = node.kind === 'splitter' ? inputs.find(canRoute) : undefined;
+      const preferred = modNodeTemplate(node.kind) === 'splitter' ? inputs.find(canRoute) : undefined;
       const item = preferred ?? inputs[0];
       if (preferred && sum(node.output) >= (modNode(node.kind)?.capacity ?? node.capacity ?? 5)) {
         const blocked = (Object.keys(node.output) as ItemId[]).find(key => (node.output[key] ?? 0) > 0 && !canRoute(key));
@@ -841,6 +847,7 @@ export class GameEngine {
     const def = NODE_DEFINITIONS[kind];
     if (kind === 'fluidRoad' || DEFERRED_POWER_NODES.has(kind)) return;
     if (!def || (def.hidden && !def.legacyAlias && kind !== 'devSource')) return;
+    if (modNode(kind)?.template && !isNodeUnlocked(kind, this.state.research.unlocked) && !preview) return;
     const lockedStorage = (def.category === 'Storage' || isCartKind(kind)) && !isNodeUnlocked(kind, this.state.research.unlocked);
     if (lockedStorage && !preview) return;
     const capabilities = getNodeCapabilities(kind);
@@ -853,12 +860,14 @@ export class GameEngine {
     const channelsFull = Boolean(roadPair && (faceRoads(this.getSector(), roadPair.sector.id) >= roadChannels(this.state) || faceRoads(roadPair.sector, this.getSector().id) >= roadChannels(this.state)));
     if (capabilities.pairedSectorPlacement && !roadPair && !preview) return;
     // The original configurable machines are inert until the player chooses a recipe.
-    const recipeId = capabilities.defaultRecipeId;
+    const configuredRecipes = modNode(kind)?.recipeIds;
+    const defaultRecipe = capabilities.defaultRecipeId;
+    const recipeId = defaultRecipe && (!configuredRecipes || configuredRecipes.includes(defaultRecipe)) ? defaultRecipe : undefined;
     const node: MachineNode = {
       id: preview ? '__placement-preview__' : makeId(kind), kind, name: def.name, x, y, rotation: 0, recipeId, input: {}, output: {}, progressMs: 0,
       cycleMs: recipeId ? RECIPES[recipeId].cycleMs : capabilities.behavior === 'research' ? RESEARCH_CENTER_BASE_CYCLE_MS : kind === 'recycler' ? 2000 : kind === 'extractor' ? 5000 : capabilities.behavior === 'recipe' ? 0 : 1000, constructedAt: Date.now(), constructionMs: kind === 'devSource' ? 0 : 1500,
-      capacity: BASE_MOD_CONTENT.capabilities[kind].defaultCapacity,
-      ...(modNode(kind)?.name ? { modBaseName: BASE_MOD_CONTENT.nodes[kind].name } : {}),
+      capacity: BASE_MOD_CONTENT.capabilities[modNodeTemplate(kind)].defaultCapacity,
+      ...(modNode(kind)?.name ? { modBaseName: BASE_MOD_CONTENT.nodes[modNodeTemplate(kind)].name } : {}),
       ...(capabilities.defaultFilterItem ? { filterItem: capabilities.defaultFilterItem } : {}),
       ...(capabilities.defaultMiningTarget ? { miningTarget: capabilities.defaultMiningTarget, miningProgress: 0 } : {}),
     };
@@ -1439,7 +1448,7 @@ export class GameEngine {
     this.state.research.completed = [...new Set([...this.state.research.completed, ...permanent])];
     this.state.research.selected = undefined;
     this.state.research.contributed = {};
-    this.state.research.mapPoints = Math.max(this.state.research.mapPoints, 121);
+    this.state.research.mapPoints = Math.max(this.state.research.mapPoints, worldGridSize(this.state) ** 2);
     this.research.resetResearchCycles();
     applyCartUpgrades(this.state);
     syncCornerLayouts(this.state);
@@ -1447,13 +1456,15 @@ export class GameEngine {
   }
   developerUnlockAllSectors() {
     this.checkpoint();
-    for (let y = 0; y < MAP_GRID_SIZE; y++) for (let x = 0; x < MAP_GRID_SIZE; x++) {
+    const size = worldGridSize(this.state);
+    const { min, max } = worldGridBounds(size);
+    for (let y = min; y <= max; y++) for (let x = min; x <= max; x++) {
       const sector = this.ensureSector(x, y);
       sector.unlocked = true;
       this.state.sectors[sector.id] = sector;
     }
     this.state.devMapSurveysRevealed = true;
-    this.state.research.mapPoints = Math.max(this.state.research.mapPoints, MAP_GRID_SIZE ** 2);
+    this.state.research.mapPoints = Math.max(this.state.research.mapPoints, size ** 2);
     this.publish();
   }
   setTutorialStep(step: number) { this.state.tutorialStep = step; this.publish(); }
@@ -1469,7 +1480,7 @@ export class GameEngine {
   } }
   replaceState(state: GameState) { const next = clone(state); if (next.mod) next.mod = validateMod(next.mod); this.state = next; if (this.realtimeTickAt !== undefined) this.startRealtimeClock(); activateMod(this.state.mod); applyModNames(this.state); this.state.produced ??= {}; this.state.extracted ??= {}; this.state.hasCreatedConnection ??= false; this.state.research.completed ??= []; this.state.research.repeatableCompletions ??= {}; this.state.research.projectContributions ??= {}; this.state.inFlightTransfers ??= []; this.normalizeExtractorCycles(); applyModNames(this.state); this.research.reconcileResearchSelection(); this.pruneLockedForestInputs(); this.history = []; this.publish(); }
   unlockSector(x: number, y: number) {
-    if (this.state.research.mapPoints < 1 || x < 0 || y < 0 || x > 10 || y > 10) return false;
+    if (this.state.research.mapPoints < 1 || !isWorldGridCell(x, y, worldGridSize(this.state))) return false;
     const adjacent = Object.values(this.state.sectors).some((s) => s.unlocked && Math.abs(s.x - x) + Math.abs(s.y - y) === 1);
     if (!adjacent) return false;
     const id = sectorId(x, y);
@@ -1483,6 +1494,9 @@ export class GameEngine {
     if (!sector.visited && firstVisitCamera) sector.camera = { ...firstVisitCamera };
     this.state.activeSectorId = id; discoverActiveSector(this.state);this.evaluateMilestones();this.publish();
   }
-  ensureSector(x: number, y: number) { return sectorForState(this.state, x, y); }
+  ensureSector(x: number, y: number) {
+    activateMod(this.state.mod);
+    return sectorForState(this.state, x, y);
+  }
   sectorLevel() { const s = this.getSector(); return sectorDistance(s.x, s.y); }
 }

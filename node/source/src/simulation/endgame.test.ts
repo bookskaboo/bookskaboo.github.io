@@ -116,23 +116,23 @@ describe('Recycler conservation',()=>{
 describe('endgame research and preservation',()=>{
   it('quotes the shared independently rounded seven-Core ladder for separate projects',()=>{
     for(const id of ['resourceRegeneration','efficientLandfill','trainFreightCapacity','storagePlacementCapacity','inventoryPlacementCapacity','storageConnectionCapacity','inventoryConnectionCapacity']){
-      const p=getResearchProject(id)!;expect([0,1,2,3,4].map(r=>getResearchCosts(p,r)['final-core'])).toEqual([1,2,3,4,6]);expect(Object.keys(p.costs)).toEqual(SEVEN_CORES);
+      const p=getResearchProject(id)!;expect([0,1,2,3,4].map(r=>getResearchCosts(p,r)['final-core'])).toEqual([5,5,5,5,6]);expect(Object.keys(p.costs)).toEqual(SEVEN_CORES);
     }
-    expect(getResearchProject('autonomousLogistics')!.costs['final-core']).toBe(1);
+    expect(getResearchProject('autonomousLogistics')!.costs['final-core']).toBe(5);
   });
   it('pays victory through the ordinary lab cadence and persists acknowledgement separately',()=>{
     const s=createInitialState();s.sectors['5,5'].nodes=[machine('researchCenter','lab')];s.produced!['final-core']=1;
     const e=new GameEngine(s,{autosave:false}),lab=e.getSector().nodes[0];
     expect(getResearchProject('victory')!.trigger).toBeUndefined();
-    expect(getResearchProject('victory')!.costs).toEqual(Object.fromEntries(SEVEN_CORES.map(core=>[core,1])));
-    lab.input=Object.fromEntries(SEVEN_CORES.map(core=>[core,1]));
+    expect(getResearchProject('victory')!.costs).toEqual(Object.fromEntries(SEVEN_CORES.map(core=>[core,5])));
+    lab.input=Object.fromEntries(SEVEN_CORES.map(core=>[core,5]));
     ticks(e,6);expect(e.getState().research.completed).not.toContain('victory');
-    expect(lab.input['final-core']).toBe(1);
+    expect(lab.input['final-core']).toBe(5);
     delete lab.input['command-core'];e.selectResearch('victory');ticks(e,5);
     expect(e.getState().research.completed).not.toContain('victory');
-    expect(lab.input['final-core']).toBe(1);expect(lab.input['simple-core']).toBe(1);
-    lab.input['command-core']=1;
-    ticks(e,4);expect(e.getState().research.completed).not.toContain('victory');ticks(e,1);expect(e.getState().research.completed).toContain('victory');
+    expect(lab.input['final-core']).toBe(5);expect(lab.input['simple-core']).toBe(5);
+    lab.input['command-core']=5;
+    ticks(e,24);expect(e.getState().research.completed).not.toContain('victory');ticks(e,1);expect(e.getState().research.completed).toContain('victory');
     expect(SEVEN_CORES.map(core=>lab.input[core])).toEqual(SEVEN_CORES.map(()=>0));
     expect(e.getState().endgame!.victoryAcknowledged).toBeUndefined();e.acknowledgeVictory();expect(new GameEngine(e.getState(),{autosave:false}).getState().endgame!.victoryAcknowledged).toBe(true);
   });

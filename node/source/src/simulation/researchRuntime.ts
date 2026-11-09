@@ -101,7 +101,7 @@ export class ResearchRuntime {
   }
 
 
-  simulateResearch(node: MachineNode, dt: number, checkImmediately = false) {
+  simulateResearch(node: MachineNode, dt: number) {
     const selected = getResearchProject(this.state.research.selected);
     if (!selected || atResearchCap(selected, this.state.research) || selected.trigger || !isResearchAvailable(selected, this.state.research.completed) || (!selected.repeatable && this.state.research.completed.includes(selected.id))) { node.progressMs = 0; return; }
     if (selected.id === 'mapNode') {
@@ -114,7 +114,7 @@ export class ResearchRuntime {
     if (outstanding.some((item) => (node.input[item] ?? 0) <= 0)) { node.progressMs = 0; return; }
     node.progressMs += dt;
     const duration = RESEARCH_CENTER_BASE_CYCLE_MS * this.efficiencyMultiplier(node.kind);
-    if (!checkImmediately && node.progressMs < duration) return;
+    if (node.progressMs < duration) return;
     node.progressMs %= duration;
     // One research iteration consumes a complete synchronized core set.
     // Credit every still-required type atomically, so a slow input cannot
@@ -124,7 +124,6 @@ export class ResearchRuntime {
       this.state.research.contributed[item] = (this.state.research.contributed[item] ?? 0) + 1;
     }
     node.researchConsumption = { atMs: this.state.playTimeMs, cycleMs: duration };
-    node.researchNextCheckAtMs = this.state.playTimeMs + duration;
     const complete = Object.entries(costs).every(([item, cost]) => (this.state.research.contributed[item as ItemId] ?? 0) >= (cost ?? 0));
     if (complete) this.completeResearch(selected.id);
     if (!isResearchCycleActive(node, this.state.research)) node.progressMs = 0;
@@ -144,18 +143,6 @@ export class ResearchRuntime {
     else delete this.state.research.mapNodeQuote;
     this.state.research.contributed = { ...(contributions[id] ?? {}) };
     this.resetResearchCycles(true);
-    for (const sector of Object.values(this.state.sectors)) {
-      if (!sector.unlocked) continue;
-      for (const node of sector.nodes) {
-        if (!hasNodeBehavior(node.kind, 'research') || node.disabled || node.processingPaused || Date.now() - node.constructedAt < node.constructionMs) continue;
-        const remaining = (node.researchNextCheckAtMs ?? 0) - this.state.playTimeMs;
-        if (remaining > 0) {
-          // Project changes retain the current payment interval rather than charging again.
-          const duration = RESEARCH_CENTER_BASE_CYCLE_MS * this.efficiencyMultiplier(node.kind);
-          node.progressMs = Math.max(0, duration - remaining);
-        } else this.simulateResearch(node, 0, true);
-      }
-    }
     this.publish();
   }
 

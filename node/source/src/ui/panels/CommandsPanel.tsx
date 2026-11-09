@@ -100,7 +100,7 @@ export function CommandsPanel({ onClose }: { onClose(): void }) {
     <div className="modal-backdrop">
       <section className="modal commands-modal glass" role="dialog" aria-label="Commands"
         onKeyDown={event => { if (event.code === 'Space') event.stopPropagation(); }}>
-        <PanelHeader eyebrow="INPUT REFERENCE" title="Commands" onClose={onClose} />
+        <PanelHeader title="Commands" onClose={onClose} />
         <div className="commands-toolbar">
           <div className="commands-filters" role="group" aria-label="Filter by category">
             <button type="button" aria-pressed={filter === 'all'} onClick={() => { setFilter('all'); scrollToTop(); }}>All</button>
@@ -112,9 +112,12 @@ export function CommandsPanel({ onClose }: { onClose(): void }) {
             ))}
           </div>
           <div className="commands-search">
-            <input type="search" aria-label="Search commands" placeholder="Search commands"
-              value={query} onChange={event => { setQuery(event.target.value); scrollToTop(); }}
-              onKeyDown={event => { if (event.key === 'Escape') { event.preventDefault(); event.stopPropagation(); onClose(); } }} />
+            <label className="commands-search-field">
+              <span aria-hidden="true">⌕</span>
+              <input type="search" aria-label="Search commands" placeholder="Search commands"
+                value={query} onChange={event => { setQuery(event.target.value); scrollToTop(); }}
+                onKeyDown={event => { if (event.key === 'Escape') { event.preventDefault(); event.stopPropagation(); onClose(); } }} />
+            </label>
             <span role="status">{count} {count === 1 ? 'command' : 'commands'}</span>
           </div>
         </div>

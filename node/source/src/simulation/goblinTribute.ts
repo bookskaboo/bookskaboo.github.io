@@ -49,7 +49,7 @@ export function produceGoblinTribute(state: GameState, node: MachineNode, camp: 
   const amount = tributeAmount(camp);
   const capacity = tributeCapacity(camp);
   node.capacity = capacity;
-  const occupied = Object.values(node.output).reduce((sum, count) => sum + (count ?? 0), 0);
+  const occupied = Object.values(node.output).reduce<number>((sum, count) => sum + (count ?? 0), 0);
   if (occupied >= capacity) return;
   node.progressMs += dt;
   if (node.progressMs < TRIBUTE_CYCLE_MS) return;

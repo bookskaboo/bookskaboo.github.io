@@ -98,11 +98,11 @@ describe('progression consumption analysis', () => {
     expect(report.coreBills['basic-core'].raw).toEqual({ copper: 2, iron: 6, wood: 4 });
     expect(report.coreBills['automata-core'].raw).toEqual({ copper: 6, iron: 2, wood: 4, stone: 1 });
     expect(buckets.flatMap((bucket) => bucket.ids).sort()).toEqual(report.projects.map((p) => p.id).sort());
-    expect(report.fixedResearch.costs).toEqual({ 'simple-core': 1710, 'basic-core': 1619, 'automata-core': 1479, 'hydro-core': 1224, 'shiny-core': 878, 'command-core': 417 });
-    expect(report.fixedResearch.raw).toEqual({ copper: 88159, wood: 80046, iron: 63861, stone: 3120, water: 25129, mythril: 3007 });
+    expect(report.fixedResearch.costs).toEqual({ 'simple-core': 1760, 'basic-core': 1665, 'automata-core': 1515, 'hydro-core': 1250, 'shiny-core': 890, 'command-core': 420 });
+    expect(report.fixedResearch.raw).toEqual({ copper: 89710, wood: 81400, iron: 64920, stone: 3185, water: 25510, mythril: 3040 });
     expect(report.coreBills['shiny-core'].raw).toEqual({mythril:2,iron:24,copper:24,wood:26,water:8});
     expect(report.coreBills['command-core'].raw).toEqual({mythril:3,iron:37,copper:55,wood:50,water:17,stone:1});
-    expect(report.worldExpansion.costs).toEqual({ 'simple-core': 2861, 'basic-core': 2816, 'automata-core': 2740, 'hydro-core': 2640, 'shiny-core': 2515, 'command-core': 2365 });
+    expect(report.worldExpansion.costs).toEqual({ 'simple-core': 2865, 'basic-core': 2820, 'automata-core': 2740, 'hydro-core': 2640, 'shiny-core': 2515, 'command-core': 2365 });
     expect(report.throughput.slice(0,3).map((stage) => stage.leanProductionAndLabNodes)).toEqual([7, 11, 16]);
     expect(report.throughput.slice(0,3).map((stage) => stage.peakProductionAndLabNodes)).toEqual([24, 47, 74]);
     expect(report.baseLabSetSeconds).toBe(5);

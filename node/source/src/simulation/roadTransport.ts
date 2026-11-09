@@ -25,7 +25,7 @@ export function roadFeedCandidates(road: MachineNode, index: ReturnType<Simulati
   return candidates;
 }
 
-const total = (bag: MachineNode['input']) => Object.values(bag).reduce((sum, amount) => sum + (amount ?? 0), 0);
+const total = (bag: MachineNode['input']) => Object.values(bag).reduce<number>((sum, amount) => sum + (amount ?? 0), 0);
 
 /** Old Road cargo returns to connected inventories; any overflow stays in the shared pool. */
 export function recoverRoadStock(state: GameState, inputRoom: (node: MachineNode, port: number, item: ItemId, sector: SectorState) => number) {

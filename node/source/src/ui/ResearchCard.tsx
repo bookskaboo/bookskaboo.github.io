@@ -34,7 +34,6 @@ export function ResearchCard({ project, game, disabled, expanded, tutorialChoice
       aria-expanded={expanded}
       className={className}
       data-tooltip={project.name}
-      data-tooltip-variant="research"
       data-tooltip-detail={view.tooltip}
       data-tooltip-flavor={project.flavorText}
       data-tooltip-tone={view.tooltipTone}

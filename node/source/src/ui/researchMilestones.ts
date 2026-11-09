@@ -1,4 +1,5 @@
-import { CORNER_ITEMS, CORNER_MAPS, CORNER_NAMES, seededCornerOrder, seededPairIndex, type CornerType } from '../content/endgame';
+import { CORNER_ITEMS, CORNER_NAMES, seededCornerOrder, seededPairIndex, type CornerType } from '../content/endgame';
+import { worldCornerIds, worldGridSize } from '../domain/worldGrid';
 import { RECIPES } from '../content/recipes';
 import { getResearchProject, remainingMapNodePurchases } from '../content/research';
 import type { GameState, ItemId, NodeKind } from '../domain/types';
@@ -84,7 +85,8 @@ export function getResearchMilestones(game: GameState): ResearchMilestone[] {
   const halves = ['core-half-a', 'core-half-b'] as const;
   const missingHalves = halves.filter(item => !(stock[item] ?? 0)).map(item => RECIPES[`${item}-${pairIndex}`]);
   const cornerOrder = game.endgame?.cornerOrder ?? seededCornerOrder(game.seed);
-  const cornerSector = (type: CornerType) => CORNER_MAPS[cornerOrder.indexOf(type)];
+  const cornersByPosition = worldCornerIds(worldGridSize(game));
+  const cornerSector = (type: CornerType) => cornersByPosition[cornerOrder.indexOf(type)];
   const needed = new Set(missingHalves.flatMap(half => Object.keys(half.inputs)));
   const cornerGoal = (type: CornerType): ResearchMilestone => {
     const sectorId = cornerSector(type);

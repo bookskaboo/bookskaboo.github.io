@@ -7,7 +7,7 @@ import { ITEM_COLORS } from './items';
 import { getGolemMineral } from './resourceGolems';
 import { cartUpgrade, isCartKind } from './cartUpgrades';
 import type { MachineNode, NodeDefinition, NodeKind, PortFamily } from '../domain/types';
-import { modNode } from '../mods/modRules';
+import { modNode, modNodeTemplate } from '../mods/modRules';
 
 const NODE_PALETTE = {
   water: 0x70c7ee,
@@ -140,7 +140,9 @@ export const getNodeDisplayDefinition = (node: MachineNode): NodeDefinition => {
 
 export const isNodeUnlocked = (kind: NodeKind, unlockedResearch: readonly string[]) => {
   if (kind === 'fluidRoad' || DEFERRED_POWER_NODES.has(kind)) return false;
-  const requirement = NODE_DEFINITIONS[kind].unlockResearch;
+  const definition = NODE_DEFINITIONS[kind];
+  if (!definition) return false;
+  const requirement = definition.unlockResearch;
   return !requirement || unlockedResearch.includes(requirement);
 };
 
@@ -157,7 +159,7 @@ export const getEffectiveNodeInputFamilies = (node: MachineNode, completedResear
   const base = getNodeInputFamilies(node.kind, completedResearch);
   const recipe = node.recipeId ? RECIPES[node.recipeId] : undefined;
   if (!recipe) return base;
-  if (node.kind === 'smelter' || node.kind === 'refiner' || node.kind === 'assembler' || ['hydroProcessor','advancedAssembler','separationFurnace'].includes(node.kind)) {
+  if (['kiln', 'smelter', 'refiner', 'assembler', 'hydroProcessor', 'advancedAssembler', 'separationFurnace'].includes(modNodeTemplate(node.kind))) {
     return Object.keys(recipe.inputs) as PortFamily[];
   }
   return base;
@@ -170,7 +172,7 @@ export const getEffectiveNodeOutputFamilies = (node: MachineNode): readonly Port
   if (node.infiniteResource && node.resourceItem) return Array<PortFamily>(4).fill(node.resourceItem);
   if (node.kind === 'road' || node.kind === 'fluidRoad') return node.roadMode === 'import' ? NODE_DEFINITIONS[node.kind].output : [];
   const recipe = node.recipeId ? RECIPES[node.recipeId] : undefined;
-  if (recipe && ['kiln', 'smelter', 'refiner', 'assembler','hydroProcessor','advancedAssembler','separationFurnace'].includes(node.kind)) {
+  if (recipe && ['kiln', 'smelter', 'refiner', 'assembler','hydroProcessor','advancedAssembler','separationFurnace'].includes(modNodeTemplate(node.kind))) {
     const products = (Object.keys(recipe.outputs) as import('../domain/types').ItemId[]).filter(i=>!WASTE_ITEMS.includes(i));
     return Object.keys(recipe.outputs).some(i=>WASTE_ITEMS.includes(i as import('../domain/types').ItemId)) || recipe.chanceOutputs?.length ? ['ANY'] : products;
   }

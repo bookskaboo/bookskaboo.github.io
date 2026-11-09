@@ -62,7 +62,7 @@ describe('Cart, Truck and Train progression', () => {
       expect(getBuildNodeDefinition('woodenChest', engine.getState().research.completed).name).toBe(expected.name);
     }
     // The test factory ran while the second research interval elapsed: no items vanished.
-    const stored = engine.getSector().nodes.filter(node => node.id !== 'lab').reduce((sum, node) => sum + Object.values(node.input).reduce((n, q) => n + (q ?? 0), 0) + Object.values(node.output).reduce((n, q) => n + (q ?? 0), 0), 0);
+    const stored = engine.getSector().nodes.filter(node => node.id !== 'lab').reduce((sum, node) => sum + Object.values(node.input).reduce<number>((n, q) => n + (q ?? 0), 0) + Object.values(node.output).reduce<number>((n, q) => n + (q ?? 0), 0), 0);
     expect(stored + (engine.getState().inFlightTransfers ?? []).filter(transfer => !transfer.cosmeticOnly).length).toBe(7);
     const future = engine.placeNode('woodenChest', 1100, 1100)!;
     expect(engine.getSector().nodes.find(node => node.id === future)).toMatchObject({ name: 'Train', capacity: 80 });
@@ -78,7 +78,7 @@ describe('Cart, Truck and Train progression', () => {
     advance(engine, 6000);
     const cart = engine.getSector().nodes[1];
     expect(cart).toMatchObject({ capacity, name });
-    expect(Object.values(cart.input).reduce((n, q) => n + (q ?? 0), 0) + Object.values(cart.output).reduce((n, q) => n + (q ?? 0), 0)).toBe(capacity);
+    expect(Object.values(cart.input).reduce<number>((n, q) => n + (q ?? 0), 0) + Object.values(cart.output).reduce<number>((n, q) => n + (q ?? 0), 0)).toBe(capacity);
     expect(cart.output.iron).toBe(capacity); // Intake no longer adds a second timed hop to local transport.
     const restored = new GameEngine(normalizeLegacy(JSON.parse(JSON.stringify(engine.getState())))!, { autosave: false });
     expect(restored.getSector().nodes[1]).toEqual(cart);

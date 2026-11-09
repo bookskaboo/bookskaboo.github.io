@@ -3,7 +3,7 @@ import { BUILDABLE_NODES, isNodeUnlocked } from '../../content/nodes';
 import { RESEARCH_PROJECTS } from '../../content/research';
 import type { GameState } from '../../domain/types';
 import { GameEngine } from '../../simulation/engine';
-import { MAP_GRID_SIZE } from '../../simulation/worldGeneration';
+import { worldGridSize } from '../../domain/worldGrid';
 import { PanelHeader } from '../PanelHeader';
 
 export function DevPanel({ game, engine, showAllBuildNodes, onShowAllBuildNodes, onPlaceSource, onClose }: { game: GameState; engine: GameEngine; showAllBuildNodes: boolean; onShowAllBuildNodes(v: boolean): void; onPlaceSource(): void; onClose(): void }) {
@@ -14,10 +14,10 @@ export function DevPanel({ game, engine, showAllBuildNodes, onShowAllBuildNodes,
   };
   const allNodesUnlocked = BUILDABLE_NODES.every((definition) => isNodeUnlocked(definition.kind, game.research.unlocked));
   const allResearchUnlocked = RESEARCH_PROJECTS.filter((project) => !project.repeatable).every((project) => game.research.completed.includes(project.id));
-  const mapCount = MAP_GRID_SIZE ** 2;
+  const mapCount = worldGridSize(game) ** 2;
   const allMapNodesRevealed = game.devMapSurveysRevealed === true && Object.values(game.sectors).filter(sector => sector.unlocked).length === mapCount;
   const Control = ({ icon, title, detail, action, state, disabled }: { icon: string; title: string; detail: string; action(): void; state: string; disabled?: boolean }) => <button className={`option-action dev-control ${disabled ? 'complete' : ''}`} disabled={disabled} onClick={action}><i>{icon}</i><span><b>{title}</b><small>{detail}</small></span><strong>{state}</strong></button>;
-  return <div className="modal-backdrop"><section className="modal dev-modal glass"><PanelHeader eyebrow="DEVELOPER TOOLS" title="Dev controls" onClose={onClose} /><div className="dev-note"><i>!</i><span><b>Local developer overrides</b><small>These controls modify this save immediately. Unlock actions can be undone once with Ctrl + Z.</small></span></div><div className="option-list dev-controls">
+  return <div className="modal-backdrop"><section className="modal dev-modal glass"><PanelHeader title="Dev controls" onClose={onClose} /><div className="dev-note"><i>!</i><span><b>Local developer overrides</b><small>These controls modify this save immediately. Unlock actions can be undone once with Ctrl + Z.</small></span></div><div className="option-list dev-controls">
     <button className="option-action" onClick={exportReport}><i>↓</i><span><b>Export playtest report</b><small>Export resources, time, and factory state. Evidence, if required.</small></span><strong>JSON</strong></button>
     {reportText && <textarea aria-label="Playtest report JSON" readOnly value={reportText} style={{ width: '100%', minHeight: 180, fontFamily: 'monospace', fontSize: 11 }} />}
     <Control icon="∞" title="Place Dev Source" detail="Connect any input; its required materials appear automatically. Procurement has been excused." action={onPlaceSource} state="PLACE" />

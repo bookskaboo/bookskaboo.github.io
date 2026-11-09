@@ -41,7 +41,7 @@ export function ResearchTreeModal({ game, focusProjectId, onInspect, onClose }: 
     }
   }}>
     <section ref={modal} className="modal research-tree-modal glass" role="dialog" aria-modal="true" aria-label="Research dependency tree">
-      <PanelHeader eyebrow="PREREQUISITES" title="Research tree" onClose={onClose} />
+      <PanelHeader title="Research tree" onClose={onClose} />
       <div className="research-tree-tools">
         <p>Start at the top. The obligations accumulate below.</p>
         <label><span>Find research</span><input ref={search} type="search" value={query} placeholder="Find a project or upgrade…" onChange={event => { setQuery(event.target.value); setFocusedId(undefined); }} /></label>

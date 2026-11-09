@@ -17,19 +17,20 @@ function advance(engine: GameEngine, ms: number) {
   while (ms > 0) { const step = Math.min(ms, 100); engine.tick(step); ms -= step; }
 }
 
-describe('research selection Core check', () => {
-  it('immediately consumes one complete set, credits progress and starts its glow without advancing time', () => {
+describe('research selection and payment timing', () => {
+  it('keeps stocked Cores until the first cycle ends, then credits progress and starts its glow', () => {
     const { engine, center, state } = setup();
     engine.selectResearch('extractor2');
     expect(state.playTimeMs).toBe(0);
+    expect(center.input).toEqual({ 'simple-core': 5, 'basic-core': 5 });
+    expect(center.researchConsumption).toBeUndefined();
+    advance(engine, 4999);
+    expect(state.research.contributed).toEqual({});
+    advance(engine, 1);
     expect(center.input).toEqual({ 'simple-core': 4, 'basic-core': 4 });
     expect(state.research.contributed).toEqual({ 'simple-core': 1, 'basic-core': 1 });
-    expect(center.researchConsumption).toEqual({ atMs: 0, cycleMs: 5000 });
-    expect(researchConsumptionGlow(center, 120)).toBeGreaterThan(0);
-    advance(engine, 4999);
-    expect(state.research.contributed['simple-core']).toBe(1);
-    advance(engine, 1);
-    expect(state.research.contributed).toEqual({ 'simple-core': 2, 'basic-core': 2 });
+    expect(center.researchConsumption).toEqual({ atMs: 5000, cycleMs: 5000 });
+    expect(researchConsumptionGlow(center, 5120)).toBeGreaterThan(0);
   });
 
   it('checks missing Cores atomically and retains the normal supplied-cycle behavior afterward', () => {
@@ -52,16 +53,17 @@ describe('research selection Core check', () => {
     else if (condition === 'locked-sector') state.sectors['5,5'].unlocked = false;
     else center[condition] = true;
     engine.selectResearch('extractor2');
+    advance(engine, 5000);
     expect(state.research.selected).toBe('extractor2');
     expect(state.research.contributed).toEqual({});
     expect(center.input['simple-core']).toBe(5);
     expect(center.researchConsumption).toBeUndefined();
   });
 
-  it('preserves the next payment deadline through same-project clicks, cancellation, switching and save/load', () => {
+  it('retains paid sets across project changes and keeps an active cycle across save/load', () => {
     let { engine, center, state } = setup();
     engine.selectResearch('extractor2');
-    advance(engine, 1500);
+    advance(engine, 6500);
     engine.selectResearch('extractor2');
     expect(center.progressMs).toBe(1500);
     expect(center.input['simple-core']).toBe(4);
@@ -69,36 +71,43 @@ describe('research selection Core check', () => {
     engine.selectResearch('road');
     expect(center.input['simple-core']).toBe(4);
     expect(state.research.contributed).toEqual({});
-    expect(center.progressMs).toBe(1500);
+    expect(center.progressMs).toBe(0);
+    advance(engine, 1500);
     engine = new GameEngine(normalizeLegacy(JSON.parse(JSON.stringify(state)))!, { autosave: false });
     center = engine.getSector().nodes[0]; state = engine.getState();
+    expect(center.progressMs).toBe(1500);
     engine.selectResearch('extractor2');
     expect(state.research.contributed).toEqual({ 'simple-core': 1, 'basic-core': 1 });
-    advance(engine, 3499);
+    expect(center.progressMs).toBe(0);
+    advance(engine, 4999);
     expect(center.input['simple-core']).toBe(4);
     advance(engine, 1);
     expect(state.research.contributed).toEqual({ 'simple-core': 2, 'basic-core': 2 });
   });
 
-  it('can finish a resumed project immediately while consuming only still-required types', () => {
+  it('finishes a resumed project after a full cycle and consumes only still-required types', () => {
     const { engine, center, state } = setup();
     const costs = getResearchCostsForState(getResearchProject('extractor2')!, state.research);
     state.research.projectContributions = { extractor2: { ...costs, 'basic-core': costs['basic-core']! - 1 } };
     engine.selectResearch('extractor2');
+    advance(engine, 4999);
+    expect(state.research.completed).not.toContain('extractor2');
+    expect(center.input['basic-core']).toBe(5);
+    advance(engine, 1);
     expect(state.research.completed).toContain('extractor2');
     expect(state.research.selected).toBeUndefined();
     expect(center.input).toEqual({ 'simple-core': 5, 'basic-core': 4 });
-    expect(center.researchConsumption).toEqual({ atMs: 0, cycleMs: 5000 });
+    expect(center.researchConsumption).toEqual({ atMs: 5000, cycleMs: 5000 });
   });
 
   it('leaves payment timing and feedback intact when an unavailable project is requested', () => {
     const { engine, center, state } = setup();
     engine.selectResearch('extractor2');
-    advance(engine, 1500);
+    advance(engine, 6500);
     engine.selectResearch('connectorMirroring');
     expect(state.research.selected).toBe('extractor2');
     expect(center.progressMs).toBe(1500);
     expect(center.input['simple-core']).toBe(4);
-    expect(center.researchConsumption).toEqual({ atMs: 0, cycleMs: 5000 });
+    expect(center.researchConsumption).toEqual({ atMs: 5000, cycleMs: 5000 });
   });
 });

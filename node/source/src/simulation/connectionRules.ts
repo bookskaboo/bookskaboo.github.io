@@ -7,19 +7,18 @@ import { segmentCrossesObstruction, type Point } from '../domain/obstructionGeom
 import { FILTERABLE_ITEMS, isFluidItem } from '../content/items';
 import { isCartKind } from '../content/cartUpgrades';
 import { CORE_ITEMS, WASTE_ITEMS, BOT_STRENGTH } from '../content/progression';
-import { modNode, modResearchAccepts } from '../mods/modRules';
+import { modNode, modNodeTemplate, modResearchAccepts, modReserveItems } from '../mods/modRules';
 
 export type PortDirection = 'input' | 'output';
 export type PortSide = 'north' | 'east' | 'south' | 'west';
 
 const RESOURCE: ItemId[] = ['wood', 'iron', 'copper', 'mythril', 'stone', 'water'];
-const MATERIAL: ItemId[] = [...RESOURCE, 'brick', 'charcoal', 'iron-plate', 'copper-plate', 'mythril-plate', 'iron-gear', 'copper-gear', 'mythril-gear', 'iron-wire', 'copper-wire', 'mythril-wire', 'motor', 'circuit-a', 'simple-core', 'basic-core', 'automata-core', 'simple-robot-frame', 'simple-robot-gun', 'suppression-bot'];
 
 export const expandPortFamily = (family: PortFamily): ItemId[] => {
   if (family === 'FLUID') return ['water', 'coolant'];
-  if (family === 'ANY') return [...new Set([...MATERIAL,...FILTERABLE_ITEMS])];
+  if (family === 'ANY') return FILTERABLE_ITEMS;
   if (family === 'WASTE') return WASTE_ITEMS;
-  if (family === 'RESOURCE') return RESOURCE;
+  if (family === 'RESOURCE') return [...RESOURCE, ...modReserveItems().filter(item => !RESOURCE.includes(item))];
   if (family === 'METAL') return ['iron', 'copper', 'mythril'];
   if (family === 'PLATE') return ['iron-plate', 'copper-plate', 'mythril-plate'];
   if (family === 'GEAR') return ['iron-gear', 'copper-gear', 'mythril-gear'];
@@ -67,7 +66,7 @@ export interface ConnectionPlan { fromPort: number; toPort: number; replace: str
 export function resolveExactConnectionPlan(source: MachineNode, fromPort: number, target: MachineNode, toPort: number, connections: readonly Connection[], completedResearch: readonly string[] = []): ConnectionPlan | undefined {
   if (source.kind !== 'devSource' && (needsRecipeSelection(source) || needsRecipeSelection(target))) return undefined;
   if (source.id === target.id || source.disabled || target.disabled || !portFamiliesCompatible(source, fromPort, target, toPort, completedResearch)) return undefined;
-  if (target.kind === 'merger') {
+  if (modNodeTemplate(target.kind) === 'merger') {
     const retainedType = connections.find((connection) => connection.to === target.id && connection.item)?.item;
     const sourceItems = expandPortFamily(getEffectiveNodeOutputFamilies(source)[fromPort]);
     if (retainedType && sourceItems.length === 1 && sourceItems[0] !== retainedType) return undefined;

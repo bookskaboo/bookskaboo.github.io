@@ -96,8 +96,8 @@ describe('speedrun follow-up regressions', () => {
     for (let step = 0; step < 300; step++) {
       engine.tick(100);
       const split = engine.getSector().nodes.find(n => n.id === 'split')!;
-      expect(Object.values(split.input).reduce((a, b) => a + (b ?? 0), 0)).toBeLessThanOrEqual(5);
-      expect(Object.values(split.output).reduce((a, b) => a + (b ?? 0), 0)).toBeLessThanOrEqual(5);
+      expect(Object.values(split.input).reduce<number>((a, b) => a + (b ?? 0), 0)).toBeLessThanOrEqual(5);
+      expect(Object.values(split.output).reduce<number>((a, b) => a + (b ?? 0), 0)).toBeLessThanOrEqual(5);
     }
     const nodes = engine.getSector().nodes;
     const open = nodes.find(n => n.id === 'open')!;

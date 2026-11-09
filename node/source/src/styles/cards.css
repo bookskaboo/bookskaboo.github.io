@@ -141,7 +141,6 @@
   .options-toggle-grid .toggle-row b { overflow-wrap:break-word; }
 }
 .shortcut-visibility-options { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:9px; padding:12px; border:1px solid #43484e; border-radius:11px; background:#202327; }
-.shortcut-visibility-options > span { grid-column:1/-1; }
 .shortcut-visibility-options button { min-height:62px; border-radius:9px; }
 .range-setting { min-height:86px; padding:14px; border:1px solid #43484e; border-radius:11px; background:linear-gradient(145deg,#292d31,#202327); }
 

@@ -1,4 +1,6 @@
-export type ItemId =
+export type CustomContentId = `mod-${string}`;
+
+export type ItemId = CustomContentId
   | 'alpha' | 'foundry-component' | 'reclamation-component' | 'grove-component' | 'core-half-a' | 'core-half-b' | 'final-core'
   | 'coolant' | 'conductive-slurry' | 'hydraulic-actuator' | 'ceramic-electrode' | 'hydro-core'
   | 'refined-mithril' | 'slag' | 'mithril-mesh' | 'shiny-core' | 'precision-controller'
@@ -12,7 +14,7 @@ export type ItemId =
   | 'motor' | 'circuit-a' | 'simple-core' | 'basic-core' | 'automata-core'
   | 'simple-robot-frame' | 'simple-robot-gun' | 'suppression-bot' | 'power' | 'forest-growth';
 
-export type NodeKind =
+export type NodeKind = CustomContentId
   | 'cornerChallenge' | 'cornerTribute' | 'recycler'
   | 'devSource'
   | 'lakeIntake' | 'hydroProcessor' | 'advancedAssembler' | 'separationFurnace' | 'slagHopper'
@@ -60,7 +62,6 @@ export interface MachineNode {
   /** Last successful research payment, timed in simulation milliseconds for its visual feedback. */
   researchConsumption?: { atMs: number; cycleMs: number };
   /** Earliest next payment after a successful check, retained across project changes. */
-  researchNextCheckAtMs?: number;
   cycleMs: number;
   constructedAt: number;
   constructionMs: number;
@@ -211,6 +212,7 @@ export interface GameState {
   seed: number;
   activeSectorId: string;
   sectors: Record<string, SectorState>;
+  worldGridSize?: number;
   devMapSurveysRevealed?: true;
   golemPlacementTier?: import('../content/resourceGolems').GolemPlacementTier;
   encounterLayoutVersion?: 1 | 2;

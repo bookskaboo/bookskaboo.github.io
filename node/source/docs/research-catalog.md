@@ -2,11 +2,13 @@
 
 **November 5 update (NODE-0321):** Endgame Theory is retired. Victory is A Remarkably Indirect Conclusion, manually selected at the Research Center after first Final Core production, costing one each of Simple, Basic, Automata, Hydro, Shiny, Complex and Final Cores. The dated baseline below predates current endgame implementation; live prices are authoritative in src/content/research.ts and src/content/endgame.ts.
 
+**November 8 update:** Standard paid research now costs at least five of each required Core. This raises Assembler to five Simple Cores and Victory to five of all seven types. The Research Center credits each set only after a complete cycle, including when its inputs are already stocked.
+
 Updated November 2, 2026. Factorinode currently has six core types and 103 research entries: 12 free milestones and discoveries, 85 fixed paid projects, and 6 repeatable projects. Nine machine research lines now have six ranks through Complex; tier 7 research remains planned. Power is removed pending a useful integration design: Basic Electricity and Power Distribution are no longer live projects. Tree Planters operate without Power. This catalog includes every live entry, its requirements and its effect, followed by the remaining planned research.
 
 # Research rules
 
-A price of **2 each through Hydro** means 2 Simple + 2 Basic + 2 Automata + 2 Hydro Cores. Every successful Research Center cycle consumes one of every required core together; the slowest missing core stream stops progress. The single Research Center is anchored at Home. Its base cycle is five seconds for new and loaded nodes; six upgrades use 90%, 80%, 70%, 60%, 50% and 40% of base time, giving 4.5, 4, 3.5, 3, 2.5 and 2 seconds per synchronized set. The highest completed rank replaces earlier effects.
+A price of **5 each through Hydro** means 5 Simple + 5 Basic + 5 Automata + 5 Hydro Cores. At the end of each cycle, the Research Center consumes and credits one of every Core it still needs together. A missing Core stops the cycle. The single Research Center is anchored at Home. Its base cycle is five seconds for new and loaded nodes; six upgrades use 90%, 80%, 70%, 60%, 50% and 40% of base time, giving 4.5, 4, 3.5, 3, 2.5 and 2 seconds per synchronized set. The highest completed rank replaces earlier effects.
 
 Use **Research tree** at the top right of the research header to browse prerequisites from top to bottom. Search keeps matching projects and their prerequisite paths visible. Click a tree node to open its details; click the same research card again to collapse the details. Tree cards show names only, with colors indicating research status.
 
@@ -36,7 +38,7 @@ Research shows the active project beside one recommended hint and up to two alte
 | Get Mythril | Scout for an occupied sector to unlock Small Bots, then research Sealed Robotics. Find a Dwarven settlement and start Mythril Tribute. A starter Camp takes two Medium Bots per minute; an outpost can supply its parts while Hydro production continues. |
 | Grow the factory | Research Ore Separation and make Shiny Cores, then research Precision Control and make Complex Cores. Keep Controller waste. Optional Golem clues point toward the outer sectors; Resource Golem Survey and Bots let a player turn a Golem into a permanent mineral reserve. |
 | Find the four pieces | Open routes to all four corners of the Node Map. Their locations vary by world. Once visited, the guide can name the corner and its job: Bots for the Dragon, parts for the Foundry, local Tree Planter growth for the Grove, and waste for Reclamation. |
-| Win and keep playing | Assemble the world's paired pieces into Yin and Yang, then assemble the Final Core. Start A Remarkably Indirect Conclusion and supply one of each of the seven Cores. After victory, the final card is “You’ve got this” with the hint “Maybe a speed run next?” |
+| Win and keep playing | Assemble the world's paired pieces into Yin and Yang, then assemble the Final Core. Start A Remarkably Indirect Conclusion and supply five of each of the seven Cores. After victory, the final card is “You’ve got this” with the hint “Maybe a speed run next?” |
 
 # Production chain revision
 
@@ -67,7 +69,7 @@ Each price applies equally to every required Core from Simple through the named 
 | 40–49 | Shiny | 5–25 | 51 |
 | 50–59 | Complex | 5–30 | 61 |
 
-Exploration costs 1 Simple + 1 Basic Core, unlocks the world map and awards the first Map Point. Map Node is repeatable after Exploration and starts at 5 Simple Cores. Every completion awards one Map Point, used to activate a locked map directly north, south, east or west of an unlocked map. Enter the activated map to discover its resources. Area Expansion instead enlarges the working field inside maps. With each Core available by its scheduled phase, research for the half-world baseline costs **2,797 Cores in 671 synchronized sets**, including Exploration. Map Points remain freely assignable to adjacent locked maps.
+Exploration costs 5 Simple + 5 Basic Cores, unlocks the world map and awards the first Map Point. Map Node is repeatable after Exploration and starts at 5 Simple Cores. Every completion awards one Map Point, used to activate a locked map directly north, south, east or west of an unlocked map. Enter the activated map to discover its resources. Area Expansion instead enlarges the working field inside maps. With each Core available by its scheduled phase, research for the half-world baseline costs **2,805 Cores in 675 synchronized sets**, including Exploration. Map Points remain freely assignable to adjacent locked maps.
 
 ## Scaling beyond half the map
 
@@ -82,7 +84,7 @@ When Complex enters at #50, the remaining **60 maps** after its ten-purchase ram
 | Continue in groups of five | Add 1 per group |
 | 117–121 | 42 |
 
-For extra map number n after the 61-map baseline, the price is **30 + ceil(n / 5)** of each required Core, for n = 1 through 60. With all scheduled Cores available, full-world map research costs **15,937 Cores in 2,861 synchronized sets**, including Exploration. At five seconds per set this is 3 hours 58 minutes 25 seconds of uninterrupted lab work, or 1 hour 35 minutes 22 seconds with Research Center 6 throughout. Production, transport, construction, combat and other research add elapsed time.
+For extra map number n after the 61-map baseline, the price is **30 + ceil(n / 5)** of each required Core, for n = 1 through 60. With all scheduled Cores available, full-world map research costs **15,945 Cores in 2,865 synchronized sets**, including Exploration. At five seconds per set this is 3 hours 58 minutes 45 seconds of uninterrupted lab work, or 1 hour 35 minutes 30 seconds with Research Center 6 throughout. Production, transport, construction, combat and other research add elapsed time.
 
 ## Preventing exploration dead ends
 
@@ -112,15 +114,16 @@ These entries consume no cores. Discoveries require visiting the relevant map; P
 | Splitter | Build an Assembler | Unlocks the Splitter node |
 | Merger | Produce a Basic Core | Unlocks the Merger node |
 | Suppression Bot | Encounter a Monster Camp | Unlocks the Bot Frame, Bot Gun, and Small Bot recipes |
+| End of the World | Obtain any corner piece | Unlocks Yin, Yang and Final Core assembly |
 
 # Implemented access and expansion research
 
 | Research | Core cost | Research prerequisites | Unlock or benefit |
 | --- | --- | --- | --- |
-| Advanced Fabrication | 2 each through Basic | Assembler | Unlocks the Assembler II node. |
-| Assembler | 1 each through Simple | None specified | Unlocks the Assembler node |
-| Road | 2 each through Basic | None specified | Unlocks the Road node |
-| Automata Core | 2 each through Basic | Exploration | Unlocks the Automata Core recipe in the Assembler |
+| Advanced Fabrication | 5 each through Automata | Assembler + Automata Core | Unlocks the Assembler II node. |
+| Assembler | 5 Simple Cores | None specified | Unlocks the Assembler node |
+| Road | 5 each through Basic | None specified | Unlocks the Road node |
+| Automata Core | 5 each through Basic | Exploration | Unlocks the Automata Core recipe in the Assembler |
 | Area Expansion 1 | 10 each through Automata | None specified | Increases every map node field by 25% in both dimensions |
 | Tree Planter | 10 each through Automata | None specified | Unlocks the Tree Planter node |
 | Mining Drill | 10 each through Automata | None specified | Unlocks the Mining Drill node |
@@ -131,19 +134,19 @@ Endgame Theory was retired on November 5. The first corner piece unlocks the see
 
 | Research | Core cost | Research prerequisites | Unlock or benefit |
 | --- | --- | --- | --- |
-| Hydrochemistry | 1 each through Automata | Automata Core | Copper Slurry recipe. |
-| Hydraulic Assembly | 2 each through Automata | Hydrochemistry | Hydro Piston, Electrode and Hydro Core recipes. |
-| Fluid Routing | 2 each through Hydro | Hydraulic Assembly | Fluid Road and Fluid Tank for inter-map fluid logistics. |
-| Sealed Robotics | 2 each through Hydro | Hydraulic Assembly + Suppression Bot | Sealed Frame, Cooled Gun and Medium Bot recipes. |
-| Ore Separation | 2 each through Hydro | Fluid Routing | Mythril Mesh and Shiny Core recipes. |
-| Heavy Robotics | 2 each through Shiny | Sealed Robotics + Ore Separation | Mythril Frame, Focused Gun and Heavy Bot recipes. |
-| Precision Control | 2 each through Shiny | Ore Separation + Mineral Recovery | Logic Wafer, Controller, Servo Piston and Complex Core; advanced recovery recipes and Waste Handling fallback. |
-| Autonomous Logistics | 2 each through Complex | Precision Control | Storage and Inventory use one global transfer pool. Inventory initially outputs through Filters. Pool capacity is currently 1,000 per item. |
-| Command Robotics | 2 each through Complex | Precision Control + Heavy Robotics | Servo Frame, Pulse Cannon and Command Bot recipes. |
-| Final Robotics | 1 each through Final | Final Core Production + Command Robotics | Assembler II combines 2 Command Bots, 1 Complex Core and 1 Servo Frame into a 72 AP Final Bot every 210 seconds at base speed. |
-| A Remarkably Indirect Conclusion | 1 each through Final | First Final Core produced | Select at the Research Center; consuming the complete seven-Core set records victory and opens the modal. |
-| Resource Golem Survey | 3 each through Hydro | Sealed Robotics | Allows Bot attacks on four mineral Golems in separate sectors. Iron, Copper and Stone cost 180 AP each. Mythril costs 360 AP. Defeated Golems become infinite mineral reserves with four star connections for Extractors. |
-| Mineral Regeneration | 2 each through Shiny | Mineral Recovery + Ore Separation | Ordinary non-wood deposits recover 1 unit every 30 seconds up to capacity. Depleted deposits remain after this unlock; existing Deep Holes are not restored. |
+| Hydrochemistry | 5 each through Automata | Automata Core | Copper Slurry recipe. |
+| Hydraulic Assembly | 5 each through Automata | Hydrochemistry | Hydro Piston, Electrode and Hydro Core recipes. |
+| Fluid Routing | 5 each through Hydro | Hydraulic Assembly | Fluid Road and Fluid Tank for inter-map fluid logistics. |
+| Sealed Robotics | 5 each through Hydro | Hydraulic Assembly + Suppression Bot | Sealed Frame, Cooled Gun and Medium Bot recipes. |
+| Ore Separation | 5 each through Hydro | Fluid Routing | Mythril Mesh and Shiny Core recipes. |
+| Heavy Robotics | 5 each through Shiny | Sealed Robotics + Ore Separation | Mythril Frame, Focused Gun and Heavy Bot recipes. |
+| Precision Control | 5 each through Shiny | Ore Separation + Mineral Recovery | Logic Wafer, Controller, Servo Piston and Complex Core; advanced recovery recipes and Waste Handling fallback. |
+| Autonomous Logistics | 5 each through Final | Precision Control + Final Core Production | Storage and Inventory use one global transfer pool. Inventory initially outputs through Filters. Pool capacity is currently 1,000 per item. |
+| Command Robotics | 5 each through Complex | Precision Control + Heavy Robotics | Servo Frame, Pulse Cannon and Command Bot recipes. |
+| Final Robotics | 5 each through Final | Final Core Production + Command Robotics | Assembler II combines 2 Command Bots, 1 Complex Core and 1 Servo Frame into a 72 AP Final Bot every 210 seconds at base speed. |
+| A Remarkably Indirect Conclusion | 5 each through Final | First Final Core produced | Select at the Research Center and pay five sets to record victory and open the modal. |
+| Resource Golem Survey | 5 each through Hydro | Sealed Robotics | Allows Bot attacks on four mineral Golems in separate sectors. Iron, Copper and Stone cost 180 AP each. Mythril costs 360 AP. Defeated Golems become infinite mineral reserves with four star connections for Extractors. |
+| Mineral Regeneration | 5 each through Shiny | Mineral Recovery + Ore Separation | Ordinary non-wood deposits recover 1 unit every 30 seconds up to capacity. Depleted deposits remain after this unlock; existing Deep Holes are not restored. |
 
 # Implemented efficiency and logistics research
 
@@ -162,7 +165,7 @@ Cycle upgrades replace the earlier speed factor unless the effect explicitly say
 | Warehouse Logistics | 20 each through Hydro | Ore Separation + Fluid Routing | Dedicated one-item Warehouse holds 250 items with a filtered outlet; Inventory retrieval stays a later unlock. |
 | Trucks | 15 each through Automata | Road + Automata Core | Doubles vehicle storage to 40 solid items and raises the Road limit to 24 items per minute. |
 | Trains | 40 each through Hydro | Trucks + Hydraulic Assembly | Upgrades all existing and future vehicles to 80 solid items, retaining stock and cables. Every solid tier is allowed; fluids are excluded. |
-| Road Channels 1 | 2 each through Hydro | Road + Hydraulic Assembly | Adds the second Road slot per map face. Sending and receiving endpoints share the limit. |
+| Road Channels 1 | 5 each through Hydro | Road + Hydraulic Assembly | Adds the second Road slot per map face. Sending and receiving endpoints share the limit. |
 | Area Expansion 2 | 50 each through Shiny | Area Expansion 1 + Precision Control | Each sector grows from 1.25 to 1.5 times its base width and height. That gives 44% more field area than Area Expansion 1. |
 | Road Channels 2 | 20 each through Hydro | Road Channels 1 + Ore Separation | Adds the third Road slot per map face. Sending and receiving endpoints share the limit. |
 | Extractor 1 | 10 each through Simple | None specified | All Extractor cycles use 90% of base time, replacing earlier ranks. Ingredient quantities and output yields stay unchanged. |
@@ -225,12 +228,12 @@ Cycle upgrades replace the earlier speed factor unless the effect explicitly say
 | Research | First rank cost | Research prerequisites | Benefit per completion |
 | --- | --- | --- | --- |
 | Mineral Regeneration Rate | 10 each through Complex | Mineral Regeneration 2 | Each rank adds 0.8 mineral units per minute per ordinary deposit. Players can buy further ranks indefinitely. |
-| Storage Placement Capacity | 50 each through Complex | Autonomous Logistics | Each rank adds one Storage placement to the global cap; no maximum rank. |
-| Inventory Placement Capacity | 50 each through Complex | Autonomous Logistics | Each rank adds one Inventory placement to the global cap; no maximum rank. |
-| Storage Connection Capacity | 40 each through Complex | Autonomous Logistics | Each rank adds one permitted connection per Storage; no maximum rank. |
-| Inventory Connection Capacity | 40 each through Complex | Autonomous Logistics | Each rank adds one permitted output connection per Inventory; Inventory still initially connects only to Filters. |
+| Storage Placement Capacity | 5 each through Final | Autonomous Logistics | Each rank adds one Storage placement to the global cap; no maximum rank. |
+| Inventory Placement Capacity | 5 each through Final | Autonomous Logistics | Each rank adds one Inventory placement to the global cap; no maximum rank. |
+| Storage Connection Capacity | 5 each through Final | Autonomous Logistics | Each rank adds one permitted connection per Storage; no maximum rank. |
+| Inventory Connection Capacity | 5 each through Final | Autonomous Logistics | Each rank adds one permitted output connection per Inventory; Inventory still initially connects only to Filters. |
 
-The repeatables in this table charge **ceil(base × 1.5^(r−1))** of each required Core at rank r. For Mineral Regeneration Rate, ranks 1–5 cost 10, 15, 23, 34 and 51 of each Core. Players can buy further ranks indefinitely.
+At rank r, repeatables charge **ceil(base × 1.5^(r−1))** of each required Core, with a minimum of five. Storage and Inventory prices start at 5, 5, 5, 5 and 6 of each Core. Mineral Regeneration Rate starts at 10, 15, 23, 34 and 51 of each Core. Players can buy further ranks indefinitely.
 
 # Implemented linear machine research through Complex
 
@@ -253,7 +256,7 @@ Each completed rank reduces cycle time by 10 percentage points of the original b
 | Kiln | Kiln 1, Kiln 2, Kiln 3, Kiln 4, Kiln 5, Kiln 6 | Kiln unlocked |
 | Smelter | Smelter 1, Smelter 2, Smelter 3, Smelter 4, Smelter 5, Smelter 6 | Smelter unlocked |
 | Refiner | Refiner 1, Refiner 2, Refiner 3, Refiner 4, Refiner 5, Refiner 6 | Refiner unlocked |
-| Assembler | Assembler 1, Assembler 2, Assembler 3, Assembler 4, Assembler 5, Assembler 6 | Assembler unlocked |
+| Assembler | 5 Simple Cores | Assembler unlocked |
 | Research Center | Research Center 1, Research Center 2, Research Center 3, Research Center 4, Research Center 5, Research Center 6 | Research Center unlocked |
 | Hydro Plant | Hydro Plant 1, Hydro Plant 2, Hydro Plant 3, Hydro Plant 4, Hydro Plant 5, Hydro Plant 6 | Water Tools discovery |
 | Assembler II | Assembler II 1, Assembler II 2, Assembler II 3, Assembler II 4, Assembler II 5, Assembler II 6 | Advanced Fabrication |
@@ -289,7 +292,7 @@ The following entries are retained from the design proposal and are absent from 
 
 # Changes since the earlier proposal
 
-Hydro, Shiny and Complex chains, machine upgrades, logistics upgrades, regeneration and the five late repeatables are now implemented. Advanced Fabrication is paid research costing 2 Simple + 2 Basic Cores after Assembler; an Fabricator encounter does not grant it. Resource Golem Survey allows Bot attacks on four mineral Golems. New worlds place them in separate tier 5 sectors. Iron, Copper and Stone take 180 AP each, and Mythril takes 360 AP. Defeated Golems become infinite reserves with four Extractor sockets. Road research unlocks both Roads and Carts. Road limits are one, two and three per map face, counting imports and exports together; each Road carries up to 12, 24 or 48 items per minute at Cart, Truck or Train level. Roads hold no inventory and leave cargo at the source when the receiver is disconnected or full. Trucks and Trains upgrade vehicle storage globally to 40 and 80 items. All solid tiers are available from the first Cart; fluids are excluded. The earlier whole-chest batch proposal remains historical.
+Hydro, Shiny and Complex chains, machine upgrades, logistics upgrades, regeneration and the five late repeatables are now implemented. Advanced Fabrication costs 5 each of Simple, Basic and Automata Cores after Assembler and Automata Core research. Resource Golem Survey allows Bot attacks on four mineral Golems. New worlds place them in separate tier 5 sectors. Iron, Copper and Stone take 180 AP each, and Mythril takes 360 AP. Defeated Golems become infinite reserves with four Extractor sockets. Road research unlocks both Roads and Carts. Road limits are one, two and three per map face, counting imports and exports together; each Road carries up to 12, 24 or 48 items per minute at Cart, Truck or Train level. Roads hold no inventory and leave cargo at the source when the receiver is disconnected or full. Trucks and Trains upgrade vehicle storage globally to 40 and 80 items. All solid tiers are available from the first Cart; fluids are excluded. The earlier whole-chest batch proposal remains historical.
 
 # Sources
 

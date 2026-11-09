@@ -2,7 +2,7 @@
 
 A searchable record of completed changes, design decisions, and relevant review findings. Stable NODE IDs can be cited in chats and searched in the repository.
 
-**411 records · 2026-10-12–2026-11-08 · America/Los_Angeles**
+**421 records · 2026-10-12–2026-11-08 · America/Los_Angeles**
 
 [Open searchable history](<docs/changelog/index.html>) · [How to review and maintain it](<docs/changelog/README.md>) · [Sources and coverage gaps](<docs/changelog/sources.md>)
 
@@ -12,6 +12,16 @@ Latest confirmed game publication: [19dc40f](https://github.com/bookskaboo/books
 
 | ID | Change | Topics |
 | --- | --- | --- |
+| [NODE-0421](<docs/changelog/2026-11.md#node-0421>) | Choose the world map size in Mods | Mods, World generation, Interface, Research, Persistence |
+| [NODE-0420](<docs/changelog/2026-11.md#node-0420>) | Rename Corner Pieces research to End of the World | Research, Progression, Interface |
+| [NODE-0419](<docs/changelog/2026-11.md#node-0419>) | Set obstruction spawn and placement rules in Mods | Mods, World generation, Interface, Persistence |
+| [NODE-0418](<docs/changelog/2026-11.md#node-0418>) | Import and export editable mod files | Mods, Interface, Persistence, Documentation |
+| [NODE-0417](<docs/changelog/2026-11.md#node-0417>) | Create custom Mods entries and combine the Lake editor | Mods, Interface, Production, Research, World generation, Persistence |
+| [NODE-0416](<docs/changelog/2026-11.md#node-0416>) | Align Commands columns and simplify modal titles | Interface, Controls, Shortcuts |
+| [NODE-0415](<docs/changelog/2026-11.md#node-0415>) | Refine Commands and show the newest Journal entries first | Interface, Controls, Accessibility |
+| [NODE-0414](<docs/changelog/2026-11.md#node-0414>) | Match top bar dialogs and subdialogs to Research card typography | Interface, Research, Controls |
+| [NODE-0413](<docs/changelog/2026-11.md#node-0413>) | Credit research after full cycles and set a five-Core minimum | Research, Simulation, Progression |
+| [NODE-0412](<docs/changelog/2026-11.md#node-0412>) | Remove the placement card from shortcut pickups | Interface, Controls, Shortcuts |
 | [NODE-0338](<docs/changelog/2026-11.md#node-0338>) | Verify Monster Camp AP delivery for all four bot tiers | Encounters, Connections, Playtesting, Documentation |
 | [NODE-0325](<docs/changelog/2026-11.md#node-0325>) | Record verified Hydro delivery and Tree Planter recovery through the normal UI | Playtesting, Documentation, Logistics, Production |
 | [NODE-0324](<docs/changelog/2026-11.md#node-0324>) | Record the normal-UI fuel repair and sustained Medium Bot verification | Documentation, Logistics, Production, Playtesting |
@@ -23,7 +33,6 @@ Latest confirmed game publication: [19dc40f](https://github.com/bookskaboo/books
 | [NODE-0225](<docs/changelog/2026-11.md#node-0225>) | Add Road-unlocked Carts, global Truck and Train upgrades, and shared face slots | Research, Storage, Logistics, Roads, Tutorials, Persistence, Interface |
 | [NODE-0218](<docs/changelog/2026-11.md#node-0218>) | Remove map-node hover tooltips from the expanded map | Interface, Map |
 | [NODE-0217](<docs/changelog/2026-11.md#node-0217>) | Keep H for Home and separate compass coordinates with a dot | Interface, World, Map |
-| [NODE-0211](<docs/changelog/2026-11.md#node-0211>) | Check Research Center Cores immediately on project selection | Research, Simulation, Testing, Persistence |
 | [NODE-0207](<docs/changelog/2026-11.md#node-0207>) | Pulse Research Centers between successful Core payments | Research, Interface, Animation, Simulation |
 | [NODE-0195](<docs/changelog/2026-11.md#node-0195>) | Keep history date-filter checks valid as new entries are added | Documentation, Tooling |
 | [NODE-0140](<docs/changelog/2026-11.md#node-0140>) | Add a universal Dev Source that automatically supplies connected inputs | Controls, Interface, Production, Research, Connections, Playtesting |
@@ -64,7 +73,7 @@ Latest confirmed game publication: [19dc40f](https://github.com/bookskaboo/books
 
 ## Dated history
 
-- [2026-11](<docs/changelog/2026-11.md>) — 393 records
+- [2026-11](<docs/changelog/2026-11.md>) — 403 records
 - [2026-10](<docs/changelog/2026-10.md>) — 18 records
 
 “Known by” dates are implementation/publication bounds, not exact change dates. “Backfilled” dates mark records with uncertain original dates. Supersession links explain reversals. Original-game records do not certify current rebuild behavior.
@@ -84,7 +93,7 @@ A record marked “Published by” was known in that snapshot and may have appea
 
 ## Topics
 
-- [Accessibility](<docs/changelog/index.html?topic=Accessibility>) (4)
+- [Accessibility](<docs/changelog/index.html?topic=Accessibility>) (5)
 - [Animation](<docs/changelog/index.html?topic=Animation>) (6)
 - [Architecture](<docs/changelog/index.html?topic=Architecture>) (3)
 - [Audio](<docs/changelog/index.html?topic=Audio>) (1)
@@ -94,40 +103,40 @@ A record marked “Published by” was known in that snapshot and may have appea
 - [Connections](<docs/changelog/index.html?topic=Connections>) (21)
 - [Construction](<docs/changelog/index.html?topic=Construction>) (9)
 - [Control groups](<docs/changelog/index.html?topic=Control%20groups>) (3)
-- [Controls](<docs/changelog/index.html?topic=Controls>) (26)
+- [Controls](<docs/changelog/index.html?topic=Controls>) (30)
 - [Deployment](<docs/changelog/index.html?topic=Deployment>) (1)
 - [Design](<docs/changelog/index.html?topic=Design>) (7)
 - [Discovery](<docs/changelog/index.html?topic=Discovery>) (5)
-- [Documentation](<docs/changelog/index.html?topic=Documentation>) (184)
+- [Documentation](<docs/changelog/index.html?topic=Documentation>) (185)
 - [Encounters](<docs/changelog/index.html?topic=Encounters>) (77)
 - [Exploration](<docs/changelog/index.html?topic=Exploration>) (20)
 - [Extraction](<docs/changelog/index.html?topic=Extraction>) (1)
-- [Interface](<docs/changelog/index.html?topic=Interface>) (126)
+- [Interface](<docs/changelog/index.html?topic=Interface>) (135)
 - [Logistics](<docs/changelog/index.html?topic=Logistics>) (70)
 - [Map](<docs/changelog/index.html?topic=Map>) (3)
-- [Mods](<docs/changelog/index.html?topic=Mods>) (1)
+- [Mods](<docs/changelog/index.html?topic=Mods>) (5)
 - [Mythril](<docs/changelog/index.html?topic=Mythril>) (14)
 - [Naming](<docs/changelog/index.html?topic=Naming>) (7)
 - [Nodes](<docs/changelog/index.html?topic=Nodes>) (2)
 - [Options](<docs/changelog/index.html?topic=Options>) (4)
 - [Performance](<docs/changelog/index.html?topic=Performance>) (1)
-- [Persistence](<docs/changelog/index.html?topic=Persistence>) (24)
+- [Persistence](<docs/changelog/index.html?topic=Persistence>) (28)
 - [Planning](<docs/changelog/index.html?topic=Planning>) (169)
 - [Playtesting](<docs/changelog/index.html?topic=Playtesting>) (19)
 - [Power](<docs/changelog/index.html?topic=Power>) (2)
-- [Production](<docs/changelog/index.html?topic=Production>) (42)
-- [Progression](<docs/changelog/index.html?topic=Progression>) (174)
+- [Production](<docs/changelog/index.html?topic=Production>) (43)
+- [Progression](<docs/changelog/index.html?topic=Progression>) (176)
 - [Publication](<docs/changelog/index.html?topic=Publication>) (2)
 - [Publishing](<docs/changelog/index.html?topic=Publishing>) (1)
 - [Recipes](<docs/changelog/index.html?topic=Recipes>) (80)
-- [Research](<docs/changelog/index.html?topic=Research>) (157)
+- [Research](<docs/changelog/index.html?topic=Research>) (162)
 - [Resources](<docs/changelog/index.html?topic=Resources>) (86)
 - [Responsive](<docs/changelog/index.html?topic=Responsive>) (2)
 - [Roads](<docs/changelog/index.html?topic=Roads>) (5)
 - [Saves](<docs/changelog/index.html?topic=Saves>) (5)
 - [Search](<docs/changelog/index.html?topic=Search>) (2)
-- [Shortcuts](<docs/changelog/index.html?topic=Shortcuts>) (10)
-- [Simulation](<docs/changelog/index.html?topic=Simulation>) (6)
+- [Shortcuts](<docs/changelog/index.html?topic=Shortcuts>) (12)
+- [Simulation](<docs/changelog/index.html?topic=Simulation>) (7)
 - [Storage](<docs/changelog/index.html?topic=Storage>) (7)
 - [Testing](<docs/changelog/index.html?topic=Testing>) (17)
 - [Text](<docs/changelog/index.html?topic=Text>) (6)
@@ -138,7 +147,7 @@ A record marked “Published by” was known in that snapshot and may have appea
 - [Waste](<docs/changelog/index.html?topic=Waste>) (18)
 - [Workflow](<docs/changelog/index.html?topic=Workflow>) (1)
 - [World](<docs/changelog/index.html?topic=World>) (37)
-- [World generation](<docs/changelog/index.html?topic=World%20generation>) (2)
+- [World generation](<docs/changelog/index.html?topic=World%20generation>) (5)
 - [World map](<docs/changelog/index.html?topic=World%20map>) (18)
 - [Writing](<docs/changelog/index.html?topic=Writing>) (1)
 

@@ -1,4 +1,4 @@
-/* Import order preserves the existing cascade and responsive overrides. */
+/* Shared modal typography follows the individual dialog styles. */
 @import './styles/base.css';
 @import './styles/theme.css';
 @import './styles/node-controls.css';
@@ -9,10 +9,10 @@
 @import './styles/notifications.css';
 @import './styles/saves.css';
 @import './styles/node-map.css';
-@import './styles/readability.css';
 @import './styles/interaction.css';
 @import './styles/responsive.css';
 @import './styles/recipe-panel.css';
 @import './styles/research-tree.css';
 @import './styles/research-details.css';
 @import './styles/mods.css';
+@import './styles/readability.css';

@@ -13,7 +13,6 @@
 }
 .recipes-dialog-header { position:relative; display:grid; grid-template-columns:46px minmax(0,1fr) 34px; align-items:center; gap:13px; }
 .recipes-dialog-header > div:nth-child(2) { min-width:0; }
-.recipes-dialog-header small { display:block; margin-bottom:3px; color:#aa8d5e; font:800 7px/1.2 monospace; letter-spacing:1.2px; }
 .recipes-dialog-header h2 { margin:0; color:#f3e5ca; font-size:20px; letter-spacing:.2px; }
 .recipes-dialog-header p { margin:4px 0 0; color:#ae9f87; font:italic 10px/1.25 Georgia,serif; }
 .recipes-title-mark { width:46px; height:46px; display:grid; place-items:center; border:1px solid #c29c5d70; border-radius:10px; color:#f4daa9; background:linear-gradient(145deg,#554631,#2d2922); box-shadow:inset 0 1px #ffffff16,0 6px 18px #0006; }

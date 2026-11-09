@@ -13,7 +13,7 @@ import { outstandingResearchCores } from '../simulation/researchStatus';
 import type { GameState, ItemId, MachineNode, SectorState } from '../domain/types';
 
 export interface ProductionVisual { working: boolean; missingInputs: number[]; blockedOutputs: number[]; fill: number; }
-const total = (bag: MachineNode['output']) => Object.values(bag).reduce((sum, n) => sum + (n ?? 0), 0);
+const total = (bag: MachineNode['output']) => Object.values(bag).reduce<number>((sum, n) => sum + (n ?? 0), 0);
 
 export function productionExplanation(node: MachineNode, game: GameState, sector: SectorState) {
   const recipe = RECIPES[node.batch?.recipeId ?? node.recipeId ?? ''];

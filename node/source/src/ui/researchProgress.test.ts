@@ -49,18 +49,22 @@ describe('research payment and delivery details', () => {
     lab.processingPaused = false; lab.constructedAt = 1000; lab.constructionMs = 1500;
     expect(researchProgress(project, game, 2000).status).toContain('finish construction');
   });
-  it('preserves researched payments and immediately checks the remaining Cores when resuming', () => {
+  it('preserves researched payments and shows buffered Cores as unpaid until the resumed cycle ends', () => {
     const game = setup();
-    game.research.contributed = { 'simple-core': 1 };
+    game.research.contributed = { 'simple-core': 5, 'basic-core': 4 };
     game.sectors['5,5'].nodes = [tutorialNode('researchCenter', 'lab', 500, 500, { input: { 'basic-core': 1 }, progressMs: 500 })];
     const engine = new GameEngine(game, { autosave: false });
     engine.selectResearch(undefined);
     let progress = researchProgress(project, engine.getState());
     expect(progress.active).toBe(false);
-    expect(progress.rows.find(row => row.item === 'simple-core')).toMatchObject({ researched: 1, remaining: 0 });
+    expect(progress.rows.find(row => row.item === 'simple-core')).toMatchObject({ researched: 5, remaining: 0 });
     expect(engine.getSector().nodes[0].progressMs).toBe(0);
     expect(engine.getSector().nodes[0].input).toEqual({ 'basic-core': 1 });
     engine.selectResearch(project.id);
+    progress = researchProgress(project, engine.getState());
+    expect(progress.active).toBe(true);
+    expect(progress.rows.find(row => row.item === 'basic-core')).toMatchObject({ researched: 4, remaining: 1 });
+    for (let i = 0; i < 50; i++) engine.tick(100);
     progress = researchProgress(project, engine.getState());
     expect(progress.active).toBe(false);
     expect(progress.rows.every(row => row.remaining === 0)).toBe(true);

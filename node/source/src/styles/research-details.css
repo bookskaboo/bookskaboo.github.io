@@ -86,7 +86,7 @@
 }
 .research-modal .research-card-icon { width: 42px; height: 42px; grid-column: 1; border-radius: 8px; font-size: 26px; }
 .research-modal .research-card.active .research-card-icon { grid-row: 1 / span 2; }
-.research-modal .research-card-name { grid-column: 2; font-size: 13px; line-height: 1.3; text-align: left; }
+.research-modal .research-card-name { grid-column: 2; text-align: left; }
 .research-modal .research-card.reachable {
   background: linear-gradient(145deg, #293f53, #223140);
   border-color: #527e9f;
@@ -104,11 +104,11 @@
   margin: 0;
   accent-color: #79d5aa;
 }
-.ui-hover-tooltip.research-tooltip {
+.ui-hover-tooltip.modal-tooltip {
   max-width: min(430px, calc(100vw - 16px));
   padding: 13px 16px;
 }
-.research-tooltip b {
+.modal-tooltip b {
   color: #f6f2e7;
   font-family: inherit;
   font-size: 17px;
@@ -117,7 +117,7 @@
   text-transform: none;
   letter-spacing: normal;
 }
-.research-tooltip span {
+.modal-tooltip span {
   margin-top: 7px;
   color: #edf2f6;
   font-size: 15px;
@@ -125,4 +125,4 @@
   white-space: pre-line;
   overflow-wrap: anywhere;
 }
-.research-tooltip em { color: #e0c591; font-size: 14px; line-height: 1.5; }
+.modal-tooltip em { color: #e0c591; font-size: 14px; line-height: 1.5; }

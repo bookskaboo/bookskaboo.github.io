@@ -105,7 +105,7 @@ export function ResearchPanel({ focusProjectId, allowedProjectId, showMilestones
       <div className="modal-backdrop" style={treeOpen ? { display: 'none' } : undefined}>
         <section className="modal research-modal glass">
           <PanelHeader
-            eyebrow="RESEARCH" title="Research projects" onClose={onClose}
+            title="Research projects" onClose={onClose}
             actions={(
               <button
                 ref={treeButton} type="button" className="research-tree-trigger"

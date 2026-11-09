@@ -1,7 +1,8 @@
 /* Readability pass: favor Windows' native hinted faces and keep fine UI type
    crisp without changing the established panel measurements. */
 :root {
-  font-family: "Segoe UI Variable Text", "Segoe UI", Inter, Arial, sans-serif;
+  --ui-font-family: "Segoe UI Variable Text", "Segoe UI", Inter, Arial, sans-serif;
+  font-family: var(--ui-font-family);
   font-synthesis: weight style;
 }
 html {
@@ -27,4 +28,128 @@ body,button,input,select,textarea {
 .factory-template-controls p,.global-pool-panel p { font-size:12px; }
 .research-card{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;min-height:95px}
 .research-card-name{font-size:10px;line-height:1.25;color:inherit;text-align:center;max-width:100%;overflow-wrap:anywhere}
+
+/* Use Research card typography for comparable labels in game dialogs. */
+:root {
+  --modal-card-font: 500 13px/1.3 var(--ui-font-family);
+  --modal-copy-font: 500 13px/1.45 var(--ui-font-family);
+  --modal-reading-font: 500 15px/1.55 var(--ui-font-family);
+}
+
+.research-modal .research-card-name,
+.build-card span b,
+.option-action span b,
+.options-toggle-grid .toggle-row b,
+.shortcut-visibility-options button b,
+.dev-note b,
+.panel-note p b,
+.factory-template-controls summary,
+.inventory-row span,
+.discovery-entry h3,
+.save-local-note b,
+.save-slot-copy > :is(strong, input, label),
+.autosave-frequency b,
+.recipe-guide-group-heading strong,
+.recipes-modal .recipe-guide-title strong,
+.recipes-modal .recipe-guide-material,
+.mods-category-grid b,
+.mods-entry-list b,
+.mods-field-title,
+.mods-bag legend,
+.map-survey-list h3,
+.map-survey-list li,
+.tutorial-choice h3,
+.tutorial-reference h3,
+.research-tree-node strong,
+.welcome-points b {
+  font: var(--modal-card-font);
+  letter-spacing: normal;
+}
+
+.build-card span small,
+.shortcut-visibility-options button small,
+.dev-controls .option-action small,
+.dev-note small,
+.panel-note p,
+.factory-template-controls p,
+.discovery-intro,
+.discovery-summary,
+.discovery-entry :is(p, small),
+.discovery-time,
+.save-local-note small,
+.save-slot-copy p,
+.autosave-frequency small,
+.autosave-frequency > i,
+.recipes-dialog-header p,
+.recipe-guide-group-heading span,
+.recipe-guide-material small,
+.mods-intro,
+.mods-help,
+.mods-navigation span,
+.mods-category-grid small,
+.mods-field > small,
+.mods-footer > span,
+.mods-footer small,
+.mods-review td small,
+.map-modal .map-survey-list p,
+.map-modal .map-info .map-unexplored,
+.tutorial-library-note,
+.tutorial-choice p,
+.tutorial-reference :is(p, b),
+.research-tree-tools p,
+.research-tree-note,
+.welcome-points small,
+.welcome-modal .privacy-note,
+.confirm-modal p,
+.modal .empty-state {
+  font: var(--modal-copy-font);
+}
+
+.build-card span small,
+.dev-controls .option-action small,
+.dev-note small,
+.panel-note p,
+.save-local-note small,
+.welcome-points small,
+.welcome-modal .privacy-note,
+.confirm-modal p,
+.modal .empty-state {
+  color: #b9c7ce;
+}
+
+.modal .category-tabs button,
+.shortcut-visibility-options button strong,
+.option-action > strong,
+.factory-template-controls :is(button, input, select),
+.discovery-entry button,
+.save-slot-actions button,
+.save-slot-copy em,
+.autosave-copy-actions :is(button, span),
+.recipes-modal :is(.recipe-node-filter, .recipes-back),
+.mods-modal button:not(.panel-header button),
+.mods-modal :is(input, select, textarea:not([readonly], [placeholder^="NODEMOD"])),
+.map-modal :is(.map-node-editor label, .map-node-editor input, .map-node-editor button, .node-map-filters button),
+.world-node-minimap.expanded .map-primary-action,
+.tutorial-choice button,
+.tutorial-menu > button,
+.research-tree-tools :is(label, input, small),
+.research-tree-legend,
+.welcome-actions .primary-cta,
+.confirm-modal button {
+  font: var(--modal-card-font);
+}
+
+.modal-tooltip span {
+  font: var(--modal-reading-font);
+}
+
+.save-modal {
+  display: flex;
+  flex-direction: column;
+}
+.save-local-note { flex: none; }
+.save-list { flex: 1 1 auto; min-height: 0; }
+.save-slot-copy > strong { height: auto; min-height: 34px; padding-block: 6px; overflow-wrap: anywhere; }
+.autosave-copy-actions { flex-wrap: wrap; }
+.discovery-time { font-variant-numeric: tabular-nums; }
 

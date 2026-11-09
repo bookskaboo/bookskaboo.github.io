@@ -58,7 +58,7 @@ export function supplyDevInputs(state: GameState, sector: SectorState, lookups: 
     // Fill balanced shared buffers; research and production have separate item limits.
     while (items.length) {
       const item = items.filter(item => {
-        const occupied = perItem ? target.input[item] ?? 0 : Object.values(target.input).reduce((n, q) => n + (q ?? 0), 0);
+        const occupied = perItem ? target.input[item] ?? 0 : Object.values(target.input).reduce<number>((n, q) => n + (q ?? 0), 0);
         const reserved = pending?.transfers.filter(transfer => !transfer.cosmeticOnly && (!perItem || transfer.item === item)).length ?? 0;
         const limit = Math.max(capacity(target, item), RECIPES[target.recipeId ?? '']?.inputs[item] ?? 0);
         return occupied + reserved < limit;

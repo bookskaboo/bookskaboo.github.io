@@ -38,7 +38,7 @@ describe('six-tier gameplay progression',()=>{
   tick(e,r.cycleMs/1000-.1);expect(n.output).toEqual({});
   tick(e,.1);
   for(const [item,amount] of Object.entries(r.outputs))expect(n.output[item as ItemId]).toBe(amount);
-  expect(Object.values(n.output).reduce((sum,n)=>sum+(n??0),0)).toBeLessThanOrEqual(5);
+  expect(Object.values(n.output).reduce<number>((sum,n)=>sum+(n??0),0)).toBeLessThanOrEqual(5);
   expect(Object.values(n.input).every(n=>!n)).toBe(true);
  });
  it('gates composite recipes at Precision Control and retains the Refiner alternatives',()=>{
@@ -68,7 +68,7 @@ describe('six-tier gameplay progression',()=>{
   const received=()=> (other.nodes[1].input.copper??0)+(other.nodes[1].output.copper??0);
   e.getSector().connections=[{id:'c',from:'chest',to:'out',fromPort:0,toPort:0,createdAt:0}];
   tick(e,4.9);expect(received()).toBe(10);tick(e,.1);
-  expect(Object.values(e.getSector().nodes[0].input).reduce((a,b)=>a+(b??0),0)+Object.values(e.getSector().nodes[0].output).reduce((a,b)=>a+(b??0),0)).toBe(11);
+  expect(Object.values(e.getSector().nodes[0].input).reduce<number>((a,b)=>a+(b??0),0)+Object.values(e.getSector().nodes[0].output).reduce<number>((a,b)=>a+(b??0),0)).toBe(11);
   expect(received()).toBe(11);tick(e,5);
   expect(received()).toBe(12);expect(other.nodes[0].output).toEqual({});
  });
@@ -104,8 +104,8 @@ describe('six-tier gameplay progression',()=>{
   const lab=e.getSector().nodes[0];lab.input=Object.fromEntries(CORE_ITEMS.slice(0,5).map(i=>[i,2]));tick(e,2);expect(e.getState().research.contributed).toEqual({});
   lab.input['command-core']=1;tick(e,5);expect(Object.values(e.getState().research.contributed)).toEqual([1,1,1,1,1,1]);expect(lab.input['command-core']).toBe(0);
  });
- it('completes saved contributions above a newly reduced price without more inputs',()=>{
-  const e=setup([machine('researchCenter')]);e.selectResearch('assembler');e.getState().research.contributed={'simple-core':3};tick(e,.1);expect(e.getState().research.completed).toContain('assembler');
+ it('completes saved contributions that already cover the price without more inputs',()=>{
+  const e=setup([machine('researchCenter')]);e.selectResearch('assembler');e.getState().research.contributed={'simple-core':6};tick(e,.1);expect(e.getState().research.completed).toContain('assembler');
  });
  it('does not grant a discovery merely by generating or activating a map',()=>{
   const e=setup([]);const map=generateSector(7,5,204,0);map.unlocked=true;e.getState().sectors[map.id]=map;tick(e,.1);
@@ -139,13 +139,13 @@ describe('six-tier gameplay progression',()=>{
  it('researches Advanced Fabrication with tier-three Core sets and no landmark or advanced machine',()=>{
   const project=RESEARCH_PROJECTS.find(p=>p.id==='fabricatorTools')!;
   expect(project.trigger).toBeUndefined();
-  expect(project.costs).toEqual({'simple-core':2,'basic-core':2,'automata-core':2});
+  expect(project.costs).toEqual({'simple-core':5,'basic-core':5,'automata-core':5});
   expect(isResearchAvailable(project,[])).toBe(false);
   expect(isResearchAvailable(project,['assembler'])).toBe(false);
   expect(isResearchAvailable(project,['assembler','automataCore'])).toBe(true);
   expect(isRecipeUnlocked('basic-core',['assembler'])).toBe(true);
-  const e=setup([machine('researchCenter','lab',{input:{'simple-core':2,'basic-core':2,'automata-core':2}})],['assembler','automataCore']);
-  e.selectResearch('fabricatorTools');tick(e,15);
+  const e=setup([machine('researchCenter','lab',{input:{'simple-core':5,'basic-core':5,'automata-core':5}})],['assembler','automataCore']);
+  e.selectResearch('fabricatorTools');tick(e,25);
   expect(e.getState().research.completed).toContain('fabricatorTools');
   expect(e.getSector().nodes[0].input).toEqual({'simple-core':0,'basic-core':0,'automata-core':0});
  });
@@ -175,8 +175,8 @@ describe('six-tier gameplay progression',()=>{
  it('regenerates an empty ordinary deposit without collapsing it',()=>{
   const e=setup([machine('iron','ore',{resourceItem:'iron',resourceRemaining:0,resourceCapacity:10})],['mineralRegeneration']);tick(e,30);expect(e.getSector().nodes[0].kind).toBe('iron');expect(e.getSector().nodes[0].resourceRemaining).toBe(1);
  });
- it('scales repeatable costs from the original base with upward rounding',()=>{
-  const p=RESEARCH_PROJECTS.find(p=>p.id==='storagePlacementCapacity')!;expect([0,1,2,3,4].map(rank=>getResearchCosts(p,rank)['command-core'])).toEqual([1,2,3,4,6]);
+ it('applies the five-Core minimum after rounding repeatable prices',()=>{
+  const p=RESEARCH_PROJECTS.find(p=>p.id==='storagePlacementCapacity')!;expect([0,1,2,3,4,5].map(rank=>getResearchCosts(p,rank)['command-core'])).toEqual([5,5,5,5,6,8]);
  });
  it('uses one global pool across maps, preserves overflow and respects the per-item cap',()=>{
   const e=setup([machine('storage','s',{input:{iron:1010}})],['autonomousLogistics']);const other=generateSector(6,5,204,0);other.nodes=[machine('inventory','i'),machine('filter','f',{filterItem:'iron'}),machine('warehouse','drain',{processingPaused:true})];other.unlocked=true;other.connections=[{id:'c',from:'i',to:'f',fromPort:0,toPort:0,createdAt:0},{id:'filtered',from:'f',to:'drain',createdAt:0}];e.getState().sectors[other.id]=other;

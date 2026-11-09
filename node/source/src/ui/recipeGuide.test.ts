@@ -1,13 +1,13 @@
 import { describe, expect, it } from 'vitest';
 import { createTutorialState } from '../tutorials/tutorialRuntime';
 import { RECIPES, RECIPE_GROUPS } from '../content/recipes';
-import { recipeGuideGroups, RECIPE_GUIDE_GROUPS, recipeGuideCycle } from './recipeGuide';
+import { recipeGuideGroups, getRecipeGuideGroups, recipeGuideCycle } from './recipeGuide';
 
 describe('recipe guide catalog', () => {
   it('covers every production recipe group using the live catalog', () => {
-    expect(RECIPE_GUIDE_GROUPS.map(group => group.id).sort()).toEqual(Object.keys(RECIPE_GROUPS).sort());
+    expect(getRecipeGuideGroups().map(group => group.id).sort()).toEqual(Object.keys(RECIPE_GROUPS).sort());
     const game = createTutorialState('basic');
-    for (const group of RECIPE_GUIDE_GROUPS) {
+    for (const group of getRecipeGuideGroups()) {
       for (const id of RECIPE_GROUPS[group.id]) {
         expect(recipeGuideGroups(game, id).find(candidate => candidate.id === group.id)?.recipes.some(recipe => recipe.id === id), `${group.id}: ${id}`).toBe(true);
       }
