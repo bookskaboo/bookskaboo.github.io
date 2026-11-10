@@ -16,6 +16,8 @@ describe('unlock navigation', () => {
     const event = { id: 'old', type: 'ResearchCompleted' as const, message: 'Kiln research complete. Unlocks the Kiln node', at: 10 };
     expect(researchEventProject(event)).toBe('kiln');
     expect(researchEventProject({ ...event, projectId: 'joint' })).toBe('joint');
+    expect(researchEventProject({ ...event, message: 'Map Node research complete. Awards 1 Map Point.' })).toBe('mapNode');
+    expect(researchEventProject({ ...event, message: 'Extra Map Point research complete. Awards 1 Map Point.' })).toBe('mapNode');
     expect(researchEventProject({ ...event, message: 'Unknown old message' })).toBeUndefined();
   });
 });

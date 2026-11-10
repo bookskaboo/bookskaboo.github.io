@@ -12,6 +12,7 @@ describe('research browsing', () => {
     expect(projects.slice(0, 3).map(p => p.id)).toEqual(['joint', 'kiln', 'smelter']);
     expect(researchSection(project('lakeTools'), state)).toBe('future');
     expect(researchSection(project('assembler'), state)).toBe('future');
+    expect(researchSection(project('mapNode'), state)).toBe('future');
     const ids = projects.map(p => p.id);
     expect(ids).toContain('victory');
     expect(ids).not.toContain('endgameTheory');
@@ -29,9 +30,11 @@ describe('research browsing', () => {
     expect(researchSection(project('exploration'), state)).toBe('available');
   });
 
-  it('groups reachable discoveries and unlocks before blue upgrades and repeatables, then orders grey cards by complexity', () => {
+  it('puts Extra Map Point first when available and keeps other cards ordered by access and complexity', () => {
     const state = createInitialState(1);
-    state.research.completed = ['joint', 'kiln', 'smelter', 'refiner', 'researchCenter', 'assembler', 'exploration'];
+    state.research.completed = ['joint', 'kiln', 'smelter', 'refiner', 'researchCenter', 'assembler'];
+    expect(researchCatalog(state).projects[0].id).not.toBe('mapNode');
+    state.research.completed.push('exploration');
     state.research.selected = 'road';
     const { active, projects } = researchCatalog(state);
     expect(active?.id).toBe('road');
@@ -40,12 +43,16 @@ describe('research browsing', () => {
     const locked = projects.slice(firstLocked).map(p => p.id);
     expect(reachable).toContain('lakeTools');
     expect(reachable.indexOf('automataCore')).toBeLessThan(reachable.indexOf('extractor1'));
-    expect(reachable.indexOf('extractor1')).toBeLessThan(reachable.indexOf('mapNode'));
-    expect(reachable.at(-1)).toBe('mapNode');
+    expect(reachable[0]).toBe('mapNode');
+    expect(projects[0].name).toBe('Extra Map Point');
     expect(projects.slice(firstLocked).every(p => researchSection(p, state) === 'future')).toBe(true);
     expect(locked.indexOf('hydraulicAssembly')).toBeLessThan(locked.indexOf('precisionControl'));
     expect(locked.indexOf('finalCoreProduction')).toBeLessThan(locked.indexOf('victory'));
     expect(projects.some(p => p.id === active?.id)).toBe(false);
+    state.research.selected = 'mapNode';
+    expect(researchCatalog(state).active?.id).toBe('mapNode');
+    state.research.mapPoints = 120;
+    expect(researchCatalog(state).completed.map(p => p.id)).toContain('mapNode');
   });
   it('keeps active and repeatable projects out of the completed archive', () => {
     const state = createInitialState(1);

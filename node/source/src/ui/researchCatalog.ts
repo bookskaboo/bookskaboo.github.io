@@ -18,7 +18,8 @@ export function researchCatalog(game: GameState) {
     const tier = discoveryTier[project.id] ?? SEVEN_CORES.reduce((highest, core, index) =>
       (costs[core] ?? 0) > 0 ? index + 1 : highest, 0);
     const isUpgrade = project.category === 'Efficiency' && !efficiencyUnlocks.has(project.id);
-    const availableOrder = project.repeatable ? 2 : isUpgrade ? 1 : 0;
+    const availableOrder = section === 'available' && project.id === 'mapNode' ? -1
+      : project.repeatable ? 2 : isUpgrade ? 1 : 0;
     return { project, section, tier, availableOrder };
   });
   const active = ranked.find(({ section }) => section === 'active')?.project;

@@ -5,7 +5,9 @@ import type { GameEvent, NodeKind } from '../domain/types';
 
 export type UnlockDestination = { panel: 'build'; nodeKind: NodeKind } | { panel: 'recipes'; recipeId: string } | { panel: 'research'; projectId: string };
 export function researchEventProject(event: GameEvent) {
-  return event.projectId ?? RESEARCH_PROJECTS.find(project => event.message.startsWith(`${project.name} research complete.`))?.id;
+  return event.projectId ?? (event.message.startsWith('Map Node research complete.')
+    ? 'mapNode'
+    : RESEARCH_PROJECTS.find(project => event.message.startsWith(`${project.name} research complete.`))?.id);
 }
 export function unlockDestination(projectId: string, nodeKind?: NodeKind): UnlockDestination {
   if (nodeKind) return { panel: 'build', nodeKind };

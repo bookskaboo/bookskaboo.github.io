@@ -12986,6 +12986,37 @@
         "Automatic clearing replaces the inspector's Clear Field action. It also applies when Efficient Landfill reduces the bill to an amount already paid. Unused buffered Stone goes into a salvage Cart, and in-flight Stone returns to the sender."
       ],
       "validation": "The /node/ production build passed. In the release checkout, 798 tests passed and one was skipped. Regression coverage checks final Stone delivery, reuse of the reclaimed space, cable removal, returned in-flight Stone, buffered Stone after a Landfill discount, and already-filled saves. No browser playtest was performed."
+    },
+    {
+      "id": "NODE-0430",
+      "date": "2026-11-09",
+      "dateBasis": "chat",
+      "kind": "changed",
+      "state": "implemented",
+      "delivery": "local",
+      "title": "Name the repeatable research Extra Map Point and list it first",
+      "summary": "Rename Map Node research to Extra Map Point to match the map interface. Put it first in the Research list whenever it is available for selection.",
+      "topics": [
+        "Interface",
+        "Research",
+        "Progression"
+      ],
+      "sources": [
+        "chat-current",
+        "local-code"
+      ],
+      "evidence": [
+        "src/content/research.ts",
+        "src/ui/researchCatalog.ts",
+        "src/ui/researchPresentation.test.ts",
+        "src/ui/unlockNavigation.test.ts",
+        "src/tutorials/tutorialDialogue.ts",
+        "docs/research-catalog.md"
+      ],
+      "details": [
+        "Keep the saved mapNode project ID and resolve older completion messages that used the former name. Extra Map Point uses the active slot when selected and the completed archive when banked points cover the remaining maps."
+      ],
+      "validation": "The production build and all 794 tests in src passed. Tests cover the project's position before and after Exploration, its active and fully funded states, and navigation from completion messages with either name. No browser playtest was performed."
     }
   ]
 }

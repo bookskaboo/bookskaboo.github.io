@@ -22,7 +22,7 @@ Open `http://127.0.0.1:4173/`.
 - Fixed 100 ms simulation with 750 ms UI publication and inactive-sector updates
 - Pixi node graph with one ticker, cable particles, progress interpolation, marquee selection, node dragging, port connections, right/middle/Space panning, and pointer-centered zoom
 - Item, recipe, node, and research catalogs including Mythril production, Suppression Bots, Inventory/Filter logistics, Roads, Tree Planters, and Mining Drills. Power is removed pending a useful integration design.
-- Production chains, buffers, resource depletion, alternating Splitters, storage retrieval, synchronized research core sets, research milestones and efficiency upgrades, rising repeatable Map Node costs, and dedicated Forest Growth ports
+- Production chains, buffers, resource depletion, alternating Splitters, storage retrieval, synchronized research core sets, research milestones and efficiency upgrades, rising Extra Map Point costs, and dedicated Forest Growth ports
 - Tree Planters restore Forest without Power. Generators, Power Splitters, Power Lines and their research are absent from playable catalogs; Hydrochemistry no longer requires Basic Electricity. Old Power equipment, wiring, stored energy and affected in-flight cargo are archived within saves rather than simulated.
 - React build, inventory, research, world map, journal, options, save/load, inspector, and shortcut interfaces
 - **Options → Mods** provides guided editors for existing resources, nodes, recipes, research, obstructions, maps and connection/construction settings, with base-game templates, change review, local drafts, save-aware activation and copy/paste share codes. See the [mod guide](docs/mods.md) for supported fields and behavior.
@@ -449,10 +449,10 @@ The dedicated Automata Core Assembler is removed. Automata Core production uses
 the regular Assembler. Old saves and templates convert the retired machine
 without removing stored items, recipe progress or connections.
 
-### Map Node research and full world access
+### Extra Map Point research and full world access
 
 Exploration costs 1 Simple + 1 Basic Core and grants the first Map Point.
-Map Node completions 1–9 cost 5 Simple Cores each, making exploration the first
+Extra Map Point completions 1–9 cost 5 Simple Cores each, making exploration the first
 sustained reason to scale Simple production while Assembler stays at 1 Simple.
 Completions 10–19 rise from 6 to 10 each through Basic, 20–29 from 11 to 15 through
 Automata, 30–39 from 16 to 20 through Hydro, 40–49 from 21 to 25 through Shiny,

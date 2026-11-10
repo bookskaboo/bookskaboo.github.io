@@ -2,7 +2,7 @@
 
 A searchable record of completed changes, design decisions, and relevant review findings. Stable NODE IDs can be cited in chats and searched in the repository.
 
-**424 records · 2026-10-12–2026-11-09 · America/Los_Angeles**
+**425 records · 2026-10-12–2026-11-09 · America/Los_Angeles**
 
 [Open searchable history](<docs/changelog/index.html>) · [How to review and maintain it](<docs/changelog/README.md>) · [Sources and coverage gaps](<docs/changelog/sources.md>)
 
@@ -12,6 +12,7 @@ Latest confirmed game publication: [ad996a7](https://github.com/bookskaboo/books
 
 | ID | Change | Topics |
 | --- | --- | --- |
+| [NODE-0430](<docs/changelog/2026-11.md#node-0430>) | Name the repeatable research Extra Map Point and list it first | Interface, Research, Progression |
 | [NODE-0428](<docs/changelog/2026-11.md#node-0428>) | Clear Deep Holes automatically when their Stone bill is paid | World, Resources, Connections, Persistence |
 | [NODE-0423](<docs/changelog/2026-11.md#node-0423>) | Run the full release on an explicit live publication request | Publishing, Documentation |
 | [NODE-0338](<docs/changelog/2026-11.md#node-0338>) | Verify Monster Camp AP delivery for all four bot tiers | Encounters, Connections, Playtesting, Documentation |
@@ -65,7 +66,7 @@ Latest confirmed game publication: [ad996a7](https://github.com/bookskaboo/books
 
 ## Dated history
 
-- [2026-11](<docs/changelog/2026-11.md>) — 406 records
+- [2026-11](<docs/changelog/2026-11.md>) — 407 records
 - [2026-10](<docs/changelog/2026-10.md>) — 18 records
 
 “Known by” dates are implementation/publication bounds, not exact change dates. “Backfilled” dates mark records with uncertain original dates. Supersession links explain reversals. Original-game records do not certify current rebuild behavior.
@@ -104,7 +105,7 @@ A record marked “Published by” was known in that snapshot and may have appea
 - [Encounters](<docs/changelog/index.html?topic=Encounters>) (77)
 - [Exploration](<docs/changelog/index.html?topic=Exploration>) (20)
 - [Extraction](<docs/changelog/index.html?topic=Extraction>) (1)
-- [Interface](<docs/changelog/index.html?topic=Interface>) (136)
+- [Interface](<docs/changelog/index.html?topic=Interface>) (137)
 - [Logistics](<docs/changelog/index.html?topic=Logistics>) (70)
 - [Map](<docs/changelog/index.html?topic=Map>) (3)
 - [Mods](<docs/changelog/index.html?topic=Mods>) (6)
@@ -118,11 +119,11 @@ A record marked “Published by” was known in that snapshot and may have appea
 - [Playtesting](<docs/changelog/index.html?topic=Playtesting>) (19)
 - [Power](<docs/changelog/index.html?topic=Power>) (2)
 - [Production](<docs/changelog/index.html?topic=Production>) (43)
-- [Progression](<docs/changelog/index.html?topic=Progression>) (176)
+- [Progression](<docs/changelog/index.html?topic=Progression>) (177)
 - [Publication](<docs/changelog/index.html?topic=Publication>) (2)
 - [Publishing](<docs/changelog/index.html?topic=Publishing>) (3)
 - [Recipes](<docs/changelog/index.html?topic=Recipes>) (80)
-- [Research](<docs/changelog/index.html?topic=Research>) (163)
+- [Research](<docs/changelog/index.html?topic=Research>) (164)
 - [Resources](<docs/changelog/index.html?topic=Resources>) (87)
 - [Responsive](<docs/changelog/index.html?topic=Responsive>) (2)
 - [Roads](<docs/changelog/index.html?topic=Roads>) (5)

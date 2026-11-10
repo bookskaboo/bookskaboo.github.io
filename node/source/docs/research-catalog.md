@@ -33,7 +33,7 @@ Research shows the active project beside one recommended hint and up to two alte
 | Stage | Suggested route |
 | --- | --- |
 | Open the factory | Extract Wood and ore, turn Wood into Charcoal, and smelt a Plate to unlock the Refiner and Research Center. Make Simple Cores, then install the lab at Home. |
-| Open the map | Research Assembler and make Basic Cores. Complete Exploration for the first Map Point and Road to ship between sectors. Repeat Map Node as needed. |
+| Open the map | Research Assembler and make Basic Cores. Complete Exploration for the first Map Point and Road to ship between sectors. Repeat Extra Map Point as needed. |
 | Build Automata and Hydro | Research Automata Core and Advanced Fabrication. Scout for a large puddle; visiting a Lake grants Water Tools. Follow Hydrochemistry and Hydraulic Assembly to Hydro Cores, then Fluid Routing. |
 | Get Mythril | Scout for an occupied sector to unlock Small Bots, then research Sealed Robotics. Find a Dwarven settlement and start Mythril Tribute. A starter Camp takes two Medium Bots per minute; an outpost can supply its parts while Hydro production continues. |
 | Grow the factory | Research Ore Separation and make Shiny Cores, then research Precision Control and make Complex Cores. Keep Controller waste. Optional Golem clues point toward the outer sectors; Resource Golem Survey and Bots let a player turn a Golem into a permanent mineral reserve. |
@@ -46,13 +46,13 @@ The revised Shiny chain smelts Mythril Plate, dry-alloys 1 Plate + 4 Iron Plates
 
 Precision Control also unlocks two regular Assembler recipes: 4 Copper Gears + 1 Mythril Plate produce 4 Mythril Gears, and 4 Iron Wires + 1 Mythril Plate produce 4 Mythril Wires, each in 12 seconds. Existing Refiner alternatives remain. Controllers consume Mythril Gear instead of Pure Mythril; Logic Wafers consume Mythril Wire; Servo Pistons consume 1 Hydro Piston + 1 Mesh + 3 Coolant. Each Complex component takes 30 seconds, and final Complex assembly takes 36 seconds. Research prices and optional efficiency upgrades are unchanged. See the [progression design](progression-and-scaling.md) for complete recipes and supply estimates.
 
-# Map exploration and Map Node research
+# Map exploration and Extra Map Point research
 
-Map Node research keeps the first half of the world affordable, then charges progressively more for filling out the remaining maps. The six-core price schedule and safeguards below are implemented.
+Extra Map Point appears first in the Research list once available. It keeps the first half of the world affordable, then charges progressively more for filling out the remaining maps. The six-Core price schedule and safeguards below are implemented.
 
 ## Half map baseline
 
-The world contains 121 maps. Round half upward to **61 unlocked maps including Home**. Home is available initially and Exploration grants the first Map Point, so reaching this baseline requires **59 Map Node research completions**. The remaining 60 maps bring the total to 121, requiring 119 Map Node completions overall.
+The world contains 121 maps. Round half upward to **61 unlocked maps including Home**. Home is available initially and Exploration grants the first Map Point, so reaching this baseline requires **59 Extra Map Point completions**. The remaining 60 maps bring the total to 121, requiring 119 completions overall.
 
 This is a budget for unlocked territory. Which maps become available depends on the player’s connected expansion route; productive-map coverage and reaching particular corners are separate goals.
 
@@ -60,7 +60,7 @@ This is a budget for unlocked territory. Which maps become available depends on 
 
 Each price applies equally to every required Core from Simple through the named Core. The first nine purchases stay at 5 Simple. Each new tier resets the bill to 5 of each Core. The next nine purchases rise evenly to that tier's ceiling, rounded to the nearest whole Core. The table assumes each Core is available when its phase is scheduled.
 
-| Map Node completions | Highest scheduled core | Cost of each required core | Total maps affordable including Home and Exploration |
+| Extra Map Point completions | Highest scheduled core | Cost of each required core | Total maps affordable including Home and Exploration |
 | --- | --- | --- | --- |
 | 1–9 | Simple | 5 | 11 |
 | 10–19 | Basic | 5–10 | 21 |
@@ -69,7 +69,7 @@ Each price applies equally to every required Core from Simple through the named 
 | 40–49 | Shiny | 5–25 | 51 |
 | 50–59 | Complex | 5–30 | 61 |
 
-Exploration costs 5 Simple + 5 Basic Cores, unlocks the world map and awards the first Map Point. Map Node is repeatable after Exploration and starts at 5 Simple Cores. Every completion awards one Map Point, used to activate a locked map directly north, south, east or west of an unlocked map. Enter the activated map to discover its resources. Area Expansion instead enlarges the working field inside maps. With each Core available by its scheduled phase, research for the half-world baseline costs **2,805 Cores in 675 synchronized sets**, including Exploration. Map Points remain freely assignable to adjacent locked maps.
+Exploration costs 5 Simple + 5 Basic Cores, unlocks the world map and awards the first Map Point. Extra Map Point is repeatable after Exploration and starts at 5 Simple Cores. Every completion awards one Map Point, used to activate a locked map directly north, south, east or west of an unlocked map. Enter the activated map to discover its resources. Area Expansion instead enlarges the working field inside maps. With each Core available by its scheduled phase, research for the half-world baseline costs **2,805 Cores in 675 synchronized sets**, including Exploration. Map Points remain freely assignable to adjacent locked maps.
 
 ## Scaling beyond half the map
 
