@@ -12,7 +12,7 @@ Map tier below means Manhattan distance from Home at world coordinate `5,5`. Dim
 
 | Type | Current game | Old game | Player response |
 | --- | --- | --- | --- |
-| Deep Hole | `big-hole`; generated terrain or a collapsed mineral deposit | `bigHole`; generated terrain, collapsed mineral deposit, or rapid field clicking | Deliver processed Stone, then manually clear the filled hole |
+| Deep Hole | `big-hole`; generated terrain or a collapsed mineral deposit | `bigHole`; generated terrain, collapsed mineral deposit, or rapid field clicking | Deliver processed Stone to fill the hole |
 | Lake | `lake`; permanent obstruction, buffered Water output, and Lake Intake support | `lake`; permanent obstruction that attempts direct Water delivery | Route around it and connect its directional outputs |
 | Monster settlement | `monster-camp`; three Goblin tiers and three Dwarven tiers with periodic size changes and nearby-node disabling | `monsterCamp`, subtype `smallGoblinCamp`; periodic size changes and polygon-based encroachment | Maintain a recurring supply of suppression bots |
 | Resource Golem | `resourceGolem`, one centered mineral boss in each of four clear tier 5 sectors in new worlds | No corresponding type in the old obstruction catalog | Pay 180 AP for Iron, Copper or Stone, or 360 AP for Mythril, to create an infinite mineral reserve |
@@ -28,12 +28,12 @@ All three are fixed world features rather than ordinary movable factory machines
 - Generated hole maps contain up to five holes. Since NODE-0348, the current game's target sum of circular hole areas rises linearly from **15% of field area at tier 1** to **35% at tier 9**. The drawn outlines cover less than the target circles. The old game's target reaches 50% at tier 9.
 - Generated hole sizes vary. In the current game, the base fill requirement uses each hole's radius relative to the field size. The minimum is **20 Stone**, and the per-hole maximum rises linearly from **500 at tier 1** to **4,000 at tier 9** (NODE-0349). A hole with the same relative size has the same price across Area Expansion levels. Saved holes keep their recorded base requirements and fill progress. The old game's tier-9 maximum is 20,000 Stone.
 - Each hole has one Stone input and no output. A direct Stone Deposit to Deep Hole connection is rejected; mine the Stone and deliver it through the production or logistics network.
-- Filling a hole does not gradually shrink its footprint. When full, incoming fill connections are removed, but the obstruction remains until the player clears it.
+- The hole keeps its full footprint until its Stone bill is paid.
 - Depleting a non-forest mineral deposit creates a hole with radius `38 × sqrt(10)`, approximately **120.17**, and a fixed **250 Stone** requirement. The original deposit connections are removed. An empty Forest does not collapse into a hole.
 
 ### Current game
 
-The hole stores the amount still required in `resourceRemaining`. Each simulation step consumes at most one Stone from its input buffer and reduces that remaining amount by one. At the normal 100 ms simulation step, that is a consumption ceiling of 10 Stone per second before delivery limits. Once the remaining amount reaches zero, the inspector exposes **CLEAR FIELD**, which removes the hole and its connections.
+The hole stores the amount still required in `resourceRemaining`. Each simulation step consumes at most one Stone from its input buffer and reduces that remaining amount by one. At the normal 100 ms simulation step, that is a consumption ceiling of 10 Stone per second before delivery limits. When the bill reaches zero, the hole and its connections disappear automatically. This also applies when Efficient Landfill reduces the bill below the amount already paid and when a save loads with an already-filled hole. Stone still in transit returns to its sender, and unused Stone in the hole's buffer goes into a salvage Cart.
 
 Mineral Regeneration research prevents the normal deposit-collapse path and lets mineral reserves regenerate instead. Existing holes still require filling.
 

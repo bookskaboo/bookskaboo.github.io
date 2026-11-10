@@ -12,7 +12,7 @@ The world is an 11 × 11 grid, with Home at 5,5. Map tier is Manhattan distance 
 
 | Encounter | Current role | Evaluation need |
 | --- | --- | --- |
-| Deep Hole | Blocks space; processed Stone fills it, followed by manual clearing | Cost versus useful reclaimed space; depletion recovery |
+| Deep Hole | Blocks space until the processed Stone bill is paid, then clears automatically | Cost versus useful reclaimed space; depletion recovery |
 | Lake | Permanent obstacle and local Water source with directional outputs and Intake support. One seed-selected Lake appears per tier from 3 through 9, in addition to the early tier-2 Lakes. | Shoreline layout, intake competition and readable capacity |
 | Goblin settlements | Five Camps, five Villages and five Kingdoms per new world; recurring AP suppression and configurable Tribute | Q14 keeps them an early optional bonus; exclude Mythril from their rewards |
 | Dwarven settlements | Formerly Lizard settlements; current display names are Dwarven Camp, Village and Kingdom; five of each across tiers 4–9; internal IDs retain `lizardSettlement` | Q14 makes their Tribute the regular Mythril source; Q14B1 permits the retained Mythril Golem exception; source/progression changes remain pending |

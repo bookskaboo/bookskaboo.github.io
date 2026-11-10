@@ -274,7 +274,7 @@ describe('simulation architecture', () => {
     expect(engine.getState().inFlightTransfers?.some((transfer) => transfer.cosmeticOnly && transfer.connectionId === sector.connections[0].id)).toBe(true);
   });
 
-  it('collapses depleted deposits into a 250-stone hole and waits for the player to clear it', () => {
+  it('collapses depleted deposits into a 250-Stone hole and clears it when filled', () => {
     const engine = new GameEngine(createInitialState(21));
     const sector = engine.getSector();
     const copper = sector.nodes.find((node) => node.id === 'copper')!;
@@ -288,11 +288,11 @@ describe('simulation architecture', () => {
     expect(copper.obstructionRadius).toBeCloseTo(38 * Math.sqrt(10));
     copper.holeStoneConsumed = 249;
     copper.resourceRemaining = 1;
-    copper.input.stone = 1;
     engine.tick(1);
     expect(sector.nodes).toContain(copper);
+    copper.input.stone = 1;
+    engine.tick(1);
     expect(copper.resourceRemaining).toBe(0);
-    expect(engine.clearFilledBigHole(copper.id)).toBe(true);
     expect(sector.nodes).not.toContain(copper);
   });
 

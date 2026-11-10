@@ -2,7 +2,7 @@
 
 A searchable record of completed changes, design decisions, and relevant review findings. Stable NODE IDs can be cited in chats and searched in the repository.
 
-**423 records · 2026-10-12–2026-11-09 · America/Los_Angeles**
+**424 records · 2026-10-12–2026-11-09 · America/Los_Angeles**
 
 [Open searchable history](<docs/changelog/index.html>) · [How to review and maintain it](<docs/changelog/README.md>) · [Sources and coverage gaps](<docs/changelog/sources.md>)
 
@@ -12,6 +12,7 @@ Latest confirmed game publication: [ad996a7](https://github.com/bookskaboo/books
 
 | ID | Change | Topics |
 | --- | --- | --- |
+| [NODE-0428](<docs/changelog/2026-11.md#node-0428>) | Clear Deep Holes automatically when their Stone bill is paid | World, Resources, Connections, Persistence |
 | [NODE-0423](<docs/changelog/2026-11.md#node-0423>) | Run the full release on an explicit live publication request | Publishing, Documentation |
 | [NODE-0338](<docs/changelog/2026-11.md#node-0338>) | Verify Monster Camp AP delivery for all four bot tiers | Encounters, Connections, Playtesting, Documentation |
 | [NODE-0325](<docs/changelog/2026-11.md#node-0325>) | Record verified Hydro delivery and Tree Planter recovery through the normal UI | Playtesting, Documentation, Logistics, Production |
@@ -64,7 +65,7 @@ Latest confirmed game publication: [ad996a7](https://github.com/bookskaboo/books
 
 ## Dated history
 
-- [2026-11](<docs/changelog/2026-11.md>) — 405 records
+- [2026-11](<docs/changelog/2026-11.md>) — 406 records
 - [2026-10](<docs/changelog/2026-10.md>) — 18 records
 
 “Known by” dates are implementation/publication bounds, not exact change dates. “Backfilled” dates mark records with uncertain original dates. Supersession links explain reversals. Original-game records do not certify current rebuild behavior.
@@ -92,7 +93,7 @@ A record marked “Published by” was known in that snapshot and may have appea
 - [Balance](<docs/changelog/index.html?topic=Balance>) (76)
 - [Camera](<docs/changelog/index.html?topic=Camera>) (3)
 - [Combat](<docs/changelog/index.html?topic=Combat>) (12)
-- [Connections](<docs/changelog/index.html?topic=Connections>) (21)
+- [Connections](<docs/changelog/index.html?topic=Connections>) (22)
 - [Construction](<docs/changelog/index.html?topic=Construction>) (9)
 - [Control groups](<docs/changelog/index.html?topic=Control%20groups>) (3)
 - [Controls](<docs/changelog/index.html?topic=Controls>) (30)
@@ -112,7 +113,7 @@ A record marked “Published by” was known in that snapshot and may have appea
 - [Nodes](<docs/changelog/index.html?topic=Nodes>) (2)
 - [Options](<docs/changelog/index.html?topic=Options>) (4)
 - [Performance](<docs/changelog/index.html?topic=Performance>) (1)
-- [Persistence](<docs/changelog/index.html?topic=Persistence>) (28)
+- [Persistence](<docs/changelog/index.html?topic=Persistence>) (29)
 - [Planning](<docs/changelog/index.html?topic=Planning>) (169)
 - [Playtesting](<docs/changelog/index.html?topic=Playtesting>) (19)
 - [Power](<docs/changelog/index.html?topic=Power>) (2)
@@ -122,7 +123,7 @@ A record marked “Published by” was known in that snapshot and may have appea
 - [Publishing](<docs/changelog/index.html?topic=Publishing>) (3)
 - [Recipes](<docs/changelog/index.html?topic=Recipes>) (80)
 - [Research](<docs/changelog/index.html?topic=Research>) (163)
-- [Resources](<docs/changelog/index.html?topic=Resources>) (86)
+- [Resources](<docs/changelog/index.html?topic=Resources>) (87)
 - [Responsive](<docs/changelog/index.html?topic=Responsive>) (2)
 - [Roads](<docs/changelog/index.html?topic=Roads>) (5)
 - [Saves](<docs/changelog/index.html?topic=Saves>) (5)
@@ -138,7 +139,7 @@ A record marked “Published by” was known in that snapshot and may have appea
 - [Undo](<docs/changelog/index.html?topic=Undo>) (4)
 - [Waste](<docs/changelog/index.html?topic=Waste>) (18)
 - [Workflow](<docs/changelog/index.html?topic=Workflow>) (1)
-- [World](<docs/changelog/index.html?topic=World>) (37)
+- [World](<docs/changelog/index.html?topic=World>) (38)
 - [World generation](<docs/changelog/index.html?topic=World%20generation>) (6)
 - [World map](<docs/changelog/index.html?topic=World%20map>) (18)
 - [Writing](<docs/changelog/index.html?topic=Writing>) (1)

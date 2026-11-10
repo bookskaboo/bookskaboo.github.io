@@ -188,6 +188,28 @@ describe('endgame research and preservation',()=>{
     expect(liveHole.holeStoneConsumed).toBe(1);
     expect(deepHoleStoneReadout(liveHole, 0)).toBe('STONE 1 / 250');
   });
+  it('reopens the field on the final Stone delivery and returns surplus Stone still in transit', () => {
+    const state = createInitialState(6);
+    const source = machine('woodenChest', 'stone-cart', 1300);
+    const hole = machine('big-hole', 'hole', 1800);
+    source.output.stone = 2;
+    hole.resourceRemaining = 1;
+    state.sectors['5,5'].nodes = [source, hole];
+    const engine = new GameEngine(state, { autosave: false });
+    expect(engine.connect(source.id, hole.id)).toBe(true);
+
+    engine.tick(400);
+    engine.tick(400);
+    expect(engine.getActiveTransfers()).toHaveLength(2);
+    expect(engine.getSector().nodes.some(node => node.id === hole.id)).toBe(true);
+
+    engine.tick(600);
+    expect(engine.getSector().nodes.map(node => node.id)).toEqual([source.id]);
+    expect(engine.getSector().nodes[0].output.stone).toBe(1);
+    expect(engine.getSector().connections).toHaveLength(0);
+    expect(engine.getActiveTransfers()).toHaveLength(0);
+    expect(engine.placeNode('kiln', hole.x, hole.y)).toBeTruthy();
+  });
   it('uses the discounted bill even when Stone deliveries exceed the new total', () => {
     const state = createInitialState();
     const hole = machine('big-hole');
@@ -210,9 +232,33 @@ describe('endgame research and preservation',()=>{
     expect(hole.resourceRemaining).toBe(175);
     expect(deepHoleStoneReadout(hole, 0)).toBe('STONE 75 / 250');
   });
-  it('preserves unused Stone when a discounted, already-paid hole is cleared',()=>{
-    const s=createInitialState();s.research.repeatableCompletions={efficientLandfill:5};const n=machine('big-hole','hole');n.holeBaseStone=250;n.holeStoneConsumed=100;n.input.stone=3;s.sectors['5,5'].nodes=[n];
-    const e=new GameEngine(s,{autosave:false});expect(e.getSector().nodes[0].resourceRemaining).toBe(0);expect(e.clearFilledBigHole('hole')).toBe(true);expect(e.getSector().nodes.some(n=>n.kind==='big-hole')).toBe(false);expect(e.getSector().nodes.reduce((q,n)=>q+(n.output.stone??0)+(n.input.stone??0),0)).toBe(3);
+  it('automatically clears an already-paid hole after a Landfill discount and preserves its unused Stone', () => {
+    const state = createInitialState();
+    state.research.repeatableCompletions = { efficientLandfill: 4 };
+    const hole = machine('big-hole', 'hole');
+    hole.holeBaseStone = 250;
+    hole.holeStoneConsumed = 100;
+    hole.input.stone = 3;
+    state.sectors['5,5'].nodes = [hole];
+    const engine = new GameEngine(state, { autosave: false });
+    expect(engine.getSector().nodes[0].resourceRemaining).toBe(3);
+
+    engine.getState().research.repeatableCompletions!.efficientLandfill = 5;
+    engine.tick(100);
+    expect(engine.getSector().nodes).toMatchObject([{ kind: 'woodenChest', output: { stone: 3 } }]);
+  });
+  it('clears already-filled saved holes on load, including holes with only a remaining bill', () => {
+    const state = createInitialState();
+    const filled = machine('big-hole', 'filled');
+    Object.assign(filled, { holeBaseStone: 250, holeStoneConsumed: 250, resourceRemaining: 0 });
+    const older = machine('big-hole', 'older', 2000);
+    older.resourceRemaining = 0;
+    const partial = machine('big-hole', 'partial', 2500);
+    partial.resourceRemaining = 1;
+    state.sectors['5,5'].nodes = [filled, older, partial];
+
+    const engine = new GameEngine(state, { autosave: false });
+    expect(engine.getSector().nodes).toMatchObject([{ id: partial.id, resourceRemaining: 1 }]);
   });
   it('adds the researched passive rate per endgame regeneration rank, including Forests',()=>{
     const s=createInitialState();s.research.completed=['mineralRegeneration','mineralRegeneration2'];s.research.repeatableCompletions={resourceRegeneration:2};const forest=machine('forest','forest'),iron=machine('iron','iron');

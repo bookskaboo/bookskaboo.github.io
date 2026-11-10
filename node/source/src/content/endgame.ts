@@ -92,7 +92,8 @@ export function landfillTotal(base: number, rank: number) {
   const d = 5n ** r; return Math.max(1, Number((b * 4n ** r + d - 1n) / d));
 }
 export function reconcileHole(node: MachineNode, state: GameState) {
+  const savedAsFilled = node.holeBaseStone === undefined && node.resourceRemaining === 0;
   node.holeBaseStone ??= Math.max(1, node.resourceRemaining ?? 250);
-  node.holeStoneConsumed ??= 0;
+  node.holeStoneConsumed ??= savedAsFilled ? node.holeBaseStone : 0;
   node.resourceRemaining = Math.max(0, landfillTotal(node.holeBaseStone, endgameRank(state, 'efficientLandfill')) - node.holeStoneConsumed);
 }

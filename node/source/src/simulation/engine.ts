@@ -166,6 +166,7 @@ export class GameEngine {
       }
       this.removeInactiveTribute(sector);
       this.removeDefeatedGolemCables(sector);
+      this.clearFilledHoles(sector, sector.nodes.filter(node => node.kind === 'big-hole' && node.resourceRemaining === 0));
     }
     syncCornerLayouts(this.state);
     const roadCables = new Set(Object.values(this.state.sectors).flatMap(sector => {
@@ -262,7 +263,8 @@ export class GameEngine {
     this.deliverTransfers(this.state.playTimeMs);
     const sectors = Object.values(this.state.sectors).filter((s) => s.unlocked);
     const simulationLookups = new SimulationLookups(this.state);
-    sectors.forEach((sector) => this.simulateSector(sector, dt, simulationLookups));
+    let clearedHole = false;
+    for (const sector of sectors) clearedHole = this.simulateSector(sector, dt, simulationLookups) || clearedHole;
     this.evaluateMilestones();
     this.rescueAccumulator+=dt;
     if(this.rescueAccumulator>=1000&&!this.state.isTraining){this.rescueAccumulator%=1000;if(applyExpansionRescue(this.state))this.publish();}
@@ -273,7 +275,7 @@ export class GameEngine {
       sectors.forEach((sector) => { launched = this.routeSector(sector, this.state.playTimeMs, routingLookups) || launched; });
       if (launched) this.publish();
     }
-    if (this.publishAccumulator >= 750) { this.publishAccumulator %= 750; this.publish(); }
+    if (clearedHole || this.publishAccumulator >= 750) { this.publishAccumulator %= 750; this.publish(); }
     if (this.options.autosave !== false && this.autosaveAccumulator >= this.state.preferences.autosaveMinutes * 60000) {
       this.autosaveAccumulator = 0;
       localStorage.setItem(AUTOSAVE_KEY, JSON.stringify(this.state));
@@ -287,7 +289,7 @@ export class GameEngine {
       (this.state.inFlightTransfers ??= []).push({ ...supply, id: makeId('dev-pulse'), sectorId: sector.id, launchedAtMs: this.state.playTimeMs, arrivesAtMs: this.state.playTimeMs + modRule('cableTravelMs'), cosmeticOnly: true });
     }
     const depleted: string[] = [];
-    const filledHoles: string[] = [];
+    const filledHoles: MachineNode[] = [];
     const checkedCamps: MachineNode[] = [];
     for (const node of sector.nodes) {
       const dt = baseDt / (modNode(node.kind)?.cycleMultiplier ?? 1);
@@ -328,10 +330,15 @@ export class GameEngine {
         continue;
       }
       if (node.kind === 'big-hole') {
-        reconcileHole(node,this.state);
+        reconcileHole(node, this.state);
         const stone = node.input.stone ?? 0;
-        if (stone > 0 && (node.resourceRemaining??0)>0) { node.holeStoneConsumed=(node.holeStoneConsumed??0)+1; node.input.stone = stone - 1; node.resourceRemaining = Math.max(0, (node.resourceRemaining ?? 250) - 1); }
-        if ((node.resourceRemaining ?? 1) <= 0) filledHoles.push(node.id);
+        const remaining = node.resourceRemaining ?? 0;
+        if (stone > 0 && remaining > 0) {
+          node.holeStoneConsumed = (node.holeStoneConsumed ?? 0) + 1;
+          node.input.stone = stone - 1;
+          node.resourceRemaining = Math.max(0, remaining - 1);
+        }
+        if (node.resourceRemaining === 0) filledHoles.push(node);
         continue;
       }
       if (hasNodeBehavior(node.kind,'road')) {
@@ -470,11 +477,7 @@ export class GameEngine {
       sector.connections = sector.connections.filter((connection) => connection.from !== id && connection.to !== id);
       this.event('DepositDepleted', 'A depleted deposit collapsed into a Deep Hole.');
     });
-    if (filledHoles.length) {
-      const filledConnectionIds = new Set(sector.connections.filter((connection) => filledHoles.includes(connection.to)).map((connection) => connection.id));
-      this.cancelTransfers(filledConnectionIds);
-      sector.connections = sector.connections.filter((connection) => !filledHoles.includes(connection.to));
-    }
+    this.clearFilledHoles(sector, filledHoles);
     this.removeDefeatedGolemCables(sector);
     this.removeInactiveTribute(sector);
     for (const camp of checkedCamps) {
@@ -483,6 +486,7 @@ export class GameEngine {
       if (tribute) { sector.nodes.push(tribute); this.event('NodePlaced', `${camp.name} is suppressed and now supplies configurable tribute.`); }
     }
     sector.lastSimulatedAt = Date.now();
+    return filledHoles.length > 0;
   }
 
   private removeDefeatedGolemCables(sector: SectorState) {
@@ -1187,20 +1191,28 @@ export class GameEngine {
     this.publish();
   }
 
-  clearFilledBigHole(nodeId: string) {
-    const sector = this.getSector();
-    const hole = sector.nodes.find((node) => node.id === nodeId && node.kind === 'big-hole');
-    if (!hole || (hole.resourceRemaining ?? 1) > 0) return false;
-    this.checkpoint();
-    const removedConnectionIds = new Set(sector.connections.filter((connection) => connection.from === nodeId || connection.to === nodeId).map((connection) => connection.id));
+  private clearFilledHoles(sector: SectorState, holes: readonly MachineNode[]) {
+    if (!holes.length) return;
+    const ids = new Set(holes.map(hole => hole.id));
+    const removedConnectionIds = new Set(sector.connections
+      .filter(connection => ids.has(connection.from) || ids.has(connection.to))
+      .map(connection => connection.id));
     this.cancelTransfers(removedConnectionIds);
-    const unusedStone=hole.input.stone??0;
-    sector.nodes = sector.nodes.filter((node) => node.id !== nodeId);
-    if(unusedStone>0)sector.nodes.push({id:makeId('fill-salvage'),kind:'woodenChest',name:'Unused fill Stone',x:hole.x,y:hole.y,rotation:0,input:{},output:{stone:unusedStone},outputQueue:Array(unusedStone).fill('stone'),progressMs:0,cycleMs:0,capacity:Math.max(unusedStone,cartUpgrade(this.state.research.completed,endgameRank(this.state,'trainFreightCapacity')).capacity),constructedAt:0,constructionMs:0});
-    sector.connections = sector.connections.filter((connection) => connection.from !== nodeId && connection.to !== nodeId);
-    this.event('NodePlaced', 'Deep Hole filled in. The obstruction has been cleared.');
-    this.publish();
-    return true;
+    sector.nodes = sector.nodes.filter(node => !ids.has(node.id));
+    sector.connections = sector.connections.filter(connection => !removedConnectionIds.has(connection.id));
+    for (const hole of holes) {
+      const unusedStone = hole.input.stone ?? 0;
+      if (unusedStone > 0) {
+        sector.nodes.push({
+          id: makeId('fill-salvage'), kind: 'woodenChest', name: 'Unused fill Stone',
+          x: hole.x, y: hole.y, rotation: 0, input: {}, output: { stone: unusedStone },
+          outputQueue: Array(unusedStone).fill('stone'), progressMs: 0, cycleMs: 0,
+          capacity: Math.max(unusedStone, cartUpgrade(this.state.research.completed, endgameRank(this.state, 'trainFreightCapacity')).capacity),
+          constructedAt: 0, constructionMs: 0,
+        });
+      }
+      this.event('NodePlaced', 'Deep Hole filled in. The obstruction has been cleared.');
+    }
   }
 
   toggleNodeProcessingPause(nodeId: string) {

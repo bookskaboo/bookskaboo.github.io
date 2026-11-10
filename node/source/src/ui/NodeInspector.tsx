@@ -84,7 +84,6 @@ export function NodeInspector({ node, game, engine, onClose, onConfigureRecipe, 
       {node.kind==='resourceGolem'&&<div className="resource-readout"><span>ONE TIME ATTACK POWER</span><b>{(node.health ?? golemApCost(node)).toLocaleString()} AP</b><small>remaining · Bot deliveries deal permanent damage</small><p className="field-help">Requires Resource Golem Survey. Defeat this Golem to create an infinite mineral reserve with four star outputs. No recurring bot cost after victory.</p></div>}
       {!isStorageNode(node.kind) && node.kind !== 'goblinTribute' && <><div className="cycle-row"><span>{recipe?.name ?? (node.kind === 'monster-camp' || node.lizardSettlement ? node.name : definition.name)}</span><b>{Math.round(progress)}%</b></div>
       <div className="thin-progress"><i style={{ width: `${progress}%` }} /></div></>}
-      {node.kind === 'big-hole' && (node.resourceRemaining ?? 1) <= 0 && <button className="inspector-configure ready" onClick={() => { if (engine.clearFilledBigHole(node.id)) onClose(); }}><span>Obstruction filled</span><b>CLEAR FIELD</b></button>}
       {module.controls.deletable && <button className="danger-button" onClick={onDelete}>DECOMMISSION NODE</button>}
     </div>
   </aside>;

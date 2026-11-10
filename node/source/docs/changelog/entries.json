@@ -12954,6 +12954,38 @@
       "sources": ["local-code"],
       "evidence": ["AGENTS.md", "outputs/node-mods-release-2026-11-08/publication-receipt.json"],
       "validation": "The changelog generator and checks passed. The instructions reflect the verified November 8 release and retain the configured approval flow. No deployment or permissions change was made."
+    },
+    {
+      "id": "NODE-0428",
+      "date": "2026-11-09",
+      "dateBasis": "chat",
+      "kind": "fixed",
+      "state": "implemented",
+      "delivery": "local",
+      "title": "Clear Deep Holes automatically when their Stone bill is paid",
+      "summary": "Remove filled Deep Holes and their cables as soon as the simulation satisfies the Stone bill. Already-filled holes also clear when a save loads.",
+      "topics": [
+        "World",
+        "Resources",
+        "Connections",
+        "Persistence"
+      ],
+      "sources": [
+        "chat-current",
+        "local-code"
+      ],
+      "evidence": [
+        "src/simulation/engine.ts",
+        "src/content/endgame.ts",
+        "src/ui/NodeInspector.tsx",
+        "src/simulation/endgame.test.ts",
+        "src/simulation/engine.test.ts",
+        "docs/obstruction-types-and-behavior.md"
+      ],
+      "details": [
+        "Automatic clearing replaces the inspector's Clear Field action. It also applies when Efficient Landfill reduces the bill to an amount already paid. Unused buffered Stone goes into a salvage Cart, and in-flight Stone returns to the sender."
+      ],
+      "validation": "The /node/ production build passed. In the release checkout, 798 tests passed and one was skipped. Regression coverage checks final Stone delivery, reuse of the reclaimed space, cable removal, returned in-flight Stone, buffered Stone after a Landfill discount, and already-filled saves. No browser playtest was performed."
     }
   ]
 }
