@@ -7,11 +7,17 @@ export function drawCurve(graphic: Graphics, start: { x: number; y: number }, en
   graphic.moveTo(start.x, start.y).bezierCurveTo(controls.first.x, controls.first.y, controls.second.x, controls.second.y, end.x, end.y);
 }
 
-export function label(text: string, size: number, color: number, weight: 'normal' | 'bold' = 'normal', family = 'Segoe UI Variable Text, Segoe UI, Arial') {
+// Match the UI font stacks in styles/readability.css. Pixi does not inherit CSS fonts.
+const CANVAS_FONTS = {
+  ui: ['Segoe UI Variable Text', 'Segoe UI', 'Inter', 'Arial', 'sans-serif'],
+  mono: ['Cascadia Mono', 'Consolas', 'ui-monospace', 'monospace'],
+};
+
+export function label(text: string, size: number, color: number, weight: TextStyle['fontWeight'] = 'normal', family: keyof typeof CANVAS_FONTS = 'ui') {
   const rendered = new Text({
     text,
     resolution: Math.min(4, Math.max(2, (globalThis.devicePixelRatio || 1) * 1.5)),
-    style: new TextStyle({ fontFamily: family, fontSize: size, fill: color, fontWeight: weight }),
+    style: new TextStyle({ fontFamily: CANVAS_FONTS[family], fontSize: size, fill: color, fontWeight: weight }),
   });
   rendered.roundPixels = true;
   return rendered;
@@ -25,17 +31,31 @@ export function drawTrashIcon(root: Container, centerX: number, centerY: number,
   root.addChild(icon);
 }
 
+const flowAngle = { east: 0, south: Math.PI / 2, west: Math.PI, north: -Math.PI / 2 };
+
+function flowArrow(name: string) {
+  const arrow = new Graphics();
+  arrow.label = name;
+  arrow.eventMode = 'none';
+  arrow.poly([-36, -9, 8, -9, 8, -24, 36, 0, 8, 24, 8, 9, -36, 9])
+    .fill({ color: 0xe8ce83, alpha: .95 }).stroke({ color: 0xf5e3ae, width: 2 });
+  return arrow;
+}
+
 /** roadFacing is the socket facing into the field, opposite the map edge. */
 export function drawRoadFlowArrow(root: Container, node: MachineNode) {
   const socketSide = node.roadFacing ?? (node.roadMode === 'import' ? 'east' : 'west');
-  const socketAngle = { east: 0, south: Math.PI / 2, west: Math.PI, north: -Math.PI / 2 }[socketSide];
-  const arrow = new Graphics();
-  arrow.label = 'road-flow-arrow';
-  arrow.eventMode = 'none';
+  const arrow = flowArrow('road-flow-arrow');
   arrow.position.set(0, 18);
-  arrow.rotation = socketAngle + (node.roadMode === 'import' ? 0 : Math.PI);
-  arrow.poly([-36, -9, 8, -9, 8, -24, 36, 0, 8, 24, 8, 9, -36, 9])
-    .fill({ color: 0xe8ce83, alpha: .95 }).stroke({ color: 0xf5e3ae, width: 2 });
+  arrow.rotation = flowAngle[socketSide] + (node.roadMode === 'import' ? 0 : Math.PI);
+  root.addChild(arrow);
+}
+
+export function drawFreightVehicleFlowArrow(root: Container, node: MachineNode) {
+  const arrow = flowArrow('freight-vehicle-flow-arrow');
+  arrow.position.set(0, -10);
+  arrow.scale.set(.46, .30);
+  arrow.rotation = flowAngle[getPortSide(node, 'output', 0)];
   root.addChild(arrow);
 }
 

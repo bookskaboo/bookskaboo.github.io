@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { RESEARCH_PROJECTS } from '../content/research';
 import { createInitialState } from '../simulation/engine';
-import { researchSection, searchResearch } from './researchPresentation';
+import { researchCardDetails, researchSection, searchResearch, visibleResearchRequirements } from './researchPresentation';
 import { researchCatalog } from './researchCatalog';
 
 const project = (id: string) => RESEARCH_PROJECTS.find(p => p.id === id)!;
@@ -15,6 +15,7 @@ describe('research browsing', () => {
     expect(researchSection(project('mapNode'), state)).toBe('future');
     const ids = projects.map(p => p.id);
     expect(ids).toContain('victory');
+    expect(ids).not.toContain('finalCoreProduction');
     expect(ids).not.toContain('endgameTheory');
     expect(ids.length).toBe(RESEARCH_PROJECTS.length);
     expect(new Set(ids).size).toBe(RESEARCH_PROJECTS.length);
@@ -47,7 +48,7 @@ describe('research browsing', () => {
     expect(projects[0].name).toBe('Extra Map Point');
     expect(projects.slice(firstLocked).every(p => researchSection(p, state) === 'future')).toBe(true);
     expect(locked.indexOf('hydraulicAssembly')).toBeLessThan(locked.indexOf('precisionControl'));
-    expect(locked.indexOf('finalCoreProduction')).toBeLessThan(locked.indexOf('victory'));
+    expect(locked.indexOf('cornerComponents')).toBeLessThan(locked.indexOf('victory'));
     expect(projects.some(p => p.id === active?.id)).toBe(false);
     state.research.selected = 'mapNode';
     expect(researchCatalog(state).active?.id).toBe('mapNode');
@@ -60,6 +61,35 @@ describe('research browsing', () => {
     expect(researchSection(project('assembler'), state)).toBe('active');
     state.research.completed.push('exploration', 'mapNode');
     expect(researchSection(project('mapNode'), state)).not.toBe('completed');
+  });
+
+  it('shows independent blockers and omits the research they already require', () => {
+    const state = createInitialState(1);
+    const mirroring = project('connectorMirroring');
+    expect(visibleResearchRequirements(mirroring, state)).toEqual(['hydraulicAssembly']);
+    expect(researchCardDetails(mirroring, state).status).toBe('Requires Hydraulic Assembly');
+
+    const finalRobotics = project('finalRobotics');
+    expect(visibleResearchRequirements(finalRobotics, state)).toEqual(['finalCoreProduction', 'commandRobotics']);
+    expect(researchCardDetails(finalRobotics, state).status).toBe('Requires first Final Core, Command Robotics');
+    state.research.completed.push('finalCoreProduction', 'refiner', 'assembler', 'automataCore', 'hydraulicAssembly', 'oreSeparation', 'precisionControl');
+    expect(visibleResearchRequirements(finalRobotics, state)).toEqual(['commandRobotics']);
+    expect(researchSection(finalRobotics, state)).toBe('future');
+  });
+
+  it('separates the description and shows one progress count after the Core list', () => {
+    const state = createInitialState(1);
+    const exploration = project('exploration');
+    expect(researchCardDetails(exploration, state).tooltip).toBe(
+      `Requires Assembler\nSimple Core + Basic Core · 0/10\n\n${exploration.description}`,
+    );
+
+    state.research.completed.push('refiner', 'assembler');
+    state.research.selected = exploration.id;
+    state.research.contributed = { 'simple-core': 5, 'basic-core': 2 };
+    expect(researchCardDetails(exploration, state).tooltip).toBe(
+      `Active project\nSimple Core + Basic Core · 7/10\n\n${exploration.description}`,
+    );
   });
 
   it('puts the exact Assembler project before upgrades and related prerequisite matches', () => {

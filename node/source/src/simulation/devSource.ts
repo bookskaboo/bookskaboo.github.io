@@ -50,7 +50,7 @@ export function supplyDevInputs(state: GameState, sector: SectorState, lookups: 
   for (const edge of index.connections.values()) {
     const source = index.nodes.get(edge.from), target = index.nodes.get(edge.to);
     if (source?.kind !== 'devSource' || source.disabled || !target || target.disabled) continue;
-    if (target.kind === 'extractor' || target.kind === 'lakeIntake') continue;
+    if (target.kind === 'extractor') continue;
     const items = devInputItems(target, edge.toPort ?? 0, sector, state);
     const perItem = Boolean(getNodeCapabilities(target.kind).perItemInputCapacity || target.recipeId);
     const pending = lookups.target(sector.id, target.id);

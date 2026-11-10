@@ -1,8 +1,14 @@
 import type { ShortcutBarGroup, ShortcutBarId, ShortcutBarsState } from './ShortcutBars';
 import { detachShortcutBarGroup } from './shortcutBarGroups';
+import type { FieldViewport } from '../domain/camera';
 
 export interface ViewportSize { width: number; height: number }
 export interface ShortcutDockLayout { docked: boolean; stacked: boolean; height: number }
+
+export function measureFieldViewport(element: HTMLElement): FieldViewport {
+  const { width, height, top } = element.getBoundingClientRect();
+  return { width, height: height + top, top };
+}
 
 /** Short columns grow toward the roomier side; overflow remains horizontally scrollable. */
 export function fitShortcutAssignmentMenu(viewport: ViewportSize, anchor: { x: number; y: number }, count: number) {

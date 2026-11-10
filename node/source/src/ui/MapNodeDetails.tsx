@@ -25,29 +25,29 @@ export function MapNodeDetails({ game, engine, selectedId, allowedSectorId, onAc
     <div className="map-info-scroll">
       <div className="map-coordinates"><b>{mapNodePosition(selectedX, selectedY)}</b></div>
       {selectedId && explored && <div className="map-node-editor">
-        <label>NODE NAME<input disabled={allowedSectorId !== undefined} value={draftName} maxLength={30} onChange={(event) => setDraftName(event.target.value)} /></label>
-        <label>MAP LABEL<input disabled={allowedSectorId !== undefined} value={draftLabel} maxLength={3} onChange={(event) => setDraftLabel(event.target.value.toUpperCase())} /></label>
-        <button disabled={allowedSectorId !== undefined || draftName.trim() === selectedName && draftLabel.trim().toUpperCase() === selected.label} onClick={() => engine.renameSector(draftName, draftLabel, selectedId)}>SAVE NAME</button>
+        <label>Node name<input disabled={allowedSectorId !== undefined} value={draftName} maxLength={30} onChange={(event) => setDraftName(event.target.value)} /></label>
+        <label>Map label<input disabled={allowedSectorId !== undefined} value={draftLabel} maxLength={3} onChange={(event) => setDraftLabel(event.target.value.toUpperCase())} /></label>
+        <button disabled={allowedSectorId !== undefined || draftName.trim() === selectedName && draftLabel.trim().toUpperCase() === selected.label} onClick={() => engine.renameSector(draftName, draftLabel, selectedId)}>Save name</button>
       </div>}
       <hr />
       {explored ? <>
         <section className="map-survey-list" aria-label="Resources">
-          <h3>RESOURCES</h3>
+          <h3>Resources</h3>
           {resources.length ? <ul>{resources.map(({ item, remaining }) => <li key={item}>
             <i style={{ background: `#${ITEM_COLORS[item].toString(16).padStart(6, '0')}` }} />
             <span>{ITEM_NAMES[item]}</span><b>{Math.floor(remaining).toLocaleString()}</b>
           </li>)}</ul> : <p>No mapped resources. A scenic investment.</p>}
         </section>
         <section className="map-survey-list map-obstruction-list" aria-label="Obstructions">
-          <h3>OBSTRUCTIONS</h3>
+          <h3>Obstructions</h3>
           {obstructions.length ? <ul>{obstructions.map(({ name, count }) => <li key={name}><span>{name}</span><b>{count}</b></li>)}</ul> : <p>None. A rare lack of complications.</p>}
         </section>
       </> : <p className="map-unexplored">Map Node Unexplored</p>}
     </div>
     <div className="map-action-footer">
-      <div className="map-points"><span>MAP POINTS</span><b>{game.research.mapPoints}</b></div>
+      <div className="map-points"><span>Map Points</span><b>{game.research.mapPoints}</b></div>
       <button className="map-primary-action" disabled={!selectedId || !permitsTutorialChoice(allowedSectorId, selectedId) || selectedActive || (!selectedUnlocked && (!selectedAdjacent || game.research.mapPoints < 1))} onClick={onActivate}>
-        {!selectedId ? 'SELECT A NODE' : selectedActive ? 'CURRENT NODE' : selectedUnlocked ? 'TRAVEL TO NODE' : selectedAdjacent && game.research.mapPoints > 0 ? 'ACTIVATE NODE · 1 POINT' : selectedAdjacent ? 'NEED 1 MAP POINT' : 'SELECT A NODE'}
+        {!selectedId ? 'Select a node' : selectedActive ? 'Current node' : selectedUnlocked ? 'Travel to node' : selectedAdjacent && game.research.mapPoints > 0 ? 'Activate node · 1 point' : selectedAdjacent ? 'Need 1 Map Point' : 'Select a node'}
       </button>
     </div>
   </div>;

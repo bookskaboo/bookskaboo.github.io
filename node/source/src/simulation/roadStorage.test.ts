@@ -58,7 +58,7 @@ describe('Roads have no internal storage', () => {
     advance(engine, 10000); expect(total(fixture.source)).toBe(7);
   });
 
-  it('routes through logistics on both sides without inventory at either Road or Joint', () => {
+  it('keeps old Joint routes idle until both vehicles are wired directly', () => {
     const fixture = setup();
     const localJoint = node('local-joint', 'joint'), remoteJoint = node('remote-joint', 'joint');
     fixture.home.nodes.push(localJoint); fixture.remote.nodes.push(remoteJoint);
@@ -66,13 +66,22 @@ describe('Roads have no internal storage', () => {
     fixture.remote.connections = [cable(fixture.receiver.id, remoteJoint.id), cable(remoteJoint.id, fixture.sink.id)];
     const engine = start(fixture);
     advance(engine, 5000);
+    expect(total(fixture.source)).toBe(8); expect(total(fixture.sink)).toBe(0);
+    expect(fixture.home.connections).toHaveLength(2);
+    fixture.home.connections = [cable(fixture.source.id, fixture.sender.id)];
+    advance(engine, 5000);
+    expect(total(fixture.source)).toBe(8); expect(total(fixture.sink)).toBe(0);
+    expect(fixture.remote.connections).toHaveLength(2);
+    fixture.remote.connections = [cable(fixture.receiver.id, fixture.sink.id)];
+    advance(engine, 5000);
     expect(total(fixture.source)).toBe(7); expect(total(fixture.sink)).toBe(1);
     emptyRoads(fixture.sender, fixture.receiver);
     expect(total(fixture.home.nodes.find(node => node.id === localJoint.id)!)).toBe(0);
     expect(total(fixture.remote.nodes.find(node => node.id === remoteJoint.id)!)).toBe(0);
     const pulses = fixture.state.inFlightTransfers!;
     expect(pulses).toHaveLength(2);
-    expect(pulses.every(pulse => pulse.cosmeticOnly && pulse.routeConnectionIds?.length === 2)).toBe(true);
+    expect(pulses.every(pulse => pulse.cosmeticOnly)).toBe(true);
+    expect(pulses.map(pulse => pulse.connectionId)).toEqual(['source>send', 'receive>sink']);
   });
 
   it('reserves receiving space for actual in-flight items but not decorative pulses', () => {
@@ -88,13 +97,20 @@ describe('Roads have no internal storage', () => {
     emptyRoads(fixture.sender, fixture.receiver);
   });
 
-  it('lets Dev Source supply a remote recipe without filling a Road buffer', () => {
+  it('leaves an old direct Dev Source feed idle', () => {
     const fixture = setup(); fixture.source.kind = 'devSource'; fixture.source.output = {};
-    fixture.sink.kind = 'smelter'; fixture.sink.recipeId = 'smelt-iron';
     const engine = start(fixture);
     advance(engine, 5000);
-    expect(fixture.sink.input.iron).toBe(1);
+    expect(fixture.sink.input.iron).toBeUndefined();
     expect(fixture.source.input).toEqual({}); expect(fixture.source.output).toEqual({});
+    emptyRoads(fixture.sender, fixture.receiver);
+  });
+
+  it('recovers legacy Road stock without unloading into an old Warehouse connection', () => {
+    const fixture = setup(); fixture.sink.kind = 'warehouse'; fixture.receiver.output.iron = 3;
+    start(fixture);
+    expect(total(fixture.source)).toBe(11);
+    expect(total(fixture.sink)).toBe(0);
     emptyRoads(fixture.sender, fixture.receiver);
   });
 

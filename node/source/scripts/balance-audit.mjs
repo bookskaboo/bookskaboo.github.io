@@ -9,7 +9,7 @@ const server = await createServer({ root, configFile: false, optimizeDeps: { noD
 try {
   const { RECIPES, RETIRED_RECIPES } = await server.ssrLoadModule('/src/content/recipes.ts');
   const { RESEARCH_PROJECTS, getResearchCosts } = await server.ssrLoadModule('/src/content/research.ts');
-  const { ALPHA_AP, GROVE_GROWTH, FOUNDRY_INPUTS, RECLAMATION_VALUE, RECLAMATION_QUOTAS, RECLAMATION_PRODUCTION_TARGET_MS } = await server.ssrLoadModule('/src/content/endgame.ts');
+  const { ALPHA_AP, FINAL_CORE_PRODUCTION, GROVE_GROWTH, FOUNDRY_INPUTS, RECLAMATION_VALUE, RECLAMATION_QUOTAS, RECLAMATION_PRODUCTION_TARGET_MS } = await server.ssrLoadModule('/src/content/endgame.ts');
   const { BOT_STRENGTH } = await server.ssrLoadModule('/src/content/progression.ts');
   const { getLizardSettlementForMapTier } = await server.ssrLoadModule('/src/content/lizardSettlements.ts');
   const { BASE_MOD_RULES } = await server.ssrLoadModule('/src/mods/modRules.ts');
@@ -62,7 +62,7 @@ try {
   assert.deepEqual(unitBills.currentStandard['simple-core'].raw, { copper: 8, wood: 4 });
   assert.deepEqual(unitBills.currentStandard['basic-core'].raw, { copper: 2, wood: 4, iron: 6 });
   assert.deepEqual(unitBills.currentStandard['hydro-core'].raw, { iron: 12, wood: 14, copper: 15, water: 9, stone: 1 });
-  assert.deepEqual(unitBills.currentStandard['medium-suppression-bot'].raw, { iron: 34, wood: 27, copper: 20, water: 8, stone: 2 });
+  assert.deepEqual(unitBills.currentStandard['medium-suppression-bot'].raw, { iron: 28, wood: 23, copper: 18, water: 8, stone: 3 });
 
   const mediumStrength = BOT_STRENGTH['medium-suppression-bot'];
   function withMythrilSupport(m, bill, tier) {
@@ -132,16 +132,17 @@ try {
   // are included. Encounter requirements and recipe inputs remain separate.
   const requiredIds = new Set();
   function requireProject(id) {
+    if (id === FINAL_CORE_PRODUCTION) id = 'cornerComponents';
     if (requiredIds.has(id)) return;
     const p = RESEARCH_PROJECTS.find(project => project.id === id);
     assert(p, 'Unknown required project ' + id);
     requiredIds.add(id);
     for (const prerequisite of [p.prerequisite, ...(p.prerequisites ?? [])].filter(Boolean)) requireProject(prerequisite);
   }
-  ['precisionControl', 'treePlanter', 'sealedRobotics', 'road', 'exploration', 'mithrilTools', 'lakeTools', 'fabricatorTools', 'cornerComponents', 'victory', 'finalCoreProduction'].forEach(requireProject);
+  ['precisionControl', 'treePlanter', 'sealedRobotics', 'road', 'exploration', 'mithrilTools', 'lakeTools', 'fabricatorTools', 'victory'].forEach(requireProject);
   const requiredProjects = RESEARCH_PROJECTS.filter(p => requiredIds.has(p.id));
   const requiredBill = requiredProjects.reduce((bill, p) => add(bill, p.costs), {});
-  assert.deepEqual(requiredBill, { 'simple-core': 30, 'basic-core': 29, 'automata-core': 24, 'hydro-core': 9, 'shiny-core': 3, 'command-core': 1, 'final-core': 1 });
+  assert.deepEqual(requiredBill, { 'simple-core': 66, 'basic-core': 61, 'automata-core': 46, 'hydro-core': 21, 'shiny-core': 6, 'command-core': 1, 'final-core': 1 });
   const count = bill => Object.values(bill).reduce((sum, n) => sum + n, 0);
   const routeExample = (access) => {
     const mapBill = {};
@@ -157,8 +158,8 @@ try {
     caveats: [
       'The 30-map ideal forms an H: both outer columns plus the middle row, including Home. It reaches every corner with 30 new maps; Exploration supplies one point, leaving 29 repeat purchases.',
       'This is a geometric route-cost example, not a seed-independent solvability claim. Lake/Dwarven access and available resources can require extra maps; unlock order affects repeat prices.',
-      'Basic Cores used inside Medium Bots are additional. Alpha alone needs 17 Medium Bots at 50 AP, consuming 17 Basic Cores and preserving one AP surplus; Dwarven Mythril upkeep adds more.',
-      'Victory is explicitly selected at the Research Center and costs five each of all seven Core types. Endgame Theory is retired. Optional efficiencies, transport upgrades and post-victory research are excluded.',
+      'Medium Bot assembly uses one Sealed Frame and one Cooled Gun. The Dragon and Dwarven supply lines both require production capacity for Bots.',
+      'Victory is explicitly selected at the Research Center and costs one of each of the seven Core types. Optional efficiencies, transport upgrades and post-victory research are excluded.',
     ],
   };
   const report = {

@@ -217,7 +217,7 @@ export function ShortcutBars({ dockLayout, canBuild, bars, groups, unlockedResea
   };
   const finishShortcutDrag = (event: ReactPointerEvent<HTMLButtonElement>, commit: boolean) => {
     const drag = shortcutDragRef.current; if (!drag || drag.pointerId !== event.pointerId) return; shortcutDragRef.current = undefined; setDraggingSlot(undefined); if (!drag.started) return;
-    event.preventDefault(); event.stopPropagation(); suppressClickRef.current = `${drag.barId}:${drag.slot}`; if (commit) onBuildDragEnd(drag.kind, event.clientX, event.clientY, event.shiftKey); else onBuildDragCancel(); window.setTimeout(() => { if (suppressClickRef.current === `${drag.barId}:${drag.slot}`) suppressClickRef.current = undefined; }, 0);
+    event.preventDefault(); event.stopPropagation(); suppressClickRef.current = `${drag.barId}:${drag.slot}`; if (commit) onBuildDragEnd(drag.kind, event.clientX, event.clientY, event.ctrlKey || event.metaKey || event.shiftKey); else onBuildDragCancel(); window.setTimeout(() => { if (suppressClickRef.current === `${drag.barId}:${drag.slot}`) suppressClickRef.current = undefined; }, 0);
   };
 
   const assignmentChoices = BUILDABLE_NODES.filter(definition => (!definition.unlockResearch || unlockedResearch.includes(definition.unlockResearch)) && (assignmentFilter === 'All' || definition.category === assignmentFilter)).map(definition => getBuildNodeDefinition(definition.kind, completedResearch));

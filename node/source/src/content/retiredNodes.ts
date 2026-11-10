@@ -3,6 +3,15 @@ import { RECIPES } from './recipes';
 import { DEFERRED_POWER_NODES, DEFERRED_POWER_RESEARCH } from './deferredPower';
 import { RETIRED_RESEARCH } from './retiredResearch';
 import { RESEARCH_CENTER_BASE_CYCLE_MS } from './researchTiming';
+import { LATE_CAPABILITIES } from './progression';
+
+export function isRetiredWasteNode(kind: unknown): kind is 'slagHopper' | 'wasteLink' {
+  return kind === 'slagHopper' || kind === 'wasteLink';
+}
+
+export function migratedWasteNodeName(name: string) {
+  return ['Slag Hopper', 'Waste Link', 'Waste Batch Link'].includes(name) ? 'Waste Bin' : name;
+}
 
 /** Retain old factories and templates while removing the dedicated machine kind. */
 export function migrateRetiredNodes(state: GameState) {
@@ -12,7 +21,14 @@ export function migrateRetiredNodes(state: GameState) {
   ];
   for (const nodes of groups) for (const node of nodes) {
     if (node.kind === 'researchCenter' || node.kind === 'research-center') node.cycleMs = RESEARCH_CENTER_BASE_CYCLE_MS;
-    if ((node.kind as string) !== 'automataCoreAssembler') continue;
+    const savedKind: string = node.kind;
+    if (isRetiredWasteNode(savedKind)) {
+      if (savedKind === 'wasteLink' && node.capacity === 160) node.capacity = LATE_CAPABILITIES.wasteHopper.defaultCapacity;
+      node.kind = 'wasteHopper';
+      node.name = migratedWasteNodeName(node.name);
+      if (node.modBaseName !== undefined) node.modBaseName = migratedWasteNodeName(node.modBaseName);
+    }
+    if (savedKind !== 'automataCoreAssembler') continue;
     node.kind = 'assembler';
     if (node.name === 'Automata Core Assembler') node.name = 'Assembler';
     node.recipeId = 'automata-core';

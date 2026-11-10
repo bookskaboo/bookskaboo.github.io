@@ -32,11 +32,12 @@ Open `http://127.0.0.1:4173/`.
 - Road research unlocks the Cart (formerly Wooden Chest), a 20-item solid buffer. Every solid product and Core tier is allowed immediately; fluids are excluded. Trucks research (20 each Simple, Basic and Automata Cores) upgrades all existing and future Carts to 40-item Trucks. Trains research (40 each through Hydro) upgrades them to 80-item Trains. Stock, IDs, wiring, templates and the two-second local transfer cycle are retained; the 20 display blocks represent the proportion filled. Vehicle headers show an icon in place of title text, with the same header/body shading dimensions as Roads.
 - Roads start at one pair per map face. Road Channels 1 adds a second slot (2 each through Hydro), and Road Channels 2 adds a third (130 each through Shiny), sequentially. Sending and receiving endpoints share each face's limit; reversal consumes no extra slot. Existing saved Roads above the new limit remain usable. The Expansion tutorial demonstrates sending Cart → Road pair → receiving Cart using actual Wood production and delivery.
 - Road placement creates both facing endpoints together only when both locations and face slots are legal. The chosen face must have an unlocked neighbor. Click either endpoint for the Road flow panel, then click its direction card to reverse the one-way route; the paired endpoint takes the opposite role. The panel shows only the toggle and 12 items / minute below it. A large arrow points toward the map edge when sending and into the field when receiving; the header icon uses the standard node icon size. Map Road hovers show only compass direction and material. Direction changes disconnect endpoint cables for rewiring. Selecting an unchanged direction through the engine is a no-op; malformed double-export pairs do not dispatch. Practice fixes direction to the lesson route.
-- Roads have no internal inventory. Each five-second check moves one item directly from a connected source to a connected destination, including routes through local logistics. Disconnected or full receivers leave cargo at its source; unused trips never build up. Local cable motion is cosmetic and reserves no storage. On loading an older save, Road cargo returns to connected inventories where possible; overflow is preserved in the shared pool, and pending Road deliveries are refunded before migration.
-- **Dev tools → Place Dev Source** places a movable, saveable universal supplier outside the normal Build catalog. Connect its star output to any existing input; each cable automatically supplies that socket's ingredients, bots, or required research Core types. Recipe changes keep valid Dev Source cables. Extractors mine a virtual infinite reserve on their normal cycle; generic inputs infer downstream demand or default to Iron. Normal production/research timing, prerequisites, and obstruction boundaries still apply.
+- Both Road endpoints require a direct freight vehicle (Cart, Truck, or Train). Put routing nodes before the sending vehicle or after the receiving vehicle. Each vehicle has an arrow pointing from input to output. Each Road pair carries one solid material and stores nothing. Cargo waits at the sender when the receiving vehicle is missing or full. On loading an older save, buffered Road cargo goes to connected freight vehicles where possible, with any overflow preserved in the shared pool. Saved ineligible Road cables stay idle until rewired.
+- **Dev tools → Place Dev Source** places a movable, saveable supplier outside the normal Build catalog. Each cable supplies that socket's ingredients, bots, or required research Core types. For Road shipments, feed a freight vehicle first. Recipe changes keep valid Dev Source cables. Extractors mine a virtual infinite reserve on their normal cycle. Generic inputs infer downstream demand or default to Iron. Normal production and research timing, prerequisites, and obstruction boundaries still apply.
 - Persistent Control Groups with the original ten colors: right-click a highlighted selection to create a group, click/drag a member to control the group, double-click (and hold to drag) to control one member, and right-click a member to confirm disbanding. Down-right selection expands touched groups; up-left selection prioritizes only touched nodes. Shift adds to selection. Full-group copies receive independent group IDs. Groups survive save/load and undo. After Connector Mirroring research, production-node right-click mirrors input/output sides instead. Left-click still opens the recipe chooser, and the connector-order button retains its separate left/right-click row controls.
-- Extractors and Lake Intakes are Production nodes, alongside Kilns, Smelters, Refiners, Assemblers and the advanced processors. The Build catalog, hover labels and production controls use that classification. Carts, Trucks and Trains are Logistics nodes with their existing solid-item storage behavior. Cart shortcuts follow normal Road-unlock placement in the next free Logistics slot; older Cart/Chest assignments on other bars migrate there. Explicitly cleared slots stay cleared, and vehicle upgrades reuse the existing shortcut.
+- Extractors and Pumps are Production nodes, alongside Kilns, Smelters, Refiners, Assemblers and the advanced processors. The Build catalog, hover labels and production controls use that classification. Carts, Trucks and Trains are Logistics nodes with their existing solid-item storage behavior. Cart shortcuts follow normal Road-unlock placement in the next free Logistics slot; older Cart/Chest assignments on other bars migrate there. Explicitly cleared slots stay cleared, and vehicle upgrades reuse the existing shortcut.
 - Configurable production nodes, including Smelters, need a selected recipe before either side can be connected. Smelters keep the chosen metal recipe. Basics highlights Copper Plate.
+- Click a Filter to open its routing panel. Choose an item and the outlet it should use. All other items use the opposite outlet. Changing the assignment keeps the cables and stored items; if a needed outlet is blocked, both paths wait.
 - Extractor rewiring discards stock of a different resource and keeps matching stock. Resource-node bars show the fraction of their reserve remaining.
 - Research Centers open the research panel on click, show total project progress, and retain named Core storage boxes. Hover explains the active project and missing Cores.
 - Dragging a node or cable near a zoomed field's edge scrolls the map while preserving the drag position and normal map bounds.
@@ -254,7 +255,7 @@ remain proposals; synchronized consumption is implemented in the live lab.
 Encounter-based machine access is implemented; details are in
 `outputs/progression/encounter-unlocks.json` and `encounter-unlocks.html`.
 First entering an activated map with a Lake grants water tools and Coolant;
-Mythril grants the Separator, refining and Slag Hopper.
+Mythril Refining grants the Separator and Mythril recipes.
 Fabricators grant Assembler IIs with familiar recipes, and
 Sorting Ruins grant waste handling early. Core recipes and upgrades
 remain paid research. Precision Control remains a handling fallback so rare
@@ -393,16 +394,15 @@ implemented defaults to review, not settled endgame balance.
   crust 8%; actuator: flux 35%, crust 5%), burst headroom, recovery throughput and
   demand for recovered materials. Mythril separation produces guaranteed slag.
   Rare waste is never a mandatory progression ingredient. Discuss recovery sinks.
-- [ ] **Fluid logistics:** review intake 4/8/16 water per second, at most two
-  Intakes per Lake, Fluid Link 16 units/second, fluid storage 256 and fluid-road
+- [ ] **Fluid logistics:** review Pump draw rates of 4/8/16 Water per second, at most two
+  Pumps per Lake, relay throughput, fluid storage 256 and fluid-road
   receiving capacity 256. There is currently no pressure simulation.
 - [ ] **Road throughput:** pairs move one solid item per five seconds directly
   between connected nodes, with no Road inventory. Blocked trips leave stock at
   its source. Review throughput against Cart/Truck/Train capacities of 20/40/80;
   face slots progress from 1 to 2 to 3. Fluid Roads remain retired.
-- [ ] **Waste logistics:** review 32 combined waste at processors, 200 per hopper,
-  sorter input 32 per type and 40 units/second routing. Review how mixed waste
-  outputs and recovery feedback feel under sustained load.
+- [ ] **Waste logistics:** review processor buffers, 200 per Waste Bin, and
+  routing mixed waste through Filters. Review recovery feedback under sustained load.
 - [ ] **Global storage:** provisional pool cap is 1,000 per item. Initially one
   Storage and one Inventory placement; two Storage inputs and one Inventory
   output, increased by repeatable research. Inventory supplies one unit per

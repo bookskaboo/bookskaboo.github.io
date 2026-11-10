@@ -1,5 +1,6 @@
 import { useState, type ReactNode } from 'react';
 import type { ItemId, NodeKind, PortFamily } from '../domain/types';
+import { FINAL_CORE_PRODUCTION } from '../content/endgame';
 import { BASE_MOD_CONTENT as BASE } from '../mods/modContent';
 import { entriesFor, entryBase, entrySection, type EntryCategory, type ModOption } from '../mods/modCatalog';
 import { isCustomContentId, supportsWorldSpawn, WORLD_SPAWN_MAX_COUNT, WORLD_SPAWN_MAX_TIER, WORLD_SPAWN_REGIONS, type GameMod, type ModWorldSpawn } from '../mods/modTypes';
@@ -37,6 +38,7 @@ export function EntryEditor({ category, id, draft, update, onRemove }: { categor
   const capabilities = BASE.capabilities[template];
   const itemOptions = entriesFor('resources', draft);
   const researchOptions = entriesFor('research', draft).filter(([key]) => key !== id);
+  researchOptions.push([FINAL_CORE_PRODUCTION, 'First Final Core produced']);
   const families: ModOption[] = [...SOCKET_FAMILIES.filter(family => family !== 'POWER').map((family): ModOption => [family, `${family.replaceAll('_', ' ')} family`]), ...itemOptions];
   const patch = (draft[section] as Record<string, Record<string, unknown>>)[id] ?? {};
   const set = (key: string, value: unknown) => update(mod => {

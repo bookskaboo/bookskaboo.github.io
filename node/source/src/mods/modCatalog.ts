@@ -25,7 +25,7 @@ const compatibilityItems = new Set(['power', 'mineral-aggregate', 'metal-residue
 const assignedRecipes = new Set(Object.values(BASE.groups).flat());
 const baseRecipes = Object.values(BASE.recipes).filter(recipe => assignedRecipes.has(recipe.id) && !RETIRED_RECIPES.has(recipe.id));
 const baseNodes = Object.values(BASE.nodes).filter(node => !node.legacyAlias && !DEFERRED_POWER_NODES.has(node.kind) &&
-  !['lakeIntake', 'abandonedFabricator', 'fluidRoad'].includes(node.kind));
+  !['abandonedFabricator', 'fluidRoad'].includes(node.kind));
 
 export function entriesFor(category: ModCategory, draft: GameMod): ModOption[] {
   if (isProfileCategory(category)) return Object.entries(draft.profiles?.[category]?.entries ?? {}).map(([id, entry]) => [id, entry.name]);

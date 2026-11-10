@@ -2,8 +2,8 @@ import { ITEM_NAMES } from '../content/items';
 import { getNodeCapabilities } from '../content/nodeCapabilities';
 import { getEffectiveNodeInputFamilies, getEffectiveNodeOutputFamilies } from '../content/nodes';
 import type { Connection, ItemId, MachineNode } from '../domain/types';
-import { inputPortAcceptsItem } from './connectionRules';
-import { filterOutlet } from './mixedOutput';
+import { expandPortFamily, inputPortAcceptsItem } from './connectionRules';
+import { filterOutlet } from '../domain/filterRouting';
 import { RECIPES } from '../content/recipes';
 
 /** Validate actual upstream materials even when a logistics socket is generic. */
@@ -30,6 +30,7 @@ export function routedConnectionFailure(candidate: Pick<Connection, 'from' | 'to
     if (!(capabilities.behavior === 'extractor' && feeds.length)) {
       if (family in ITEM_NAMES) return new Set([family as ItemId]);
       if (family === 'POWER') return new Set(['power']);
+      if (family === 'ATTACK_POWER') return new Set(expandPortFamily(family));
     }
     if (!capabilities.passThrough && capabilities.behavior !== 'buffer' && capabilities.behavior !== 'extractor') return;
     const result = new Set<ItemId>();

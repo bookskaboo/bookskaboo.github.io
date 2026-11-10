@@ -1,11 +1,13 @@
 import { modNode } from '../mods/modRules';
 import { ITEM_COLORS, ITEM_NAMES } from '../content/items';
+import { BOT_FRAMES, BOT_GUNS, BOT_STRENGTH, SUPPRESSION_BOT, SUPPRESSION_BOT_NAME } from '../content/botAssembly';
 import { getNodeCapabilities } from '../content/nodeCapabilities';
 import { getEffectiveNodeInputFamilies, getEffectiveNodeOutputFamilies, NODE_DEFINITIONS } from '../content/nodes';
 import { RECIPES } from '../content/recipes';
 import { WASTE_ITEMS } from '../content/progression';
 import { FOUNDRY_INPUTS } from '../content/endgame';
-import type { ItemId, MachineNode, SectorState } from '../domain/types';
+import type { Connection, ItemId, MachineNode, SectorState } from '../domain/types';
+import { filterOutlet } from '../domain/filterRouting';
 import { devExtractorMaterial } from '../simulation/devSource';
 
 export { isProductionMachine } from '../content/productionNodes';
@@ -16,27 +18,41 @@ export interface MaterialRow { name: string; amount: number; capacity: number; c
 /** Extractors draw from the real reserve, including routes through logistics. */
 function extractorSource(node: MachineNode, sector?: ResourceSector): MachineNode | undefined {
   if (!sector) return;
-  const visited = new Set<string>();
-  const follow = (id: string): MachineNode | undefined => {
-    if (visited.has(id)) return;
-    visited.add(id);
-    const source = sector.nodes.find(candidate => candidate.id === id);
+  const follow = (edge: Connection, visited = new Set<string>(), accepts = (_item: ItemId) => true): MachineNode | undefined => {
+    if (visited.has(edge.from)) return;
+    const source = sector.nodes.find(candidate => candidate.id === edge.from);
     if (!source || source.disabled) return;
-    if (source.kind === 'devSource') return { ...source, resourceItem: devExtractorMaterial(node, sector), infiniteResource: true };
-    if (source.resourceItem && source.kind !== 'lake') return source;
+    if (source.kind === 'devSource') {
+      const resourceItem = devExtractorMaterial(node, sector);
+      if (accepts(resourceItem)) return { ...source, resourceItem, infiniteResource: true };
+      return;
+    }
+    if (source.resourceItem && source.kind !== 'lake') return accepts(source.resourceItem) ? source : undefined;
     if (!getNodeCapabilities(source.kind).passThrough) return;
-    for (const cable of sector.connections.filter(cable => cable.to === id)) {
-      const resource = follow(cable.from);
-      if (resource && (resource.infiniteResource || (resource.resourceRemaining ?? 0) > 0) && (source.kind !== 'filter' || !source.filterItem || source.filterItem === resource.resourceItem)) return resource;
+    const path = new Set(visited).add(source.id);
+    const throughOutlet = source.kind === 'filter' ? (item: ItemId) => accepts(item) && (edge.fromPort ?? 0) === filterOutlet(source, item) : accepts;
+    for (const cable of sector.connections.filter(cable => cable.to === source.id)) {
+      const resource = follow(cable, path, throughOutlet);
+      if (resource && (resource.infiniteResource || (resource.resourceRemaining ?? 0) > 0)) return resource;
     }
   };
   const cable = sector.connections.find(cable => cable.to === node.id && (cable.toPort ?? 0) === 0);
-  return cable ? follow(cable.from) : undefined;
+  return cable ? follow(cable) : undefined;
 }
 
 /** Each visual row belongs to a semantic port, even when its position is swapped. */
 export function productionPortRow(node: MachineNode, direction: 'input' | 'output', index: number, sector?: ResourceSector): MaterialRow {
   const capabilities = getNodeCapabilities(node.kind);
+  if (capabilities.behavior === 'bot-assembly') {
+    const bag = direction === 'input' ? node.input : node.output;
+    const items = direction === 'output' ? Object.keys(BOT_STRENGTH) as ItemId[] : index === 0 ? BOT_FRAMES : BOT_GUNS;
+    const stocked = items.filter(item => (bag[item] ?? 0) > 0);
+    const amount = stocked.reduce((sum, item) => sum + (bag[item] ?? 0), 0);
+    const capacity = direction === 'output' ? modNode(node.kind)?.capacity ?? node.capacity ?? 5 : (capabilities.inputCapacity ?? 5) * Math.max(1, stocked.length);
+    const name = direction === 'output' ? SUPPRESSION_BOT_NAME : index === 0 ? 'Frame' : 'Gun';
+    const detail = stocked.length ? stocked.map(item => `${bag[item]} × ${ITEM_NAMES[item]}`).join(' · ') : undefined;
+    return { name, amount, capacity, color: direction === 'output' ? ITEM_COLORS[SUPPRESSION_BOT] : NODE_DEFINITIONS[node.kind].accent, detail };
+  }
   if(node.kind==='recycler'||node.kind==='cornerChallenge') {
     const bag=direction==='input'?node.input:node.output;
     const family=(direction==='input'?getEffectiveNodeInputFamilies(node,[]):getEffectiveNodeOutputFamilies(node))[index];

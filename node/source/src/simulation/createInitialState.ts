@@ -8,6 +8,7 @@ export function createInitialState(seed = Math.floor(Math.random() * 2 ** 31)): 
   const now = Date.now();
   return {
     version: 1, seed, activeSectorId: '5,5', sectors: { '5,5': createHomeSector(now) },
+    fieldSizeScale: 1,
     golemPlacementTier: GOLEM_PLACEMENT_TIER,
     encounterLayoutVersion: 2,
     research: { unlocked: ['extractor'], contributed: {}, completed: [], mapPoints: 0, repeatableCompletions: {} },

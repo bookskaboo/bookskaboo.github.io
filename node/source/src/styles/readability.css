@@ -1,7 +1,18 @@
-/* Readability pass: favor Windows' native hinted faces and keep fine UI type
-   crisp without changing the established panel measurements. */
+/* Shared UI type roles. See docs/node-ui-style-guide.docx. */
 :root {
   --ui-font-family: "Segoe UI Variable Text", "Segoe UI", Inter, Arial, sans-serif;
+  --ui-mono-family: "Cascadia Mono", Consolas, ui-monospace, monospace;
+  --ui-title-font: 600 20px/1.2 var(--ui-font-family);
+  --ui-panel-title-font: 600 18px/1.2 var(--ui-font-family);
+  --ui-section-font: 600 15px/1.25 var(--ui-font-family);
+  --ui-control-font: 500 12px/1.3 var(--ui-font-family);
+  --ui-meta-font: 400 12px/1.3 var(--ui-font-family);
+  --modal-card-font: 500 13px/1.3 var(--ui-font-family);
+  --modal-copy-font: 400 12px/1.45 var(--ui-font-family);
+  --modal-reading-font: 400 14px/1.55 var(--ui-font-family);
+  --modal-label-gap: 4px;
+  --modal-paragraph-gap: 8px;
+  --modal-section-gap: 16px;
   font-family: var(--ui-font-family);
   font-synthesis: weight style;
 }
@@ -13,14 +24,7 @@ body,button,input,select,textarea {
   text-rendering: inherit;
   -webkit-font-smoothing: inherit;
 }
-.game-shell {
-  font-weight: 500;
-  text-shadow: 0 0 .3px currentColor;
-}
-.brand small { color:#89939f; font-size:9px; }
-.canvas-help { color:#7d8793; font-size:8px; }
-.local-badge { color:#75808b; font-size:8px; }
-.shortcut-slots kbd { color:#9aa2ab; font-size:8px; }
+.brand small, .canvas-help, .local-badge { color:#adbcc8; font:var(--ui-meta-font); }
 .factory-template-controls,.global-pool-panel { position:fixed; right:24px; bottom:24px; width:340px; max-height:55vh; overflow:auto; padding:18px; background:#202a31; border:1px solid #6e9a91; border-radius:12px; z-index:1200; color:#e3e6e2; box-shadow:0 12px 40px #0008; }
 .factory-template-controls label { display:block; margin:8px 0; }
 .factory-template-controls input,.factory-template-controls select { max-width:210px; margin-left:8px; }
@@ -28,13 +32,6 @@ body,button,input,select,textarea {
 .factory-template-controls p,.global-pool-panel p { font-size:12px; }
 .research-card{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;min-height:95px}
 .research-card-name{font-size:10px;line-height:1.25;color:inherit;text-align:center;max-width:100%;overflow-wrap:anywhere}
-
-/* Use Research card typography for comparable labels in game dialogs. */
-:root {
-  --modal-card-font: 500 13px/1.3 var(--ui-font-family);
-  --modal-copy-font: 500 13px/1.45 var(--ui-font-family);
-  --modal-reading-font: 500 15px/1.55 var(--ui-font-family);
-}
 
 .research-modal .research-card-name,
 .build-card span b,
@@ -51,7 +48,6 @@ body,button,input,select,textarea {
 .autosave-frequency b,
 .recipe-guide-group-heading strong,
 .recipes-modal .recipe-guide-title strong,
-.recipes-modal .recipe-guide-material,
 .mods-category-grid b,
 .mods-entry-list b,
 .mods-field-title,
@@ -67,15 +63,14 @@ body,button,input,select,textarea {
 }
 
 .build-card span small,
+.option-action small,
+.toggle-row small,
 .shortcut-visibility-options button small,
-.dev-controls .option-action small,
 .dev-note small,
 .panel-note p,
-.factory-template-controls p,
 .discovery-intro,
 .discovery-summary,
 .discovery-entry :is(p, small),
-.discovery-time,
 .save-local-note small,
 .save-slot-copy p,
 .autosave-frequency small,
@@ -93,14 +88,10 @@ body,button,input,select,textarea {
 .mods-review td small,
 .map-modal .map-survey-list p,
 .map-modal .map-info .map-unexplored,
-.tutorial-library-note,
-.tutorial-choice p,
-.tutorial-reference :is(p, b),
 .research-tree-tools p,
 .research-tree-note,
 .welcome-points small,
 .welcome-modal .privacy-note,
-.confirm-modal p,
 .modal .empty-state {
   font: var(--modal-copy-font);
 }
@@ -130,18 +121,165 @@ body,button,input,select,textarea {
 .mods-modal :is(input, select, textarea:not([readonly], [placeholder^="NODEMOD"])),
 .map-modal :is(.map-node-editor label, .map-node-editor input, .map-node-editor button, .node-map-filters button),
 .world-node-minimap.expanded .map-primary-action,
-.tutorial-choice button,
-.tutorial-menu > button,
+.tutorial-button,
+.tutorial-step-tools,
 .research-tree-tools :is(label, input, small),
 .research-tree-legend,
 .welcome-actions .primary-cta,
 .confirm-modal button {
-  font: var(--modal-card-font);
+  font: var(--ui-control-font);
 }
 
-.modal-tooltip span {
-  font: var(--modal-reading-font);
+.modal .panel-header h2 { margin:0; font:var(--ui-title-font); letter-spacing:normal; }
+.modal .panel-header small { display:block; margin-block-end:var(--modal-label-gap); }
+.inspector .panel-header h2, .recipe-picker-panel .recipe-picker-header h2,
+.confirm-modal h2, .interaction-explanation h2, .tutorial-heading h2 { font:var(--ui-panel-title-font); letter-spacing:normal; }
+.panel-header small, .recipe-picker-header small { font:var(--ui-meta-font); letter-spacing:normal; }
+.recipe-picker-header h2, .confirm-modal h2, .interaction-explanation h2 { margin:0; }
+.recipe-picker-header small { display:block; margin-block-end:var(--modal-label-gap); }
+.recipe-picker-panel .recipe-picker-header p, .recipes-dialog-header p { margin:var(--modal-label-gap) 0 0; font:var(--modal-copy-font); }
+.option-action small, .toggle-row small, .dev-note small, .save-local-note small {
+  margin-block-start:var(--modal-label-gap);
 }
+.panel-note p b, .tutorial-choice h3, .tutorial-reference h3 { margin-block-end:var(--modal-label-gap); }
+.confirm-modal .warning-icon { margin-block-end:var(--modal-section-gap); }
+.confirm-modal > p { margin:var(--modal-paragraph-gap) 0 var(--modal-section-gap); }
+.interaction-explanation p, .tutorial-callout p { margin:var(--modal-paragraph-gap) 0 0; }
+.tutorial-library-note, .tutorial-unlock-copy, .mods-intro { margin:0 0 var(--modal-paragraph-gap); }
+.tutorial-reference p + p { margin-block-start:var(--modal-paragraph-gap); }
+.tutorial-unlock-copy:last-of-type, .mods-help { margin-block-end:var(--modal-section-gap); }
+.research-summary-row > section > h3, .research-catalog-heading h3,
+.research-project-detail .research-detail-heading h3, .research-completed > summary,
+.commands-results h3, .map-survey-list h3, .mods-modal h3 { font:var(--ui-section-font); }
+.research-modal .research-search-field input, .research-modal .research-requirement-filter,
+.research-tree-trigger, .research-tree-tools-actions button, .research-tree-note button,
+.commands-filters button, .commands-empty button, .filter-picker-controls input, .recipe-view-toggle {
+  font:var(--ui-control-font); text-transform:none; letter-spacing:normal;
+}
+.research-requirement-filters { flex-wrap:wrap; }
+.research-modal .research-requirement-filter { min-height:30px; white-space:nowrap; }
+.research-requirement-filters .research-requirement-filter { flex-basis:76px; }
+.research-search-field input::placeholder { color:#a4b9c8; }
+.research-project-detail > p { font:var(--modal-copy-font); }
+.research-project-detail > .research-flavor { font:italic 400 11px/1.45 var(--ui-font-family); }
+.research-detail-action { font:400 12px/1.3 var(--ui-font-family); }
+.research-modal .research-core-badge { font-weight:400; }
+.research-detail-total { font:400 15px/1.3 var(--ui-mono-family); }
+.research-detail-state, .research-project-detail .research-delivery-status,
+.research-prerequisites button, .research-catalog-key, .research-search-summary, .research-search-summary button,
+.research-tree-group small, .research-milestone span, .research-active-empty span { font:var(--ui-meta-font); }
+.research-card.locked { opacity:1; color:#b5c3cd; }
+.research-card.locked .research-card-icon { opacity:.65; }
+.research-card.requirement-filter-muted:not([aria-expanded="true"]) { opacity:1; color:#a4b1bb; }
+
+.factory-template-controls p, .tutorial-library-note, .tutorial-unlock-copy,
+.tutorial-choice p, .tutorial-reference, .tutorial-callout p,
+.confirm-modal p, .interaction-explanation p { font:var(--modal-reading-font); }
+.tutorial-placement-target span, .tutorial-port-target span { font:var(--ui-control-font); letter-spacing:normal; }
+
+.node-hover-tooltip, .ui-hover-tooltip { width:max-content; max-width:min(320px, calc(100vw - 16px)); }
+.node-hover-tooltip b, .ui-hover-tooltip b { font:600 14px/1.3 var(--ui-font-family); text-transform:none; letter-spacing:normal; }
+.node-hover-tooltip span, .ui-hover-tooltip span { font:var(--modal-copy-font); overflow-wrap:anywhere; }
+.node-hover-tooltip small, .multi-connection-tooltip button { font:var(--ui-meta-font); text-transform:none; letter-spacing:normal; }
+.ui-hover-tooltip em { font:italic 400 12px/1.45 var(--ui-font-family); }
+.ui-hover-tooltip.modal-tooltip { max-width:min(430px, calc(100vw - 16px)); }
+.ui-hover-tooltip.modal-tooltip span { font:var(--modal-reading-font); }
+.notification small, .interaction-notice small { font:var(--ui-meta-font); text-transform:none; letter-spacing:normal; }
+.notification-content b { font:500 13px/1.35 var(--ui-font-family); }
+.interaction-notice b { font:var(--modal-card-font); }
+
+.modal-trigger-strip .rail-button, .pause-button, .selection-delete-button { font:var(--ui-control-font); text-transform:none; letter-spacing:normal; }
+.modal-trigger-strip .rail-button span, .modal .category-tabs button { text-transform:none; letter-spacing:normal; }
+.category-tabs { flex-wrap:wrap; }
+.stat small { font:var(--ui-meta-font); color:#adbcc8; text-transform:none; letter-spacing:normal; }
+.modal-trigger-strip .rail-button em { font:var(--ui-meta-font); font-variant-numeric:tabular-nums; }
+kbd, .modal-trigger-strip .rail-button kbd, .command-row kbd { font:400 12px/1.2 var(--ui-mono-family); }
+.modal-trigger-strip .rail-button kbd { color:#b6c8d4; }
+.shortcut-slots .shortcut-slot > button > span, .shortcut-slots kbd,
+.shortcut-bars-layer[data-docked="true"] .shortcut-bar-name {
+  font:400 11px/1.2 var(--ui-font-family); text-transform:none; letter-spacing:normal;
+}
+.shortcut-slots kbd { font-family:var(--ui-mono-family); color:#c0ced9; }
+.shortcut-assignment-menu > header, .shortcut-assignment-filters button,
+.shortcut-assignment-menu > button.clear { font:var(--ui-control-font); text-transform:none; }
+.shortcut-assignment-choices > button span { font:var(--ui-meta-font); }
+.shortcut-assignment-filters { flex-wrap:wrap; }
+
+.inventory-row b, .ingredient-status p b, .research-core-grid b, .map-survey-list li b {
+  font:400 13px/1.3 var(--ui-font-family); font-variant-numeric:tabular-nums;
+}
+.inventory-row b small, .ingredient-status small, .research-core-grid :is(span, small),
+.resource-readout :is(span, small), .save-slot-index span { font:var(--ui-meta-font); letter-spacing:normal; }
+.stat b, .inventory-summary b, .resource-readout b, .save-slot-index b,
+.autosave-frequency > strong, .map-coordinates b, .map-action-footer .map-points b {
+  font-family:var(--ui-font-family); font-weight:400; font-variant-numeric:tabular-nums;
+}
+.node-hero span, .field-help, .road-flow-guidance { font:var(--modal-copy-font); color:#c6d2dc; }
+.node-hero b, .field-label, .inspector-configure span { font:var(--ui-meta-font); text-transform:none; letter-spacing:normal; }
+.field-label select, .inspector-configure b { font:var(--modal-card-font); }
+.field-label, .buffer > span, .buffer small, .cycle-row, .resource-readout :is(span, small) { color:#acbdca; }
+.buffer > span, .buffer small, .buffer b, .cycle-row, .cycle-row b { font:var(--ui-meta-font); text-transform:none; }
+.buffer b em, .cycle-row b { font-variant-numeric:tabular-nums; }
+.danger-button { font:var(--ui-control-font); letter-spacing:normal; }
+.research-core-grid { grid-template-columns:repeat(auto-fit, minmax(74px,1fr)); }
+.research-core-grid span { overflow-wrap:anywhere; }
+.recipe-picker-panel .recipe-picker-copy strong, .recipes-modal .recipe-guide-material { font:var(--modal-card-font); }
+.recipe-picker-panel .recipe-picker-copy small { font:var(--modal-copy-font); color:#b6c3cc; }
+.recipe-card-time, .recipe-guide-title .recipe-card-time { font:var(--ui-meta-font); font-variant-numeric:tabular-nums; }
+.recipe-guide-material b { font:inherit; font-variant-numeric:tabular-nums; }
+.recipe-warning-suppression :is(b, small), .filter-picker-outlet span { font:var(--modal-copy-font); color:#c6d2dc; }
+.road-flow-rate { font:var(--ui-meta-font); font-variant-numeric:tabular-nums; }
+.road-flow-toggle b { font-family:var(--ui-font-family); font-weight:600; }
+
+.discovery-time, .save-slot-copy p, .save-slot-copy em, .autosave-copy-actions > span,
+.autosave-frequency > strong, .autosave-frequency > i { font:var(--ui-meta-font); font-variant-numeric:tabular-nums; }
+.save-slot-index span { text-transform:none; }
+.save-slot-copy time { overflow-wrap:anywhere; white-space:normal; }
+.mods-modal textarea[readonly], .mods-modal textarea[placeholder^="NODEMOD"],
+.mods-port-row > span, .dev-report { font:400 12px/1.5 var(--ui-mono-family); }
+.mods-error, .mods-success { font:var(--modal-copy-font); }
+.mods-chance-row label { font:var(--ui-meta-font); }
+
+.node-map-filters > span, .world-node-minimap header span, .world-node-minimap header b,
+.world-node-minimap footer, .world-node-minimap footer button, .minimap-zoom button {
+  font:var(--ui-meta-font); text-transform:none; letter-spacing:normal;
+}
+.world-node-minimap header span kbd { font:400 11px/1.2 var(--ui-mono-family); color:#b7c7d3; }
+.minimap-drag-handle > span { flex-wrap:wrap; gap:2px 5px; }
+.minimap-zoom button { color:#c6d2dc; }
+.world-node-minimap:not(.expanded) footer { height:auto; min-height:29px; gap:6px; }
+.world-node-minimap:not(.expanded) footer button { min-height:25px; height:auto; }
+.world-node-minimap footer > span { min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.world-node-minimap.expanded .map-unexplored { font:var(--modal-copy-font); }
+.node-map-sector { font:500 10px/1 var(--ui-font-family); font-variant-numeric:tabular-nums; }
+.node-map-sector strong { font-weight:inherit; }
+.node-map-grid { container-type:inline-size; }
+.world-node-minimap.expanded .node-map-sector { font-size:11px; }
+.world-node-minimap.expanded .larger-grid .node-map-sector { font-size:11px; }
+@container (max-width: 680px) {
+  .world-node-minimap.expanded .larger-grid .node-map-sector > strong { display:none; }
+  .world-node-minimap.expanded .larger-grid button.node-map-sector:not(.has-landmarks)::before {
+    content:''; width:4px; height:4px; border-radius:50%; background:currentColor;
+  }
+}
+@container (max-width: 365px) {
+  .world-node-minimap.expanded .node-map-sector > strong { display:none; }
+  .world-node-minimap.expanded button.node-map-sector:not(.has-landmarks)::before {
+    content:''; width:4px; height:4px; border-radius:50%; background:currentColor;
+  }
+}
+@media (max-width: 700px) {
+  .modal .panel-header h2 { font:var(--ui-panel-title-font); }
+}
+
+.welcome-copy > p, .endgame-notice p { font:var(--modal-reading-font); }
+.welcome-copy h1 { margin:0; }
+.welcome-copy h1 > span, .endgame-notice h1, .welcome-copy > p, .endgame-notice p { margin:var(--modal-paragraph-gap) 0 0; }
+.welcome-points { margin-block:var(--modal-section-gap); }
+.welcome-points b { margin-block:0 var(--modal-label-gap); }
+.welcome-copy .privacy-note, .endgame-notice button { margin-block-start:var(--modal-section-gap); }
+.endgame-notice > small { font:var(--ui-meta-font); letter-spacing:normal; }
+.endgame-notice button { font:var(--ui-control-font); }
 
 .save-modal {
   display: flex;
@@ -151,5 +289,4 @@ body,button,input,select,textarea {
 .save-list { flex: 1 1 auto; min-height: 0; }
 .save-slot-copy > strong { height: auto; min-height: 34px; padding-block: 6px; overflow-wrap: anywhere; }
 .autosave-copy-actions { flex-wrap: wrap; }
-.discovery-time { font-variant-numeric: tabular-nums; }
 

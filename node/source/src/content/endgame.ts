@@ -1,5 +1,7 @@
 import type { GameState, ItemId, MachineNode, Recipe, ResearchProject } from '../domain/types';
 import { DEFAULT_WORLD_GRID_SIZE, worldCornerIds } from '../domain/worldGrid';
+import { FINAL_BOT_AP } from './botAssembly';
+export { FINAL_BOT_AP } from './botAssembly';
 
 export type CornerType = 'alpha' | 'foundry' | 'reclamation' | 'grove';
 export const CORNERS: CornerType[] = ['alpha', 'foundry', 'reclamation', 'grove'];
@@ -16,18 +18,12 @@ export const FINAL_ITEMS = {
   'final-core': 'Final Core',
 };
 export const SEVEN_CORES: ItemId[] = ['simple-core', 'basic-core', 'automata-core', 'hydro-core', 'shiny-core', 'command-core', 'final-core'];
+// An internal prerequisite recorded on production, with no standalone research card.
+export const FINAL_CORE_PRODUCTION = 'finalCoreProduction';
 /** Explicit November 5 quotas supersede the earlier five-minute sizing for these corners.
  * Upgrades/parallel producers shorten the work; setup and delivery latency are separate. */
 export const FOUNDRY_INPUTS: Partial<Record<ItemId, number>> = { 'ceramic-electrode': 50, 'sealed-frame': 25, 'mythril-gear': 100 };
-export const ALPHA_AP = 500;
-export const FINAL_BOT_AP = 72;
-export const FINAL_BOT_RECIPE: Recipe = {
-  id: 'final-suppression-bot', name: 'Final Bot',
-  inputs: { 'command-suppression-bot': 2, 'command-core': 1, 'servo-frame': 1 },
-  outputs: { 'final-suppression-bot': 1 },
-  cycleMs: 210000,
-  unlockResearch: 'finalRobotics',
-};
+export const ALPHA_AP = 200;
 export const GROVE_GROWTH = 1000;
 export const RECLAMATION_PRODUCTION_TARGET_MS = 600000;
 /** Twice the former five-minute quotas, preserving the relative value of every waste type.
@@ -68,23 +64,24 @@ export function atResearchCap(project: ResearchProject, research: GameState['res
 const bill = () => Object.fromEntries(SEVEN_CORES.map(i => [i, 1]));
 const project = (id: string, name: string, unlock: string, prerequisites: string[], repeatable = false): ResearchProject => ({ id, name, category: 'Endgame', description: unlock, unlock, costs: bill(), prerequisites, ...(repeatable ? { repeatable: true, costGrowth: 1.5 } : {}) });
 export const ENDGAME_RESEARCH: ResearchProject[] = [
-  { id: 'cornerComponents', name: 'End of the World', category: 'Milestone', description: 'Acquire a piece from any corner to reveal this world’s paired assembly recipes.', unlock: 'Unlocks Yin, Yang and Final Core assembly.', costs: {}, trigger: { id: 'corner-component-obtained', pending: 'Obtain any corner piece', complete: 'Corner piece acquired' } },
+  { id: 'cornerComponents', name: 'End of the World', category: 'Milestone', description: 'There may be more to the map than the middle.', unlock: 'Unlocks Yin, Yang and Final Core assembly.', costs: {}, trigger: { id: 'complex-core-produced', pending: 'Take the next step in Core production', complete: 'First Complex Core produced' } },
   {
     id: 'finalRobotics', name: 'Final Robotics', category: 'Endgame',
-    description: 'Use Final Core research to build a heavier Bot. Management has approved another layer of management.',
-    unlock: `Unlocks the Final Bot recipe in Assembler II. Each Final Bot supplies ${FINAL_BOT_AP} AP.`,
+    description: `Make the Final Frame and Final Cannon in Assembler II. Together they make a Suppression Bot ${FINAL_BOT_AP} AP in the Bot Plant.`,
+    unlock: 'Unlocks the Final Frame and Final Cannon. Pair them in the Bot Plant or combine them with earlier parts.',
+    flavorText: 'Management has approved another layer of management.',
     costs: bill(),
-    prerequisites: ['finalCoreProduction', 'commandRobotics'],
+    prerequisites: [FINAL_CORE_PRODUCTION, 'commandRobotics'],
   },
-  { id: 'victory', name: 'A Remarkably Indirect Conclusion', category: 'Endgame', description: 'Select this project at the Research Center and deliver five of every Core, Simple through Final. The factory may continue after its point has been made.', unlock: 'Complete this research to achieve victory and continue playing in this world.', costs: bill(), prerequisites: ['finalCoreProduction'] },
-  project('resourceRelocation', 'Resource Relocation', 'Move Forests, deposits and cleared-Golem reserves within their original map, preserving all stock and history.', ['victory']),
-  project('lakeRelocation', 'Lake Relocation', 'Move Lakes within their original map. Intakes stay connected and move only when explicitly selected.', ['victory']),
-  project('campRelocation', 'Monster Camp Relocation', 'Move ordinary settlements and their linked Tribute boxes together within their map.', ['victory']),
-  project('efficientLandfill', 'Efficient Landfill', 'Reduce original Deep Hole Stone bills by 20% per rank, compounded, crediting Stone already used. Minimum one; maximum rank 45.', ['victory'], true),
-  project('advancedRoadChannels', 'Advanced Road Channels', 'Add a fourth, then fifth Road slot per map face. Two levels.', ['victory', 'roadChannels2'], true),
-  project('trainFreightCapacity', 'Train Freight Capacity', 'Each rank adds 20 Train storage and one item per local transfer and Road shipment.', ['victory', 'trains'], true),
-  project('resourceRegeneration', 'Resource Regeneration', 'Each rank adds 100% of ordinary-researched passive regeneration, including Forests.', ['victory', 'mineralRegeneration2'], true),
-  { id: 'recycler', name: 'Intermediate Recycling', category: 'Ecology', description: 'Destroy basic resources or recover at most one of each constituent solid resource from an intermediate. Fluids are never recovered.', unlock: 'Unlocks the Recycler. Its mixed output needs filtering.', costs: { 'simple-core': 10, 'basic-core': 10, 'automata-core': 10, 'hydro-core': 10 }, prerequisites: ['hydraulicAssembly'] },
+  { id: 'victory', name: 'A Remarkably Indirect Conclusion', category: 'Endgame', description: 'Complete this project to achieve victory and keep playing in this world.', unlock: 'Victory achieved.', flavorText: 'The factory may continue after its point has been made.', costs: bill(), prerequisites: [FINAL_CORE_PRODUCTION] },
+  project('resourceRelocation', 'Resource Relocation', 'Move Forests, mineral deposits, and defeated Golem reserves within their map. They keep their stock.', ['victory']),
+  project('lakeRelocation', 'Lake Relocation', 'Move Lakes within their map. Pumps stay connected. Select a Pump with the Lake to move them together.', ['victory']),
+  project('campRelocation', 'Monster Camp Relocation', 'Move a Monster Camp and its linked Tribute boxes together within their map.', ['victory']),
+  project('efficientLandfill', 'Efficient Landfill', 'Reduces the Deep Hole Stone requirement by 20% each time, compounded before rounding up. Stone already delivered still counts. The minimum is 1 Stone, with up to 45 completions.', ['victory'], true),
+  project('advancedRoadChannels', 'Advanced Road Channels', 'Adds one Road slot per map side each time, up to five slots total.', ['victory', 'roadChannels2'], true),
+  project('trainFreightCapacity', 'Train Freight Capacity', 'Each completion adds space for 20 items per Train and 1 item per Road shipment.', ['victory', 'trains'], true),
+  project('resourceRegeneration', 'Resource Regeneration', 'Each completion adds the pre-upgrade regeneration rate again to Forests and mineral deposits.', ['victory', 'mineralRegeneration2'], true),
+  { id: 'recycler', name: 'Intermediate Recycling', category: 'Ecology', description: 'Use the Recycler to dispose of basic resources or recover up to one of each solid ingredient from a crafted part. Use Filters to sort the output.', unlock: 'Unlocks the Recycler.', costs: { 'simple-core': 10, 'basic-core': 10, 'automata-core': 10, 'hydro-core': 10 }, prerequisites: ['hydraulicAssembly'] },
 ];
 
 export function landfillTotal(base: number, rank: number) {

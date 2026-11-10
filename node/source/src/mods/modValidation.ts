@@ -1,4 +1,5 @@
 import type { NodeKind } from '../domain/types';
+import { FINAL_CORE_PRODUCTION } from '../content/endgame';
 import { DEFAULT_WORLD_GRID_SIZE, isWorldGridSize, MAX_WORLD_GRID_SIZE } from '../domain/worldGrid';
 import { CONNECTION_RULE_KEYS, isCustomContentId, MAP_RULE_KEYS, MOD_NODE_TEMPLATES, supportsWorldSpawn, WORLD_SPAWN_MAX_COUNT, WORLD_SPAWN_MAX_TIER, WORLD_SPAWN_REGIONS, type GameMod, type ModNode, type ModRules } from './modTypes';
 import { BASE_MOD_CONTENT } from './modContent';
@@ -73,10 +74,16 @@ function validateWorldSpawn(value: unknown, custom: boolean, path: string) {
 
 /** Reject unknown keys, non-finite values, bad references, and research dependency cycles before mutation. */
 export function validateMod(input: unknown): GameMod {
-  const mod = object(input, 'Mod');
+  let mod = object(input, 'Mod');
   keys(mod, ['version', 'name', 'author', 'description', 'resources', 'nodes', 'recipes', 'research', 'rules', 'profiles'], 'Mod');
   if (mod.version !== 1) fail('Mod version', 'this game supports version 1 mod packs.');
   string(mod.name, 'Mod name', 80, false); string(mod.author, 'Author', 80); string(mod.description, 'Description', 2000);
+  const rawNodes = object(mod.nodes, 'Nodes');
+  if (Object.hasOwn(rawNodes, 'slagHopper') || Object.hasOwn(rawNodes, 'wasteLink')) {
+    const { slagHopper, wasteLink, ...nodes } = rawNodes;
+    if (!Object.hasOwn(nodes, 'wasteHopper')) nodes.wasteHopper = Object.hasOwn(rawNodes, 'slagHopper') ? slagHopper : wasteLink;
+    mod = { ...mod, nodes };
+  }
   const baseResearch = Object.fromEntries(BASE_MOD_CONTENT.research.map(p => [p.id, p]));
   const resources = catalogEntries(mod.resources, BASE_MOD_CONTENT.names, 'Resources');
   const nodes = catalogEntries(mod.nodes, BASE_MOD_CONTENT.nodes, 'Nodes');
@@ -84,7 +91,7 @@ export function validateMod(input: unknown): GameMod {
   const research = catalogEntries(mod.research, baseResearch, 'Research');
   const itemIds = { ...BASE_MOD_CONTENT.names, ...Object.fromEntries(resources) };
   const recipeIds = { ...BASE_MOD_CONTENT.recipes, ...Object.fromEntries(recipes) };
-  const researchIds = { ...baseResearch, ...Object.fromEntries(research) };
+  const researchIds = { ...baseResearch, ...Object.fromEntries(research), [FINAL_CORE_PRODUCTION]: true };
   const families = new Set([...SOCKET_FAMILIES, ...Object.keys(itemIds)]);
   for (const [id, raw] of resources) {
     const value = object(raw, id); keys(value, ['name', 'color'], id);
@@ -177,5 +184,5 @@ export function validateMod(input: unknown): GameMod {
       }
     }
   }
-  return structuredClone(input) as GameMod;
+  return structuredClone(mod) as unknown as GameMod;
 }

@@ -11,7 +11,7 @@ Selective reconstruction from nine relevant chats, the current source, maintaine
 - Dates marked known by identify the latest confirmed implementation/publication boundary, not the exact day the code changed.
 - Earlier chat verification is reported as historical evidence. The changelog task does not repeat those game tests or prove human novice experience, pacing, or sustained throughput.
 - Original-game entries describe that implementation. They do not establish that the same feature exists in the rebuild today.
-- Publication status is based on the locally inspected deployment history and source snapshot. Later local changes have not been published by this task.
+- Publication status is based on the locally inspected deployment history and source snapshot. The public source snapshot omits local playtest exports and their evidence links.
 
 ## Sources
 

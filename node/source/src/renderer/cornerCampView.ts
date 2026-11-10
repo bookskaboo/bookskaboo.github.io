@@ -43,8 +43,8 @@ export function createCornerCampStatus(node: MachineNode) {
   illustration.position.set(-CORNER_ARTBOARD.width * scaleX / 2, -h * .09 - CORNER_ARTBOARD.height * scaleY / 2);
   illustration.scale.set(scaleX, scaleY);
   root.addChild(illustration);
-  const title = label(node.name.toUpperCase(), 24, 0xf3f5f7, 'bold');
-  const progress = label('', 15, accent, 'bold', 'monospace');
+  const title = label(node.name, 24, 0xf3f5f7, '600');
+  const progress = label('', 15, accent, 'normal', 'mono');
   title.anchor.set(.5, 0);
   progress.anchor.set(.5, 0);
   progress.y = 30;

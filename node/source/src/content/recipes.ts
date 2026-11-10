@@ -1,10 +1,13 @@
-import { ENDGAME_RECIPES, FINAL_BOT_RECIPE } from './endgame';
+import { ENDGAME_RECIPES } from './endgame';
+import { BOT_BUILDS, FINAL_BOT_PARTS } from './botAssembly';
 import type { Recipe } from '../domain/types';
 import { LATE_RECIPES, LATE_GROUPS } from './progression';
 
 export const RECIPES: Record<string, Recipe> = {
   ...LATE_RECIPES, ...ENDGAME_RECIPES,
-  [FINAL_BOT_RECIPE.id]: FINAL_BOT_RECIPE,
+  ...FINAL_BOT_PARTS,
+  ...Object.fromEntries(BOT_BUILDS.map(({ recipe }) => [recipe.id, recipe])),
+  ...Object.fromEntries(BOT_BUILDS.map(({ legacyId, recipe }) => [legacyId, { ...recipe, id: legacyId, outputs: { [legacyId]: 1 } }])),
   charcoal: { id: 'charcoal', name: 'Charcoal', inputs: { wood: 1 }, outputs: { charcoal: 1 }, cycleMs: 3500 },
   'smelt-iron': { id: 'smelt-iron', name: 'Iron Plate', inputs: { iron: 2, charcoal: 1 }, outputs: { 'iron-plate': 1 }, cycleMs: 6000 },
   'smelt-copper': { id: 'smelt-copper', name: 'Copper Plate', inputs: { copper: 2, charcoal: 1 }, outputs: { 'copper-plate': 1 }, cycleMs: 6000 },
@@ -24,17 +27,17 @@ export const RECIPES: Record<string, Recipe> = {
   'basic-core': { id: 'basic-core', name: 'Basic Core', inputs: { 'copper-plate': 1, 'iron-wire': 1 }, outputs: { 'basic-core': 1 }, cycleMs: 10000 },
   'automata-core': { id: 'automata-core', name: 'Automata Core', inputs: { 'circuit-a': 1, brick: 1 }, outputs: { 'automata-core': 1 }, cycleMs: 15000 },
   'robot-frame': { id: 'robot-frame', name: 'Robot Frame', inputs: { 'iron-plate': 2, motor: 1 }, outputs: { 'simple-robot-frame': 1 }, cycleMs: 6500 },
-  'robot-gun': { id: 'robot-gun', name: 'Robot Gun', inputs: { 'copper-wire': 1, 'iron-plate': 2 }, outputs: { 'simple-robot-gun': 1 }, cycleMs: 6500 },
-  'suppression-bot': { id: 'suppression-bot', name: 'Small Bot', inputs: { 'simple-robot-frame': 1, 'simple-robot-gun': 1 }, outputs: { 'suppression-bot': 1 }, cycleMs: 10000 },
+  'robot-gun': { id: 'robot-gun', name: 'Robot Gun', inputs: { 'copper-wire': 1, 'iron-plate': 2, brick: 1 }, outputs: { 'simple-robot-gun': 1 }, cycleMs: 6500 },
 };
 
 export const RECIPE_GROUPS: Record<string, string[]> = {
   kiln: ['charcoal'],
   smelter: ['smelt-iron', 'smelt-copper', 'smelt-mythril'],
   ...LATE_GROUPS,
-  advancedAssembler: [...(LATE_GROUPS.advancedAssembler ?? []), FINAL_BOT_RECIPE.id],
+  advancedAssembler: [...(LATE_GROUPS.advancedAssembler ?? []), ...Object.keys(FINAL_BOT_PARTS)],
+  botPlant: BOT_BUILDS.map(build => build.recipe.id),
   refiner: ['iron-gear', 'copper-gear', 'mythril-gear', 'iron-wire', 'copper-wire', 'mythril-wire', 'brick', 'simple-core', ...(LATE_GROUPS.refiner ?? [])],
-  assembler: [...Object.keys(ENDGAME_RECIPES), 'composite-mythril-gear', 'composite-mythril-wire', 'motor', 'circuit-a', 'basic-core', 'automata-core', 'robot-frame', 'robot-gun', 'suppression-bot'],
+  assembler: [...Object.keys(ENDGAME_RECIPES), 'composite-mythril-gear', 'composite-mythril-wire', 'motor', 'circuit-a', 'basic-core', 'automata-core', 'robot-frame', 'robot-gun'],
 };
 
 export function isRecipeUnlocked(id: string, completed: readonly string[]) {
@@ -42,12 +45,12 @@ export function isRecipeUnlocked(id: string, completed: readonly string[]) {
   const recipe=RECIPES[id];if(!recipe)return false;
   if(recipe.unlockResearch&&!completed.includes(recipe.unlockResearch))return false;
   if(id==='automata-core'&&!completed.includes('automataCore'))return false;
-  if(['robot-frame','robot-gun','suppression-bot'].includes(id)&&!completed.includes('suppressionBot'))return false;
+  if(['robot-frame','robot-gun'].includes(id)&&!completed.includes('suppressionBot'))return false;
   return true;
 }
 
 /** Definitions remain loadable for already-paid legacy batches. */
-export const RETIRED_RECIPES = new Set(['slagwashing', 'finessettling', 'fluxstabilization', 'crustmilling', 'recoveredbrick', 'recoverediron']);
+export const RETIRED_RECIPES = new Set(['slagwashing', 'finessettling', 'fluxstabilization', 'crustmilling', 'recoveredbrick', 'recoverediron', ...BOT_BUILDS.map(build => build.legacyId)]);
 
 export const BASE_RECIPES = structuredClone(RECIPES);
 export const BASE_RECIPE_GROUPS = structuredClone(RECIPE_GROUPS);

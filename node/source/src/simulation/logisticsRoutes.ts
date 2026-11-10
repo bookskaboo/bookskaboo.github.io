@@ -2,7 +2,7 @@ import { getNodeCapabilities } from '../content/nodeCapabilities';
 import { getEffectiveNodeOutputFamilies, NODE_DEFINITIONS } from '../content/nodes';
 import type { Connection, ItemId, MachineNode, SectorState } from '../domain/types';
 import { inputPortAcceptsItem, portFamiliesCompatible, portFamilyAcceptsItem } from './connectionRules';
-import { filterOutlet } from './mixedOutput';
+import { filterOutlet } from '../domain/filterRouting';
 
 export interface LogisticsRoute { connections: Connection[]; target: MachineNode; routers: Array<{ node: MachineNode; outputIndex: number }>; }
 
@@ -16,6 +16,7 @@ export function logisticsRoute(first: Connection, item: ItemId, sector: SectorSt
   const visit = (cable: Connection, seen: Set<string>): LogisticsRoute | undefined => {
     const from = nodes.get(cable.from), target = nodes.get(cable.to);
     if (!from || !target || target.disabled || seen.has(target.id) || !portFamiliesCompatible(from, cable.fromPort ?? 0, target, cable.toPort ?? 0, completed) || !inputPortAcceptsItem(target, cable.toPort ?? 0, item, completed)) return;
+    if (from.kind === 'filter' && (cable.fromPort ?? 0) !== filterOutlet(from, item)) return;
     const capabilities = getNodeCapabilities(target.kind), outputs = outgoing.get(target.id) ?? [];
     if (!capabilities.passThrough || (target.processingPaused && NODE_DEFINITIONS[target.kind].category !== 'Logistics') || !outputs.length) {
       return canReceive(target, cable.toPort ?? 0) ? { connections: [cable], target, routers: [] } : undefined;
@@ -26,7 +27,6 @@ export function logisticsRoute(first: Connection, item: ItemId, sector: SectorSt
     for (let offset = 0; offset < outputs.length; offset++) {
       const outputIndex = ((capabilities.alternatingOutputs ? target.alternator ?? 0 : 0) + offset) % outputs.length;
       const next = outputs[outputIndex];
-      if (target.kind === 'filter' && (next.fromPort ?? 0) !== filterOutlet(target, item)) continue;
       if (!portFamilyAcceptsItem(getEffectiveNodeOutputFamilies(target)[next.fromPort ?? 0] ?? 'ANY', item)) continue;
       const route = visit(next, path);
       if (route) return { ...route, connections: [cable, ...route.connections], routers: [{ node: target, outputIndex }, ...route.routers] };

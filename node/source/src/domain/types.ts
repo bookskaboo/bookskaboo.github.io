@@ -1,6 +1,7 @@
 export type CustomContentId = `mod-${string}`;
 
 export type ItemId = CustomContentId
+  | import('../content/botAssembly').MixedBotId | 'final-frame' | 'final-cannon'
   | 'alpha' | 'foundry-component' | 'reclamation-component' | 'grove-component' | 'core-half-a' | 'core-half-b' | 'final-core'
   | 'coolant' | 'conductive-slurry' | 'hydraulic-actuator' | 'ceramic-electrode' | 'hydro-core'
   | 'refined-mithril' | 'slag' | 'mithril-mesh' | 'shiny-core' | 'precision-controller'
@@ -17,10 +18,10 @@ export type ItemId = CustomContentId
 export type NodeKind = CustomContentId
   | 'cornerChallenge' | 'cornerTribute' | 'recycler'
   | 'devSource'
-  | 'lakeIntake' | 'hydroProcessor' | 'advancedAssembler' | 'separationFurnace' | 'slagHopper'
-  | 'wasteHopper' | 'fluidStorage' | 'warehouse' | 'wasteSorter' | 'fluidLink' | 'wasteLink'
+  | 'hydroProcessor' | 'advancedAssembler' | 'separationFurnace'
+  | 'wasteHopper' | 'fluidStorage' | 'warehouse' | 'fluidLink'
   | 'powerConduit' | 'fluidRoad' | 'abandonedFabricator' | 'sortingStation' | 'resourceGolem'
-  | 'forest' | 'deposit' | 'lake' | 'extractor' | 'kiln' | 'smelter' | 'refiner' | 'assembler'
+  | 'forest' | 'deposit' | 'lake' | 'extractor' | 'kiln' | 'smelter' | 'refiner' | 'assembler' | 'botPlant'
   | 'splitter' | 'merger' | 'joint' | 'chest' | 'generator' | 'tree-planter' | 'research-center'
   | 'road' | 'monster-camp' | 'goblinTribute' | 'big-hole' | 'storage'
   // Canonical node identifiers carried over from NODE: Another Factory Game.
@@ -107,6 +108,8 @@ export interface MachineNode {
   roadFacing?: 'north' | 'east' | 'south' | 'west';
   bufferAlternator?: number;
   filterItem?: ItemId;
+  /** Outlet for the selected item. Saves without a setting use outlet 0. */
+  filterOutputPort?: 0 | 1;
   miningTarget?: 'iron' | 'copper' | 'mythril' | 'stone';
   miningProgress?: number;
   transferProgressMs?: number;
@@ -115,7 +118,7 @@ export interface MachineNode {
   defeated?: boolean;
   golemOutputs?: ItemId[];
   golemMineral?: 'iron' | 'copper' | 'stone' | 'mythril';
-  golemCostVersion?: 1 | 2;
+  golemCostVersion?: 1 | 2 | 3;
   cornerType?: import('../content/endgame').CornerType;
   cornerCampQuadrant?: 'northwest' | 'northeast' | 'southeast' | 'southwest';
   cornerProgress?: number;
@@ -180,7 +183,7 @@ export interface ResearchProject {
   costGrowth?: number;
   repeatable?: boolean;
   trigger?: {
-    id: 'encounter' | 'connection' | 'assembler-built' | 'basic-core-produced' | 'wood-extracted' | 'motor-produced' | 'metal-extracted' | 'plate-produced' | 'refiner-unlocked' | 'monster-camp' | 'dwarven-mythril-produced' | 'precision-control' | 'final-core-produced' | 'corner-component-obtained';
+    id: 'encounter' | 'connection' | 'assembler-built' | 'basic-core-produced' | 'wood-extracted' | 'motor-produced' | 'metal-extracted' | 'plate-produced' | 'refiner-unlocked' | 'monster-camp' | 'dwarven-mythril-produced' | 'precision-control' | 'complex-core-produced';
     kinds?: NodeKind[];
     pending: string;
     complete: string;
@@ -213,7 +216,10 @@ export interface GameState {
   activeSectorId: string;
   sectors: Record<string, SectorState>;
   worldGridSize?: number;
+  /** Shared starting field multiplier. Older worlds retain their largest generated field. */
+  fieldSizeScale?: number;
   devMapSurveysRevealed?: true;
+  devResearchUnlocked?: true;
   golemPlacementTier?: import('../content/resourceGolems').GolemPlacementTier;
   encounterLayoutVersion?: 1 | 2;
   research: ResearchState;
@@ -237,7 +243,8 @@ export interface GameState {
   inFlightTransfers?: InFlightTransfer[];
   progressionVersion?: number;
   reviewedProductionVersion?: 1;
-  endgame?: { cornerOrder: import('../content/endgame').CornerType[]; pairIndex: number; version: 1; componentObtained?: boolean; victoryAcknowledged?: boolean };
+  botAssemblyVersion?: 1;
+  endgame?: { cornerOrder: import('../content/endgame').CornerType[]; pairIndex: number; version: 1; victoryAcknowledged?: boolean };
   rescue?: { resources: Array<'iron' | 'copper' | 'stone'>; pending?: { resource: 'iron' | 'copper' | 'stone'; sectorId: string; newMaps: number } };
   dwarvenMythrilProduced?: boolean;
   /** Production milestone for the future Final Core route; never set by delivery. */

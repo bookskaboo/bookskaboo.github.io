@@ -1,4 +1,4 @@
-import { CORNER_ITEMS, CORNER_NAMES, seededCornerOrder, seededPairIndex, type CornerType } from '../content/endgame';
+import { CORNER_ITEMS, CORNER_NAMES, FINAL_CORE_PRODUCTION, seededCornerOrder, seededPairIndex, type CornerType } from '../content/endgame';
 import { worldCornerIds, worldGridSize } from '../domain/worldGrid';
 import { RECIPES } from '../content/recipes';
 import { getResearchProject, remainingMapNodePurchases } from '../content/research';
@@ -32,7 +32,7 @@ const lake = scout('The factory is thirsty', 'A very large puddle would help.');
 const camp = scout('The neighbours', 'Somebody else got here first.');
 const dwarves = scout('A metallic glint', 'The neighbours farther out seem well supplied.');
 const golems = scout('Some rocks have opinions', 'The outer sectors have standing rocks.');
-const corners = scout('The four corners', 'Four corners. Four pieces. One Final Core.');
+const corners = scout('The four corners', 'The map may have something left to say.');
 const automataHint = 'Even circuits need a little masonry.';
 const treePlanterHint = 'Forests are a growth industry.';
 const heavyRoboticsHint = 'The negotiations are getting heavier.';
@@ -110,7 +110,7 @@ export function getResearchMilestones(game: GameState): ResearchMilestone[] {
   let primary: ResearchMilestone;
   if (done('refiner') && !labInstalled && (made('simple-core') || done('assembler'))) {
     primary = lab;
-  } else if (done('finalCoreProduction')) {
+  } else if (done(FINAL_CORE_PRODUCTION)) {
     primary = research('victory', 'The lab likes a complete set.');
   } else if (!done('kiln')) primary = wood;
   else if (!done('smelter')) primary = copper;
@@ -131,7 +131,7 @@ export function getResearchMilestones(game: GameState): ResearchMilestone[] {
   else if (!made('hydro-core') && !done('fluidRouting')) primary = recipe('hydro-core', 'Hydro Core', 'The Lake may have a second job.');
   else if (!done('fluidRouting')) primary = research('fluidRouting', 'Fluids have places to be.');
   else if (!done('suppressionBot')) primary = expansion(camp);
-  else if (!done('sealedRobotics')) primary = research('sealedRobotics', 'Small Bots only get so far.');
+  else if (!done('sealedRobotics')) primary = research('sealedRobotics', 'One AP only gets you so far.');
   else if (!done('mithrilTools')) primary = tributeSettlement
     ? visit(tributeSettlement.sector.id, 'Dwarven Tribute', 'The factory’s future depends on their cooperation.')
     : expansion(dwarves);
@@ -154,7 +154,7 @@ export function getResearchMilestones(game: GameState): ResearchMilestone[] {
     if (done('automataCore') && !done('hydraulicAssembly')) candidates.push(expansion(corners));
     if (!done('suppressionBot')) candidates.push(expansion(camp));
     if (done('sealedRobotics') && !done('mithrilTools')) {
-      if (starterCamp) candidates.push(recipe('medium-suppression-bot', 'Medium Bots', 'A steady procession might be persuasive.'));
+      if (starterCamp) candidates.push(recipe('assemble-bot-f2-g2', 'Suppression Bot 3 AP', 'A steady procession might be persuasive.'));
       else if (!tributeSettlement) candidates.push(expansion(dwarves));
     }
     if (done('precisionControl')) {
@@ -168,7 +168,7 @@ export function getResearchMilestones(game: GameState): ResearchMilestone[] {
   }
   for (const [id, detail] of [
     ['road', 'Good neighbours exchange freight.'],
-    ['sealedRobotics', 'Small Bots only get so far.'],
+    ['sealedRobotics', 'One AP only gets you so far.'],
     ['fluidRouting', 'Fluids have places to be.'],
     ['oreSeparation', 'There’s something shiny in there.'],
     ['treePlanter', treePlanterHint],

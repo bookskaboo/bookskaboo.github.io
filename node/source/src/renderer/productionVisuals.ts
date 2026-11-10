@@ -1,4 +1,5 @@
 import { groveProgress } from './groveProgress';
+import { BOT_FRAMES, BOT_GUNS } from '../content/botAssembly';
 import { ALPHA_AP, CORNER_ITEMS, FOUNDRY_INPUTS, GROVE_GROWTH, RECLAMATION_QUOTAS } from '../content/endgame';
 import { modNode } from '../mods/modRules';
 import { getNodeCapabilities, isResourceBehavior } from '../content/nodeCapabilities';
@@ -54,6 +55,7 @@ export function productionExplanation(node: MachineNode, game: GameState, sector
   else if (recipe) summary = `${node.progressMs > 0 ? 'Producing' : 'Ready to produce'} ${recipe.name}.`;
   else if (cue.blockedOutputs.length) summary = `Output buffer full: ${used}/${capacity}. Check the downstream route.`;
   else if (node.kind === 'extractor' && cue.missingInputs.length) summary = 'Waiting for an available resource source. Check its connection and remaining reserve.';
+  else if (getNodeCapabilities(node.kind).behavior === 'bot-assembly') summary = 'Feed a frame and a gun into their matching sockets. The Bot Plant assembles them automatically.';
   else if (getNodeCapabilities(node.kind).behavior === 'recipe') summary = 'Choose a production recipe.';
   if (isStorageNode(node.kind)) {
     const contents = (Object.keys({ ...node.input, ...node.output }) as ItemId[])
@@ -100,6 +102,11 @@ export function productionVisual(node: MachineNode, game: GameState, sector: Sec
     const required = outstandingResearchCores(game.research);
     if (!required.length) return visual;
     visual.missingInputs = required.some(item => (node.input[item] ?? 0) < 1) ? [0] : [];
+  } else if (behavior === 'bot-assembly') {
+    if (!node.batch) {
+      visual.missingInputs = [BOT_FRAMES, BOT_GUNS].flatMap((parts, index) => parts.some(item => (node.input[item] ?? 0) > 0) ? [] : [index]);
+      if (total(node.output) >= capacity) visual.blockedOutputs = [0];
+    }
   } else if (node.recipeId && RECIPES[node.recipeId]) {
     const recipe = RECIPES[node.recipeId];
     if (!node.batch) demands = Object.entries(recipe.inputs) as Array<[ItemId, number]>;

@@ -20,7 +20,7 @@ Simple, Basic and Automata Cores repeatedly funded research after remote repleni
 | Basic Core | Copper Smelter supplies 1 Plate; Iron Smelter → Iron Wire Refiner supplies 1 Wire (3 Plates). Both feed a Basic Core Assembler → Research Center |
 | Circuit A | Copper Wire Refiner supplies 1 Wire; Iron Smelter supplies 1 Plate → Circuit A Assembler |
 | Automata Core | Circuit A Assembler supplies 1 Circuit A; Stone Extractor → Brick Refiner supplies 1 Brick → Automata Core Assembler → Research Center |
-| Copper Slurry | Lake Intake supplies 2 Water; Copper Wire Refiner supplies 1 Wire; Kiln supplies 1 Charcoal → Hydro Plant producing 2 Slurry |
+| Copper Slurry | Lake-fed Pump supplies 2 Water, Copper Wire Refiner supplies 1 Wire, and Kiln supplies 1 Charcoal → Hydro Plant producing 2 Slurry |
 | Circuit B | Brick Refiner supplies 1 Brick; Copper Wire Refiner supplies 1 Wire; Slurry Hydro Plant supplies 1 Slurry → Assembler II |
 | Hydro Core | Hydro Piston branch below supplies 1 Piston; Circuit B supplies 1 Circuit B; Coolant Hydro Plant supplies 2 Coolant → Hydro Core Assembler II → Research Center |
 
@@ -28,7 +28,7 @@ Where a Core crosses maps, collect it in a sending Cart and use the Road route b
 
 ## Medium Bot wiring reference
 
-Keep this chain independent until repeated output is verified. All quantities below are current standard recipe batches, without the unimplemented Wire/Gun discounts discussed in the cost review.
+Keep this chain independent until repeated output is verified. The wiring below incorporates the revised recipe catalog. The prior browser runs used the former Core-fed Medium Bot recipe.
 
 | Producer | Required incoming items | Output goes to |
 | --- | --- | --- |
@@ -40,22 +40,22 @@ Keep this chain independent until repeated output is verified. All quantities be
 | Copper Wire Refiner | 3 Copper Plates | Motors and Robot Guns |
 | Motor Assembler | 1 Iron Gear + 1 Copper Wire | Robot Frames and Hydro Pistons |
 | Robot Frame Assembler | 2 Iron Plates + 1 Motor | Sealed Frame |
-| Robot Gun Assembler | 1 Copper Wire + 2 Iron Plates | Cooled Gun |
-| Lake Intake → Coolant Hydro Plant | 4 Water + 1 Iron Plate → 2 Coolant | Hydro Piston and Cooled Gun |
+| Robot Gun Assembler | 1 Copper Wire + 2 Iron Plates + 1 Brick | Cooled Gun |
+| Lake-fed Pump → Coolant Hydro Plant | 4 Water + 1 Iron Plate → 2 Coolant | Hydro Piston and Cooled Gun |
 | Hydro Piston Assembler II | 1 Iron Gear + 1 Motor + 2 Coolant | Sealed Frame |
-| Stone Extractor → Brick Refiner | 1 Stone → 1 Brick | Sealed Frame |
+| Stone Extractor → Brick Refiner | 1 Stone → 1 Brick | Sealed Frame and Robot Gun |
 | Sealed Frame Assembler II | 1 Robot Frame + 1 Hydro Piston + 2 Bricks | Final Medium Bot assembler |
 | Cooled Gun Assembler II | 1 Robot Gun + 2 Coolant + 2 Iron Plates | Final Medium Bot assembler |
-| Basic Core Assembler | 1 Copper Plate + 1 Iron Wire | Final Medium Bot assembler; keep research supply funded separately |
-| Medium Bot Assembler II | 1 Sealed Frame + 1 Cooled Gun + 1 Basic Core | **Isolated collection Cart first**, then export |
+| Basic Core Assembler | 1 Copper Plate + 1 Iron Wire | Research Center |
+| Assemble Bot in Assembler II | 1 Sealed Frame + 1 Cooled Gun | **Isolated collection Cart first**, then export |
 
 Each cable must reach the correct ingredient socket. Charcoal present at a Kiln is not proof that it reaches a Smelter. In the successful repair, a Smelter had ore but an empty Charcoal input; a direct fuel connection restored cycling. Gear/Frame production also depended on repairing the Plate branches. Keep the working branches while adding capacity; the later Merger/Joint rewrite was an unsuccessful scaling attempt, not a known improvement.
 
-For steady production at two Medium Bots/minute, standard ingredients average **68 Iron, 40 Copper, 54 harvested Wood, 16 Water and four Stone per minute**. These figures are an analytical supply budget. The local 20-second recipe allows one fully supplied base final assembler to make three bots per minute. Upstream production, routing, depletion and shared Core demand can lower actual output.
+For steady production at two Medium Bots/minute, standard ingredients average **56 Iron, 36 Copper, 46 harvested Wood, 16 Water and six Stone per minute**. These figures are an analytical supply budget. The local 20-second recipe allows one fully supplied base final assembler to make three bots per minute. Upstream production, routing, depletion and shared Core demand can lower actual output.
 
 ## Road route that delivered a real bot
 
-Use **sending Cart → sending Road → paired receiving Road → receiving Cart** for each map crossing. Connect Carts directly at both Road endpoints. Continue from the receiving Cart into the next sending route for a multi-map relay. Use Joints to route around actual obstructions; inspect the Road direction after placement. Base Cart Roads carry 12 items/minute.
+Use **sending Cart → sending Road → paired receiving Road → receiving Cart** for each map crossing. Both Road endpoints require a direct connection to a freight vehicle (Cart, Truck, or Train). Put Joints before the sending vehicle or after the receiving vehicle to clear obstructions. Use the receiving Cart to feed the next Road directly in a multi-map relay. Inspect the Road direction after placement. Base Cart Roads carry 12 items/minute.
 
 First isolate the source Cart and count two or more new completed bots without rewiring. Then connect export, isolate the destination Cart and verify its actual contents increase. A colored cable, moving bar or empty inventory pip is not delivery evidence. Preserve a normal save checkpoint before replacing a working distribution route.
 
@@ -72,10 +72,10 @@ Update this guide with verified improvements after later runs. Keep failed exper
 
 The published game was repaired through ordinary UI wiring and construction only. After earlier buffered restarts failed, the final unchanged observation lasted **314 seconds**: an isolated Medium Bot Cart increased from **9 to 20**, and the assembler continued cycling into its own output buffer after the Cart filled. This verifies sustained local production over that window, not sustained camp delivery or an indefinitely supplied factory. The game was left paused. See the [review log](../outputs/live-ui-playtest-2026-11-05-replacement/verified-medium-bots-2026-11-06.txt) and [screenshot](../outputs/live-ui-playtest-2026-11-05-replacement/medium-bots-sustained-verified.jpg).
 
-- Read the normal UI Basics and Logistics guides: **circle sockets hold one cable; star sockets support several.** A Joint's input and output share its center. Adding consumers to a circle output can replace a working feed. Use verified Splitters or unlocked solid-storage Carts for shared supplies, and Fluid Links for shared fluids.
+- Read the normal UI Basics and Logistics guides: **circle sockets hold one cable; star sockets support several.** A Joint's input and output share its center. Adding consumers to a circle output can replace a working feed. Use verified Splitters or unlocked solid-storage Carts for shared supplies, and Pumps for shared fluids.
 - The fuel repair required the whole loop: Forest → Wood Extractor → Splitter → both Kiln and Tree Planter Wood input. The Planter also needed Stone and Iron Plate supplies, and its Growth output connected back to the Forest. Forest stock had reached zero; restoring those inputs visibly restarted growth and later recovered more than 100 Wood.
 - Trace the **actual Kiln output** to a dedicated Charcoal buffer, then each Smelter's Charcoal socket. A stocked, gray inventory in an older Cart does not identify its contents. The successful final branch used a fresh fuel Cart below the Lake, reached around the left shore, with separate outputs to the left Iron, Copper, middle Iron and bottom Iron Smelters.
-- Keep dedicated Plate supply to Iron Wire → Basic Core. Share the right Iron Smelter's output through a fresh Plate Cart to forestry, Coolant and Gear production; restoring forestry must not remove Coolant's only Plate cable. Keep the existing Coolant Fluid Link supplying both Pistons and Cooled Guns.
+- Keep dedicated Plate supply to Iron Wire → Basic Core. Share the right Iron Smelter's output through a fresh Plate Cart to forestry, Coolant and Gear production; restoring forestry must not remove Coolant's only Plate cable. Keep the existing Coolant Pump supplying both Pistons and Cooled Guns.
 - Preserve ore supply through normal Mining Drills and resource connections. A further 20-Motor Drill completed as a 1,000-Iron deposit in this repair. Finite ore maintenance remains necessary; the measured window does not establish an infinite resource loop.
 - Placing logistics nodes onto a cable can inherit that route. Check its material and both endpoints before reusing it. Keep sockets comfortably away from screen edges while wiring: edge auto-pan made several coordinate attempts miss their intended sockets. Take a fresh screenshot after any camera movement.
 - Isolate a new collection Cart, record a baseline, and watch long enough for the original five-item buffers to drain. This run restarted several times before stopping at nine Bots; only the later 314-second interval qualifies as the successful sustained check. The final 20-item Cart is full and needs export or more storage before a longer test.

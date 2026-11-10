@@ -82,7 +82,7 @@ describe('map exploration surveys', () => {
     ]));
   });
 
-  it('removes a Golem marker after it becomes a reserve while retaining the discovered filter', () => {
+  it('keeps a Golem marker after it becomes a reserve', () => {
     const game = createInitialState(301);
     const home = game.sectors[game.activeSectorId];
     const golem = { ...home.nodes[0], id: 'golem', kind: 'resourceGolem' as const, golemMineral: 'iron' as const };
@@ -90,7 +90,10 @@ describe('map exploration surveys', () => {
     const engine = new GameEngine(game, { autosave: false });
     expect(mapLandmarkSurvey(engine.getState()).bySector.get(home.id)).toEqual(new Set(['golems']));
     defeatResourceGolem(engine.getSector().nodes[0]);
-    expect(mapLandmarkSurvey(engine.getState())).toEqual({ discovered: new Set(['golems']), bySector: new Map() });
+    expect(mapLandmarkSurvey(engine.getState())).toEqual({
+      discovered: new Set(['golems']),
+      bySector: new Map([[home.id, new Set(['golems'])]]),
+    });
   });
 
   it('hides generated resources and obstructions until an unlocked map is visited', () => {

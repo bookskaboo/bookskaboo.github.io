@@ -53,7 +53,7 @@ describe('shortcut bar progression', () => {
     expect(logistics.logistics.assignments[1]).toBe('splitter');
     expect(logistics.production.assignments).toHaveLength(5);
     expect(shortcutBarForKind('woodenChest')).toBe('logistics');
-    expect(shortcutBarForKind('lakeIntake')).toBe('production');
+    expect(shortcutBarForKind('fluidLink')).toBe('production');
   });
 
   it('extends a category bar only after all five starting slots are occupied', () => {

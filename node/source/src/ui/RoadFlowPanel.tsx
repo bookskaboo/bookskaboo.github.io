@@ -31,6 +31,9 @@ export function RoadFlowPanel({ node, game, engine, training, onClose }: {
         <b>{source} → {destination}</b>
       </button>
       <p className="road-flow-rate" aria-label={`Transfer rate: ${12 * vehiclePayload(game.research.completed)} items per minute`}>{12 * vehiclePayload(game.research.completed)} items / minute</p>
+      <p className="road-flow-guidance">{sending
+        ? 'Only a Cart, Truck, or Train can feed this Road. Connect the vehicle directly, with any Filters, Splitters, Mergers, or Joints upstream of it.'
+        : 'Connect this Road directly to a Cart, Truck, or Train to unload. Put any Filters, Splitters, Mergers, or Joints after the vehicle.'}</p>
     </div>
   </aside>;
 }

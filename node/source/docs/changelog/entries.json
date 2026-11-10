@@ -11,10 +11,34 @@
       "Dates marked known by identify the latest confirmed implementation/publication boundary, not the exact day the code changed.",
       "Earlier chat verification is reported as historical evidence. The changelog task does not repeat those game tests or prove human novice experience, pacing, or sustained throughput.",
       "Original-game entries describe that implementation. They do not establish that the same feature exists in the rebuild today.",
-      "Publication status is based on the locally inspected deployment history and source snapshot. Later local changes have not been published by this task."
+      "Publication status is based on the locally inspected deployment history and source snapshot. The public source snapshot omits local playtest exports and their evidence links."
     ]
   },
   "releases": [
+    {
+      "id": "8ba3691",
+      "date": "2026-11-09",
+      "title": "Extra Map Point research naming and priority",
+      "commit": "8ba36918eaf14ad8fb30b0cf26af0d180a03d31d",
+      "url": "https://github.com/bookskaboo/bookskaboo.github.io/commit/8ba36918eaf14ad8fb30b0cf26af0d180a03d31d",
+      "notes": "Published the tested /node/ build and matching source on main. The standard live HTML and all ten runtime assets matched the build by SHA-256."
+    },
+    {
+      "id": "6316989",
+      "date": "2026-11-09",
+      "title": "Automatic Deep Hole clearing",
+      "commit": "631698997b6bd684876ed2128159c787aeba284a",
+      "url": "https://github.com/bookskaboo/bookskaboo.github.io/commit/631698997b6bd684876ed2128159c787aeba284a",
+      "notes": "Published the tested /node/ build and matching source on main. The normal live URL served matching HTML and all ten runtime assets matched the build by SHA-256."
+    },
+    {
+      "id": "aac2bae",
+      "date": "2026-11-09",
+      "title": "Publish the release instructions and verification history",
+      "commit": "aac2bae9f1249b99ea0d839edd014d3330ad2170",
+      "url": "https://github.com/bookskaboo/bookskaboo.github.io/commit/aac2bae9f1249b99ea0d839edd014d3330ad2170",
+      "notes": "Source documentation publication. All six changed source files matched the deployed commit. The normal live HTML and all ten runtime assets matched the rebuilt game and remain on the ad996a7 game build."
+    },
     {
       "id": "ad996a7",
       "date": "2026-11-08",
@@ -234,11 +258,7 @@
       "sources": [
         "local-code"
       ],
-      "evidence": [
-        "docs/playtest-build-guide.md",
-        "outputs/live-ui-playtest-2026-11-05-replacement/verified-medium-bots-2026-11-06.txt",
-        "outputs/live-ui-playtest-2026-11-05-replacement/medium-bots-sustained-verified.jpg"
-      ],
+      "evidence": ["docs/playtest-build-guide.md"],
       "details": [
         "Use normal UI guides and observed inventory counts only. Record circle versus star sockets, Joint center sockets, inherited cable routes and camera edge auto-pan.",
         "Separate failed buffered restarts from the final unchanged 314-second interval: the isolated collection Cart increased from nine to twenty Medium Bots and the assembler continued cycling after it filled.",
@@ -369,7 +389,7 @@
         "src/content/catalogIntegrity.test.ts"
       ],
       "details": [
-        "The generic inspector's click behavior was subsequently changed; the capability and validation framework remains part of the rebuild."
+        "The generic inspector's click behavior was subsequently changed; the capability and validation framework remains part of the rebuild. NODE-0444 replaces the Filter's generic inspector controls with a dedicated routing panel."
       ],
       "validation": "Historical report: 55 tests and production build passed."
     },
@@ -2086,7 +2106,7 @@
       "date": "2026-11-02",
       "dateBasis": "known-by",
       "kind": "changed",
-      "state": "implemented",
+      "state": "superseded",
       "delivery": "published",
       "publishedBy": "e177479",
       "title": "Clarify repeat placement and Road rejection",
@@ -3605,7 +3625,7 @@
       "date": "2026-11-02",
       "dateBasis": "chat",
       "kind": "added",
-      "state": "implemented",
+      "state": "superseded",
       "delivery": "local",
       "title": "Add a universal Dev Source that automatically supplies connected inputs",
       "summary": "Dev tools can place a movable Dev Source with a multi-connection output that supplies each connected input with its required materials automatically.",
@@ -3627,7 +3647,8 @@
         "An unconfigured production node may be wired to a Dev Source but receives nothing until its recipe is chosen. Recipe changes preserve valid Dev Source cables and update supplied materials.",
         "Extractors mine a virtual infinite reserve on their normal cycle, inferred from downstream demand. Lake Intakes accept a Dev Source upstream. Generic input families infer demand through local logistics or use an existing material, then Iron as fallback.",
         "Input buffers respect capacity and pending physical deliveries; cosmetic pulses do not create physical stock. Production time, research prerequisites, camp effects and visible obstruction boundaries remain in force. Ordinary sources keep their compatibility checks.",
-        "Development QA only: these grants are not evidence about normal balance or progression. The live player game was preserved."
+        "Development QA only: these grants are not evidence about normal balance or progression. The live player game was preserved.",
+        "NODE-0433 replaces direct Dev Source connections to sending Roads. Other Dev Source inputs retain their behavior."
       ],
       "evidence": [
         "src/simulation/devSource.ts",
@@ -4682,7 +4703,7 @@
       "date": "2026-11-02",
       "dateBasis": "chat",
       "kind": "decision",
-      "state": "recorded",
+      "state": "superseded",
       "delivery": "not-applicable",
       "title": "Grant basic waste handling alongside Complex production in Precision Control",
       "summary": "Record Q39 option 1: Precision Control also grants Waste Bin, Waste Link and direct Fines-to-Iron Hydro Plant recycling, with no separate research payment or Complex-Core requirement.",
@@ -6734,7 +6755,7 @@
       "date": "2026-11-03",
       "dateBasis": "chat",
       "kind": "changed",
-      "state": "implemented",
+      "state": "superseded",
       "delivery": "local",
       "title": "Show Road flow arrows and move cargo directly without Road storage",
       "summary": "Roads show a large flow arrow, use standard header icons and hold no inventory. Map Road hovers show only direction and item; Cart-family nodes use an icon header and the same shading dimensions as Roads.",
@@ -6784,7 +6805,8 @@
         "Minimap and expanded-map Road tooltips contain only a compass route such as H to W1 and the material name. Infer material from both ends, wiring and stock, with the last assigned cable item as a fallback when empty. Remove the Road transport label and verbose map names.",
         "Each export check moves one item directly from a connected upstream inventory to a connected downstream input, at 12 items per minute. Support local logistics routes on both sides, exact recipe sockets, shared or per-item capacity, real in-flight reservations, single-material and fluid restrictions, valid reciprocal roles, and Dev Source. No receiving or sending Road inventory is filled. Disconnected/full destinations leave cargo at its source, and missed trips never accumulate.",
         "Local cable animation uses cosmetic pulses and never reserves receiving inventory. Existing save cargo returns to connected inventories if space permits; any remainder is preserved in the shared pool. Pending Road deliveries refund their original sources before migration. Migration clears Road bags, sets capacity to zero and is idempotent; retired Fluid Road cargo retains its prior compatibility handling.",
-        "Retain atomic paired placement, face-slot rules and one-way direction controls from NODE-0228. Direction changes still disconnect endpoint cables for rewiring; stock remains in actual inventories. Expansion dialogue and checks now wait for both Carts to be connected before shipping, rather than treating a Road endpoint as storage."
+        "Retain atomic paired placement, face-slot rules and one-way direction controls from NODE-0228. Direction changes still disconnect endpoint cables for rewiring; stock remains in actual inventories. Expansion dialogue and checks now wait for both Carts to be connected before shipping, rather than treating a Road endpoint as storage.",
+        "NODE-0433 replaces sending-side routing and direct non-vehicle feeds. Road graphics, cargo recovery, and receiving-side routing remain in use."
       ],
       "validation": "Full Vitest suite: 619 passed, one existing skip. Final TypeScript/Vite build passed. Eight added regressions cover disconnected/full receivers, no catch-up trips, logistics on both sides, capacity reservations versus cosmetic pulses, Dev Source, reversal, pending-delivery refunds and save-load cargo conservation/idempotence. Updated earlier buffer-based Road and tutorial assertions to test direct delivery. Browser QA on a separate port-4175 tab used Dev research/map unlocks and normal placement/cable controls; verified arrow reversal, standard icon size, matching vehicle/Road shading and the final two-line H to W1 / Copper map hover. Screenshots saved. Main port-4174 factory and existing published/history tabs preserved; temporary QA tab closed. This was development QA, not a balance run. Local only; not published."
     },
@@ -10019,12 +10041,7 @@
       "sources": [
         "local-code"
       ],
-      "evidence": [
-        "docs/playtest-build-guide.md",
-        "outputs/live-ui-playtest-2026-11-05-replacement/run-log.txt",
-        "outputs/live-ui-playtest-2026-11-05-replacement/hydro-repair-home-five.jpg",
-        "outputs/live-ui-playtest-2026-11-05-replacement/tree-planter-forest-34.jpg"
-      ],
+      "evidence": ["docs/playtest-build-guide.md"],
       "details": [
         "Normal-UI cable repairs completed Precision Control. Home subsequently stored five Hydro Cores after paying two, establishing at least seven fresh deliveries.",
         "The original N3–N2 relay carries Motors. The UI rejected mixing actual Wood into it. A separate Wood Road and dedicated inventories supplied the Tree Planter; isolated Growth production and Forest recovery from zero to 34 were observed.",
@@ -10080,11 +10097,7 @@
         "chat-progression-smoothness-2026-11-07",
         "chat-playtest"
       ],
-      "evidence": [
-        "docs/master-plan/03-progression-and-economy.md",
-        "outputs/live-ui-playtest-2026-11-05-replacement/run-log.txt",
-        "src/content/lizardSettlements.ts"
-      ],
+      "evidence": ["docs/master-plan/03-progression-and-economy.md","src/content/lizardSettlements.ts"],
       "details": [
         "The user selects option 1. Give players a scouting clue and show the expected Medium Bot delivery rate. Keep the choice of sector and production layout open.",
         "Retest 15 minutes of concurrent Hydro research and Camp upkeep with a newly opened sector contributing supply. A Cooled Gun cost reduction remains a fallback to consider after that test."
@@ -10111,12 +10124,7 @@
         "chat-progression-smoothness-2026-11-07",
         "chat-playtest"
       ],
-      "evidence": [
-        "docs/master-plan/03-progression-and-economy.md",
-        "src/content/research.ts",
-        "src/simulation/engine.ts",
-        "outputs/live-ui-playtest-2026-11-05-replacement/resource-observations.csv"
-      ],
+      "evidence": ["docs/master-plan/03-progression-and-economy.md","src/content/research.ts","src/simulation/engine.ts"],
       "details": [
         "The user combines options 2 and 3 to make research easier to fund before depletion and to reduce the cost of replacing a depleted deposit.",
         "In later playtesting, track local drilling alongside opening and using new sectors for supply."
@@ -10142,10 +10150,7 @@
       "sources": [
         "local-code"
       ],
-      "evidence": [
-        "src/renderer/PixiPlayfield.tsx",
-        "outputs/deep-hole-connector-verified.jpg"
-      ],
+      "evidence": ["src/renderer/PixiPlayfield.tsx"],
       "details": [
         "Follow-up to NODE-0326. The original world-scaled text was hard to read at overview zoom, and the delivery pulse crossed the badge at high zoom."
       ],
@@ -10200,11 +10205,7 @@
         "chat-progression-smoothness-2026-11-07",
         "chat-playtest"
       ],
-      "evidence": [
-        "docs/progression-and-scaling.md",
-        "src/content/progression.ts",
-        "outputs/live-ui-playtest-2026-11-05-replacement/queued-ui-improvements.txt"
-      ],
+      "evidence": ["docs/progression-and-scaling.md","src/content/progression.ts"],
       "details": [
         "The user selects the network-wide upgrade at a lower price. In the playtest, two Mythril imports occupied the same border and the Metallic Fines shipment needed a detour."
       ],
@@ -10229,11 +10230,7 @@
         "chat-progression-smoothness-2026-11-07",
         "chat-playtest"
       ],
-      "evidence": [
-        "docs/master-plan/05-interface-and-learning.md",
-        "src/renderer/productionVisuals.ts",
-        "outputs/live-ui-playtest-2026-11-05-replacement/run-log.txt"
-      ],
+      "evidence": ["docs/master-plan/05-interface-and-learning.md","src/renderer/productionVisuals.ts"],
       "details": [
         "The user chooses guidance that starts in Research and leads to the affected production node. The playtest repeatedly showed Hydro Core as missing while the actual shortage was farther upstream.",
         "Use the Core recipe and outstanding delivery requirement as a fallback when a shortage cannot be identified. Test known and untraceable shortages and a route crossing a sector border."
@@ -10274,7 +10271,7 @@
       "date": "2026-11-08",
       "dateBasis": "chat",
       "kind": "changed",
-      "state": "implemented",
+      "state": "superseded",
       "delivery": "published",
       "publishedBy": "19dc40f",
       "title": "Lower Resource Golem costs to 180 AP and Mythril to 360 AP",
@@ -10311,7 +10308,7 @@
       "date": "2026-11-08",
       "dateBasis": "chat",
       "kind": "changed",
-      "state": "implemented",
+      "state": "superseded",
       "delivery": "published",
       "publishedBy": "19dc40f",
       "title": "Produce 3 AP Medium Bots in twenty seconds",
@@ -10715,12 +10712,7 @@
         "chat-playtest",
         "local-code"
       ],
-      "evidence": [
-        "src/simulation/worldGeneration.ts",
-        "src/simulation/engine.test.ts",
-        "docs/obstruction-types-and-behavior.md",
-        "outputs/live-ui-playtest-2026-11-05-replacement/run-log.txt"
-      ],
+      "evidence": ["src/simulation/worldGeneration.ts","src/simulation/engine.test.ts","docs/obstruction-types-and-behavior.md"],
       "details": [
         "The playtest used a Joint to bypass a Deep Hole on an early Brick route. A 256-seed review found generated holes in 106 or 107 of the 116 resource sectors outside Home before this change.",
         "Use an independent seeded selection after reserving settlements, Lakes and Golems. Round the clear-outpost quota per map tier. Clear outposts retain the four ordinary resources. Existing saved terrain is preserved."
@@ -10846,13 +10838,7 @@
       "sources": [
         "local-code"
       ],
-      "evidence": [
-        "src/simulation/endgameRuntime.ts",
-        "src/domain/obstructionGeometry.ts",
-        "src/renderer/cornerCampView.ts",
-        "src/simulation/cornerLayout.test.ts",
-        "outputs/northwest-camp-verified.jpg"
-      ],
+      "evidence": ["src/simulation/endgameRuntime.ts","src/domain/obstructionGeometry.ts","src/renderer/cornerCampView.ts","src/simulation/cornerLayout.test.ts"],
       "details": [
         "Keep the world seed's camp assignment, supply mechanics, saved progress and Tribute inventory. The camp outline is shared by drawing, placement and cable blocking. Foundry cables terminate at their individual ingredient sockets.",
         "Move existing pairs on load, travel or field expansion when the new layout leaves machines and existing cables clear. A conflicting factory keeps its prior geometry until the footprint can fit."
@@ -11194,7 +11180,7 @@
       "date": "2026-11-08",
       "dateBasis": "chat",
       "kind": "added",
-      "state": "implemented",
+      "state": "superseded",
       "delivery": "published",
       "publishedBy": "19dc40f",
       "title": "Add discovery-gated landmark filters to the Node Map",
@@ -11208,13 +11194,7 @@
       "sources": [
         "local-code"
       ],
-      "evidence": [
-        "src/ui/NodeMinimap.tsx",
-        "src/ui/mapNodePresentation.ts",
-        "src/ui/mapNodePresentation.test.ts",
-        "src/simulation/progression.ts",
-        "outputs/node-map-filters-verified.jpg"
-      ],
+      "evidence": ["src/ui/NodeMinimap.tsx","src/ui/mapNodePresentation.ts","src/ui/mapNodePresentation.test.ts","src/simulation/progression.ts"],
       "details": [
         "The camp category includes ordinary settlements and the four unique corner camps. Clearing a Golem removes its marker and keeps the discovered control available. Legacy saves retain explicit unvisited flags.",
         "Filters add markers while preserving travel, selection and Road indicators. Unvisited maps remain unmarked even after their landmark category is known."
@@ -12049,7 +12029,7 @@
       "date": "2026-11-08",
       "dateBasis": "chat",
       "kind": "changed",
-      "state": "implemented",
+      "state": "superseded",
       "delivery": "published",
       "publishedBy": "19dc40f",
       "title": "Raise the Dragon to 500 AP and add Final Robotics",
@@ -12342,7 +12322,7 @@
       "date": "2026-11-08",
       "dateBasis": "chat",
       "kind": "changed",
-      "state": "implemented",
+      "state": "superseded",
       "delivery": "published",
       "publishedBy": "19dc40f",
       "title": "Make Research milestone cards informational",
@@ -12643,7 +12623,7 @@
       "date": "2026-11-08",
       "dateBasis": "chat",
       "kind": "changed",
-      "state": "implemented",
+      "state": "superseded",
       "delivery": "published",
       "title": "Credit research after full cycles and set a five-Core minimum",
       "summary": "The Research Center consumes and credits a stocked set only at the end of each cycle. Standard paid research costs at least five of every required Core type; Assembler takes five Simple Cores.",
@@ -12863,7 +12843,7 @@
       "date": "2026-11-08",
       "dateBasis": "chat",
       "kind": "changed",
-      "state": "implemented",
+      "state": "superseded",
       "delivery": "published",
       "title": "Rename Corner Pieces research to End of the World",
       "summary": "Show End of the World when players acquire their first corner piece and unlock Yin, Yang and Final Core assembly.",
@@ -12947,13 +12927,81 @@
       "dateBasis": "chat",
       "kind": "docs",
       "state": "implemented",
-      "delivery": "local",
+      "delivery": "published",
       "title": "Run the full release on an explicit live publication request",
       "summary": "Document that one live publication request covers building, testing, pushing the verified NODE commit through the configured approval flow, checking the public site, and recording the result.",
-      "topics": ["Publishing", "Documentation"],
+      "topics": [
+        "Publishing",
+        "Documentation"
+      ],
+      "sources": [
+        "local-code"
+      ],
+      "evidence": [
+        "AGENTS.md",
+        "outputs/node-mods-release-2026-11-08/publication-receipt.json",
+        "outputs/node-source-release-2026-11-09/publication-receipt.json"
+      ],
+      "validation": "Changelog checks passed. The /node/ build passed, with 796 workspace tests passing and one skipped. GitHub Pages served all six changed source files, and the standard live HTML and ten runtime assets matched the rebuilt game by SHA-256.",
+      "publishedBy": "aac2bae"
+    },
+    {
+      "id": "NODE-0424",
+      "date": "2026-11-09",
+      "dateBasis": "chat",
+      "kind": "changed",
+      "state": "implemented",
+      "delivery": "local",
+      "title": "Remove the banner while dragging a connector",
+      "summary": "Remove the top-center Linking banner during a cable drag. The preview cable and nearby socket highlight provide the on-screen feedback.",
+      "topics": ["Interface", "Connections"],
       "sources": ["local-code"],
-      "evidence": ["AGENTS.md", "outputs/node-mods-release-2026-11-08/publication-receipt.json"],
-      "validation": "The changelog generator and checks passed. The instructions reflect the verified November 8 release and retain the configured approval flow. No deployment or permissions change was made."
+      "evidence": ["src/ui/App.tsx", "src/renderer/PixiPlayfield.tsx", "src/renderer/playfieldTypes.ts", "src/styles/base.css"],
+      "validation": "The production build passed. Vitest passed 796 workspace tests with one skipped. No browser playtest or live publication was performed."
+    },
+    {
+      "id": "NODE-0425",
+      "date": "2026-11-09",
+      "dateBasis": "chat",
+      "kind": "docs",
+      "state": "implemented",
+      "delivery": "local",
+      "title": "Model a route from Home to one Final Core",
+      "summary": "Document a seeded route using Exploration and 37 Map Node purchases, locally supplied production districts, Dwarven Tribute, the Mythril and Iron Golems, and all four corner pieces.",
+      "topics": ["Playtesting", "Progression", "Logistics", "Endgame"],
+      "sources": ["chat-current", "local-code"],
+      "evidence": ["docs/final-core-dry-run.md", "scripts/final-core-dry-run.mjs", "outputs/node-source-release-2026-11-09/publication-receipt.json"],
+      "validation": "Matched the governing workspace rules to the published November 9 source. Ran the offline calculator for research prices and prerequisites, map adjacency and landmarks, raw bills, reserve coverage and placement footprints. Production and interaction times are estimates. The model did not start the game or exercise factory cable paths."
+    },
+    {
+      "id": "NODE-0426",
+      "date": "2026-11-09",
+      "dateBasis": "chat",
+      "kind": "docs",
+      "state": "implemented",
+      "delivery": "local",
+      "title": "Verify the first Final Core route with the offline engine",
+      "summary": "Run the seeded route from fresh Home through all 37 Map Node purchases, Dwarven Tribute, two Golem reserves, and all four corner deliveries. Record the first Final Core at 4:31:05 and document the tested feed limits, Road changes and measured extraction totals.",
+      "topics": ["Playtesting", "Progression", "Logistics", "Endgame"],
+      "sources": ["chat-current", "local-code"],
+      "evidence": ["docs/final-core-dry-run.md","scripts/final-core-engine-run.mjs"],
+      "details": ["Continues the paper route from NODE-0425. The measured clock includes construction timers, production, freight and research. Placement, aiming, recipe selection and other harness actions were instantaneous."],
+      "validation": "A fresh vanilla seed 10 run at 100 ms steps produced one of each corner piece, Yin, Yang and exactly one Final Core in the Home Cart. Recorded 12,462 Road item crossings. The workspace suite passed 796 tests with one skipped. No browser interaction timing was measured."
+    },
+    {
+      "id": "NODE-0427",
+      "date": "2026-11-09",
+      "dateBasis": "chat",
+      "kind": "docs",
+      "state": "implemented",
+      "delivery": "local",
+      "title": "Save the surveyed route and simulate blind map discovery",
+      "summary": "Preserve the seed-10 Final Core checkpoint and record an offline survey on a fresh seed. The first strategy stopped after 82 activations. A replay that reserved large Lake sites completed one Final Core at 8:58:22 after 76 activations.",
+      "topics": ["Playtesting", "Progression", "World generation", "Logistics", "Endgame"],
+      "sources": ["chat-current", "local-code"],
+      "evidence": ["docs/final-core-blind-run.md","scripts/final-core-blind-run.mjs"],
+      "details": ["The policy selected maps from the paid frontier and inspected their terrain only on arrival. The completion used the same seed as the unreserved attempt and resumed from the Mythril Golem checkpoint for freight repairs. The clock includes 30 seconds per new survey and excludes human placement and troubleshooting."],
+      "validation": "The offline engine produced all four corner pieces and exactly one Final Core after delivering 20 Fines to Reclamation. Loaded both paused saves through the save normalizer and checked their clocks, visited-map counts and Home Carts. Verified the original seed-10 evidence hash. The comparison covers one new seed with a recipe-aware harness."
     },
     {
       "id": "NODE-0428",
@@ -12961,31 +13009,29 @@
       "dateBasis": "chat",
       "kind": "fixed",
       "state": "implemented",
-      "delivery": "local",
+      "delivery": "published",
+      "publishedBy": "6316989",
       "title": "Clear Deep Holes automatically when their Stone bill is paid",
       "summary": "Remove filled Deep Holes and their cables as soon as the simulation satisfies the Stone bill. Already-filled holes also clear when a save loads.",
-      "topics": [
-        "World",
-        "Resources",
-        "Connections",
-        "Persistence"
-      ],
-      "sources": [
-        "chat-current",
-        "local-code"
-      ],
-      "evidence": [
-        "src/simulation/engine.ts",
-        "src/content/endgame.ts",
-        "src/ui/NodeInspector.tsx",
-        "src/simulation/endgame.test.ts",
-        "src/simulation/engine.test.ts",
-        "docs/obstruction-types-and-behavior.md"
-      ],
-      "details": [
-        "Automatic clearing replaces the inspector's Clear Field action. It also applies when Efficient Landfill reduces the bill to an amount already paid. Unused buffered Stone goes into a salvage Cart, and in-flight Stone returns to the sender."
-      ],
-      "validation": "The /node/ production build passed. In the release checkout, 798 tests passed and one was skipped. Regression coverage checks final Stone delivery, reuse of the reclaimed space, cable removal, returned in-flight Stone, buffered Stone after a Landfill discount, and already-filled saves. No browser playtest was performed."
+      "topics": ["World", "Resources", "Connections", "Persistence"],
+      "sources": ["chat-current", "local-code"],
+      "evidence": ["src/simulation/engine.ts", "src/content/endgame.ts", "src/ui/NodeInspector.tsx", "src/simulation/endgame.test.ts", "src/simulation/engine.test.ts", "docs/obstruction-types-and-behavior.md", "outputs/node-deep-hole-release-2026-11-09/publication-receipt.json"],
+      "details": ["Automatic clearing replaces the inspector's Clear Field action. It also applies when Efficient Landfill reduces the bill to an amount already paid. Unused buffered Stone goes into a salvage Cart, and in-flight Stone returns to the sender."],
+      "validation": "The local production build and all 794 tests in src passed. The release checkout passed the /node/ build with 798 tests passing and one skipped. Regression coverage checks final Stone delivery, reclaimed space, cable removal, in-flight and buffered Stone, the Landfill discount, and already-filled saves. The commit changed only node/. The live HTML and all ten runtime assets matched the tested build by SHA-256. No browser playtest was performed."
+    },
+    {
+      "id": "NODE-0429",
+      "date": "2026-11-09",
+      "dateBasis": "chat",
+      "kind": "fixed",
+      "state": "implemented",
+      "delivery": "local",
+      "title": "Skip saved research completion cards when loading a factory",
+      "summary": "Loading a manual save or autosave clears the notification stack and treats saved research completions as already seen. Research completed during play still shows its card, and the Discovery Journal keeps the saved history.",
+      "topics": ["Interface", "Persistence", "Research"],
+      "sources": ["chat-current", "local-code"],
+      "evidence": ["src/ui/App.tsx", "src/ui/panels/SavePanel.tsx"],
+      "validation": "The production build and all 794 tests in src passed. In an isolated local browser fixture, a manual save with a saved completion event and an autosave with a saved research log loaded without replaying their cards. Resuming play displayed a new Joint research completion card."
     },
     {
       "id": "NODE-0430",
@@ -12993,30 +13039,686 @@
       "dateBasis": "chat",
       "kind": "changed",
       "state": "implemented",
-      "delivery": "local",
+      "delivery": "published",
+      "publishedBy": "8ba3691",
       "title": "Name the repeatable research Extra Map Point and list it first",
       "summary": "Rename Map Node research to Extra Map Point to match the map interface. Put it first in the Research list whenever it is available for selection.",
+      "topics": ["Interface", "Research", "Progression"],
+      "sources": ["chat-current", "local-code"],
+      "evidence": ["src/content/research.ts", "src/ui/researchCatalog.ts", "src/ui/researchPresentation.test.ts", "src/ui/unlockNavigation.test.ts", "src/tutorials/tutorialDialogue.ts", "docs/research-catalog.md", "outputs/node-extra-map-point-release-2026-11-09/publication-receipt.json"],
+      "details": ["Keep the saved mapNode project ID and resolve older completion messages that used the former name. Extra Map Point uses the active slot when selected and the completed archive when banked points cover the remaining maps."],
+      "validation": "The local production build and all 794 tests in src passed. The release checkout passed the /node/ build with 798 tests passing and one skipped. Tests cover list position before and after Exploration, the active and fully funded states, and navigation from old and new completion messages. The commit changed only node/. The live HTML and all ten runtime assets matched the tested build by SHA-256. No browser playtest was performed."
+    },
+    {
+      "id": "NODE-0431",
+      "date": "2026-11-09",
+      "dateBasis": "chat",
+      "kind": "added",
+      "state": "superseded",
+      "delivery": "local",
+      "title": "Preview the neighboring map while placing a Road",
+      "summary": "Show a greyed-out snapshot of the neighboring half-map beside the placement view and mark the proposed receiving endpoint. The inset appears while a held Road is near the shared wall.",
       "topics": [
         "Interface",
-        "Research",
-        "Progression"
+        "Roads",
+        "World"
       ],
       "sources": [
         "chat-current",
         "local-code"
       ],
       "evidence": [
-        "src/content/research.ts",
-        "src/ui/researchCatalog.ts",
-        "src/ui/researchPresentation.test.ts",
-        "src/ui/unlockNavigation.test.ts",
-        "src/tutorials/tutorialDialogue.ts",
+        "src/renderer/PixiPlayfield.tsx",
+        "src/renderer/roadPreviewCrop.ts",
+        "src/renderer/roadPreviewCrop.test.ts",
+        "src/simulation/engine.ts",
+        "src/simulation/roadFlow.test.ts"
+      ],
+      "details": [
+        "The image stays still while the endpoint marker moves along the wall. A blocked pair keeps its marker and shows Blocked. The inset hides away from the wall and clears when Road placement ends."
+      ],
+      "validation": "The production build and all 805 source tests passed in the shared workspace. Tests cover all four wall directions, matching preview and committed endpoint coordinates, blocked placement, and hiding away from the wall. An isolated local browser fixture showed the east and north crops, marker movement, and dismissal when moving away or canceling."
+    },
+    {
+      "id": "NODE-0432",
+      "date": "2026-11-09",
+      "dateBasis": "chat",
+      "kind": "fixed",
+      "state": "implemented",
+      "delivery": "local",
+      "title": "Keep the top map edge reachable below the toolbar",
+      "summary": "Clip the playfield below the responsive toolbar and use the visible area for camera bounds. Scrolling or dragging up reveals the map's top border at maximum zoom, including on compact screens.",
+      "topics": ["Interface", "Controls", "World"],
+      "sources": ["chat-current", "local-code"],
+      "evidence": ["src/domain/camera.ts", "src/domain/dragScroll.test.ts", "src/styles/responsive.css", "src/renderer/PixiPlayfield.tsx", "src/ui/startingCamera.ts", "src/simulation/sectorTravel.test.ts"],
+      "validation": "The production build passed and 1,605 workspace tests passed with two skipped. An isolated Chrome fixture checked the saved pan limit at 220% after trackpad-style scrolling and right-dragging at 1280×720 and 800×600, then verified the limit updated after resizing to 800×500. The canvas accepted input below the toolbar clearance at all three sizes."
+    },
+    {
+      "id": "NODE-0433",
+      "date": "2026-11-09",
+      "dateBasis": "chat",
+      "kind": "changed",
+      "state": "superseded",
+      "delivery": "local",
+      "title": "Require a freight vehicle at every sending Road",
+      "summary": "Connect a Cart, Truck, or Train directly to a sending Road. Place any Filters, Splitters, Mergers, or Joints before the freight vehicle. The receiving Road can unload into compatible local nodes.",
+      "topics": ["Roads", "Logistics", "Connections", "Interface", "Tutorials", "Persistence"],
+      "sources": ["chat-current", "local-code"],
+      "supersedes": ["NODE-0140", "NODE-0232"],
+      "evidence": ["src/simulation/connectionRules.ts", "src/simulation/engine.ts", "src/simulation/roadMaterials.ts", "src/simulation/roadStorage.test.ts", "src/simulation/roadMaterials.test.ts", "src/ui/RoadFlowPanel.tsx", "src/tutorials/tutorialDialogue.ts", "docs/playtest-build-guide.md", "scripts/final-core-engine-run.mjs", "scripts/stress.test.ts"],
+      "details": [
+        "Freight vehicle is the shared term for Carts, Trucks, and Trains. The Road flow panel, cable feedback, build and research descriptions, and Expansion tutorial explain the direct connection rule.",
+        "Existing invalid sending cables stay visible and idle until rewired. Cargo stays with its source. Legacy Road cargo recovery and the vehicle upgrade path are retained. The earlier records are superseded only for direct Dev Source and other non-vehicle Road feeds, including sending-side router chains.",
+        "The stress fixture has a Cart at every sending Road. The offline endgame harness can stage freight at a Cart near a Road when the original source needs a detour.",
+        "NODE-0435 extends the direct freight vehicle rule to the receiving end."
+      ],
+      "validation": "The production build passed. The full Vitest suite passed 1,605 tests with two skips. Coverage includes rejected direct feeds and their feedback, the Cart, Truck, and Train shipment rates, legacy Joint and Dev Source feeds staying idle, receiving-side Joint routing, and the Expansion tutorial. The browser, full stress benchmark, and offline endgame campaign were not run."
+    },
+    {
+      "id": "NODE-0434",
+      "date": "2026-11-09",
+      "dateBasis": "chat",
+      "kind": "changed",
+      "state": "superseded",
+      "delivery": "local",
+      "title": "Pan beyond the field to see the paired Road preview",
+      "summary": "Extend camera panning past all four walls, including at overview zoom. Put the neighboring half-map preview outside the shared wall when it fits there, with a fully visible inset when space is tight.",
+      "topics": [
+        "Interface",
+        "Roads",
+        "World"
+      ],
+      "sources": [
+        "chat-current",
+        "local-code"
+      ],
+      "evidence": [
+        "src/domain/camera.ts",
+        "src/domain/dragScroll.test.ts",
+        "src/renderer/PixiPlayfield.tsx",
+        "src/renderer/roadPreviewCrop.ts",
+        "src/renderer/roadPreviewCrop.test.ts"
+      ],
+      "details": [
+        "Limit the extra space to 360 pixels horizontally and 300 vertically, with smaller margins for small viewports or fields. The first-entry overview still fits the field."
+      ],
+      "validation": "The production build and all 810 source tests passed. Tests cover pan bounds at three zoom levels, placement beyond all four walls, and the fallback. A local browser fixture exercised the trackpad pan handler and showed both east and north previews beside their walls after panning, plus the fallback before panning."
+    },
+    {
+      "id": "NODE-0435",
+      "date": "2026-11-09",
+      "dateBasis": "chat",
+      "kind": "changed",
+      "state": "implemented",
+      "delivery": "local",
+      "title": "Require freight vehicles at both Road ends and show their flow arrows",
+      "summary": "A Road pair loads from and unloads into directly connected Carts, Trucks, or Trains. Each freight vehicle has a small arrow pointing toward its output socket above the inventory grid.",
+      "topics": ["Roads", "Logistics", "Connections", "Interface", "Tutorials", "Persistence"],
+      "sources": ["chat-current", "local-code"],
+      "supersedes": ["NODE-0433"],
+      "evidence": ["src/simulation/connectionRules.ts", "src/simulation/engine.ts", "src/simulation/roadMaterials.ts", "src/simulation/roadTransport.ts", "src/simulation/roadStorage.test.ts", "src/simulation/roadMaterials.test.ts", "src/renderer/playfieldDrawing.ts", "src/renderer/PixiPlayfield.tsx", "src/ui/RoadFlowPanel.tsx", "src/tutorials/tutorialDialogue.ts"],
+      "details": [
+        "Put routing nodes before the sending vehicle or after the receiving vehicle. Old ineligible Road cables stay visible and idle until rewired. Saved cargo previously buffered inside a Road is recovered to eligible freight vehicles or to the shared pool.",
+        "Both the offline endgame harness and the stress fixture use a freight vehicle at each Road endpoint. The Road inspector, Build descriptions, and Expansion tutorial explain the unloading requirement."
+      ],
+      "validation": "The production build and harness syntax checks passed. The full Vitest suite passed 1,617 tests with two skips. Regressions cover rejected receiving cables and feedback, old Joint routes remaining idle until rewired, cargo recovery, freight rates by vehicle tier, and local delivery after unloading. In an isolated localhost preview using Dev unlocks, the arrow was visible on the Cart placement ghost, the placed Cart, and the same node after its Train upgrade. The full stress benchmark and offline endgame campaign were not run."
+    },
+    {
+      "id": "NODE-0436",
+      "date": "2026-11-09",
+      "dateBasis": "chat",
+      "kind": "changed",
+      "state": "implemented",
+      "delivery": "local",
+      "title": "Align the Road preview with the shared map wall",
+      "summary": "Render the grey neighboring half-map at playfield scale across a small gap. Its two shared corners align with the current map, and the receiving endpoint remains marked as the player moves along the wall.",
+      "topics": [
+        "Interface",
+        "Roads",
+        "World"
+      ],
+      "sources": [
+        "chat-current",
+        "local-code"
+      ],
+      "supersedes": [
+        "NODE-0431",
+        "NODE-0434"
+      ],
+      "evidence": [
+        "src/domain/camera.ts",
+        "src/domain/dragScroll.test.ts",
+        "src/renderer/PixiPlayfield.tsx",
+        "src/renderer/roadPreviewCrop.ts",
+        "src/renderer/roadPreviewCrop.test.ts"
+      ],
+      "details": [
+        "This replaces the small inset and its fallback positioning. The camera keeps the wider pan limits, and holding a Road allows a wider zoom-out to frame both maps."
+      ],
+      "validation": "The production build and all 817 source tests passed. Geometry tests check all four shared walls, differently sized sectors, and the wider Road overview. An isolated local browser fixture showed the aligned east and north previews, the moving endpoint marker, and dismissal on cancel."
+    },
+    {
+      "id": "NODE-0437",
+      "date": "2026-11-09",
+      "dateBasis": "chat",
+      "kind": "fixed",
+      "state": "implemented",
+      "delivery": "local",
+      "title": "Teach direct Road loading and unloading during Expansion",
+      "summary": "Introduce the freight-vehicle requirement at both ends, explain the Cart arrow while wiring, and label the exact sockets. Advance only after both direct cables are present and Wood reaches the Home Cart.",
+      "topics": ["Tutorials", "Roads", "Logistics", "Connections"],
+      "sources": ["chat-current", "local-code"],
+      "evidence": ["src/tutorials/tutorialDialogue.ts", "src/tutorials/tutorialDefinitions.ts", "src/tutorials/tutorialPlacement.ts", "src/tutorials/tutorialState.ts", "src/tutorials/tutorialProgress.ts", "src/tutorials/tutorialRuntime.test.ts", "src/ui/Tutorials.tsx", "src/ui/TutorialUnlockInvitation.tsx"],
+      "details": [
+        "Calculate the practice Road marker from the current east wall and keep the prebuilt Wood line clear of it. Basics also introduces the Cart arrow while teaching its input socket."
+      ],
+      "validation": "The production build passed. The full Vitest suite passed 1,620 tests with two skips. In an isolated local browser, Dev research opened access to Expansion. The practice walkthrough used the tutorial controls to activate and visit W1, place the Road, and wire both Carts. Direct Extractor and Research Center cables showed freight-vehicle rejections. The Home Cart visibly received Wood and the lesson reached its final step."
+    },
+    {
+      "id": "NODE-0438",
+      "date": "2026-11-09",
+      "dateBasis": "chat",
+      "kind": "changed",
+      "state": "implemented",
+      "delivery": "local",
+      "title": "Use one field size across the world and align paired Roads",
+      "summary": "Start each sector at 3,600 × 2,400 in new worlds and grow the entire world together through Area Expansion. Roads use matching positions along the shared wall and show the neighboring ghost while dragged.",
+      "topics": [
+        "World",
+        "World generation",
+        "Roads",
+        "Persistence"
+      ],
+      "sources": [
+        "chat-current",
+        "local-code"
+      ],
+      "evidence": [
+        "src/simulation/worldGeneration.ts",
+        "src/simulation/engine.ts",
+        "src/simulation/roadPlacement.ts",
+        "src/simulation/sectorTravel.test.ts",
+        "src/simulation/roadFlow.test.ts",
+        "src/renderer/PixiPlayfield.tsx",
         "docs/research-catalog.md"
       ],
       "details": [
-        "Keep the saved mapNode project ID and resolve older completion messages that used the former name. Extra Map Point uses the active slot when selected and the completed archive when banked points cover the remaining maps."
+        "Existing saves adopt their largest previously generated field as the shared baseline. The baseline persists through reloads and later discoveries. Area Expansion grows it equally in every sector, and mod size settings apply globally.",
+        "Crowded new sectors retry their seeded terrain layout. Existing Road pairs align on load or expansion when both locations and cable routes are clear. During drag, both endpoints slide on their assigned walls and the ghost shows the receiving cables."
       ],
-      "validation": "The production build and all 794 tests in src passed. Tests cover the project's position before and after Exploration, its active and fully funded states, and navigation from completion messages with either name. No browser playtest was performed."
+      "validation": "The production build and all 820 source tests passed. A generation sweep created 17,984 sectors across 64 seeds on the 11×11 and 21×21 grids. Tests cover uniform dimensions, older saves, and blocked paired moves. An isolated browser fixture showed connected Roads aligned across the seam during a drag and snapping to the wall on release."
+    },
+    {
+      "id": "NODE-0439",
+      "date": "2026-11-09",
+      "dateBasis": "chat",
+      "kind": "changed",
+      "state": "implemented",
+      "delivery": "local",
+      "title": "Reserve the top center for research notifications",
+      "summary": "Remove the Placing banner when a node is held. Research completion and automatic research unlocks continue to use the notification stack.",
+      "topics": ["Interface", "Construction", "Research"],
+      "sources": ["chat-current", "local-code"],
+      "evidence": ["src/ui/App.tsx", "src/styles/base.css", "src/styles/interaction.css", "src/styles/responsive.css"],
+      "supersedes": ["NODE-0082"],
+      "details": [
+        "This replaces the placement banner portion of NODE-0082. Shift-repeat placement, Escape and right-click cancellation, and feedback for rejected placements remain available."
+      ],
+      "validation": "The production build passed. The full Vitest suite passed 1,620 tests with two skips. Source inspection confirmed the Placing banner is gone and the stack still receives research completion events. No browser playtest was run."
+    },
+    {
+      "id": "NODE-0440",
+      "date": "2026-11-09",
+      "dateBasis": "chat",
+      "kind": "changed",
+      "state": "implemented",
+      "delivery": "local",
+      "title": "Match tutorials to the top-bar dialogs",
+      "summary": "Use title-only modal headers and shared Research typography in the tutorial library, guides, and invitations. Put the current action first in all five lessons and shorten repetitive explanations.",
+      "topics": ["Tutorials", "Interface", "Accessibility"],
+      "sources": ["chat-current", "local-code"],
+      "evidence": ["src/ui/Tutorials.tsx", "src/ui/TutorialUnlockInvitation.tsx", "src/ui/App.tsx", "src/styles/readability.css", "src/styles/interaction.css", "src/styles/responsive.css", "src/tutorials/tutorialDialogue.ts", "src/tutorials/originalTutorials.ts"],
+      "details": [
+        "Remove recurring practice and goal copy from the guide and keep step numbers, live camp and group feedback, socket hints, and compact Details controls. Show the Expansion route diagram once. Keep Restart, Exit, and Continue or Finish together.",
+        "Match desktop lesson and modal placement to the side of the active guide. The tutorial library closes with Escape."
+      ],
+      "validation": "The production build passed and the full Vitest suite passed 1,620 tests with two skips. An isolated local browser checked all five practice panels, both unlock invitations, the scrollable Logistics reference, matching guide and Build title sizes, and library dismissal by Escape. At 390 × 700, Expansion kept the lesson controls visible, Details revealed the explanation, and the Map stayed clear of the guide. This was a UI review with Dev unlocks for lesson access. It did not replay every lesson to completion."
+    },
+    {
+      "id": "NODE-0441",
+      "date": "2026-11-09",
+      "dateBasis": "chat",
+      "kind": "changed",
+      "state": "implemented",
+      "delivery": "local",
+      "title": "Consolidate Slag Hoppers into Waste Bins",
+      "summary": "Remove the duplicate Slag Hopper from the catalog. Saved factories and templates convert those nodes to Waste Bins in place, retaining stock, cables and items in transit.",
+      "topics": ["Waste", "Construction", "Persistence"],
+      "sources": ["chat-current", "local-code"],
+      "evidence": ["src/content/progression.ts", "src/content/retiredNodes.ts", "src/persistence/legacyMigration.ts", "src/persistence/retiredNodes.test.ts", "src/mods/modValidation.ts"],
+      "details": [
+        "Old Slag Hopper mod settings carry over to the Waste Bin when the mod has no Waste Bin settings of its own."
+      ],
+      "validation": "The production build and both affected script syntax checks passed. The full Vitest suite passed 1,623 tests with two skips. Migration coverage includes saved stock and in-flight transfers, templates, original-format imports, engine state replacement and mod override precedence. No browser playtest was run."
+    },
+    {
+      "id": "NODE-0442",
+      "date": "2026-11-09",
+      "dateBasis": "chat",
+      "kind": "changed",
+      "state": "superseded",
+      "delivery": "local",
+      "title": "Rename Fluid Link to Pump",
+      "summary": "Show Pump in the Build catalog and on existing Fluid Link nodes and templates. Keep the serialized node ID and fluid routing behavior.",
+      "topics": ["Logistics", "Interface", "Persistence"],
+      "sources": ["chat-current", "local-code"],
+      "evidence": ["src/content/progression.ts", "src/content/displayNameChanges.ts", "src/simulation/playtest.regressions.test.ts", "docs/research-catalog.md"],
+      "validation": "The production build and content generator syntax check passed. The Coolant routing regression passed with an old saved Fluid Link renamed to Pump. The full suite recorded 1,622 passes, two skips and one failing Filter reconfiguration assertion from concurrent Filter changes."
+    },
+    {
+      "id": "NODE-0443",
+      "date": "2026-11-09",
+      "dateBasis": "chat",
+      "kind": "changed",
+      "state": "implemented",
+      "delivery": "local",
+      "title": "Replace Waste Links with Waste Bins",
+      "summary": "Remove the Waste Link from Build and research unlocks. Convert existing links in saved factories and templates to Waste Bins in place, keeping stored waste, cables and shipments already in transit.",
+      "topics": ["Waste", "Logistics", "Construction", "Persistence"],
+      "sources": ["chat-current", "local-code"],
+      "evidence": ["src/content/progression.ts", "src/content/retiredNodes.ts", "src/persistence/legacyMigration.ts", "src/persistence/retiredNodes.test.ts", "src/mods/modValidation.ts"],
+      "supersedes": ["NODE-0173"],
+      "details": [
+        "This supersedes the Waste Link portion of the Precision Control decision. Converted links use Waste Bin buffering. Their default capacity increases from 160 to 200."
+      ],
+      "validation": "The production build and affected script syntax checks passed. The full Vitest suite passed 1,632 tests with two skips. Regressions cover original and current saves, templates, mod override precedence, delivery of a shipment routed through a converted node, and forwarding of its buffered waste. No browser playtest was run."
+    },
+    {
+      "id": "NODE-0444",
+      "date": "2026-11-09",
+      "dateBasis": "chat",
+      "kind": "changed",
+      "state": "implemented",
+      "delivery": "local",
+      "title": "Choose either Filter outlet from a recipe-style side panel",
+      "summary": "Click a Filter to pick one item from a searchable list and assign it to either outlet. All other items use the opposite outlet. The panel uses the recipe picker's header, typography, and item cards.",
+      "topics": ["Logistics", "Connections", "Interface", "Persistence"],
+      "sources": ["chat-current", "local-code"],
+      "evidence": ["src/ui/FilterPicker.tsx", "src/domain/filterRouting.ts", "src/simulation/engine.ts", "src/simulation/logisticsRouting.test.ts", "src/simulation/roadMaterials.test.ts"],
+      "details": [
+        "Replaces the Filter's inspector dropdown and fixed selected-item outlet. Existing saves keep the original assignment. Configuration preserves cables and stock, is undoable, and refunds shipments whose old route no longer matches.",
+        "The outlet labels follow rotation. A blocked required outlet still stops both paths and identifies the affected direction."
+      ],
+      "validation": "The production build and 1,632 Vitest tests passed, with two skips. Regressions cover both assignments after reload, stock and undo, in-flight refunds, blockage and recovery, Extractor routes, and Road cargo inference. An isolated paused local browser verified placement, click to reopen, item search and selection, switching outlets, Escape, and rotated direction labels. No balance run or publication."
+    },
+    {
+      "id": "NODE-0445",
+      "date": "2026-11-09",
+      "dateBasis": "chat",
+      "kind": "changed",
+      "state": "implemented",
+      "delivery": "local",
+      "title": "Use Filters for waste sorting",
+      "summary": "Remove the Waste Sorter from the game. Waste Handling unlocks the Waste Bin, and the research and Build text direct players to Filters to separate waste streams.",
+      "topics": ["Waste", "Logistics", "Construction"],
+      "sources": ["chat-current", "local-code"],
+      "evidence": ["src/content/progression.ts", "src/simulation/engine.ts", "src/simulation/reviewedProduction.test.ts", "docs/research-catalog.md"],
+      "validation": "The production build, affected script syntax checks and full Vitest suite passed, including chained Filter routing for mixed waste. 1,632 tests passed and two were skipped. The scope was new games."
+    },
+    {
+      "id": "NODE-0446",
+      "date": "2026-11-09",
+      "dateBasis": "chat",
+      "kind": "changed",
+      "state": "implemented",
+      "delivery": "local",
+      "title": "Combine Lake Intake and Pump",
+      "summary": "Water Tools unlocks a single Production Pump. A direct Lake cable draws Water, while a fluid feed from another node relays Water or Coolant to available outlets.",
+      "topics": ["Construction", "Logistics", "Research", "Simulation"],
+      "sources": ["chat-current", "local-code"],
+      "evidence": ["src/content/progression.ts", "src/simulation/progression.ts", "src/simulation/engine.ts", "src/simulation/engine.progression.test.ts", "src/simulation/playtest.regressions.test.ts"],
+      "supersedes": ["NODE-0442"],
+      "details": [
+        "Each Lake supports two Pumps. Base extraction is 4 Water per second, rising to 8 with Pressure Systems and 16 with High Pressure Intakes.",
+        "The input cable determines the mode. The Mods editor lists Pump under Production."
+      ],
+      "validation": "The production build and affected script syntax checks passed. The full Vitest suite passed 1,634 tests with two skips. Tests covered all three draw rates, the two-Pump limit, and switching a Lake-fed Pump to a Coolant supply. Verification focused on new games."
+    },
+    {
+      "id": "NODE-0447",
+      "date": "2026-11-09",
+      "dateBasis": "chat",
+      "kind": "changed",
+      "state": "implemented",
+      "delivery": "local",
+      "title": "Generate camp sectors without Deep Holes",
+      "summary": "World generation keeps Deep Holes off maps that spawn Goblin or Dwarven camps. Camps take priority when mod rules request both obstructions on the same map.",
+      "topics": ["World", "World generation", "Encounters"],
+      "sources": ["chat-current", "local-code"],
+      "evidence": ["src/simulation/worldGeneration.ts", "src/simulation/engine.test.ts", "src/mods/mods.test.ts", "docs/obstruction-types-and-behavior.md"],
+      "validation": "The production build passed. The full Vitest suite passed 1,635 tests with two skips. Generation checks covered five whole-world seeds, the clear-outpost counts, and competing mod spawns on one map."
+    },
+    {
+      "id": "NODE-0448",
+      "date": "2026-11-09",
+      "dateBasis": "chat",
+      "kind": "changed",
+      "state": "implemented",
+      "delivery": "local",
+      "title": "Enlarge the reserves left by defeated Golems",
+      "summary": "All four Golem reserves use twice the width and height of a normal resource node. Their titles show the mineral name, and the full bar shows the infinity symbol without a percentage.",
+      "topics": ["World", "Encounters", "Interface"],
+      "sources": ["chat-current", "local-code"],
+      "evidence": ["src/content/resourceGolems.ts", "src/domain/nodeGeometry.ts", "src/simulation/collisions.ts", "src/renderer/PixiPlayfield.tsx", "src/simulation/resourceGolems.test.ts"],
+      "details": [
+        "Terrain and building placement reserve space for the larger footprint while a Golem is alive. The reserve keeps its four cardinal Extractor outputs."
+      ],
+      "validation": "The production build passed. The full Vitest suite passed 1,635 tests with two skips. Tests cover naming, dimensions and working sockets for all four minerals, the infinity readout, and clearance for the future footprint. The percentage omission was checked in the renderer source."
+    },
+    {
+      "id": "NODE-0449",
+      "date": "2026-11-09",
+      "dateBasis": "chat",
+      "kind": "changed",
+      "state": "implemented",
+      "delivery": "local",
+      "title": "Keep defeated Golems on the Node Map",
+      "summary": "The Golems filter marks surveyed sectors with a living Golem or the permanent reserve it leaves behind. Both map views use the same markers.",
+      "topics": ["Interface", "Exploration", "Encounters"],
+      "sources": ["chat-current", "local-code"],
+      "evidence": ["src/ui/mapNodePresentation.ts", "src/ui/mapNodePresentation.test.ts", "src/ui/NodeMinimap.tsx"],
+      "supersedes": ["NODE-0362"],
+      "details": ["This supersedes the marker removal on defeat in NODE-0362. Landmark filters still appear after discovery."],
+      "validation": "The production build passed. The full Vitest suite passed 1,635 tests with two skips, including the survey marker before and after defeat."
+    },
+    {
+      "id": "NODE-0450",
+      "date": "2026-11-09",
+      "dateBasis": "chat",
+      "kind": "changed",
+      "state": "implemented",
+      "delivery": "local",
+      "title": "Center and enlarge the Golem reserve symbol",
+      "summary": "Show the mineral title consistently on the reserve, its tooltip and its inspector. Enlarge the infinity symbol and center it above the full reserve bar.",
+      "topics": ["Interface", "Encounters"],
+      "sources": ["chat-current", "local-code"],
+      "evidence": ["src/content/nodes.ts", "src/renderer/PixiPlayfield.tsx", "src/ui/NodeInspector.tsx"],
+      "validation": "The production build and full Vitest suite passed with 1,635 tests and two skips. Checked the text and layout settings in source."
+    },
+    {
+      "id": "NODE-0451",
+      "date": "2026-11-09",
+      "dateBasis": "chat",
+      "kind": "changed",
+      "state": "implemented",
+      "delivery": "local",
+      "title": "Tie End of the World to Complex production and restore Final Core prices",
+      "summary": "End of the World gives a subtler clue and completes on the first Complex Core. Producing the first Final Core makes A Remarkably Indirect Conclusion available without a separate milestone card. Final Core projects start at one of each required Core.",
+      "topics": ["Research", "Progression", "Interface", "Balance"],
+      "sources": ["chat-current", "local-code"],
+      "evidence": ["src/content/endgame.ts", "src/content/research.ts", "src/simulation/researchRuntime.ts", "src/simulation/endgame.test.ts", "src/ui/researchPresentation.ts", "docs/research-catalog.md"],
+      "supersedes": ["NODE-0413", "NODE-0420"],
+      "details": [
+        "This replaces the corner-piece trigger from NODE-0420 and the five-Core minimum for Final Core projects from NODE-0413. Final Core repeatables again start at 1, 2, 3, 4 and 6 of each Core.",
+        "Autonomous Logistics and Final Robotics still use first Final Core production as a prerequisite. Victory requires selecting and paying for A Remarkably Indirect Conclusion at a Research Center."
+      ],
+      "validation": "The production build, affected script syntax checks and full Vitest suite passed with 1,635 tests and two skips. Verified Complex Core production completes the card, Final Core production emits no separate research notice, and one synchronized set pays for victory. Recomputed the analytical route bill from the catalog. No browser or balance run."
+    },
+    {
+      "id": "NODE-0452",
+      "date": "2026-11-09",
+      "dateBasis": "chat",
+      "kind": "changed",
+      "state": "implemented",
+      "delivery": "local",
+      "title": "Show only independent research prerequisites",
+      "summary": "Research cards and detail views omit missing prerequisites that another displayed prerequisite already covers. Independent requirements remain visible.",
+      "topics": ["Research", "Interface", "Progression"],
+      "sources": ["chat-current", "local-code"],
+      "evidence": ["src/ui/researchPresentation.ts", "src/ui/ResearchProjectDetail.tsx", "src/ui/researchPresentation.test.ts"],
+      "validation": "The production build and full Vitest suite passed with 1,636 tests and two skips. Verified the single remaining requirement for Connector Mirroring and the independent requirements for Final Robotics."
+    },
+    {
+      "id": "NODE-0453",
+      "date": "2026-11-09",
+      "dateBasis": "chat",
+      "kind": "changed",
+      "state": "implemented",
+      "delivery": "local",
+      "title": "Simplify research cards and descriptions",
+      "summary": "Separate requirements from descriptions, put one combined progress count after the Core list, and use the same title format for repeatable endgame research. Rewrite vague, repeated, and stale descriptions across the catalog.",
+      "topics": ["Research", "Interface", "Progression"],
+      "sources": ["chat-current", "local-code"],
+      "evidence": ["src/ui/ResearchCard.tsx", "src/ui/ResearchProjectDetail.tsx", "src/ui/researchPresentation.test.ts", "src/content/research.ts", "src/content/progression.ts", "src/content/endgame.ts"],
+      "details": ["Efficiency descriptions state the cycle-time reduction from the base cycle. Extra Map Point says subsequent Map Points cost more Cores. Core badges still show each type's required quantity on hover."],
+      "validation": "The production build and full Vitest suite passed with 1,637 tests and two skips. Verified the blank line and the single aggregate count at zero and partial payment in the research presentation test. Layout checked in source."
+    },
+    {
+      "id": "NODE-0454",
+      "date": "2026-11-09",
+      "dateBasis": "chat",
+      "kind": "changed",
+      "state": "implemented",
+      "delivery": "local",
+      "title": "Repeat node placement with Ctrl",
+      "summary": "Hold Ctrl, Cmd, or Shift while placing to keep another node of the same type ready. Recipe and filter pickers wait until the player configures a node or finishes with a plain placement.",
+      "topics": ["Construction", "Controls", "Interface"],
+      "sources": ["chat-current", "local-code"],
+      "evidence": ["src/renderer/PixiPlayfield.tsx", "src/ui/App.tsx", "src/ui/ShortcutBars.tsx", "src/ui/panels/BuildPanel.tsx", "src/ui/panels/CommandsPanel.tsx"],
+      "validation": "The production build and full Vitest suite passed with 1,638 tests and two skips. In an isolated local browser tab, two Ctrl clicks placed two Smelters from one Build selection. A plain third click placed the last Smelter, opened its recipe picker, and ended placement. Cmd, Shift, and shortcut-bar drops were checked in source."
+    },
+    {
+      "id": "NODE-0455",
+      "date": "2026-11-09",
+      "dateBasis": "chat",
+      "kind": "fixed",
+      "state": "implemented",
+      "delivery": "local",
+      "title": "Skip pop-ups from the Dev research unlock",
+      "summary": "Unlock all research completes permanent research without opening the Expansion tutorial invitation or victory modal. Expansion remains available from the Tutorials menu.",
+      "topics": ["Developer tools", "Tutorials", "Research", "Interface"],
+      "sources": ["chat-current", "local-code"],
+      "evidence": ["src/simulation/engine.ts", "src/tutorials/tutorialUnlocks.ts", "src/tutorials/tutorialUnlocks.test.ts", "src/ui/components/EndgameNotice.tsx"],
+      "validation": "The production build and full Vitest suite passed with 1,638 tests and two skips. The regression test covers save reload, undo, and a later camp discovery invitation. In an isolated local browser tab, Unlock all research reported Unlocked without either pop-up."
+    },
+    {
+      "id": "NODE-0456",
+      "date": "2026-11-09",
+      "dateBasis": "chat",
+      "kind": "changed",
+      "state": "implemented",
+      "delivery": "local",
+      "title": "Group machine research and pin prerequisite paths",
+      "summary": "The Research tree starts with nine collapsed machine upgrade groups and a centered main progression path. Players can open individual groups, expand all upgrades, or pin a project to highlight its prerequisites and jump to its next available step.",
+      "topics": ["Research", "Interface", "Progression"],
+      "sources": ["chat-current", "local-code"],
+      "evidence": ["src/ui/ResearchTreeModal.tsx", "src/ui/researchTree.ts", "src/ui/researchTree.test.ts", "src/styles/research-tree.css"],
+      "details": ["The default view has 73 cards. Search finds individual ranks and keeps the pinned path visible. The path can identify first Final Core production once End of the World is complete."],
+      "validation": "The production build and full Vitest suite passed with 1,641 tests and two skips. The local browser showed nine collapsed groups, all six expanded Kiln ranks, and all 118 projects with Expand all upgrades. Verified pinning Exploration, preserving it through search, and jumping to Smelter. Narrow layouts and the Final Core gate were tested in Vitest."
+    },
+    {
+      "id": "NODE-0457",
+      "date": "2026-11-09",
+      "dateBasis": "chat",
+      "kind": "changed",
+      "state": "superseded",
+      "delivery": "local",
+      "title": "Make Research hints opt-in and hold to reveal",
+      "summary": "Obligatory hand holding keeps one card at the far right. Hints start off, and the browser remembers the toggle. Holding the left mouse button on an enabled card reveals the hint until release.",
+      "topics": ["Research", "Interface", "Controls"],
+      "sources": ["chat-current", "local-code"],
+      "evidence": ["src/ui/ResearchHintCard.tsx", "src/ui/ResearchPanel.tsx", "src/ui/ResearchPanel.test.tsx", "src/styles/research-details.css", "docs/research-catalog.md"],
+      "supersedes": ["NODE-0401"],
+      "details": ["The card shows the rightmost of the former suggestions and stays in the same position when fewer suggestions are available. Keyboard users can hold Space or Enter on the card."],
+      "validation": "The production build and full Vitest suite passed with 1,641 tests and two skips. In the local browser, confirmed a single right-aligned card, Charcoal visible during a left-button hold and hidden on release, and the enabled setting retained across reopening Research. Keyboard behavior was checked in source."
+    },
+    {
+      "id": "NODE-0458",
+      "date": "2026-11-09",
+      "dateBasis": "chat",
+      "kind": "changed",
+      "state": "implemented",
+      "delivery": "local",
+      "title": "Reserve the standard Motor recipe for Assembler",
+      "summary": "The standard Motor was the only recipe shared by Assembler and Assembler II. New Assembler II setups use Efficient Motor for Motor production. Existing Assembler II lines configured for the standard Motor can continue production.",
+      "topics": ["Production", "Recipes", "Compatibility"],
+      "sources": ["chat-current", "local-code"],
+      "evidence": ["src/content/progression.ts", "src/simulation/engine.ts", "src/simulation/factoryTemplateRuntime.ts", "src/simulation/recipeSelection.test.ts"],
+      "validation": "The production build, progression script syntax check, and full Vitest suite passed with 1,641 tests and two skips. Verified that Assembler II rejects a new standard Motor assignment, accepts Efficient Motor, and can still produce a Motor on load from a legacy setup. Duplication and template placement reject that removed assignment. Regenerated the review chart with 61 assignments for 60 recipes."
+    },
+    {
+      "id": "NODE-0459",
+      "date": "2026-11-09",
+      "dateBasis": "chat",
+      "kind": "changed",
+      "state": "implemented",
+      "delivery": "local",
+      "title": "Reserve the Iron Gear recipe for Refiner",
+      "summary": "New Iron Gear lines use the Refiner. Assembler II lines already configured for Iron Gear can continue production in existing saves.",
+      "topics": ["Production", "Recipes", "Compatibility"],
+      "sources": ["chat-current", "local-code"],
+      "evidence": ["src/content/progression.ts", "scripts/sync-progression-content.mjs", "src/simulation/recipeSelection.test.ts"],
+      "validation": "The production build, progression script syntax check, and full Vitest suite passed with 1,641 tests and two skips. Verified that legacy Iron Gear production survives load and that new assignment, duplication, and template placement reject it in Assembler II. The regenerated review chart lists all 60 recipes with Iron Gear under Refiner only."
+    },
+    {
+      "id": "NODE-0460",
+      "date": "2026-11-09",
+      "dateBasis": "chat",
+      "kind": "changed",
+      "state": "implemented",
+      "delivery": "local",
+      "title": "Center selected research details and reveal hints on press",
+      "summary": "Selected project details sit between Active project and Obligatory hand holding. The hint card reveals its clue as soon as the player holds the left mouse button and hides it on release.",
+      "topics": ["Research", "Interface", "Controls"],
+      "sources": ["chat-current", "local-code"],
+      "evidence": ["src/ui/ResearchPanel.tsx", "src/ui/ResearchProjectDetail.tsx", "src/ui/ResearchHintCard.tsx", "src/ui/ResearchPanel.test.tsx", "src/styles/research-details.css"],
+      "supersedes": ["NODE-0457"],
+      "details": ["The separate hint switch was removed. On narrow screens the selected project spans the width beneath the side cards. Core badges wrap in order with one total after them."],
+      "validation": "The production build and full Vitest suite passed with 1,642 tests and two skips. In the local browser, checked the seven-Core project in the center without clipping, navigation from Kiln 1 to Refiner through a prerequisite, and direct hint reveal and release. Narrow layout checked in source."
+    },
+    {
+      "id": "NODE-0461",
+      "date": "2026-11-09",
+      "dateBasis": "chat",
+      "kind": "changed",
+      "state": "implemented",
+      "delivery": "local",
+      "title": "Put Start research beside the selected project title",
+      "summary": "Available projects show a clear Start research button at the top of the center card. Locked, automatic, and completed projects show a status. Selecting a card keeps the desktop catalog at its current scroll position.",
+      "topics": ["Research", "Interface", "Controls"],
+      "sources": ["chat-current", "local-code"],
+      "evidence": ["src/ui/ResearchPanel.tsx", "src/ui/ResearchCard.tsx", "src/ui/ResearchProjectDetail.tsx", "src/ui/ResearchPanel.test.tsx", "src/styles/research-details.css"],
+      "validation": "The production build and full Vitest suite passed with 1,645 tests and two skips. In the local preview, Start research moved Extra Map Point into Active project. Selecting Kiln 6 left the catalog scrolled and showed Locked, and opening Trucks with Enter focused Start research. The narrow and short layouts use a shared scroll area checked in source."
+    },
+    {
+      "id": "NODE-0462",
+      "date": "2026-11-09",
+      "dateBasis": "chat",
+      "kind": "changed",
+      "state": "superseded",
+      "delivery": "local",
+      "title": "Assemble bots from interchangeable frames and guns",
+      "summary": "Assemble Bot uses one frame and one gun across 25 combinations. Frames add to the rating and guns multiply it. The Ancient Dragon takes 200 AP, Mythril Golems take 150 AP, and other Golems take 100 AP.",
+      "topics": ["Production", "Recipes", "Balance", "Encounters", "Compatibility"],
+      "sources": ["chat-current", "local-code"],
+      "evidence": ["src/content/botAssembly.ts", "src/content/recipes.ts", "src/ui/NodeRecipePicker.tsx", "src/simulation/recipeSelection.test.ts", "src/simulation/resourceGolems.test.ts", "src/simulation/cornerPacing.test.ts"],
+      "supersedes": ["NODE-0334", "NODE-0335", "NODE-0391"],
+      "details": [
+        "Matched tiers retain 1, 3, 8, 24 and 72 AP and their base assembly times. Bot Guns now use Brick. Higher part chains bring in Water, Mythril and Controller waste. Final Robotics unlocks the Final Frame and Final Cannon after the first Final Core.",
+        "Saved matched bot IDs and paid batches are preserved. Removed ingredients return to compatible feeders or the shared inventory, and stored Golem damage counts at the new costs."
+      ],
+      "validation": "The production build and full Vitest suite passed with 1,670 tests and two skips. Tests exercised the 25 recipe pairs, wired mixed-bot camp payment, saved batch and Core recovery, old Golem damage, and the 200 AP Dragon payout. In a separate browser save with Dev research, selected a Mythril Frame and a tier 1 Bot Gun, confirmed the 3 AP preview, and checked the two input sockets. Regenerated and visually reviewed the 82-row recipe chart. No normal-play balance run."
+    },
+    {
+      "id": "NODE-0463",
+      "date": "2026-11-09",
+      "dateBasis": "chat",
+      "kind": "review",
+      "state": "superseded",
+      "delivery": "not-applicable",
+      "title": "Document the NODE typography review",
+      "summary": "Record the Selected project card starter style and compare current typography with proposed roles across the game UI and playfield.",
+      "topics": ["Interface", "Research", "Documentation"],
+      "sources": ["chat-current", "local-code"],
+      "evidence": ["docs/typography-style-review.docx", "src/styles/readability.css", "src/styles/research-details.css", "src/renderer/PixiPlayfield.tsx"],
+      "details": ["The review draft specifies a fixed 12 px description and regular weight for Start and Cancel research, Core badges, and the progress count. Wider changes are proposals for discussion."],
+      "validation": "Read local CSS, component markup, and Pixi label definitions. Rendered the Word document with LibreOffice and visually inspected all five pages. Live font fallback and contrast are review items."
+    },
+    {
+      "id": "NODE-0464",
+      "date": "2026-11-09",
+      "dateBasis": "chat",
+      "kind": "changed",
+      "state": "implemented",
+      "delivery": "local",
+      "title": "Apply shared sans-serif typography throughout NODE",
+      "summary": "Use shared sizes and lighter weights across the interface and match the font stacks on the playfield. The Selected project description stays at 12 px, and research actions, Core badges, and the progress count use regular weight.",
+      "topics": ["Interface", "Research", "Documentation"],
+      "sources": ["chat-current", "local-code"],
+      "evidence": ["src/styles/readability.css", "src/renderer/playfieldDrawing.ts", "src/ui/MapNodeDetails.tsx", "docs/typography-style-review.docx", "docs/node-ui-style-guide.docx", "AGENTS.md"],
+      "supersedes": ["NODE-0463"],
+      "details": ["Replaced serif font rules with the UI sans stack. Routine quantities use tabular digits or the named mono stack. Dense map cells use compact markers, with the full ID in the selected sector summary. AGENTS.md points future UI work to the separate style guide."],
+      "validation": "The production build and full Vitest suite passed with 1,670 tests and two skips. Verified Start and Cancel weight, the seven-Core card at normal and 480 px widths, Build labels, the research tree, standard and 21-cell-wide maps, and Forest inspector typography in the local browser. Checked the active source for serif font declarations. Rendered and visually inspected all seven pages across both Word documents."
+    },
+    {
+      "id": "NODE-0465",
+      "date": "2026-11-09",
+      "dateBasis": "chat",
+      "kind": "changed",
+      "state": "implemented",
+      "delivery": "local",
+      "title": "Match Selected project Core badges to the research filters",
+      "summary": "Core badges use labels like Simple and Basic and share the filter buttons' 12 px Segoe UI stack, rounded border, and colored dot. The badges use regular weight.",
+      "topics": ["Interface", "Research", "Documentation"],
+      "sources": ["chat-current", "local-code"],
+      "evidence": ["src/styles/readability.css", "src/styles/research-details.css", "docs/node-ui-style-guide.docx", "docs/typography-style-review.docx", "AGENTS.md"],
+      "details": ["The project instructions now require reviewing and updating both the style guide and the review notes with each player-facing style or copy change."],
+      "validation": "Verified the Simple and Basic badges against their filters in the local browser, including visible casing, font family, size, weight, button height, and corner radius. The production build and Vitest suite passed with 1,670 tests and two skips. Rendered both Word documents, visually reviewed the edited pages, and confirmed the other rendered pages were identical."
+    },
+    {
+      "id": "NODE-0466",
+      "date": "2026-11-09",
+      "dateBasis": "chat",
+      "kind": "changed",
+      "state": "implemented",
+      "delivery": "local",
+      "title": "Standardize modal spacing and simplify Build",
+      "summary": "Use shared 4, 8, and 16 px gaps for modal copy and align Build card descriptions. Match the dimensions of actions in the main toolbar when they share a row.",
+      "topics": ["Interface", "Building", "Documentation"],
+      "sources": ["chat-current", "local-code"],
+      "evidence": ["src/styles/readability.css", "src/styles/responsive.css", "src/styles/cards.css", "src/ui/panels/BuildPanel.tsx", "src/ui/panels/BuildPanel.test.tsx", "docs/node-ui-style-guide.docx", "docs/typography-style-review.docx"],
+      "details": ["Removed the Rapid placement note and Extraction tab from Build. Mining Drill appears in the Production tab while retaining its existing simulation behavior. The phone layout keeps Pause or Resume beside the wordmark."],
+      "validation": "Checked Build, Research, Options, and welcome copy in the local browser and inspected toolbar sizing at 1146 × 925, 850 × 500, and 320 × 640. The production build and Vitest suite passed with 1,671 tests and two skips, including the Mining Drill Build tab regression check. Rendered and reviewed the updated Word documents."
+    },
+    {
+      "id": "NODE-0467",
+      "date": "2026-11-09",
+      "dateBasis": "chat",
+      "kind": "changed",
+      "state": "implemented",
+      "delivery": "local",
+      "title": "Remove the Filter's gear button",
+      "summary": "Click the Filter body to choose the item and outlet directly from its picker.",
+      "topics": ["Interface", "Logistics", "Documentation"],
+      "sources": ["chat-current", "local-code"],
+      "evidence": ["src/renderer/PixiPlayfield.tsx", "src/ui/App.tsx", "docs/node-ui-style-guide.docx", "docs/typography-style-review.docx"],
+      "validation": "Clicked an existing Filter in the local browser and verified that its picker opened and the gear was absent on the hovered node. The production build and full Vitest suite passed with 1,671 tests and two skips. Rendered and checked both updated Word documents."
+    },
+    {
+      "id": "NODE-0468",
+      "date": "2026-11-09",
+      "dateBasis": "chat",
+      "kind": "changed",
+      "state": "implemented",
+      "delivery": "local",
+      "title": "Build one Suppression Bot item in the Bot Plant",
+      "summary": "Suppression Bot research unlocks an automatic Bot Plant with separate frame and gun sockets. One Assemble Bot recipe covers 25 part pairs. Bots share a name, icon, and logistics identity, with each bot's AP shown after its name.",
+      "topics": ["Production", "Recipes", "Logistics", "Encounters", "Interface", "Documentation"],
+      "sources": ["chat-current", "local-code"],
+      "evidence": ["src/content/botAssembly.ts", "src/content/recipes.ts", "src/simulation/recipeSelection.test.ts", "src/simulation/roadMaterials.test.ts", "src/simulation/cornerPacing.test.ts", "docs/research-catalog.md", "docs/node-ui-style-guide.docx", "docs/typography-style-review.docx", "outputs/NODE Recipes by Production Node.docx"],
+      "supersedes": ["NODE-0462"],
+      "details": ["Retired all selectable finished-bot recipes in Assembler and Assembler II. Those nodes still produce the parts. Matched parts yield 1, 3, 8, 24 and 72 AP. The Bot Plant uses the existing base assembly times.", "Carts, Trucks and Trains can carry bots with different AP values together. Roads, Mergers, Filters, and shared storage treat them as one material while camp and boss delivery uses the AP of each bot. The Ancient Dragon costs 200 AP, the Mythril Golem costs 150 AP, and the other Golems cost 100 AP."],
+      "validation": "The production build and Vitest suite passed with 1,672 tests and two skips. Tested all 25 automatic batches, socket compatibility, mixed Cart stock and camp payment, mixed-strength Road shipments, and the Dragon payout. An isolated local browser with Dev research verified the Bot Plant's Build card, placement, labeled sockets, and all 25 options in the recipe guide. Rendered and reviewed the 82-row recipe chart and both updated style documents. No new legacy-save migration or normal-play balance run."
     }
   ]
 }

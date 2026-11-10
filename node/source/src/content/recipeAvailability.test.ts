@@ -11,7 +11,7 @@ import { recipeGuideGroups } from '../ui/recipeGuide';
 const catalog = Object.entries(RECIPE_GROUPS).flatMap(([kind, ids]) => ids.map(id => ({ kind: kind as NodeKind, id })));
 
 describe('recipe availability in normal progression', () => {
-  it.each(catalog)('$kind: $id can be configured after its unlocks with no ingredient stock or history', ({ kind, id }) => {
+  it.each(catalog)('$kind: $id is available after its unlocks with no ingredient stock or history', ({ kind, id }) => {
     const game = createInitialState(71);
     if(id.match(/^core-half-[ab]-\d$/))game.endgame={version:1,cornerOrder:seededCornerOrder(game.seed),pairIndex:Number(id.at(-1))};
     game.sectors[game.activeSectorId].nodes = [];
@@ -21,7 +21,7 @@ describe('recipe availability in normal progression', () => {
     const machineResearch = NODE_DEFINITIONS[kind].unlockResearch!;
     game.research.completed.push(machineResearch);
     game.research.unlocked.push(machineResearch);
-    const recipeResearch = RECIPES[id].unlockResearch ?? (id === 'automata-core' ? 'automataCore' : ['robot-frame', 'robot-gun', 'suppression-bot'].includes(id) ? 'suppressionBot' : undefined);
+    const recipeResearch = RECIPES[id].unlockResearch ?? (id === 'automata-core' ? 'automataCore' : ['robot-frame', 'robot-gun'].includes(id) ? 'suppressionBot' : undefined);
     if (recipeResearch && recipeResearch !== machineResearch) {
       expect(isRecipeAvailable(id, game, kind)).toBe(false);
       game.research.completed.push(recipeResearch);
@@ -33,6 +33,15 @@ describe('recipe availability in normal progression', () => {
     const machine = tutorialNode(kind, 'machine', 1300, 700);
     game.sectors[game.activeSectorId].nodes.push(machine);
     const engine = new GameEngine(game, { autosave: false });
+    if (kind === 'botPlant') {
+      const live = engine.getSector().nodes.find(node => node.id === machine.id)!;
+      expect(engine.setRecipe(machine.id, id)).toBe(false);
+      live.input = { ...RECIPES[id].inputs };
+      engine.tick(100);
+      expect(live.recipeId).toBeUndefined();
+      expect(live.batch).toEqual({ recipeId: id, outputs: RECIPES[id].outputs });
+      return;
+    }
     expect(engine.setRecipe(machine.id, id)).toBe(true);
     expect(engine.getSector().nodes.find(node => node.id === machine.id)?.recipeId).toBe(id);
     engine.tick(100);

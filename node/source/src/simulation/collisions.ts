@@ -1,11 +1,21 @@
 import type { MachineNode } from '../domain/types';
 import { isWorldObstacle } from '../content/nodeCapabilities';
+import { defeatResourceGolem } from '../content/resourceGolems';
 import { getNodeSize } from '../domain/nodeGeometry';
 import { footprintInsideField, footprintsOverlap } from '../domain/obstructionGeometry';
 
 export const NODE_CLEARANCE = 12;
 
+function golemReserveFootprint(golem: MachineNode) {
+  const reserve = { ...golem };
+  defeatResourceGolem(reserve);
+  return reserve;
+}
+
 export function nodesOverlap(first: MachineNode, second: MachineNode, clearance = NODE_CLEARANCE) {
+  // Keep the future reserve clear as well as the living Golem's silhouette.
+  if (first.kind === 'resourceGolem' && nodesOverlap(golemReserveFootprint(first), second, clearance)) return true;
+  if (second.kind === 'resourceGolem' && nodesOverlap(first, golemReserveFootprint(second), clearance)) return true;
   const a = getNodeSize(first); const b = getNodeSize(second);
   const firstOrganic = isWorldObstacle(first.kind);
   const secondOrganic = isWorldObstacle(second.kind);

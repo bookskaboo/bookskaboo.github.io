@@ -6,7 +6,7 @@ describe('unlock navigation', () => {
     expect(unlockDestination('kiln')).toEqual({ panel: 'build', nodeKind: 'kiln' });
     expect(unlockDestination('joint')).toEqual({ panel: 'build', nodeKind: 'joint' });
     expect(unlockDestination('automataCore')).toEqual({ panel: 'recipes', recipeId: 'automata-core' });
-    expect(unlockDestination('suppressionBot')).toEqual({ panel: 'recipes', recipeId: 'robot-frame' });
+    expect(unlockDestination('suppressionBot')).toEqual({ panel: 'build', nodeKind: 'botPlant' });
     expect(unlockDestination('extractor1')).toEqual({ panel: 'research', projectId: 'extractor1' });
     expect(unlockDestination('mithrilTools')).toEqual({ panel: 'recipes', recipeId: 'mythril-gear' });
     expect(unlockDestination('mithrilTools', 'separationFurnace')).toEqual({ panel: 'build', nodeKind: 'separationFurnace' });

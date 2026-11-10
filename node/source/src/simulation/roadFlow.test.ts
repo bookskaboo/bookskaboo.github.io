@@ -28,11 +28,15 @@ describe('paired Road placement and one-way flow', () => {
     const localField = getSectorWorldSize(home, []), remoteField = getSectorWorldSize(neighbor, []);
     const point = x === 4 ? { x: 10, y: 600 } : x === 6 ? { x: localField.width - 10, y: 600 } : y === 4 ? { x: 600, y: 10 } : { x: 600, y: localField.height - 10 };
     const before = structuredClone(engine.getState());
-    expect(engine.getNodePlacementPreview('road', point.x, point.y)?.valid).toBe(true);
+    const preview = engine.getNodePlacementPreview('road', point.x, point.y);
+    expect(preview?.valid).toBe(true);
+    expect(preview?.road?.sector).toBe(neighbor);
     expect(engine.getState()).toEqual(before);
     const id = engine.placeNode('road', point.x, point.y)!;
     expect(home.nodes).toHaveLength(1); expect(neighbor.nodes).toHaveLength(1);
     const local = home.nodes[0], remote = neighbor.nodes[0];
+    expect(preview?.road?.localFacing).toBe(local.roadFacing);
+    expect(preview?.road?.endpoint).toMatchObject({ x: remote.x, y: remote.y, roadFacing: remote.roadFacing });
     expect(local).toMatchObject({ id, pairedRoadId: remote.id, pairedSectorId: neighbor.id, roadMode: 'export' });
     expect(remote).toMatchObject({ pairedRoadId: id, pairedSectorId: home.id, roadMode: 'import' });
     if (x !== 5) {
@@ -53,9 +57,45 @@ describe('paired Road placement and one-way flow', () => {
     if (obstruction === 'remote-face-full') neighbor.nodes.push(tutorialNode('road', 'existing', 67.5, 1200, { roadMode: 'import', pairedSectorId: home.id }));
     if (obstruction === 'locked-neighbor') neighbor.unlocked = false;
     const before = structuredClone(engine.getState());
-    expect(engine.getNodePlacementPreview('road', 3590, 600)?.valid).toBe(false);
+    const preview = engine.getNodePlacementPreview('road', 3590, 600);
+    expect(preview?.valid).toBe(false);
+    expect(preview?.road?.sector).toBe(obstruction === 'locked-neighbor' ? undefined : neighbor);
     expect(engine.placeNode('road', 3590, 600)).toBeUndefined();
     expect(engine.getState()).toEqual(before);
+  });
+
+  it('omits the destination inset when the held Road is away from the wall', () => {
+    const { engine, home } = setup();
+    const field = getSectorWorldSize(home, []);
+    const preview = engine.getNodePlacementPreview('road', field.width - 400, field.height / 2);
+    expect(preview?.node.roadFacing).toBe('west');
+    expect(preview?.road).toBeUndefined();
+  });
+
+  it('previews and moves a connected Road pair along its wall with matching endpoints', () => {
+    const { engine, home, neighbor } = setup();
+    const { road, pair } = pairedRoads(engine);
+    const cart = tutorialNode('woodenChest', 'sender', 2850, 600);
+    const receiver = tutorialNode('woodenChest', 'receiver', 750, 600);
+    home.nodes.push(cart);
+    neighbor.nodes.push(receiver);
+    home.connections.push({ id: 'send', from: cart.id, to: road.id, createdAt: 0 });
+    neighbor.connections.push({ id: 'receive', from: pair.id, to: receiver.id, createdAt: 0 });
+    const point = { x: 1300, y: 1080 };
+    const preview = engine.getRoadMovePreview(road.id, point);
+    expect(preview?.valid).toBe(true);
+    expect(preview?.node).toMatchObject({ x: 3532.5, y: point.y, roadFacing: 'west' });
+    expect(preview?.road.endpoint).toMatchObject({ x: 67.5, y: point.y, roadFacing: 'east' });
+    expect([road.y, pair.y]).toEqual([600, 600]);
+    expect(engine.tryMoveNodesTo({ [road.id]: point })).toBe(true);
+    expect([road.y, pair.y]).toEqual([point.y, point.y]);
+    expect(home.connections.map(cable => cable.id)).toEqual(['send']);
+    expect(neighbor.connections.map(cable => cable.id)).toEqual(['receive']);
+    neighbor.nodes.push(tutorialNode('woodenChest', 'blocker', 67.5, 1600));
+    const blocked = { x: point.x, y: 1600 };
+    expect(engine.getRoadMovePreview(road.id, blocked)?.valid).toBe(false);
+    expect(engine.tryMoveNodesTo({ [road.id]: blocked })).toBe(false);
+    expect([road.y, pair.y]).toEqual([point.y, point.y]);
   });
 
   it('sets the entire pair from either endpoint, retains stock, and leaves the selected direction alone', () => {

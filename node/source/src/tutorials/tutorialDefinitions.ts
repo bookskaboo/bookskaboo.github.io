@@ -1,6 +1,6 @@
 import { getResearchProject } from '../content/research';
-import type { GameState } from '../domain/types';
-import { getSectorWorldSize } from '../simulation/worldGeneration';
+import { isCartKind } from '../content/cartUpgrades';
+import type { GameState, SectorState } from '../domain/types';
 import { type GuidedTutorialKind, type GuidedTutorialStage } from './originalTutorials';
 
 export type TutorialKind = GuidedTutorialKind | 'expansion';
@@ -9,10 +9,22 @@ export type TutorialStage = GuidedTutorialStage | ExpansionStage | 'make-charcoa
 export const EXPANSION_STAGES: TutorialStage[] = ['expansion-intro', 'expansion-map-open', 'expansion-activate', 'expansion-travel', 'expansion-return', 'expansion-outpost', 'expansion-road-place', 'expansion-road-feed', 'expansion-home-receive', 'expansion-deliver', 'expansion-complete'];
 export const EXPANSION_HOME = '5,5';
 export const EXPANSION_OUTPOST = '4,5';
-export const EXPANSION_ROAD_TARGET = { x: getSectorWorldSize({ x: 4, y: 5 }, []).width - 67.5, y: 350 };
+
+export function expansionCable(sector: SectorState, sending: boolean) {
+  if (sector.id !== (sending ? EXPANSION_OUTPOST : EXPANSION_HOME)) return;
+  const vehicleId = sending ? 'expansion-outpost-chest' : 'expansion-home-chest';
+  const vehicle = sector.nodes.find(node => node.id === vehicleId && isCartKind(node.kind));
+  const road = sector.nodes.find(node => node.kind === 'road' && node.roadMode === (sending ? 'export' : 'import') && node.pairedSectorId === (sending ? EXPANSION_HOME : EXPANSION_OUTPOST));
+  if (!vehicle || !road) return;
+  const [from, to] = sending ? [vehicle, road] : [road, vehicle];
+  const connected = sector.connections.some(cable => cable.from === from.id && cable.to === to.id && (cable.fromPort ?? 0) === 0 && (cable.toPort ?? 0) === 0);
+  return { from, to, connected };
+}
+
 export function expansionDelivered(state: GameState) {
-  const chest = state.sectors[EXPANSION_HOME]?.nodes.find(node => node.id === 'expansion-home-chest');
-  return Boolean(chest && (chest.input.wood ?? 0) + (chest.output.wood ?? 0) > 0);
+  const home = state.sectors[EXPANSION_HOME], outpost = state.sectors[EXPANSION_OUTPOST];
+  const receiving = home && expansionCable(home, false), sending = outpost && expansionCable(outpost, true);
+  return Boolean(receiving?.connected && sending?.connected && (receiving.to.input.wood ?? 0) + (receiving.to.output.wood ?? 0) > 0);
 }
 export const PRODUCTION_TARGETS = { kiln: { x: 1350, y: 340 }, copperExtractor: { x: 650, y: 740 }, smelter: { x: 1350, y: 740 }, gearRefiner: { x: 1010, y: 1040 }, coreRefiner: { x: 1370, y: 1040 }, researchCenter: { x: 1730, y: 1040 } };
 export const BASIC_STAGES: TutorialStage[] = ['build-open', 'build-explain', 'build-place', 'connect-resource', 'chest-shortcut', 'chest-place', 'store-item', 'research-open', 'research-explain', 'make-charcoal', 'mine-copper', 'make-plates', 'make-gears', 'make-core', 'build-lab', 'deliver-core', 'cores-open', 'cores-explain', 'cores-complete', 'shortcuts', 'options-open', 'options-explain'];

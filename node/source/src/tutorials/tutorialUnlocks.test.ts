@@ -82,4 +82,19 @@ describe('progressive tutorial unlocks', () => {
     game.tutorialPromptsSeen = ['expansion']; (game.encounters ??= []).push('monster-camp');
     expect(nextTutorialInvitation(normalizeLegacy(game)!)).toBe('monster-camps');
   });
+  it('keeps Dev-unlocked Expansion available without an invitation, including after reloading', () => {
+    const engine = new GameEngine(createInitialState(101), { autosave: false });
+    engine.developerUnlockAllResearch();
+    const restored = normalizeLegacy(JSON.parse(JSON.stringify(engine.getState())))!;
+    expect(availableTutorials(restored)).toContain('expansion');
+    expect(nextTutorialInvitation(restored)).toBeUndefined();
+    restored.encounters!.push('monster-camp');
+    expect(nextTutorialInvitation(restored)).toBe('monster-camps');
+
+    engine.undo();
+    const game = engine.getState();
+    expect(game.devResearchUnlocked).toBeUndefined();
+    game.research.completed.push('exploration');
+    expect(nextTutorialInvitation(game)).toBe('expansion');
+  });
 });

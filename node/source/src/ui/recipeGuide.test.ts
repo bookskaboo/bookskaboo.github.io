@@ -21,7 +21,7 @@ describe('recipe guide catalog', () => {
     game.research.completed.push('assembler');
     game.research.unlocked.push('assembler');
     expect(recipeGuideGroups(game).flatMap(group => group.recipes).some(recipe => recipe.id === 'motor')).toBe(true);
-    expect(recipeGuideGroups(game, 'suppression-bot').flatMap(group => group.recipes).some(recipe => recipe.id === 'suppression-bot')).toBe(true);
+    expect(recipeGuideGroups(game, 'assemble-bot-f1-g1').find(group => group.node === 'botPlant')?.recipes[0].name).toBe('Suppression Bot 1 AP');
   });
   it('shows the same upgraded cycle duration as the production machine', () => {
     const game = createTutorialState('basic');

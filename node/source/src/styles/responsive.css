@@ -2,21 +2,30 @@
 :root, .game-shell {
   --hud-gap: clamp(8px, 1.2vw, 24px);
   --hud-height: 68px;
+  --hud-button-height: 42px;
+  --hud-button-width: clamp(76px, 7.3vw, 136px);
   --hud-clear: calc(var(--hud-height) + var(--hud-gap) + 12px);
   --hud-bottom: calc(var(--shortcut-dock-height, 0px) + var(--hud-gap) + 12px);
   --tutorial-width: clamp(290px, 25vw, 410px);
   --tutorial-reserve: 0px;
 }
 .topbar { top: var(--hud-gap); left: var(--hud-gap); right: var(--hud-gap); height: var(--hud-height); }
+.playfield-viewport { position: absolute; inset: var(--hud-clear) 0 0; overflow: clip; }
+/* Clip at the toolbar while preserving screen coordinates for the canvas and HUD. */
+.playfield-viewport > .pixi-host { top: calc(-1 * var(--hud-clear)); }
 .brand { flex-shrink: 0; min-width: 0; padding-inline: clamp(12px, 1.3vw, 24px); }
 .sector-crumb { min-width: 0; padding-inline: clamp(8px, 1vw, 20px); }
-.modal-trigger-strip { overflow: visible; padding-left: 8px; gap: clamp(5px, .65vw, 12px); }
-.modal-trigger-strip .rail-button { width: clamp(76px, 7.3vw, 136px); min-width: 68px; flex: 0 1 clamp(76px, 7.3vw, 136px); height: 42px; font-size: clamp(10px, .65vw, 13px); }
-.top-actions { flex-shrink: 0; }
-.pause-button { height: 42px; }
+.modal-trigger-strip { overflow: visible; padding-inline: 8px 10px; gap: clamp(5px, .65vw, 12px); }
+.modal-trigger-strip :is(.rail-button, .pause-button) {
+  width: var(--hud-button-width); min-width: 68px; flex: 0 1 var(--hud-button-width);
+  height: var(--hud-button-height); min-height: var(--hud-button-height);
+}
+.modal-trigger-strip .pause-button { display: flex; align-items: center; justify-content: center; gap: 7px; padding: 0 9px; white-space: nowrap; }
+.modal-trigger-strip .pause-button span { margin: 0; }
 .modal-backdrop { grid-template-columns: minmax(0, 1fr); padding: var(--hud-clear) var(--hud-gap) var(--hud-gap); }
 .training-session .modal-backdrop { padding-right: calc(var(--tutorial-width) + var(--hud-gap) * 2); }
-.training-session:has(.tutorial-layer.expansion) .modal-backdrop { padding-left: calc(var(--tutorial-width) + var(--hud-gap) * 2); padding-right: var(--hud-gap); }
+.training-session:has(:where(.tutorial-layer.expansion[data-sector="4,5"])) .modal-backdrop,
+.training-session:has(:where(.tutorial-layer.expansion)) .modal-backdrop:has(:where(.map-modal)) { padding-inline: calc(var(--tutorial-width) + var(--hud-gap) * 2) var(--hud-gap); }
 .training-session .build-card:disabled { opacity: .3; }
 .modal { max-width: 100%; max-height: calc(100dvh - var(--hud-clear) - var(--hud-gap)); }
 .build-modal, .inventory-modal, .research-modal, .map-modal, .journal-modal, .options-modal, .save-modal, .commands-modal, .dev-modal, .recipes-modal, .recipe-picker-modal {
@@ -56,7 +65,7 @@
 .welcome-copy h1 { font-size: clamp(42px, 5.5vw, 82px); }
 .notification-stack { top: var(--hud-clear); width: min(440px, calc(100vw - var(--hud-gap) * 2)); }
 .notification-content b { font-size: clamp(12px, .85vw, 15px); }
-.placement-banner { top: var(--hud-clear); left: 50%; right: auto; transform: translateX(-50%); min-width: 0; width: max-content; max-width: calc(100vw - var(--hud-gap) * 2); flex-wrap: wrap; }
+
 .inspector { top: var(--hud-clear); right: var(--hud-gap); width: clamp(280px, 23vw, 370px); max-height: calc(100dvh - var(--hud-clear) - var(--hud-bottom)); }
 .world-node-minimap { display: block; min-width: 0; }
 .shortcut-slot { display: flex; flex: 0 0 auto; }
@@ -90,18 +99,14 @@
 .shortcut-bars-layer[data-stacked="true"] .shortcut-bar-name { flex: 0 0 66px; font-size: 9px; }
 .shortcut-bars-layer[data-stacked="true"] .shortcut-bar-name { flex-basis:92px; }
 .tutorial-callout { top: var(--hud-clear); right: var(--hud-gap); bottom: auto; width: var(--tutorial-width); max-height: calc(100dvh - var(--hud-clear) - var(--hud-bottom)); padding: clamp(16px, 1.5vw, 25px); }
-.tutorial-callout h2 { font-size: clamp(19px, 1.5vw, 26px); }
-.tutorial-callout p, .tutorial-callout strong { font-size: clamp(13px, .85vw, 15px); }
 .tutorial-details-toggle { display: none; }
-.tutorial-footer { position: sticky; bottom: -1px; padding-top: 10px; background: #20272f; }
+.tutorial-footer { position: sticky; bottom: -1px; padding-top: 6px; background: #1c1e21; }
 .training-session:has(.map-modal) .tutorial-layer.expansion .tutorial-callout,
 .tutorial-layer.expansion[data-sector="4,5"] .tutorial-callout { top: var(--hud-clear); left: var(--hud-gap); right: auto; bottom: auto; width: var(--tutorial-width); }
 @media (min-width: 1500px) {
   .brand > span:last-child { display: block; }
   .topbar { height: 76px; }
-  :root, .game-shell { --hud-height: 76px; }
-  .modal-trigger-strip .rail-button { height: 46px; }
-  .pause-button { height: 46px; font-size: 11px; }
+  :root, .game-shell { --hud-height: 76px; --hud-button-height: 46px; }
   .tutorial-callout { top: clamp(130px, 17dvh, 220px); }
   .build-modal { height: min(650px, calc(100dvh - var(--hud-clear) - var(--hud-gap))); }
   .build-modal .build-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-content: start; }
@@ -111,17 +116,16 @@
   .brand small, .sector-crumb { display: none; }
 }
 @media (max-width: 900px) {
-  :root, .game-shell { --hud-height: 110px; --tutorial-width: min(360px, calc(100vw - 24px)); }
-  .topbar { display: grid; grid-template-columns: minmax(0, 1fr) auto; grid-template-rows: 36px 48px; padding: 7px; gap: 6px; }
-  .brand { grid-column: 1; grid-row: 1; padding: 0 8px; border-right: 0; gap: 10px; }
+  :root, .game-shell { --hud-height: 110px; --hud-button-height: 46px; --tutorial-width: min(360px, calc(100vw - 24px)); }
+  .topbar { display: grid; grid-template-columns: minmax(0, 1fr); grid-template-rows: 36px 48px; padding: 7px; gap: 6px; }
+  .brand { grid-row: 1; padding: 0 8px; margin-inline-end: calc(var(--hud-button-width) + 5px); border-right: 0; gap: 10px; }
   .brand > span:last-child { display: block; }
   .brand b { font-size: 12px; }
   .brand small, .sector-crumb { display: none; }
   .brand-mark { width: 25px; height: 25px; scale: .8; }
-  .top-actions { grid-column: 2; grid-row: 1; padding: 0; border-left: 0; }
-  .pause-button { height: 34px; font-size: 9px; }
+  .modal-trigger-strip .pause-button { position: absolute; inset: 8px 7px auto auto; height: 34px; min-height: 0; }
   .modal-trigger-strip { grid-column: 1 / -1; grid-row: 2; display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: 5px; padding: 0; overflow: visible; margin-left: 0; justify-self: stretch; width: 100%; }
-  .modal-trigger-strip .rail-button { width: 100%; min-width: 0; height: 46px; min-height: 46px; padding: 3px; flex-direction: column; gap: 3px; font-size: 10px; letter-spacing: 0; }
+  .modal-trigger-strip .rail-button { width: 100%; min-width: 0; padding: 3px; flex-direction: column; gap: 3px; }
   .modal-trigger-strip .rail-button span { display: inline; }
   .modal-trigger-strip .rail-button em, .modal-trigger-strip .rail-button kbd { display: none; }
   .modal-trigger-strip .rail-button.active::before { display: none; }
@@ -132,26 +136,19 @@
   .welcome-art { display: none; }
   .welcome-modal { display: block; min-height: 0; }
   .welcome-copy { padding: clamp(24px, 6vw, 48px); }
-  .tutorial-details-toggle { display: block; border: 1px solid #d5b66655; border-radius: 5px; color: #dfc782; font-size: 11px; background: transparent; padding: 5px 7px; }
+  .tutorial-details-toggle { display: block; min-height: 28px; padding: 3px 6px; }
   .tutorial-callout:not(.details-expanded) .tutorial-description { display: none; }
   .tutorial-callout { padding: 12px 14px; }
-  .tutorial-callout h2 { margin: 8px 0; font-size: 17px; }
-  .tutorial-callout strong { padding: 7px 9px; font-size: 12px; line-height: 1.45; }
-  .tutorial-callout p { font-size: 12px; line-height: 1.5; }
-  .tutorial-guide-actions { margin-top: 8px; gap: 8px; }
-  .tutorial-guide-actions button { padding: 6px 8px; font-size: 11px; }
-  .tutorial-footer { margin-top: 8px; justify-content: flex-end; padding-top: 4px; }
-  .tutorial-safe-note { display: none; }
-  .tutorial-exit { padding: 8px 12px; font-size: 12px; }
-  .tutorial-goal { margin: 6px 0; }
+  .tutorial-heading h2 { font-size: 17px; }
+  .tutorial-footer { margin-top: 8px; padding-top: 4px; }
+  .tutorial-footer .tutorial-button { min-height: 30px; padding: 4px 7px; }
 }
 @media (max-width: 700px) and (min-height: 561px) {
   .game-shell { --tutorial-reserve: 235px; }
   .tutorial-layer .tutorial-callout,
   .training-session:has(.map-modal) .tutorial-layer.expansion .tutorial-callout,
   .tutorial-layer.expansion[data-sector="4,5"] .tutorial-callout { top: auto; left: var(--hud-gap); right: var(--hud-gap); bottom: var(--hud-bottom); width: auto; max-height: min(38dvh, 300px); }
-  .training-session .modal-backdrop,
-  .training-session:has(.tutorial-layer.expansion) .modal-backdrop { padding-left: var(--hud-gap); padding-right: var(--hud-gap); padding-bottom: calc(var(--hud-bottom) + var(--tutorial-reserve)); }
+  .training-session .modal-backdrop { padding-inline: var(--hud-gap); padding-bottom: calc(var(--hud-bottom) + var(--tutorial-reserve)); }
   .training-session .modal { height: calc(100dvh - var(--hud-clear) - var(--hud-bottom) - var(--tutorial-reserve)); max-height: calc(100dvh - var(--hud-clear) - var(--hud-bottom) - var(--tutorial-reserve)); }
   .world-node-minimap .minimap-zoom { display: none; }
 }
@@ -169,23 +166,19 @@
   .recipe-picker-header h2 { font-size: 17px; }
 }
 @media (max-height: 560px) and (min-width: 701px) {
-  :root, .game-shell { --hud-height: 56px; --tutorial-width: 300px; }
+  :root, .game-shell { --hud-height: 56px; --hud-button-height: 40px; --tutorial-width: 300px; }
   .topbar { display: flex; gap: 8px; padding: 6px; }
   .brand, .sector-crumb { display: none; }
-  .modal-trigger-strip { flex: 1; display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); margin-left: 0; width: auto; }
-  .modal-trigger-strip .rail-button { width: 100%; min-width: 0; height: 40px; min-height: 40px; flex-direction: row; }
-  .pause-button { height: 40px; }
-  .build-modal { padding-bottom: 8px; }
-  .build-modal .panel-note { display: none; }
+  .modal-trigger-strip { flex: 1; display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); margin-left: 0; width: auto; padding: 0; }
+  .modal-trigger-strip :is(.rail-button, .pause-button) { width: 100%; min-width: 0; flex-direction: row; }
+  .modal-trigger-strip .pause-button { position: static; height: var(--hud-button-height); min-height: var(--hud-button-height); }
   .tutorial-layer .tutorial-callout { top: var(--hud-clear); bottom: var(--hud-bottom); max-height: none; }
   .tutorial-details-toggle { display: block; }
   .tutorial-callout:not(.details-expanded) .tutorial-description { display: none; }
-  .tutorial-callout h2 { margin: 8px 0; font-size: 17px; }
-  .tutorial-callout strong { padding: 7px; font-size: 12px; }
+  .tutorial-heading h2 { font-size: 17px; }
   .tutorial-callout { padding: 12px; }
-  .tutorial-safe-note { display: none; }
-  .tutorial-guide-actions, .tutorial-footer { margin-top: 7px; }
-  .training-session .modal-backdrop { padding-right: calc(var(--tutorial-width) + var(--hud-gap) * 2); padding-bottom: var(--hud-bottom); }
+  .tutorial-footer { margin-top: 7px; }
+  .training-session .modal-backdrop { padding-bottom: var(--hud-bottom); }
   .training-session .modal { height: calc(100dvh - var(--hud-clear) - var(--hud-bottom)); max-height: calc(100dvh - var(--hud-clear) - var(--hud-bottom)); }
   .welcome-modal { display: block; }
   .welcome-art { display: none; }
@@ -194,30 +187,22 @@
   .welcome-points { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
 @media (max-width: 700px) and (max-height: 760px) {
-  :root, .game-shell { --hud-height: 90px; --tutorial-reserve: 145px; }
+  :root, .game-shell { --hud-height: 90px; --hud-button-height: 40px; --tutorial-reserve: 145px; }
   .topbar { grid-template-rows: 28px 40px; padding: 5px; gap: 5px; }
   .brand-mark { scale: .65; }
-  .pause-button { height: 28px; }
-  .modal-trigger-strip .rail-button { height: 40px; min-height: 40px; }
+  .modal-trigger-strip .pause-button { inset: 5px 5px auto auto; height: 28px; }
   .shortcut-bars-layer[data-stacked="true"] .node-shortcut-bar { height: 39px; padding-block: 3px; }
   .shortcut-bars-layer[data-stacked="true"] .shortcut-slot > button { width: 33px; height: 33px; flex-basis: 33px; }
   .shortcut-bars-layer[data-stacked="true"] .shortcut-slot > button > i .node-icon { width: 24px; height: 24px; }
-  .tutorial-callout:not(.details-expanded) h2, .tutorial-callout:not(.details-expanded) .tutorial-goal { display: none; }
   .tutorial-layer .tutorial-callout,
   .training-session:has(.map-modal) .tutorial-layer.expansion .tutorial-callout,
   .tutorial-layer.expansion[data-sector="4,5"] .tutorial-callout { top: auto; left: var(--hud-gap); right: var(--hud-gap); bottom: var(--hud-bottom); width: auto; max-height: 145px; padding: 9px 11px; }
   .tutorial-callout.details-expanded { max-height: 42dvh; }
-  .tutorial-callout strong { margin-top: 6px; font-size: 11px; }
-  .tutorial-guide-actions { padding-right: 106px; }
-  .tutorial-footer { position: absolute; bottom: 9px; right: 11px; margin: 0; padding: 0; }
-  .tutorial-callout.details-expanded .tutorial-footer { position: sticky; }
-  .tutorial-callout.details-expanded .tutorial-guide-actions { padding-right: 0; }
-  .training-session .modal-backdrop,
-  .training-session:has(.tutorial-layer.expansion) .modal-backdrop { padding-left: var(--hud-gap); padding-right: var(--hud-gap); padding-bottom: calc(var(--hud-bottom) + var(--tutorial-reserve)); }
+  .tutorial-callout .tutorial-instruction { margin-top: 6px; }
+  .tutorial-footer { position: static; }
+  .training-session .modal-backdrop { padding-inline: var(--hud-gap); padding-bottom: calc(var(--hud-bottom) + var(--tutorial-reserve)); }
   .training-session .modal { height: max(120px, calc(100dvh - var(--hud-clear) - var(--hud-bottom) - var(--tutorial-reserve))); max-height: max(120px, calc(100dvh - var(--hud-clear) - var(--hud-bottom) - var(--tutorial-reserve))); }
   .training-session .modal .panel-header { min-height: 44px; padding-block: 5px; }
-  .training-session .build-modal { padding-bottom: 8px; }
-  .training-session .build-modal .panel-note { display: none; }
   .training-session .category-tabs { padding-block: 5px; }
   .training-session .category-tabs button { min-height: 30px; padding-block: 5px; }
 }

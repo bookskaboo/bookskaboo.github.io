@@ -47,6 +47,51 @@ describe('continuous logistics routes', () => {
     expect(((target.input.wood??0)+(target.output.wood??0))).toBe(1);
     for (const router of routers) { expect(router.input).toEqual({}); expect(router.output).toEqual({}); expect(router.processingPaused).toBe(false); }
   });
+  it.each([undefined, 1] as const)('routes a selected item and every other item to opposite outlets after reload (saved outlet %s)', outputPort => {
+    const { engine, add, link } = fixture();
+    const source = add('woodenChest', 'source', { output: { wood: 1, iron: 1, stone: 1 }, outputQueue: ['wood', 'iron', 'stone'] });
+    const filter = add('filter', 'filter', { filterItem: 'wood' });
+    const upper = add('woodenChest', 'upper'), lower = add('woodenChest', 'lower');
+    link(source, filter); link(filter, upper, 0); link(filter, lower, 1);
+    if (outputPort !== undefined) expect(engine.setFilterItem(filter.id, 'wood', outputPort)).toBe(true);
+    const reloaded = new GameEngine(JSON.parse(JSON.stringify(engine.getState())), { autosave: false });
+    for (let i = 0; i < 10; i++) reloaded.tick(400);
+    const received = (id: string) => reloaded.getSector().nodes.find(node => node.id === id)!.output;
+    expect(received(outputPort === 1 ? 'lower' : 'upper')).toEqual({ wood: 1 });
+    expect(received(outputPort === 1 ? 'upper' : 'lower')).toEqual({ iron: 1, stone: 1 });
+  });
+  it('refunds a buffered item in flight when its Filter outlet changes, then routes it through the new outlet', () => {
+    const { engine, add, link } = fixture();
+    const filter = add('filter', 'filter', { filterItem: 'wood', output: { wood: 1 } });
+    const upper = add('woodenChest', 'upper'), lower = add('woodenChest', 'lower');
+    link(filter, upper, 0);
+    engine.tick(400);
+    expect(engine.getState().inFlightTransfers?.map(transfer => transfer.to)).toEqual(['upper']);
+    expect(engine.setFilterItem(filter.id, 'wood', 1)).toBe(true);
+    engine.tick(1000);
+    expect(upper.output).toEqual({});
+    expect(filter.output.wood).toBe(1);
+    expect(filter.filterBlocked).toBe('selected');
+    link(filter, lower, 1);
+    for (let i = 0; i < 6; i++) engine.tick(400);
+    expect(lower.output).toEqual({ wood: 1 });
+    expect(filter.filterBlocked).toBeUndefined();
+  });
+  it('allows extraction only through the outlet assigned to that reserve', () => {
+    const { engine, add, link } = fixture();
+    const forest = add('forest', 'forest', { resourceItem: 'wood', resourceRemaining: 100 });
+    const filter = add('filter', 'filter', { filterItem: 'wood' });
+    const upper = add('extractor', 'upper', { processingPaused: false });
+    const lower = add('extractor', 'lower', { processingPaused: false });
+    link(forest, filter); link(filter, upper, 0); link(filter, lower, 1);
+    expect(engine.setFilterItem(filter.id, 'wood', 1)).toBe(true);
+    for (let i = 0; i < 5; i++) engine.tick(1000);
+    expect(upper.output.wood ?? 0).toBe(0);
+    expect(lower.output.wood).toBeGreaterThan(0);
+    expect(engine.setFilterItem(filter.id, 'stone', 1)).toBe(true);
+    for (let i = 0; i < 5; i++) engine.tick(1000);
+    expect(upper.output.wood).toBeGreaterThan(0);
+  });
   it('reserves final destination capacity across routes and refunds a transfer if any route leg is removed', () => {
     const { engine, add, link } = fixture();
     const source = add('woodenChest', 'source', { output: { wood: 3 } });

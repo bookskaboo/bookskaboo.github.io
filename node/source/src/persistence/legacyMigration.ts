@@ -3,7 +3,7 @@ import { isWorldGridSize } from '../domain/worldGrid';
 import { NODE_DEFINITIONS } from '../content/nodes';
 import { RECIPES } from '../content/recipes';
 import { getResearchProject, getResearchCosts, RESEARCH_PROJECTS } from '../content/research';
-import { migrateRetiredNodes } from '../content/retiredNodes';
+import { isRetiredWasteNode, migratedWasteNodeName, migrateRetiredNodes } from '../content/retiredNodes';
 import { DEFERRED_POWER_RESEARCH } from '../content/deferredPower';
 import { RETIRED_RESEARCH } from '../content/retiredResearch';
 import { LATE_RESEARCH } from '../content/progression';
@@ -18,6 +18,7 @@ const LEGACY_ITEMS: Record<string, ItemId> = {
   IRON_PLATE: 'iron-plate', COPPER_PLATE: 'copper-plate', MYTHRIL_PLATE: 'mythril-plate', IRON_GEAR: 'iron-gear', COPPER_GEAR: 'copper-gear', MYTHRIL_GEAR: 'mythril-gear',
   IRON_WIRE: 'iron-wire', COPPER_WIRE: 'copper-wire', MYTHRIL_WIRE: 'mythril-wire', MOTOR: 'motor', CIRCUIT_A: 'circuit-a', SIMPLE_CORE: 'simple-core', BASIC_CORE: 'basic-core', AUTOMATA_CORE: 'automata-core',
   SIMPLE_ROBOT_FRAME: 'simple-robot-frame', SIMPLE_ROBOT_GUN: 'simple-robot-gun', SMALL_SUPPRESSION_BOT: 'suppression-bot', SUPPRESSION_BOT: 'suppression-bot', WATER: 'water', POWER: 'power', FOREST_GROWTH: 'forest-growth',
+  SLAG: 'slag', METALLIC_FINES: 'metallic-fines', SPENT_FLUX: 'spent-flux', GLASSY_CRUST: 'glassy-crust',
 };
 
 const legacyItem = (value: unknown): ItemId | undefined => typeof value === 'string' ? LEGACY_ITEMS[value] ?? (value in LEGACY_ITEMS ? LEGACY_ITEMS[value] : undefined) : undefined;
@@ -28,6 +29,7 @@ const legacyBag = (value: unknown) => Object.fromEntries(entries(value).flatMap(
 
 const legacyKind = (value: unknown): NodeKind | undefined => {
   if (value === 'automataCoreAssembler') return 'assembler';
+  if (isRetiredWasteNode(value)) return 'wasteHopper';
   if (typeof value === 'string' && value in NODE_DEFINITIONS) return value as NodeKind;
   if (value === 'gearPress' || value === 'wireMill') return 'refiner';
   if (value === 'motorFactory' || value === 'circuitAConduit') return 'assembler';
@@ -79,6 +81,7 @@ function migrateFactory(factoryValue: unknown, sectorKey: string, unlocked: bool
       cycleMs: kind === 'researchCenter' ? RESEARCH_CENTER_BASE_CYCLE_MS : recipeId ? RECIPES[recipeId]?.cycleMs ?? 1000 : 1000, constructedAt: 0, constructionMs: constructed.complete === false ? 1500 : 0,
     };
     if (oldNode.kind === 'automataCoreAssembler' && node.name === 'Automata Core Assembler') node.name = 'Assembler';
+    if (isRetiredWasteNode(oldNode.kind)) node.name = migratedWasteNodeName(node.name);
     if (outputItem) node.output[outputItem] = Math.max(0, Math.floor(number(extractor.stored ?? processor.stored)));
     if (kind === 'iron' || kind === 'copper' || kind === 'mythril' || kind === 'stoneDeposit' || kind === 'forest') {
       const source = kind === 'stoneDeposit' ? record(runtime.stone) : record(runtime[kind]);

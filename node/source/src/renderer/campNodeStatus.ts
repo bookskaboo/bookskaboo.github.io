@@ -8,7 +8,7 @@ export interface CampNodeStatus { root: Container; halo: Graphics; plate: Graphi
 export function createCampNodeStatus(): CampNodeStatus {
   const root = new Container(), halo = new Graphics(), plate = new Graphics(), bar = new Graphics();
   root.eventMode = 'none'; root.label = 'camp-check-status';
-  const ap = label('', 16, 0xffffff, 'bold', 'monospace'), check = label('', 12, 0xffffff, 'bold', 'monospace');
+  const ap = label('', 16, 0xffffff, 'normal', 'mono'), check = label('', 12, 0xffffff, 'normal', 'mono');
   ap.anchor.set(.5); check.anchor.set(.5); ap.position.set(0, 20); check.position.set(0, 58);
   root.addChild(plate, bar, ap, check); halo.eventMode = 'none';
   return { root, halo, plate, bar, ap, check };

@@ -178,7 +178,7 @@ describe('reviewed production implementation', () => {
     expect(stored(engine.getSector().nodes[1],'iron')).toBe(22*payload);
     const roads = setup([machine('woodenChest','source',{output:{iron:1000}}),machine('road','out',{roadMode:'export',pairedSectorId:'6,5',pairedRoadId:'in'})],completed);
     link(roads,'source','out');
-    roads.getState().sectors['6,5'] = { ...structuredClone(roads.getSector()), id:'6,5',x:6,nodes:[machine('road','in',{roadMode:'import',pairedSectorId:'5,5',pairedRoadId:'out'}),machine('warehouse','sink',{processingPaused:true})],connections:[{id:'receive',from:'in',to:'sink',createdAt:0}] };
+    roads.getState().sectors['6,5'] = { ...structuredClone(roads.getSector()), id:'6,5',x:6,nodes:[machine('road','in',{roadMode:'import',pairedSectorId:'5,5',pairedRoadId:'out'}),machine('woodenChest','sink')],connections:[{id:'receive',from:'in',to:'sink',createdAt:0}] };
     advance(roads,15000);
     expect(stored(roads.getState().sectors['6,5'].nodes[1],'iron')).toBe(3*payload);
     expect(stored(roads.getSector().nodes[0],'iron')+stored(roads.getState().sectors['6,5'].nodes[1],'iron')).toBe(1000);
@@ -198,12 +198,12 @@ describe('reviewed production implementation', () => {
     const engine=setup([machine('mythril','old',{resourceItem:'mythril',resourceRemaining:100}),machine('resourceGolem','golem',{golemMineral:'mythril',health:9875}),machine('hydroProcessor','legacy',{recipeId:'slagwashing',progressMs:11900,batch:{recipeId:'slagwashing',outputs:{'mineral-aggregate':2,'metal-residue':1}}})]);
     expect(engine.getSector().retiredMythril?.nodes[0].id).toBe('old');
     expect(engine.getSector().nodes.some(node=>node.id==='old')).toBe(false);
-    expect(engine.getSector().nodes.find(node=>node.id==='golem')?.health).toBe(235);
+    expect(engine.getSector().nodes.find(node=>node.id==='golem')?.health).toBe(25);
     advance(engine,100);
     const legacy=engine.getSector().nodes.find(node=>node.id==='legacy')!;
     expect(legacy.output).toEqual({'mineral-aggregate':2,'metal-residue':1});expect(legacy.recipeId).toBeUndefined();
     const loaded=new GameEngine(normalizeLegacy(structuredClone(engine.getState()))!);
     expect(loaded.getSector().retiredMythril?.nodes).toHaveLength(1);
-    expect(loaded.getSector().nodes.find(node=>node.id==='golem')?.health).toBe(235);
+    expect(loaded.getSector().nodes.find(node=>node.id==='golem')?.health).toBe(25);
   });
 });

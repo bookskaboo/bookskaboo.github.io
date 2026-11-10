@@ -11,7 +11,8 @@
   width:100%;
   min-height:62px;
   grid-template-columns:38px minmax(0,1fr) auto;
-  gap:9px;
+  grid-template-rows:auto 1fr;
+  gap:var(--modal-paragraph-gap) 9px;
   padding:10px;
   border:1px solid #43474d;
   border-radius:11px;
@@ -27,7 +28,7 @@
 .build-card > i { grid-column:1; grid-row:1; }
 .build-card > span { display:contents; }
 .build-card > span > b { grid-column:2; grid-row:1; }
-.build-card > span > small { grid-column:1 / -1; grid-row:2; display:block; overflow:visible; margin-top:0; }
+.build-card > span > small { grid-column:1 / -1; grid-row:2; align-self:start; display:block; overflow:visible; margin-top:0; }
 .build-card > em { grid-column:3; grid-row:1; }
 .build-card em { border-radius:999px; padding:4px 6px; }
 .build-card.locked { opacity:.72; filter:none; background:linear-gradient(145deg,#292233,#201e26); border-color:#695777; }
@@ -85,7 +86,7 @@
 .research-card.active { opacity:1; border-color:#66b892; background:linear-gradient(145deg,#263c32,#202b26); box-shadow:inset 0 0 24px #66b89212,0 0 0 1px #66b89216; }
 .research-card.complete { opacity:1; border-color:#568fba; background:linear-gradient(145deg,#263946,#1e2b34); }
 .research-card.milestone:not(.complete) { border-style:dashed; }
-.research-card-icon { width:44px; height:44px; display:grid; place-items:center; border:1px solid #50575d; border-radius:10px; color:#d5b666; background:#15171966; font:normal 21px/1 Georgia,serif; box-shadow:inset 0 1px #ffffff0a; }
+.research-card-icon { width:44px; height:44px; display:grid; place-items:center; border:1px solid #50575d; border-radius:10px; color:#d5b666; background:#15171966; font:normal 21px/1 var(--ui-font-family); box-shadow:inset 0 1px #ffffff0a; }
 .research-card.active .research-card-icon { color:#79d5aa; border-color:#5c9b7f; box-shadow:0 0 12px #66b8922f,inset 0 1px #ffffff0d; }
 .research-card.complete .research-card-icon { color:#7fc0ee; border-color:#568fba; }
 .research-card.locked .research-card-icon { color:#858b90; }
@@ -93,7 +94,7 @@
 .research-card.requirement-filter-match,.research-card.research-search-match { opacity:1; }
 .research-layout { display:block; height:calc(100% - 76px); }
 .research-browser { width:100%; height:100%; }
-.ui-hover-tooltip em { display:block; margin-top:8px; padding-top:7px; border-top:1px solid #ffffff12; color:#c9aa76; font:italic 9px/1.45 Georgia,serif; }
+.ui-hover-tooltip em { display:block; margin-top:8px; padding-top:7px; border-top:1px solid #ffffff12; color:#c9aa76; font:italic 9px/1.45 var(--ui-font-family); }
 .ui-hover-tooltip em:first-child { margin-top:0; padding-top:0; border-top:0; }
 
 .option-list { display:flex; flex-direction:column; gap:10px; }
@@ -113,7 +114,7 @@
   transition:transform 120ms ease,border-color 120ms ease,background 120ms ease;
 }
 .option-action:hover,.toggle-row:hover { transform:translateY(-1px); border-color:#687078; background:linear-gradient(145deg,#30353a,#24282c); }
-.option-action > i,.toggle-row > em { width:42px; height:42px; display:grid; place-items:center; border:1px solid #515960; border-radius:9px; color:#9fb8c8; background:#171b1f; font:normal 19px/1 Georgia,serif; }
+.option-action > i,.toggle-row > em { width:42px; height:42px; display:grid; place-items:center; border:1px solid #515960; border-radius:9px; color:#9fb8c8; background:#171b1f; font:normal 19px/1 var(--ui-font-family); }
 .recipes-option { border-color:#6c6250; }
 .recipes-option > i { border-color:#9a835e; color:#f0d7a5; background:#2b251b; }
 .recipes-option > i .node-icon { width:22px; height:22px; }

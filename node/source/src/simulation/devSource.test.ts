@@ -61,12 +61,12 @@ describe('Dev Source', () => {
     expect(loaded.getSector().nodes.some(n => n.id === id)).toBe(true);
   });
 
-  it('has universal compatibility with every existing input socket, including power and unconfigured recipes', () => {
+  it('supports ordinary input sockets, including power and unconfigured recipes, and respects the Road feed rule', () => {
     const source = machine('devSource', 'dev');
     for (const kind of Object.keys(NODE_DEFINITIONS) as NodeKind[]) {
       const target = machine(kind, 'target', 1800, { roadMode: 'export' });
       for (const [port] of getEffectiveNodeInputFamilies(target, ['treePlanter']).entries()) {
-        expect(portFamiliesCompatible(source, 0, target, port, ['treePlanter']), `${kind} input ${port}`).toBe(true);
+        expect(portFamiliesCompatible(source, 0, target, port, ['treePlanter']), `${kind} input ${port}`).toBe(kind !== 'road');
       }
     }
   });
@@ -152,12 +152,13 @@ describe('Dev Source', () => {
     expect(node('extractor').input).toEqual({});
   });
 
-  it('powers Lake Intakes and Golem fights without pretending to be an ordinary Lake or deposit', () => {
-    const { engine, node } = setup([machine('lakeIntake', 'intake', 1100), machine('resourceGolem', 'golem', 2700, { health: 180, golemCostVersion: 2, golemMineral: 'iron' })]);
-    expect(engine.connect('dev', 'intake')).toBe(true);
+  it('supplies Pumps and Golem fights without pretending to be a Lake or deposit', () => {
+    const { engine, node } = setup([machine('fluidLink', 'pump', 1100), machine('resourceGolem', 'golem', 2700, { health: 180, golemCostVersion: 2, golemMineral: 'iron' })]);
+    expect(engine.connect('dev', 'pump')).toBe(true);
     expect(engine.connect('dev', 'golem')).toBe(true);
     advance(engine, 1);
-    expect(node('intake').output.water).toBeGreaterThan(0);
+    expect(node('pump').output.water).toBeGreaterThan(0);
+    expect(engine.getState().extracted?.water ?? 0).toBe(0);
     expect(node('golem').health).toBeLessThan(180);
   });
 

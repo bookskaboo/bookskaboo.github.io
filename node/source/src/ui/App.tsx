@@ -16,12 +16,12 @@ import { WelcomeModal } from './components/WelcomeModal';
 import { ConfirmModal } from './components/ConfirmModal';
 import { RailButton } from './components/RailButton';
 import { UiTooltipLayer } from './components/UiTooltipLayer';
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { BUILDABLE_NODES, isNodeUnlocked, NODE_DEFINITIONS, getBuildNodeDefinition } from '../content/nodes';
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import { BUILDABLE_NODES, isNodeUnlocked, NODE_DEFINITIONS } from '../content/nodes';
 import { ITEM_NAMES } from '../content/items';
 import { getNodeModule } from '../content/nodeModules';
 import { CONNECTOR_MIRRORING_RESEARCH, isProductionMachine } from '../content/productionNodes';
-import type { CameraState, GameEvent, ItemId, NodeKind } from '../domain/types';
+import type { CameraState, GameEvent, GameState, ItemId, NodeKind } from '../domain/types';
 import { readSlots, type SaveSlot } from '../persistence/saves';
 import { PixiPlayfield, type PlayfieldTooltip, type SelectionInfo } from '../renderer/PixiPlayfield';
 import { CONTROL_GROUP_COLORS } from '../domain/controlGroups';
@@ -33,10 +33,11 @@ import { useGridSnapKey } from './useGridSnapKey';
 import { SelectionActions } from './SelectionActions';
 import { canDeleteNode } from '../renderer/playfieldNodeState';
 import { GameEngine, createInitialState } from '../simulation/engine';
-import { getSectorWorldSize, sectorDistance } from '../simulation/worldGeneration';
+import { getWorldFieldSize, sectorDistance } from '../simulation/worldGeneration';
 import { NodeMinimap } from './NodeMinimap';
 import { NodeInspector } from './NodeInspector';
 import { NodeRecipePicker } from './NodeRecipePicker';
+import { FilterPicker } from './FilterPicker';
 import { RoadFlowPanel } from './RoadFlowPanel';
 import { TributeResourcePicker } from './TributeResourcePicker';
 import { RecipesPanel } from './RecipesPanel';
@@ -52,7 +53,7 @@ import { TutorialGuide, TutorialMenu, type TrainingSession } from './Tutorials';
 import { createTutorialState, correctTutorialPlacement, type TutorialStage, type TutorialPlacementTarget } from '../tutorials/tutorialRuntime';
 import type { TutorialKind } from '../tutorials/tutorialRuntime';
 import { permitsTutorialChoice, tutorialChoices, tutorialRecipeChoice } from '../tutorials/tutorialChoices';
-import { shortcutDockLayout } from './responsiveLayout';
+import { measureFieldViewport, shortcutDockLayout } from './responsiveLayout';
 import { useViewport } from './useViewport';
 import { poolCapacity } from '../simulation/progression';
 import { createDefaultShortcutBars, addUnlockedNodeShortcuts, DEFAULT_SHORTCUT_BAR_GROUPS, DEFAULT_SHORTCUT_BARS, reconcileShortcutBars, SHORTCUT_BAR_IDS, ShortcutBars, type ShortcutBarGroup, type ShortcutBarId, type ShortcutBarsState } from './ShortcutBars';
@@ -61,9 +62,13 @@ type Panel = 'build' | 'inventory' | 'journal' | 'research' | 'map' | 'options' 
 type NoticeTone = 'research' | 'warning';
 interface Notice { id: string; message: string; label: string; tone: NoticeTone; projectId?: string }
 
+function recordedNoticeIds(game: GameState) {
+  return new Set([...(game.researchLog ?? []), ...game.events].map(event => event.id));
+}
+
 // Preserve the live factory and each sector's camera across development updates.
 const initialGame = import.meta.hot?.data.gameState ?? createInitialState();
-if (!import.meta.hot?.data.gameState) initialGame.sectors[initialGame.activeSectorId].camera = startingCamera(initialGame.sectors[initialGame.activeSectorId].nodes, window.innerWidth, window.innerHeight);
+let needsStartingCamera = !import.meta.hot?.data.gameState;
 const ENGINE = new GameEngine(initialGame);
 if (import.meta.hot) import.meta.hot.dispose((data) => { data.gameState = structuredClone(ENGINE.getState()); });
 export function App() {
@@ -94,11 +99,17 @@ export function App() {
   const invitationOpen = Boolean(tutorialInvitation);
   const dismissTutorialInvitation = useCallback(() => { if (tutorialInvitation) ENGINE.acknowledgeTutorialInvitation(tutorialInvitation); }, [tutorialInvitation]);
   useEffect(() => {
-    if (!invitationOpen) return;
-    const onKey = (event: KeyboardEvent) => { event.stopPropagation(); if (event.key === 'Escape') { event.preventDefault(); dismissTutorialInvitation(); } };
+    if (!invitationOpen && !tutorialMenu) return;
+    const onKey = (event: KeyboardEvent) => {
+      event.stopPropagation();
+      if (event.key !== 'Escape') return;
+      event.preventDefault();
+      if (tutorialMenu) setTutorialMenu(false);
+      else dismissTutorialInvitation();
+    };
     window.addEventListener('keydown', onKey, true);
     return () => window.removeEventListener('keydown', onKey, true);
-  }, [invitationOpen, dismissTutorialInvitation]);
+  }, [invitationOpen, tutorialMenu, dismissTutorialInvitation]);
   const startTutorial = (kind: TutorialKind) => { if (!isTutorialUnlocked(kind, ENGINE.getState())) return; if (kind === 'expansion' || kind === 'monster-camps') ENGINE.acknowledgeTutorialInvitation(kind); setTraining({ id: crypto.randomUUID(), kind, engine: new GameEngine(createTutorialState(kind), { autosave: false }) }); setTutorialMenu(false); };
   const exitTutorial = () => { setTraining(undefined); setTutorialMenu(true); };
   const finishTutorial = () => {
@@ -111,6 +122,12 @@ export function App() {
 }
 
 function FactoryApp({ engine, training, welcome, onShowWelcome, onCloseWelcome, onTutorials, onExitTutorial, onFinishTutorial }: { engine: GameEngine; training?: TrainingSession; welcome: boolean; onShowWelcome(): void; onCloseWelcome(): void; onTutorials(): void; onExitTutorial(): void; onFinishTutorial(): void }) {
+  const fieldViewportRef = useRef<HTMLDivElement>(null);
+  useLayoutEffect(() => {
+    if (training || !needsStartingCamera || !fieldViewportRef.current) return;
+    engine.setCamera(startingCamera(engine.getSector().nodes, measureFieldViewport(fieldViewportRef.current)));
+    needsStartingCamera = false;
+  }, [engine, training]);
   const [, forceRender] = useState(0);
   const [panel, setPanel] = useState<Panel>(null);
   const [returnPanel, setReturnPanel] = useState<Exclude<Panel, null> | null>(null);
@@ -122,12 +139,11 @@ function FactoryApp({ engine, training, welcome, onShowWelcome, onCloseWelcome, 
   const selectNodes = (ids: string[], info?: SelectionInfo) => {
     setSelectedIds(ids); setSelectionInfo(info); setInspectingNodeId(undefined);
     const node = ids.length === 1 ? engine.getSector().nodes.find(node => node.id === ids[0]) : undefined;
-    setConfiguringNodeId(node && ['recipe', 'tribute', 'road'].includes(getNodeModule(node.kind).controls.configuration ?? '') ? node.id : undefined);
+    setConfiguringNodeId(node && ['recipe', 'filter', 'tribute', 'road'].includes(getNodeModule(node.kind).controls.configuration ?? '') ? node.id : undefined);
   };
   const [selectedConnection, setSelectedConnection] = useState<string>();
   const [hoveredNodeId, setHoveredNodeId] = useState<string>();
-  const [placement, setPlacement] = useState<{ kind: NodeKind; fromShortcut: boolean }>();
-  const placing = placement?.kind;
+  const [placing, setPlacement] = useState<NodeKind>();
   const gridSnapHeld = useGridSnapKey();
   const snapToGrid = Boolean(engine.getState().preferences.snapToGrid || gridSnapHeld);
   const [tutorialNodePositions, setTutorialNodePositions] = useState<Record<string, { x: number; y: number }>>();
@@ -140,7 +156,6 @@ function FactoryApp({ engine, training, welcome, onShowWelcome, onCloseWelcome, 
     const timer = window.setTimeout(() => setPlacementCorrection(undefined), 12000);
     return () => window.clearTimeout(timer);
   }, [placementCorrection]);
-  const [connectionSource, setConnectionSource] = useState<string>();
   const [buildCategory, setBuildCategory] = useState('All');
   const [saveSlots, setSaveSlots] = useState<Array<SaveSlot | null>>(() => readSlots());
   const [confirmDelete, setConfirmDelete] = useState(false);
@@ -155,6 +170,15 @@ function FactoryApp({ engine, training, welcome, onShowWelcome, onCloseWelcome, 
     return () => { window.removeEventListener('keyup', keyUp); window.removeEventListener('blur', clear); };
   }, []);
   const [tooltip, setTooltip] = useState<PlayfieldTooltip>();
+  const positionPlayfieldTooltip = useCallback((element: HTMLDivElement | null) => {
+    if (!element || !tooltip) return;
+    const x = Math.max(8, Math.min(window.innerWidth - element.offsetWidth - 8, tooltip.x + 16));
+    const below = tooltip.y + 16;
+    const above = tooltip.y - element.offsetHeight - 10;
+    const bottom = window.innerHeight - element.offsetHeight - 8;
+    element.style.left = `${x}px`;
+    element.style.top = `${Math.max(8, below > bottom && above >= 8 ? above : Math.min(below, bottom))}px`;
+  }, [tooltip]);
   const tooltipHovered = useRef(false);
   const tooltipClearTimer = useRef<number | undefined>(undefined);
   useEffect(() => () => window.clearTimeout(tooltipClearTimer.current), []);
@@ -195,8 +219,15 @@ function FactoryApp({ engine, training, welcome, onShowWelcome, onCloseWelcome, 
   const minimapHovered = useRef(false);
   const handleMinimapHover = useCallback((hovered: boolean) => { minimapHovered.current = hovered; if (hovered) { setTooltip(undefined); setHoveredNodeId(undefined); } }, []);
   const [camera, setCamera] = useState<CameraState>(() => ({ ...engine.getSector().camera }));
-  const seenNoticeIds = useRef(new Set([...(engine.getState().researchLog ?? []), ...engine.getState().events].map(event => event.id)));
+  const seenNoticeIds = useRef(recordedNoticeIds(engine.getState()));
   const noticeTimers = useRef(new Map<string, number>());
+  const loadSave = (slot: SaveSlot) => {
+    engine.replaceState(slot.state);
+    seenNoticeIds.current = recordedNoticeIds(engine.getState());
+    noticeTimers.current.forEach(timer => window.clearTimeout(timer));
+    noticeTimers.current.clear();
+    setNotices([]);
+  };
   const knownShortcutUnlocks = useRef(new Set((training ? undefined : readKnownShortcutUnlocks()) ?? SHORTCUT_BAR_IDS.flatMap((id) => shortcutBars[id].assignments.filter((kind): kind is NodeKind => Boolean(kind)))));
 
   useEffect(() => engine.subscribe(() => forceRender((v) => v + 1)), [engine]);
@@ -260,7 +291,7 @@ function FactoryApp({ engine, training, welcome, onShowWelcome, onCloseWelcome, 
   const openUnlock = (projectId: string, fromJournal = false, nodeKind?: NodeKind) => {
     const destination = unlockDestination(projectId, nodeKind);
     setUnlockFocus(destination); setUnlockVisit(value => value + 1);
-    setPlacement(undefined); setConnectionSource(undefined); setConfiguringNodeId(undefined);
+    setPlacement(undefined); setConfiguringNodeId(undefined);
     setReturnPanel(fromJournal ? 'journal' : null); setPanel(destination.panel);
     if (destination.panel === 'build') setBuildCategory('All');
   };
@@ -329,10 +360,10 @@ function FactoryApp({ engine, training, welcome, onShowWelcome, onCloseWelcome, 
       if (pendingGroupNodes || pendingDisbandGroup) { if (key === 'escape') { event.preventDefault(); setPendingGroupNodes(undefined); setPendingDisbandGroup(undefined); } return; }
       if (confirmDelete) { if (key === 'escape') { event.preventDefault(); setConfirmDelete(false); } return; }
       if (configuringNodeId && key === 'escape') { event.preventDefault(); setConfiguringNodeId(undefined); return; }
-      if (!event.repeat && commandModifier && !event.altKey && !event.shiftKey && key === 'z') { event.preventDefault(); engine.undo(); setSelectedIds([]); setSelectedConnection(undefined); setConnectionSource(undefined); return; }
+      if (!event.repeat && commandModifier && !event.altKey && !event.shiftKey && key === 'z') { event.preventDefault(); engine.undo(); setSelectedIds([]); setSelectedConnection(undefined); return; }
       if (!event.repeat && commandModifier && !event.altKey && !event.shiftKey && key === 'c') { if (training) { event.preventDefault(); return; } if (selectedIds.length) { event.preventDefault(); const ids = engine.duplicateNodes(selectedIds); if (ids.length) setSelectedIds(ids); } return; }
       if (!event.repeat && plainKey && (key === 'delete' || key === 'backspace')) { event.preventDefault(); requestDelete(); return; }
-      if (key === 'escape') { recipeCopySource.current = undefined; setPlacement(undefined); dismissPanel(); setConnectionSource(undefined); setSelectedIds([]); setSelectedConnection(undefined); setTooltip(undefined); return; }
+      if (key === 'escape') { recipeCopySource.current = undefined; setPlacement(undefined); dismissPanel(); setSelectedIds([]); setSelectedConnection(undefined); setTooltip(undefined); return; }
       if (!event.repeat && plainKey && key === 'b') { event.preventDefault(); togglePanel('build'); return; }
       if (!event.repeat && plainKey && key === 'j') { event.preventDefault(); togglePanel('journal'); return; }
       if (!event.repeat && plainKey && key === 'o') { event.preventDefault(); togglePanel('options'); return; }
@@ -347,7 +378,7 @@ function FactoryApp({ engine, training, welcome, onShowWelcome, onCloseWelcome, 
       if (!event.repeat && !event.metaKey && !event.altKey && !(event.ctrlKey && event.shiftKey) && digitShortcut) {
         const digit = Number(digitShortcut[1]);
         const barId = event.ctrlKey ? 'storage' : event.shiftKey ? 'logistics' : 'production'; const quick = shortcutBars[barId].assignments[digit - 1];
-        if (quick && canBuild(quick) && isNodeUnlocked(quick, game.research.unlocked)) { event.preventDefault(); setPlacement({ kind: quick, fromShortcut: true }); closePanels(); }
+        if (quick && canBuild(quick) && isNodeUnlocked(quick, game.research.unlocked)) { event.preventDefault(); setPlacement(quick); closePanels(); }
       }
     };
     window.addEventListener('keydown', onKey); return () => window.removeEventListener('keydown', onKey);
@@ -373,13 +404,13 @@ function FactoryApp({ engine, training, welcome, onShowWelcome, onCloseWelcome, 
   const travelToSector = (id: string) => {
     const target = game.sectors[id];
     if (!target?.unlocked || !permitsTutorialChoice(choices?.sectorId, id)) return;
-    const overview = training ? undefined : sectorOverviewCamera(getSectorWorldSize(target, game.research.completed), { width: window.innerWidth, height: window.innerHeight });
+    const overview = training || !fieldViewportRef.current ? undefined : sectorOverviewCamera(getWorldFieldSize(game), measureFieldViewport(fieldViewportRef.current));
     engine.switchSector(id, overview);
     setSelectedIds([]);
   };
-  const startPlacement = (kind: NodeKind, fromShortcut = false) => {
+  const startPlacement = (kind: NodeKind) => {
     if (!canBuild(kind)) return;
-    setPlacement({ kind, fromShortcut });
+    setPlacement(kind);
     closePanels();
   };
   const place = (kind: NodeKind, x: number, y: number, repeat: boolean) => {
@@ -394,8 +425,10 @@ function FactoryApp({ engine, training, welcome, onShowWelcome, onCloseWelcome, 
         setPlacementCorrection({ id: sequence, text: `${NODE_DEFINITIONS[kind].name} moved to the marked spot. ${asides[sequence % asides.length]}` });
       }
       setSelectedIds([id]);
-      if (!repeat || training) setPlacement(undefined);
-      if (getNodeModule(kind).controls.configuration === 'recipe') setConfiguringNodeId(id);
+      if (repeat && !training) return;
+      setPlacement(undefined);
+      const configuration = getNodeModule(kind).controls.configuration;
+      if (configuration === 'recipe' || configuration === 'filter') setConfiguringNodeId(id);
     } else {
       setTooltip(undefined);
       setInteractionFailure({ title: kind === 'road' ? 'Road placement unavailable' : 'Placement unavailable', detail: engine.getNodePlacementError(kind, destination.x, destination.y), x: destination.x * camera.zoom + camera.x, y: destination.y * camera.zoom + camera.y });
@@ -414,7 +447,7 @@ function FactoryApp({ engine, training, welcome, onShowWelcome, onCloseWelcome, 
     if (!node) return;
     setSelectedIds([id]);
     const configuration = getNodeModule(node.kind).controls.configuration;
-    if (configuration === 'recipe' || configuration === 'tribute' || configuration === 'road') { closePanels(); setConfiguringNodeId(id); }
+    if (configuration === 'recipe' || configuration === 'filter' || configuration === 'tribute' || configuration === 'road') { closePanels(); setConfiguringNodeId(id); }
     else if (configuration === 'research') togglePanel('research');
     else { closePanels(); if (configuration) setInspectingNodeId(id); }
   };
@@ -423,7 +456,9 @@ function FactoryApp({ engine, training, welcome, onShowWelcome, onCloseWelcome, 
     <main className={training ? "game-shell training-session" : "game-shell"} style={{ '--shortcut-dock-height': `${dockLayout.height}px` } as React.CSSProperties}>
       <div className="ambient ambient-a" /><div className="ambient ambient-b" />
       <PixiPlayfield
-        engine={engine} revision={game.revision} selectableNodeId={choices?.selectableNodeId} selectedIds={selectedIds} selectedConnection={selectedConnection} placing={placing} snapToGrid={snapToGrid} connectionSource={connectionSource}
+        viewportRef={fieldViewportRef}
+        engine={engine} revision={game.revision} selectableNodeId={choices?.selectableNodeId} selectedIds={selectedIds} selectedConnection={selectedConnection} placing={placing} snapToGrid={snapToGrid}
+        roadPlacementPoint={training && placing === 'road' ? point => correctTutorialPlacement('road', point, tutorialTarget) : undefined}
         onCopyRecipe={id => {
           if (recipeCopySource.current === undefined) return false;
           const target = sector.nodes.find(node => node.id === id);
@@ -441,13 +476,9 @@ function FactoryApp({ engine, training, welcome, onShowWelcome, onCloseWelcome, 
           const group = sector.controlGroups?.find(group => group.nodeIds.includes(id));
           if (group && !priority) { setPendingDisbandGroup(group.id); return; }
           if (selectedIds.length >= 2 && selectedIds.includes(id)) { setPendingGroupNodes([...selectedIds]); return; }
-        }} onPlace={place} onConnect={(from, to, fromPort, toPort, replaceConnectionId) => {
-          const connected = engine.connectPorts(from, fromPort, to, toPort, replaceConnectionId);
-          setConnectionSource(undefined);
-          return connected;
-        }}
+        }} onPlace={place} onConnect={(from, to, fromPort, toPort, replaceConnectionId) => engine.connectPorts(from, fromPort, to, toPort, replaceConnectionId)}
         onConnectionRejected={failure => { setTooltip(undefined); setInteractionFailure(failure); }}
-        onConnectionSource={setConnectionSource} onConnectionSelect={setSelectedConnection} onDeleteConnection={(id) => { engine.deleteConnection(id); setSelectedConnection(undefined); }}
+        onConnectionSelect={setSelectedConnection} onDeleteConnection={(id) => { engine.deleteConnection(id); setSelectedConnection(undefined); }}
         onDeleteNode={requestDeleteNode} onCycleInputPorts={(id) => engine.cycleNodeInputOrder(id)} onCycleOutputPorts={(id) => engine.cycleNodeOutputPosition(id)} onRotate={(id) => engine.rotateNode(id)} onConfigure={configureNode}
         onClonePlacement={(kind) => { if (isNodeUnlocked(kind, game.research.unlocked)) startPlacement(kind); }} onHoverNode={setHoveredNodeId} onTooltip={handleTooltip}
         jointMoveHint={Boolean(training && tutorialStage === 'logistics-joint-move')}
@@ -469,15 +500,13 @@ function FactoryApp({ engine, training, welcome, onShowWelcome, onCloseWelcome, 
           <RailButton tone="build" icon="＋" label="Build" shortcut="B" active={panel === 'build'} onClick={() => togglePanel('build')} />
           <RailButton tone="options" icon="⚙" label="Options" shortcut="O" active={panel === 'options'} onClick={() => togglePanel('options')} />
           <RailButton tone="dev" icon="⚛" label="Dev" shortcut="" active={panel === 'dev'} onClick={() => togglePanel('dev')} />
+          <button className={`pause-button ${game.paused ? 'paused' : ''}`} onClick={() => engine.togglePause()} data-tooltip={game.paused ? 'Resume simulation' : 'Pause simulation'} data-tooltip-detail="Stops or resumes every unlocked sector. The entire workforce gets the memo.">{game.paused ? 'Resume' : 'Pause'} <span>{game.paused ? '▶' : 'Ⅱ'}</span></button>
         </nav>
         <div className="top-stats">
           <Stat label="Nodes" value={sector.nodes.length.toString().padStart(2, '0')} />
           <Stat label="Links" value={sector.connections.length.toString().padStart(2, '0')} />
           <Stat label="Map pts" value={game.research.mapPoints.toString().padStart(2, '0')} accent />
           <Stat label="Runtime" value={formatTime(game.playTimeMs)} />
-        </div>
-        <div className="top-actions">
-          <button className={`pause-button ${game.paused ? 'paused' : ''}`} onClick={() => engine.togglePause()} data-tooltip={game.paused ? 'Resume simulation' : 'Pause simulation'} data-tooltip-detail="Stops or resumes every unlocked sector. The entire workforce gets the memo.">{game.paused ? 'RESUME' : 'PAUSE'} <span>{game.paused ? '▶' : 'Ⅱ'}</span></button>
         </div>
       </header>
 
@@ -494,19 +523,17 @@ function FactoryApp({ engine, training, welcome, onShowWelcome, onCloseWelcome, 
         />
       </div>}
 
-      {panel === 'save' && !training && <SavePanel game={game} engine={engine} slots={saveSlots} setSlots={setSaveSlots} onClose={dismissPanel} />}
+      {panel === 'save' && !training && <SavePanel game={game} engine={engine} slots={saveSlots} setSlots={setSaveSlots} onLoad={loadSave} onClose={dismissPanel} />}
       {panel === 'commands' && <CommandsPanel onClose={dismissPanel} />}
       {panel === 'mods' && !training && <ModsModal game={game} engine={engine} onClose={dismissPanel} />}
       {panel === 'dev' && !training && <DevPanel game={game} engine={engine} showAllBuildNodes={showAllBuildNodes} onShowAllBuildNodes={setShowAllBuildNodes} onPlaceSource={() => startPlacement('devSource')} onClose={dismissPanel} />}
 
-      <ShortcutBars dockLayout={dockLayout} canBuild={canBuild} bars={shortcutBars} groups={shortcutBarGroups} unlockedResearch={game.research.unlocked} completedResearch={game.research.completed} newAssignmentKeys={newShortcutAssignmentKeys} placing={placing} onChange={changeShortcutBars} onGroupsChange={changeShortcutBarGroups} onBuild={kind => startPlacement(kind, true)} onBuildDragEnd={finishShortcutBuildDrag} onBuildDragCancel={() => setPlacement(undefined)} onAcknowledgeAssignment={acknowledgeShortcutAssignment} />
+      <ShortcutBars dockLayout={dockLayout} canBuild={canBuild} bars={shortcutBars} groups={shortcutBarGroups} unlockedResearch={game.research.unlocked} completedResearch={game.research.completed} newAssignmentKeys={newShortcutAssignmentKeys} placing={placing} onChange={changeShortcutBars} onGroupsChange={changeShortcutBarGroups} onBuild={startPlacement} onBuildDragEnd={finishShortcutBuildDrag} onBuildDragCancel={() => setPlacement(undefined)} onAcknowledgeAssignment={acknowledgeShortcutAssignment} />
       {mapAvailable && (minimapVisible || panel === 'map') && <NodeMinimap expanded={panel === 'map'} dockHeight={dockLayout.height} allowedSectorId={choices?.sectorId} game={game} engine={engine} onTravel={id => { travelToSector(id); if (panel === 'map') closePanels(); }} onOpenMap={() => togglePanel('map')} onClose={() => { if (panel === 'map') dismissPanel(); else setMinimapVisible(false); }} onHoverChange={handleMinimapHover} />}
       {configuringNode && configuringNode.kind === 'road' && !panel && !welcome && <RoadFlowPanel node={configuringNode} game={game} engine={engine} training={Boolean(training)} onClose={() => setConfiguringNodeId(undefined)} />}
       {inspectingNode && !training && !panel && !welcome && !configuringNode && <NodeInspector node={inspectingNode} game={game} engine={engine} onFailure={setInteractionFailure} onClose={() => setInspectingNodeId(undefined)} onConfigureRecipe={() => configureNode(inspectingNode.id)} onOpenResearch={() => togglePanel('research')} onDelete={() => requestDeleteNode(inspectingNode.id)} />}
 
-      {placement && !placement.fromShortcut && <div className="placement-banner"><span>PLACING</span><b>{getBuildNodeDefinition(placement.kind, game.research.completed).name}</b><small>Click to place one · Shift-click to repeat · {snapToGrid ? 'Grid snap on' : 'Hold A to snap to grid'} · Esc / right-click to cancel</small><button aria-label="Cancel placement" onPointerDown={event => event.stopPropagation()} onClick={event => { event.stopPropagation(); setPlacement(undefined); }}>×</button></div>}
-      {connectionSource && <div className="placement-banner connection-banner"><span>LINKING</span><b>Drag to a compatible socket</b><small>Nearby compatible ports snap into place</small><button onClick={() => setConnectionSource(undefined)}>×</button></div>}
-      {tooltip && !welcome && !pendingGroupNodes && !pendingDisbandGroup && !panel && !interactionFailure && <div className={`node-hover-tooltip ${tooltip.eyebrow === 'MULTI-CONNECTION PORT' ? 'multi-connection-tooltip' : ''}`} onPointerEnter={() => { tooltipHovered.current = true; window.clearTimeout(tooltipClearTimer.current); }} onPointerLeave={() => { tooltipHovered.current = false; setTooltip(undefined); }} style={{ left: Math.max(8, Math.min(window.innerWidth - 270, tooltip.x + 16)), top: Math.max(8, Math.min(window.innerHeight - 220, tooltip.y + 16)), '--tooltip-tone': tooltip.tone ?? '#87939b' } as React.CSSProperties}><small>{tooltip.eyebrow}</small><b>{tooltip.title}</b><span>{tooltip.detail}</span>{tooltip.eyebrow === 'MULTI-CONNECTION PORT' && <button type="button" onPointerDown={event => event.stopPropagation()} onClick={() => { engine.updatePreferences({ skipMultiConnectionTooltip: true }); tooltipHovered.current = false; setTooltip(undefined); }}>Don't show this again</button>}</div>}
+      {tooltip && !welcome && !pendingGroupNodes && !pendingDisbandGroup && !panel && !interactionFailure && <div ref={positionPlayfieldTooltip} className={`node-hover-tooltip ${tooltip.eyebrow === 'MULTI-CONNECTION PORT' ? 'multi-connection-tooltip' : ''}`} onPointerEnter={() => { tooltipHovered.current = true; window.clearTimeout(tooltipClearTimer.current); }} onPointerLeave={() => { tooltipHovered.current = false; setTooltip(undefined); }} style={{ '--tooltip-tone': tooltip.tone ?? '#87939b' } as React.CSSProperties}><small>{tooltip.eyebrow}</small><b>{tooltip.title}</b><span>{tooltip.detail}</span>{tooltip.eyebrow === 'MULTI-CONNECTION PORT' && <button type="button" onPointerDown={event => event.stopPropagation()} onClick={() => { engine.updatePreferences({ skipMultiConnectionTooltip: true }); tooltipHovered.current = false; setTooltip(undefined); }}>Don't show this again</button>}</div>}
       {!training && !welcome && <EndgameNotice game={game} engine={engine} />}
       {interactionFailure && <InteractionNotice failure={interactionFailure} onDismiss={dismissInteractionFailure} />}
       {!welcome && !pendingGroupNodes && !pendingDisbandGroup && <UiTooltipLayer />}
@@ -524,6 +551,7 @@ function FactoryApp({ engine, training, welcome, onShowWelcome, onCloseWelcome, 
       {pendingDisbandGroup && <ConfirmModal title="Disband this control group?" body={`The ${sector.controlGroups?.find(group => group.id === pendingDisbandGroup)?.colorName ?? 'selected'} group will be removed. Its nodes, cables, and positions stay unchanged. An administrative separation.`} confirm="DISBAND" onCancel={() => setPendingDisbandGroup(undefined)} onConfirm={() => { engine.disbandControlGroup(pendingDisbandGroup); setPendingDisbandGroup(undefined); }} />}
       {training && <TutorialGuide session={training} game={game} camera={camera} nodePositions={tutorialNodePositions} onStageChange={setTutorialStage} onPlacementTarget={setTutorialTarget} placementCorrection={placementCorrection?.text} panel={panel} placing={placing} selectedIds={selectedIds} selectionInfo={selectionInfo} onPanel={value => { setPanel(value); setReturnPanel(null); setSelectedIds([]); setPlacement(undefined); }} onExit={onExitTutorial} onFinish={onFinishTutorial} />}
       {configuringNode && getNodeModule(configuringNode.kind).controls.configuration === 'recipe' && <NodeRecipePicker key={configuringNode.id} requiredRecipeId={training ? tutorialRecipeChoice(training.kind, configuringNode, sector.nodes) : undefined} game={game} engine={engine} node={configuringNode} skipWarnings={skipRecipeWarnings} onSkipWarnings={setSkipRecipeWarnings} onClose={() => setConfiguringNodeId(undefined)} />}
+      {configuringNode?.kind === 'filter' && !panel && !welcome && <FilterPicker key={configuringNode.id} engine={engine} node={configuringNode} onClose={() => setConfiguringNodeId(undefined)} />}
       {configuringNode?.kind === 'goblinTribute' && <TributeResourcePicker key={configuringNode.id} game={game} engine={engine} node={configuringNode} onClose={() => setConfiguringNodeId(undefined)} />}
       {confirmDelete && <ConfirmModal title="Decommission selection?" body={`${selectedIds.length} node${selectedIds.length === 1 ? '' : 's'} will be dismantled. Attached cables will also be removed.`} confirm="DECOMMISSION" onCancel={() => setConfirmDelete(false)} onConfirm={doDelete} />}
     </main>

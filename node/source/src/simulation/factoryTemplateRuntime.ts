@@ -3,9 +3,9 @@ import { applyCartUpgrades } from '../content/cartUpgrades';
 import { NODE_DEFINITIONS } from '../content/nodes';
 import { getNodeCapabilities } from '../content/nodeCapabilities';
 import { isPlayerMovableNode } from '../content/nodeModules';
-import { isRecipeUnlocked } from '../content/recipes';
+import { isRecipeUnlocked, RECIPE_GROUPS } from '../content/recipes';
 import type { GameState } from '../domain/types';
-import { getSectorWorldSize } from './worldGeneration';
+import { getWorldFieldSize } from './worldGeneration';
 import { canPlaceNode } from './collisions';
 import { portFamiliesCompatible, connectionBlockedByWorld } from './connectionRules';
 
@@ -36,9 +36,17 @@ export class FactoryTemplateRuntime {
     const nodes=t.nodes.map((n,i)=>({...clone(n),id:`__template-${i}`,x:x+n.x,y:y+n.y}));
     const map=new Map(t.nodes.map((n,i)=>[n.id,nodes[i].id]));
     const connections=t.connections.map(c=>({...c,from:map.get(c.from)!,to:map.get(c.to)!}));
-    const field=getSectorWorldSize(this.getSector(),this.state.research.completed),placed=[...this.getSector().nodes];
+    const field=getWorldFieldSize(this.state),placed=[...this.getSector().nodes];
     let valid=true;
-    for(const n of nodes){if(!isPlayerMovableNode(n.kind)||(NODE_DEFINITIONS[n.kind].unlockResearch&&!this.state.research.unlocked.includes(NODE_DEFINITIONS[n.kind].unlockResearch!))||(n.recipeId&&(!isRecipeUnlocked(n.recipeId,this.state.research.completed)||!worldRecipeAllowed(n.recipeId,this.state)))||!canPlaceNode(n,placed,field))valid=false;placed.push(n);}
+    for (const node of nodes) {
+      const unlock = NODE_DEFINITIONS[node.kind].unlockResearch;
+      const recipeId = node.recipeId;
+      const recipeUnavailable = recipeId && (!RECIPE_GROUPS[node.kind]?.includes(recipeId) ||
+        !isRecipeUnlocked(recipeId, this.state.research.completed) || !worldRecipeAllowed(recipeId, this.state));
+      if (!isPlayerMovableNode(node.kind) || (unlock && !this.state.research.unlocked.includes(unlock)) ||
+        recipeUnavailable || !canPlaceNode(node, placed, field)) valid = false;
+      placed.push(node);
+    }
     for(const c of connections){const from=nodes.find(n=>n.id===c.from)!,to=nodes.find(n=>n.id===c.to)!;if(!portFamiliesCompatible(from,c.fromPort??0,to,c.toPort??0,this.state.research.completed)||connectionBlockedByWorld(from,to,{fromPort:c.fromPort??0,toPort:c.toPort??0},placed))valid=false;}
     return{nodes,connections,valid};
   }

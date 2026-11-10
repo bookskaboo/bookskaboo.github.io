@@ -61,6 +61,7 @@ export const NODE_MODULES: Record<NodeKind, NodeModule> = {
   smelter: module('smelter', 'standard', { configuration: 'recipe' }),
   refiner: module('cog', 'standard', { configuration: 'recipe' }),
   assembler: module('hammer', 'standard', { configuration: 'recipe' }),
+  botPlant: module('bot', 'standard'),
   splitter: module('split', 'compact', { rotatable: true }),
   merger: module('merge', 'compact', { rotatable: true }),
   joint: module('cable', 'joint', { pauseable: false }),

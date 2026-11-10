@@ -16,7 +16,7 @@ const CATEGORIES: Array<{ id: ModCategory; title: string; icon: string; detail: 
   { id: 'resources', title: 'Resources', icon: '◆', detail: 'Names and colors for raw materials and manufactured items.' },
   { id: 'production', title: 'Production nodes', icon: '⚒', detail: 'Machines and Extractors. Build times, recipes and sockets.' },
   { id: 'logistics', title: 'Logistics & storage', icon: '⇥', detail: 'Routes, Carts, Trucks and Trains. Capacity and connection limits.' },
-  { id: 'obstructions', title: 'Obstructions & world nodes', icon: '◈', detail: 'Lakes with their Production Lake Intakes, settlements, Deep Holes and reserves.' },
+  { id: 'obstructions', title: 'Obstructions & world nodes', icon: '◈', detail: 'Lakes, settlements, Deep Holes and reserves.' },
   { id: 'research', title: 'Research', icon: '⌁', detail: 'Project names, costs, prerequisites and repeatable prices.' },
   { id: 'maps', title: 'Map nodes', icon: '◎', detail: 'World grid size, field dimensions, new resource reserves and Forest regeneration.' },
   { id: 'recipes', title: 'Recipes', icon: '≡', detail: 'Ingredients, products, cycle times and chance products.' },
@@ -171,16 +171,10 @@ export function ModsModal({ game, engine, onClose }: { game: GameState; engine: 
         setDraft(next); setSelected(id); setCreating(false); setCode(''); setError(''); setMessage('');
       }} /> : selected ? isProfileCategory(category.id) ?
         <ProfileEditor category={category.id} id={selected} draft={draft} gridSize={worldGridSize(game)} update={update} onRemove={() => remove(category.id, selected)} /> :
-        <>
-          <EntryEditor category={category.id} id={selected} draft={draft} update={update} onRemove={() => remove(category.id, selected)} />
-          {selected === 'lake' && <section className="mods-lake-intake">
-            <h3>{draft.nodes.lakeIntake?.name || 'Lake Intake'}</h3>
-            <EntryEditor category="production" id="lakeIntake" draft={draft} update={update} />
-          </section>}
-        </> : <>
+        <EntryEditor category={category.id} id={selected} draft={draft} update={update} onRemove={() => remove(category.id, selected)} /> : <>
         <div className="mods-actions"><button onClick={() => setCreating(true)}>+ Create entry</button></div>
         {!isProfileCategory(category.id) && <Field label="Search entries"><input type="search" autoComplete="off" value={search} onChange={e => setSearch(e.target.value)} placeholder="Find an item, node, recipe or project…" /></Field>}
-        <div className="mods-entry-list">{entries.filter(([id, name]) => `${id} ${name}${id === 'lake' ? ` Lake Intake ${draft.nodes.lakeIntake?.name ?? ''}` : ''}`.toLowerCase().includes(search.toLowerCase())).map(([id, name]) => (
+        <div className="mods-entry-list">{entries.filter(([id, name]) => `${id} ${name}`.toLowerCase().includes(search.toLowerCase())).map(([id, name]) => (
           <button key={id} onClick={() => setSelected(id)}><b>{name}</b><em>{isEdited(draft, category.id, id) ? 'Edited · ' : ''}Edit →</em></button>
         ))}</div>
         {isProfileCategory(category.id) && <>
@@ -196,7 +190,7 @@ export function ModsModal({ game, engine, onClose }: { game: GameState; engine: 
 
 function isEdited(mod: GameMod, category: ModCategory, id: string) {
   if (isProfileCategory(category)) return mod.profiles?.[category]?.selected === id;
-  return Object.hasOwn(mod[entrySection(category)], id) || (id === 'lake' && Boolean(mod.nodes.lakeIntake));
+  return Object.hasOwn(mod[entrySection(category)], id);
 }
 
 function CreateEntryForm({ category, onCreate }: { category: ModCategory; onCreate(name: string, template?: NodeKind): void }) {

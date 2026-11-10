@@ -1,6 +1,6 @@
 import { NODE_MAP_LAYOUT_KEY as LAYOUT_KEY } from '../persistence/storageKeys';
 import { useEffect, useRef, useState, type CSSProperties, type PointerEvent as ReactPointerEvent } from 'react';
-import { ITEM_COLORS, ITEM_NAMES } from '../content/items';
+import { ITEM_COLORS, materialTypeName } from '../content/items';
 import type { GameState } from '../domain/types';
 import { DEFAULT_WORLD_GRID_SIZE, HOME_SECTOR_ID, worldGridBounds, worldGridSize } from '../domain/worldGrid';
 import { GameEngine } from '../simulation/engine';
@@ -84,7 +84,7 @@ export function NodeMinimap({ game, engine, allowedSectorId, dockHeight = 0, exp
     const { materials } = roadMaterialState(game, source, road);
     const lastItem = materials.length ? undefined : source.connections.find(cable => cable.to === road.id)?.item;
     return [{ id: `${source.id}:${road.id}`, source, target, item: materials.length === 1 ? materials[0] : lastItem,
-      itemLabel: materials.length ? materials.map(item => ITEM_NAMES[item]).join(', ') : lastItem ? ITEM_NAMES[lastItem] : 'No item assigned' }];
+      itemLabel: materials.length ? materials.map(materialTypeName).join(', ') : lastItem ? materialTypeName(lastItem) : 'No item assigned' }];
   }));
   const activate = () => {
     if (!selected || !permitsTutorialChoice(allowedSectorId, selected)) return;
@@ -102,7 +102,7 @@ export function NodeMinimap({ game, engine, allowedSectorId, dockHeight = 0, exp
 
   return <div className={expanded ? 'node-map-host node-map-expansion modal-backdrop' : 'node-map-host'}><aside className={`node-minimap world-node-minimap glass${expanded ? ' expanded modal map-modal' : ''}`} role={expanded ? 'dialog' : undefined} aria-modal={expanded || undefined} aria-label="Interactive Node Map" onPointerEnter={() => onHoverChange(true)} onPointerLeave={() => onHoverChange(false)} onContextMenu={event => { event.preventDefault(); event.stopPropagation(); }} style={expanded ? undefined : { width: fitted.size, left: fitted.x, top: fitted.y, right: 'auto', bottom: 'auto' }}>
     <header onPointerDown={beginDrag} onPointerMove={moveDrag} onPointerUp={endDrag} onPointerCancel={endDrag}>
-      <div className="minimap-drag-handle" aria-label={expanded ? 'Node Map' : 'Move Node Map'} data-tooltip={expanded ? undefined : 'Move Node Map'} data-tooltip-detail={expanded ? undefined : 'Drag this header to move the map. Press M to hide or show it.'}><span>{expanded ? 'NODE MAP' : <>⠿ NODE MAP <kbd>M</kbd></>}</span></div>
+      <div className="minimap-drag-handle" aria-label={expanded ? 'Node Map' : 'Move Node Map'} data-tooltip={expanded ? undefined : 'Move Node Map'} data-tooltip-detail={expanded ? undefined : 'Drag this header to move the map. Press M to hide or show it.'}><span>{expanded ? 'Node Map' : <>⠿ Node Map <kbd>M</kbd></>}</span></div>
       {!expanded && <button className="minimap-open" aria-label="Expand Node Map" onClick={onOpenMap} data-tooltip="Expand Node Map">↗</button>}
       {(!expanded || gridSize > DEFAULT_WORLD_GRID_SIZE) && <div className="minimap-zoom">
         <button aria-label="Zoom out" onClick={() => setZoom(value => Math.max(.65, +(value - .15).toFixed(2)))}>−</button>
@@ -112,7 +112,7 @@ export function NodeMinimap({ game, engine, allowedSectorId, dockHeight = 0, exp
       <button className="minimap-close" aria-label={expanded ? 'Close expanded Node Map' : 'Hide Node Map'} onClick={onClose} data-tooltip={expanded ? 'Close expanded Node Map' : 'Hide Node Map'} data-tooltip-detail={expanded ? 'Return to the minimap.' : 'Press M to show it again.'}>×</button>
     </header>
     {expanded && availableFilters.length > 0 && <div className="node-map-filters" role="group" aria-label="Map landmark filters">
-      <span>SHOW ON MAP</span>
+      <span>Show on map</span>
       {availableFilters.map(landmark => <button key={landmark} type="button" className={`map-landmark-${landmark}`}
         aria-pressed={filters.has(landmark)} onClick={() => toggleFilter(landmark)}>
         <IconGlyph icon={MAP_LANDMARKS[landmark].icon} />{MAP_LANDMARKS[landmark].label}
@@ -152,7 +152,7 @@ export function NodeMinimap({ game, engine, allowedSectorId, dockHeight = 0, exp
           data-tooltip-detail={road.itemLabel} />; })}
       </div>
     </div>{expanded && <MapNodeDetails game={game} engine={engine} selectedId={selected} allowedSectorId={allowedSectorId} onActivate={activate} />}</div>
-    {!expanded && <footer><span>{!selected ? 'SELECT A MAP NODE' : active ? 'CURRENT NODE' : sector ? mapNodeName(sector) : mapNodePosition(x, y)}</span><button className={selected && ((!active && unlocked) || (available && game.research.mapPoints > 0)) ? 'ready' : ''} disabled={!selected || !permitsTutorialChoice(allowedSectorId, selected) || active || (!unlocked && (!available || game.research.mapPoints < 1))} onClick={activate}>{!selected ? 'Select a Node' : active ? 'Current Node' : unlocked ? 'Travel' : available && game.research.mapPoints ? 'Activate · 1' : 'Select a Node'}</button></footer>}
+    {!expanded && <footer><span>{!selected ? 'Select a Map Node' : active ? 'Current node' : sector ? mapNodeName(sector) : mapNodePosition(x, y)}</span><button className={selected && ((!active && unlocked) || (available && game.research.mapPoints > 0)) ? 'ready' : ''} disabled={!selected || !permitsTutorialChoice(allowedSectorId, selected) || active || (!unlocked && (!available || game.research.mapPoints < 1))} onClick={activate}>{!selected ? 'Select a Node' : active ? 'Current Node' : unlocked ? 'Travel' : available && game.research.mapPoints ? 'Activate · 1' : 'Select a Node'}</button></footer>}
     {!expanded && <button className="node-map-resize" aria-label="Resize Node Map" onPointerDown={beginResize} onPointerMove={moveResize} onPointerUp={endResize} onPointerCancel={endResize} />}
   </aside></div>;
 }

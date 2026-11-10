@@ -44,7 +44,6 @@
 .mods-entry-list { display:grid; gap:7px; }
 .mods-entry-list > button { display:flex; align-items:center; justify-content:space-between; gap:12px; text-align:left; padding:13px; }
 .mods-entry-list b { display:block; font-size:13px; }
-.mods-lake-intake { margin-top: 24px; padding-top: 8px; border-top: 1px solid #ffffff20; }
 .mods-entry-list em { font-size:12px; font-style:normal; color:#cdb4f7; white-space:nowrap; }
 .mods-footer { display:flex; align-items:center; gap:10px; padding:14px 20px; border-top:1px solid #ffffff20; background:#24212a; }
 .mods-footer > span { flex:1; font-size:12px; overflow:hidden; text-overflow:ellipsis; }

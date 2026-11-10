@@ -1,4 +1,4 @@
-import { NodeIcon } from './NodeIcon';
+import { PanelHeader } from './PanelHeader';
 import { TUTORIAL_NAMES } from '../tutorials/tutorialRuntime';
 import type { ProgressiveTutorialKind } from '../tutorials/tutorialUnlocks';
 
@@ -6,16 +6,15 @@ export function TutorialUnlockInvitation({ kind, onStart, onLater }: { kind: Pro
   const expansion = kind === 'expansion';
   const name = TUTORIAL_NAMES[kind];
   return <div className="modal-backdrop tutorial-unlock-backdrop">
-    <section className="modal glass tutorial-unlock-modal" role="dialog" aria-modal="true" aria-labelledby="tutorial-unlock-title">
-      <header className="panel-header"><div><small>TUTORIAL UNLOCKED · {expansion ? 'EXPLORATION' : 'MONSTER CAMP'}</small><h2 id="tutorial-unlock-title">{expansion ? 'The world has more factory space.' : 'The neighbors have objections.'}</h2></div><button onClick={onLater} aria-label={`Dismiss ${name} tutorial invitation`}>×</button></header>
-      <div className="tutorial-unlock-copy"><span className="tutorial-unlock-icon"><NodeIcon kind={expansion ? 'road' : 'monster-camp'} /></span>
-        <p>{expansion ? 'Exploration unlocked the Node Map and your first Map Point. Apparently, one map was not enough responsibility.' : 'Your new map comes with a Monster Camp. Apparently, the land was already under management.'}</p>
-        {expansion ? <p>The <b>Expansion tutorial</b> shows you how to activate the map left of Home, travel between maps, and send Wood home through a Road pair. Materials travel right. Ambition remains unsupervised.</p>
-          : <p>The <b>Monster Camps tutorial</b> covers camp borders, AP checks, and Tribute. Different settlements offer different resources and rates. Bring enough bots. A strongly worded cable is insufficient.</p>}
-        <small>Practice in a separate factory. Your current factory keeps its progress and its dignity.</small>
+    <section className="modal glass tutorial-unlock-modal" role="dialog" aria-modal="true" aria-label={`${name} tutorial`}>
+      <PanelHeader title={`${name} tutorial`} onClose={onLater} />
+      <div className="tutorial-modal-content">
+        <p className="tutorial-unlock-copy">{expansion ? 'Use your first Map Point to visit an outpost and ship Wood Home with a Cart at each end of the Road.' : 'Learn how to supply Attack Power and collect Tribute. The neighbors keep a schedule.'}</p>
+        <footer className="tutorial-unlock-actions">
+          <button className="tutorial-button" onClick={onLater} data-tooltip="Maybe later" data-tooltip-detail="Find this lesson under Options → Tutorials.">Maybe later</button>
+          <button className="tutorial-button tutorial-primary" onClick={onStart} autoFocus>Start {name}</button>
+        </footer>
       </div>
-      <footer className="tutorial-unlock-actions"><button onClick={onLater}>Maybe later</button><button className="primary-cta" onClick={onStart} autoFocus>Start {name} <span aria-hidden="true">→</span></button></footer>
-      <p className="tutorial-unlock-reminder">You can return through Options → Tutorials. {expansion ? 'The extra land will wait.' : 'The neighbors can wait.'}</p>
     </section>
   </div>;
 }

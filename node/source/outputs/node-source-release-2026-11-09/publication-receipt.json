@@ -1,0 +1,81 @@
+{
+  "date": "2026-11-09",
+  "verifiedAtUtc": "2026-11-09T19:13:51.074Z",
+  "url": "https://bookskaboo.github.io/node/",
+  "repository": "bookskaboo/bookskaboo.github.io",
+  "contentCommit": "aac2bae9f1249b99ea0d839edd014d3330ad2170",
+  "livePublicationVerified": true,
+  "standardUrlMatches": true,
+  "assets": [
+    {
+      "file": "index.html",
+      "sha256": "4da828b4f1edd8315ad123ae697ecce3268f0b90f1d362ea443f822ec6ce1ef7"
+    },
+    {
+      "file": "assets/browserAll-CF12lmwl.js",
+      "sha256": "c24608399b4950a674cad0341afbf555613ef9a29f962a09596a803a44a4754f"
+    },
+    {
+      "file": "assets/CanvasPool-O_8k9jVW.js",
+      "sha256": "9cf12a9f53a878bb8f9f46337b799031a6986b5f87dd775ef57b2902ae0dc9cd"
+    },
+    {
+      "file": "assets/canvasUtils-DHiBpmSz.js",
+      "sha256": "8843c3459529c72ffb9a82655454eff39f3458448dd2ae362764f3be4933288f"
+    },
+    {
+      "file": "assets/getTexelRangeRects-5CG6mIA2.js",
+      "sha256": "aea8c02569d6923eec2b28e6973b032101297b4fc9acc85b573146bd074d4974"
+    },
+    {
+      "file": "assets/getTextureBatchBindGroup-CDnZS9mH.js",
+      "sha256": "2b2eff79ef557432774e0acd98963de65847a16840f0b738b07556ea37e21caa"
+    },
+    {
+      "file": "assets/index-BWn2rNI5.js",
+      "sha256": "76c93dec8a88e2da3bc54fffa2503aeb41c116dd4ed4c90857734602332eaf0c"
+    },
+    {
+      "file": "assets/index-lMqJoVTl.css",
+      "sha256": "97aed2bc2d2ab7bb524f27320b2941d083179967313aa2c9d964a55e85888ee9"
+    },
+    {
+      "file": "assets/init-lBAFZsM4.js",
+      "sha256": "fd151f598779d75c8e92e8acbcc0bda1213aadf0d6fd96389024916594e556fc"
+    },
+    {
+      "file": "assets/RenderTargetSystem-CHWUCnC7.js",
+      "sha256": "39880073141b4419980d7b5baf22961675d208105c37f87c54a099e6433ad70f"
+    },
+    {
+      "file": "assets/webworkerAll-qLOMuVu-.js",
+      "sha256": "b16e65bd34a60c84a54c009df239aa2b7db926ad3ca93a46dda42473b15b8b09"
+    }
+  ],
+  "source": [
+    {
+      "file": "source/AGENTS.md",
+      "sha256": "0008703cc73409b3e571415b71100eb0d1fbd297eda808dc6ceee1adf11aa0e1"
+    },
+    {
+      "file": "source/CHANGELOG.md",
+      "sha256": "1c55cc1057e528eea83e593d67cb5af372ddf26e661c3ae3848c9dbfc6e48015"
+    },
+    {
+      "file": "source/docs/changelog/2026-11.md",
+      "sha256": "d56c6a112ddb07f39b4c48ac9e3fafed7bcc35faaa8be4f8aff3bb6824721d69"
+    },
+    {
+      "file": "source/docs/changelog/entries.json",
+      "sha256": "1092aeeac709a36d6b34791da062546de57d74c990b33970c241ac559ea16009"
+    },
+    {
+      "file": "source/docs/changelog/index.html",
+      "sha256": "c8f59f4d397eb1e59eacdd6405db1b715177ea7917b381329c212cf3f6591f6c"
+    },
+    {
+      "file": "source/outputs/node-mods-release-2026-11-08/publication-receipt.json",
+      "sha256": "ed63db4fff6dfb2db9d5247ae949bb250313f2f755abb4c2f1626fc2bca6e422"
+    }
+  ]
+}

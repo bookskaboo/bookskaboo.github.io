@@ -129,5 +129,8 @@ describe('visible obstruction boundaries', () => {
     expect(footprintsOverlap(golem, besideHead)).toBe(false);
     const head = node('joint', 'head', { x: golem.x, y: golem.y - 330 });
     expect(footprintsOverlap(golem, head)).toBe(true);
+    const besideBody = node('joint', 'near-body', { x: golem.x + 315, y: golem.y });
+    expect(footprintsOverlap(golem, besideBody, 12)).toBe(false);
+    expect(nodesOverlap(golem, besideBody)).toBe(true);
   });
 });

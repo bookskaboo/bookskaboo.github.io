@@ -1,4 +1,5 @@
 import type { ItemId } from '../domain/types';
+import { BOT_STRENGTH } from './botAssembly';
 /** Q97/Q101 fixed standard constituents, including fuel Wood. Never derived from a selected alternative. */
 export const RECYCLER_RETURNS: Partial<Record<ItemId, Partial<Record<ItemId, number>>>> = {
   "iron": {},
@@ -221,4 +222,10 @@ export const RECYCLER_RETURNS: Partial<Record<ItemId, Partial<Record<ItemId, num
     "mythril": 1
   }
 };
+
+for (const gun of ['simple-robot-gun', 'cooled-gun', 'focused-gun', 'pulse-cannon'] as const) RECYCLER_RETURNS[gun]!.stone = 1;
+RECYCLER_RETURNS['final-frame'] = { ...RECYCLER_RETURNS['servo-frame'] };
+RECYCLER_RETURNS['final-cannon'] = { ...RECYCLER_RETURNS['pulse-cannon'] };
+const suppressionBotReturns = { ...RECYCLER_RETURNS['simple-robot-frame'], ...RECYCLER_RETURNS['simple-robot-gun'] };
+for (const item of Object.keys(BOT_STRENGTH) as ItemId[]) RECYCLER_RETURNS[item] = suppressionBotReturns;
 export const recyclerAccepts = (item: ItemId) => Object.hasOwn(RECYCLER_RETURNS, item);

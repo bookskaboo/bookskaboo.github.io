@@ -116,7 +116,7 @@ describe('Research milestones', () => {
     game.sectors['8,6'].visited = true;
     const [primary, ...alternatives] = expectPrimary(game, { kind: 'sector', id: '8,6' }, 'Dwarven Tribute');
     expect(primary.detail).not.toMatch(/Mythril|suppress|\d|per minute/i);
-    expect(alternatives.some(card => card.action.kind === 'recipe' && card.action.id === 'medium-suppression-bot')).toBe(true);
+    expect(alternatives.some(card => card.action.kind === 'recipe' && card.action.id === 'assemble-bot-f2-g2')).toBe(true);
     game.sectors['8,6'].nodes[0].lizardSettlement = 'village';
     const village = expectPrimary(game, { kind: 'sector', id: '8,6' }, 'Dwarven Tribute');
     expect(village[0].detail).toBe(primary.detail);
@@ -144,7 +144,7 @@ describe('Research milestones', () => {
     game.endgame = { version: 1, pairIndex: 1, cornerOrder: ['reclamation', 'grove', 'alpha', 'foundry'] };
     addSector(game, '10,10', false, node('cornerChallenge', { cornerType: 'alpha' }));
     const [hint] = expectPrimary(game, { kind: 'map' }, 'The four corners');
-    expect(hint.detail).toMatch(/pieces.*Final Core/);
+    expect(hint.detail).toBe('The map may have something left to say.');
     game.sectors['10,10'].visited = true;
     const [dragon] = expectPrimary(game, { kind: 'sector', id: '10,10' }, 'Ancient Dragon');
     expect(dragon.detail).toContain('Bot');

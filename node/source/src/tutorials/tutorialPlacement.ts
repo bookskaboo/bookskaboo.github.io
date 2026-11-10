@@ -1,8 +1,9 @@
 import type { GameState, MachineNode, NodeKind } from '../domain/types';
 import { getConnectionControlPoints, getPortSide } from '../simulation/connectionRules';
-import { getPortAnchor } from '../domain/nodeGeometry';
-import { getNodeSize } from '../domain/nodeGeometry';
-import { type TutorialStage, EXPANSION_ROAD_TARGET, PRODUCTION_TARGETS, TARGETS } from './tutorialDefinitions';
+import { getNodeSize, getPortAnchor } from '../domain/nodeGeometry';
+import { pairedRoadPositions } from '../simulation/roadPlacement';
+import { getWorldFieldSize } from '../simulation/worldGeneration';
+import { type TutorialStage, PRODUCTION_TARGETS, TARGETS } from './tutorialDefinitions';
 
 export function productionTarget(stage: TutorialStage, nodes: MachineNode[]) {
   const refiners = nodes.filter(n => n.kind === 'refiner');
@@ -44,11 +45,15 @@ export function basicTutorialPlacementKind(stage: TutorialStage, nodes: MachineN
   return productionTarget(stage, nodes)?.kind;
 }
 /** The marker and corrected placement must use exactly the same lesson coordinates. */
-export function tutorialPlacementTarget(stage: TutorialStage, nodes: MachineNode[]): TutorialPlacementTarget | undefined {
+export function tutorialPlacementTarget(stage: TutorialStage, state: GameState): TutorialPlacementTarget | undefined {
   if (stage === 'build-place') return { kind: 'extractor', ...TARGETS.extractor };
   if (stage === 'chest-place') return { kind: 'woodenChest', ...TARGETS.woodenChest };
-  if (stage === 'expansion-road-place') return { kind: 'road', ...EXPANSION_ROAD_TARGET };
-  return productionTarget(stage, nodes);
+  if (stage === 'expansion-road-place') {
+    const field = getWorldFieldSize(state);
+    const { x, y } = pairedRoadPositions({ x: field.width, y: 350 }, 'west', field).local;
+    return { kind: 'road', x, y };
+  }
+  return productionTarget(stage, state.sectors[state.activeSectorId].nodes);
 }
 export function correctTutorialPlacement(kind: NodeKind, point: { x: number; y: number }, target?: TutorialPlacementTarget) {
   if (!target || target.kind !== kind) return { ...point, corrected: false };

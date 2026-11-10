@@ -16,5 +16,7 @@ export function availableTutorials(game: GameState) {
 }
 
 export function nextTutorialInvitation(game: GameState): ProgressiveTutorialKind | undefined {
-  return (['expansion', 'monster-camps'] as const).find(kind => isTutorialUnlocked(kind, game) && !game.tutorialPromptsSeen?.includes(kind));
+  return (['expansion', 'monster-camps'] as const).find(kind =>
+    (kind !== 'expansion' || !game.devResearchUnlocked) && isTutorialUnlocked(kind, game) && !game.tutorialPromptsSeen?.includes(kind),
+  );
 }

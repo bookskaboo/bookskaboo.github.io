@@ -13,15 +13,17 @@ Map tier below means Manhattan distance from Home at world coordinate `5,5`. Dim
 | Type | Current game | Old game | Player response |
 | --- | --- | --- | --- |
 | Deep Hole | `big-hole`; generated terrain or a collapsed mineral deposit | `bigHole`; generated terrain, collapsed mineral deposit, or rapid field clicking | Deliver processed Stone to fill the hole |
-| Lake | `lake`; permanent obstruction, buffered Water output, and Lake Intake support | `lake`; permanent obstruction that attempts direct Water delivery | Route around it and connect its directional outputs |
+| Lake | `lake`, a permanent obstruction with buffered Water output and Pump support | `lake`, a permanent obstruction that attempts direct Water delivery | Route around it and connect its directional outputs |
 | Monster settlement | `monster-camp`; three Goblin tiers and three Dwarven tiers with periodic size changes and nearby-node disabling | `monsterCamp`, subtype `smallGoblinCamp`; periodic size changes and polygon-based encroachment | Maintain a recurring supply of suppression bots |
-| Resource Golem | `resourceGolem`, one centered mineral boss in each of four clear tier 5 sectors in new worlds | No corresponding type in the old obstruction catalog | Pay 180 AP for Iron, Copper or Stone, or 360 AP for Mythril, to create an infinite mineral reserve |
+| Resource Golem | `resourceGolem`, one centered mineral boss in each of four clear tier 5 sectors in new worlds | No corresponding type in the old obstruction catalog | Pay 100 AP for Iron, Copper or Stone, or 150 AP for Mythril, to create an infinite mineral reserve |
 
 All three are fixed world features rather than ordinary movable factory machines. Neither game provides a normal removal action for Lakes or Monster Camps. Suppression reduces a camp to a minimum size; it does not destroy it.
 
 ## Deep Holes
 
 **Clear outposts (November 8, 2026, NODE-0347).** The first sector east of Home (E1) always generates clear. In later map tiers, the seed selects about one quarter of ordinary sectors as clear outposts, rounding to the nearest whole sector per tier. Ordinary sectors in this selection have no Lake, settlement, or Golem. The standard grid has 20 clear outposts including E1, each with Iron, Copper, Stone, and Wood.
+
+New sectors with Goblin or Dwarven camps generate without Deep Holes. Camps take priority when mod rules request both obstructions on the same map.
 
 ### Shared behavior
 
@@ -57,7 +59,7 @@ New Lakes target **15% to just under 25% of field area**. The old game scales an
 
 Base Water production accumulates in a shared **five-item output buffer**. Production stops when the buffer is full. Routing alternates among usable outputs and skips destinations that cannot accept Water.
 
-The current game adds **Lake Intakes**. Each Intake needs a direct Lake connection and produces **4 Water per second**, increasing to **8** with Pressure Systems and **16** with High Pressure Intakes, with a **64 Water output buffer**. A Lake supports at most **two connected Intakes**. Intake production is handled separately from the Lake's base output; the direct connection does not consume the Lake's ordinary Water buffer. Lake to Extractor connections are rejected.
+A **Pump** draws **4 Water per second** from a direct Lake connection. Pressure Systems raises that to **8**, and High Pressure Intakes raises it to **16**. Each Lake supports up to **two Pumps**, each with a **64-unit output buffer**. Pump extraction runs separately from the Lake's own Water output. When another node supplies the Pump, it relays Water or Coolant to an available outlet. Lake to Extractor connections are rejected.
 
 Encountering a Lake also participates in the current game's encounter-based water-tool unlocks.
 
@@ -65,7 +67,7 @@ Encountering a Lake also participates in the current game's encounter-based wate
 
 Every one-second production opportunity attempts delivery to a connected route, rotating the preferred route after success and trying alternatives when blocked. There is no Lake Water stockpile: production opportunities with no accepting route are not retained for later delivery. The old Lake runtime stores its production timer and next route index rather than an inventory buffer.
 
-Sources: [current resource and routing simulation](../src/simulation/engine.ts), [current Lake Intake simulation](../src/simulation/progression.ts), [current generation](../src/simulation/worldGeneration.ts), [old directional ports](../../Node%20Game/game/domain/obstructions.ts), and [old Lake simulation](../../Node%20Game/app/page.tsx), especially `createLakeObstacle` and the loops over `next.lakes`.
+Sources: [current resource and routing simulation](../src/simulation/engine.ts), [current Pump simulation](../src/simulation/progression.ts), [current generation](../src/simulation/worldGeneration.ts), [old directional ports](../../Node%20Game/game/domain/obstructions.ts), and [old Lake simulation](../../Node%20Game/app/page.tsx), especially `createLakeObstacle` and the loops over `next.lakes`.
 
 ## Monster Camps
 
@@ -214,9 +216,9 @@ Fabricators and Sorting Stations provide encounter unlocks.
 
 New worlds contain exactly **four Resource Golems**, one each for **Iron, Copper, Stone, and Mythril**. Each occupies a different **tier 5** map sector. Their sectors exclude **Deep Holes, Lakes, and settlements**, while retaining normal mineral and Forest nodes. The Golem starts at the center of its play area, using the field size at the time of generation. Selection is deterministic for the world seed. Older worlds with sectors already generated at tier 5 or farther out retain their seeded tier-6 assignments.
 
-After **Resource Golem Survey**, bot deliveries permanently reduce the Golem's remaining health. Iron, Copper and Stone start at **180 AP**, covered by 180 Small Bots or eight Command Bots. Mythril starts at **360 AP**, covered by 360 Small Bots or 15 Command Bots. Mixed deliveries also work. Partial damage persists through saves.
+After **Resource Golem Survey**, bot deliveries permanently reduce the Golem's remaining health. Iron, Copper and Stone start at **100 AP**, covered by 100 Small Bots or five Command Bots. Mythril starts at **150 AP**, covered by 150 Small Bots or seven Command Bots. Mixed deliveries also work. Partial damage persists through saves.
 
-At zero health, the same node becomes **Infinite Iron**, **Infinite Copper**, **Infinite Stone**, or **Infinite Mythril** at the same position. Its bot input and incoming attack cables are removed. The new reserve has **four multi-connection star outputs**, centered on its north, east, south, and west faces. Connect Extractors to any face. All four sockets expose only that Golem's mineral, and mining never reduces a finite resource counter or creates a depletion hole. There is no recurring bot cost after victory.
+At zero health, the same node becomes a permanent **Iron**, **Copper**, **Stone**, or **Mythril** reserve at the same position. It is twice as wide and twice as tall as a normal resource node, with **∞** above its full reserve bar. Placement keeps that footprint clear while the Golem is alive. Its bot input and incoming attack cables are removed. The new reserve has **four multi-connection star outputs**, centered on its north, east, south, and west faces. Connect Extractors to any face. All four sockets expose only that Golem's mineral.
 
 Existing saves retain their explored layouts and the exact AP already paid. Loading a save converts a Golem whose prior damage covers the new price and returns its in-flight bots to their source. Any unspent bots already in that Golem's input go to the global pool. Existing infinite reserves retain their node IDs and minerals.
 

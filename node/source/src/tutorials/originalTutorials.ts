@@ -69,7 +69,7 @@ export const GUIDED_TUTORIAL_COPY: Record<GuidedTutorialStage, {
   "connect-resource": {
     step: 2,
     title: "Connect nodes",
-    body: "Connections carry resources between nodes. Star connectors can hold several connections; circle connectors can hold one. Drag from the Forest’s right connector to the Extractor’s left connector. The sides matter. Factories are particular like that.",
+    body: "Star sockets allow several cables. Round sockets take one.",
     instruction: "Connect the Forest’s right side to the Extractor’s left side.",
   },
   "chest-shortcut": {
@@ -81,7 +81,7 @@ export const GUIDED_TUTORIAL_COPY: Record<GuidedTutorialStage, {
   "chest-place": {
     step: 3,
     title: "Place the Cart",
-    body: "Place the Cart at the highlighted spot. It stores up to 20 solid items, with local shipments of one item before vehicle upgrades. It can hold advanced products and Cores from the start. The box has transport ambitions.",
+    body: "A Cart holds 20 solid items, including Cores. The box has transport ambitions.",
     instruction: "Place the Cart on the highlighted spot.",
   },
   "store-item": {
@@ -93,7 +93,7 @@ export const GUIDED_TUTORIAL_COPY: Record<GuidedTutorialStage, {
   "research-open": {
     step: 4,
     title: "Research completed",
-    body: "Your first connection completed Joint research and unlocked the Joint node. Apparently, one cable counts as a breakthrough. Open Research to see it.",
+    body: "Your first cable unlocked Joint research.",
     instruction: "Open Research in the top bar.",
   },
   "research-explain": {
@@ -141,13 +141,13 @@ export const GUIDED_TUTORIAL_COPY: Record<GuidedTutorialStage, {
   shortcuts: {
     step: 6,
     title: "Shortcut bars",
-    body: "Production, Logistics, and Storage each have a shortcut bar. New nodes are added to the matching bar when unlocked. Click a slot to build, right-click to change it, or drag the six-dot handle to move the bar.",
+    body: "Click a slot to build, right-click to assign it, or drag the six-dot handle to move the bar.",
     instruction: "Hover over the glowing shortcut to acknowledge the new unlock.",
   },
   "options-open": {
     step: 7,
     title: "Game options",
-    body: "Options keeps saves, controls, recipes, display settings, shortcut-bar settings, and achievements in one place. It is the sensible drawer.",
+    body: "",
     instruction: "Open Options in the top bar.",
   },
   "options-explain": {
@@ -171,7 +171,7 @@ export const GUIDED_TUTORIAL_COPY: Record<GuidedTutorialStage, {
   "logistics-joint-insert": {
     step: 1,
     title: "Insert into a connection",
-    body: "You can also drop a Joint directly onto an existing connection. The game replaces the original cable with two cables routed through the Joint.",
+    body: "The Joint replaces one cable with two attached cables.",
     instruction: "Drag the Joint onto the highlighted part of the glowing connection.",
   },
   "logistics-joint-complete": {
@@ -183,67 +183,67 @@ export const GUIDED_TUTORIAL_COPY: Record<GuidedTutorialStage, {
   "logistics-splitter-connect": {
     step: 2,
     title: "Split one stream into two",
-    body: "A Splitter takes one item stream and alternates items between two outputs. The Forest and Extractor are already connected. Connect the Extractor to the Splitter, then connect one Splitter output to each Kiln.",
+    body: "The Splitter alternates items between its two outputs.",
     instruction: "Connect Extractor → Splitter, then Splitter → both Kilns.",
   },
   "logistics-splitter-complete": {
     step: 2,
     title: "The stream is split",
-    body: "Wood now alternates between the two Kilns. If one route cannot accept an item, the Splitter tries the other. It is flexible, within reason.",
+    body: "When one route is blocked, the Splitter tries the other.",
     instruction: "Continue to learn how to insert a Splitter.",
   },
   "logistics-splitter-insert": {
     step: 2,
     title: "Insert a Splitter",
-    body: "You can drop a Splitter directly onto an existing connection. The original cable becomes its input, and one output continues to the original destination.",
+    body: "The original destination stays connected to one output.",
     instruction: "Drag the Splitter onto the highlighted Extractor-to-Kiln connection.",
   },
   "logistics-splitter-inserted": {
     step: 2,
     title: "Splitter inserted",
-    body: "The route is now Extractor → Splitter → Kiln. The second output is free for another destination, should ambition strike.",
+    body: "The second output is free. A modest opening for ambition.",
     instruction: "Continue to learn about Mergers.",
   },
   "logistics-merger-connect": {
     step: 3,
     title: "Merge two streams into one",
-    body: "A Merger combines two matching item streams into one output. The Forest already feeds both Extractors. Connect each Extractor to a different Merger input, then connect the Merger to the Kiln.",
+    body: "A Merger combines two streams of the same item.",
     instruction: "Connect both Extractors → Merger, then Merger → Kiln.",
   },
   "logistics-merger-complete": {
     step: 3,
     title: "The streams are merged",
-    body: "Both Extractors now feed one Kiln. The Merger accepts matching items from either input and sends them through its single output. Two queues have become one queue. Progress.",
+    body: "Two matching streams now feed one Kiln.",
     instruction: "Continue to learn how to insert a Merger.",
   },
   "logistics-merger-insert": {
     step: 3,
     title: "Insert a Merger",
-    body: "You can also drop a Merger directly onto an existing connection. That stream enters one input, and the output continues to the original destination.",
+    body: "The original stream occupies one input.",
     instruction: "Drag the Merger onto the highlighted Extractor-to-Kiln connection.",
   },
   "logistics-merger-inserted": {
     step: 3,
     title: "Merger inserted",
-    body: "The route is now Extractor → Merger → Kiln. The other input is free for a second matching stream.",
+    body: "Use the free input for another stream of the same item.",
     instruction: "That covers the Logistics tutorial.",
   },
   "control-group-select": {
     step: 1,
     title: "Highlight several nodes",
-    body: "Control groups begin by selecting several nodes. Drag from upper-left to lower-right around the three clustered Extractors, or Shift-click each node to add it to the selection.",
+    body: "",
     instruction: "Select the three clustered Extractors with a selection box or Shift-click.",
   },
   "control-group-create": {
     step: 1,
     title: "Create a control group",
-    body: "The three nodes are highlighted. Right-click any one of them, then choose a color to turn the selection into a control group.",
+    body: "The color marks the group on the field.",
     instruction: "Right-click a highlighted node, then choose a color.",
   },
   "control-group-created": {
     step: 1,
     title: "Control group created",
-    body: "The matching markers show that the nodes share a control group. A normal click on one will select them all. They have agreed to cooperate.",
+    body: "Matching markers identify the group.",
     instruction: "Continue to practice selecting the group.",
   },
   "control-group-click": {
@@ -255,7 +255,7 @@ export const GUIDED_TUTORIAL_COPY: Record<GuidedTutorialStage, {
   "control-group-click-complete": {
     step: 2,
     title: "The group is selected",
-    body: "One click selected all three nodes. Dragging any selected node will move the whole group.",
+    body: "You can now move all three nodes together.",
     instruction: "Continue to learn individual selection.",
   },
   "control-group-double-click": {
@@ -267,7 +267,7 @@ export const GUIDED_TUTORIAL_COPY: Record<GuidedTutorialStage, {
   "control-group-double-click-complete": {
     step: 3,
     title: "Individual node selected",
-    body: "Only that node is selected, but its group marker remains. A normal click later will select the full group again. No paperwork required.",
+    body: "The node stays in its group. Single-click it to select the group again.",
     instruction: "Continue to practice moving the group.",
   },
   "control-group-move": {
@@ -279,7 +279,7 @@ export const GUIDED_TUTORIAL_COPY: Record<GuidedTutorialStage, {
   "control-group-moved": {
     step: 4,
     title: "The whole group moved",
-    body: "One drag moved all three nodes while preserving their layout. Order has survived, for now.",
+    body: "The nodes kept their layout.",
     instruction: "Continue to compare selection-box directions.",
   },
   "control-group-select-forward": {
@@ -291,7 +291,7 @@ export const GUIDED_TUTORIAL_COPY: Record<GuidedTutorialStage, {
   "control-group-forward-complete": {
     step: 5,
     title: "The group was included",
-    body: "The box touched one node, but all three were selected. A down-right selection includes the full control group.",
+    body: "The selection includes all three nodes.",
     instruction: "Now compare it with an up-left selection.",
   },
   "control-group-select-reverse": {
@@ -303,19 +303,19 @@ export const GUIDED_TUTORIAL_COPY: Record<GuidedTutorialStage, {
   "control-group-reverse-complete": {
     step: 5,
     title: "Only one node was selected",
-    body: "Only the touched node was selected. Its group still exists; the up-left selection simply gives that node temporary priority.",
+    body: "The group stays intact.",
     instruction: "Continue to learn how to disband the group.",
   },
   "control-group-disband": {
     step: 6,
     title: "Disband the control group",
-    body: "Right-click any grouped node and confirm Disband. The group is removed, but every node stays where it is. This is an administrative separation.",
+    body: "Each node stays where it is.",
     instruction: "Right-click a grouped node, then confirm Disband.",
   },
   "control-group-complete": {
     step: 6,
     title: "Control group disbanded",
-    body: "The colored markers are gone. Each node can now be selected and moved on its own again.",
+    body: "Each node can now be selected and moved on its own.",
     instruction: "That covers the Control Group tutorial.",
   },
   "monster-camp-boundary": {

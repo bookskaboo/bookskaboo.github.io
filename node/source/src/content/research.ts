@@ -13,22 +13,24 @@ const basic = (amount: number): Partial<Record<ItemId, number>> => ({ 'simple-co
 const mixed = (amount: number): Partial<Record<ItemId, number>> => ({ 'simple-core': amount, 'basic-core': amount, 'automata-core': amount });
 const MIN_RESEARCH_CORE_COST = 5;
 const CORE_ITEMS = new Set<ItemId>(SEVEN_CORES);
-const researchCoreMinimum = (item: ItemId, amount: number) => CORE_ITEMS.has(item) && amount > 0 ? Math.max(MIN_RESEARCH_CORE_COST, amount) : amount;
+const researchCoreMinimum = (project: ResearchProject, item: ItemId, amount: number) =>
+  !project.costs['final-core'] && CORE_ITEMS.has(item) && amount > 0 ? Math.max(MIN_RESEARCH_CORE_COST, amount) : amount;
 
 const trigger = (id: NonNullable<ResearchProject['trigger']>['id'], pending: string, complete: string): NonNullable<ResearchProject['trigger']> => ({ id, pending, complete });
 
 const EFFICIENCY_CORES: ItemId[] = ['simple-core', 'basic-core', 'automata-core', 'hydro-core', 'shiny-core', 'command-core'];
 const EFFICIENCY_CORE_ACCESS = [undefined, undefined, 'automataCore', 'hydraulicAssembly', 'oreSeparation', 'precisionControl'];
-const MACHINE_EFFICIENCY_RESEARCH: ResearchProject[] = [
+export const MACHINE_EFFICIENCY_FAMILIES = [
   ['extractor', 'Extractor'], ['kiln', 'Kiln'], ['smelter', 'Smelter'],
   ['refiner', 'Refiner'], ['assembler', 'Assembler'], ['researchCenter', 'Research Center'],
   ['hydroProcessor', 'Hydro Plant'], ['advancedAssembler', 'Assembler II'], ['separationFurnace', 'Separator'],
-].flatMap(([family, name]) => Array.from({ length: 6 }, (_, index): ResearchProject => {
+] as const;
+const MACHINE_EFFICIENCY_RESEARCH = MACHINE_EFFICIENCY_FAMILIES.flatMap(([family, name]) => Array.from({ length: EFFICIENCY_CORES.length }, (_, index): ResearchProject => {
   const rank = index + 1;
   const machineAccess: Record<string, string> = { hydroProcessor: 'lakeTools', advancedAssembler: 'fabricatorTools', separationFurnace: 'mithrilTools' };
   const prerequisite = rank > 1 ? `${family}${rank - 1}` : family === 'extractor' ? undefined : machineAccess[family] ?? family;
   const access = EFFICIENCY_CORE_ACCESS[index];
-  const effect = `All ${name} cycles use ${100 - rank * 10}% of base time, replacing earlier ranks. Ingredient quantities and output yields stay unchanged.`;
+  const effect = `${name} cycles take ${rank * 10}% less time than the base cycle.`;
   return {
     id: `${family}${rank}`, name: `${name} ${rank}`, category: 'Efficiency',
     description: effect, unlock: effect,
@@ -45,37 +47,37 @@ export const RESEARCH_PROJECTS: ResearchProject[] = [
     ...project,
     prerequisites: project.prerequisites?.filter(id => !DEFERRED_POWER_RESEARCH.has(id)),
     ...(project.id === 'treePlanter1' ? {
-      description: 'Tree Planter cycles use 90% of base time.',
-      unlock: 'Tree Planter cycles use 90% of base time.',
+      description: 'Tree Planter cycles take 10% less time than the base cycle.',
+      unlock: 'Tree Planter cycles take 10% less time than the base cycle.',
     } : {}),
   })),
   ...MACHINE_EFFICIENCY_RESEARCH,
   {
     id: CONNECTOR_MIRRORING_RESEARCH, name: 'Connector Mirroring', category: 'Efficiency',
     description: 'Right-click a production node to swap its input and output banks between the left and right sides. Cables and materials stay attached.',
-    unlock: 'Unlocks right-click connector mirroring on production nodes. Recipe selection stays on left-click where available; the connector-order button keeps its input and output row controls.',
+    unlock: 'Right-click a production node to mirror its connectors.',
     flavorText: 'Because I knew you would want this.',
     costs: { 'simple-core': 10, 'basic-core': 10, 'automata-core': 10, 'hydro-core': 10 },
     prerequisite: 'hydraulicAssembly',
   },
-  { id: 'joint', name: 'Joint', category: 'Milestone', description: 'Make a connection between two nodes to unlock a flexible routing point.', unlock: 'Unlocks the Joint node', flavorText: 'This way, no that way!', costs: {}, trigger: trigger('connection', 'Connect two nodes', 'First connection created') },
+  { id: 'joint', name: 'Joint', category: 'Milestone', description: 'Add a pass-through to bend or organize a cable route.', unlock: 'Unlocks the Joint node', flavorText: 'This way, no that way!', costs: {}, trigger: trigger('connection', 'Connect two nodes', 'First connection created') },
   { id: 'kiln', name: 'Kiln', category: 'Milestone', description: 'Fires Wood into Charcoal for metal processing.', unlock: 'Unlocks the Kiln node', flavorText: 'Burn, baby, burn!', costs: {}, trigger: trigger('wood-extracted', 'Extract 1 Wood with an Extractor', 'Wood extracted') },
   { id: 'smelter', name: 'Smelter', category: 'Milestone', description: 'Smelts metal ore with Charcoal into matching Plates.', unlock: 'Unlocks the Smelter node', flavorText: "I'm melting, I'm melting!", costs: {}, trigger: trigger('metal-extracted', 'Extract 1 metal with an Extractor', 'Metal extracted') },
-  { id: 'refiner', name: 'Refiner', category: 'Milestone', description: 'Changes one input item into another product.', unlock: 'Unlocks the Refiner, its Simple Core recipe, and the Research Center', flavorText: "Nothing a hammer can't fix.", costs: {}, trigger: trigger('plate-produced', 'Produce at least 1 metal Plate', 'Metal Plate produced') },
-  { id: 'researchCenter', name: 'Research Center', category: 'Milestone', description: 'Analyzes Simple, Basic, and Automata Cores to advance research projects.', unlock: 'Unlocks the Research Center node', flavorText: "It's not a failure if we survive.", costs: {}, trigger: trigger('refiner-unlocked', 'Unlock the Refiner', 'Refiner unlocked') },
-  { id: 'assembler', name: 'Assembler', category: 'Fabrication', description: 'Combines two input items into another product.', unlock: 'Unlocks the Assembler node', flavorText: "If it doesn't fit, make it fit.", costs: simple(5) },
-  { id: 'splitter', name: 'Splitter', category: 'Milestone', description: 'Build an Assembler to unlock divided item routing.', unlock: 'Unlocks the Splitter node', costs: {}, trigger: trigger('assembler-built', 'Build an Assembler', 'First Assembler built') },
-  { id: 'merger', name: 'Merger', category: 'Milestone', description: 'Produce a Basic Core to unlock combined item routing.', unlock: 'Unlocks the Merger node', costs: {}, trigger: trigger('basic-core-produced', 'Produce a Basic Core', 'First Basic Core produced') },
-  { id: 'suppressionBot', name: 'Suppression Bot', category: 'Defense', description: 'Study a Monster Camp to develop machines that can keep its expansion under control.', unlock: 'Unlocks the Bot Frame, Bot Gun, and Small Bot recipes', costs: {}, trigger: trigger('monster-camp', 'Encounter a Monster Camp', 'Monster Camp encountered') },
-  { id: 'exploration', name: 'Exploration', category: 'World', description: 'Chart the territory around the Home factory and establish a navigable sector map.', unlock: 'Unlocks the Map and awards 1 Map Point', flavorText: 'The world is flat.', costs: { 'simple-core': 5, 'basic-core': 5 } },
-  { id: 'mapNode', name: 'Extra Map Point', category: 'Repeatable', description: 'Earn a point to spend on an adjacent map. Each new Core tier starts at 5 of each required Core, then the price rises as you buy more Map Points.', unlock: 'Awards 1 Map Point. The first 9 purchases cost 5 Simple. Further Core tiers can enter at purchases 10, 20, 30, 40 and 50 as you unlock them. Each new tier starts at 5 of each Core and ramps up over 10 purchases. Prices then rise by 1 of each Core every five purchases until another tier enters.', costs: simple(5), prerequisite: 'exploration', repeatable: true },
-  { id: 'road', name: 'Road', category: 'World', description: 'Unlocks Carts and paired Roads for shipping between adjacent maps. Connect sending Cart → Road pair → receiving Cart. Starts with one Road per map face.', unlock: 'Unlocks Road and Cart nodes; one Road per map face.', costs: basic(5) },
-  { id: 'trucks', name: 'Trucks', category: 'Logistics', description: 'Upgrades every Cart to a Truck with capacity for 40 solid items of any tier. Existing stock and connections stay attached.', unlock: 'All existing and future Carts become 40-item Trucks. Fluids are excluded.', flavorText: 'The box has received a promotion.', costs: mixed(15), prerequisites: ['road', 'automataCore'] },
-  { id: 'trains', name: 'Trains', category: 'Logistics', description: 'Upgrades every Truck to a Train with capacity for 80 solid items of any tier. Existing stock and connections stay attached.', unlock: 'All existing and future vehicles become 80-item Trains. Fluids are excluded.', flavorText: 'A larger commitment to putting things somewhere else.', costs: { 'simple-core': 40, 'basic-core': 40, 'automata-core': 40, 'hydro-core': 40 }, prerequisites: ['trucks', 'hydraulicAssembly'] },
-  { id: 'automataCore', name: 'Automata Core', category: 'Fabrication', description: 'Develops an advanced core by combining Circuit A with Brick.', unlock: 'Unlocks the Automata Core recipe in the Assembler', costs: basic(5), prerequisite: 'exploration' },
-  { id: 'areaExpansion1', name: 'Area Expansion 1', category: 'World', description: 'Extends the usable factory grounds in every map node.', unlock: 'Increases every map node field by 25% in both dimensions', flavorText: 'YOU MUST CONSTRUCT ADDITIONAL.... nodes.', costs: mixed(10) },
-  { id: 'treePlanter', name: 'Tree Planter', category: 'Ecology', description: 'Automate reforestation by restoring depleted Forest capacity.', unlock: 'Unlocks the Tree Planter node', flavorText: 'Only you can prevent forest fires.', costs: mixed(10) },
-  { id: 'miningDrill', name: 'Mining Drill', category: 'Extraction', description: 'Develop motor-driven deep-bore surveying that creates a fresh ore deposit.', unlock: 'Unlocks the Mining Drill node', flavorText: "I'm a miner, not a major.", costs: mixed(10) },
+  { id: 'refiner', name: 'Refiner', category: 'Milestone', description: 'Make parts such as Gears and Wire, or turn Copper Gears into Simple Cores.', unlock: 'Unlocks the Refiner, its Simple Core recipe, and the Research Center', flavorText: "Nothing a hammer can't fix.", costs: {}, trigger: trigger('plate-produced', 'Produce at least 1 metal Plate', 'Metal Plate produced') },
+  { id: 'researchCenter', name: 'Research Center', category: 'Milestone', description: 'Choose a project, then deliver its required Cores to a Research Center.', unlock: 'Unlocks the Research Center node', flavorText: "It's not a failure if we survive.", costs: {}, trigger: trigger('refiner-unlocked', 'Unlock the Refiner', 'Refiner unlocked') },
+  { id: 'assembler', name: 'Assembler', category: 'Fabrication', description: 'Combine parts to make Basic Cores, Motors, and other components.', unlock: 'Unlocks the Assembler node', flavorText: "If it doesn't fit, make it fit.", costs: simple(5) },
+  { id: 'splitter', name: 'Splitter', category: 'Milestone', description: 'Alternate incoming items between two outputs.', unlock: 'Unlocks the Splitter node', costs: {}, trigger: trigger('assembler-built', 'Build an Assembler', 'First Assembler built') },
+  { id: 'merger', name: 'Merger', category: 'Milestone', description: 'Combine two matching item streams into one output.', unlock: 'Unlocks the Merger node', costs: {}, trigger: trigger('basic-core-produced', 'Produce a Basic Core', 'First Basic Core produced') },
+  { id: 'suppressionBot', name: 'Suppression Bot', category: 'Defense', description: 'Feed a Bot Frame and Bot Gun into a Bot Plant to make a Suppression Bot for Monster Camps.', unlock: 'Unlocks the Bot Plant and the Assembler recipes for Bot Frame and Bot Gun.', costs: {}, trigger: trigger('monster-camp', 'Encounter a Monster Camp', 'Monster Camp encountered') },
+  { id: 'exploration', name: 'Exploration', category: 'World', description: 'Open the world map and gain 1 Map Point to unlock a neighboring map.', unlock: 'Unlocks the Map and awards 1 Map Point', flavorText: 'The world is flat.', costs: { 'simple-core': 5, 'basic-core': 5 } },
+  { id: 'mapNode', name: 'Extra Map Point', category: 'Repeatable', description: 'Subsequent Map Points cost more Cores.', unlock: 'Awards 1 Map Point.', costs: simple(5), prerequisite: 'exploration', repeatable: true },
+  { id: 'road', name: 'Road', category: 'World', description: 'Ship items between adjacent maps. Connect a freight vehicle directly to each end of the Road. Each map starts with one Road slot per side.', unlock: 'Unlocks Roads and Carts.', costs: basic(5) },
+  { id: 'trucks', name: 'Trucks', category: 'Logistics', description: 'Upgrade Carts to Trucks that hold 40 solid items and ship up to 2 items at a time.', unlock: 'Carts are now Trucks.', flavorText: 'The box has received a promotion.', costs: mixed(15), prerequisites: ['road', 'automataCore'] },
+  { id: 'trains', name: 'Trains', category: 'Logistics', description: 'Upgrade Trucks to Trains that hold 80 solid items and ship up to 4 items at a time.', unlock: 'Trucks are now Trains.', flavorText: 'A larger commitment to putting things somewhere else.', costs: { 'simple-core': 40, 'basic-core': 40, 'automata-core': 40, 'hydro-core': 40 }, prerequisites: ['trucks', 'hydraulicAssembly'] },
+  { id: 'automataCore', name: 'Automata Core', category: 'Fabrication', description: 'Combine Circuit A and Brick in an Assembler to make an Automata Core.', unlock: 'Unlocks the Automata Core recipe in the Assembler', costs: basic(5), prerequisite: 'exploration' },
+  { id: 'areaExpansion1', name: 'Area Expansion 1', category: 'World', description: 'Make every play area 25% wider and 25% taller than its original size.', unlock: 'Expands every play area.', flavorText: 'YOU MUST CONSTRUCT ADDITIONAL.... nodes.', costs: mixed(10) },
+  { id: 'treePlanter', name: 'Tree Planter', category: 'Ecology', description: 'Restore Wood to depleted Forests with a Tree Planter.', unlock: 'Unlocks the Tree Planter node', flavorText: 'Only you can prevent forest fires.', costs: mixed(10) },
+  { id: 'miningDrill', name: 'Mining Drill', category: 'Extraction', description: 'Feed a Mining Drill 20 Motors to create a 1,000-unit deposit of the selected material.', unlock: 'Unlocks the Mining Drill node', flavorText: "I'm a miner, not a major.", costs: mixed(10) },
 ];
 
 const MAP_NODE_CORE_ACCESS = ['refiner', 'assembler', 'automataCore', 'hydraulicAssembly', 'oreSeparation', 'precisionControl'];
@@ -120,7 +122,7 @@ export function getResearchCosts(project: ResearchProject, completions = 0, comp
   }
   if (project.costGrowth) {
     const growth = project.costGrowth ** Math.max(0, completions);
-    return Object.fromEntries(Object.entries(project.costs).map(([item, amount]) => [item, researchCoreMinimum(item as ItemId, Math.ceil((amount ?? 0) * growth))])) as Partial<Record<ItemId, number>>;
+    return Object.fromEntries(Object.entries(project.costs).map(([item, amount]) => [item, researchCoreMinimum(project, item as ItemId, Math.ceil((amount ?? 0) * growth))])) as Partial<Record<ItemId, number>>;
   }
   if (project.id !== 'mapNode') return project.costs;
   const completed = mapNodeCompletion(completions);
@@ -151,9 +153,6 @@ export function isResearchAvailable(project: ResearchProject, completedResearch:
   return (!project.prerequisite || completedResearch.includes(project.prerequisite)) && (project.prerequisites ?? []).every(id=>completedResearch.includes(id));
 }
 
-const mythrilDiscovery = RESEARCH_PROJECTS.find(project => project.id === 'mithrilTools')!;
-mythrilDiscovery.description = 'Produce the first Mythril Tribute at a Dwarven settlement to discover its production recipes.';
-mythrilDiscovery.unlock = 'Unlocks Mythril Gear and Mythril Wire in the Refiner, Mythril Plate in the Smelter, and the Separator.';
 for (const id of ['autonomousLogistics','storagePlacementCapacity','inventoryPlacementCapacity','storageConnectionCapacity','inventoryConnectionCapacity']) {
   const p=RESEARCH_PROJECTS.find(p=>p.id===id)!; p.costs=Object.fromEntries(SEVEN_CORES.map(i=>[i,1]));
 }
@@ -161,7 +160,7 @@ for (const project of RESEARCH_PROJECTS) {
   // Repeatables apply the minimum after growth, keeping existing higher prices.
   if (!project.costGrowth) for (const core of SEVEN_CORES) {
     const amount = project.costs[core];
-    if (amount !== undefined) project.costs[core] = researchCoreMinimum(core, amount);
+    if (amount !== undefined) project.costs[core] = researchCoreMinimum(project, core, amount);
   }
   const family = project.id.replace(/\d+$/, '');
   project.flavorText = RESEARCH_FLAVOR[project.id] ?? EFFICIENCY_FLAVOR[family] ?? project.flavorText;

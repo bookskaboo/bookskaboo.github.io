@@ -1,4 +1,4 @@
-import { atResearchCap, reconcileHole, CORNER_ITEMS } from '../content/endgame';
+import { atResearchCap, reconcileHole, FINAL_CORE_PRODUCTION } from '../content/endgame';
 import { getResearchCostsForState, getResearchProject, isResearchAvailable, mapNodePricingPhaseForState, remainingMapNodePurchases, RESEARCH_PROJECTS } from '../content/research';
 import { NODE_DEFINITIONS } from '../content/nodes';
 import { hasNodeBehavior } from '../content/nodeCapabilities';
@@ -6,7 +6,6 @@ import type { GameEvent, GameState, ItemId, MachineNode, NodeKind } from '../dom
 import { isResearchCycleActive } from './researchStatus';
 import { RESEARCH_CENTER_BASE_CYCLE_MS } from '../content/researchTiming';
 import { applyCartUpgrades } from '../content/cartUpgrades';
-import { syncCornerLayouts } from './worldGeneration';
 
 /** Research lifecycle owns payments, milestones, and project selection. State is read lazily so undo/load remain valid. */
 export class ResearchRuntime {
@@ -16,6 +15,7 @@ export class ResearchRuntime {
     private readonly event: (type: GameEvent['type'], message: string, projectId: string, elapsedMs: number) => void,
     private readonly journalElapsedMs: () => number,
     private readonly efficiencyMultiplier: (kind: NodeKind) => number,
+    private readonly onAreaExpanded: () => void,
   ) {}
 
   private get state() { return this.getState(); }
@@ -58,7 +58,7 @@ export class ResearchRuntime {
       this.state.research.completed.push(projectId);
     }
     if (projectId === 'trucks' || projectId === 'trains' || projectId === 'trainFreightCapacity') applyCartUpgrades(this.state);
-    if (projectId === 'areaExpansion1' || projectId === 'areaExpansion2') syncCornerLayouts(this.state);
+    if (projectId === 'areaExpansion1' || projectId === 'areaExpansion2') this.onAreaExpanded();
     if (projectId === 'efficientLandfill') for (const sector of Object.values(this.state.sectors)) for (const node of sector.nodes) if(node.kind==='big-hole') reconcileHole(node,this.state);
     if (projectId === 'exploration' || projectId === 'mapNode') this.state.research.mapPoints++;
     if (projectId === 'mapNode') delete this.state.research.mapNodeQuote;
@@ -75,17 +75,19 @@ export class ResearchRuntime {
   evaluateMilestones() {
     const elapsedMs = this.journalElapsedMs();
     const produced = this.state.produced ?? {};
-    if((produced['final-core']??0)>0)this.state.finalCoreProduced=true;
-    if(this.state.endgame&&!this.state.endgame.componentObtained&&Object.values(this.state.sectors).some(s=>s.nodes.some(n=>Object.values(CORNER_ITEMS).some(i=>(n.input[i]??0)+(n.output[i]??0)>0))))this.state.endgame.componentObtained=true;
+    if ((produced['final-core'] ?? 0) > 0) this.state.finalCoreProduced = true;
+    if (this.state.finalCoreProduced && !this.state.research.completed.includes(FINAL_CORE_PRODUCTION)) {
+      this.state.research.completed.push(FINAL_CORE_PRODUCTION);
+      if (!this.state.research.unlocked.includes(FINAL_CORE_PRODUCTION)) this.state.research.unlocked.push(FINAL_CORE_PRODUCTION);
+    }
     const extracted = this.state.extracted ?? {};
     const nodes = Object.values(this.state.sectors).flatMap((sector) => sector.nodes);
     for (const project of RESEARCH_PROJECTS) {
       if (!project.trigger || this.state.research.completed.includes(project.id)) continue;
-      const complete = project.trigger.id === 'corner-component-obtained' ? Boolean(this.state.endgame?.componentObtained)
+      const complete = project.trigger.id === 'complex-core-produced' ? (produced['command-core'] ?? 0) > 0
         : project.trigger.id === 'encounter' ? (project.trigger.kinds??[]).some(kind=>this.state.encounters?.includes(kind))
         : project.trigger.id === 'dwarven-mythril-produced' ? Boolean(this.state.dwarvenMythrilProduced)
         : project.trigger.id === 'precision-control' ? this.state.research.completed.includes('precisionControl')
-        : project.trigger.id === 'final-core-produced' ? Boolean(this.state.finalCoreProduced)
         : project.trigger.id === 'connection' ? Boolean(this.state.hasCreatedConnection)
         : project.trigger.id === 'assembler-built' ? nodes.some((node) => node.kind === 'assembler')
         : project.trigger.id === 'basic-core-produced' ? (produced['basic-core'] ?? 0) > 0

@@ -15,13 +15,14 @@ import { ResearchRuntime } from './researchRuntime';
 import { getEffectiveNodeInputFamilies, getEffectiveNodeOutputFamilies, isNodeUnlocked, NODE_DEFINITIONS } from '../content/nodes';
 import { getNodeCapabilities, hasNodeBehavior, isResourceBehavior, needsRecipeSelection } from '../content/nodeCapabilities';
 import { isRecipeUnlocked, RECIPES, RECIPE_GROUPS } from '../content/recipes';
+import { cargoMaterial, MATCHED_BOTS } from '../content/botAssembly';
 import { RESEARCH_PROJECTS } from '../content/research';
 import { getEfficiencyMultiplier } from '../content/efficiency';
 import { migrateRetiredNodes } from '../content/retiredNodes';
 import { LEGACY_NODE_DISPLAY_NAMES } from '../content/displayNameChanges';
 import { CONTROL_GROUP_COLORS, copyControlGroups, normalizeControlGroups, regroupControlNodes } from '../domain/controlGroups';
 import type { Connection, GameEvent, GameState, InFlightTransfer, ItemId, MachineNode, NodeKind, SectorState } from '../domain/types';
-import { getEncounterLayoutVersion, getGolemPlacementTier, getSectorWorldSize, sectorDistance, sectorForState, sectorId, syncCornerLayouts } from './worldGeneration';
+import { getEncounterLayoutVersion, getGolemPlacementTier, getWorldFieldSize, normalizeWorldFieldSize, sectorDistance, sectorForState, sectorId, syncCornerLayouts } from './worldGeneration';
 import { logisticsRoute } from './logisticsRoutes';
 import { routedConnectionFailure } from './connectionMaterials';
 import { isTutorialUnlocked, type ProgressiveTutorialKind } from '../tutorials/tutorialUnlocks';
@@ -32,9 +33,10 @@ import { RESEARCH_CENTER_BASE_CYCLE_MS } from '../content/researchTiming';
 import { applyCartUpgrades, cartCapacity, cartUpgrade, isCartKind, vehiclePayload } from '../content/cartUpgrades';
 import { updateCampEncroachment } from './campEffects';
 import { obstructedConnections } from './obstructedConnections';
-import { devExtractorMaterial, devInputItems, supplyDevInputs } from './devSource';
-import { roadFeedCandidates, recoverRoadStock } from './roadTransport';
-import { connectionBlockedByWorld, connectionObstruction, inputPortAcceptsItem, portFamilyAcceptsItem, portFamiliesCompatible, resolveConnectionPlan, resolveExactConnectionPlan } from './connectionRules';
+import { facingAwayFromNeighbor, pairedRoadPositions } from './roadPlacement';
+import { devExtractorMaterial, supplyDevInputs } from './devSource';
+import { recoverRoadStock } from './roadTransport';
+import { connectionBlockedByWorld, connectionObstruction, inputPortAcceptsItem, portFamilyAcceptsItem, portFamiliesCompatible, resolveConnectionPlan, resolveExactConnectionPlan, roadVehicleError } from './connectionRules';
 import { getNodeModule, isPlayerMovableNode } from '../content/nodeModules';
 import { CONNECTOR_MIRRORING_RESEARCH, isProductionMachine } from '../content/productionNodes';
 
@@ -43,7 +45,8 @@ import { FILTERABLE_ITEMS, ITEM_NAMES } from '../content/items';
 import { SimulationLookups } from './simulationLookups';
 import { WASTE_ITEMS } from '../content/progression';
 import { migrateReviewedProduction } from './reviewedProductionMigration';
-import { filterOutlet, outputHead, queueOutputs, reconcileQueue, returnOutput, takeOutput } from './mixedOutput';
+import { filterOutlet, selectedFilterPort, type FilterPort } from '../domain/filterRouting';
+import { outputHead, queueOutputs, reconcileQueue, returnOutput, takeOutput } from './mixedOutput';
 import { getGoblinAttackRequirement, getMonsterSettlementDefinition, GOBLIN_CHECK_INTERVAL_MS } from '../content/goblinSettlements';
 import { createGoblinTribute, getTributeItems, isCampFullySuppressed, produceGoblinTribute, tributeMaterial, type TributeItem } from './goblinTribute';
 import { isRoadFluid, roadConnectionError, roadInputAccepts, roadMaterialState } from './roadMaterials';
@@ -52,6 +55,12 @@ import { initializeProgression, discoverActiveSector, simulateProgressionNode, s
 const clone = <T,>(value: T): T => structuredClone(value);
 const makeId = (prefix: string) => `${prefix}-${crypto.randomUUID?.() ?? Math.random().toString(36).slice(2)}`;
 const sum = (bag: Partial<Record<ItemId, number>>) => Object.values(bag).reduce<number>((a, b) => a + (b ?? 0), 0);
+export interface RoadPlacementTarget {
+  sector: SectorState;
+  endpoint: MachineNode;
+  localFacing: NonNullable<MachineNode['roadFacing']>;
+}
+
 const nonItemFamilies = new Set(['FLUID', 'WASTE','ANY', 'RESOURCE', 'METAL', 'PLATE', 'GEAR', 'CORE', 'ROBOT_FRAME', 'ROBOT_WEAPON', 'ATTACK_POWER', 'POWER']);
 const concreteOutputItem = (node: MachineNode, port: number) => {
   if (node.kind === 'refiner' && node.recipeId?.match(/-(gear|wire)$/) &&
@@ -74,6 +83,7 @@ export class GameEngine {
     (type, message, projectId, elapsedMs) => this.event(type, message, projectId, elapsedMs),
     () => this.journalElapsedMs(),
     kind => this.efficiencyMultiplier(kind),
+    () => this.syncFieldLayouts(),
   );
   private state: GameState;
   private listeners = new Set<() => void>();
@@ -121,7 +131,7 @@ export class GameEngine {
     this.state.mod = candidate;
     if (gridSize !== undefined) this.state.worldGridSize = gridSize;
     activateMod(candidate);
-    syncCornerLayouts(this.state);
+    this.syncFieldLayouts();
     applyModNames(this.state);
     applyCartUpgrades(this.state);
     applyModNames(this.state);
@@ -131,15 +141,18 @@ export class GameEngine {
     this.publish();
   }
   private normalizeExtractorCycles() {
+    normalizeWorldFieldSize(this.state);
     this.state.golemPlacementTier ??= getGolemPlacementTier(this.state);
     this.state.encounterLayoutVersion ??= getEncounterLayoutVersion(this.state);
     migrateRetiredNodes(this.state);
     initializeProgression(this.state);
     migrateReviewedProduction(this.state);
+    this.migrateBotAssembly();
     initializeEndgame(this.state);
     applyCartUpgrades(this.state);
     for (const node of [...Object.values(this.state.sectors).flatMap(sector => sector.nodes), ...(this.state.factoryTemplates ?? []).flatMap(template => template.nodes)]) {
       node.name = LEGACY_NODE_DISPLAY_NAMES[node.name] ?? node.name;
+      if (node.modBaseName) node.modBaseName = LEGACY_NODE_DISPLAY_NAMES[node.modBaseName] ?? node.modBaseName;
       if (node.kind === 'goblinTribute') node.name = 'Tribute';
       if (node.kind === 'monster-camp' && node.lizardSettlement) {
         node.name = getMonsterSettlementDefinition(node).name;
@@ -168,7 +181,7 @@ export class GameEngine {
       this.removeDefeatedGolemCables(sector);
       this.clearFilledHoles(sector, sector.nodes.filter(node => node.kind === 'big-hole' && node.resourceRemaining === 0));
     }
-    syncCornerLayouts(this.state);
+    this.syncFieldLayouts();
     const roadCables = new Set(Object.values(this.state.sectors).flatMap(sector => {
       const roads = new Set(sector.nodes.filter(node => node.kind === 'road').map(node => node.id));
       return sector.connections.filter(cable => roads.has(cable.from) || roads.has(cable.to)).map(cable => cable.id);
@@ -482,7 +495,7 @@ export class GameEngine {
     this.removeInactiveTribute(sector);
     for (const camp of checkedCamps) {
       if (!isCampFullySuppressed(camp) || sector.nodes.some(node => node.kind === 'goblinTribute' && node.tributeCampId === camp.id)) continue;
-      const tribute = createGoblinTribute(camp, sector.nodes, getSectorWorldSize(sector, this.state.research.completed));
+      const tribute = createGoblinTribute(camp, sector.nodes, getWorldFieldSize(this.state));
       if (tribute) { sector.nodes.push(tribute); this.event('NodePlaced', `${camp.name} is suppressed and now supplies configurable tribute.`); }
     }
     sector.lastSimulatedAt = Date.now();
@@ -508,7 +521,7 @@ export class GameEngine {
 
   private resolveExtractorInput(sector: SectorState, node: MachineNode, lookups: SimulationLookups) {
     const resourceEdge = lookups.sector(sector).incoming.get(node.id)?.find(connection => (connection.toPort ?? 0) === 0);
-    const resourceRoute = resourceEdge ? this.resolveResourceRoute(sector, resourceEdge.from, lookups, new Set(), node) : undefined;
+    const resourceRoute = resourceEdge ? this.resolveResourceRoute(sector, resourceEdge, lookups, node) : undefined;
     return { resourceEdge, resourceRoute };
   }
 
@@ -531,18 +544,23 @@ export class GameEngine {
     }
   }
 
-  private resolveResourceRoute(sector: SectorState, nodeId: string, lookups: SimulationLookups, visited = new Set<string>(), extractor?: MachineNode): { source: MachineNode; connections: Connection[] } | undefined {
-    if (visited.has(nodeId)) return undefined;
-    visited.add(nodeId);
+  private resolveResourceRoute(sector: SectorState, edge: Connection, lookups: SimulationLookups, extractor: MachineNode, visited = new Set<string>(), accepts = (_item: ItemId) => true): { source: MachineNode; connections: Connection[] } | undefined {
+    if (visited.has(edge.from)) return undefined;
     const index = lookups.sector(sector);
-    const node = index.nodes.get(nodeId);
+    const node = index.nodes.get(edge.from);
     if (!node || node.disabled) return;
-    if (node.kind === 'devSource') return { source: { ...node, resourceItem: extractor ? devExtractorMaterial(extractor, sector, this.state) : 'iron', infiniteResource: true }, connections: [] };
-    if (node.resourceItem && node.kind !== 'lake') return { source: node, connections: [] };
+    if (node.kind === 'devSource') {
+      const resourceItem = devExtractorMaterial(extractor, sector, this.state);
+      if (accepts(resourceItem)) return { source: { ...node, resourceItem, infiniteResource: true }, connections: [] };
+      return;
+    }
+    if (node.resourceItem && node.kind !== 'lake') return accepts(node.resourceItem) ? { source: node, connections: [] } : undefined;
     if (!getNodeCapabilities(node.kind).passThrough) return;
-    for (const incoming of index.incoming.get(nodeId) ?? []) {
-      const route = this.resolveResourceRoute(sector, incoming.from, lookups, visited, extractor);
-      if (route && (route.source.infiniteResource || (route.source.resourceRemaining ?? 0) > 0) && (node.kind !== 'filter' || !node.filterItem || node.filterItem === route.source.resourceItem)) return { source: route.source, connections: [...route.connections, incoming] };
+    const path = new Set(visited).add(node.id);
+    const throughOutlet = node.kind === 'filter' ? (item: ItemId) => accepts(item) && (edge.fromPort ?? 0) === filterOutlet(node, item) : accepts;
+    for (const incoming of index.incoming.get(node.id) ?? []) {
+      const route = this.resolveResourceRoute(sector, incoming, lookups, extractor, path, throughOutlet);
+      if (route && (route.source.infiniteResource || (route.source.resourceRemaining ?? 0) > 0)) return { source: route.source, connections: [...route.connections, incoming] };
     }
     return undefined;
   }
@@ -564,34 +582,29 @@ export class GameEngine {
     const localIndex = lookups.sector(sector), remoteIndex = lookups.sector(remote);
     const exits = remoteIndex.outgoing.get(pair.id) ?? [];
     if (!exits.length) return;
-    for (const { source, first } of roadFeedCandidates(road, localIndex)) {
-      if (Date.now() - source.constructedAt < source.constructionMs) continue;
-      const bags = hasNodeBehavior(source.kind, 'buffer') ? [source.input, source.output] : [source.output];
-      const virtual = source.kind === 'devSource';
-      const items = virtual ? material.materials.length ? material.materials : [...new Set(exits.flatMap(cable => {
-        const target = remoteIndex.nodes.get(cable.to);
-        return target ? devInputItems(target, cable.toPort ?? 0, remote, this.state) : [];
-      }))] : [...new Set(bags.flatMap(bag => (Object.keys(bag) as ItemId[]).filter(item => (bag[item] ?? 0) >= 1)))];
+    for (const feed of localIndex.incoming.get(road.id) ?? []) {
+      const source = localIndex.nodes.get(feed.from);
+      if (!source || roadVehicleError(source, road) || source.disabled || Date.now() - source.constructedAt < source.constructionMs) continue;
+      const family = getEffectiveNodeOutputFamilies(source)[feed.fromPort ?? 0];
+      if (!family) continue;
+      const bags = [source.input, source.output];
+      const items = [...new Set(bags.flatMap(bag => (Object.keys(bag) as ItemId[]).filter(item => (bag[item] ?? 0) >= 1)))];
       for (const item of items) {
         if (outputHead(source) && outputHead(source) !== item) continue;
-        if (isRoadFluid(item) || (material.materials.length && material.materials[0] !== item)) continue;
-        const feed = logisticsRoute(first, item, sector, this.state.research.completed, (target, port) =>
-          target.id === road.id || (Boolean(getNodeCapabilities(target.kind).passThrough) && this.canAcceptAtInputPort(target, port, item, sector, lookups)), localIndex);
-        if (feed?.target.id !== road.id) continue;
+        if (isRoadFluid(item) || (material.materials.length && material.materials[0] !== cargoMaterial(item))) continue;
+        if (!portFamilyAcceptsItem(family, item) || !inputPortAcceptsItem(road, feed.toPort ?? 0, item, this.state.research.completed)) continue;
         for (const exit of exits) {
           const delivery = this.resolveDeliveryRoute(exit, item, remote, lookups);
           if (!delivery) continue;
-          if (!virtual) { const bag = bags.find(bag => (bag[item] ?? 0) >= 1)!; if (bag === source.output) takeOutput(source, item); else bag[item]!--; }
+          if ((source.input[item] ?? 0) >= 1) source.input[item]!--;
+          else takeOutput(source, item);
           delivery.target.input[item] = (delivery.target.input[item] ?? 0) + 1;
-          for (const route of [feed, delivery]) {
-            route.connections.forEach(cable => { cable.item = item; });
-            route.routers.forEach(({ node, outputIndex }) => { if (getNodeCapabilities(node.kind).alternatingOutputs) node.alternator = outputIndex + 1; });
-          }
+          feed.item = item;
+          exit.item = item;
           // Visual cable motion carries no inventory or capacity reservation.
-          for (const [owner, route, from, to] of [[sector, feed, source.id, road.id], [remote, delivery, pair.id, delivery.target.id]] as const) {
-            (this.state.inFlightTransfers ??= []).push({ id: makeId('road-pulse'), sectorId: owner.id, connectionId: route.connections[0].id,
-              routeConnectionIds: route.connections.length > 1 ? route.connections.map(cable => cable.id) : undefined,
-              from, to, item, launchedAtMs: this.state.playTimeMs, arrivesAtMs: this.state.playTimeMs + modRule('cableTravelMs'), cosmeticOnly: true });
+          for (const [owner, cable] of [[sector, feed], [remote, exit]] as const) {
+            (this.state.inFlightTransfers ??= []).push({ id: makeId('road-pulse'), sectorId: owner.id, connectionId: cable.id,
+              from: cable.from, to: cable.to, item, launchedAtMs: this.state.playTimeMs, arrivesAtMs: this.state.playTimeMs + modRule('cableTravelMs'), cosmeticOnly: true });
           }
           return;
         }
@@ -606,7 +619,6 @@ export class GameEngine {
     if (modNode(node.kind)?.inputCapacity !== undefined) return modNode(node.kind)!.inputCapacity!;
     if (node.kind === 'forest' && this.state.research.completed.includes('planterThroughput')) return 20;
     if (node.kind === 'monster-camp') return Math.max(5, getGoblinAttackRequirement(node));
-    if(node.kind==='lakeIntake')return 64;
     return getNodeCapabilities(node.kind).inputCapacity ?? 5;
   }
 
@@ -633,7 +645,7 @@ export class GameEngine {
     if(node.kind==='recycler'&&!recyclerAccepts(item))return false;
     if(node.kind==='cornerChallenge'&&!cornerInputAllowed(sector,node))return false;
     if (!inputPortAcceptsItem(node, port, item, this.state.research.completed)) return false;
-    if (!roadInputAccepts(this.state, sector, node, port, item)) return false;
+    if (!roadInputAccepts(this.state, sector, node, item)) return false;
     if (node.kind === 'filter') {
       if (routingPath.has(node.id)) return false;
       return !this.filterBlockage(node, sector, lookups, new Set(routingPath).add(node.id), item);
@@ -658,7 +670,7 @@ export class GameEngine {
     }
     if (modNodeTemplate(node.kind) === 'merger') {
       const retained = this.mergerItem(node, sector, lookups);
-      return !retained || retained === item;
+      return !retained || cargoMaterial(retained) === cargoMaterial(item);
     }
     return this.accepts(node, item);
   }
@@ -689,7 +701,7 @@ export class GameEngine {
         const reserved = this.inputUsesPerItemCapacity(target) ? pending?.counts[item] ?? 0 : pending?.transfers.reduce((sum, t) => sum + (t.amount ?? 1), 0) ?? 0;
         return this.inputOccupancy(target, item) + reserved < this.inputCapacity(target, item);
       }, index));
-      if (!ready) return outlet === 0 ? 'selected' : 'remainder';
+      if (!ready) return outlet === selectedFilterPort(node) ? 'selected' : 'remainder';
     }
     return undefined;
   }
@@ -707,7 +719,13 @@ export class GameEngine {
       const target = index?.nodes.get(transfer.to);
       const source = index?.nodes.get(transfer.from);
       const routeIds = transfer.routeConnectionIds ?? [transfer.connectionId];
-      const routeValid = routeIds.every((id, position) => { const cable = index?.connections.get(id); const previous = position ? index?.connections.get(routeIds[position - 1]) : undefined; const routeNode = cable && index?.nodes.get(cable.from); return Boolean(cable && routeNode && !routeNode.disabled && (!position || (previous?.to === cable.from && (routeNode.kind !== 'filter' || (cable.fromPort ?? 0) === filterOutlet(routeNode, transfer.item))))); });
+      const routeValid = routeIds.every((id, position) => {
+        const cable = index?.connections.get(id);
+        const previous = position ? index?.connections.get(routeIds[position - 1]) : undefined;
+        const routeNode = cable && index?.nodes.get(cable.from);
+        return Boolean(cable && routeNode && !routeNode.disabled && (!position || previous?.to === cable.from) &&
+          (routeNode.kind !== 'filter' || (cable.fromPort ?? 0) === filterOutlet(routeNode, transfer.item)));
+      });
       const connection = routeValid ? index?.connections.get(routeIds.at(-1)!) : undefined;
       const occupied = target ? this.inputOccupancy(target, transfer.item) : 0;
       const validSocket = Boolean(target && connection && sector && this.canAcceptAtInputPort(target, connection.toPort ?? 0, transfer.item, sector, lookups, transfer.id));
@@ -721,6 +739,57 @@ export class GameEngine {
     // Prepending in reverse restores the original dispatch order ahead of newer stock.
     for (const { source, item, amount } of refunds.reverse()) returnOutput(source, item, amount);
     this.state.inFlightTransfers = remaining;
+  }
+
+  private migrateBotAssembly() {
+    if (this.state.botAssemblyVersion) return;
+    const updatedBotRecipes = new Set<string>(MATCHED_BOTS.slice(1));
+    const legacyCores: Record<string, ItemId> = {
+      'medium-suppression-bot': 'basic-core', 'heavy-suppression-bot': 'hydro-core', 'command-suppression-bot': 'command-core',
+    };
+    const recovered = this.state.globalPool ??= {};
+    const disconnect = new Set<string>();
+    for (const sector of Object.values(this.state.sectors)) {
+      const nodes = new Map(sector.nodes.map(node => [node.id, node]));
+      for (const node of sector.nodes) {
+        if (node.recipeId === 'robot-gun' && !node.batch && node.progressMs > 0 &&
+            (node.input['copper-wire'] ?? 0) >= 1 && (node.input['iron-plate'] ?? 0) >= 2) {
+          node.input['copper-wire']!--;
+          node.input['iron-plate']! -= 2;
+          node.batch = { recipeId: node.recipeId, outputs: { 'simple-robot-gun': 1 } };
+        }
+        if (!node.recipeId || !updatedBotRecipes.has(node.recipeId)) continue;
+        const inputs = Object.keys(RECIPES[node.recipeId].inputs) as ItemId[];
+        const oldInputs: ItemId[] = node.recipeId === 'final-suppression-bot'
+          ? ['command-suppression-bot', 'command-core', 'servo-frame']
+          : [...inputs, legacyCores[node.recipeId]];
+        const incoming = sector.connections.filter(connection => connection.to === node.id);
+        for (const connection of incoming) {
+          const port = connection.toPort ?? 0;
+          if (inputs[port] !== oldInputs[port]) disconnect.add(connection.id);
+        }
+        for (const item of oldInputs.filter(item => !inputs.includes(item))) {
+          const amount = node.input[item] ?? 0;
+          if (amount <= 0) continue;
+          const connection = incoming.find(edge => (edge.toPort ?? 0) === oldInputs.indexOf(item) && (!edge.item || edge.item === item));
+          const source = connection && nodes.get(connection.from);
+          if (source && (getNodeCapabilities(source.kind).behavior === 'buffer' ||
+              (source.recipeId && RECIPES[source.recipeId]?.outputs[item]))) returnOutput(source, item, amount);
+          else recovered[item] = (recovered[item] ?? 0) + amount;
+          delete node.input[item];
+        }
+        if (node.recipeId === 'final-suppression-bot') delete node.inputPortOrder;
+        else if (node.inputPortOrder) node.inputPortOrder = node.inputPortOrder.filter(port => port < inputs.length);
+      }
+    }
+    this.cancelTransfers(disconnect);
+    for (const sector of Object.values(this.state.sectors)) sector.connections = sector.connections.filter(edge => !disconnect.has(edge.id));
+    for (const template of this.state.factoryTemplates ?? []) {
+      const finalIds = new Set(template.nodes.filter(node => node.recipeId === 'final-suppression-bot').map(node => node.id));
+      const updatedIds = new Set(template.nodes.filter(node => node.recipeId && updatedBotRecipes.has(node.recipeId)).map(node => node.id));
+      template.connections = template.connections.filter(edge => !finalIds.has(edge.to) && (!updatedIds.has(edge.to) || (edge.toPort ?? 0) < 2));
+    }
+    this.state.botAssemblyVersion = 1;
   }
 
   private cancelTransfers(connectionIds: Set<string>) {
@@ -745,7 +814,6 @@ export class GameEngine {
 
   private routeSector(sector: SectorState, nowMs = this.state.playTimeMs, lookups = new SimulationLookups(this.state)) {
     let launched = false;
-    const fastUsed=new Map<string,number>();
     const index = lookups.sector(sector);
     for (const node of sector.nodes) if (node.kind === 'filter') node.filterBlocked = this.filterBlockage(node, sector, lookups);
     for (const connection of sector.connections) {
@@ -755,7 +823,8 @@ export class GameEngine {
       if (!source || !target || source.disabled || target.disabled) continue;
       if (source.kind === 'filter' && this.filterBlockage(source, sector, lookups)) continue;
       if (source.kind === 'devSource') continue; // Inputs are supplied directly before simulation.
-      if(target.kind==='lakeIntake' || (hasNodeBehavior(target.kind,'road')&&hasNodeBehavior(source.kind,'buffer')))continue;
+      if (source.kind === 'lake' && target.kind === 'fluidLink') continue;
+      if (hasNodeBehavior(target.kind, 'road') && hasNodeBehavior(source.kind, 'buffer')) continue;
       const sourceCapabilities = getNodeCapabilities(source.kind);
       if (isResourceBehavior(source.kind) && !sourceCapabilities.routesOwnOutput) continue;
       if (sourceCapabilities.alternatingOutputs) {
@@ -779,7 +848,7 @@ export class GameEngine {
       const item = (head ? [head] : Object.keys(source.output) as ItemId[]).find((key) =>
         (source.output[key] ?? 0) > 0 && Boolean(resolveRoute(key)) && portFamilyAcceptsItem(getEffectiveNodeOutputFamilies(source)[connection.fromPort??0]??'ANY',key) && this.canAcceptAtInputPort(target!, connection.toPort ?? 0, key, sector, lookups)
       );
-      if (!item || source.kind === 'filter' && (connection.fromPort ?? 0) !== filterOutlet(source, item)) continue;
+      if (!item) continue;
       if (!portFamiliesCompatible(source,connection.fromPort??0,target,connection.toPort??0,this.state.research.completed) || !getEffectiveNodeOutputFamilies(source)[connection.fromPort??0] || !inputPortAcceptsItem(target,connection.toPort??0,item,this.state.research.completed))continue;
       const sourceFamily=getEffectiveNodeOutputFamilies(source)[connection.fromPort??0];
       if(sourceFamily==='WASTE'&&!WASTE_ITEMS.includes(item))continue;
@@ -793,8 +862,23 @@ export class GameEngine {
       const pendingForTarget = perItemCapacity ? pending?.counts[item] ?? 0 : pending?.transfers.reduce((n, t) => n + (t.amount ?? 1), 0) ?? 0;
       const occupied = this.inputOccupancy(target, item);
       if (occupied + pendingForTarget >= cap) continue;
-      const fastRate=source.kind==='goblinTribute'?10:(item==='water'||(item==='coolant'&&[source.kind,target.kind].includes('fluidLink')))&&(source.kind!=='lake')?16:(WASTE_ITEMS.includes(item)&&[source.kind,target.kind].some(k=>['wasteLink','wasteSorter','wasteHopper'].includes(k)))?40:item==='power'&&[source.kind,target.kind].includes('powerConduit')?25:0;
-      if(fastRate){connection.batchCredit=Math.min(fastRate,(connection.batchCredit??0)+fastRate*.4);const shared=source.kind==='wasteSorter'||source.kind==='wasteLink'?16-(fastUsed.get(source.id)??0):Infinity;const amount=Math.min(shared,Math.floor(connection.batchCredit),source.output[item]??0,source.outputQueue ? (source.outputQueue.findIndex(key=>key!==item)<0 ? source.outputQueue.length : source.outputQueue.findIndex(key=>key!==item)) : Infinity,cap-occupied-pendingForTarget);if(amount>0){takeOutput(source,item,amount);target.input[item]=(target.input[item]??0)+amount;if(getNodeCapabilities(target.kind).behavior==='buffer')(target.inputQueue??=[]).push(...Array<ItemId>(amount).fill(item));connection.batchCredit-=amount;fastUsed.set(source.id,(fastUsed.get(source.id)??0)+amount);connection.item=item;launched=true;if(sourceCapabilities.alternatingOutputs)source.alternator=index.outgoing.get(source.id)!.findIndex(candidate=>candidate.id===connection.id)+1;}continue;}
+      const fastRate=source.kind==='goblinTribute'?10:(item==='water'||(item==='coolant'&&[source.kind,target.kind].includes('fluidLink')))&&(source.kind!=='lake')?16:(WASTE_ITEMS.includes(item)&&[source.kind,target.kind].includes('wasteHopper'))?40:item==='power'&&[source.kind,target.kind].includes('powerConduit')?25:0;
+      if (fastRate) {
+        connection.batchCredit = Math.min(fastRate, (connection.batchCredit ?? 0) + fastRate * .4);
+        const nextItemIndex = source.outputQueue?.findIndex(key => key !== item) ?? -1;
+        const queuedAmount = nextItemIndex >= 0 ? nextItemIndex : source.outputQueue?.length ?? Infinity;
+        const amount = Math.min(Math.floor(connection.batchCredit), source.output[item] ?? 0, queuedAmount, cap - occupied - pendingForTarget);
+        if (amount > 0) {
+          takeOutput(source, item, amount);
+          target.input[item] = (target.input[item] ?? 0) + amount;
+          if (getNodeCapabilities(target.kind).behavior === 'buffer') (target.inputQueue ??= []).push(...Array<ItemId>(amount).fill(item));
+          connection.batchCredit -= amount;
+          connection.item = item;
+          launched = true;
+          if (sourceCapabilities.alternatingOutputs) source.alternator = index.outgoing.get(source.id)!.findIndex(candidate => candidate.id === connection.id) + 1;
+        }
+        continue;
+      }
       const payload = item === 'forest-growth' && this.state.research.completed.includes('planterThroughput') ? 10 : isCartKind(source.kind) || isCartKind(target.kind) ? vehiclePayload(this.state.research.completed) : 1;
       const runLength = source.outputQueue ? source.outputQueue.findIndex(key => key !== item) : -1;
       const amount = Math.min(payload, source.output[item] ?? 0, cap - occupied - pendingForTarget, source.outputQueue ? runLength < 0 ? source.outputQueue.length : runLength : Infinity);
@@ -807,7 +891,7 @@ export class GameEngine {
       lookups.launched(transfer);
       launched = true;
       if (sourceCapabilities.alternatingOutputs) source.alternator = index.outgoing.get(source.id)!.findIndex(candidate => candidate.id === connection.id) + 1;
-      this.event('TransferStarted', `${item} routed to ${target.name}.`);
+      this.event('TransferStarted', `${ITEM_NAMES[item] ?? item} routed to ${target.name}.`);
     }
     for (const node of sector.nodes) {
       if (node.disabled || node.processingPaused || !getNodeCapabilities(node.kind).passThrough) continue;
@@ -830,8 +914,7 @@ export class GameEngine {
           continue;
         }
       }
-      if(node.kind==='wasteSorter'){let budget=16;for(let k=0;k<WASTE_ITEMS.length;k++){const i=WASTE_ITEMS[((node.alternator??0)+k)%WASTE_ITEMS.length];const amount=Math.min(node.input[i]??0,32-(node.output[i]??0),budget);node.input[i]=(node.input[i]??0)-amount;node.output[i]=(node.output[i]??0)+amount;budget-=amount;}node.alternator=((node.alternator??0)+1)%WASTE_ITEMS.length;continue;}
-      if (item && sum(node.output) < (modNode(node.kind)?.capacity ?? node.capacity ?? 5)) { const q=['fluidLink','wasteLink','powerConduit'].includes(node.kind)?Math.min(node.input[item]??0,(modNode(node.kind)?.capacity ?? node.capacity ?? 64)-sum(node.output)):1;node.input[item]!-=q; node.output[item] = (node.output[item] ?? 0) + q; }
+      if (item && sum(node.output) < (modNode(node.kind)?.capacity ?? node.capacity ?? 5)) { const q=['fluidLink','powerConduit'].includes(node.kind)?Math.min(node.input[item]??0,(modNode(node.kind)?.capacity ?? node.capacity ?? 64)-sum(node.output)):1;node.input[item]!-=q; node.output[item] = (node.output[item] ?? 0) + q; }
     }
     return launched;
   }
@@ -853,7 +936,8 @@ export class GameEngine {
     if (!def || (def.hidden && !def.legacyAlias && kind !== 'devSource')) return;
     if (modNode(kind)?.template && !isNodeUnlocked(kind, this.state.research.unlocked) && !preview) return;
     const lockedStorage = (def.category === 'Storage' || isCartKind(kind)) && !isNodeUnlocked(kind, this.state.research.unlocked);
-    if (lockedStorage && !preview) return;
+    const lockedBotPlant = kind === 'botPlant' && !isNodeUnlocked(kind, this.state.research.unlocked);
+    if ((lockedStorage || lockedBotPlant) && !preview) return;
     const capabilities = getNodeCapabilities(kind);
     if(capabilities.globallyUnique&&this.state.activeSectorId!=='5,5')return;
     if((kind==='storage'||kind==='inventory')&&Object.values(this.state.sectors).flatMap(s=>s.nodes).filter(n=>n.kind===kind).length>=placementLimit(this.state,kind))return;
@@ -880,16 +964,15 @@ export class GameEngine {
     if (modNode(kind)?.name) node.name = modNode(kind)!.name!;
     let pairedNode: MachineNode | undefined;
     if (roadPair) {
-      node.x = roadPair.localX; node.y = roadPair.localY; node.roadMode = 'export'; node.pairedSectorId = roadPair.sector.id; node.roadFacing = roadPair.side;
-      const pair: MachineNode = { ...clone(node), id: preview ? '__placement-preview-pair__' : makeId('road'), x: roadPair.pairX, y: roadPair.pairY, roadMode: 'import', pairedSectorId: this.getSector().id, input: {}, output: {}, progressMs: 0 };
+      Object.assign(node, roadPair.local, { roadMode: 'export', pairedSectorId: roadPair.sector.id });
+      const pair: MachineNode = { ...clone(node), ...roadPair.remote, id: preview ? '__placement-preview-pair__' : makeId('road'), roadMode: 'import', pairedSectorId: this.getSector().id, input: {}, output: {}, progressMs: 0 };
       node.pairedRoadId = pair.id; pair.pairedRoadId = node.id; pairedNode = pair;
-      pair.roadFacing = ({ north: 'south', south: 'north', east: 'west', west: 'east' } as const)[roadPair.side];
     }
-    const field = getSectorWorldSize(this.getSector(), this.state.research.completed);
-    const pairField = roadPair ? getSectorWorldSize(roadPair.sector, this.state.research.completed) : undefined;
+    const field = getWorldFieldSize(this.state);
     const localClear = canPlaceNode(node, this.getSector().nodes, field);
-    const pairClear = !(pairedNode && pairField && !canPlaceNode(pairedNode, roadPair!.sector.nodes, pairField));
-    const error = lockedStorage ? ['woodenChest', 'chest'].includes(kind) ? 'Complete Road research to build a Cart.' : 'Research this storage node before building it.' : uniqueNodeBlocked ? 'This unique node already exists.'
+    const pairClear = !(pairedNode && roadPair && !canPlaceNode(pairedNode, roadPair.sector.nodes, field));
+    const error = lockedBotPlant ? 'Complete Suppression Bot research to build a Bot Plant.'
+      : lockedStorage ? ['woodenChest', 'chest'].includes(kind) ? 'Complete Road research to build a Cart.' : 'Research this storage node before building it.' : uniqueNodeBlocked ? 'This unique node already exists.'
       : capabilities.pairedSectorPlacement && !roadPair ? 'Unlock an adjacent map before placing a road to it.'
       : channelsFull ? `This boundary allows ${roadChannels(this.state)} Roads per map face, counting sending and receiving endpoints together. Use another face or remove a Road${roadChannels(this.state) < 3 ? ', or research Road Channels' : ''}.`
       : !localClear ? `The endpoint on map ${this.getSector().id} needs clearance from the field boundary, other nodes and obstructions. Choose another position.`
@@ -897,10 +980,15 @@ export class GameEngine {
     return { node, pairedNode, roadPair, valid: !error, error };
   }
 
-  /** Returns the snapped node and validity used by the cursor-held build preview. */
+  /** Returns the held node, placement validity, and the destination for a Road near its wall. */
   getNodePlacementPreview(kind: NodeKind, x: number, y: number) {
     const plan = this.planNodePlacement(kind, x, y, true);
-    return plan ? { node: plan.node, valid: plan.valid } : undefined;
+    if (!plan) return;
+    const { node, pairedNode, roadPair, valid } = plan;
+    const road: RoadPlacementTarget | undefined = roadPair && pairedNode && Math.abs(roadPair.score) <= getNodeSize(node).w
+      ? { sector: roadPair.sector, endpoint: pairedNode, localFacing: roadPair.side }
+      : undefined;
+    return { node, valid, road };
   }
 
   getNodePlacementError(kind: NodeKind, x: number, y: number) {
@@ -942,21 +1030,52 @@ export class GameEngine {
   }
   private findRoadPair(x: number, y: number) {
     const current = this.getSector();
-    const field = getSectorWorldSize(current, this.state.research.completed);
-    const roadSize = 135;
+    const field = getWorldFieldSize(this.state);
     const candidates = [
-      { score: x, x: current.x - 1, y: current.y, localX: roadSize / 2, localY: y, side: 'east' as const },
-      { score: field.width - x, x: current.x + 1, y: current.y, localX: field.width - roadSize / 2, localY: y, side: 'west' as const },
-      { score: y, x: current.x, y: current.y - 1, localX: x, localY: roadSize / 2, side: 'south' as const },
-      { score: field.height - y, x: current.x, y: current.y + 1, localX: x, localY: field.height - roadSize / 2, side: 'north' as const },
+      { score: x, x: current.x - 1, y: current.y, side: 'east' as const },
+      { score: field.width - x, x: current.x + 1, y: current.y, side: 'west' as const },
+      { score: y, x: current.x, y: current.y - 1, side: 'south' as const },
+      { score: field.height - y, x: current.x, y: current.y + 1, side: 'north' as const },
     ].sort((a, b) => a.score - b.score);
     const candidate = candidates[0];
     const sector = this.state.sectors[sectorId(candidate.x, candidate.y)];
     if (!sector?.unlocked) return;
-    const pairField = getSectorWorldSize(sector, this.state.research.completed);
-    const pairX = candidate.side === 'west' ? roadSize / 2 : candidate.side === 'east' ? pairField.width - roadSize / 2 : Math.max(roadSize / 2, Math.min(pairField.width - roadSize / 2, x));
-    const pairY = candidate.side === 'north' ? roadSize / 2 : candidate.side === 'south' ? pairField.height - roadSize / 2 : Math.max(roadSize / 2, Math.min(pairField.height - roadSize / 2, y));
-    return { ...candidate, pairX, pairY, sector };
+    return { ...candidate, ...pairedRoadPositions({ x, y }, candidate.side, field), sector };
+  }
+
+  private movedCablesBlocked(sector: SectorState, proposedById: Map<string, MachineNode>) {
+    const nodes = sector.nodes.map(node => proposedById.get(node.id) ?? node);
+    const byId = new Map(nodes.map(node => [node.id, node]));
+    return sector.connections.some(connection => {
+      if (!proposedById.has(connection.from) && !proposedById.has(connection.to)) return false;
+      const source = byId.get(connection.from), target = byId.get(connection.to);
+      return Boolean(source && target && connectionBlockedByWorld(source, target, { fromPort: connection.fromPort ?? 0, toPort: connection.toPort ?? 0 }, nodes));
+    });
+  }
+
+  private planRoadMove(sector: SectorState, node: MachineNode, point: { x: number; y: number }) {
+    const neighbor = node.pairedSectorId ? this.state.sectors[node.pairedSectorId] : undefined;
+    if (!neighbor?.unlocked) return;
+    const pair = neighbor.nodes.find(candidate => candidate.id === node.pairedRoadId && hasNodeBehavior(candidate.kind, 'road'));
+    const localFacing = facingAwayFromNeighbor(sector, neighbor);
+    if (!pair || !localFacing || (pair.pairedRoadId && pair.pairedRoadId !== node.id) ||
+      (pair.pairedSectorId && pair.pairedSectorId !== sector.id)) return;
+    const field = getWorldFieldSize(this.state);
+    const { local, remote } = pairedRoadPositions(point, localFacing, field);
+    const proposed = { ...node, ...local };
+    const endpoint = { ...pair, ...remote };
+    const road: RoadPlacementTarget = { sector: neighbor, endpoint, localFacing };
+    const valid = canPlaceNode(proposed, sector.nodes, field) && canPlaceNode(endpoint, neighbor.nodes, field)
+      && !this.movedCablesBlocked(sector, new Map([[node.id, proposed]]))
+      && !this.movedCablesBlocked(neighbor, new Map([[pair.id, endpoint]]));
+    return { node: proposed, road, pair, valid };
+  }
+
+  getRoadMovePreview(id: string, point: { x: number; y: number }) {
+    const sector = this.getSector();
+    const node = sector.nodes.find(candidate => candidate.id === id && hasNodeBehavior(candidate.kind, 'road'));
+    const plan = node && this.planRoadMove(sector, node, point);
+    return plan && { node: plan.node, road: plan.road, valid: plan.valid };
   }
 
   moveNodes(ids: string[], dx: number, dy: number) {
@@ -982,54 +1101,59 @@ export class GameEngine {
     }
     const selected = sector.nodes.filter((node) => positions[node.id] && isPlayerMovableNode(node.kind,this.state,node));
     if (!selected.length) return false;
-    if (selected.some((node) => hasNodeBehavior(node.kind,'road')) && (selected.length !== 1 || !hasNodeBehavior(selected[0].kind,'road'))) return false;
-    const field = getSectorWorldSize(sector, this.state.research.completed);
-    const ignored = new Set(selected.map((node) => node.id));
-    let roadPair: { node: MachineNode; x: number; y: number; sector: SectorState } | undefined;
-    const proposals = selected.map((node) => ({ node, proposed: { ...node, ...positions[node.id] } }));
-    const regularProposals = proposals.filter(({ node }) => !hasNodeBehavior(node.kind,'road'));
-    if (regularProposals.length && !selected.some(n=>!getNodeModule(n.kind).controls.movable)) {
-      const minimumShiftX = Math.max(...regularProposals.map(({ proposed }) => getNodeSize(proposed).w / 2 + 12 - proposed.x));
-      const maximumShiftX = Math.min(...regularProposals.map(({ proposed }) => field.width - getNodeSize(proposed).w / 2 - 12 - proposed.x));
-      const minimumShiftY = Math.max(...regularProposals.map(({ proposed }) => getNodeSize(proposed).h / 2 + 52 - proposed.y));
-      const maximumShiftY = Math.min(...regularProposals.map(({ proposed }) => field.height - getNodeSize(proposed).h / 2 - 12 - proposed.y));
-      const shiftX = Math.max(minimumShiftX, Math.min(maximumShiftX, 0)); const shiftY = Math.max(minimumShiftY, Math.min(maximumShiftY, 0));
-      regularProposals.forEach(({ proposed }) => { proposed.x += shiftX; proposed.y += shiftY; });
+    if (selected.some(node => hasNodeBehavior(node.kind, 'road'))) {
+      if (selected.length !== 1) return false;
+      const node = selected[0];
+      const plan = this.planRoadMove(sector, node, positions[node.id]);
+      if (!plan?.valid) return false;
+      if (apply) {
+        this.checkpoint();
+        this.applyRoadMove(sector, node, plan);
+      }
+      return true;
     }
-    if (hasNodeBehavior(selected[0].kind,'road')) {
-      const road = selected[0]; const proposed = proposals[0].proposed; const half = 67.5;
-      const edges = [{ edge: 'west', distance: road.x }, { edge: 'east', distance: field.width - road.x }, { edge: 'north', distance: road.y }, { edge: 'south', distance: field.height - road.y }] as const;
-      const edge = [...edges].sort((a, b) => a.distance - b.distance)[0].edge;
-      if (edge === 'west' || edge === 'east') { proposed.x = edge === 'west' ? half : field.width - half; proposed.y = Math.max(half + 12, Math.min(field.height - half - 12, proposed.y)); }
-      else { proposed.y = edge === 'north' ? half : field.height - half; proposed.x = Math.max(half + 12, Math.min(field.width - half - 12, proposed.x)); }
-      const pairSector = road.pairedSectorId ? this.state.sectors[road.pairedSectorId] : undefined;
-      const pair = pairSector?.nodes.find((node) => node.id === road.pairedRoadId);
-      if (!pairSector || !pair) return false;
-      const pairField = getSectorWorldSize(pairSector, this.state.research.completed);
-      const parallel = edge === 'west' || edge === 'east' ? proposed.y / field.height * pairField.height : proposed.x / field.width * pairField.width;
-      const pairX = edge === 'west' ? pairField.width - half : edge === 'east' ? half : Math.max(half + 12, Math.min(pairField.width - half - 12, parallel));
-      const pairY = edge === 'north' ? pairField.height - half : edge === 'south' ? half : Math.max(half + 12, Math.min(pairField.height - half - 12, parallel));
-      const pairProposed = { ...pair, x: pairX, y: pairY };
-      if (!canPlaceNode(pairProposed, pairSector.nodes, pairField, new Set([pair.id]))) return false;
-      roadPair = { node: pair, x: pairX, y: pairY, sector: pairSector };
+    const field = getWorldFieldSize(this.state);
+    const ignored = new Set(selected.map((node) => node.id));
+    const proposals = selected.map((node) => ({ node, proposed: { ...node, ...positions[node.id] } }));
+    if (!selected.some(n=>!getNodeModule(n.kind).controls.movable)) {
+      const minimumShiftX = Math.max(...proposals.map(({ proposed }) => getNodeSize(proposed).w / 2 + 12 - proposed.x));
+      const maximumShiftX = Math.min(...proposals.map(({ proposed }) => field.width - getNodeSize(proposed).w / 2 - 12 - proposed.x));
+      const minimumShiftY = Math.max(...proposals.map(({ proposed }) => getNodeSize(proposed).h / 2 + 52 - proposed.y));
+      const maximumShiftY = Math.min(...proposals.map(({ proposed }) => field.height - getNodeSize(proposed).h / 2 - 12 - proposed.y));
+      const shiftX = Math.max(minimumShiftX, Math.min(maximumShiftX, 0)); const shiftY = Math.max(minimumShiftY, Math.min(maximumShiftY, 0));
+      proposals.forEach(({ proposed }) => { proposed.x += shiftX; proposed.y += shiftY; });
     }
     if (proposals.some(({ proposed }) => !canPlaceNode(proposed, [...sector.nodes.filter(n=>!ignored.has(n.id)),...proposals.map(p=>p.proposed)], field))) return false;
     const proposedById = new Map(proposals.map(({ proposed }) => [proposed.id, proposed]));
-    const nodesAfterMove = sector.nodes.map((node) => proposedById.get(node.id) ?? node);
-    const cableBlocked = sector.connections.some((connection) => {
-      if (!ignored.has(connection.from) && !ignored.has(connection.to)) return false;
-      const source = proposedById.get(connection.from) ?? sector.nodes.find((node) => node.id === connection.from);
-      const target = proposedById.get(connection.to) ?? sector.nodes.find((node) => node.id === connection.to);
-      return Boolean(source && target && connectionBlockedByWorld(source, target, { fromPort: connection.fromPort ?? 0, toPort: connection.toPort ?? 0 }, nodesAfterMove));
-    });
-    if (cableBlocked) return false;
+    if (this.movedCablesBlocked(sector, proposedById)) return false;
     if (!apply) return true;
     this.checkpoint();
     proposals.forEach(({ node, proposed }) => { node.x = proposed.x; node.y = proposed.y; });
     updateCampEncroachment(sector.nodes);
     if (selected.length === 1 && getNodeModule(selected[0].kind).controls.movable) this.insertNodeOnCable(selected[0]);
-    if (roadPair) { roadPair.node.x = roadPair.x; roadPair.node.y = roadPair.y; roadPair.sector.lastSimulatedAt = Date.now(); }
     return true;
+  }
+
+  private applyRoadMove(sector: SectorState, node: MachineNode, plan: NonNullable<ReturnType<GameEngine['planRoadMove']>>) {
+    node.x = plan.node.x; node.y = plan.node.y; node.roadFacing = plan.node.roadFacing;
+    const { sector: neighbor, endpoint } = plan.road;
+    plan.pair.x = endpoint.x; plan.pair.y = endpoint.y; plan.pair.roadFacing = endpoint.roadFacing;
+    updateCampEncroachment(sector.nodes);
+    updateCampEncroachment(neighbor.nodes);
+  }
+
+  private syncFieldLayouts() {
+    syncCornerLayouts(this.state);
+    for (const sector of Object.values(this.state.sectors)) {
+      for (const node of sector.nodes) {
+        if (node.kind !== 'road' || node.roadMode !== 'export') continue;
+        const plan = this.planRoadMove(sector, node, node);
+        if (plan?.valid && [plan.node.x - node.x, plan.node.y - node.y,
+          plan.road.endpoint.x - plan.pair.x, plan.road.endpoint.y - plan.pair.y].some(delta => Math.abs(delta) > 1e-6)) {
+          this.applyRoadMove(sector, node, plan);
+        }
+      }
+    }
   }
 
   getCableInsertionPreview(node: MachineNode): { replacedConnectionId: string; connections: [Connection, Connection] } | undefined {
@@ -1096,6 +1220,8 @@ export class GameEngine {
     const sector = this.getSector();
     const source = sector.nodes.find(n => n.id === from), target = sector.nodes.find(n => n.id === to);
     if (!source || !target) return;
+    const vehicleError = roadVehicleError(source, target);
+    if (vehicleError) return vehicleError;
     const plan = resolveExactConnectionPlan(source, fromPort, target, toPort, sector.connections.filter(c => c.id !== replaceConnectionId), this.state.research.completed);
     if (!plan) return;
     return roadConnectionError(this.state, sector, { id: '__road-validation', from, to, fromPort, toPort, createdAt: 0 }, new Set([...plan.replace, ...(replaceConnectionId ? [replaceConnectionId] : [])]));
@@ -1108,6 +1234,8 @@ export class GameEngine {
     if (!source || !target) return { title: 'Socket unavailable', detail: 'Choose an output and an input on existing nodes.' };
     if (source === target) return { title: 'Choose another node', detail: 'A cable must connect two different nodes.' };
     if (source.disabled || target.disabled) return { title: 'Node disabled', detail: 'Enable both nodes before connecting them.' };
+    const vehicleError = roadVehicleError(source, target);
+    if (vehicleError) return { title: 'Freight vehicle required', detail: vehicleError };
     const unconfigured = [source, target].find(needsRecipeSelection);
     if (unconfigured && source.kind !== 'devSource') return { title: 'Choose a recipe first', detail: `${unconfigured.name} needs a recipe before it can be connected. Left-click it and choose a recipe.` };
     if ((hasNodeBehavior(source.kind, 'resource') || source.infiniteResource) && !hasNodeBehavior(target.kind, 'extractor') && !getNodeCapabilities(target.kind).passThrough) return { title: 'Extractor required', detail: 'Connect the resource to an Extractor, then connect the Extractor output to this machine.' };
@@ -1166,7 +1294,11 @@ export class GameEngine {
   }
   private canAddProgressionConnection(source:MachineNode,target:MachineNode,connections:Connection[]){
     if(source.kind==='devSource')return true;
-    if(source.kind==='lake'&&target.kind==='lakeIntake'&&connections.filter(c=>c.from===source.id&&c.to!==target.id&&this.getSector().nodes.some(n=>n.id===c.to&&n.kind==='lakeIntake')).length>=2)return false;
+    if (source.kind === 'lake' && target.kind === 'fluidLink') {
+      const connectedPumps = connections.filter(cable => cable.from === source.id && cable.to !== target.id &&
+        this.getSector().nodes.some(node => node.id === cable.to && node.kind === 'fluidLink'));
+      if (connectedPumps.length >= 2) return false;
+    }
     if(source.kind==='inventory'&&connections.filter(c=>c.from===source.id).length>=connectionLimit(this.state,'inventory'))return false;
     if(target.kind==='storage'&&connections.filter(c=>c.to===target.id).length>=connectionLimit(this.state,'storage'))return false;
     return true;
@@ -1271,11 +1403,13 @@ export class GameEngine {
   }
   duplicateNodes(ids: string[]) {
     const sector = this.getSector();
-    const source = sector.nodes.filter((n) => ids.includes(n.id) && !n.protected && isPlayerMovableNode(n.kind) && getNodeCapabilities(n.kind).duplicateAllowed !== false && ((NODE_DEFINITIONS[n.kind].category !== 'Storage' && !isCartKind(n.kind)) || isNodeUnlocked(n.kind, this.state.research.unlocked)));
+    const source = sector.nodes.filter((n) => ids.includes(n.id) && !n.protected && isPlayerMovableNode(n.kind) &&
+      getNodeCapabilities(n.kind).duplicateAllowed !== false && (!n.recipeId || RECIPE_GROUPS[n.kind]?.includes(n.recipeId)) &&
+      ((NODE_DEFINITIONS[n.kind].category !== 'Storage' && !isCartKind(n.kind)) || isNodeUnlocked(n.kind, this.state.research.unlocked)));
     if (!source.length) return [];
     const map = new Map<string, string>();
     const copyIds = new Map(source.map((node) => [node.id, makeId(node.kind)]));
-    const field = getSectorWorldSize(sector, this.state.research.completed);
+    const field = getWorldFieldSize(this.state);
     const step = Math.max(150, ...source.map((node) => Math.max(getNodeSize(node).w, getNodeSize(node).h) + 30));
     const offsets: Array<{ x: number; y: number }> = [];
     for (let ring = 1; ring <= 12; ring++) {
@@ -1316,7 +1450,7 @@ export class GameEngine {
   setRecipe(nodeId: string, recipeId: string) {
     const sector = this.getSector();
     const node = sector.nodes.find((n) => n.id === nodeId);
-    if (!node || node.batch || !RECIPES[recipeId] || !RECIPE_GROUPS[node.kind]?.includes(recipeId) || !isRecipeUnlocked(recipeId,this.state.research.completed) || !worldRecipeAllowed(recipeId,this.state)) return false;
+    if (!node || getNodeCapabilities(node.kind).behavior === 'bot-assembly' || node.batch || !RECIPES[recipeId] || !RECIPE_GROUPS[node.kind]?.includes(recipeId) || !isRecipeUnlocked(recipeId,this.state.research.completed) || !worldRecipeAllowed(recipeId,this.state)) return false;
     if (recipeId === 'automata-core' && !this.state.research.completed.includes('automataCore')) return false;
     if (['robot-frame', 'robot-gun', 'suppression-bot'].includes(recipeId) && !this.state.research.completed.includes('suppressionBot')) return false;
     if (node.recipeId === recipeId) return true;
@@ -1349,16 +1483,17 @@ export class GameEngine {
   acknowledgeVictory() { if(this.state.endgame&&this.state.research.completed.includes('victory')) {this.state.endgame.victoryAcknowledged=true;this.publish();} }
   selectResearch(id?: string) { this.research.selectResearch(id); }
 
-  setFilterItem(nodeId: string, filterItem: ItemId) {
-    const node = this.getSector().nodes.find((candidate) => candidate.id === nodeId && hasNodeBehavior(candidate.kind, 'filter'));
-    if (!node || !FILTERABLE_ITEMS.includes(filterItem)) return false;
-    if (node.filterItem === filterItem) return true;
+  setFilterItem(nodeId: string, filterItem: ItemId, outputPort?: FilterPort) {
+    const sector = this.getSector();
+    const node = sector.nodes.find((candidate) => candidate.id === nodeId && hasNodeBehavior(candidate.kind, 'filter'));
+    if (!node || !FILTERABLE_ITEMS.includes(filterItem) || (outputPort !== undefined && outputPort !== 0 && outputPort !== 1)) return false;
+    const port = outputPort ?? selectedFilterPort(node);
+    if (node.filterItem === filterItem && selectedFilterPort(node) === port) return true;
     this.checkpoint();
     node.filterItem = filterItem;
-    node.input = {};
-    node.output = {};
-    node.progressMs = 0;
-    this.reconcileSectorExtractorStorage(this.getSector());
+    node.filterOutputPort = port;
+    this.reconcileSectorExtractorStorage(sector);
+    node.filterBlocked = this.filterBlockage(node, sector, new SimulationLookups(this.state));
     this.publish();
     return true;
   }
@@ -1455,6 +1590,7 @@ export class GameEngine {
   }
   developerUnlockAllResearch() {
     this.checkpoint();
+    this.state.devResearchUnlocked = true;
     const permanent = RESEARCH_PROJECTS.filter((project) => !project.repeatable).map((project) => project.id);
     this.state.research.unlocked = [...new Set([...this.state.research.unlocked, ...RESEARCH_PROJECTS.map((project) => project.id)])];
     this.state.research.completed = [...new Set([...this.state.research.completed, ...permanent])];
@@ -1463,7 +1599,7 @@ export class GameEngine {
     this.state.research.mapPoints = Math.max(this.state.research.mapPoints, worldGridSize(this.state) ** 2);
     this.research.resetResearchCycles();
     applyCartUpgrades(this.state);
-    syncCornerLayouts(this.state);
+    this.syncFieldLayouts();
     this.publish();
   }
   developerUnlockAllSectors() {
@@ -1502,7 +1638,7 @@ export class GameEngine {
   }
   switchSector(id: string, firstVisitCamera?: SectorState['camera']) {
     const sector = this.state.sectors[id]; if (!sector?.unlocked) return;
-    syncCornerLayout(sector, getSectorWorldSize(sector, this.state.research.completed), this.state);
+    syncCornerLayout(sector, getWorldFieldSize(this.state), this.state);
     if (!sector.visited && firstVisitCamera) sector.camera = { ...firstVisitCamera };
     this.state.activeSectorId = id; discoverActiveSector(this.state);this.evaluateMilestones();this.publish();
   }

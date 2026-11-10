@@ -19,7 +19,7 @@ export function createResearchNodeStatus(node: MachineNode, openResearch: () => 
   root.position.set(-width / 2, getPortAnchor(node, 'input', 0).y - 11);
   root.hitArea = new Rectangle(0, 0, width, 22);
   const plate = new Graphics();
-  const text = label('', 12, 0xbec8ce, 'bold', 'monospace');
+  const text = label('', 12, 0xbec8ce, '500');
   text.anchor.set(.5); text.position.set(width / 2, 11); text.eventMode = 'none';
   root.addChild(plate, text);
   root.on('pointerdown', event => { if (event.button === 0) event.stopPropagation(); });

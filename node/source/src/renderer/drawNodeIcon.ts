@@ -1,5 +1,6 @@
-import { Container, Graphics, GraphicsPath, Text } from 'pixi.js';
+import { Container, Graphics, GraphicsPath } from 'pixi.js';
 import { LINE_ART, type LineArtId } from '../art/lineArt';
+import { label } from './playfieldDrawing';
 
 const paths = new Map<LineArtId, GraphicsPath>();
 
@@ -22,7 +23,7 @@ export function drawLineArt(
 
 export function drawNodeIcon(root: Container, icon: LineArtId, x: number, y: number, size: number, color: number, customGlyph?: string) {
   if (customGlyph) {
-    const glyph = new Text({ text: customGlyph, style: { fontSize: size, fill: color } });
+    const glyph = label(customGlyph, size, color);
     glyph.anchor.set(.5);
     glyph.position.set(x, y);
     root.addChild(glyph);

@@ -23,13 +23,15 @@ describe('speedrun follow-up regressions', () => {
     other.connections = [{ id: 'supply-send', from: 'supply', to: 'send', fromPort: 0, toPort: 0, createdAt: 0 }];
     state.sectors['5,5'].nodes = [
       node('road', { id: 'receive', x: 200, roadMode: 'import', output: { copper: 9 } }),
+      node('woodenChest', { id: 'unload', x: 400 }),
       node('splitter', { id: 'split', x: 600 }),
       node('filter', { id: 'blocked', x: 1000, y: 300, filterItem: 'mythril', input: { mythril: 5 }, output: { mythril: 5 } }),
       node('filter', { id: 'open', x: 1000, y: 700, filterItem: 'copper' }),
       node('woodenChest', { id: 'sink', x: 1400, y: 700 }),
     ];
     const engine = new GameEngine(state);
-    expect(engine.connectPorts('receive', 0, 'split', 0)).toBe(true);
+    expect(engine.connectPorts('receive', 0, 'unload', 0)).toBe(true);
+    expect(engine.connectPorts('unload', 0, 'split', 0)).toBe(true);
     expect(engine.connectPorts('split', 0, 'blocked', 0)).toBe(true);
     expect(engine.connectPorts('split', 1, 'open', 0)).toBe(true);
     expect(engine.connectPorts('open', 0, 'sink', 0)).toBe(true);
@@ -70,7 +72,7 @@ describe('speedrun follow-up regressions', () => {
 
   it('rejects locked storage placement and copying until its research is unlocked', () => {
     const engine = new GameEngine(createInitialState(1)); engine.getSector().nodes = [];
-    for (const kind of ['storage', 'fluidStorage', 'slagHopper', 'wasteHopper', 'warehouse'] as const) {
+    for (const kind of ['storage', 'fluidStorage', 'wasteHopper', 'warehouse'] as const) {
       expect(engine.getNodePlacementPreview(kind, 1000, 1000)?.valid).toBe(false);
       expect(engine.placeNode(kind, 1000, 1000)).toBeUndefined();
     }
@@ -105,19 +107,23 @@ describe('speedrun follow-up regressions', () => {
     expect((open.input.copper ?? 0) + (open.output.copper ?? 0) + (sink.input.copper ?? 0) + (sink.output.copper ?? 0)).toBe(0);
     expect(nodes.reduce((total, n) => total + (n.input.mythril ?? 0) + (n.output.mythril ?? 0), 0)).toBe(28);
   });
-  it('routes coolant through fluid equipment while keeping solids out', () => {
+  it('switches a Pump from drawing Lake Water to relaying Coolant while keeping solids out', () => {
     const source = node('hydroProcessor', { id: 'source', x: 400, recipeId: 'coolant', output: { coolant: 24 } });
-    const link = node('fluidLink', { id: 'link', x: 900 });
+    const link = node('fluidLink', { id: 'link', name: 'Fluid Link', x: 900 });
     const target = node('advancedAssembler', { id: 'target', x: 1400, recipeId: 'hydraulic-actuator' });
-    const water = node('lakeIntake'); const iron = node('extractor', { resourceItem: 'iron' });
+    const water = node('lake', { x: 900, y: 1200 }); const iron = node('extractor', { resourceItem: 'iron' });
     for (const kind of ['fluidLink', 'fluidStorage'] as const) {
       const equipment = node(kind);
       expect(portFamiliesCompatible(source, 0, equipment, 0)).toBe(true);
       expect(portFamiliesCompatible(water, 0, equipment, 0)).toBe(true);
       expect(portFamiliesCompatible(iron, 0, equipment, 0)).toBe(false);
     }
-    const state = createInitialState(1); state.sectors['5,5'].nodes = [source, link, target];
+    const state = createInitialState(1); state.sectors['5,5'].nodes = [source, link, target, water];
     const engine = new GameEngine(state);
+    expect(engine.getSector().nodes.find(n => n.id === 'link')).toMatchObject({ kind: 'fluidLink', name: 'Pump' });
+    expect(engine.connectPorts('lake', 0, 'link', 0)).toBe(true);
+    engine.tick(1000);
+    expect(engine.getState().extracted?.water).toBe(4);
     expect(engine.connectPorts('source', 0, 'link', 0)).toBe(true);
     expect(engine.connectPorts('link', 0, 'target', 2)).toBe(true);
     let received = 0;
@@ -128,6 +134,7 @@ describe('speedrun follow-up regressions', () => {
       received += target.input.coolant ?? 0; target.input.coolant = 0;
     }
     expect(received).toBe(24);
+    expect(engine.getState().extracted?.water).toBe(4);
   });
   it('keeps future resources separated across world tiers and seeds', () => {
     for (let seed = 1; seed <= 10; seed++) for (let x = 0; x <= 10; x++) for (let y = 0; y <= 10; y++) {

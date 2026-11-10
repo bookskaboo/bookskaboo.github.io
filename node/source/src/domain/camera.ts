@@ -2,14 +2,16 @@ import type { CameraState } from './types';
 
 export const DEFAULT_MIN_CAMERA_ZOOM = .25;
 
-/** Match the navigation's desktop/compact clearance, with a small field margin. */
-export function cameraViewport(viewport: { width: number; height: number }) {
-  const top = viewport.width <= 720 ? 82 : 94;
+export interface FieldViewport { width: number; height: number; top: number }
+
+/** The drawable field starts below the toolbar, with room for the map border. */
+export function cameraViewport(viewport: FieldViewport) {
+  const top = viewport.top + 6;
   return { x: 18, y: top, width: Math.max(1, viewport.width - 36), height: Math.max(1, viewport.height - top - 18) };
 }
 
 /** First-entry overview; later travel restores the sector's saved camera. */
-export function sectorOverviewCamera(worldSize: { width: number; height: number }, viewport: { width: number; height: number }): CameraState {
+export function sectorOverviewCamera(worldSize: { width: number; height: number }, viewport: FieldViewport): CameraState {
   const usable = cameraViewport(viewport);
   const zoom = Math.min(DEFAULT_MIN_CAMERA_ZOOM, usable.width / worldSize.width, usable.height / worldSize.height);
   return {
@@ -20,25 +22,23 @@ export function sectorOverviewCamera(worldSize: { width: number; height: number 
 }
 
 /** Keep the overview reachable without recentering an already valid saved view. */
-export function clampFieldCamera(camera: CameraState, worldSize: { width: number; height: number }, viewport: { width: number; height: number }): CameraState {
+export function clampFieldCamera(camera: CameraState, worldSize: { width: number; height: number }, viewport: FieldViewport, overviewSize = worldSize): CameraState {
   const usable = cameraViewport(viewport);
-  const zoom = Math.max(sectorOverviewCamera(worldSize, viewport).zoom, Math.min(2.2, camera.zoom));
-  const scaledWidth = worldSize.width * zoom;
-  const scaledHeight = worldSize.height * zoom;
-  const clamp = (value: number, min: number, max: number) => Math.min(max, Math.max(min, value));
+  const zoom = Math.max(sectorOverviewCamera(overviewSize, viewport).zoom, Math.min(2.2, camera.zoom));
+  const clampAxis = (value: number, start: number, visible: number, field: number, maxGutter: number) => {
+    const opposite = start + visible - field;
+    const gutter = Math.min(maxGutter, visible / 2, field / 2);
+    return Math.min(Math.max(start, opposite) + gutter, Math.max(Math.min(start, opposite) - gutter, value));
+  };
   return {
     zoom,
-    x: scaledWidth <= usable.width + 1e-6
-      ? clamp(camera.x, usable.x, usable.x + usable.width - scaledWidth)
-      : clamp(camera.x, viewport.width - scaledWidth - 90, 90),
-    y: scaledHeight <= usable.height + 1e-6
-      ? clamp(camera.y, usable.y, usable.y + usable.height - scaledHeight)
-      : clamp(camera.y, viewport.height - scaledHeight - 90, 90),
+    x: clampAxis(camera.x, usable.x, usable.width, worldSize.width * zoom, 360),
+    y: clampAxis(camera.y, usable.y, usable.height, worldSize.height * zoom, 300),
   };
 }
 
 /** Reveal more of a zoomed map while a dragged node or cable nears an edge. */
-export function scrollCameraForDrag(camera: CameraState, worldSize: { width: number; height: number }, viewport: { width: number; height: number }, pointer: { x: number; y: number }, deltaMs: number): CameraState {
+export function scrollCameraForDrag(camera: CameraState, worldSize: { width: number; height: number }, viewport: FieldViewport, pointer: { x: number; y: number }, deltaMs: number, overviewSize = worldSize): CameraState {
   const usable = cameraViewport(viewport);
   const direction = (position: number, start: number, length: number) => {
     const edge = Math.min(64, length / 4);
@@ -50,5 +50,5 @@ export function scrollCameraForDrag(camera: CameraState, worldSize: { width: num
   const distance = 720 * Math.max(0, Math.min(50, deltaMs)) / 1000;
   const dx = worldSize.width * camera.zoom > usable.width ? direction(pointer.x, usable.x, usable.width) * distance : 0;
   const dy = worldSize.height * camera.zoom > usable.height ? direction(pointer.y, usable.y, usable.height) * distance : 0;
-  return clampFieldCamera({ ...camera, x: camera.x - dx, y: camera.y - dy }, worldSize, viewport);
+  return clampFieldCamera({ ...camera, x: camera.x - dx, y: camera.y - dy }, worldSize, viewport, overviewSize);
 }

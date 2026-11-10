@@ -70,7 +70,7 @@ export function simulateCorner(state: GameState, sector: SectorState, node: Mach
   const type = node.cornerType; if (!type) return;
   const box = cornerOutput(sector, node); if (!box || total(box.output) >= 10) return;
   const item = CORNER_ITEMS[type];
-  const award = () => { box.output[item] = (box.output[item] ?? 0) + 1; state.endgame!.componentObtained = true; (state.produced ??= {})[item] = (state.produced?.[item] ?? 0) + 1; };
+  const award = () => { box.output[item] = (box.output[item] ?? 0) + 1; (state.produced ??= {})[item] = (state.produced?.[item] ?? 0) + 1; };
   if (type === 'foundry') {
     if (!Object.entries(FOUNDRY_INPUTS).every(([i, q]) => (node.input[i as ItemId] ?? 0) >= q!)) return;
     for (const [i, q] of Object.entries(FOUNDRY_INPUTS)) node.input[i as ItemId] = (node.input[i as ItemId] ?? 0) - q!;

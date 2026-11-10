@@ -88,7 +88,7 @@ describe('outward corner camps', () => {
     expect(live.nodes.find(node => node.id === camp.id)?.x).toBe(camp.x);
     expect(live.nodes.find(node => node.id === covered.id)).toMatchObject(covered);
 
-    const source = cart('source', 1000, 2800), sink = cart('sink', 4200, 400);
+    const source = cart('source', field.width * .12, field.height * .58), sink = cart('sink', field.width * .55, field.height * .12);
     sector.nodes = [camp, tribute, source, sink];
     const cable = { id: 'existing', from: source.id, to: sink.id, fromPort: 0, toPort: 0, createdAt: 0 };
     sector.connections.push(cable);

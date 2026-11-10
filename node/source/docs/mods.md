@@ -19,7 +19,7 @@ Drafts are stored in the browser under `nodefactory.mod-draft.v1`. Closing the m
 | Resources | Names and colors for base and custom items |
 | Production nodes | Names, descriptions, glyphs, colors, unlocks, construction and processing times, buffers, sockets and allowed recipes. Custom variants use a recipe machine template. |
 | Logistics & storage | The same applicable fields, socket sharing and cable limits. Custom variants use a router or buffer template. |
-| Obstructions & world nodes | Spawn rules, cable obstruction, footprint and reserve capacity. Edit the Lake and its Production Lake Intake in the same entry. Custom mineral reserves can supply a custom material. |
+| Obstructions & world nodes | Spawn rules, cable obstruction, footprint and reserve capacity. Edit Lakes here and Pumps under Production. Custom mineral reserves can supply a custom material. |
 | Research | Names, descriptions, costs, primary/additional prerequisites, repeatability and price growth; custom costs also work through the Research Center’s shared input |
 | Map nodes | Default or preset world grid size, field dimensions, new-map reserves and natural Forest regeneration time |
 | Recipes | Names, ingredients, products, duration, unlocks, recovery efficiency and chance products. Assign a custom recipe through the machine’s **Available recipes** field. |

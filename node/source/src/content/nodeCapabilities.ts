@@ -4,8 +4,8 @@ import { LATE_CAPABILITIES } from './progression';
 export type NodeBehavior =
   | 'recycler' | 'corner'
   | 'dev-source'
-  | 'intake' | 'landmark' | 'golem'
-  | 'resource' | 'lake' | 'extractor' | 'recipe' | 'router'
+  | 'landmark' | 'golem'
+  | 'resource' | 'lake' | 'extractor' | 'recipe' | 'bot-assembly' | 'router'
   | 'buffer' | 'storage' | 'research' | 'generator' | 'planter'
   | 'inventory' | 'filter' | 'road' | 'mining-drill'
   | 'monster-camp' | 'tribute' | 'big-hole';
@@ -67,6 +67,7 @@ export const NODE_CAPABILITIES: Record<NodeKind, NodeCapabilities> = {
   smelter: recipe(undefined, 'smelter'),
   refiner: recipe(undefined, 'refiner'),
   assembler: recipe(undefined, 'assembler'),
+  botPlant: capability('bot-assembly', { perItemInputCapacity: true }),
 
   splitter: passThrough({ alternatingOutputs: true }),
   merger: passThrough(),

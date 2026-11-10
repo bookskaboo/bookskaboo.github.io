@@ -1,14 +1,39 @@
 import { useEffect } from 'react';
 import { BUILDABLE_NODES, isNodeUnlocked, getBuildNodeDefinition } from '../../content/nodes';
-import type { GameState, NodeKind } from '../../domain/types';
+import type { GameState, NodeDefinition, NodeKind } from '../../domain/types';
 import { NodeIcon } from '../NodeIcon';
 import { PanelHeader } from '../PanelHeader';
 
 export function BuildPanel({ canBuild, extra, focusKind, game, category, setCategory, showAllNodes, onChoose, onClose }: { canBuild(kind: NodeKind): boolean; extra?: React.ReactNode; focusKind?: NodeKind; game: GameState; category: string; setCategory(v: string): void; showAllNodes: boolean; onChoose(k: NodeKind): void; onClose(): void }) {
   useEffect(() => { if (!focusKind) return; const frame = requestAnimationFrame(() => { const target = document.querySelector<HTMLElement>(`[data-build-kind="${focusKind}"]`); target?.scrollIntoView({ block: 'center' }); target?.focus({ preventScroll: true }); }); return () => cancelAnimationFrame(frame); }, [focusKind]);
   const selectedCategory = nodeCategoryOrder.includes(category) ? category : 'All';
-  const nodes = BUILDABLE_NODES.filter((node) => (showAllNodes || isNodeUnlocked(node.kind, game.research.unlocked)) && (selectedCategory === 'All' || node.category === selectedCategory)).map(node => getBuildNodeDefinition(node.kind, game.research.completed));
-  return <div className="modal-backdrop"><section className="modal build-modal glass"><PanelHeader title="Build" onClose={onClose} /><div className="category-tabs">{nodeCategoryOrder.map((name) => <button key={name} disabled={name !== 'All' && !BUILDABLE_NODES.some(node => node.category === name && canBuild(node.kind))} className={selectedCategory === name ? 'active' : ''} onClick={() => setCategory(name)}>{name}</button>)}</div><div className="build-list">{nodes.map((node) => { const unlocked = isNodeUnlocked(node.kind, game.research.unlocked); return <button key={node.kind} data-build-kind={node.kind} disabled={!unlocked || !canBuild(node.kind)} className={`build-card ${unlocked ? '' : 'locked'}`} data-tooltip={node.name} data-tooltip-detail={unlocked ? `${node.category} · ${node.description}` : `Developer preview · Research required: ${node.unlockResearch}`} style={{ '--node-color': node.accentCss, '--tooltip-tone': node.accentCss } as React.CSSProperties} onClick={() => onChoose(node.kind)}><i>{unlocked ? <NodeIcon kind={node.kind} completedResearch={game.research.completed} /> : '◇'}</i><span><b>{node.name}</b><small>{unlocked ? node.description : `Research required: ${node.unlockResearch}`}</small></span><em>{unlocked ? 'BUILD' : 'LOCKED'}</em></button>; })}{nodes.length === 0 && <div className="empty-state">Nothing unlocked here yet. The catalog remains optimistic.</div>}</div>{extra}<div className="panel-note"><span>⌁</span><p><b>Rapid placement</b>Click to place one node. Hold Shift to place more. Escape or right-click cancels. Expansion remains optional, technically.</p></div></section></div>;
+  const nodes = BUILDABLE_NODES.filter(node =>
+    (showAllNodes || isNodeUnlocked(node.kind, game.research.unlocked)) && (selectedCategory === 'All' || buildCategory(node) === selectedCategory)
+  ).map(node => getBuildNodeDefinition(node.kind, game.research.completed));
+  return <div className="modal-backdrop"><section className="modal build-modal glass">
+    <PanelHeader title="Build" onClose={onClose} />
+    <div className="category-tabs">{nodeCategoryOrder.map(name => (
+      <button key={name} disabled={name !== 'All' && !BUILDABLE_NODES.some(node => buildCategory(node) === name && canBuild(node.kind))}
+        className={selectedCategory === name ? 'active' : ''} onClick={() => setCategory(name)}>{name}</button>
+    ))}</div>
+    <div className="build-list">
+      {nodes.map(node => {
+        const unlocked = isNodeUnlocked(node.kind, game.research.unlocked);
+        const lockedDescription = `Research required: ${node.unlockResearch}`;
+        return <button key={node.kind} data-build-kind={node.kind} disabled={!unlocked || !canBuild(node.kind)}
+          className={`build-card ${unlocked ? '' : 'locked'}`} data-tooltip={node.name}
+          data-tooltip-detail={unlocked ? `${buildCategory(node)} · ${node.description}` : `Developer preview · ${lockedDescription}`}
+          style={{ '--node-color': node.accentCss, '--tooltip-tone': node.accentCss } as React.CSSProperties} onClick={() => onChoose(node.kind)}>
+          <i>{unlocked ? <NodeIcon kind={node.kind} completedResearch={game.research.completed} /> : '◇'}</i>
+          <span><b>{node.name}</b><small>{unlocked ? node.description : lockedDescription}</small></span>
+          <em>{unlocked ? 'BUILD' : 'LOCKED'}</em>
+        </button>;
+      })}
+      {nodes.length === 0 && <div className="empty-state">Nothing unlocked here yet. The catalog remains optimistic.</div>}
+    </div>
+    {extra}
+  </section></div>;
 }
 
-const nodeCategoryOrder = ['All', 'Extraction', 'Production', 'Logistics', 'Research'];
+const nodeCategoryOrder = ['All', 'Production', 'Logistics', 'Research'];
+const buildCategory = (node: NodeDefinition) => node.category === 'Extraction' ? 'Production' : node.category;

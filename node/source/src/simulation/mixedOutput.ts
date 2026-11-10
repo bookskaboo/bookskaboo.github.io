@@ -40,4 +40,3 @@ export function returnOutput(node: MachineNode, item: ItemId, amount = 1) {
   if (node.outputQueue) node.outputQueue.unshift(...Array<ItemId>(amount).fill(item));
 }
 
-export const filterOutlet = (node: MachineNode, item: ItemId) => item === node.filterItem ? 0 : 1;

@@ -1,6 +1,6 @@
 # Endgame implementation — November 4, 2026
 
-**Current revision — November 8, 2026.** The Dragon requires 500 AP per α Piece. Final Robotics costs five of every Core, including Final Cores, and unlocks the 72 AP Final Bot. Victory is a separate Research Center project.
+**Current revision, November 9, 2026.** The Dragon requires 200 AP per α Piece. Final Robotics costs one of each Core and unlocks the parts for the 72 AP Final Bot. Victory is a separate Research Center project.
 
 The Q01–Q144 interview is closed. Q144 defers the six extra QoL candidates until initial endgame playtesting. The user subsequently authorized implementing the agreed work and pushing the local game to Git. This document supersedes earlier statements that these features have no runtime implementation; dated decision logs remain historical evidence.
 
@@ -9,13 +9,13 @@ The Q01–Q144 interview is closed. Q144 defers the six extra QoL candidates unt
 | Area | Delivered behavior |
 | --- | --- |
 | Four corners | All four challenges occur once in a seeded random corner permutation. Saved corner order and independent assembly partition persist. |
-| Ancient Dragon | 500 AP per α Piece. The first piece can use 21 Command Bots for 504 AP. Surplus AP carries forward. Full output pauses intake and preserves progress. |
+| Ancient Dragon | 200 AP per α Piece. The first piece can use nine Command Bots for 216 AP. Surplus AP carries forward. Full output pauses intake and preserves progress. |
 | Ancient Foundry | 50 Circuit B + 25 Sealed Frames + 100 Mythril Gears atomically become one β Piece. One base producer per ingredient needs 500/450/300 seconds. Separate ingredient storage holds the corresponding quantity. |
 | Elder Grove | 1,000 supplied growth per γ Piece. Two fully supplied base Tree Planters produce that in 8 minutes 20 seconds. Ten funding batches use 100 Wood, 10 Iron Plates and 10 Stone. Surplus growth carries forward and a full Tribute box pauses intake. |
 | Reclamation | Any mix contributes proportional credit. Twenty Metallic Fines, 132 Spent Flux, 72 Glassy Crust or 44 Slag alone produces one δ Piece. Full output preserves stock and progress. |
 | Buffers | Ten pieces per corner Tribute box. Dragon, Reclamation and Grove have 100 incoming units total, independently of accumulated progress. Receiving reservations participate in normal routing capacity checks. |
 | Final Core | The first piece awarded to a corner Tribute box unlocks the seeded Yin and Yang recipes and the Final Core recipe. Yin and Yang each take ten seconds at base speed. One of each makes a Final Core in thirty seconds at base speed. One of each corner piece is required overall. |
-| Final Robotics | After producing a Final Core and completing Command Robotics, pay five of every Core through Final. An Assembler II uses 2 Command Bots, 1 Complex Core and 1 Servo Frame to make a 72 AP Final Bot in 210 seconds. Seven Final Bots deliver 504 AP for a subsequent α Piece. |
+| Final Robotics | After producing a Final Core and completing Command Robotics, pay one of each Core through Final. Select a Final Frame and Final Cannon in Assembler II to make a 72 AP Final Bot in 210 seconds. Three Final Bots deliver 216 AP for a subsequent α Piece. |
 | Victory | One manually selected Research Center project consumes five each of Simple, Basic, Automata, Hydro, Shiny, Complex and Final Cores, then records victory and displays the glowing dry-humor modal. Continue preserves the world. Notice acknowledgement is saved separately. Draft wording remains available for later editorial review. |
 | Global transport | Access research remains behind first Final Core production, independently of victory; it costs five each of all seven Core types. Separate placement and connection lines use the shared seven-Core 1.5-growth ladder with a five-Core minimum. Inventory destination rules remain intact. |
 | Post-victory research | Resource/Lake/camp relocation, exact compounded Landfill discounts, fourth/fifth Road slots, uncapped Train freight ranks and Forest-inclusive regeneration use the adopted prices, prerequisites and caps. Recurring lines have one updating entry. |

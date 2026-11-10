@@ -1,5 +1,5 @@
 import type { GameState, NodeKind } from '../domain/types';
-import { type TutorialStage, EXPANSION_HOME, EXPANSION_OUTPOST, expansionDelivered, CONTROL_GROUP_NODE_IDS } from './tutorialDefinitions';
+import { type TutorialStage, EXPANSION_HOME, EXPANSION_OUTPOST, expansionCable, expansionDelivered, CONTROL_GROUP_NODE_IDS } from './tutorialDefinitions';
 
 export interface ControlGroupLessonContext {
   selectedIds: string[];
@@ -35,7 +35,7 @@ export function lessonSatisfied(stage: TutorialStage, state: GameState, panel: s
     case 'expansion-return':
     case 'expansion-home-receive': return state.activeSectorId === EXPANSION_HOME;
     case 'expansion-road-place': return state.activeSectorId === EXPANSION_OUTPOST && nodes.some(node => node.kind === 'road' && node.roadMode === 'export' && node.pairedSectorId === EXPANSION_HOME);
-    case 'expansion-road-feed': return state.sectors[EXPANSION_OUTPOST]?.connections.some(connection => connection.from === 'expansion-outpost-chest' && state.sectors[EXPANSION_OUTPOST].nodes.some(node => node.id === connection.to && node.kind === 'road' && node.roadMode === 'export' && node.pairedSectorId === EXPANSION_HOME)) ?? false;
+    case 'expansion-road-feed': return expansionCable(sector, true)?.connected ?? false;
     case 'expansion-deliver': return state.activeSectorId === EXPANSION_HOME && expansionDelivered(state);
     case 'build-open': return panel === 'build';
     case 'build-explain': return placing === 'extractor';

@@ -39,6 +39,7 @@ function twoComponents(type: CornerType, suppliers: MachineNode[], productionMs:
   for (let ms = 0; ms < productionMs * 2 + 5000 && times.length < 2; ms += 100) {
     for (const supplier of suppliers) supplier.input = supplier.kind === 'treePlanter'
       ? { wood: 10, 'iron-plate': 1, stone: 1 }
+      : supplier.kind === 'botPlant' ? { 'final-frame': 5, 'final-cannon': 5 }
       : Object.fromEntries(Object.entries(RECIPES[supplier.recipeId!].inputs).map(([item, count]) => [item, Math.max(5, count!)]));
     f.engine.tick(100);
     if ((f.box.output[CORNER_ITEMS[type]] ?? 0) > times.length) times.push(ms + 100);
@@ -51,18 +52,18 @@ function twoComponents(type: CornerType, suppliers: MachineNode[], productionMs:
 }
 
 describe('explicit corner quotas and production cadence', () => {
-  it('awards a piece at 500 AP using Final Bots from a real supply cable and carries the surplus', () => {
-    expect(ALPHA_AP).toBe(500);
-    const f = twoComponents('alpha', [producer('advancedAssembler', 'final-suppression-bot')], 1470000);
-    expect(f.node.cornerProgress).toBe(8);
+  it('awards a piece at 200 AP using 72 AP Suppression Bots from a real supply cable and carries the surplus', () => {
+    expect(ALPHA_AP).toBe(200);
+    const f = twoComponents('alpha', [producer('botPlant')], 630000);
+    expect(f.node.cornerProgress).toBe(32);
   });
-  it('makes Final Robotics payable only after the first Final Core and charges five Final Cores', () => {
+  it('makes Final Robotics payable only after the first Final Core and charges one Final Core', () => {
     const f = fixture('reclamation');
     f.state.research.completed.push('commandRobotics', 'cornerComponents');
     const project = getResearchProject('finalRobotics')!;
-    expect(project.costs['final-core']).toBe(5);
+    expect(project.costs['final-core']).toBe(1);
     expect(isResearchAvailable(project, f.state.research.completed)).toBe(false);
-    expect(isRecipeUnlocked('final-suppression-bot', f.state.research.completed)).toBe(false);
+    expect(isRecipeUnlocked('assemble-bot-f5-g5', f.state.research.completed)).toBe(false);
     const lab = producer('researchCenter');
     lab.input = { ...project.costs };
     f.sector.nodes.push(lab);
@@ -70,10 +71,10 @@ describe('explicit corner quotas and production cadence', () => {
     f.engine.tick(100);
     expect(f.state.research.completed).toContain('finalCoreProduction');
     f.engine.selectResearch(project.id);
-    for (let i = 0; i < 25; i++) f.engine.tick(1000);
+    for (let i = 0; i < 5; i++) f.engine.tick(1000);
     expect(f.state.research.completed).toContain(project.id);
     expect(lab.input['final-core']).toBe(0);
-    expect(isRecipeUnlocked('final-suppression-bot', f.state.research.completed)).toBe(true);
+    expect(isRecipeUnlocked('assemble-bot-f5-g5', f.state.research.completed)).toBe(true);
   });
   it('delivers each Foundry ingredient from one base producer without overfilling its distinct buffer', () => {
     const ids = ['ceramic-electrode', 'sealed-frame', 'mythril-gear'];
@@ -151,7 +152,7 @@ describe('explicit corner quotas and production cadence', () => {
     expect(node.cornerProgress).toBeCloseTo(.10);
   });
   it('shows the current quotas in corner explanations', () => {
-    for (const [type, wording] of [['alpha', '/ 500'], ['foundry', '25 Sealed Frame'], ['grove', 'Every 1,000 growth'], ['reclamation', '20 Metallic Fines']] as const) {
+    for (const [type, wording] of [['alpha', '/ 200'], ['foundry', '25 Sealed Frame'], ['grove', 'Every 1,000 growth'], ['reclamation', '20 Metallic Fines']] as const) {
       const f = fixture(type);
       expect(productionExplanation(f.node, f.state, f.sector).summary).toContain(wording);
     }

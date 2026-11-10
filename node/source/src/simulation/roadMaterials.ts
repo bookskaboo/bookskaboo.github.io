@@ -1,13 +1,16 @@
-import { ITEM_NAMES, isFluidItem } from '../content/items';
+import { ITEM_NAMES, isFluidItem, materialTypeName } from '../content/items';
+import { cargoMaterial, SUPPRESSION_BOT } from '../content/botAssembly';
+import { isCartKind } from '../content/cartUpgrades';
 import { getNodeCapabilities, hasNodeBehavior } from '../content/nodeCapabilities';
 import { getEffectiveNodeInputFamilies, getEffectiveNodeOutputFamilies } from '../content/nodes';
 import { RECIPES } from '../content/recipes';
 import { WASTE_ITEMS } from '../content/progression';
 import type { Connection, GameState, ItemId, MachineNode, PortFamily, SectorState } from '../domain/types';
-import { portFamilyAcceptsItem } from './connectionRules';
+import { filterOutlet } from '../domain/filterRouting';
+import { portFamilyAcceptsItem, roadVehicleError } from './connectionRules';
 
 const itemsIn = (bag: MachineNode['input']) => (Object.keys(bag) as ItemId[]).filter(item => (bag[item] ?? 0) > 0);
-const concrete = (family?: PortFamily): ItemId | undefined => family && family in ITEM_NAMES ? family as ItemId : family === 'POWER' ? 'power' : undefined;
+const concrete = (family?: PortFamily): ItemId | undefined => family && family in ITEM_NAMES ? family as ItemId : family === 'POWER' ? 'power' : family === 'ATTACK_POWER' ? SUPPRESSION_BOT : undefined;
 const shared = (node: MachineNode) => hasNodeBehavior(node.kind, 'buffer') || getNodeCapabilities(node.kind).passThrough;
 export const isRoadFluid = isFluidItem;
 const key = (sector: SectorState, node: MachineNode) => `${sector.id}/${node.id}`;
@@ -16,33 +19,32 @@ const key = (sector: SectorState, node: MachineNode) => `${sector.id}/${node.id}
 export function roadMaterialState(state: GameState, sector: SectorState, road: MachineNode) {
   const materials = new Set<ItemId>();
   const members = new Set<string>();
-  const visiting = new Set<string>();
   const indexes = new Map<string, Map<string, MachineNode>>();
   const find = (s: SectorState, id: string) => {
     if (!indexes.has(s.id)) indexes.set(s.id, new Map(s.nodes.map(n => [n.id, n])));
     return indexes.get(s.id)!.get(id);
   };
-  const add = (item: ItemId, family?: PortFamily) => { if (!family || portFamilyAcceptsItem(family, item)) materials.add(item); };
-  const contents = (s: SectorState, node: MachineNode, family?: PortFamily, inputs = true) => {
+  const contents = (s: SectorState, node: MachineNode, accepts = (_item: ItemId) => true, inputs = true) => {
     members.add(key(s, node));
-    for (const bag of inputs ? [node.input, node.output] : [node.output]) for (const item of itemsIn(bag)) add(item, family);
-    if (inputs) for (const transfer of state.inFlightTransfers ?? []) if (!transfer.cosmeticOnly && transfer.sectorId === s.id && transfer.to === node.id) add(transfer.item, family);
+    for (const bag of inputs ? [node.input, node.output] : [node.output]) for (const item of itemsIn(bag)) if (accepts(item)) materials.add(item);
+    if (inputs) for (const transfer of state.inFlightTransfers ?? []) if (!transfer.cosmeticOnly && transfer.sectorId === s.id && transfer.to === node.id && accepts(transfer.item)) materials.add(transfer.item);
   };
-  const output = (s: SectorState, node: MachineNode, port: number) => {
+  const output = (s: SectorState, node: MachineNode, port: number, accepts = (_item: ItemId) => true, visiting = new Set<string>()) => {
     const signature = `${key(s, node)}/${port}`; if (visiting.has(signature)) return;
-    visiting.add(signature); members.add(key(s, node));
+    members.add(key(s, node));
     const family = getEffectiveNodeOutputFamilies(node)[port];
     if (!family) return;
-    contents(s, node, family, Boolean(shared(node)) || hasNodeBehavior(node.kind, 'road'));
-    const item = concrete(family); if (item) materials.add(item);
-    if (family === 'WASTE' && node.recipeId) {
+    const throughOutlet = (item: ItemId) => accepts(item) && portFamilyAcceptsItem(family, item) && (node.kind !== 'filter' || filterOutlet(node, item) === port);
+    contents(s, node, throughOutlet, Boolean(shared(node)) || hasNodeBehavior(node.kind, 'road'));
+    const item = concrete(family); if (item && throughOutlet(item)) materials.add(item);
+    if ((family === 'ANY' || family === 'WASTE') && node.recipeId) {
       const recipe = RECIPES[node.recipeId];
-      for (const waste of Object.keys(recipe?.outputs ?? {}) as ItemId[]) if (WASTE_ITEMS.includes(waste)) materials.add(waste);
-      for (const waste of recipe?.chanceOutputs ?? []) materials.add(waste.item);
+      for (const product of Object.keys(recipe?.outputs ?? {}) as ItemId[]) if (throughOutlet(product) && (family !== 'WASTE' || WASTE_ITEMS.includes(product))) materials.add(product);
+      for (const product of recipe?.chanceOutputs ?? []) if (throughOutlet(product.item)) materials.add(product.item);
     }
     if (hasNodeBehavior(node.kind, 'road')) inspectRoad(s, node);
     else if (shared(node) && !item) for (const cable of s.connections.filter(c => c.to === node.id)) {
-      const source = find(s, cable.from); if (source) output(s, source, cable.fromPort ?? 0);
+      const source = find(s, cable.from); if (source && !roadVehicleError(source, node)) output(s, source, cable.fromPort ?? 0, throughOutlet, new Set(visiting).add(signature));
     }
   };
   const inspectedRoads = new Set<string>();
@@ -51,20 +53,16 @@ export function roadMaterialState(state: GameState, sector: SectorState, road: M
     contents(s, node);
     for (const cable of s.connections) {
       if (cable.to === node.id && node.roadMode === 'export') {
-        const source = find(s, cable.from); if (source) output(s, source, cable.fromPort ?? 0);
+        const source = find(s, cable.from); if (source && isCartKind(source.kind)) output(s, source, cable.fromPort ?? 0);
       }
       if (cable.from === node.id && node.roadMode === 'import') {
-        const target = find(s, cable.to); if (!target) continue;
-        members.add(key(s, target));
+        const target = find(s, cable.to); if (!target || !isCartKind(target.kind)) continue;
         const family = getEffectiveNodeInputFamilies(target, state.research.completed)[cable.toPort ?? 0];
-        const item = target.kind === 'filter' ? target.filterItem : concrete(family); if (item) materials.add(item);
-        if (shared(target)) {
-          contents(s, target);
-          for (const incoming of s.connections.filter(c => c.to === target.id)) {
-            const source = find(s, incoming.from); if (source) output(s, source, incoming.fromPort ?? 0);
-          }
-        } else for (const stored of itemsIn(target.input)) if (family && portFamilyAcceptsItem(family, stored)) materials.add(stored);
-        if (hasNodeBehavior(target.kind, 'road')) inspectRoad(s, target);
+        const item = concrete(family); if (item) materials.add(item);
+        contents(s, target);
+        for (const incoming of s.connections.filter(c => c.to === target.id)) {
+          const source = find(s, incoming.from); if (source) output(s, source, incoming.fromPort ?? 0);
+        }
       }
     }
     const pairedSector = node.pairedSectorId ? state.sectors[node.pairedSectorId] : undefined;
@@ -72,7 +70,8 @@ export function roadMaterialState(state: GameState, sector: SectorState, road: M
     if (pair && pairedSector) inspectRoad(pairedSector, pair);
   };
   inspectRoad(sector, road);
-  return { materials: [...materials], mixed: materials.size > 1, fluid: road.kind === 'fluidRoad' || [...materials].some(isRoadFluid), members };
+  const cargo = [...new Set([...materials].map(cargoMaterial))];
+  return { materials: cargo, mixed: cargo.length > 1, fluid: road.kind === 'fluidRoad' || cargo.some(isRoadFluid), members };
 }
 
 export function roadConnectionError(state: GameState, sector: SectorState, cable: Connection, removed: ReadonlySet<string>) {
@@ -87,27 +86,20 @@ export function roadConnectionError(state: GameState, sector: SectorState, cable
     if (!(status.members.has(`${sector.id}/${cable.from}`) || status.members.has(`${sector.id}/${cable.to}`))) continue;
     if (status.fluid) return 'Fluids cannot use roads. Produce and use them on the same map.';
     if (!status.mixed) continue;
-    // Legacy mixed receivers can be emptied through a selected Filter. Never
-    // delete stock or send new batches while the road is in this recovery state.
-    if (source && hasNodeBehavior(source.kind, 'road') && source.roadMode === 'import' && target?.kind === 'filter' && target.filterItem && itemsIn(source.output).includes(target.filterItem) && [...itemsIn(target.input), ...itemsIn(target.output)].every(i => i === target.filterItem)) continue;
-    return `Roads carry one material. This connection would combine ${status.materials.map(i => ITEM_NAMES[i]).join(' and ')}. Use separate road feeds or Filters.`;
+    return `Roads carry one material. This connection would combine ${status.materials.map(materialTypeName).join(' and ')}. Use separate road feeds or Filters.`;
   }
 }
 
-export function roadInputAccepts(state: GameState, sector: SectorState, node: MachineNode, port: number, item: ItemId) {
-  for (const road of sector.nodes.filter(n => hasNodeBehavior(n.kind, 'road'))) {
-    const directlyConnected = road.id === node.id || sector.connections.some(c =>
-      (c.from === node.id && c.to === road.id && Boolean(shared(node))) || (c.from === road.id && c.to === node.id && (Boolean(shared(node)) || (c.toPort ?? 0) === port)));
+export function roadInputAccepts(state: GameState, sector: SectorState, node: MachineNode, item: ItemId) {
+  if (!isCartKind(node.kind)) return true;
+  for (const road of sector.nodes.filter(n => n.kind === 'road')) {
+    const directlyConnected = sector.connections.some(c =>
+      (road.roadMode === 'export' && c.from === node.id && c.to === road.id) || (road.roadMode === 'import' && c.from === road.id && c.to === node.id));
     if (!directlyConnected) continue;
-    if (node.kind === 'fluidRoad' || isRoadFluid(item)) return false;
+    if (isRoadFluid(item)) return false;
     const status = roadMaterialState(state, sector, road);
-    if (status.mixed) {
-      // Permit a Filter to drain pre-existing mixed stock without accepting a
-      // second material into that Filter or dispatching another mixed batch.
-      if (road.roadMode === 'import' && node.kind === 'filter' && node.filterItem === item && [...itemsIn(node.input), ...itemsIn(node.output)].every(i => i === item)) continue;
-      return false;
-    }
-    if (status.materials.length && status.materials[0] !== item) return false;
+    if (status.mixed) return false;
+    if (status.materials.length && status.materials[0] !== cargoMaterial(item)) return false;
   }
   return true;
 }

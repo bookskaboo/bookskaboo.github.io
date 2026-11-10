@@ -6,7 +6,8 @@ import { cornerCampInward, getPortAnchor } from '../domain/nodeGeometry';
 import { segmentCrossesObstruction, type Point } from '../domain/obstructionGeometry';
 import { FILTERABLE_ITEMS, isFluidItem } from '../content/items';
 import { isCartKind } from '../content/cartUpgrades';
-import { CORE_ITEMS, WASTE_ITEMS, BOT_STRENGTH } from '../content/progression';
+import { CORE_ITEMS, WASTE_ITEMS } from '../content/progression';
+import { BOT_FRAMES, BOT_GUNS, BOT_ITEMS, cargoMaterial } from '../content/botAssembly';
 import { modNode, modNodeTemplate, modResearchAccepts, modReserveItems } from '../mods/modRules';
 
 export type PortDirection = 'input' | 'output';
@@ -23,9 +24,9 @@ export const expandPortFamily = (family: PortFamily): ItemId[] => {
   if (family === 'PLATE') return ['iron-plate', 'copper-plate', 'mythril-plate'];
   if (family === 'GEAR') return ['iron-gear', 'copper-gear', 'mythril-gear'];
   if (family === 'CORE') return CORE_ITEMS;
-  if (family === 'ROBOT_FRAME') return ['simple-robot-frame','sealed-frame','mithril-frame','servo-frame'];
-  if (family === 'ROBOT_WEAPON') return ['simple-robot-gun','cooled-gun','focused-gun','pulse-cannon'];
-  if (family === 'ATTACK_POWER') return Object.keys(BOT_STRENGTH) as ItemId[];
+  if (family === 'ROBOT_FRAME') return [...BOT_FRAMES];
+  if (family === 'ROBOT_WEAPON') return [...BOT_GUNS];
+  if (family === 'ATTACK_POWER') return BOT_ITEMS;
   if (family === 'POWER') return ['power'];
   return [family];
 };
@@ -40,7 +41,13 @@ export function inputPortAcceptsItem(target: MachineNode, toPort: number, item: 
   return Boolean(input && portFamilyAcceptsItem(input, item));
 }
 
+export function roadVehicleError(source: MachineNode, target: MachineNode) {
+  if (target.kind === 'road' && !isCartKind(source.kind)) return 'Connect a Cart, Truck, or Train directly to the sending Road.';
+  if (source.kind === 'road' && !isCartKind(target.kind)) return 'Connect the receiving Road directly to a Cart, Truck, or Train.';
+}
+
 export function portFamiliesCompatible(source: MachineNode, fromPort: number, target: MachineNode, toPort: number, completedResearch: readonly string[] = []) {
+  if (roadVehicleError(source, target)) return false;
   const output = getEffectiveNodeOutputFamilies(source)[fromPort]; const input = getEffectiveNodeInputFamilies(target, completedResearch)[toPort];
   if (!output || !input) return false;
   if (source.kind === 'devSource') return true;
@@ -69,7 +76,7 @@ export function resolveExactConnectionPlan(source: MachineNode, fromPort: number
   if (modNodeTemplate(target.kind) === 'merger') {
     const retainedType = connections.find((connection) => connection.to === target.id && connection.item)?.item;
     const sourceItems = expandPortFamily(getEffectiveNodeOutputFamilies(source)[fromPort]);
-    if (retainedType && sourceItems.length === 1 && sourceItems[0] !== retainedType) return undefined;
+    if (retainedType && sourceItems.length === 1 && cargoMaterial(sourceItems[0]) !== cargoMaterial(retainedType)) return undefined;
   }
   if (connections.some((connection) => connection.from === source.id && connection.to === target.id && (connection.fromPort ?? 0) === fromPort && (connection.toPort ?? 0) === toPort)) return undefined;
   const replace = connections.filter((connection) =>

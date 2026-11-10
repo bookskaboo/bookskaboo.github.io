@@ -1,7 +1,7 @@
 import { NODE_DEFINITIONS } from '../content/nodes';
 import type { GameState, MachineNode, NodeKind } from '../domain/types';
 import { createInitialState } from '../simulation/engine';
-import { generateSector } from '../simulation/worldGeneration';
+import { generateSector, getWorldFieldSize } from '../simulation/worldGeneration';
 import { type TutorialKind, EXPANSION_OUTPOST, CONTROL_GROUP_NODE_IDS, TUTORIAL_NAMES } from './tutorialDefinitions';
 
 export function tutorialNode(kind: NodeKind, id: string, x: number, y: number, extra: Partial<MachineNode> = {}): MachineNode {
@@ -60,12 +60,13 @@ export function createTutorialState(kind: TutorialKind, board = ''): GameState {
       tutorialNode('researchCenter', 'expansion-home-lab', 850, 800),
     ];
     const outpost = generateSector(4, 5, state.seed, 0);
+    const eastWall = getWorldFieldSize(state).width;
     outpost.name = 'Wood outpost'; outpost.label = 'W'; outpost.unlocked = false; outpost.visited = false;
     outpost.camera = { x: -1450, y: 100, zoom: .5 };
     outpost.nodes = [
-      tutorialNode('forest', 'expansion-forest', 2560, 350, { resourceItem: 'wood', resourceRemaining: 1000, resourceCapacity: 1000 }),
-      tutorialNode('extractor', 'expansion-extractor', 3010, 350),
-      tutorialNode('woodenChest', 'expansion-outpost-chest', 3460, 350, { capacity: 20 }),
+      tutorialNode('forest', 'expansion-forest', eastWall - 1400, 350, { resourceItem: 'wood', resourceRemaining: 1000, resourceCapacity: 1000 }),
+      tutorialNode('extractor', 'expansion-extractor', eastWall - 950, 350),
+      tutorialNode('woodenChest', 'expansion-outpost-chest', eastWall - 500, 350, { capacity: 20 }),
     ];
     outpost.connections = [
       { id: 'expansion-extract', from: 'expansion-forest', to: 'expansion-extractor', fromPort: 0, toPort: 0, createdAt: 0 },

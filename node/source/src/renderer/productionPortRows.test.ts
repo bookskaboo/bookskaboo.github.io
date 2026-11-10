@@ -31,7 +31,7 @@ describe('production material rows', () => {
     expect(productionPortRow(node, 'output', 0)).toMatchObject({ name: 'Simple Core', amount: 0 });
   });
   it('includes Extractors while keeping storage, logistics, research and resource nodes separate', () => {
-    for (const kind of ['extractor', 'lakeIntake', 'kiln', 'smelter', 'refiner', 'assembler', 'advancedAssembler', 'hydroProcessor', 'separationFurnace'] as const) expect(isProductionMachine(tutorialNode(kind, kind, 0, 0))).toBe(true);
+    for (const kind of ['extractor', 'fluidLink', 'kiln', 'smelter', 'refiner', 'assembler', 'advancedAssembler', 'hydroProcessor', 'separationFurnace'] as const) expect(isProductionMachine(tutorialNode(kind, kind, 0, 0))).toBe(true);
     for (const kind of ['woodenChest', 'joint', 'researchCenter', 'forest'] as const) expect(isProductionMachine(tutorialNode(kind, kind, 0, 0))).toBe(false);
   });
   it('shows product and waste together at one mixed socket', () => {

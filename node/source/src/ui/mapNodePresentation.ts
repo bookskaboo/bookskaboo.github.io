@@ -30,7 +30,6 @@ function isSurveyed(game: GameState, sector: SectorState | undefined): sector is
 
 export function mapLandmarkSurvey(game: GameState) {
   const discovered = new Set<MapLandmark>();
-  // An encountered Golem can become a mineral reserve, leaving no live marker.
   if (game.encounters?.includes('resourceGolem')) discovered.add('golems');
   const bySector = new Map<string, Set<MapLandmark>>();
   for (const sector of Object.values(game.sectors)) {
@@ -39,7 +38,7 @@ export function mapLandmarkSurvey(game: GameState) {
     for (const node of sector.nodes) {
       if (node.kind === 'monster-camp' || node.kind === 'cornerChallenge') landmarks.add('camps');
       if (node.kind === 'lake') landmarks.add('lakes');
-      if (node.kind === 'resourceGolem') landmarks.add('golems');
+      if (node.kind === 'resourceGolem' || (node.defeated && node.infiniteResource)) landmarks.add('golems');
     }
     if (landmarks.size) bySector.set(sector.id, landmarks);
     for (const landmark of landmarks) discovered.add(landmark);

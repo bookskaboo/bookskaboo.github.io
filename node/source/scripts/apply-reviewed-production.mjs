@@ -33,7 +33,6 @@ export function applyReviewedProduction({ names, recipes, groups, research, node
     ['efficientHigherIntermediates', 'Efficient Higher Intermediates', 50, 'Unlocks efficient Hydro Piston, Mythril Mesh and Circuit C, plus direct Flux, Crust and Slag recovery.'],
     ['planterThroughput', 'Industrial Forestry', 25, 'Tree Planters produce ten times faster and send up to ten funded growth units per local shipment.'],
   ]) research.push({ id, name, category: 'Efficiency', description: unlock, unlock, costs: Object.fromEntries(cores.map(core => [core, amount])), prerequisites: id === 'planterThroughput' ? ['precisionControl', 'treePlanter'] : ['precisionControl'] });
-  research.push({ id: 'finalCoreProduction', name: 'Final Core Production', category: 'Discovery', description: 'Produce the first Final Core to make global transport research available. The Final Core route is still under development.', unlock: 'Makes Autonomous Logistics research available.', costs: {}, trigger: { id: 'final-core-produced', pending: 'Produce the first Final Core', complete: 'First Final Core produced' } });
   for (const project of research) {
     if (project.id === 'areaExpansion2') project.costs = Object.fromEntries(cores.slice(0, 5).map(core => [core, 50]));
     if (project.id === 'factoryTemplates') project.costs = Object.fromEntries(cores.slice(0, 3).map(core => [core, 15]));
@@ -54,12 +53,14 @@ export function applyReviewedProduction({ names, recipes, groups, research, node
     }
     if (['sortingTools', 'mineralRecovery'].includes(project.id)) {
       project.description = 'Basic waste handling is included with Precision Control.';
-      project.unlock = 'Unlocks waste buffering, routing and direct Fines recovery.';
+      project.unlock = project.id === 'sortingTools'
+        ? 'Unlocks the Waste Bin. Use Filters to separate waste types.'
+        : 'Unlocks direct Fines-to-Iron recovery.';
       project.trigger = { id: 'precision-control', pending: 'Complete Precision Control', complete: 'Precision Control completed' };
     }
     if (project.id === 'precisionControl') {
       project.prerequisites = project.prerequisites.filter(id => id !== 'mineralRecovery');
-      project.unlock = 'Unlocks Complex production, Waste Bin, Waste Link, sorting and direct Fines-to-Iron recovery.';
+      project.unlock = 'Unlocks Complex production, the Waste Bin and direct Fines-to-Iron recovery.';
     }
     if (project.id === 'mineralRecovery1') {
       project.costs = Object.fromEntries(cores.slice(0, 4).map(core => [core, 10]));
@@ -67,8 +68,6 @@ export function applyReviewedProduction({ names, recipes, groups, research, node
     }
   }
   if (nodes) {
-    nodes.slagHopper.unlockResearch = 'sortingTools';
-    nodes.slagHopper.description = 'Buffers up to 200 Slag from researched Complex alternatives.';
     nodes.separationFurnace.description = 'Produces Pure Mythril without waste, and recovers Copper Plates from Glassy Crust after higher alternative research.';
     nodes.advancedAssembler.output = ['ANY'];
     nodes.separationFurnace.output = ['ANY'];

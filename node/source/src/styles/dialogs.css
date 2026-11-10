@@ -67,7 +67,7 @@
 .modal .panel-header small { color:var(--modal-accent); }
 .modal .panel-header h2:first-child { margin-top:0; }
 .build-modal,.inventory-modal,.research-modal,.map-modal,.journal-modal,.options-modal,.save-modal,.commands-modal { width:min(680px,calc(100vw - 40px)); height:calc(100dvh - 112px); max-height:calc(100dvh - 112px); }
-.build-modal { --modal-accent:#d5b666; padding-bottom:78px; }
+.build-modal { --modal-accent:#d5b666; }
 .inventory-modal { --modal-accent:#aa92da; }
 .research-modal { --modal-accent:#65a6d8; }
 .map-modal { --modal-accent:#69bbaa; display:flex; flex-direction:column; }

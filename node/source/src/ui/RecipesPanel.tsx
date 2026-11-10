@@ -5,6 +5,7 @@ import { isRecipeUnlocked, RECIPES, RECIPE_GROUPS } from '../content/recipes';
 import { accessibleRecipeMaterials, isRecipeAvailable } from '../content/recipeAvailability';
 import { getRecipeGuideGroups, recipeGuideGroups, recipeGuideCycle } from './recipeGuide';
 import { WASTE_ITEMS } from '../content/progression';
+import { BOT_BUILD_BY_ID } from '../content/botAssembly';
 import { getResearchProject } from '../content/research';
 import type { GameState, ItemId, NodeKind, Recipe } from '../domain/types';
 import { NodeIcon } from './NodeIcon';
@@ -31,6 +32,7 @@ export function RecipesPanel({ game, onClose, initialRecipeId, backToResearch = 
   const [filterOrder, setFilterOrder] = useState(() => [ALL_FILTER, ...catalogGroups.map((group) => group.id)]);
   const [draggedFilter, setDraggedFilter] = useState<string>();
   const [navigationTarget, setNavigationTarget] = useState<string | undefined>(initialRecipeId);
+  const [botSelection, setBotSelection] = useState<Record<string, string>>({});
   const suppressFilterClick = useRef(false);
   const listRef = useRef<HTMLDivElement>(null);
 
@@ -111,10 +113,17 @@ export function RecipesPanel({ game, onClose, initialRecipeId, backToResearch = 
       })}
     </div>
     <div className={`recipe-guide-groups ${compact ? 'compact-recipe-view' : ''}`} aria-label="Production recipes" ref={listRef}>
-      {groups.filter((group) => filters.length === 0 || filters.includes(group.id)).map((group) => <section className="recipe-guide-group" key={group.id}>
-        <div className="recipe-guide-group-heading"><strong>{NODE_DEFINITIONS[group.node].name}</strong><span>{group.recipes.length} {group.recipes.length === 1 ? 'recipe' : 'recipes'}</span></div>
+      {groups.filter((group) => filters.length === 0 || filters.includes(group.id)).map((group) => {
+        const builds = group.recipes.filter(recipe => BOT_BUILD_BY_ID.has(recipe.id));
+        const activeBuild = builds.find(recipe => recipe.id === previewRecipeId)
+          ?? builds.find(recipe => recipe.id === botSelection[group.id])
+          ?? builds[0];
+        const recipes = group.recipes.filter(recipe => !BOT_BUILD_BY_ID.has(recipe.id) || recipe === activeBuild);
+        return <section className="recipe-guide-group" key={group.id}>
+        <div className="recipe-guide-group-heading"><strong>{NODE_DEFINITIONS[group.node].name}</strong><span>{recipes.length} {recipes.length === 1 ? 'recipe' : 'recipes'}</span></div>
         <div className="recipe-guide-list">
-          {group.recipes.map((recipe) => {
+          {recipes.map((recipe) => {
+            const isBot = recipe === activeBuild;
             const color = recipeColor(recipe);
             const missingMaterials = (Object.keys(recipe.inputs) as ItemId[]).filter(item => !materials.has(item));
             const cycleMs = recipeGuideCycle(recipe, group.node, game);
@@ -139,7 +148,18 @@ export function RecipesPanel({ game, onClose, initialRecipeId, backToResearch = 
               {compact ? <button type="button" className="recipe-guide-icon recipe-guide-icon-button" aria-label={`Show ${recipe.name} recipe details`} aria-description={hoverDetail} aria-expanded={expandedCompactRecipe === recipe.id || navigationTarget === recipe.id} onClick={() => setExpandedCompactRecipe(current => current === recipe.id ? undefined : recipe.id)}><RecipeIcon recipe={recipe} node={group.node} /></button>
                 : <span className="recipe-guide-icon"><RecipeIcon recipe={recipe} node={group.node} /></span>}
               <div className="recipe-guide-copy">
-                <div className="recipe-guide-title"><strong>{recipe.name}</strong></div>
+                <div className="recipe-guide-title"><strong>{isBot ? 'Assemble Bot' : recipe.name}</strong></div>
+                {isBot && builds.length > 1 && <select className="bot-guide-select" aria-label="Bot build" value={recipe.id} onChange={event => {
+                  const id = event.target.value;
+                  setPreviewRecipeId(undefined);
+                  setBotSelection(current => ({ ...current, [group.id]: id }));
+                  setExpandedCompactRecipe(id);
+                }}>
+                  {builds.map(build => {
+                    const { frame, gun } = BOT_BUILD_BY_ID.get(build.id)!;
+                    return <option key={build.id} value={build.id}>{ITEM_NAMES[frame]} + {ITEM_NAMES[gun]}</option>;
+                  })}
+                </select>}
                 <div className="recipe-guide-formula" aria-label={`${recipe.name} ingredients: ${(Object.entries(recipe.inputs) as Array<[ItemId, number]>).map(([item, amount]) => `${amount} ${ITEM_NAMES[item]}`).join(', ')}`}>
                   <span className="recipe-guide-materials inputs">
                     {(Object.entries(recipe.inputs) as Array<[ItemId, number]>).map(([item, amount]) => {
@@ -166,7 +186,8 @@ export function RecipesPanel({ game, onClose, initialRecipeId, backToResearch = 
             </article>;
           })}
         </div>
-      </section>)}
+      </section>;
+      })}
       {!groups.length && <p className="empty-state">No recipes unlocked yet. Complete the required research or discoveries first. The paperwork precedes production.</p>}
     </div>
   </section></div>;

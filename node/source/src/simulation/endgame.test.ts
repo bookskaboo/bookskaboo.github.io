@@ -6,6 +6,7 @@ import { isPlayerMovableNode } from '../content/nodeModules';
 import { RECYCLER_RETURNS, recyclerAccepts } from '../content/recycling';
 import { getResearchCosts, getResearchProject } from '../content/research';
 import { isRecipeAvailable } from '../content/recipeAvailability';
+import { RECIPES } from '../content/recipes';
 import { createInitialState, GameEngine } from './engine';
 import { createCornerNodes, initializeEndgame, simulateCorner, simulateRecycler } from './endgameRuntime';
 import { applyExpansionRescue, nextExpansionShortages, shortestRescuePath } from './expansionRescue';
@@ -37,7 +38,7 @@ describe('repeatable corner production and seeded assembly',()=>{
     const {state,sector,node,box}=corner('alpha');node.cornerProgress=ALPHA_AP-3;node.input['command-suppression-bot']=1;
     box.output.alpha=10;simulateCorner(state,sector,node);expect(node.input['command-suppression-bot']).toBe(1);
     box.output.alpha=9;simulateCorner(state,sector,node);expect(box.output.alpha).toBe(10);expect(node.cornerProgress).toBe(21);expect(node.input['command-suppression-bot']).toBe(0);
-    expect(state.endgame?.componentObtained).toBe(true);
+    expect(state.produced?.alpha).toBe(1);
   });
   it('requires all Foundry parts and converts atomically with no extra timer',()=>{
     const {state,sector,node,box}=corner('foundry');node.input={...FOUNDRY_INPUTS,'sealed-frame':FOUNDRY_INPUTS['sealed-frame']!-1};
@@ -68,7 +69,7 @@ describe('repeatable corner production and seeded assembly',()=>{
     saved.cornerProgress=GROVE_GROWTH-2;
     ticks(resumed,5);
     expect(resumed.getSector().nodes.find(n=>n.id===box.id)!.output['grove-component']).toBe(1);
-    expect(resumed.getState().research.completed).toContain('cornerComponents');
+    expect(resumed.getState().research.completed).not.toContain('cornerComponents');
     expect(saved.cornerProgress).toBeLessThan(10);
   });
   it('accepts mixed Reclamation waste with type-specific credits and conserved surplus',()=>{
@@ -82,20 +83,33 @@ describe('repeatable corner production and seeded assembly',()=>{
     for(let p=0;p<3;p++)for(const half of ['a','b'])expect(isRecipeAvailable(`core-half-${half}-${p}`,state,'assembler')).toBe(p===pairIndex);
     expect(isRecipeAvailable('final-core',state,'assembler')).toBe(true);
   });
-  it('unlocks recipes from a real corner award, not discovery, and retains the unlock after spending',()=>{
-    const s=createInitialState(20);const cornerSector=generateSector(0,0,s.seed);cornerSector.unlocked=true;s.sectors[cornerSector.id]=cornerSector;
-    const e=new GameEngine(s,{autosave:false});expect(e.getState().research.completed).not.toContain('cornerComponents');
-    e.getState().endgame!.componentObtained=true;e.tick(1);expect(e.getState().research.completed).toContain('cornerComponents');
-    const loaded=new GameEngine(structuredClone(e.getState()),{autosave:false});expect(loaded.getState().endgame).toEqual(e.getState().endgame);expect(loaded.getState().research.completed).toContain('cornerComponents');
+  it('completes End of the World on first Complex Core production even without a corner piece',()=>{
+    const state = createInitialState(20);
+    state.research.completed.push('assembler', 'precisionControl');
+    state.research.unlocked.push('assembler');
+    const assembler = machine('advancedAssembler', 'complex');
+    const recipe = RECIPES['command-core'];
+    assembler.recipeId = recipe.id;
+    assembler.input = { ...recipe.inputs };
+    state.sectors['5,5'].nodes = [assembler];
+    const engine = new GameEngine(state, { autosave: false });
+    const project = getResearchProject('cornerComponents')!;
+    expect(researchCardDetails(project, engine.getState()).complete).toBe(false);
+    ticks(engine, Math.ceil(recipe.cycleMs / 1000) + 1);
+    expect(engine.getState().produced?.['command-core']).toBe(1);
+    expect(researchCardDetails(project, engine.getState()).complete).toBe(true);
+    expect(isRecipeAvailable('final-core', engine.getState(), 'assembler')).toBe(true);
   });
   it('produces both seeded halves and a Final Core through wired ordinary Assemblers',()=>{
     const s=createInitialState(28);initializeEndgame(s);s.research.completed=['assembler'];s.research.unlocked=['assembler'];
+    s.produced!['command-core'] = 1;
     const a=machine('assembler','a',600,500),b=machine('assembler','b',600,1100),final=machine('assembler','final',1700,800);
     a.recipeId=`core-half-a-${s.endgame!.pairIndex}`;b.recipeId=`core-half-b-${s.endgame!.pairIndex}`;final.recipeId='final-core';
     const items={alpha:'alpha',foundry:'foundry-component',reclamation:'reclamation-component',grove:'grove-component'} as const;
     for(const [index,pair]of PAIRS[s.endgame!.pairIndex].entries())for(const c of pair)(index?b:a).input[items[c]]=1;
     s.sectors['5,5'].nodes=[a,b,final];const e=new GameEngine(s,{autosave:false});expect(e.connect('a','final')).toBe(true);expect(e.connect('b','final')).toBe(true);ticks(e,45);
     expect(e.getState().produced?.['core-half-a']).toBe(1);expect(e.getState().produced?.['core-half-b']).toBe(1);expect(e.getState().produced?.['final-core']).toBe(1);expect(e.getState().finalCoreProduced).toBe(true);expect(e.getState().research.completed).toContain('finalCoreProduction');
+    expect(e.getState().researchLog?.some(event => event.projectId === 'finalCoreProduction')).toBe(false);
   });
 });
 
@@ -116,23 +130,26 @@ describe('Recycler conservation',()=>{
 describe('endgame research and preservation',()=>{
   it('quotes the shared independently rounded seven-Core ladder for separate projects',()=>{
     for(const id of ['resourceRegeneration','efficientLandfill','trainFreightCapacity','storagePlacementCapacity','inventoryPlacementCapacity','storageConnectionCapacity','inventoryConnectionCapacity']){
-      const p=getResearchProject(id)!;expect([0,1,2,3,4].map(r=>getResearchCosts(p,r)['final-core'])).toEqual([5,5,5,5,6]);expect(Object.keys(p.costs)).toEqual(SEVEN_CORES);
+      const p=getResearchProject(id)!;expect([0,1,2,3,4].map(r=>getResearchCosts(p,r)['final-core'])).toEqual([1,2,3,4,6]);expect(Object.keys(p.costs)).toEqual(SEVEN_CORES);
     }
-    expect(getResearchProject('autonomousLogistics')!.costs['final-core']).toBe(5);
+    expect(getResearchProject('autonomousLogistics')!.costs['final-core']).toBe(1);
   });
   it('pays victory through the ordinary lab cadence and persists acknowledgement separately',()=>{
-    const s=createInitialState();s.sectors['5,5'].nodes=[machine('researchCenter','lab')];s.produced!['final-core']=1;
+    const s=createInitialState();s.sectors['5,5'].nodes=[machine('researchCenter','lab')];
     const e=new GameEngine(s,{autosave:false}),lab=e.getSector().nodes[0];
     expect(getResearchProject('victory')!.trigger).toBeUndefined();
-    expect(getResearchProject('victory')!.costs).toEqual(Object.fromEntries(SEVEN_CORES.map(core=>[core,5])));
-    lab.input=Object.fromEntries(SEVEN_CORES.map(core=>[core,5]));
+    expect(getResearchProject('victory')!.costs).toEqual(Object.fromEntries(SEVEN_CORES.map(core=>[core,1])));
+    lab.input=Object.fromEntries(SEVEN_CORES.map(core=>[core,1]));
+    e.selectResearch('victory');
+    expect(e.getState().research.selected).toBeUndefined();
+    e.getState().produced!['final-core'] = 1;
     ticks(e,6);expect(e.getState().research.completed).not.toContain('victory');
-    expect(lab.input['final-core']).toBe(5);
+    expect(lab.input['final-core']).toBe(1);
     delete lab.input['command-core'];e.selectResearch('victory');ticks(e,5);
     expect(e.getState().research.completed).not.toContain('victory');
-    expect(lab.input['final-core']).toBe(5);expect(lab.input['simple-core']).toBe(5);
-    lab.input['command-core']=5;
-    ticks(e,24);expect(e.getState().research.completed).not.toContain('victory');ticks(e,1);expect(e.getState().research.completed).toContain('victory');
+    expect(lab.input['final-core']).toBe(1);expect(lab.input['simple-core']).toBe(1);
+    lab.input['command-core']=1;
+    ticks(e,4);expect(e.getState().research.completed).not.toContain('victory');ticks(e,1);expect(e.getState().research.completed).toContain('victory');
     expect(SEVEN_CORES.map(core=>lab.input[core])).toEqual(SEVEN_CORES.map(()=>0));
     expect(e.getState().endgame!.victoryAcknowledged).toBeUndefined();e.acknowledgeVictory();expect(new GameEngine(e.getState(),{autosave:false}).getState().endgame!.victoryAcknowledged).toBe(true);
   });
@@ -282,7 +299,7 @@ describe('endgame research and preservation',()=>{
     expect(e.tryMoveNodesTo({camp:{x:10,y:10}})).toBe(false);expect(e.getSector().nodes[0].x).toBe(2300);e.undo();expect(e.getSector().nodes[0].x).toBe(2200);
   });
   it('moves a Lake without its Intake and preserves cleared-Golem state',()=>{
-    const s=createInitialState();s.research.completed=['lakeRelocation','resourceRelocation'];const lake=machine('lake','lake',1600,1400);lake.obstructionWidth=150;lake.obstructionHeight=120;const intake=machine('lakeIntake','intake',2500,1800);intake.output.water=20;s.sectors['5,5'].nodes=[lake,intake];s.sectors['5,5'].connections=[{id:'c',from:'lake',to:'intake',createdAt:0}];const e=new GameEngine(s,{autosave:false});expect(e.tryMoveNodesTo({lake:{x:1600,y:1800}})).toBe(true);expect(e.getSector().nodes[1].x).toBe(2500);expect(e.getSector().nodes[1].output.water).toBe(20);expect(e.getSector().connections).toHaveLength(1);
+    const s=createInitialState();s.research.completed=['lakeRelocation','resourceRelocation'];const lake=machine('lake','lake',1600,1400);lake.obstructionWidth=150;lake.obstructionHeight=120;const intake=machine('fluidLink','intake',2500,1800);intake.output.water=20;s.sectors['5,5'].nodes=[lake,intake];s.sectors['5,5'].connections=[{id:'c',from:'lake',to:'intake',createdAt:0}];const e=new GameEngine(s,{autosave:false});expect(e.tryMoveNodesTo({lake:{x:1600,y:1800}})).toBe(true);expect(e.getSector().nodes[1].x).toBe(2500);expect(e.getSector().nodes[1].output.water).toBe(20);expect(e.getSector().connections).toHaveLength(1);
     const reserve=machine('iron');reserve.golemMineral='iron';reserve.defeated=true;reserve.infiniteResource=true;expect(isPlayerMovableNode(reserve.kind,s,reserve)).toBe(true);expect(isPlayerMovableNode('resourceGolem',s)).toBe(false);expect(isPlayerMovableNode('cornerChallenge',s)).toBe(false);
   });
 });

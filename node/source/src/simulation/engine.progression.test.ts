@@ -168,22 +168,32 @@ describe('six-tier gameplay progression',()=>{
   const r=RECIPES['precision-controller'];const e=setup([machine('advancedAssembler','a',{x:900,y:900,recipeId:r.id,cycleMs:r.cycleMs,capacity:64,input:{...r.inputs}})],['precisionControl']);tick(e,.1);
   const ids=e.duplicateNodes(['a']);expect(ids.length).toBe(1);const copied=e.getSector().nodes.find(n=>n.id===ids[0])!;expect(copied.batch).toBeUndefined();expect(copied.input).toEqual({});
  });
- it('draws four Water per second and limits each lake to two Intakes',()=>{
-  const e=setup([machine('lake','lake',{x:500,y:800,resourceItem:'water'}),machine('lakeIntake','a',{x:1500,y:300}),machine('lakeIntake','b',{x:1500,y:800}),machine('lakeIntake','c',{x:1500,y:1300})],['lakeTools']);
-  expect(e.connectPorts('lake',0,'a',0)).toBe(true);expect(e.connectPorts('lake',1,'b',0)).toBe(true);expect(e.connectPorts('lake',2,'c',0)).toBe(false);tick(e,1);expect(e.getSector().nodes.find(n=>n.id==='a')!.output.water).toBe(4);
+ it.each([
+  { upgrades: [], rate: 4 },
+  { upgrades: ['pressureSystems'], rate: 8 },
+  { upgrades: ['pressureSystems', 'highPressureIntakes'], rate: 16 },
+ ])('draws $rate Water per second from a direct connection and limits each Lake to two Pumps', ({ upgrades, rate }) => {
+  const e=setup([machine('lake','lake',{x:500,y:800,resourceItem:'water'}),machine('fluidLink','a',{x:1500,y:300}),machine('fluidLink','b',{x:1500,y:800}),machine('fluidLink','c',{x:1500,y:1300})],['lakeTools', ...upgrades]);
+  expect(e.connectPorts('lake',0,'a',0)).toBe(true);expect(e.connectPorts('lake',1,'b',0)).toBe(true);expect(e.connectPorts('lake',2,'c',0)).toBe(false);
+  tick(e,1);
+  const pumps = e.getSector().nodes.filter(node => node.kind === 'fluidLink');
+  expect(pumps.map(node => node.output.water ?? 0)).toEqual([rate, rate, 0]);
+  expect(pumps.map(node => node.input.water ?? 0)).toEqual([0, 0, 0]);
  });
  it('regenerates an empty ordinary deposit without collapsing it',()=>{
   const e=setup([machine('iron','ore',{resourceItem:'iron',resourceRemaining:0,resourceCapacity:10})],['mineralRegeneration']);tick(e,30);expect(e.getSector().nodes[0].kind).toBe('iron');expect(e.getSector().nodes[0].resourceRemaining).toBe(1);
  });
  it('applies the five-Core minimum after rounding repeatable prices',()=>{
-  const p=RESEARCH_PROJECTS.find(p=>p.id==='storagePlacementCapacity')!;expect([0,1,2,3,4,5].map(rank=>getResearchCosts(p,rank)['command-core'])).toEqual([5,5,5,5,6,8]);
+  const p=RESEARCH_PROJECTS.find(p=>p.id==='mineralRegenerationRate')!;
+  const lowerBase = { ...p, costs: { 'command-core': 1 } };
+  expect([0,1,2,3,4,5].map(rank=>getResearchCosts(lowerBase,rank)['command-core'])).toEqual([5,5,5,5,6,8]);
  });
  it('uses one global pool across maps, preserves overflow and respects the per-item cap',()=>{
   const e=setup([machine('storage','s',{input:{iron:1010}})],['autonomousLogistics']);const other=generateSector(6,5,204,0);other.nodes=[machine('inventory','i'),machine('filter','f',{filterItem:'iron'}),machine('warehouse','drain',{processingPaused:true})];other.unlocked=true;other.connections=[{id:'c',from:'i',to:'f',fromPort:0,toPort:0,createdAt:0},{id:'filtered',from:'f',to:'drain',createdAt:0}];e.getState().sectors[other.id]=other;
   tick(e,.1);expect(e.getState().globalPool?.iron).toBe(1000);expect(e.getSector().nodes[0].input.iron).toBe(10);tick(e,1);expect((other.nodes[1].input.iron??0)+(other.nodes[1].output.iron??0)+(other.nodes[2].input.iron??0)+(e.getState().inFlightTransfers??[]).filter(t=>!t.cosmeticOnly&&t.sectorId===other.id).length).toBeGreaterThan(0);expect(e.getState().globalPool!.iron).toBeLessThanOrEqual(1000);
  });
  it('converts stronger bots to strength and makes defeated Golems permanent sources',()=>{
-  const e=setup([machine('resourceGolem','g',{health:24,golemCostVersion:2,input:{'command-suppression-bot':1},golemOutputs:['copper','stone']})],['resourceGolemSurvey']);tick(e,.1);const n=e.getSector().nodes[0];expect(n.defeated).toBe(true);expect(n.kind).toBe('copper');expect(n.infiniteResource).toBe(true);expect(n.input['command-suppression-bot']).toBeUndefined();tick(e,1);expect(n.output).toEqual({});
+  const e=setup([machine('resourceGolem','g',{health:24,golemCostVersion:3,input:{'command-suppression-bot':1},golemOutputs:['copper','stone']})],['resourceGolemSurvey']);tick(e,.1);const n=e.getSector().nodes[0];expect(n.defeated).toBe(true);expect(n.kind).toBe('copper');expect(n.infiniteResource).toBe(true);expect(n.input['command-suppression-bot']).toBeUndefined();tick(e,1);expect(n.output).toEqual({});
  });
  it('shares stronger bot strength with camp checks',()=>{
   const e=setup([machine('monster-camp','m',{campStrength:50,attackRequirement:20,input:{'heavy-suppression-bot':1,'medium-suppression-bot':4}})]);tick(e,60);expect(e.getSector().nodes[0].campStrength).toBe(40);expect(e.getSector().nodes[0].input).toEqual({});

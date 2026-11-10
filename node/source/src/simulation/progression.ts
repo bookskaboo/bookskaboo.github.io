@@ -2,17 +2,17 @@ import { modNode, modNodeTemplate } from '../mods/modRules';
 import { isCustomContentId } from '../mods/modTypes';
 import { endgameRank } from '../content/endgame';
 import type { GameState, ItemId, MachineNode, SectorState } from '../domain/types';
-import { RECIPES } from '../content/recipes';
+import { isRecipeUnlocked, RECIPES, RETIRED_RECIPES } from '../content/recipes';
+import { BOT_BUILDS, BOT_ITEMS, cargoMaterial, SUPPRESSION_BOT } from '../content/botAssembly';
 import { LATE_RECIPES, WASTE_ITEMS, BOT_STRENGTH } from '../content/progression';
 import { getNodeCapabilities } from '../content/nodeCapabilities';
 import type { SimulationLookups } from './simulationLookups';
-import { generateSector, getSectorWorldSize } from './worldGeneration';
+import { generateSector, getWorldFieldSize } from './worldGeneration';
 import { canPlaceNode } from './collisions';
 import { defeatResourceGolem, golemApCost } from '../content/resourceGolems';
 import { normalizeControlGroups } from '../domain/controlGroups';
 import { canonicalCoreText } from '../content/displayNameChanges';
 import { queueOutputs, reconcileQueue } from './mixedOutput';
-import { RETIRED_RECIPES } from '../content/recipes';
 
 const total=(bag: Partial<Record<ItemId,number>>,waste?:boolean)=>Object.entries(bag).reduce((n,[i,q])=>n+((waste===undefined||WASTE_ITEMS.includes(i as ItemId)===waste)?q??0:0),0);
 export const poolCapacity=(_state:GameState)=>1000;
@@ -79,7 +79,7 @@ export function initializeProgression(state:GameState){
   const sector=state.sectors[id];if(!sector)continue;
   const [x,y]=id.split(',').map(Number),generated=generateSector(x,y,state.seed);
   for(const kind of kinds)if(!sector.nodes.some(n=>n.kind===kind)){
-   const node=generated.nodes.find(n=>n.kind===kind);if(!node)continue;const field=getSectorWorldSize(sector,state.research.completed);
+   const node=generated.nodes.find(n=>n.kind===kind);if(!node)continue;const field=getWorldFieldSize(state);
    for(let attempt=0;attempt<1000&&!canPlaceNode(node,sector.nodes,field);attempt++){node.x=220+(attempt*379)%(field.width-440);node.y=250+(attempt*197)%(field.height-500);}
    if(canPlaceNode(node,sector.nodes,field))sector.nodes.push(node);
   }
@@ -94,10 +94,15 @@ export function discoverActiveSector(state:GameState){
 }
 function random(state:GameState){let n=state.randomState??state.seed??1;n^=n<<13;n^=n>>>17;n^=n<<5;state.randomState=n>>>0;return state.randomState/4294967296;}
 export function simulateExtendedRecipe(state:GameState,node:MachineNode,dt:number,multiplier:number):boolean {
- const recipe=node.recipeId?RECIPES[node.recipeId]:undefined;
- if(!recipe||(!isCustomContentId(recipe.id)&&!recipe.chanceOutputs?.length&&!Object.hasOwn(LATE_RECIPES,recipe.id)&&!['advancedAssembler','hydroProcessor','separationFurnace'].includes(modNodeTemplate(node.kind))))return false;
- if(recipe.unlockResearch&&!state.research.completed.includes(recipe.unlockResearch)&&!node.batch)return true;
+ const automatic = getNodeCapabilities(node.kind).behavior === 'bot-assembly';
+ const activeId = node.batch?.recipeId ?? node.recipeId;
+ const recipe = automatic && !node.batch
+  ? BOT_BUILDS.find(build => (node.input[build.frame] ?? 0) > 0 && (node.input[build.gun] ?? 0) > 0 && isRecipeUnlocked(build.recipe.id, state.research.completed))?.recipe
+  : activeId ? RECIPES[activeId] : undefined;
+ if(!recipe)return automatic;
  if(RETIRED_RECIPES.has(recipe.id)&&!node.batch){delete node.recipeId;node.progressMs=0;return true;}
+ if(!automatic&&!node.batch&&!isCustomContentId(recipe.id)&&!recipe.chanceOutputs?.length&&!Object.hasOwn(LATE_RECIPES,recipe.id)&&!['advancedAssembler','hydroProcessor','separationFurnace'].includes(modNodeTemplate(node.kind)))return false;
+ if(recipe.unlockResearch&&!state.research.completed.includes(recipe.unlockResearch)&&!node.batch)return true;
  if(!node.batch){
   if(!Object.entries(recipe.inputs).every(([i,n])=>(node.input[i as ItemId]??0)>=(n??0))) {node.progressMs=0;return true;}
   const max={...recipe.outputs};for(const o of recipe.chanceOutputs??[])max[o.item]=(max[o.item]??0)+o.amount;
@@ -119,12 +124,24 @@ export function simulateExtendedRecipe(state:GameState,node:MachineNode,dt:numbe
 }
 export function simulateProgressionNode(state:GameState,sector:SectorState,node:MachineNode,dt:number,lookups:SimulationLookups,canReceive?: (node:MachineNode,item:ItemId)=>boolean):boolean{
  if(node.kind==='abandonedFabricator'||node.kind==='sortingStation')return true;
- if(node.kind==='lakeIntake'){
-  const edge=lookups.sector(sector).incoming.get(node.id)?.[0];const lake=edge?lookups.sector(sector).nodes.get(edge.from):undefined;
-  if(lake?.kind!=='lake'&&lake?.kind!=='devSource'){node.progressMs=0;return true;}
-  const rate=state.research.completed.includes('highPressureIntakes')?16:state.research.completed.includes('pressureSystems')?8:4;
-  node.progressMs+=dt;
-  while(node.progressMs>=1000){node.progressMs-=1000;const q=Math.min(rate,(modNode(node.kind)?.capacity??64)-(node.output.water??0));node.output.water=(node.output.water??0)+q;state.extracted!.water=(state.extracted!.water??0)+q;}
+ if (node.kind === 'fluidLink') {
+  const index = lookups.sector(sector);
+  const inlet = index.incoming.get(node.id)?.[0];
+  const source = inlet && index.nodes.get(inlet.from);
+  if (source?.kind !== 'lake' || source.disabled) {
+   node.progressMs = 0;
+   return true;
+  }
+  const rate = state.research.completed.includes('highPressureIntakes') ? 16 : state.research.completed.includes('pressureSystems') ? 8 : 4;
+  node.progressMs += dt;
+  const cycles = Math.floor(node.progressMs / 1000);
+  node.progressMs %= 1000;
+  const capacity = modNode(node.kind)?.capacity ?? node.capacity ?? 64;
+  const drawn = Math.min(cycles * rate, capacity - total(node.output));
+  if (drawn > 0) {
+   node.output.water = (node.output.water ?? 0) + drawn;
+   state.extracted!.water = (state.extracted!.water ?? 0) + drawn;
+  }
   return true;
  }
  if(node.kind==='resourceGolem'){
@@ -136,18 +153,28 @@ export function simulateProgressionNode(state:GameState,sector:SectorState,node:
   return true;
  }
  if(node.kind==='storage'){
-  for(const bag of [node.input,node.output])for(const i of Object.keys(bag)as ItemId[]){const q=Math.min(bag[i]??0,poolCapacity(state)-(state.globalPool![i]??0));if(q>0){state.globalPool![i]=(state.globalPool![i]??0)+q;bag[i]=(bag[i]??0)-q;}}
+  const pool = state.globalPool!;
+  for (const bag of [node.input, node.output]) for (const item of Object.keys(bag) as ItemId[]) {
+   if (!(bag[item]! > 0)) continue;
+   const material = cargoMaterial(item);
+   const stored = material === SUPPRESSION_BOT ? BOT_ITEMS.reduce((count, id) => count + (pool[id] ?? 0), 0) : pool[item] ?? 0;
+   const moved = Math.min(bag[item]!, poolCapacity(state) - stored);
+   if (moved > 0) { pool[item] = (pool[item] ?? 0) + moved; bag[item]! -= moved; }
+  }
   return true;
  }
  if(node.kind==='inventory'){
   node.transferProgressMs=(node.transferProgressMs??0)+dt;if(node.transferProgressMs<1000)return true;node.transferProgressMs%=1000;
-  for(const c of lookups.sector(sector).outgoing.get(node.id)??[]){const filter=lookups.sector(sector).nodes.get(c.to);if(filter?.kind!=='filter'||!filter.filterItem)continue;const i=filter.filterItem;
+  for(const c of lookups.sector(sector).outgoing.get(node.id)??[]){const filter=lookups.sector(sector).nodes.get(c.to);if(filter?.kind!=='filter'||!filter.filterItem)continue;
+   const material = cargoMaterial(filter.filterItem);
+   const i = material === SUPPRESSION_BOT ? BOT_ITEMS.find(item => (state.globalPool![item] ?? 0) > 0) : material;
+   if (!i) continue;
    if(canReceive&&!canReceive(filter,i))continue;
    const pending=lookups.target(sector.id,filter.id)?.transfers.length??0;
    if((state.globalPool![i]??0)>0&&total(filter.input)+pending<5){state.globalPool![i]!--;filter.input[i]=(filter.input[i]??0)+1;}}
   return true;
  }
- if(['slagHopper','wasteHopper','fluidStorage','warehouse'].includes(modNodeTemplate(node.kind))){
+ if(['wasteHopper','fluidStorage','warehouse'].includes(modNodeTemplate(node.kind))){
   node.inputQueue=reconcileQueue(node.inputQueue,node.input);
   while(node.inputQueue.length&&total(node.output)<(modNode(node.kind)?.capacity??node.capacity??200)){
    const item=node.inputQueue.shift()!;node.input[item]!--;queueOutputs(node,{[item]:1});

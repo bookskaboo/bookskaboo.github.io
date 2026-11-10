@@ -16,6 +16,12 @@ Extractors and Lake Intakes are Production nodes. Use that category consistently
 
 Dry, understated humor is the canonical voice of NODE: Another Factory Game. Use it in modal subtext, tutorial dialogue, introductions, and help text. Keep control instructions, ingredient counts, and goals clear; the joke must never obscure what the player needs to do.
 
+# Interface style
+
+Read [the NODE UI style guide](docs/node-ui-style-guide.docx) and [the style review notes](docs/typography-style-review.docx) before changing player-facing style or copy. Update both as part of the same change. Put the current rule and examples in the guide, and record what changed, where it applies, and how it was checked in the notes.
+
+Reuse the shared typography roles in `src/styles/readability.css`. Use sans-serif for player-facing text, named monospace for technical notation, and reserve heavier weights for hierarchy or essential warnings. Keep the Selected project description at 12 CSS px and its Start and Cancel actions, Core badges, and progress count at regular weight. Match Core badges to the research filter buttons, using labels like Simple and Basic.
+
 # Browser playtests
 
 Read `docs/browser-playtest.md` before starting or recovering browser playtests. It records the verified browser discovery and recovery procedure. Follow current tool documentation if it differs from a recorded example. Preserve the current game during browser recovery.

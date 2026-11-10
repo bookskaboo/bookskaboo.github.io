@@ -1,10 +1,10 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { GameEngine, createInitialState } from '../simulation/engine';
-import { createTutorialState, lessonSatisfied, PRODUCTION_TARGETS, TARGETS, EXPANSION_HOME, EXPANSION_OUTPOST, EXPANSION_ROAD_TARGET, tutorialNode, BASIC_STAGES, MANUAL_STAGES } from './tutorialRuntime';
+import { createTutorialState, lessonSatisfied, PRODUCTION_TARGETS, TARGETS, EXPANSION_HOME, EXPANSION_OUTPOST, tutorialNode, BASIC_STAGES, MANUAL_STAGES } from './tutorialRuntime';
 import { correctTutorialPlacement, tutorialPlacementTarget, basicTutorialPlacementKind } from './tutorialRuntime';
 import { getNodeSize } from '../renderer/nodeLayout';
 import { getPortAnchor } from '../renderer/nodeLayout';
-import { getSectorWorldSize } from '../simulation/worldGeneration';
+import { getWorldFieldSize } from '../simulation/worldGeneration';
 
 afterEach(() => vi.unstubAllGlobals());
 const run = (engine: GameEngine, seconds: number) => { for (let i = 0; i < seconds * 10; i++) engine.tick(100); };
@@ -26,10 +26,13 @@ describe('imported tutorial practice', () => {
     }
   });
   it('places the Core Refiner and Research Center to the right of the actual previous machine', () => {
+    const state = createTutorialState('basic'), home = state.sectors[state.activeSectorId];
     const gear = tutorialNode('refiner', 'gear', 1100, 990, { recipeId: 'copper-gear' });
-    expect(tutorialPlacementTarget('make-core', [gear])).toEqual({ kind: 'refiner', x: 1460, y: 990 });
+    home.nodes.push(gear);
+    expect(tutorialPlacementTarget('make-core', state)).toEqual({ kind: 'refiner', x: 1460, y: 990 });
     const core = tutorialNode('refiner', 'core', 1500, 1010, { recipeId: 'simple-core' });
-    expect(tutorialPlacementTarget('build-lab', [gear, core])).toEqual({ kind: 'researchCenter', x: 1860, y: 1010 });
+    home.nodes.push(core);
+    expect(tutorialPlacementTarget('build-lab', state)).toEqual({ kind: 'researchCenter', x: 1860, y: 1010 });
   });
   it('keeps the final Basics step reachable by both Options and explicit continuation', () => {
     const last = BASIC_STAGES.at(-1)!;
@@ -55,7 +58,7 @@ describe('imported tutorial practice', () => {
   });
   it('places the lesson machine at the marker even when the clicked spot is blocked', () => {
     const engine=new GameEngine(createTutorialState('basic'),{autosave:false});
-    const target=tutorialPlacementTarget('build-place',engine.getSector().nodes)!;
+    const target=tutorialPlacementTarget('build-place',engine.getState())!;
     expect(engine.getNodePlacementPreview('extractor',270,340)?.valid).toBe(false);
     const destination=correctTutorialPlacement('extractor',{x:270,y:340},target);
     expect(destination).toEqual({...TARGETS.extractor,corrected:true});
@@ -63,9 +66,12 @@ describe('imported tutorial practice', () => {
     expect(engine.getSector().nodes.find(node=>node.id===id)).toMatchObject({...TARGETS.extractor,kind:'extractor'});
   });
   it('uses one target definition for production, Chests, and paired Roads without affecting ordinary placement', () => {
-    expect(tutorialPlacementTarget('chest-place',[])).toEqual({kind:'woodenChest',...TARGETS.woodenChest});
-    expect(tutorialPlacementTarget('make-charcoal',[])).toEqual({kind:'kiln',...PRODUCTION_TARGETS.kiln});
-    expect(tutorialPlacementTarget('expansion-road-place',[])).toEqual({kind:'road',...EXPANSION_ROAD_TARGET});
+    const state = createTutorialState('basic');
+    expect(tutorialPlacementTarget('chest-place',state)).toEqual({kind:'woodenChest',...TARGETS.woodenChest});
+    expect(tutorialPlacementTarget('make-charcoal',state)).toEqual({kind:'kiln',...PRODUCTION_TARGETS.kiln});
+    const expansion = createTutorialState('expansion');
+    expansion.fieldSizeScale = 1.2;
+    expect(tutorialPlacementTarget('expansion-road-place',expansion)).toEqual({kind:'road',x:getWorldFieldSize(expansion).width - 67.5,y:350});
     expect(correctTutorialPlacement('kiln',{x:900,y:300})).toEqual({x:900,y:300,corrected:false});
     expect(correctTutorialPlacement('extractor',TARGETS.extractor,{kind:'extractor',...TARGETS.extractor}).corrected).toBe(false);
   });
@@ -76,7 +82,6 @@ describe('imported tutorial practice', () => {
     expect(EXPANSION_OUTPOST).toBe('4,5');
     const home = game.sectors[EXPANSION_HOME], outpost = game.sectors[EXPANSION_OUTPOST];
     expect(outpost.x).toBeLessThan(home.x);
-    expect(EXPANSION_ROAD_TARGET.x).toBe(getSectorWorldSize(outpost, game.research.completed).width - 67.5);
     for (const cable of outpost.connections) {
       const from = outpost.nodes.find(node => node.id === cable.from)!;
       const to = outpost.nodes.find(node => node.id === cable.to)!;
@@ -101,7 +106,9 @@ describe('imported tutorial practice', () => {
     expect(lessonSatisfied('expansion-return', game, null)).toBe(true);
     engine.switchSector(EXPANSION_OUTPOST);
     expect(lessonSatisfied('expansion-outpost', game, null)).toBe(true);
-    const roadId = engine.placeNode('road', EXPANSION_ROAD_TARGET.x, EXPANSION_ROAD_TARGET.y)!;
+    const target = tutorialPlacementTarget('expansion-road-place', game)!;
+    expect(engine.getNodePlacementPreview('road', target.x, target.y)).toMatchObject({ valid: true, road: { sector: { id: EXPANSION_HOME } } });
+    const roadId = engine.placeNode('road', target.x, target.y)!;
     expect(roadId).toBeTruthy();
     const sender = engine.getSector().nodes.find(node => node.id === roadId)!;
     const receiver = game.sectors[EXPANSION_HOME].nodes.find(node => node.id === sender.pairedRoadId)!;
@@ -113,6 +120,8 @@ describe('imported tutorial practice', () => {
     const homeChest = home.nodes.find(node => node.id === 'expansion-home-chest')!;
     expect(receiver.x + getPortAnchor(receiver, 'output', 0).x).toBeLessThan(homeChest.x + getPortAnchor(homeChest, 'input', 0).x);
     expect(lessonSatisfied('expansion-road-place', game, null)).toBe(true);
+    expect(engine.connect('expansion-extractor', roadId)).toBe(false);
+    expect(lessonSatisfied('expansion-road-feed', game, null)).toBe(false);
     expect(engine.connect(outpostChest.id, roadId)).toBe(true);
     expect(lessonSatisfied('expansion-road-feed', game, null)).toBe(true);
     run(engine, 5);
@@ -120,7 +129,12 @@ describe('imported tutorial practice', () => {
     expect(lessonSatisfied('expansion-deliver', game, null)).toBe(false);
     engine.switchSector(EXPANSION_HOME);
     expect(lessonSatisfied('expansion-home-receive', game, null)).toBe(true);
+    expect(engine.connect(receiver.id, 'expansion-home-lab')).toBe(false);
+    homeChest.input.wood = 1;
+    expect(lessonSatisfied('expansion-deliver', game, null)).toBe(false);
+    delete homeChest.input.wood;
     expect(engine.connect(receiver.id, 'expansion-home-chest')).toBe(true);
+    expect(lessonSatisfied('expansion-deliver', game, null)).toBe(false);
     run(engine, 5);
     expect(lessonSatisfied('expansion-deliver', game, null)).toBe(true);
     expect(game.sectors[EXPANSION_HOME].nodes.find(node => node.id === 'expansion-home-lab')!.input).toEqual({});

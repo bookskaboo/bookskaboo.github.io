@@ -1,4 +1,5 @@
-import { ITEM_NAMES } from '../content/items';
+import { ITEM_NAMES, materialTypeName } from '../content/items';
+import { SUPPRESSION_BOT_NAME } from '../content/botAssembly';
 import { getNodeCapabilities } from '../content/nodeCapabilities';
 import { NODE_DEFINITIONS } from '../content/nodes';
 import { getNodeModule } from '../content/nodeModules';
@@ -8,11 +9,12 @@ import { modNode } from '../mods/modRules';
 import { RECIPES } from '../content/recipes';
 import { getGoblinAttackRequirement } from '../content/goblinSettlements';
 import type { ItemId, MachineNode } from '../domain/types';
+import { selectedFilterPort } from '../domain/filterRouting';
 
 export const outputTotal = (node: MachineNode) => Object.values(node.output).reduce<number>((sum, value) => sum + (value ?? 0), 0);
 export const inputTotal = (node: MachineNode) => Object.values(node.input).reduce<number>((sum, value) => sum + (value ?? 0), 0);
 export const outputCapacity = (node: MachineNode) => NODE_DEFINITIONS[node.kind].output.length > 0 ? (modNode(node.kind)?.capacity ?? node.capacity ?? getNodeCapabilities(node.kind).defaultCapacity ?? 5) : 0;
-export const resourceCapacityReadout = (node: MachineNode) => node.infiniteResource ? 'INFINITE' : `${Math.floor(node.resourceRemaining ?? 0).toLocaleString()} / ${Math.floor(node.resourceCapacity ?? node.resourceRemaining ?? 0).toLocaleString()}`;
+export const resourceCapacityReadout = (node: MachineNode) => node.infiniteResource ? '∞' : `${Math.floor(node.resourceRemaining ?? 0).toLocaleString()} / ${Math.floor(node.resourceCapacity ?? node.resourceRemaining ?? 0).toLocaleString()}`;
 export const resourceReserveFraction = (node: MachineNode) => {
   if (node.infiniteResource) return 1;
   const capacity = node.resourceCapacity ?? node.resourceRemaining ?? 0;
@@ -50,7 +52,8 @@ export const portRoleLabel = (node: MachineNode, direction: 'input' | 'output', 
   if (node.kind === 'road') return direction === 'input' ? 'Local In' : 'Remote Out';
   if (node.kind === 'powerSplitter') return direction === 'input' ? 'Power In' : ['Power Top', 'Power Out', 'Power Bottom'][index] ?? 'Power';
   if (node.kind === 'extractor') return routedItem ? ITEM_NAMES[routedItem] : direction === 'input' ? 'Resource' : 'Output';
-  if (node.kind === 'filter' && direction === 'output') return index === 0 ? (node.filterItem ? ITEM_NAMES[node.filterItem] : 'Choose') : 'Remainder';
+  if (node.kind === 'filter' && direction === 'output') return index === selectedFilterPort(node) ? (node.filterItem ? materialTypeName(node.filterItem) : 'Choose an item') : 'All other items';
+  if (node.kind === 'botPlant') return direction === 'input' ? (index === 0 ? 'Frame' : 'Gun') : routedItem ? ITEM_NAMES[routedItem] : SUPPRESSION_BOT_NAME;
   if (node.kind === 'smelter' && !routedItem) return direction === 'input' ? (index === 0 ? 'Metal' : 'Charcoal') : 'Plate';
   return routedItem ? ITEM_NAMES[routedItem] : familyLabel(family);
 };
@@ -62,6 +65,6 @@ export const canCyclePortPositions = (node: MachineNode) => {
 export const nodeCycleDuration = (node: MachineNode, unlocked: readonly string[]) => {
   const prefix = getNodeCapabilities(node.kind).efficiencyFamily;
   const multiplier = getEfficiencyMultiplier(prefix, unlocked);
-  return (RECIPES[node.recipeId ?? '']?.cycleMs ?? node.cycleMs) * multiplier;
+  return (RECIPES[node.batch?.recipeId ?? node.recipeId ?? '']?.cycleMs ?? node.cycleMs) * multiplier;
 };
 

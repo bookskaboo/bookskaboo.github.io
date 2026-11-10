@@ -47,13 +47,14 @@ function fixture(mapCount: number, networks: number, production: boolean) {
       source.output.wood = inventoryPerNetwork;
       const processor = makeNode(sector, `${prefix}/processor`, production ? 'kiln' : 'joint');
       if (production) processor.recipeId = 'charcoal';
+      const vehicle = makeNode(sector, `${prefix}/vehicle`, 'woodenChest');
       const exporter = makeNode(sector, `${prefix}/export`, 'road');
       const importer = makeNode(target, `${prefix}/import`, 'road');
       exporter.roadMode = 'export'; exporter.pairedSectorId = target.id; exporter.pairedRoadId = importer.id;
       importer.roadMode = 'import'; importer.pairedSectorId = sector.id; importer.pairedRoadId = exporter.id;
-      const relay = makeNode(target, `${prefix}/relay`, 'joint');
+      const relay = makeNode(target, `${prefix}/relay`, 'woodenChest');
       const sink = makeNode(target, `${prefix}/sink`, 'warehouse');
-      connect(sector, source, processor); connect(sector, processor, exporter);
+      connect(sector, source, processor); connect(sector, processor, vehicle); connect(sector, vehicle, exporter);
       connect(target, importer, relay); connect(target, relay, sink);
     }
   });
@@ -113,7 +114,7 @@ describe.skipIf(!enabled)('current engine stress benchmark', () => {
       }
       if (scenario.production) expect(state.produced?.charcoal).toBeGreaterThan(0);
       const previous = baseline?.results.find((result) => result.maps === scenario.maps && result.networks === scenario.networks && result.production === scenario.production);
-      if (previous && baseline?.fixtureVersion === 2) {
+      if (previous && baseline?.fixtureVersion === 4) {
         expect(delivered).toBe(previous.delivered);
         expect(peakTransfers).toBe(previous.peakTransfers);
       }
@@ -138,11 +139,11 @@ describe.skipIf(!enabled)('current engine stress benchmark', () => {
       console.log('STRESS_RESULT', JSON.stringify(result));
       mkdirSync('outputs/stress', { recursive: true });
       writeFileSync('outputs/stress/latest.json', JSON.stringify({
-        fixtureVersion: 2, generatedAt: new Date().toISOString(), cpu: cpus()[0]?.model, platform: platform(),
+        fixtureVersion: 4, generatedAt: new Date().toISOString(), cpu: cpus()[0]?.model, platform: platform(),
         node: process.version, warmupMs: 5000, results,
         limitations: ['Engine only; no React/Pixi rendering, browser scheduling, autosave writes, or undo history.',
           'Synthetic graphs bypass placement/collision checks; one-map control uses a local road pair.',
-          'Production converts wood to charcoal one-for-one; logistics uses joint pass-throughs. Warehouses replace legacy Storage sinks; old timing baselines are not directly comparable.'],
+          'Production converts wood to charcoal one-for-one. Both Road endpoints have dedicated Carts. Fixtures with other layouts cannot be compared directly.'],
       }, null, 2));
     }
   }, 240_000);

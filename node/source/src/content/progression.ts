@@ -2,7 +2,7 @@
 import type { ItemId, NodeKind, NodeDefinition, Recipe, ResearchProject } from '../domain/types';
 import type { NodeCapabilities } from './nodeCapabilities';
 import type { NodeModule } from './nodeModules';
-import { FINAL_BOT_AP } from './endgame';
+export { BOT_STRENGTH } from './botAssembly';
 export const LATE_ITEM_NAMES = {
   "coolant": "Coolant",
   "conductive-slurry": "Copper Slurry",
@@ -258,20 +258,6 @@ export const LATE_RECIPES = {
     "cycleMs": 16000,
     "unlockResearch": "sealedRobotics"
   },
-  "medium-suppression-bot": {
-    "id": "medium-suppression-bot",
-    "name": "Medium Bot",
-    "inputs": {
-      "sealed-frame": 1,
-      "cooled-gun": 1,
-      "basic-core": 1
-    },
-    "outputs": {
-      "medium-suppression-bot": 1
-    },
-    "cycleMs": 20000,
-    "unlockResearch": "sealedRobotics"
-  },
   "mithril-frame": {
     "id": "mithril-frame",
     "name": "Mythril Frame",
@@ -300,20 +286,6 @@ export const LATE_RECIPES = {
     "cycleMs": 22000,
     "unlockResearch": "heavyRobotics"
   },
-  "heavy-suppression-bot": {
-    "id": "heavy-suppression-bot",
-    "name": "Heavy Bot",
-    "inputs": {
-      "mithril-frame": 1,
-      "focused-gun": 1,
-      "hydro-core": 1
-    },
-    "outputs": {
-      "heavy-suppression-bot": 1
-    },
-    "cycleMs": 40000,
-    "unlockResearch": "heavyRobotics"
-  },
   "servo-frame": {
     "id": "servo-frame",
     "name": "Servo Frame",
@@ -340,20 +312,6 @@ export const LATE_RECIPES = {
       "pulse-cannon": 1
     },
     "cycleMs": 30000,
-    "unlockResearch": "commandRobotics"
-  },
-  "command-suppression-bot": {
-    "id": "command-suppression-bot",
-    "name": "Command Bot",
-    "inputs": {
-      "servo-frame": 1,
-      "pulse-cannon": 1,
-      "command-core": 1
-    },
-    "outputs": {
-      "command-suppression-bot": 1
-    },
-    "cycleMs": 90000,
     "unlockResearch": "commandRobotics"
   },
   "slagwashing": {
@@ -597,8 +555,6 @@ export const LATE_GROUPS: Partial<Record<NodeKind,string[]>> = {
     "recover-slag"
   ],
   "advancedAssembler": [
-    "motor",
-    "iron-gear",
     "hydraulic-actuator",
     "hydro-core",
     "shiny-core",
@@ -610,13 +566,10 @@ export const LATE_GROUPS: Partial<Record<NodeKind,string[]>> = {
     "logic-substrate",
     "sealed-frame",
     "cooled-gun",
-    "medium-suppression-bot",
     "mithril-frame",
     "focused-gun",
-    "heavy-suppression-bot",
     "servo-frame",
     "pulse-cannon",
-    "command-suppression-bot",
     "efficient-circuit-a",
     "efficient-motor",
     "efficient-bot-frame",
@@ -635,24 +588,24 @@ export const LATE_RESEARCH = [
     "id": "lakeTools",
     "name": "Water Tools",
     "category": "Discovery",
-    "description": "Encounter lake in a visited map.",
-    "unlock": "Unlocks Water Tools.",
+    "description": "Draw Water from a Lake with a Pump, then use a Hydro Plant to make Coolant.",
+    "unlock": "Unlocks the Pump, Hydro Plant, and Coolant recipe.",
     "costs": {},
     "trigger": {
       "id": "encounter",
       "kinds": [
         "lake"
       ],
-      "pending": "Visit a map containing the landmark",
-      "complete": "Landmark encountered"
+      "pending": "Visit a map with a Lake",
+      "complete": "Lake discovered"
     }
   },
   {
     "id": "mithrilTools",
     "name": "Mythril Refining",
     "category": "Discovery",
-    "description": "A Dwarven settlement must produce its first Mythril Tribute.",
-    "unlock": "Unlocks Mythril Refining.",
+    "description": "Make Mythril Plates in the Smelter and Mythril Gears and Wire in the Refiner. Use the Separator to make Pure Mythril.",
+    "unlock": "Unlocks Mythril Gear and Mythril Wire in the Refiner, Mythril Plate in the Smelter, and the Separator.",
     "costs": {},
     "trigger": {
       "id": "dwarven-mythril-produced",
@@ -664,8 +617,8 @@ export const LATE_RESEARCH = [
     "id": "fabricatorTools",
     "name": "Advanced Fabrication",
     "category": "Fabrication",
-    "description": "Develop advanced assembly using Simple, Basic, and Automata Cores.",
-    "unlock": "Unlocks the Assembler II node.",
+    "description": "Build an Assembler II for advanced parts, Cores, and Bots.",
+    "unlock": "Unlocks Assembler II.",
     "costs": {
       "simple-core": 2,
       "basic-core": 2,
@@ -680,8 +633,8 @@ export const LATE_RESEARCH = [
     "id": "sortingTools",
     "name": "Waste Handling",
     "category": "Discovery",
-    "description": "Basic waste handling is included with Precision Control.",
-    "unlock": "Unlocks waste buffering, routing and direct Fines recovery.",
+    "description": "Collect mixed waste in a Waste Bin. Use Filters to send each waste type where it belongs.",
+    "unlock": "Unlocks the Waste Bin.",
     "costs": {},
     "trigger": {
       "id": "precision-control",
@@ -693,8 +646,8 @@ export const LATE_RESEARCH = [
     "id": "hydrochemistry",
     "name": "Hydrochemistry",
     "category": "Progression",
-    "description": "Develop Hydrochemistry using synchronized core sets.",
-    "unlock": "Unlocks Hydrochemistry recipes and systems.",
+    "description": "Make Copper Slurry in a Hydro Plant.",
+    "unlock": "Unlocks the Copper Slurry recipe.",
     "costs": {
       "simple-core": 1,
       "basic-core": 1,
@@ -709,8 +662,8 @@ export const LATE_RESEARCH = [
     "id": "hydraulicAssembly",
     "name": "Hydraulic Assembly",
     "category": "Progression",
-    "description": "Develop Hydraulic Assembly using synchronized core sets.",
-    "unlock": "Unlocks Hydraulic Assembly recipes and systems.",
+    "description": "Make Hydro Pistons, Circuit B, and Hydro Cores in Assembler II.",
+    "unlock": "Unlocks Hydro Piston, Circuit B, and Hydro Core recipes.",
     "costs": {
       "simple-core": 2,
       "basic-core": 2,
@@ -724,8 +677,8 @@ export const LATE_RESEARCH = [
     "id": "fluidRouting",
     "name": "Fluid Routing",
     "category": "Progression",
-    "description": "Develop Fluid Routing using synchronized core sets.",
-    "unlock": "Unlocks Fluid Routing recipes and systems.",
+    "description": "Build a Fluid Tank to buffer up to 256 units of Water or Coolant.",
+    "unlock": "Unlocks the Fluid Tank.",
     "costs": {
       "simple-core": 2,
       "basic-core": 2,
@@ -740,8 +693,8 @@ export const LATE_RESEARCH = [
     "id": "sealedRobotics",
     "name": "Sealed Robotics",
     "category": "Progression",
-    "description": "Develop Sealed Robotics using synchronized core sets.",
-    "unlock": "Unlocks Sealed Robotics recipes and systems.",
+    "description": "Make Sealed Frames and Cooled Guns in Assembler II for the Bot Plant. Together they produce a Suppression Bot 3 AP.",
+    "unlock": "Unlocks Sealed Frame and Cooled Gun for bot assembly.",
     "costs": {
       "simple-core": 2,
       "basic-core": 2,
@@ -757,8 +710,8 @@ export const LATE_RESEARCH = [
     "id": "oreSeparation",
     "name": "Ore Separation",
     "category": "Progression",
-    "description": "Develop Ore Separation using synchronized core sets.",
-    "unlock": "Unlocks Ore Separation recipes and systems.",
+    "description": "Make Mythril Mesh and Shiny Cores in Assembler II.",
+    "unlock": "Unlocks Mythril Mesh and Shiny Core recipes.",
     "costs": {
       "simple-core": 2,
       "basic-core": 2,
@@ -773,8 +726,8 @@ export const LATE_RESEARCH = [
     "id": "mineralRecovery",
     "name": "Mineral Recovery",
     "category": "Discovery",
-    "description": "Basic waste handling is included with Precision Control.",
-    "unlock": "Unlocks waste buffering, routing and direct Fines recovery.",
+    "description": "Use a Hydro Plant to turn 4 Metallic Fines and 1 Water into 1 Iron Plate.",
+    "unlock": "Iron Plates can now be recovered from Metallic Fines.",
     "costs": {},
     "trigger": {
       "id": "precision-control",
@@ -786,8 +739,8 @@ export const LATE_RESEARCH = [
     "id": "pressureSystems",
     "name": "Pressure Systems",
     "category": "Efficiency",
-    "description": "Develop Pressure Systems using synchronized core sets.",
-    "unlock": "Unlocks Pressure Systems recipes and systems.",
+    "description": "Each Pump connected to a Lake draws up to 8 Water per second.",
+    "unlock": "Lake Pumps now draw up to 8 Water per second.",
     "costs": {
       "simple-core": 45,
       "basic-core": 45,
@@ -803,8 +756,8 @@ export const LATE_RESEARCH = [
     "id": "heavyRobotics",
     "name": "Heavy Robotics",
     "category": "Progression",
-    "description": "Develop Heavy Robotics using synchronized core sets.",
-    "unlock": "Unlocks Heavy Robotics recipes and systems.",
+    "description": "Make Mythril Frames and Focused Guns in Assembler II for the Bot Plant. Together they produce a Suppression Bot 8 AP.",
+    "unlock": "Unlocks Mythril Frame and Focused Gun for bot assembly.",
     "costs": {
       "simple-core": 2,
       "basic-core": 2,
@@ -821,8 +774,8 @@ export const LATE_RESEARCH = [
     "id": "precisionControl",
     "name": "Precision Control",
     "category": "Progression",
-    "description": "Develop Precision Control using synchronized core sets.",
-    "unlock": "Unlocks Complex production, Waste Bin, Waste Link, sorting and direct Fines-to-Iron recovery.",
+    "description": "Make Complex Cores and their components. This also unlocks the Waste Bin and Iron Plate recovery from Metallic Fines.",
+    "unlock": "Unlocks Complex Core production.",
     "costs": {
       "simple-core": 2,
       "basic-core": 2,
@@ -838,8 +791,8 @@ export const LATE_RESEARCH = [
     "id": "autonomousLogistics",
     "name": "Autonomous Logistics",
     "category": "Progression",
-    "description": "Develop Autonomous Logistics using synchronized core sets.",
-    "unlock": "Unlocks Autonomous Logistics recipes and systems.",
+    "description": "Use Storage to deposit materials in a shared pool across maps. Retrieve them by connecting Inventory to a Filter.",
+    "unlock": "Unlocks Storage and Inventory.",
     "costs": {
       "simple-core": 2,
       "basic-core": 2,
@@ -857,8 +810,8 @@ export const LATE_RESEARCH = [
     "id": "commandRobotics",
     "name": "Command Robotics",
     "category": "Progression",
-    "description": "Develop Command Robotics using synchronized core sets.",
-    "unlock": "Unlocks Command Robotics recipes and systems.",
+    "description": "Make Servo Frames and Pulse Cannons in Assembler II for the Bot Plant. Together they produce a Suppression Bot 24 AP.",
+    "unlock": "Unlocks Servo Frame and Pulse Cannon for bot assembly.",
     "costs": {
       "simple-core": 2,
       "basic-core": 2,
@@ -876,8 +829,8 @@ export const LATE_RESEARCH = [
     "id": "mineralRegeneration2",
     "name": "Mineral Regeneration 2",
     "category": "Efficiency",
-    "description": "Proposed base regeneration improves to one unit per 15 seconds and opens indefinitely repeatable rate research. This replaces the earlier automated-drill proposal.",
-    "unlock": "Proposed base regeneration improves to one unit per 15 seconds and opens indefinitely repeatable rate research. This replaces the earlier automated-drill proposal.",
+    "description": "Mineral deposits now regenerate 1 unit every 15 seconds at their base rate. Unlocks repeatable upgrades to that rate.",
+    "unlock": "Base mineral regeneration increases to 1 unit every 15 seconds.",
     "costs": {
       "simple-core": 30,
       "basic-core": 30,
@@ -894,8 +847,8 @@ export const LATE_RESEARCH = [
     "id": "highPressureIntakes",
     "name": "High Pressure Intakes",
     "category": "Efficiency",
-    "description": "Develop High Pressure Intakes using synchronized core sets.",
-    "unlock": "Unlocks High Pressure Intakes recipes and systems.",
+    "description": "Each Pump connected to a Lake draws up to 16 Water per second.",
+    "unlock": "Lake Pumps now draw up to 16 Water per second.",
     "costs": {
       "simple-core": 60,
       "basic-core": 60,
@@ -932,8 +885,8 @@ export const LATE_RESEARCH = [
     "id": "factoryTemplates",
     "name": "Factory Templates",
     "category": "Logistics",
-    "description": "Paid core research for saved layouts and batch placement previews; existing duplicate controls remain available.",
-    "unlock": "Paid core research for saved layouts and batch placement previews; existing duplicate controls remain available.",
+    "description": "Save factory layouts as templates and preview the whole layout before placing it.",
+    "unlock": "Unlocks factory templates.",
     "costs": {
       "simple-core": 15,
       "basic-core": 15,
@@ -1027,8 +980,8 @@ export const LATE_RESEARCH = [
     "id": "mineralRecovery1",
     "name": "Mineral Recovery 1",
     "category": "Efficiency",
-    "description": "Direct waste recovery recipes take 10% less time after machine efficiency; quantities stay unchanged.",
-    "unlock": "Direct waste recovery recipes take 10% less time after machine efficiency; quantities stay unchanged.",
+    "description": "Waste recovery cycles take 10% less time after machine upgrades.",
+    "unlock": "Waste recovery cycles are 10% shorter.",
     "costs": {
       "simple-core": 10,
       "basic-core": 10,
@@ -1044,8 +997,8 @@ export const LATE_RESEARCH = [
     "id": "warehouseLogistics",
     "name": "Warehouse Logistics",
     "category": "Logistics",
-    "description": "Dedicated one-item Warehouse holds 250 items with a filtered outlet; Inventory retrieval stays a later unlock.",
-    "unlock": "Dedicated one-item Warehouse holds 250 items with a filtered outlet; Inventory retrieval stays a later unlock.",
+    "description": "Build a Warehouse to buffer up to 250 items.",
+    "unlock": "Unlocks the Warehouse.",
     "costs": {
       "simple-core": 20,
       "basic-core": 20,
@@ -1061,8 +1014,8 @@ export const LATE_RESEARCH = [
     "id": "roadChannels1",
     "name": "Road Channels 1",
     "category": "Logistics",
-    "description": "Adds a second Road slot to every map face. Sending and receiving endpoints share the two-slot limit. Each Road carries one item every five seconds.",
-    "unlock": "Allows two Roads per map face, counting sending and receiving endpoints together.",
+    "description": "Each side of a map can hold two Roads. Sending and receiving Roads share those slots.",
+    "unlock": "Adds a second Road slot to each side of every map.",
     "costs": {
       "simple-core": 2,
       "basic-core": 2,
@@ -1114,8 +1067,8 @@ export const LATE_RESEARCH = [
     "id": "areaExpansion2",
     "name": "Area Expansion 2",
     "category": "Logistics",
-    "description": "Field dimensions use a 1.5 multiplier over tier-scaled base dimensions, replacing 1.25.",
-    "unlock": "Field dimensions use a 1.5 multiplier over tier-scaled base dimensions, replacing 1.25.",
+    "description": "Make every play area 50% wider and 50% taller than its original size.",
+    "unlock": "Expands every play area.",
     "costs": {
       "simple-core": 50,
       "basic-core": 50,
@@ -1132,8 +1085,8 @@ export const LATE_RESEARCH = [
     "id": "resourceGolemSurvey",
     "name": "Resource Golem Survey",
     "category": "Progression",
-    "description": "Allows Bot attacks on four mineral Golems in separate sectors. Iron, Copper and Stone each cost 180 AP. Mythril costs 360 AP. Defeating a Golem creates an infinite mineral reserve with four star connections for Extractors.",
-    "unlock": "Allows Bot attacks on four mineral Golems in separate sectors. Iron, Copper and Stone each cost 180 AP. Mythril costs 360 AP. Defeating a Golem creates an infinite mineral reserve with four star connections for Extractors.",
+    "description": "Send Bots to defeat Golems. Iron, Copper, and Stone Golems take 100 AP each. The Mythril Golem takes 150 AP. A defeated Golem leaves an unlimited deposit with four Extractor connections.",
+    "unlock": "Bots can now attack resource Golems.",
     "costs": {
       "simple-core": 3,
       "basic-core": 3,
@@ -1148,8 +1101,8 @@ export const LATE_RESEARCH = [
     "id": "mineralRegeneration",
     "name": "Mineral Regeneration",
     "category": "Progression",
-    "description": "Proposed base recovery of one unit per 30 seconds in ordinary non-wood deposits, up to capacity. Empty deposits remain to regenerate after this unlock; existing Deep Holes do not become deposits.",
-    "unlock": "Proposed base recovery of one unit per 30 seconds in ordinary non-wood deposits, up to capacity. Empty deposits remain to regenerate after this unlock; existing Deep Holes do not become deposits.",
+    "description": "Ordinary mineral deposits regenerate 1 unit every 30 seconds, up to capacity. Depleted deposits stay in place and refill.",
+    "unlock": "Ordinary mineral deposits now regenerate.",
     "costs": {
       "simple-core": 2,
       "basic-core": 2,
@@ -1166,8 +1119,8 @@ export const LATE_RESEARCH = [
     "id": "roadChannels2",
     "name": "Road Channels 2",
     "category": "Logistics",
-    "description": "Adds a third Road slot to every map face. Sending and receiving endpoints share the three-slot limit.",
-    "unlock": "Allows three Roads per map face, counting sending and receiving endpoints together.",
+    "description": "Each side of a map can hold three Roads. Sending and receiving Roads share those slots.",
+    "unlock": "Adds a third Road slot to each side of every map.",
     "costs": {
       "simple-core": 20,
       "basic-core": 20,
@@ -1183,8 +1136,8 @@ export const LATE_RESEARCH = [
     "id": "mineralRegenerationRate",
     "name": "Mineral Regeneration Rate",
     "category": "Repeatable",
-    "description": "Each rank adds 20% of the post-Regeneration-2 base regeneration rate; no maximum rank.",
-    "unlock": "Each rank adds 20% of the post-Regeneration-2 base regeneration rate; no maximum rank.",
+    "description": "Each completion adds 20% of the base rate from Mineral Regeneration 2.",
+    "unlock": "Increases mineral regeneration.",
     "costs": {
       "simple-core": 10,
       "basic-core": 10,
@@ -1203,8 +1156,8 @@ export const LATE_RESEARCH = [
     "id": "storagePlacementCapacity",
     "name": "Storage Placement Capacity",
     "category": "Repeatable",
-    "description": "Each rank adds one Storage placement to the global cap; no maximum rank.",
-    "unlock": "Each rank adds one Storage placement to the global cap; no maximum rank.",
+    "description": "Each completion lets you place one more Storage node across the world.",
+    "unlock": "Increases the global Storage limit by one.",
     "costs": {
       "simple-core": 50,
       "basic-core": 50,
@@ -1223,8 +1176,8 @@ export const LATE_RESEARCH = [
     "id": "inventoryPlacementCapacity",
     "name": "Inventory Placement Capacity",
     "category": "Repeatable",
-    "description": "Each rank adds one Inventory placement to the global cap; no maximum rank.",
-    "unlock": "Each rank adds one Inventory placement to the global cap; no maximum rank.",
+    "description": "Each completion lets you place one more Inventory node across the world.",
+    "unlock": "Increases the global Inventory limit by one.",
     "costs": {
       "simple-core": 50,
       "basic-core": 50,
@@ -1243,8 +1196,8 @@ export const LATE_RESEARCH = [
     "id": "storageConnectionCapacity",
     "name": "Storage Connection Capacity",
     "category": "Repeatable",
-    "description": "Each rank adds one permitted connection per Storage; no maximum rank.",
-    "unlock": "Each rank adds one permitted connection per Storage; no maximum rank.",
+    "description": "Each completion adds one connection slot to every Storage node.",
+    "unlock": "Adds a connection slot to every Storage node.",
     "costs": {
       "simple-core": 40,
       "basic-core": 40,
@@ -1263,8 +1216,8 @@ export const LATE_RESEARCH = [
     "id": "inventoryConnectionCapacity",
     "name": "Inventory Connection Capacity",
     "category": "Repeatable",
-    "description": "Each rank adds one permitted output connection per Inventory; Inventory still initially connects only to Filters.",
-    "unlock": "Each rank adds one permitted output connection per Inventory; Inventory still initially connects only to Filters.",
+    "description": "Each completion lets every Inventory node connect to one more Filter.",
+    "unlock": "Adds a Filter connection to every Inventory node.",
     "costs": {
       "simple-core": 40,
       "basic-core": 40,
@@ -1283,8 +1236,8 @@ export const LATE_RESEARCH = [
     "id": "efficientIntermediates",
     "name": "Efficient Intermediates",
     "category": "Efficiency",
-    "description": "Unlocks efficient Circuit A, Motor and Bot Frame recipes. Products and waste share one output; use Filters.",
-    "unlock": "Unlocks efficient Circuit A, Motor and Bot Frame recipes. Products and waste share one output; use Filters.",
+    "description": "Unlocks efficient recipes for Circuit A, Motors, and Bot Frames. Use Filters to separate products from waste at the shared output.",
+    "unlock": "Unlocks efficient Circuit A, Motor, and Bot Frame recipes.",
     "costs": {
       "simple-core": 25,
       "basic-core": 25,
@@ -1301,8 +1254,8 @@ export const LATE_RESEARCH = [
     "id": "efficientHigherIntermediates",
     "name": "Efficient Higher Intermediates",
     "category": "Efficiency",
-    "description": "Unlocks efficient Hydro Piston, Mythril Mesh and Circuit C, plus direct Flux, Crust and Slag recovery.",
-    "unlock": "Unlocks efficient Hydro Piston, Mythril Mesh and Circuit C, plus direct Flux, Crust and Slag recovery.",
+    "description": "Unlocks efficient recipes for Hydro Pistons, Mythril Mesh, and Circuit C. Also adds recipes that recover materials from Spent Flux, Glassy Crust, and Slag.",
+    "unlock": "Unlocks more efficient recipes and waste recovery.",
     "costs": {
       "simple-core": 50,
       "basic-core": 50,
@@ -1319,8 +1272,8 @@ export const LATE_RESEARCH = [
     "id": "planterThroughput",
     "name": "Industrial Forestry",
     "category": "Efficiency",
-    "description": "Tree Planters produce ten times faster and send up to ten funded growth units per local shipment.",
-    "unlock": "Tree Planters produce ten times faster and send up to ten funded growth units per local shipment.",
+    "description": "Tree Planters produce growth ten times as fast and can send up to ten growth units in one transfer.",
+    "unlock": "Increases Tree Planter speed and transfer capacity.",
     "costs": {
       "simple-core": 25,
       "basic-core": 25,
@@ -1333,38 +1286,9 @@ export const LATE_RESEARCH = [
       "precisionControl",
       "treePlanter"
     ]
-  },
-  {
-    "id": "finalCoreProduction",
-    "name": "Final Core Production",
-    "category": "Discovery",
-    "description": "Produce the first Final Core to make global transport research available. The Final Core route is still under development.",
-    "unlock": "Makes Autonomous Logistics research available.",
-    "costs": {},
-    "trigger": {
-      "id": "final-core-produced",
-      "pending": "Produce the first Final Core",
-      "complete": "First Final Core produced"
-    }
   }
 ] satisfies ResearchProject[];
 export const LATE_NODES = {
-  "lakeIntake": {
-    "kind": "lakeIntake",
-    "name": "Lake Intake",
-    "category": "Production",
-    "input": [
-      "water"
-    ],
-    "output": [
-      "water"
-    ],
-    "description": "Connect directly to a Lake. Draws 4 Water per second before upgrades; at most two Intakes per Lake.",
-    "accent": 7716801,
-    "accentCss": "#75bfc1",
-    "icon": "◆",
-    "unlockResearch": "lakeTools"
-  },
   "hydroProcessor": {
     "kind": "hydroProcessor",
     "name": "Hydro Plant",
@@ -1397,7 +1321,7 @@ export const LATE_NODES = {
     "output": [
       "ANY"
     ],
-    "description": "Builds advanced intermediates, independent research cores and stronger bots. Tier-6 recipes may also produce waste.",
+    "description": "Builds advanced intermediates, research Cores, and parts for the Bot Plant. Tier-6 recipes may also produce waste.",
     "accent": 7716801,
     "accentCss": "#75bfc1",
     "icon": "◆",
@@ -1423,22 +1347,6 @@ export const LATE_NODES = {
     "unlockResearch": "mithrilTools",
     "size": "large"
   },
-  "slagHopper": {
-    "kind": "slagHopper",
-    "name": "Slag Hopper",
-    "category": "Storage",
-    "input": [
-      "WASTE"
-    ],
-    "output": [
-      "WASTE"
-    ],
-    "description": "Buffers up to 200 Slag from researched Complex alternatives.",
-    "accent": 7716801,
-    "accentCss": "#75bfc1",
-    "icon": "◆",
-    "unlockResearch": "sortingTools"
-  },
   "wasteHopper": {
     "kind": "wasteHopper",
     "name": "Waste Bin",
@@ -1449,7 +1357,7 @@ export const LATE_NODES = {
     "output": [
       "WASTE"
     ],
-    "description": "Buffers up to 200 mixed waste items for recovery.",
+    "description": "Buffers up to 200 mixed waste items for recovery. Use Filters to separate waste types.",
     "accent": 7716801,
     "accentCss": "#75bfc1",
     "icon": "◆",
@@ -1487,57 +1395,21 @@ export const LATE_NODES = {
     "icon": "◆",
     "unlockResearch": "warehouseLogistics"
   },
-  "wasteSorter": {
-    "kind": "wasteSorter",
-    "name": "Waste Sorter",
-    "category": "Logistics",
-    "input": [
-      "WASTE"
-    ],
-    "output": [
-      "slag",
-      "metallic-fines",
-      "spent-flux",
-      "glassy-crust"
-    ],
-    "description": "Routes mixed waste fairly at up to 40 units per second. Each waste type has separate buffer space.",
-    "accent": 7716801,
-    "accentCss": "#75bfc1",
-    "icon": "◆",
-    "unlockResearch": "sortingTools"
-  },
   "fluidLink": {
     "kind": "fluidLink",
-    "name": "Fluid Link",
-    "category": "Logistics",
+    "name": "Pump",
+    "category": "Production",
     "input": [
       "FLUID"
     ],
     "output": [
       "FLUID"
     ],
-    "description": "Carries Water or Coolant at up to 16 units per second.",
+    "description": "Connect directly to a Lake to draw 4 Water per second before upgrades. Each Lake supports two Pumps. Connect to another node to route Water or Coolant to available outlets.",
     "accent": 7716801,
     "accentCss": "#75bfc1",
     "icon": "◆",
     "unlockResearch": "lakeTools",
-    "size": "small"
-  },
-  "wasteLink": {
-    "kind": "wasteLink",
-    "name": "Waste Link",
-    "category": "Logistics",
-    "input": [
-      "WASTE"
-    ],
-    "output": [
-      "WASTE"
-    ],
-    "description": "Carries waste batches at up to 40 units per second.",
-    "accent": 7716801,
-    "accentCss": "#75bfc1",
-    "icon": "◆",
-    "unlockResearch": "sortingTools",
     "size": "small"
   },
   "powerConduit": {
@@ -1589,7 +1461,7 @@ export const LATE_NODES = {
     "category": "World",
     "input": [],
     "output": [],
-    "description": "Visit this map to discover waste sorting and handling tools.",
+    "description": "Remains of an old waste sorting station.",
     "accent": 7716801,
     "accentCss": "#75bfc1",
     "icon": "◆",
@@ -1616,12 +1488,6 @@ export const LATE_NODES = {
   }
 } satisfies Partial<Record<NodeKind,NodeDefinition>>;
 export const LATE_CAPABILITIES = {
-  "lakeIntake": {
-    "behavior": "intake",
-    "defaultCapacity": 64,
-    "inputCapacity": 64,
-    "multiOutput": true
-  },
   "hydroProcessor": {
     "behavior": "recipe",
     "inputCapacity": 5,
@@ -1642,13 +1508,6 @@ export const LATE_CAPABILITIES = {
     "inputCapacity": 5,
     "perItemInputCapacity": true,
     "defaultCapacity": 5
-  },
-  "slagHopper": {
-    "behavior": "buffer",
-    "inputCapacity": 200,
-    "defaultCapacity": 200,
-    "multiInput": true,
-    "multiOutput": true
   },
   "wasteHopper": {
     "behavior": "buffer",
@@ -1671,25 +1530,10 @@ export const LATE_CAPABILITIES = {
     "multiInput": true,
     "multiOutput": true
   },
-  "wasteSorter": {
-    "behavior": "router",
-    "inputCapacity": 32,
-    "perItemInputCapacity": true,
-    "defaultCapacity": 128,
-    "multiInput": true,
-    "passThrough": true
-  },
   "fluidLink": {
     "behavior": "router",
     "inputCapacity": 64,
     "defaultCapacity": 64,
-    "passThrough": true,
-    "multiOutput": true
-  },
-  "wasteLink": {
-    "behavior": "router",
-    "inputCapacity": 160,
-    "defaultCapacity": 160,
     "passThrough": true,
     "multiOutput": true
   },
@@ -1725,18 +1569,6 @@ export const LATE_CAPABILITIES = {
   }
 } satisfies Partial<Record<NodeKind,NodeCapabilities>>;
 export const LATE_MODULES = {
-  "lakeIntake": {
-    "appearance": {
-      "icon": "intake",
-      "shape": "standard"
-    },
-    "controls": {
-      "deletable": true,
-      "movable": true,
-      "pauseable": true,
-      "rotatable": false
-    }
-  },
   "hydroProcessor": {
     "appearance": {
       "icon": "hydro-processor",
@@ -1776,18 +1608,6 @@ export const LATE_MODULES = {
       "configuration": "recipe"
     }
   },
-  "slagHopper": {
-    "appearance": {
-      "icon": "hopper",
-      "shape": "standard"
-    },
-    "controls": {
-      "deletable": true,
-      "movable": true,
-      "pauseable": true,
-      "rotatable": false
-    }
-  },
   "wasteHopper": {
     "appearance": {
       "icon": "archive",
@@ -1824,33 +1644,9 @@ export const LATE_MODULES = {
       "rotatable": false
     }
   },
-  "wasteSorter": {
-    "appearance": {
-      "icon": "waste-sorter",
-      "shape": "standard"
-    },
-    "controls": {
-      "deletable": true,
-      "movable": true,
-      "pauseable": true,
-      "rotatable": false
-    }
-  },
   "fluidLink": {
     "appearance": {
       "icon": "fluid-link",
-      "shape": "standard"
-    },
-    "controls": {
-      "deletable": true,
-      "movable": true,
-      "pauseable": true,
-      "rotatable": false
-    }
-  },
-  "wasteLink": {
-    "appearance": {
-      "icon": "waste-link",
       "shape": "standard"
     },
     "controls": {
@@ -1923,4 +1719,3 @@ export const LATE_MODULES = {
 } satisfies Partial<Record<NodeKind,NodeModule>>;
 export const CORE_ITEMS: ItemId[] = ['simple-core','basic-core','automata-core','hydro-core','shiny-core','command-core','final-core'];
 export const WASTE_ITEMS: ItemId[] = ['slag','metallic-fines','spent-flux','glassy-crust'];
-export const BOT_STRENGTH: Partial<Record<ItemId,number>> = {'suppression-bot':1,'medium-suppression-bot':3,'heavy-suppression-bot':8,'command-suppression-bot':24,'final-suppression-bot':FINAL_BOT_AP};

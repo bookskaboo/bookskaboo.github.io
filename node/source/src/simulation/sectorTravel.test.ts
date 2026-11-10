@@ -1,15 +1,41 @@
 import { describe, expect, it } from 'vitest';
 import { cameraViewport, clampFieldCamera, DEFAULT_MIN_CAMERA_ZOOM, sectorOverviewCamera } from '../domain/camera';
 import { createInitialState, GameEngine } from './engine';
-import { generateSector, getSectorWorldSize } from './worldGeneration';
+import { generateSector, getSectorWorldSize, getWorldFieldSize } from './worldGeneration';
+
+it('uses the same field at Home and every tier, expanding both dimensions only with Area Expansion', () => {
+  for (const sector of [{ x: 5, y: 5 }, { x: 6, y: 5 }, { x: 0, y: 0 }, { x: 15, y: 15 }]) {
+    expect(getSectorWorldSize(sector, [])).toEqual({ width: 3600, height: 2400 });
+    expect(getSectorWorldSize(sector, ['areaExpansion1'])).toEqual({ width: 4500, height: 3000 });
+    expect(getSectorWorldSize(sector, ['areaExpansion1', 'areaExpansion2'])).toEqual({ width: 5400, height: 3600 });
+  }
+});
+
+it('keeps the largest old field as a shared baseline after loading and discovering farther maps', () => {
+  const state = createInitialState(9);
+  delete state.fieldSizeScale;
+  const outer = generateSector(10, 6, state.seed, 0);
+  const machine = { ...state.sectors['5,5'].nodes[0], x: 5000, y: 3100 };
+  outer.nodes = [machine];
+  state.sectors[outer.id] = outer;
+  const engine = new GameEngine(state, { autosave: false });
+  expect(getWorldFieldSize(engine.getState())).toEqual({ width: 5760, height: 3840 });
+  expect(engine.getState().sectors[outer.id].nodes).toEqual([machine]);
+  const farther = engine.ensureSector(0, 0);
+  engine.getState().sectors[farther.id] = farther;
+  const restored = new GameEngine(engine.getState(), { autosave: false });
+  expect(getWorldFieldSize(restored.getState())).toEqual({ width: 5760, height: 3840 });
+  restored.getState().research.completed.push('areaExpansion1');
+  expect(getWorldFieldSize(restored.getState())).toEqual({ width: 7200, height: 4800 });
+});
 
 describe('first-entry sector overview', () => {
   it('fits the whole field below navigation at the furthest zoom across viewport and expanded field sizes', () => {
     for (const [x, y] of [[6, 5], [8, 5], [0, 0]]) {
-      for (const [width, height] of [[640, 720], [800, 600], [1280, 720], [1920, 1080]]) {
+      for (const [width, height, top] of [[640, 720, 110], [800, 600, 132], [1280, 720, 95], [1920, 1080, 111]]) {
         for (const research of [[], ['areaExpansion2']]) {
           const world = getSectorWorldSize({ x, y }, research);
-          const viewport = { width, height };
+          const viewport = { width, height, top };
           const usable = cameraViewport(viewport);
           const camera = clampFieldCamera(sectorOverviewCamera(world, viewport), world, viewport);
           expect(camera.zoom).toBeLessThanOrEqual(DEFAULT_MIN_CAMERA_ZOOM);
@@ -25,8 +51,8 @@ describe('first-entry sector overview', () => {
   });
 
   it('lets wheel zoom reach the fitted overview and retains valid chosen views', () => {
-    const world = getSectorWorldSize({ x: 6, y: 5 }, []);
-    const viewport = { width: 1280, height: 720 };
+    const world = getSectorWorldSize({ x: 6, y: 5 }, ['areaExpansion2']);
+    const viewport = { width: 1280, height: 720, top: 95 };
     const overview = sectorOverviewCamera(world, viewport);
     expect(overview.zoom).toBeLessThan(DEFAULT_MIN_CAMERA_ZOOM);
     const zoomedOut = clampFieldCamera({ ...overview, zoom: .001 }, world, viewport);
@@ -35,7 +61,7 @@ describe('first-entry sector overview', () => {
     const chosen = { x: 95.5, y: -7, zoom: .275 };
     expect(clampFieldCamera(chosen, world, viewport)).toEqual(chosen);
     const wideView = { x: 500, y: 200, zoom: .25 };
-    expect(clampFieldCamera(wideView, world, { width: 1920, height: 1080 })).toEqual(wideView);
+    expect(clampFieldCamera(wideView, world, { width: 1920, height: 1080, top: 111 })).toEqual(wideView);
   });
 
   it('applies the overview only on first travel, then preserves both sector cameras and saved revisits', () => {
@@ -46,7 +72,7 @@ describe('first-entry sector overview', () => {
     const outpost = engine.getState().sectors['6,5'];
     expect(outpost.visited).toBeFalsy();
 
-    const overview = sectorOverviewCamera(getSectorWorldSize(outpost, []), { width: 1280, height: 720 });
+    const overview = sectorOverviewCamera(getSectorWorldSize(outpost, []), { width: 1280, height: 720, top: 95 });
     engine.switchSector(outpost.id, overview);
     expect(outpost.camera).toEqual(overview);
     expect(outpost.visited).toBe(true);

@@ -9,7 +9,7 @@ interface ResearchCardProps {
   expanded: boolean;
   tutorialChoice: boolean;
   filters: RequirementFilter[];
-  onToggle(id: string): void;
+  onToggle(id: string, keyboard: boolean): void;
 }
 
 export function ResearchCard({ project, game, disabled, expanded, tutorialChoice, filters, onToggle }: ResearchCardProps) {
@@ -37,10 +37,10 @@ export function ResearchCard({ project, game, disabled, expanded, tutorialChoice
       data-tooltip-detail={view.tooltip}
       data-tooltip-flavor={project.flavorText}
       data-tooltip-tone={view.tooltipTone}
-      onClick={() => onToggle(project.id)}
+      onClick={event => onToggle(project.id, event.detail === 0)}
     >
       <span className="research-card-icon" aria-hidden="true">{view.complete ? '✓' : RESEARCH_GLYPHS[project.id] ?? '◇'}</span>
-      <small className="research-card-name">{project.name}{project.repeatable && project.id!=='mapNode' ? ` · Level ${(game.research.repeatableCompletions?.[project.id]??0)+(view.complete?0:1)}` : ''}</small>
+      <small className="research-card-name">{project.name}</small>
       {view.active && (
         <progress className="research-active-progress" aria-label="Core payments completed" value={view.totalPaid} max={view.totalRequired} />
       )}

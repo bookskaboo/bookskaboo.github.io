@@ -197,7 +197,8 @@ describe('simulation architecture', () => {
       const { nodes } = sector;
       const quadrant = x <= 5 && y < 5 ? 0 : x > 5 && y <= 5 ? 1 : x >= 5 && y > 5 ? 2 : 3;
       const counts = quadrants[quadrant];
-      if (nodes.some(node => node.kind === 'monster-camp')) counts.camps++;
+      const hasCamp = nodes.some(node => node.kind === 'monster-camp');
+      if (hasCamp) counts.camps++;
       if (nodes.some(node => node.kind === 'resourceGolem')) {
         expect(x).not.toBe(5);
         expect(y).not.toBe(5);
@@ -212,7 +213,7 @@ describe('simulation architecture', () => {
         continue;
       }
       if (tier === 10) continue;
-      if (nodes.some(node => node.kind === 'monster-camp')) expect(holes.length).toBeGreaterThan(0);
+      if (hasCamp) expect(holes).toHaveLength(0);
       if (holes.length) {
         const field = getSectorWorldSize(sector, []);
         const holeArea = holes.reduce((total, hole) => total + Math.PI * (hole.obstructionRadius ?? 0) ** 2, 0);
@@ -506,7 +507,8 @@ describe('simulation architecture', () => {
 
     engine.getState().research.completed.push('automataCore', 'suppressionBot');
     expect(engine.setRecipe(assemblerId, 'automata-core')).toBe(true);
-    expect(engine.setRecipe(assemblerId, 'suppression-bot')).toBe(true);
+    expect(engine.setRecipe(assemblerId, 'robot-frame')).toBe(true);
+    expect(engine.setRecipe(assemblerId, 'suppression-bot')).toBe(false);
   });
 
   it('only lets a Merger combine matching typed streams', () => {
@@ -677,7 +679,7 @@ describe('simulation architecture', () => {
     expect(NODE_DEFINITIONS.inventory.name).toBe('Inventory');
     expect(NODE_DEFINITIONS.filter.name).toBe('Filter');
     expect(RECIPES['smelt-mythril'].name).toBe('Mythril Plate');
-    expect(RECIPES['suppression-bot'].name).toBe('Small Bot');
+    expect(RECIPES['assemble-bot-f1-g1'].name).toBe('Suppression Bot 1 AP');
     expect(RESEARCH_PROJECTS.map((project) => project.id)).toEqual(expect.arrayContaining([
       'joint', 'splitter', 'merger', 'researchCenter1', 'areaExpansion1',
       'extractor2', 'kiln2', 'smelter2', 'refiner2', 'assembler2', 'treePlanter', 'miningDrill',
@@ -694,6 +696,7 @@ describe('simulation architecture', () => {
     for (const entry of RESEARCH_PROJECTS) {
       const costs = Object.values(getResearchCosts(entry));
       if (entry.trigger) expect(costs, entry.id).toEqual([]);
+      else if (entry.costs['final-core']) expect(costs, entry.id).toEqual(costs.map(() => 1));
       else for (const amount of costs) expect(amount, entry.id).toBeGreaterThanOrEqual(5);
     }
     expect(getResearchCosts(project('extractor1'))).toEqual({ 'simple-core': 10 });
@@ -734,8 +737,7 @@ describe('simulation architecture', () => {
   it('uses the original trigger requirements and keeps them out of manual research selection', () => {
     const triggerRequirements = Object.fromEntries(RESEARCH_PROJECTS.filter((project) => project.trigger && project.trigger.id!=='encounter').map((project) => [project.id, project.trigger?.pending]));
     expect(triggerRequirements).toEqual({
-      cornerComponents: 'Obtain any corner piece',
-      finalCoreProduction: 'Produce the first Final Core',
+      cornerComponents: 'Take the next step in Core production',
       mithrilTools: 'Produce Mythril Tribute at a Dwarven settlement',
       sortingTools: 'Complete Precision Control',
       mineralRecovery: 'Complete Precision Control',
@@ -826,15 +828,17 @@ describe('simulation architecture', () => {
     filter.input.wood = 2;
     filter.output.wood = 1;
 
-    expect(engine.setFilterItem(id, 'copper')).toBe(true);
+    expect(engine.setFilterItem(id, 'copper', 1)).toBe(true);
     expect(filter.filterItem).toBe('copper');
-    expect(filter.input).toEqual({});
-    expect(filter.output).toEqual({});
+    expect(filter.filterOutputPort).toBe(1);
+    expect(filter.input.wood).toBe(2);
+    expect(filter.output.wood).toBe(1);
     expect(engine.setFilterItem(id, 'power')).toBe(false);
 
     engine.undo();
     const restored = engine.getSector().nodes.find((node) => node.id === id)!;
     expect(restored.filterItem).toBe('wood');
+    expect(restored.filterOutputPort).toBeUndefined();
     expect(restored.input.wood).toBe(2);
     expect(restored.output.wood).toBe(1);
   });

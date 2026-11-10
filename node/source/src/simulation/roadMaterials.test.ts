@@ -30,6 +30,31 @@ function setup(fluid = false) {
 const advance = (engine: GameEngine, seconds: number) => { for (let i = 0; i < seconds * 10; i++) engine.tick(100); };
 
 describe('single-material road connections', () => {
+  it.each(['joint', 'filter', 'splitter', 'merger', 'warehouse', 'devSource', 'smelter'] as const)('rejects a direct %s feed with freight vehicle guidance', kind => {
+    const engine = setup();
+    engine.getSector().nodes.push(node('invalid-feed', kind, 700, 300, kind === 'smelter' ? { recipeId: 'smelt-iron' } : {}));
+    expect(engine.connect('invalid-feed', 'send')).toBe(false);
+    expect(engine.connectPorts('invalid-feed', 0, 'send', 0)).toBe(false);
+    expect(engine.getConnectionFailure('invalid-feed', 0, 'send', 0)).toEqual({
+      title: 'Freight vehicle required',
+      detail: 'Connect a Cart, Truck, or Train directly to the sending Road.',
+    });
+    expect(engine.connectPorts('source', 0, 'send', 0)).toBe(true);
+  });
+
+  it.each(['joint', 'filter', 'splitter', 'merger', 'warehouse', 'smelter'] as const)('rejects direct offloading to a %s with freight vehicle guidance', kind => {
+    const engine = setup();
+    engine.switchSector('6,5');
+    engine.getSector().nodes.push(node('invalid-sink', kind, 700, 300, kind === 'smelter' ? { recipeId: 'smelt-iron' } : {}));
+    expect(engine.connect('receive', 'invalid-sink')).toBe(false);
+    expect(engine.connectPorts('receive', 0, 'invalid-sink', 0)).toBe(false);
+    expect(engine.getConnectionFailure('receive', 0, 'invalid-sink', 0)).toEqual({
+      title: 'Freight vehicle required',
+      detail: 'Connect the receiving Road directly to a Cart, Truck, or Train.',
+    });
+    expect(engine.connectPorts('receive', 0, 'sink', 0)).toBe(true);
+  });
+
   it('rejects a mixed source whether the road or material feeds are connected first', () => {
     const engine = setup();
     expect(engine.connectPorts('copper', 0, 'source', 0)).toBe(true);
@@ -53,6 +78,34 @@ describe('single-material road connections', () => {
     expect(engine.connectPorts('source', 0, 'send', 0)).toBe(true);
     expect(engine.connectPorts('iron', 0, 'source', 0)).toBe(false);
     expect(engine.getRoadTransportStatus('send')?.materials).toEqual(['copper']);
+  });
+
+  it('infers Road cargo from only the Filter outlet feeding the vehicle', () => {
+    const engine = setup();
+    const filter = engine.getSector().nodes.find(n => n.id === 'copper')!;
+    filter.output = { copper: 1, iron: 1 };
+    expect(engine.setFilterItem(filter.id, 'copper', 1)).toBe(true);
+    expect(engine.connectPorts(filter.id, 0, 'source', 0)).toBe(true);
+    expect(engine.connectPorts('source', 0, 'send', 0)).toBe(true);
+    expect(engine.getRoadTransportStatus('send')?.materials).toEqual(['iron']);
+    expect(engine.setFilterItem(filter.id, 'copper', 0)).toBe(true);
+    expect(engine.getRoadTransportStatus('send')?.materials).toEqual(['copper']);
+  });
+
+  it('ships different Suppression Bot strengths together as one material', () => {
+    const engine = setup();
+    const filter = engine.getSector().nodes.find(n => n.id === 'copper')!;
+    filter.output = { 'suppression-bot': 1, 'command-suppression-bot': 1 };
+    expect(engine.setFilterItem(filter.id, 'suppression-bot', 0)).toBe(true);
+    expect(engine.connectPorts(filter.id, 0, 'source', 0)).toBe(true);
+    expect(engine.connectPorts('source', 0, 'send', 0)).toBe(true);
+    expect(engine.getRoadTransportStatus('send')).toMatchObject({ mixed: false, materials: ['suppression-bot'] });
+    engine.switchSector('6,5');
+    expect(engine.connectPorts('receive', 0, 'sink', 0)).toBe(true);
+    const sink = engine.getSector().nodes.find(n => n.id === 'sink')!;
+    engine.switchSector('5,5');
+    advance(engine, 12);
+    expect(sink.output).toEqual({ 'suppression-bot': 1, 'command-suppression-bot': 1 });
   });
 
   it('rejects a mismatched receiving buffer and a later second feed into an empty receiver', () => {
@@ -132,36 +185,42 @@ describe('single-material road connections', () => {
     expect(engine.getState().sectors['6,5'].nodes.find(n => n.id === 'receive')!.output.water ?? 0).toBe(0);
   });
 
-  it('checks the receiving recipe socket without rejecting its other ingredients', () => {
+  it('offloads into a Cart that can then feed a local recipe', () => {
     const engine = setup();
     engine.getSector().nodes.find(n => n.id === 'copper')!.filterItem = 'iron-gear';
+    engine.getSector().nodes.find(n => n.id === 'source')!.output['iron-gear'] = 2;
     expect(engine.connectPorts('copper', 0, 'source', 0)).toBe(true);
     expect(engine.connectPorts('source', 0, 'send', 0)).toBe(true);
     engine.switchSector('6,5');
     engine.getSector().nodes.push(node('motor', 'assembler', 700, 200, { recipeId: 'motor', input: { 'copper-wire': 5 } }));
     expect(engine.connectPorts('receive', 0, 'motor', 1)).toBe(false);
-    expect(engine.connectPorts('receive', 0, 'motor', 0)).toBe(true);
+    expect(engine.connectPorts('receive', 0, 'motor', 0)).toBe(false);
+    expect(engine.connectPorts('receive', 0, 'sink', 0)).toBe(true);
+    expect(engine.connectPorts('sink', 0, 'motor', 0)).toBe(true);
+    advance(engine, 7);
+    expect(engine.getSector().nodes.find(n => n.id === 'motor')!.input['iron-gear']).toBe(1);
   });
 
-  it('allows a producer connected to a road to consume its different recipe ingredients', () => {
+  it('ships a producer’s output through a Cart while the producer consumes different ingredients', () => {
     const engine = setup();
-    engine.getSector().nodes = engine.getSector().nodes.map(n => n.id === 'source' ? node('source', 'smelter', 700, 500, { recipeId: 'smelt-iron', cycleMs: 3500, input: { iron: 5, charcoal: 5 } }) : n);
+    engine.getSector().nodes.push(node('producer', 'smelter', 400, 500, { recipeId: 'smelt-iron', cycleMs: 3500, input: { iron: 5, charcoal: 5 } }));
     engine.getSector().nodes.find(n => n.id === 'iron')!.output.iron = 3;
     engine.getSector().nodes.push(node('charcoal', 'filter', 100, 100, { filterItem: 'charcoal', output: { charcoal: 3 } }));
     expect(engine.connectPorts('source', 0, 'send', 0)).toBe(true);
-    expect(engine.connectPorts('iron', 0, 'source', 0)).toBe(true);
-    expect(engine.connectPorts('charcoal', 0, 'source', 1)).toBe(true);
+    expect(engine.connectPorts('producer', 0, 'source', 0)).toBe(true);
+    expect(engine.connectPorts('iron', 0, 'producer', 0)).toBe(true);
+    expect(engine.connectPorts('charcoal', 0, 'producer', 1)).toBe(true);
     engine.switchSector('6,5');
     expect(engine.connectPorts('receive', 0, 'sink', 0)).toBe(true);
     engine.switchSector('5,5');
     advance(engine, 15);
-    const source = engine.getSector().nodes.find(n => n.id === 'source')!;
-    expect(source.input.charcoal).toBeGreaterThan(2);
+    const producer = engine.getSector().nodes.find(n => n.id === 'producer')!;
+    expect(producer.input.charcoal).toBeGreaterThan(2);
     const sink = engine.getState().sectors['6,5'].nodes.find(n => n.id === 'sink')!;
     expect((sink.input['iron-plate'] ?? 0) + (sink.output['iron-plate'] ?? 0)).toBeGreaterThan(0);
   });
 
-  it('preserves legacy mixed stock, stops dispatch, and allows a Filter to drain it', () => {
+  it('preserves legacy mixed stock and prevents direct offloading into a Filter', () => {
     const engine = setup();
     const source = engine.getSector().nodes.find(n => n.id === 'source')!;
     source.input = { copper: 4, iron: 3 };
@@ -171,11 +230,11 @@ describe('single-material road connections', () => {
     const receiver = engine.getSector().nodes.find(n => n.id === 'receive')!;
     receiver.output = { copper: 2, iron: 2 };
     engine.getSector().nodes.push(node('drain', 'filter', 700, 200, { filterItem: 'copper' }));
-    expect(engine.connectPorts('receive', 0, 'drain', 0)).toBe(true);
+    expect(engine.connectPorts('receive', 0, 'drain', 0)).toBe(false);
     advance(engine, 10);
     expect(receiver.output.iron).toBe(2);
     expect(receiver.output.copper).toBe(2);
-    expect(engine.getSector().nodes.find(n => n.id === 'drain')!.filterBlocked).toBeDefined();
+    expect(engine.getSector().nodes.find(n => n.id === 'drain')!.input).toEqual({});
     const sourceNow = engine.getState().sectors['5,5'].nodes.find(n => n.id === 'source')!;
     expect((sourceNow.input.copper ?? 0) + (sourceNow.output.copper ?? 0)).toBe(4);
     expect((sourceNow.input.iron ?? 0) + (sourceNow.output.iron ?? 0)).toBe(3);

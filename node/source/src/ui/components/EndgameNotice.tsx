@@ -6,7 +6,7 @@ import '../../styles/endgame.css';
 
 export function EndgameNotice({ game, engine }: { game: GameState; engine: GameEngine }) {
   const rescue = game.rescue?.pending;
-  const victory = !rescue && game.research.completed.includes('victory') && !game.endgame?.victoryAcknowledged;
+  const victory = !rescue && !game.devResearchUnlocked && game.research.completed.includes('victory') && !game.endgame?.victoryAcknowledged;
   const card = useRef<HTMLElement>(null);
   const open = Boolean(rescue || victory);
   useEffect(() => {

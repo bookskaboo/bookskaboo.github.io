@@ -1,5 +1,6 @@
 import { CORNER_ITEMS, FOUNDRY_INPUTS } from './endgame';
 import { RECIPES } from './recipes';
+import { BOT_STRENGTH } from './botAssembly';
 import { NODE_FLAVOR } from './flavor';
 import { DEFERRED_POWER_NODES } from './deferredPower';
 import { LATE_NODES, WASTE_ITEMS } from './progression';
@@ -7,6 +8,7 @@ import { ITEM_COLORS } from './items';
 import { getGolemMineral } from './resourceGolems';
 import { cartUpgrade, isCartKind } from './cartUpgrades';
 import type { MachineNode, NodeDefinition, NodeKind, PortFamily } from '../domain/types';
+import { selectedFilterPort } from '../domain/filterRouting';
 import { modNode, modNodeTemplate } from '../mods/modRules';
 
 const NODE_PALETTE = {
@@ -31,7 +33,6 @@ const CATEGORY_ACCENTS: Record<NodeDefinition['category'], number> = {
 
 const KIND_ACCENTS: Partial<Record<NodeKind, number>> = {
   lake: NODE_PALETTE.water,
-  lakeIntake: NODE_PALETTE.water,
   hydroProcessor: NODE_PALETTE.water,
   fluidLink: NODE_PALETTE.water,
   fluidRoad: NODE_PALETTE.water,
@@ -83,16 +84,17 @@ export const NODE_DEFINITIONS: Record<NodeKind, NodeDefinition> = {
   smelter: node({ kind: 'smelter', name: 'Smelter', category: 'Production', description: 'Smelts metal with Charcoal into matching Plates.', icon: 'S', input: ['METAL', 'charcoal'], output: ['PLATE'], unlockResearch: 'smelter' }),
   refiner: node({ kind: 'refiner', name: 'Refiner', category: 'Production', description: 'Changes one input item into another product.', icon: 'R', input: ['ANY'], output: ['ANY'], unlockResearch: 'refiner' }),
   assembler: node({ kind: 'assembler', name: 'Assembler', category: 'Production', description: 'Combines two input items into another product.', icon: 'A', input: ['ANY', 'ANY'], output: ['ANY'], size: 'large', unlockResearch: 'assembler' }),
+  botPlant: node({ kind: 'botPlant', name: 'Bot Plant', category: 'Production', description: 'Feed one frame and one gun into their marked sockets to assemble a Suppression Bot. The parts determine its attack power.', icon: 'B', input: ['ROBOT_FRAME', 'ROBOT_WEAPON'], output: ['ATTACK_POWER'], size: 'large', unlockResearch: 'suppressionBot' }),
 
   splitter: node({ kind: 'splitter', name: 'Splitter', category: 'Logistics', description: 'Alternates each incoming item between two smart outputs.', icon: 'Y', input: ['ANY'], output: ['ANY', 'ANY'], size: 'small', unlockResearch: 'splitter' }),
   merger: node({ kind: 'merger', name: 'Merger', category: 'Logistics', description: 'Combines two matching item streams into one smart output.', icon: 'λ', input: ['ANY', 'ANY'], output: ['ANY'], size: 'small', unlockResearch: 'merger' }),
   joint: node({ kind: 'joint', name: 'Joint', category: 'Logistics', description: 'A compact pass-through for shaping and organizing cable routes.', icon: '•', input: ['ANY'], output: ['ANY'], size: 'small', unlockResearch: 'joint' }),
-  road: node({ kind: 'road', name: 'Road', category: 'Logistics', description: 'Connect a sending Cart to this Road and its paired receiving Road to another Cart. Transfers 12 items per minute directly between connected nodes, with no internal storage. One material per pair; one Road per map face before upgrades. Fluids cannot use roads.', icon: '⇥', input: ['ANY'], output: ['ANY'], size: 'large', unlockResearch: 'road' }),
+  road: node({ kind: 'road', name: 'Road', category: 'Logistics', description: 'Connect a freight vehicle (Cart, Truck, or Train) directly to each end of the Road pair. The sending vehicle loads one solid material and the receiving vehicle unloads it. Roads store nothing. Base rate is 12 items per minute, with one Road per map face before upgrades.', icon: '⇥', input: ['ANY'], output: ['ANY'], size: 'large', unlockResearch: 'road' }),
   powerSplitter: node({ kind: 'powerSplitter', name: 'Power Splitter', category: 'Logistics', description: 'Branches one Power cable into three compact directional outputs.', icon: 'ϟ', input: ['POWER'], output: ['POWER', 'POWER', 'POWER'], size: 'small', unlockResearch: 'basicElectricity' }),
-  filter: node({ kind: 'filter', name: 'Filter', category: 'Logistics', description: 'Sends the selected material through its first outlet and everything else through the remainder. A blocked required outlet stops both paths.', icon: '▽', input: ['ANY'], output: ['ANY', 'ANY'], size: 'small' }),
+  filter: node({ kind: 'filter', name: 'Filter', category: 'Logistics', description: 'Routes one item type to either outlet and all other items to the opposite outlet. A blocked required outlet stops both paths.', icon: '▽', input: ['ANY'], output: ['ANY', 'ANY'], size: 'small' }),
   inventory: node({ kind: 'inventory', name: 'Inventory', category: 'Logistics', description: 'Withdraws one global-pool item per connected Filter each second. Placement and connection limits improve through research.', icon: '▦', input: [], output: ['ANY'], unlockResearch: INVENTORY_UNLOCK_ID }),
 
-  woodenChest: node({ kind: 'woodenChest', name: 'Cart', category: 'Logistics', description: 'Stores up to 20 solid items of any tier with ordinary local transfers. Use a Cart at each end of a Road pair. Trucks and Trains increase capacity globally; fluids are excluded.', icon: '□', input: ['ANY'], output: ['ANY'], unlockResearch: 'road' }),
+  woodenChest: node({ kind: 'woodenChest', name: 'Cart', category: 'Logistics', description: 'A freight vehicle that stores up to 20 solid items of any tier. Connect it directly to a Road to load or unload cargo. Trucks and Trains increase capacity globally.', icon: '□', input: ['ANY'], output: ['ANY'], unlockResearch: 'road' }),
   storage: node({ kind: 'storage', name: 'Storage', category: 'Storage', description: 'Deposits materials into the shared global pool. Starts with a 1,000-item limit per material.', icon: '▣', input: ['ANY'], output: [], size: 'large', unlockResearch: 'autonomousLogistics' }),
 
   charcoalGenerator: node({ kind: 'charcoalGenerator', name: 'Generator', category: 'Power', description: 'Burns Charcoal into a shared 100W reserve for advanced machines.', icon: '⚡', input: ['charcoal'], output: ['POWER'], unlockResearch: 'basicElectricity' }),
@@ -129,7 +131,7 @@ export function getBuildNodeDefinition(kind: NodeKind, completedResearch: readon
   const definition = NODE_DEFINITIONS[kind];
   if (!isCartKind(kind)) return definition;
   const { name, capacity } = cartUpgrade(completedResearch);
-  return { ...definition, name, description: `Stores up to ${capacity} solid items of any tier with local shipments of up to 1/2/4 items for Cart/Truck/Train. Use one at each end of a Road pair. Fluids require other storage. The wheels are implied.` };
+  return { ...definition, name, description: `A freight vehicle that stores up to ${capacity} solid items of any tier. Carts, Trucks, and Trains ship up to 1, 2, and 4 items at a time, respectively. Connect it directly to a Road to load or unload cargo. The wheels are implied.` };
 }
 
 export const getNodeDisplayDefinition = (node: MachineNode): NodeDefinition => {
@@ -137,6 +139,10 @@ export const getNodeDisplayDefinition = (node: MachineNode): NodeDefinition => {
   const accent = node.kind === 'resourceGolem' ? ITEM_COLORS[getGolemMineral(node)] : node.lizardSettlement ? 0x71c99a : undefined;
   return accent === undefined ? NODE_DEFINITIONS[node.kind] : { ...NODE_DEFINITIONS[node.kind], ...accentFields(accent) };
 };
+
+export function getNodeDisplayName(node: Pick<MachineNode, 'name' | 'infiniteResource'>) {
+  return node.infiniteResource ? node.name.replace(/^Infinite\s+/i, '') : node.name;
+}
 
 export const isNodeUnlocked = (kind: NodeKind, unlockedResearch: readonly string[]) => {
   if (kind === 'fluidRoad' || DEFERRED_POWER_NODES.has(kind)) return false;
@@ -177,7 +183,10 @@ export const getEffectiveNodeOutputFamilies = (node: MachineNode): readonly Port
     return Object.keys(recipe.outputs).some(i=>WASTE_ITEMS.includes(i as import('../domain/types').ItemId)) || recipe.chanceOutputs?.length ? ['ANY'] : products;
   }
   if (node.kind === 'extractor' && node.resourceItem) return [node.resourceItem];
-  if (node.kind === 'filter' && node.filterItem) return [node.filterItem, 'ANY'];
+  if (node.kind === 'filter' && node.filterItem) {
+    const selected = BOT_STRENGTH[node.filterItem] === undefined ? node.filterItem : 'ATTACK_POWER';
+    return selectedFilterPort(node) === 0 ? [selected, 'ANY'] : ['ANY', selected];
+  }
   if (node.kind === 'goblinTribute') return Object.keys(node.output).some(item => item !== (node.tributeItem ?? 'iron') && (node.output[item as import('../domain/types').ItemId] ?? 0) > 0) ? ['ANY'] : [node.tributeItem ?? 'iron'];
   return NODE_DEFINITIONS[node.kind].output;
 };

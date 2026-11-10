@@ -9,6 +9,7 @@ export interface NodeSize { w: number; h: number }
 export interface Point { x: number; y: number }
 
 export const RESOURCE_NODE_SIZE: NodeSize = { w: 320, h: 256 };
+const INFINITE_RESERVE_SIZE: NodeSize = { w: RESOURCE_NODE_SIZE.w * 2, h: RESOURCE_NODE_SIZE.h * 2 };
 export const GOLEM_NODE_SIZE: NodeSize = { w: 512, h: 768 };
 export const STANDARD_NODE_WIDTH = 256;
 export const POWER_SPLITTER_SIZE = 64;
@@ -36,7 +37,7 @@ export function getNodeSize(node: Pick<MachineNode, 'kind'> & Partial<MachineNod
 function getBaseNodeSize(node: Pick<MachineNode, 'kind'> & Partial<MachineNode>): NodeSize {
   if(node.kind==='cornerChallenge'&&node.cornerType==='alpha')return {w:512,h:640};
   const shape = getNodeModule(node.kind).appearance.shape;
-  if (shape === 'resource') return RESOURCE_NODE_SIZE;
+  if (shape === 'resource') return node.infiniteResource ? INFINITE_RESERVE_SIZE : RESOURCE_NODE_SIZE;
   if (shape === 'golem') return GOLEM_NODE_SIZE;
   if (shape === 'lake') return gridSize({ w: node.obstructionWidth ?? 350, h: node.obstructionHeight ?? 245 });
   if (shape === 'hole') {
@@ -130,6 +131,12 @@ export function getPortAnchor(node: MachineNode, direction: 'input' | 'output', 
   const mirror = production && node.connectorsMirrored ? -1 : 1;
   const anchor = { x: (direction === 'input' ? -size.w / 2 : size.w / 2) * mirror, y: top + (slot + outputOffset) * row };
   return NODE_DEFINITIONS[node.kind].category === 'Logistics' && !isCartKind(node.kind) ? rotate(anchor, Math.round(node.rotation / 90)) : anchor;
+}
+
+export function filterOutletLabels(node: MachineNode): [string, string] {
+  const first = getPortAnchor(node, 'output', 0), second = getPortAnchor(node, 'output', 1);
+  if (first.x !== second.x) return first.x < second.x ? ['Left', 'Right'] : ['Right', 'Left'];
+  return first.y < second.y ? ['Upper', 'Lower'] : ['Lower', 'Upper'];
 }
 
 export function organicPolygon(node: MachineNode, points: number, scale = 1): number[] {

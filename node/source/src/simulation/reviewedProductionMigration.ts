@@ -44,7 +44,8 @@ export function migrateReviewedProduction(state: GameState) {
       }
       if (node.kind === 'miningDrill' && node.miningTarget === 'mythril') node.miningTarget = 'iron';
       if (node.kind === 'resourceGolem' && node.golemCostVersion !== GOLEM_COST_VERSION) {
-        const oldCost = node.golemCostVersion === 1 && getGolemMineral(node) === 'mythril' ? 20000 : 10000;
+        const mythril = getGolemMineral(node) === 'mythril';
+        const oldCost = node.golemCostVersion === 2 ? (mythril ? 360 : 180) : node.golemCostVersion === 1 && mythril ? 20000 : 10000;
         const paid = Math.max(0, oldCost - (node.health ?? oldCost));
         node.health = Math.max(0, golemApCost(node) - paid);
         node.golemCostVersion = GOLEM_COST_VERSION;

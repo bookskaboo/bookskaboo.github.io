@@ -74,7 +74,7 @@ describe('data mod sharing and validation', () => {
     mod.nodes.lake.worldSpawn = { region: 'outside' as never };
     expect(() => validateMod(mod)).toThrow(/region/);
     delete mod.nodes.lake;
-    mod.nodes.lakeIntake = { worldSpawn: {} };
+    mod.nodes.fluidLink = { worldSpawn: {} };
     expect(() => validateMod(mod)).toThrow(/does not support map spawn rules/);
   });
 });
@@ -139,7 +139,7 @@ describe('applied mod behavior', () => {
     delete mod.profiles!.connections!.selected;
     engine.applyMod(mod);
     expect(modRule('cableTravelMs')).toBe(900);
-    expect(entriesFor('production', mod).some(([id]) => id === 'lakeIntake')).toBe(false);
+    expect(entriesFor('production', mod)).toContainEqual(['fluidLink', 'Pump']);
     expect(entriesFor('obstructions', mod)).toEqual(expect.arrayContaining([['lake', 'Lake'], [reserve, 'Zinc Outcrop']]));
     expect(entriesFor('recipes', mod).some(([id]) => id === 'slagwashing')).toBe(false);
   });
@@ -201,6 +201,20 @@ describe('applied mod behavior', () => {
     expect(spawned.x).toBeGreaterThanOrEqual(field.width / 2);
     expect(spawned.y).toBeLessThanOrEqual(field.height / 2);
     expect(canPlaceNode(spawned, sector.nodes, field)).toBe(true);
+  });
+
+  it('gives modded Monster Camps priority over Deep Holes on the same map', () => {
+    const engine = setup();
+    const mod = emptyMod();
+    mod.nodes['big-hole'] = { worldSpawn: { region: 'northwest' } };
+    engine.applyMod(mod);
+    expect(engine.ensureSector(6, 5).nodes.some(node => node.kind === 'big-hole')).toBe(true);
+
+    mod.nodes['monster-camp'] = { worldSpawn: { region: 'northeast' } };
+    engine.applyMod(mod);
+    const kinds = engine.ensureSector(6, 5).nodes.map(node => node.kind);
+    expect(kinds).toContain('monster-camp');
+    expect(kinds).not.toContain('big-hole');
   });
 
   it('changes real recipe quantities and timings while leaving the base snapshot intact', () => {

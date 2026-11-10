@@ -16,7 +16,7 @@ export const LEGACY_NODE_DISPLAY_NAMES: Record<string, string> = {
   'Derelict Sorting Station': 'Sorting Ruin',
   'Power Conduit': 'Power Line',
   'Fluid Storage': 'Fluid Tank',
+  'Fluid Link': 'Pump',
   'Waste Hopper': 'Waste Bin',
-  'Waste Batch Link': 'Waste Link',
   'Goblin Tribute': 'Tribute',
 };

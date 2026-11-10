@@ -85,20 +85,32 @@ const SOURCE_HOME_LAYOUT = [
   },
 ] as const;
 
-/** Matches the source game's field scaling: up to 2x at world-grid tier 10, plus Area Expansion. */
-export function getSectorWorldSize(sector: Pick<SectorState, 'x' | 'y'>, completedResearch: readonly string[]) {
-  const distanceMultiplier = 1 + Math.min(10, sectorDistance(sector.x, sector.y)) / 10;
+function fieldSizeForResearch(completedResearch: readonly string[], fieldSizeScale = 1) {
   const researchMultiplier = completedResearch.includes('areaExpansion2') ? 1.5 : completedResearch.includes('areaExpansion1') ? 1.25 : 1;
   return {
-    width: Math.round(BASE_WORLD_SIZE.width * distanceMultiplier * researchMultiplier * modRule('mapWidthMultiplier')),
-    height: Math.round(BASE_WORLD_SIZE.height * distanceMultiplier * researchMultiplier * modRule('mapHeightMultiplier')),
+    width: Math.round(BASE_WORLD_SIZE.width * fieldSizeScale * researchMultiplier * modRule('mapWidthMultiplier')),
+    height: Math.round(BASE_WORLD_SIZE.height * fieldSizeScale * researchMultiplier * modRule('mapHeightMultiplier')),
   };
+}
+
+export function getSectorWorldSize(_sector: Pick<SectorState, 'x' | 'y'>, completedResearch: readonly string[]) {
+  return fieldSizeForResearch(completedResearch);
+}
+
+export function getWorldFieldSize(state: Pick<GameState, 'research' | 'fieldSizeScale'>) {
+  return fieldSizeForResearch(state.research.completed, state.fieldSizeScale);
+}
+
+export function normalizeWorldFieldSize(state: GameState) {
+  if (typeof state.fieldSizeScale === 'number' && state.fieldSizeScale >= 1 && state.fieldSizeScale <= 2) return;
+  const largestTier = Object.values(state.sectors).reduce((tier, sector) => Math.max(tier, sectorDistance(sector.x, sector.y)), 0);
+  state.fieldSizeScale = 1 + Math.min(10, largestTier) / 10;
 }
 
 export function syncCornerLayouts(state: GameState) {
   for (const id of worldCornerIds(worldGridSize(state))) {
     const sector = state.sectors[id];
-    if (sector) syncCornerLayout(sector, getSectorWorldSize(sector, state.research.completed), state);
+    if (sector) syncCornerLayout(sector, getWorldFieldSize(state), state);
   }
 }
 
@@ -170,7 +182,7 @@ function maximumGeneratedHoleRadius(tier: number, field: { width: number; height
 
 export function getBigHoleStoneRequirementForRadius(radius: number, tier: number, field?: { width: number; height: number }) {
   const clampedTier = Math.min(9, Math.max(1, tier));
-  const baseField = getSectorWorldSize({ x: HOME + clampedTier, y: HOME }, []);
+  const baseField = fieldSizeForResearch([]);
   const baseRadius = field ? radius * Math.sqrt((baseField.width * baseField.height) / (field.width * field.height)) : radius;
   const tierMaximum = Math.round(BIG_HOLE_TIER_ONE_MAX_STONE + (BIG_HOLE_MAX_STONE - BIG_HOLE_TIER_ONE_MAX_STONE) * (clampedTier - 1) / 8);
   const sizeProgress = Math.max(0, Math.min(1, (baseRadius - BIG_HOLE_RADIUS) / Math.max(1, maximumGeneratedHoleRadius(clampedTier, baseField) - BIG_HOLE_RADIUS)));
@@ -252,6 +264,7 @@ function addModSpawns(nodes: MachineNode[], x: number, y: number, sectorSeed: nu
   const tier = sectorDistance(x, y);
   const isReserve = (entry: MachineNode) => entry.resourceItem && entry.kind !== 'lake';
   for (const [kind, patch] of modWorldSpawns()) {
+    if (kind === 'big-hole' && nodes.some(node => node.kind === 'monster-camp')) continue;
     const { minTier = 1, maxTier = WORLD_SPAWN_MAX_TIER, chance = 1, count = 1, region = 'anywhere' } = patch.worldSpawn;
     if (tier < minTier || tier > maxTier) continue;
     // Each rule has its own seeded stream, independent of the base layout and the order of entries in a pack.
@@ -259,6 +272,7 @@ function addModSpawns(nodes: MachineNode[], x: number, y: number, sectorSeed: nu
     for (const letter of kind) hash = Math.imul(hash ^ letter.charCodeAt(0), 0x01000193);
     const random = rng(sectorSeed ^ hash);
     if (random() >= chance) continue;
+    const placementNodes = kind === 'monster-camp' ? nodes.filter(node => node.kind !== 'big-hole') : nodes;
     const [left, top, right, bottom] = spawnRegions[region];
     for (let index = 0; index < count; index++) {
       const entry = makeModSpawn(kind, patch, tier, capacity, field, random);
@@ -268,15 +282,17 @@ function addModSpawns(nodes: MachineNode[], x: number, y: number, sectorSeed: nu
       for (let attempt = 0; attempt < 128; attempt++) {
         entry.x = footprint.x = (left + random() * (right - left)) * field.width;
         entry.y = footprint.y = (top + random() * (bottom - top)) * field.height;
-        if (!canPlaceNode(footprint, nodes, field) || nodes.some(other =>
+        if (!canPlaceNode(footprint, placementNodes, field) || placementNodes.some(other =>
           (other.kind === 'monster-camp' && overlapsMaximumCampRadius(footprint, other, NODE_CLEARANCE)) ||
           (camp && overlapsMaximumCampRadius(other, camp, NODE_CLEARANCE)) ||
           (isReserve(entry) && isReserve(other) && nodesOverlap(entry, other, 160)))) continue;
-        nodes.push(entry);
+        placementNodes.push(entry);
+        nodes = placementNodes;
         break;
       }
     }
   }
+  return nodes;
 }
 
 type MapCell = { x: number; y: number; key: string; quadrant: number };
@@ -386,32 +402,41 @@ export function getEncounterLayoutVersion(state: GameState): 1 | 2 {
 }
 
 export function sectorForState(state: GameState, x: number, y: number): SectorState {
-  return state.sectors[sectorId(x, y)] ?? generateSector(x, y, state.seed, Date.now(), state.research.completed, getGolemPlacementTier(state), getEncounterLayoutVersion(state), worldGridSize(state));
+  return state.sectors[sectorId(x, y)] ?? generateSector(x, y, state.seed, Date.now(), state.research.completed, getGolemPlacementTier(state), getEncounterLayoutVersion(state), worldGridSize(state), state.fieldSizeScale);
 }
 
-export function generateSector(x: number, y: number, seed: number, now = Date.now(), completedResearch: readonly string[] = [], golemTier: GolemPlacementTier = GOLEM_PLACEMENT_TIER, encounterLayoutVersion: 1 | 2 = golemTier === LEGACY_GOLEM_PLACEMENT_TIER ? 1 : 2, gridSize = DEFAULT_WORLD_GRID_SIZE): SectorState {
+export function generateSector(x: number, y: number, seed: number, now = Date.now(), completedResearch: readonly string[] = [], golemTier: GolemPlacementTier = GOLEM_PLACEMENT_TIER, encounterLayoutVersion: 1 | 2 = golemTier === LEGACY_GOLEM_PLACEMENT_TIER ? 1 : 2, gridSize = DEFAULT_WORLD_GRID_SIZE, fieldSizeScale = 1): SectorState {
+  const field = fieldSizeForResearch(completedResearch, fieldSizeScale);
+  for (let attempt = 0; attempt < 64; attempt++) {
+    const sector = tryGenerateSector(x, y, seed, now, golemTier, encounterLayoutVersion, gridSize, field, attempt);
+    if (sector) return sector;
+  }
+  throw new Error(`No clear terrain layout on map ${x},${y}`);
+}
+
+function tryGenerateSector(x: number, y: number, seed: number, now: number, golemTier: GolemPlacementTier, encounterLayoutVersion: 1 | 2, gridSize: number, field: { width: number; height: number }, attempt: number): SectorState | undefined {
   const distance = sectorDistance(x, y);
   const isOuterCorner = distance === gridSize - 1;
-  const sectorSeed = seed ^ (x * 73856093) ^ (y * 19349663);
+  const sectorSeed = seed ^ (x * 73856093) ^ (y * 19349663) ^ Math.imul(attempt, 0x9e3779b9);
   const random = rng(sectorSeed);
   const capacity = getMapNodeResourceCapacity(x, y, gridSize);
-  const field = getSectorWorldSize({ x, y }, completedResearch);
   const worldNodes: MachineNode[] = [];
   const key = sectorId(x, y);
   const layout = getMapLayout(seed, golemTier, encounterLayoutVersion === 2, gridSize);
   const golemMineral = layout.golems.get(key);
   const dwarvenCamp = layout.lizards.has(key);
   const replaces = (kind: MachineNode['kind']) => modNode(kind)?.worldSpawn?.mode === 'replace';
+  const hasCamp = dwarvenCamp || (layout.camps.has(key) && !replaces('monster-camp'));
   if (distance > 0 && !isOuterCorner && !golemMineral) {
     if (layout.lakes.has(key)) {
       const lake = makeLake(field, random);
       if (!replaces('lake')) worldNodes.push(lake);
-    } else if (!layout.clear.has(key)) {
+    } else if (!hasCamp && !layout.clear.has(key)) {
       const holes = makeBigHoles(distance, field, random);
       if (!replaces('big-hole')) worldNodes.push(...holes);
     }
   }
-  if (dwarvenCamp || (layout.camps.has(key) && !replaces('monster-camp'))) {
+  if (hasCamp) {
     worldNodes.push(makeCamp(distance, field, dwarvenCamp));
   }
   if(x===5&&y===7)worldNodes.push(node('sortingStation','Sorting Ruin',300,350));
@@ -442,8 +467,8 @@ export function generateSector(x: number, y: number, seed: number, now = Date.no
   });
   nodes.forEach((entry, index) => { if(entry.kind==='cornerChallenge'||entry.kind==='cornerTribute')return; entry.id = `${x}-${y}-${entry.kind}-${index}`; });
   const placed: MachineNode[] = [];
-  nodes.forEach((entry) => {
-    if (entry.kind === 'big-hole' || entry.kind === 'lake') { placed.push(entry); return; }
+  for (const entry of nodes) {
+    if (entry.kind === 'big-hole' || entry.kind === 'lake') { placed.push(entry); continue; }
     const campStrength = entry.kind === 'monster-camp' ? entry.campStrength : undefined;
     if (entry.kind === 'monster-camp') entry.campStrength = 100;
     const isResource = (candidate: MachineNode) => Boolean(candidate.resourceItem && candidate.kind !== 'lake');
@@ -461,9 +486,9 @@ export function generateSector(x: number, y: number, seed: number, now = Date.no
     }
     const located = valid();
     if (campStrength !== undefined) entry.campStrength = campStrength;
-    if (!located) throw new Error(`No clear position for ${entry.name} on map ${x},${y}`);
+    if (!located) return;
     placed.push(entry);
-  });
-  if (!isOuterCorner) addModSpawns(nodes, x, y, sectorSeed, field, capacity);
-  return { id: sectorId(x, y), x, y, name: 'Unnamed Node', label: '◆', unlocked: false, nodes, connections: [], camera: { x: -450, y: -260, zoom: .65 }, lastSimulatedAt: now };
+  }
+  const generatedNodes = isOuterCorner ? nodes : addModSpawns(nodes, x, y, sectorSeed, field, capacity);
+  return { id: sectorId(x, y), x, y, name: 'Unnamed Node', label: '◆', unlocked: false, nodes: generatedNodes, connections: [], camera: { x: -450, y: -260, zoom: .65 }, lastSimulatedAt: now };
 }

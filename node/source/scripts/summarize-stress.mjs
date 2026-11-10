@@ -6,7 +6,7 @@ try { baseline = JSON.parse(readFileSync('outputs/stress/baseline.json', 'utf8')
 const lines = [
   '# Current engine stress test', '',
   `Run: ${report.generatedAt}. CPU: ${report.cpu.trim()}. Runtime: ${report.node}.`, '',
-  'Each case uses five simulated seconds of warmup followed by 30 measured seconds at 100 ms per tick. Sources contain preloaded wood. Production networks convert wood to charcoal; continuous logistics networks pass wood through joints. Each network has six nodes, four local cables, and one paired road link. Road destinations are adjacent maps except in the one-map control.', '',
+  'Each case uses five simulated seconds of warmup followed by 30 measured seconds at 100 ms per tick. Sources contain preloaded wood. Production networks convert wood to charcoal. Continuous logistics networks pass wood through Joints. Each network has seven nodes, five local cables, and one paired Road link with a Cart at each endpoint. Road destinations are adjacent maps except in the one-map control.', '',
   '| Maps | Networks per map | Workload | Nodes | Road pairs | Mean tick ms | 95th percentile ms | Worst tick ms | Ticks over 100 ms | Peak travelling items | Delivered items |',
   '| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |',
   ...report.results.map((r) => `| ${r.maps} | ${r.networks} | ${r.production ? 'Production' : 'Continuous logistics'} | ${r.nodes} | ${r.roadPairs} | ${r.averageTickMs.toFixed(2)} | ${r.p95TickMs.toFixed(2)} | ${r.maxTickMs.toFixed(2)} | ${r.ticksOver100Ms}/300 | ${r.peakTransfers} | ${r.delivered} |`), '',
@@ -21,7 +21,7 @@ const lines = [
   '- Listener notifications are counted, but React/Pixi work is excluded.', '',
   'Reproduce with `npm run stress`. Raw measurements: `outputs/stress/latest.json`.', '',
 ];
-if (baseline) {
+if (baseline?.fixtureVersion === report.fixtureVersion) {
   lines.push('## Before and after', '',
     'Baseline timings are from the original engine on the same machine. Performance varies between runs. Delivery counts and peak in-flight counts are compared to check that the workload stayed the same.', '',
     '| Maps | Networks per map | Workload | Before mean ms | After mean ms | Speedup | Before worst ms | After worst ms | Delivery/peak counts match |',

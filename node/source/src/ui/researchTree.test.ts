@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { RESEARCH_PROJECTS } from '../content/research';
-import { buildResearchTree, researchAncestors, researchTreeEdgePath, researchTreeLayout } from './researchTree';
+import { createInitialState } from '../simulation/engine';
+import { buildResearchTree, researchAncestors, researchMainPath, researchPathSteps, researchTreeEdgePath, researchTreeGroups, researchTreeLayout, visibleResearchTreeNodes } from './researchTree';
 
 describe('research dependency tree', () => {
   const tree = buildResearchTree();
@@ -31,6 +32,35 @@ describe('research dependency tree', () => {
     expect(parents.has('hydraulicAssembly')).toBe(false);
   });
 
+  it('folds six-rank machine families and keeps individual ranks available to expand or search', () => {
+    const groups = researchTreeGroups(tree);
+    expect(groups).toHaveLength(9);
+    const collapsed = visibleResearchTreeNodes(tree, groups, new Set(), '', new Set());
+    expect(collapsed).toHaveLength(tree.nodes.length - 45);
+    expect(collapsed.map(node => node.project.id)).toContain('kiln1');
+    expect(collapsed.map(node => node.project.id)).not.toContain('kiln6');
+
+    const expanded = visibleResearchTreeNodes(tree, groups, new Set(['kiln1']), '', new Set());
+    expect(expanded).toHaveLength(collapsed.length + 5);
+    expect(expanded.map(node => node.project.id)).toContain('kiln6');
+
+    const pinnedPath = researchAncestors(tree, 'road');
+    const results = visibleResearchTreeNodes(tree, groups, new Set(), 'Kiln 6', pinnedPath);
+    expect(new Set(results.map(node => node.project.id))).toEqual(new Set([...researchAncestors(tree, 'kiln6'), ...pinnedPath]));
+  });
+
+  it('marks the reachable prerequisite frontier and recognizes the first Final Core gate', () => {
+    const game = createInitialState(1);
+    const lineage = researchAncestors(tree, 'victory');
+    expect(researchPathSteps(tree, lineage, game)).toEqual({ ids: new Set(['smelter']), needsFinalCore: false });
+
+    game.research.completed = [...lineage].filter(id => id !== 'victory');
+    expect(researchPathSteps(tree, lineage, game)).toEqual({ ids: new Set(), needsFinalCore: true });
+
+    game.research.completed.push('finalCoreProduction');
+    expect(researchPathSteps(tree, lineage, game)).toEqual({ ids: new Set(['victory']), needsFinalCore: false });
+  });
+
   it('routes past intervening projects instead of drawing through their cards', () => {
     const source = { x: 60, y: 0, width: 180, height: 88 };
     const obstacle = { ...source, y: 140 }, target = { ...source, y: 280 };
@@ -38,10 +68,14 @@ describe('research dependency tree', () => {
     expect(path).toContain('L 48 103');
     expect(path).toContain('L 48 263');
     expect(path).not.toContain('undefined');
+    expect(researchTreeEdgePath(source, target, [source, { ...obstacle, x: 260 }, target], 500)).toBe('M 150 89 L 150 277');
   });
 
-  it.each([260, 720, 1180])('fits a %s-pixel view without overlapping projects or placing children above parents', width => {
-    const layout = researchTreeLayout(tree.nodes, width);
+  it.each([260, 360, 720, 1180])('fits a %s-pixel view without overlapping projects or placing children above parents', width => {
+    const mainPath = researchMainPath(tree);
+    const layout = researchTreeLayout(tree.nodes, width, mainPath);
+    expect(mainPath.has('victory')).toBe(true);
+    expect(new Set([...mainPath].map(id => layout.positions.get(id)!.x)).size).toBe(1);
     const positions = [...layout.positions.values()];
     for (const position of positions) {
       expect(position.x).toBeGreaterThanOrEqual(0);
