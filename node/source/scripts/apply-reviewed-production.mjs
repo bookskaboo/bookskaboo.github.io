@@ -17,15 +17,17 @@ export function applyReviewedProduction({ names, recipes, groups, research, node
   const retired = ['slagwashing', 'finessettling', 'fluxstabilization', 'crustmilling', 'recoveredbrick', 'recoverediron'];
   // Keep definitions for completing paid legacy batches, but remove selectable recipes.
   for (const kind of Object.keys(groups)) groups[kind] = groups[kind].filter(id => !retired.includes(id));
-  add('recover-fines', 'Fines Recovery', 'hydroProcessor', { 'metallic-fines': 4, water: 1 }, { 'iron-plate': 1 }, 10000, 'precisionControl', true);
-  add('recover-flux', 'Flux Recovery', 'hydroProcessor', { 'spent-flux': 4, water: 1 }, { coolant: 1 }, 10000, 'efficientHigherIntermediates', true);
-  add('recover-crust', 'Crust Recovery', 'separationFurnace', { 'glassy-crust': 4, water: 1 }, { 'copper-plate': 1 }, 10000, 'efficientHigherIntermediates', true);
-  add('recover-slag', 'Slag Recovery', 'hydroProcessor', { slag: 4, water: 1 }, { brick: 1 }, 10000, 'efficientHigherIntermediates', true);
+  add('recover-fines', 'Fines Recovery', 'recycler', { 'metallic-fines': 4, water: 1 }, { 'iron-plate': 1 }, 10000, 'precisionControl', true);
+  add('recover-flux', 'Flux Recovery', 'recycler', { 'spent-flux': 4, water: 1 }, { coolant: 1 }, 10000, 'efficientHigherIntermediates', true);
+  add('recover-crust', 'Crust Recovery', 'recycler', { 'glassy-crust': 4, water: 1 }, { 'copper-plate': 1 }, 10000, 'efficientHigherIntermediates', true);
+  add('recover-slag', 'Slag Recovery', 'recycler', { slag: 4, water: 1 }, { brick: 1 }, 10000, 'efficientHigherIntermediates', true);
   add('efficient-circuit-a', 'Efficient Circuit A', 'advancedAssembler', { 'copper-plate': 2, 'iron-plate': 1 }, { 'circuit-a': 1, 'metallic-fines': 1 }, 4500, 'efficientIntermediates');
   add('efficient-motor', 'Efficient Motor', 'advancedAssembler', { 'iron-plate': 2, 'copper-plate': 2 }, { motor: 1, 'metallic-fines': 1 }, 6000, 'efficientIntermediates');
   add('efficient-bot-frame', 'Efficient Bot Frame', 'advancedAssembler', { 'iron-plate': 1, motor: 1 }, { 'simple-robot-frame': 1, 'metallic-fines': 1 }, 6000, 'efficientIntermediates');
   add('efficient-hydro-piston', 'Efficient Hydro Piston', 'advancedAssembler', { 'iron-plate': 1, motor: 1, coolant: 1 }, { 'hydraulic-actuator': 1, 'spent-flux': 2, 'metallic-fines': 1 }, 9000, 'efficientHigherIntermediates');
-  add('efficient-mythril-mesh', 'Efficient Mythril Mesh', 'advancedAssembler', { 'refined-mithril': 1, 'copper-plate': 2, coolant: 1 }, { 'mithril-mesh': 1, 'glassy-crust': 2, 'spent-flux': 1 }, 16000, 'efficientHigherIntermediates');
+  groups.advancedAssembler = groups.advancedAssembler.filter(id => id !== 'mithril-mesh');
+  groups.separationFurnace.push('mithril-mesh');
+  add('efficient-mythril-mesh', 'Efficient Mythril Mesh', 'separationFurnace', { 'refined-mithril': 1, 'copper-plate': 2, coolant: 1 }, { 'mithril-mesh': 1, 'glassy-crust': 2, 'spent-flux': 1 }, 16000, 'efficientHigherIntermediates');
   add('efficient-circuit-c', 'Efficient Circuit C', 'advancedAssembler', { 'circuit-a': 1, 'ceramic-electrode': 1, 'mythril-wire': 1 }, { 'logic-substrate': 1, slag: 2, 'glassy-crust': 1 }, 27000, 'efficientHigherIntermediates');
   const cores = ['simple-core', 'basic-core', 'automata-core', 'hydro-core', 'shiny-core', 'command-core'];
   for (const [id, name, amount, unlock] of [
@@ -68,7 +70,7 @@ export function applyReviewedProduction({ names, recipes, groups, research, node
     }
   }
   if (nodes) {
-    nodes.separationFurnace.description = 'Produces Pure Mythril without waste, and recovers Copper Plates from Glassy Crust after higher alternative research.';
+    nodes.separationFurnace.description = 'Makes Pure Mythril, Mythril Mesh, and composite Mythril gears and wire.';
     nodes.advancedAssembler.output = ['ANY'];
     nodes.separationFurnace.output = ['ANY'];
   }

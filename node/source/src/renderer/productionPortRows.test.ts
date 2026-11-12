@@ -30,6 +30,23 @@ describe('production material rows', () => {
     expect(productionPortRow(node, 'input', 0)).toMatchObject({ name: 'Copper Gear', amount: 0 });
     expect(productionPortRow(node, 'output', 0)).toMatchObject({ name: 'Simple Core', amount: 0 });
   });
+  it('labels the Hydro Plant Water socket before selection and preserves it with either recipe', () => {
+    const node = tutorialNode('hydroProcessor', 'hydro', 0, 0);
+    expect(productionPortRow(node, 'input', 0)).toMatchObject({ name: 'Water', color: ITEM_COLORS.water });
+    expect(productionPortRow(node, 'input', 1).name).toBe('Choose recipe');
+
+    const second = getPortAnchor(node, 'input', 1);
+    node.inputPortOrder = [1, 0, 2];
+    node.connectorsMirrored = true;
+    expect(getPortAnchor(node, 'input', 0)).toEqual({ x: -second.x, y: second.y });
+    expect(productionPortRow(node, 'input', 0).name).toBe('Water');
+
+    for (const [id, solids] of [['coolant', ['Iron Plate']], ['conductive-slurry', ['Copper Wire', 'Charcoal']]] as const) {
+      node.recipeId = id;
+      expect(productionPortRow(node, 'input', 0).name).toBe('Water');
+      expect(solids.map((_, index) => productionPortRow(node, 'input', index + 1).name)).toEqual(solids);
+    }
+  });
   it('includes Extractors while keeping storage, logistics, research and resource nodes separate', () => {
     for (const kind of ['extractor', 'fluidLink', 'kiln', 'smelter', 'refiner', 'assembler', 'advancedAssembler', 'hydroProcessor', 'separationFurnace'] as const) expect(isProductionMachine(tutorialNode(kind, kind, 0, 0))).toBe(true);
     for (const kind of ['woodenChest', 'joint', 'researchCenter', 'forest'] as const) expect(isProductionMachine(tutorialNode(kind, kind, 0, 0))).toBe(false);

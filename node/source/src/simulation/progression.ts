@@ -6,6 +6,7 @@ import { isRecipeUnlocked, RECIPES, RETIRED_RECIPES } from '../content/recipes';
 import { BOT_BUILDS, BOT_ITEMS, cargoMaterial, SUPPRESSION_BOT } from '../content/botAssembly';
 import { LATE_RECIPES, WASTE_ITEMS, BOT_STRENGTH } from '../content/progression';
 import { getNodeCapabilities } from '../content/nodeCapabilities';
+import { getRecoveryMultiplier } from '../content/efficiency';
 import type { SimulationLookups } from './simulationLookups';
 import { generateSector, getWorldFieldSize } from './worldGeneration';
 import { canPlaceNode } from './collisions';
@@ -95,25 +96,34 @@ export function discoverActiveSector(state:GameState){
 function random(state:GameState){let n=state.randomState??state.seed??1;n^=n<<13;n^=n>>>17;n^=n<<5;state.randomState=n>>>0;return state.randomState/4294967296;}
 export function simulateExtendedRecipe(state:GameState,node:MachineNode,dt:number,multiplier:number):boolean {
  const automatic = getNodeCapabilities(node.kind).behavior === 'bot-assembly';
+ const recycler = node.kind === 'recycler';
  const activeId = node.batch?.recipeId ?? node.recipeId;
  const recipe = automatic && !node.batch
   ? BOT_BUILDS.find(build => (node.input[build.frame] ?? 0) > 0 && (node.input[build.gun] ?? 0) > 0 && isRecipeUnlocked(build.recipe.id, state.research.completed))?.recipe
   : activeId ? RECIPES[activeId] : undefined;
- if(!recipe)return automatic;
+ if (!recipe) {
+  if (recycler) node.progressMs = 0;
+  return automatic || recycler;
+ }
  if(RETIRED_RECIPES.has(recipe.id)&&!node.batch){delete node.recipeId;node.progressMs=0;return true;}
- if(!automatic&&!node.batch&&!isCustomContentId(recipe.id)&&!recipe.chanceOutputs?.length&&!Object.hasOwn(LATE_RECIPES,recipe.id)&&!['advancedAssembler','hydroProcessor','separationFurnace'].includes(modNodeTemplate(node.kind)))return false;
+ if(!automatic&&!recycler&&!node.batch&&!isCustomContentId(recipe.id)&&!recipe.chanceOutputs?.length&&!Object.hasOwn(LATE_RECIPES,recipe.id)&&!['advancedAssembler','hydroProcessor','separationFurnace'].includes(modNodeTemplate(node.kind)))return false;
  if(recipe.unlockResearch&&!state.research.completed.includes(recipe.unlockResearch)&&!node.batch)return true;
  if(!node.batch){
-  if(!Object.entries(recipe.inputs).every(([i,n])=>(node.input[i as ItemId]??0)>=(n??0))) {node.progressMs=0;return true;}
+  const inputs = (Object.entries(recipe.inputs) as [ItemId, number][]).map(([item, count]) => {
+   const actualItem = recycler && item === SUPPRESSION_BOT ? BOT_ITEMS.find(bot => (node.input[bot] ?? 0) >= count) ?? item : item;
+   return [actualItem, count] as const;
+  });
+  if (!inputs.every(([item, count]) => (node.input[item] ?? 0) >= count)) { node.progressMs = 0; return true; }
   const max={...recipe.outputs};for(const o of recipe.chanceOutputs??[])max[o.item]=(max[o.item]??0)+o.amount;
-  if(total(node.output)+total(max)>(modNode(node.kind)?.capacity??node.capacity??getNodeCapabilities(node.kind).defaultCapacity??5)){node.progressMs=0;return true;}
+  const outputSpace = total(max);
+  if(outputSpace>0&&total(node.output)+outputSpace>(modNode(node.kind)?.capacity??node.capacity??getNodeCapabilities(node.kind).defaultCapacity??5)){node.progressMs=0;return true;}
   const outputs={...recipe.outputs};
   for(const o of recipe.chanceOutputs??[])if(random(state)<o.probability)outputs[o.item]=(outputs[o.item]??0)+o.amount;
-  for(const [i,n]of Object.entries(recipe.inputs))node.input[i as ItemId]=(node.input[i as ItemId]??0)-(n??0);
+  for (const [item, count] of inputs) node.input[item] = (node.input[item] ?? 0) - count;
   node.batch={recipeId:recipe.id,outputs};node.progressMs=0;
  }
  node.progressMs+=dt;
- const recovery=recipe.recovery&&state.research.completed.includes('mineralRecovery1')?.9:1;
+ const recovery = getRecoveryMultiplier(recipe, state.research.completed);
  if(node.progressMs>=recipe.cycleMs*multiplier*recovery){
   queueOutputs(node,node.batch.outputs);
   for(const [i,n]of Object.entries(node.batch.outputs))state.produced![i as ItemId]=(state.produced![i as ItemId]??0)+(n??0);

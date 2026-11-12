@@ -9,9 +9,10 @@ import { BOT_BUILD_BY_ID } from '../content/botAssembly';
 import { getResearchProject } from '../content/research';
 import type { GameState, ItemId, NodeKind, Recipe } from '../domain/types';
 import { NodeIcon } from './NodeIcon';
-import { RecipeIcon } from './RecipeIcon';
+import { MaterialIcon } from './MaterialIcon';
+import { RecipeIcon, recipeOutputArtItem } from './RecipeIcon';
 import { RecipeViewToggle, useRecipeIconView } from './RecipeViewToggle';
-import { recipeTooltip } from './recipePresentation';
+import { recipeIngredientName, recipeTooltip } from './recipePresentation';
 
 const ALL_FILTER = 'all';
 
@@ -21,14 +22,14 @@ const recipeColor = (recipe: Recipe) => {
   return output ? itemColorCss(output) : '#d5b77f';
 };
 
-export function RecipesPanel({ game, onClose, initialRecipeId, backToResearch = false }: { game: GameState; onClose(): void; initialRecipeId?: string; backToResearch?: boolean }) {
+export function RecipesPanel({ game, onClose, initialRecipeId, initialNode, backToResearch = false }: { game: GameState; onClose(): void; initialRecipeId?: string; initialNode?: NodeKind; backToResearch?: boolean }) {
   const [previewRecipeId, setPreviewRecipeId] = useState(initialRecipeId);
   const { compact, toggle } = useRecipeIconView();
   const [expandedCompactRecipe, setExpandedCompactRecipe] = useState<string>();
   const materials = useMemo(() => accessibleRecipeMaterials(game), [game, game.revision]);
   const groups = useMemo(() => recipeGuideGroups(game, previewRecipeId), [game, game.revision, previewRecipeId]);
   const catalogGroups = useMemo(getRecipeGuideGroups, [game, game.revision]);
-  const [filters, setFilters] = useState<string[]>([]);
+  const [filters, setFilters] = useState<string[]>(initialNode ? [initialNode] : []);
   const [filterOrder, setFilterOrder] = useState(() => [ALL_FILTER, ...catalogGroups.map((group) => group.id)]);
   const [draggedFilter, setDraggedFilter] = useState<string>();
   const [navigationTarget, setNavigationTarget] = useState<string | undefined>(initialRecipeId);
@@ -40,7 +41,7 @@ export function RecipesPanel({ game, onClose, initialRecipeId, backToResearch = 
     const result = new Map<ItemId, { recipeId: string; groupId: string; node: NodeKind }>();
     // Index the complete catalog so ingredient links can open an explicit preview.
     const candidates = catalogGroups.flatMap(group => (RECIPE_GROUPS[group.id] ?? []).map(recipeId => ({ ...group, recipe: RECIPES[recipeId] })))
-      .filter(entry => entry.recipe)
+      .filter(entry => entry.recipe && !entry.recipe.id.startsWith('recycle-'))
       .sort((a, b) => Number(isRecipeAvailable(b.recipe.id, game, b.node)) - Number(isRecipeAvailable(a.recipe.id, game, a.node)));
     candidates.forEach(({ id, node, recipe }) => {
       const outputs = [...Object.keys(recipe.outputs), ...(recipe.chanceOutputs ?? []).map(output => output.item)] as ItemId[];
@@ -129,8 +130,9 @@ export function RecipesPanel({ game, onClose, initialRecipeId, backToResearch = 
             const cycleMs = recipeGuideCycle(recipe, group.node, game);
             const recipeResearch = recipe.unlockResearch ?? (recipe.id === 'automata-core' ? 'automataCore' : undefined);
             const machineResearch = NODE_DEFINITIONS[group.node].unlockResearch;
-            const requiredResearch = !isRecipeUnlocked(recipe.id, game.research.completed) ? recipeResearch : !isNodeUnlocked(group.node, game.research.unlocked) ? machineResearch : undefined;
-            const locked = !isRecipeUnlocked(recipe.id, game.research.completed) || Boolean(requiredResearch);
+            const unlocked = isRecipeUnlocked(recipe.id, game.research.completed);
+            const requiredResearch = !unlocked ? recipeResearch : !isNodeUnlocked(group.node, game.research.unlocked) ? machineResearch : undefined;
+            const locked = !unlocked || Boolean(requiredResearch);
             const hasWaste = Boolean(recipe.chanceOutputs?.length || Object.keys(recipe.outputs).some(item => WASTE_ITEMS.includes(item as ItemId)));
             const hoverDetail = `Produced in ${NODE_DEFINITIONS[group.node].name}. ${recipeTooltip(recipe, cycleMs)}${locked ? ` Requires ${getResearchProject(requiredResearch)?.name ?? 'research'}.` : ''}${missingMaterials.length ? ` Source materials needed: ${missingMaterials.map(item => ITEM_NAMES[item]).join(', ')}.` : ''}${group.node === 'smelter' ? ' Choose a Plate recipe. Feed Charcoal separately.' : ''}${hasWaste ? ' Give waste its own route. Each chance output rolls independently.' : ''}`;
             const flavor = group.node === 'smelter' ? 'The metal awaits instructions.' : undefined;
@@ -160,11 +162,11 @@ export function RecipesPanel({ game, onClose, initialRecipeId, backToResearch = 
                     return <option key={build.id} value={build.id}>{ITEM_NAMES[frame]} + {ITEM_NAMES[gun]}</option>;
                   })}
                 </select>}
-                <div className="recipe-guide-formula" aria-label={`${recipe.name} ingredients: ${(Object.entries(recipe.inputs) as Array<[ItemId, number]>).map(([item, amount]) => `${amount} ${ITEM_NAMES[item]}`).join(', ')}`}>
+                <div className="recipe-guide-formula" aria-label={`${recipe.name} ingredients: ${(Object.entries(recipe.inputs) as Array<[ItemId, number]>).map(([item, amount]) => `${amount} ${recipeIngredientName(recipe, item)}`).join(', ')}`}>
                   <span className="recipe-guide-materials inputs">
                     {(Object.entries(recipe.inputs) as Array<[ItemId, number]>).map(([item, amount]) => {
                       const producer = producers.get(item);
-                      const content = <><MaterialBoxes item={item} amount={amount} /><b>{amount}</b>{ITEM_NAMES[item]}</>;
+                      const content = <><MaterialIcon item={item} /><b>{amount}</b>{recipeIngredientName(recipe, item)}</>;
                       return producer ? <button
                         type="button"
                         className="recipe-guide-material ingredient-link"
@@ -177,8 +179,9 @@ export function RecipesPanel({ game, onClose, initialRecipeId, backToResearch = 
                   </span>
                   <span className="recipe-guide-arrow" aria-hidden="true">→</span>
                   <span className="recipe-guide-materials outputs">
-                    {(Object.entries(recipe.outputs) as Array<[ItemId, number]>).map(([item, amount]) => <span className="recipe-guide-material" key={item}><MaterialBoxes item={item} amount={amount} /><b>{amount}</b>{ITEM_NAMES[item]}</span>)}
-                    {recipe.chanceOutputs?.map((output, index) => <span className="recipe-guide-material chance-output" key={output.item + index} title="Independent chance per batch"><MaterialBoxes item={output.item} amount={output.amount} /><b>{output.amount}</b>{ITEM_NAMES[output.item]}<small>{Number((output.probability * 100).toFixed(2))}% chance</small></span>)}
+                    {Object.keys(recipe.outputs).length === 0 && <span className="recipe-guide-material">No output</span>}
+                    {(Object.entries(recipe.outputs) as Array<[ItemId, number]>).map(([item, amount]) => <span className="recipe-guide-material" key={item}><MaterialIcon item={recipeOutputArtItem(recipe, item)} /><b>{amount}</b>{ITEM_NAMES[item]}</span>)}
+                    {recipe.chanceOutputs?.map((output, index) => <span className="recipe-guide-material chance-output" key={output.item + index} title="Independent chance per batch"><MaterialIcon item={output.item} /><b>{output.amount}</b>{ITEM_NAMES[output.item]}<small>{Number((output.probability * 100).toFixed(2))}% chance</small></span>)}
                   </span>
                 </div>
                 <span className="recipe-card-time" aria-label={`${cycleMs / 1000} seconds per batch`}>{Number((cycleMs / 1000).toFixed(2))} sec</span>
@@ -193,8 +196,3 @@ export function RecipesPanel({ game, onClose, initialRecipeId, backToResearch = 
   </section></div>;
 }
 
-function MaterialBoxes({ item, amount }: { item: ItemId; amount: number }) {
-  return <span className="recipe-material-boxes" aria-hidden="true" style={{ color: itemColorCss(item) }}>
-    {Array.from({ length: Math.min(5, Math.max(1, Math.ceil(amount))) }, (_, index) => <i key={index} />)}
-  </span>;
-}

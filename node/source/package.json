@@ -13,6 +13,7 @@
     "balance:audit": "node scripts/balance-audit.mjs",
     "preview": "vite preview --host 127.0.0.1",
     "preview:milestones": "node scripts/build-milestone-preview.mjs",
+    "preview:item-art": "node scripts/build-item-art.mjs",
     "changelog": "node scripts/changelog.mjs",
     "changelog:check": "node scripts/changelog.mjs --check && node --test scripts/check-changelog.mjs"
   },

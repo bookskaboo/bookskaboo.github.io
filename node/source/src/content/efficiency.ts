@@ -6,3 +6,19 @@ export function getEfficiencyMultiplier(family: string | undefined, completed: r
   }
   return 1;
 }
+
+const retainedRecipeFamilies = new Map([
+  ['mithril-mesh', 'advancedAssembler'],
+  ['efficient-mythril-mesh', 'advancedAssembler'],
+  ['composite-mythril-gear', 'assembler'],
+  ['composite-mythril-wire', 'assembler'],
+  ['recover-crust', 'separationFurnace'],
+]);
+
+export function getRecipeEfficiencyMultiplier(recipeId: string | undefined, machineFamily: string | undefined, completed: readonly string[]) {
+  return getEfficiencyMultiplier(retainedRecipeFamilies.get(recipeId ?? '') ?? machineFamily, completed);
+}
+
+export function getRecoveryMultiplier(recipe: { recovery?: boolean } | undefined, completed: readonly string[]) {
+  return recipe?.recovery && completed.includes('mineralRecovery1') ? 0.9 : 1;
+}

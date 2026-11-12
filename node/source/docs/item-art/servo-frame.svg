@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <title>Servo Frame</title>
+  <path d="M4 5H20V19H4Z M7 8H17V16H7Z M4 5L7 8 M20 5L17 8 M4 19L7 16 M20 19L17 16" stroke="#dbb58d" stroke-width="1.55"/>
+  <path d="M10 10V14 M14 10V14" stroke="#e7e3d9" stroke-width="1.25"/>
+</svg>

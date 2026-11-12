@@ -396,7 +396,7 @@ function retireLane(lane) {
 
 const recipeByItem = new Map();
 for (const recipe of Object.values(RECIPES)) {
-  if (!recipe.recovery && !recipe.id.startsWith('efficient-')) recipeByItem.set(Object.keys(recipe.outputs)[0], recipe);
+  if (!recipe.recovery && !/^(recycle|efficient)-/.test(recipe.id)) recipeByItem.set(Object.keys(recipe.outputs)[0], recipe);
 }
 const machineFor = id => Object.keys(RECIPE_GROUPS).find(kind => RECIPE_GROUPS[kind].includes(id));
 const rawItems = new Set(['wood', 'copper', 'iron', 'stone']);

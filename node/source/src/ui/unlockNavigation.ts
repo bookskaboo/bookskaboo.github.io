@@ -3,7 +3,7 @@ import { RECIPES } from '../content/recipes';
 import { RESEARCH_PROJECTS } from '../content/research';
 import type { GameEvent, NodeKind } from '../domain/types';
 
-export type UnlockDestination = { panel: 'build'; nodeKind: NodeKind } | { panel: 'recipes'; recipeId: string } | { panel: 'research'; projectId: string };
+export type UnlockDestination = { panel: 'build'; nodeKind: NodeKind } | { panel: 'recipes'; recipeId?: string; nodeKind?: NodeKind } | { panel: 'research'; projectId: string };
 export function researchEventProject(event: GameEvent) {
   return event.projectId ?? (event.message.startsWith('Map Node research complete.')
     ? 'mapNode'

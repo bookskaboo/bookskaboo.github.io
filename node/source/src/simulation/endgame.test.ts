@@ -3,12 +3,12 @@ import type { GameState, ItemId, MachineNode } from '../domain/types';
 import { ALPHA_AP, CORNER_MAPS, ENDGAME_CAPS, FOUNDRY_INPUTS, GROVE_GROWTH, PAIRS, SEVEN_CORES, atResearchCap, landfillTotal, reconcileHole, seededCornerOrder, seededPairIndex } from '../content/endgame';
 import { applyCartUpgrades, vehiclePayload } from '../content/cartUpgrades';
 import { isPlayerMovableNode } from '../content/nodeModules';
-import { RECYCLER_RETURNS, recyclerAccepts } from '../content/recycling';
+import { RECYCLER_BREAKDOWN_RECIPES, RECYCLER_RETURNS } from '../content/recycling';
 import { getResearchCosts, getResearchProject } from '../content/research';
 import { isRecipeAvailable } from '../content/recipeAvailability';
 import { RECIPES } from '../content/recipes';
 import { createInitialState, GameEngine } from './engine';
-import { createCornerNodes, initializeEndgame, simulateCorner, simulateRecycler } from './endgameRuntime';
+import { createCornerNodes, initializeEndgame, simulateCorner } from './endgameRuntime';
 import { applyExpansionRescue, nextExpansionShortages, shortestRescuePath } from './expansionRescue';
 import { generateSector, sectorDistance } from './worldGeneration';
 import { roadChannels } from './progression';
@@ -117,13 +117,48 @@ describe('Recycler conservation',()=>{
   it('uses fixed standard constituents, including Wood, with no fluids and at most one each',()=>{
     expect(RECYCLER_RETURNS['iron-plate']).toEqual({iron:1,wood:1});
     for(const returns of Object.values(RECYCLER_RETURNS)){for(const [i,n]of Object.entries(returns??{})){expect(['iron','copper','stone','mythril','wood']).toContain(i);expect(n).toBe(1);}}
-    for(const item of ['slag','metallic-fines','glassy-crust','spent-flux','final-core'] as ItemId[])expect(recyclerAccepts(item)).toBe(false);
+    for(const item of ['water','slag','metallic-fines','glassy-crust','spent-flux','final-core'] as ItemId[])expect(RECYCLER_RETURNS[item]).toBeUndefined();
   });
-  it('preserves FIFO and a blocked return set; zero-return raw items can process with full output',()=>{
-    const n=machine('recycler');n.input={'iron-plate':1,wood:1};n.inputQueue=['iron-plate','wood'];n.output={iron:9};n.progressMs=1000;
-    simulateRecycler(n,1000);expect(n.input['iron-plate']).toBe(1);expect(n.progressMs).toBe(1000);expect(n.input.wood).toBe(1);
-    n.output.iron=8;simulateRecycler(n,1000);expect(n.input['iron-plate']).toBe(0);expect(n.output).toEqual({iron:9,wood:1});
-    simulateRecycler(n,2000);expect(n.input.wood).toBe(0);expect(n.output).toEqual({iron:9,wood:1});
+  it('lists one Water per breakdown and spends it only when the next item can finish', () => {
+    for (const recipe of RECYCLER_BREAKDOWN_RECIPES) {
+      expect(recipe.inputs.water, recipe.name).toBe(1);
+    }
+    const state = createInitialState();
+    state.research.completed.push('recycler');
+    state.research.unlocked.push('recycler');
+    state.sectors['5,5'].nodes = [machine('recycler')];
+    const engine = new GameEngine(state, { autosave: false });
+    const recycler = engine.getSector().nodes[0];
+    expect(engine.setRecipe(recycler.id, 'recycle-iron-plate')).toBe(true);
+    recycler.input = { 'iron-plate': 1, wood: 1 };
+    engine.tick(1000);
+    engine.tick(1000);
+    expect(recycler.input).toEqual({ 'iron-plate': 1, wood: 1 });
+    expect(recycler.progressMs).toBe(0);
+
+    recycler.input.water = 1;
+    recycler.output = { iron: 9 };
+    engine.tick(1000);
+    expect(recycler.input).toEqual({ 'iron-plate': 1, wood: 1, water: 1 });
+    expect(recycler.batch).toBeUndefined();
+
+    recycler.output.iron = 8;
+    engine.tick(1000);
+    expect(engine.setRecipe(recycler.id, 'recycle-wood')).toBe(false);
+    engine.tick(1000);
+    expect(recycler.input).toEqual({ 'iron-plate': 0, wood: 1, water: 0 });
+    expect(recycler.output).toEqual({ iron: 9, wood: 1 });
+
+    recycler.input.water = 1;
+    engine.tick(1000);
+    expect(recycler.input.wood).toBe(1);
+    expect(recycler.input.water).toBe(1);
+    expect(engine.setRecipe(recycler.id, 'recycle-wood')).toBe(true);
+    recycler.input = { wood: 1, water: 1 };
+    engine.tick(1000);
+    engine.tick(1000);
+    expect(recycler.input).toEqual({ wood: 0, water: 0 });
+    expect(recycler.output).toEqual({});
   });
 });
 

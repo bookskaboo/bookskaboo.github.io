@@ -6,6 +6,13 @@ export const WORLD_GRID_SIZES = [11, 13, 15, 17, 19, 21] as const;
 export const HOME_COORDINATE = 5;
 export const HOME_SECTOR_ID = '5,5';
 
+/** Display coordinates relative to Home without changing serialized sector IDs. */
+export function mapNodePosition(x: number, y: number) {
+  const vertical = y < HOME_COORDINATE ? `N${HOME_COORDINATE - y}` : y > HOME_COORDINATE ? `S${y - HOME_COORDINATE}` : '';
+  const horizontal = x < HOME_COORDINATE ? `W${HOME_COORDINATE - x}` : x > HOME_COORDINATE ? `E${x - HOME_COORDINATE}` : '';
+  return [vertical, horizontal].filter(Boolean).join('.') || 'H';
+}
+
 export const isWorldGridSize = (size: unknown): size is number => WORLD_GRID_SIZES.some(option => option === size);
 export const worldGridSize = (state: Pick<GameState, 'worldGridSize'>) => state.worldGridSize ?? DEFAULT_WORLD_GRID_SIZE;
 

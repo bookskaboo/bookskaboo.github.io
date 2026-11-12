@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <title>Controller</title>
+  <path d="M4 6H20V18H4Z M8 10V14 M12 9V15 M16 11V15 M7 11H9 M11 13H13 M15 12H17" stroke="#8ec5d9" stroke-width="1.55"/>
+  <path d="M6 3H18 M6 21H18" stroke="#e7e3d9" stroke-width="1.25"/>
+</svg>

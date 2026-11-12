@@ -1,10 +1,8 @@
 import { ALPHA_AP, CORNER_ITEMS, CORNER_NAMES, FOUNDRY_INPUTS, GROVE_GROWTH, RECLAMATION_VALUE, reconcileHole, seededCornerOrder, seededPairIndex } from '../content/endgame';
 import { BOT_STRENGTH } from '../content/progression';
-import { RECYCLER_RETURNS } from '../content/recycling';
 import type { GameState, ItemId, MachineNode, SectorState } from '../domain/types';
 import { DEFAULT_WORLD_GRID_SIZE, HOME_COORDINATE, worldCornerIds, worldGridSize } from '../domain/worldGrid';
 import { canPlaceNode } from './collisions';
-import { queueOutputs, reconcileQueue } from './mixedOutput';
 import { obstructedConnections } from './obstructedConnections';
 
 const CORNER_QUADRANTS = ['northwest', 'northeast', 'southeast', 'southwest'] as const;
@@ -88,13 +86,3 @@ export function simulateCorner(state: GameState, sector: SectorState, node: Mach
   }
 }
 
-export function simulateRecycler(node: MachineNode, dt: number) {
-  node.inputQueue = reconcileQueue(node.inputQueue, node.input);
-  const item = node.inputQueue[0]; if (!item) { node.progressMs = 0; return; }
-  const returns = RECYCLER_RETURNS[item]; if (!returns) return;
-  const count = total(returns);
-  if (count && total(node.output) + count > 10) return;
-  node.progressMs += dt; if (node.progressMs < 2000) return;
-  node.progressMs %= 2000;
-  node.input[item]!--; node.inputQueue.shift(); queueOutputs(node, returns);
-}

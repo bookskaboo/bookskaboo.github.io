@@ -1,0 +1,780 @@
+{
+  "assumptions": [
+    "Current game engine with normal Extractor, Pump, batch, cable and Road rules. Direct recipes exist only in memory for each test.",
+    "One processor per metal, two local ore Extractors and one Wood Extractor per metal. Current setup uses a Kiln per metal. Direct setup shares one Pump across both lines.",
+    "Each case starts with a built and wired layout, empty process buffers, local natural reserves and the specified research. Timings exclude building, travel and unlocking. Stock and transfers persist normally inside the engine run.",
+    "The remote outpost has no Lake. The neighboring destination has a Lake and Wood, with one Road lane per metal via Road Channels 1. Current route ships plates; the shortcut ships raw ore to the lake and produces plates there.",
+    "Rank 2 runs use Extractor, Kiln and Smelter rank 2. The proposed 8-second recipe inherits Smelter efficiency, giving a 6.4-second effective cycle.",
+    "Measure 12 game minutes at 100 ms ticks. Delivery rate is measured over minutes 2 through 12. Delivered means plates at the destination warehouse. No downstream plate customers are included.",
+    "The optional shared Pump test supplies one base Hydro Plant per fluid with staged non-Water inputs. It checks water competition in this layout, not full supply for a scaled Hydro district.",
+    "A separate lakeside sensitivity test uses one base ore Extractor per metal to check the effect of ore-limited supply."
+  ],
+  "cases": {
+    "base-lake-standard": {
+      "layout": "lake",
+      "recipe": "standard",
+      "vehicle": "cart",
+      "ranks": 0,
+      "oreExtractorsPerMetal": 2,
+      "processorSector": "5,5",
+      "destination": "5,5",
+      "crossingCargo": null,
+      "rates": {
+        "iron": {
+          "firstSeconds": 17.8,
+          "twentiethSeconds": 131.8,
+          "delivered": 118,
+          "deliveredPerMinute": 10,
+          "produced": 118,
+          "harvestedOre": 249
+        },
+        "copper": {
+          "firstSeconds": 17.8,
+          "twentiethSeconds": 131.8,
+          "delivered": 118,
+          "deliveredPerMinute": 10,
+          "produced": 118,
+          "harvestedOre": 249
+        }
+      },
+      "nodeCounts": {
+        "iron": 2,
+        "extractor": 6,
+        "merger": 2,
+        "forest": 2,
+        "kiln": 2,
+        "smelter": 2,
+        "warehouse": 2,
+        "copper": 2
+      },
+      "extracted": {
+        "iron": 249,
+        "wood": 272,
+        "copper": 249
+      },
+      "produced": {
+        "charcoal": 254,
+        "iron-plate": 118,
+        "copper-plate": 118
+      },
+      "plateWaterConsumed": 0
+    },
+    "base-lake-direct": {
+      "layout": "lake",
+      "recipe": "direct",
+      "vehicle": "cart",
+      "ranks": 0,
+      "oreExtractorsPerMetal": 2,
+      "processorSector": "5,5",
+      "destination": "5,5",
+      "crossingCargo": null,
+      "rates": {
+        "iron": {
+          "firstSeconds": 15.4,
+          "twentiethSeconds": 167.4,
+          "delivered": 89,
+          "deliveredPerMinute": 7.5,
+          "produced": 89,
+          "harvestedOre": 193
+        },
+        "copper": {
+          "firstSeconds": 15.4,
+          "twentiethSeconds": 167.4,
+          "delivered": 89,
+          "deliveredPerMinute": 7.5,
+          "produced": 89,
+          "harvestedOre": 193
+        }
+      },
+      "nodeCounts": {
+        "lake": 1,
+        "fluidLink": 1,
+        "iron": 2,
+        "extractor": 6,
+        "merger": 2,
+        "forest": 2,
+        "separationFurnace": 2,
+        "warehouse": 2,
+        "copper": 2
+      },
+      "extracted": {
+        "water": 254,
+        "iron": 193,
+        "wood": 198,
+        "copper": 193
+      },
+      "produced": {
+        "iron-plate": 89,
+        "copper-plate": 89
+      },
+      "plateWaterConsumed": 180
+    },
+    "base-remote-standard": {
+      "layout": "remote",
+      "recipe": "standard",
+      "vehicle": "cart",
+      "ranks": 0,
+      "oreExtractorsPerMetal": 2,
+      "processorSector": "5,5",
+      "destination": "6,5",
+      "crossingCargo": "plate",
+      "rates": {
+        "iron": {
+          "firstSeconds": 21,
+          "twentiethSeconds": 136.2,
+          "delivered": 117,
+          "deliveredPerMinute": 10,
+          "produced": 118,
+          "harvestedOre": 249
+        },
+        "copper": {
+          "firstSeconds": 21,
+          "twentiethSeconds": 136.2,
+          "delivered": 117,
+          "deliveredPerMinute": 10,
+          "produced": 118,
+          "harvestedOre": 249
+        }
+      },
+      "nodeCounts": {
+        "iron": 2,
+        "extractor": 6,
+        "merger": 2,
+        "forest": 2,
+        "kiln": 2,
+        "smelter": 2,
+        "road": 4,
+        "woodenChest": 4,
+        "copper": 2,
+        "warehouse": 2
+      },
+      "extracted": {
+        "iron": 249,
+        "wood": 272,
+        "copper": 249
+      },
+      "produced": {
+        "charcoal": 254,
+        "iron-plate": 118,
+        "copper-plate": 118
+      },
+      "plateWaterConsumed": 0
+    },
+    "base-remote-direct": {
+      "layout": "remote",
+      "recipe": "direct",
+      "vehicle": "cart",
+      "ranks": 0,
+      "oreExtractorsPerMetal": 2,
+      "processorSector": "6,5",
+      "destination": "6,5",
+      "crossingCargo": "ore",
+      "rates": {
+        "iron": {
+          "firstSeconds": 25.4,
+          "twentiethSeconds": 215.4,
+          "delivered": 70,
+          "deliveredPerMinute": 6,
+          "produced": 70,
+          "harvestedOre": 168
+        },
+        "copper": {
+          "firstSeconds": 25.4,
+          "twentiethSeconds": 215.4,
+          "delivered": 70,
+          "deliveredPerMinute": 6,
+          "produced": 70,
+          "harvestedOre": 168
+        }
+      },
+      "nodeCounts": {
+        "iron": 2,
+        "extractor": 6,
+        "merger": 2,
+        "road": 4,
+        "woodenChest": 4,
+        "copper": 2,
+        "lake": 1,
+        "fluidLink": 1,
+        "forest": 2,
+        "separationFurnace": 2,
+        "warehouse": 2
+      },
+      "extracted": {
+        "water": 216,
+        "iron": 168,
+        "copper": 168,
+        "wood": 160
+      },
+      "produced": {
+        "iron-plate": 70,
+        "copper-plate": 70
+      },
+      "plateWaterConsumed": 142
+    },
+    "rank2-lake-standard": {
+      "layout": "lake",
+      "recipe": "standard",
+      "vehicle": "cart",
+      "ranks": 2,
+      "oreExtractorsPerMetal": 2,
+      "processorSector": "5,5",
+      "destination": "5,5",
+      "crossingCargo": null,
+      "rates": {
+        "iron": {
+          "firstSeconds": 15,
+          "twentiethSeconds": 106.2,
+          "delivered": 147,
+          "deliveredPerMinute": 12.5,
+          "produced": 148,
+          "harvestedOre": 309
+        },
+        "copper": {
+          "firstSeconds": 15,
+          "twentiethSeconds": 106.2,
+          "delivered": 147,
+          "deliveredPerMinute": 12.5,
+          "produced": 148,
+          "harvestedOre": 309
+        }
+      },
+      "nodeCounts": {
+        "iron": 2,
+        "extractor": 6,
+        "merger": 2,
+        "forest": 2,
+        "kiln": 2,
+        "smelter": 2,
+        "warehouse": 2,
+        "copper": 2
+      },
+      "extracted": {
+        "iron": 309,
+        "wood": 332,
+        "copper": 309
+      },
+      "produced": {
+        "charcoal": 314,
+        "iron-plate": 148,
+        "copper-plate": 148
+      },
+      "plateWaterConsumed": 0
+    },
+    "rank2-lake-direct": {
+      "layout": "lake",
+      "recipe": "direct",
+      "vehicle": "cart",
+      "ranks": 2,
+      "oreExtractorsPerMetal": 2,
+      "processorSector": "5,5",
+      "destination": "5,5",
+      "crossingCargo": null,
+      "rates": {
+        "iron": {
+          "firstSeconds": 12.6,
+          "twentiethSeconds": 134.2,
+          "delivered": 111,
+          "deliveredPerMinute": 9.4,
+          "produced": 111,
+          "harvestedOre": 239
+        },
+        "copper": {
+          "firstSeconds": 12.6,
+          "twentiethSeconds": 134.2,
+          "delivered": 111,
+          "deliveredPerMinute": 9.4,
+          "produced": 111,
+          "harvestedOre": 239
+        }
+      },
+      "nodeCounts": {
+        "lake": 1,
+        "fluidLink": 1,
+        "iron": 2,
+        "extractor": 6,
+        "merger": 2,
+        "forest": 2,
+        "separationFurnace": 2,
+        "warehouse": 2,
+        "copper": 2
+      },
+      "extracted": {
+        "water": 298,
+        "iron": 239,
+        "wood": 244,
+        "copper": 239
+      },
+      "produced": {
+        "iron-plate": 111,
+        "copper-plate": 111
+      },
+      "plateWaterConsumed": 224
+    },
+    "rank2-remote-standard": {
+      "layout": "remote",
+      "recipe": "standard",
+      "vehicle": "cart",
+      "ranks": 2,
+      "oreExtractorsPerMetal": 2,
+      "processorSector": "5,5",
+      "destination": "6,5",
+      "crossingCargo": "plate",
+      "rates": {
+        "iron": {
+          "firstSeconds": 16.2,
+          "twentiethSeconds": 111,
+          "delivered": 141,
+          "deliveredPerMinute": 12,
+          "produced": 148,
+          "harvestedOre": 309
+        },
+        "copper": {
+          "firstSeconds": 16.2,
+          "twentiethSeconds": 111,
+          "delivered": 141,
+          "deliveredPerMinute": 12,
+          "produced": 148,
+          "harvestedOre": 309
+        }
+      },
+      "nodeCounts": {
+        "iron": 2,
+        "extractor": 6,
+        "merger": 2,
+        "forest": 2,
+        "kiln": 2,
+        "smelter": 2,
+        "road": 4,
+        "woodenChest": 4,
+        "copper": 2,
+        "warehouse": 2
+      },
+      "extracted": {
+        "iron": 309,
+        "wood": 332,
+        "copper": 309
+      },
+      "produced": {
+        "charcoal": 314,
+        "iron-plate": 148,
+        "copper-plate": 148
+      },
+      "plateWaterConsumed": 0
+    },
+    "rank2-remote-direct": {
+      "layout": "remote",
+      "recipe": "direct",
+      "vehicle": "cart",
+      "ranks": 2,
+      "oreExtractorsPerMetal": 2,
+      "processorSector": "6,5",
+      "destination": "6,5",
+      "crossingCargo": "ore",
+      "rates": {
+        "iron": {
+          "firstSeconds": 18.6,
+          "twentiethSeconds": 208.6,
+          "delivered": 71,
+          "deliveredPerMinute": 6,
+          "produced": 71,
+          "harvestedOre": 173
+        },
+        "copper": {
+          "firstSeconds": 18.6,
+          "twentiethSeconds": 208.6,
+          "delivered": 71,
+          "deliveredPerMinute": 6,
+          "produced": 71,
+          "harvestedOre": 173
+        }
+      },
+      "nodeCounts": {
+        "iron": 2,
+        "extractor": 6,
+        "merger": 2,
+        "road": 4,
+        "woodenChest": 4,
+        "copper": 2,
+        "lake": 1,
+        "fluidLink": 1,
+        "forest": 2,
+        "separationFurnace": 2,
+        "warehouse": 2
+      },
+      "extracted": {
+        "water": 216,
+        "iron": 173,
+        "copper": 173,
+        "wood": 162
+      },
+      "produced": {
+        "iron-plate": 71,
+        "copper-plate": 71
+      },
+      "plateWaterConsumed": 142
+    },
+    "rank2-remote-truck-standard": {
+      "layout": "remote",
+      "recipe": "standard",
+      "vehicle": "truck",
+      "ranks": 2,
+      "oreExtractorsPerMetal": 2,
+      "processorSector": "5,5",
+      "destination": "6,5",
+      "crossingCargo": "plate",
+      "rates": {
+        "iron": {
+          "firstSeconds": 16.2,
+          "twentiethSeconds": 111,
+          "delivered": 146,
+          "deliveredPerMinute": 12.5,
+          "produced": 148,
+          "harvestedOre": 309
+        },
+        "copper": {
+          "firstSeconds": 16.2,
+          "twentiethSeconds": 111,
+          "delivered": 146,
+          "deliveredPerMinute": 12.5,
+          "produced": 148,
+          "harvestedOre": 309
+        }
+      },
+      "nodeCounts": {
+        "iron": 2,
+        "extractor": 6,
+        "merger": 2,
+        "forest": 2,
+        "kiln": 2,
+        "smelter": 2,
+        "road": 4,
+        "woodenChest": 4,
+        "copper": 2,
+        "warehouse": 2
+      },
+      "extracted": {
+        "iron": 309,
+        "wood": 332,
+        "copper": 309
+      },
+      "produced": {
+        "charcoal": 314,
+        "iron-plate": 148,
+        "copper-plate": 148
+      },
+      "plateWaterConsumed": 0
+    },
+    "rank2-remote-truck-direct": {
+      "layout": "remote",
+      "recipe": "direct",
+      "vehicle": "truck",
+      "ranks": 2,
+      "oreExtractorsPerMetal": 2,
+      "processorSector": "6,5",
+      "destination": "6,5",
+      "crossingCargo": "ore",
+      "rates": {
+        "iron": {
+          "firstSeconds": 13.8,
+          "twentiethSeconds": 135.4,
+          "delivered": 111,
+          "deliveredPerMinute": 9.4,
+          "produced": 111,
+          "harvestedOre": 314
+        },
+        "copper": {
+          "firstSeconds": 13.8,
+          "twentiethSeconds": 135.4,
+          "delivered": 111,
+          "deliveredPerMinute": 9.4,
+          "produced": 111,
+          "harvestedOre": 314
+        }
+      },
+      "nodeCounts": {
+        "iron": 2,
+        "extractor": 6,
+        "merger": 2,
+        "road": 4,
+        "woodenChest": 4,
+        "copper": 2,
+        "lake": 1,
+        "fluidLink": 1,
+        "forest": 2,
+        "separationFurnace": 2,
+        "warehouse": 2
+      },
+      "extracted": {
+        "water": 298,
+        "iron": 314,
+        "copper": 314,
+        "wood": 242
+      },
+      "produced": {
+        "iron-plate": 111,
+        "copper-plate": 111
+      },
+      "plateWaterConsumed": 224
+    },
+    "rank2-remote-local-without-water": {
+      "layout": "dry",
+      "recipe": "direct",
+      "vehicle": "cart",
+      "ranks": 2,
+      "oreExtractorsPerMetal": 2,
+      "processorSector": "5,5",
+      "destination": "5,5",
+      "crossingCargo": null,
+      "rates": {
+        "iron": {
+          "firstSeconds": null,
+          "twentiethSeconds": null,
+          "delivered": 0,
+          "deliveredPerMinute": 0,
+          "produced": 0,
+          "harvestedOre": 15
+        },
+        "copper": {
+          "firstSeconds": null,
+          "twentiethSeconds": null,
+          "delivered": 0,
+          "deliveredPerMinute": 0,
+          "produced": 0,
+          "harvestedOre": 15
+        }
+      },
+      "nodeCounts": {
+        "iron": 2,
+        "extractor": 6,
+        "merger": 2,
+        "forest": 2,
+        "separationFurnace": 2,
+        "warehouse": 2,
+        "copper": 2
+      },
+      "extracted": {
+        "iron": 15,
+        "wood": 20,
+        "copper": 15
+      },
+      "produced": {},
+      "plateWaterConsumed": 0
+    },
+    "rank2-lake-shared-pump-standard": {
+      "layout": "lake",
+      "recipe": "standard",
+      "vehicle": "cart",
+      "ranks": 2,
+      "oreExtractorsPerMetal": 2,
+      "processorSector": "5,5",
+      "destination": "5,5",
+      "crossingCargo": null,
+      "rates": {
+        "iron": {
+          "firstSeconds": 15,
+          "twentiethSeconds": 106.2,
+          "delivered": 147,
+          "deliveredPerMinute": 12.5,
+          "produced": 148,
+          "harvestedOre": 309
+        },
+        "copper": {
+          "firstSeconds": 15,
+          "twentiethSeconds": 106.2,
+          "delivered": 147,
+          "deliveredPerMinute": 12.5,
+          "produced": 148,
+          "harvestedOre": 309
+        }
+      },
+      "nodeCounts": {
+        "lake": 1,
+        "fluidLink": 1,
+        "hydroProcessor": 2,
+        "warehouse": 6,
+        "fluidStorage": 1,
+        "iron": 2,
+        "extractor": 6,
+        "merger": 2,
+        "forest": 2,
+        "kiln": 2,
+        "smelter": 2,
+        "copper": 2
+      },
+      "extracted": {
+        "water": 734,
+        "iron": 309,
+        "wood": 332,
+        "copper": 309
+      },
+      "produced": {
+        "coolant": 238,
+        "charcoal": 314,
+        "conductive-slurry": 178,
+        "iron-plate": 148,
+        "copper-plate": 148
+      },
+      "hydroPerMinute": {
+        "coolant": 20,
+        "conductive-slurry": 15
+      },
+      "plateWaterConsumed": 0
+    },
+    "base-lake-one-ore-extractor-standard": {
+      "layout": "lake",
+      "recipe": "standard",
+      "vehicle": "cart",
+      "ranks": 0,
+      "oreExtractorsPerMetal": 1,
+      "processorSector": "5,5",
+      "destination": "5,5",
+      "crossingCargo": null,
+      "rates": {
+        "iron": {
+          "firstSeconds": 18.2,
+          "twentiethSeconds": 208.2,
+          "delivered": 71,
+          "deliveredPerMinute": 6,
+          "produced": 71,
+          "harvestedOre": 144
+        },
+        "copper": {
+          "firstSeconds": 18.2,
+          "twentiethSeconds": 208.2,
+          "delivered": 71,
+          "deliveredPerMinute": 6,
+          "produced": 71,
+          "harvestedOre": 144
+        }
+      },
+      "nodeCounts": {
+        "iron": 1,
+        "extractor": 4,
+        "forest": 2,
+        "kiln": 2,
+        "smelter": 2,
+        "warehouse": 2,
+        "copper": 1
+      },
+      "extracted": {
+        "iron": 144,
+        "wood": 180,
+        "copper": 144
+      },
+      "produced": {
+        "charcoal": 160,
+        "iron-plate": 71,
+        "copper-plate": 71
+      },
+      "plateWaterConsumed": 0
+    },
+    "rank2-lake-shared-pump-direct": {
+      "layout": "lake",
+      "recipe": "direct",
+      "vehicle": "cart",
+      "ranks": 2,
+      "oreExtractorsPerMetal": 2,
+      "processorSector": "5,5",
+      "destination": "5,5",
+      "crossingCargo": null,
+      "rates": {
+        "iron": {
+          "firstSeconds": 12.6,
+          "twentiethSeconds": 134.2,
+          "delivered": 111,
+          "deliveredPerMinute": 9.4,
+          "produced": 111,
+          "harvestedOre": 239
+        },
+        "copper": {
+          "firstSeconds": 13.4,
+          "twentiethSeconds": 135,
+          "delivered": 111,
+          "deliveredPerMinute": 9.4,
+          "produced": 111,
+          "harvestedOre": 237
+        }
+      },
+      "nodeCounts": {
+        "lake": 1,
+        "fluidLink": 1,
+        "hydroProcessor": 2,
+        "warehouse": 6,
+        "fluidStorage": 1,
+        "iron": 2,
+        "extractor": 6,
+        "merger": 2,
+        "forest": 2,
+        "separationFurnace": 2,
+        "copper": 2
+      },
+      "extracted": {
+        "water": 968,
+        "iron": 239,
+        "wood": 243,
+        "copper": 237
+      },
+      "produced": {
+        "coolant": 238,
+        "conductive-slurry": 178,
+        "iron-plate": 111,
+        "copper-plate": 111
+      },
+      "hydroPerMinute": {
+        "coolant": 20,
+        "conductive-slurry": 15
+      },
+      "plateWaterConsumed": 224
+    },
+    "base-lake-one-ore-extractor-direct": {
+      "layout": "lake",
+      "recipe": "direct",
+      "vehicle": "cart",
+      "ranks": 0,
+      "oreExtractorsPerMetal": 1,
+      "processorSector": "5,5",
+      "destination": "5,5",
+      "crossingCargo": null,
+      "rates": {
+        "iron": {
+          "firstSeconds": 20.2,
+          "twentiethSeconds": 210.2,
+          "delivered": 70,
+          "deliveredPerMinute": 6,
+          "produced": 71,
+          "harvestedOre": 144
+        },
+        "copper": {
+          "firstSeconds": 20.2,
+          "twentiethSeconds": 210.2,
+          "delivered": 70,
+          "deliveredPerMinute": 6,
+          "produced": 71,
+          "harvestedOre": 144
+        }
+      },
+      "nodeCounts": {
+        "lake": 1,
+        "fluidLink": 1,
+        "iron": 1,
+        "extractor": 4,
+        "forest": 2,
+        "separationFurnace": 2,
+        "warehouse": 2,
+        "copper": 1
+      },
+      "extracted": {
+        "water": 216,
+        "iron": 144,
+        "wood": 162,
+        "copper": 144
+      },
+      "produced": {
+        "iron-plate": 71,
+        "copper-plate": 71
+      },
+      "plateWaterConsumed": 142
+    }
+  }
+}

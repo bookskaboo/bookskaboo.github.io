@@ -21,8 +21,8 @@ Simple, Basic and Automata Cores repeatedly funded research after remote repleni
 | Circuit A | Copper Wire Refiner supplies 1 Wire; Iron Smelter supplies 1 Plate → Circuit A Assembler |
 | Automata Core | Circuit A Assembler supplies 1 Circuit A; Stone Extractor → Brick Refiner supplies 1 Brick → Automata Core Assembler → Research Center |
 | Copper Slurry | Lake-fed Pump supplies 2 Water, Copper Wire Refiner supplies 1 Wire, and Kiln supplies 1 Charcoal → Hydro Plant producing 2 Slurry |
-| Circuit B | Brick Refiner supplies 1 Brick; Copper Wire Refiner supplies 1 Wire; Slurry Hydro Plant supplies 1 Slurry → Assembler II |
-| Hydro Core | Hydro Piston branch below supplies 1 Piston; Circuit B supplies 1 Circuit B; Coolant Hydro Plant supplies 2 Coolant → Hydro Core Assembler II → Research Center |
+| Circuit B | Brick Refiner supplies 1 Brick; Copper Wire Refiner supplies 1 Wire; Slurry Hydro Plant supplies 1 Slurry → Fabricator |
+| Hydro Core | Hydro Piston branch below supplies 1 Piston; Circuit B supplies 1 Circuit B; Coolant Hydro Plant supplies 2 Coolant → Hydro Core Fabricator → Research Center |
 
 Where a Core crosses maps, collect it in a sending Cart and use the Road route below. Keep Water processing near a Lake. Plate, Wire, Charcoal and Coolant branches are shared demand: new consumers need extra supply, not the removal of an earlier consumer's only cable. Verify repeated research payments, not just initial buffers or a colored cable.
 
@@ -42,12 +42,12 @@ Keep this chain independent until repeated output is verified. The wiring below 
 | Robot Frame Assembler | 2 Iron Plates + 1 Motor | Sealed Frame |
 | Robot Gun Assembler | 1 Copper Wire + 2 Iron Plates + 1 Brick | Cooled Gun |
 | Lake-fed Pump → Coolant Hydro Plant | 4 Water + 1 Iron Plate → 2 Coolant | Hydro Piston and Cooled Gun |
-| Hydro Piston Assembler II | 1 Iron Gear + 1 Motor + 2 Coolant | Sealed Frame |
+| Hydro Piston Fabricator | 1 Iron Gear + 1 Motor + 2 Coolant | Sealed Frame |
 | Stone Extractor → Brick Refiner | 1 Stone → 1 Brick | Sealed Frame and Robot Gun |
-| Sealed Frame Assembler II | 1 Robot Frame + 1 Hydro Piston + 2 Bricks | Final Medium Bot assembler |
-| Cooled Gun Assembler II | 1 Robot Gun + 2 Coolant + 2 Iron Plates | Final Medium Bot assembler |
+| Sealed Frame Fabricator | 1 Robot Frame + 1 Hydro Piston + 2 Bricks | Bot Plant |
+| Cooled Gun Fabricator | 1 Robot Gun + 2 Coolant + 2 Iron Plates | Bot Plant |
 | Basic Core Assembler | 1 Copper Plate + 1 Iron Wire | Research Center |
-| Assemble Bot in Assembler II | 1 Sealed Frame + 1 Cooled Gun | **Isolated collection Cart first**, then export |
+| Assemble Bot in Bot Plant | 1 Sealed Frame + 1 Cooled Gun | **Isolated collection Cart first**, then export |
 
 Each cable must reach the correct ingredient socket. Charcoal present at a Kiln is not proof that it reaches a Smelter. In the successful repair, a Smelter had ore but an empty Charcoal input; a direct fuel connection restored cycling. Gear/Frame production also depended on repairing the Plate branches. Keep the working branches while adding capacity; the later Merger/Joint rewrite was an unsuccessful scaling attempt, not a known improvement.
 

@@ -20,6 +20,7 @@ function minimumCosts(resource: Resource) {
     let changed = false;
     const offer = (i: ItemId, value: number) => { if (Number.isFinite(value) && value + 1e-10 < (cost[i] ?? Infinity)) { cost[i] = value; changed = true; } };
     for (const recipe of Object.values(RECIPES)) {
+      if (recipe.id.startsWith('recycle-')) continue; // Breakdown returns are counted below for every bot strength.
       const inputCost = Object.entries(recipe.inputs).reduce((n,[i,q]) => n + (q ?? 0) * (cost[i as ItemId] ?? Infinity),0);
       for (const [i,q] of Object.entries(recipe.outputs)) if (q) offer(i as ItemId,inputCost/q);
       for (const output of recipe.chanceOutputs ?? []) offer(output.item,inputCost/output.amount);
@@ -36,7 +37,7 @@ function resourcePotential(item: ItemId, resource: Resource, seen = new Set<Item
   if (RAW.includes(item)) return item === resource ? 1 : 0;
   if (seen.has(item)) return 0;
   const next = new Set(seen).add(item);
-  const recipes = Object.values(RECIPES).filter(r => (r.outputs[item] ?? 0) > 0 && !r.id.startsWith('efficient-') && !r.id.startsWith('composite-') && !r.recovery);
+  const recipes = Object.values(RECIPES).filter(r => (r.outputs[item] ?? 0) > 0 && !/^(recycle|efficient|composite)-/.test(r.id) && !r.recovery);
   // Take the most generous finite composition. Unknown stock disables proof below.
   return Math.max(RECYCLER_RETURNS[item]?.[resource] ?? 0, ...recipes.map(r => Object.entries(r.inputs).reduce((n,[i,q]) => n + q! * resourcePotential(i as ItemId,resource,next),0)/(r.outputs[item] ?? 1)), 0);
 }

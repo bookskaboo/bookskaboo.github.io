@@ -2,6 +2,9 @@ import { ITEM_NAMES } from '../content/items';
 import { isWorldObstacle } from '../content/nodeCapabilities';
 import type { LineArtId } from '../art/lineArt';
 import type { GameState, ItemId, SectorState } from '../domain/types';
+import { mapNodePosition, worldCornerIds, worldGridSize } from '../domain/worldGrid';
+
+export { mapNodePosition } from '../domain/worldGrid';
 
 export const MAP_LANDMARKS = {
   camps: { label: 'Monster camps', icon: 'goblin-camp' },
@@ -10,13 +13,6 @@ export const MAP_LANDMARKS = {
 } as const satisfies Record<string, { label: string; icon: LineArtId }>;
 
 export type MapLandmark = keyof typeof MAP_LANDMARKS;
-
-/** Display coordinates relative to Home; serialized sector IDs remain unchanged. */
-export function mapNodePosition(x: number, y: number) {
-  const vertical = y < 5 ? `N${5 - y}` : y > 5 ? `S${y - 5}` : '';
-  const horizontal = x < 5 ? `W${5 - x}` : x > 5 ? `E${x - 5}` : '';
-  return [vertical, horizontal].filter(Boolean).join('.') || 'H';
-}
 
 export function mapNodeName(sector: SectorState) {
   const generic = ['Unnamed Node', `Sector ${sector.x}.${sector.y}`, `Map ${sector.x}.${sector.y}`].includes(sector.name);
@@ -36,7 +32,7 @@ export function mapLandmarkSurvey(game: GameState) {
     if (!isSurveyed(game, sector)) continue;
     const landmarks = new Set<MapLandmark>();
     for (const node of sector.nodes) {
-      if (node.kind === 'monster-camp' || node.kind === 'cornerChallenge') landmarks.add('camps');
+      if (node.kind === 'monster-camp') landmarks.add('camps');
       if (node.kind === 'lake') landmarks.add('lakes');
       if (node.kind === 'resourceGolem' || (node.defeated && node.infiniteResource)) landmarks.add('golems');
     }
@@ -44,6 +40,23 @@ export function mapLandmarkSurvey(game: GameState) {
     for (const landmark of landmarks) discovered.add(landmark);
   }
   return { discovered, bySector };
+}
+
+/** One visit reveals the other locations while their challenges stay anonymous until unlocked. */
+export function mapCornerMarkers(game: GameState) {
+  const corners = worldCornerIds(worldGridSize(game));
+  const visitedCorner = corners.some(id => {
+    const sector = game.sectors[id];
+    return sector?.unlocked && (sector.visited || id === game.activeSectorId)
+      && sector.nodes.some(node => node.kind === 'cornerChallenge');
+  });
+  const markers = new Map<string, string>();
+  if (visitedCorner) for (const id of corners) {
+    const sector = game.sectors[id];
+    const challenge = sector?.unlocked ? sector.nodes.find(node => node.kind === 'cornerChallenge') : undefined;
+    markers.set(id, challenge?.name ?? '???');
+  }
+  return markers;
 }
 
 export function mapNodeSurvey(game: GameState, id: string) {
@@ -65,8 +78,10 @@ export function mapNodeSurvey(game: GameState, id: string) {
   };
 }
 
-export function mapNodeResourceSummary(game: GameState, id: string) {
+export function mapNodeHoverDetails(game: GameState, id: string) {
   const survey = mapNodeSurvey(game, id);
-  if (!survey.explored) return 'Map Node Unexplored';
-  return survey.resources.map(({ item, remaining }) => `${ITEM_NAMES[item]} ${Math.floor(remaining).toLocaleString()}`).join(' · ') || 'No mapped resources';
+  if (!survey.explored) return ['Map Node Unexplored'];
+  const resources = survey.resources.map(({ item, remaining }) => `${ITEM_NAMES[item]} ${Math.floor(remaining).toLocaleString()}`);
+  const camps = new Set(game.sectors[id].nodes.filter(node => node.kind === 'monster-camp').map(node => node.name));
+  return [...(resources.length ? resources : ['No mapped resources']), ...camps];
 }

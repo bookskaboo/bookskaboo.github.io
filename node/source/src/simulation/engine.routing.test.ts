@@ -73,6 +73,34 @@ describe('indexed world routing', () => {
     expect(target.input).toEqual({ 'iron-gear': 5, 'copper-wire': 5 });
   });
 
+  it('lets each Extractor send through chained Joints as shared input space opens', () => {
+    const engine = setup();
+    const sector = engine.getSector();
+    const first = node(sector, 'first', 'extractor', { stone: 3 });
+    const second = node(sector, 'second', 'extractor', { stone: 3 });
+    const third = node(sector, 'third', 'extractor', { stone: 3 });
+    const inlet = node(sector, 'inlet', 'joint');
+    const outlet = node(sector, 'outlet', 'joint');
+    const recycler = node(sector, 'recycler', 'recycler');
+    recycler.recipeId = 'recycle-stone';
+    recycler.input.stone = 10;
+    connect(sector, first, inlet);
+    connect(sector, second, inlet);
+    connect(sector, inlet, outlet);
+    connect(sector, third, outlet);
+    connect(sector, outlet, recycler);
+
+    engine.tick(400);
+    expect(engine.getState().inFlightTransfers).toHaveLength(0);
+    for (const source of [first, second, third, first]) {
+      recycler.input.stone = 9;
+      engine.tick(400);
+      expect(engine.getState().inFlightTransfers?.map(transfer => transfer.from)).toEqual([source.id]);
+      engine.tick(1000);
+      expect(recycler.input.stone).toBe(10);
+    }
+  });
+
   it('respects selected Smelter recipes and locks merger types as soon as an item is launched', () => {
     const engine = setup(); const sector = engine.getSector();
     const smelter = node(sector, 'smelter', 'smelter'); smelter.recipeId = 'smelt-iron';

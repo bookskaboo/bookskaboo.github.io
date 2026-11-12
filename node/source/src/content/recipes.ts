@@ -1,11 +1,13 @@
 import { ENDGAME_RECIPES } from './endgame';
-import { BOT_BUILDS, FINAL_BOT_PARTS } from './botAssembly';
-import type { Recipe } from '../domain/types';
+import { BOT_BUILDS, FINAL_BOT_PARTS, cargoMaterial } from './botAssembly';
+import type { ItemId, Recipe } from '../domain/types';
 import { LATE_RECIPES, LATE_GROUPS } from './progression';
+import { RECYCLER_BREAKDOWN_RECIPES, RECYCLER_RECOVERY } from './recycling';
 
 export const RECIPES: Record<string, Recipe> = {
   ...LATE_RECIPES, ...ENDGAME_RECIPES,
   ...FINAL_BOT_PARTS,
+  ...Object.fromEntries(RECYCLER_BREAKDOWN_RECIPES.map(recipe => [recipe.id, recipe])),
   ...Object.fromEntries(BOT_BUILDS.map(({ recipe }) => [recipe.id, recipe])),
   ...Object.fromEntries(BOT_BUILDS.map(({ legacyId, recipe }) => [legacyId, { ...recipe, id: legacyId, outputs: { [legacyId]: 1 } }])),
   charcoal: { id: 'charcoal', name: 'Charcoal', inputs: { wood: 1 }, outputs: { charcoal: 1 }, cycleMs: 3500 },
@@ -35,9 +37,11 @@ export const RECIPE_GROUPS: Record<string, string[]> = {
   smelter: ['smelt-iron', 'smelt-copper', 'smelt-mythril'],
   ...LATE_GROUPS,
   advancedAssembler: [...(LATE_GROUPS.advancedAssembler ?? []), ...Object.keys(FINAL_BOT_PARTS)],
+  separationFurnace: [...(LATE_GROUPS.separationFurnace ?? []), 'composite-mythril-gear', 'composite-mythril-wire'],
   botPlant: BOT_BUILDS.map(build => build.recipe.id),
+  recycler: [...Object.values(RECYCLER_RECOVERY), ...RECYCLER_BREAKDOWN_RECIPES.map(recipe => recipe.id)],
   refiner: ['iron-gear', 'copper-gear', 'mythril-gear', 'iron-wire', 'copper-wire', 'mythril-wire', 'brick', 'simple-core', ...(LATE_GROUPS.refiner ?? [])],
-  assembler: [...Object.keys(ENDGAME_RECIPES), 'composite-mythril-gear', 'composite-mythril-wire', 'motor', 'circuit-a', 'basic-core', 'automata-core', 'robot-frame', 'robot-gun'],
+  assembler: [...Object.keys(ENDGAME_RECIPES), 'motor', 'circuit-a', 'basic-core', 'automata-core', 'robot-frame', 'robot-gun'],
 };
 
 export function isRecipeUnlocked(id: string, completed: readonly string[]) {
@@ -47,6 +51,15 @@ export function isRecipeUnlocked(id: string, completed: readonly string[]) {
   if(id==='automata-core'&&!completed.includes('automataCore'))return false;
   if(['robot-frame','robot-gun'].includes(id)&&!completed.includes('suppressionBot'))return false;
   return true;
+}
+
+export function recyclerRecipeForMaterial(item: ItemId, completed: readonly string[]) {
+  if (item === 'water') return undefined;
+  const material = cargoMaterial(item);
+  return RECIPE_GROUPS.recycler?.find(id => {
+    const recipe = RECIPES[id];
+    return Boolean(recipe?.inputs[material] && recipe.inputs.water && isRecipeUnlocked(id, completed));
+  });
 }
 
 /** Definitions remain loadable for already-paid legacy batches. */

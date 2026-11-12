@@ -1,13 +1,13 @@
 import { CORNER_ITEMS, FOUNDRY_INPUTS } from './endgame';
 import { RECIPES } from './recipes';
-import { BOT_STRENGTH } from './botAssembly';
+import { BOT_STRENGTH, SUPPRESSION_BOT } from './botAssembly';
 import { NODE_FLAVOR } from './flavor';
 import { DEFERRED_POWER_NODES } from './deferredPower';
 import { LATE_NODES, WASTE_ITEMS } from './progression';
 import { ITEM_COLORS } from './items';
 import { getGolemMineral } from './resourceGolems';
 import { cartUpgrade, isCartKind } from './cartUpgrades';
-import type { MachineNode, NodeDefinition, NodeKind, PortFamily } from '../domain/types';
+import type { ItemId, MachineNode, NodeDefinition, NodeKind, PortFamily } from '../domain/types';
 import { selectedFilterPort } from '../domain/filterRouting';
 import { modNode, modNodeTemplate } from '../mods/modRules';
 
@@ -65,7 +65,7 @@ export const INVENTORY_UNLOCK_ID = 'autonomousLogistics' as const;
 /** Player-facing catalog from NODE: Another Factory Game. */
 export const NODE_DEFINITIONS: Record<NodeKind, NodeDefinition> = {
   ...LATE_NODES,
-  recycler: node({kind:'recycler',name:'Recycler',category:'Production',description:'Processes one item every two seconds. Returns at most one of each constituent solid resource; raw inputs return nothing. Mixed output needs filtering.',icon:'♻',input:['ANY'],output:['ANY'],unlockResearch:'recycler'}),
+  recycler: node({kind:'recycler',name:'Recycler',category:'Production',description:'Feed a recyclable material to select its recipe, and supply Water through the dedicated inlet. Use Filters to sort mixed output.',icon:'♻',input:['ANY','water'],output:['ANY'],unlockResearch:'recycler'}),
   cornerChallenge: node({kind:'cornerChallenge',name:'Ancient Camp',category:'World',description:'A fixed corner camp with a repeatable supply challenge. Deliver supplies to the camp and collect its piece from the linked Tribute box.',icon:'✦',input:['ANY'],output:[],hidden:true,size:'large'}),
   cornerTribute: node({kind:'cornerTribute',name:'Corner Tribute',category:'World',description:'Holds ten corner pieces. Transport them to the Yin and Yang assembly lines.',icon:'✧',input:[],output:['ANY'],hidden:true}),
   devSource: node({ kind: 'devSource', name: 'Dev Source', category: 'World', description: 'Automatically supplies each connected input with its required material. Procurement has been excused.', icon: '∞', input: [], output: ['ANY'], hidden: true }),
@@ -165,6 +165,10 @@ export const getEffectiveNodeInputFamilies = (node: MachineNode, completedResear
   const base = getNodeInputFamilies(node.kind, completedResearch);
   const recipe = node.recipeId ? RECIPES[node.recipeId] : undefined;
   if (!recipe) return base;
+  if (node.kind === 'recycler') {
+    const material = Object.keys(recipe.inputs).find(item => item !== 'water') as ItemId | undefined;
+    return [material === SUPPRESSION_BOT ? 'ATTACK_POWER' : material ?? 'ANY', 'water'];
+  }
   if (['kiln', 'smelter', 'refiner', 'assembler', 'hydroProcessor', 'advancedAssembler', 'separationFurnace'].includes(modNodeTemplate(node.kind))) {
     return Object.keys(recipe.inputs) as PortFamily[];
   }
@@ -178,6 +182,14 @@ export const getEffectiveNodeOutputFamilies = (node: MachineNode): readonly Port
   if (node.infiniteResource && node.resourceItem) return Array<PortFamily>(4).fill(node.resourceItem);
   if (node.kind === 'road' || node.kind === 'fluidRoad') return node.roadMode === 'import' ? NODE_DEFINITIONS[node.kind].output : [];
   const recipe = node.recipeId ? RECIPES[node.recipeId] : undefined;
+  if (recipe && node.kind === 'recycler') {
+    const products = new Set<ItemId>([
+      ...Object.keys(recipe.outputs) as ItemId[],
+      ...(recipe.chanceOutputs ?? []).map(output => output.item),
+      ...(Object.keys(node.output) as ItemId[]).filter(item => (node.output[item] ?? 0) > 0),
+    ]);
+    return products.size > 1 ? ['ANY'] : [...products];
+  }
   if (recipe && ['kiln', 'smelter', 'refiner', 'assembler','hydroProcessor','advancedAssembler','separationFurnace'].includes(modNodeTemplate(node.kind))) {
     const products = (Object.keys(recipe.outputs) as import('../domain/types').ItemId[]).filter(i=>!WASTE_ITEMS.includes(i));
     return Object.keys(recipe.outputs).some(i=>WASTE_ITEMS.includes(i as import('../domain/types').ItemId)) || recipe.chanceOutputs?.length ? ['ANY'] : products;

@@ -1,25 +1,24 @@
 import { applyExpansionRescue } from './expansionRescue';
 import { firstSpottedDwarvenCamp, DWARVEN_DISCOVERY_PROMPT } from '../tutorials/dwarvenDiscovery';
 import { endgameRank, reconcileHole, worldRecipeAllowed, FOUNDRY_INPUTS } from '../content/endgame';
-import { initializeEndgame, simulateCorner, simulateRecycler, cornerInputAllowed, syncCornerLayout } from './endgameRuntime';
-import { recyclerAccepts } from '../content/recycling';
+import { initializeEndgame, simulateCorner, cornerInputAllowed, syncCornerLayout } from './endgameRuntime';
 import { simulatePlanter } from '../content/forestry';
 import { activateMod, BASE_MOD_CONTENT } from '../mods/modContent';
 import { validateMod } from '../mods/modValidation';
 import { applyModNames, modCompatibilityError } from '../mods/modRuntime';
 import { modNode, modNodeTemplate, modRule, modWorldGridSize } from '../mods/modRules';
-import { HOME_SECTOR_ID, isWorldGridCell, worldGridBounds, worldGridSize } from '../domain/worldGrid';
+import { HOME_SECTOR_ID, isWorldGridCell, mapNodePosition, worldGridBounds, worldGridSize } from '../domain/worldGrid';
 import type { GameMod } from '../mods/modTypes';
 import { FactoryTemplateRuntime } from './factoryTemplateRuntime';
 import { ResearchRuntime } from './researchRuntime';
 import { getEffectiveNodeInputFamilies, getEffectiveNodeOutputFamilies, isNodeUnlocked, NODE_DEFINITIONS } from '../content/nodes';
 import { getNodeCapabilities, hasNodeBehavior, isResourceBehavior, needsRecipeSelection } from '../content/nodeCapabilities';
-import { isRecipeUnlocked, RECIPES, RECIPE_GROUPS } from '../content/recipes';
+import { isRecipeUnlocked, RECIPES, RECIPE_GROUPS, recyclerRecipeForMaterial } from '../content/recipes';
 import { cargoMaterial, MATCHED_BOTS } from '../content/botAssembly';
 import { RESEARCH_PROJECTS } from '../content/research';
-import { getEfficiencyMultiplier } from '../content/efficiency';
+import { getRecipeEfficiencyMultiplier } from '../content/efficiency';
 import { migrateRetiredNodes } from '../content/retiredNodes';
-import { LEGACY_NODE_DISPLAY_NAMES } from '../content/displayNameChanges';
+import { canonicalNodeName } from '../content/displayNameChanges';
 import { CONTROL_GROUP_COLORS, copyControlGroups, normalizeControlGroups, regroupControlNodes } from '../domain/controlGroups';
 import type { Connection, GameEvent, GameState, InFlightTransfer, ItemId, MachineNode, NodeKind, SectorState } from '../domain/types';
 import { getEncounterLayoutVersion, getGolemPlacementTier, getWorldFieldSize, normalizeWorldFieldSize, sectorDistance, sectorForState, sectorId, syncCornerLayouts } from './worldGeneration';
@@ -27,7 +26,7 @@ import { logisticsRoute } from './logisticsRoutes';
 import { routedConnectionFailure } from './connectionMaterials';
 import { isTutorialUnlocked, type ProgressiveTutorialKind } from '../tutorials/tutorialUnlocks';
 import { cablesUnderNode } from './cableInsertion';
-import { canPlaceNode } from './collisions';
+import { canPlaceNode, nodeInsideField, nodesOverlap } from './collisions';
 import { DEFERRED_POWER_NODES } from '../content/deferredPower';
 import { RESEARCH_CENTER_BASE_CYCLE_MS } from '../content/researchTiming';
 import { applyCartUpgrades, cartCapacity, cartUpgrade, isCartKind, vehiclePayload } from '../content/cartUpgrades';
@@ -55,6 +54,7 @@ import { initializeProgression, discoverActiveSector, simulateProgressionNode, s
 const clone = <T,>(value: T): T => structuredClone(value);
 const makeId = (prefix: string) => `${prefix}-${crypto.randomUUID?.() ?? Math.random().toString(36).slice(2)}`;
 const sum = (bag: Partial<Record<ItemId, number>>) => Object.values(bag).reduce<number>((a, b) => a + (b ?? 0), 0);
+type NodeLayoutCopy = Pick<SectorState, 'nodes' | 'connections' | 'controlGroups'>;
 export interface RoadPlacementTarget {
   sector: SectorState;
   endpoint: MachineNode;
@@ -88,6 +88,8 @@ export class GameEngine {
   private state: GameState;
   private listeners = new Set<() => void>();
   private history: GameState[] = [];
+  private copiedLayout?: NodeLayoutCopy;
+  private readonly lastExtractorDispatch = new WeakMap<Connection, number>();
   private transferAccumulator = 0;
   private publishAccumulator = 0;
   private autosaveAccumulator = 0;
@@ -151,8 +153,8 @@ export class GameEngine {
     initializeEndgame(this.state);
     applyCartUpgrades(this.state);
     for (const node of [...Object.values(this.state.sectors).flatMap(sector => sector.nodes), ...(this.state.factoryTemplates ?? []).flatMap(template => template.nodes)]) {
-      node.name = LEGACY_NODE_DISPLAY_NAMES[node.name] ?? node.name;
-      if (node.modBaseName) node.modBaseName = LEGACY_NODE_DISPLAY_NAMES[node.modBaseName] ?? node.modBaseName;
+      node.name = canonicalNodeName(node.kind, node.name);
+      if (node.modBaseName) node.modBaseName = canonicalNodeName(node.kind, node.modBaseName);
       if (node.kind === 'goblinTribute') node.name = 'Tribute';
       if (node.kind === 'monster-camp' && node.lizardSettlement) {
         node.name = getMonsterSettlementDefinition(node).name;
@@ -191,7 +193,7 @@ export class GameEngine {
     recoverRoadStock(this.state, (target, port, item, sector) => {
       if (!this.canAcceptAtInputPort(target, port, item, sector, lookups)) return 0;
       const pending = lookups.target(sector.id, target.id);
-      const reserved = this.inputUsesPerItemCapacity(target) ? pending?.counts[item] ?? 0 : pending?.transfers.reduce((n, t) => n + (t.amount ?? 1), 0) ?? 0;
+      const reserved = this.reservedInput(target, item, pending);
       return Math.max(0, this.inputCapacity(target, item) - this.inputOccupancy(target, item) - reserved);
     });
   }
@@ -212,6 +214,7 @@ export class GameEngine {
     const event: GameEvent = { id: makeId('event'), type, message, at: Date.now(), ...(projectId ? { projectId, elapsedMs } : {}) };
     this.state.events.unshift(event);
     if (type === 'ResearchCompleted') (this.state.researchLog ??= []).unshift(clone(event));
+    if (type === 'DepositDepleted') this.state.resourceDepletionLog = [event, ...(this.state.resourceDepletionLog ?? [])].slice(0, 16);
     this.state.events = this.state.events.slice(0, 12);
   }
 
@@ -276,8 +279,8 @@ export class GameEngine {
     this.deliverTransfers(this.state.playTimeMs);
     const sectors = Object.values(this.state.sectors).filter((s) => s.unlocked);
     const simulationLookups = new SimulationLookups(this.state);
-    let clearedHole = false;
-    for (const sector of sectors) clearedHole = this.simulateSector(sector, dt, simulationLookups) || clearedHole;
+    let publishImmediately = false;
+    for (const sector of sectors) publishImmediately = this.simulateSector(sector, dt, simulationLookups) || publishImmediately;
     this.evaluateMilestones();
     this.rescueAccumulator+=dt;
     if(this.rescueAccumulator>=1000&&!this.state.isTraining){this.rescueAccumulator%=1000;if(applyExpansionRescue(this.state))this.publish();}
@@ -288,7 +291,7 @@ export class GameEngine {
       sectors.forEach((sector) => { launched = this.routeSector(sector, this.state.playTimeMs, routingLookups) || launched; });
       if (launched) this.publish();
     }
-    if (clearedHole || this.publishAccumulator >= 750) { this.publishAccumulator %= 750; this.publish(); }
+    if (publishImmediately || this.publishAccumulator >= 750) { this.publishAccumulator %= 750; this.publish(); }
     if (this.options.autosave !== false && this.autosaveAccumulator >= this.state.preferences.autosaveMinutes * 60000) {
       this.autosaveAccumulator = 0;
       localStorage.setItem(AUTOSAVE_KEY, JSON.stringify(this.state));
@@ -302,6 +305,7 @@ export class GameEngine {
       (this.state.inFlightTransfers ??= []).push({ ...supply, id: makeId('dev-pulse'), sectorId: sector.id, launchedAtMs: this.state.playTimeMs, arrivesAtMs: this.state.playTimeMs + modRule('cableTravelMs'), cosmeticOnly: true });
     }
     const depleted: string[] = [];
+    let resourceDepleted = false;
     const filledHoles: MachineNode[] = [];
     const checkedCamps: MachineNode[] = [];
     for (const node of sector.nodes) {
@@ -311,7 +315,6 @@ export class GameEngine {
       if (node.processingPaused) continue;
       if(node.kind==='cornerChallenge'){simulateCorner(this.state,sector,node);continue;}
       if(node.kind==='cornerTribute')continue;
-      if(node.kind==='recycler'){simulateRecycler(node,dt);continue;}
       if (node.kind === 'goblinTribute') {
         produceGoblinTribute(this.state, node, sector.nodes.find(camp => camp.id === node.tributeCampId && camp.kind === 'monster-camp'), dt);
         continue;
@@ -453,7 +456,14 @@ export class GameEngine {
         const duration = node.cycleMs * this.efficiencyMultiplier('extractor');
         if (node.progressMs >= duration) {
           node.progressMs %= duration;
-          if (!source.infiniteResource) source.resourceRemaining = Math.max(0, (source.resourceRemaining ?? 0) - 1);
+          if (!source.infiniteResource) {
+            source.resourceRemaining = Math.max(0, (source.resourceRemaining ?? 0) - 1);
+            if (source.resourceRemaining === 0) {
+              sector.resourceDepletionPending = true;
+              resourceDepleted = true;
+              this.event('DepositDepleted', `${ITEM_NAMES[item]} reserve depleted at ${mapNodePosition(sector.x, sector.y)}.`);
+            }
+          }
           node.output[item] = (node.output[item] ?? 0) + 1;
           const route = [...resourceRoute!.connections, resourceEdge];
           route.forEach(cable => { cable.item = item; });
@@ -465,14 +475,31 @@ export class GameEngine {
       }
       if (hasNodeBehavior(node.kind, 'research')) { this.research.simulateResearch(node, dt); continue; }
       if (hasNodeBehavior(node.kind, 'planter')) { simulatePlanter(this.state, node, dt); continue; }
-      if(simulateExtendedRecipe(this.state,node,dt,this.efficiencyMultiplier(node.kind)))continue;
+      if (node.kind === 'recycler' && !node.recipeId && !node.batch) {
+        for (const [item, amount] of Object.entries(node.input) as [ItemId, number][]) {
+          if (amount > 0) this.selectRecyclerRecipeFromMaterial(node, item);
+          if (node.recipeId) break;
+        }
+      }
+      const multiplier = this.efficiencyMultiplier(node.kind, node.batch?.recipeId ?? node.recipeId);
+      if (simulateExtendedRecipe(this.state, node, dt, multiplier)) {
+        if (node.kind === 'recycler' && node.recipeId && !node.batch) {
+          const recipe = RECIPES[node.recipeId];
+          const waitingMaterial = Object.entries(node.input).some(([item, amount]) => item !== 'water' && (amount ?? 0) > 0);
+          const incomingMaterial = lookups.target(sector.id, node.id)?.transfers.some(transfer => transfer.item !== 'water');
+          if (recipe && !sum(recipe.outputs) && !recipe.chanceOutputs?.length && !waitingMaterial && !incomingMaterial) {
+            delete node.recipeId;
+          }
+        }
+        continue;
+      }
       const recipe = node.recipeId ? RECIPES[node.recipeId] : undefined;
       if (!recipe) continue;
       const hasInputs = Object.entries(recipe.inputs).every(([item, count]) => (node.input[item as ItemId] ?? 0) >= (count ?? 0));
       const hasOutputRoom = sum(node.output) + sum(recipe.outputs) <= (modNode(node.kind)?.capacity ?? 5);
       if (!hasInputs || !hasOutputRoom) { node.progressMs = 0; continue; }
       node.progressMs += dt;
-      const duration = recipe.cycleMs * this.efficiencyMultiplier(node.kind);
+      const duration = recipe.cycleMs * multiplier;
       if (node.progressMs >= duration) {
         node.progressMs %= duration;
         Object.entries(recipe.inputs).forEach(([item, count]) => { node.input[item as ItemId] = (node.input[item as ItemId] ?? 0) - (count ?? 0); });
@@ -488,7 +515,6 @@ export class GameEngine {
       this.cancelTransfers(new Set(sector.connections.filter((connection) => connection.from === id || connection.to === id).map((connection) => connection.id)));
       source.kind = 'big-hole'; source.name = 'Deep Hole'; source.resourceItem = undefined; source.resourceRemaining = 250; source.holeBaseStone=250;source.holeStoneConsumed=0; source.resourceCapacity = undefined; source.obstructionRadius = 38 * Math.sqrt(10); source.input = {}; source.output = {}; source.progressMs = 0;
       sector.connections = sector.connections.filter((connection) => connection.from !== id && connection.to !== id);
-      this.event('DepositDepleted', 'A depleted deposit collapsed into a Deep Hole.');
     });
     this.clearFilledHoles(sector, filledHoles);
     this.removeDefeatedGolemCables(sector);
@@ -499,7 +525,7 @@ export class GameEngine {
       if (tribute) { sector.nodes.push(tribute); this.event('NodePlaced', `${camp.name} is suppressed and now supplies configurable tribute.`); }
     }
     sector.lastSimulatedAt = Date.now();
-    return filledHoles.length > 0;
+    return resourceDepleted || filledHoles.length > 0;
   }
 
   private removeDefeatedGolemCables(sector: SectorState) {
@@ -565,9 +591,9 @@ export class GameEngine {
     return undefined;
   }
 
-  private efficiencyMultiplier(kind: NodeKind) {
+  private efficiencyMultiplier(kind: NodeKind, recipeId?: string) {
     const prefix = getNodeCapabilities(kind).efficiencyFamily;
-    return getEfficiencyMultiplier(prefix, this.state.research.completed);
+    return getRecipeEfficiencyMultiplier(recipeId, prefix, this.state.research.completed);
   }
 
   /** Commit one item only when both local wiring and the remote destination are ready. */
@@ -628,7 +654,17 @@ export class GameEngine {
   }
 
   private inputOccupancy(node: MachineNode, item: ItemId) {
+    if (node.kind === 'recycler') return item === 'water' ? node.input.water ?? 0 : sum(node.input) - (node.input.water ?? 0);
     return this.inputUsesPerItemCapacity(node) ? (node.input[item] ?? 0) : sum(node.input);
+  }
+
+  private reservedInput(node: MachineNode, item: ItemId, pending: ReturnType<SimulationLookups['target']>) {
+    if (!pending) return 0;
+    if (node.kind === 'recycler') return item === 'water' ? pending.counts.water ?? 0
+      : pending.transfers.reduce((total, transfer) => total + (transfer.item !== 'water' ? transfer.amount ?? 1 : 0), 0);
+    if (this.inputUsesPerItemCapacity(node)) return pending.counts[item] ?? 0;
+    const reserved = pending.transfers.reduce((total, transfer) => total + (transfer.amount ?? 1), 0);
+    return reserved;
   }
 
   private mergerItem(node: MachineNode, sector: SectorState, lookups: SimulationLookups) {
@@ -641,11 +677,25 @@ export class GameEngine {
     return lookups.sector(sector).incoming.get(node.id)?.find((connection) => connection.item)?.item;
   }
 
+  private selectRecyclerRecipeFromMaterial(node: MachineNode, item: ItemId) {
+    if (node.kind !== 'recycler' || item === 'water') return;
+    const id = recyclerRecipeForMaterial(item, this.state.research.completed);
+    if (!id || id === node.recipeId) return;
+    node.recipeId = id;
+    node.cycleMs = RECIPES[id].cycleMs;
+    node.progressMs = 0;
+  }
+
   private canAcceptAtInputPort(node: MachineNode, port: number, item: ItemId, sector: SectorState, lookups: SimulationLookups, ignoredTransferId?: string, routingPath = new Set<string>()) {
-    if(node.kind==='recycler'&&!recyclerAccepts(item))return false;
     if(node.kind==='cornerChallenge'&&!cornerInputAllowed(sector,node))return false;
     if (!inputPortAcceptsItem(node, port, item, this.state.research.completed)) return false;
     if (!roadInputAccepts(this.state, sector, node, item)) return false;
+    if (port === 0 && node.kind === 'recycler') {
+      if (node.recipeId === recyclerRecipeForMaterial(item, this.state.research.completed)) return true;
+      // Finish the active recipe and drain its stock before allowing another material.
+      return !node.batch && !this.inputOccupancy(node, item) && !sum(node.output) &&
+        !lookups.target(sector.id, node.id)?.transfers.some(transfer => transfer.id !== ignoredTransferId && transfer.item !== 'water');
+    }
     if (node.kind === 'filter') {
       if (routingPath.has(node.id)) return false;
       return !this.filterBlockage(node, sector, lookups, new Set(routingPath).add(node.id), item);
@@ -664,7 +714,7 @@ export class GameEngine {
         if (!target || target.disabled || seen.has(target.id) || !this.canAcceptAtInputPort(target, cable.toPort ?? 0, item, sector, lookups, ignoredTransferId, path)) continue;
         seen.add(target.id);
         const pending = lookups.target(sector.id, target.id);
-        space += Math.max(0, this.inputCapacity(target, item) - this.inputOccupancy(target, item) - (this.inputUsesPerItemCapacity(target) ? pending?.counts[item] ?? 0 : pending?.transfers.reduce((n, t) => n + (t.amount ?? 1), 0) ?? 0));
+        space += Math.max(0, this.inputCapacity(target, item) - this.inputOccupancy(target, item) - (this.reservedInput(target, item, pending)));
       }
       return space > queued;
     }
@@ -698,7 +748,7 @@ export class GameEngine {
       const ready = (index.outgoing.get(node.id) ?? []).filter(edge => (edge.fromPort ?? 0) === outlet).some(edge => logisticsRoute(edge, item, sector, this.state.research.completed, (target, port) => {
         if (!this.canAcceptAtInputPort(target, port, item, sector, lookups, undefined, path)) return false;
         const pending = lookups.target(sector.id, target.id);
-        const reserved = this.inputUsesPerItemCapacity(target) ? pending?.counts[item] ?? 0 : pending?.transfers.reduce((sum, t) => sum + (t.amount ?? 1), 0) ?? 0;
+        const reserved = this.reservedInput(target, item, pending);
         return this.inputOccupancy(target, item) + reserved < this.inputCapacity(target, item);
       }, index));
       if (!ready) return outlet === selectedFilterPort(node) ? 'selected' : 'remainder';
@@ -730,6 +780,7 @@ export class GameEngine {
       const occupied = target ? this.inputOccupancy(target, transfer.item) : 0;
       const validSocket = Boolean(target && connection && sector && this.canAcceptAtInputPort(target, connection.toPort ?? 0, transfer.item, sector, lookups, transfer.id));
       if (target && connection && validSocket && occupied + (transfer.amount ?? 1) <= this.inputCapacity(target, transfer.item)) {
+        this.selectRecyclerRecipeFromMaterial(target, transfer.item);
         target.input[transfer.item] = (target.input[transfer.item] ?? 0) + (transfer.amount ?? 1);
         if (getNodeCapabilities(target.kind).behavior === 'buffer') (target.inputQueue ??= []).push(...Array<ItemId>(transfer.amount ?? 1).fill(transfer.item));
       } else if (source) {
@@ -807,7 +858,7 @@ export class GameEngine {
     return logisticsRoute(connection, item, sector, this.state.research.completed, (destination, port) => {
       if (!this.canAcceptAtInputPort(destination, port, item, sector, lookups)) return false;
       const pending = lookups.target(sector.id, destination.id);
-      const reserved = this.inputUsesPerItemCapacity(destination) ? pending?.counts[item] ?? 0 : pending?.transfers.reduce((n, t) => n + (t.amount ?? 1), 0) ?? 0;
+      const reserved = this.reservedInput(destination, item, pending);
       return this.inputOccupancy(destination, item) + reserved < this.inputCapacity(destination, item);
     }, lookups.sector(sector));
   }
@@ -815,8 +866,15 @@ export class GameEngine {
   private routeSector(sector: SectorState, nowMs = this.state.playTimeMs, lookups = new SimulationLookups(this.state)) {
     let launched = false;
     const index = lookups.sector(sector);
+    const isExtractorCable = (cable: Connection) => index.nodes.get(cable.from)?.kind === 'extractor';
+    // A shared destination can free only one space at a time. Give it to the
+    // longest-waiting eligible Extractor while keeping other cable priorities.
+    const extractors = sector.connections.filter(isExtractorCable).sort((a, b) =>
+      (this.lastExtractorDispatch.get(a) ?? -1) - (this.lastExtractorDispatch.get(b) ?? -1));
+    let nextExtractor = 0;
     for (const node of sector.nodes) if (node.kind === 'filter') node.filterBlocked = this.filterBlockage(node, sector, lookups);
-    for (const connection of sector.connections) {
+    for (const cable of sector.connections) {
+      const connection = isExtractorCable(cable) ? extractors[nextExtractor++] : cable;
       if (!index.connections.has(connection.id)) continue;
       const source = index.nodes.get(connection.from);
       let target = index.nodes.get(connection.to);
@@ -837,7 +895,7 @@ export class GameEngine {
           return (Object.keys(source.output) as ItemId[]).some((item) => {
             if ((source.output[item] ?? 0) <= 0 || !this.resolveDeliveryRoute(candidate, item, sector, lookups) || !portFamilyAcceptsItem(getEffectiveNodeOutputFamilies(source)[candidate.fromPort ?? 0] ?? 'ANY', item) || !this.canAcceptAtInputPort(destination, candidate.toPort ?? 0, item, sector, lookups)) return false;
             const pending = lookups.target(sector.id, destination.id);
-            const reserved = this.inputUsesPerItemCapacity(destination) ? pending?.counts[item] ?? 0 : pending?.transfers.reduce((n, t) => n + (t.amount ?? 1), 0) ?? 0;
+            const reserved = this.reservedInput(destination, item, pending);
             return this.inputOccupancy(destination, item) + reserved < this.inputCapacity(destination, item);
           });
         });
@@ -857,9 +915,8 @@ export class GameEngine {
       if (!route) continue;
       target = route.target;
       const cap = this.inputCapacity(target, item);
-      const perItemCapacity = this.inputUsesPerItemCapacity(target);
       const pending = lookups.target(sector.id, target.id);
-      const pendingForTarget = perItemCapacity ? pending?.counts[item] ?? 0 : pending?.transfers.reduce((n, t) => n + (t.amount ?? 1), 0) ?? 0;
+      const pendingForTarget = this.reservedInput(target, item, pending);
       const occupied = this.inputOccupancy(target, item);
       if (occupied + pendingForTarget >= cap) continue;
       const fastRate=source.kind==='goblinTribute'?10:(item==='water'||(item==='coolant'&&[source.kind,target.kind].includes('fluidLink')))&&(source.kind!=='lake')?16:(WASTE_ITEMS.includes(item)&&[source.kind,target.kind].includes('wasteHopper'))?40:item==='power'&&[source.kind,target.kind].includes('powerConduit')?25:0;
@@ -869,6 +926,7 @@ export class GameEngine {
         const queuedAmount = nextItemIndex >= 0 ? nextItemIndex : source.outputQueue?.length ?? Infinity;
         const amount = Math.min(Math.floor(connection.batchCredit), source.output[item] ?? 0, queuedAmount, cap - occupied - pendingForTarget);
         if (amount > 0) {
+          this.selectRecyclerRecipeFromMaterial(target, item);
           takeOutput(source, item, amount);
           target.input[item] = (target.input[item] ?? 0) + amount;
           if (getNodeCapabilities(target.kind).behavior === 'buffer') (target.inputQueue ??= []).push(...Array<ItemId>(amount).fill(item));
@@ -883,12 +941,14 @@ export class GameEngine {
       const runLength = source.outputQueue ? source.outputQueue.findIndex(key => key !== item) : -1;
       const amount = Math.min(payload, source.output[item] ?? 0, cap - occupied - pendingForTarget, source.outputQueue ? runLength < 0 ? source.outputQueue.length : runLength : Infinity);
       if (amount <= 0) continue;
+      this.selectRecyclerRecipeFromMaterial(target, item);
       takeOutput(source, item, amount);
       route.connections.forEach(cable => { cable.item = item; });
       route.routers.forEach(({ node, outputIndex }) => { if (getNodeCapabilities(node.kind).alternatingOutputs) node.alternator = outputIndex + 1; });
       const transfer = { id: makeId('transfer'), sectorId: sector.id, connectionId: connection.id, routeConnectionIds: route.connections.length > 1 ? route.connections.map(cable => cable.id) : undefined, from: source.id, to: target.id, item, amount, launchedAtMs: nowMs, arrivesAtMs: nowMs + modRule('cableTravelMs') };
       (this.state.inFlightTransfers ??= []).push(transfer);
       lookups.launched(transfer);
+      if (source.kind === 'extractor') this.lastExtractorDispatch.set(connection, nowMs);
       launched = true;
       if (sourceCapabilities.alternatingOutputs) source.alternator = index.outgoing.get(source.id)!.findIndex(candidate => candidate.id === connection.id) + 1;
       this.event('TransferStarted', `${ITEM_NAMES[item] ?? item} routed to ${target.name}.`);
@@ -900,7 +960,7 @@ export class GameEngine {
         const target = index.nodes.get(cable.to);
         if (!target || target.disabled || !this.canAcceptAtInputPort(target, cable.toPort ?? 0, item, sector, lookups)) return false;
         const pending = lookups.target(sector.id, target.id);
-        return this.inputOccupancy(target, item) + (this.inputUsesPerItemCapacity(target) ? pending?.counts[item] ?? 0 : pending?.transfers.reduce((n, t) => n + (t.amount ?? 1), 0) ?? 0) < this.inputCapacity(target, item);
+        return this.inputOccupancy(target, item) + (this.reservedInput(target, item, pending)) < this.inputCapacity(target, item);
       });
       const preferred = modNodeTemplate(node.kind) === 'splitter' ? inputs.find(canRoute) : undefined;
       const item = preferred ?? inputs[0];
@@ -953,7 +1013,7 @@ export class GameEngine {
     const recipeId = defaultRecipe && (!configuredRecipes || configuredRecipes.includes(defaultRecipe)) ? defaultRecipe : undefined;
     const node: MachineNode = {
       id: preview ? '__placement-preview__' : makeId(kind), kind, name: def.name, x, y, rotation: 0, recipeId, input: {}, output: {}, progressMs: 0,
-      cycleMs: recipeId ? RECIPES[recipeId].cycleMs : capabilities.behavior === 'research' ? RESEARCH_CENTER_BASE_CYCLE_MS : kind === 'recycler' ? 2000 : kind === 'extractor' ? 5000 : capabilities.behavior === 'recipe' ? 0 : 1000, constructedAt: Date.now(), constructionMs: kind === 'devSource' ? 0 : 1500,
+      cycleMs: recipeId ? RECIPES[recipeId].cycleMs : capabilities.behavior === 'research' ? RESEARCH_CENTER_BASE_CYCLE_MS : kind === 'extractor' ? 5000 : capabilities.behavior === 'recipe' ? 0 : 1000, constructedAt: Date.now(), constructionMs: kind === 'devSource' ? 0 : 1500,
       capacity: BASE_MOD_CONTENT.capabilities[modNodeTemplate(kind)].defaultCapacity,
       ...(modNode(kind)?.name ? { modBaseName: BASE_MOD_CONTENT.nodes[modNodeTemplate(kind)].name } : {}),
       ...(capabilities.defaultFilterItem ? { filterItem: capabilities.defaultFilterItem } : {}),
@@ -1401,42 +1461,91 @@ export class GameEngine {
     }
     this.publish();
   }
-  duplicateNodes(ids: string[]) {
+  private captureNodeLayout(ids: readonly string[]): NodeLayoutCopy | undefined {
     const sector = this.getSector();
-    const source = sector.nodes.filter((n) => ids.includes(n.id) && !n.protected && isPlayerMovableNode(n.kind) &&
+    const selected = new Set(ids);
+    const nodes = sector.nodes.filter((n) => selected.has(n.id) && !n.protected && isPlayerMovableNode(n.kind) &&
       getNodeCapabilities(n.kind).duplicateAllowed !== false && (!n.recipeId || RECIPE_GROUPS[n.kind]?.includes(n.recipeId)) &&
       ((NODE_DEFINITIONS[n.kind].category !== 'Storage' && !isCartKind(n.kind)) || isNodeUnlocked(n.kind, this.state.research.unlocked)));
-    if (!source.length) return [];
-    const map = new Map<string, string>();
-    const copyIds = new Map(source.map((node) => [node.id, makeId(node.kind)]));
-    const field = getWorldFieldSize(this.state);
-    const step = Math.max(150, ...source.map((node) => Math.max(getNodeSize(node).w, getNodeSize(node).h) + 30));
+    if (!nodes.length) return;
+    const copied = new Set(nodes.map(node => node.id));
+    return clone({ nodes: nodes.map(node => ({ ...node,
+      input: {}, output: {}, batch: undefined, growthCredit: 0, outputQueue: [], inputQueue: [],
+      filterBlocked: undefined, progressMs: 0, groupId: undefined,
+      miningProgress: undefined, transferProgressMs: undefined, researchConsumption: undefined,
+    })),
+      connections: sector.connections.filter(cable => copied.has(cable.from) && copied.has(cable.to)),
+      controlGroups: sector.controlGroups?.filter(group => group.nodeIds.every(id => copied.has(id))),
+    });
+  }
+
+  copyNodes(ids: readonly string[]) {
+    const layout = this.captureNodeLayout(ids);
+    if (!layout) return false;
+    this.copiedLayout = layout;
+    return true;
+  }
+
+  hasCopiedNodes() { return this.copiedLayout !== undefined; }
+
+  getPastePreview(center: { x: number; y: number }) {
+    const layout = this.copiedLayout;
+    if (!layout) return;
+    const offset = {
+      x: center.x - (Math.min(...layout.nodes.map(node => node.x)) + Math.max(...layout.nodes.map(node => node.x))) / 2,
+      y: center.y - (Math.min(...layout.nodes.map(node => node.y)) + Math.max(...layout.nodes.map(node => node.y))) / 2,
+    };
+    const nodes = this.offsetLayoutNodes(layout, offset);
+    const unlocked = layout.nodes.every(({ kind, recipeId }) => isNodeUnlocked(kind, this.state.research.unlocked) &&
+      (!recipeId || (RECIPE_GROUPS[kind]?.includes(recipeId) && isRecipeUnlocked(recipeId, this.state.research.completed) &&
+        worldRecipeAllowed(recipeId, this.state))));
+    return { nodes, connections: layout.connections, valid: unlocked && this.canPlaceNodeLayout(nodes, layout.connections) };
+  }
+
+  pasteNodes(center: { x: number; y: number }) {
+    const preview = this.getPastePreview(center);
+    return preview?.valid && this.copiedLayout ? this.placeNodeLayout(this.copiedLayout, preview.nodes) : [];
+  }
+
+  duplicateNodes(ids: string[]) {
+    const layout = this.captureNodeLayout(ids);
+    if (!layout) return [];
+    const step = Math.max(150, ...layout.nodes.map((node) => Math.max(getNodeSize(node).w, getNodeSize(node).h) + 30));
     const offsets: Array<{ x: number; y: number }> = [];
     for (let ring = 1; ring <= 12; ring++) {
       for (let x = -ring; x <= ring; x++) offsets.push({ x: x * step, y: -ring * step }, { x: x * step, y: ring * step });
       for (let y = -ring + 1; y < ring; y++) offsets.push({ x: -ring * step, y: y * step }, { x: ring * step, y: y * step });
     }
-    let copies: MachineNode[] | undefined;
     for (const offset of offsets) {
-      const candidates = source.map((node) => {
-        const copy = clone(node); copy.id = copyIds.get(node.id)!; copy.x += offset.x; copy.y += offset.y; copy.input = {}; copy.output = {}; copy.batch=undefined;copy.growthCredit=0;copy.outputQueue=[];copy.inputQueue=[];copy.filterBlocked=undefined;copy.progressMs = 0; copy.constructedAt = Date.now(); return copy;
-      });
-      if (!candidates.every((copy) => canPlaceNode(copy, sector.nodes, field))) continue;
-      const candidateBySourceId = new Map(source.map((node, index) => [node.id, candidates[index]]));
-      const nodesAfterCopy = [...sector.nodes, ...candidates];
-      const internalConnectionsValid = sector.connections.filter((connection) => candidateBySourceId.has(connection.from) && candidateBySourceId.has(connection.to)).every((connection) => {
-        const from = candidateBySourceId.get(connection.from)!; const to = candidateBySourceId.get(connection.to)!;
-        return !connectionBlockedByWorld(from, to, { fromPort: connection.fromPort ?? 0, toPort: connection.toPort ?? 0 }, nodesAfterCopy);
-      });
-      if (internalConnectionsValid) { copies = candidates; break; }
+      const nodes = this.offsetLayoutNodes(layout, offset);
+      if (this.canPlaceNodeLayout(nodes, layout.connections)) return this.placeNodeLayout(layout, nodes);
     }
-    if (!copies) return [];
-    source.forEach((node) => map.set(node.id, copyIds.get(node.id)!));
+    return [];
+  }
+
+  private offsetLayoutNodes(layout: NodeLayoutCopy, offset: { x: number; y: number }) {
+    return layout.nodes.map(node => ({ ...node, x: node.x + offset.x, y: node.y + offset.y }));
+  }
+
+  private canPlaceNodeLayout(nodes: MachineNode[], connections: Connection[]) {
+    const sector = this.getSector();
+    const field = getWorldFieldSize(this.state);
+    if (!nodes.every(node => nodeInsideField(node, field) && !sector.nodes.some(other => nodesOverlap(node, other)))) return false;
+    const byId = new Map(nodes.map(node => [node.id, node]));
+    return connections.every(({ from, to, fromPort = 0, toPort = 0 }) =>
+      !connectionBlockedByWorld(byId.get(from)!, byId.get(to)!, { fromPort, toPort }, sector.nodes));
+  }
+
+  private placeNodeLayout(layout: NodeLayoutCopy, nodes: MachineNode[]) {
+    const sector = this.getSector();
+    const now = Date.now();
+    const copyIds = new Map(nodes.map(node => [node.id, makeId(node.kind)]));
+    const copies = nodes.map(node => ({ ...clone(node), id: copyIds.get(node.id)!, constructedAt: now }));
     this.checkpoint();
     sector.nodes.push(...copies);
-    const copiedConnections = sector.connections.filter((c) => map.has(c.from) && map.has(c.to)).map((c) => ({ ...c, id: makeId('cable'), from: map.get(c.from)!, to: map.get(c.to)! }));
+    const copiedConnections = layout.connections.map(c => ({ ...c, id: makeId('cable'), from: copyIds.get(c.from)!, to: copyIds.get(c.to)!, createdAt: now, batchCredit: undefined }));
     sector.connections.push(...copiedConnections);
-    sector.controlGroups = [...(sector.controlGroups ?? []), ...copyControlGroups(sector.controlGroups ?? [], map, () => makeId('control-group'))];
+    sector.controlGroups = [...(sector.controlGroups ?? []), ...copyControlGroups(layout.controlGroups ?? [], copyIds, () => makeId('control-group'))];
     this.publish();
     return copies.map((n) => n.id);
   }
@@ -1444,7 +1553,7 @@ export class GameEngine {
     const nodes = this.getSector().nodes;
     const source = nodes.find(node => node.id === sourceId);
     const target = nodes.find(node => node.id === targetId);
-    if (!source?.recipeId || !target || source.id === target.id || source.kind !== target.kind || source.disabled || target.disabled) return false;
+    if (!source?.recipeId || !target || source.id === target.id || source.kind !== target.kind || source.kind === 'recycler' || source.disabled || target.disabled) return false;
     return this.setRecipe(target.id, source.recipeId);
   }
   setRecipe(nodeId: string, recipeId: string) {
@@ -1476,6 +1585,7 @@ export class GameEngine {
     this.publish();
     return true;
   }
+
   saveFactoryTemplate(name: string, ids: string[]) { return this.templates.saveFactoryTemplate(name, ids); }
   getTemplatePreview(index: number, x: number, y: number) { return this.templates.getTemplatePreview(index, x, y); }
   placeFactoryTemplate(index: number, x: number, y: number) { return this.templates.placeFactoryTemplate(index, x, y); }
@@ -1621,7 +1731,13 @@ export class GameEngine {
   undo() { const previous = this.history.pop(); if (previous) {
     previous.encounters = [...new Set([...(previous.encounters ?? []), ...(this.state.encounters ?? [])])];
     previous.tutorialPromptsSeen = [...new Set([...(previous.tutorialPromptsSeen ?? []), ...(this.state.tutorialPromptsSeen ?? [])])];
-    for (const [id, sector] of Object.entries(this.state.sectors)) if (sector.visited && previous.sectors[id]) previous.sectors[id].visited = true;
+    previous.resourceDepletionLog = this.state.resourceDepletionLog;
+    for (const [id, sector] of Object.entries(this.state.sectors)) {
+      const previousSector = previous.sectors[id];
+      if (!previousSector) continue;
+      if (sector.visited) previousSector.visited = true;
+      previousSector.resourceDepletionPending = sector.resourceDepletionPending;
+    }
     this.state = previous;
     if (this.realtimeTickAt !== undefined) this.startRealtimeClock();
     activateMod(this.state.mod); initializeProgression(this.state); applyCartUpgrades(this.state); applyModNames(this.state); this.evaluateMilestones(); this.publish();
@@ -1640,6 +1756,7 @@ export class GameEngine {
     const sector = this.state.sectors[id]; if (!sector?.unlocked) return;
     syncCornerLayout(sector, getWorldFieldSize(this.state), this.state);
     if (!sector.visited && firstVisitCamera) sector.camera = { ...firstVisitCamera };
+    if (id !== this.state.activeSectorId) delete sector.resourceDepletionPending;
     this.state.activeSectorId = id; discoverActiveSector(this.state);this.evaluateMilestones();this.publish();
   }
   ensureSector(x: number, y: number) {

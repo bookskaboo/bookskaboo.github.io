@@ -3,7 +3,7 @@ import { SUPPRESSION_BOT_NAME } from '../content/botAssembly';
 import { getNodeCapabilities } from '../content/nodeCapabilities';
 import { NODE_DEFINITIONS } from '../content/nodes';
 import { getNodeModule } from '../content/nodeModules';
-import { getEfficiencyMultiplier } from '../content/efficiency';
+import { getRecipeEfficiencyMultiplier, getRecoveryMultiplier } from '../content/efficiency';
 import { CORNER_ITEMS, landfillTotal } from '../content/endgame';
 import { modNode } from '../mods/modRules';
 import { RECIPES } from '../content/recipes';
@@ -64,7 +64,8 @@ export const canCyclePortPositions = (node: MachineNode) => {
 };
 export const nodeCycleDuration = (node: MachineNode, unlocked: readonly string[]) => {
   const prefix = getNodeCapabilities(node.kind).efficiencyFamily;
-  const multiplier = getEfficiencyMultiplier(prefix, unlocked);
-  return (RECIPES[node.batch?.recipeId ?? node.recipeId ?? '']?.cycleMs ?? node.cycleMs) * multiplier;
+  const recipe = RECIPES[node.batch?.recipeId ?? node.recipeId ?? ''];
+  const multiplier = getRecipeEfficiencyMultiplier(recipe?.id, prefix, unlocked);
+  return (recipe?.cycleMs ?? node.cycleMs) * multiplier * getRecoveryMultiplier(recipe, unlocked);
 };
 

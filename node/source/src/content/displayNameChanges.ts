@@ -10,9 +10,11 @@ export function canonicalCoreText(text: string) {
 export const LEGACY_NODE_DISPLAY_NAMES: Record<string, string> = {
   'Charcoal Generator': 'Generator',
   'Hydro Processor': 'Hydro Plant',
-  'Advanced Assembler': 'Assembler II',
-  'Separation Furnace': 'Separator',
-  'Abandoned Fabricator': 'Fabricator',
+  'Advanced Assembler': 'Fabricator',
+  'Assembler II': 'Fabricator',
+  'Separation Furnace': 'Synthesizer',
+  'Separator': 'Synthesizer',
+  'Abandoned Fabricator': 'Fabricator Ruin',
   'Derelict Sorting Station': 'Sorting Ruin',
   'Power Conduit': 'Power Line',
   'Fluid Storage': 'Fluid Tank',
@@ -20,3 +22,9 @@ export const LEGACY_NODE_DISPLAY_NAMES: Record<string, string> = {
   'Waste Hopper': 'Waste Bin',
   'Goblin Tribute': 'Tribute',
 };
+
+export function canonicalNodeName(kind: string, name: string) {
+  if (kind === 'abandonedFabricator' && name === 'Fabricator') return 'Fabricator Ruin';
+  if (kind === 'monster-camp' && name === 'Small Goblin Camp') return 'Goblin Camp';
+  return LEGACY_NODE_DISPLAY_NAMES[name] ?? name;
+}

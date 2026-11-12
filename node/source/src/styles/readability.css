@@ -54,8 +54,6 @@ body,button,input,select,textarea {
 .mods-bag legend,
 .map-survey-list h3,
 .map-survey-list li,
-.tutorial-choice h3,
-.tutorial-reference h3,
 .research-tree-node strong,
 .welcome-points b {
   font: var(--modal-card-font);
@@ -141,12 +139,11 @@ body,button,input,select,textarea {
 .option-action small, .toggle-row small, .dev-note small, .save-local-note small {
   margin-block-start:var(--modal-label-gap);
 }
-.panel-note p b, .tutorial-choice h3, .tutorial-reference h3 { margin-block-end:var(--modal-label-gap); }
+.panel-note p b { margin-block-end:var(--modal-label-gap); }
 .confirm-modal .warning-icon { margin-block-end:var(--modal-section-gap); }
 .confirm-modal > p { margin:var(--modal-paragraph-gap) 0 var(--modal-section-gap); }
-.interaction-explanation p, .tutorial-callout p { margin:var(--modal-paragraph-gap) 0 0; }
-.tutorial-library-note, .tutorial-unlock-copy, .mods-intro { margin:0 0 var(--modal-paragraph-gap); }
-.tutorial-reference p + p { margin-block-start:var(--modal-paragraph-gap); }
+.interaction-explanation p { margin:var(--modal-paragraph-gap) 0 0; }
+.tutorial-unlock-copy, .mods-intro { margin:0 0 var(--modal-paragraph-gap); }
 .tutorial-unlock-copy:last-of-type, .mods-help { margin-block-end:var(--modal-section-gap); }
 .research-summary-row > section > h3, .research-catalog-heading h3,
 .research-project-detail .research-detail-heading h3, .research-completed > summary,
@@ -172,14 +169,15 @@ body,button,input,select,textarea {
 .research-card.locked .research-card-icon { opacity:.65; }
 .research-card.requirement-filter-muted:not([aria-expanded="true"]) { opacity:1; color:#a4b1bb; }
 
-.factory-template-controls p, .tutorial-library-note, .tutorial-unlock-copy,
-.tutorial-choice p, .tutorial-reference, .tutorial-callout p,
+.factory-template-controls p, .tutorial-intro, .tutorial-unlock-copy,
+.tutorial-card-copy p, .tutorial-reference, .tutorial-callout p,
 .confirm-modal p, .interaction-explanation p { font:var(--modal-reading-font); }
 .tutorial-placement-target span, .tutorial-port-target span { font:var(--ui-control-font); letter-spacing:normal; }
 
 .node-hover-tooltip, .ui-hover-tooltip { width:max-content; max-width:min(320px, calc(100vw - 16px)); }
 .node-hover-tooltip b, .ui-hover-tooltip b { font:600 14px/1.3 var(--ui-font-family); text-transform:none; letter-spacing:normal; }
 .node-hover-tooltip span, .ui-hover-tooltip span { font:var(--modal-copy-font); overflow-wrap:anywhere; }
+.ui-hover-tooltip > span { white-space:pre-line; }
 .node-hover-tooltip small, .multi-connection-tooltip button { font:var(--ui-meta-font); text-transform:none; letter-spacing:normal; }
 .ui-hover-tooltip em { font:italic 400 12px/1.45 var(--ui-font-family); }
 .ui-hover-tooltip.modal-tooltip { max-width:min(430px, calc(100vw - 16px)); }
@@ -214,7 +212,7 @@ kbd, .modal-trigger-strip .rail-button kbd, .command-row kbd { font:400 12px/1.2
 .autosave-frequency > strong, .map-coordinates b, .map-action-footer .map-points b {
   font-family:var(--ui-font-family); font-weight:400; font-variant-numeric:tabular-nums;
 }
-.node-hero span, .field-help, .road-flow-guidance { font:var(--modal-copy-font); color:#c6d2dc; }
+.node-hero span, .field-help, .road-flow-material { font:var(--modal-copy-font); color:#c6d2dc; }
 .node-hero b, .field-label, .inspector-configure span { font:var(--ui-meta-font); text-transform:none; letter-spacing:normal; }
 .field-label select, .inspector-configure b { font:var(--modal-card-font); }
 .field-label, .buffer > span, .buffer small, .cycle-row, .resource-readout :is(span, small) { color:#acbdca; }
@@ -228,7 +226,7 @@ kbd, .modal-trigger-strip .rail-button kbd, .command-row kbd { font:400 12px/1.2
 .recipe-card-time, .recipe-guide-title .recipe-card-time { font:var(--ui-meta-font); font-variant-numeric:tabular-nums; }
 .recipe-guide-material b { font:inherit; font-variant-numeric:tabular-nums; }
 .recipe-warning-suppression :is(b, small), .filter-picker-outlet span { font:var(--modal-copy-font); color:#c6d2dc; }
-.road-flow-rate { font:var(--ui-meta-font); font-variant-numeric:tabular-nums; }
+.road-flow-rate { color:#b5c2ca; font:var(--ui-meta-font); font-variant-numeric:tabular-nums; }
 .road-flow-toggle b { font-family:var(--ui-font-family); font-weight:600; }
 
 .discovery-time, .save-slot-copy p, .save-slot-copy em, .autosave-copy-actions > span,

@@ -1,5 +1,7 @@
 import { itemColorCss, ITEM_NAMES } from '../../content/items';
+import { cargoMaterial } from '../../content/botAssembly';
 import type { ItemId } from '../../domain/types';
+import { MaterialIcon } from '../MaterialIcon';
 import { PanelHeader } from '../PanelHeader';
 
 export function InventoryPanel({ inventory, onClose }: { inventory: Partial<Record<ItemId, number>>; onClose(): void }) {
@@ -13,7 +15,7 @@ export function InventoryPanel({ inventory, onClose }: { inventory: Partial<Reco
         return <div className="inventory-row" key={item} tabIndex={0} data-tooltip={ITEM_NAMES[item]}
           data-tooltip-detail={`${count} currently stored across all node buffers.`}
           style={{ '--item-color': color, '--tooltip-tone': color } as React.CSSProperties}>
-          <i /><span>{ITEM_NAMES[item]}</span><b>{count}<small>stored</small></b>
+          <MaterialIcon item={cargoMaterial(item)} /><span>{ITEM_NAMES[item]}</span><b>{count}<small>stored</small></b>
         </div>;
       })}
       {!entries.length && <div className="empty-state">Factory buffers are empty. Remarkably easy to inventory.</div>}

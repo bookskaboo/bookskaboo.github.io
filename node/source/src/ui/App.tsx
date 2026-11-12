@@ -63,7 +63,7 @@ type NoticeTone = 'research' | 'warning';
 interface Notice { id: string; message: string; label: string; tone: NoticeTone; projectId?: string }
 
 function recordedNoticeIds(game: GameState) {
-  return new Set([...(game.researchLog ?? []), ...game.events].map(event => event.id));
+  return new Set([...(game.researchLog ?? []), ...(game.resourceDepletionLog ?? []), ...game.events].map(event => event.id));
 }
 
 // Preserve the live factory and each sector's camera across development updates.
@@ -144,6 +144,7 @@ function FactoryApp({ engine, training, welcome, onShowWelcome, onCloseWelcome, 
   const [selectedConnection, setSelectedConnection] = useState<string>();
   const [hoveredNodeId, setHoveredNodeId] = useState<string>();
   const [placing, setPlacement] = useState<NodeKind>();
+  const [pasting, setPasting] = useState(false);
   const gridSnapHeld = useGridSnapKey();
   const snapToGrid = Boolean(engine.getState().preferences.snapToGrid || gridSnapHeld);
   const [tutorialNodePositions, setTutorialNodePositions] = useState<Record<string, { x: number; y: number }>>();
@@ -252,13 +253,15 @@ function FactoryApp({ engine, training, welcome, onShowWelcome, onCloseWelcome, 
   const selectedNode = selected.length === 1 ? selected[0] : undefined;
   const inspectingNode = inspectingNodeId ? sector.nodes.find(node => node.id === inspectingNodeId) : undefined;
   const configuringNode = configuringNodeId ? sector.nodes.find((node) => node.id === configuringNodeId) : undefined;
-  const researchEvents = [...new Map([...(game.researchLog ?? []), ...game.events].filter(event => event.type === 'ResearchCompleted').map(event => [event.id, event])).values()];
-  const noticeSignature = researchEvents.map(event => event.id).join('|');
+  const noticeEvents = [...new Map([
+    ...(game.researchLog ?? []), ...game.events.filter(event => event.type === 'ResearchCompleted'), ...(game.resourceDepletionLog ?? []),
+  ].map(event => [event.id, event])).values()];
+  const noticeSignature = noticeEvents.map(event => event.id).join('|');
   useEffect(() => {
-    const fresh = researchEvents.filter(event => !seenNoticeIds.current.has(event.id)).reverse();
+    const fresh = noticeEvents.filter(event => !seenNoticeIds.current.has(event.id)).sort((a, b) => b.at - a.at);
     if (!fresh.length) return;
     fresh.forEach((event) => seenNoticeIds.current.add(event.id));
-    const next = fresh.map(eventNotice).reverse();
+    const next = fresh.map(eventNotice);
     setNotices((current) => [...next, ...current].slice(0, 4));
     next.forEach((notice) => { const timer = window.setTimeout(() => { setNotices((current) => current.filter((candidate) => candidate.id !== notice.id)); noticeTimers.current.delete(notice.id); }, 4500); noticeTimers.current.set(notice.id, timer); });
   }, [noticeSignature]);
@@ -286,7 +289,7 @@ function FactoryApp({ engine, training, welcome, onShowWelcome, onCloseWelcome, 
     });
     return () => cancelAnimationFrame(frame);
   }, [panel]);
-  const togglePanel = useCallback((next: Exclude<Panel, null>) => { if (next === 'map') setMinimapVisible(true); setUnlockFocus(undefined); setReturnPanel(null); setPanel((current) => current === next ? null : next); setPlacement(undefined); setInspectingNodeId(undefined); setConfiguringNodeId(undefined); }, []);
+  const togglePanel = useCallback((next: Exclude<Panel, null>) => { if (next === 'map') setMinimapVisible(true); setUnlockFocus(undefined); setReturnPanel(null); setPanel((current) => current === next ? null : next); setPlacement(undefined); setPasting(false); setInspectingNodeId(undefined); setConfiguringNodeId(undefined); }, []);
   const openSubPanel = useCallback((next: Exclude<Panel, null>, parent: Exclude<Panel, null>) => { setUnlockFocus(undefined); setReturnPanel(parent); setPanel(next); }, []);
   const openUnlock = (projectId: string, fromJournal = false, nodeKind?: NodeKind) => {
     const destination = unlockDestination(projectId, nodeKind);
@@ -361,9 +364,25 @@ function FactoryApp({ engine, training, welcome, onShowWelcome, onCloseWelcome, 
       if (confirmDelete) { if (key === 'escape') { event.preventDefault(); setConfirmDelete(false); } return; }
       if (configuringNodeId && key === 'escape') { event.preventDefault(); setConfiguringNodeId(undefined); return; }
       if (!event.repeat && commandModifier && !event.altKey && !event.shiftKey && key === 'z') { event.preventDefault(); engine.undo(); setSelectedIds([]); setSelectedConnection(undefined); return; }
-      if (!event.repeat && commandModifier && !event.altKey && !event.shiftKey && key === 'c') { if (training) { event.preventDefault(); return; } if (selectedIds.length) { event.preventDefault(); const ids = engine.duplicateNodes(selectedIds); if (ids.length) setSelectedIds(ids); } return; }
+      if (commandModifier && !event.altKey && !event.shiftKey && (key === 'c' || key === 'v')) {
+        if (training || panel || event.repeat) return;
+        if (key === 'c') {
+          if (!window.getSelection()?.toString() && engine.copyNodes(selectedIds)) {
+            event.preventDefault();
+            setPasting(false);
+          }
+          return;
+        }
+        if (!engine.hasCopiedNodes()) return;
+        event.preventDefault();
+        closePanels();
+        setPlacement(undefined);
+        setTooltip(undefined);
+        setPasting(true);
+        return;
+      }
       if (!event.repeat && plainKey && (key === 'delete' || key === 'backspace')) { event.preventDefault(); requestDelete(); return; }
-      if (key === 'escape') { recipeCopySource.current = undefined; setPlacement(undefined); dismissPanel(); setSelectedIds([]); setSelectedConnection(undefined); setTooltip(undefined); return; }
+      if (key === 'escape') { recipeCopySource.current = undefined; setPlacement(undefined); setPasting(false); dismissPanel(); setSelectedIds([]); setSelectedConnection(undefined); setTooltip(undefined); return; }
       if (!event.repeat && plainKey && key === 'b') { event.preventDefault(); togglePanel('build'); return; }
       if (!event.repeat && plainKey && key === 'j') { event.preventDefault(); togglePanel('journal'); return; }
       if (!event.repeat && plainKey && key === 'o') { event.preventDefault(); togglePanel('options'); return; }
@@ -378,22 +397,22 @@ function FactoryApp({ engine, training, welcome, onShowWelcome, onCloseWelcome, 
       if (!event.repeat && !event.metaKey && !event.altKey && !(event.ctrlKey && event.shiftKey) && digitShortcut) {
         const digit = Number(digitShortcut[1]);
         const barId = event.ctrlKey ? 'storage' : event.shiftKey ? 'logistics' : 'production'; const quick = shortcutBars[barId].assignments[digit - 1];
-        if (quick && canBuild(quick) && isNodeUnlocked(quick, game.research.unlocked)) { event.preventDefault(); setPlacement(quick); closePanels(); }
+        if (quick && canBuild(quick) && isNodeUnlocked(quick, game.research.unlocked)) { event.preventDefault(); setPasting(false); setPlacement(quick); closePanels(); }
       }
     };
     window.addEventListener('keydown', onKey); return () => window.removeEventListener('keydown', onKey);
   }, [changeShortcutBars, closePanels, configuringNodeId, confirmDelete, dismissPanel, engine, game.research.unlocked, hoveredNodeId, mapAvailable, panel, pendingGroupNodes, pendingDisbandGroup, requestDelete, sector.nodes, selectedIds, selectedNode, shortcutBars, togglePanel, welcome, training?.kind, tutorialStage]);
 
   useEffect(() => {
-    if (!placing) return;
+    if (!placing && !pasting) return;
     const cancelHeldNode = (event: PointerEvent) => {
       if (event.button !== 2) return;
-      event.preventDefault(); event.stopPropagation(); setPlacement(undefined);
+      event.preventDefault(); event.stopPropagation(); setPlacement(undefined); setPasting(false);
     };
     const blockContextMenu = (event: MouseEvent) => { event.preventDefault(); event.stopPropagation(); };
     window.addEventListener('pointerdown', cancelHeldNode, true); window.addEventListener('contextmenu', blockContextMenu, true);
     return () => { window.removeEventListener('pointerdown', cancelHeldNode, true); window.removeEventListener('contextmenu', blockContextMenu, true); };
-  }, [placing]);
+  }, [placing, pasting]);
 
   const inventory = useMemo(() => {
     const totals: Partial<Record<ItemId, number>> = {};
@@ -410,6 +429,7 @@ function FactoryApp({ engine, training, welcome, onShowWelcome, onCloseWelcome, 
   };
   const startPlacement = (kind: NodeKind) => {
     if (!canBuild(kind)) return;
+    setPasting(false);
     setPlacement(kind);
     closePanels();
   };
@@ -428,7 +448,7 @@ function FactoryApp({ engine, training, welcome, onShowWelcome, onCloseWelcome, 
       if (repeat && !training) return;
       setPlacement(undefined);
       const configuration = getNodeModule(kind).controls.configuration;
-      if (configuration === 'recipe' || configuration === 'filter') setConfiguringNodeId(id);
+      if ((configuration === 'recipe' && kind !== 'recycler') || configuration === 'filter') setConfiguringNodeId(id);
     } else {
       setTooltip(undefined);
       setInteractionFailure({ title: kind === 'road' ? 'Road placement unavailable' : 'Placement unavailable', detail: engine.getNodePlacementError(kind, destination.x, destination.y), x: destination.x * camera.zoom + camera.x, y: destination.y * camera.zoom + camera.y });
@@ -458,6 +478,13 @@ function FactoryApp({ engine, training, welcome, onShowWelcome, onCloseWelcome, 
       <PixiPlayfield
         viewportRef={fieldViewportRef}
         engine={engine} revision={game.revision} selectableNodeId={choices?.selectableNodeId} selectedIds={selectedIds} selectedConnection={selectedConnection} placing={placing} snapToGrid={snapToGrid}
+        onPaste={pasting ? point => {
+          const ids = engine.pasteNodes(point);
+          if (!ids.length) return;
+          setPasting(false);
+          setSelectedConnection(undefined);
+          setSelectedIds(ids);
+        } : undefined}
         roadPlacementPoint={training && placing === 'road' ? point => correctTutorialPlacement('road', point, tutorialTarget) : undefined}
         onCopyRecipe={id => {
           if (recipeCopySource.current === undefined) return false;
@@ -486,7 +513,7 @@ function FactoryApp({ engine, training, welcome, onShowWelcome, onCloseWelcome, 
         onCamera={(nextCamera) => { engine.setCamera(nextCamera); setCamera(nextCamera); }}
       />
 
-      {selected.length > 1 && !tutorialNodePositions && !placing && !welcome && !panel && !configuringNode && !pendingGroupNodes && !pendingDisbandGroup && !confirmDelete && <SelectionActions nodes={selected} camera={camera} viewport={viewport} dockHeight={dockLayout.height} onDelete={() => requestDeleteNodes(selectedIds)} />}
+      {selected.length > 1 && !tutorialNodePositions && !placing && !pasting && !welcome && !panel && !configuringNode && !pendingGroupNodes && !pendingDisbandGroup && !confirmDelete && <SelectionActions nodes={selected} camera={camera} viewport={viewport} dockHeight={dockLayout.height} onDelete={() => requestDeleteNodes(selectedIds)} />}
 
       <header className="topbar glass">
         <button className="brand" onClick={onShowWelcome} aria-label="About NODE: Another Factory Game">
@@ -515,7 +542,7 @@ function FactoryApp({ engine, training, welcome, onShowWelcome, onCloseWelcome, 
       {panel === 'inventory' && game.research.completed.includes('autonomousLogistics') && <section className="global-pool-panel"><h3>Global transfer pool</h3><p>Storage deposits here; Inventory withdraws through Filters. Limit: {poolCapacity(game)} per item.</p>{Object.entries(game.globalPool??{}).map(([i,n])=><p key={i}>{ITEM_NAMES[i as ItemId]} <b>{n} / {poolCapacity(game)}</b></p>)}</section>}
       {panel === 'journal' && <DiscoveryJournal game={game} onClose={dismissPanel} onOpen={(id, kind) => openUnlock(id, true, kind)} />}
       {panel === 'options' && <OptionsPanel game={game} engine={engine} shortcutBars={shortcutBars} onShortcutBars={changeShortcutBars} onResetShortcutBars={() => { changeShortcutBars(createDefaultShortcutBars(window.innerWidth, window.innerHeight)); changeShortcutBarGroups(DEFAULT_SHORTCUT_BAR_GROUPS); }} onJournal={() => openSubPanel('journal', 'options')} onSaveLoad={() => openSubPanel('save', 'options')} onMods={() => openSubPanel('mods', 'options')} onCommands={() => openSubPanel('commands', 'options')} onRecipes={() => openSubPanel('recipes', 'options')} onTutorials={onTutorials} training={Boolean(training)} onClose={dismissPanel} />}
-      {panel === 'recipes' && <RecipesPanel key={unlockVisit} initialRecipeId={unlockFocus?.panel === 'recipes' ? unlockFocus.recipeId : undefined} backToResearch={returnPanel === 'research'} game={game} onClose={dismissPanel} />}
+      {panel === 'recipes' && <RecipesPanel key={unlockVisit} initialNode={unlockFocus?.panel === 'recipes' ? unlockFocus.nodeKind : undefined} initialRecipeId={unlockFocus?.panel === 'recipes' ? unlockFocus.recipeId : undefined} backToResearch={returnPanel === 'research'} game={game} onClose={dismissPanel} />}
       {(panel === 'research' || (panel === 'recipes' && returnPanel === 'research')) && <div hidden={panel !== 'research'}>
         <ResearchPanel allowedProjectId={choices?.researchProjectId} showMilestones={!training} key={unlockVisit}
           focusProjectId={unlockFocus?.panel === 'research' ? unlockFocus.projectId : undefined} game={game} engine={engine}
@@ -559,6 +586,7 @@ function FactoryApp({ engine, training, welcome, onShowWelcome, onCloseWelcome, 
 }
 
 function eventNotice(event: GameEvent): Notice {
+  if (event.type === 'DepositDepleted') return { id: event.id, message: event.message, label: 'RESOURCE DEPLETED', tone: 'warning' };
   return { id: event.id, message: event.message, label: event.projectId === 'mithrilTools' ? 'NEW RECIPES DISCOVERED' : 'RESEARCH COMPLETE', tone: 'research', projectId: researchEventProject(event) };
 }
 

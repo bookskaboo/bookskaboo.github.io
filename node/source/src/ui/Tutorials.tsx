@@ -24,26 +24,28 @@ export function TutorialMenu({ game, onStart, onClose }: { game: GameState; onSt
   const [reference, setReference] = useState<TutorialKind>();
   const title = reference ? `${TUTORIAL_NAMES[reference]} guide` : 'Tutorials';
   return <div className="modal-backdrop tutorial-menu-backdrop">
-    <section className="modal glass tutorial-menu" role="dialog" aria-modal="true" aria-label={title}>
+    <section className="modal glass tutorial-dialog tutorial-menu" role="dialog" aria-modal="true" aria-label={title}>
       <PanelHeader title={title} onClose={onClose} />
       <div className="tutorial-modal-content" key={title}>
         {reference ? <>
-          <button className="tutorial-button" onClick={() => setReference(undefined)}>← Back to tutorials</button>
-          <ol className="tutorial-reference">
+          <button className="tutorial-button tutorial-back" onClick={() => setReference(undefined)}>← Back to tutorials</button>
+          <ol className="tutorial-list tutorial-reference">
             {tutorialStages(reference).map(stage => {
               const copy = lessonCopy(stage);
-              return <li key={stage}><h3>{copy.title}</h3>{copy.instruction && <p>{copy.instruction}</p>}{copy.body && <p>{copy.body}</p>}</li>;
+              return <li className="tutorial-card tutorial-card-copy" key={stage}><h3>{copy.title}</h3>{copy.instruction && <p className="tutorial-reference-instruction">{copy.instruction}</p>}{copy.body && <p>{copy.body}</p>}</li>;
             })}
           </ol>
         </> : <>
-          <p className="tutorial-library-note">Practice in a separate factory.</p>
-          {availableTutorials(game).map(kind => <article className="tutorial-choice" key={kind}>
-            <div><h3>{TUTORIAL_NAMES[kind]}</h3><p>{TUTORIAL_DESCRIPTIONS[kind]}</p></div>
-            <div className="tutorial-choice-actions">
-              <button className="tutorial-button tutorial-primary" onClick={() => onStart(kind)}>Start {TUTORIAL_NAMES[kind]}</button>
-              {kind !== 'expansion' && <button className="tutorial-button" onClick={() => setReference(kind)} aria-label={`Read ${TUTORIAL_NAMES[kind]} guide`}>Read guide</button>}
-            </div>
-          </article>)}
+          <p className="tutorial-intro">Practice in a separate factory.</p>
+          <div className="tutorial-list tutorial-library">
+            {availableTutorials(game).map(kind => <article className="tutorial-card tutorial-choice" key={kind}>
+              <div className="tutorial-card-copy"><h3>{TUTORIAL_NAMES[kind]}</h3><p>{TUTORIAL_DESCRIPTIONS[kind]}</p></div>
+              <div className="tutorial-choice-actions">
+                <button className="tutorial-button tutorial-primary" onClick={() => onStart(kind)} aria-label={`Start ${TUTORIAL_NAMES[kind]}`}>Start</button>
+                {kind !== 'expansion' && <button className="tutorial-button" onClick={() => setReference(kind)} aria-label={`Read ${TUTORIAL_NAMES[kind]} guide`}>Read guide</button>}
+              </div>
+            </article>)}
+          </div>
         </>}
       </div>
     </section>
@@ -150,13 +152,15 @@ export function TutorialGuide({ session, game, camera, nodePositions, panel, pla
           {copy.body && <button className="tutorial-button tutorial-details-toggle" aria-expanded={detailsExpanded} onClick={() => setDetailsExpanded(value => !value)}>{detailsExpanded ? 'Less' : 'Details'}</button>}
         </div>
       </div>
-      {instruction && <p className="tutorial-instruction" role="status">{instruction}</p>}
-      {copy.body && <p className="tutorial-description">{copy.body}</p>}
-      {stage === 'expansion-intro' && <p className="tutorial-road-route" aria-label="Sending Cart to Road pair to receiving Cart">Cart → Road pair → Cart</p>}
-      {placementCorrection && <p className="tutorial-correction" role="status">{placementCorrection}</p>}
-      {stage === 'control-group-move' && <p className="tutorial-status" role="status">{movedMembers} / 3 moved{movedMembers === 3 ? ' · Release to confirm' : ''}</p>}
-      {campProgress && <p className="tutorial-status">{campProgress.suppliedAp} / {campProgress.requiredAp} AP · {campProgress.secondsRemaining}s to check{camp.suppressed ? ' · Suppressed' : ''}</p>}
-      <footer className="tutorial-footer">
+      <div className="tutorial-step-content" key={stage}>
+        {instruction && <p className="tutorial-instruction" role="status">{instruction}</p>}
+        {copy.body && <p className="tutorial-description">{copy.body}</p>}
+        {stage === 'expansion-intro' && <p className="tutorial-road-route" aria-label="Sending Cart to Road pair to receiving Cart">Cart → Road pair → Cart</p>}
+        {placementCorrection && <p className="tutorial-correction" role="status">{placementCorrection}</p>}
+        {stage === 'control-group-move' && <p className="tutorial-status" role="status">{movedMembers} / 3 moved{movedMembers === 3 ? ' · Release to confirm' : ''}</p>}
+        {campProgress && <p className="tutorial-status">{campProgress.suppliedAp} / {campProgress.requiredAp} AP · {campProgress.secondsRemaining}s to check{camp.suppressed ? ' · Suppressed' : ''}</p>}
+      </div>
+      <footer className="tutorial-actions tutorial-footer">
         <button className="tutorial-button" onClick={() => { engine.replaceState(createTutorialState(kind)); onPanel(null); setDetailsExpanded(false); setIndex(0); }}>Restart</button>
         {!finish && <button className="tutorial-button" onClick={onExit}>Exit practice</button>}
         {finish ? <button className="tutorial-button tutorial-primary" onClick={onFinish}>Finish tutorial</button>

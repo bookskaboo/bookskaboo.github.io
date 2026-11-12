@@ -105,8 +105,8 @@ These entries consume no cores. Discoveries require visiting the relevant map; P
 | Research | Completion condition | Unlock or benefit |
 | --- | --- | --- |
 | Water Tools | Encounter a Lake in a visited map | Pump, Hydro Plant and Coolant production. |
-| Mythril Refining | Produce Mythril Tribute at a Dwarven settlement | Separator and Mythril production recipes. |
-| Mineral Recovery | Complete Precision Control | Fines Recovery turns Metallic Fines and Water into Iron Plates in the Hydro Plant. |
+| Mythril Refining | Produce Mythril Tribute at a Dwarven settlement | Synthesizer and Mythril production recipes. |
+| Mineral Recovery | Complete Precision Control | Feed Metallic Fines and Water into a Recycler to make Iron Plates. Efficient Higher Intermediates adds Flux, Crust, and Slag Recovery. A Recycler matches its incoming material and runs one recipe at a time. |
 | Waste Handling | Complete Precision Control | Waste Bin. Chain Filters to send each waste type to its own recovery line. |
 | Joint | Connect two nodes | Unlocks the Joint node |
 | Kiln | Extract 1 Wood with an Extractor | Unlocks the Kiln node |
@@ -122,7 +122,7 @@ These entries consume no cores. Discoveries require visiting the relevant map; P
 
 | Research | Core cost | Research prerequisites | Unlock or benefit |
 | --- | --- | --- | --- |
-| Advanced Fabrication | 5 each through Automata | Assembler + Automata Core | Unlocks the Assembler II node. |
+| Advanced Fabrication | 5 each through Automata | Assembler + Automata Core | Unlocks the Fabricator node. |
 | Assembler | 5 Simple Cores | None specified | Unlocks the Assembler node |
 | Road | 5 each through Basic | None specified | Unlocks Roads and Carts. Connect a freight vehicle directly to each Road endpoint. |
 | Automata Core | 5 each through Basic | Exploration | Unlocks the Automata Core recipe in the Assembler |
@@ -140,7 +140,7 @@ Endgame Theory was retired on November 5. The first corner piece unlocks the see
 | Hydraulic Assembly | 5 each through Automata | Hydrochemistry | Hydro Piston, Electrode and Hydro Core recipes. |
 | Fluid Routing | 5 each through Hydro | Hydraulic Assembly | Fluid Road and Fluid Tank for inter-map fluid logistics. |
 | Sealed Robotics | 5 each through Hydro | Hydraulic Assembly + Suppression Bot | Sealed Frame and Cooled Gun. The matched parts make a Suppression Bot 3 AP in the Bot Plant. |
-| Ore Separation | 5 each through Hydro | Fluid Routing | Mythril Mesh and Shiny Core recipes. |
+| Ore Separation | 5 each through Hydro | Fluid Routing | Mythril Mesh in the Synthesizer and Shiny Core in the Fabricator. |
 | Heavy Robotics | 5 each through Shiny | Sealed Robotics + Ore Separation | Mythril Frame and Focused Gun. The matched parts make a Suppression Bot 8 AP. |
 | Precision Control | 5 each through Shiny | Ore Separation + Mineral Recovery | Logic Wafer, Controller, Servo Piston and Complex Core; advanced recovery recipes and Waste Handling fallback. |
 | Autonomous Logistics | 1 each through Final | Precision Control + first Final Core produced | Storage and Inventory use one global transfer pool. Inventory initially outputs through Filters. Pool capacity is currently 1,000 per item. |
@@ -163,7 +163,7 @@ Cycle upgrades replace the earlier speed factor unless the effect explicitly say
 | Connector Mirroring | 10 each through Hydro | Hydraulic Assembly | Right-click a production node to mirror its input/output banks left-to-right. Cables, buffers and port identities are retained. Left-click recipe selection and the connector-order button remain available. |
 | Factory Templates | 15 each through Automata | Hydraulic Assembly | Paid core research for saved layouts and batch placement previews; existing duplicate controls remain available. |
 | Tree Planter 1 | 10 each through Automata | Tree Planter | Tree Planter cycles use 90% of base time. |
-| Mineral Recovery 1 | 10 each through Hydro | Mineral Recovery + Hydraulic Assembly | Slag washing and recovered Brick/Iron recipes take 10% less time after any applicable family modifier; no extra material recovery. |
+| Mineral Recovery 1 | 10 each through Hydro | Mineral Recovery + Hydraulic Assembly | Waste recovery recipes take 10% less time after any applicable family modifier. |
 | Warehouse Logistics | 20 each through Hydro | Ore Separation + Fluid Routing | Dedicated one-item Warehouse holds 250 items with a filtered outlet; Inventory retrieval stays a later unlock. |
 | Trucks | 15 each through Automata | Road + Automata Core | Doubles vehicle storage to 40 solid items and raises the Road limit to 24 items per minute. |
 | Trains | 40 each through Hydro | Trucks + Hydraulic Assembly | Upgrades all existing and future vehicles to 80 solid items, retaining stock and cables. Every solid tier is allowed; fluids are excluded. |
@@ -212,18 +212,20 @@ Cycle upgrades replace the earlier speed factor unless the effect explicitly say
 | Hydro Plant 4 | 25 each through Hydro | Hydro Plant 3 + Hydraulic Assembly | All Hydro Plant cycles use 60% of base time, replacing earlier ranks. Ingredient quantities and output yields stay unchanged. |
 | Hydro Plant 5 | 30 each through Shiny | Hydro Plant 4 + Ore Separation | All Hydro Plant cycles use 50% of base time, replacing earlier ranks. Ingredient quantities and output yields stay unchanged. |
 | Hydro Plant 6 | 35 each through Complex | Hydro Plant 5 + Precision Control | All Hydro Plant cycles use 40% of base time, replacing earlier ranks. Ingredient quantities and output yields stay unchanged. |
-| Assembler II 1 | 10 each through Simple | Advanced Fabrication | All Assembler II cycles use 90% of base time, replacing earlier ranks. Ingredient quantities and output yields stay unchanged. |
-| Assembler II 2 | 15 each through Basic | Assembler II 1 | All Assembler II cycles use 80% of base time, replacing earlier ranks. Ingredient quantities and output yields stay unchanged. |
-| Assembler II 3 | 20 each through Automata | Assembler II 2 + Automata Core | All Assembler II cycles use 70% of base time, replacing earlier ranks. Ingredient quantities and output yields stay unchanged. |
-| Assembler II 4 | 25 each through Hydro | Assembler II 3 + Hydraulic Assembly | All Assembler II cycles use 60% of base time, replacing earlier ranks. Ingredient quantities and output yields stay unchanged. |
-| Assembler II 5 | 30 each through Shiny | Assembler II 4 + Ore Separation | All Assembler II cycles use 50% of base time, replacing earlier ranks. Ingredient quantities and output yields stay unchanged. |
-| Assembler II 6 | 35 each through Complex | Assembler II 5 + Precision Control | All Assembler II cycles use 40% of base time, replacing earlier ranks. Ingredient quantities and output yields stay unchanged. |
-| Separator 1 | 10 each through Simple | Mythril Refining | All Separator cycles use 90% of base time, replacing earlier ranks. Ingredient quantities and output yields stay unchanged. |
-| Separator 2 | 15 each through Basic | Separator 1 | All Separator cycles use 80% of base time, replacing earlier ranks. Ingredient quantities and output yields stay unchanged. |
-| Separator 3 | 20 each through Automata | Separator 2 + Automata Core | All Separator cycles use 70% of base time, replacing earlier ranks. Ingredient quantities and output yields stay unchanged. |
-| Separator 4 | 25 each through Hydro | Separator 3 + Hydraulic Assembly | All Separator cycles use 60% of base time, replacing earlier ranks. Ingredient quantities and output yields stay unchanged. |
-| Separator 5 | 30 each through Shiny | Separator 4 + Ore Separation | All Separator cycles use 50% of base time, replacing earlier ranks. Ingredient quantities and output yields stay unchanged. |
-| Separator 6 | 35 each through Complex | Separator 5 + Precision Control | All Separator cycles use 40% of base time, replacing earlier ranks. Ingredient quantities and output yields stay unchanged. |
+| Fabricator 1 | 10 each through Simple | Advanced Fabrication | All Fabricator cycles use 90% of base time, replacing earlier ranks. Ingredient quantities and output yields stay unchanged. |
+| Fabricator 2 | 15 each through Basic | Fabricator 1 | All Fabricator cycles use 80% of base time, replacing earlier ranks. Ingredient quantities and output yields stay unchanged. |
+| Fabricator 3 | 20 each through Automata | Fabricator 2 + Automata Core | All Fabricator cycles use 70% of base time, replacing earlier ranks. Ingredient quantities and output yields stay unchanged. |
+| Fabricator 4 | 25 each through Hydro | Fabricator 3 + Hydraulic Assembly | All Fabricator cycles use 60% of base time, replacing earlier ranks. Ingredient quantities and output yields stay unchanged. |
+| Fabricator 5 | 30 each through Shiny | Fabricator 4 + Ore Separation | All Fabricator cycles use 50% of base time, replacing earlier ranks. Ingredient quantities and output yields stay unchanged. |
+| Fabricator 6 | 35 each through Complex | Fabricator 5 + Precision Control | All Fabricator cycles use 40% of base time, replacing earlier ranks. Ingredient quantities and output yields stay unchanged. |
+| Synthesizer 1 | 10 each through Simple | Mythril Refining | Pure Mythril and Crust Recovery cycles use 90% of base time, replacing earlier ranks. Ingredient quantities and output yields stay unchanged. |
+| Synthesizer 2 | 15 each through Basic | Synthesizer 1 | Pure Mythril and Crust Recovery cycles use 80% of base time, replacing earlier ranks. Ingredient quantities and output yields stay unchanged. |
+| Synthesizer 3 | 20 each through Automata | Synthesizer 2 + Automata Core | Pure Mythril and Crust Recovery cycles use 70% of base time, replacing earlier ranks. Ingredient quantities and output yields stay unchanged. |
+| Synthesizer 4 | 25 each through Hydro | Synthesizer 3 + Hydraulic Assembly | Pure Mythril and Crust Recovery cycles use 60% of base time, replacing earlier ranks. Ingredient quantities and output yields stay unchanged. |
+| Synthesizer 5 | 30 each through Shiny | Synthesizer 4 + Ore Separation | Pure Mythril and Crust Recovery cycles use 50% of base time, replacing earlier ranks. Ingredient quantities and output yields stay unchanged. |
+| Synthesizer 6 | 35 each through Complex | Synthesizer 5 + Precision Control | Pure Mythril and Crust Recovery cycles use 40% of base time, replacing earlier ranks. Ingredient quantities and output yields stay unchanged. |
+
+The two Mythril Mesh recipes retain Fabricator efficiency in the Synthesizer. Composite Mythril Gear and Wire retain Assembler efficiency. Crust Recovery retains Synthesizer efficiency in the Recycler.
 
 # Implemented repeatable research
 
@@ -261,8 +263,8 @@ Each completed rank reduces cycle time by 10 percentage points of the original b
 | Assembler | 5 Simple Cores | Assembler unlocked |
 | Research Center | Research Center 1, Research Center 2, Research Center 3, Research Center 4, Research Center 5, Research Center 6 | Research Center unlocked |
 | Hydro Plant | Hydro Plant 1, Hydro Plant 2, Hydro Plant 3, Hydro Plant 4, Hydro Plant 5, Hydro Plant 6 | Water Tools discovery |
-| Assembler II | Assembler II 1, Assembler II 2, Assembler II 3, Assembler II 4, Assembler II 5, Assembler II 6 | Advanced Fabrication |
-| Separator | Separator 1, Separator 2, Separator 3, Separator 4, Separator 5, Separator 6 | Mythril Refining discovery |
+| Fabricator | Fabricator 1, Fabricator 2, Fabricator 3, Fabricator 4, Fabricator 5, Fabricator 6 | Advanced Fabrication |
+| Synthesizer | Synthesizer 1, Synthesizer 2, Synthesizer 3, Synthesizer 4, Synthesizer 5, Synthesizer 6 | Mythril Refining discovery |
 
 Ranks 2–6 require the preceding rank in the same research line. Rank 3 also requires Automata Core research; rank 4 requires Hydraulic Assembly; rank 5 requires Ore Separation; rank 6 requires Precision Control. Rank 2 needs Basic Core supply but adds no separate Basic Core research. Machine access and core access remain independent of these optional efficiency upgrades.
 
@@ -271,7 +273,7 @@ For example, Extractor 4 costs 40 Simple + 40 Basic + 40 Automata + 40 Hydro Cor
 All 54 projects are implemented. Existing saved rank 1 and rank 2 completions retain their effects; later ranks can be researched in order.
 
 
-The dedicated Automata Core Assembler is retired. Automata Cores use the regular Assembler recipe. Saved dedicated machines and factory templates convert to regular Assemblers while preserving their items, progress and connections. Mineral Recovery 1 applies its additional 10% time reduction to recovery recipes after the machine family modifier, including Separator upgrades.
+The dedicated Automata Core Assembler is retired. Automata Cores use the regular Assembler recipe. Saved dedicated machines and factory templates convert to regular Assemblers while preserving their items, progress and connections. Mineral Recovery 1 applies its additional 10% time reduction to recovery recipes after the machine family modifier, including Synthesizer upgrades.
 
 # Planned tier 7 research
 

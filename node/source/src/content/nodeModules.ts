@@ -44,7 +44,7 @@ const worldControls = { deletable: false, movable: false, pauseable: false } as 
  */
 export const NODE_MODULES: Record<NodeKind, NodeModule> = {
   ...LATE_MODULES,
-  recycler: module('recycler'),
+  recycler: module('recycler', 'standard', { configuration: 'recipe' }),
   cornerChallenge: module('dragon', 'corner-camp', worldControls),
   cornerTribute: module('package', 'standard', worldControls),
   devSource: module('infinity', 'standard', { pauseable: false }),

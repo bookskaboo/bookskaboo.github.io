@@ -223,4 +223,19 @@ describe('speedrun follow-up regressions', () => {
     const engine = new GameEngine(state);
     expect(engine.getSector().nodes[0]).toMatchObject({ name: 'Cart', x: 800, y: 700, input: { iron: 11 }, output: { iron: 7 } });
   });
+
+  it('renames saved production nodes and distinguishes the Fabricator landmark', () => {
+    const state = createInitialState(1);
+    state.sectors['5,5'].nodes = [
+      node('advancedAssembler', { name: 'Assembler II', recipeId: 'hydro-core', input: { coolant: 2 } }),
+      node('separationFurnace', { name: 'Separator', recipeId: 'refined-mithril', output: { 'refined-mithril': 2 } }),
+      node('abandonedFabricator', { name: 'Fabricator' }),
+    ];
+    const engine = new GameEngine(state);
+    expect(engine.getSector().nodes).toMatchObject([
+      { kind: 'advancedAssembler', name: 'Fabricator', recipeId: 'hydro-core', input: { coolant: 2 } },
+      { kind: 'separationFurnace', name: 'Synthesizer', recipeId: 'refined-mithril', output: { 'refined-mithril': 2 } },
+      { kind: 'abandonedFabricator', name: 'Fabricator Ruin' },
+    ]);
+  });
 });

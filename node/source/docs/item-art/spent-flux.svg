@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <title>Spent Flux</title>
+  <path d="M8 3H16 M10 3V8L5 16Q4 21 8 21H16Q20 21 19 16L14 8V3 M7 15H17 M11 18H13" stroke="#c5a8cf" stroke-width="1.55"/>
+  <path d="M15 11L16 13" stroke="#e7e3d9" stroke-width="1.25"/>
+</svg>

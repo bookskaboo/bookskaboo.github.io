@@ -255,8 +255,8 @@ remain proposals; synchronized consumption is implemented in the live lab.
 Encounter-based machine access is implemented; details are in
 `outputs/progression/encounter-unlocks.json` and `encounter-unlocks.html`.
 First entering an activated map with a Lake grants water tools and Coolant;
-Mythril Refining grants the Separator and Mythril recipes.
-Fabricators grant Assembler IIs with familiar recipes, and
+Mythril Refining grants the Synthesizer and Mythril recipes.
+Advanced Fabrication unlocks the Fabricator, and
 Sorting Ruins grant waste handling early. Core recipes and upgrades
 remain paid research. Precision Control remains a handling fallback so rare
 landmarks never block recovery. Required discoveries must be guaranteed reachable
@@ -438,7 +438,7 @@ not browser frame rates or guaranteed limits. Results: `outputs/stress/latest.js
 ### Linear machine efficiency research
 
 Extractor, Kiln, Smelter, Refiner, Assembler, Research Center, Hydro Plant,
-Assembler II and Separator each have six
+Fabricator and Synthesizer each have six
 ranks. Rank r costs 10r of every core from Simple through tier r and uses
 (100 - 10r)% of base cycle time. Each rank requires its preceding rank; ranks
 3–6 additionally require Automata Core, Hydraulic Assembly, Ore Separation and

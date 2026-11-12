@@ -52,14 +52,15 @@ export function supplyDevInputs(state: GameState, sector: SectorState, lookups: 
     if (source?.kind !== 'devSource' || source.disabled || !target || target.disabled) continue;
     if (target.kind === 'extractor') continue;
     const items = devInputItems(target, edge.toPort ?? 0, sector, state);
-    const perItem = Boolean(getNodeCapabilities(target.kind).perItemInputCapacity || target.recipeId);
+    const perItem = target.kind !== 'recycler' && Boolean(getNodeCapabilities(target.kind).perItemInputCapacity || target.recipeId);
     const pending = lookups.target(sector.id, target.id);
     let supplied: ItemId | undefined;
     // Fill balanced shared buffers; research and production have separate item limits.
     while (items.length) {
       const item = items.filter(item => {
-        const occupied = perItem ? target.input[item] ?? 0 : Object.values(target.input).reduce<number>((n, q) => n + (q ?? 0), 0);
-        const reserved = pending?.transfers.filter(transfer => !transfer.cosmeticOnly && (!perItem || transfer.item === item)).length ?? 0;
+        const sameBuffer = (other: ItemId) => target.kind === 'recycler' ? (other === 'water') === (item === 'water') : !perItem || other === item;
+        const occupied = perItem ? target.input[item] ?? 0 : Object.entries(target.input).reduce((n, [key, q]) => n + (sameBuffer(key as ItemId) ? q ?? 0 : 0), 0);
+        const reserved = pending?.transfers.reduce((n, transfer) => n + (sameBuffer(transfer.item) ? transfer.amount ?? 1 : 0), 0) ?? 0;
         const limit = Math.max(capacity(target, item), RECIPES[target.recipeId ?? '']?.inputs[item] ?? 0);
         return occupied + reserved < limit;
       }).sort((a, b) => (target.input[a] ?? 0) - (target.input[b] ?? 0))[0];

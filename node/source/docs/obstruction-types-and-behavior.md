@@ -73,7 +73,7 @@ Sources: [current resource and routing simulation](../src/simulation/engine.ts),
 
 ### Shared behavior
 
-The current game generates **Small Goblin Camps**, **Goblin Villages**, **Goblin Kingdoms**, **Dwarven Camps**, **Dwarven Villages**, and **Dwarven Kingdoms**. The old game generates only Small Goblin Camps. Settlements normally check suppression every **60 seconds**. Meeting the Attack Power requirement reduces size by **10 percentage points**; failing it increases size by **10 percentage points**, within a **10% to 100%** range. Size percentage represents the area ratio used to scale the radius, rather than a linear radius percentage. Every fresh current-game settlement begins at **25%**.
+The current game generates **Goblin Camps**, **Goblin Villages**, **Goblin Kingdoms**, **Dwarven Camps**, **Dwarven Villages**, and **Dwarven Kingdoms**. The old game generates only Small Goblin Camps. Settlements normally check suppression every **60 seconds**. Meeting the Attack Power requirement reduces size by **10 percentage points**; failing it increases size by **10 percentage points**, within a **10% to 100%** range. Size percentage represents the area ratio used to scale the radius, rather than a linear radius percentage. Every fresh current-game settlement begins at **25%**.
 
 ### Current settlement tiers and Attack Power
 
@@ -81,9 +81,9 @@ New worlds have exactly **five of each subtype**, for **15 Goblin settlements an
 
 | Settlement | Map tier | World count at this tier | AP per 60 seconds | Matching research and example supply |
 | --- | --- | --- | --- | --- |
-| Small Goblin Camp | 1 | 1 | 3 | Suppression Bot; 3 Small Bots |
-| Small Goblin Camp | 2 | 2 | 3 | Suppression Bot; 3 Small Bots |
-| Small Goblin Camp | 3 | 2 | 3 | Suppression Bot; 3 Small Bots |
+| Goblin Camp | 1 | 1 | 3 | Suppression Bot; 3 Small Bots |
+| Goblin Camp | 2 | 2 | 3 | Suppression Bot; 3 Small Bots |
+| Goblin Camp | 3 | 2 | 3 | Suppression Bot; 3 Small Bots |
 | Goblin Village | 4 | 2 | 9 | Sealed Robotics; 3 Medium Bots |
 | Goblin Village | 5 | 2 | 9 | Sealed Robotics; 3 Medium Bots |
 | Goblin Village | 6 | 1 | 9 | Sealed Robotics; 3 Medium Bots |
@@ -93,7 +93,7 @@ New worlds have exactly **five of each subtype**, for **15 Goblin settlements an
 
 Each settlement has a fixed AP requirement. Small, Medium, Heavy and Command Bots contribute 1, 3, 8 and 24 AP respectively. Any mix meeting the threshold works. To combine separate bot lines, feed a shared Cart and connect that Cart to the camp's single AP input. The input holds enough Small Bots to meet the full requirement. The camp connector shows the required AP per 60-second check, and the inspector shows supplied AP and the last result. A successful Goblin check keeps unused whole bots. A failed Goblin check consumes the insufficient supply.
 
-**Tier 1 balance review (November 8, 2026, NODE-0339).** Keep the Small Goblin Camp at 3 AP per check. Three Small Bots per minute use half a fully supplied base assembler and cost 36 each of Iron ore, Copper ore and Wood.
+**Tier 1 balance review (November 8, 2026, NODE-0339).** Keep the Goblin Camp at 3 AP per check. Three Small Bots per minute use half a fully supplied base assembler and cost 36 each of Iron ore, Copper ore and Wood.
 
 **Tier 2 balance review (November 8, 2026, NODE-0340).** Lake and Golem sectors exclude camps in new generation. The two tier-2 camps keep the same Small Bot supply target as tier 1.
 
@@ -134,7 +134,7 @@ A successful AP check creates a separate **Tribute** node after the settlement r
 
 | Settlement | Output every 5 seconds | Maximum stored tribute |
 | --- | --- | --- |
-| Small Goblin Camp | 6 materials | 100 |
+| Goblin Camp | 6 materials | 100 |
 | Goblin Village | 18 materials | 100 |
 | Goblin Kingdom | 36 materials | 100 |
 
@@ -181,9 +181,9 @@ Sources: [current settlement definitions](../src/content/goblinSettlements.ts), 
 | Location | Current game | Old game |
 | --- | --- | --- |
 | Home | Starts without the three core obstructions | Remote obstruction generation excludes Home |
-| Tier 1 | Clear E1 and three hole maps, including one Small Goblin Camp sector | Hole maps; one randomly chosen Small Goblin Camp sector |
-| Tier 2 | Five or six Lake sectors out of eight, including the guaranteed Lake. Two Small Goblin Camps occupy separate sectors with holes. | Selects 5 to 7 Lake sectors out of 8; other sectors receive holes; up to two camps, subject to placement and area checks |
-| Tier 3 | One Lake, three clear outposts and eight hole maps, including two Small Goblin Camp sectors | Hole maps |
+| Tier 1 | Clear E1 and three hole maps, including one Goblin Camp sector | Hole maps; one randomly chosen Small Goblin Camp sector |
+| Tier 2 | Five or six Lake sectors out of eight, including the guaranteed Lake. Two Goblin Camps occupy separate sectors with holes. | Selects 5 to 7 Lake sectors out of 8; other sectors receive holes; up to two camps, subject to placement and area checks |
+| Tier 3 | One Lake, three clear outposts and eight hole maps, including two Goblin Camp sectors | Hole maps |
 | Tiers 4 to 6 | One Lake per tier, ten clear outposts, four tier-5 Golem sectors, and 39 hole maps, including five Goblin Villages, five Dwarven Camps, and two Dwarven Villages | Hole maps |
 | Tiers 7 to 9 | One Lake per tier, six clear outposts and 27 hole maps, including five Goblin Kingdoms, three Dwarven Villages, and five Dwarven Kingdoms | Hole maps |
 | Tier 10 | No normal generated holes, Lakes, camps, or resource deposits | Empty tier 10 maps without normal obstruction or resource generation |

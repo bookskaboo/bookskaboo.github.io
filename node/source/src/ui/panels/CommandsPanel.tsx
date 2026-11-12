@@ -7,7 +7,8 @@ const COMMAND_GROUPS = [
     title: 'General',
     commands: [
       ['Ctrl / Cmd + Z', 'Undo the last recorded change, such as placing, moving or deleting nodes, or editing a cable.'],
-      ['Ctrl / Cmd + C', 'Duplicate eligible selected nodes and the cables between them in a nearby open space. Available outside tutorials.'],
+      ['Ctrl / Cmd + C', 'Copy eligible selected nodes and their internal cables. The copy stays available when you travel between map nodes.'],
+      ['Ctrl / Cmd + V', 'Pick up the copied layout. Click to place it or press Esc to cancel.'],
       ['Esc', 'Cancel placement or wiring, dismiss the current dialog or panel, or clear the selection.'],
       ['Delete / Backspace', 'Remove the selected cable or request deletion of selected nodes that can be removed.'],
       ['B', 'Toggle Build.'],
@@ -73,7 +74,7 @@ const COMMAND_GROUPS = [
       ['Drag a selection box down-right', 'Include the full group of each touched node.'],
       ['Drag a selection box up-left', 'Select only the touched nodes and move them independently of their groups.'],
       ['Right-click a group member', 'Choose Disband when the node’s right-click action opens the group dialog. Rotation and Connector Mirroring take priority on nodes that support those actions.'],
-      ['Ctrl / Cmd + C', 'When every member can be duplicated and is selected, the copy gets its own control group.'],
+      ['Ctrl / Cmd + C, then Ctrl / Cmd + V', 'Copy every eligible member of a control group to give the pasted nodes their own group.'],
     ],
   },
 ] as const;

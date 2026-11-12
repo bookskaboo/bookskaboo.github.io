@@ -1,7 +1,8 @@
 import { NODE_MAP_LAYOUT_KEY as LAYOUT_KEY } from '../persistence/storageKeys';
 import { useEffect, useRef, useState, type CSSProperties, type PointerEvent as ReactPointerEvent } from 'react';
+import { cargoMaterial } from '../content/botAssembly';
 import { ITEM_COLORS, materialTypeName } from '../content/items';
-import type { GameState } from '../domain/types';
+import type { GameState, ItemId, SectorState } from '../domain/types';
 import { DEFAULT_WORLD_GRID_SIZE, HOME_SECTOR_ID, worldGridBounds, worldGridSize } from '../domain/worldGrid';
 import { GameEngine } from '../simulation/engine';
 import { permitsTutorialChoice, type TutorialChoice } from '../tutorials/tutorialChoices';
@@ -11,7 +12,7 @@ import { MapNodeDetails } from './MapNodeDetails';
 import { IconGlyph } from './NodeIcon';
 import { sectorId } from '../simulation/worldGeneration';
 import { roadMaterialState } from '../simulation/roadMaterials';
-import { MAP_LANDMARKS, mapLandmarkSurvey, mapNodeName, mapNodePosition, mapNodeResourceSummary, type MapLandmark } from './mapNodePresentation';
+import { MAP_LANDMARKS, mapCornerMarkers, mapLandmarkSurvey, mapNodeHoverDetails, mapNodeName, mapNodePosition, type MapLandmark } from './mapNodePresentation';
 
 const landmarkOrder = Object.keys(MAP_LANDMARKS) as MapLandmark[];
 const hasUnlockedNeighbor = (game: GameState, x: number, y: number) =>
@@ -71,6 +72,7 @@ export function NodeMinimap({ game, engine, allowedSectorId, dockHeight = 0, exp
   const [x, y] = selectedKey.split(',').map(Number);
   const available = Boolean(selected) && !unlocked && hasUnlockedNeighbor(game, x, y);
   const { discovered, bySector } = mapLandmarkSurvey(game);
+  const cornerMarkers = mapCornerMarkers(game);
   const availableFilters = landmarkOrder.filter(landmark => discovered.has(landmark));
   const activeFilters = availableFilters.filter(landmark => filters.has(landmark));
   const toggleFilter = (landmark: MapLandmark) => setFilters(previous => {
@@ -78,14 +80,21 @@ export function NodeMinimap({ game, engine, allowedSectorId, dockHeight = 0, exp
     if (next.has(landmark)) next.delete(landmark); else next.add(landmark);
     return next;
   });
-  const roads = Object.values(game.sectors).flatMap((source) => source.nodes.flatMap((road) => {
-    if (!['road', 'fluidRoad'].includes(road.kind) || !road.pairedSectorId || !road.pairedRoadId || road.roadMode === 'import') return [];
-    const target = game.sectors[road.pairedSectorId]; if (!target) return [];
+  const roadBorders = new Map<string, { source: SectorState; target: SectorState; materials: Set<ItemId>; bidirectional: boolean; active: boolean }>();
+  for (const source of Object.values(game.sectors)) for (const road of source.nodes) {
+    if (!['road', 'fluidRoad'].includes(road.kind) || !road.pairedSectorId || !road.pairedRoadId || road.roadMode === 'import') continue;
+    const target = game.sectors[road.pairedSectorId];
+    if (!target) continue;
+    const id = [source.id, target.id].sort().join(':');
+    const border = roadBorders.get(id) ?? { source, target, materials: new Set<ItemId>(), bidirectional: false, active: false };
     const { materials } = roadMaterialState(game, source, road);
     const lastItem = materials.length ? undefined : source.connections.find(cable => cable.to === road.id)?.item;
-    return [{ id: `${source.id}:${road.id}`, source, target, item: materials.length === 1 ? materials[0] : lastItem,
-      itemLabel: materials.length ? materials.map(materialTypeName).join(', ') : lastItem ? materialTypeName(lastItem) : 'No item assigned' }];
-  }));
+    for (const item of materials) border.materials.add(item);
+    if (lastItem) border.materials.add(cargoMaterial(lastItem));
+    border.bidirectional ||= border.source.id !== source.id;
+    border.active ||= source.id === game.activeSectorId;
+    roadBorders.set(id, border);
+  }
   const activate = () => {
     if (!selected || !permitsTutorialChoice(allowedSectorId, selected)) return;
     if (unlocked && !active) { onTravel(selected); setSelected(null); }
@@ -123,6 +132,7 @@ export function NodeMinimap({ game, engine, allowedSectorId, dockHeight = 0, exp
         {Array.from({ length: gridSize ** 2 }, (_, index) => {
           const cx = min + index % gridSize; const cy = min + Math.floor(index / gridSize); const id = sectorId(cx, cy);
           const known = game.sectors[id]; const isUnlocked = Boolean(known?.unlocked);
+          const depletionPending = known?.resourceDepletionPending;
           const isActive = id === game.activeSectorId; const isSelected = id === selected;
           const isAvailable = !isUnlocked && hasUnlockedNeighbor(game, cx, cy);
           const location = mapNodePosition(cx, cy);
@@ -132,26 +142,53 @@ export function NodeMinimap({ game, engine, allowedSectorId, dockHeight = 0, exp
           const name = known ? mapNodeName(known) : location;
           const landmarks = bySector.get(id);
           const markers = landmarks ? activeFilters.filter(landmark => landmarks.has(landmark)) : [];
-          const markerNames = markers.map(landmark => MAP_LANDMARKS[landmark].label).join(', ');
-          return isUnlocked || isAvailable ? <button key={id} data-map-sector={id}
-            aria-label={`Map Node ${location}: ${isUnlocked ? isActive ? 'current map' : 'travel available' : 'activate for 1 Map Point'}${markerNames ? ` · ${markerNames}` : ''}`}
+          const camps = markers.includes('camps') ? known.nodes.filter(node => node.kind === 'monster-camp') : [];
+          const corner = cornerMarkers.get(id);
+          const markerNames = [...markers.map(landmark => MAP_LANDMARKS[landmark].label), ...(corner ? [corner] : [])].join(', ');
+          const icons = (corner || markers.length > 0) && <span className="node-map-landmarks" aria-hidden="true">
+            {corner && <IconGlyph icon="final-core" className="map-landmark-corner" />}
+            {camps.some(camp => !camp.lizardSettlement) && <IconGlyph icon={MAP_LANDMARKS.camps.icon} className="map-landmark-camps" />}
+            {camps.some(camp => camp.lizardSettlement) && <IconGlyph icon={MAP_LANDMARKS.camps.icon} className="map-landmark-camps map-landmark-dwarven" />}
+            {markers.filter(landmark => landmark !== 'camps').map(landmark => <IconGlyph key={landmark} icon={MAP_LANDMARKS[landmark].icon} className={`map-landmark-${landmark}`} />)}
+          </span>;
+          const markerClass = icons ? ' has-landmarks' : '';
+          const tooltipDetails = !expanded && corner !== '???' && (isUnlocked || isAvailable) ? [
+            ...(isActive ? ['Current Node'] : []),
+            ...(depletionPending ? ['Resource depleted'] : []),
+            ...mapNodeHoverDetails(game, id),
+            ...(!isUnlocked ? [game.research.mapPoints ? 'Double-click to activate for 1 Map Point' : 'Requires 1 Map Point'] : []),
+            ...markers.filter(landmark => landmark !== 'camps').map(landmark => MAP_LANDMARKS[landmark].label),
+          ].join('\n') : undefined;
+          return isUnlocked || isAvailable || (expanded && corner) ? <button key={id} data-map-sector={id}
+            aria-label={`Map Node ${location}: ${isUnlocked ? isActive ? 'current map' : 'travel available' : isAvailable ? 'activate for 1 Map Point' : 'locked'}${depletionPending ? ' · Resource depleted' : ''}${markerNames ? ` · ${markerNames}` : ''}`}
             disabled={!permitsTutorialChoice(allowedSectorId, id)} type="button"
-            className={`node-map-sector ${id === HOME_SECTOR_ID ? 'home' : isUnlocked ? 'explored' : 'adjacent'} ${isActive ? 'current' : ''} ${isSelected ? 'selected' : ''}${markers.length ? ' has-landmarks' : ''}`}
+            className={`node-map-sector ${id === HOME_SECTOR_ID ? 'home' : isUnlocked ? 'explored' : isAvailable ? 'adjacent' : 'uncharted'} ${isActive ? 'current' : ''} ${isSelected ? 'selected' : ''}${markerClass}${depletionPending ? ' resource-depleted' : ''}`}
             onClick={() => setSelected(id)}
             onDoubleClick={() => { setSelected(id); if (isUnlocked && !isActive) { onTravel(id); setSelected(null); } else if (isAvailable && game.research.mapPoints > 0 && engine.unlockSector(cx, cy) && !expanded) setSelected(null); }}
-            data-tooltip={expanded ? undefined : name}
-            data-tooltip-detail={expanded ? undefined : `${isActive ? 'Current Node' : isUnlocked ? `${mapNodeResourceSummary(game, id)} · Double-click to travel` : `Map Node Unexplored · ${game.research.mapPoints ? 'Double-click to activate for 1 Map Point' : 'Requires 1 Map Point'}`}${markerNames ? ` · ${markerNames}` : ''}`}>
+            data-tooltip={corner ?? (expanded ? undefined : name)}
+            data-tooltip-detail={tooltipDetails}>
             {expanded ? locationLabel : <strong>{known?.label ?? (isSelected ? '●' : '?')}</strong>}
-            {markers.length > 0 && <span className="node-map-landmarks" aria-hidden="true">
-              {markers.map(landmark => <IconGlyph key={landmark} icon={MAP_LANDMARKS[landmark].icon} className={`map-landmark-${landmark}`} />)}
-            </span>}
-          </button> : <i key={id} className="node-map-sector uncharted">{expanded && locationLabel}</i>;
+            {icons}
+          </button> : <i key={id} className={`node-map-sector uncharted${markerClass}`} data-tooltip={corner}
+            role={corner ? 'img' : undefined} aria-label={corner ? `Map Node ${location}: ${corner}` : undefined}>
+            {expanded && locationLabel}
+            {icons}
+          </i>;
         })}
-        {roads.map((road) => { const left = ((road.source.x + road.target.x - 2 * min + 1) / (2 * gridSize)) * 100; const top = ((road.source.y + road.target.y - 2 * min + 1) / (2 * gridSize)) * 100; const color = road.item ? `#${ITEM_COLORS[road.item].toString(16).padStart(6, '0')}` : '#7aa99e'; return <span key={road.id} className={`node-map-road ${road.item ? 'assigned' : 'idle'} ${road.source.id === game.activeSectorId ? 'active' : ''}`} style={{ left: `${left}%`, top: `${top}%`, '--road-color': color } as CSSProperties}
-          data-tooltip={`${mapNodePosition(road.source.x, road.source.y)} → ${mapNodePosition(road.target.x, road.target.y)}`}
-          data-tooltip-detail={road.itemLabel} />; })}
+        {Array.from(roadBorders, ([id, { source, target, materials, bidirectional, active }]) => {
+          // Anchor to the two tiles so the midpoint includes the grid gap and padding.
+          const gridColumn = `${Math.min(source.x, target.x) - min + 1} / ${Math.max(source.x, target.x) - min + 2}`;
+          const gridRow = `${Math.min(source.y, target.y) - min + 1} / ${Math.max(source.y, target.y) - min + 2}`;
+          const [item] = materials;
+          const color = materials.size === 1 ? `#${ITEM_COLORS[item].toString(16).padStart(6, '0')}` : '#7aa99e';
+          const itemLabel = materials.size ? Array.from(materials, materialTypeName).join(', ') : 'No material assigned';
+          return <span key={id} className={`node-map-road ${materials.size ? 'assigned' : 'idle'} ${active ? 'active' : ''}`}
+            style={{ gridColumn, gridRow, '--road-color': color } as CSSProperties}
+            data-tooltip={`${mapNodePosition(source.x, source.y)} ${bidirectional ? '↔' : '→'} ${mapNodePosition(target.x, target.y)}`}
+            data-tooltip-detail={itemLabel} />;
+        })}
       </div>
-    </div>{expanded && <MapNodeDetails game={game} engine={engine} selectedId={selected} allowedSectorId={allowedSectorId} onActivate={activate} />}</div>
+    </div>{expanded && <MapNodeDetails game={game} engine={engine} selectedId={selected} cornerName={cornerMarkers.get(selectedKey)} allowedSectorId={allowedSectorId} onActivate={activate} />}</div>
     {!expanded && <footer><span>{!selected ? 'Select a Map Node' : active ? 'Current node' : sector ? mapNodeName(sector) : mapNodePosition(x, y)}</span><button className={selected && ((!active && unlocked) || (available && game.research.mapPoints > 0)) ? 'ready' : ''} disabled={!selected || !permitsTutorialChoice(allowedSectorId, selected) || active || (!unlocked && (!available || game.research.mapPoints < 1))} onClick={activate}>{!selected ? 'Select a Node' : active ? 'Current Node' : unlocked ? 'Travel' : available && game.research.mapPoints ? 'Activate · 1' : 'Select a Node'}</button></footer>}
     {!expanded && <button className="node-map-resize" aria-label="Resize Node Map" onPointerDown={beginResize} onPointerMove={moveResize} onPointerUp={endResize} onPointerCancel={endResize} />}
   </aside></div>;

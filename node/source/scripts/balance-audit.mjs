@@ -23,7 +23,7 @@ try {
     for (const [id, inputs] of Object.entries(patches)) Object.assign(recipes[id].inputs, inputs);
     const byOutput = {};
     for (const recipe of Object.values(recipes)) {
-      if (recipe.recovery || RETIRED_RECIPES.has(recipe.id) || recipe.id.startsWith('efficient-') || recipe.id.startsWith('composite-')) continue;
+      if (recipe.recovery || RETIRED_RECIPES.has(recipe.id) || /^(recycle|efficient|composite)-/.test(recipe.id)) continue;
       byOutput[Object.keys(recipe.outputs)[0]] = recipe;
     }
     if (composite) for (const id of ['composite-mythril-gear', 'composite-mythril-wire']) byOutput[Object.keys(recipes[id].outputs)[0]] = recipes[id];

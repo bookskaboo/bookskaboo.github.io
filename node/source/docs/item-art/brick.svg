@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <title>Brick</title>
+  <path d="M3 9L8 5H21V15L16 19H3Z M3 9H16L21 5 M16 9V19" stroke="#b1aaa5" stroke-width="1.55"/>
+  <path d="M6 12H12 M6 15H10" stroke="#e7e3d9" stroke-width="1.25"/>
+</svg>

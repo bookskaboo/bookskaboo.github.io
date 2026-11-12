@@ -1,5 +1,15 @@
-import type { ItemId } from '../domain/types';
-import { BOT_STRENGTH } from './botAssembly';
+import type { ItemId, Recipe } from '../domain/types';
+import { BOT_ITEMS, BOT_STRENGTH, cargoMaterial, SUPPRESSION_BOT } from './botAssembly';
+import { materialTypeName } from './items';
+
+export const RECYCLER_BREAKDOWN_WATER = 1;
+
+export const RECYCLER_RECOVERY = {
+  'metallic-fines': 'recover-fines',
+  'spent-flux': 'recover-flux',
+  slag: 'recover-slag',
+  'glassy-crust': 'recover-crust',
+} as const satisfies Partial<Record<ItemId, string>>;
 /** Q97/Q101 fixed standard constituents, including fuel Wood. Never derived from a selected alternative. */
 export const RECYCLER_RETURNS: Partial<Record<ItemId, Partial<Record<ItemId, number>>>> = {
   "iron": {},
@@ -7,7 +17,6 @@ export const RECYCLER_RETURNS: Partial<Record<ItemId, Partial<Record<ItemId, num
   "wood": {},
   "stone": {},
   "mythril": {},
-  "water": {},
   "charcoal": {
     "wood": 1
   },
@@ -228,4 +237,18 @@ RECYCLER_RETURNS['final-frame'] = { ...RECYCLER_RETURNS['servo-frame'] };
 RECYCLER_RETURNS['final-cannon'] = { ...RECYCLER_RETURNS['pulse-cannon'] };
 const suppressionBotReturns = { ...RECYCLER_RETURNS['simple-robot-frame'], ...RECYCLER_RETURNS['simple-robot-gun'] };
 for (const item of Object.keys(BOT_STRENGTH) as ItemId[]) RECYCLER_RETURNS[item] = suppressionBotReturns;
-export const recyclerAccepts = (item: ItemId) => Object.hasOwn(RECYCLER_RETURNS, item);
+export const RECYCLER_BREAKDOWN_RECIPES: Recipe[] = (Object.keys(RECYCLER_RETURNS) as ItemId[])
+    .filter(item => cargoMaterial(item) === item)
+    .map(item => ({
+      id: `recycle-${item}`,
+      name: `Recycle ${materialTypeName(item)}`,
+      inputs: { [item]: 1, water: RECYCLER_BREAKDOWN_WATER },
+      outputs: RECYCLER_RETURNS[item]!,
+      cycleMs: 2000,
+    }));
+
+export function recyclerMaterialStock(input: Recipe['inputs'], item: ItemId) {
+  return item === SUPPRESSION_BOT
+    ? BOT_ITEMS.reduce((total, bot) => total + (input[bot] ?? 0), 0)
+    : input[item] ?? 0;
+}

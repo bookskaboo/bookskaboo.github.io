@@ -10,6 +10,7 @@ import { normalizeLegacy } from '../persistence/saves';
 import { portFamiliesCompatible } from './connectionRules';
 import type { MachineNode } from '../domain/types';
 import { getPortAnchor } from '../renderer/nodeLayout';
+import { getGoblinSettlementForMapTier } from '../content/goblinSettlements';
 
 describe('simulation architecture', () => {
   it('places new Extractors with the same five-second base cycle as the starting ones', () => {
@@ -285,6 +286,8 @@ describe('simulation architecture', () => {
     for (let index = 0; index < 5; index++) engine.tick(1000);
     engine.tick(1);
     expect(copper.kind).toBe('big-hole');
+    expect(sector.resourceDepletionPending).toBe(true);
+    expect(engine.getState().resourceDepletionLog?.map(event => event.message)).toEqual(['Copper reserve depleted at H.']);
     expect(copper.resourceRemaining).toBe(250);
     expect(copper.obstructionRadius).toBeCloseTo(38 * Math.sqrt(10));
     copper.holeStoneConsumed = 249;
@@ -295,6 +298,56 @@ describe('simulation architecture', () => {
     engine.tick(1);
     expect(copper.resourceRemaining).toBe(0);
     expect(sector.nodes).not.toContain(copper);
+  });
+
+  it('keeps a remote depletion warning until arrival, even after refill, event churn, and save reload', () => {
+    const state = createInitialState(17);
+    const outpost = { ...createHomeSector(0), id: '4,4', x: 4, y: 4, visited: true };
+    const other = { ...createHomeSector(0), id: '5,4', x: 5, y: 4 };
+    const forest = outpost.nodes.find(node => node.kind === 'forest')!;
+    forest.resourceRemaining = 1;
+    state.sectors[outpost.id] = outpost;
+    state.sectors[other.id] = other;
+    const engine = new GameEngine(state, { autosave: false });
+    engine.switchSector(outpost.id);
+    expect(engine.connect(forest.id, 'ironExtractor')).toBe(true);
+    engine.switchSector('5,5');
+    for (let index = 0; index < 5; index++) engine.tick(1000);
+    const remote = engine.getState().sectors[outpost.id];
+    expect(remote.nodes.find(node => node.id === forest.id)?.resourceRemaining).toBe(0);
+    expect(remote.resourceDepletionPending).toBe(true);
+    expect(engine.getState().resourceDepletionLog?.map(event => event.message)).toEqual(['Wood reserve depleted at N1.W1.']);
+
+    // Refill the Forest while the Extractor has a full output, so no second depletion occurs.
+    remote.nodes.find(node => node.id === 'ironExtractor')!.output.wood = 5;
+    const home = engine.getSector();
+    const iron = home.nodes.find(node => node.kind === 'iron')!;
+    expect(engine.connect(iron.id, 'ironExtractor')).toBe(true);
+    for (let index = 0; index < 70; index++) {
+      home.nodes.find(node => node.id === 'ironExtractor')!.output = {};
+      engine.tick(1000);
+    }
+    expect(remote.nodes.find(node => node.id === forest.id)?.resourceRemaining).toBeGreaterThan(0);
+    expect(engine.getState().events.some(event => event.type === 'DepositDepleted')).toBe(false);
+    const restored = new GameEngine(normalizeLegacy(JSON.parse(JSON.stringify(engine.getState())))!, { autosave: false });
+    expect(restored.getState().resourceDepletionLog).toHaveLength(1);
+    restored.switchSector(other.id);
+    expect(restored.getState().sectors[outpost.id].resourceDepletionPending).toBe(true);
+    restored.renameSector('Outpost', 'OUT');
+    restored.switchSector(outpost.id);
+    expect(restored.getSector().resourceDepletionPending).toBeUndefined();
+    restored.undo();
+    expect(restored.getState().sectors[outpost.id].resourceDepletionPending).toBeUndefined();
+  });
+
+  it('uses Goblin Camp for the base settlement and normalizes its old saved name', () => {
+    expect(getGoblinSettlementForMapTier(1).name).toBe('Goblin Camp');
+    expect(getGoblinSettlementForMapTier(4).name).toBe('Goblin Village');
+    const state = createInitialState(17);
+    const sector = state.sectors[state.activeSectorId];
+    sector.nodes.push({ ...sector.nodes[0], id: 'camp', kind: 'monster-camp', name: 'Small Goblin Camp', goblinSettlement: 'camp' });
+    const engine = new GameEngine(state, { autosave: false });
+    expect(engine.getSector().nodes.find(node => node.id === 'camp')).toMatchObject({ name: 'Goblin Camp', goblinSettlement: 'camp' });
   });
 
   it('keeps simulation state independent of renderer state', () => {
@@ -321,6 +374,54 @@ describe('simulation architecture', () => {
     expect(copies[1].x - copies[0].x).toBe(source[1].x - source[0].x);
     expect(copies[1].y - copies[0].y).toBe(source[1].y - source[0].y);
     expect(engine.getSector().connections.some((connection) => copyIds.includes(connection.from) && copyIds.includes(connection.to))).toBe(true);
+  });
+
+  it('pastes a reusable snapshot with its cables and group after traveling', () => {
+    const engine = new GameEngine(createInitialState(71), { autosave: false });
+    const homeSector = engine.getSector();
+    const kilnId = engine.placeNode('kiln', 1900, 500)!;
+    const smelterId = engine.placeNode('smelter', 2200, 500)!;
+    const ids = [kilnId, smelterId];
+    expect(engine.setRecipe(smelterId, 'smelt-iron')).toBe(true);
+    expect(engine.connect(kilnId, smelterId)).toBe(true);
+    engine.getState().research.unlocked.push('kiln', 'smelter');
+    const group = engine.createControlGroup(ids, '#4E79A7')!;
+    const kiln = homeSector.nodes.find(node => node.id === kilnId)!;
+    kiln.output.charcoal = 3;
+    const before = structuredClone(engine.getState());
+    expect(engine.copyNodes(ids)).toBe(true);
+    expect(engine.getState()).toEqual(before);
+    expect(engine.getPastePreview({ x: 2050, y: 500 })?.valid).toBe(false);
+    expect(engine.copyNodes(['missing'])).toBe(false);
+    expect(engine.setRecipe(smelterId, 'smelt-copper')).toBe(true);
+
+    const outpost = { ...createHomeSector(0), id: '6,5', x: 6, nodes: [] };
+    engine.getState().sectors[outpost.id] = outpost;
+    engine.switchSector(outpost.id);
+    const point = { x: 1400, y: 900 };
+    const preview = engine.getPastePreview(point)!;
+    expect(preview.valid).toBe(true);
+    expect(preview.nodes.map(({ x, y }) => ({ x, y }))).toEqual([{ x: 1250, y: 900 }, { x: 1550, y: 900 }]);
+    expect(outpost.nodes).toHaveLength(0);
+    const first = engine.pasteNodes(point);
+    expect(first).toHaveLength(2);
+    expect(outpost.nodes).toMatchObject([
+      { kind: 'kiln', x: 1250, y: 900, input: {}, output: {} },
+      { kind: 'smelter', x: 1550, y: 900, recipeId: 'smelt-iron' },
+    ]);
+    expect(outpost.connections).toMatchObject([{ from: first[0], to: first[1] }]);
+    expect(engine.getSector().controlGroups?.[0]).toMatchObject({ nodeIds: first, color: group.color });
+    expect(engine.getSector().controlGroups?.[0].id).not.toBe(group.id);
+    expect(engine.getPastePreview(point)?.valid).toBe(false);
+    expect(engine.pasteNodes(point)).toEqual([]);
+    expect(engine.getSector().nodes.map(node => node.id)).toEqual(first);
+    const secondPoint = { x: 1400, y: 1250 };
+    const second = engine.pasteNodes(secondPoint);
+    expect(second).toHaveLength(2);
+    expect(second.every(id => !first.includes(id))).toBe(true);
+    engine.undo();
+    expect(engine.getSector().nodes.map(node => node.id)).toEqual(first);
+    expect(engine.pasteNodes(secondPoint)).toHaveLength(2);
   });
 
   it('undoes keyboard-style logistics rotation', () => {

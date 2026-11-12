@@ -25,6 +25,7 @@ export interface PixiPlayfieldProps {
   onNodeContextMenu(id: string, priority: boolean, shiftKey: boolean): void;
   onCopyRecipe(id: string): boolean;
   onPlace(kind: NodeKind, x: number, y: number, repeat: boolean): void;
+  onPaste?(point: Point): void;
   onConnect(from: string, to: string, fromPort: number, toPort: number, replaceConnectionId?: string): boolean;
   onConnectionRejected(failure: { title: string; detail: string; x: number; y: number }): void;
   onConnectionSelect(id?: string): void;

@@ -118,7 +118,7 @@ describe('choosing a recipe before connecting production nodes', () => {
     expect(reloaded.getState().inFlightTransfers).toEqual([]);
   });
 
-  it.each(['motor', 'iron-gear'])('keeps legacy Assembler II %s production working without allowing new copies', (recipeId) => {
+  it.each(['motor', 'iron-gear'])('keeps legacy Fabricator %s production working without allowing new copies', (recipeId) => {
     const { engine, machine, node } = setup('advancedAssembler');
     const recipe = RECIPES[recipeId];
     engine.developerUnlockAllResearch();

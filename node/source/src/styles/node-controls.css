@@ -75,3 +75,5 @@
 @media (max-width: 900px) { .node-minimap { width: 210px; }.shortcut-slots .shortcut-slot > button { width: 48px; }.shortcut-slots .shortcut-slot > button span { display: none; } }
 @media (max-width: 720px) { .node-minimap { display: none; }.node-shortcut-bar { display: none; }.notification-stack { top: 84px; right: 10px; width: calc(100vw - 20px); } }
 
+.buffer b { display: inline-flex; align-items: center; gap: 4px; }
+.buffer b > .node-icon { width: 16px; height: 16px; flex: none; }

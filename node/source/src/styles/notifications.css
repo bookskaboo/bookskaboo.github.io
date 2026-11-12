@@ -2,7 +2,7 @@
 .notification-stack { position:fixed; top:84px; left:50%; right:auto; width:min(390px,calc(100vw - 32px)); transform:translateX(-50%); align-content:start; gap:12px; }
 .notification { animation:notification-in 220ms cubic-bezier(.2,.8,.2,1) both; }
 .notification > span { animation-duration:3.8s; }
-.notification.research > span { animation-duration:4.5s; }
+.notification.research > span,.notification.warning > span { animation-duration:4.5s; }
 @keyframes notification-in { from { opacity:0; transform:translateY(-18px) scale(.97); } to { opacity:1; transform:translateY(0) scale(1); } }
 
 /* Old-game shortcut visibility cards. */

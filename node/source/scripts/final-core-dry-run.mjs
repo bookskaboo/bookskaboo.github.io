@@ -129,7 +129,7 @@ for (const block of stages) for (const [item, quantity] of Object.entries(block.
 
 const recipes = new Map();
 for (const recipe of Object.values(RECIPES)) {
-  if (recipe.recovery || recipe.id.startsWith('efficient-') || recipe.id.startsWith('core-half-') || recipe.id === 'final-core') continue;
+  if (recipe.recovery || /^(recycle|efficient|core-half)-/.test(recipe.id) || recipe.id === 'final-core') continue;
   recipes.set(Object.keys(recipe.outputs)[0], recipe);
 }
 const rawOrder = ['wood', 'iron', 'copper', 'stone', 'water', 'mythril'];

@@ -1,4 +1,5 @@
 import { vehiclePayload } from '../content/cartUpgrades';
+import { materialTypeName } from '../content/items';
 import type { GameState, MachineNode } from '../domain/types';
 import type { GameEngine } from '../simulation/engine';
 import { mapNodePosition } from './mapNodePresentation';
@@ -16,12 +17,14 @@ export function RoadFlowPanel({ node, game, engine, training, onClose }: {
   const sending = node.roadMode === 'export';
   const source = sending ? localPosition : remotePosition;
   const destination = sending ? remotePosition : localPosition;
+  const materials = engine.getRoadTransportStatus(node.id)?.materials ?? [];
+  const rate = 12 * vehiclePayload(game.research.completed);
 
-  return <aside className="inspector recipe-picker-panel road-flow-panel glass" aria-label="Road flow">
+  return <aside className="inspector recipe-picker-panel road-flow-panel glass" aria-label="Road">
     <header className="recipe-picker-header">
       <span><NodeIcon kind={node.kind} node={node} /></span>
-      <div><h2>Road flow</h2></div>
-      <button onClick={onClose} aria-label="Close Road flow">×</button>
+      <div><h2>Road</h2></div>
+      <button onClick={onClose} aria-label="Close Road">×</button>
     </header>
     <div className="road-flow-content">
       <button type="button" className="road-flow-toggle" aria-pressed={sending}
@@ -30,10 +33,8 @@ export function RoadFlowPanel({ node, game, engine, training, onClose }: {
         disabled={Boolean(error || training)} onClick={() => engine.setRoadDirection(node.id, sending ? 'import' : 'export')}>
         <b>{source} → {destination}</b>
       </button>
-      <p className="road-flow-rate" aria-label={`Transfer rate: ${12 * vehiclePayload(game.research.completed)} items per minute`}>{12 * vehiclePayload(game.research.completed)} items / minute</p>
-      <p className="road-flow-guidance">{sending
-        ? 'Only a Cart, Truck, or Train can feed this Road. Connect the vehicle directly, with any Filters, Splitters, Mergers, or Joints upstream of it.'
-        : 'Connect this Road directly to a Cart, Truck, or Train to unload. Put any Filters, Splitters, Mergers, or Joints after the vehicle.'}</p>
+      <p className="road-flow-material">{materials.length ? materials.map(materialTypeName).join(', ') : 'No material assigned'}</p>
+      <p className="road-flow-rate" aria-label={`Transfer rate: ${rate} items per minute`}>{rate} items / minute</p>
     </div>
   </aside>;
 }

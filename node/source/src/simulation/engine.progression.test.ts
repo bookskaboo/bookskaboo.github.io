@@ -1,6 +1,7 @@
 import {describe,it,expect} from 'vitest';
 import {createInitialState,GameEngine} from './engine';
 import {RECIPES,isRecipeUnlocked} from '../content/recipes';
+import {getEffectiveNodeOutputFamilies} from '../content/nodes';
 import {CORE_ITEMS,WASTE_ITEMS} from '../content/progression';
 import {getResearchCosts,isResearchAvailable,RESEARCH_PROJECTS} from '../content/research';
 import {generateSector} from './worldGeneration';
@@ -26,8 +27,8 @@ describe('six-tier gameplay progression',()=>{
   expect(loaded.factoryTemplates?.[0]).toMatchObject({name:'Mythril line',nodes:[{name:'Mythril assembler',recipeId:'mithril-mesh'}]});
  });
  it.each([
-  ['assembler','composite-mythril-gear'],['assembler','composite-mythril-wire'],
-  ['separationFurnace','refined-mithril'],['advancedAssembler','mithril-mesh'],
+  ['separationFurnace','composite-mythril-gear'],['separationFurnace','composite-mythril-wire'],
+  ['separationFurnace','refined-mithril'],['separationFurnace','mithril-mesh'],
   ['advancedAssembler','precision-controller'],['advancedAssembler','logic-substrate'],
   ['advancedAssembler','advanced-actuator'],['advancedAssembler','command-core'],
  ] as const)('produces %s recipe %s at its base time within five-item buffers',(kind,id)=>{
@@ -128,6 +129,91 @@ describe('six-tier gameplay progression',()=>{
   expect(e.getState().research.completed).toEqual(expect.arrayContaining(['sortingTools','mineralRecovery']));
   tick(e,10);expect(e.getSector().nodes[0].output).toEqual({'iron-plate':1});
   expect(isRecipeUnlocked('slagwashing',e.getState().research.completed)).toBe(false);
+ });
+ it('selects Crust Recovery from incoming waste, with Water on its dedicated socket', () => {
+  const e = setup([
+   machine('fluidStorage', 'water', { x: 350, y: 250, output: { water: 10 } }),
+   machine('woodenChest', 'waste', { x: 350, y: 700, output: { 'glassy-crust': 4 } }),
+   machine('recycler', 'recovery', { x: 1150, y: 500, cycleMs: 2000 }),
+   machine('separationFurnace', 'synthesizer', { x: 1750, y: 500 }),
+  ], ['recycler', 'efficientHigherIntermediates']);
+  expect(e.setRecipe('synthesizer', 'recover-crust')).toBe(false);
+  expect(e.connectPorts('water', 0, 'recovery', 0)).toBe(false);
+  expect(e.connectPorts('waste', 0, 'recovery', 1)).toBe(false);
+  expect(e.connectPorts('water', 0, 'recovery', 1)).toBe(true);
+  const recycler = e.getSector().nodes.find(node => node.id === 'recovery')!;
+  tick(e, 2);
+  expect(recycler.input.water).toBe(10);
+  expect(recycler.recipeId).toBeUndefined();
+  expect(e.connectPorts('waste', 0, 'recovery', 0)).toBe(true);
+  tick(e, 20);
+  expect(recycler.recipeId).toBe('recover-crust');
+  expect(recycler.output).toEqual({ 'copper-plate': 1 });
+  expect(recycler.input.water).toBe(9);
+  expect(recycler.input['glassy-crust']).toBe(0);
+ });
+ it('keeps a mixed feed outside the Recycler until its selected recipe and output have cleared', () => {
+  const e = setup([
+   machine('woodenChest', 'feed', { x: 350, y: 250, output: { 'iron-plate': 1, wood: 1 }, outputQueue: ['iron-plate', 'wood'] }),
+   machine('fluidStorage', 'water', { x: 350, y: 750, output: { water: 2 } }),
+   machine('recycler', 'recovery', { x: 1150, y: 500 }),
+   machine('woodenChest', 'receiver', { x: 1750, y: 500 }),
+  ], ['recycler']);
+  const [feed, , recycler] = e.getSector().nodes;
+  expect(e.connectPorts('feed', 0, 'recovery', 0)).toBe(true);
+  expect(e.connectPorts('water', 0, 'recovery', 1)).toBe(true);
+  tick(e, 5);
+  expect(recycler.recipeId).toBe('recycle-iron-plate');
+  expect(recycler.output).toEqual({ iron: 1, wood: 1 });
+  expect(feed.output.wood).toBe(1);
+
+  recycler.recyclerAutoRecipe = false; // A formerly pinned recipe from a saved factory.
+  expect(e.connectPorts('recovery', 0, 'receiver', 0)).toBe(true);
+  tick(e, 9);
+  expect(recycler.recipeId).toBeUndefined();
+  expect(recycler.batch).toBeUndefined();
+  expect(getEffectiveNodeOutputFamilies(recycler)).toEqual(['ANY']);
+  expect(recycler.input.wood).toBe(0);
+  expect(recycler.input.water).toBe(0);
+  expect(feed.output.wood).toBe(0);
+ });
+ it('drains multiple raw items through ordinary inputs even with excess saved output', () => {
+  const e = setup([
+   machine('woodenChest', 'feed', { x: 350, y: 250, output: { copper: 3 } }),
+   machine('fluidStorage', 'water', { x: 350, y: 750, output: { water: 4 } }),
+   machine('recycler', 'disposal', { x: 1150, y: 500, recipeId: 'recycle-copper', recyclerAutoRecipe: true, input: { copper: 1 }, output: { iron: 11 } }),
+  ], ['recycler']);
+  const [feed, , recycler] = e.getSector().nodes;
+  expect(e.connectPorts('feed', 0, 'disposal', 0)).toBe(true);
+  expect(e.connectPorts('water', 0, 'disposal', 1)).toBe(true);
+  expect(getEffectiveNodeOutputFamilies(recycler)).toEqual(['iron']);
+  tick(e, 12);
+  expect(recycler.recipeId).toBeUndefined();
+  expect(recycler.batch).toBeUndefined();
+  expect(recycler.input).toEqual({ copper: 0, water: 0 });
+  expect(feed.output.copper).toBe(0);
+  expect(recycler.output).toEqual({ iron: 11 });
+ });
+ it('requires recovery research before auto-configuring a waste feed', () => {
+  const e = setup([
+   machine('wasteHopper', 'waste', { x: 350, y: 250, output: { 'glassy-crust': 4 } }),
+   machine('recycler', 'recovery', { x: 1150, y: 500 }),
+  ], ['recycler']);
+  expect(e.connectPorts('waste', 0, 'recovery', 0)).toBe(false);
+ });
+ it('recycles different Suppression Bot strengths with one selected recipe', () => {
+  const e = setup([
+   machine('woodenChest', 'bots', { x: 350, y: 250, output: { 'heavy-suppression-bot': 1, 'medium-suppression-bot': 1 } }),
+   machine('fluidStorage', 'water', { x: 350, y: 700, output: { water: 2 } }),
+   machine('recycler', 'recovery', { x: 1150, y: 500 }),
+  ], ['recycler']);
+  expect(e.setRecipe('recovery', 'recycle-suppression-bot')).toBe(true);
+  expect(e.connectPorts('bots', 0, 'recovery', 0)).toBe(true);
+  expect(e.connectPorts('water', 0, 'recovery', 1)).toBe(true);
+  tick(e, 10);
+  const recycler = e.getSector().nodes.find(node => node.id === 'recovery')!;
+  expect(recycler.output).toEqual({ iron: 2, copper: 2, wood: 2, stone: 2 });
+  expect(Object.values(recycler.input).every(amount => amount === 0)).toBe(true);
  });
  it('replaces the fabrication landmark while preserving water and Mythril tier rules',()=>{
   for(const seed of [1,7,204,999]){expect(generateSector(6,5,seed).nodes.some(n=>n.kind==='abandonedFabricator')).toBe(false);const map=generateSector(7,5,seed);expect(map.nodes.some(n=>n.kind==='lake')).toBe(true);expect(map.nodes.some(n=>n.kind==='mythril')).toBe(false);expect(map.nodes.some(n=>n.kind==='monster-camp')).toBe(false);}

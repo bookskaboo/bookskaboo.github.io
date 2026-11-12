@@ -23,17 +23,22 @@ const EFFICIENCY_CORE_ACCESS = [undefined, undefined, 'automataCore', 'hydraulic
 export const MACHINE_EFFICIENCY_FAMILIES = [
   ['extractor', 'Extractor'], ['kiln', 'Kiln'], ['smelter', 'Smelter'],
   ['refiner', 'Refiner'], ['assembler', 'Assembler'], ['researchCenter', 'Research Center'],
-  ['hydroProcessor', 'Hydro Plant'], ['advancedAssembler', 'Assembler II'], ['separationFurnace', 'Separator'],
+  ['hydroProcessor', 'Hydro Plant'], ['advancedAssembler', 'Fabricator'], ['separationFurnace', 'Synthesizer'],
 ] as const;
 const MACHINE_EFFICIENCY_RESEARCH = MACHINE_EFFICIENCY_FAMILIES.flatMap(([family, name]) => Array.from({ length: EFFICIENCY_CORES.length }, (_, index): ResearchProject => {
   const rank = index + 1;
   const machineAccess: Record<string, string> = { hydroProcessor: 'lakeTools', advancedAssembler: 'fabricatorTools', separationFurnace: 'mithrilTools' };
   const prerequisite = rank > 1 ? `${family}${rank - 1}` : family === 'extractor' ? undefined : machineAccess[family] ?? family;
   const access = EFFICIENCY_CORE_ACCESS[index];
-  const effect = `${name} cycles take ${rank * 10}% less time than the base cycle.`;
+  const effect = family === 'separationFurnace'
+    ? `Pure Mythril and Crust Recovery cycles take ${rank * 10}% less time than the base cycle.`
+    : `${name} cycles take ${rank * 10}% less time than the base cycle.`;
+  const movedRecipeNote = family === 'assembler' ? ' Also applies to composite Mythril gears and wire in the Synthesizer.'
+    : family === 'advancedAssembler' ? ' Also applies to both Mythril Mesh recipes in the Synthesizer.'
+    : family === 'separationFurnace' ? ' Crust Recovery runs in the Recycler.' : '';
   return {
     id: `${family}${rank}`, name: `${name} ${rank}`, category: 'Efficiency',
-    description: effect, unlock: effect,
+    description: effect + movedRecipeNote, unlock: effect,
     costs: Object.fromEntries(EFFICIENCY_CORES.slice(0, rank).map(core => [core, 5 + rank * 5])),
     ...(prerequisite ? { prerequisite } : {}),
     ...(access ? { prerequisites: [access] } : {}),

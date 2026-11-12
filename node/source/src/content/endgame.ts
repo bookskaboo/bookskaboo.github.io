@@ -67,7 +67,7 @@ export const ENDGAME_RESEARCH: ResearchProject[] = [
   { id: 'cornerComponents', name: 'End of the World', category: 'Milestone', description: 'There may be more to the map than the middle.', unlock: 'Unlocks Yin, Yang and Final Core assembly.', costs: {}, trigger: { id: 'complex-core-produced', pending: 'Take the next step in Core production', complete: 'First Complex Core produced' } },
   {
     id: 'finalRobotics', name: 'Final Robotics', category: 'Endgame',
-    description: `Make the Final Frame and Final Cannon in Assembler II. Together they make a Suppression Bot ${FINAL_BOT_AP} AP in the Bot Plant.`,
+    description: `Make the Final Frame and Final Cannon in the Fabricator. Together they make a Suppression Bot ${FINAL_BOT_AP} AP in the Bot Plant.`,
     unlock: 'Unlocks the Final Frame and Final Cannon. Pair them in the Bot Plant or combine them with earlier parts.',
     flavorText: 'Management has approved another layer of management.',
     costs: bill(),
@@ -81,7 +81,7 @@ export const ENDGAME_RESEARCH: ResearchProject[] = [
   project('advancedRoadChannels', 'Advanced Road Channels', 'Adds one Road slot per map side each time, up to five slots total.', ['victory', 'roadChannels2'], true),
   project('trainFreightCapacity', 'Train Freight Capacity', 'Each completion adds space for 20 items per Train and 1 item per Road shipment.', ['victory', 'trains'], true),
   project('resourceRegeneration', 'Resource Regeneration', 'Each completion adds the pre-upgrade regeneration rate again to Forests and mineral deposits.', ['victory', 'mineralRegeneration2'], true),
-  { id: 'recycler', name: 'Intermediate Recycling', category: 'Ecology', description: 'Use the Recycler to dispose of basic resources or recover up to one of each solid ingredient from a crafted part. Use Filters to sort the output.', unlock: 'Unlocks the Recycler.', costs: { 'simple-core': 10, 'basic-core': 10, 'automata-core': 10, 'hydro-core': 10 }, prerequisites: ['hydraulicAssembly'] },
+  { id: 'recycler', name: 'Intermediate Recycling', category: 'Ecology', description: 'Supply Water to break down items and run unlocked waste recovery recipes in the Recycler. Use Filters to sort the output.', unlock: 'Unlocks the Recycler.', costs: { 'simple-core': 10, 'basic-core': 10, 'automata-core': 10, 'hydro-core': 10 }, prerequisites: ['hydraulicAssembly'] },
 ];
 
 export function landfillTotal(base: number, rank: number) {

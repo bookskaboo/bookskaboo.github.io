@@ -6,7 +6,7 @@ import { filterOutletLabels } from '../domain/nodeGeometry';
 import type { MachineNode } from '../domain/types';
 import type { GameEngine } from '../simulation/engine';
 import { NodeIcon } from './NodeIcon';
-import { MaterialIcon } from './RecipeIcon';
+import { MaterialIcon } from './MaterialIcon';
 
 export function FilterPicker({ engine, node, onClose }: {
   engine: GameEngine;

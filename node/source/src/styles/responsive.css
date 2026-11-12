@@ -100,7 +100,6 @@
 .shortcut-bars-layer[data-stacked="true"] .shortcut-bar-name { flex-basis:92px; }
 .tutorial-callout { top: var(--hud-clear); right: var(--hud-gap); bottom: auto; width: var(--tutorial-width); max-height: calc(100dvh - var(--hud-clear) - var(--hud-bottom)); padding: clamp(16px, 1.5vw, 25px); }
 .tutorial-details-toggle { display: none; }
-.tutorial-footer { position: sticky; bottom: -1px; padding-top: 6px; background: #1c1e21; }
 .training-session:has(.map-modal) .tutorial-layer.expansion .tutorial-callout,
 .tutorial-layer.expansion[data-sector="4,5"] .tutorial-callout { top: var(--hud-clear); left: var(--hud-gap); right: auto; bottom: auto; width: var(--tutorial-width); }
 @media (min-width: 1500px) {
@@ -136,12 +135,9 @@
   .welcome-art { display: none; }
   .welcome-modal { display: block; min-height: 0; }
   .welcome-copy { padding: clamp(24px, 6vw, 48px); }
-  .tutorial-details-toggle { display: block; min-height: 28px; padding: 3px 6px; }
+  .tutorial-details-toggle { display: block; }
   .tutorial-callout:not(.details-expanded) .tutorial-description { display: none; }
-  .tutorial-callout { padding: 12px 14px; }
-  .tutorial-heading h2 { font-size: 17px; }
-  .tutorial-footer { margin-top: 8px; padding-top: 4px; }
-  .tutorial-footer .tutorial-button { min-height: 30px; padding: 4px 7px; }
+  .tutorial-callout { --tutorial-action-height: 32px; padding: 12px 14px; }
 }
 @media (max-width: 700px) and (min-height: 561px) {
   .game-shell { --tutorial-reserve: 235px; }
@@ -175,9 +171,7 @@
   .tutorial-layer .tutorial-callout { top: var(--hud-clear); bottom: var(--hud-bottom); max-height: none; }
   .tutorial-details-toggle { display: block; }
   .tutorial-callout:not(.details-expanded) .tutorial-description { display: none; }
-  .tutorial-heading h2 { font-size: 17px; }
-  .tutorial-callout { padding: 12px; }
-  .tutorial-footer { margin-top: 7px; }
+  .tutorial-callout { --tutorial-action-height: 32px; padding: 12px; }
   .training-session .modal-backdrop { padding-bottom: var(--hud-bottom); }
   .training-session .modal { height: calc(100dvh - var(--hud-clear) - var(--hud-bottom)); max-height: calc(100dvh - var(--hud-clear) - var(--hud-bottom)); }
   .welcome-modal { display: block; }
@@ -196,10 +190,8 @@
   .shortcut-bars-layer[data-stacked="true"] .shortcut-slot > button > i .node-icon { width: 24px; height: 24px; }
   .tutorial-layer .tutorial-callout,
   .training-session:has(.map-modal) .tutorial-layer.expansion .tutorial-callout,
-  .tutorial-layer.expansion[data-sector="4,5"] .tutorial-callout { top: auto; left: var(--hud-gap); right: var(--hud-gap); bottom: var(--hud-bottom); width: auto; max-height: 145px; padding: 9px 11px; }
-  .tutorial-callout.details-expanded { max-height: 42dvh; }
-  .tutorial-callout .tutorial-instruction { margin-top: 6px; }
-  .tutorial-footer { position: static; }
+  .tutorial-layer.expansion[data-sector="4,5"] .tutorial-callout { top: auto; left: var(--hud-gap); right: var(--hud-gap); bottom: var(--hud-bottom); width: auto; max-height: var(--tutorial-compact-height, 145px); padding: 9px 11px; }
+  .tutorial-callout.details-expanded { --tutorial-compact-height: 42dvh; }
   .training-session .modal-backdrop { padding-inline: var(--hud-gap); padding-bottom: calc(var(--hud-bottom) + var(--tutorial-reserve)); }
   .training-session .modal { height: max(120px, calc(100dvh - var(--hud-clear) - var(--hud-bottom) - var(--tutorial-reserve))); max-height: max(120px, calc(100dvh - var(--hud-clear) - var(--hud-bottom) - var(--tutorial-reserve))); }
   .training-session .modal .panel-header { min-height: 44px; padding-block: 5px; }

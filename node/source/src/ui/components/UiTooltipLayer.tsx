@@ -17,23 +17,32 @@ export function UiTooltipLayer() {
   }, [tip]);
   const targetRef = useRef<HTMLElement | null>(null); const visibleTargetRef = useRef<HTMLElement | null>(null); const timerRef = useRef<number | null>(null); const pointRef = useRef({ x: 0, y: 0 });
   useEffect(() => {
-    const clear = () => { if (timerRef.current) window.clearTimeout(timerRef.current); timerRef.current = null; targetRef.current = null; visibleTargetRef.current = null; setTip(undefined); };
+    const readTip = (target: HTMLElement) => {
+      const tone = target.dataset.tooltipTone ?? getComputedStyle(target).getPropertyValue('--tooltip-tone').trim();
+      setTip({
+        title: target.dataset.tooltip ?? '', detail: target.dataset.tooltipDetail, flavor: target.dataset.tooltipFlavor,
+        tone: tone || undefined, modal: Boolean(target.closest('.modal, .welcome-modal, .confirm-modal')), ...pointRef.current,
+      });
+    };
+    const contentObserver = new MutationObserver(() => {
+      const target = visibleTargetRef.current;
+      if (target?.isConnected && target.hasAttribute('data-tooltip')) readTip(target);
+      else clear();
+    });
+    const clear = () => { contentObserver.disconnect(); if (timerRef.current) window.clearTimeout(timerRef.current); timerRef.current = null; targetRef.current = null; visibleTargetRef.current = null; setTip(undefined); };
     const begin = (target: HTMLElement, x: number, y: number, immediate = false) => {
       pointRef.current = { x, y };
       if (targetRef.current === target) {
         if (visibleTargetRef.current === target) setTip(current => current ? { ...current, x, y } : current);
         return;
       }
-      if (timerRef.current) window.clearTimeout(timerRef.current);
-      targetRef.current = target; visibleTargetRef.current = null; setTip(undefined);
+      clear();
+      targetRef.current = target;
       const reveal = () => {
         if (targetRef.current !== target || !target.isConnected) return;
         visibleTargetRef.current = target;
-        const tone = target.dataset.tooltipTone ?? getComputedStyle(target).getPropertyValue('--tooltip-tone').trim();
-        setTip({
-          title: target.dataset.tooltip ?? '', detail: target.dataset.tooltipDetail, flavor: target.dataset.tooltipFlavor,
-          tone: tone || undefined, modal: Boolean(target.closest('.modal, .welcome-modal, .confirm-modal')), ...pointRef.current,
-        });
+        readTip(target);
+        contentObserver.observe(target, { attributeFilter: ['data-tooltip', 'data-tooltip-detail', 'data-tooltip-flavor', 'data-tooltip-tone'] });
       };
       if (immediate) reveal(); else timerRef.current = window.setTimeout(reveal, Number(target.dataset.tooltipDelay ?? 260));
     };
@@ -47,7 +56,7 @@ export function UiTooltipLayer() {
     observer.observe(document.body, { childList: true, subtree: true });
     document.addEventListener('keydown', clear);
     document.addEventListener('pointerover', over); document.addEventListener('pointermove', move); document.addEventListener('pointerout', out); document.addEventListener('focusin', focus); document.addEventListener('focusout', blur);
-    return () => { observer.disconnect(); document.removeEventListener('keydown', clear); if (timerRef.current) window.clearTimeout(timerRef.current); document.removeEventListener('pointerover', over); document.removeEventListener('pointermove', move); document.removeEventListener('pointerout', out); document.removeEventListener('focusin', focus); document.removeEventListener('focusout', blur); };
+    return () => { observer.disconnect(); contentObserver.disconnect(); document.removeEventListener('keydown', clear); if (timerRef.current) window.clearTimeout(timerRef.current); document.removeEventListener('pointerover', over); document.removeEventListener('pointermove', move); document.removeEventListener('pointerout', out); document.removeEventListener('focusin', focus); document.removeEventListener('focusout', blur); };
   }, []);
   return tip ? (
     <div ref={tooltipRef} className={tip.modal ? 'ui-hover-tooltip modal-tooltip' : 'ui-hover-tooltip'}

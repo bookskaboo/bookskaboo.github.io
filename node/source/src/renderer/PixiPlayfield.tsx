@@ -65,6 +65,8 @@ export function PixiPlayfield(props: Props) {
     let rightPress: { id: string; x: number; y: number; moved: boolean } | undefined;
     let marquee: { startX: number; startY: number; graphic: Graphics; baseSelection: string[]; previewIds: Set<string> } | undefined; let spaceHeld = false; let previewCable: Graphics | undefined; let previewPoint = { x: 0, y: 0 };
     let placementView: PlacementView | undefined; let placementPointerInside = false; let placementCursor = { x: 0, y: 0 };
+    let pasteView: { root: Container; outlines: Graphics; status: Text; connections: Connection[] } | undefined;
+    let pastePreviewKey = '';
     let roadPreview: ReturnType<typeof createRoadPreview> | undefined;
     let lastRoadInHand = props.placing === 'road';
     let dragPointer: { x: number; y: number } | undefined;
@@ -259,7 +261,7 @@ export function PixiPlayfield(props: Props) {
       drawPlate(); button.addChild(plate);
       if (key === 'delete') drawTrashIcon(button, actionSize / 2, actionSize / 2, color); else { const text = label(glyph, compact ? 10 : 12, color, '600'); text.anchor.set(.5); text.position.set(actionSize / 2, actionSize / 2); button.addChild(text); }
       button.on('pointerdown', (event) => { if (event.button !== 0) return; event.stopPropagation(); controlHover.press(node.id); drawPlate(true, true); }); button.on('pointerup', () => { controlHover.release(); drawPlate(true); }); button.on('pointerupoutside', () => { controlHover.release(); drawPlate(); }); button.on('pointertap', (event) => { if (event.button !== 0) return; event.stopPropagation(); clearTooltip(); action(); });
-      const actionTooltip = (event: FederatedPointerEvent) => showTooltip(event, key === 'delete' ? 'Decommission' : key === 'pause' ? (node.processingPaused ? 'Resume processing' : 'Pause processing') : key === 'rotate' ? 'Rotate connectors' : key === 'configure' ? 'Choose recipe' : 'Select', key === 'delete' ? 'Remove this node and its attached cables.' : key === 'pause' ? 'Stops new production. Completed output continues routing.' : key === 'rotate' ? 'Rotate the Splitter or Merger 90°.' : key === 'configure' ? 'Configure this machine with one of its unlocked production recipes.' : 'Select this node on the factory map.', `#${color.toString(16).padStart(6, '0')}`, 'NODE CONTROL');
+      const actionTooltip = (event: FederatedPointerEvent) => showTooltip(event, key === 'delete' ? 'Decommission' : key === 'pause' ? (node.processingPaused ? 'Resume processing' : 'Pause processing') : key === 'rotate' ? 'Rotate connectors' : key === 'configure' ? 'Choose recipe' : key === 'recipes' ? 'Choose Recycler recipe' : 'Select', key === 'delete' ? 'Remove this node and its attached cables.' : key === 'pause' ? 'Stops new production. Completed output continues routing.' : key === 'rotate' ? 'Rotate the Splitter or Merger 90°.' : key === 'configure' ? 'Configure this machine with one of its unlocked production recipes.' : key === 'recipes' ? 'Pin a recipe or match the incoming material.' : 'Select this node on the factory map.', `#${color.toString(16).padStart(6, '0')}`, 'NODE CONTROL');
       button.on('pointerover', (event) => { event.stopPropagation(); enterNodeHover(node.id); drawPlate(true); actionTooltip(event); }); button.on('pointermove', (event) => { event.stopPropagation(); enterNodeHover(node.id); actionTooltip(event); });
       button.on('pointerout', () => { drawPlate(); clearTooltip(); }); root.addChild(button);
     };
@@ -469,7 +471,9 @@ export function PixiPlayfield(props: Props) {
         if (canDeleteNode(node)) { addAction(node, root, actionX, 'delete', '×', 0xff8d93, () => propsRef.current.onDeleteNode(node.id)); actionX -= compact || chest ? 22 : 30; }
         if (!compact && canCyclePortPositions(node)) { addPortOrderAction(node, root, actionX); actionX -= 30; }
         const controls = getNodeModule(node.kind).controls;
-        if (controls.rotatable && definition.category !== 'Logistics') {
+        if (node.kind === 'recycler') {
+          addAction(node, root, actionX, 'recipes', '≡', 0x8ec9ff, () => propsRef.current.onConfigure(node.id));
+        } else if (controls.rotatable && definition.category !== 'Logistics') {
           addAction(node, root, actionX, 'rotate', '↻', 0x8ec9ff, () => propsRef.current.onRotate(node.id));
         } else if (controls.configuration === 'mining-target' || controls.configuration === 'road') {
           addAction(node, root, actionX, 'configure', '⚙', 0x8ec9ff, () => propsRef.current.onConfigure(node.id));
@@ -661,7 +665,70 @@ export function PixiPlayfield(props: Props) {
       root.visible = true;
     };
 
+    const pasteAnchor = (x: number, y: number) =>
+      snapNodePosition(toWorld(x, y), propsRef.current.snapToGrid, { w: 0, h: 0 });
+
+    const syncPastePreview = () => {
+      const { engine, onPaste } = propsRef.current;
+      nodeLayer.interactiveChildren = cableLayer.interactiveChildren = !onPaste;
+      if (!onPaste) {
+        pasteView?.root.destroy({ children: true });
+        pasteView = undefined;
+        pastePreviewKey = '';
+        return;
+      }
+      if (!placementPointerInside || placementCursor.y < viewport.top) {
+        if (pasteView) pasteView.root.visible = false;
+        pastePreviewKey = '';
+        return;
+      }
+      const point = pasteAnchor(placementCursor.x, placementCursor.y);
+      const sector = engine.getSector();
+      const key = `${sector.id}:${engine.getState().revision}:${point.x}:${point.y}:${camera.zoom}`;
+      if (key === pastePreviewKey) return;
+      pastePreviewKey = key;
+      const preview = engine.getPastePreview(point);
+      if (!preview) return;
+      if (pasteView?.connections !== preview.connections) {
+        pasteView?.root.destroy({ children: true });
+        const root = new Container();
+        const cables = new Graphics();
+        const outlines = new Graphics();
+        const status = label('', 11, 0xffffff, '600');
+        status.anchor.set(.5);
+        root.addChild(cables);
+        const nodes = preview.nodes.map(node => ({ ...node, x: node.x - point.x, y: node.y - point.y }));
+        const nodeMap = new Map(nodes.map(node => [node.id, node]));
+        for (const connection of preview.connections) {
+          const points = connectionPoints(connection, nodeMap, preview.connections);
+          if (!points) continue;
+          drawCurve(cables, points.start, points.end, points.sourceSide, points.targetSide);
+          cables.stroke({ color: connection.item ? ITEM_COLORS[connection.item] : 0x60758f, width: 6, cap: 'round' });
+        }
+        const previewSector = { ...sector, nodes, connections: preview.connections, controlGroups: [] };
+        for (const node of nodes) {
+          root.addChild(createNodeView(node, true, previewSector).root);
+          const { w, h } = getNodeSize(node);
+          outlines.roundRect(node.x - w / 2 - 6, node.y - h / 2 - 6, w + 12, h + 12, 15)
+            .fill({ color: 0xffffff, alpha: .1 }).stroke({ color: 0xffffff, width: 4 });
+        }
+        status.y = Math.max(...nodes.map(node => node.y + getNodeSize(node).h / 2)) + 18;
+        root.addChild(outlines, status);
+        placementLayer.addChild(root);
+        pasteView = { root, outlines, status, connections: preview.connections };
+      }
+      const { root, outlines, status } = pasteView;
+      const color = preview.valid ? 0x72dca1 : THEME.danger;
+      root.visible = true;
+      root.position.set(point.x, point.y);
+      outlines.tint = color;
+      status.style.fill = color;
+      status.text = preview.valid ? 'Click to place' : 'Blocked';
+      status.scale.set(nodeTextScale(camera.zoom));
+    };
+
     const syncPlacementPreview = () => {
+      syncPastePreview();
       const kind = propsRef.current.placing;
       if (!roadInHand()) clearRoadPreview();
       if (!kind || !placementPointerInside) {
@@ -677,7 +744,7 @@ export function PixiPlayfield(props: Props) {
       if (!preview) { syncRoadPreview(); drawInsertionPreview(); if (placementView) placementView.view.root.visible = false; return; }
       syncRoadPreview(kind === 'road' ? preview.road : undefined, preview.valid);
       if (!placementView || placementView.kind !== kind || placementView.roadFacing !== preview.node.roadFacing) {
-        placementLayer.removeChildren().forEach((child) => child.destroy({ children: true }));
+        placementView?.view.root.destroy({ children: true });
         const view = createNodeView(preview.node, true); const status = label('', 11, 0xffffff, '600'); status.anchor.set(.5); view.root.addChild(status); placementLayer.addChild(view.root); placementView = { kind, roadFacing: preview.node.roadFacing, view, status };
       }
       const { view, status } = placementView; const size = getNodeSize(preview.node); const color = preview.valid ? 0x72dca1 : THEME.danger;
@@ -740,7 +807,8 @@ export function PixiPlayfield(props: Props) {
         if (summary && summary !== tooltipIntent.detail) { tooltipIntent.detail = summary; propsRef.current.onTooltip?.({ ...tooltipIntent }); }
       }
       const positionPart = drag ? '' : sector.nodes.map((node) => `${Math.round(node.x)}:${Math.round(node.y)}`).join(',');
-      const signature = [sector.id, propsRef.current.engine.getState().research.completed.join(','), JSON.stringify(propsRef.current.engine.getState().research.repeatableCompletions), nextWorldSize.width, nextWorldSize.height, preferences.particles, preferences.showGrid, propsRef.current.engine.getState().research.selected ?? '', Number(propsRef.current.engine.getState().research.completed.includes('treePlanter')), propsRef.current.selectedIds.join(','), propsRef.current.selectedConnection ?? '', positionPart, JSON.stringify(sector.controlGroups ?? []), sector.nodes.map((node) => `${node.id}:${node.kind}:${node.name}:${node.tributeItem ?? ''}:${node.golemMineral ?? ''}:${node.recipeId ?? ''}:${node.filterItem ?? ''}:${node.filterOutputPort ?? 0}:${node.rotation}:${node.roadMode ?? ""}:${node.roadFacing ?? ""}:${node.inputPortOrder?.join('.') ?? ''}:${node.outputPortOrder?.join('.') ?? ''}:${node.outputRowOffset ?? 0}:${Number(node.connectorsMirrored)}:${Number(node.disabled)}:${Number(node.processingPaused)}:${node.campStrength ?? 0}:${node.obstructionRadius ?? 0}:${node.obstructionMaxRadius ?? 0}:${node.obstructionWidth ?? 0}:${node.obstructionHeight ?? 0}`).join('|'), sector.connections.map((connection) => `${connection.id}:${connection.from}:${connection.fromPort ?? 0}:${connection.to}:${connection.toPort ?? 0}:${connection.item ?? ''}`).join('|')].join('~');
+      const recyclerOutputs = sector.nodes.filter(node => node.kind === 'recycler').map(node => getEffectiveNodeOutputFamilies(node).join(',')).join('|');
+      const signature = [recyclerOutputs, sector.id, propsRef.current.engine.getState().research.completed.join(','), JSON.stringify(propsRef.current.engine.getState().research.repeatableCompletions), nextWorldSize.width, nextWorldSize.height, preferences.particles, preferences.showGrid, propsRef.current.engine.getState().research.selected ?? '', Number(propsRef.current.engine.getState().research.completed.includes('treePlanter')), propsRef.current.selectedIds.join(','), propsRef.current.selectedConnection ?? '', positionPart, JSON.stringify(sector.controlGroups ?? []), sector.nodes.map((node) => `${node.id}:${node.kind}:${node.name}:${node.tributeItem ?? ''}:${node.golemMineral ?? ''}:${node.recipeId ?? ''}:${node.filterItem ?? ''}:${node.filterOutputPort ?? 0}:${node.rotation}:${node.roadMode ?? ""}:${node.roadFacing ?? ""}:${node.inputPortOrder?.join('.') ?? ''}:${node.outputPortOrder?.join('.') ?? ''}:${node.outputRowOffset ?? 0}:${Number(node.connectorsMirrored)}:${Number(node.disabled)}:${Number(node.processingPaused)}:${node.campStrength ?? 0}:${node.obstructionRadius ?? 0}:${node.obstructionMaxRadius ?? 0}:${node.obstructionWidth ?? 0}:${node.obstructionHeight ?? 0}`).join('|'), sector.connections.map((connection) => `${connection.id}:${connection.from}:${connection.fromPort ?? 0}:${connection.to}:${connection.toPort ?? 0}:${connection.item ?? ''}`).join('|')].join('~');
       if (signature === lastSceneSignature && sceneNodeSource === sector.nodes && sceneMod === propsRef.current.engine.getState().mod) { syncParticles(); return; } lastSceneSignature = signature;
       sceneMod = propsRef.current.engine.getState().mod;
       const worldSizeChanged = worldSize.width !== nextWorldSize.width || worldSize.height !== nextWorldSize.height;
@@ -765,7 +833,17 @@ export function PixiPlayfield(props: Props) {
       viewportObserver.observe(viewportElement);
       viewportObserver.observe(host);
       world = new Container(); surfaceLayer = new Container(); cableLayer = new Container(); particleLayer = new Container(); nodeLayer = new Container(); placementLayer = new Container(); placementLayer.eventMode = 'none'; overlayLayer = new Container(); insertionPreviewLayer = new Graphics(); insertionPreviewLayer.eventMode = 'none'; world.addChild(surfaceLayer, cableLayer, insertionPreviewLayer, particleLayer, nodeLayer, placementLayer); app.stage.addChild(world, overlayLayer); drawWorldSurface(); updateCamera(); renderScene();
+      const placePaste = (event: FederatedPointerEvent) => {
+        const { onPaste } = propsRef.current;
+        if (!onPaste || event.button !== 0 || spaceHeld) return false;
+        event.preventDefault();
+        event.stopPropagation();
+        clearTooltip();
+        if (event.global.y >= viewport.top) onPaste(pasteAnchor(event.global.x, event.global.y));
+        return true;
+      };
       app.stage.on('pointerdowncapture', (event: FederatedPointerEvent) => {
+        if (placePaste(event)) return;
         for (let target = event.target as Container | null; target; target = target.parent) { if (target.label === 'node-control' || target.label === 'joint-move-handle') return; }
         if (!propsRef.current.placing && event.button === 0 && !spaceHeld) {
           const handle = socketAt(event.global.x, event.global.y);
@@ -778,7 +856,7 @@ export function PixiPlayfield(props: Props) {
         propsRef.current.onPlace(active, point.x, point.y, event.ctrlKey || event.metaKey || event.shiftKey);
       });
       app.stage.on('pointerdown', (event: FederatedPointerEvent) => {
-        if (event.defaultPrevented) return; clearTooltip(); if (event.button === 1 || event.button === 2 || (event.button === 0 && spaceHeld)) { panning = { x: event.global.x, y: event.global.y, cameraX: camera.x, cameraY: camera.y }; return; } if (event.button !== 0) return;
+        if (event.defaultPrevented || placePaste(event)) return; clearTooltip(); if (event.button === 1 || event.button === 2 || (event.button === 0 && spaceHeld)) { panning = { x: event.global.x, y: event.global.y, cameraX: camera.x, cameraY: camera.y }; return; } if (event.button !== 0) return;
         const active = propsRef.current.placing; const point = toWorld(event.global.x, event.global.y); if (active) { propsRef.current.onPlace(active, point.x, point.y, event.ctrlKey || event.metaKey || event.shiftKey); return; }
         const baseSelection = event.shiftKey ? [...propsRef.current.selectedIds] : [];
         propsRef.current.onConnectionSelect(undefined); propsRef.current.onSelect(baseSelection); const graphic = new Graphics(); overlayLayer.addChild(graphic); marquee = { startX: event.global.x, startY: event.global.y, graphic, baseSelection, previewIds: new Set() };
@@ -815,7 +893,7 @@ export function PixiPlayfield(props: Props) {
       };
       app.stage.on('pointermove', (event: FederatedPointerEvent) => {
         if (rightPress && Math.hypot(event.global.x - rightPress.x, event.global.y - rightPress.y) > 4) rightPress.moved = true;
-        placementPointerInside = true; placementCursor = { x: event.global.x, y: event.global.y }; if (propsRef.current.placing) clearTooltip(); previewPoint = { x: event.global.x, y: event.global.y }; if (panning) { camera.x = panning.cameraX + event.global.x - panning.x; camera.y = panning.cameraY + event.global.y - panning.y; updateCamera(); }
+        placementPointerInside = true; placementCursor = { x: event.global.x, y: event.global.y }; if (propsRef.current.placing || propsRef.current.onPaste) clearTooltip(); previewPoint = { x: event.global.x, y: event.global.y }; if (panning) { camera.x = panning.cameraX + event.global.x - panning.x; camera.y = panning.cameraY + event.global.y - panning.y; updateCamera(); }
         dragPointer = { x: event.global.x, y: event.global.y };
         updateDragAt(dragPointer);
         if (marquee) { const x = Math.min(marquee.startX, event.global.x); const y = Math.min(marquee.startY, event.global.y); const width = Math.abs(event.global.x - marquee.startX); const height = Math.abs(event.global.y - marquee.startY); marquee.graphic.clear().rect(x, y, width, height).fill({ color: THEME.selected, alpha: .1 }).stroke({ color: THEME.selected, width: 1, alpha: .92 }); marquee.previewIds = new Set(nodesInMarquee(marquee.startX, marquee.startY, event.global.x, event.global.y)); drawMarqueeHighlights(marquee.previewIds); }
@@ -870,7 +948,12 @@ export function PixiPlayfield(props: Props) {
         pointerUp({ global: { x, y }, shiftKey: event.shiftKey }, insideCanvas);
       };
       window.addEventListener('keydown', keyDown); window.addEventListener('keyup', keyUp); window.addEventListener('pointerup', releaseGlobalInteractions); window.addEventListener('pointercancel', cancelLostInteractions); window.addEventListener('blur', cancelLostInteractions);
-      const pointerEnter = () => { placementPointerInside = true; }; const pointerLeave = () => { controlHover.clear(); hoveredNodeId = undefined; placementPointerInside = false; clearTooltip(); propsRef.current.onHoverNode?.(); syncPlacementPreview(); };
+      const pointerEnter = (event: PointerEvent) => {
+        const rect = app.canvas.getBoundingClientRect();
+        placementPointerInside = true;
+        placementCursor = { x: event.clientX - rect.left, y: event.clientY - rect.top };
+      };
+      const pointerLeave = () => { controlHover.clear(); hoveredNodeId = undefined; placementPointerInside = false; clearTooltip(); propsRef.current.onHoverNode?.(); syncPlacementPreview(); };
       app.canvas.addEventListener('pointerenter', pointerEnter); app.canvas.addEventListener('pointerleave', pointerLeave);
       let cueRevision = -1; let cueTime = -1; const productionCues = new Map<string, ProductionVisual>();
       app.ticker.add(() => {
@@ -948,9 +1031,12 @@ export function PixiPlayfield(props: Props) {
         }
         view.flash.clear();
         if (flashAlpha > 0) {
-          const size = getNodeSize(node);
-          if (node.kind === 'cornerChallenge') view.flash.poly(obstructionOutline(node));
-          else view.flash.roundRect(-size.w / 2 - 3, -size.h / 2 - 3, size.w + 6, size.h + 6, 14);
+          if (node.kind === 'cornerChallenge' || node.kind === 'big-hole') {
+            view.flash.poly(obstructionOutline(node));
+          } else {
+            const size = getNodeSize(node);
+            view.flash.roundRect(-size.w / 2 - 3, -size.h / 2 - 3, size.w + 6, size.h + 6, 14);
+          }
           view.flash.fill({ color: 0x168cf0, alpha: flashAlpha * .08 }).stroke({ color: 0x55baff, width: 2, alpha: flashAlpha });
         }
         });

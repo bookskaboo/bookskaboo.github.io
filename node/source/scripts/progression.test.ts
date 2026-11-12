@@ -11,7 +11,7 @@ type Bill = { raw: Bag; workSeconds: Bag };
 type ModelRecipe = { inputs: Bag; seconds: number };
 const model: Record<string, ModelRecipe> = {};
 for (const recipe of Object.values(RECIPES)) {
-  if(recipe.recovery || recipe.id.startsWith('efficient-'))continue;
+  if(recipe.recovery || recipe.id.startsWith('recycle-') || recipe.id.startsWith('efficient-'))continue;
   // Prefer the later composite Gear/Wire recipes for Complex; retain the legacy Refiner alternatives in gameplay.
   for (const [item, amount] of Object.entries(recipe.outputs).slice(0,1)) model[item] = {
     inputs: Object.fromEntries(Object.entries(recipe.inputs).map(([key, count]) => [key, count! / amount!])),

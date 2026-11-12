@@ -51,6 +51,8 @@ export interface MachineNode {
   /** Mirrors input/output banks horizontally without changing semantic port indices. */
   connectorsMirrored?: boolean;
   recipeId?: string;
+  /** Legacy save field. Recyclers now always match the incoming material. */
+  recyclerAutoRecipe?: boolean;
   resourceItem?: ItemId;
   resourceRemaining?: number;
   resourceCapacity?: number;
@@ -168,6 +170,7 @@ export interface SectorState {
   camera: CameraState;
   lastSimulatedAt: number;
   visited?: boolean;
+  resourceDepletionPending?: true;
 }
 
 export interface ResearchProject {
@@ -230,6 +233,8 @@ export interface GameState {
   achievementTimes?: Record<string, number>;
   /** Persistent discovery history, independent of the short live event feed. */
   researchLog?: GameEvent[];
+  /** Recent depletion notices kept separate from the high-volume simulation feed. */
+  resourceDepletionLog?: GameEvent[];
   discoveryTimes?: Partial<Record<NodeKind, number>>;
   preferences: GamePreferences;
   tutorialStep: number;

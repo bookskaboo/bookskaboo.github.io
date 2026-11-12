@@ -1,13 +1,10 @@
 import type { CSSProperties } from 'react';
 import { itemColorCss, ITEM_NAMES } from '../content/items';
-import type { GameState, MachineNode, NodeKind } from '../domain/types';
+import type { GameState, MachineNode } from '../domain/types';
 import type { GameEngine } from '../simulation/engine';
-import { getTributeItems, tributeAmount, tributeMaterial, type TributeItem } from '../simulation/goblinTribute';
+import { getTributeItems, tributeAmount, tributeMaterial } from '../simulation/goblinTribute';
+import { MaterialIcon } from './MaterialIcon';
 import { NodeIcon } from './NodeIcon';
-
-const RESOURCE_ICONS: Record<TributeItem, NodeKind> = {
-  iron: 'iron', copper: 'copper', stone: 'stoneDeposit', wood: 'forest', water: 'lake', mythril: 'mythril',
-};
 
 export function TributeResourcePicker({ game, engine, node, onClose }: {
   game: GameState; engine: GameEngine; node: MachineNode; onClose(): void;
@@ -28,7 +25,7 @@ export function TributeResourcePicker({ game, engine, node, onClose }: {
         className={`recipe-picker-card ${item === selected ? 'selected' : ''}`}
         style={{ '--recipe-color': itemColorCss(item) } as CSSProperties}
         onClick={() => { if (engine.setGoblinTributeItem(node.id, item)) onClose(); }}>
-        <span className="recipe-picker-icon"><NodeIcon kind={RESOURCE_ICONS[item]} inheritColor /></span>
+        <span className="recipe-picker-icon"><MaterialIcon item={item} /></span>
         <span className="recipe-picker-copy"><span className="recipe-card-title"><strong>{ITEM_NAMES[item]}</strong><span className="recipe-card-time">5 sec</span></span><small>{tributeAmount(camp)} {ITEM_NAMES[item]}</small></span>
       </button>)}
     </div>

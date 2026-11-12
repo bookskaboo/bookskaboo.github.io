@@ -1,6 +1,7 @@
 import { campStatus } from '../simulation/campStatus';
 import { ALPHA_AP, GROVE_GROWTH, FOUNDRY_INPUTS } from '../content/endgame';
 import { vehiclePayload } from '../content/cartUpgrades';
+import { cargoMaterial } from '../content/botAssembly';
 import { itemColorCss, ITEM_NAMES, materialTypeName } from '../content/items';
 import { getNodeModule } from '../content/nodeModules';
 import { getNodeDisplayDefinition, getNodeDisplayName } from '../content/nodes';
@@ -9,6 +10,7 @@ import { RECIPES } from '../content/recipes';
 import type { GameState, ItemId, MachineNode } from '../domain/types';
 import type { GameEngine } from '../simulation/engine';
 import { NodeIcon } from './NodeIcon';
+import { MaterialIcon } from './MaterialIcon';
 import { WASTE_ITEMS } from '../content/progression';
 import { getMonsterSettlementDefinition } from '../content/goblinSettlements';
 import { getTributeItems, isCampFullySuppressed, tributeAmount, tributeMaterial, tributeCapacity, type TributeItem } from '../simulation/goblinTribute';
@@ -21,7 +23,7 @@ const MINING_TARGETS: Array<NonNullable<MachineNode['miningTarget']>> = ['iron',
 const progressPercent = (node: MachineNode) => node.cycleMs > 0 ? Math.max(0, Math.min(100, node.progressMs / node.cycleMs * 100)) : 0;
 function Buffer({ title, values }: { title: string; values: Partial<Record<ItemId, number>> }) {
   const entries = (Object.entries(values) as Array<[ItemId, number]>).filter(([, amount]) => amount > 0);
-  return <div className="buffer"><span>{title}</span><div>{entries.length ? entries.map(([item, amount]) => <b key={item} style={{ borderColor: `${itemColorCss(item)}55` }}>{ITEM_NAMES[item]} <em>{Math.floor(amount)}</em></b>) : <small>Empty</small>}</div></div>;
+  return <div className="buffer"><span>{title}</span><div>{entries.length ? entries.map(([item, amount]) => <b key={item} style={{ borderColor: `${itemColorCss(item)}55` }}><MaterialIcon item={cargoMaterial(item)} />{ITEM_NAMES[item]} <em>{Math.floor(amount)}</em></b>) : <small>Empty</small>}</div></div>;
 }
 export function NodeInspector({ node, game, engine, onClose, onConfigureRecipe, onOpenResearch, onDelete, onFailure }: {
   node: MachineNode;
@@ -67,7 +69,6 @@ export function NodeInspector({ node, game, engine, onClose, onConfigureRecipe, 
       </div>}
       {node.kind==='cornerChallenge'&&<div className="resource-readout"><span>{node.name}</span>{node.cornerType==='foundry'?<>{Object.entries(FOUNDRY_INPUTS).map(([i,n])=><p key={i}>{ITEM_NAMES[i as import('../domain/types').ItemId]}: {(node.input[i as import('../domain/types').ItemId]??0).toLocaleString()} / {n!.toLocaleString()}</p>)}<small>One complete set → one piece immediately. Input capacity: one set.</small></>:<><b>{node.cornerType==='reclamation'?((node.cornerProgress??0)*100).toFixed(3)+'%':(node.cornerProgress??0).toLocaleString()}</b><small>{node.cornerType==='alpha'?'of '+ALPHA_AP.toLocaleString()+' AP · 100-bot input buffer':node.cornerType==='grove'?'of '+GROVE_GROWTH.toLocaleString()+' growth · 100-growth input buffer':'Any waste mix · 100-item input buffer · waste types contribute different credits'}</small></>}<p className="field-help">Collect pieces from the linked Tribute box. Full output preserves supplies and progress.</p></div>}
       {node.kind==='cornerTribute'&&<p className="field-help">Ten pieces maximum. Route these to this world’s Yin and Yang recipes.</p>}
-      {node.kind==='recycler'&&<p className="field-help">2 seconds per input · 10 inputs / 10 mixed outputs. At most one of each constituent solid resource, including fuel Wood. Basic resources return nothing; waste is not accepted.</p>}
       {node.resourceItem && <div className="resource-readout"><span>{ITEM_NAMES[node.resourceItem]}</span><b>{node.infiniteResource ? '∞' : Math.floor(node.resourceRemaining ?? 0).toLocaleString()}</b><small>{node.infiniteResource ? 'Permanent reserve · Connect Extractors to any face' : `of ${Math.floor(node.resourceCapacity ?? node.resourceRemaining ?? 0).toLocaleString()}`}</small></div>}
       {node.kind === 'miningDrill' && <div className="resource-readout"><span>Motors installed</span><b>{node.miningProgress ?? 0}</b><small>of 20</small></div>}
       {node.kind === 'big-hole' && <div className="resource-readout"><span>Stone required</span><b>{Math.floor(node.resourceRemaining ?? 0).toLocaleString()}</b><small>remaining</small></div>}

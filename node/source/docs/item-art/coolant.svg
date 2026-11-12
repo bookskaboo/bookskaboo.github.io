@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <title>Coolant</title>
+  <path d="M12 3C9 7 6 10 6 14A6 6 0 0 0 18 14C18 10 15 7 12 3Z M9 15Q10 18 13 18" stroke="#8cd8ed" stroke-width="1.55"/>
+  <path d="M12 9V14 M10 11.5H14" stroke="#e7e3d9" stroke-width="1.25"/>
+</svg>

@@ -9,6 +9,7 @@ import { isCartKind } from '../content/cartUpgrades';
 import { CORE_ITEMS, WASTE_ITEMS } from '../content/progression';
 import { BOT_FRAMES, BOT_GUNS, BOT_ITEMS, cargoMaterial } from '../content/botAssembly';
 import { modNode, modNodeTemplate, modResearchAccepts, modReserveItems } from '../mods/modRules';
+import { recyclerRecipeForMaterial } from '../content/recipes';
 
 export type PortDirection = 'input' | 'output';
 export type PortSide = 'north' | 'east' | 'south' | 'west';
@@ -35,6 +36,10 @@ export const portFamilyAcceptsItem = (family: PortFamily, item: ItemId) => expan
 
 /** Checks the concrete item against the exact semantic input socket, independent of its visual row. */
 export function inputPortAcceptsItem(target: MachineNode, toPort: number, item: ItemId, completedResearch: readonly string[] = []) {
+  if (target.kind === 'recycler') {
+    if (toPort === 1) return item === 'water';
+    return toPort === 0 && recyclerRecipeForMaterial(item, completedResearch) !== undefined;
+  }
   if (isCartKind(target.kind) && isFluidItem(item)) return false;
   if (hasNodeBehavior(target.kind, 'research') && toPort === 0 && modResearchAccepts(item)) return true;
   const input = getEffectiveNodeInputFamilies(target, completedResearch)[toPort];

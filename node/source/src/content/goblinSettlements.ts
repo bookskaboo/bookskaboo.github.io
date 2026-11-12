@@ -4,7 +4,7 @@ import { getDwarvenSettlement } from './lizardSettlements';
 export const GOBLIN_CHECK_INTERVAL_MS = 60000;
 
 export const GOBLIN_SETTLEMENTS = {
-  camp: { name: 'Small Goblin Camp', research: 'Suppression Bot', maxRadius: 600, attackRequirement: 3, tributePerCycle: 6 },
+  camp: { name: 'Goblin Camp', research: 'Suppression Bot', maxRadius: 600, attackRequirement: 3, tributePerCycle: 6 },
   village: { name: 'Goblin Village', research: 'Sealed Robotics', maxRadius: 600, attackRequirement: 9, tributePerCycle: 18 },
   kingdom: { name: 'Goblin Kingdom', research: 'Heavy Robotics', maxRadius: 600, attackRequirement: 16, tributePerCycle: 36 },
 } as const;

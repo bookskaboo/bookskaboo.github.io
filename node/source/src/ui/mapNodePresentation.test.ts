@@ -1,9 +1,10 @@
 import { describe, expect, it } from 'vitest';
 import { defeatResourceGolem } from '../content/resourceGolems';
+import { worldCornerIds } from '../domain/worldGrid';
 import { normalizeLegacy } from '../persistence/saves';
 import { createInitialState, GameEngine } from '../simulation/engine';
 import { generateSector } from '../simulation/worldGeneration';
-import { mapLandmarkSurvey, mapNodeName, mapNodePosition, mapNodeResourceSummary, mapNodeSurvey } from './mapNodePresentation';
+import { mapCornerMarkers, mapLandmarkSurvey, mapNodeHoverDetails, mapNodeName, mapNodePosition, mapNodeSurvey } from './mapNodePresentation';
 
 describe('Home-relative map positions', () => {
   it('uses dotted compass directions with the vertical offset first and H for Home', () => {
@@ -38,8 +39,9 @@ describe('map exploration surveys', () => {
     expect(game.research.completed).not.toContain('exploration');
     expect(outpost.visited).toBeFalsy();
     expect(mapNodeSurvey(game, outpost.id).obstructions).toContainEqual({ name: 'Lake', count: 1 });
-    expect(mapNodeResourceSummary(game, outpost.id)).toContain('Water ∞');
+    expect(mapNodeHoverDetails(game, outpost.id)).toContain('Water ∞');
     expect(mapLandmarkSurvey(game).discovered).toEqual(new Set(['camps', 'lakes', 'golems']));
+    expect(mapCornerMarkers(game).size).toBe(0);
 
     const restored = new GameEngine(normalizeLegacy(game)!, { autosave: false });
     expect(mapNodeSurvey(restored.getState(), outpost.id).explored).toBe(true);
@@ -78,8 +80,41 @@ describe('map exploration surveys', () => {
     const survey = mapLandmarkSurvey(engine.getState());
     expect(survey.discovered).toEqual(new Set(['camps', 'lakes', 'golems']));
     expect(survey.bySector).toEqual(new Map([
-      [camp.id, new Set(['camps'])], [lake.id, new Set(['lakes'])], [golem.id, new Set(['golems'])], [corner.id, new Set(['camps'])],
+      [camp.id, new Set(['camps'])], [lake.id, new Set(['lakes'])], [golem.id, new Set(['golems'])],
     ]));
+  });
+
+  it.each([11, 21])('reveals persistent corner markers on a %i-wide grid and hides locked names', gridSize => {
+    const game = createInitialState(301);
+    game.worldGridSize = gridSize;
+    const ids = worldCornerIds(gridSize);
+    const addSector = (id: string, unlocked: boolean) => {
+      const [x, y] = id.split(',').map(Number);
+      const sector = generateSector(x, y, game.seed, 0, [], undefined, undefined, gridSize);
+      sector.unlocked = unlocked;
+      sector.visited = false;
+      game.sectors[id] = sector;
+      return sector;
+    };
+    const first = addSector(ids[0], true);
+    const locked = addSector(ids[1], false);
+    addSector(`${locked.x},${locked.y + 1}`, true);
+    game.research.mapPoints = 1;
+    const engine = new GameEngine(game, { autosave: false });
+    const state = engine.getState();
+    expect(mapCornerMarkers(state).size).toBe(0);
+
+    engine.switchSector(first.id);
+    const firstName = first.nodes.find(node => node.kind === 'cornerChallenge')!.name;
+    expect(mapCornerMarkers(state)).toEqual(new Map([[first.id, firstName], ...ids.slice(1).map(id => [id, '???'] as const)]));
+    expect(mapLandmarkSurvey(state).discovered.has('camps')).toBe(false);
+    expect(engine.unlockSector(locked.x, locked.y)).toBe(true);
+    expect(state.sectors[locked.id].visited).toBeFalsy();
+    const lockedName = locked.nodes.find(node => node.kind === 'cornerChallenge')!.name;
+    expect(mapCornerMarkers(state).get(locked.id)).toBe(lockedName);
+
+    engine.switchSector('5,5');
+    expect(mapCornerMarkers(normalizeLegacy(state)!)).toEqual(mapCornerMarkers(state));
   });
 
   it('keeps a Golem marker after it becomes a reserve', () => {
@@ -104,7 +139,7 @@ describe('map exploration surveys', () => {
     for (const unlocked of [false, true]) {
       outpost.unlocked = unlocked;
       expect(mapNodeSurvey(game, outpost.id)).toEqual({ explored: false, resources: [], obstructions: [] });
-      expect(mapNodeResourceSummary(game, outpost.id)).toBe('Map Node Unexplored');
+      expect(mapNodeHoverDetails(game, outpost.id)).toEqual(['Map Node Unexplored']);
     }
     const engine = new GameEngine(game, { autosave: false });
     engine.switchSector(outpost.id);
@@ -127,6 +162,8 @@ describe('map exploration surveys', () => {
       { ...base, id: 'machine', kind: 'extractor', name: 'Extractor', resourceItem: undefined },
     ];
     expect(mapNodeSurvey(game, home.id)).toEqual({ explored: true, resources: [{ item: 'iron', remaining: 500 }, { item: 'water', remaining: Infinity }], obstructions: [{ name: 'Deep Hole', count: 2 }, { name: 'Dwarven Camp', count: 1 }, { name: 'Lake', count: 1 }] });
-    expect(mapNodeResourceSummary(game, home.id)).toBe('Iron 500 · Water ∞');
+    expect(mapNodeHoverDetails(game, home.id)).toEqual(['Iron 500', 'Water ∞', 'Dwarven Camp']);
+    home.nodes[0].resourceRemaining = 299;
+    expect(mapNodeHoverDetails(game, home.id)).toEqual(['Iron 499', 'Water ∞', 'Dwarven Camp']);
   });
 });

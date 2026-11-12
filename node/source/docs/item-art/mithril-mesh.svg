@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <title>Mythril Mesh</title>
+  <path d="M4 4H20V20H4Z M4 9H20 M4 15H20 M9 4V20 M15 4V20" stroke="#70ce91" stroke-width="1.55"/>
+  <path d="M5 19L19 5" stroke="#e7e3d9" stroke-width="1.25"/>
+</svg>

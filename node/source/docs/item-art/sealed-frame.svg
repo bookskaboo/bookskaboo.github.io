@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <title>Sealed Frame</title>
+  <path d="M5 5H19L21 9L18 20H6L3 9Z M8 9H16L15 15H9Z" stroke="#90b5cd" stroke-width="1.55"/>
+  <path d="M6 8H8 M16 8H18" stroke="#e7e3d9" stroke-width="1.25"/>
+</svg>

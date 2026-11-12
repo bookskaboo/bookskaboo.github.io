@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <title>Simple Core</title>
+  <path d="M12 2L21 7V17L12 22L3 17V7Z M12 7L17 12L12 17L7 12Z" stroke="#f07979" stroke-width="1.55"/>
+  <path d="M12 11V13" stroke="#e7e3d9" stroke-width="1.25"/>
+</svg>

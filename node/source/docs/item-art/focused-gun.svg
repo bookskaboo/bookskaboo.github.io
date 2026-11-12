@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <title>Focused Gun</title>
+  <path d="M3 8H14L20 10V12L14 14H10L8 19H5L7 14H3Z M21 5V8 M21 14V17" stroke="#7ed9a0" stroke-width="1.55"/>
+  <path d="M10 9V13 M13 9V13" stroke="#e7e3d9" stroke-width="1.25"/>
+</svg>

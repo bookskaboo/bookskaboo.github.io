@@ -12,36 +12,52 @@
 .build-modal .build-list { flex:1; min-height:0; height:auto; overflow-y:auto; }
 .build-card { flex-shrink:0; }
 .tutorial-menu-backdrop { z-index: 110; }
-.tutorial-menu, .tutorial-unlock-modal { --modal-accent: #d5b666; display: flex; flex-direction: column; }
+.tutorial-dialog, .tutorial-unlock-modal { --modal-accent: #d5b666; display: flex; flex-direction: column; }
 .tutorial-menu { width: min(680px, 100%); }
-.tutorial-unlock-modal { width: min(480px, 100%); }
-.tutorial-modal-content { min-height: 0; overflow-y: auto; padding: clamp(12px, 1.5vw, 22px); }
-.tutorial-library-note, .tutorial-unlock-copy { color: #b9c7ce; margin: 0 0 12px; }
-.tutorial-choice { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px 16px; padding: 12px 0; border-top: 1px solid var(--line); }
-.tutorial-choice:last-child { padding-bottom: 0; }
-.tutorial-choice h3, .tutorial-reference h3 { color: #eef0f2; margin: 0 0 4px; }
-.tutorial-choice p, .tutorial-reference p { color: #b9c7ce; margin: 0; }
-.tutorial-choice-actions, .tutorial-unlock-actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-.tutorial-unlock-actions { justify-content: flex-end; }
-.tutorial-button { min-height: 34px; padding: 5px 10px; border: 1px solid #ffffff30; border-radius: 6px; color: #e4e8ec; background: #ffffff08; }
+.tutorial-invitation, .tutorial-unlock-modal { width: min(480px, 100%); }
+.tutorial-modal-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--modal-section-gap);
+  min-height: 0;
+  overflow-y: auto;
+  padding: clamp(12px, 1.5vw, 22px);
+}
+.tutorial-list { display: grid; gap: var(--modal-paragraph-gap); margin: 0; }
+.tutorial-library { grid-auto-rows: 1fr; }
+.tutorial-card { padding: 12px; background: #ffffff06; border: 1px solid var(--line); border-radius: 6px; }
+.tutorial-choice { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: var(--modal-paragraph-gap) var(--modal-section-gap); }
+.tutorial-card-copy h3 { color: #eef0f2; font: var(--ui-section-font); margin: 0; }
+.tutorial-intro, .tutorial-card-copy p, .tutorial-unlock-copy { color: #b9c7ce; margin: 0; }
+.tutorial-card-copy h3 + p { margin-block-start: var(--modal-label-gap); }
+.tutorial-card-copy p + p { margin-block-start: var(--modal-paragraph-gap); }
+.tutorial-choice-actions { display: grid; grid-template-columns: repeat(2, minmax(0, 7.25rem)); gap: var(--modal-paragraph-gap); }
+.tutorial-actions, .tutorial-unlock-actions { display: flex; align-items: center; justify-content: flex-end; gap: var(--modal-paragraph-gap); flex-wrap: wrap; }
+.tutorial-button { min-height: var(--tutorial-action-height, 36px); padding: 5px 12px; border: 1px solid #ffffff30; border-radius: 6px; color: #e4e8ec; background: #ffffff08; cursor: pointer; }
 .tutorial-button:hover { border-color: #ffffff60; background: #ffffff14; }
 .tutorial-button:focus-visible { outline: 2px solid #f2d585; outline-offset: 2px; }
 .tutorial-primary { border-color: #d5b66680; color: #f1dda2; background: #d5b6661c; }
 .tutorial-primary:hover { border-color: #efd588; background: #d5b66633; }
-.tutorial-reference { display: grid; gap: 8px; margin: 12px 0 0; padding-inline-start: 26px; }
-.tutorial-reference li { padding: 10px 12px; background: #ffffff06; border: 1px solid var(--line); border-radius: 6px; }
-.tutorial-reference li::marker, .tutorial-reference h3 + p { color: #f1dda2; }
-.tutorial-reference p + p { margin-top: 4px; }
+.tutorial-back { align-self: flex-start; }
+.tutorial-reference { padding-inline-start: 26px; }
+.tutorial-reference li::marker, .tutorial-card-copy .tutorial-reference-instruction { color: #f1dda2; }
+@media (max-width: 600px) {
+  .tutorial-library { grid-auto-rows: auto; }
+  .tutorial-choice { grid-template-columns: minmax(0, 1fr); }
+  .tutorial-choice-actions { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
 .tutorial-layer { position: fixed; inset: 0; pointer-events: none; z-index: 100; }
-.tutorial-callout { position: absolute; overflow-y: auto; overscroll-behavior: contain; pointer-events: auto; border: 1px solid #d5b66670; border-radius: 14px; box-shadow: 0 10px 36px #0009; background: linear-gradient(160deg,#2a2d31,#1c1e21 72%); }
-.tutorial-heading { display: flex; gap: 10px; justify-content: space-between; align-items: flex-start; }
-.tutorial-heading h2 { margin: 0; font-size: clamp(18px, 1.35vw, 25px); font-weight: 560; line-height: 1.2; letter-spacing: -.2px; }
-.tutorial-step-tools { display: flex; gap: 6px; align-items: center; flex-shrink: 0; color: #b9c7ce; font-variant-numeric: tabular-nums; }
-.tutorial-callout p { margin: 8px 0 0; color: #b9c7ce; }
-.tutorial-callout .tutorial-instruction { border-left: 2px solid #d5b666; padding: 6px 9px; background: #d5b66610; color: #f0dca2; }
+.tutorial-callout { position: absolute; display: flex; flex-direction: column; gap: var(--modal-paragraph-gap); overflow: hidden; pointer-events: auto; border: 1px solid #d5b66670; border-radius: 14px; box-shadow: 0 10px 36px #0009; background: linear-gradient(160deg,#2a2d31,#1c1e21 72%); }
+.tutorial-heading { display: flex; gap: var(--modal-paragraph-gap); justify-content: space-between; align-items: flex-start; flex: 0 0 auto; }
+.tutorial-heading h2 { margin: 0; overflow-wrap: anywhere; }
+.tutorial-step-tools { display: flex; gap: var(--modal-paragraph-gap); align-items: center; flex-shrink: 0; color: #b9c7ce; font-variant-numeric: tabular-nums; }
+.tutorial-step-content { display: grid; align-content: start; gap: var(--modal-paragraph-gap); min-height: 0; overflow-y: auto; overscroll-behavior: contain; }
+.tutorial-step-content:empty { display: none; }
+.tutorial-step-content p { margin: 0; color: #b9c7ce; }
+.tutorial-callout .tutorial-instruction { border-left: 2px solid #d5b666; padding: 6px 10px; background: #d5b66610; color: #f0dca2; }
 .tutorial-callout .tutorial-road-route, .tutorial-callout .tutorial-status { color: #e4c782; }
-.tutorial-footer { display: flex; justify-content: flex-end; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
-.tutorial-footer > button:first-child { margin-right: auto; }
+.tutorial-footer { flex: 0 0 auto; padding-block-start: var(--modal-label-gap); }
+.tutorial-footer > button:first-child { margin-inline-end: auto; }
 .tutorial-callout .tutorial-correction { padding: 10px 12px; border-left: 2px solid #93b8a1; background: #93b8a10c; color: #c5d6ca; font-style: italic; }
 .tutorial-placement-target { position: absolute; border: 2px dashed #e6cb7c; border-radius: 12px; background: #e6cb7c12; box-shadow: 0 0 18px #e6cb7c30; }
 .tutorial-placement-target span { position: absolute; bottom: -24px; left: 0; right: 0; text-align: center; color: #e6cb7c; font-size: 10px; letter-spacing: 1px; }
@@ -170,8 +186,7 @@
 .recipe-guide-formula { flex-wrap: wrap; row-gap: 9px; }
 .recipe-guide-materials.inputs, .recipe-guide-materials.outputs { align-items: center; }
 .recipe-guide-arrow { color: #d5b77f; font-size: 18px; }
-.recipe-guide-material .recipe-material-boxes { display: inline-flex; align-items: center; gap: 2px; }
-.recipe-guide-material .recipe-material-boxes i { width: 6px; height: 6px; border: 1px solid currentColor; border-radius: 1px; background: currentColor; box-shadow: none; }
+.recipe-guide-material > .node-icon { width: 16px; height: 16px; flex: none; }
 .recipe-guide-material.chance-output { border-style: dashed; }
 .recipe-guide-material.chance-output small { color: #d5b77f; }
 .recipe-guide-note { color: #9da9ae; font-size: 10px; line-height: 1.5; }

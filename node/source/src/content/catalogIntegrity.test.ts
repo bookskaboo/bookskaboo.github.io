@@ -26,9 +26,11 @@ describe('content catalog integrity', () => {
   });
 
   it('keeps recipes and recipe-machine defaults connected to valid catalogs', () => {
+    const disposal = new Set(['recycle-iron', 'recycle-copper', 'recycle-wood', 'recycle-stone', 'recycle-mythril']);
     Object.values(RECIPES).forEach((recipe) => {
       expect(Object.keys(recipe.inputs).length, `${recipe.id}:inputs`).toBeGreaterThan(0);
-      expect(Object.keys(recipe.outputs).length, `${recipe.id}:outputs`).toBeGreaterThan(0);
+      if (disposal.has(recipe.id)) expect(recipe.outputs).toEqual({});
+      else expect(Object.keys(recipe.outputs).length, `${recipe.id}:outputs`).toBeGreaterThan(0);
       expect(recipe.cycleMs).toBeGreaterThan(0);
       [...Object.keys(recipe.inputs), ...Object.keys(recipe.outputs)].forEach((item) => expect(ITEM_NAMES[item as ItemId], `${recipe.id}:${item}`).toBeTruthy());
     });

@@ -1,0 +1,895 @@
+{
+  "kind": "Headless fixture tests and discrete-event factory comparison",
+  "assumptions": [
+    "Engine fixtures use prebuilt stations, staged ingredients, 100 ms ticks, and normal recipe and cable checks. No existing save or game source was modified.",
+    "The factory model starts with raw materials in stock, machines built, and the necessary research complete. One dedicated station per recipe, unlimited internal transfer and storage, no construction, extraction, travel, or research time. Shared ingredients go first to the branch furthest behind its batch quota.",
+    "Encounter times measure production of sufficient AP, excluding delivery, encounter placement and payment cadence. Efficient Mesh is already researched in the late and efficient comparison cases.",
+    "Prototype parity uses the prior efficiency family per moved recipe in the model. The real-engine recipe checks cover equal and unequal machine ranks.",
+    "The Crust contention test feeds full batches and drains output on every tick to isolate scheduling, independent of cable rates."
+  ],
+  "wired": {
+    "base": {
+      "current": [
+        {
+          "recipe": "Mythril Mesh",
+          "machine": "Fabricator",
+          "firstOutputSeconds": 19.7,
+          "batchSeconds": 18,
+          "outputs": {
+            "mithril-mesh": 1
+          },
+          "capacity": 5
+        },
+        {
+          "recipe": "Efficient Mythril Mesh",
+          "machine": "Fabricator",
+          "firstOutputSeconds": 17.7,
+          "batchSeconds": 16,
+          "outputs": {
+            "mithril-mesh": 1,
+            "glassy-crust": 2,
+            "spent-flux": 1
+          },
+          "capacity": 5,
+          "threeBatches": {
+            "secondsToDrain": 53.8,
+            "received": {
+              "mithril-mesh": 3,
+              "glassy-crust": 6,
+              "spent-flux": 3
+            }
+          }
+        },
+        {
+          "recipe": "Composite Mythril Gear",
+          "machine": "Assembler",
+          "firstOutputSeconds": 14.5,
+          "batchSeconds": 12,
+          "outputs": {
+            "mythril-gear": 4
+          },
+          "capacity": 5
+        },
+        {
+          "recipe": "Composite Mythril Wire",
+          "machine": "Assembler",
+          "firstOutputSeconds": 14.5,
+          "batchSeconds": 12,
+          "outputs": {
+            "mythril-wire": 4
+          },
+          "capacity": 5
+        }
+      ],
+      "proposed": [
+        {
+          "recipe": "Mythril Mesh",
+          "machine": "Synthesizer",
+          "firstOutputSeconds": 19.7,
+          "batchSeconds": 18,
+          "outputs": {
+            "mithril-mesh": 1
+          },
+          "capacity": 5
+        },
+        {
+          "recipe": "Efficient Mythril Mesh",
+          "machine": "Synthesizer",
+          "firstOutputSeconds": 17.7,
+          "batchSeconds": 16,
+          "outputs": {
+            "mithril-mesh": 1,
+            "glassy-crust": 2,
+            "spent-flux": 1
+          },
+          "capacity": 5,
+          "threeBatches": {
+            "secondsToDrain": 53.8,
+            "received": {
+              "mithril-mesh": 3,
+              "glassy-crust": 6,
+              "spent-flux": 3
+            }
+          }
+        },
+        {
+          "recipe": "Composite Mythril Gear",
+          "machine": "Synthesizer",
+          "firstOutputSeconds": 14.5,
+          "batchSeconds": 12,
+          "outputs": {
+            "mythril-gear": 4
+          },
+          "capacity": 5
+        },
+        {
+          "recipe": "Composite Mythril Wire",
+          "machine": "Synthesizer",
+          "firstOutputSeconds": 14.5,
+          "batchSeconds": 12,
+          "outputs": {
+            "mythril-wire": 4
+          },
+          "capacity": 5
+        }
+      ]
+    },
+    "originRank2SynthesizerRank0": {
+      "current": [
+        {
+          "recipe": "Mythril Mesh",
+          "machine": "Fabricator",
+          "firstOutputSeconds": 16.1,
+          "batchSeconds": 14.4,
+          "outputs": {
+            "mithril-mesh": 1
+          },
+          "capacity": 5
+        },
+        {
+          "recipe": "Efficient Mythril Mesh",
+          "machine": "Fabricator",
+          "firstOutputSeconds": 14.5,
+          "batchSeconds": 12.8,
+          "outputs": {
+            "mithril-mesh": 1,
+            "glassy-crust": 2,
+            "spent-flux": 1
+          },
+          "capacity": 5,
+          "threeBatches": {
+            "secondsToDrain": 44.2,
+            "received": {
+              "mithril-mesh": 3,
+              "glassy-crust": 6,
+              "spent-flux": 3
+            }
+          }
+        },
+        {
+          "recipe": "Composite Mythril Gear",
+          "machine": "Assembler",
+          "firstOutputSeconds": 12.1,
+          "batchSeconds": 9.6,
+          "outputs": {
+            "mythril-gear": 4
+          },
+          "capacity": 5
+        },
+        {
+          "recipe": "Composite Mythril Wire",
+          "machine": "Assembler",
+          "firstOutputSeconds": 12.1,
+          "batchSeconds": 9.6,
+          "outputs": {
+            "mythril-wire": 4
+          },
+          "capacity": 5
+        }
+      ],
+      "proposed": [
+        {
+          "recipe": "Mythril Mesh",
+          "machine": "Synthesizer",
+          "firstOutputSeconds": 19.7,
+          "batchSeconds": 18,
+          "outputs": {
+            "mithril-mesh": 1
+          },
+          "capacity": 5
+        },
+        {
+          "recipe": "Efficient Mythril Mesh",
+          "machine": "Synthesizer",
+          "firstOutputSeconds": 17.7,
+          "batchSeconds": 16,
+          "outputs": {
+            "mithril-mesh": 1,
+            "glassy-crust": 2,
+            "spent-flux": 1
+          },
+          "capacity": 5,
+          "threeBatches": {
+            "secondsToDrain": 53.8,
+            "received": {
+              "mithril-mesh": 3,
+              "glassy-crust": 6,
+              "spent-flux": 3
+            }
+          }
+        },
+        {
+          "recipe": "Composite Mythril Gear",
+          "machine": "Synthesizer",
+          "firstOutputSeconds": 14.5,
+          "batchSeconds": 12,
+          "outputs": {
+            "mythril-gear": 4
+          },
+          "capacity": 5
+        },
+        {
+          "recipe": "Composite Mythril Wire",
+          "machine": "Synthesizer",
+          "firstOutputSeconds": 14.5,
+          "batchSeconds": 12,
+          "outputs": {
+            "mythril-wire": 4
+          },
+          "capacity": 5
+        }
+      ]
+    },
+    "allRank2": {
+      "current": [
+        {
+          "recipe": "Mythril Mesh",
+          "machine": "Fabricator",
+          "firstOutputSeconds": 16.1,
+          "batchSeconds": 14.4,
+          "outputs": {
+            "mithril-mesh": 1
+          },
+          "capacity": 5
+        },
+        {
+          "recipe": "Efficient Mythril Mesh",
+          "machine": "Fabricator",
+          "firstOutputSeconds": 14.5,
+          "batchSeconds": 12.8,
+          "outputs": {
+            "mithril-mesh": 1,
+            "glassy-crust": 2,
+            "spent-flux": 1
+          },
+          "capacity": 5,
+          "threeBatches": {
+            "secondsToDrain": 44.2,
+            "received": {
+              "mithril-mesh": 3,
+              "glassy-crust": 6,
+              "spent-flux": 3
+            }
+          }
+        },
+        {
+          "recipe": "Composite Mythril Gear",
+          "machine": "Assembler",
+          "firstOutputSeconds": 12.1,
+          "batchSeconds": 9.6,
+          "outputs": {
+            "mythril-gear": 4
+          },
+          "capacity": 5
+        },
+        {
+          "recipe": "Composite Mythril Wire",
+          "machine": "Assembler",
+          "firstOutputSeconds": 12.1,
+          "batchSeconds": 9.6,
+          "outputs": {
+            "mythril-wire": 4
+          },
+          "capacity": 5
+        }
+      ],
+      "proposed": [
+        {
+          "recipe": "Mythril Mesh",
+          "machine": "Synthesizer",
+          "firstOutputSeconds": 16.1,
+          "batchSeconds": 14.4,
+          "outputs": {
+            "mithril-mesh": 1
+          },
+          "capacity": 5
+        },
+        {
+          "recipe": "Efficient Mythril Mesh",
+          "machine": "Synthesizer",
+          "firstOutputSeconds": 14.5,
+          "batchSeconds": 12.8,
+          "outputs": {
+            "mithril-mesh": 1,
+            "glassy-crust": 2,
+            "spent-flux": 1
+          },
+          "capacity": 5,
+          "threeBatches": {
+            "secondsToDrain": 44.2,
+            "received": {
+              "mithril-mesh": 3,
+              "glassy-crust": 6,
+              "spent-flux": 3
+            }
+          }
+        },
+        {
+          "recipe": "Composite Mythril Gear",
+          "machine": "Synthesizer",
+          "firstOutputSeconds": 12.1,
+          "batchSeconds": 9.6,
+          "outputs": {
+            "mythril-gear": 4
+          },
+          "capacity": 5
+        },
+        {
+          "recipe": "Composite Mythril Wire",
+          "machine": "Synthesizer",
+          "firstOutputSeconds": 12.1,
+          "batchSeconds": 9.6,
+          "outputs": {
+            "mythril-wire": 4
+          },
+          "capacity": 5
+        }
+      ]
+    }
+  },
+  "hydroPorts": [
+    {
+      "recipe": "Coolant",
+      "machine": "Hydro Plant",
+      "firstOutputSeconds": 7.3,
+      "batchSeconds": 6,
+      "outputs": {
+        "coolant": 2
+      },
+      "capacity": 5,
+      "inputPorts": [
+        "water",
+        "iron-plate"
+      ]
+    },
+    {
+      "recipe": "Copper Slurry",
+      "machine": "Hydro Plant",
+      "firstOutputSeconds": 9.3,
+      "batchSeconds": 8,
+      "outputs": {
+        "conductive-slurry": 2
+      },
+      "capacity": 5,
+      "inputPorts": [
+        "water",
+        "copper-wire",
+        "charcoal"
+      ]
+    }
+  ],
+  "gates": {
+    "oreSeparationCanBeResearchedBeforeMythril": true,
+    "firstTributeAndSynthesizerSeconds": 125,
+    "mediumBotsInFixture": 4,
+    "apPerCheck": 6,
+    "oreSeparationStillNeededForCleanMesh": true
+  },
+  "modeled": {
+    "current": {
+      "firstHydro": {
+        "firstSeconds": 92.4,
+        "finishSeconds": 92.4,
+        "amount": 1,
+        "rawConsumed": {
+          "iron": 12,
+          "wood": 16,
+          "copper": 18,
+          "water": 10,
+          "stone": 1
+        },
+        "byproducts": {},
+        "sustainedPerMinute": null,
+        "productionNodes": 12
+      },
+      "firstShiny": {
+        "firstSeconds": 136.6,
+        "finishSeconds": 136.6,
+        "amount": 1,
+        "rawConsumed": {
+          "mythril": 2,
+          "wood": 26,
+          "iron": 24,
+          "copper": 24,
+          "water": 8
+        },
+        "byproducts": {},
+        "sustainedPerMinute": null,
+        "productionNodes": 13
+      },
+      "firstShinyEfficientMesh": {
+        "firstSeconds": 134,
+        "finishSeconds": 134,
+        "amount": 1,
+        "rawConsumed": {
+          "mythril": 2,
+          "wood": 25,
+          "iron": 24,
+          "copper": 22,
+          "water": 8
+        },
+        "byproducts": {
+          "glassy-crust": 2,
+          "spent-flux": 1
+        },
+        "sustainedPerMinute": null,
+        "productionNodes": 13
+      },
+      "firstHeavyBot": {
+        "firstSeconds": 296.7,
+        "finishSeconds": 296.7,
+        "amount": 1,
+        "rawConsumed": {
+          "iron": 64,
+          "wood": 59,
+          "copper": 42,
+          "water": 8,
+          "stone": 3,
+          "mythril": 6
+        },
+        "byproducts": {},
+        "sustainedPerMinute": null,
+        "productionNodes": 19
+      },
+      "sustainedHeavyBots": {
+        "firstSeconds": 6945.2,
+        "finishSeconds": 8505.2,
+        "amount": 40,
+        "rawConsumed": {
+          "iron": 2400,
+          "wood": 2240,
+          "copper": 1680,
+          "water": 320,
+          "stone": 120,
+          "mythril": 200
+        },
+        "byproducts": {},
+        "sustainedPerMinute": 1.5,
+        "productionNodes": 19
+      },
+      "sustainedCommandBots": {
+        "firstSeconds": 16041.1,
+        "finishSeconds": 19551.1,
+        "amount": 40,
+        "rawConsumed": {
+          "iron": 4480,
+          "wood": 5230,
+          "copper": 5120,
+          "water": 1840,
+          "stone": 120,
+          "mythril": 340
+        },
+        "byproducts": {
+          "glassy-crust": 160,
+          "spent-flux": 80,
+          "metallic-fines": 120
+        },
+        "sustainedPerMinute": 0.667,
+        "productionNodes": 27
+      },
+      "encounters": {
+        "Other Golem": {
+          "ap": 100,
+          "botAp": 8,
+          "bots": 13,
+          "firstSeconds": 2341.7,
+          "finishSeconds": 2821.7,
+          "amount": 13,
+          "rawConsumed": {
+            "iron": 784,
+            "wood": 731,
+            "copper": 546,
+            "water": 104,
+            "stone": 39,
+            "mythril": 66
+          },
+          "byproducts": {},
+          "sustainedPerMinute": 1.5,
+          "productionNodes": 19
+        },
+        "Mythril Golem": {
+          "ap": 150,
+          "botAp": 8,
+          "bots": 19,
+          "firstSeconds": 3364.2,
+          "finishSeconds": 4084.2,
+          "amount": 19,
+          "rawConsumed": {
+            "iron": 1144,
+            "wood": 1067,
+            "copper": 798,
+            "water": 152,
+            "stone": 57,
+            "mythril": 96
+          },
+          "byproducts": {},
+          "sustainedPerMinute": 1.5,
+          "productionNodes": 19
+        },
+        "Ancient Dragon": {
+          "ap": 200,
+          "botAp": 24,
+          "bots": 9,
+          "firstSeconds": 3790.1,
+          "finishSeconds": 4510.1,
+          "amount": 9,
+          "rawConsumed": {
+            "iron": 1012,
+            "wood": 1182,
+            "copper": 1156,
+            "water": 414,
+            "stone": 27,
+            "mythril": 78
+          },
+          "byproducts": {
+            "glassy-crust": 36,
+            "spent-flux": 18,
+            "metallic-fines": 27
+          },
+          "sustainedPerMinute": 0.667,
+          "productionNodes": 27
+        }
+      }
+    },
+    "moved-parity": {
+      "firstHydro": {
+        "firstSeconds": 92.4,
+        "finishSeconds": 92.4,
+        "amount": 1,
+        "rawConsumed": {
+          "iron": 12,
+          "wood": 16,
+          "copper": 18,
+          "water": 10,
+          "stone": 1
+        },
+        "byproducts": {},
+        "sustainedPerMinute": null,
+        "productionNodes": 12
+      },
+      "firstShiny": {
+        "firstSeconds": 136.6,
+        "finishSeconds": 136.6,
+        "amount": 1,
+        "rawConsumed": {
+          "mythril": 2,
+          "wood": 26,
+          "iron": 24,
+          "copper": 24,
+          "water": 8
+        },
+        "byproducts": {},
+        "sustainedPerMinute": null,
+        "productionNodes": 13
+      },
+      "firstShinyEfficientMesh": {
+        "firstSeconds": 134,
+        "finishSeconds": 134,
+        "amount": 1,
+        "rawConsumed": {
+          "mythril": 2,
+          "wood": 25,
+          "iron": 24,
+          "copper": 22,
+          "water": 8
+        },
+        "byproducts": {
+          "glassy-crust": 2,
+          "spent-flux": 1
+        },
+        "sustainedPerMinute": null,
+        "productionNodes": 13
+      },
+      "firstHeavyBot": {
+        "firstSeconds": 296.7,
+        "finishSeconds": 296.7,
+        "amount": 1,
+        "rawConsumed": {
+          "iron": 64,
+          "wood": 59,
+          "copper": 42,
+          "water": 8,
+          "stone": 3,
+          "mythril": 6
+        },
+        "byproducts": {},
+        "sustainedPerMinute": null,
+        "productionNodes": 19
+      },
+      "sustainedHeavyBots": {
+        "firstSeconds": 6945.2,
+        "finishSeconds": 8505.2,
+        "amount": 40,
+        "rawConsumed": {
+          "iron": 2400,
+          "wood": 2240,
+          "copper": 1680,
+          "water": 320,
+          "stone": 120,
+          "mythril": 200
+        },
+        "byproducts": {},
+        "sustainedPerMinute": 1.5,
+        "productionNodes": 19
+      },
+      "sustainedCommandBots": {
+        "firstSeconds": 16041.1,
+        "finishSeconds": 19551.1,
+        "amount": 40,
+        "rawConsumed": {
+          "iron": 4480,
+          "wood": 5230,
+          "copper": 5120,
+          "water": 1840,
+          "stone": 120,
+          "mythril": 340
+        },
+        "byproducts": {
+          "glassy-crust": 160,
+          "spent-flux": 80,
+          "metallic-fines": 120
+        },
+        "sustainedPerMinute": 0.667,
+        "productionNodes": 27
+      },
+      "encounters": {
+        "Other Golem": {
+          "ap": 100,
+          "botAp": 8,
+          "bots": 13,
+          "firstSeconds": 2341.7,
+          "finishSeconds": 2821.7,
+          "amount": 13,
+          "rawConsumed": {
+            "iron": 784,
+            "wood": 731,
+            "copper": 546,
+            "water": 104,
+            "stone": 39,
+            "mythril": 66
+          },
+          "byproducts": {},
+          "sustainedPerMinute": 1.5,
+          "productionNodes": 19
+        },
+        "Mythril Golem": {
+          "ap": 150,
+          "botAp": 8,
+          "bots": 19,
+          "firstSeconds": 3364.2,
+          "finishSeconds": 4084.2,
+          "amount": 19,
+          "rawConsumed": {
+            "iron": 1144,
+            "wood": 1067,
+            "copper": 798,
+            "water": 152,
+            "stone": 57,
+            "mythril": 96
+          },
+          "byproducts": {},
+          "sustainedPerMinute": 1.5,
+          "productionNodes": 19
+        },
+        "Ancient Dragon": {
+          "ap": 200,
+          "botAp": 24,
+          "bots": 9,
+          "firstSeconds": 3790.1,
+          "finishSeconds": 4510.1,
+          "amount": 9,
+          "rawConsumed": {
+            "iron": 1012,
+            "wood": 1182,
+            "copper": 1156,
+            "water": 414,
+            "stone": 27,
+            "mythril": 78
+          },
+          "byproducts": {
+            "glassy-crust": 36,
+            "spent-flux": 18,
+            "metallic-fines": 27
+          },
+          "sustainedPerMinute": 0.667,
+          "productionNodes": 27
+        }
+      }
+    },
+    "moved-native": {
+      "firstHydro": {
+        "firstSeconds": 92.4,
+        "finishSeconds": 92.4,
+        "amount": 1,
+        "rawConsumed": {
+          "iron": 12,
+          "wood": 16,
+          "copper": 18,
+          "water": 10,
+          "stone": 1
+        },
+        "byproducts": {},
+        "sustainedPerMinute": null,
+        "productionNodes": 12
+      },
+      "firstShiny": {
+        "firstSeconds": 140.2,
+        "finishSeconds": 140.2,
+        "amount": 1,
+        "rawConsumed": {
+          "mythril": 2,
+          "wood": 26,
+          "iron": 24,
+          "copper": 24,
+          "water": 8
+        },
+        "byproducts": {},
+        "sustainedPerMinute": null,
+        "productionNodes": 13
+      },
+      "firstShinyEfficientMesh": {
+        "firstSeconds": 137.2,
+        "finishSeconds": 137.2,
+        "amount": 1,
+        "rawConsumed": {
+          "mythril": 2,
+          "wood": 25,
+          "iron": 24,
+          "copper": 22,
+          "water": 8
+        },
+        "byproducts": {
+          "glassy-crust": 2,
+          "spent-flux": 1
+        },
+        "sustainedPerMinute": null,
+        "productionNodes": 13
+      },
+      "firstHeavyBot": {
+        "firstSeconds": 296.7,
+        "finishSeconds": 296.7,
+        "amount": 1,
+        "rawConsumed": {
+          "iron": 64,
+          "wood": 59,
+          "copper": 42,
+          "water": 8,
+          "stone": 3,
+          "mythril": 6
+        },
+        "byproducts": {},
+        "sustainedPerMinute": null,
+        "productionNodes": 19
+      },
+      "sustainedHeavyBots": {
+        "firstSeconds": 6945.2,
+        "finishSeconds": 8505.2,
+        "amount": 40,
+        "rawConsumed": {
+          "iron": 2400,
+          "wood": 2240,
+          "copper": 1680,
+          "water": 320,
+          "stone": 120,
+          "mythril": 200
+        },
+        "byproducts": {},
+        "sustainedPerMinute": 1.5,
+        "productionNodes": 19
+      },
+      "sustainedCommandBots": {
+        "firstSeconds": 16002.6,
+        "finishSeconds": 19512.6,
+        "amount": 40,
+        "rawConsumed": {
+          "iron": 4480,
+          "wood": 5230,
+          "copper": 5120,
+          "water": 1840,
+          "stone": 120,
+          "mythril": 340
+        },
+        "byproducts": {
+          "glassy-crust": 160,
+          "spent-flux": 80,
+          "metallic-fines": 120
+        },
+        "sustainedPerMinute": 0.667,
+        "productionNodes": 27
+      },
+      "encounters": {
+        "Other Golem": {
+          "ap": 100,
+          "botAp": 8,
+          "bots": 13,
+          "firstSeconds": 2341.7,
+          "finishSeconds": 2821.7,
+          "amount": 13,
+          "rawConsumed": {
+            "iron": 784,
+            "wood": 731,
+            "copper": 546,
+            "water": 104,
+            "stone": 39,
+            "mythril": 66
+          },
+          "byproducts": {},
+          "sustainedPerMinute": 1.5,
+          "productionNodes": 19
+        },
+        "Mythril Golem": {
+          "ap": 150,
+          "botAp": 8,
+          "bots": 19,
+          "firstSeconds": 3364.2,
+          "finishSeconds": 4084.2,
+          "amount": 19,
+          "rawConsumed": {
+            "iron": 1144,
+            "wood": 1067,
+            "copper": 798,
+            "water": 152,
+            "stone": 57,
+            "mythril": 96
+          },
+          "byproducts": {},
+          "sustainedPerMinute": 1.5,
+          "productionNodes": 19
+        },
+        "Ancient Dragon": {
+          "ap": 200,
+          "botAp": 24,
+          "bots": 9,
+          "firstSeconds": 3790.1,
+          "finishSeconds": 4510.1,
+          "amount": 9,
+          "rawConsumed": {
+            "iron": 1012,
+            "wood": 1182,
+            "copper": 1156,
+            "water": 414,
+            "stone": 27,
+            "mythril": 78
+          },
+          "byproducts": {
+            "glassy-crust": 36,
+            "spent-flux": 18,
+            "metallic-fines": 27
+          },
+          "sustainedPerMinute": 0.667,
+          "productionNodes": 27
+        }
+      }
+    }
+  },
+  "crust": {
+    "current": {
+      "recipe": "Crust Recovery",
+      "machine": "Synthesizer",
+      "firstOutputSeconds": 12.5,
+      "batchSeconds": 10,
+      "outputs": {
+        "copper-plate": 1
+      },
+      "capacity": 5
+    },
+    "separateRecyclerUnlockCost": {
+      "simple-core": 10,
+      "basic-core": 10,
+      "automata-core": 10,
+      "hydro-core": 10
+    },
+    "proposed": {
+      "continuousCrustOnly": {
+        "seconds": 120,
+        "crustBatches": 12,
+        "finesBatches": 0
+      },
+      "continuousFinesAndCrust": {
+        "seconds": 120,
+        "crustBatches": 0,
+        "finesBatches": 12
+      }
+    }
+  }
+}

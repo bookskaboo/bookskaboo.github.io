@@ -1,5 +1,5 @@
 import { modNode } from '../mods/modRules';
-import { ITEM_COLORS, ITEM_NAMES } from '../content/items';
+import { ITEM_COLORS, ITEM_NAMES, materialTypeName } from '../content/items';
 import { BOT_FRAMES, BOT_GUNS, BOT_STRENGTH, SUPPRESSION_BOT, SUPPRESSION_BOT_NAME } from '../content/botAssembly';
 import { getNodeCapabilities } from '../content/nodeCapabilities';
 import { getEffectiveNodeInputFamilies, getEffectiveNodeOutputFamilies, NODE_DEFINITIONS } from '../content/nodes';
@@ -57,9 +57,19 @@ export function productionPortRow(node: MachineNode, direction: 'input' | 'outpu
     const bag=direction==='input'?node.input:node.output;
     const family=(direction==='input'?getEffectiveNodeInputFamilies(node,[]):getEffectiveNodeOutputFamilies(node))[index];
     const perIngredient=node.kind==='cornerChallenge'&&node.cornerType==='foundry';
-    const keys=Object.keys(bag).filter(i=>!perIngredient||i===family) as ItemId[];
-    const amount=keys.reduce((n,i)=>n+(bag[i]??0),0),capacity=node.kind==='recycler'?10:perIngredient?(FOUNDRY_INPUTS[family as ItemId]??0):100;
-    return {name:perIngredient?ITEM_NAMES[family as ItemId]:direction==='input'?'Incoming supplies':'Recovered solids',amount,capacity,color:NODE_DEFINITIONS[node.kind].accent,detail:keys.filter(i=>(bag[i]??0)>0).map(i=>ITEM_NAMES[i]+': '+bag[i]).join(' · ')};
+    const keys = (Object.keys(bag) as ItemId[]).filter(item => {
+      if (node.kind === 'recycler' && direction === 'input') return (item === 'water') === (index === 1);
+      return !perIngredient || item === family;
+    });
+    const amount = keys.reduce((n, i) => n + (bag[i] ?? 0), 0);
+    const capacity = node.kind === 'recycler'
+      ? direction === 'input' ? modNode(node.kind)?.inputCapacity ?? 10 : modNode(node.kind)?.capacity ?? 10
+      : perIngredient ? FOUNDRY_INPUTS[family as ItemId] ?? 0 : 100;
+    const name = perIngredient ? ITEM_NAMES[family as ItemId] : direction === 'output' ? 'Recovered materials'
+      : family === 'ATTACK_POWER' ? SUPPRESSION_BOT_NAME
+      : family && family in ITEM_NAMES ? materialTypeName(family as ItemId)
+      : node.kind === 'recycler' ? 'Material' : 'Incoming supplies';
+    return {name,amount,capacity,color:NODE_DEFINITIONS[node.kind].accent,detail:keys.filter(i=>(bag[i]??0)>0).map(i=>ITEM_NAMES[i]+': '+bag[i]).join(' · ')};
   }
   if (node.kind === 'extractor') {
     const source = extractorSource(node, sector), sourceItem = source?.resourceItem;

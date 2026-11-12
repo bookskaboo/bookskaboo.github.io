@@ -549,10 +549,7 @@ export const LATE_RECIPES = {
 export const LATE_GROUPS: Partial<Record<NodeKind,string[]>> = {
   "hydroProcessor": [
     "coolant",
-    "conductive-slurry",
-    "recover-fines",
-    "recover-flux",
-    "recover-slag"
+    "conductive-slurry"
   ],
   "advancedAssembler": [
     "hydraulic-actuator",
@@ -562,7 +559,6 @@ export const LATE_GROUPS: Partial<Record<NodeKind,string[]>> = {
     "advanced-actuator",
     "command-core",
     "ceramic-electrode",
-    "mithril-mesh",
     "logic-substrate",
     "sealed-frame",
     "cooled-gun",
@@ -574,12 +570,12 @@ export const LATE_GROUPS: Partial<Record<NodeKind,string[]>> = {
     "efficient-motor",
     "efficient-bot-frame",
     "efficient-hydro-piston",
-    "efficient-mythril-mesh",
     "efficient-circuit-c"
   ],
   "separationFurnace": [
     "refined-mithril",
-    "recover-crust"
+    "mithril-mesh",
+    "efficient-mythril-mesh"
   ],
   "refiner": []
 };
@@ -604,8 +600,8 @@ export const LATE_RESEARCH = [
     "id": "mithrilTools",
     "name": "Mythril Refining",
     "category": "Discovery",
-    "description": "Make Mythril Plates in the Smelter and Mythril Gears and Wire in the Refiner. Use the Separator to make Pure Mythril.",
-    "unlock": "Unlocks Mythril Gear and Mythril Wire in the Refiner, Mythril Plate in the Smelter, and the Separator.",
+    "description": "Make Mythril Plates in the Smelter and Mythril Gears and Wire in the Refiner. Use the Synthesizer to make Pure Mythril.",
+    "unlock": "Unlocks Mythril Gear and Mythril Wire in the Refiner, Mythril Plate in the Smelter, and the Synthesizer.",
     "costs": {},
     "trigger": {
       "id": "dwarven-mythril-produced",
@@ -617,8 +613,8 @@ export const LATE_RESEARCH = [
     "id": "fabricatorTools",
     "name": "Advanced Fabrication",
     "category": "Fabrication",
-    "description": "Build an Assembler II for advanced parts, Cores, and Bots.",
-    "unlock": "Unlocks Assembler II.",
+    "description": "Build a Fabricator for advanced intermediates, Cores, and Bot Plant parts.",
+    "unlock": "Unlocks the Fabricator.",
     "costs": {
       "simple-core": 2,
       "basic-core": 2,
@@ -662,7 +658,7 @@ export const LATE_RESEARCH = [
     "id": "hydraulicAssembly",
     "name": "Hydraulic Assembly",
     "category": "Progression",
-    "description": "Make Hydro Pistons, Circuit B, and Hydro Cores in Assembler II.",
+    "description": "Make Hydro Pistons, Circuit B, and Hydro Cores in the Fabricator.",
     "unlock": "Unlocks Hydro Piston, Circuit B, and Hydro Core recipes.",
     "costs": {
       "simple-core": 2,
@@ -693,7 +689,7 @@ export const LATE_RESEARCH = [
     "id": "sealedRobotics",
     "name": "Sealed Robotics",
     "category": "Progression",
-    "description": "Make Sealed Frames and Cooled Guns in Assembler II for the Bot Plant. Together they produce a Suppression Bot 3 AP.",
+    "description": "Make Sealed Frames and Cooled Guns in the Fabricator for the Bot Plant. Together they produce a Suppression Bot 3 AP.",
     "unlock": "Unlocks Sealed Frame and Cooled Gun for bot assembly.",
     "costs": {
       "simple-core": 2,
@@ -710,7 +706,7 @@ export const LATE_RESEARCH = [
     "id": "oreSeparation",
     "name": "Ore Separation",
     "category": "Progression",
-    "description": "Make Mythril Mesh and Shiny Cores in Assembler II.",
+    "description": "Make Mythril Mesh in the Synthesizer, then use it to make Shiny Cores in the Fabricator.",
     "unlock": "Unlocks Mythril Mesh and Shiny Core recipes.",
     "costs": {
       "simple-core": 2,
@@ -726,7 +722,7 @@ export const LATE_RESEARCH = [
     "id": "mineralRecovery",
     "name": "Mineral Recovery",
     "category": "Discovery",
-    "description": "Use a Hydro Plant to turn 4 Metallic Fines and 1 Water into 1 Iron Plate.",
+    "description": "Use a Recycler to turn 4 Metallic Fines and 1 Water into 1 Iron Plate.",
     "unlock": "Iron Plates can now be recovered from Metallic Fines.",
     "costs": {},
     "trigger": {
@@ -756,7 +752,7 @@ export const LATE_RESEARCH = [
     "id": "heavyRobotics",
     "name": "Heavy Robotics",
     "category": "Progression",
-    "description": "Make Mythril Frames and Focused Guns in Assembler II for the Bot Plant. Together they produce a Suppression Bot 8 AP.",
+    "description": "Make Mythril Frames and Focused Guns in the Fabricator for the Bot Plant. Together they produce a Suppression Bot 8 AP.",
     "unlock": "Unlocks Mythril Frame and Focused Gun for bot assembly.",
     "costs": {
       "simple-core": 2,
@@ -810,7 +806,7 @@ export const LATE_RESEARCH = [
     "id": "commandRobotics",
     "name": "Command Robotics",
     "category": "Progression",
-    "description": "Make Servo Frames and Pulse Cannons in Assembler II for the Bot Plant. Together they produce a Suppression Bot 24 AP.",
+    "description": "Make Servo Frames and Pulse Cannons in the Fabricator for the Bot Plant. Together they produce a Suppression Bot 24 AP.",
     "unlock": "Unlocks Servo Frame and Pulse Cannon for bot assembly.",
     "costs": {
       "simple-core": 2,
@@ -913,10 +909,10 @@ export const LATE_RESEARCH = [
   },
   {
     "id": "advancedAssembler1",
-    "name": "Assembler II 1",
+    "name": "Fabricator 1",
     "category": "Efficiency",
-    "description": "Assembler II cycles use 90% of base time.",
-    "unlock": "Assembler II cycles use 90% of base time.",
+    "description": "Fabricator cycles use 90% of base time.",
+    "unlock": "Fabricator cycles use 90% of base time.",
     "costs": {
       "simple-core": 25,
       "basic-core": 25,
@@ -1047,10 +1043,10 @@ export const LATE_RESEARCH = [
   },
   {
     "id": "advancedAssembler2",
-    "name": "Assembler II 2",
+    "name": "Fabricator 2",
     "category": "Efficiency",
-    "description": "Assembler II cycles use 80% of base time, replacing the 90% factor.",
-    "unlock": "Assembler II cycles use 80% of base time, replacing the 90% factor.",
+    "description": "Fabricator cycles use 80% of base time, replacing the 90% factor.",
+    "unlock": "Fabricator cycles use 80% of base time, replacing the 90% factor.",
     "costs": {
       "simple-core": 100,
       "basic-core": 100,
@@ -1254,7 +1250,7 @@ export const LATE_RESEARCH = [
     "id": "efficientHigherIntermediates",
     "name": "Efficient Higher Intermediates",
     "category": "Efficiency",
-    "description": "Unlocks efficient recipes for Hydro Pistons, Mythril Mesh, and Circuit C. Also adds recipes that recover materials from Spent Flux, Glassy Crust, and Slag.",
+    "description": "Make Efficient Hydro Pistons and Circuit C in the Fabricator and Efficient Mythril Mesh in the Synthesizer. Use the Recycler to recover materials from Spent Flux, Glassy Crust, and Slag.",
     "unlock": "Unlocks more efficient recipes and waste recovery.",
     "costs": {
       "simple-core": 50,
@@ -1294,7 +1290,7 @@ export const LATE_NODES = {
     "name": "Hydro Plant",
     "category": "Production",
     "input": [
-      "ANY",
+      "water",
       "ANY",
       "ANY"
     ],
@@ -1302,7 +1298,7 @@ export const LATE_NODES = {
       "ANY",
       "ANY"
     ],
-    "description": "Processes Water and solids into Coolant, Copper Slurry and recovered materials. Choose a recipe.",
+    "description": "Processes Water and solids into Coolant and Copper Slurry. Choose a recipe.",
     "accent": 7716801,
     "accentCss": "#75bfc1",
     "icon": "◆",
@@ -1311,7 +1307,7 @@ export const LATE_NODES = {
   },
   "advancedAssembler": {
     "kind": "advancedAssembler",
-    "name": "Assembler II",
+    "name": "Fabricator",
     "category": "Production",
     "input": [
       "ANY",
@@ -1330,7 +1326,7 @@ export const LATE_NODES = {
   },
   "separationFurnace": {
     "kind": "separationFurnace",
-    "name": "Separator",
+    "name": "Synthesizer",
     "category": "Production",
     "input": [
       "ANY",
@@ -1340,7 +1336,7 @@ export const LATE_NODES = {
     "output": [
       "ANY"
     ],
-    "description": "Produces Pure Mythril without waste, and recovers Copper Plates from Glassy Crust after higher alternative research.",
+    "description": "Makes Pure Mythril, Mythril Mesh, and composite Mythril gears and wire.",
     "accent": 7716801,
     "accentCss": "#75bfc1",
     "icon": "◆",
@@ -1445,11 +1441,11 @@ export const LATE_NODES = {
   },
   "abandonedFabricator": {
     "kind": "abandonedFabricator",
-    "name": "Fabricator",
+    "name": "Fabricator Ruin",
     "category": "World",
     "input": [],
     "output": [],
-    "description": "Visit this map to discover Assembler IIs and familiar fabrication recipes.",
+    "description": "Remains of an old Fabricator.",
     "accent": 7716801,
     "accentCss": "#75bfc1",
     "icon": "◆",

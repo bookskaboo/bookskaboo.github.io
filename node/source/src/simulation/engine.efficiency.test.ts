@@ -5,6 +5,8 @@ import { RECIPES } from '../content/recipes';
 import type { MachineNode, NodeKind } from '../domain/types';
 import { createInitialState, GameEngine } from './engine';
 import { normalizeLegacy } from '../persistence/saves';
+import { nodeCycleDuration } from '../renderer/playfieldNodeState';
+import { recipeGuideCycle } from '../ui/recipeGuide';
 
 const families = ['extractor', 'kiln', 'smelter', 'refiner', 'assembler', 'researchCenter', 'hydroProcessor', 'advancedAssembler', 'separationFurnace'] as const;
 const cores = ['simple-core', 'basic-core', 'automata-core', 'hydro-core', 'shiny-core', 'command-core'];
@@ -96,18 +98,33 @@ describe('linear machine efficiency progression', () => {
     expect(engine.getSector().nodes[0].input).toEqual(lab.input);
   });
 
-  it('applies recovery research after the Separator cycle upgrade', () => {
-    const recipe = RECIPES['recover-crust'];
+  it.each([
+    ['mithril-mesh', 'advancedAssembler', 'separationFurnace'],
+    ['efficient-mythril-mesh', 'advancedAssembler', 'separationFurnace'],
+    ['composite-mythril-gear', 'assembler', 'separationFurnace'],
+    ['composite-mythril-wire', 'assembler', 'separationFurnace'],
+    ['recover-crust', 'separationFurnace', 'recycler'],
+  ] as const)('retains %s cycle upgrades after moving the recipe', (recipeId, former, destination) => {
+    const recipe = RECIPES[recipeId];
     const state = createInitialState(301);
-    const furnace = machine('separationFurnace', recipe.id);
-    furnace.input = { ...recipe.inputs };
-    state.sectors['5,5'].nodes = [furnace];
-    state.research.completed.push('separationFurnace6', 'efficientHigherIntermediates', 'mineralRecovery1');
+    state.sectors['5,5'].nodes = [
+      { ...machine(former), id: 'former' },
+      { ...machine(destination), id: 'destination', x: 1800 },
+    ];
+    state.research.completed.push(`${former}2`, 'separationFurnace6', 'mineralRecovery1', recipe.unlockResearch!);
+    if (former === 'separationFurnace') state.research.completed.splice(state.research.completed.indexOf('separationFurnace6'), 1);
     const engine = new GameEngine(state);
-    advance(engine, recipe.cycleMs * .4 * .9 - 1);
-    expect(engine.getSector().nodes[0].output).toEqual({});
+    expect(engine.setRecipe('former', recipeId)).toBe(false);
+    expect(engine.setRecipe('destination', recipeId)).toBe(true);
+    const live = engine.getSector().nodes.find(node => node.id === 'destination')!;
+    live.input = { ...recipe.inputs };
+    const cycle = recipe.cycleMs * .8 * (recipe.recovery ? .9 : 1);
+    expect(nodeCycleDuration(live, engine.getState().research.completed)).toBe(cycle);
+    expect(recipeGuideCycle(recipe, destination, engine.getState())).toBe(cycle);
+    advance(engine, cycle - 1);
+    expect(live.output).toEqual({});
     engine.tick(1);
-    expect(engine.getSector().nodes[0].output).toEqual(recipe.outputs);
+    expect(live.output).toEqual(recipe.outputs);
   });
 
   it('extracts every two seconds at rank six while retaining the five-second base', () => {

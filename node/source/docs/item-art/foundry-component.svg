@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <title>β Piece</title>
+  <path d="M3 8L11 4L21 7V17L13 21L3 18Z M3 8L13 12L21 7 M13 12V21" stroke="#dfb76b" stroke-width="1.55"/>
+  <path d="M6 11V16 M9 12V17" stroke="#e7e3d9" stroke-width="1.25"/>
+</svg>

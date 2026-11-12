@@ -2,7 +2,7 @@ import type { ItemId, MachineNode, NodeKind } from '../domain/types';
 import { LATE_CAPABILITIES } from './progression';
 
 export type NodeBehavior =
-  | 'recycler' | 'corner'
+  | 'corner'
   | 'dev-source'
   | 'landmark' | 'golem'
   | 'resource' | 'lake' | 'extractor' | 'recipe' | 'bot-assembly' | 'router'
@@ -48,7 +48,7 @@ const passThrough = (overrides: Omit<NodeCapabilities, 'behavior' | 'passThrough
 
 export const NODE_CAPABILITIES: Record<NodeKind, NodeCapabilities> = {
   ...LATE_CAPABILITIES,
-  recycler: capability('recycler', {inputCapacity:10,defaultCapacity:10,multiInput:true}),
+  recycler: capability('recipe', { inputCapacity: 10, defaultCapacity: 10 }),
   cornerChallenge: capability('corner', {inputCapacity:100,multiInput:true,worldObstacle:true,duplicateAllowed:false}),
   cornerTribute: capability('tribute', {defaultCapacity:10,multiOutput:true,duplicateAllowed:false}),
   devSource: capability('dev-source', { multiOutput: true, defaultCapacity: 0 }),
@@ -97,7 +97,8 @@ export const NODE_CAPABILITIES: Record<NodeKind, NodeCapabilities> = {
 
 export const getNodeCapabilities = (kind: NodeKind) => NODE_CAPABILITIES[kind];
 export const hasNodeBehavior = (kind: NodeKind, behavior: NodeBehavior) => getNodeCapabilities(kind).behavior === behavior;
-export const needsRecipeSelection = (node: Pick<MachineNode, 'kind' | 'recipeId'>) => hasNodeBehavior(node.kind, 'recipe') && !node.recipeId;
+export const needsRecipeSelection = (node: Pick<MachineNode, 'kind' | 'recipeId'>) =>
+  node.kind !== 'recycler' && hasNodeBehavior(node.kind, 'recipe') && !node.recipeId;
 export const isResourceBehavior = (kind: NodeKind) => ['resource', 'lake'].includes(getNodeCapabilities(kind).behavior);
 export const isWorldObstacle = (kind: NodeKind) => Boolean(getNodeCapabilities(kind).worldObstacle);
 

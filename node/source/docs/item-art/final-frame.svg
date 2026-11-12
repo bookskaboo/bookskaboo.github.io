@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <title>Final Frame</title>
+  <path d="M3 8L8 4H16L21 8V17L16 21H8L3 17Z M7 10L10 7H14L17 10V15L14 18H10L7 15Z" stroke="#ffd77d" stroke-width="1.55"/>
+  <path d="M3 8L7 10 M21 8L17 10 M17 15L21 17 M7 15L3 17" stroke="#e7e3d9" stroke-width="1.25"/>
+</svg>

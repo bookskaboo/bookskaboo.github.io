@@ -5,21 +5,23 @@ import { modNode } from '../mods/modRules';
 import { getNodeCapabilities, isResourceBehavior } from '../content/nodeCapabilities';
 import { getEffectiveNodeOutputFamilies, NODE_DEFINITIONS } from '../content/nodes';
 import { RECIPES } from '../content/recipes';
+import { recyclerMaterialStock } from '../content/recycling';
 import { WASTE_ITEMS } from '../content/progression';
 import { researchCenterView } from './researchCenterView';
 import { isStorageNode } from './bufferSlots';
-import { ITEM_NAMES } from '../content/items';
+import { ITEM_NAMES, materialTypeName } from '../content/items';
 import { isProductionMachine, productionBufferSummary } from './productionPortRows';
 import { outstandingResearchCores } from '../simulation/researchStatus';
 import type { GameState, ItemId, MachineNode, SectorState } from '../domain/types';
 
 export interface ProductionVisual { working: boolean; missingInputs: number[]; blockedOutputs: number[]; fill: number; }
 const total = (bag: MachineNode['output']) => Object.values(bag).reduce<number>((sum, n) => sum + (n ?? 0), 0);
+const inputStock = (node: MachineNode, item: ItemId) => node.kind === 'recycler' ? recyclerMaterialStock(node.input, item) : node.input[item] ?? 0;
 
 export function productionExplanation(node: MachineNode, game: GameState, sector: SectorState) {
   const recipe = RECIPES[node.batch?.recipeId ?? node.recipeId ?? ''];
   const capacity = modNode(node.kind)?.capacity ?? node.capacity ?? getNodeCapabilities(node.kind).defaultCapacity ?? 5;
-  const ingredients = recipe ? Object.entries(recipe.inputs).map(([item, required]) => ({ item: item as ItemId, available: node.input[item as ItemId] ?? 0, required: required ?? 0, capacity: getNodeCapabilities(node.kind).inputCapacity ?? 5 })) : [];
+  const ingredients = recipe ? Object.entries(recipe.inputs).map(([item, required]) => ({ item: item as ItemId, available: inputStock(node, item as ItemId), required: required ?? 0, capacity: getNodeCapabilities(node.kind).inputCapacity ?? 5 })) : [];
   const possible = { ...recipe?.outputs };
   for (const output of recipe?.chanceOutputs ?? []) possible[output.item] = (possible[output.item] ?? 0) + output.amount;
   const requiredRoom = total(possible);
@@ -27,8 +29,7 @@ export function productionExplanation(node: MachineNode, game: GameState, sector
   const missing = ingredients.filter(input => input.available < input.required);
   const cue = productionVisual(node, game, sector);
   let summary = '';
-  if(node.kind==='recycler')summary='Recycle one item every 2s. Mixed recovered solids need filtering; basic resources return nothing.';
-  else if (node.kind === 'cornerChallenge') {
+  if (node.kind === 'cornerChallenge') {
     const piece = ITEM_NAMES[CORNER_ITEMS[node.cornerType ?? 'reclamation']];
     switch (node.cornerType) {
       case 'foundry':
@@ -49,13 +50,14 @@ export function productionExplanation(node: MachineNode, game: GameState, sector
   else if (node.processingPaused && NODE_DEFINITIONS[node.kind].category !== 'Logistics') summary = 'Production paused.';
   else if (node.batch) summary = `Producing ${recipe?.name ?? 'a committed batch'}. Batch ingredients already consumed; output room reserved.`;
   else if (recipe?.unlockResearch && !game.research.completed.includes(recipe.unlockResearch)) summary = 'Required recipe research is incomplete.';
-  else if (recipe && used + requiredRoom > capacity) summary = `Output/waste buffer full: ${used}/${capacity} stored; next batch needs ${requiredRoom} free spaces. Drain the output or waste route.`;
-  else if (missing.length) summary = `Waiting for ${missing.map(input => `${ITEM_NAMES[input.item]} (${input.available}/${input.required})`).join(', ')}.`;
+  else if (recipe && requiredRoom > 0 && used + requiredRoom > capacity) summary = `Output/waste buffer full: ${used}/${capacity} stored; next batch needs ${requiredRoom} free spaces. Drain the output or waste route.`;
+  else if (missing.length) summary = `Waiting for ${missing.map(input => `${node.kind === 'recycler' ? materialTypeName(input.item) : ITEM_NAMES[input.item]} (${input.available}/${input.required})`).join(', ')}.`;
   else if (getNodeCapabilities(node.kind).behavior === 'research') summary = researchCenterView(node, game).summary;
   else if (recipe) summary = `${node.progressMs > 0 ? 'Producing' : 'Ready to produce'} ${recipe.name}.`;
   else if (cue.blockedOutputs.length) summary = `Output buffer full: ${used}/${capacity}. Check the downstream route.`;
   else if (node.kind === 'extractor' && cue.missingInputs.length) summary = 'Waiting for an available resource source. Check its connection and remaining reserve.';
   else if (getNodeCapabilities(node.kind).behavior === 'bot-assembly') summary = 'Feed a frame and a gun into their matching sockets. The Bot Plant assembles them automatically.';
+  else if (node.kind === 'recycler') summary = 'Connect a recyclable material to select its recipe. Supply Water through the dedicated inlet.';
   else if (getNodeCapabilities(node.kind).behavior === 'recipe') summary = 'Choose a production recipe.';
   if (isStorageNode(node.kind)) {
     const contents = (Object.keys({ ...node.input, ...node.output }) as ItemId[])
@@ -109,7 +111,9 @@ export function productionVisual(node: MachineNode, game: GameState, sector: Sec
     }
   } else if (node.recipeId && RECIPES[node.recipeId]) {
     const recipe = RECIPES[node.recipeId];
-    if (!node.batch) demands = Object.entries(recipe.inputs) as Array<[ItemId, number]>;
+    if (!node.batch) demands = node.kind === 'recycler'
+      ? (Object.entries(recipe.inputs) as Array<[ItemId, number]>).sort(([item], [other]) => Number(item === 'water') - Number(other === 'water'))
+      : Object.entries(recipe.inputs) as Array<[ItemId, number]>;
     products = { ...recipe.outputs };
     if (!node.batch) for (const output of recipe.chanceOutputs ?? []) products[output.item] = (products[output.item] ?? 0) + output.amount;
     // An in-flight batch already paid its ingredients and reserved output room.
@@ -125,7 +129,7 @@ export function productionVisual(node: MachineNode, game: GameState, sector: Sec
   } else if (getEffectiveNodeOutputFamilies(node).length && total(node.output) >= capacity) {
     visual.blockedOutputs = getEffectiveNodeOutputFamilies(node).map((_, index) => index);
   }
-  demands.forEach(([item, amount], index) => { if ((node.input[item] ?? 0) < amount) visual.missingInputs.push(index); });
+  demands.forEach(([item, amount], index) => { if (inputStock(node, item) < amount) visual.missingInputs.push(index); });
   if (total(node.output) + total(products) > capacity && total(products) > 0) {
     // Show the bank holding the stock that must drain, including waste sockets.
     const families = getEffectiveNodeOutputFamilies(node);
