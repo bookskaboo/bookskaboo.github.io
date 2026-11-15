@@ -30,6 +30,7 @@ import { sectorOverviewCamera } from '../domain/camera';
 import { snapNodePosition } from '../domain/nodeGrid';
 import { getNodeSize } from '../domain/nodeGeometry';
 import { useGridSnapKey } from './useGridSnapKey';
+import { useRecipeIconToggle } from './useRecipeIconToggle';
 import { SelectionActions } from './SelectionActions';
 import { canDeleteNode } from '../renderer/playfieldNodeState';
 import { GameEngine, createInitialState } from '../simulation/engine';
@@ -160,6 +161,7 @@ function FactoryApp({ engine, training, welcome, onShowWelcome, onCloseWelcome, 
   const [buildCategory, setBuildCategory] = useState('All');
   const [saveSlots, setSaveSlots] = useState<Array<SaveSlot | null>>(() => readSlots());
   const [confirmDelete, setConfirmDelete] = useState(false);
+  const showRecipeIcons = useRecipeIconToggle(!welcome && !confirmDelete && !pendingGroupNodes && !pendingDisbandGroup);
   const [configuringNodeId, setConfiguringNodeId] = useState<string>();
   const [skipRecipeWarnings, setSkipRecipeWarnings] = useState(false);
   const recipeCopySource = useRef<string | undefined>(undefined);
@@ -477,7 +479,7 @@ function FactoryApp({ engine, training, welcome, onShowWelcome, onCloseWelcome, 
       <div className="ambient ambient-a" /><div className="ambient ambient-b" />
       <PixiPlayfield
         viewportRef={fieldViewportRef}
-        engine={engine} revision={game.revision} selectableNodeId={choices?.selectableNodeId} selectedIds={selectedIds} selectedConnection={selectedConnection} placing={placing} snapToGrid={snapToGrid}
+        engine={engine} revision={game.revision} selectableNodeId={choices?.selectableNodeId} selectedIds={selectedIds} selectedConnection={selectedConnection} placing={placing} snapToGrid={snapToGrid} showRecipeIcons={showRecipeIcons}
         onPaste={pasting ? point => {
           const ids = engine.pasteNodes(point);
           if (!ids.length) return;

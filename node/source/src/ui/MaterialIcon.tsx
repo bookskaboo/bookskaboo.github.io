@@ -1,4 +1,4 @@
-import { ITEM_ART, ITEM_ART_ACCENT } from '../art/itemArt';
+import { ITEM_ART, ITEM_ART_ACCENT, itemFallbackGlyph } from '../art/itemArt';
 import { ITEM_COLORS, itemColorCss } from '../content/items';
 import type { ItemId, NodeKind } from '../domain/types';
 import { IconGlyph, NodeIcon } from './NodeIcon';
@@ -13,8 +13,7 @@ export function MaterialIcon({ item, fallback }: { item?: ItemId; fallback?: Nod
       {accent && <path d={accent} stroke={art.accentColor ?? ITEM_ART_ACCENT} strokeWidth="1.25" />}
     </svg>;
   }
-  const glyph = item?.endsWith('-gear') ? 'cog' : item?.endsWith('-wire') ? 'spool' :
-    item?.endsWith('-plate') ? 'plate' : item?.endsWith('-core') ? 'core' : undefined;
+  const glyph = itemFallbackGlyph(item);
   if (fallback && !glyph) return <NodeIcon kind={fallback} inheritColor />;
   const color = item && ITEM_COLORS[item] !== undefined ? itemColorCss(item) : undefined;
   return <IconGlyph icon={glyph ?? 'package'} color={color} />;

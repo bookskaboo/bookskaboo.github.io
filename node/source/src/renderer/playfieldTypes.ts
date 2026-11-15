@@ -5,6 +5,7 @@ import type { GameEngine, RoadPlacementTarget } from '../simulation/engine';
 import type { CampNodeStatus } from './campNodeStatus';
 import type { CornerCampStatus } from './cornerCampView';
 import type { ResearchNodeStatus } from './researchNodeStatus';
+import type { createProductionRecipeIcon } from './productionRecipeIcon';
 import type { NodeSize, Point } from '../domain/nodeGeometry';
 
 export interface PlayfieldTooltip { title: string; detail: string; x: number; y: number; tone?: string; eyebrow?: string }
@@ -19,6 +20,7 @@ export interface PixiPlayfieldProps {
   selectedConnection?: string;
   placing?: NodeKind;
   snapToGrid: boolean;
+  showRecipeIcons: boolean;
   roadPlacementPoint?(point: Point): Point;
   cameraFocus?: { camera: CameraState; nonce: number };
   onSelect(ids: string[], info?: SelectionInfo): void;
@@ -44,7 +46,7 @@ export interface PixiPlayfieldProps {
 }
 
 export interface DragState { ids: string[]; anchorId: string; anchorSize: NodeSize; start: { x: number; y: number }; origins: Map<string, { x: number; y: number }>; moved: boolean; desired?: Record<string, { x: number; y: number }>; road?: RoadPlacementTarget; valid: boolean }
-export interface NodeView { root: Container; campStatus?: CampNodeStatus; cornerCampStatus?: CornerCampStatus; cornerTributeLabel?: Text; filterNotice?: Text; jointMoveHandle?: Container; researchStatus?: ResearchNodeStatus; productionCue: Graphics; progress: Graphics; progressLabel?: Text; bufferLabel?: Text; bufferSquares?: Graphics; bufferSignature?: string; inputSquares?: Graphics; inputSignature?: string; coreStorageLabels?: Text[]; coreStorageSquares?: Graphics[]; readabilityLabels: Text[]; flash: Graphics; marqueeHighlight: Graphics; invalidOverlay: Graphics; invalidVisible: boolean; displayedProgress: number }
+export interface NodeView { root: Container; campStatus?: CampNodeStatus; cornerCampStatus?: CornerCampStatus; cornerTributeLabel?: Text; filterNotice?: Text; jointMoveHandle?: Container; researchStatus?: ResearchNodeStatus; productionRecipeIcon?: ReturnType<typeof createProductionRecipeIcon>; productionCue: Graphics; progress: Graphics; progressLabel?: Text; bufferLabel?: Text; bufferSquares?: Graphics; bufferSignature?: string; inputSquares?: Graphics; inputSignature?: string; coreStorageLabels?: Text[]; coreStorageSquares?: Graphics[]; readabilityLabels: Text[]; flash: Graphics; marqueeHighlight: Graphics; invalidOverlay: Graphics; invalidVisible: boolean; displayedProgress: number }
 export interface PortHandle { nodeId: string; direction: 'input' | 'output'; index: number }
 export interface PortView extends PortHandle { root: Container; highlight: Graphics; pulse: Graphics; pulseColor: number; pulseStartedAt: number; hovered: boolean; cornerScaleLimit?: number; materialShape?: Graphics; materialLabel?: Text; materialBuffer?: Graphics; materialSignature?: string; stoneCounter?: { root: Container; plate: Graphics; text: Text } }
 export interface ConnectionDragState { originNodeId: string; active: PortHandle; replaceConnectionId?: string; adaptiveJointDirection: boolean; startX: number; startY: number; moved: boolean; snapped?: PortHandle }

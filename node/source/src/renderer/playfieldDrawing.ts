@@ -1,6 +1,13 @@
 import { Container, Graphics, Text, TextStyle } from 'pixi.js';
+import { getNodeModule } from '../content/nodeModules';
+import { isCompactNode, isResourceNode } from '../domain/nodeGeometry';
 import { getConnectionControlPoints, getPortSide } from '../simulation/connectionRules';
 import type { MachineNode } from '../domain/types';
+
+export function nodeHeaderHeight(node: MachineNode) {
+  const shape = getNodeModule(node.kind).appearance.shape;
+  return shape === 'road' || shape === 'chest' ? 42 : isCompactNode(node) ? 30 : isResourceNode(node) ? 73 : 61;
+}
 
 export function drawCurve(graphic: Graphics, start: { x: number; y: number }, end: { x: number; y: number }, sourceSide: ReturnType<typeof getPortSide> = 'east', targetSide: ReturnType<typeof getPortSide> = 'west') {
   const controls = getConnectionControlPoints(start, end, sourceSide, targetSide);

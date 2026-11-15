@@ -51,6 +51,8 @@ export interface MachineNode {
   /** Mirrors input/output banks horizontally without changing semantic port indices. */
   connectorsMirrored?: boolean;
   recipeId?: string;
+  /** Last completed automatic recipe, used by the playfield when the node has no current recipe. */
+  lastRecipeId?: string;
   /** Legacy save field. Recyclers now always match the incoming material. */
   recyclerAutoRecipe?: boolean;
   resourceItem?: ItemId;

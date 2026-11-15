@@ -134,3 +134,10 @@ items.push({
 export const ITEM_ART_GROUPS = items;
 export const ITEM_ART = new Map<ItemId, ItemArt>(items.flatMap(group => group.items.map(art => [art.id, art])));
 export const ITEM_ART_ACCENT = '#e7e3d9';
+
+export function itemFallbackGlyph(item?: ItemId): LineArtId | undefined {
+  if (item?.endsWith('-gear')) return 'cog';
+  if (item?.endsWith('-wire')) return 'spool';
+  if (item?.endsWith('-plate')) return 'plate';
+  if (item?.endsWith('-core')) return 'core';
+}

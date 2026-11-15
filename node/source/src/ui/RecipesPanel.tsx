@@ -10,7 +10,8 @@ import { getResearchProject } from '../content/research';
 import type { GameState, ItemId, NodeKind, Recipe } from '../domain/types';
 import { NodeIcon } from './NodeIcon';
 import { MaterialIcon } from './MaterialIcon';
-import { RecipeIcon, recipeOutputArtItem } from './RecipeIcon';
+import { recipeOutputArtItem } from '../art/recipeArt';
+import { RecipeIcon } from './RecipeIcon';
 import { RecipeViewToggle, useRecipeIconView } from './RecipeViewToggle';
 import { recipeIngredientName, recipeTooltip } from './recipePresentation';
 

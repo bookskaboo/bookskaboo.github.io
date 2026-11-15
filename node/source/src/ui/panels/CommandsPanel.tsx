@@ -41,6 +41,7 @@ const COMMAND_GROUPS = [
     commands: [
       ['Ctrl / Cmd + click a node', 'Pick up a new node of the same type when that node can be built.'],
       ['Hold A', 'Snap node corners to the grid when placing or moving nodes. Options can keep grid snapping on. Groups keep their spacing.'],
+      ['Alt', 'Show or hide recipe icons on all Production nodes.'],
       ['Shift + right-click, then Shift + left-click', 'Copy a recipe from a configured machine to another of the same type. Keep Shift held between clicks.'],
       ['Ctrl / Cmd + click or Shift + click to place', 'Place a node and keep another of the same type ready outside tutorials. Configure repeated nodes after placement.'],
       ['Click a configurable node', 'Open the recipe chooser for a recipe machine, the configuration for a Road or settlement Tribute, or Research from the Research Center.'],

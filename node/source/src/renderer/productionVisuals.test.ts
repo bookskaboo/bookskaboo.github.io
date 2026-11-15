@@ -1,6 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import { createInitialState } from '../simulation/engine';
+import { simulateExtendedRecipe } from '../simulation/progression';
 import { tutorialNode } from '../tutorials/tutorialRuntime';
+import { createProductionRecipeIcon } from './productionRecipeIcon';
 import { productionExplanation, productionVisual } from './productionVisuals';
 
 describe('production animation and bottleneck cues', () => {
@@ -27,14 +29,27 @@ describe('production animation and bottleneck cues', () => {
     node.output = { 'glassy-crust': 5 };
     expect(productionExplanation(node, game, sector).summary).toContain('Output/waste buffer full: 5/5');
   });
-  it('identifies the short smelter input and stops motion until both feeds arrive', () => {
+  it('keeps the configured recipe icon visible while a Smelter waits or is paused', () => {
     const game = createInitialState(1), sector = game.sectors[game.activeSectorId];
     const node = tutorialNode('smelter', 'smelt', 500, 500, { recipeId: 'smelt-copper', input: { copper: 2 }, progressMs: 200 });
+    const icon = createProductionRecipeIcon(node);
     expect(productionVisual(node, game, sector)).toMatchObject({ working: false, missingInputs: [1], blockedOutputs: [] });
+    icon.update(node, true);
+    expect(icon.root.visible).toBe(true);
+    expect(icon.root.position).toMatchObject({ x: 0, y: 31 });
+    expect(icon.root.eventMode).toBe('none');
+    expect(icon.root.children).toHaveLength(1);
+
     node.input.charcoal = 1;
     expect(productionVisual(node, game, sector).working).toBe(true);
     node.processingPaused = true;
     expect(productionVisual(node, game, sector).working).toBe(false);
+    icon.update(node, true);
+    expect(icon.root.visible).toBe(true);
+    icon.update(node, false);
+    expect(icon.root.visible).toBe(false);
+    icon.update(node, true);
+    expect(icon.root.visible).toBe(true);
   });
   it('marks a backed-up output without portraying it as completed production', () => {
     const game = createInitialState(1), sector = game.sectors[game.activeSectorId];
@@ -52,6 +67,29 @@ describe('production animation and bottleneck cues', () => {
     expect(idle).toMatchObject({ working: false, blockedOutputs: [0] });
     node.batch = { recipeId: node.recipeId, outputs: { 'refined-mithril': 1 } };
     expect(productionVisual(node, game, sector)).toMatchObject({ working: true, missingInputs: [], blockedOutputs: [] });
+  });
+  it('retains the completed automatic batch between Bot Plant recipes', () => {
+    const game = createInitialState(1);
+    const node = tutorialNode('botPlant', 'plant', 500, 500, {
+      progressMs: 100,
+      batch: { recipeId: 'assemble-bot-f1-g1', outputs: {} },
+    });
+    const icon = createProductionRecipeIcon(node);
+    icon.update(node, true);
+    const firstDrawing = icon.root.children[0];
+    expect(icon.root.visible).toBe(true);
+    simulateExtendedRecipe(game, node, 60_000, 1);
+    expect(node.batch).toBeUndefined();
+    expect(node.lastRecipeId).toBe('assemble-bot-f1-g1');
+    icon.update(node, true);
+    expect(icon.root.visible).toBe(true);
+    expect(icon.root.children[0]).toBe(firstDrawing);
+
+    node.batch = { recipeId: 'assemble-bot-f1-g2', outputs: {} };
+    icon.update(node, true);
+    expect(firstDrawing.destroyed).toBe(true);
+    expect(icon.root.children).toHaveLength(1);
+    expect(icon.root.children[0]).not.toBe(firstDrawing);
   });
   it('traces missing extraction through a Joint and checks synchronized research inputs', () => {
     const game = createInitialState(1), sector = game.sectors[game.activeSectorId];

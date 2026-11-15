@@ -5,6 +5,7 @@ import { bufferSlots, isStorageNode } from './bufferSlots';
 import { Graphics } from 'pixi.js';
 import { ITEM_COLORS } from '../content/items';
 import { getEffectiveNodeInputFamilies, NODE_DEFINITIONS } from '../content/nodes';
+import { getNodeCapabilities } from '../content/nodeCapabilities';
 import { getNodeModule } from '../content/nodeModules';
 import { RECIPES } from '../content/recipes';
 import type { ItemId, MachineNode, SectorState } from '../domain/types';
@@ -12,6 +13,7 @@ import { getPortSide } from '../simulation/connectionRules';
 import { getNodeSize, getPortAnchor, isOrganicNode, isResourceNode } from '../domain/nodeGeometry';
 import type { NodeView, PortView } from './playfieldTypes';
 import { outputTotal, inputTotal, outputCapacity, portLabelText } from './playfieldNodeState';
+import { productionRecipeIconLayout } from './productionRecipeIcon';
 
 export function updateProductionPort(view: PortView, node: MachineNode, sector: SectorState) {
   if (!view.materialBuffer || !view.materialShape || !view.materialLabel) return;
@@ -24,12 +26,25 @@ export function updateProductionPort(view: PortView, node: MachineNode, sector: 
   const text = view.materialLabel;
   text.anchor.set(left ? 0 : 1, .5); text.position.set(left ? 18 : -18, -9);
   text.text = portLabelText(row.name);
-  const available = getNodeSize(node).w / 2 - 26;
+  const behavior = getNodeCapabilities(node.kind).behavior;
+  const { size: iconSize, centerY, widthScale } = productionRecipeIconLayout(node);
+  const iconRadius = iconSize / 2;
+  const labelTouchesCenter = Math.abs(view.root.y + text.y - centerY) < iconRadius + 8;
+  const canShowRecipeIcon = behavior === 'recipe' || behavior === 'bot-assembly';
+  const reserveIconSpace = labelTouchesCenter && canShowRecipeIcon;
+  const available = getNodeSize(node).w / 2 - 26 - (reserveIconSpace ? iconRadius : 0);
   while (text.width > available && text.text.length > 4) text.text = text.text.replace(/…$/, '').slice(0, -1) + '…';
   const graphics = view.materialBuffer; graphics.clear();
-  bufferSlots(row.amount, row.capacity, 5).forEach((fill, index) => {
-    const x = left ? 18 + index * 14 : -28 - index * 14;
-    graphics.roundRect(x, 5, 10, 10, 1).fill(0x171c21).stroke({ color: fill > 0 ? row.color : 0x596570, width: 1, alpha: fill > 0 ? 1 : .75 });
+  const inset = 18, cell = 10, stride = 14, maxBoxes = 5;
+  const span = (maxBoxes - 1) * stride + cell;
+  // Narrower nodes shorten the row while keeping the first box clear of the port.
+  const bufferScale = canShowRecipeIcon ? ((inset + span) * widthScale - inset) / span : 1;
+  graphics.scale.x = bufferScale;
+  graphics.x = (left ? 1 : -1) * inset * (1 - bufferScale);
+  bufferSlots(row.amount, row.capacity, maxBoxes).forEach((fill, index) => {
+    const offset = inset + index * stride;
+    const x = left ? offset : -offset - cell;
+    graphics.roundRect(x, 5, cell, cell, 1).fill(0x171c21).stroke({ color: fill > 0 ? row.color : 0x596570, width: 1, alpha: fill > 0 ? 1 : .75 });
     if (fill > 0) graphics.rect(x + 1.5, 6.5 + 7 * (1 - fill), 7, 7 * fill).fill(row.color);
   });
 }
