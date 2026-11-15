@@ -53,8 +53,8 @@ describe('six-tier gameplay progression',()=>{
  it('refreshes old recipe times on load without discarding a committed batch or stored inputs',()=>{
   const savedInput={'refined-mithril':3};
   const e=setup([machine('advancedAssembler','old',{recipeId:'precision-controller',cycleMs:12000,progressMs:1000,input:savedInput,batch:{recipeId:'precision-controller',outputs:{'precision-controller':1,'metallic-fines':1}}})],['precisionControl']);
-  const n=e.getSector().nodes[0];expect(n.cycleMs).toBe(30000);expect(n.input).toEqual(savedInput);
-  tick(e,29);expect(n.output).toEqual({'precision-controller':1,'metallic-fines':1});
+  const n=e.getSector().nodes[0];expect(n.cycleMs).toBe(36000);expect(n.input).toEqual(savedInput);
+  tick(e,35);expect(n.output).toEqual({'precision-controller':1,'metallic-fines':1});
   expect(n.batch).toBeUndefined();expect(n.input).toEqual(savedInput);
  });
  it('keeps researched fabrication after undo and prevents Inventory copying',()=>{
@@ -279,7 +279,7 @@ describe('six-tier gameplay progression',()=>{
   tick(e,.1);expect(e.getState().globalPool?.iron).toBe(1000);expect(e.getSector().nodes[0].input.iron).toBe(10);tick(e,1);expect((other.nodes[1].input.iron??0)+(other.nodes[1].output.iron??0)+(other.nodes[2].input.iron??0)+(e.getState().inFlightTransfers??[]).filter(t=>!t.cosmeticOnly&&t.sectorId===other.id).length).toBeGreaterThan(0);expect(e.getState().globalPool!.iron).toBeLessThanOrEqual(1000);
  });
  it('converts stronger bots to strength and makes defeated Golems permanent sources',()=>{
-  const e=setup([machine('resourceGolem','g',{health:24,golemCostVersion:3,input:{'command-suppression-bot':1},golemOutputs:['copper','stone']})],['resourceGolemSurvey']);tick(e,.1);const n=e.getSector().nodes[0];expect(n.defeated).toBe(true);expect(n.kind).toBe('copper');expect(n.infiniteResource).toBe(true);expect(n.input['command-suppression-bot']).toBeUndefined();tick(e,1);expect(n.output).toEqual({});
+  const e=setup([machine('resourceGolem','g',{health:24,golemCostVersion:3,input:{'command-suppression-bot':1},golemOutputs:['copper','stone']})]);tick(e,.1);const n=e.getSector().nodes[0];expect(n.defeated).toBe(true);expect(n.kind).toBe('copper');expect(n.infiniteResource).toBe(true);expect(n.input['command-suppression-bot']).toBeUndefined();tick(e,1);expect(n.output).toEqual({});
  });
  it('shares stronger bot strength with camp checks',()=>{
   const e=setup([machine('monster-camp','m',{campStrength:50,attackRequirement:20,input:{'heavy-suppression-bot':1,'medium-suppression-bot':4}})]);tick(e,60);expect(e.getSector().nodes[0].campStrength).toBe(40);expect(e.getSector().nodes[0].input).toEqual({});

@@ -103,10 +103,9 @@ describe('Research milestones', () => {
     game.research.completed.push('suppressionBot');
     expectPrimary(game, { kind: 'research', id: 'sealedRobotics' });
     game.research.completed.push('sealedRobotics');
-    expect(getResearchMilestones(game)).toContainEqual(expect.objectContaining({ action: { kind: 'research', id: 'resourceGolemSurvey' } }));
-    game.research.completed.push('resourceGolemSurvey');
+    expect(getResearchMilestones(game)).not.toContainEqual(expect.objectContaining({ action: { kind: 'research', id: 'resourceGolemSurvey' } }));
     addSector(game, '10,5', true, node('resourceGolem'));
-    expect(getResearchMilestones(game)).toContainEqual(expect.objectContaining({ action: { kind: 'sector', id: '10,5' }, title: 'The Golem' }));
+    expect(getResearchMilestones(game)).toContainEqual(expect.objectContaining({ action: { kind: 'sector', id: '10,5' }, title: 'Golem Camp' }));
   });
 
   it('leads to a scouted Dwarven Camp, then Shiny and Complex production', () => {

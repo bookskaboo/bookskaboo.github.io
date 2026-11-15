@@ -9,7 +9,7 @@ export { mapNodePosition } from '../domain/worldGrid';
 export const MAP_LANDMARKS = {
   camps: { label: 'Monster camps', icon: 'goblin-camp' },
   lakes: { label: 'Lakes', icon: 'lake' },
-  golems: { label: 'Golems', icon: 'golem' },
+  golems: { label: 'Golem camps', icon: 'golem' },
 } as const satisfies Record<string, { label: string; icon: LineArtId }>;
 
 export type MapLandmark = keyof typeof MAP_LANDMARKS;
@@ -82,6 +82,6 @@ export function mapNodeHoverDetails(game: GameState, id: string) {
   const survey = mapNodeSurvey(game, id);
   if (!survey.explored) return ['Map Node Unexplored'];
   const resources = survey.resources.map(({ item, remaining }) => `${ITEM_NAMES[item]} ${Math.floor(remaining).toLocaleString()}`);
-  const camps = new Set(game.sectors[id].nodes.filter(node => node.kind === 'monster-camp').map(node => node.name));
+  const camps = new Set(game.sectors[id].nodes.filter(node => node.kind === 'monster-camp' || node.kind === 'resourceGolem').map(node => node.name));
   return [...(resources.length ? resources : ['No mapped resources']), ...camps];
 }

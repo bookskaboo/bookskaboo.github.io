@@ -1,0 +1,4040 @@
+{
+  "seed": 1361531576,
+  "tickMs": 400,
+  "mod": "Balance comparison Map Point price",
+  "shinySurvey": "shiny-with-imports",
+  "peripheralSupply": true,
+  "balancePatch": "matched-map-price",
+  "boundaries": [
+    {
+      "label": "fresh Home",
+      "seconds": 0,
+      "extracted": {},
+      "produced": {},
+      "completed": [],
+      "repeatables": {},
+      "contributed": {},
+      "maps": 1,
+      "placed": 0,
+      "cables": 0,
+      "joints": 0,
+      "installed": {
+        "nodes": 2,
+        "connections": 0,
+        "byCategory": {
+          "Production": 2
+        }
+      },
+      "researchWait": {
+        "anyMs": 0,
+        "byCoreMs": {}
+      }
+    },
+    {
+      "label": "simple-core",
+      "seconds": 56.8,
+      "extracted": {
+        "wood": 11,
+        "copper": 11
+      },
+      "produced": {
+        "charcoal": 10,
+        "copper-plate": 5,
+        "copper-gear": 2,
+        "simple-core": 1
+      },
+      "completed": [
+        "joint",
+        "kiln",
+        "smelter",
+        "refiner",
+        "researchCenter"
+      ],
+      "repeatables": {},
+      "selected": "assembler",
+      "contributed": {},
+      "maps": 1,
+      "placed": 5,
+      "cables": 8,
+      "joints": 0,
+      "installed": {
+        "nodes": 7,
+        "connections": 8,
+        "byCategory": {
+          "Production": 6,
+          "Research": 1
+        }
+      },
+      "researchWait": {
+        "anyMs": 38800,
+        "byCoreMs": {
+          "simple-core": 38800
+        }
+      }
+    },
+    {
+      "label": "basic-core",
+      "seconds": 275.6,
+      "extracted": {
+        "wood": 66,
+        "copper": 65,
+        "iron": 10
+      },
+      "produced": {
+        "charcoal": 54,
+        "copper-plate": 30,
+        "copper-gear": 13,
+        "simple-core": 6,
+        "iron-plate": 4,
+        "iron-wire": 1,
+        "basic-core": 1
+      },
+      "completed": [
+        "joint",
+        "kiln",
+        "smelter",
+        "refiner",
+        "researchCenter",
+        "assembler",
+        "splitter",
+        "merger"
+      ],
+      "repeatables": {},
+      "selected": "exploration",
+      "contributed": {},
+      "maps": 1,
+      "placed": 15,
+      "cables": 22,
+      "joints": 0,
+      "installed": {
+        "nodes": 17,
+        "connections": 22,
+        "byCategory": {
+          "Production": 16,
+          "Research": 1
+        }
+      },
+      "researchWait": {
+        "anyMs": 231600,
+        "byCoreMs": {
+          "simple-core": 213600,
+          "basic-core": 52800
+        }
+      }
+    },
+    {
+      "label": "automata-core",
+      "seconds": 1750,
+      "extracted": {
+        "wood": 554,
+        "copper": 715,
+        "iron": 252,
+        "stone": 20
+      },
+      "produced": {
+        "charcoal": 512,
+        "copper-plate": 345,
+        "copper-gear": 141,
+        "simple-core": 70,
+        "iron-plate": 117,
+        "iron-wire": 35,
+        "basic-core": 25,
+        "brick": 19,
+        "copper-wire": 8,
+        "circuit-a": 1,
+        "automata-core": 1
+      },
+      "completed": [
+        "joint",
+        "kiln",
+        "smelter",
+        "refiner",
+        "researchCenter",
+        "assembler",
+        "splitter",
+        "merger",
+        "exploration",
+        "road",
+        "suppressionBot",
+        "lakeTools",
+        "automataCore"
+      ],
+      "repeatables": {
+        "mapNode": 9
+      },
+      "selected": "areaExpansion1",
+      "contributed": {},
+      "maps": 11,
+      "placed": 57,
+      "cables": 78,
+      "joints": 9,
+      "installed": {
+        "nodes": 59,
+        "connections": 78,
+        "byCategory": {
+          "Production": 39,
+          "Research": 1,
+          "Logistics": 19
+        }
+      },
+      "researchWait": {
+        "anyMs": 1097600,
+        "byCoreMs": {
+          "simple-core": 977600,
+          "basic-core": 140400,
+          "automata-core": 103200
+        }
+      }
+    },
+    {
+      "label": "hydro-core",
+      "seconds": 2564.8,
+      "extracted": {
+        "wood": 1448,
+        "copper": 1941,
+        "iron": 713,
+        "stone": 149,
+        "water": 154
+      },
+      "produced": {
+        "charcoal": 1380,
+        "copper-plate": 926,
+        "copper-gear": 231,
+        "simple-core": 114,
+        "iron-plate": 333,
+        "iron-wire": 60,
+        "basic-core": 60,
+        "brick": 139,
+        "copper-wire": 128,
+        "circuit-a": 83,
+        "automata-core": 76,
+        "coolant": 30,
+        "iron-gear": 23,
+        "motor": 14,
+        "conductive-slurry": 18,
+        "hydraulic-actuator": 4,
+        "ceramic-electrode": 4,
+        "hydro-core": 1
+      },
+      "completed": [
+        "joint",
+        "kiln",
+        "smelter",
+        "refiner",
+        "researchCenter",
+        "assembler",
+        "splitter",
+        "merger",
+        "exploration",
+        "road",
+        "suppressionBot",
+        "lakeTools",
+        "automataCore",
+        "areaExpansion1",
+        "fabricatorTools",
+        "hydrochemistry",
+        "hydraulicAssembly"
+      ],
+      "repeatables": {
+        "mapNode": 9
+      },
+      "selected": "roadChannels1",
+      "contributed": {},
+      "maps": 11,
+      "placed": 145,
+      "cables": 213,
+      "joints": 12,
+      "installed": {
+        "nodes": 145,
+        "connections": 205,
+        "byCategory": {
+          "Production": 90,
+          "Research": 1,
+          "Logistics": 54
+        }
+      },
+      "researchWait": {
+        "anyMs": 1730800,
+        "byCoreMs": {
+          "simple-core": 1299200,
+          "basic-core": 140400,
+          "automata-core": 239200,
+          "hydro-core": 222000
+        }
+      }
+    },
+    {
+      "label": "shiny-core",
+      "seconds": 5892,
+      "extracted": {
+        "wood": 8814,
+        "copper": 10322,
+        "iron": 6546,
+        "stone": 784,
+        "water": 2524,
+        "mythril": 53
+      },
+      "produced": {
+        "charcoal": 8453,
+        "copper-plate": 4961,
+        "copper-gear": 681,
+        "simple-core": 340,
+        "iron-plate": 3144,
+        "iron-wire": 200,
+        "basic-core": 200,
+        "brick": 756,
+        "copper-wire": 1118,
+        "circuit-a": 207,
+        "automata-core": 181,
+        "coolant": 996,
+        "iron-gear": 623,
+        "motor": 340,
+        "conductive-slurry": 310,
+        "hydraulic-actuator": 247,
+        "ceramic-electrode": 310,
+        "hydro-core": 144,
+        "simple-robot-frame": 89,
+        "sealed-frame": 78,
+        "simple-robot-gun": 72,
+        "cooled-gun": 71,
+        "medium-suppression-bot": 68,
+        "mythril-plate": 25,
+        "refined-mithril": 34,
+        "mithril-mesh": 13,
+        "shiny-core": 1
+      },
+      "completed": [
+        "joint",
+        "kiln",
+        "smelter",
+        "refiner",
+        "researchCenter",
+        "assembler",
+        "splitter",
+        "merger",
+        "exploration",
+        "road",
+        "suppressionBot",
+        "lakeTools",
+        "automataCore",
+        "areaExpansion1",
+        "fabricatorTools",
+        "hydrochemistry",
+        "hydraulicAssembly",
+        "roadChannels1",
+        "sealedRobotics",
+        "treePlanter",
+        "fluidRouting",
+        "oreSeparation",
+        "mithrilTools"
+      ],
+      "repeatables": {
+        "mapNode": 26
+      },
+      "contributed": {},
+      "maps": 28,
+      "placed": 569,
+      "cables": 827,
+      "joints": 76,
+      "installed": {
+        "nodes": 535,
+        "connections": 614,
+        "byCategory": {
+          "Production": 281,
+          "Research": 1,
+          "Logistics": 253
+        }
+      },
+      "researchWait": {
+        "anyMs": 2092000,
+        "byCoreMs": {
+          "simple-core": 1408800,
+          "basic-core": 336800,
+          "automata-core": 239200,
+          "hydro-core": 291600
+        }
+      }
+    },
+    {
+      "label": "command-core",
+      "seconds": 7683.6,
+      "extracted": {
+        "wood": 11984,
+        "copper": 13667,
+        "iron": 9149,
+        "stone": 822,
+        "water": 3461,
+        "mythril": 411
+      },
+      "produced": {
+        "charcoal": 11521,
+        "copper-plate": 6586,
+        "copper-gear": 713,
+        "simple-core": 340,
+        "iron-plate": 4398,
+        "iron-wire": 232,
+        "basic-core": 200,
+        "brick": 792,
+        "copper-wire": 1636,
+        "circuit-a": 477,
+        "automata-core": 181,
+        "coolant": 1360,
+        "iron-gear": 804,
+        "motor": 437,
+        "conductive-slurry": 366,
+        "hydraulic-actuator": 337,
+        "ceramic-electrode": 337,
+        "hydro-core": 144,
+        "simple-robot-frame": 90,
+        "sealed-frame": 90,
+        "simple-robot-gun": 90,
+        "cooled-gun": 90,
+        "medium-suppression-bot": 90,
+        "mythril-plate": 118,
+        "refined-mithril": 182,
+        "mithril-mesh": 86,
+        "shiny-core": 81,
+        "mythril-wire": 32,
+        "logic-substrate": 12,
+        "mythril-gear": 32,
+        "precision-controller": 3,
+        "metallic-fines": 3,
+        "advanced-actuator": 2,
+        "command-core": 1
+      },
+      "completed": [
+        "joint",
+        "kiln",
+        "smelter",
+        "refiner",
+        "researchCenter",
+        "assembler",
+        "splitter",
+        "merger",
+        "exploration",
+        "road",
+        "suppressionBot",
+        "lakeTools",
+        "automataCore",
+        "areaExpansion1",
+        "fabricatorTools",
+        "hydrochemistry",
+        "hydraulicAssembly",
+        "roadChannels1",
+        "sealedRobotics",
+        "treePlanter",
+        "fluidRouting",
+        "oreSeparation",
+        "mithrilTools",
+        "heavyRobotics",
+        "precisionControl",
+        "sortingTools",
+        "mineralRecovery",
+        "cornerComponents"
+      ],
+      "repeatables": {
+        "mapNode": 26
+      },
+      "selected": "commandRobotics",
+      "contributed": {},
+      "maps": 28,
+      "placed": 800,
+      "cables": 1160,
+      "joints": 112,
+      "installed": {
+        "nodes": 756,
+        "connections": 816,
+        "byCategory": {
+          "Production": 386,
+          "Research": 1,
+          "Logistics": 368,
+          "Storage": 1
+        }
+      },
+      "researchWait": {
+        "anyMs": 2935600,
+        "byCoreMs": {
+          "simple-core": 1408800,
+          "basic-core": 336800,
+          "automata-core": 239200,
+          "hydro-core": 291600,
+          "shiny-core": 447600,
+          "command-core": 396000
+        }
+      }
+    },
+    {
+      "label": "final-core",
+      "seconds": 19618.8,
+      "extracted": {
+        "wood": 20114,
+        "copper": 22965,
+        "iron": 14900,
+        "stone": 1245,
+        "water": 5970,
+        "mythril": 1355
+      },
+      "produced": {
+        "charcoal": 18976,
+        "copper-plate": 10996,
+        "copper-gear": 1601,
+        "simple-core": 700,
+        "iron-plate": 7119,
+        "iron-wire": 232,
+        "basic-core": 200,
+        "brick": 1150,
+        "copper-wire": 2528,
+        "circuit-a": 716,
+        "automata-core": 181,
+        "coolant": 2282,
+        "iron-gear": 1263,
+        "motor": 753,
+        "conductive-slurry": 676,
+        "hydraulic-actuator": 510,
+        "ceramic-electrode": 391,
+        "hydro-core": 144,
+        "simple-robot-frame": 201,
+        "sealed-frame": 201,
+        "simple-robot-gun": 176,
+        "cooled-gun": 176,
+        "medium-suppression-bot": 155,
+        "mythril-plate": 266,
+        "refined-mithril": 416,
+        "mithril-mesh": 154,
+        "shiny-core": 81,
+        "mythril-wire": 32,
+        "logic-substrate": 31,
+        "mythril-gear": 200,
+        "precision-controller": 94,
+        "metallic-fines": 94,
+        "advanced-actuator": 73,
+        "command-core": 31,
+        "mithril-frame": 21,
+        "focused-gun": 21,
+        "servo-frame": 21,
+        "pulse-cannon": 21,
+        "command-suppression-bot": 21,
+        "foundry-component": 1,
+        "grove-component": 1,
+        "reclamation-component": 1,
+        "core-half-b": 1,
+        "alpha": 1,
+        "core-half-a": 1,
+        "final-core": 1
+      },
+      "completed": [
+        "joint",
+        "kiln",
+        "smelter",
+        "refiner",
+        "researchCenter",
+        "assembler",
+        "splitter",
+        "merger",
+        "exploration",
+        "road",
+        "suppressionBot",
+        "lakeTools",
+        "automataCore",
+        "areaExpansion1",
+        "fabricatorTools",
+        "hydrochemistry",
+        "hydraulicAssembly",
+        "roadChannels1",
+        "sealedRobotics",
+        "treePlanter",
+        "fluidRouting",
+        "oreSeparation",
+        "mithrilTools",
+        "heavyRobotics",
+        "precisionControl",
+        "sortingTools",
+        "mineralRecovery",
+        "cornerComponents",
+        "commandRobotics",
+        "finalCoreProduction"
+      ],
+      "repeatables": {
+        "mapNode": 81
+      },
+      "contributed": {},
+      "maps": 83,
+      "placed": 1834,
+      "cables": 2381,
+      "joints": 218,
+      "installed": {
+        "nodes": 1472,
+        "connections": 1226,
+        "byCategory": {
+          "Production": 707,
+          "Research": 1,
+          "Logistics": 760,
+          "Storage": 4
+        }
+      },
+      "researchWait": {
+        "anyMs": 4652000,
+        "byCoreMs": {
+          "simple-core": 2473600,
+          "basic-core": 336800,
+          "automata-core": 239200,
+          "hydro-core": 291600,
+          "shiny-core": 447600,
+          "command-core": 1047600
+        }
+      }
+    },
+    {
+      "label": "victory research completed",
+      "seconds": 19626.4,
+      "extracted": {
+        "wood": 20114,
+        "copper": 22965,
+        "iron": 14900,
+        "stone": 1245,
+        "water": 5970,
+        "mythril": 1355
+      },
+      "produced": {
+        "charcoal": 18976,
+        "copper-plate": 10996,
+        "copper-gear": 1601,
+        "simple-core": 700,
+        "iron-plate": 7119,
+        "iron-wire": 232,
+        "basic-core": 200,
+        "brick": 1150,
+        "copper-wire": 2528,
+        "circuit-a": 716,
+        "automata-core": 181,
+        "coolant": 2282,
+        "iron-gear": 1263,
+        "motor": 753,
+        "conductive-slurry": 676,
+        "hydraulic-actuator": 510,
+        "ceramic-electrode": 391,
+        "hydro-core": 144,
+        "simple-robot-frame": 201,
+        "sealed-frame": 201,
+        "simple-robot-gun": 176,
+        "cooled-gun": 176,
+        "medium-suppression-bot": 155,
+        "mythril-plate": 266,
+        "refined-mithril": 416,
+        "mithril-mesh": 154,
+        "shiny-core": 81,
+        "mythril-wire": 32,
+        "logic-substrate": 31,
+        "mythril-gear": 200,
+        "precision-controller": 94,
+        "metallic-fines": 94,
+        "advanced-actuator": 73,
+        "command-core": 31,
+        "mithril-frame": 21,
+        "focused-gun": 21,
+        "servo-frame": 21,
+        "pulse-cannon": 21,
+        "command-suppression-bot": 21,
+        "foundry-component": 1,
+        "grove-component": 1,
+        "reclamation-component": 1,
+        "core-half-b": 1,
+        "alpha": 1,
+        "core-half-a": 1,
+        "final-core": 1
+      },
+      "completed": [
+        "joint",
+        "kiln",
+        "smelter",
+        "refiner",
+        "researchCenter",
+        "assembler",
+        "splitter",
+        "merger",
+        "exploration",
+        "road",
+        "suppressionBot",
+        "lakeTools",
+        "automataCore",
+        "areaExpansion1",
+        "fabricatorTools",
+        "hydrochemistry",
+        "hydraulicAssembly",
+        "roadChannels1",
+        "sealedRobotics",
+        "treePlanter",
+        "fluidRouting",
+        "oreSeparation",
+        "mithrilTools",
+        "heavyRobotics",
+        "precisionControl",
+        "sortingTools",
+        "mineralRecovery",
+        "cornerComponents",
+        "commandRobotics",
+        "finalCoreProduction",
+        "victory"
+      ],
+      "repeatables": {
+        "mapNode": 81
+      },
+      "contributed": {},
+      "maps": 83,
+      "placed": 1834,
+      "cables": 2382,
+      "joints": 218,
+      "installed": {
+        "nodes": 1458,
+        "connections": 1213,
+        "byCategory": {
+          "Production": 707,
+          "Research": 1,
+          "Logistics": 746,
+          "Storage": 4
+        }
+      },
+      "researchWait": {
+        "anyMs": 4653200,
+        "byCoreMs": {
+          "simple-core": 2473600,
+          "basic-core": 336800,
+          "automata-core": 239200,
+          "hydro-core": 291600,
+          "shiny-core": 447600,
+          "command-core": 1047600,
+          "final-core": 1200
+        }
+      }
+    }
+  ],
+  "end": {
+    "label": "run ended",
+    "seconds": 19626.4,
+    "extracted": {
+      "wood": 20114,
+      "copper": 22965,
+      "iron": 14900,
+      "stone": 1245,
+      "water": 5970,
+      "mythril": 1355
+    },
+    "produced": {
+      "charcoal": 18976,
+      "copper-plate": 10996,
+      "copper-gear": 1601,
+      "simple-core": 700,
+      "iron-plate": 7119,
+      "iron-wire": 232,
+      "basic-core": 200,
+      "brick": 1150,
+      "copper-wire": 2528,
+      "circuit-a": 716,
+      "automata-core": 181,
+      "coolant": 2282,
+      "iron-gear": 1263,
+      "motor": 753,
+      "conductive-slurry": 676,
+      "hydraulic-actuator": 510,
+      "ceramic-electrode": 391,
+      "hydro-core": 144,
+      "simple-robot-frame": 201,
+      "sealed-frame": 201,
+      "simple-robot-gun": 176,
+      "cooled-gun": 176,
+      "medium-suppression-bot": 155,
+      "mythril-plate": 266,
+      "refined-mithril": 416,
+      "mithril-mesh": 154,
+      "shiny-core": 81,
+      "mythril-wire": 32,
+      "logic-substrate": 31,
+      "mythril-gear": 200,
+      "precision-controller": 94,
+      "metallic-fines": 94,
+      "advanced-actuator": 73,
+      "command-core": 31,
+      "mithril-frame": 21,
+      "focused-gun": 21,
+      "servo-frame": 21,
+      "pulse-cannon": 21,
+      "command-suppression-bot": 21,
+      "foundry-component": 1,
+      "grove-component": 1,
+      "reclamation-component": 1,
+      "core-half-b": 1,
+      "alpha": 1,
+      "core-half-a": 1,
+      "final-core": 1
+    },
+    "completed": [
+      "joint",
+      "kiln",
+      "smelter",
+      "refiner",
+      "researchCenter",
+      "assembler",
+      "splitter",
+      "merger",
+      "exploration",
+      "road",
+      "suppressionBot",
+      "lakeTools",
+      "automataCore",
+      "areaExpansion1",
+      "fabricatorTools",
+      "hydrochemistry",
+      "hydraulicAssembly",
+      "roadChannels1",
+      "sealedRobotics",
+      "treePlanter",
+      "fluidRouting",
+      "oreSeparation",
+      "mithrilTools",
+      "heavyRobotics",
+      "precisionControl",
+      "sortingTools",
+      "mineralRecovery",
+      "cornerComponents",
+      "commandRobotics",
+      "finalCoreProduction",
+      "victory"
+    ],
+    "repeatables": {
+      "mapNode": 81
+    },
+    "contributed": {},
+    "maps": 83,
+    "placed": 1834,
+    "cables": 2382,
+    "joints": 218,
+    "installed": {
+      "nodes": 1458,
+      "connections": 1213,
+      "byCategory": {
+        "Production": 707,
+        "Research": 1,
+        "Logistics": 746,
+        "Storage": 4
+      }
+    },
+    "researchWait": {
+      "anyMs": 4653200,
+      "byCoreMs": {
+        "simple-core": 2473600,
+        "basic-core": 336800,
+        "automata-core": 239200,
+        "hydro-core": 291600,
+        "shiny-core": 447600,
+        "command-core": 1047600,
+        "final-core": 1200
+      }
+    }
+  },
+  "payments": [
+    {
+      "id": "assembler",
+      "costs": {
+        "simple-core": 5
+      },
+      "startedAt": 16.8,
+      "seconds": 222.8
+    },
+    {
+      "id": "exploration",
+      "costs": {
+        "simple-core": 5,
+        "basic-core": 5
+      },
+      "startedAt": 222.8,
+      "seconds": 422.8
+    },
+    {
+      "id": "road",
+      "costs": {
+        "simple-core": 5,
+        "basic-core": 5
+      },
+      "startedAt": 452.8,
+      "seconds": 622.8
+    },
+    {
+      "id": "mapNode",
+      "rank": 1,
+      "costs": {
+        "simple-core": 5
+      },
+      "startedAt": 622.8,
+      "seconds": 742.8
+    },
+    {
+      "id": "mapNode",
+      "rank": 2,
+      "costs": {
+        "simple-core": 5
+      },
+      "startedAt": 772.8,
+      "seconds": 846.8
+    },
+    {
+      "id": "mapNode",
+      "rank": 3,
+      "costs": {
+        "simple-core": 5
+      },
+      "startedAt": 876.8,
+      "seconds": 942.8
+    },
+    {
+      "id": "mapNode",
+      "rank": 4,
+      "costs": {
+        "simple-core": 5
+      },
+      "startedAt": 972.8,
+      "seconds": 1046.8
+    },
+    {
+      "id": "mapNode",
+      "rank": 5,
+      "costs": {
+        "simple-core": 5
+      },
+      "startedAt": 1076.8,
+      "seconds": 1142.8
+    },
+    {
+      "id": "mapNode",
+      "rank": 6,
+      "costs": {
+        "simple-core": 5
+      },
+      "startedAt": 1172.8,
+      "seconds": 1246.8
+    },
+    {
+      "id": "mapNode",
+      "rank": 7,
+      "costs": {
+        "simple-core": 5
+      },
+      "startedAt": 1276.8,
+      "seconds": 1342.8
+    },
+    {
+      "id": "mapNode",
+      "rank": 8,
+      "costs": {
+        "simple-core": 5
+      },
+      "startedAt": 1372.8,
+      "seconds": 1446.8
+    },
+    {
+      "id": "mapNode",
+      "rank": 9,
+      "costs": {
+        "simple-core": 5
+      },
+      "startedAt": 1476.8,
+      "seconds": 1542.8
+    },
+    {
+      "id": "automataCore",
+      "costs": {
+        "simple-core": 5,
+        "basic-core": 5
+      },
+      "startedAt": 1572.8,
+      "seconds": 1646.8
+    },
+    {
+      "id": "areaExpansion1",
+      "costs": {
+        "simple-core": 10,
+        "basic-core": 10,
+        "automata-core": 10
+      },
+      "startedAt": 1646.8,
+      "seconds": 1899.6
+    },
+    {
+      "id": "fabricatorTools",
+      "costs": {
+        "simple-core": 5,
+        "basic-core": 5,
+        "automata-core": 5
+      },
+      "startedAt": 1899.6,
+      "seconds": 1959.6
+    },
+    {
+      "id": "hydrochemistry",
+      "costs": {
+        "simple-core": 5,
+        "basic-core": 5,
+        "automata-core": 5
+      },
+      "startedAt": 1959.6,
+      "seconds": 2046.8
+    },
+    {
+      "id": "hydraulicAssembly",
+      "costs": {
+        "simple-core": 15,
+        "basic-core": 15,
+        "automata-core": 15
+      },
+      "startedAt": 2046.8,
+      "seconds": 2342.8
+    },
+    {
+      "id": "roadChannels1",
+      "costs": {
+        "simple-core": 5,
+        "basic-core": 5,
+        "automata-core": 5,
+        "hydro-core": 5
+      },
+      "startedAt": 2342.8,
+      "seconds": 2660.4
+    },
+    {
+      "id": "mapNode",
+      "rank": 10,
+      "costs": {
+        "simple-core": 5
+      },
+      "startedAt": 2660.4,
+      "seconds": 2685.6
+    },
+    {
+      "id": "mapNode",
+      "rank": 11,
+      "costs": {
+        "simple-core": 5
+      },
+      "startedAt": 2715.6,
+      "seconds": 2740.8
+    },
+    {
+      "id": "mapNode",
+      "rank": 12,
+      "costs": {
+        "simple-core": 5
+      },
+      "startedAt": 2770.8,
+      "seconds": 2796
+    },
+    {
+      "id": "mapNode",
+      "rank": 13,
+      "costs": {
+        "simple-core": 5
+      },
+      "startedAt": 2826,
+      "seconds": 2851.2
+    },
+    {
+      "id": "mapNode",
+      "rank": 14,
+      "costs": {
+        "simple-core": 5
+      },
+      "startedAt": 2881.2,
+      "seconds": 2906.4
+    },
+    {
+      "id": "mapNode",
+      "rank": 15,
+      "costs": {
+        "simple-core": 5
+      },
+      "startedAt": 2936.4,
+      "seconds": 2961.6
+    },
+    {
+      "id": "mapNode",
+      "rank": 16,
+      "costs": {
+        "simple-core": 5
+      },
+      "startedAt": 2991.6,
+      "seconds": 3016.8
+    },
+    {
+      "id": "mapNode",
+      "rank": 17,
+      "costs": {
+        "simple-core": 5
+      },
+      "startedAt": 3046.8,
+      "seconds": 3072
+    },
+    {
+      "id": "mapNode",
+      "rank": 18,
+      "costs": {
+        "simple-core": 5
+      },
+      "startedAt": 3102,
+      "seconds": 3127.2
+    },
+    {
+      "id": "mapNode",
+      "rank": 19,
+      "costs": {
+        "simple-core": 5
+      },
+      "startedAt": 3157.2,
+      "seconds": 3182.4
+    },
+    {
+      "id": "mapNode",
+      "rank": 20,
+      "costs": {
+        "simple-core": 5
+      },
+      "startedAt": 3212.4,
+      "seconds": 3237.6
+    },
+    {
+      "id": "mapNode",
+      "rank": 21,
+      "costs": {
+        "simple-core": 5
+      },
+      "startedAt": 3267.6,
+      "seconds": 3292.8
+    },
+    {
+      "id": "mapNode",
+      "rank": 22,
+      "costs": {
+        "simple-core": 5
+      },
+      "startedAt": 3322.8,
+      "seconds": 3348
+    },
+    {
+      "id": "mapNode",
+      "rank": 23,
+      "costs": {
+        "simple-core": 5
+      },
+      "startedAt": 3378,
+      "seconds": 3403.2
+    },
+    {
+      "id": "mapNode",
+      "rank": 24,
+      "costs": {
+        "simple-core": 5
+      },
+      "startedAt": 3433.2,
+      "seconds": 3458.4
+    },
+    {
+      "id": "mapNode",
+      "rank": 25,
+      "costs": {
+        "simple-core": 5
+      },
+      "startedAt": 3488.4,
+      "seconds": 3513.6
+    },
+    {
+      "id": "sealedRobotics",
+      "costs": {
+        "simple-core": 5,
+        "basic-core": 5,
+        "automata-core": 5,
+        "hydro-core": 5
+      },
+      "startedAt": 3543.6,
+      "seconds": 3580.4
+    },
+    {
+      "id": "mapNode",
+      "rank": 26,
+      "costs": {
+        "simple-core": 5
+      },
+      "startedAt": 3580.4,
+      "seconds": 3645.6
+    },
+    {
+      "id": "treePlanter",
+      "costs": {
+        "simple-core": 10,
+        "basic-core": 10,
+        "automata-core": 10
+      },
+      "startedAt": 3675.6,
+      "seconds": 3848.4
+    },
+    {
+      "id": "fluidRouting",
+      "costs": {
+        "simple-core": 5,
+        "basic-core": 5,
+        "automata-core": 5,
+        "hydro-core": 5
+      },
+      "startedAt": 3848.4,
+      "seconds": 3898.4
+    },
+    {
+      "id": "oreSeparation",
+      "costs": {
+        "simple-core": 20,
+        "basic-core": 20,
+        "automata-core": 20,
+        "hydro-core": 20
+      },
+      "startedAt": 3898.4,
+      "seconds": 4098.4
+    },
+    {
+      "id": "heavyRobotics",
+      "costs": {
+        "simple-core": 20,
+        "basic-core": 20,
+        "automata-core": 20,
+        "hydro-core": 20,
+        "shiny-core": 20
+      },
+      "startedAt": 5892,
+      "seconds": 6238.8
+    },
+    {
+      "id": "precisionControl",
+      "costs": {
+        "simple-core": 30,
+        "basic-core": 30,
+        "automata-core": 30,
+        "hydro-core": 30,
+        "shiny-core": 30
+      },
+      "startedAt": 6238.8,
+      "seconds": 6598.8
+    },
+    {
+      "id": "commandRobotics",
+      "costs": {
+        "simple-core": 30,
+        "basic-core": 30,
+        "automata-core": 30,
+        "hydro-core": 30,
+        "shiny-core": 30,
+        "command-core": 30
+      },
+      "startedAt": 7287.6,
+      "seconds": 8490.4
+    },
+    {
+      "id": "mapNode",
+      "rank": 27,
+      "costs": {
+        "simple-core": 5
+      },
+      "startedAt": 8528.8,
+      "seconds": 8641.6
+    },
+    {
+      "id": "mapNode",
+      "rank": 28,
+      "costs": {
+        "simple-core": 5
+      },
+      "startedAt": 8671.6,
+      "seconds": 8711.6
+    },
+    {
+      "id": "mapNode",
+      "rank": 29,
+      "costs": {
+        "simple-core": 5
+      },
+      "startedAt": 8741.6,
+      "seconds": 8776.4
+    },
+    {
+      "id": "mapNode",
+      "rank": 30,
+      "costs": {
+        "simple-core": 5
+      },
+      "startedAt": 8806.4,
+      "seconds": 8841.6
+    },
+    {
+      "id": "mapNode",
+      "rank": 31,
+      "costs": {
+        "simple-core": 5
+      },
+      "startedAt": 8871.6,
+      "seconds": 8911.6
+    },
+    {
+      "id": "mapNode",
+      "rank": 32,
+      "costs": {
+        "simple-core": 5
+      },
+      "startedAt": 8941.6,
+      "seconds": 8976.4
+    },
+    {
+      "id": "mapNode",
+      "rank": 33,
+      "costs": {
+        "simple-core": 5
+      },
+      "startedAt": 9006.4,
+      "seconds": 9046.4
+    },
+    {
+      "id": "mapNode",
+      "rank": 34,
+      "costs": {
+        "simple-core": 5
+      },
+      "startedAt": 9076.4,
+      "seconds": 9111.6
+    },
+    {
+      "id": "mapNode",
+      "rank": 35,
+      "costs": {
+        "simple-core": 5
+      },
+      "startedAt": 9141.6,
+      "seconds": 9176.4
+    },
+    {
+      "id": "mapNode",
+      "rank": 36,
+      "costs": {
+        "simple-core": 5
+      },
+      "startedAt": 9206.4,
+      "seconds": 9241.6
+    },
+    {
+      "id": "mapNode",
+      "rank": 37,
+      "costs": {
+        "simple-core": 5
+      },
+      "startedAt": 9271.6,
+      "seconds": 9311.6
+    },
+    {
+      "id": "mapNode",
+      "rank": 38,
+      "costs": {
+        "simple-core": 5
+      },
+      "startedAt": 9341.6,
+      "seconds": 9376.4
+    },
+    {
+      "id": "mapNode",
+      "rank": 39,
+      "costs": {
+        "simple-core": 5
+      },
+      "startedAt": 9406.4,
+      "seconds": 9441.6
+    },
+    {
+      "id": "mapNode",
+      "rank": 40,
+      "costs": {
+        "simple-core": 5
+      },
+      "startedAt": 9471.6,
+      "seconds": 9511.6
+    },
+    {
+      "id": "mapNode",
+      "rank": 41,
+      "costs": {
+        "simple-core": 5
+      },
+      "startedAt": 9541.6,
+      "seconds": 9576.4
+    },
+    {
+      "id": "mapNode",
+      "rank": 42,
+      "costs": {
+        "simple-core": 5
+      },
+      "startedAt": 9606.4,
+      "seconds": 9646.4
+    },
+    {
+      "id": "mapNode",
+      "rank": 43,
+      "costs": {
+        "simple-core": 5
+      },
+      "startedAt": 9676.4,
+      "seconds": 9711.6
+    },
+    {
+      "id": "mapNode",
+      "rank": 44,
+      "costs": {
+        "simple-core": 5
+      },
+      "startedAt": 9741.6,
+      "seconds": 9776.4
+    },
+    {
+      "id": "mapNode",
+      "rank": 45,
+      "costs": {
+        "simple-core": 5
+      },
+      "startedAt": 9806.4,
+      "seconds": 9841.6
+    },
+    {
+      "id": "mapNode",
+      "rank": 46,
+      "costs": {
+        "simple-core": 5
+      },
+      "startedAt": 9871.6,
+      "seconds": 9911.6
+    },
+    {
+      "id": "mapNode",
+      "rank": 47,
+      "costs": {
+        "simple-core": 5
+      },
+      "startedAt": 9941.6,
+      "seconds": 9976.4
+    },
+    {
+      "id": "mapNode",
+      "rank": 48,
+      "costs": {
+        "simple-core": 5
+      },
+      "startedAt": 10006.4,
+      "seconds": 10051.6
+    },
+    {
+      "id": "mapNode",
+      "rank": 49,
+      "costs": {
+        "simple-core": 5
+      },
+      "startedAt": 10081.6,
+      "seconds": 10171.6
+    },
+    {
+      "id": "mapNode",
+      "rank": 50,
+      "costs": {
+        "simple-core": 5
+      },
+      "startedAt": 10201.6,
+      "seconds": 10291.6
+    },
+    {
+      "id": "mapNode",
+      "rank": 51,
+      "costs": {
+        "simple-core": 5
+      },
+      "startedAt": 10321.6,
+      "seconds": 10424.4
+    },
+    {
+      "id": "mapNode",
+      "rank": 52,
+      "costs": {
+        "simple-core": 5
+      },
+      "startedAt": 10454.4,
+      "seconds": 10494.4
+    },
+    {
+      "id": "mapNode",
+      "rank": 53,
+      "costs": {
+        "simple-core": 5
+      },
+      "startedAt": 10524.4,
+      "seconds": 10559.2
+    },
+    {
+      "id": "mapNode",
+      "rank": 54,
+      "costs": {
+        "simple-core": 5
+      },
+      "startedAt": 10589.2,
+      "seconds": 10624.4
+    },
+    {
+      "id": "mapNode",
+      "rank": 55,
+      "costs": {
+        "simple-core": 5
+      },
+      "startedAt": 10654.4,
+      "seconds": 10694.4
+    },
+    {
+      "id": "mapNode",
+      "rank": 56,
+      "costs": {
+        "simple-core": 5
+      },
+      "startedAt": 10724.4,
+      "seconds": 10759.2
+    },
+    {
+      "id": "mapNode",
+      "rank": 57,
+      "costs": {
+        "simple-core": 5
+      },
+      "startedAt": 10789.2,
+      "seconds": 10829.2
+    },
+    {
+      "id": "mapNode",
+      "rank": 58,
+      "costs": {
+        "simple-core": 5
+      },
+      "startedAt": 10859.2,
+      "seconds": 10894.4
+    },
+    {
+      "id": "mapNode",
+      "rank": 59,
+      "costs": {
+        "simple-core": 5
+      },
+      "startedAt": 10924.4,
+      "seconds": 10959.2
+    },
+    {
+      "id": "mapNode",
+      "rank": 60,
+      "costs": {
+        "simple-core": 5
+      },
+      "startedAt": 10989.2,
+      "seconds": 11024.4
+    },
+    {
+      "id": "mapNode",
+      "rank": 61,
+      "costs": {
+        "simple-core": 5
+      },
+      "startedAt": 11054.4,
+      "seconds": 11094.4
+    },
+    {
+      "id": "mapNode",
+      "rank": 62,
+      "costs": {
+        "simple-core": 5
+      },
+      "startedAt": 11124.4,
+      "seconds": 11159.2
+    },
+    {
+      "id": "mapNode",
+      "rank": 63,
+      "costs": {
+        "simple-core": 5
+      },
+      "startedAt": 11189.2,
+      "seconds": 11224.4
+    },
+    {
+      "id": "mapNode",
+      "rank": 64,
+      "costs": {
+        "simple-core": 5
+      },
+      "startedAt": 11254.4,
+      "seconds": 11294.4
+    },
+    {
+      "id": "mapNode",
+      "rank": 65,
+      "costs": {
+        "simple-core": 5
+      },
+      "startedAt": 11324.4,
+      "seconds": 11359.2
+    },
+    {
+      "id": "mapNode",
+      "rank": 66,
+      "costs": {
+        "simple-core": 5
+      },
+      "startedAt": 11389.2,
+      "seconds": 11429.2
+    },
+    {
+      "id": "mapNode",
+      "rank": 67,
+      "costs": {
+        "simple-core": 5
+      },
+      "startedAt": 11459.2,
+      "seconds": 11494.4
+    },
+    {
+      "id": "mapNode",
+      "rank": 68,
+      "costs": {
+        "simple-core": 5
+      },
+      "startedAt": 11524.4,
+      "seconds": 11559.2
+    },
+    {
+      "id": "mapNode",
+      "rank": 69,
+      "costs": {
+        "simple-core": 5
+      },
+      "startedAt": 11589.2,
+      "seconds": 11624.4
+    },
+    {
+      "id": "mapNode",
+      "rank": 70,
+      "costs": {
+        "simple-core": 5
+      },
+      "startedAt": 11654.4,
+      "seconds": 11694.4
+    },
+    {
+      "id": "mapNode",
+      "rank": 71,
+      "costs": {
+        "simple-core": 5
+      },
+      "startedAt": 11724.4,
+      "seconds": 11759.2
+    },
+    {
+      "id": "mapNode",
+      "rank": 72,
+      "costs": {
+        "simple-core": 5
+      },
+      "startedAt": 11789.2,
+      "seconds": 11834.4
+    },
+    {
+      "id": "mapNode",
+      "rank": 73,
+      "costs": {
+        "simple-core": 5
+      },
+      "startedAt": 11864.4,
+      "seconds": 11954.4
+    },
+    {
+      "id": "mapNode",
+      "rank": 74,
+      "costs": {
+        "simple-core": 5
+      },
+      "startedAt": 11984.4,
+      "seconds": 12074.4
+    },
+    {
+      "id": "mapNode",
+      "rank": 75,
+      "costs": {
+        "simple-core": 5
+      },
+      "startedAt": 12104.4,
+      "seconds": 12212
+    },
+    {
+      "id": "mapNode",
+      "rank": 76,
+      "costs": {
+        "simple-core": 5
+      },
+      "startedAt": 12242,
+      "seconds": 12282
+    },
+    {
+      "id": "mapNode",
+      "rank": 77,
+      "costs": {
+        "simple-core": 5
+      },
+      "startedAt": 12312,
+      "seconds": 12347.2
+    },
+    {
+      "id": "mapNode",
+      "rank": 78,
+      "costs": {
+        "simple-core": 5
+      },
+      "startedAt": 12377.2,
+      "seconds": 12412
+    },
+    {
+      "id": "mapNode",
+      "rank": 79,
+      "costs": {
+        "simple-core": 5
+      },
+      "startedAt": 12442,
+      "seconds": 12482
+    },
+    {
+      "id": "mapNode",
+      "rank": 80,
+      "costs": {
+        "simple-core": 5
+      },
+      "startedAt": 12512,
+      "seconds": 12547.2
+    },
+    {
+      "id": "mapNode",
+      "rank": 81,
+      "costs": {
+        "simple-core": 5
+      },
+      "startedAt": 12577.2,
+      "seconds": 12617.2
+    },
+    {
+      "id": "victory",
+      "costs": {
+        "simple-core": 1,
+        "basic-core": 1,
+        "automata-core": 1,
+        "hydro-core": 1,
+        "shiny-core": 1,
+        "command-core": 1,
+        "final-core": 1
+      },
+      "startedAt": 19620,
+      "seconds": 19626.4
+    }
+  ],
+  "trace": [
+    {
+      "name": "blind seed selected",
+      "seconds": 0,
+      "seed": 1361531576
+    },
+    {
+      "name": "first simple-core produced",
+      "seconds": 56.8
+    },
+    {
+      "name": "assembler",
+      "seconds": 222.8
+    },
+    {
+      "name": "first basic-core produced",
+      "seconds": 275.6
+    },
+    {
+      "name": "exploration",
+      "seconds": 422.8
+    },
+    {
+      "name": "survey 5,4",
+      "seconds": 422.8,
+      "reason": "nearest map after Exploration",
+      "lake": false
+    },
+    {
+      "name": "road",
+      "seconds": 622.8
+    },
+    {
+      "name": "survey 4,5",
+      "seconds": 742.8,
+      "reason": "near-Home resource survey",
+      "lake": false
+    },
+    {
+      "name": "survey 5,6",
+      "seconds": 846.8,
+      "reason": "near-Home resource survey",
+      "lake": false
+    },
+    {
+      "name": "survey 6,5",
+      "seconds": 942.8,
+      "reason": "near-Home resource survey",
+      "lake": false
+    },
+    {
+      "name": "survey 5,3",
+      "seconds": 1046.8,
+      "reason": "near-Home resource survey",
+      "lake": false
+    },
+    {
+      "name": "survey 4,4",
+      "seconds": 1142.8,
+      "reason": "near-Home resource survey",
+      "lake": true
+    },
+    {
+      "name": "survey 6,4",
+      "seconds": 1246.8,
+      "reason": "near-Home resource survey",
+      "lake": true
+    },
+    {
+      "name": "survey 3,5",
+      "seconds": 1342.8,
+      "reason": "near-Home resource survey",
+      "lake": true
+    },
+    {
+      "name": "survey 4,6",
+      "seconds": 1446.8,
+      "reason": "near-Home resource survey",
+      "lake": true
+    },
+    {
+      "name": "survey 5,7",
+      "seconds": 1542.8,
+      "reason": "near-Home resource survey",
+      "lake": true
+    },
+    {
+      "name": "automataCore",
+      "seconds": 1646.8
+    },
+    {
+      "name": "built Core bank 1 automata-core",
+      "seconds": 1646.8,
+      "map": "5,4",
+      "production": 17
+    },
+    {
+      "name": "first automata-core produced",
+      "seconds": 1750
+    },
+    {
+      "name": "areaExpansion1",
+      "seconds": 1899.6
+    },
+    {
+      "name": "fabricatorTools",
+      "seconds": 1959.6
+    },
+    {
+      "name": "hydrochemistry",
+      "seconds": 2046.8
+    },
+    {
+      "name": "Home Simple production quota",
+      "seconds": 2338,
+      "item": "simple-core",
+      "made": 100
+    },
+    {
+      "name": "hydraulicAssembly",
+      "seconds": 2342.8
+    },
+    {
+      "name": "built Core bank 2 simple-core",
+      "seconds": 2342.8,
+      "map": "4,5",
+      "production": 11
+    },
+    {
+      "name": "built Core bank 4 hydro-core",
+      "seconds": 2342.8,
+      "map": "4,6",
+      "production": 39
+    },
+    {
+      "name": "Home Basic production quota",
+      "seconds": 2402,
+      "item": "basic-core",
+      "made": 60
+    },
+    {
+      "name": "first hydro-core produced",
+      "seconds": 2564.8
+    },
+    {
+      "name": "roadChannels1",
+      "seconds": 2660.4
+    },
+    {
+      "name": "starter research and survey complete",
+      "seconds": 2660.4
+    },
+    {
+      "name": "survey 5,2",
+      "seconds": 2685.6,
+      "reason": "find a small Dwarven Camp before the corners",
+      "lake": false
+    },
+    {
+      "name": "survey 5,1",
+      "seconds": 2740.8,
+      "reason": "find a small Dwarven Camp before the corners",
+      "lake": false
+    },
+    {
+      "name": "survey 5,0",
+      "seconds": 2796,
+      "reason": "find a small Dwarven Camp before the corners",
+      "lake": false
+    },
+    {
+      "name": "survey 4,1",
+      "seconds": 2851.2,
+      "reason": "find a small Dwarven Camp before the corners",
+      "lake": false,
+      "golem": "mythril"
+    },
+    {
+      "name": "survey 6,1",
+      "seconds": 2906.4,
+      "reason": "find a small Dwarven Camp before the corners",
+      "lake": false,
+      "golem": "stone"
+    },
+    {
+      "name": "survey 4,2",
+      "seconds": 2961.6,
+      "reason": "find a small Dwarven Camp before the corners",
+      "lake": false
+    },
+    {
+      "name": "survey 3,2",
+      "seconds": 3016.8,
+      "reason": "find a small Dwarven Camp before the corners",
+      "lake": false
+    },
+    {
+      "name": "survey 6,2",
+      "seconds": 3072,
+      "reason": "find a small Dwarven Camp before the corners",
+      "lake": false
+    },
+    {
+      "name": "survey 7,2",
+      "seconds": 3127.2,
+      "reason": "find a small Dwarven Camp before the corners",
+      "lake": false
+    },
+    {
+      "name": "survey 4,0",
+      "seconds": 3182.4,
+      "reason": "find a small Dwarven Camp before the corners",
+      "lake": false
+    },
+    {
+      "name": "survey 6,0",
+      "seconds": 3237.6,
+      "reason": "find a small Dwarven Camp before the corners",
+      "lake": false
+    },
+    {
+      "name": "survey 3,1",
+      "seconds": 3292.8,
+      "reason": "find a small Dwarven Camp before the corners",
+      "lake": false
+    },
+    {
+      "name": "survey 7,1",
+      "seconds": 3348,
+      "reason": "find a small Dwarven Camp before the corners",
+      "lake": true
+    },
+    {
+      "name": "survey 2,2",
+      "seconds": 3403.2,
+      "reason": "find a small Dwarven Camp before the corners",
+      "lake": false
+    },
+    {
+      "name": "survey 2,3",
+      "seconds": 3458.4,
+      "reason": "find a small Dwarven Camp before the corners",
+      "lake": false
+    },
+    {
+      "name": "survey 3,3",
+      "seconds": 3513.6,
+      "reason": "find a small Dwarven Camp before the corners",
+      "lake": false,
+      "dwarves": "camp"
+    },
+    {
+      "name": "sealedRobotics",
+      "seconds": 3580.4
+    },
+    {
+      "name": "built Dwarven supply",
+      "seconds": 3580.4,
+      "map": "7,1",
+      "production": 38
+    },
+    {
+      "name": "survey 4,3",
+      "seconds": 3645.6,
+      "reason": "find Lake sites for Bots and Shiny Cores",
+      "lake": true
+    },
+    {
+      "name": "scouting and revealed site selection complete",
+      "seconds": 3675.6,
+      "opened": 27,
+      "dwarf": "3,3",
+      "sites": {
+        "medium": "7,1",
+        "control": "4,4",
+        "inward": {
+          "local": {
+            "name": "shiny-core",
+            "demand": {
+              "shiny-core": 81
+            },
+            "raw": {
+              "water": 648,
+              "copper": 972,
+              "iron": 1620,
+              "wood": 1458,
+              "mythril": 162
+            },
+            "work": {
+              "shiny-core": 2430,
+              "hydraulic-actuator": 810,
+              "motor": 526.5,
+              "iron-gear": 486,
+              "mithril-mesh": 1458,
+              "coolant": 972,
+              "water": 162,
+              "copper-wire": 486,
+              "copper-plate": 2916,
+              "copper": 4860,
+              "refined-mithril": 972,
+              "iron-plate": 4860,
+              "iron": 8100,
+              "mythril-plate": 486,
+              "charcoal": 5103,
+              "wood": 7290,
+              "mythril": 810
+            },
+            "surplus": {},
+            "imports": {
+              "circuit-a": 243
+            }
+          },
+          "imports": [
+            {
+              "item": "circuit-a",
+              "from": "4,3",
+              "count": 243,
+              "raw": {
+                "iron": 486,
+                "wood": 972,
+                "copper": 1458
+              }
+            }
+          ],
+          "localSupply": {
+            "circuit-a": 0
+          }
+        },
+        "localSupply": {
+          "circuit-a": 0
+        }
+      },
+      "botsStaged": 0
+    },
+    {
+      "name": "built Core bank 5 basic-core",
+      "seconds": 3675.6,
+      "map": "6,5",
+      "production": 13
+    },
+    {
+      "name": "Core bank 1 automata-core production quota",
+      "seconds": 3818,
+      "item": "automata-core",
+      "made": 100
+    },
+    {
+      "name": "treePlanter",
+      "seconds": 3848.4
+    },
+    {
+      "name": "fluidRouting",
+      "seconds": 3898.4
+    },
+    {
+      "name": "built Core bank 6 simple-core",
+      "seconds": 3898.4,
+      "map": "5,6",
+      "production": 11
+    },
+    {
+      "name": "Core bank 4 hydro-core production quota",
+      "seconds": 3954,
+      "item": "hydro-core",
+      "made": 74
+    },
+    {
+      "name": "Core bank 2 simple-core production quota",
+      "seconds": 4094,
+      "item": "simple-core",
+      "made": 120
+    },
+    {
+      "name": "oreSeparation",
+      "seconds": 4098.4
+    },
+    {
+      "name": "built Core bank 7 automata-core",
+      "seconds": 4098.4,
+      "map": "5,4",
+      "production": 17
+    },
+    {
+      "name": "built Core bank 8 hydro-core",
+      "seconds": 4098.4,
+      "map": "7,1",
+      "production": 39
+    },
+    {
+      "name": "staged lower Cores and released research Roads",
+      "seconds": 5144
+    },
+    {
+      "name": "Dwarven Bot reserve ready",
+      "seconds": 5144
+    },
+    {
+      "name": "Core bank 7 automata-core production quota",
+      "seconds": 5152,
+      "item": "automata-core",
+      "made": 81
+    },
+    {
+      "name": "Core bank 5 basic-core production quota",
+      "seconds": 5266,
+      "item": "basic-core",
+      "made": 140
+    },
+    {
+      "name": "first Dwarven Tribute",
+      "seconds": 5631.2
+    },
+    {
+      "name": "built Shiny research",
+      "seconds": 5631.2,
+      "map": "4,4",
+      "production": 48
+    },
+    {
+      "name": "built Inward circuit-a from 4,3 to 4,4",
+      "seconds": 5631.2,
+      "map": "4,3",
+      "production": 23
+    },
+    {
+      "name": "routed peripheral intermediate",
+      "seconds": 5631.2,
+      "item": "circuit-a",
+      "from": "4,3",
+      "to": "4,4",
+      "count": 243,
+      "crossings": 1
+    },
+    {
+      "name": "Core bank 6 simple-core production quota",
+      "seconds": 5648,
+      "item": "simple-core",
+      "made": 120
+    },
+    {
+      "name": "first shiny-core produced",
+      "seconds": 5892
+    },
+    {
+      "name": "heavyRobotics",
+      "seconds": 6238.8
+    },
+    {
+      "name": "Dwarven supply production quota",
+      "seconds": 6382,
+      "item": "medium-suppression-bot",
+      "made": 90
+    },
+    {
+      "name": "precisionControl",
+      "seconds": 6598.8
+    },
+    {
+      "name": "Inward circuit-a from 4,3 to 4,4 production quota",
+      "seconds": 7226,
+      "item": "circuit-a",
+      "made": 243
+    },
+    {
+      "name": "Shiny research production quota",
+      "seconds": 7280,
+      "item": "shiny-core",
+      "made": 81
+    },
+    {
+      "name": "built Complex research",
+      "seconds": 7287.6,
+      "map": "6,4",
+      "production": 57
+    },
+    {
+      "name": "built Inward hydraulic-actuator from 4,3 to 6,4",
+      "seconds": 7287.6,
+      "map": "4,3",
+      "production": 23
+    },
+    {
+      "name": "routed peripheral intermediate",
+      "seconds": 7287.6,
+      "item": "hydraulic-actuator",
+      "from": "4,3",
+      "to": "6,4",
+      "count": 31,
+      "crossings": 3
+    },
+    {
+      "name": "built Inward circuit-a from 6,2 to 6,4",
+      "seconds": 7287.6,
+      "map": "6,2",
+      "production": 23
+    },
+    {
+      "name": "routed peripheral intermediate",
+      "seconds": 7287.6,
+      "item": "circuit-a",
+      "from": "6,2",
+      "to": "6,4",
+      "count": 124,
+      "crossings": 4
+    },
+    {
+      "name": "first command-core produced",
+      "seconds": 7683.6
+    },
+    {
+      "name": "Inward hydraulic-actuator from 4,3 to 6,4 production quota",
+      "seconds": 7878,
+      "item": "hydraulic-actuator",
+      "made": 31
+    },
+    {
+      "name": "Inward circuit-a from 6,2 to 6,4 production quota",
+      "seconds": 8132,
+      "item": "circuit-a",
+      "made": 124
+    },
+    {
+      "name": "commandRobotics",
+      "seconds": 8490.4
+    },
+    {
+      "name": "Complex research production quota",
+      "seconds": 8520,
+      "item": "command-core",
+      "made": 31
+    },
+    {
+      "name": "paid research complete",
+      "seconds": 8528.8
+    },
+    {
+      "name": "built Core bank 9 simple-core",
+      "seconds": 8528.8,
+      "map": "7,2",
+      "production": 11
+    },
+    {
+      "name": "survey 2,5",
+      "seconds": 8641.6,
+      "reason": "shared route toward visible world corners",
+      "lake": false
+    },
+    {
+      "name": "survey 1,5",
+      "seconds": 8711.6,
+      "reason": "shared route toward visible world corners",
+      "lake": false
+    },
+    {
+      "name": "survey 0,5",
+      "seconds": 8776.4,
+      "reason": "shared route toward visible world corners",
+      "lake": false
+    },
+    {
+      "name": "survey 0,4",
+      "seconds": 8841.6,
+      "reason": "approach a visible corner",
+      "lake": false,
+      "dwarves": "village"
+    },
+    {
+      "name": "survey 0,3",
+      "seconds": 8911.6,
+      "reason": "approach a visible corner",
+      "lake": false
+    },
+    {
+      "name": "survey 0,2",
+      "seconds": 8976.4,
+      "reason": "approach a visible corner",
+      "lake": false
+    },
+    {
+      "name": "survey 0,1",
+      "seconds": 9046.4,
+      "reason": "approach a visible corner",
+      "lake": false,
+      "dwarves": "kingdom"
+    },
+    {
+      "name": "survey 0,0",
+      "seconds": 9111.6,
+      "reason": "approach a visible corner",
+      "lake": false,
+      "corner": "foundry"
+    },
+    {
+      "name": "survey 7,5",
+      "seconds": 9176.4,
+      "reason": "shared route toward visible world corners",
+      "lake": true
+    },
+    {
+      "name": "survey 8,5",
+      "seconds": 9241.6,
+      "reason": "shared route toward visible world corners",
+      "lake": false
+    },
+    {
+      "name": "survey 9,5",
+      "seconds": 9311.6,
+      "reason": "shared route toward visible world corners",
+      "lake": false
+    },
+    {
+      "name": "survey 10,5",
+      "seconds": 9376.4,
+      "reason": "shared route toward visible world corners",
+      "lake": false
+    },
+    {
+      "name": "survey 10,4",
+      "seconds": 9441.6,
+      "reason": "approach a visible corner",
+      "lake": false
+    },
+    {
+      "name": "survey 10,3",
+      "seconds": 9511.6,
+      "reason": "approach a visible corner",
+      "lake": false
+    },
+    {
+      "name": "survey 10,2",
+      "seconds": 9576.4,
+      "reason": "approach a visible corner",
+      "lake": false
+    },
+    {
+      "name": "survey 10,1",
+      "seconds": 9646.4,
+      "reason": "approach a visible corner",
+      "lake": false,
+      "dwarves": "kingdom"
+    },
+    {
+      "name": "survey 10,0",
+      "seconds": 9711.6,
+      "reason": "approach a visible corner",
+      "lake": false,
+      "corner": "alpha"
+    },
+    {
+      "name": "survey 10,6",
+      "seconds": 9776.4,
+      "reason": "approach a visible corner",
+      "lake": false
+    },
+    {
+      "name": "survey 10,7",
+      "seconds": 9841.6,
+      "reason": "approach a visible corner",
+      "lake": false
+    },
+    {
+      "name": "survey 10,8",
+      "seconds": 9911.6,
+      "reason": "approach a visible corner",
+      "lake": true
+    },
+    {
+      "name": "survey 10,9",
+      "seconds": 9976.4,
+      "reason": "approach a visible corner",
+      "lake": false
+    },
+    {
+      "name": "survey 10,10",
+      "seconds": 10051.6,
+      "reason": "approach a visible corner",
+      "lake": false,
+      "corner": "reclamation"
+    },
+    {
+      "name": "survey 0,6",
+      "seconds": 10171.6,
+      "reason": "approach a visible corner",
+      "lake": false
+    },
+    {
+      "name": "Core bank 9 simple-core production quota",
+      "seconds": 10280,
+      "item": "simple-core",
+      "made": 120
+    },
+    {
+      "name": "survey 0,7",
+      "seconds": 10291.6,
+      "reason": "approach a visible corner",
+      "lake": false,
+      "dwarves": "village"
+    },
+    {
+      "name": "built Core bank 10 simple-core",
+      "seconds": 10321.6,
+      "map": "1,5",
+      "production": 11
+    },
+    {
+      "name": "survey 0,8",
+      "seconds": 10424.4,
+      "reason": "approach a visible corner",
+      "lake": false
+    },
+    {
+      "name": "survey 0,9",
+      "seconds": 10494.4,
+      "reason": "approach a visible corner",
+      "lake": false,
+      "dwarves": "kingdom"
+    },
+    {
+      "name": "survey 0,10",
+      "seconds": 10559.2,
+      "reason": "approach a visible corner",
+      "lake": false,
+      "corner": "grove"
+    },
+    {
+      "name": "survey 1,4",
+      "seconds": 10624.4,
+      "reason": "midfield survey for a small Dwarven Camp and two Golems",
+      "lake": false,
+      "dwarves": "camp"
+    },
+    {
+      "name": "survey 1,6",
+      "seconds": 10694.4,
+      "reason": "midfield survey for a small Dwarven Camp and two Golems",
+      "lake": false
+    },
+    {
+      "name": "survey 9,4",
+      "seconds": 10759.2,
+      "reason": "midfield survey for a small Dwarven Camp and two Golems",
+      "lake": false
+    },
+    {
+      "name": "survey 9,6",
+      "seconds": 10829.2,
+      "reason": "midfield survey for a small Dwarven Camp and two Golems",
+      "lake": false
+    },
+    {
+      "name": "survey 7,3",
+      "seconds": 10894.4,
+      "reason": "midfield survey for a small Dwarven Camp and two Golems",
+      "lake": false
+    },
+    {
+      "name": "survey 8,3",
+      "seconds": 10959.2,
+      "reason": "midfield survey for a small Dwarven Camp and two Golems",
+      "lake": false
+    },
+    {
+      "name": "survey 8,2",
+      "seconds": 11024.4,
+      "reason": "midfield survey for a small Dwarven Camp and two Golems",
+      "lake": false
+    },
+    {
+      "name": "survey 1,3",
+      "seconds": 11094.4,
+      "reason": "midfield survey for a small Dwarven Camp and two Golems",
+      "lake": false
+    },
+    {
+      "name": "survey 2,4",
+      "seconds": 11159.2,
+      "reason": "midfield survey for a small Dwarven Camp and two Golems",
+      "lake": false
+    },
+    {
+      "name": "survey 2,6",
+      "seconds": 11224.4,
+      "reason": "midfield survey for a small Dwarven Camp and two Golems",
+      "lake": false
+    },
+    {
+      "name": "survey 2,7",
+      "seconds": 11294.4,
+      "reason": "midfield survey for a small Dwarven Camp and two Golems",
+      "lake": false
+    },
+    {
+      "name": "survey 8,4",
+      "seconds": 11359.2,
+      "reason": "midfield survey for a small Dwarven Camp and two Golems",
+      "lake": false,
+      "dwarves": "camp"
+    },
+    {
+      "name": "survey 8,6",
+      "seconds": 11429.2,
+      "reason": "midfield survey for a small Dwarven Camp and two Golems",
+      "lake": false
+    },
+    {
+      "name": "survey 8,7",
+      "seconds": 11494.4,
+      "reason": "midfield survey for a small Dwarven Camp and two Golems",
+      "lake": false,
+      "dwarves": "camp"
+    },
+    {
+      "name": "survey 9,3",
+      "seconds": 11559.2,
+      "reason": "midfield survey for a small Dwarven Camp and two Golems",
+      "lake": false,
+      "dwarves": "village"
+    },
+    {
+      "name": "survey 9,7",
+      "seconds": 11624.4,
+      "reason": "midfield survey for a small Dwarven Camp and two Golems",
+      "lake": false
+    },
+    {
+      "name": "survey 1,7",
+      "seconds": 11694.4,
+      "reason": "midfield survey for a small Dwarven Camp and two Golems",
+      "lake": false
+    },
+    {
+      "name": "survey 2,8",
+      "seconds": 11759.2,
+      "reason": "midfield survey for a small Dwarven Camp and two Golems",
+      "lake": false
+    },
+    {
+      "name": "survey 3,8",
+      "seconds": 11834.4,
+      "reason": "midfield survey for a small Dwarven Camp and two Golems",
+      "lake": false,
+      "dwarves": "camp"
+    },
+    {
+      "name": "survey 3,7",
+      "seconds": 11954.4,
+      "reason": "midfield survey for a small Dwarven Camp and two Golems",
+      "lake": false
+    },
+    {
+      "name": "Core bank 10 simple-core production quota",
+      "seconds": 12072,
+      "item": "simple-core",
+      "made": 120
+    },
+    {
+      "name": "survey 7,7",
+      "seconds": 12074.4,
+      "reason": "midfield survey for a small Dwarven Camp and two Golems",
+      "lake": false
+    },
+    {
+      "name": "built Core bank 11 simple-core",
+      "seconds": 12104.4,
+      "map": "2,7",
+      "production": 11
+    },
+    {
+      "name": "survey 7,8",
+      "seconds": 12212,
+      "reason": "midfield survey for a small Dwarven Camp and two Golems",
+      "lake": true
+    },
+    {
+      "name": "survey 8,8",
+      "seconds": 12282,
+      "reason": "midfield survey for a small Dwarven Camp and two Golems",
+      "lake": false
+    },
+    {
+      "name": "survey 3,9",
+      "seconds": 12347.2,
+      "reason": "midfield survey for a small Dwarven Camp and two Golems",
+      "lake": false
+    },
+    {
+      "name": "survey 4,9",
+      "seconds": 12412,
+      "reason": "midfield survey for a small Dwarven Camp and two Golems",
+      "lake": false,
+      "golem": "copper"
+    },
+    {
+      "name": "survey 4,8",
+      "seconds": 12482,
+      "reason": "midfield survey for a small Dwarven Camp and two Golems",
+      "lake": true
+    },
+    {
+      "name": "survey 6,8",
+      "seconds": 12547.2,
+      "reason": "midfield survey for a small Dwarven Camp and two Golems",
+      "lake": false
+    },
+    {
+      "name": "survey 6,9",
+      "seconds": 12617.2,
+      "reason": "midfield survey for a small Dwarven Camp and two Golems",
+      "lake": false,
+      "golem": "iron"
+    },
+    {
+      "name": "scouting and revealed site selection complete",
+      "seconds": 12647.2,
+      "opened": 82,
+      "dwarf": "3,3",
+      "mythrilMap": "4,1",
+      "ironMap": "6,9",
+      "sites": {
+        "medium": "7,1",
+        "control": "4,4",
+        "complex": "6,4",
+        "dragon": "7,5",
+        "mythril": "3,5",
+        "iron": "7,8",
+        "foundry": "5,7",
+        "gears": "0,1"
+      }
+    },
+    {
+      "name": "built Dwarven replenishment",
+      "seconds": 12647.2,
+      "map": "4,8",
+      "production": 38
+    },
+    {
+      "name": "built Mythril Golem attack",
+      "seconds": 13768.4,
+      "map": "3,5",
+      "production": 58
+    },
+    {
+      "name": "Core bank 11 simple-core production quota",
+      "seconds": 13854,
+      "item": "simple-core",
+      "made": 120
+    },
+    {
+      "name": "Dwarven replenishment production quota",
+      "seconds": 14696,
+      "item": "medium-suppression-bot",
+      "made": 65
+    },
+    {
+      "name": "Mythril Golem attack production quota",
+      "seconds": 15576,
+      "item": "command-suppression-bot",
+      "made": 7
+    },
+    {
+      "name": "Mythril Golem defeated",
+      "seconds": 15591.2,
+      "map": "4,1",
+      "bots": 7
+    },
+    {
+      "name": "built Iron Golem attack",
+      "seconds": 15591.2,
+      "map": "7,8",
+      "production": 58
+    },
+    {
+      "name": "built Foundry ceramic-electrode",
+      "seconds": 15591.2,
+      "map": "5,7",
+      "production": 18
+    },
+    {
+      "name": "built Foundry sealed-frame",
+      "seconds": 15591.2,
+      "map": "5,7",
+      "production": 29
+    },
+    {
+      "name": "built Foundry mythril-gear",
+      "seconds": 15591.2,
+      "map": "0,1",
+      "production": 11
+    },
+    {
+      "name": "Foundry ceramic-electrode production quota",
+      "seconds": 16210,
+      "item": "ceramic-electrode",
+      "made": 50
+    },
+    {
+      "name": "reused Foundry Roads for another input",
+      "seconds": 16242.4,
+      "from": "ceramic-electrode",
+      "to": "mythril-gear"
+    },
+    {
+      "name": "Foundry sealed-frame production quota",
+      "seconds": 16322,
+      "item": "sealed-frame",
+      "made": 25
+    },
+    {
+      "name": "Iron Golem attack production quota",
+      "seconds": 16802,
+      "item": "command-suppression-bot",
+      "made": 5
+    },
+    {
+      "name": "Iron Golem defeated",
+      "seconds": 16813.6,
+      "map": "6,9",
+      "bots": 5
+    },
+    {
+      "name": "reused the Grove Stone Road for Iron Plate",
+      "seconds": 16870
+    },
+    {
+      "name": "Foundry mythril-gear production quota",
+      "seconds": 17390,
+      "item": "mythril-gear",
+      "made": 100
+    },
+    {
+      "name": "piece foundry-component",
+      "seconds": 17410,
+      "map": "0,0"
+    },
+    {
+      "name": "foundry delivered Home",
+      "seconds": 17461.2,
+      "crossings": 10
+    },
+    {
+      "name": "piece grove-component",
+      "seconds": 17512,
+      "map": "0,10"
+    },
+    {
+      "name": "grove delivered Home",
+      "seconds": 17563.2,
+      "crossings": 10
+    },
+    {
+      "name": "released Foundry and Grove Roads for Dragon freight",
+      "seconds": 17563.2
+    },
+    {
+      "name": "built Dragon Command Bots",
+      "seconds": 17563.2,
+      "map": "7,5",
+      "production": 58
+    },
+    {
+      "name": "piece reclamation-component",
+      "seconds": 18980.8,
+      "map": "10,10"
+    },
+    {
+      "name": "reclamation delivered Home",
+      "seconds": 19032,
+      "crossings": 10
+    },
+    {
+      "name": "Dragon Command Bots production quota",
+      "seconds": 19484,
+      "item": "command-suppression-bot",
+      "made": 9
+    },
+    {
+      "name": "piece alpha",
+      "seconds": 19495.6,
+      "map": "10,0"
+    },
+    {
+      "name": "alpha delivered Home",
+      "seconds": 19536.8,
+      "crossings": 10
+    },
+    {
+      "name": "first final-core produced",
+      "seconds": 19618.8
+    },
+    {
+      "name": "Final Core collected",
+      "seconds": 19620,
+      "count": 1
+    },
+    {
+      "name": "victory",
+      "seconds": 19626.4
+    },
+    {
+      "name": "first Final Core spent on victory",
+      "seconds": 19626.4
+    }
+  ],
+  "cornerRecords": {
+    "foundry-component": 17410,
+    "grove-component": 17512,
+    "reclamation-component": 18980.8,
+    "alpha": 19495.6
+  },
+  "researchWaitByProject": {
+    "assembler": {
+      "anyMs": 178800,
+      "byCoreMs": {
+        "simple-core": 178800
+      }
+    },
+    "exploration": {
+      "anyMs": 174000,
+      "byCoreMs": {
+        "simple-core": 146400,
+        "basic-core": 140400
+      }
+    },
+    "road": {
+      "anyMs": 144000,
+      "byCoreMs": {
+        "simple-core": 144000
+      }
+    },
+    "mapNode": {
+      "anyMs": 1553200,
+      "byCoreMs": {
+        "simple-core": 1553200
+      }
+    },
+    "automataCore": {
+      "anyMs": 48400,
+      "byCoreMs": {
+        "simple-core": 48400
+      }
+    },
+    "areaExpansion1": {
+      "anyMs": 200800,
+      "byCoreMs": {
+        "simple-core": 10800,
+        "automata-core": 200800
+      }
+    },
+    "fabricatorTools": {
+      "anyMs": 34400,
+      "byCoreMs": {
+        "automata-core": 34400
+      }
+    },
+    "hydrochemistry": {
+      "anyMs": 61200,
+      "byCoreMs": {
+        "simple-core": 61200,
+        "automata-core": 4000
+      }
+    },
+    "hydraulicAssembly": {
+      "anyMs": 218000,
+      "byCoreMs": {
+        "simple-core": 218000
+      }
+    },
+    "roadChannels1": {
+      "anyMs": 291600,
+      "byCoreMs": {
+        "simple-core": 42400,
+        "hydro-core": 291600
+      }
+    },
+    "sealedRobotics": {
+      "anyMs": 11200,
+      "byCoreMs": {
+        "simple-core": 11200
+      }
+    },
+    "treePlanter": {
+      "anyMs": 120800,
+      "byCoreMs": {
+        "basic-core": 120800
+      }
+    },
+    "fluidRouting": {
+      "anyMs": 24000,
+      "byCoreMs": {
+        "basic-core": 24000
+      }
+    },
+    "oreSeparation": {
+      "anyMs": 96400,
+      "byCoreMs": {
+        "basic-core": 51600,
+        "simple-core": 59200
+      }
+    },
+    "heavyRobotics": {
+      "anyMs": 242800,
+      "byCoreMs": {
+        "shiny-core": 242800
+      }
+    },
+    "precisionControl": {
+      "anyMs": 204800,
+      "byCoreMs": {
+        "shiny-core": 204800
+      }
+    },
+    "commandRobotics": {
+      "anyMs": 1047600,
+      "byCoreMs": {
+        "command-core": 1047600
+      }
+    },
+    "victory": {
+      "anyMs": 1200,
+      "byCoreMs": {
+        "final-core": 1200
+      }
+    }
+  },
+  "catalog": [
+    {
+      "id": "cornerComponents",
+      "name": "End of the World",
+      "milestone": true,
+      "repeatable": false,
+      "prerequisites": []
+    },
+    {
+      "id": "finalRobotics",
+      "name": "Final Robotics",
+      "milestone": false,
+      "repeatable": false,
+      "prerequisites": [
+        "finalCoreProduction",
+        "commandRobotics"
+      ]
+    },
+    {
+      "id": "victory",
+      "name": "A Remarkably Indirect Conclusion",
+      "milestone": false,
+      "repeatable": false,
+      "prerequisites": [
+        "finalCoreProduction"
+      ]
+    },
+    {
+      "id": "resourceRelocation",
+      "name": "Resource Relocation",
+      "milestone": false,
+      "repeatable": false,
+      "prerequisites": [
+        "victory"
+      ]
+    },
+    {
+      "id": "lakeRelocation",
+      "name": "Lake Relocation",
+      "milestone": false,
+      "repeatable": false,
+      "prerequisites": [
+        "victory"
+      ]
+    },
+    {
+      "id": "campRelocation",
+      "name": "Monster Camp Relocation",
+      "milestone": false,
+      "repeatable": false,
+      "prerequisites": [
+        "victory"
+      ]
+    },
+    {
+      "id": "efficientLandfill",
+      "name": "Efficient Landfill",
+      "milestone": false,
+      "repeatable": true,
+      "prerequisites": [
+        "victory"
+      ]
+    },
+    {
+      "id": "advancedRoadChannels",
+      "name": "Advanced Road Channels",
+      "milestone": false,
+      "repeatable": true,
+      "prerequisites": [
+        "victory",
+        "roadChannels2"
+      ]
+    },
+    {
+      "id": "trainFreightCapacity",
+      "name": "Train Freight Capacity",
+      "milestone": false,
+      "repeatable": true,
+      "prerequisites": [
+        "victory",
+        "trains"
+      ]
+    },
+    {
+      "id": "resourceRegeneration",
+      "name": "Resource Regeneration",
+      "milestone": false,
+      "repeatable": true,
+      "prerequisites": [
+        "victory",
+        "mineralRegeneration2"
+      ]
+    },
+    {
+      "id": "recycler",
+      "name": "Intermediate Recycling",
+      "milestone": false,
+      "repeatable": false,
+      "prerequisites": [
+        "hydraulicAssembly"
+      ]
+    },
+    {
+      "id": "lakeTools",
+      "name": "Water Tools",
+      "milestone": true,
+      "repeatable": false,
+      "prerequisites": []
+    },
+    {
+      "id": "mithrilTools",
+      "name": "Mythril Refining",
+      "milestone": true,
+      "repeatable": false,
+      "prerequisites": []
+    },
+    {
+      "id": "fabricatorTools",
+      "name": "Advanced Fabrication",
+      "milestone": false,
+      "repeatable": false,
+      "prerequisites": [
+        "assembler",
+        "automataCore"
+      ]
+    },
+    {
+      "id": "sortingTools",
+      "name": "Waste Handling",
+      "milestone": true,
+      "repeatable": false,
+      "prerequisites": []
+    },
+    {
+      "id": "hydrochemistry",
+      "name": "Hydrochemistry",
+      "milestone": false,
+      "repeatable": false,
+      "prerequisites": [
+        "automataCore"
+      ]
+    },
+    {
+      "id": "hydraulicAssembly",
+      "name": "Hydraulic Assembly",
+      "milestone": false,
+      "repeatable": false,
+      "prerequisites": [
+        "hydrochemistry"
+      ]
+    },
+    {
+      "id": "fluidRouting",
+      "name": "Fluid Routing",
+      "milestone": false,
+      "repeatable": false,
+      "prerequisites": [
+        "hydraulicAssembly"
+      ]
+    },
+    {
+      "id": "sealedRobotics",
+      "name": "Sealed Robotics",
+      "milestone": false,
+      "repeatable": false,
+      "prerequisites": [
+        "hydraulicAssembly",
+        "suppressionBot"
+      ]
+    },
+    {
+      "id": "oreSeparation",
+      "name": "Ore Separation",
+      "milestone": false,
+      "repeatable": false,
+      "prerequisites": [
+        "fluidRouting"
+      ]
+    },
+    {
+      "id": "mineralRecovery",
+      "name": "Mineral Recovery",
+      "milestone": true,
+      "repeatable": false,
+      "prerequisites": []
+    },
+    {
+      "id": "pressureSystems",
+      "name": "Pressure Systems",
+      "milestone": false,
+      "repeatable": false,
+      "prerequisites": [
+        "oreSeparation"
+      ]
+    },
+    {
+      "id": "heavyRobotics",
+      "name": "Heavy Robotics",
+      "milestone": false,
+      "repeatable": false,
+      "prerequisites": [
+        "sealedRobotics",
+        "oreSeparation"
+      ]
+    },
+    {
+      "id": "precisionControl",
+      "name": "Precision Control",
+      "milestone": false,
+      "repeatable": false,
+      "prerequisites": [
+        "oreSeparation"
+      ]
+    },
+    {
+      "id": "autonomousLogistics",
+      "name": "Autonomous Logistics",
+      "milestone": false,
+      "repeatable": false,
+      "prerequisites": [
+        "precisionControl",
+        "finalCoreProduction"
+      ]
+    },
+    {
+      "id": "commandRobotics",
+      "name": "Command Robotics",
+      "milestone": false,
+      "repeatable": false,
+      "prerequisites": [
+        "precisionControl",
+        "heavyRobotics"
+      ]
+    },
+    {
+      "id": "mineralRegeneration2",
+      "name": "Mineral Regeneration 2",
+      "milestone": false,
+      "repeatable": false,
+      "prerequisites": [
+        "mineralRegeneration",
+        "precisionControl"
+      ]
+    },
+    {
+      "id": "highPressureIntakes",
+      "name": "High Pressure Intakes",
+      "milestone": false,
+      "repeatable": false,
+      "prerequisites": [
+        "pressureSystems",
+        "precisionControl"
+      ]
+    },
+    {
+      "id": "factoryTemplates",
+      "name": "Factory Templates",
+      "milestone": false,
+      "repeatable": false,
+      "prerequisites": [
+        "hydraulicAssembly"
+      ]
+    },
+    {
+      "id": "treePlanter1",
+      "name": "Tree Planter 1",
+      "milestone": false,
+      "repeatable": false,
+      "prerequisites": [
+        "treePlanter"
+      ]
+    },
+    {
+      "id": "mineralRecovery1",
+      "name": "Mineral Recovery 1",
+      "milestone": false,
+      "repeatable": false,
+      "prerequisites": [
+        "mineralRecovery",
+        "hydraulicAssembly"
+      ]
+    },
+    {
+      "id": "warehouseLogistics",
+      "name": "Warehouse Logistics",
+      "milestone": false,
+      "repeatable": false,
+      "prerequisites": [
+        "oreSeparation",
+        "fluidRouting"
+      ]
+    },
+    {
+      "id": "roadChannels1",
+      "name": "Road Channels 1",
+      "milestone": false,
+      "repeatable": false,
+      "prerequisites": [
+        "road",
+        "hydraulicAssembly"
+      ]
+    },
+    {
+      "id": "areaExpansion2",
+      "name": "Area Expansion 2",
+      "milestone": false,
+      "repeatable": false,
+      "prerequisites": [
+        "areaExpansion1",
+        "precisionControl"
+      ]
+    },
+    {
+      "id": "mineralRegeneration",
+      "name": "Mineral Regeneration",
+      "milestone": false,
+      "repeatable": false,
+      "prerequisites": [
+        "mineralRecovery",
+        "oreSeparation"
+      ]
+    },
+    {
+      "id": "roadChannels2",
+      "name": "Road Channels 2",
+      "milestone": false,
+      "repeatable": false,
+      "prerequisites": [
+        "roadChannels1",
+        "oreSeparation"
+      ]
+    },
+    {
+      "id": "mineralRegenerationRate",
+      "name": "Mineral Regeneration Rate",
+      "milestone": false,
+      "repeatable": true,
+      "prerequisites": [
+        "mineralRegeneration2"
+      ]
+    },
+    {
+      "id": "storagePlacementCapacity",
+      "name": "Storage Placement Capacity",
+      "milestone": false,
+      "repeatable": true,
+      "prerequisites": [
+        "autonomousLogistics"
+      ]
+    },
+    {
+      "id": "inventoryPlacementCapacity",
+      "name": "Inventory Placement Capacity",
+      "milestone": false,
+      "repeatable": true,
+      "prerequisites": [
+        "autonomousLogistics"
+      ]
+    },
+    {
+      "id": "storageConnectionCapacity",
+      "name": "Storage Connection Capacity",
+      "milestone": false,
+      "repeatable": true,
+      "prerequisites": [
+        "autonomousLogistics"
+      ]
+    },
+    {
+      "id": "inventoryConnectionCapacity",
+      "name": "Inventory Connection Capacity",
+      "milestone": false,
+      "repeatable": true,
+      "prerequisites": [
+        "autonomousLogistics"
+      ]
+    },
+    {
+      "id": "efficientIntermediates",
+      "name": "Efficient Intermediates",
+      "milestone": false,
+      "repeatable": false,
+      "prerequisites": [
+        "precisionControl"
+      ]
+    },
+    {
+      "id": "efficientHigherIntermediates",
+      "name": "Efficient Higher Intermediates",
+      "milestone": false,
+      "repeatable": false,
+      "prerequisites": [
+        "precisionControl"
+      ]
+    },
+    {
+      "id": "planterThroughput",
+      "name": "Industrial Forestry",
+      "milestone": false,
+      "repeatable": false,
+      "prerequisites": [
+        "precisionControl",
+        "treePlanter"
+      ]
+    },
+    {
+      "id": "extractor1",
+      "name": "Extractor 1",
+      "milestone": false,
+      "repeatable": false,
+      "prerequisites": []
+    },
+    {
+      "id": "extractor2",
+      "name": "Extractor 2",
+      "milestone": false,
+      "repeatable": false,
+      "prerequisites": [
+        "extractor1"
+      ]
+    },
+    {
+      "id": "extractor3",
+      "name": "Extractor 3",
+      "milestone": false,
+      "repeatable": false,
+      "prerequisites": [
+        "extractor2",
+        "automataCore"
+      ]
+    },
+    {
+      "id": "extractor4",
+      "name": "Extractor 4",
+      "milestone": false,
+      "repeatable": false,
+      "prerequisites": [
+        "extractor3",
+        "hydraulicAssembly"
+      ]
+    },
+    {
+      "id": "extractor5",
+      "name": "Extractor 5",
+      "milestone": false,
+      "repeatable": false,
+      "prerequisites": [
+        "extractor4",
+        "oreSeparation"
+      ]
+    },
+    {
+      "id": "extractor6",
+      "name": "Extractor 6",
+      "milestone": false,
+      "repeatable": false,
+      "prerequisites": [
+        "extractor5",
+        "precisionControl"
+      ]
+    },
+    {
+      "id": "kiln1",
+      "name": "Kiln 1",
+      "milestone": false,
+      "repeatable": false,
+      "prerequisites": [
+        "kiln"
+      ]
+    },
+    {
+      "id": "kiln2",
+      "name": "Kiln 2",
+      "milestone": false,
+      "repeatable": false,
+      "prerequisites": [
+        "kiln1"
+      ]
+    },
+    {
+      "id": "kiln3",
+      "name": "Kiln 3",
+      "milestone": false,
+      "repeatable": false,
+      "prerequisites": [
+        "kiln2",
+        "automataCore"
+      ]
+    },
+    {
+      "id": "kiln4",
+      "name": "Kiln 4",
+      "milestone": false,
+      "repeatable": false,
+      "prerequisites": [
+        "kiln3",
+        "hydraulicAssembly"
+      ]
+    },
+    {
+      "id": "kiln5",
+      "name": "Kiln 5",
+      "milestone": false,
+      "repeatable": false,
+      "prerequisites": [
+        "kiln4",
+        "oreSeparation"
+      ]
+    },
+    {
+      "id": "kiln6",
+      "name": "Kiln 6",
+      "milestone": false,
+      "repeatable": false,
+      "prerequisites": [
+        "kiln5",
+        "precisionControl"
+      ]
+    },
+    {
+      "id": "smelter1",
+      "name": "Smelter 1",
+      "milestone": false,
+      "repeatable": false,
+      "prerequisites": [
+        "smelter"
+      ]
+    },
+    {
+      "id": "smelter2",
+      "name": "Smelter 2",
+      "milestone": false,
+      "repeatable": false,
+      "prerequisites": [
+        "smelter1"
+      ]
+    },
+    {
+      "id": "smelter3",
+      "name": "Smelter 3",
+      "milestone": false,
+      "repeatable": false,
+      "prerequisites": [
+        "smelter2",
+        "automataCore"
+      ]
+    },
+    {
+      "id": "smelter4",
+      "name": "Smelter 4",
+      "milestone": false,
+      "repeatable": false,
+      "prerequisites": [
+        "smelter3",
+        "hydraulicAssembly"
+      ]
+    },
+    {
+      "id": "smelter5",
+      "name": "Smelter 5",
+      "milestone": false,
+      "repeatable": false,
+      "prerequisites": [
+        "smelter4",
+        "oreSeparation"
+      ]
+    },
+    {
+      "id": "smelter6",
+      "name": "Smelter 6",
+      "milestone": false,
+      "repeatable": false,
+      "prerequisites": [
+        "smelter5",
+        "precisionControl"
+      ]
+    },
+    {
+      "id": "refiner1",
+      "name": "Refiner 1",
+      "milestone": false,
+      "repeatable": false,
+      "prerequisites": [
+        "refiner"
+      ]
+    },
+    {
+      "id": "refiner2",
+      "name": "Refiner 2",
+      "milestone": false,
+      "repeatable": false,
+      "prerequisites": [
+        "refiner1"
+      ]
+    },
+    {
+      "id": "refiner3",
+      "name": "Refiner 3",
+      "milestone": false,
+      "repeatable": false,
+      "prerequisites": [
+        "refiner2",
+        "automataCore"
+      ]
+    },
+    {
+      "id": "refiner4",
+      "name": "Refiner 4",
+      "milestone": false,
+      "repeatable": false,
+      "prerequisites": [
+        "refiner3",
+        "hydraulicAssembly"
+      ]
+    },
+    {
+      "id": "refiner5",
+      "name": "Refiner 5",
+      "milestone": false,
+      "repeatable": false,
+      "prerequisites": [
+        "refiner4",
+        "oreSeparation"
+      ]
+    },
+    {
+      "id": "refiner6",
+      "name": "Refiner 6",
+      "milestone": false,
+      "repeatable": false,
+      "prerequisites": [
+        "refiner5",
+        "precisionControl"
+      ]
+    },
+    {
+      "id": "assembler1",
+      "name": "Assembler 1",
+      "milestone": false,
+      "repeatable": false,
+      "prerequisites": [
+        "assembler"
+      ]
+    },
+    {
+      "id": "assembler2",
+      "name": "Assembler 2",
+      "milestone": false,
+      "repeatable": false,
+      "prerequisites": [
+        "assembler1"
+      ]
+    },
+    {
+      "id": "assembler3",
+      "name": "Assembler 3",
+      "milestone": false,
+      "repeatable": false,
+      "prerequisites": [
+        "assembler2",
+        "automataCore"
+      ]
+    },
+    {
+      "id": "assembler4",
+      "name": "Assembler 4",
+      "milestone": false,
+      "repeatable": false,
+      "prerequisites": [
+        "assembler3",
+        "hydraulicAssembly"
+      ]
+    },
+    {
+      "id": "assembler5",
+      "name": "Assembler 5",
+      "milestone": false,
+      "repeatable": false,
+      "prerequisites": [
+        "assembler4",
+        "oreSeparation"
+      ]
+    },
+    {
+      "id": "assembler6",
+      "name": "Assembler 6",
+      "milestone": false,
+      "repeatable": false,
+      "prerequisites": [
+        "assembler5",
+        "precisionControl"
+      ]
+    },
+    {
+      "id": "researchCenter1",
+      "name": "Research Center 1",
+      "milestone": false,
+      "repeatable": false,
+      "prerequisites": [
+        "researchCenter"
+      ]
+    },
+    {
+      "id": "researchCenter2",
+      "name": "Research Center 2",
+      "milestone": false,
+      "repeatable": false,
+      "prerequisites": [
+        "researchCenter1"
+      ]
+    },
+    {
+      "id": "researchCenter3",
+      "name": "Research Center 3",
+      "milestone": false,
+      "repeatable": false,
+      "prerequisites": [
+        "researchCenter2",
+        "automataCore"
+      ]
+    },
+    {
+      "id": "researchCenter4",
+      "name": "Research Center 4",
+      "milestone": false,
+      "repeatable": false,
+      "prerequisites": [
+        "researchCenter3",
+        "hydraulicAssembly"
+      ]
+    },
+    {
+      "id": "researchCenter5",
+      "name": "Research Center 5",
+      "milestone": false,
+      "repeatable": false,
+      "prerequisites": [
+        "researchCenter4",
+        "oreSeparation"
+      ]
+    },
+    {
+      "id": "researchCenter6",
+      "name": "Research Center 6",
+      "milestone": false,
+      "repeatable": false,
+      "prerequisites": [
+        "researchCenter5",
+        "precisionControl"
+      ]
+    },
+    {
+      "id": "hydroProcessor1",
+      "name": "Hydro Plant 1",
+      "milestone": false,
+      "repeatable": false,
+      "prerequisites": [
+        "lakeTools"
+      ]
+    },
+    {
+      "id": "hydroProcessor2",
+      "name": "Hydro Plant 2",
+      "milestone": false,
+      "repeatable": false,
+      "prerequisites": [
+        "hydroProcessor1"
+      ]
+    },
+    {
+      "id": "hydroProcessor3",
+      "name": "Hydro Plant 3",
+      "milestone": false,
+      "repeatable": false,
+      "prerequisites": [
+        "hydroProcessor2",
+        "automataCore"
+      ]
+    },
+    {
+      "id": "hydroProcessor4",
+      "name": "Hydro Plant 4",
+      "milestone": false,
+      "repeatable": false,
+      "prerequisites": [
+        "hydroProcessor3",
+        "hydraulicAssembly"
+      ]
+    },
+    {
+      "id": "hydroProcessor5",
+      "name": "Hydro Plant 5",
+      "milestone": false,
+      "repeatable": false,
+      "prerequisites": [
+        "hydroProcessor4",
+        "oreSeparation"
+      ]
+    },
+    {
+      "id": "hydroProcessor6",
+      "name": "Hydro Plant 6",
+      "milestone": false,
+      "repeatable": false,
+      "prerequisites": [
+        "hydroProcessor5",
+        "precisionControl"
+      ]
+    },
+    {
+      "id": "advancedAssembler1",
+      "name": "Fabricator 1",
+      "milestone": false,
+      "repeatable": false,
+      "prerequisites": [
+        "fabricatorTools"
+      ]
+    },
+    {
+      "id": "advancedAssembler2",
+      "name": "Fabricator 2",
+      "milestone": false,
+      "repeatable": false,
+      "prerequisites": [
+        "advancedAssembler1"
+      ]
+    },
+    {
+      "id": "advancedAssembler3",
+      "name": "Fabricator 3",
+      "milestone": false,
+      "repeatable": false,
+      "prerequisites": [
+        "advancedAssembler2",
+        "automataCore"
+      ]
+    },
+    {
+      "id": "advancedAssembler4",
+      "name": "Fabricator 4",
+      "milestone": false,
+      "repeatable": false,
+      "prerequisites": [
+        "advancedAssembler3",
+        "hydraulicAssembly"
+      ]
+    },
+    {
+      "id": "advancedAssembler5",
+      "name": "Fabricator 5",
+      "milestone": false,
+      "repeatable": false,
+      "prerequisites": [
+        "advancedAssembler4",
+        "oreSeparation"
+      ]
+    },
+    {
+      "id": "advancedAssembler6",
+      "name": "Fabricator 6",
+      "milestone": false,
+      "repeatable": false,
+      "prerequisites": [
+        "advancedAssembler5",
+        "precisionControl"
+      ]
+    },
+    {
+      "id": "separationFurnace1",
+      "name": "Synthesizer 1",
+      "milestone": false,
+      "repeatable": false,
+      "prerequisites": [
+        "mithrilTools"
+      ]
+    },
+    {
+      "id": "separationFurnace2",
+      "name": "Synthesizer 2",
+      "milestone": false,
+      "repeatable": false,
+      "prerequisites": [
+        "separationFurnace1"
+      ]
+    },
+    {
+      "id": "separationFurnace3",
+      "name": "Synthesizer 3",
+      "milestone": false,
+      "repeatable": false,
+      "prerequisites": [
+        "separationFurnace2",
+        "automataCore"
+      ]
+    },
+    {
+      "id": "separationFurnace4",
+      "name": "Synthesizer 4",
+      "milestone": false,
+      "repeatable": false,
+      "prerequisites": [
+        "separationFurnace3",
+        "hydraulicAssembly"
+      ]
+    },
+    {
+      "id": "separationFurnace5",
+      "name": "Synthesizer 5",
+      "milestone": false,
+      "repeatable": false,
+      "prerequisites": [
+        "separationFurnace4",
+        "oreSeparation"
+      ]
+    },
+    {
+      "id": "separationFurnace6",
+      "name": "Synthesizer 6",
+      "milestone": false,
+      "repeatable": false,
+      "prerequisites": [
+        "separationFurnace5",
+        "precisionControl"
+      ]
+    },
+    {
+      "id": "connectorMirroring",
+      "name": "Connector Mirroring",
+      "milestone": false,
+      "repeatable": false,
+      "prerequisites": [
+        "hydraulicAssembly"
+      ]
+    },
+    {
+      "id": "joint",
+      "name": "Joint",
+      "milestone": true,
+      "repeatable": false,
+      "prerequisites": []
+    },
+    {
+      "id": "kiln",
+      "name": "Kiln",
+      "milestone": true,
+      "repeatable": false,
+      "prerequisites": []
+    },
+    {
+      "id": "smelter",
+      "name": "Smelter",
+      "milestone": true,
+      "repeatable": false,
+      "prerequisites": []
+    },
+    {
+      "id": "refiner",
+      "name": "Refiner",
+      "milestone": true,
+      "repeatable": false,
+      "prerequisites": []
+    },
+    {
+      "id": "researchCenter",
+      "name": "Research Center",
+      "milestone": true,
+      "repeatable": false,
+      "prerequisites": []
+    },
+    {
+      "id": "assembler",
+      "name": "Assembler",
+      "milestone": false,
+      "repeatable": false,
+      "prerequisites": []
+    },
+    {
+      "id": "splitter",
+      "name": "Splitter",
+      "milestone": true,
+      "repeatable": false,
+      "prerequisites": []
+    },
+    {
+      "id": "merger",
+      "name": "Merger",
+      "milestone": true,
+      "repeatable": false,
+      "prerequisites": []
+    },
+    {
+      "id": "suppressionBot",
+      "name": "Suppression Bot",
+      "milestone": true,
+      "repeatable": false,
+      "prerequisites": []
+    },
+    {
+      "id": "exploration",
+      "name": "Exploration",
+      "milestone": false,
+      "repeatable": false,
+      "prerequisites": []
+    },
+    {
+      "id": "mapNode",
+      "name": "Extra Map Point",
+      "milestone": false,
+      "repeatable": true,
+      "prerequisites": [
+        "exploration"
+      ]
+    },
+    {
+      "id": "road",
+      "name": "Road",
+      "milestone": false,
+      "repeatable": false,
+      "prerequisites": []
+    },
+    {
+      "id": "trucks",
+      "name": "Trucks",
+      "milestone": false,
+      "repeatable": false,
+      "prerequisites": [
+        "road",
+        "automataCore"
+      ]
+    },
+    {
+      "id": "trains",
+      "name": "Trains",
+      "milestone": false,
+      "repeatable": false,
+      "prerequisites": [
+        "trucks",
+        "hydraulicAssembly"
+      ]
+    },
+    {
+      "id": "automataCore",
+      "name": "Automata Core",
+      "milestone": false,
+      "repeatable": false,
+      "prerequisites": [
+        "exploration"
+      ]
+    },
+    {
+      "id": "areaExpansion1",
+      "name": "Area Expansion 1",
+      "milestone": false,
+      "repeatable": false,
+      "prerequisites": []
+    },
+    {
+      "id": "treePlanter",
+      "name": "Tree Planter",
+      "milestone": false,
+      "repeatable": false,
+      "prerequisites": []
+    },
+    {
+      "id": "miningDrill",
+      "name": "Mining Drill",
+      "milestone": false,
+      "repeatable": false,
+      "prerequisites": []
+    }
+  ]
+}

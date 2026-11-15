@@ -548,7 +548,7 @@ function FactoryApp({ engine, training, welcome, onShowWelcome, onCloseWelcome, 
       {(panel === 'research' || (panel === 'recipes' && returnPanel === 'research')) && <div hidden={panel !== 'research'}>
         <ResearchPanel allowedProjectId={choices?.researchProjectId} showMilestones={!training} key={unlockVisit}
           focusProjectId={unlockFocus?.panel === 'research' ? unlockFocus.projectId : undefined} game={game} engine={engine}
-          onClose={dismissPanel} onOpenRecipe={openResearchRecipe}
+          onClose={dismissPanel} onOpenRecipe={openResearchRecipe} onOpenMap={() => togglePanel('map')}
         />
       </div>}
 

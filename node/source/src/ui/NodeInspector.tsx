@@ -80,7 +80,7 @@ export function NodeInspector({ node, game, engine, onClose, onConfigureRecipe, 
       {recipe?.chanceOutputs?.map(o=><p className="field-help" key={o.item}>{o.amount} {ITEM_NAMES[o.item]} · {o.probability*100}% independent chance per batch</p>)}
       {['treePlanter','tree-planter'].includes(node.kind)&&<p className="field-help">Paid growth remaining: {node.growthCredit??0}. One set of 10 Wood, 1 Iron Plate and 1 Stone funds 100 units. Both production and delivery count individual growth units.</p>}
       {node.batch&&<p className="field-help">Batch ingredients consumed. Outcome saved; finish this batch before changing recipes.</p>}
-      {node.kind==='resourceGolem'&&<div className="resource-readout"><span>One-time Attack Power</span><b>{(node.health ?? golemApCost(node)).toLocaleString()} AP</b><small>remaining · Bot deliveries deal permanent damage</small><p className="field-help">Requires Resource Golem Survey. Defeat this Golem to create an infinite mineral reserve with four star outputs. No recurring bot cost after victory.</p></div>}
+      {node.kind==='resourceGolem'&&<div className="resource-readout"><span>One-time Attack Power</span><b>{(node.health ?? golemApCost(node)).toLocaleString()} AP</b><small>remaining · Bot deliveries deal permanent damage</small></div>}
       {!isStorageNode(node.kind) && node.kind !== 'goblinTribute' && <><div className="cycle-row"><span>{recipe?.name ?? (node.kind === 'monster-camp' || node.lizardSettlement ? node.name : definition.name)}</span><b>{Math.round(progress)}%</b></div>
       <div className="thin-progress"><i style={{ width: `${progress}%` }} /></div></>}
       {module.controls.deletable && <button className="danger-button" onClick={onDelete}>Decommission node</button>}

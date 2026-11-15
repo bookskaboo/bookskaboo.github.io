@@ -25,9 +25,9 @@ export const FINAL_CORE_PRODUCTION = 'finalCoreProduction';
 export const FOUNDRY_INPUTS: Partial<Record<ItemId, number>> = { 'ceramic-electrode': 50, 'sealed-frame': 25, 'mythril-gear': 100 };
 export const ALPHA_AP = 200;
 export const GROVE_GROWTH = 1000;
-export const RECLAMATION_PRODUCTION_TARGET_MS = 600000;
-/** Twice the former five-minute quotas, preserving the relative value of every waste type.
- * Standard Controller waste is the Fines baseline. Other Fines sources can finish sooner.
+export const RECLAMATION_PRODUCTION_TARGET_MS = 720000;
+/** The quotas preserve the relative value of every waste type.
+ * A base Controller line produces the Fines quota in twelve minutes. Other sources can finish sooner.
  * Saved normalized Reclamation progress is retained; these credits apply to new intake. */
 export const RECLAMATION_QUOTAS: Partial<Record<ItemId, number>> = {
   'metallic-fines': 20, 'spent-flux': 132, 'glassy-crust': 72, slag: 44,
@@ -52,11 +52,11 @@ export const ENDGAME_RECIPES: Record<string, Recipe> = Object.fromEntries(PAIRS.
     name: FINAL_ITEMS[output],
     inputs: Object.fromEntries(pair.map(c => [CORNER_ITEMS[c], 1])),
     outputs: { [output]: 1 },
-    cycleMs: 10000,
+    cycleMs: 20000,
     unlockResearch: 'cornerComponents',
   }];
 })));
-ENDGAME_RECIPES['final-core'] = { id: 'final-core', name: 'Final Core', inputs: { 'core-half-a': 1, 'core-half-b': 1 }, outputs: { 'final-core': 1 }, cycleMs: 30000, unlockResearch: 'cornerComponents' };
+ENDGAME_RECIPES['final-core'] = { id: 'final-core', name: 'Final Core', inputs: { 'core-half-a': 1, 'core-half-b': 1 }, outputs: { 'final-core': 1 }, cycleMs: 60000, unlockResearch: 'cornerComponents' };
 export function worldRecipeAllowed(id: string, state: GameState) { return !id.match(/^core-half-[ab]-\d$/) || Number(id.at(-1)) === (state.endgame?.pairIndex ?? seededPairIndex(state.seed)); }
 export const endgameRank = (state: Pick<GameState, 'research'>, id: string) => state.research.repeatableCompletions?.[id] ?? 0;
 export const ENDGAME_CAPS: Record<string, number> = { efficientLandfill: 45, advancedRoadChannels: 2 };

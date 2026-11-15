@@ -3,6 +3,7 @@ import { getResearchProject, getResearchCostsForState, isResearchAvailable, rema
 import { ITEM_NAMES } from '../content/items';
 import type { GameState, ItemId, ResearchProject } from '../domain/types';
 import type { RequirementFilter } from './researchUiConfig';
+import { mapResearchNeedsDestination } from '../simulation/mapExpansion';
 
 export type ResearchSection = 'active' | 'milestones' | 'available' | 'future' | 'completed';
 export const researchPrerequisiteName = (id: string) =>
@@ -31,7 +32,8 @@ export function researchDependencies(project: ResearchProject, costs = project.c
 }
 
 function missingResearchAccess(project: ResearchProject, game: GameState) {
-  return researchDependencies(project, getResearchCostsForState(project, game.research)).filter(id => !game.research.completed.includes(id));
+  const costs = project.id === 'mapNode' && mapResearchNeedsDestination(game) ? {} : getResearchCostsForState(project, game.research);
+  return researchDependencies(project, costs).filter(id => !game.research.completed.includes(id));
 }
 
 /** Keep the next independent steps visible without changing the access check. */
@@ -84,7 +86,8 @@ export function researchCardDetails(project: ResearchProject, game: GameState) {
   const complete = atResearchCap(project,game.research) || (!project.repeatable && game.research.completed.includes(project.id));
   const expansionFunded = project.id === 'mapNode' && remainingMapNodePurchases(game) === 0;
   const available = !complete && !expansionFunded && isResearchAvailable(project, game.research.completed);
-  const costs = getResearchCostsForState(project, game.research);
+  const selectDestination = project.id === 'mapNode' && mapResearchNeedsDestination(game);
+  const costs = selectDestination ? {} : getResearchCostsForState(project, game.research);
   const milestone = Boolean(project.trigger);
   const requirement: RequirementFilter = milestone ? 'trigger' : costs['final-core'] ? 'final-core' : costs['command-core'] ? 'command-core'
     : costs['shiny-core'] ? 'shiny-core' : costs['hydro-core'] ? 'hydro-core'
@@ -95,6 +98,7 @@ export function researchCardDetails(project: ResearchProject, game: GameState) {
     : project.trigger ? project.trigger.pending
     : expansionFunded ? 'All maps unlocked or covered by saved Map Points'
     : active ? 'Active project'
+    : selectDestination ? 'Select a destination on the Node Map'
     : project.repeatable ? `Repeatable · ${game.research.repeatableCompletions?.[project.id] ?? 0} completed`
     : 'Available research';
   const paid = active ? game.research.contributed : game.research.projectContributions?.[project.id] ?? {};
@@ -107,7 +111,7 @@ export function researchCardDetails(project: ResearchProject, game: GameState) {
   return {
     section, active, complete, milestone, requirement, status, totalRequired, totalPaid,
     selectable: available && section !== 'future' && !milestone && !complete,
-    tooltip: [requirements, project.description || project.unlock].filter(Boolean).join('\n\n'),
+    tooltip: [requirements, selectDestination ? '' : project.description || project.unlock].filter(Boolean).join('\n\n'),
     tooltipTone: complete ? '#77b5e6' : active ? '#74c9a2' : '#d5b666',
   };
 }

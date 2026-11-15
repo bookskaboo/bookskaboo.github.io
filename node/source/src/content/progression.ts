@@ -108,13 +108,13 @@ export const LATE_RECIPES = {
     "name": "Hydro Core",
     "inputs": {
       "hydraulic-actuator": 1,
-      "ceramic-electrode": 1,
+      "ceramic-electrode": 2,
       "coolant": 2
     },
     "outputs": {
       "hydro-core": 1
     },
-    "cycleMs": 18000,
+    "cycleMs": 20000,
     "unlockResearch": "hydraulicAssembly"
   },
   "refined-mithril": {
@@ -137,12 +137,12 @@ export const LATE_RECIPES = {
     "inputs": {
       "mithril-mesh": 1,
       "hydraulic-actuator": 1,
-      "circuit-a": 2
+      "circuit-a": 3
     },
     "outputs": {
       "shiny-core": 1
     },
-    "cycleMs": 24000,
+    "cycleMs": 30000,
     "unlockResearch": "oreSeparation"
   },
   "precision-controller": {
@@ -151,13 +151,13 @@ export const LATE_RECIPES = {
     "inputs": {
       "circuit-a": 2,
       "mythril-gear": 1,
-      "conductive-slurry": 2
+      "conductive-slurry": 3
     },
     "outputs": {
       "precision-controller": 1,
       "metallic-fines": 1
     },
-    "cycleMs": 30000,
+    "cycleMs": 36000,
     "unlockResearch": "precisionControl"
   },
   "advanced-actuator": {
@@ -171,7 +171,7 @@ export const LATE_RECIPES = {
     "outputs": {
       "advanced-actuator": 1
     },
-    "cycleMs": 30000,
+    "cycleMs": 36000,
     "unlockResearch": "precisionControl"
   },
   "command-core": {
@@ -185,7 +185,7 @@ export const LATE_RECIPES = {
     "outputs": {
       "command-core": 1
     },
-    "cycleMs": 36000,
+    "cycleMs": 45000,
     "unlockResearch": "precisionControl"
   },
   "ceramic-electrode": {
@@ -227,7 +227,7 @@ export const LATE_RECIPES = {
     "outputs": {
       "logic-substrate": 1
     },
-    "cycleMs": 30000,
+    "cycleMs": 36000,
     "unlockResearch": "precisionControl"
   },
   "sealed-frame": {
@@ -661,9 +661,9 @@ export const LATE_RESEARCH = [
     "description": "Make Hydro Pistons, Circuit B, and Hydro Cores in the Fabricator.",
     "unlock": "Unlocks Hydro Piston, Circuit B, and Hydro Core recipes.",
     "costs": {
-      "simple-core": 2,
-      "basic-core": 2,
-      "automata-core": 2
+      "simple-core": 15,
+      "basic-core": 15,
+      "automata-core": 15
     },
     "prerequisites": [
       "hydrochemistry"
@@ -709,10 +709,10 @@ export const LATE_RESEARCH = [
     "description": "Make Mythril Mesh in the Synthesizer, then use it to make Shiny Cores in the Fabricator.",
     "unlock": "Unlocks Mythril Mesh and Shiny Core recipes.",
     "costs": {
-      "simple-core": 2,
-      "basic-core": 2,
-      "automata-core": 2,
-      "hydro-core": 2
+      "simple-core": 20,
+      "basic-core": 20,
+      "automata-core": 20,
+      "hydro-core": 20
     },
     "prerequisites": [
       "fluidRouting"
@@ -755,11 +755,11 @@ export const LATE_RESEARCH = [
     "description": "Make Mythril Frames and Focused Guns in the Fabricator for the Bot Plant. Together they produce a Suppression Bot 8 AP.",
     "unlock": "Unlocks Mythril Frame and Focused Gun for bot assembly.",
     "costs": {
-      "simple-core": 2,
-      "basic-core": 2,
-      "automata-core": 2,
-      "hydro-core": 2,
-      "shiny-core": 2
+      "simple-core": 20,
+      "basic-core": 20,
+      "automata-core": 20,
+      "hydro-core": 20,
+      "shiny-core": 20
     },
     "prerequisites": [
       "sealedRobotics",
@@ -773,11 +773,11 @@ export const LATE_RESEARCH = [
     "description": "Make Complex Cores and their components. This also unlocks the Waste Bin and Iron Plate recovery from Metallic Fines.",
     "unlock": "Unlocks Complex Core production.",
     "costs": {
-      "simple-core": 2,
-      "basic-core": 2,
-      "automata-core": 2,
-      "hydro-core": 2,
-      "shiny-core": 2
+      "simple-core": 30,
+      "basic-core": 30,
+      "automata-core": 30,
+      "hydro-core": 30,
+      "shiny-core": 30
     },
     "prerequisites": [
       "oreSeparation"
@@ -809,12 +809,12 @@ export const LATE_RESEARCH = [
     "description": "Make Servo Frames and Pulse Cannons in the Fabricator for the Bot Plant. Together they produce a Suppression Bot 24 AP.",
     "unlock": "Unlocks Servo Frame and Pulse Cannon for bot assembly.",
     "costs": {
-      "simple-core": 2,
-      "basic-core": 2,
-      "automata-core": 2,
-      "hydro-core": 2,
-      "shiny-core": 2,
-      "command-core": 2
+      "simple-core": 30,
+      "basic-core": 30,
+      "automata-core": 30,
+      "hydro-core": 30,
+      "shiny-core": 30,
+      "command-core": 30
     },
     "prerequisites": [
       "precisionControl",
@@ -1465,7 +1465,7 @@ export const LATE_NODES = {
   },
   "resourceGolem": {
     "kind": "resourceGolem",
-    "name": "Resource Golem",
+    "name": "Golem Camp",
     "category": "World",
     "input": [
       "ATTACK_POWER"
@@ -1474,11 +1474,10 @@ export const LATE_NODES = {
       "RESOURCE",
       "RESOURCE"
     ],
-    "description": "Deliver Bots after Resource Golem Survey to pay the AP shown in the inspector. Defeating a Golem creates an infinite mineral reserve with a star connection on each face for Extractors.",
+    "description": "Deliver Suppression Bots to the camp. Defeating the Golem creates an infinite mineral reserve with a star connection on each face for Extractors.",
     "accent": 7716801,
     "accentCss": "#75bfc1",
     "icon": "◆",
-    "unlockResearch": "resourceGolemSurvey",
     "hidden": true,
     "size": "large"
   }

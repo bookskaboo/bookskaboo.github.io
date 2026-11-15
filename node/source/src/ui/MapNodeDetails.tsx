@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
 import { ITEM_NAMES } from '../content/items';
-import type { GameState } from '../domain/types';
+import type { GameState, ItemId } from '../domain/types';
 import type { GameEngine } from '../simulation/engine';
 import { mapNodeName, mapNodePosition, mapNodeSurvey } from './mapNodePresentation';
 import { permitsTutorialChoice, type TutorialChoice } from '../tutorials/tutorialChoices';
 import { MaterialIcon } from './MaterialIcon';
+import { destinationMapCosts, isMapFrontier, pendingMapPayment } from '../simulation/mapExpansion';
 
 /** Inspection and actions for the expanded state of the minimap. */
 export function MapNodeDetails({ game, engine, selectedId, cornerName, allowedSectorId, onActivate }: {
@@ -16,7 +17,15 @@ export function MapNodeDetails({ game, engine, selectedId, cornerName, allowedSe
   const [selectedX, selectedY] = displayId.split(',').map(Number);
   const selectedUnlocked = Boolean(selected?.unlocked);
   const selectedActive = displayId === game.activeSectorId;
-  const selectedAdjacent = Boolean(selectedId) && !selectedUnlocked && Object.values(game.sectors).some((candidate) => candidate.unlocked && Math.abs(candidate.x - selectedX) + Math.abs(candidate.y - selectedY) === 1);
+  const selectedAdjacent = Boolean(selectedId) && isMapFrontier(game, selectedX, selectedY);
+  const hasPoint = game.research.mapPoints > 0;
+  const price = selectedAdjacent && !hasPoint ? destinationMapCosts(game, selectedX, selectedY) : undefined;
+  const quoted = game.research.mapNodeQuote?.destination === selectedId;
+  const funding = quoted && game.research.selected === 'mapNode';
+  const anotherPayment = !quoted && pendingMapPayment(game);
+  const action = !selectedId ? 'Select a node' : selectedActive ? 'Current node' : selectedUnlocked ? 'Travel to node'
+    : !selectedAdjacent ? 'Locked' : hasPoint ? 'Activate node · 1 point' : !price ? 'Need 1 Map Point'
+    : funding ? 'Research in progress' : anotherPayment ? 'Another map has a payment' : quoted ? 'Resume research' : 'Start research';
   const selectedName = selected ? mapNodeName(selected) : '';
   const [draftName, setDraftName] = useState(selectedName);
   const [draftLabel, setDraftLabel] = useState(selected?.label ?? '');
@@ -32,6 +41,13 @@ export function MapNodeDetails({ game, engine, selectedId, cornerName, allowedSe
         <button disabled={allowedSectorId !== undefined || draftName.trim() === selectedName && draftLabel.trim().toUpperCase() === selected.label} onClick={() => engine.renameSector(draftName, draftLabel, selectedId)}>Save name</button>
       </div>}
       <hr />
+      {price && <section className="map-survey-list" aria-label="Core cost">
+        <h3>Core cost</h3>
+        <ul>{Object.entries(price).map(([key, amount]) => {
+          const item = key as ItemId;
+          return <li key={item}><MaterialIcon item={item} /><span>{ITEM_NAMES[item]}</span><b>{amount}</b></li>;
+        })}</ul>
+      </section>}
       {explored ? (
         <section className="map-survey-list" aria-label="Resources">
           <h3>Resources</h3>
@@ -50,8 +66,8 @@ export function MapNodeDetails({ game, engine, selectedId, cornerName, allowedSe
     </div>
     <div className="map-action-footer">
       <div className="map-points"><span>Map Points</span><b>{game.research.mapPoints}</b></div>
-      <button className="map-primary-action" disabled={!selectedId || !permitsTutorialChoice(allowedSectorId, selectedId) || selectedActive || (!selectedUnlocked && (!selectedAdjacent || game.research.mapPoints < 1))} onClick={onActivate}>
-        {!selectedId ? 'Select a node' : selectedActive ? 'Current node' : selectedUnlocked ? 'Travel to node' : selectedAdjacent && game.research.mapPoints > 0 ? 'Activate node · 1 point' : selectedAdjacent ? 'Need 1 Map Point' : 'Locked'}
+      <button className="map-primary-action" disabled={!selectedId || !permitsTutorialChoice(allowedSectorId, selectedId) || selectedActive || (!selectedUnlocked && (!selectedAdjacent || (!hasPoint && (!price || funding || anotherPayment))))} onClick={onActivate}>
+        {action}
       </button>
     </div>
   </div>;

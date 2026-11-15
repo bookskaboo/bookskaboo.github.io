@@ -207,8 +207,8 @@ export interface ResearchState {
   repeatableCompletions?: Record<string, number>;
   /** Keeps each project's delivered cores when the active project changes. */
   projectContributions?: Record<string, Partial<Record<ItemId, number>>>;
-  /** The selected Extra Map Point purchase's fixed bill, keyed to its completion count. */
-  mapNodeQuote?: { completion: number; costs: Partial<Record<ItemId, number>> };
+  /** Fixed bill for an active or paused expansion purchase. Older saves have no destination. */
+  mapNodeQuote?: { completion: number; costs: Partial<Record<ItemId, number>>; destination?: string };
   /** The tier and starting completion count of the last quoted pricing phase. */
   mapNodePricingPhase?: MapNodePricingPhase;
 }

@@ -84,6 +84,11 @@ export function validateMod(input: unknown): GameMod {
     if (!Object.hasOwn(nodes, 'wasteHopper')) nodes.wasteHopper = Object.hasOwn(rawNodes, 'slagHopper') ? slagHopper : wasteLink;
     mod = { ...mod, nodes };
   }
+  const rawResearch = object(mod.research, 'Research');
+  if (Object.hasOwn(rawResearch, 'resourceGolemSurvey')) {
+    const { resourceGolemSurvey: _retiredGolemSurvey, ...research } = rawResearch;
+    mod = { ...mod, research };
+  }
   const baseResearch = Object.fromEntries(BASE_MOD_CONTENT.research.map(p => [p.id, p]));
   const resources = catalogEntries(mod.resources, BASE_MOD_CONTENT.names, 'Resources');
   const nodes = catalogEntries(mod.nodes, BASE_MOD_CONTENT.nodes, 'Nodes');

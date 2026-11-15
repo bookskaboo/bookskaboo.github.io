@@ -7,7 +7,8 @@ import { activateMod, BASE_MOD_CONTENT } from '../mods/modContent';
 import { validateMod } from '../mods/modValidation';
 import { applyModNames, modCompatibilityError } from '../mods/modRuntime';
 import { modNode, modNodeTemplate, modRule, modWorldGridSize } from '../mods/modRules';
-import { HOME_SECTOR_ID, isWorldGridCell, mapNodePosition, worldGridBounds, worldGridSize } from '../domain/worldGrid';
+import { HOME_SECTOR_ID, mapNodePosition, worldGridBounds, worldGridSize } from '../domain/worldGrid';
+import { isMapFrontier } from './mapExpansion';
 import type { GameMod } from '../mods/modTypes';
 import { FactoryTemplateRuntime } from './factoryTemplateRuntime';
 import { ResearchRuntime } from './researchRuntime';
@@ -84,6 +85,7 @@ export class GameEngine {
     () => this.journalElapsedMs(),
     kind => this.efficiencyMultiplier(kind),
     () => this.syncFieldLayouts(),
+    destination => this.openFundedSector(destination),
   );
   private state: GameState;
   private listeners = new Set<() => void>();
@@ -137,7 +139,7 @@ export class GameEngine {
     applyModNames(this.state);
     applyCartUpgrades(this.state);
     applyModNames(this.state);
-    delete this.state.research.mapNodeQuote;
+    if (!this.state.research.mapNodeQuote?.destination) delete this.state.research.mapNodeQuote;
     this.transferAccumulator = 0;
     this.research.reconcileResearchSelection();
     this.publish();
@@ -1592,6 +1594,7 @@ export class GameEngine {
   acknowledgeRescue() { if(this.state.rescue?.pending){delete this.state.rescue.pending;this.rescueAccumulator=1000;this.publish();} }
   acknowledgeVictory() { if(this.state.endgame&&this.state.research.completed.includes('victory')) {this.state.endgame.victoryAcknowledged=true;this.publish();} }
   selectResearch(id?: string) { this.research.selectResearch(id); }
+  startMapResearch(x: number, y: number) { return this.research.startMapResearch(x, y); }
 
   setFilterItem(nodeId: string, filterItem: ItemId, outputPort?: FilterPort) {
     const sector = this.getSector();
@@ -1744,13 +1747,20 @@ export class GameEngine {
   } }
   replaceState(state: GameState) { const next = clone(state); if (next.mod) next.mod = validateMod(next.mod); this.state = next; if (this.realtimeTickAt !== undefined) this.startRealtimeClock(); activateMod(this.state.mod); applyModNames(this.state); this.state.produced ??= {}; this.state.extracted ??= {}; this.state.hasCreatedConnection ??= false; this.state.research.completed ??= []; this.state.research.repeatableCompletions ??= {}; this.state.research.projectContributions ??= {}; this.state.inFlightTransfers ??= []; this.normalizeExtractorCycles(); applyModNames(this.state); this.research.reconcileResearchSelection(); this.pruneLockedForestInputs(); this.history = []; this.publish(); }
   unlockSector(x: number, y: number) {
-    if (this.state.research.mapPoints < 1 || !isWorldGridCell(x, y, worldGridSize(this.state))) return false;
-    const adjacent = Object.values(this.state.sectors).some((s) => s.unlocked && Math.abs(s.x - x) + Math.abs(s.y - y) === 1);
-    if (!adjacent) return false;
-    const id = sectorId(x, y);
+    if (this.state.research.mapPoints < 1 || !isMapFrontier(this.state, x, y)) return false;
+    this.checkpoint();
+    if (!this.openFundedSector(sectorId(x, y))) return false;
+    this.state.research.mapPoints--;
+    this.publish();
+    return true;
+  }
+  private openFundedSector(destination: string) {
+    const [x, y] = destination.split(',').map(Number);
+    if (!isMapFrontier(this.state, x, y)) return false;
     const sector = this.ensureSector(x, y);
-    if (sector.unlocked) return false;
-    this.checkpoint(); sector.unlocked = true; this.state.sectors[id] = sector; this.state.research.mapPoints--; this.publish(); return true;
+    sector.unlocked = true;
+    this.state.sectors[destination] = sector;
+    return true;
   }
   switchSector(id: string, firstVisitCamera?: SectorState['camera']) {
     const sector = this.state.sectors[id]; if (!sector?.unlocked) return;

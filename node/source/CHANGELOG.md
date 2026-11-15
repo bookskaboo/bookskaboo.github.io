@@ -2,32 +2,28 @@
 
 A searchable record of completed changes, design decisions, and relevant review findings. Stable NODE IDs can be cited in chats and searched in the repository.
 
-**490 records · 2026-10-12–2026-11-11 · America/Los_Angeles**
+**524 records · 2026-10-12–2026-11-15 · America/Los_Angeles**
 
 [Open searchable history](<docs/changelog/index.html>) · [How to review and maintain it](<docs/changelog/README.md>) · [Sources and coverage gaps](<docs/changelog/sources.md>)
 
 ## Local changes awaiting publication
 
-Latest confirmed game publication: [afdea7a](https://github.com/bookskaboo/bookskaboo.github.io/commit/afdea7a72552e6c1575dc039b54018c909a50edb).
+Latest confirmed game publication: [95a2bb5](https://github.com/bookskaboo/bookskaboo.github.io/commit/95a2bb5caeedf1705b61282ece705235c5ac0b05).
 
 | ID | Change | Topics |
 | --- | --- | --- |
-| [NODE-0490](<docs/changelog/2026-11.md#node-0490>) | Place copied layouts at the cursor | Interface, Controls, World, Documentation |
-| [NODE-0489](<docs/changelog/2026-11.md#node-0489>) | Use the approved item art in the game | Art, Interface, Recipes, Documentation |
-| [NODE-0487](<docs/changelog/2026-11.md#node-0487>) | Add an item art gallery to the NODE Art Preview | Art, Documentation |
-| [NODE-0486](<docs/changelog/2026-11.md#node-0486>) | Show the active Recycler recipe and give Extractors turns at shared inputs | Production, Recipes, Connections, Interface |
-| [NODE-0485](<docs/changelog/2026-11.md#node-0485>) | Clear automatic Recycler disposal after the material drains | Production, Recipes, Connections, Interface |
-| [NODE-0484](<docs/changelog/2026-11.md#node-0484>) | Fit the Deep Hole glow to its visible rim | Interface, World, Documentation |
-| [NODE-0483](<docs/changelog/2026-11.md#node-0483>) | Distinguish Dwarven and Goblin camps on the Node Map | Interface, World, Encounters, Documentation |
-| [NODE-0482](<docs/changelog/2026-11.md#node-0482>) | Alert on resource depletion and scale minimap icons with zoom | Interface, World, Encounters, Production, Persistence, Documentation |
-| [NODE-0481](<docs/changelog/2026-11.md#node-0481>) | Reveal Final Core corner markers and update minimap tooltips live | Interface, World, Exploration, Encounters, Documentation |
-| [NODE-0480](<docs/changelog/2026-11.md#node-0480>) | Name the map survey section Points of Interest | Interface, World |
-| [NODE-0479](<docs/changelog/2026-11.md#node-0479>) | Center Road markers and show all materials on each map border | Roads, Interface, World, Documentation |
-| [NODE-0478](<docs/changelog/2026-11.md#node-0478>) | Standardize tutorial dialogs and step controls | Interface, Tutorials, Documentation |
-| [NODE-0475](<docs/changelog/2026-11.md#node-0475>) | Label the Hydro Plant Water socket before recipe selection | Production, Interface, Documentation |
-| [NODE-0474](<docs/changelog/2026-11.md#node-0474>) | Move Mythril recipes and configure Recyclers one recipe at a time | Production, Recipes, Research, Interface, Documentation |
-| [NODE-0472](<docs/changelog/2026-11.md#node-0472>) | Rename the Fabricator and Synthesizer | Production, Research, Interface, Documentation |
-| [NODE-0471](<docs/changelog/2026-11.md#node-0471>) | Require Water for every Recycler recipe | Production, Recipes, Interface, Documentation |
+| [NODE-0524](<docs/changelog/2026-11.md#node-0524>) | Quote map expansion by destination tier before research | Progression, Balance, Research, World map, Persistence |
+| [NODE-0521](<docs/changelog/2026-11.md#node-0521>) | Apply the first peripheral production balance patch | Progression, Production, Balance, Research, Playtesting |
+| [NODE-0515](<docs/changelog/2026-11.md#node-0515>) | Measure peripheral intermediate supply through first victory | Playtesting, Progression, Balance, Research, Logistics, World map |
+| [NODE-0514](<docs/changelog/2026-11.md#node-0514>) | Measure Core Assembly Efficiency through first victory | Playtesting, Progression, Balance, Research, Logistics |
+| [NODE-0510](<docs/changelog/2026-11.md#node-0510>) | Compare the distributed layout through first victory | Playtesting, Progression, Balance, Research, Logistics |
+| [NODE-0509](<docs/changelog/2026-11.md#node-0509>) | Compare Shiny-only Lake sites and track factory build counts | Playtesting, Progression, Balance, Logistics, World map |
+| [NODE-0508](<docs/changelog/2026-11.md#node-0508>) | Test starting Medium Bot production during the Shiny survey | Playtesting, Progression, Balance, Encounters, World map |
+| [NODE-0507](<docs/changelog/2026-11.md#node-0507>) | Test Dwarven Tribute before surveying the corners | Playtesting, Progression, Balance, Encounters, World map |
+| [NODE-0500](<docs/changelog/2026-11.md#node-0500>) | Compare optional Road Channels 2 through first victory | Playtesting, Progression, Balance, Logistics, Research |
+| [NODE-0495](<docs/changelog/2026-11.md#node-0495>) | Make mineral Golems discoverable special camps | Encounters, Combat, World map, Research, Persistence |
+| [NODE-0493](<docs/changelog/2026-11.md#node-0493>) | Test lower survey prices and later Core demand | Playtesting, Progression, Balance, Exploration, Research, Logistics |
+| [NODE-0492](<docs/changelog/2026-11.md#node-0492>) | Measure blind headless research through victory | Playtesting, Progression, Research, Logistics, Endgame |
 | [NODE-0427](<docs/changelog/2026-11.md#node-0427>) | Save the surveyed route and simulate blind map discovery | Playtesting, Progression, World generation, Logistics, Endgame |
 | [NODE-0426](<docs/changelog/2026-11.md#node-0426>) | Verify the first Final Core route with the offline engine | Playtesting, Progression, Logistics, Endgame |
 | [NODE-0425](<docs/changelog/2026-11.md#node-0425>) | Model a route from Home to one Final Core | Playtesting, Progression, Logistics, Endgame |
@@ -80,13 +76,15 @@ Latest confirmed game publication: [afdea7a](https://github.com/bookskaboo/books
 
 ## Dated history
 
-- [2026-11](<docs/changelog/2026-11.md>) — 472 records
+- [2026-11](<docs/changelog/2026-11.md>) — 506 records
 - [2026-10](<docs/changelog/2026-10.md>) — 18 records
 
 “Known by” dates are implementation/publication bounds, not exact change dates. “Backfilled” dates mark records with uncertain original dates. Supersession links explain reversals. Original-game records do not certify current rebuild behavior.
 
 ## Published releases
 
+- 2026-11-14 — [95a2bb5: Centered Production recipe icons](https://github.com/bookskaboo/bookskaboo.github.io/commit/95a2bb5caeedf1705b61282ece705235c5ac0b05) — Fast-forwarded main from d43b163. The normal live HTML and all ten runtime assets matched the tested build by SHA-256.
+- 2026-11-11 — [d43b163: Cursor paste, production updates, map improvements, and item art](https://github.com/bookskaboo/bookskaboo.github.io/commit/d43b163db424635358f967d71c2fabf311d2b7c4) — Fast-forwarded main from afdea7a with changes confined to node/. The normal live HTML and all ten current runtime assets matched the tested release by SHA-256.
 - 2026-11-10 — [afdea7a: Bot Plant, freight, research, and interface updates](https://github.com/bookskaboo/bookskaboo.github.io/commit/afdea7a72552e6c1575dc039b54018c909a50edb) — Published the tested /node/ build and matching source on main. The standard live HTML and all ten runtime assets matched the tested commit by SHA-256.
 - 2026-11-09 — [8ba3691: Extra Map Point research naming and priority](https://github.com/bookskaboo/bookskaboo.github.io/commit/8ba36918eaf14ad8fb30b0cf26af0d180a03d31d) — Published the tested /node/ build and matching source on main. The standard live HTML and all ten runtime assets matched the build by SHA-256.
 - 2026-11-09 — [6316989: Automatic Deep Hole clearing](https://github.com/bookskaboo/bookskaboo.github.io/commit/631698997b6bd684876ed2128159c787aeba284a) — Published the tested /node/ build and matching source on main. The normal live URL served matching HTML and all ten runtime assets matched the build by SHA-256.
@@ -108,28 +106,28 @@ A record marked “Published by” was known in that snapshot and may have appea
 - [Accessibility](<docs/changelog/index.html?topic=Accessibility>) (6)
 - [Animation](<docs/changelog/index.html?topic=Animation>) (6)
 - [Architecture](<docs/changelog/index.html?topic=Architecture>) (3)
-- [Art](<docs/changelog/index.html?topic=Art>) (2)
+- [Art](<docs/changelog/index.html?topic=Art>) (6)
 - [Audio](<docs/changelog/index.html?topic=Audio>) (1)
-- [Balance](<docs/changelog/index.html?topic=Balance>) (78)
+- [Balance](<docs/changelog/index.html?topic=Balance>) (104)
 - [Building](<docs/changelog/index.html?topic=Building>) (1)
 - [Camera](<docs/changelog/index.html?topic=Camera>) (3)
-- [Combat](<docs/changelog/index.html?topic=Combat>) (12)
+- [Combat](<docs/changelog/index.html?topic=Combat>) (13)
 - [Compatibility](<docs/changelog/index.html?topic=Compatibility>) (3)
 - [Connections](<docs/changelog/index.html?topic=Connections>) (31)
 - [Construction](<docs/changelog/index.html?topic=Construction>) (15)
 - [Control groups](<docs/changelog/index.html?topic=Control%20groups>) (3)
-- [Controls](<docs/changelog/index.html?topic=Controls>) (37)
+- [Controls](<docs/changelog/index.html?topic=Controls>) (39)
 - [Deployment](<docs/changelog/index.html?topic=Deployment>) (1)
 - [Design](<docs/changelog/index.html?topic=Design>) (7)
 - [Developer tools](<docs/changelog/index.html?topic=Developer%20tools>) (1)
 - [Discovery](<docs/changelog/index.html?topic=Discovery>) (5)
 - [Documentation](<docs/changelog/index.html?topic=Documentation>) (208)
-- [Encounters](<docs/changelog/index.html?topic=Encounters>) (87)
-- [Endgame](<docs/changelog/index.html?topic=Endgame>) (3)
-- [Exploration](<docs/changelog/index.html?topic=Exploration>) (22)
+- [Encounters](<docs/changelog/index.html?topic=Encounters>) (91)
+- [Endgame](<docs/changelog/index.html?topic=Endgame>) (4)
+- [Exploration](<docs/changelog/index.html?topic=Exploration>) (23)
 - [Extraction](<docs/changelog/index.html?topic=Extraction>) (1)
-- [Interface](<docs/changelog/index.html?topic=Interface>) (186)
-- [Logistics](<docs/changelog/index.html?topic=Logistics>) (85)
+- [Interface](<docs/changelog/index.html?topic=Interface>) (192)
+- [Logistics](<docs/changelog/index.html?topic=Logistics>) (92)
 - [Map](<docs/changelog/index.html?topic=Map>) (3)
 - [Mods](<docs/changelog/index.html?topic=Mods>) (6)
 - [Mythril](<docs/changelog/index.html?topic=Mythril>) (14)
@@ -137,16 +135,16 @@ A record marked “Published by” was known in that snapshot and may have appea
 - [Nodes](<docs/changelog/index.html?topic=Nodes>) (2)
 - [Options](<docs/changelog/index.html?topic=Options>) (4)
 - [Performance](<docs/changelog/index.html?topic=Performance>) (1)
-- [Persistence](<docs/changelog/index.html?topic=Persistence>) (38)
+- [Persistence](<docs/changelog/index.html?topic=Persistence>) (40)
 - [Planning](<docs/changelog/index.html?topic=Planning>) (169)
-- [Playtesting](<docs/changelog/index.html?topic=Playtesting>) (24)
+- [Playtesting](<docs/changelog/index.html?topic=Playtesting>) (45)
 - [Power](<docs/changelog/index.html?topic=Power>) (2)
-- [Production](<docs/changelog/index.html?topic=Production>) (59)
-- [Progression](<docs/changelog/index.html?topic=Progression>) (184)
+- [Production](<docs/changelog/index.html?topic=Production>) (66)
+- [Progression](<docs/changelog/index.html?topic=Progression>) (211)
 - [Publication](<docs/changelog/index.html?topic=Publication>) (2)
-- [Publishing](<docs/changelog/index.html?topic=Publishing>) (4)
-- [Recipes](<docs/changelog/index.html?topic=Recipes>) (93)
-- [Research](<docs/changelog/index.html?topic=Research>) (182)
+- [Publishing](<docs/changelog/index.html?topic=Publishing>) (6)
+- [Recipes](<docs/changelog/index.html?topic=Recipes>) (98)
+- [Research](<docs/changelog/index.html?topic=Research>) (202)
 - [Resources](<docs/changelog/index.html?topic=Resources>) (87)
 - [Responsive](<docs/changelog/index.html?topic=Responsive>) (2)
 - [Roads](<docs/changelog/index.html?topic=Roads>) (13)
@@ -163,9 +161,9 @@ A record marked “Published by” was known in that snapshot and may have appea
 - [Undo](<docs/changelog/index.html?topic=Undo>) (4)
 - [Waste](<docs/changelog/index.html?topic=Waste>) (21)
 - [Workflow](<docs/changelog/index.html?topic=Workflow>) (1)
-- [World](<docs/changelog/index.html?topic=World>) (53)
+- [World](<docs/changelog/index.html?topic=World>) (54)
 - [World generation](<docs/changelog/index.html?topic=World%20generation>) (9)
-- [World map](<docs/changelog/index.html?topic=World%20map>) (18)
+- [World map](<docs/changelog/index.html?topic=World%20map>) (26)
 - [Writing](<docs/changelog/index.html?topic=Writing>) (1)
 
 ## Search from the repository

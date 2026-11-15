@@ -6,6 +6,7 @@ import type { GameEvent, GameState, ItemId, MachineNode, NodeKind } from '../dom
 import { isResearchCycleActive } from './researchStatus';
 import { RESEARCH_CENTER_BASE_CYCLE_MS } from '../content/researchTiming';
 import { applyCartUpgrades } from '../content/cartUpgrades';
+import { destinationMapCosts, pendingMapPayment, usesDestinationMapPricing } from './mapExpansion';
 
 /** Research lifecycle owns payments, milestones, and project selection. State is read lazily so undo/load remain valid. */
 export class ResearchRuntime {
@@ -16,24 +17,24 @@ export class ResearchRuntime {
     private readonly journalElapsedMs: () => number,
     private readonly efficiencyMultiplier: (kind: NodeKind) => number,
     private readonly onAreaExpanded: () => void,
+    private readonly onMapFunded: (destination: string) => boolean,
   ) {}
 
   private get state() { return this.getState(); }
 
   reconcileResearchSelection() {
     const research = this.state.research;
-    research.mapNodePricingPhase ??= mapNodePricingPhaseForState(research);
+    if (!research.mapNodeQuote?.destination) research.mapNodePricingPhase ??= mapNodePricingPhaseForState(research);
     const selectedId = this.state.research.selected;
-    if (selectedId !== 'mapNode') delete this.state.research.mapNodeQuote;
     if (!selectedId) return;
     const project = getResearchProject(selectedId);
     const invalid = !project || atResearchCap(project, this.state.research) || project.trigger || !isResearchAvailable(project, this.state.research.completed)
       || (!project.repeatable && this.state.research.completed.includes(selectedId))
-      || (selectedId === 'mapNode' && remainingMapNodePurchases(this.state) === 0);
+      || (selectedId === 'mapNode' && !research.mapNodeQuote?.destination && remainingMapNodePurchases(this.state) === 0);
     if (!invalid) { if (selectedId === 'mapNode') this.quoteMapNodeResearch(); return; }
     this.state.research.selected = undefined;
     this.state.research.contributed = {};
-    delete this.state.research.mapNodeQuote;
+    if (selectedId === 'mapNode') delete research.mapNodeQuote;
   }
 
 
@@ -60,7 +61,9 @@ export class ResearchRuntime {
     if (projectId === 'trucks' || projectId === 'trains' || projectId === 'trainFreightCapacity') applyCartUpgrades(this.state);
     if (projectId === 'areaExpansion1' || projectId === 'areaExpansion2') this.onAreaExpanded();
     if (projectId === 'efficientLandfill') for (const sector of Object.values(this.state.sectors)) for (const node of sector.nodes) if(node.kind==='big-hole') reconcileHole(node,this.state);
-    if (projectId === 'exploration' || projectId === 'mapNode') this.state.research.mapPoints++;
+    const destination = projectId === 'mapNode' ? this.state.research.mapNodeQuote?.destination : undefined;
+    const opened = destination !== undefined && this.onMapFunded(destination);
+    if (projectId === 'exploration' || (projectId === 'mapNode' && !opened)) this.state.research.mapPoints++;
     if (projectId === 'mapNode') delete this.state.research.mapNodeQuote;
     if (this.state.research.projectContributions) delete this.state.research.projectContributions[projectId];
     if (this.state.research.selected === projectId) { this.state.research.contributed = {}; this.state.research.selected = undefined; this.resetResearchCycles(); }
@@ -68,7 +71,7 @@ export class ResearchRuntime {
     for (const definition of Object.values(NODE_DEFINITIONS)) {
       if (!definition.hidden && definition.unlockResearch === projectId) (this.state.discoveryTimes ??= {})[definition.kind] ??= elapsedMs;
     }
-    this.event('ResearchCompleted', `${project.name} research complete. ${project.unlock}`, projectId, elapsedMs);
+    this.event('ResearchCompleted', `${project.name} research complete. ${opened ? 'Map node unlocked.' : project.unlock}`, projectId, elapsedMs);
   }
 
 
@@ -107,7 +110,7 @@ export class ResearchRuntime {
     const selected = getResearchProject(this.state.research.selected);
     if (!selected || atResearchCap(selected, this.state.research) || selected.trigger || !isResearchAvailable(selected, this.state.research.completed) || (!selected.repeatable && this.state.research.completed.includes(selected.id))) { node.progressMs = 0; return; }
     if (selected.id === 'mapNode') {
-      if (remainingMapNodePurchases(this.state) === 0) { this.reconcileResearchSelection(); node.progressMs = 0; return; }
+      if (!this.state.research.mapNodeQuote?.destination && remainingMapNodePurchases(this.state) === 0) { this.reconcileResearchSelection(); node.progressMs = 0; return; }
       this.quoteMapNodeResearch();
     }
     const costs = getResearchCostsForState(selected, this.state.research);
@@ -132,18 +135,40 @@ export class ResearchRuntime {
   }
 
 
+  startMapResearch(x: number, y: number) {
+    const research = this.state.research;
+    if (research.mapPoints > 0) return false;
+    const costs = destinationMapCosts(this.state, x, y);
+    if (!costs) return false;
+    const destination = `${x},${y}`;
+    if (research.mapNodeQuote?.destination !== destination && pendingMapPayment(this.state)) return false;
+    if (research.mapNodeQuote?.destination !== destination) {
+      research.mapNodeQuote = { completion: research.repeatableCompletions?.mapNode ?? 0, costs, destination };
+      if (research.selected === 'mapNode') {
+        this.resetResearchCycles(true);
+        this.publish();
+        return true;
+      }
+    }
+    this.selectResearch('mapNode');
+    return true;
+  }
+
   selectResearch(id?: string) {
-    const contributions = this.state.research.projectContributions ??= {};
-    const current = this.state.research.selected;
-    if (current) contributions[current] = { ...this.state.research.contributed };
-    if (!id) { this.state.research.selected = undefined; this.state.research.contributed = {}; delete this.state.research.mapNodeQuote; this.resetResearchCycles(true); this.publish(); return; }
+    const research = this.state.research;
+    const current = research.selected;
     const project = getResearchProject(id);
-    if (!project || atResearchCap(project, this.state.research) || project.trigger || !isResearchAvailable(project, this.state.research.completed) || (!project.repeatable && this.state.research.completed.includes(id)) || (id === 'mapNode' && remainingMapNodePurchases(this.state) === 0)) return;
-    if (id === current) return;
-    this.state.research.selected = id;
+    if (id === current || (id && (!project || atResearchCap(project, research) || project.trigger ||
+      !isResearchAvailable(project, research.completed) || (!project.repeatable && research.completed.includes(id))))) return;
+    if (id === 'mapNode' && !research.mapNodeQuote?.destination &&
+      (!remainingMapNodePurchases(this.state) || (usesDestinationMapPricing(this.state) && !pendingMapPayment(this.state)))) return;
+    const contributions = research.projectContributions ??= {};
+    if (current) contributions[current] = { ...research.contributed };
+    if (current === 'mapNode' && !research.mapNodeQuote?.destination &&
+      (!usesDestinationMapPricing(this.state) || !pendingMapPayment(this.state))) delete research.mapNodeQuote;
+    research.selected = id;
     if (id === 'mapNode') this.quoteMapNodeResearch();
-    else delete this.state.research.mapNodeQuote;
-    this.state.research.contributed = { ...(contributions[id] ?? {}) };
+    research.contributed = { ...(id ? contributions[id] : {}) };
     this.resetResearchCycles(true);
     this.publish();
   }

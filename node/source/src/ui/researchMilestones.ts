@@ -75,11 +75,9 @@ export function getResearchMilestones(game: GameState): ResearchMilestone[] {
   const starterCamp = knownDwarves.find(({ node }) => node.lizardSettlement === 'camp');
   const tributeSettlement = starterCamp ?? knownDwarves[0];
   const knownGolem = visited.find(sector => sector.nodes.some(node => node.kind === 'resourceGolem'));
-  const golemHint = ready('resourceGolemSurvey')
-    ? research('resourceGolemSurvey', 'Some deposits have a defensive posture.')
-    : knownGolem && done('resourceGolemSurvey')
-      ? visit(knownGolem.id, 'The Golem', 'A stubborn rock. Potentially a permanent one.')
-      : expansion(golems);
+  const golemHint = knownGolem
+    ? visit(knownGolem.id, 'Golem Camp', 'A stubborn rock. Potentially a permanent one.')
+    : expansion(golems);
 
   const pairIndex = game.endgame?.pairIndex ?? seededPairIndex(game.seed);
   const halves = ['core-half-a', 'core-half-b'] as const;

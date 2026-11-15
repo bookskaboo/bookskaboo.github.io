@@ -8,12 +8,17 @@ import type { GameEngine } from '../simulation/engine';
 import { researchPrerequisiteName, researchSection, visibleResearchRequirements } from './researchPresentation';
 import { researchProgress } from './researchProgress';
 import { RESEARCH_FILTER_OPTIONS } from './researchUiConfig';
+import { mapResearchNeedsDestination } from '../simulation/mapExpansion';
+import { mapNodePosition } from '../domain/worldGrid';
 
-export function ResearchProjectDetail({ project, game, engine, canInspect, onPrerequisite, onOpenRecipe }: { project: ResearchProject; game: GameState; engine: GameEngine; canInspect?(id: string): boolean; onPrerequisite(id: string): void; onOpenRecipe(recipeId: string): void }) {
+export function ResearchProjectDetail({ project, game, engine, canInspect, onPrerequisite, onOpenRecipe, onOpenMap }: { project: ResearchProject; game: GameState; engine: GameEngine; canInspect?(id: string): boolean; onPrerequisite(id: string): void; onOpenRecipe(recipeId: string): void; onOpenMap?(): void }) {
   const { active, rows, status } = researchProgress(project, game);
   const section = researchSection(project, game);
   const expansionFunded = project.id === 'mapNode' && remainingMapNodePurchases(game) === 0;
   const canStart = section === 'available' && (!canInspect || canInspect(project.id));
+  const selectDestination = project.id === 'mapNode' && mapResearchNeedsDestination(game);
+  const destination = project.id === 'mapNode' ? game.research.mapNodeQuote?.destination : undefined;
+  const [x, y] = destination?.split(',').map(Number) ?? [];
   const current = getResearchProject(game.research.selected);
   const total = rows.reduce((sum, row) => sum + row.required, 0);
   const paid = rows.reduce((sum, row) => sum + row.researched, 0);
@@ -24,12 +29,13 @@ export function ResearchProjectDetail({ project, game, engine, canInspect, onPre
         {section === 'active' ? <button type="button" className="research-detail-action research-cancel" aria-label={`Cancel ${project.name} research`}
           data-tooltip="Cancel research" data-tooltip-detail="Keep the Cores already researched. The current cycle restarts when you resume."
           onClick={() => engine.selectResearch(undefined)}>Cancel research</button>
+          : canStart && selectDestination ? <button type="button" className="research-detail-action research-start" onClick={onOpenMap}>Open Node Map</button>
           : canStart ? <button type="button" className="research-detail-action research-start" aria-label={`Start ${project.name} research`} data-start-research={project.id}
             data-tooltip="Start research" data-tooltip-detail={current ? `Switch from ${current.name}. Keep the Cores already researched. The current cycle restarts when you resume.` : 'Deliver the required Cores to a Research Center after starting.'}
             onClick={() => engine.selectResearch(project.id)}>Start research</button>
           : <span className="research-detail-state">{section === 'completed' ? 'Complete' : project.trigger ? 'Automatic' : 'Locked'}</span>}
       </div>
-      {!project.trigger && <div className="research-detail-cores" role="group" aria-label={`${project.name} required Cores`}>
+      {!project.trigger && !selectDestination && <div className="research-detail-cores" role="group" aria-label={`${project.name} required Cores`}>
         {rows.map(row => {
           const option = RESEARCH_FILTER_OPTIONS.find(option => option.id === row.item);
           const detail = `${row.required} required${RECIPES[row.item] ? '. Click to view the recipe.' : '.'}`;
@@ -46,7 +52,8 @@ export function ResearchProjectDetail({ project, game, engine, canInspect, onPre
     <div className="research-prerequisites">{visibleResearchRequirements(project, game).map(id => id === FINAL_CORE_PRODUCTION
       ? <button key={id} onClick={() => onOpenRecipe('final-core')}>Produce a Final Core →</button>
       : <button key={id} disabled={Boolean(canInspect && !canInspect(id))} onClick={() => onPrerequisite(id)}>Requires {researchPrerequisiteName(id)} →</button>)}</div>
-    <p className="research-description">{project.description || project.unlock}</p>
+    <p className="research-description">{destination ? `Deliver these Cores to unlock ${mapNodePosition(x, y)}.` : selectDestination
+      ? 'Choose a neighboring node on the map to see its Core cost.' : project.description || project.unlock}</p>
     {project.flavorText && <p className="research-flavor">{project.flavorText}</p>}
     {!project.trigger && active && <p className="research-delivery-status" role="status">{status}</p>}
     {expansionFunded && <p>All maps are unlocked or funded. The world has run out of elsewhere.</p>}

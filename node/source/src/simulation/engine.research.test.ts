@@ -20,7 +20,8 @@ function setup(project = 'extractor2') {
   // is available to projects such as repeatable Map Node research.
   if (project === 'exploration') state.research.completed = [];
   const engine = new GameEngine(state);
-  engine.selectResearch(project);
+  if (project === 'mapNode') engine.startMapResearch(4, 5);
+  else engine.selectResearch(project);
   return { engine, center: engine.getSector().nodes[0], state: engine.getState() };
 }
 
@@ -121,12 +122,13 @@ describe('synchronized Research Center cycles', () => {
     center.input = { 'simple-core': 6, 'basic-core': 6, 'automata-core': 2 };
     for (let i = 0; i < 5; i++) advance(engine, 5000);
     expect(state.research.repeatableCompletions?.mapNode).toBe(1);
-    expect(state.research.mapPoints).toBe(1);
+    expect(state.sectors['4,5'].unlocked).toBe(true);
+    expect(state.research.mapPoints).toBe(0);
     expect(state.research.selected).toBeUndefined();
     expect(center.input).toEqual({ 'simple-core': 1, 'basic-core': 6, 'automata-core': 2 });
     advance(engine, 5000);
     expect(center.input['simple-core']).toBe(1);
-    engine.selectResearch('mapNode');
+    expect(engine.startMapResearch(6, 5)).toBe(true);
     advance(engine, 5000);
     expect(state.research.contributed).toEqual({ 'simple-core': 1 });
     expect(state.research.repeatableCompletions?.mapNode).toBe(1);

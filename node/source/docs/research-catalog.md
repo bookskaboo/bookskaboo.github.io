@@ -33,10 +33,10 @@ Obligatory hand holding has one card at the right of the Research panel. Hold th
 | Stage | Suggested route |
 | --- | --- |
 | Open the factory | Extract Wood and ore, turn Wood into Charcoal, and smelt a Plate to unlock the Refiner and Research Center. Make Simple Cores, then install the lab at Home. |
-| Open the map | Research Assembler and make Basic Cores. Complete Exploration for the first Map Point and Road to ship between sectors. Repeat Extra Map Point as needed. |
+| Open the map | Research Assembler and make Basic Cores. Complete Exploration for the first Map Point and Road to ship between sectors. Select a neighboring map to see its Core cost and start research. |
 | Build Automata and Hydro | Research Automata Core and Advanced Fabrication. Scout for a large puddle; visiting a Lake grants Water Tools. Follow Hydrochemistry and Hydraulic Assembly to Hydro Cores, then Fluid Routing. |
 | Get Mythril | Scout for an occupied sector to unlock the Bot Plant, then research Sealed Robotics. Find a Dwarven settlement and start Mythril Tribute. A starter Camp takes two 3 AP Suppression Bots per minute. An outpost can supply their parts while Hydro production continues. |
-| Grow the factory | Research Ore Separation and make Shiny Cores, then research Precision Control and make Complex Cores. Keep Controller waste. Optional Golem clues point toward the outer sectors; Resource Golem Survey and Bots let a player turn a Golem into a permanent mineral reserve. |
+| Grow the factory | Research Ore Separation and make Shiny Cores, then research Precision Control and make Complex Cores. Keep Controller waste. Visit Golem camps in the outer sectors and deliver Suppression Bots to turn them into permanent mineral reserves. |
 | Find the four pieces | Open routes to all four corners of the Node Map. Their locations vary by world. Once visited, the guide can name the corner and its job: Bots for the Dragon, parts for the Foundry, local Tree Planter growth for the Grove, and waste for Reclamation. |
 | Win and keep playing | Assemble the world's paired pieces into Yin and Yang, then assemble the Final Core. Start A Remarkably Indirect Conclusion and supply one of each of the seven Cores. After victory, the final card is “You’ve got this” with the hint “Maybe a speed run next?” |
 
@@ -50,9 +50,13 @@ Precision Control also unlocks two regular Assembler recipes: 4 Copper Gears + 1
 
 Every sector in a new world starts with a 3,600 × 2,400 field. Area Expansion grows both dimensions across the whole world. Older saves use their largest previously generated field as the shared baseline so existing factories keep their space.
 
-Extra Map Point appears first in the Research list once available. It keeps the first half of the world affordable, then charges progressively more for filling out the remaining maps. The six-Core price schedule and safeguards below are implemented.
+Exploration costs 5 Simple and 5 Basic Cores and grants one Map Point. Use it to open a map directly north, south, east, or west of Home. After spending saved Map Points, select a neighboring destination on the Node Map to see its Core bill before starting Extra Map Point research. Completing the bill opens that map. Enter it to discover its resources.
 
-## Half map baseline
+Each band starts at five of each required Core. Tiers 1–2 use Simple and rise by five after each opening. Tiers 3–4 add Basic, tiers 5–6 add Automata, tier 7 adds Hydro, tier 8 adds Shiny, and tiers 9–10 add Complex. Those bands rise by five of each required Core after every two openings within the band. The free opening counts and corners add one Complex Core. Opening the full standard board costs 12,539 Cores after Exploration. A partially paid quote keeps its destination and price when switching research or reloading. Existing points and already quoted purchases without a destination can still be used on adjacent maps. [Balance proposal](core-consumption-balance-proposal.md#map-prices-by-destination-tier)
+
+The earlier generic Map Point schedule follows for reference. It also applies to training and is the base schedule for compatible overrides.
+
+## Former half map baseline
 
 The world contains 121 maps. Round half upward to **61 unlocked maps including Home**. Home is available initially and Exploration grants the first Map Point, so reaching this baseline requires **59 Extra Map Point completions**. The remaining 60 maps bring the total to 121, requiring 119 completions overall.
 
@@ -147,7 +151,6 @@ Endgame Theory was retired on November 5. The first corner piece unlocks the see
 | Command Robotics | 5 each through Complex | Precision Control + Heavy Robotics | Servo Frame and Pulse Cannon. The matched parts make a Suppression Bot 24 AP. |
 | Final Robotics | 1 each through Final | First Final Core produced + Command Robotics | Final Frame and Final Cannon. The matched parts make a Suppression Bot 72 AP every 210 seconds at base speed. |
 | A Remarkably Indirect Conclusion | 1 each through Final | First Final Core produced | Select at the Research Center and pay one set to record victory and open the modal. |
-| Resource Golem Survey | 3 each through Hydro | Sealed Robotics | Allows Bot attacks on four mineral Golems in separate sectors. Iron, Copper and Stone cost 100 AP each. Mythril costs 150 AP. Defeated Golems become infinite mineral reserves with four star connections for Extractors. |
 | Mineral Regeneration | 5 each through Shiny | Mineral Recovery + Ore Separation | Ordinary non-wood deposits recover 1 unit every 30 seconds up to capacity. Depleted deposits remain after this unlock; existing Deep Holes are not restored. |
 
 # Implemented efficiency and logistics research
@@ -296,7 +299,7 @@ The following entries are retained from the design proposal and are absent from 
 
 # Changes since the earlier proposal
 
-Hydro, Shiny and Complex chains, machine upgrades, logistics upgrades, regeneration and the five late repeatables are now implemented. Advanced Fabrication costs 5 each of Simple, Basic and Automata Cores after Assembler and Automata Core research. Resource Golem Survey allows Bot attacks on four mineral Golems. New worlds place them in separate tier 5 sectors. Iron, Copper and Stone take 100 AP each, and Mythril takes 150 AP. Defeated Golems become infinite reserves with four Extractor sockets. Road research unlocks both Roads and Carts. Road limits are one, two and three per map face, counting imports and exports together; each Road carries up to 12, 24 or 48 items per minute at Cart, Truck or Train level. Roads hold no inventory and leave cargo at the source when the receiver is disconnected or full. Trucks and Trains upgrade vehicle storage globally to 40 and 80 items. All solid tiers are available from the first Cart; fluids are excluded. The earlier whole-chest batch proposal remains historical.
+Hydro, Shiny and Complex chains, machine upgrades, logistics upgrades, regeneration and the five late repeatables are now implemented. Advanced Fabrication costs 5 each of Simple, Basic and Automata Cores after Assembler and Automata Core research. New worlds place four Golem camps in separate tier 5 sectors. Deliver Suppression Bots to fight them. Iron, Copper and Stone take 100 AP each, and Mythril takes 150 AP. Defeated Golems become infinite reserves with four Extractor sockets. Road research unlocks both Roads and Carts. Road limits are one, two and three per map face, counting imports and exports together; each Road carries up to 12, 24 or 48 items per minute at Cart, Truck or Train level. Roads hold no inventory and leave cargo at the source when the receiver is disconnected or full. Trucks and Trains upgrade vehicle storage globally to 40 and 80 items. All solid tiers are available from the first Cart; fluids are excluded. The earlier whole-chest batch proposal remains historical.
 
 # Sources
 

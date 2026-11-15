@@ -441,7 +441,7 @@ function tryGenerateSector(x: number, y: number, seed: number, now: number, gole
   }
   if(x===5&&y===7)worldNodes.push(node('sortingStation','Sorting Ruin',300,350));
   if (golemMineral) {
-    worldNodes.push(node('resourceGolem', `${GOLEM_NAMES[golemMineral]} Golem`, field.width / 2, field.height / 2, {
+    worldNodes.push(node('resourceGolem', `${GOLEM_NAMES[golemMineral]} Golem Camp`, field.width / 2, field.height / 2, {
       health: golemApCost({ golemMineral }), golemCostVersion: GOLEM_COST_VERSION, golemMineral, golemOutputs: [golemMineral],
     }));
   }

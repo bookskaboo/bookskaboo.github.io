@@ -4,12 +4,14 @@ import type { MachineNode } from '../domain/types';
 import { normalizeLegacy } from '../persistence/saves';
 import { createInitialState, GameEngine } from './engine';
 import { outstandingResearchCores } from './researchStatus';
+import { destinationMapCosts } from './mapExpansion';
 
 const project = RESEARCH_PROJECTS.find(p => p.id === 'mapNode')!;
 const cores = ['simple-core', 'basic-core', 'automata-core', 'hydro-core', 'shiny-core', 'command-core'];
 const access = ['refiner', 'assembler', 'automataCore', 'hydraulicAssembly', 'oreSeparation', 'precisionControl'];
-function setup(completions = 0, unlocked = access) {
+function setup(completions = 0, unlocked = access, legacyPricing = true) {
   const state = createInitialState(301);
+  if (legacyPricing) state.isTraining = true;
   state.research.completed = ['exploration', ...unlocked];
   state.research.repeatableCompletions = { mapNode: completions };
   const lab: MachineNode = { id: 'lab', kind: 'researchCenter', name: 'Research Center', x: 1000, y: 1000, rotation: 0, input: {}, output: {}, cycleMs: 1000, progressMs: 0, constructedAt: 0, constructionMs: 0 };
@@ -18,7 +20,7 @@ function setup(completions = 0, unlocked = access) {
   return new GameEngine(state, { autosave: false });
 }
 
-describe('half-world Map Node research', () => {
+describe('legacy Map Point research', () => {
   it.each([
     [0, 1, 5], [8, 1, 5], [9, 2, 5], [10, 2, 6], [11, 2, 6], [16, 2, 9], [17, 2, 9], [18, 2, 10],
     [19, 3, 5], [28, 3, 15], [29, 4, 5], [38, 4, 20], [39, 5, 5], [44, 5, 16], [48, 5, 25],
@@ -151,5 +153,89 @@ describe('half-world Map Node research', () => {
     expect(engine.getState().research.mapPoints).toBe(0);
     engine.selectResearch('mapNode');
     expect(engine.getState().research.selected).toBeUndefined();
+  });
+});
+
+describe('destination map pricing', () => {
+  it('starts each band at five of each Core and counts only opened maps in that band', () => {
+    const engine = setup(0, access, false);
+    const game = engine.getState();
+    expect(engine.startMapResearch(6, 5)).toBe(true);
+    expect(game.research.mapNodeQuote?.costs).toEqual({ 'simple-core': 5 });
+    game.research.mapPoints = 6;
+    for (let x = 6; x <= 10; x++) expect(engine.unlockSector(x, 5)).toBe(true);
+    expect(engine.unlockSector(10, 4)).toBe(true);
+    expect(destinationMapCosts(game, 4, 5)).toEqual({ 'simple-core': 15 });
+    const tierSeven = Object.fromEntries(cores.slice(0, 4).map(core => [core, 5]));
+    expect(destinationMapCosts(game, 10, 3)).toEqual(tierSeven);
+    for (const [x, y] of [[10, 3], [9, 2]]) {
+      if (x === 9) {
+        game.research.mapPoints++;
+        expect(engine.unlockSector(9, 3)).toBe(true);
+      }
+      game.research.mapPoints++;
+      expect(engine.unlockSector(x, y)).toBe(true);
+    }
+    expect(destinationMapCosts(game, 8, 1)).toBeUndefined();
+    game.research.mapPoints++;
+    expect(engine.unlockSector(9, 1)).toBe(true);
+    expect(destinationMapCosts(game, 8, 1)).toEqual(Object.fromEntries(cores.slice(0, 4).map(core => [core, 10])));
+    game.research.mapPoints += 2;
+    expect(engine.unlockSector(10, 1)).toBe(true);
+    expect(engine.unlockSector(10, 2)).toBe(true);
+    expect(destinationMapCosts(game, 10, 0)).toMatchObject({ 'simple-core': 5, 'command-core': 6 });
+  });
+
+  it('keeps a partially paid destination through switching and reload and opens only that map', () => {
+    let engine = setup(0, access, false);
+    const state = engine.getState();
+    state.research.mapPoints = 1;
+    expect(engine.startMapResearch(4, 5)).toBe(false);
+    expect(engine.unlockSector(4, 5)).toBe(true);
+    expect(engine.startMapResearch(3, 3)).toBe(false);
+    engine.selectResearch('mapNode');
+    expect(state.research.selected).toBeUndefined();
+    expect(engine.startMapResearch(5, 4)).toBe(true);
+    engine.getSector().nodes[0].input = { 'simple-core': 1 };
+    for (let i = 0; i < 5; i++) engine.tick(1000);
+    expect(state.research.contributed).toEqual({ 'simple-core': 1 });
+    expect(engine.startMapResearch(6, 5)).toBe(false);
+    engine.selectResearch('extractor1');
+    engine = new GameEngine(normalizeLegacy(JSON.parse(JSON.stringify(state)))!, { autosave: false });
+    expect(engine.startMapResearch(5, 4)).toBe(true);
+    expect(engine.getState().research).toMatchObject({ contributed: { 'simple-core': 1 },
+      mapNodeQuote: { destination: '5,4', costs: { 'simple-core': 10 } } });
+    for (let core = 0; core < 9; core++) {
+      engine.getSector().nodes[0].input = { 'simple-core': 1 };
+      for (let i = 0; i < 5; i++) engine.tick(1000);
+    }
+    expect(engine.getState().sectors['5,4'].unlocked).toBe(true);
+    expect(engine.getState().sectors['6,5']?.unlocked).toBeUndefined();
+    expect(engine.getState().research).toMatchObject({ mapPoints: 0, repeatableCompletions: { mapNode: 1 } });
+    expect(engine.getState().research.mapNodeQuote).toBeUndefined();
+    expect(destinationMapCosts(engine.getState(), 6, 5)).toEqual({ 'simple-core': 15 });
+  });
+
+  it('charges the approved 12,539 Cores to open the standard board', () => {
+    const engine = setup(0, access, false);
+    const game = engine.getState();
+    const cells = Array.from({ length: 121 }, (_, index) => [index % 11, Math.floor(index / 11)] as const)
+      .filter(([x, y]) => x !== 5 || y !== 5)
+      .sort(([ax, ay], [bx, by]) => (Math.abs(ax - 5) + Math.abs(ay - 5)) - (Math.abs(bx - 5) + Math.abs(by - 5)));
+    const free = cells.shift()!;
+    game.research.mapPoints = 1;
+    expect(engine.unlockSector(...free)).toBe(true);
+    let total = 0;
+    for (const [x, y] of cells) {
+      expect(engine.startMapResearch(x, y)).toBe(true);
+      const costs = game.research.mapNodeQuote!.costs;
+      for (const amount of Object.values(costs)) total += amount ?? 0;
+      game.research.contributed = { ...costs };
+      engine.tick(100);
+      expect(game.sectors[`${x},${y}`].unlocked).toBe(true);
+    }
+    expect(total).toBe(12539);
+    expect(remainingMapNodePurchases(game)).toBe(0);
+    expect(game.research.mapPoints).toBe(0);
   });
 });

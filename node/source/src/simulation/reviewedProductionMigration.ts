@@ -1,7 +1,7 @@
 import type { GameState, ItemId } from '../domain/types';
 import { getDwarvenSettlement } from '../content/lizardSettlements';
 import { GOBLIN_SETTLEMENTS } from '../content/goblinSettlements';
-import { defeatResourceGolem, getGolemMineral, GOLEM_COST_VERSION, golemApCost } from '../content/resourceGolems';
+import { defeatResourceGolem, getGolemMineral, GOLEM_COST_VERSION, GOLEM_NAMES, golemApCost } from '../content/resourceGolems';
 import { RECIPES, RETIRED_RECIPES } from '../content/recipes';
 import { BOT_STRENGTH, WASTE_ITEMS } from '../content/progression';
 import { reconcileQueue } from './mixedOutput';
@@ -43,6 +43,10 @@ export function migrateReviewedProduction(state: GameState) {
         node.attackRequirement = GOBLIN_SETTLEMENTS[node.goblinSettlement].attackRequirement;
       }
       if (node.kind === 'miningDrill' && node.miningTarget === 'mythril') node.miningTarget = 'iron';
+      if (node.kind === 'resourceGolem') {
+        const oldName = `${GOLEM_NAMES[getGolemMineral(node)]} Golem`;
+        if (node.name === oldName || node.name === 'Resource Golem') node.name = `${oldName} Camp`;
+      }
       if (node.kind === 'resourceGolem' && node.golemCostVersion !== GOLEM_COST_VERSION) {
         const mythril = getGolemMineral(node) === 'mythril';
         const oldCost = node.golemCostVersion === 2 ? (mythril ? 360 : 180) : node.golemCostVersion === 1 && mythril ? 20000 : 10000;

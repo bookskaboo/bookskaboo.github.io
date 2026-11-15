@@ -1,7 +1,7 @@
 import { NODE_MAP_LAYOUT_KEY as LAYOUT_KEY } from '../persistence/storageKeys';
 import { useEffect, useRef, useState, type CSSProperties, type PointerEvent as ReactPointerEvent } from 'react';
 import { cargoMaterial } from '../content/botAssembly';
-import { ITEM_COLORS, materialTypeName } from '../content/items';
+import { ITEM_COLORS, ITEM_NAMES, materialTypeName } from '../content/items';
 import type { GameState, ItemId, SectorState } from '../domain/types';
 import { DEFAULT_WORLD_GRID_SIZE, HOME_SECTOR_ID, worldGridBounds, worldGridSize } from '../domain/worldGrid';
 import { GameEngine } from '../simulation/engine';
@@ -12,11 +12,10 @@ import { MapNodeDetails } from './MapNodeDetails';
 import { IconGlyph } from './NodeIcon';
 import { sectorId } from '../simulation/worldGeneration';
 import { roadMaterialState } from '../simulation/roadMaterials';
+import { destinationMapCosts, isMapFrontier, pendingMapPayment } from '../simulation/mapExpansion';
 import { MAP_LANDMARKS, mapCornerMarkers, mapLandmarkSurvey, mapNodeHoverDetails, mapNodeName, mapNodePosition, type MapLandmark } from './mapNodePresentation';
 
 const landmarkOrder = Object.keys(MAP_LANDMARKS) as MapLandmark[];
-const hasUnlockedNeighbor = (game: GameState, x: number, y: number) =>
-  [sectorId(x - 1, y), sectorId(x + 1, y), sectorId(x, y - 1), sectorId(x, y + 1)].some(id => game.sectors[id]?.unlocked);
 
 interface Props {
   expanded?: boolean;
@@ -70,7 +69,12 @@ export function NodeMinimap({ game, engine, allowedSectorId, dockHeight = 0, exp
   const unlocked = Boolean(sector?.unlocked);
   const active = selectedKey === game.activeSectorId;
   const [x, y] = selectedKey.split(',').map(Number);
-  const available = Boolean(selected) && !unlocked && hasUnlockedNeighbor(game, x, y);
+  const available = Boolean(selected) && isMapFrontier(game, x, y);
+  const hasPoint = game.research.mapPoints > 0;
+  const price = available && !hasPoint ? destinationMapCosts(game, x, y) : undefined;
+  const quoted = game.research.mapNodeQuote?.destination === selected;
+  const funding = quoted && game.research.selected === 'mapNode';
+  const anotherPayment = !quoted && pendingMapPayment(game);
   const { discovered, bySector } = mapLandmarkSurvey(game);
   const cornerMarkers = mapCornerMarkers(game);
   const availableFilters = landmarkOrder.filter(landmark => discovered.has(landmark));
@@ -98,7 +102,11 @@ export function NodeMinimap({ game, engine, allowedSectorId, dockHeight = 0, exp
   const activate = () => {
     if (!selected || !permitsTutorialChoice(allowedSectorId, selected)) return;
     if (unlocked && !active) { onTravel(selected); setSelected(null); }
-    else if (available && game.research.mapPoints > 0 && engine.unlockSector(x, y) && !expanded) setSelected(null);
+    else if (available && hasPoint && engine.unlockSector(x, y) && !expanded) setSelected(null);
+    else if (price && !funding && !anotherPayment) {
+      if (expanded) engine.startMapResearch(x, y);
+      else onOpenMap();
+    }
   };
   const clampPanel = (next: Point, panelSize = size) => ({ x: Math.min(Math.max(8, window.innerWidth - panelSize - 8), Math.max(8, next.x)), y: Math.min(Math.max(82, window.innerHeight - panelSize - 82), Math.max(82, next.y)) });
   useEffect(() => { try { localStorage.setItem(LAYOUT_KEY, JSON.stringify({ position, size })); } catch { /* Keep dragging available when browser storage is full. */ } }, [position, size]);
@@ -134,7 +142,9 @@ export function NodeMinimap({ game, engine, allowedSectorId, dockHeight = 0, exp
           const known = game.sectors[id]; const isUnlocked = Boolean(known?.unlocked);
           const depletionPending = known?.resourceDepletionPending;
           const isActive = id === game.activeSectorId; const isSelected = id === selected;
-          const isAvailable = !isUnlocked && hasUnlockedNeighbor(game, cx, cy);
+          const isAvailable = isMapFrontier(game, cx, cy);
+          const nodePrice = isAvailable && !hasPoint ? destinationMapCosts(game, cx, cy) : undefined;
+          const priceText = nodePrice ? Object.entries(nodePrice).map(([core, amount]) => `${amount} ${ITEM_NAMES[core as ItemId]}`).join(' · ') : undefined;
           const location = mapNodePosition(cx, cy);
           const locationLabel = gridSize > DEFAULT_WORLD_GRID_SIZE && location.includes('.')
             ? <strong>{location.split('.').map(direction => <span key={direction}>{direction}</span>)}</strong>
@@ -156,11 +166,11 @@ export function NodeMinimap({ game, engine, allowedSectorId, dockHeight = 0, exp
             ...(isActive ? ['Current Node'] : []),
             ...(depletionPending ? ['Resource depleted'] : []),
             ...mapNodeHoverDetails(game, id),
-            ...(!isUnlocked ? [game.research.mapPoints ? 'Double-click to activate for 1 Map Point' : 'Requires 1 Map Point'] : []),
+            ...(!isUnlocked ? [hasPoint ? 'Double-click to activate for 1 Map Point' : priceText ?? 'Requires 1 Map Point'] : []),
             ...markers.filter(landmark => landmark !== 'camps').map(landmark => MAP_LANDMARKS[landmark].label),
           ].join('\n') : undefined;
           return isUnlocked || isAvailable || (expanded && corner) ? <button key={id} data-map-sector={id}
-            aria-label={`Map Node ${location}: ${isUnlocked ? isActive ? 'current map' : 'travel available' : isAvailable ? 'activate for 1 Map Point' : 'locked'}${depletionPending ? ' · Resource depleted' : ''}${markerNames ? ` · ${markerNames}` : ''}`}
+            aria-label={`Map Node ${location}: ${isUnlocked ? isActive ? 'current map' : 'travel available' : isAvailable ? priceText ?? 'activate for 1 Map Point' : 'locked'}${depletionPending ? ' · Resource depleted' : ''}${markerNames ? ` · ${markerNames}` : ''}`}
             disabled={!permitsTutorialChoice(allowedSectorId, id)} type="button"
             className={`node-map-sector ${id === HOME_SECTOR_ID ? 'home' : isUnlocked ? 'explored' : isAvailable ? 'adjacent' : 'uncharted'} ${isActive ? 'current' : ''} ${isSelected ? 'selected' : ''}${markerClass}${depletionPending ? ' resource-depleted' : ''}`}
             onClick={() => setSelected(id)}
@@ -189,7 +199,7 @@ export function NodeMinimap({ game, engine, allowedSectorId, dockHeight = 0, exp
         })}
       </div>
     </div>{expanded && <MapNodeDetails game={game} engine={engine} selectedId={selected} cornerName={cornerMarkers.get(selectedKey)} allowedSectorId={allowedSectorId} onActivate={activate} />}</div>
-    {!expanded && <footer><span>{!selected ? 'Select a Map Node' : active ? 'Current node' : sector ? mapNodeName(sector) : mapNodePosition(x, y)}</span><button className={selected && ((!active && unlocked) || (available && game.research.mapPoints > 0)) ? 'ready' : ''} disabled={!selected || !permitsTutorialChoice(allowedSectorId, selected) || active || (!unlocked && (!available || game.research.mapPoints < 1))} onClick={activate}>{!selected ? 'Select a Node' : active ? 'Current Node' : unlocked ? 'Travel' : available && game.research.mapPoints ? 'Activate · 1' : 'Select a Node'}</button></footer>}
+    {!expanded && <footer><span>{!selected ? 'Select a Map Node' : active ? 'Current node' : sector ? mapNodeName(sector) : mapNodePosition(x, y)}</span><button className={selected && ((!active && unlocked) || (available && hasPoint) || price) ? 'ready' : ''} disabled={!selected || !permitsTutorialChoice(allowedSectorId, selected) || active || (!unlocked && (!available || (!hasPoint && !price)))} onClick={price ? onOpenMap : activate}>{!selected ? 'Select a Node' : active ? 'Current Node' : unlocked ? 'Travel' : available && hasPoint ? 'Activate · 1' : price ? 'View price' : 'Select a Node'}</button></footer>}
     {!expanded && <button className="node-map-resize" aria-label="Resize Node Map" onPointerDown={beginResize} onPointerMove={moveResize} onPointerUp={endResize} onPointerCancel={endResize} />}
   </aside></div>;
 }

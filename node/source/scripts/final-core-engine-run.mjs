@@ -1,24 +1,70 @@
 import assert from 'node:assert/strict';
 import { appendFileSync, readFileSync, writeFileSync } from 'node:fs';
-import { campaign, dryRun } from './final-core-dry-run.mjs';
+import { campaign, buildDryRun } from './final-core-dry-run.mjs';
 
 const { GameEngine, createInitialState } = await import('../src/simulation/engine.ts');
-const { RECIPES, RECIPE_GROUPS } = await import('../src/content/recipes.ts');
+const { RECIPES, RECIPE_GROUPS, RETIRED_RECIPES } = await import('../src/content/recipes.ts');
+const { BOT_BUILDS } = await import('../src/content/botAssembly.ts');
 const { isCartKind } = await import('../src/content/cartUpgrades.ts');
-const { getEffectiveNodeInputFamilies, isNodeUnlocked } = await import('../src/content/nodes.ts');
+const { getEffectiveNodeInputFamilies, isNodeUnlocked, NODE_DEFINITIONS } = await import('../src/content/nodes.ts');
 const { connectionBlockedByWorld } = await import('../src/simulation/connectionRules.ts');
 const { canPlaceNode } = await import('../src/simulation/collisions.ts');
 const { getNodeSize } = await import('../src/domain/nodeGeometry.ts');
 const { getSectorWorldSize } = await import('../src/simulation/worldGeneration.ts');
-const { getResearchCostsForState, getResearchProject, mapNodePricingPhaseForState } = await import('../src/content/research.ts');
+const { getResearchCostsForState, getResearchProject, isResearchAvailable, mapNodePricingPhaseForState, RESEARCH_PROJECTS } = await import('../src/content/research.ts');
+const { SEVEN_CORES } = await import('../src/content/endgame.ts');
+const { roadChannels } = await import('../src/simulation/progression.ts');
 
 const blind = process.argv.includes('--blind');
+const dryRun = blind ? undefined : buildDryRun();
+assert(!dryRun?.supplyShortfalls.length, dryRun?.supplyShortfalls.join('\n'));
 const protectLakes = process.argv.includes('--protect-lakes');
 const seedOverride = process.argv.find(arg => arg.startsWith('--seed='));
 const checkpointPath = process.argv.find(arg => arg.startsWith('--checkpoint='))?.slice('--checkpoint='.length);
 const milestonePath = process.argv.find(arg => arg.startsWith('--milestone-checkpoint='))?.slice('--milestone-checkpoint='.length);
 const resumePath = process.argv.find(arg => arg.startsWith('--resume='))?.slice('--resume='.length);
 const priorTracePath = process.argv.find(arg => arg.startsWith('--prior-trace='))?.slice('--prior-trace='.length);
+const auditPath = process.argv.find(arg => arg.startsWith('--audit='))?.slice('--audit='.length);
+const pilot = process.argv.includes('--balance-pilot');
+const roadComparison = process.argv.find(arg => arg.startsWith('--road-channels-comparison='))?.split('=')[1];
+const shinySurvey = process.argv.find(arg => arg.startsWith('--shiny-survey='))?.split('=')[1];
+const shinyCopperBudget = process.argv.find(arg => arg.startsWith('--shiny-local-copper-budget='))?.split('=')[1];
+const efficiencyArm = process.argv.find(arg => arg.startsWith('--core-efficiency='))?.split('=')[1];
+const peripheralSupply = process.argv.includes('--peripheral-supply');
+const balancePatch = process.argv.find(arg => arg.startsWith('--balance-patch='))?.split('=')[1];
+const pilotRoute = pilot || Boolean(balancePatch);
+assert(!balancePatch || (['matched-map-price', 'standard-map-price'].includes(balancePatch) && peripheralSupply && !pilot && !efficiencyArm
+  && shinySurvey === 'shiny-with-imports' && process.argv.includes('--through-victory')),
+  'The local balance patch uses peripheral supply and no efficiency pilot');
+assert(!peripheralSupply || efficiencyArm || balancePatch, 'Peripheral supply needs a balance comparison mode');
+assert(!process.argv.includes('--shiny-golem-survey'), 'Golem combat is now a camp encounter. Historical Survey runs are in the pilot audits.');
+const allResearch = pilotRoute || process.argv.includes('--all-research');
+const throughVictory = process.argv.includes('--through-victory');
+if (roadComparison !== undefined) {
+  assert(['skip', 'buy'].includes(roadComparison), 'Road Channels comparison mode must be skip or buy');
+  assert(blind && pilot && throughVictory && auditPath && seedOverride && !resumePath, 'Road Channels comparisons need a fresh, seeded blind pilot through victory with an audit');
+}
+if (shinySurvey !== undefined) {
+  assert(['corners-first', 'tribute-first', 'bots-during-survey', 'shiny-with-imports'].includes(shinySurvey),
+    'Unknown Shiny survey mode');
+  assert(blind && pilotRoute && protectLakes && auditPath && seedOverride && !resumePath && !roadComparison
+    && (!throughVictory || shinySurvey === 'shiny-with-imports'),
+    'Shiny survey comparisons need a fresh, seeded blind pilot with protected Lakes and an audit');
+}
+const buyRoadChannels2 = pilot && roadComparison !== 'skip' && !shinySurvey;
+if (efficiencyArm !== undefined) {
+  assert(['skip', 'buy'].includes(efficiencyArm) && shinySurvey === 'shiny-with-imports' && throughVictory,
+    'Core efficiency compares fresh distributed pilot routes through victory');
+}
+const efficiencyPilot = efficiencyArm && JSON.parse(readFileSync(new URL('./core-efficiency-pilot.json', import.meta.url), 'utf8'));
+const efficiencyUpgrade = efficiencyPilot?.upgrade;
+if (shinyCopperBudget !== undefined) {
+  assert(shinySurvey === 'shiny-with-imports' && /^\d+$/.test(shinyCopperBudget),
+    'A local Copper budget needs a nonnegative integer and shiny-with-imports mode');
+}
+const resumeAuditPath = process.argv.find(arg => arg.startsWith('--resume-audit='))?.slice('--resume-audit='.length);
+const previousAudit = resumeAuditPath && JSON.parse(readFileSync(resumeAuditPath, 'utf8'));
+assert(!allResearch || (blind && auditPath && (!resumePath || previousAudit)), 'All-research mode needs a blind survey and a matching audit when resumed');
 const resumed = resumePath && JSON.parse(readFileSync(resumePath, 'utf8'));
 const tickMs = blind ? (protectLakes ? 400 : 200) : 100;
 const wallNow = Date.now;
@@ -30,7 +76,7 @@ const quantity = (node, item) => (node.input[item] ?? 0) + (node.output[item] ??
 const productionMeters = new Map();
 const roadMeters = new Map();
 const recipeFeeds = new Map();
-const trace = [];
+const trace = [...(previousAudit?.trace ?? [])];
 const progressPath = process.env.NODE_FINAL_CORE_PROGRESS;
 const watches = [];
 const districts = new Map();
@@ -39,11 +85,25 @@ const freightLinks = new Set();
 const freightLedger = [];
 const water = new Map();
 const cornerItems = blind ? {} : { '0,0': 'alpha', '10,0': 'foundry-component', '10,10': 'grove-component', '0,10': 'reclamation-component' };
-const cornerRecords = {};
-let placed = 0, cables = 0, joints = 0;
+const cornerRecords = { ...previousAudit?.cornerRecords };
+let placed = previousAudit?.end.placed ?? 0;
+let cables = previousAudit?.end.cables ?? 0;
+let joints = previousAudit?.end.joints ?? 0;
+const boundaries = [...(previousAudit?.boundaries ?? [])];
+const payments = [...(previousAudit?.payments ?? [])];
+const researchWait = { anyMs: 0, byCoreMs: {}, byProject: {} };
+let nextCore = SEVEN_CORES.filter(item => boundaries.some(boundary => boundary.label === item)).length;
 
 class OfflineEngine extends GameEngine {
   checkpoint() {} // No undo is used in the offline run.
+
+  efficiencyMultiplier(kind, recipeId) {
+    const base = super.efficiencyMultiplier(kind, recipeId);
+    if (efficiencyUpgrade?.recipes.includes(recipeId) && this.getState().research.completed.includes(efficiencyUpgrade.id)) {
+      return Math.min(base, efficiencyUpgrade.cycleMultiplier);
+    }
+    return base;
+  }
 
   deliverTransfers(now, mapId) {
     const receipts = new Map();
@@ -56,8 +116,8 @@ class OfflineEngine extends GameEngine {
     for (const [feed, before] of receipts) {
       feed.received += (feed.target.input[feed.item] ?? 0) - before;
       if (feed.received < feed.limit) continue;
-      assert.equal(feed.received, feed.limit, `${feed.target.recipeId} ${feed.item} batch feed`);
-      // Close the cable through the normal action. Any extra in flight is refunded by the engine.
+      // A Truck or Train can finish the meter with part of a shipment left in the receiver.
+      // Closing the cable refunds cargo still in flight. Delivered surplus stays in inventory.
       disconnect(feed.id, feed.cables);
       recipeFeeds.delete(`${feed.id}/${feed.target.id}/${feed.item}`);
     }
@@ -82,7 +142,47 @@ class OfflineEngine extends GameEngine {
 }
 
 const engine = new OfflineEngine(resumed || createInitialState(blind ? seedOverride && Number(seedOverride.slice(7)) : dryRun.seed), { autosave: false });
+if (balancePatch === 'matched-map-price') {
+  engine.applyMod({ version: 1, name: 'Balance comparison Map Point price', author: '', description: 'Five Simple Cores per Map Point',
+    resources: {}, nodes: {}, recipes: {}, research: { mapNode: { costs: { 'simple-core': 5 } } }, rules: {} });
+} else if (pilot && !resumed) {
+  const mod = JSON.parse(readFileSync(new URL('./core-consumption-pilot.json', import.meta.url), 'utf8'));
+  if (roadComparison || shinySurvey) delete mod.research.victory;
+  if (efficiencyPilot) {
+    const coreBill = ([tiers, sets]) => Object.fromEntries(SEVEN_CORES.slice(0, tiers).map(item => [item, sets]));
+    mod.name += ' with rounded milestones and revised recipes';
+    mod.recipes = { ...efficiencyPilot.recipes };
+    for (const [id, bill] of Object.entries(efficiencyPilot.milestoneBills)) mod.research[id] = { costs: coreBill(bill) };
+    mod.research[efficiencyUpgrade.id] = {
+      name: 'Core Assembly Efficiency', description: 'Shortens Hydro, Shiny and Complex Core assembly cycles by 40%.',
+      unlock: 'Faster Core assembly', prerequisite: 'hydraulicAssembly', costs: coreBill(efficiencyUpgrade.bill),
+    };
+  }
+  for (const id of Object.keys(RECIPES).filter(id => id.startsWith('core-half-'))) mod.recipes[id] = { cycleMs: efficiencyPilot ? 20000 : 10000 };
+  engine.applyMod(mod);
+}
 const state = engine.getState();
+if (throughVictory && auditPath && !resumed) {
+  const simulate = engine.research.simulateResearch.bind(engine.research);
+  engine.research.simulateResearch = (node, dt) => {
+    const id = state.research.selected;
+    if (id) {
+      const costs = getResearchCostsForState(getResearchProject(id), state.research);
+      const missing = Object.keys(costs).filter(item => (state.research.contributed[item] ?? 0) < costs[item]
+        && (node.input[item] ?? 0) <= 0);
+      if (missing.length) {
+        const project = researchWait.byProject[id] ??= { anyMs: 0, byCoreMs: {} };
+        for (const total of [researchWait, project]) {
+          total.anyMs += dt;
+          for (const item of missing) total.byCoreMs[item] = (total.byCoreMs[item] ?? 0) + dt;
+        }
+      }
+    }
+    simulate(node, dt);
+  };
+}
+assert(!pilot || state.mod?.name.startsWith('Core consumption pilot'), 'Expected the pilot rules on the active world');
+if (previousAudit) assert(state.seed === previousAudit.seed && elapsed / 1000 === previousAudit.end.seconds, 'Audit and checkpoint must describe the same state');
 if (resumed?.paused) engine.togglePause();
 const home = '5,5';
 const unlocked = project => state.research.completed.includes(project);
@@ -127,7 +227,8 @@ function place(id, kind, x, y, recipe, viable = () => true) {
     const nodeId = engine.placeNode(kind, px, py);
     if (!nodeId) continue;
     const node = find(id, n => n.id === nodeId);
-    if (recipe) assert(engine.setRecipe(node.id, recipe), `Select ${recipe} on ${kind}`);
+    // Bot Plants derive their assembly cycle from the incoming frame and gun.
+    if (recipe && kind !== 'botPlant') assert(engine.setRecipe(node.id, recipe), `Select ${recipe} on ${kind}`);
     placed++;
     if (kind === 'joint') joints++;
     return node;
@@ -241,6 +342,13 @@ function meter(id, item, nodes, limit, machinery = nodes, name = item) {
 function tick() {
   elapsed += tickMs;
   engine.tick(tickMs);
+  if (auditPath) {
+    while (nextCore < SEVEN_CORES.length && state.produced[SEVEN_CORES[nextCore]] > 0) {
+      const item = SEVEN_CORES[nextCore++];
+      boundaries.push(auditSnapshot(item));
+      mark(`first ${item} produced`);
+    }
+  }
   assert(!state.rescue?.pending, 'Hidden resource rescue fired');
   for (const [id, item] of Object.entries(cornerItems)) if (!cornerRecords[item] && state.produced[item] > 0) {
     cornerRecords[item] = elapsed / 1000;
@@ -268,22 +376,27 @@ function wait(name, condition, minutes = 90) {
   }
 }
 
-function research(id, prepare) {
-  const before = state.research.repeatableCompletions.mapNode ?? 0;
-  engine.selectResearch(id);
+function research(id, prepare, destination) {
+  const project = getResearchProject(id);
+  const before = state.research.repeatableCompletions[id] ?? 0;
+  const startedAt = elapsed / 1000;
+  if (destination) assert(engine.startMapResearch(...destination.split(',').map(Number)), `Quote map ${destination}`);
+  else engine.selectResearch(id);
   assert.equal(state.research.selected, id, `Select ${id}`);
-  if (!blind && id === 'mapNode') assert.deepEqual(state.research.mapNodeQuote.costs, dryRun.purchases[before].costs);
-  const costs = getResearchCostsForState(getResearchProject(id), state.research);
-  prepare?.(costs);
-  wait(id, () => id === 'mapNode' ? state.research.repeatableCompletions.mapNode > before : unlocked(id));
+  if (!blind && id === 'mapNode' && !destination) assert.deepEqual(state.research.mapNodeQuote.costs, dryRun.purchases[before].costs);
+  const costs = getResearchCostsForState(project, state.research);
+  prepare?.(Object.fromEntries(Object.entries(costs).map(([item, count]) => [item, Math.max(0, count - (state.research.contributed[item] ?? 0))])));
+  wait(id, () => project.repeatable ? state.research.repeatableCompletions[id] > before : unlocked(id));
+  if (auditPath) payments.push({ id, rank: project.repeatable ? before + 1 : undefined, costs, startedAt, seconds: elapsed / 1000 });
   if (id !== 'mapNode') mark(id);
   return costs;
 }
 
 function open(number) {
-  if (number) research('mapNode');
   const id = dryRun.route[number];
-  assert(engine.unlockSector(...id.split(',').map(Number)), `Unlock ${id}`);
+  const override = state.mod?.research?.mapNode;
+  if (number && !state.research.mapPoints) research('mapNode', undefined, override?.costs === undefined && !override?.costGrowth ? id : undefined);
+  if (!state.sectors[id]?.unlocked) assert(engine.unlockSector(...id.split(',').map(Number)), `Unlock ${id}`);
   activate(id);
   mark(`map ${number} ${id}`);
   return id;
@@ -292,16 +405,16 @@ function open(number) {
 const middle = id => ({ x: grid(id).width * .48, y: grid(id).height * .5 });
 function cart(id, point = middle(id)) { return place(id, 'woodenChest', point.x, point.y); }
 
-function roadPair(from, to) {
+function roadPair(from, to, offsetStart = 240) {
   activate(from);
   const a = sector(from), b = sector(to), fa = grid(from), fb = grid(to);
   assert.equal(Math.abs(a.x - b.x) + Math.abs(a.y - b.y), 1);
   const horizontal = a.y === b.y;
   const dimension = horizontal ? 'height' : 'width';
   const existing = a.nodes.filter(n => n.kind === 'road' && n.pairedSectorId === to);
-  const limit = unlocked('roadChannels2') ? 3 : unlocked('roadChannels1') ? 2 : 1;
+  const limit = roadChannels(state);
   assert(existing.length < limit, `All ${limit} Road slots occupied on ${from} -> ${to}`);
-  for (let offset = 240; offset <= Math.min(fa[dimension], fb[dimension]) - 240; offset += 32) {
+  for (let offset = offsetStart; offset <= Math.min(fa[dimension], fb[dimension]) - 240; offset += 32) {
     if (existing.some(n => Math.abs((horizontal ? n.y : n.x) - offset) < 220)) continue;
     const x = horizontal ? a.x < b.x ? fa.width - 68 : 68 : offset;
     const y = horizontal ? offset : a.y < b.y ? fa.height - 68 : 68;
@@ -314,7 +427,7 @@ function roadPair(from, to) {
     const sending = find(from, n => n.id === roadId);
     const receiving = find(to, n => n.id === sending.pairedRoadId);
     placed += 2;
-    return { from, to, sending, receiving };
+    return { from, to, sending, receiving, offset, slot: existing.length + 1 };
   }
   throw new Error(`Could not place both Road endpoints ${from} -> ${to}`);
 }
@@ -323,7 +436,26 @@ const cartNearRoad = (id, road, viable) => place(id, 'woodenChest',
   Math.min(grid(id).width - 180, Math.max(180, road.x)),
   Math.min(grid(id).height - 180, Math.max(180, road.y)), undefined, viable);
 
-function freight(item, path, origin, destination, name = item) {
+function freightLink(id, from, to) {
+  const key = `${id}/${from.id}/${to.id}`;
+  if (freightLinks.has(key)) return;
+  const map = sector(id);
+  const joints = new Set(map.nodes.filter(node => node.kind === 'joint').map(node => node.id));
+  const visited = new Set([from.id]);
+  const queue = [from.id];
+  for (const node of queue) for (const cable of map.connections) {
+    if (cable.from !== node) continue;
+    if (cable.to === to.id) { freightLinks.add(key); return; }
+    if (joints.has(cable.to) && !visited.has(cable.to)) {
+      queue.push(cable.to);
+      visited.add(cable.to);
+    }
+  }
+  connect(id, from, to);
+  freightLinks.add(key);
+}
+
+function freight(item, path, origin, destination, name = item, offsets = new Map()) {
   const result = [];
   let sendingCart = origin;
   for (let i = 0; i < path.length - 1; i++) {
@@ -333,14 +465,10 @@ function freight(item, path, origin, destination, name = item) {
     try {
     if (lane) {
       if (sendingCart && lane.source !== sendingCart) {
-        const link = `${from}/${sendingCart.id}/${lane.source.id}`;
-        if (!freightLinks.has(link)) {
-          connect(from, sendingCart, lane.source);
-          freightLinks.add(link);
-        }
+        freightLink(from, sendingCart, lane.source);
       }
     } else {
-      pair = roadPair(from, to);
+      pair = roadPair(from, to, offsets.get(`${from}/${to}`));
       const nodes = sector(from).nodes.map(node => node.kind === 'monster-camp' ? { ...node, campStrength: 100 } : node);
       const clearsRoad = node => !connectionBlockedByWorld(node, pair.sending, { fromPort: 0, toPort: 0 }, nodes);
       if (!sendingCart || !isCartKind(sendingCart.kind) || !clearsRoad(sendingCart)) {
@@ -369,6 +497,7 @@ function freight(item, path, origin, destination, name = item) {
         if (unloadingCart) { activate(to); engine.deleteNodes([unloadingCart.id]); }
       }
       error.freightEdge = [from, to].sort().join('/');
+      if (pair) error.roadRetry = { edge: `${from}/${to}`, offset: pair.offset + 160 };
       throw error;
     }
     result.push(lane);
@@ -376,11 +505,8 @@ function freight(item, path, origin, destination, name = item) {
   }
   const last = result.at(-1);
   if (destination && last.sink !== destination) {
-    const id = path.at(-1), link = `${id}/${last.sink.id}/${destination.id}`;
-    if (!freightLinks.has(link)) {
-      connect(id, last.sink, destination);
-      freightLinks.add(link);
-    }
+    const id = path.at(-1);
+    freightLink(id, last.sink, destination);
   }
   return { lanes: result, first: result[0], last, sink: last.sink };
 }
@@ -396,8 +522,9 @@ function retireLane(lane) {
 
 const recipeByItem = new Map();
 for (const recipe of Object.values(RECIPES)) {
-  if (!recipe.recovery && !/^(recycle|efficient)-/.test(recipe.id)) recipeByItem.set(Object.keys(recipe.outputs)[0], recipe);
+  if (!RETIRED_RECIPES.has(recipe.id) && !recipe.recovery && !/^(recycle|efficient)-/.test(recipe.id)) recipeByItem.set(Object.keys(recipe.outputs)[0], recipe);
 }
+for (const build of BOT_BUILDS.filter(build => build.frameTier === build.gunTier)) recipeByItem.set(build.item, build.recipe);
 const machineFor = id => Object.keys(RECIPE_GROUPS).find(kind => RECIPE_GROUPS[kind].includes(id));
 const rawItems = new Set(['wood', 'copper', 'iron', 'stone']);
 const fluid = item => ['water', 'coolant', 'conductive-slurry'].includes(item);
@@ -419,8 +546,12 @@ function intake(id, second = false) {
   if (water.has(key)) return water.get(key);
   const lake = source(id, 'water');
   const size = getNodeSize(lake), nodes = sector(id).nodes;
+  const existing = sector(id).connections.filter(cable => cable.from === lake.id);
+  const reused = existing.map(cable => nodes.find(node => node.id === cable.to)).filter(node => node?.kind === 'fluidLink')[second ? 1 : 0];
+  if (reused) { water.set(key, reused); return reused; }
   const shores = [[0, 0, -size.h / 2 - 160], [1, size.w / 2 + 160, 0], [2, 0, size.h / 2 + 160], [3, -size.w / 2 - 160, 0]];
   for (const [port, dx, dy] of second ? [...shores.slice(2), ...shores.slice(0, 2)] : shores) {
+    if (existing.some(cable => cable.fromPort === port)) continue;
     try {
       const node = place(id, 'fluidLink', lake.x + dx, lake.y + dy, undefined, proposed => !connectionBlockedByWorld(lake, proposed, { fromPort: port, toPort: 0 }, nodes));
       connect(id, lake, node, port);
@@ -451,10 +582,17 @@ function factory(name, overrides = {}) {
       district.buses.set(item, bus);
       return bus;
     }
+    const localLimit = overrides.localSupply?.[item];
+    if (localLimit === 0) {
+      const bus = cart(id, layout);
+      district.buses.set(item, bus);
+      return bus;
+    }
     const raw = rawItems.has(item), recipe = raw ? undefined : recipeByItem.get(item);
     const inputs = Object.keys(recipe?.inputs ?? {});
     const feeds = inputs.map(available);
-    const batches = meterInputs && recipe ? Math.round(plan.work[item] * 1000 / recipe.cycleMs) : undefined;
+    const batches = meterInputs && recipe ? Math.min(Math.round(plan.work[item] * 1000 / recipe.cycleMs),
+      localLimit === undefined ? Infinity : Math.ceil(localLimit / recipe.outputs[item])) : undefined;
     const count = Math.min(batches ?? Infinity, overrides[item] ?? plan.producers[item]);
     assert(count > 0, `${name} requires ${item}`);
     const material = raw ? source(id, item) : undefined;
@@ -478,13 +616,12 @@ function factory(name, overrides = {}) {
       });
     });
     // Direct cables keep scarce intermediates out of twenty-item storage buffers.
-    if (item !== goal && group.length === 1 && uses[item] === 1 && !recipe?.outputs['metallic-fines']) {
+    if (localLimit === undefined && item !== goal && group.length === 1 && uses[item] === 1 && !recipe?.outputs['metallic-fines']) {
       district.buses.set(item, group[0]);
       return group[0];
     }
     const busPoint = { x: base.x + 270, y: base.y };
-    const useSplitters = item === 'conductive-slurry' || meterInputs && item === 'coolant' && group.length === 1;
-    if (useSplitters) assert.equal(group.length, 1, 'Each local fluid splitter has one Hydro Plant');
+    const useSplitters = group.length === 1 && (item === 'conductive-slurry' || meterInputs && item === 'coolant');
     const bus = useSplitters ? place(id, 'splitter', busPoint.x, busPoint.y)
       : fluid(item) ? place(id, group.length === 1 ? 'fluidLink' : 'fluidStorage', busPoint.x, busPoint.y) : cart(id, busPoint);
     if (useSplitters) slurryBranches.set(bus.id, bus);
@@ -502,6 +639,7 @@ function factory(name, overrides = {}) {
         connect(id, node, filter);
       } else connect(id, node, bus);
     }
+    if (localLimit !== undefined) meter(id, item, group, localLimit, group, `${name} local ${item}`);
     return bus;
   };
   district.output = available(goal);
@@ -509,6 +647,23 @@ function factory(name, overrides = {}) {
   districts.set(name, district);
   mark(`built ${name}`, { map: id, production: district.machines.length });
   return district;
+}
+
+function tryFactory(name, overrides) {
+  const id = overrides.plan.id;
+  const before = new Set(sector(id).nodes.map(node => node.id));
+  try {
+    return factory(name, overrides);
+  } catch (error) {
+    if (!/No placement|corridor/.test(error.message)) throw error;
+    const added = new Set(sector(id).nodes.filter(node => !before.has(node.id)).map(node => node.id));
+    activate(id);
+    engine.deleteNodes([...added]);
+    for (const [key, node] of water) if (added.has(node.id)) water.delete(key);
+    for (const [key, node] of slurryBranches) if (added.has(key) || added.has(node.id)) slurryBranches.delete(key);
+    for (const [key, feed] of recipeFeeds) if (added.has(feed.target.id)) recipeFeeds.delete(key);
+    mark('could not fit the planned factory on its surveyed map', { name, map: id, reason: error.message });
+  }
 }
 
 let lab;
@@ -601,7 +756,7 @@ coreFreight(hydro, 'hydro-core', ['7,5', '6,5', home]);
 research('roadChannels1');
 const basic = factory('Basic Core reserve', { limit: 225 });
 coreFreight(basic, 'basic-core', ['2,3', '2,4', '2,5', '3,5', '4,5', home]);
-for (const project of ['fluidRouting', 'sealedRobotics', 'resourceGolemSurvey', 'oreSeparation']) research(project);
+for (const project of ['fluidRouting', 'sealedRobotics', 'oreSeparation']) research(project);
 openRange(10, 19);
 mark('phase C complete');
 
@@ -844,43 +999,94 @@ mark('Final Core collected', { count: quantity(finished, 'final-core') });
 return finished;
 }
 
-const result = blind ? await (await import('./final-core-blind-run.mjs')).runBlind({
-  engine, state, home, sector, source, activate, mark, tick, wait, research, place, connect, input, disconnect, stop, meter,
-  middle, cart, freight, retireLane, lanes, factory, campaign, coreFreight, watches, cornerItems, unlocked, protectLakes,
-  resume: resumed && {
-    priorTrace: readFileSync(priorTracePath, 'utf8'),
-    paidCores() {
-      const ledger = {}, research = { completed: [], unlocked: [], repeatableCompletions: {} };
-      for (const event of [...state.researchLog].reverse()) {
-        const project = getResearchProject(event.projectId);
-        if (!project) continue;
-        if (!project.trigger) {
-          if (project.id === 'mapNode') research.mapNodePricingPhase = mapNodePricingPhaseForState(research);
-          for (const [item, count] of Object.entries(getResearchCostsForState(project, research))) ledger[item] = (ledger[item] ?? 0) + count;
-        }
-        if (project.repeatable) research.repeatableCompletions[project.id] = (research.repeatableCompletions[project.id] ?? 0) + 1;
-        else research.completed.push(project.id);
-      }
-      return ledger;
+function auditSnapshot(label) {
+  assert.equal(elapsed, state.playTimeMs, 'Audit time must match the game clock');
+  const installed = { nodes: 0, connections: 0, byCategory: {} };
+  for (const map of Object.values(state.sectors)) {
+    installed.connections += map.connections.length;
+    for (const node of map.nodes) {
+      const category = NODE_DEFINITIONS[node.kind]?.category;
+      if (!category || category === 'World') continue;
+      installed.nodes++;
+      installed.byCategory[category] = (installed.byCategory[category] ?? 0) + 1;
+    }
+  }
+  return { label, seconds: elapsed / 1000, extracted: { ...state.extracted }, produced: { ...state.produced },
+    completed: [...state.research.completed], repeatables: { ...state.research.repeatableCompletions },
+    selected: state.research.selected, contributed: { ...state.research.contributed },
+    maps: Object.values(state.sectors).filter(map => map.visited || map.id === home).length,
+    placed, cables, joints, installed,
+    ...(throughVictory && !resumed ? { researchWait: { anyMs: researchWait.anyMs, byCoreMs: { ...researchWait.byCoreMs } } } : {}) };
+}
+
+let result, failure;
+if (auditPath && !previousAudit) boundaries.push(auditSnapshot('fresh Home'));
+if (previousAudit) lab = find(home, node => node.kind === 'researchCenter');
+try {
+  result = blind ? await (await import('./final-core-blind-run.mjs')).runBlind({
+    engine, state, home, sector, source, activate, mark, tick, wait, research, place, connect, input, disconnect, stop, meter,
+    middle, cart, freight, retireLane, lanes, factory, tryFactory, campaign, coreFreight, watches, cornerItems, unlocked, protectLakes, allResearch, pilot: pilotRoute, throughVictory, roadComparison, buyRoadChannels2, shinySurvey,
+    efficiencyArm: balancePatch ? 'skip' : efficiencyArm, efficiencyUpgrade, peripheralSupply,
+    shinyCopperBudget: shinyCopperBudget === undefined ? undefined : Number(shinyCopperBudget),
+    researchCosts: id => getResearchCostsForState(getResearchProject(id), state.research),
+    remainingProjects: () => RESEARCH_PROJECTS.filter(project => !project.trigger && !unlocked(project.id)
+      && !state.research.repeatableCompletions[project.id] && isResearchAvailable(project, state.research.completed)),
+    trackRoad: lane => roadMeters.set(lane.sending.id, lane),
+    recordVictory: () => {
+      boundaries.push(auditSnapshot('victory research completed'));
+      if (milestonePath) saveCheckpoint(milestonePath);
     },
-  },
-  startHome() {
-    const simple = simpleStarter(900, 1100, true);
-    meter(home, 'simple-core', starter.simple, 100, simple, 'Home Simple');
-    research('assembler');
-    meter(home, 'basic-core', starter.basic, 60, basicStarter(), 'Home Basic');
-    research('exploration');
-    return { lab, addSimple: () => simple.push(...simpleStarter(875, 435)) };
-  },
-}) : { finished: knownRoute() };
+    resume: resumed && {
+      priorTrace: priorTracePath ? readFileSync(priorTracePath, 'utf8') : '',
+      audit: previousAudit,
+      paidCores() {
+        const ledger = {}, research = { completed: [], unlocked: [], repeatableCompletions: {} };
+        for (const event of [...state.researchLog].reverse()) {
+          const project = getResearchProject(event.projectId);
+          if (!project) continue;
+          if (!project.trigger) {
+            if (project.id === 'mapNode') research.mapNodePricingPhase = mapNodePricingPhaseForState(research);
+            for (const [item, count] of Object.entries(getResearchCostsForState(project, research))) ledger[item] = (ledger[item] ?? 0) + count;
+          }
+          if (project.repeatable) research.repeatableCompletions[project.id] = (research.repeatableCompletions[project.id] ?? 0) + 1;
+          else research.completed.push(project.id);
+        }
+        return ledger;
+      },
+    },
+    startHome() {
+      const simple = simpleStarter(900, 1100, true);
+      meter(home, 'simple-core', starter.simple, 100, simple, 'Home Simple');
+      research('assembler');
+      meter(home, 'basic-core', starter.basic, 60, basicStarter(), 'Home Basic');
+      research('exploration');
+      return { lab, addSimple: () => simple.push(...simpleStarter(875, 435)) };
+    },
+  }) : { finished: knownRoute() };
+} catch (error) {
+  failure = error;
+  throw error;
+} finally {
+  if (auditPath) {
+    if (checkpointPath) saveCheckpoint(checkpointPath);
+    const roadUsage = roadComparison && freightLedger.filter(lane => lane.slot === 3)
+      .map(({ from, to, item, delivered, label }) => ({ from, to, item, delivered, label }));
+    writeFileSync(auditPath, JSON.stringify({ seed: state.seed, tickMs, mod: state.mod?.name, failure: failure?.message, roadComparison, roadUsage, shinySurvey, efficiencyArm,
+      ...(peripheralSupply ? { peripheralSupply } : {}), ...(balancePatch ? { balancePatch } : {}),
+      boundaries, end: auditSnapshot(failure ? 'attempt stopped' : 'run ended'), payments, trace, cornerRecords,
+      ...(throughVictory && !resumed ? { researchWaitByProject: researchWait.byProject } : {}),
+      catalog: RESEARCH_PROJECTS.map(({ id, name, trigger, repeatable, prerequisite, prerequisites }) =>
+        ({ id, name, milestone: Boolean(trigger), repeatable: Boolean(repeatable), prerequisites: [prerequisite, ...(prerequisites ?? [])].filter(Boolean) })) }, null, 2));
+  }
+}
 const { finished, ...extra } = result;
-if (checkpointPath) saveCheckpoint(checkpointPath);
+if (checkpointPath && !auditPath) saveCheckpoint(checkpointPath);
 
 console.log(JSON.stringify({
   ...extra, seed: state.seed, tickMs, elapsedSeconds: elapsed / 1000, trace, cornerRecords,
   extracted: state.extracted, produced: state.produced, research: state.research.completed,
   paidMaps: state.research.repeatableCompletions.mapNode, placed, cables, joints,
-  finalCoreInCart: quantity(finished, 'final-core'), finalCoreProduced: state.produced['final-core'],
+  ...(finished ? { finalCoreInCart: quantity(finished, 'final-core'), finalCoreProduced: state.produced['final-core'] } : {}),
   districts: Object.fromEntries([...districts].map(([name, { id, meter, machines }]) => [name, { id, machines: machines.length, startedAt: meter.startedAt, firstAt: meter.firstAt, finishedAt: meter.finishedAt, made: meter.made, limit: meter.limit }])),
   freight: freightLedger.map(({ label, from, to, item, delivered, sending, receiving }) => ({ label, from, to, item, delivered, offsets: [[sending.x, sending.y], [receiving.x, receiving.y]] })),
   ...(process.argv.includes('--layout') ? { layout: Object.fromEntries(Object.values(state.sectors).map(map => [map.id, {

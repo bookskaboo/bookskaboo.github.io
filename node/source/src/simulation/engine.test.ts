@@ -815,12 +815,12 @@ describe('simulation architecture', () => {
     const state = engine.getState();
     state.research.unlocked.push('exploration', 'extractor1', 'areaExpansion1');
 
-    engine.selectResearch('mapNode');
+    expect(engine.startMapResearch(4, 5)).toBe(false);
     expect(state.research.selected).toBeUndefined();
     expect(getSectorWorldSize(engine.getSector(), state.research.completed).width).toBe(3600);
 
     state.research.completed.push('exploration', 'extractor1', 'areaExpansion1');
-    engine.selectResearch('mapNode');
+    expect(engine.startMapResearch(4, 5)).toBe(true);
     expect(state.research.selected).toBe('mapNode');
     expect(getSectorWorldSize(engine.getSector(), state.research.completed).width).toBe(4500);
   });
@@ -903,9 +903,10 @@ describe('simulation architecture', () => {
     expect(state.research.selected).toBeUndefined();
     expect(state.research.contributed).toEqual({});
     expect(state.research.unlocked).not.toContain('mapNode');
-    engine.selectResearch('mapNode');
+    expect(engine.unlockSector(4, 5)).toBe(true);
+    expect(engine.startMapResearch(6, 5)).toBe(true);
     expect(state.research.selected).toBe('mapNode');
-    expect(getResearchCosts(RESEARCH_PROJECTS.find((project) => project.id === 'mapNode')!, state.research.repeatableCompletions?.mapNode)).toEqual({ 'simple-core': 5 });
+    expect(state.research.mapNodeQuote?.costs).toEqual({ 'simple-core': 10 });
   });
 
   it('turns a completed Mining Drill into the selected 1,000-unit deposit', () => {

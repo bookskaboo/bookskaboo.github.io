@@ -156,7 +156,6 @@ export function simulateProgressionNode(state:GameState,sector:SectorState,node:
   return true;
  }
  if(node.kind==='resourceGolem'){
-  if(!state.research.completed.includes('resourceGolemSurvey'))return true;
   node.health??=golemApCost(node);
   const damage=attackPower(node);
   if(damage){node.health=Math.max(0,node.health-damage);consumeBots(node);}

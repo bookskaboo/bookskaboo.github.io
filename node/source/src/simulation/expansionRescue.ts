@@ -6,6 +6,7 @@ import { BOT_STRENGTH } from '../content/progression';
 import { defeatResourceGolem, getGolemMineral, golemApCost } from '../content/resourceGolems';
 import { getEncounterLayoutVersion, getGolemPlacementTier, sectorDistance, sectorForState, sectorId } from './worldGeneration';
 import { isWorldGridCell, worldGridBounds, worldGridSize } from '../domain/worldGrid';
+import { destinationMapCosts, pendingMapPayment, usesDestinationMapPricing } from './mapExpansion';
 
 export const RESCUE_RESOURCES = ['iron', 'copper', 'stone'] as const;
 type Resource = typeof RESCUE_RESOURCES[number];
@@ -46,9 +47,12 @@ export function nextExpansionShortages(state: GameState): Resource[] {
   if(state.isTraining||state.mod||Object.values(state.sectors).some(s=>s.unlocked&&s.nodes.some(n=>n.kind==='devSource')))return [];
   const project = getResearchProject('mapNode')!;
   if (state.rescue?.pending || state.research.mapPoints > 0 || !isResearchAvailable(project,state.research.completed) || !remainingMapNodePurchases(state)) return [];
-  const costs = getResearchCostsForState(project,state.research);
   const paid = state.research.selected === 'mapNode' ? state.research.contributed : state.research.projectContributions?.mapNode ?? {};
   const sectors = Object.values(state.sectors).filter(s=>s.unlocked);
+  const quotes = usesDestinationMapPricing(state) && !pendingMapPayment(state)
+    ? sectors.flatMap(({ x, y }) => [[x - 1, y], [x + 1, y], [x, y - 1], [x, y + 1]]
+      .map(([nx, ny]) => destinationMapCosts(state, nx, ny)).filter(cost => cost !== undefined))
+    : [getResearchCostsForState(project, state.research)];
   const nodes = sectors.flatMap(s=>s.nodes);
   const bags = nodes.flatMap(n=>[n.input,n.output,...(n.batch?[n.batch.outputs]:[])]);
   bags.push(state.globalPool ?? {});
@@ -58,7 +62,10 @@ export function nextExpansionShortages(state: GameState): Resource[] {
     if (state.rescue?.resources.includes(resource)) return false;
     if (nodes.some(n=>n.resourceItem===resource&&(n.infiniteResource || (state.research.completed.includes('mineralRegeneration')&&(n.resourceCapacity??0)>0)))) return false;
     const cost=minimumCosts(resource);
-    const needed=Object.entries(costs).reduce((n,[i,q])=>n+Math.max(0,q!-(paid[i as ItemId]??0))*(cost[i as ItemId]??Infinity),0);
+    const needed = Math.min(...quotes.map(quote => Object.entries(quote).reduce((n, [i, q]) => {
+      const remaining = Math.max(0, q! - (paid[i as ItemId] ?? 0));
+      return remaining > 0 ? n + remaining * (cost[i as ItemId] ?? Infinity) : n;
+    }, 0)));
     if (!Number.isFinite(needed) || needed<=1e-9) return false; // Unknown is never proof.
     let available=nodes.filter(n=>n.resourceItem===resource&&!n.infiniteResource).reduce((n,node)=>n+(node.resourceRemaining??0),0);
     for(const bag of bags)for(const [i,q]of Object.entries(bag))if(q&&q>0)available+=q*resourcePotential(i as ItemId,resource);

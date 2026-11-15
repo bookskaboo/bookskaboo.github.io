@@ -64,7 +64,7 @@ describe('map exploration surveys', () => {
     const corner = generateSector(0, 0, game.seed, 0);
     camp.nodes = [{ ...base, id: 'camp', kind: 'monster-camp' }];
     lake.nodes = [{ ...base, id: 'lake', kind: 'lake' }];
-    golem.nodes = [{ ...base, id: 'golem', kind: 'resourceGolem', golemMineral: 'iron' }];
+    golem.nodes = [{ ...base, id: 'golem', kind: 'resourceGolem', name: 'Iron Golem Camp', golemMineral: 'iron' }];
     otherCamp.nodes = [{ ...base, id: 'other-camp', kind: 'monster-camp' }];
     for (const sector of [camp, lake, golem, otherCamp, corner]) {
       game.sectors[sector.id] = sector;
@@ -72,12 +72,14 @@ describe('map exploration surveys', () => {
       sector.visited = false;
     }
     expect(mapLandmarkSurvey(game)).toEqual({ discovered: new Set(), bySector: new Map() });
+    expect(mapNodeHoverDetails(game, golem.id)).toEqual(['Map Node Unexplored']);
 
     const engine = new GameEngine(game, { autosave: false });
     engine.switchSector(camp.id);
     expect(mapLandmarkSurvey(engine.getState())).toEqual({ discovered: new Set(['camps']), bySector: new Map([[camp.id, new Set(['camps'])]]) });
     for (const sector of [lake, golem, corner]) engine.switchSector(sector.id);
     const survey = mapLandmarkSurvey(engine.getState());
+    expect(mapNodeHoverDetails(engine.getState(), golem.id)).toContain('Iron Golem Camp');
     expect(survey.discovered).toEqual(new Set(['camps', 'lakes', 'golems']));
     expect(survey.bySector).toEqual(new Map([
       [camp.id, new Set(['camps'])], [lake.id, new Set(['lakes'])], [golem.id, new Set(['golems'])],

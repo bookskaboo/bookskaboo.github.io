@@ -20,6 +20,7 @@ interface ResearchPanelProps {
   engine: GameEngine;
   onClose(): void;
   onOpenRecipe(recipeId: string): void;
+  onOpenMap?(): void;
 }
 
 function openResearchCard(id: string, focus = false) {
@@ -33,7 +34,7 @@ function researchScroller(content: HTMLDivElement | null, list: HTMLDivElement |
   return content && getComputedStyle(content).overflowY === 'auto' ? content : list;
 }
 
-export function ResearchPanel({ focusProjectId, allowedProjectId, showMilestones = true, game, engine, onClose, onOpenRecipe }: ResearchPanelProps) {
+export function ResearchPanel({ focusProjectId, allowedProjectId, showMilestones = true, game, engine, onClose, onOpenRecipe, onOpenMap }: ResearchPanelProps) {
   const [treeOpen, setTreeOpen] = useState(false);
   const [query, setQuery] = useState('');
   const [requirementFilters, setRequirementFilters] = useState<RequirementFilter[]>([]);
@@ -165,7 +166,7 @@ export function ResearchPanel({ focusProjectId, allowedProjectId, showMilestones
                   {inspected && <section className="research-inspected-slot" aria-label="Selected project">
                     <h3>Selected project</h3>
                     <ResearchProjectDetail canInspect={canInspect} project={inspected} game={game} engine={engine}
-                      onPrerequisite={inspectPrerequisite} onOpenRecipe={onOpenRecipe} />
+                      onPrerequisite={inspectPrerequisite} onOpenRecipe={onOpenRecipe} onOpenMap={onOpenMap} />
                   </section>}
                   {showMilestones && <ResearchHintCard game={game} />}
                 </div>

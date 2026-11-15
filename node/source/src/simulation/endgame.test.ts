@@ -107,7 +107,7 @@ describe('repeatable corner production and seeded assembly',()=>{
     a.recipeId=`core-half-a-${s.endgame!.pairIndex}`;b.recipeId=`core-half-b-${s.endgame!.pairIndex}`;final.recipeId='final-core';
     const items={alpha:'alpha',foundry:'foundry-component',reclamation:'reclamation-component',grove:'grove-component'} as const;
     for(const [index,pair]of PAIRS[s.endgame!.pairIndex].entries())for(const c of pair)(index?b:a).input[items[c]]=1;
-    s.sectors['5,5'].nodes=[a,b,final];const e=new GameEngine(s,{autosave:false});expect(e.connect('a','final')).toBe(true);expect(e.connect('b','final')).toBe(true);ticks(e,45);
+    s.sectors['5,5'].nodes=[a,b,final];const e=new GameEngine(s,{autosave:false});expect(e.connect('a','final')).toBe(true);expect(e.connect('b','final')).toBe(true);ticks(e,85);
     expect(e.getState().produced?.['core-half-a']).toBe(1);expect(e.getState().produced?.['core-half-b']).toBe(1);expect(e.getState().produced?.['final-core']).toBe(1);expect(e.getState().finalCoreProduced).toBe(true);expect(e.getState().research.completed).toContain('finalCoreProduction');
     expect(e.getState().researchLog?.some(event => event.projectId === 'finalCoreProduction')).toBe(false);
   });

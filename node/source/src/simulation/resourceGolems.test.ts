@@ -12,7 +12,6 @@ import { generateSector, getSectorWorldSize, sectorDistance } from './worldGener
 const advance = (engine: GameEngine, seconds: number) => { for (let i = 0; i < seconds * 10; i++) engine.tick(100); };
 function setup(item: GolemMineral = 'iron') {
   const state = createInitialState(37);
-  state.research.completed = ['resourceGolemSurvey'];
   const golem: MachineNode = { id: 'golem', kind: 'resourceGolem', name: 'Golem', golemMineral: item,
     health: golemApCost({ golemMineral: item }), golemCostVersion: GOLEM_COST_VERSION,
     x: 1800, y: 1200, rotation: 0, input: {}, output: {}, progressMs: 0,
@@ -62,6 +61,8 @@ describe('resource Golems', () => {
       .filter(sector => sector.nodes.some(node => node.kind === 'resourceGolem'));
     const [oldSector] = oldGolemSectors;
     const oldGolem = oldSector.nodes.find(node => node.kind === 'resourceGolem')!;
+    const mineralName = GOLEM_NAMES[oldGolem.golemMineral!];
+    oldGolem.name = `${mineralName} Golem`;
     oldGolem.health = 90;
     oldSector.unlocked = true;
     state.sectors[oldSector.id] = oldSector;
@@ -70,7 +71,9 @@ describe('resource Golems', () => {
     const restored = new GameEngine(normalizeLegacy(engine.getState())!, { autosave: false }).getState();
     expect(restored.golemPlacementTier).toBe(tier);
     expect(restored.encounterLayoutVersion).toBe(1);
-    expect(restored.sectors[oldSector.id].nodes.find(node => node.id === oldGolem.id)?.health).toBe(90);
+    expect(restored.sectors[oldSector.id].nodes.find(node => node.id === oldGolem.id)).toMatchObject({
+      name: `${mineralName} Golem Camp`, health: 90,
+    });
     const golemSectors = Object.values(restored.sectors).filter(sector => sector.nodes.some(node => node.kind === 'resourceGolem'));
     expect(golemSectors.map(sector => sector.id).sort()).toEqual(oldGolemSectors.map(sector => sector.id).sort());
     const minerals = golemSectors.flatMap(sector => sector.nodes.filter(node => node.kind === 'resourceGolem').map(node => node.golemMineral));

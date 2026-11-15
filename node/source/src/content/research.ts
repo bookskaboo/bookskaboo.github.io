@@ -145,7 +145,7 @@ export function getResearchCosts(project: ResearchProject, completions = 0, comp
 /** Active Extra Map Point purchases retain their quote across core unlocks and saves. */
 export function getResearchCostsForState(project: ResearchProject, research: ResearchState) {
   const completions = research.repeatableCompletions?.[project.id] ?? 0;
-  if (project.id === 'mapNode' && research.selected === project.id && research.mapNodeQuote?.completion === completions) return research.mapNodeQuote.costs;
+  if (project.id === 'mapNode' && research.mapNodeQuote?.completion === completions) return research.mapNodeQuote.costs;
   return getResearchCosts(project, completions, research.completed, research.mapNodePricingPhase);
 }
 
