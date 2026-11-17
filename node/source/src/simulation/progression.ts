@@ -16,6 +16,11 @@ import { canonicalCoreText } from '../content/displayNameChanges';
 import { queueOutputs, reconcileQueue } from './mixedOutput';
 
 const total=(bag: Partial<Record<ItemId,number>>,waste?:boolean)=>Object.entries(bag).reduce((n,[i,q])=>n+((waste===undefined||WASTE_ITEMS.includes(i as ItemId)===waste)?q??0:0),0);
+const revisedRecipeTimes = new Set([
+ 'refined-mithril', 'mithril-mesh', 'precision-controller', 'logic-substrate', 'advanced-actuator', 'command-core',
+ 'robot-frame', 'robot-gun', 'sealed-frame', 'cooled-gun', 'mithril-frame', 'focused-gun',
+ 'servo-frame', 'pulse-cannon', 'final-frame', 'final-cannon', ...BOT_ITEMS,
+]);
 export const poolCapacity=(_state:GameState)=>1000;
 export const placementLimit=(state:GameState,kind:'storage'|'inventory')=>1+(state.research.repeatableCompletions?.[`${kind}PlacementCapacity`]??0);
 export const connectionLimit=(state:GameState,kind:'storage'|'inventory')=>(kind==='storage'?2:1)+(state.research.repeatableCompletions?.[`${kind}ConnectionCapacity`]??0);
@@ -72,7 +77,7 @@ export function initializeProgression(state:GameState){
   if(['hydroProcessor','advancedAssembler','separationFurnace'].includes(node.kind))node.capacity=5;
  // Refresh revised base times without changing saved items or already-committed batch outputs.
  for(const sector of Object.values(state.sectors))for(const node of sector.nodes)
-  if(node.recipeId&&['refined-mithril','mithril-mesh','precision-controller','logic-substrate','advanced-actuator','command-core','medium-suppression-bot','command-suppression-bot'].includes(node.recipeId))node.cycleMs=RECIPES[node.recipeId].cycleMs;
+  if(node.recipeId&&revisedRecipeTimes.has(node.recipeId))node.cycleMs=RECIPES[node.recipeId].cycleMs;
  for(const sector of Object.values(state.sectors))for(const node of sector.nodes)
   if(node.kind==='resourceGolem'&&node.defeated)defeatResourceGolem(node);
  for(const sector of Object.values(state.sectors))if(legacy&&sector.unlocked)sector.visited??=true;

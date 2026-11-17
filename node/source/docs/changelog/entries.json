@@ -134,6 +134,12 @@
   ],
   "sources": [
     {
+      "id": "bot-production-proposal-2026-11-16",
+      "type": "page",
+      "title": "NODE Bot Production Proposal",
+      "url": "https://chatgpt.com/space/page_21d41c876ee8819198c4a6e94786b615"
+    },
+    {
       "id": "chat-current",
       "type": "chat",
       "title": "2026-11-01 — current development chat",
@@ -14769,6 +14775,109 @@
       "evidence": ["src/simulation/mapExpansion.ts", "src/simulation/mapResearch.test.ts", "src/ui/MapNodeDetails.tsx", "docs/core-consumption-balance-proposal.md"],
       "supersedes": ["NODE-0384", "NODE-0523"],
       "validation": "Verified the 12,539-Core full-board bill, free opening, partial payment across reload, and destination activation in the workspace tests. The local browser fixture verified the quote and action at 1,180 and 390 CSS pixels. No full balance playthrough with the new prices."
+    },
+    {
+      "id": "NODE-0529",
+      "date": "2026-11-16",
+      "dateBasis": "chat",
+      "kind": "decision",
+      "state": "superseded",
+      "delivery": "not-applicable",
+      "title": "Propose one Bot Plant assembly time at each efficiency rank",
+      "summary": "All frame and gun pairings would share one cycle time at a given efficiency rank. The curve starts at 75 seconds and removes 10% of the base cycle at each of six ranks from Simple through Complex, reaching 30 seconds. The ranks use standard machine research prices.",
+      "details": [
+        "The proposal also names the starter parts Basic Frame and Basic Gun in player-facing text.",
+        "The component production target counts the whole chain for one continuously supplied Bot Plant at base and full research. The timing trial compared stronger upstream research and double-output part recipes for the tier being assembled. Both variants reduced the modeled Final chain from 228 to 124 production nodes.",
+        "The proposal now follows the timing-only option. It lists base and researched cycles for all ten standard parts and whole-chain counts for all five matched tiers. Upstream processing and solid extraction reach 20% of base time at full research.",
+        "The Goblin progression target uses one continuously supplied Bot Plant. A Camp should be sustainable with unresearched Basic bots. Villages and Kingdoms should require stronger parts and efficiency. Trial base cycles of 20, 32, and 55 seconds meet these targets with existing Goblin upkeep. The choice between tiered and shared assembly is open."
+      ],
+      "topics": [
+        "Production",
+        "Recipes",
+        "Research",
+        "Balance"
+      ],
+      "sources": [
+        "bot-production-proposal-2026-11-16",
+        "local-code"
+      ],
+      "evidence": [
+        "src/content/botAssembly.ts",
+        "src/content/efficiency.ts",
+        "src/content/nodeCapabilities.ts",
+        "src/content/research.ts",
+        "src/content/goblinSettlements.ts"
+      ],
+      "validation": "Checked the saved proposal against the current recipe timings and machine efficiency formula. Expanded standard recipe inputs recursively for all five matched pairs, pooled shared workloads, and rounded to whole production nodes. The capacity model assumes an adequately supplied factory and an unlocked Mythril reserve."
+    },
+    {
+      "id": "NODE-0530",
+      "date": "2026-11-16",
+      "dateBasis": "chat",
+      "kind": "decision",
+      "state": "superseded",
+      "delivery": "not-applicable",
+      "title": "Set proposed Bot Plant cycles by part tier",
+      "summary": "Use base assembly cycles of 20, 40, 60, 70, and 100 seconds, based on the higher part tier. At full Bot Plant efficiency they become 8, 16, 24, 28, and 40 seconds. One base Basic plant can support a Goblin Camp at the existing upkeep rate.",
+      "details": [
+        "The proposal recalculates component cycles and supply nodes for the five matched pairings. The Final chain goes from 172 to 95 supply nodes in the capacity model."
+      ],
+      "topics": [
+        "Production",
+        "Recipes",
+        "Research",
+        "Balance",
+        "Combat"
+      ],
+      "sources": [
+        "bot-production-proposal-2026-11-16",
+        "local-code"
+      ],
+      "evidence": [
+        "src/content/botAssembly.ts",
+        "src/content/efficiency.ts",
+        "src/content/goblinSettlements.ts",
+        "src/content/lizardSettlements.ts"
+      ],
+      "supersedes": [
+        "NODE-0529"
+      ],
+      "validation": "Verified the saved proposal, calculated whole-bot delivery rates for six settlements, and recalculated full predecessor chains using standard recipes. The capacity model assumes steady supply and sufficient reserves. Camp calculations assume staged stock and do not simulate routing or Dwarven surplus-credit behavior."
+    },
+    {
+      "id": "NODE-0533",
+      "date": "2026-11-16",
+      "dateBasis": "chat",
+      "kind": "changed",
+      "state": "implemented",
+      "delivery": "local",
+      "title": "Retune bot production and show recipes on the Bot Plant",
+      "summary": "Click a Bot Plant to see its current or last build and the unlocked frame and gun pairings, including their AP and researched cycle times. The plant assembles the supplied parts automatically. Basic Frame and Basic Gun are the new names of the starter parts.",
+      "details": [
+        "The ten standard part recipes use the proposed production times. The Bot Plant uses the higher part tier and has six standard efficiency ranks. Base cycles are 20, 40, 60, 70, and 100 seconds. Rank 6 reduces these to 8, 16, 24, 28, and 40 seconds. Supplier research follows the existing efficiency curve.",
+        "The longer Sealed Frame cycle means one base Fabricator takes 25 minutes of production to fill the Foundry's 25-frame quota. Recipe quantities, AP, and settlement checks are unchanged."
+      ],
+      "topics": [
+        "Production",
+        "Recipes",
+        "Research",
+        "Balance",
+        "Interface"
+      ],
+      "sources": [
+        "bot-production-proposal-2026-11-16",
+        "local-code"
+      ],
+      "evidence": [
+        "src/content/botAssembly.ts",
+        "src/content/research.ts",
+        "src/ui/NodeRecipePicker.tsx",
+        "src/simulation/reviewedProduction.test.ts"
+      ],
+      "supersedes": [
+        "NODE-0530"
+      ],
+      "validation": "The workspace tests verified all 25 tiered cycles, successive Final Bots at 100 seconds with base research and 40 seconds at rank 6, sustained small Goblin Camp suppression after delivery warm-up, and old saved batches without charging inputs again. Supply for time and camp checks was staged in isolated simulation fixtures. Browser QA clicked the Bot Plant in the site build at 1180 and 390 CSS pixels and verified all 25 cards, rank-six Final timing, and compact view."
     }
   ]
 }

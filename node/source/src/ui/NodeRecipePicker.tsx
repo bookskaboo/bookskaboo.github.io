@@ -3,6 +3,7 @@ import { itemColorCss, ITEM_NAMES } from '../content/items';
 import { NODE_DEFINITIONS } from '../content/nodes';
 import { RECIPES, RECIPE_GROUPS } from '../content/recipes';
 import { isRecipeAvailable } from '../content/recipeAvailability';
+import { BOT_BUILD_BY_ID } from '../content/botAssembly';
 import type { GameState, ItemId, MachineNode } from '../domain/types';
 import type { GameEngine } from '../simulation/engine';
 import { permitsTutorialChoice, type TutorialChoice } from '../tutorials/tutorialChoices';
@@ -25,17 +26,23 @@ export function NodeRecipePicker({ game, engine, node, requiredRecipeId, skipWar
   const { compact, toggle } = useRecipeIconView();
   const choices = (RECIPE_GROUPS[node.kind] ?? []).filter(id => isRecipeAvailable(id, game, node.kind));
   const recycler = node.kind === 'recycler';
+  const botPlant = node.kind === 'botPlant';
+  const readOnly = recycler || botPlant;
   const activeId = node.batch?.recipeId ?? node.recipeId;
   const activeRecipe = recycler && activeId ? RECIPES[activeId] : undefined;
+  const botBuild = botPlant ? BOT_BUILD_BY_ID.get(node.batch?.recipeId ?? node.lastRecipeId ?? '') : undefined;
   const waitingForWater = activeRecipe && !node.batch && (node.input.water ?? 0) < (activeRecipe.inputs.water ?? 0);
-  const Card = recycler ? 'div' : 'button';
+  const Card = readOnly ? 'div' : 'button';
   const machineName = NODE_DEFINITIONS[node.kind].name;
-  const groups = !compact && node.kind === 'refiner' ? [
+  const groups = botBuild ? [
+    { title: node.batch ? 'Current build' : 'Last build', choices: [botBuild.recipe.id], featured: true },
+    { title: 'Other builds', choices: choices.filter(id => id !== botBuild.recipe.id) },
+  ] : !compact && node.kind === 'refiner' ? [
     { title: 'Gear', choices: choices.filter(id => id.endsWith('-gear')) },
     { title: 'Wire', choices: choices.filter(id => id.endsWith('-wire')) },
     { title: 'Other products', choices: choices.filter(id => !id.endsWith('-gear') && !id.endsWith('-wire')) },
   ] : recycler ? [
-    { title: 'Active recipe', choices: activeRecipe ? [activeRecipe.id] : [] },
+    { title: 'Active recipe', choices: activeRecipe ? [activeRecipe.id] : [], featured: true },
     { title: 'Waste recovery', choices: choices.filter(id => id !== activeId && RECIPES[id].recovery) },
     { title: 'Breakdown', choices: choices.filter(id => id !== activeId && !RECIPES[id].recovery) },
   ] : [{ title: '', choices }];
@@ -57,28 +64,29 @@ export function NodeRecipePicker({ game, engine, node, requiredRecipeId, skipWar
       <aside className="inspector recipe-picker-panel glass" aria-label={`${machineName} recipes`} aria-labelledby="recipe-picker-title">
         <header className="recipe-picker-header">
           <span><NodeIcon kind={node.kind} /></span>
-          <div><h2 id="recipe-picker-title">{machineName} recipes</h2>{requiredRecipeId && <p>Select {RECIPES[requiredRecipeId].name}, highlighted below.</p>}{waitingForWater && <p>Waiting for Water.</p>}</div>
+          <div><h2 id="recipe-picker-title">{machineName} recipes</h2>{requiredRecipeId && <p>Select {RECIPES[requiredRecipeId].name}, highlighted below.</p>}{waitingForWater && <p>Waiting for Water.</p>}{botPlant && <p>The frame and gun you supply determine the build.</p>}</div>
           <button onClick={onClose} aria-label="Close recipe picker">×</button>
         </header>
         <div className="recipe-view-toolbar">
           <RecipeViewToggle compact={compact} onToggle={toggle} />
         </div>
         <div className={`recipe-picker-list ${compact ? 'compact-recipe-view' : ''}`}>
-          <div role="listbox" aria-readonly={recycler || undefined} aria-label={`${machineName} recipes`}>
-          {groups.filter(group => group.choices.length).map(group => <div key={group.title} role={compact ? undefined : 'group'} aria-label={compact ? undefined : group.title || `${machineName} recipes`} className={`recipe-picker-group ${group.title === 'Gear' || group.title === 'Wire' ? 'material-variants' : ''} ${group.title === 'Active recipe' ? 'active-recycler-recipe' : ''}`}>
+          <div role="listbox" aria-readonly={readOnly || undefined} aria-label={`${machineName} recipes`}>
+          {groups.filter(group => group.choices.length).map(group => <div key={group.title} role={compact ? undefined : 'group'} aria-label={compact ? undefined : group.title || `${machineName} recipes`} className={`recipe-picker-group ${group.title === 'Gear' || group.title === 'Wire' ? 'material-variants' : ''} ${group.featured ? 'featured-recipe' : ''}`}>
           {group.title && <h3>{group.title}</h3>}
           <div className="recipe-picker-group-choices">{group.choices.map((recipeId) => {
             const recipe = RECIPES[recipeId];
-            const selected = (recycler ? activeId : node.recipeId) === recipeId;
+            const selected = (botPlant ? botBuild?.recipe.id : recycler ? activeId : node.recipeId) === recipeId;
             const inputs = (Object.entries(recipe.inputs) as Array<[ItemId, number]>).map(([item, amount]) => `${amount} ${recipeIngredientName(recipe, item)}`);
+            const formula = `${inputs.join(' + ')} → ${Object.entries(recipe.outputs).map(([item, amount]) => `${amount} ${ITEM_NAMES[item as ItemId]}`).join(' + ') || 'No output'}`;
             const displayItem = (Object.keys(recipe.outputs)[0] ?? Object.keys(recipe.inputs)[0]) as ItemId | undefined;
             const color = displayItem ? itemColorCss(displayItem) : NODE_DEFINITIONS[node.kind].accentCss;
             const cycleMs = recipeGuideCycle(recipe, node.kind, game);
             return <Card
-              {...(recycler ? { tabIndex: 0 } : { type: 'button' as const, disabled: !permitsTutorialChoice(requiredRecipeId, recipeId), onClick: () => choose(recipeId) })}
+              {...(readOnly ? { tabIndex: 0 } : { type: 'button' as const, disabled: !permitsTutorialChoice(requiredRecipeId, recipeId), onClick: () => choose(recipeId) })}
               role="option"
               aria-selected={selected}
-              aria-label={recipe.name}
+              aria-label={botPlant ? formula : recipe.name}
               data-tooltip={recipe.name}
               data-tooltip-detail={recipeTooltip(recipe, cycleMs)}
               data-tooltip-tone={color}
@@ -87,11 +95,11 @@ export function NodeRecipePicker({ game, engine, node, requiredRecipeId, skipWar
               style={{ '--recipe-color': color } as CSSProperties}
             >
               <span className="recipe-picker-icon"><RecipeIcon recipe={recipe} node={node.kind} /></span>
-              <span className="recipe-picker-copy"><span className="recipe-card-title"><strong>{recipe.name}</strong><span className="recipe-card-time" aria-label={`${cycleMs / 1000} seconds per batch`}>{Number((cycleMs / 1000).toFixed(2))} sec</span></span><small>{inputs.join(' + ')} → {Object.entries(recipe.outputs).map(([i,n])=>`${n} ${ITEM_NAMES[i as ItemId]}`).join(' + ') || 'No output'}</small>{recipe.chanceOutputs?.map(o=><small key={o.item}>+ {o.amount} {ITEM_NAMES[o.item]} · {o.probability*100}% independent chance</small>)}</span>
+              <span className="recipe-picker-copy"><span className="recipe-card-title"><strong>{recipe.name}</strong><span className="recipe-card-time" aria-label={`${cycleMs / 1000} seconds per batch`}>{Number((cycleMs / 1000).toFixed(2))} sec</span></span><small>{formula}</small>{recipe.chanceOutputs?.map(o=><small key={o.item}>+ {o.amount} {ITEM_NAMES[o.item]} · {o.probability*100}% independent chance</small>)}</span>
             </Card>;
           })}</div></div>)}
           </div>
-          {!choices.length && !activeRecipe && <p className="empty-state">No recipes unlocked yet. Complete the required research or discoveries first. The paperwork precedes production.</p>}
+          {!choices.length && !activeRecipe && !botBuild && <p className="empty-state">No recipes unlocked yet. Complete the required research or discoveries first. The paperwork precedes production.</p>}
         </div>
       </aside>
     {pending && <div className="modal-backdrop recipe-change-confirm" onMouseDown={(event) => { if (event.target === event.currentTarget) setPending(undefined); }}>

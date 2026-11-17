@@ -24,10 +24,11 @@ export const MACHINE_EFFICIENCY_FAMILIES = [
   ['extractor', 'Extractor'], ['kiln', 'Kiln'], ['smelter', 'Smelter'],
   ['refiner', 'Refiner'], ['assembler', 'Assembler'], ['researchCenter', 'Research Center'],
   ['hydroProcessor', 'Hydro Plant'], ['advancedAssembler', 'Fabricator'], ['separationFurnace', 'Synthesizer'],
+  ['botPlant', 'Bot Plant'],
 ] as const;
 const MACHINE_EFFICIENCY_RESEARCH = MACHINE_EFFICIENCY_FAMILIES.flatMap(([family, name]) => Array.from({ length: EFFICIENCY_CORES.length }, (_, index): ResearchProject => {
   const rank = index + 1;
-  const machineAccess: Record<string, string> = { hydroProcessor: 'lakeTools', advancedAssembler: 'fabricatorTools', separationFurnace: 'mithrilTools' };
+  const machineAccess: Record<string, string> = { hydroProcessor: 'lakeTools', advancedAssembler: 'fabricatorTools', separationFurnace: 'mithrilTools', botPlant: 'suppressionBot' };
   const prerequisite = rank > 1 ? `${family}${rank - 1}` : family === 'extractor' ? undefined : machineAccess[family] ?? family;
   const access = EFFICIENCY_CORE_ACCESS[index];
   const effect = family === 'separationFurnace'
@@ -73,7 +74,7 @@ export const RESEARCH_PROJECTS: ResearchProject[] = [
   { id: 'assembler', name: 'Assembler', category: 'Fabrication', description: 'Combine parts to make Basic Cores, Motors, and other components.', unlock: 'Unlocks the Assembler node', flavorText: "If it doesn't fit, make it fit.", costs: simple(5) },
   { id: 'splitter', name: 'Splitter', category: 'Milestone', description: 'Alternate incoming items between two outputs.', unlock: 'Unlocks the Splitter node', costs: {}, trigger: trigger('assembler-built', 'Build an Assembler', 'First Assembler built') },
   { id: 'merger', name: 'Merger', category: 'Milestone', description: 'Combine two matching item streams into one output.', unlock: 'Unlocks the Merger node', costs: {}, trigger: trigger('basic-core-produced', 'Produce a Basic Core', 'First Basic Core produced') },
-  { id: 'suppressionBot', name: 'Suppression Bot', category: 'Defense', description: 'Feed a Bot Frame and Bot Gun into a Bot Plant to make a Suppression Bot for Monster Camps.', unlock: 'Unlocks the Bot Plant and the Assembler recipes for Bot Frame and Bot Gun.', costs: {}, trigger: trigger('monster-camp', 'Encounter a Monster Camp', 'Monster Camp encountered') },
+  { id: 'suppressionBot', name: 'Suppression Bot', category: 'Defense', description: 'Feed a Basic Frame and Basic Gun into a Bot Plant to make a Suppression Bot for Monster Camps.', unlock: 'Unlocks the Bot Plant and the Assembler recipes for Basic Frame and Basic Gun.', costs: {}, trigger: trigger('monster-camp', 'Encounter a Monster Camp', 'Monster Camp encountered') },
   { id: 'exploration', name: 'Exploration', category: 'World', description: 'Open the world map and gain 1 Map Point to unlock a neighboring map.', unlock: 'Unlocks the Map and awards 1 Map Point', flavorText: 'The world is flat.', costs: { 'simple-core': 5, 'basic-core': 5 } },
   { id: 'mapNode', name: 'Extra Map Point', category: 'Repeatable', description: 'Subsequent Map Points cost more Cores.', unlock: 'Awards 1 Map Point.', costs: simple(5), prerequisite: 'exploration', repeatable: true },
   { id: 'road', name: 'Road', category: 'World', description: 'Ship items between adjacent maps. Connect a freight vehicle directly to each end of the Road. Each map starts with one Road slot per side.', unlock: 'Unlocks Roads and Carts.', costs: basic(5) },

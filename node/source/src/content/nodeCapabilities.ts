@@ -10,7 +10,7 @@ export type NodeBehavior =
   | 'inventory' | 'filter' | 'road' | 'mining-drill'
   | 'monster-camp' | 'tribute' | 'big-hole';
 
-export type EfficiencyFamily = 'hydroProcessor' | 'advancedAssembler' | 'separationFurnace' | 'extractor' | 'kiln' | 'smelter' | 'refiner' | 'assembler' | 'researchCenter';
+export type EfficiencyFamily = 'hydroProcessor' | 'advancedAssembler' | 'separationFurnace' | 'extractor' | 'kiln' | 'smelter' | 'refiner' | 'assembler' | 'researchCenter' | 'botPlant';
 
 /**
  * Runtime capabilities shared by simulation, routing, placement, and validation.
@@ -67,7 +67,7 @@ export const NODE_CAPABILITIES: Record<NodeKind, NodeCapabilities> = {
   smelter: recipe(undefined, 'smelter'),
   refiner: recipe(undefined, 'refiner'),
   assembler: recipe(undefined, 'assembler'),
-  botPlant: capability('bot-assembly', { perItemInputCapacity: true }),
+  botPlant: capability('bot-assembly', { efficiencyFamily: 'botPlant', perItemInputCapacity: true }),
 
   splitter: passThrough({ alternatingOutputs: true }),
   merger: passThrough(),

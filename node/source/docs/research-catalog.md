@@ -119,7 +119,7 @@ These entries consume no cores. Discoveries require visiting the relevant map; P
 | Research Center | Unlock the Refiner | Unlocks the Research Center node |
 | Splitter | Build an Assembler | Unlocks the Splitter node |
 | Merger | Produce a Basic Core | Unlocks the Merger node |
-| Suppression Bot | Encounter a Monster Camp | Unlocks the Bot Plant and the Bot Frame and Bot Gun recipes |
+| Suppression Bot | Encounter a Monster Camp | Unlocks the Bot Plant and the Basic Frame and Basic Gun recipes |
 | End of the World | Produce the first Complex Core | Unlocks Yin, Yang and Final Core assembly |
 
 # Implemented access and expansion research
@@ -138,18 +138,20 @@ These entries consume no cores. Discoveries require visiting the relevant map; P
 
 Endgame Theory was retired on November 5. The first corner piece unlocks the seeded Yin and Yang recipes. Assembling one Yin and one Yang produces a Final Core. Victory is a separate paid Research Center project.
 
+The [NODE Bot Production reference](https://chatgpt.com/space/page_f61bbb51dba88191b758234023997faa) lists the frame and gun recipes, base times, and AP for every pairing.
+
 | Research | Core cost | Research prerequisites | Unlock or benefit |
 | --- | --- | --- | --- |
 | Hydrochemistry | 5 each through Automata | Automata Core | Copper Slurry recipe. |
 | Hydraulic Assembly | 5 each through Automata | Hydrochemistry | Hydro Piston, Electrode and Hydro Core recipes. |
 | Fluid Routing | 5 each through Hydro | Hydraulic Assembly | Fluid Road and Fluid Tank for inter-map fluid logistics. |
-| Sealed Robotics | 5 each through Hydro | Hydraulic Assembly + Suppression Bot | Sealed Frame and Cooled Gun. The matched parts make a Suppression Bot 3 AP in the Bot Plant. |
+| Sealed Robotics | 5 each through Hydro | Hydraulic Assembly + Suppression Bot | Sealed Frame and Cooled Gun. |
 | Ore Separation | 5 each through Hydro | Fluid Routing | Mythril Mesh in the Synthesizer and Shiny Core in the Fabricator. |
-| Heavy Robotics | 5 each through Shiny | Sealed Robotics + Ore Separation | Mythril Frame and Focused Gun. The matched parts make a Suppression Bot 8 AP. |
+| Heavy Robotics | 20 each through Shiny | Sealed Robotics + Ore Separation | Mythril Frame and Focused Gun. |
 | Precision Control | 5 each through Shiny | Ore Separation + Mineral Recovery | Logic Wafer, Controller, Servo Piston and Complex Core; advanced recovery recipes and Waste Handling fallback. |
 | Autonomous Logistics | 1 each through Final | Precision Control + first Final Core produced | Storage and Inventory use one global transfer pool. Inventory initially outputs through Filters. Pool capacity is currently 1,000 per item. |
-| Command Robotics | 5 each through Complex | Precision Control + Heavy Robotics | Servo Frame and Pulse Cannon. The matched parts make a Suppression Bot 24 AP. |
-| Final Robotics | 1 each through Final | First Final Core produced + Command Robotics | Final Frame and Final Cannon. The matched parts make a Suppression Bot 72 AP every 210 seconds at base speed. |
+| Command Robotics | 30 each through Complex | Precision Control + Heavy Robotics | Servo Frame and Pulse Cannon. |
+| Final Robotics | 1 each through Final | First Final Core produced + Command Robotics | Final Frame and Final Cannon. |
 | A Remarkably Indirect Conclusion | 1 each through Final | First Final Core produced | Select at the Research Center and pay one set to record victory and open the modal. |
 | Mineral Regeneration | 5 each through Shiny | Mineral Recovery + Ore Separation | Ordinary non-wood deposits recover 1 unit every 30 seconds up to capacity. Depleted deposits remain after this unlock; existing Deep Holes are not restored. |
 
@@ -227,6 +229,12 @@ Cycle upgrades replace the earlier speed factor unless the effect explicitly say
 | Synthesizer 4 | 25 each through Hydro | Synthesizer 3 + Hydraulic Assembly | Pure Mythril and Crust Recovery cycles use 60% of base time, replacing earlier ranks. Ingredient quantities and output yields stay unchanged. |
 | Synthesizer 5 | 30 each through Shiny | Synthesizer 4 + Ore Separation | Pure Mythril and Crust Recovery cycles use 50% of base time, replacing earlier ranks. Ingredient quantities and output yields stay unchanged. |
 | Synthesizer 6 | 35 each through Complex | Synthesizer 5 + Precision Control | Pure Mythril and Crust Recovery cycles use 40% of base time, replacing earlier ranks. Ingredient quantities and output yields stay unchanged. |
+| Bot Plant 1 | 10 each through Simple | Suppression Bot | All Bot Plant cycles use 90% of base time. |
+| Bot Plant 2 | 15 each through Basic | Bot Plant 1 | All Bot Plant cycles use 80% of base time. |
+| Bot Plant 3 | 20 each through Automata | Bot Plant 2 + Automata Core | All Bot Plant cycles use 70% of base time. |
+| Bot Plant 4 | 25 each through Hydro | Bot Plant 3 + Hydraulic Assembly | All Bot Plant cycles use 60% of base time. |
+| Bot Plant 5 | 30 each through Shiny | Bot Plant 4 + Ore Separation | All Bot Plant cycles use 50% of base time. |
+| Bot Plant 6 | 35 each through Complex | Bot Plant 5 + Precision Control | All Bot Plant cycles use 40% of base time. |
 
 The two Mythril Mesh recipes retain Fabricator efficiency in the Synthesizer. Composite Mythril Gear and Wire retain Assembler efficiency. Crust Recovery retains Synthesizer efficiency in the Recycler.
 
@@ -244,7 +252,7 @@ At rank r, repeatables charge **ceil(base × 1.5^(r−1))** of each required Cor
 
 # Implemented linear machine research through Complex
 
-The nine machine lines use the same six ranks. Since November 8, 2026 (NODE-0350), the price per required Core starts at 10 and rises by five per rank. Each rank adds the next Core type through Complex. Completing one line costs 560 Cores. Completing all nine costs 5,040 Cores.
+The ten machine lines use the same six ranks. The price per required Core starts at 10 and rises by five per rank. Each rank adds the next Core type through Complex. Completing one line costs 560 Cores. Completing all ten costs 5,600 Cores.
 
 | Rank | Highest required core | Amount of each required core | Total physical cores | Cycle time as a share of base |
 | --- | --- | --- | --- | --- |
@@ -255,7 +263,7 @@ The nine machine lines use the same six ranks. Since November 8, 2026 (NODE-0350
 | 5 | Shiny | 30 | 150 | 50% |
 | 6 | Complex | 35 | 210 | 40% |
 
-Each completed rank reduces cycle time by 10 percentage points of the original base time. The highest completed rank replaces the earlier modifier; reductions do not multiply together. Ingredient amounts and output yields stay unchanged. All nine lines remain optional for unlocking new core tiers.
+Each completed rank reduces cycle time by 10 percentage points of the original base time. The highest completed rank replaces the earlier modifier. Ingredient amounts and output yields stay unchanged. All ten lines are optional for unlocking new core tiers.
 
 | Research line | Projects | Rank 1 access requirement |
 | --- | --- | --- |
@@ -268,6 +276,7 @@ Each completed rank reduces cycle time by 10 percentage points of the original b
 | Hydro Plant | Hydro Plant 1, Hydro Plant 2, Hydro Plant 3, Hydro Plant 4, Hydro Plant 5, Hydro Plant 6 | Water Tools discovery |
 | Fabricator | Fabricator 1, Fabricator 2, Fabricator 3, Fabricator 4, Fabricator 5, Fabricator 6 | Advanced Fabrication |
 | Synthesizer | Synthesizer 1, Synthesizer 2, Synthesizer 3, Synthesizer 4, Synthesizer 5, Synthesizer 6 | Mythril Refining discovery |
+| Bot Plant | Bot Plant 1, Bot Plant 2, Bot Plant 3, Bot Plant 4, Bot Plant 5, Bot Plant 6 | Suppression Bot discovery |
 
 Ranks 2–6 require the preceding rank in the same research line. Rank 3 also requires Automata Core research; rank 4 requires Hydraulic Assembly; rank 5 requires Ore Separation; rank 6 requires Precision Control. Rank 2 needs Basic Core supply but adds no separate Basic Core research. Machine access and core access remain independent of these optional efficiency upgrades.
 
@@ -305,4 +314,4 @@ Hydro, Shiny and Complex chains, machine upgrades, logistics upgrades, regenerat
 
 Live snapshot: `src/content/research.ts`, `src/content/progression.ts`, `src/content/recipes.ts`, `src/simulation/progression.ts` and `src/simulation/engine.ts` in the Node Factory v2 project. Live implementation takes precedence over older proposal wording.
 
-Planned research and open decisions: [Research Core Progression and Bot Upgrade Proposal](https://chatgpt.com/space/page_3f63cbe142508191a73e41bc10b7f530). Progression targets: `README.md`.
+See `README.md` for progression targets and the [bot production archive](archive/bot-production/README.md) for earlier design proposals.

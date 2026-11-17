@@ -54,7 +54,7 @@ function twoComponents(type: CornerType, suppliers: MachineNode[], productionMs:
 describe('explicit corner quotas and production cadence', () => {
   it('awards a piece at 200 AP using 72 AP Suppression Bots from a real supply cable and carries the surplus', () => {
     expect(ALPHA_AP).toBe(200);
-    const f = twoComponents('alpha', [producer('botPlant')], 630000);
+    const f = twoComponents('alpha', [producer('botPlant')], 300000);
     expect(f.node.cornerProgress).toBe(32);
   });
   it('makes Final Robotics payable only after the first Final Core and charges one Final Core', () => {
@@ -82,10 +82,10 @@ describe('explicit corner quotas and production cadence', () => {
     for (const [index, id] of ids.entries()) {
       const recipe = RECIPES[id];
       const batches = FOUNDRY_INPUTS[id as ItemId]! / recipe.outputs[id as ItemId]!;
-      expect(batches * recipe.cycleMs).toBe([500000, 450000, 300000][index]);
+      expect(batches * recipe.cycleMs).toBe([500000, 1500000, 300000][index]);
     }
     const suppliers = [producer('advancedAssembler', ids[0], 200), producer('advancedAssembler', ids[1], 900), producer('refiner', ids[2], 1600)];
-    const f = twoComponents('foundry', suppliers, 500000);
+    const f = twoComponents('foundry', suppliers, 1500000);
     for (const [index, id] of ids.entries()) {
       expect(productionPortRow(f.node, 'input', index).capacity).toBe(FOUNDRY_INPUTS[id as ItemId]);
       expect(f.node.input[id as ItemId] ?? 0).toBeLessThanOrEqual(FOUNDRY_INPUTS[id as ItemId]!);

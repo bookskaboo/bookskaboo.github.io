@@ -113,7 +113,11 @@ describe('choosing a recipe before connecting production nodes', () => {
     expect(nodes.find(candidate => candidate.id === machine)).toMatchObject({ input: { 'sealed-frame': 1 }, output: { 'medium-suppression-bot': 2 } });
     expect(nodes.find(candidate => candidate.id === machine)?.input['basic-core']).toBeUndefined();
     expect(nodes.find(candidate => candidate.id === source)?.output['basic-core']).toBe(3);
-    expect(nodes.find(candidate => candidate.id === 'gun')?.output['simple-robot-gun']).toBe(1);
+    const gun = nodes.find(candidate => candidate.id === 'gun')!;
+    expect(gun.cycleMs).toBe(30000);
+    expect(gun.output['simple-robot-gun']).toBeUndefined();
+    for (let i = 0; i < 24; i++) reloaded.tick(1000);
+    expect(gun.output['simple-robot-gun']).toBe(1);
     expect(reloaded.getSector().connections).toEqual([]);
     expect(reloaded.getState().inFlightTransfers).toEqual([]);
   });

@@ -6,7 +6,7 @@ import type { LineArtId } from '../art/lineArt';
 import { modNode, modNodeTemplate } from '../mods/modRules';
 
 export type NodeShape = 'resource' | 'standard' | 'research' | 'compact' | 'joint' | 'road' | 'chest' | 'lake' | 'hole' | 'camp' | 'corner-camp' | 'golem';
-export type NodeConfiguration = 'recipe' | 'filter' | 'mining-target' | 'research' | 'tribute' | 'road';
+export type NodeConfiguration = 'recipe' | 'recipe-preview' | 'filter' | 'mining-target' | 'research' | 'tribute' | 'road';
 
 export interface NodeModule {
   appearance: {
@@ -61,7 +61,7 @@ export const NODE_MODULES: Record<NodeKind, NodeModule> = {
   smelter: module('smelter', 'standard', { configuration: 'recipe' }),
   refiner: module('cog', 'standard', { configuration: 'recipe' }),
   assembler: module('hammer', 'standard', { configuration: 'recipe' }),
-  botPlant: module('bot', 'standard'),
+  botPlant: module('bot', 'standard', { configuration: 'recipe-preview' }),
   splitter: module('split', 'compact', { rotatable: true }),
   merger: module('merge', 'compact', { rotatable: true }),
   joint: module('cable', 'joint', { pauseable: false }),

@@ -11,7 +11,7 @@ export const ITEM_NAMES: Record<ItemId, string> = {
   brick: 'Brick', charcoal: 'Charcoal', 'iron-plate': 'Iron Plate', 'copper-plate': 'Copper Plate', 'mythril-plate': 'Mythril Plate',
   'iron-gear': 'Iron Gear', 'copper-gear': 'Copper Gear', 'mythril-gear': 'Mythril Gear', 'iron-wire': 'Iron Wire', 'copper-wire': 'Copper Wire', 'mythril-wire': 'Mythril Wire',
   motor: 'Motor', 'circuit-a': 'Circuit A', 'simple-core': 'Simple Core', 'basic-core': 'Basic Core', 'automata-core': 'Automata Core',
-  'simple-robot-frame': 'Bot Frame', 'simple-robot-gun': 'Bot Gun', power: 'Power', 'forest-growth': 'Forest Growth',
+  'simple-robot-frame': 'Basic Frame', 'simple-robot-gun': 'Basic Gun', power: 'Power', 'forest-growth': 'Forest Growth',
 } as Record<ItemId, string>;
 
 export const ITEM_COLORS: Record<ItemId, number> = {

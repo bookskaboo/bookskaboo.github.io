@@ -46,11 +46,11 @@
 .recipe-view-toggle { display:inline-flex; align-items:center; gap:6px; padding:6px 9px; border:1px solid #6c6048; border-radius:6px; color:#cbb785; background:#29271f; font:700 11px monospace; cursor:pointer; }
 .recipe-view-toggle[aria-pressed="true"] { border-color:#c8a85c; color:#f1dca3; background:#3a3221; }
 .recipe-view-toggle:focus-visible,.recipe-guide-icon-button:focus-visible { outline:2px solid #e5bd74; outline-offset:2px; }
-.recipe-picker-panel .compact-recipe-view .recipe-picker-group:not(.active-recycler-recipe) .recipe-picker-group-choices { grid-template-columns:repeat(auto-fill,62px); gap:8px; justify-content:start; }
-.recipe-picker-panel .compact-recipe-view .recipe-picker-group:not(.active-recycler-recipe) .recipe-picker-card { width:62px; height:62px; min-height:62px; padding:9px; grid-template-columns:1fr; place-items:center; }
-.recipe-picker-panel .compact-recipe-view .recipe-picker-group:not(.active-recycler-recipe) .recipe-picker-icon { display:grid; width:36px; height:36px; }
-.recipe-picker-panel .compact-recipe-view .recipe-picker-group:not(.active-recycler-recipe) .recipe-picker-icon .node-icon { width:26px; height:26px; }
-.recipe-picker-panel .compact-recipe-view .recipe-picker-group:not(.active-recycler-recipe) .recipe-picker-copy { display:none; }
+.recipe-picker-panel .compact-recipe-view .recipe-picker-group:not(.featured-recipe) .recipe-picker-group-choices { grid-template-columns:repeat(auto-fill,62px); gap:8px; justify-content:start; }
+.recipe-picker-panel .compact-recipe-view .recipe-picker-group:not(.featured-recipe) .recipe-picker-card { width:62px; height:62px; min-height:62px; padding:9px; grid-template-columns:1fr; place-items:center; }
+.recipe-picker-panel .compact-recipe-view .recipe-picker-group:not(.featured-recipe) .recipe-picker-icon { display:grid; width:36px; height:36px; }
+.recipe-picker-panel .compact-recipe-view .recipe-picker-group:not(.featured-recipe) .recipe-picker-icon .node-icon { width:26px; height:26px; }
+.recipe-picker-panel .compact-recipe-view .recipe-picker-group:not(.featured-recipe) .recipe-picker-copy { display:none; }
 .recipe-picker-panel [aria-readonly="true"] .recipe-picker-card { cursor:default; }
 .recipes-modal { grid-template-rows:auto auto auto minmax(0,1fr); }
 .recipes-modal > .recipe-view-toolbar { padding:0; margin-block:-6px; }

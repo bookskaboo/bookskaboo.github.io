@@ -241,7 +241,7 @@ export const LATE_RECIPES = {
     "outputs": {
       "sealed-frame": 1
     },
-    "cycleMs": 18000,
+    "cycleMs": 60000,
     "unlockResearch": "sealedRobotics"
   },
   "cooled-gun": {
@@ -255,7 +255,7 @@ export const LATE_RECIPES = {
     "outputs": {
       "cooled-gun": 1
     },
-    "cycleMs": 16000,
+    "cycleMs": 50000,
     "unlockResearch": "sealedRobotics"
   },
   "mithril-frame": {
@@ -269,7 +269,7 @@ export const LATE_RECIPES = {
     "outputs": {
       "mithril-frame": 1
     },
-    "cycleMs": 24000,
+    "cycleMs": 110000,
     "unlockResearch": "heavyRobotics"
   },
   "focused-gun": {
@@ -283,7 +283,7 @@ export const LATE_RECIPES = {
     "outputs": {
       "focused-gun": 1
     },
-    "cycleMs": 22000,
+    "cycleMs": 100000,
     "unlockResearch": "heavyRobotics"
   },
   "servo-frame": {
@@ -297,7 +297,7 @@ export const LATE_RECIPES = {
     "outputs": {
       "servo-frame": 1
     },
-    "cycleMs": 32000,
+    "cycleMs": 120000,
     "unlockResearch": "commandRobotics"
   },
   "pulse-cannon": {
@@ -311,7 +311,7 @@ export const LATE_RECIPES = {
     "outputs": {
       "pulse-cannon": 1
     },
-    "cycleMs": 30000,
+    "cycleMs": 110000,
     "unlockResearch": "commandRobotics"
   },
   "slagwashing": {
@@ -485,7 +485,7 @@ export const LATE_RECIPES = {
   },
   "efficient-bot-frame": {
     "id": "efficient-bot-frame",
-    "name": "Efficient Bot Frame",
+    "name": "Efficient Basic Frame",
     "inputs": {
       "iron-plate": 1,
       "motor": 1
@@ -1232,8 +1232,8 @@ export const LATE_RESEARCH = [
     "id": "efficientIntermediates",
     "name": "Efficient Intermediates",
     "category": "Efficiency",
-    "description": "Unlocks efficient recipes for Circuit A, Motors, and Bot Frames. Use Filters to separate products from waste at the shared output.",
-    "unlock": "Unlocks efficient Circuit A, Motor, and Bot Frame recipes.",
+    "description": "Unlocks efficient recipes for Circuit A, Motors, and Basic Frames. Use Filters to separate products from waste at the shared output.",
+    "unlock": "Unlocks efficient Circuit A, Motor, and Basic Frame recipes.",
     "costs": {
       "simple-core": 25,
       "basic-core": 25,

@@ -15,6 +15,13 @@ Selective reconstruction from nine relevant chats, the current source, maintaine
 
 ## Sources
 
+<a id="bot-production-proposal-2026-11-16"></a>
+### NODE Bot Production Proposal
+
+Source ID: `bot-production-proposal-2026-11-16` · Type: page
+
+[Open source](https://chatgpt.com/space/page_21d41c876ee8819198c4a6e94786b615)
+
 <a id="chat-current"></a>
 ### 2026-11-01 — current development chat
 

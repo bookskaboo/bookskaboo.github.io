@@ -34,9 +34,11 @@ describe('research dependency tree', () => {
 
   it('folds six-rank machine families and keeps individual ranks available to expand or search', () => {
     const groups = researchTreeGroups(tree);
-    expect(groups).toHaveLength(9);
+    expect(groups).toHaveLength(10);
     const collapsed = visibleResearchTreeNodes(tree, groups, new Set(), '', new Set());
-    expect(collapsed).toHaveLength(tree.nodes.length - 45);
+    expect(collapsed).toHaveLength(tree.nodes.length - 50);
+    expect(collapsed.map(node => node.project.id)).toContain('botPlant1');
+    expect(collapsed.map(node => node.project.id)).not.toContain('botPlant6');
     expect(collapsed.map(node => node.project.id)).toContain('kiln1');
     expect(collapsed.map(node => node.project.id)).not.toContain('kiln6');
 

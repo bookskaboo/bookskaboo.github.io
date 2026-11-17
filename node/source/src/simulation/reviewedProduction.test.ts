@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import type { ItemId, MachineNode, NodeKind } from '../domain/types';
 import { GameEngine, createInitialState } from './engine';
 import { RECIPES, isRecipeUnlocked } from '../content/recipes';
+import { BOT_BUILDS } from '../content/botAssembly';
 import { getResearchProject, isResearchAvailable } from '../content/research';
 import { getLizardSettlementForMapTier } from '../content/lizardSettlements';
 import { getEffectiveNodeOutputFamilies } from '../content/nodes';
@@ -49,12 +50,50 @@ describe('reviewed production implementation', () => {
       recipeId, cycleMs: 60000, progressMs: 59000, batch: { recipeId, outputs: { [recipeId]: 1 } },
     })], ['commandRobotics']);
     const assembler = engine.getSector().nodes[0];
-    expect(assembler.cycleMs).toBe(90000);
-    advance(engine, 30900);
+    expect(assembler.cycleMs).toBe(70000);
+    advance(engine, 10900);
     expect(assembler.output).toEqual({});
     advance(engine, 100);
     expect(assembler.output).toEqual({ [recipeId]: 1 });
     expect(assembler.batch).toBeUndefined();
+  });
+
+  it('uses the higher component tier for all 25 Bot Plant cycles', () => {
+    expect(BOT_BUILDS).toHaveLength(25);
+    for (const build of BOT_BUILDS) {
+      const tier = Math.max(build.frameTier, build.gunTier);
+      expect(build.recipe.cycleMs).toBe([20000, 40000, 60000, 70000, 100000][tier - 1]);
+    }
+  });
+
+  it.each([[0, 100000], [6, 40000]])('produces 72 AP bots every %i-rank cycle of %i ms', (rank, cycleMs) => {
+    const completed = ['finalRobotics', ...Array.from({ length: rank }, (_, i) => `botPlant${i + 1}`)];
+    const engine = setup([machine('botPlant', 'plant', { input: { 'final-frame': 3, 'final-cannon': 3 } })], completed);
+    const plant = engine.getSector().nodes[0];
+    for (let completedBatches = 0; completedBatches < 3; completedBatches++) {
+      advance(engine, cycleMs - 100);
+      expect(plant.output['final-suppression-bot'] ?? 0).toBe(completedBatches);
+      advance(engine, 100);
+      expect(plant.output['final-suppression-bot']).toBe(completedBatches + 1);
+    }
+    expect(plant.recipeId).toBeUndefined();
+  });
+
+  it('keeps a small Goblin Camp suppressed with one supplied base Bot Plant', () => {
+    const engine = setup([
+      machine('botPlant', 'plant', { x: 300, y: 600 }),
+      machine('monster-camp', 'camp', { x: 1300, y: 600, attackRequirement: 3, campStrength: 25 }),
+    ], ['suppressionBot']);
+    const [plant, camp] = engine.getSector().nodes;
+    expect(engine.connect(plant.id, camp.id)).toBe(true);
+    for (let check = 1; check <= 4; check++) {
+      for (let batch = 0; batch < 3; batch++) {
+        plant.input = { 'simple-robot-frame': 1, 'simple-robot-gun': 1 };
+        advance(engine, 20000);
+      }
+      if (check > 1) expect(camp.campLastCheck).toMatchObject({ passed: true, requiredAp: 3, suppliedAp: 3 });
+    }
+    expect(camp.campStrength).toBe(10);
   });
 
   it.each([[4,1],[5,1],[6,1],[7,1],[8,2],[9,2]])('uses adopted Dwarven map-tier %i AP, output and capacity', (tier, bots) => {

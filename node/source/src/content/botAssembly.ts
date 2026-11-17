@@ -7,7 +7,7 @@ export const BOT_FRAMES = ['simple-robot-frame', 'sealed-frame', 'mithril-frame'
 export const BOT_GUNS = ['simple-robot-gun', 'cooled-gun', 'focused-gun', 'pulse-cannon', 'final-cannon'] as const;
 export const MATCHED_BOTS = ['suppression-bot', 'medium-suppression-bot', 'heavy-suppression-bot', 'command-suppression-bot', 'final-suppression-bot'] as const;
 const BOT_RESEARCH = ['suppressionBot', 'sealedRobotics', 'heavyRobotics', 'commandRobotics', 'finalRobotics'];
-const CYCLE_MS = [10000, 20000, 40000, 90000, 210000];
+const CYCLE_MS = [20000, 40000, 60000, 70000, 100000];
 const FRAME_RATING_TENTHS = [10, 20, 32, 48, 72];
 const GUN_MULTIPLIER_HALVES = [2, 3, 5, 10, 20];
 
@@ -50,10 +50,10 @@ export const FINAL_BOT_AP = BOT_BUILDS.find(build => build.item === 'final-suppr
 export const FINAL_BOT_PARTS: Record<'final-frame' | 'final-cannon', Recipe> = {
   'final-frame': {
     id: 'final-frame', name: 'Final Frame', inputs: { 'servo-frame': 3, 'advanced-actuator': 2, brick: 1 },
-    outputs: { 'final-frame': 1 }, cycleMs: 45000, unlockResearch: 'finalRobotics',
+    outputs: { 'final-frame': 1 }, cycleMs: 140000, unlockResearch: 'finalRobotics',
   },
   'final-cannon': {
     id: 'final-cannon', name: 'Final Cannon', inputs: { 'pulse-cannon': 2, 'precision-controller': 2, 'logic-substrate': 2 },
-    outputs: { 'final-cannon': 1 }, cycleMs: 45000, unlockResearch: 'finalRobotics',
+    outputs: { 'final-cannon': 1 }, cycleMs: 130000, unlockResearch: 'finalRobotics',
   },
 };
