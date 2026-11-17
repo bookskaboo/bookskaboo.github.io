@@ -60,7 +60,14 @@ describe('choosing a recipe before connecting production nodes', () => {
 
   it('assembles bots automatically and delivers different AP values together from a Cart', () => {
     expect(BOT_BUILDS).toHaveLength(25);
-    expect(MATCHED_BOTS.map(item => BOT_STRENGTH[item])).toEqual([1, 3, 8, 24, 72]);
+    expect(MATCHED_BOTS.map(item => BOT_STRENGTH[item])).toEqual([1, 4, 9, 25, 70]);
+    expect(BOT_BUILDS.map(build => build.ap)).toEqual([
+      1, 2, 3, 5, 10,
+      2, 4, 6, 10, 20,
+      3, 6, 9, 15, 30,
+      5, 10, 15, 25, 50,
+      7, 14, 21, 35, 70,
+    ]);
     const { engine, machine, node, source, target } = setup('botPlant');
     for (const { frame, gun, legacyId, recipe } of BOT_BUILDS) {
       expect(RECIPES[recipe.id].inputs).toEqual({ [frame]: 1, [gun]: 1 });
@@ -84,11 +91,29 @@ describe('choosing a recipe before connecting production nodes', () => {
     const strong = BOT_BUILDS.find(build => build.frame === 'mithril-frame' && build.gun === 'pulse-cannon')!.item;
     expect(stock(target).output).toMatchObject({ 'suppression-bot': 1, [strong]: 1 });
     expect(node.recipeId).toBeUndefined();
-    const camp: MachineNode = { ...node, id: 'camp', kind: 'monster-camp', x: 2100, input: {}, output: {}, outputQueue: [], attackRequirement: 17 };
+    const camp: MachineNode = { ...node, id: 'camp', kind: 'monster-camp', x: 2100, input: {}, output: {}, outputQueue: [], attackRequirement: 16 };
     engine.getSector().nodes.push(camp);
     expect(engine.connect(target, camp.id)).toBe(true);
     for (let i = 0; i < 61; i++) engine.tick(1000);
-    expect(camp.campLastCheck).toMatchObject({ passed: true, suppliedAp: 17, requiredAp: 17 });
+    expect(camp.campLastCheck).toMatchObject({ passed: true, suppliedAp: 16, requiredAp: 16 });
+  });
+
+  it('preserves saved stock and completes a paid mixed build in its revised AP bucket', () => {
+    const { engine, node, source } = setup('botPlant');
+    const recipe = RECIPES['assemble-bot-f1-g3'];
+    const cart = engine.getSector().nodes.find(candidate => candidate.id === source)!;
+    cart.output = { 'medium-suppression-bot': 2, 'final-suppression-bot': 1 };
+    node.batch = { recipeId: recipe.id, outputs: { 'medium-suppression-bot': 1 } };
+    node.progressMs = 23000;
+
+    const loaded = new GameEngine(engine.getState(), { autosave: false });
+    const plant = loaded.getSector().nodes.find(candidate => candidate.id === node.id)!;
+    expect(plant.batch?.outputs).toEqual(recipe.outputs);
+    expect(plant.progressMs).toBe(23000);
+    loaded.tick(1000);
+    expect(plant.output).toEqual(recipe.outputs);
+    expect(plant.input).toEqual({});
+    expect(loaded.getSector().nodes.find(candidate => candidate.id === source)?.output).toEqual(cart.output);
   });
 
   it('preserves paid bot and Gun batches and returns obsolete ingredients on load once', () => {

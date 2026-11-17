@@ -52,10 +52,10 @@ function twoComponents(type: CornerType, suppliers: MachineNode[], productionMs:
 }
 
 describe('explicit corner quotas and production cadence', () => {
-  it('awards a piece at 200 AP using 72 AP Suppression Bots from a real supply cable and carries the surplus', () => {
+  it('awards a piece at 200 AP using 70 AP Suppression Bots from a real supply cable and carries the surplus', () => {
     expect(ALPHA_AP).toBe(200);
     const f = twoComponents('alpha', [producer('botPlant')], 300000);
-    expect(f.node.cornerProgress).toBe(32);
+    expect(f.node.cornerProgress).toBe(20);
   });
   it('makes Final Robotics payable only after the first Final Core and charges one Final Core', () => {
     const f = fixture('reclamation');

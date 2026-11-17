@@ -76,7 +76,7 @@ export function PixiPlayfield(props: Props) {
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
     const controlHover = new NodeControlHover();
     const enterNodeHover = (id: string) => { controlHover.enter(id); hoveredNodeId = id; propsRef.current.onHoverNode?.(id); };
-    let hoveredNodeId: string | undefined; let tooltipIntent: (PlayfieldTooltip & { key: string; visible: boolean; nodeId?: string }) | undefined; let tooltipTimer: number | undefined;
+    let hoveredNodeId: string | undefined; let tooltipIntent: (PlayfieldTooltip & { key: string; visible: boolean }) | undefined; let tooltipTimer: number | undefined;
     let lastSceneSignature = ''; let drawnGridEnabled = props.engine.getState().preferences.showGrid; let lastTooltipAt = 0; let lastUiSignature = '';
     let observedPlayTimeMs = props.engine.getState().playTimeMs; let observedPlayTimeAt = performance.now();
     const nodeViews = new Map<string, NodeView>(); const portViews = new Map<string, PortView>(); const particles: FlowParticle[] = [];
@@ -210,7 +210,28 @@ export function PixiPlayfield(props: Props) {
       updateCamera();
     });
     const clearTooltip = () => { if (tooltipTimer) window.clearTimeout(tooltipTimer); tooltipTimer = undefined; tooltipIntent = undefined; propsRef.current.onTooltip?.(); };
-    const showTooltip = (event: FederatedPointerEvent, title: string, detail: string, tone?: string, eyebrow?: string, nodeId?: string) => { if (connectionDrag || connectionRejection) return; const now = performance.now(); const key = `${eyebrow ?? ''}|${title}|${detail}`; const next = { key, title, detail, nodeId, x: event.global.x, y: event.global.y, tone, eyebrow, visible: tooltipIntent?.key === key && tooltipIntent.visible }; if (tooltipIntent?.key !== key) { if (tooltipTimer) window.clearTimeout(tooltipTimer); tooltipIntent = next; propsRef.current.onTooltip?.(); tooltipTimer = window.setTimeout(() => { if (!tooltipIntent || tooltipIntent.key !== key) return; tooltipIntent.visible = true; lastTooltipAt = performance.now(); propsRef.current.onTooltip?.({ title: tooltipIntent.title, detail: tooltipIntent.detail, x: tooltipIntent.x, y: tooltipIntent.y, tone: tooltipIntent.tone, eyebrow: tooltipIntent.eyebrow }); }, 170); return; } tooltipIntent = next; if (!next.visible || now - lastTooltipAt < 32) return; lastTooltipAt = now; propsRef.current.onTooltip?.({ title, detail, x: next.x, y: next.y, tone, eyebrow }); };
+    const showTooltip = (event: FederatedPointerEvent, title: string, detail: string, tone?: string, eyebrow?: string, nodeId?: string) => {
+      if (connectionDrag || connectionRejection) return;
+      const now = performance.now();
+      const key = `${nodeId ?? ''}|${eyebrow ?? ''}|${title}|${detail}`;
+      const next = { key, title, detail, nodeId, x: event.global.x, y: event.global.y, tone, eyebrow, visible: tooltipIntent?.key === key && tooltipIntent.visible };
+      if (tooltipIntent?.key !== key) {
+        if (tooltipTimer) window.clearTimeout(tooltipTimer);
+        tooltipIntent = next;
+        propsRef.current.onTooltip?.();
+        tooltipTimer = window.setTimeout(() => {
+          if (!tooltipIntent || tooltipIntent.key !== key) return;
+          tooltipIntent.visible = true;
+          lastTooltipAt = performance.now();
+          propsRef.current.onTooltip?.(tooltipIntent);
+        }, 170);
+        return;
+      }
+      tooltipIntent = next;
+      if (!next.visible || now - lastTooltipAt < 32) return;
+      lastTooltipAt = now;
+      propsRef.current.onTooltip?.(next);
+    };
 
     const fieldSurface = ({ width, height }: typeof worldSize, showGrid: boolean) => {
       const surface = new Graphics();

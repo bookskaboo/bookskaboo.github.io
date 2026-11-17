@@ -8,7 +8,7 @@ import type { ResearchNodeStatus } from './researchNodeStatus';
 import type { createProductionRecipeIcon } from './productionRecipeIcon';
 import type { NodeSize, Point } from '../domain/nodeGeometry';
 
-export interface PlayfieldTooltip { title: string; detail: string; x: number; y: number; tone?: string; eyebrow?: string }
+export interface PlayfieldTooltip { title: string; detail: string; x: number; y: number; tone?: string; eyebrow?: string; nodeId?: string }
 export interface SelectionInfo { source: 'node' | 'box'; individual?: boolean; priority?: boolean; forward?: boolean; }
 
 export interface PixiPlayfieldProps {

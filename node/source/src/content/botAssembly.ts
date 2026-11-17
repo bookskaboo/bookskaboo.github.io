@@ -8,14 +8,16 @@ export const BOT_GUNS = ['simple-robot-gun', 'cooled-gun', 'focused-gun', 'pulse
 export const MATCHED_BOTS = ['suppression-bot', 'medium-suppression-bot', 'heavy-suppression-bot', 'command-suppression-bot', 'final-suppression-bot'] as const;
 const BOT_RESEARCH = ['suppressionBot', 'sealedRobotics', 'heavyRobotics', 'commandRobotics', 'finalRobotics'];
 const CYCLE_MS = [20000, 40000, 60000, 70000, 100000];
-const FRAME_RATING_TENTHS = [10, 20, 32, 48, 72];
-const GUN_MULTIPLIER_HALVES = [2, 3, 5, 10, 20];
+export const BOT_FRAME_AP = [1, 2, 3, 5, 7] as const;
+export const BOT_GUN_MULTIPLIERS = [1, 2, 3, 5, 10] as const;
+export type BotFrame = typeof BOT_FRAMES[number];
+export type BotGun = typeof BOT_GUNS[number];
 
 const botPairs = BOT_FRAMES.flatMap((frame, frameIndex) => BOT_GUNS.map((gun, gunIndex) => ({
   frame, gun, frameTier: frameIndex + 1, gunTier: gunIndex + 1,
   tier: Math.max(frameIndex, gunIndex) + 1,
   legacyId: frameIndex === gunIndex ? MATCHED_BOTS[frameIndex] : `bot-f${frameIndex + 1}-g${gunIndex + 1}` as MixedBotId,
-  ap: Math.floor((FRAME_RATING_TENTHS[frameIndex] * GUN_MULTIPLIER_HALVES[gunIndex] + 10) / 20),
+  ap: BOT_FRAME_AP[frameIndex] * BOT_GUN_MULTIPLIERS[gunIndex],
 })));
 
 export const BOT_STRENGTH: Partial<Record<ItemId, number>> = Object.fromEntries(botPairs.map(({ legacyId, ap }) => [legacyId, ap]));

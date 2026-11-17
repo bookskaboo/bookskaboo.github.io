@@ -7,7 +7,7 @@ describe('always-visible camp feedback', () => {
     const node = tutorialNode('monster-camp', 'camp', 0, 0, { attackRequirement: 6, progressMs: 30000, input: { 'medium-suppression-bot': 2 } });
     const view = createCampNodeStatus();
     updateCampNodeStatus(view, node, 0, 1);
-    expect(view.ap.text).toBe('AP 6 / 6'); expect(view.check.text).toBe('FIRST CHECK · 30s');
+    expect(view.ap.text).toBe('AP 8 / 6'); expect(view.check.text).toBe('FIRST CHECK · 30s');
     node.campLastCheck = { passed: false, atMs: 0, suppliedAp: 0, requiredAp: 6 };
     updateCampNodeStatus(view, node, 1000, 1.5);
     expect(view.ap.style.fill).toBe(0xff6878); expect(view.check.text).toBe('FAILED · 29s');

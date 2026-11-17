@@ -24,8 +24,8 @@ describe('camp check feedback', () => {
     const cart = botCart(engine);
     expect(engine.connect(cart.id, node.id)).toBe(true);
     const arrivals = [
-      ['suppression-bot', 1], ['medium-suppression-bot', 4],
-      ['heavy-suppression-bot', 12], ['command-suppression-bot', 36],
+      ['suppression-bot', 1], ['medium-suppression-bot', 5],
+      ['heavy-suppression-bot', 14], ['command-suppression-bot', 39],
     ] as const;
     for (const [bot, suppliedAp] of arrivals) {
       cart.input[bot] = 1;
@@ -34,11 +34,11 @@ describe('camp check feedback', () => {
       expect(campStatus(node).suppliedAp).toBe(suppliedAp);
     }
     advance(engine, 52000);
-    expect(node.campLastCheck).toMatchObject({ passed: true, suppliedAp: 36, requiredAp: dwarven ? 6 : 3 });
+    expect(node.campLastCheck).toMatchObject({ passed: true, suppliedAp: 39, requiredAp: dwarven ? 6 : 3 });
     expect(node.input).toEqual(dwarven
       ? { 'suppression-bot': 1, 'medium-suppression-bot': 1, 'command-suppression-bot': 1 }
       : { 'suppression-bot': 1, 'heavy-suppression-bot': 1, 'command-suppression-bot': 1 });
-    expect(campStatus(node).suppliedAp).toBe(dwarven ? 30 : 33);
+    expect(campStatus(node).suppliedAp).toBe(dwarven ? 33 : 35);
   });
 
   it('rejects non-bot cargo at the camp input', () => {
@@ -51,7 +51,7 @@ describe('camp check feedback', () => {
 
   it('feeds two bot production lines into the same camp through a Cart', () => {
     const { engine, node } = fixture();
-    node.attackRequirement = 9;
+    node.attackRequirement = 10;
     const cart = botCart(engine);
     const small = tutorialNode('assembler', 'small', 180, 970, {
       recipeId: 'suppression-bot', output: { 'suppression-bot': 1 },
@@ -64,7 +64,7 @@ describe('camp check feedback', () => {
     expect(engine.connect(heavy.id, cart.id)).toBe(true);
     expect(engine.connect(cart.id, node.id)).toBe(true);
     advance(engine, 60000);
-    expect(node.campLastCheck).toEqual({ passed: true, atMs: 60000, suppliedAp: 9, requiredAp: 9 });
+    expect(node.campLastCheck).toEqual({ passed: true, atMs: 60000, suppliedAp: 10, requiredAp: 10 });
     expect(node.input).toEqual({});
   });
 
@@ -102,19 +102,19 @@ describe('camp check feedback', () => {
     const cart = botCart(engine, { 'suppression-bot': 1, 'medium-suppression-bot': 1 });
     expect(engine.connect(cart.id, node.id)).toBe(true);
     advance(engine, 60000);
-    expect(node.campLastCheck).toMatchObject({ passed: false, suppliedAp: 4, requiredAp: 6 });
+    expect(node.campLastCheck).toMatchObject({ passed: false, suppliedAp: 5, requiredAp: 6 });
     expect(node.input).toEqual({ 'suppression-bot': 1, 'medium-suppression-bot': 1 });
     cart.input['heavy-suppression-bot'] = 1;
     advance(engine, 2000);
     const retryAt = node.campLastCheck!.atMs;
     expect(retryAt).toBeGreaterThan(60000);
     expect(retryAt).toBeLessThan(62000);
-    expect(node.campLastCheck).toMatchObject({ passed: true, suppliedAp: 12, requiredAp: 6 });
-    expect(node.suppressionCredit).toBe(2);
-    expect(campStatus(node)).toMatchObject({ result: 'passed', suppliedAp: 6, secondsRemaining: 60 });
+    expect(node.campLastCheck).toMatchObject({ passed: true, suppliedAp: 14, requiredAp: 6 });
+    expect(node.suppressionCredit).toBe(3);
+    expect(campStatus(node)).toMatchObject({ result: 'passed', suppliedAp: 8, secondsRemaining: 60 });
     advance(engine, retryAt + 60000 - engine.getState().playTimeMs);
-    expect(node.campLastCheck).toEqual({ passed: true, atMs: retryAt + 60000, suppliedAp: 6, requiredAp: 6 });
-    expect(campStatus(node).suppliedAp).toBe(0);
+    expect(node.campLastCheck).toEqual({ passed: true, atMs: retryAt + 60000, suppliedAp: 8, requiredAp: 6 });
+    expect(campStatus(node).suppliedAp).toBe(2);
   });
   it('does not invent a previous result for legacy camps and clamps visual interpolation', () => {
     const { node } = fixture(); node.suppressed = false; node.progressMs = 59900;

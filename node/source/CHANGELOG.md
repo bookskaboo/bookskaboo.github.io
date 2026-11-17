@@ -2,7 +2,7 @@
 
 A searchable record of completed changes, design decisions, and relevant review findings. Stable NODE IDs can be cited in chats and searched in the repository.
 
-**527 records · 2026-10-12–2026-11-16 · America/Los_Angeles**
+**528 records · 2026-10-12–2026-11-16 · America/Los_Angeles**
 
 [Open searchable history](<docs/changelog/index.html>) · [How to review and maintain it](<docs/changelog/README.md>) · [Sources and coverage gaps](<docs/changelog/sources.md>)
 
@@ -12,6 +12,7 @@ Latest confirmed game publication: [95a2bb5](https://github.com/bookskaboo/books
 
 | ID | Change | Topics |
 | --- | --- | --- |
+| [NODE-0537](<docs/changelog/2026-11.md#node-0537>) | Show Bot Plant inputs and use whole-number AP values | Interface, Production, Recipes, Balance |
 | [NODE-0533](<docs/changelog/2026-11.md#node-0533>) | Retune bot production and show recipes on the Bot Plant | Production, Recipes, Research, Balance, Interface |
 | [NODE-0524](<docs/changelog/2026-11.md#node-0524>) | Quote map expansion by destination tier before research | Progression, Balance, Research, World map, Persistence |
 | [NODE-0521](<docs/changelog/2026-11.md#node-0521>) | Apply the first peripheral production balance patch | Progression, Production, Balance, Research, Playtesting |
@@ -77,7 +78,7 @@ Latest confirmed game publication: [95a2bb5](https://github.com/bookskaboo/books
 
 ## Dated history
 
-- [2026-11](<docs/changelog/2026-11.md>) — 509 records
+- [2026-11](<docs/changelog/2026-11.md>) — 510 records
 - [2026-10](<docs/changelog/2026-10.md>) — 18 records
 
 “Known by” dates are implementation/publication bounds, not exact change dates. “Backfilled” dates mark records with uncertain original dates. Supersession links explain reversals. Original-game records do not certify current rebuild behavior.
@@ -109,7 +110,7 @@ A record marked “Published by” was known in that snapshot and may have appea
 - [Architecture](<docs/changelog/index.html?topic=Architecture>) (3)
 - [Art](<docs/changelog/index.html?topic=Art>) (6)
 - [Audio](<docs/changelog/index.html?topic=Audio>) (1)
-- [Balance](<docs/changelog/index.html?topic=Balance>) (107)
+- [Balance](<docs/changelog/index.html?topic=Balance>) (108)
 - [Building](<docs/changelog/index.html?topic=Building>) (1)
 - [Camera](<docs/changelog/index.html?topic=Camera>) (3)
 - [Combat](<docs/changelog/index.html?topic=Combat>) (14)
@@ -127,7 +128,7 @@ A record marked “Published by” was known in that snapshot and may have appea
 - [Endgame](<docs/changelog/index.html?topic=Endgame>) (4)
 - [Exploration](<docs/changelog/index.html?topic=Exploration>) (23)
 - [Extraction](<docs/changelog/index.html?topic=Extraction>) (1)
-- [Interface](<docs/changelog/index.html?topic=Interface>) (193)
+- [Interface](<docs/changelog/index.html?topic=Interface>) (194)
 - [Logistics](<docs/changelog/index.html?topic=Logistics>) (92)
 - [Map](<docs/changelog/index.html?topic=Map>) (3)
 - [Mods](<docs/changelog/index.html?topic=Mods>) (6)
@@ -140,11 +141,11 @@ A record marked “Published by” was known in that snapshot and may have appea
 - [Planning](<docs/changelog/index.html?topic=Planning>) (169)
 - [Playtesting](<docs/changelog/index.html?topic=Playtesting>) (45)
 - [Power](<docs/changelog/index.html?topic=Power>) (2)
-- [Production](<docs/changelog/index.html?topic=Production>) (69)
+- [Production](<docs/changelog/index.html?topic=Production>) (70)
 - [Progression](<docs/changelog/index.html?topic=Progression>) (211)
 - [Publication](<docs/changelog/index.html?topic=Publication>) (2)
 - [Publishing](<docs/changelog/index.html?topic=Publishing>) (6)
-- [Recipes](<docs/changelog/index.html?topic=Recipes>) (101)
+- [Recipes](<docs/changelog/index.html?topic=Recipes>) (102)
 - [Research](<docs/changelog/index.html?topic=Research>) (205)
 - [Resources](<docs/changelog/index.html?topic=Resources>) (87)
 - [Responsive](<docs/changelog/index.html?topic=Responsive>) (2)

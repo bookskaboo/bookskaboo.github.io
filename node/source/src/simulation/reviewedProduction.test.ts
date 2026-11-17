@@ -66,7 +66,7 @@ describe('reviewed production implementation', () => {
     }
   });
 
-  it.each([[0, 100000], [6, 40000]])('produces 72 AP bots every %i-rank cycle of %i ms', (rank, cycleMs) => {
+  it.each([[0, 100000], [6, 40000]])('produces 70 AP bots every %i-rank cycle of %i ms', (rank, cycleMs) => {
     const completed = ['finalRobotics', ...Array.from({ length: rank }, (_, i) => `botPlant${i + 1}`)];
     const engine = setup([machine('botPlant', 'plant', { input: { 'final-frame': 3, 'final-cannon': 3 } })], completed);
     const plant = engine.getSector().nodes[0];
@@ -118,15 +118,15 @@ describe('reviewed production implementation', () => {
     advance(engine, 65000);
     const camp = engine.getSector().nodes[0];
     const tribute = engine.getSector().nodes.find(node => node.kind === 'goblinTribute')!;
-    expect(camp.suppressionCredit).toBe(8); expect(tribute.output.mythril).toBe(5);
+    expect(camp.suppressionCredit).toBe(9); expect(tribute.output.mythril).toBe(5);
     link(engine, tribute.id, 'unconnected-legacy-destination');
-    camp.input['medium-suppression-bot'] = 2;
+    camp.input['medium-suppression-bot'] = 1;
     advance(engine, 55000);
-    expect(camp.suppressionRetry).toBe(true); expect(camp.input['medium-suppression-bot']).toBe(2);
+    expect(camp.suppressionRetry).toBe(true); expect(camp.input['medium-suppression-bot']).toBe(1);
     expect(engine.getSector().nodes).toContain(tribute); expect(engine.getSector().connections).toHaveLength(1);
     const stock = tribute.output.mythril;
     advance(engine, 5000); expect(tribute.output.mythril).toBe(stock);
-    camp.input['medium-suppression-bot'] = 3;
+    camp.input['medium-suppression-bot'] = 2;
     advance(engine, 100);
     expect(camp.suppressionRetry).toBe(false); expect(camp.suppressionCredit).toBe(1);
     const after = camp.suppressionCredit;

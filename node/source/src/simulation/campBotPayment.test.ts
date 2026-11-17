@@ -15,15 +15,15 @@ describe('camp suppression payments', () => {
   });
   it('prefers an exact mixed AP payment over wasting a stronger bot', () => {
     const node = camp({ 'command-suppression-bot': 1, 'heavy-suppression-bot': 2, 'suppression-bot': 2 });
-    consumeCampBots(node, 9);
+    consumeCampBots(node, 10);
     expect(node.input).toEqual({ 'command-suppression-bot': 1, 'heavy-suppression-bot': 1, 'suppression-bot': 1 });
   });
   it('uses the least overpayment available and fewer bots when AP payments tie', () => {
     const node = camp({ 'command-suppression-bot': 5, 'heavy-suppression-bot': 1, 'medium-suppression-bot': 3 });
-    consumeCampBots(node, 9);
-    expect(node.input).toEqual({ 'command-suppression-bot': 5, 'heavy-suppression-bot': 1 });
+    consumeCampBots(node, 6);
+    expect(node.input).toEqual({ 'command-suppression-bot': 5, 'heavy-suppression-bot': 1, 'medium-suppression-bot': 1 });
     const tied = camp({ 'medium-suppression-bot': 2, 'suppression-bot': 8 });
-    consumeCampBots(tied, 6);
+    consumeCampBots(tied, 8);
     expect(tied.input).toEqual({ 'suppression-bot': 8 });
   });
   it('consumes insufficient bots on a failed check without touching unrelated items', () => {

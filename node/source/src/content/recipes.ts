@@ -1,6 +1,6 @@
 import { ENDGAME_RECIPES } from './endgame';
-import { BOT_BUILDS, FINAL_BOT_PARTS, cargoMaterial } from './botAssembly';
-import type { ItemId, Recipe } from '../domain/types';
+import { BOT_BUILD_BY_ID, BOT_BUILDS, FINAL_BOT_PARTS, cargoMaterial } from './botAssembly';
+import type { ItemId, MachineNode, Recipe } from '../domain/types';
 import { LATE_RECIPES, LATE_GROUPS } from './progression';
 import { RECYCLER_BREAKDOWN_RECIPES, RECYCLER_RECOVERY } from './recycling';
 
@@ -51,6 +51,12 @@ export function isRecipeUnlocked(id: string, completed: readonly string[]) {
   if(id==='automata-core'&&!completed.includes('automataCore'))return false;
   if(['robot-frame','robot-gun'].includes(id)&&!completed.includes('suppressionBot'))return false;
   return true;
+}
+
+export function getBotPlantBuild(node: MachineNode, completed: readonly string[]) {
+  if (node.batch) return BOT_BUILD_BY_ID.get(node.batch.recipeId);
+  return BOT_BUILDS.find(({ frame, gun, recipe }) =>
+    (node.input[frame] ?? 0) >= 1 && (node.input[gun] ?? 0) >= 1 && isRecipeUnlocked(recipe.id, completed));
 }
 
 export function recyclerRecipeForMaterial(item: ItemId, completed: readonly string[]) {

@@ -15,7 +15,7 @@ import { ResearchRuntime } from './researchRuntime';
 import { getEffectiveNodeInputFamilies, getEffectiveNodeOutputFamilies, isNodeUnlocked, NODE_DEFINITIONS } from '../content/nodes';
 import { getNodeCapabilities, hasNodeBehavior, isResourceBehavior, needsRecipeSelection } from '../content/nodeCapabilities';
 import { isRecipeUnlocked, RECIPES, RECIPE_GROUPS, recyclerRecipeForMaterial } from '../content/recipes';
-import { cargoMaterial, MATCHED_BOTS } from '../content/botAssembly';
+import { BOT_BUILD_BY_ID, cargoMaterial, MATCHED_BOTS } from '../content/botAssembly';
 import { RESEARCH_PROJECTS } from '../content/research';
 import { getRecipeEfficiencyMultiplier } from '../content/efficiency';
 import { migrateRetiredNodes } from '../content/retiredNodes';
@@ -168,6 +168,9 @@ export class GameEngine {
     }
     for (const sector of Object.values(this.state.sectors)) {
       for (const node of sector.nodes) {
+        // A committed Bot Plant batch still identifies its exact parts, even when its old AP bucket was shared.
+        const botBuild = node.kind === 'botPlant' && node.batch && BOT_BUILD_BY_ID.get(node.batch.recipeId);
+        if (botBuild && node.batch) node.batch.outputs = { ...botBuild.recipe.outputs };
         if (NODE_DEFINITIONS[node.kind].category === 'Logistics') node.processingPaused = false;
         if (node.kind === 'extractor') node.cycleMs = 5000;
         if (node.kind === 'forest' && node.name === 'Wild Forest') node.name = 'Forest';

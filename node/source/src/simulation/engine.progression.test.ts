@@ -282,7 +282,7 @@ describe('six-tier gameplay progression',()=>{
   const e=setup([machine('resourceGolem','g',{health:24,golemCostVersion:3,input:{'command-suppression-bot':1},golemOutputs:['copper','stone']})]);tick(e,.1);const n=e.getSector().nodes[0];expect(n.defeated).toBe(true);expect(n.kind).toBe('copper');expect(n.infiniteResource).toBe(true);expect(n.input['command-suppression-bot']).toBeUndefined();tick(e,1);expect(n.output).toEqual({});
  });
  it('shares stronger bot strength with camp checks',()=>{
-  const e=setup([machine('monster-camp','m',{campStrength:50,attackRequirement:20,input:{'heavy-suppression-bot':1,'medium-suppression-bot':4}})]);tick(e,60);expect(e.getSector().nodes[0].campStrength).toBe(40);expect(e.getSector().nodes[0].input).toEqual({});
+  const e=setup([machine('monster-camp','m',{campStrength:50,attackRequirement:20,input:{'heavy-suppression-bot':1,'medium-suppression-bot':4}})]);tick(e,60);expect(e.getSector().nodes[0].campStrength).toBe(40);expect(e.getSector().nodes[0].input).toEqual({'medium-suppression-bot':1});
  });
  it('saves empty factory layouts with a collision preview and atomic placement',()=>{
   const e=setup([machine('extractor','a',{x:500,y:500,output:{wood:4}})],['factoryTemplates']);expect(e.saveFactoryTemplate('test',['a'])).toBe(true);expect(e.getTemplatePreview(0,500,500)?.valid).toBe(false);expect(e.placeFactoryTemplate(0,500,500)).toBe(false);expect(e.getSector().nodes.length).toBe(1);expect(e.placeFactoryTemplate(0,1500,500)).toBe(true);expect(e.getSector().nodes[1].output).toEqual({});

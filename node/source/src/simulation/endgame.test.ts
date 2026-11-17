@@ -37,7 +37,7 @@ describe('repeatable corner production and seeded assembly',()=>{
   it('carries Alpha overpayment and stops consuming bots while output is full',()=>{
     const {state,sector,node,box}=corner('alpha');node.cornerProgress=ALPHA_AP-3;node.input['command-suppression-bot']=1;
     box.output.alpha=10;simulateCorner(state,sector,node);expect(node.input['command-suppression-bot']).toBe(1);
-    box.output.alpha=9;simulateCorner(state,sector,node);expect(box.output.alpha).toBe(10);expect(node.cornerProgress).toBe(21);expect(node.input['command-suppression-bot']).toBe(0);
+    box.output.alpha=9;simulateCorner(state,sector,node);expect(box.output.alpha).toBe(10);expect(node.cornerProgress).toBe(22);expect(node.input['command-suppression-bot']).toBe(0);
     expect(state.produced?.alpha).toBe(1);
   });
   it('requires all Foundry parts and converts atomically with no extra timer',()=>{

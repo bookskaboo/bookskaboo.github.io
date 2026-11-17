@@ -4,7 +4,7 @@ import { ALPHA_AP, CORNER_ITEMS, FOUNDRY_INPUTS, GROVE_GROWTH, RECLAMATION_QUOTA
 import { modNode } from '../mods/modRules';
 import { getNodeCapabilities, isResourceBehavior } from '../content/nodeCapabilities';
 import { getEffectiveNodeOutputFamilies, NODE_DEFINITIONS } from '../content/nodes';
-import { RECIPES } from '../content/recipes';
+import { getBotPlantBuild, RECIPES } from '../content/recipes';
 import { recyclerMaterialStock } from '../content/recycling';
 import { WASTE_ITEMS } from '../content/progression';
 import { researchCenterView } from './researchCenterView';
@@ -19,7 +19,8 @@ const total = (bag: MachineNode['output']) => Object.values(bag).reduce<number>(
 const inputStock = (node: MachineNode, item: ItemId) => node.kind === 'recycler' ? recyclerMaterialStock(node.input, item) : node.input[item] ?? 0;
 
 export function productionExplanation(node: MachineNode, game: GameState, sector: SectorState) {
-  const recipe = RECIPES[node.batch?.recipeId ?? node.recipeId ?? ''];
+  const botBuild = getNodeCapabilities(node.kind).behavior === 'bot-assembly' ? getBotPlantBuild(node, game.research.completed) : undefined;
+  const recipe = botBuild?.recipe ?? RECIPES[node.batch?.recipeId ?? node.recipeId ?? ''];
   const capacity = modNode(node.kind)?.capacity ?? node.capacity ?? getNodeCapabilities(node.kind).defaultCapacity ?? 5;
   const ingredients = recipe ? Object.entries(recipe.inputs).map(([item, required]) => ({ item: item as ItemId, available: inputStock(node, item as ItemId), required: required ?? 0, capacity: getNodeCapabilities(node.kind).inputCapacity ?? 5 })) : [];
   const possible = { ...recipe?.outputs };
@@ -47,10 +48,10 @@ export function productionExplanation(node: MachineNode, game: GameState, sector
   }
   else if (node.disabled) summary = 'Node disabled.';
   else if (Date.now() - node.constructedAt < node.constructionMs) summary = 'Under construction.';
-  else if (node.processingPaused && NODE_DEFINITIONS[node.kind].category !== 'Logistics') summary = 'Production paused.';
+  else if (node.processingPaused && NODE_DEFINITIONS[node.kind].category !== 'Logistics') summary = botBuild ? `Production paused. ${botBuild.recipe.name}.` : 'Production paused.';
   else if (node.batch) summary = `Producing ${recipe?.name ?? 'a committed batch'}. Batch ingredients already consumed; output room reserved.`;
   else if (recipe?.unlockResearch && !game.research.completed.includes(recipe.unlockResearch)) summary = 'Required recipe research is incomplete.';
-  else if (recipe && requiredRoom > 0 && used + requiredRoom > capacity) summary = `Output/waste buffer full: ${used}/${capacity} stored; next batch needs ${requiredRoom} free spaces. Drain the output or waste route.`;
+  else if (recipe && requiredRoom > 0 && used + requiredRoom > capacity) summary = `Output/waste buffer full: ${used}/${capacity} stored; next batch needs ${requiredRoom} free spaces. Drain the output or waste route.${botBuild ? ` Next build: ${botBuild.recipe.name}.` : ''}`;
   else if (missing.length) summary = `Waiting for ${missing.map(input => `${node.kind === 'recycler' ? materialTypeName(input.item) : ITEM_NAMES[input.item]} (${input.available}/${input.required})`).join(', ')}.`;
   else if (getNodeCapabilities(node.kind).behavior === 'research') summary = researchCenterView(node, game).summary;
   else if (recipe) summary = `${node.progressMs > 0 ? 'Producing' : 'Ready to produce'} ${recipe.name}.`;

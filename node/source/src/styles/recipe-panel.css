@@ -78,3 +78,70 @@
   .recipe-picker-panel .recipe-picker-header p { display: none; }
 }
 
+
+.recipe-picker-panel.bot-plant-panel {
+  grid-template-rows: auto minmax(0, 1fr);
+}
+
+.bot-plant-panel .recipe-picker-header h2 {
+  margin: 0;
+  font: var(--ui-panel-title-font);
+}
+
+.bot-inputs { padding: 12px 14px 8px; }
+
+.part-cards {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.bot-plant-panel .part-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  justify-items: center;
+  grid-template-rows: auto auto 1fr;
+  gap: 8px;
+  min-height: 130px;
+  text-align: center;
+  cursor: default;
+  border-color: color-mix(in srgb, var(--recipe-color) 44%, #494944);
+}
+
+.bot-plant-panel .part-card .recipe-picker-icon {
+  width: 36px;
+  height: 36px;
+}
+
+.bot-plant-panel .part-card .node-icon {
+  width: 24px;
+  height: 24px;
+}
+
+.bot-plant-panel .part-card-empty {
+  background: #222427;
+  border-color: #494944;
+}
+
+.part-card-empty .recipe-picker-icon {
+  border-color: #58544b;
+  background: #1c1e21;
+  box-shadow: inset 0 1px 4px #0004;
+}
+
+.part-label { color: #c8baa0; font: var(--ui-meta-font); }
+.part-copy { display: grid; align-self: start; gap: var(--modal-label-gap); }
+.part-name { overflow-wrap: anywhere; font: var(--modal-card-font); }
+.part-detail { color: #c8baa0; font: var(--ui-meta-font); }
+.part-card-empty .part-name { color: #a6a7a5; font: var(--ui-meta-font); }
+
+.bot-output {
+  display: grid;
+  place-items: center;
+  min-height: 36px;
+  margin-top: 4px;
+  color: #efda99;
+  font: var(--ui-panel-title-font);
+  font-variant-numeric: tabular-nums;
+}
+

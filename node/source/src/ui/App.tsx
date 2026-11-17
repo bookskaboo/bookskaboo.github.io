@@ -38,6 +38,7 @@ import { getWorldFieldSize, sectorDistance } from '../simulation/worldGeneration
 import { NodeMinimap } from './NodeMinimap';
 import { NodeInspector } from './NodeInspector';
 import { NodeRecipePicker } from './NodeRecipePicker';
+import { BotPlantInspector } from './BotPlantPanel';
 import { FilterPicker } from './FilterPicker';
 import { RoadFlowPanel } from './RoadFlowPanel';
 import { TributeResourcePicker } from './TributeResourcePicker';
@@ -189,7 +190,8 @@ function FactoryApp({ engine, training, welcome, onShowWelcome, onCloseWelcome, 
     window.clearTimeout(tooltipClearTimer.current);
     if (next) {
       if (welcome || pendingGroupNodes || pendingDisbandGroup || minimapHovered.current) return;
-      if (next.eyebrow !== 'MULTI-CONNECTION PORT' && next.eyebrow !== 'CONNECTION') return;
+      const productionHint = next.nodeId && sector.nodes.some(node => node.id === next.nodeId && node.kind === 'botPlant');
+      if (!productionHint && next.eyebrow !== 'MULTI-CONNECTION PORT' && next.eyebrow !== 'CONNECTION') return;
       if (next.eyebrow === 'MULTI-CONNECTION PORT' && game.preferences.skipMultiConnectionTooltip) return;
       setTooltip(next);
     } else if (!tooltipHovered.current) tooltipClearTimer.current = window.setTimeout(() => setTooltip(undefined), 250);
@@ -579,7 +581,8 @@ function FactoryApp({ engine, training, welcome, onShowWelcome, onCloseWelcome, 
       </section></div>}
       {pendingDisbandGroup && <ConfirmModal title="Disband this control group?" body={`The ${sector.controlGroups?.find(group => group.id === pendingDisbandGroup)?.colorName ?? 'selected'} group will be removed. Its nodes, cables, and positions stay unchanged. An administrative separation.`} confirm="DISBAND" onCancel={() => setPendingDisbandGroup(undefined)} onConfirm={() => { engine.disbandControlGroup(pendingDisbandGroup); setPendingDisbandGroup(undefined); }} />}
       {training && <TutorialGuide session={training} game={game} camera={camera} nodePositions={tutorialNodePositions} onStageChange={setTutorialStage} onPlacementTarget={setTutorialTarget} placementCorrection={placementCorrection?.text} panel={panel} placing={placing} selectedIds={selectedIds} selectionInfo={selectionInfo} onPanel={value => { setPanel(value); setReturnPanel(null); setSelectedIds([]); setPlacement(undefined); }} onExit={onExitTutorial} onFinish={onFinishTutorial} />}
-      {configuringNode && ['recipe', 'recipe-preview'].includes(getNodeModule(configuringNode.kind).controls.configuration ?? '') && <NodeRecipePicker key={configuringNode.id} requiredRecipeId={training ? tutorialRecipeChoice(training.kind, configuringNode, sector.nodes) : undefined} game={game} engine={engine} node={configuringNode} skipWarnings={skipRecipeWarnings} onSkipWarnings={setSkipRecipeWarnings} onClose={() => setConfiguringNodeId(undefined)} />}
+      {configuringNode?.kind === 'botPlant' && <BotPlantInspector node={configuringNode} completed={game.research.completed} onClose={() => setConfiguringNodeId(undefined)} />}
+      {configuringNode && getNodeModule(configuringNode.kind).controls.configuration === 'recipe' && <NodeRecipePicker key={configuringNode.id} requiredRecipeId={training ? tutorialRecipeChoice(training.kind, configuringNode, sector.nodes) : undefined} game={game} engine={engine} node={configuringNode} skipWarnings={skipRecipeWarnings} onSkipWarnings={setSkipRecipeWarnings} onClose={() => setConfiguringNodeId(undefined)} />}
       {configuringNode?.kind === 'filter' && !panel && !welcome && <FilterPicker key={configuringNode.id} engine={engine} node={configuringNode} onClose={() => setConfiguringNodeId(undefined)} />}
       {configuringNode?.kind === 'goblinTribute' && <TributeResourcePicker key={configuringNode.id} game={game} engine={engine} node={configuringNode} onClose={() => setConfiguringNodeId(undefined)} />}
       {confirmDelete && <ConfirmModal title="Decommission selection?" body={`${selectedIds.length} node${selectedIds.length === 1 ? '' : 's'} will be dismantled. Attached cables will also be removed.`} confirm="DECOMMISSION" onCancel={() => setConfirmDelete(false)} onConfirm={doDelete} />}

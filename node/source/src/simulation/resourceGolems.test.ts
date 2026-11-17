@@ -86,12 +86,12 @@ describe('resource Golems', () => {
     expect(getEffectiveNodeOutputFamilies(golem)).toEqual([]);
     golem.input['heavy-suppression-bot'] = 10;
     advance(engine, .1);
-    expect(golem.health).toBe(20);
+    expect(golem.health).toBe(10);
     engine = new GameEngine(normalizeLegacy(JSON.parse(JSON.stringify(engine.getState())))!);
     golem = engine.getSector().nodes[0];
     advance(engine, 60);
-    expect(golem.health).toBe(20);
-    golem.input['suppression-bot'] = 19;
+    expect(golem.health).toBe(10);
+    golem.input['suppression-bot'] = 9;
     advance(engine, .1);
     expect(golem.kind).toBe('resourceGolem');
     expect(golem.health).toBe(1);

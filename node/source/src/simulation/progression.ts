@@ -2,8 +2,8 @@ import { modNode, modNodeTemplate } from '../mods/modRules';
 import { isCustomContentId } from '../mods/modTypes';
 import { endgameRank } from '../content/endgame';
 import type { GameState, ItemId, MachineNode, SectorState } from '../domain/types';
-import { isRecipeUnlocked, RECIPES, RETIRED_RECIPES } from '../content/recipes';
-import { BOT_BUILDS, BOT_ITEMS, cargoMaterial, SUPPRESSION_BOT } from '../content/botAssembly';
+import { getBotPlantBuild, RECIPES, RETIRED_RECIPES } from '../content/recipes';
+import { BOT_ITEMS, cargoMaterial, SUPPRESSION_BOT } from '../content/botAssembly';
 import { LATE_RECIPES, WASTE_ITEMS, BOT_STRENGTH } from '../content/progression';
 import { getNodeCapabilities } from '../content/nodeCapabilities';
 import { getRecoveryMultiplier } from '../content/efficiency';
@@ -104,7 +104,7 @@ export function simulateExtendedRecipe(state:GameState,node:MachineNode,dt:numbe
  const recycler = node.kind === 'recycler';
  const activeId = node.batch?.recipeId ?? node.recipeId;
  const recipe = automatic && !node.batch
-  ? BOT_BUILDS.find(build => (node.input[build.frame] ?? 0) > 0 && (node.input[build.gun] ?? 0) > 0 && isRecipeUnlocked(build.recipe.id, state.research.completed))?.recipe
+  ? getBotPlantBuild(node, state.research.completed)?.recipe
   : activeId ? RECIPES[activeId] : undefined;
  if (!recipe) {
   if (recycler) node.progressMs = 0;

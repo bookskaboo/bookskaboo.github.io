@@ -152,7 +152,7 @@ export function getResearchMilestones(game: GameState): ResearchMilestone[] {
     if (done('automataCore') && !done('hydraulicAssembly')) candidates.push(expansion(corners));
     if (!done('suppressionBot')) candidates.push(expansion(camp));
     if (done('sealedRobotics') && !done('mithrilTools')) {
-      if (starterCamp) candidates.push(recipe('assemble-bot-f2-g2', 'Suppression Bot 3 AP', 'A steady procession might be persuasive.'));
+      if (starterCamp) candidates.push(recipe('assemble-bot-f2-g2', RECIPES['assemble-bot-f2-g2'].name, 'A steady procession might be persuasive.'));
       else if (!tributeSettlement) candidates.push(expansion(dwarves));
     }
     if (done('precisionControl')) {

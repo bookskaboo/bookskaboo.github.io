@@ -91,6 +91,17 @@ describe('production animation and bottleneck cues', () => {
     expect(icon.root.children).toHaveLength(1);
     expect(icon.root.children[0]).not.toBe(firstDrawing);
   });
+  it('shows the ready or active bot AP in the production tooltip', () => {
+    const game = createInitialState(1), sector = game.sectors[game.activeSectorId];
+    game.research.completed = ['suppressionBot', 'finalRobotics'];
+    const plant = tutorialNode('botPlant', 'plant', 500, 500, { input: { 'final-frame': 1 } });
+    expect(productionExplanation(plant, game, sector).summary).not.toContain('70 AP');
+    plant.input['final-cannon'] = 1;
+    expect(productionExplanation(plant, game, sector).summary).toContain('Ready to produce Suppression Bot 70 AP');
+    simulateExtendedRecipe(game, plant, 100, 1);
+    plant.input = { 'simple-robot-frame': 1, 'simple-robot-gun': 1 };
+    expect(productionExplanation(plant, game, sector).summary).toContain('Producing Suppression Bot 70 AP');
+  });
   it('traces missing extraction through a Joint and checks synchronized research inputs', () => {
     const game = createInitialState(1), sector = game.sectors[game.activeSectorId];
     const forest = tutorialNode('forest', 'forest', 200, 400, { resourceItem: 'wood', resourceRemaining: 0 });
