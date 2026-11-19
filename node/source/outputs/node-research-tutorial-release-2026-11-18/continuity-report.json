@@ -1,0 +1,26 @@
+{
+  "verifiedAt": "2026-11-19T00:21:25.168Z",
+  "oldBuild": "/node/assets/index-CZty5UnZ.js",
+  "newBuild": "/node/assets/index-CkVWDRat.js",
+  "oldTabContinued": true,
+  "timeBefore": 243389.10000002384,
+  "timeAfter": 248089.10000002384,
+  "reloadPreserved": [
+    "seed",
+    "elapsed time",
+    "active map",
+    "nodes",
+    "connections",
+    "stocks",
+    "production counters",
+    "in-flight transfers",
+    "recipes",
+    "active batches",
+    "batch progress",
+    "research project",
+    "research contributions",
+    "saved project contributions"
+  ],
+  "grandfatheredCoreProjects": 7,
+  "errors": []
+}

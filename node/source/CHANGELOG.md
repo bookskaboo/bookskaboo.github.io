@@ -2,25 +2,21 @@
 
 A searchable record of completed changes, design decisions, and relevant review findings. Stable NODE IDs can be cited in chats and searched in the repository.
 
-**542 records · 2026-10-12–2026-11-18 · America/Los_Angeles**
+**544 records · 2026-10-12–2026-11-18 · America/Los_Angeles**
 
 [Open searchable history](<docs/changelog/index.html>) · [How to review and maintain it](<docs/changelog/README.md>) · [Sources and coverage gaps](<docs/changelog/sources.md>)
 
 ## Local changes awaiting publication
 
-Latest confirmed game publication: [d3f62b5](https://github.com/bookskaboo/bookskaboo.github.io/commit/d3f62b5efdbbeb850a80635efefb3229e7085bcc).
+Latest confirmed game publication: [fa3647e](https://github.com/bookskaboo/bookskaboo.github.io/commit/fa3647ee98a2f4c9c7a20317628b6be6b8381e5b).
 
 | ID | Change | Topics |
 | --- | --- | --- |
+| [NODE-0543](<docs/changelog/2026-11.md#node-0543>) | Add 32-unit snapping with touching bodies to the grid test page | Interface, Controls, Placement |
 | [NODE-0542](<docs/changelog/2026-11.md#node-0542>) | Compare touching nodes and closer grid snapping in a test page | Interface, Controls, Placement |
-| [NODE-0541](<docs/changelog/2026-11.md#node-0541>) | Remove written guides from the Tutorials modal | Tutorials, Interface |
-| [NODE-0540](<docs/changelog/2026-11.md#node-0540>) | Give each Core recipe its own research project | Research, Recipes, Balance |
-| [NODE-0539](<docs/changelog/2026-11.md#node-0539>) | Keep tutorial controls focused and clear of recipe panels | Tutorials, Interface, Research |
-| [NODE-0538](<docs/changelog/2026-11.md#node-0538>) | Center Final Core storage and show Golem AP on the playfield | Interface, Research, Combat |
 | [NODE-0536](<docs/changelog/2026-11.md#node-0536>) | Use whole-number AP ratings in the Bot Plant preview | Interface, Production, Recipes |
 | [NODE-0534](<docs/changelog/2026-11.md#node-0534>) | Add a Bot Plant input card test page | Interface, Production, Recipes |
 | [NODE-0528](<docs/changelog/2026-11.md#node-0528>) | Create the current Bot Plant production reference | Production, Recipes, Research, Combat |
-| [NODE-0527](<docs/changelog/2026-11.md#node-0527>) | Keep recipe icons clear of the third port row | Production, Recipes, Interface, Art |
 | [NODE-0515](<docs/changelog/2026-11.md#node-0515>) | Measure peripheral intermediate supply through first victory | Playtesting, Progression, Balance, Research, Logistics, World map |
 | [NODE-0514](<docs/changelog/2026-11.md#node-0514>) | Measure Core Assembly Efficiency through first victory | Playtesting, Progression, Balance, Research, Logistics |
 | [NODE-0510](<docs/changelog/2026-11.md#node-0510>) | Compare the distributed layout through first victory | Playtesting, Progression, Balance, Research, Logistics |
@@ -82,13 +78,14 @@ Latest confirmed game publication: [d3f62b5](https://github.com/bookskaboo/books
 
 ## Dated history
 
-- [2026-11](<docs/changelog/2026-11.md>) — 524 records
+- [2026-11](<docs/changelog/2026-11.md>) — 526 records
 - [2026-10](<docs/changelog/2026-10.md>) — 18 records
 
 “Known by” dates are implementation/publication bounds, not exact change dates. “Backfilled” dates mark records with uncertain original dates. Supersession links explain reversals. Original-game records do not certify current rebuild behavior.
 
 ## Published releases
 
+- 2026-11-18 — [fa3647e: Standalone Core research and guided tutorial improvements](https://github.com/bookskaboo/bookskaboo.github.io/commit/fa3647ee98a2f4c9c7a20317628b6be6b8381e5b) — Fast-forwarded main from d3f62b5 with changes confined to node/. Verified normal live HTML and all ten new runtime assets by SHA-256. All ten previous runtime assets remain available for open games.
 - 2026-11-16 — [d3f62b5: Whole-number bot AP and Bot Plant input cards](https://github.com/bookskaboo/bookskaboo.github.io/commit/d3f62b5efdbbeb850a80635efefb3229e7085bcc) — Fast-forwarded main from 4aa0617 with changes confined to node/. Verified the normal live HTML and all ten runtime assets by SHA-256.
 - 2026-11-16 — [4aa0617: Tiered bot production and Bot Plant recipes](https://github.com/bookskaboo/bookskaboo.github.io/commit/4aa0617302d84a4267ac0564183ed49307b5fcf4) — Fast-forwarded main from 8437231 with changes confined to node/. The normal live HTML and all ten runtime assets matched the tested build by SHA-256.
 - 2026-11-15 — [8437231: Destination map pricing and peripheral production balance](https://github.com/bookskaboo/bookskaboo.github.io/commit/8437231277dca6792b429da3aa91080be0ab5224) — Fast-forwarded main from 95a2bb5 with changes confined to node/. The normal live HTML and all ten build assets matched the tested release by SHA-256.
@@ -125,7 +122,7 @@ A record marked “Published by” was known in that snapshot and may have appea
 - [Connections](<docs/changelog/index.html?topic=Connections>) (31)
 - [Construction](<docs/changelog/index.html?topic=Construction>) (15)
 - [Control groups](<docs/changelog/index.html?topic=Control%20groups>) (3)
-- [Controls](<docs/changelog/index.html?topic=Controls>) (40)
+- [Controls](<docs/changelog/index.html?topic=Controls>) (41)
 - [Deployment](<docs/changelog/index.html?topic=Deployment>) (1)
 - [Design](<docs/changelog/index.html?topic=Design>) (7)
 - [Developer tools](<docs/changelog/index.html?topic=Developer%20tools>) (1)
@@ -135,7 +132,7 @@ A record marked “Published by” was known in that snapshot and may have appea
 - [Endgame](<docs/changelog/index.html?topic=Endgame>) (4)
 - [Exploration](<docs/changelog/index.html?topic=Exploration>) (23)
 - [Extraction](<docs/changelog/index.html?topic=Extraction>) (1)
-- [Interface](<docs/changelog/index.html?topic=Interface>) (202)
+- [Interface](<docs/changelog/index.html?topic=Interface>) (204)
 - [Logistics](<docs/changelog/index.html?topic=Logistics>) (92)
 - [Map](<docs/changelog/index.html?topic=Map>) (3)
 - [Mods](<docs/changelog/index.html?topic=Mods>) (6)
@@ -144,8 +141,8 @@ A record marked “Published by” was known in that snapshot and may have appea
 - [Nodes](<docs/changelog/index.html?topic=Nodes>) (2)
 - [Options](<docs/changelog/index.html?topic=Options>) (4)
 - [Performance](<docs/changelog/index.html?topic=Performance>) (1)
-- [Persistence](<docs/changelog/index.html?topic=Persistence>) (40)
-- [Placement](<docs/changelog/index.html?topic=Placement>) (1)
+- [Persistence](<docs/changelog/index.html?topic=Persistence>) (41)
+- [Placement](<docs/changelog/index.html?topic=Placement>) (2)
 - [Planning](<docs/changelog/index.html?topic=Planning>) (169)
 - [Playtesting](<docs/changelog/index.html?topic=Playtesting>) (48)
 - [Power](<docs/changelog/index.html?topic=Power>) (2)
@@ -154,7 +151,7 @@ A record marked “Published by” was known in that snapshot and may have appea
 - [Publication](<docs/changelog/index.html?topic=Publication>) (2)
 - [Publishing](<docs/changelog/index.html?topic=Publishing>) (7)
 - [Recipes](<docs/changelog/index.html?topic=Recipes>) (110)
-- [Research](<docs/changelog/index.html?topic=Research>) (213)
+- [Research](<docs/changelog/index.html?topic=Research>) (214)
 - [Resources](<docs/changelog/index.html?topic=Resources>) (87)
 - [Responsive](<docs/changelog/index.html?topic=Responsive>) (2)
 - [Roads](<docs/changelog/index.html?topic=Roads>) (13)
@@ -166,7 +163,7 @@ A record marked “Published by” was known in that snapshot and may have appea
 - [Testing](<docs/changelog/index.html?topic=Testing>) (17)
 - [Text](<docs/changelog/index.html?topic=Text>) (6)
 - [Tooling](<docs/changelog/index.html?topic=Tooling>) (3)
-- [Tutorials](<docs/changelog/index.html?topic=Tutorials>) (32)
+- [Tutorials](<docs/changelog/index.html?topic=Tutorials>) (33)
 - [UI](<docs/changelog/index.html?topic=UI>) (4)
 - [Undo](<docs/changelog/index.html?topic=Undo>) (4)
 - [Waste](<docs/changelog/index.html?topic=Waste>) (21)

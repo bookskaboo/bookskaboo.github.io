@@ -16,6 +16,14 @@
   },
   "releases": [
     {
+      "id": "fa3647e",
+      "date": "2026-11-18",
+      "title": "Standalone Core research and guided tutorial improvements",
+      "commit": "fa3647ee98a2f4c9c7a20317628b6be6b8381e5b",
+      "url": "https://github.com/bookskaboo/bookskaboo.github.io/commit/fa3647ee98a2f4c9c7a20317628b6be6b8381e5b",
+      "notes": "Fast-forwarded main from d3f62b5 with changes confined to node/. Verified normal live HTML and all ten new runtime assets by SHA-256. All ten previous runtime assets remain available for open games."
+    },
+    {
       "id": "d3f62b5",
       "date": "2026-11-16",
       "title": "Whole-number bot AP and Bot Plant input cards",
@@ -16188,7 +16196,7 @@
       "dateBasis": "chat",
       "kind": "fixed",
       "state": "implemented",
-      "delivery": "local",
+      "delivery": "published",
       "title": "Keep recipe icons clear of the third port row",
       "summary": "Production nodes with three or more port rows put the recipe icon between the lowest buffer boxes and the progress bar. Fit the icon to that space so the Fabricator and Synthesizer can show the third row without reserving part of its label for the icon.",
       "details": [
@@ -16212,7 +16220,8 @@
       "supersedes": [
         "NODE-0519"
       ],
-      "validation": "The build passed, and 1,740 tests passed with two skipped. A local browser fixture at 100% and 55% zoom showed clearance on a Shiny Core Fabricator with a lowered output and a mirrored Mythril Mesh Synthesizer with reordered inputs. The Bot Plant kept its centered icon. The style documents were checked structurally."
+      "validation": "The build passed, and 1,740 tests passed with two skipped. A local browser fixture at 100% and 55% zoom showed clearance on a Shiny Core Fabricator with a lowered output and a mirrored Mythril Mesh Synthesizer with reordered inputs. The Bot Plant kept its centered icon. The style documents were checked structurally.",
+      "publishedBy": "fa3647e"
     },
     {
       "id": "NODE-0528",
@@ -16520,7 +16529,7 @@
       "dateBasis": "chat",
       "kind": "changed",
       "state": "implemented",
-      "delivery": "local",
+      "delivery": "published",
       "title": "Center Final Core storage and show Golem AP on the playfield",
       "summary": "The Research Center shows Final Core storage in a centered row below the other Cores. Each undefeated Golem shows its remaining AP requirement below the central input socket.",
       "topics": [
@@ -16537,7 +16546,8 @@
         "src/simulation/devSource.test.ts",
         "src/simulation/resourceGolems.test.ts"
       ],
-      "validation": "The site build and 1748 workspace tests passed. In an isolated browser fixture, two delivered Final Cores filled two centered pips and one 9 AP bot reduced a Copper Golem's label from 100 to 91 AP required. An engine test confirmed the Dev Source supplies Final Cores for an outstanding project and leaves idle research storage empty."
+      "validation": "The site build and 1748 workspace tests passed. In an isolated browser fixture, two delivered Final Cores filled two centered pips and one 9 AP bot reduced a Copper Golem's label from 100 to 91 AP required. An engine test confirmed the Dev Source supplies Final Cores for an outstanding project and leaves idle research storage empty.",
+      "publishedBy": "fa3647e"
     },
     {
       "id": "NODE-0539",
@@ -16545,7 +16555,7 @@
       "dateBasis": "chat",
       "kind": "fixed",
       "state": "implemented",
-      "delivery": "local",
+      "delivery": "published",
       "title": "Keep tutorial controls focused and clear of recipe panels",
       "summary": "The practice card stays at the bottom left. The current step determines which factory controls are available. Basics sends Wood straight to the Kiln and guides players through Joint and Assembler research. Monster Camps hints at rewards from continued suppression.",
       "topics": [
@@ -16564,7 +16574,8 @@
         "docs/node-ui-style-guide.docx",
         "docs/typography-style-review.docx"
       ],
-      "validation": "The site build and 1,754 workspace tests passed with two skips. Chromium verified restricted controls, Joint inspection, the direct Wood Extractor-to-Kiln cable, and starting Assembler research. Research and Smelter panels stayed clear of the tutorial card at 1,180 and 390 CSS pixels. The full five-Core payment was verified in simulation. The Word documents passed structural checks. LibreOffice was unavailable for rendering."
+      "validation": "The site build and 1,754 workspace tests passed with two skips. Chromium verified restricted controls, Joint inspection, the direct Wood Extractor-to-Kiln cable, and starting Assembler research. Research and Smelter panels stayed clear of the tutorial card at 1,180 and 390 CSS pixels. The full five-Core payment was verified in simulation. The Word documents passed structural checks. LibreOffice was unavailable for rendering.",
+      "publishedBy": "fa3647e"
     },
     {
       "id": "NODE-0540",
@@ -16572,7 +16583,7 @@
       "dateBasis": "chat",
       "kind": "changed",
       "state": "implemented",
-      "delivery": "local",
+      "delivery": "published",
       "title": "Give each Core recipe its own research project",
       "summary": "Simple Core is a free Refiner discovery. Each later Core project costs five of every earlier Core and appears in the research tree. Mineral Regeneration 1 uses five each through Hydro. Road Channels 2 uses 20 each through Shiny.",
       "details": [
@@ -16596,7 +16607,8 @@
       "supersedes": [
         "NODE-0331"
       ],
-      "validation": "The site build and 1,754 workspace tests passed with two skips. Tests covered the seven Core prices, the synchronized Hydro Core payment, migration, research dependencies, and the two balance changes. Chromium showed all seven Core projects when searching for Final Core and the dependency from End of the World. No end-to-end progression balance run."
+      "validation": "The site build and 1,754 workspace tests passed with two skips. Tests covered the seven Core prices, the synchronized Hydro Core payment, migration, research dependencies, and the two balance changes. Chromium showed all seven Core projects when searching for Final Core and the dependency from End of the World. No end-to-end progression balance run.",
+      "publishedBy": "fa3647e"
     },
     {
       "id": "NODE-0541",
@@ -16604,7 +16616,7 @@
       "dateBasis": "chat",
       "kind": "changed",
       "state": "implemented",
-      "delivery": "local",
+      "delivery": "published",
       "title": "Remove written guides from the Tutorials modal",
       "summary": "Each available tutorial has one Start action. Remove the Read guide buttons, written-guide view, and its unused styles.",
       "topics": [
@@ -16621,7 +16633,8 @@
         "docs/node-ui-style-guide.docx",
         "docs/typography-style-review.docx"
       ],
-      "validation": "The site build and 1,754 workspace tests passed with two skips. Chromium verified one enabled Start action per available lesson at 1,180 and 390 CSS pixels and opened Basics successfully. Both Word style documents passed structural checks. The packaged document renderer could not find LibreOffice for visual rendering."
+      "validation": "The site build and 1,754 workspace tests passed with two skips. Chromium verified one enabled Start action per available lesson at 1,180 and 390 CSS pixels and opened Basics successfully. Both Word style documents passed structural checks. The packaged document renderer could not find LibreOffice for visual rendering.",
+      "publishedBy": "fa3647e"
     },
     {
       "id": "NODE-0542",
@@ -16656,6 +16669,68 @@
         "docs/typography-style-review.docx"
       ],
       "validation": "Preview TypeScript check and production build passed. Eleven new prototype checks plus twelve existing grid and preference checks passed (23 total). Chromium verified all three modes, touch acceptance, overlap rejection, stacked and mixed-size specimens, keyboard and pointer movement, zoom, grid toggle and shared-socket inspection. Checked a 390 CSS-pixel viewport without horizontal overflow. Saved outputs/grid-contact-preview.jpg. Both Word references reopened and passed structural checks; visual rendering was unavailable because the packaged renderer could not find LibreOffice. Actual Pixi placement, cable routing and socket targeting require integration checks before adoption. No gameplay run or publication."
+    },
+    {
+      "id": "NODE-0543",
+      "date": "2026-11-18",
+      "dateBasis": "chat",
+      "kind": "changed",
+      "state": "implemented",
+      "delivery": "local",
+      "title": "Add 32-unit snapping with touching bodies to the grid test page",
+      "summary": "Default the spacing prototype to a 32-unit grid with no clearance between player-built rectangular node bodies. Retain the earlier comparisons, overlap rejection and resource, obstacle and field-boundary clearance.",
+      "details": [
+        "Draw the 32-unit grid and use its step for both pointer and keyboard snapping. Extend the comparison controls to four options and keep them responsive. This extends NODE-0542; the actual game is unchanged."
+      ],
+      "topics": [
+        "Interface",
+        "Controls",
+        "Placement"
+      ],
+      "sources": [
+        "local-code"
+      ],
+      "evidence": [
+        "previews/grid-contact/model.ts",
+        "previews/grid-contact/model.test.ts",
+        "previews/grid-contact/main.tsx",
+        "previews/grid-contact/preview.css",
+        "previews/grid-contact/README.md",
+        "docs/node-ui-style-guide.docx",
+        "docs/typography-style-review.docx"
+      ],
+      "validation": "Preview type-check and production build passed. All 27 focused prototype, grid and preference tests passed. Chromium verified 32-unit keyboard movement, touch acceptance, overlap rejection, stacked and mixed-size examples, and desktop and 390 CSS-pixel layouts without horizontal page overflow. Saved outputs/grid-contact-32-preview.jpg. Both Word references reopened and passed ZIP and text checks; the packaged renderer could not find LibreOffice for visual QA. Prototype only; actual Pixi placement, wiring and socket targeting remain unmodified."
+    },
+    {
+      "id": "NODE-0544",
+      "date": "2026-11-18",
+      "dateBasis": "chat",
+      "kind": "changed",
+      "state": "implemented",
+      "delivery": "published",
+      "publishedBy": "fa3647e",
+      "title": "Publish Core research and tutorial updates with save continuity",
+      "summary": "Publish standalone Core projects and the research tree, Hydro Mineral Regeneration 1, Shiny Road Channels 2, tutorial controls and placement, centered Final Core storage, and Golem AP requirements.",
+      "details": [
+        "Retain the previous runtime assets for games already open. Existing saves keep Core recipes granted by bundled projects and retain their factory, stock, active batches, and research progress."
+      ],
+      "topics": [
+        "Research",
+        "Tutorials",
+        "Interface",
+        "Persistence"
+      ],
+      "sources": [
+        "local-code"
+      ],
+      "evidence": [
+        "outputs/node-research-tutorial-release-2026-11-18/publication-receipt.json",
+        "outputs/node-research-tutorial-release-2026-11-18/preflight-report.json",
+        "outputs/node-research-tutorial-release-2026-11-18/continuity-report.json",
+        "src/content/coreResearch.ts",
+        "src/ui/Tutorials.tsx"
+      ],
+      "validation": "The /node/ site build and 1,765 workspace tests passed with two skips. An isolated Chromium fixture continued production on the old build after the hosted files switched, then loaded its save in the new build with matching nodes, connections, stock, elapsed time, production totals, transfers, recipe selections, active batches and research contributions. All seven Core projects were retained. Chromium verified the tutorial Start actions at 1,180 and 390 CSS pixels and the seven-project Core tree. GitHub Pages completed successfully. The normal live HTML and all ten new runtime assets matched by SHA-256, and ten previous assets still matched. Player browser tabs were untouched. The transition used an isolated save fixture."
     }
   ]
 }
