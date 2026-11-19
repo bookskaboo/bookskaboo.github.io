@@ -2,7 +2,7 @@
 
 ## Adopted research tracks (Q113, November 3, 2026)
 
-The user supplies four endgame research tracks rather than choosing the proposed generic speed/yield improvement. Treat these as Final-Core-era research, intended to give continued Final Core production a purpose. Q120, Q125, Q129 and Q132 adopt all-seven-Core prices for regeneration, Landfill, Train research and the two advanced Road levels. Q134 adopts the three relocation prices below; Q135 adopts post-victory availability; Q136–Q138 adopt resource eligibility, coupled camp/Tribute movement and Lake-only movement with optional explicit Intake selection. Geometry/save integration remains implementation work. Existing post-first-Core global Storage/Inventory access stays independent.
+The user supplies four endgame research tracks rather than choosing the proposed generic speed/yield improvement. Treat these as Final-Core-era research, intended to give continued Final Core production a purpose. Q120, Q125, Q129 and Q132 adopt all-seven-Core prices for regeneration, Landfill, Train research and the two advanced Road levels. Q134 adopts the three relocation prices below; Q135 adopts post-victory availability; Q136–Q138 originally adopted resource eligibility, coupled camp/Tribute movement and Lake-only movement with optional explicit Intake selection. The November 18 revision below replaces that Lake-only choice with automatic movement of connected Intakes. Geometry/save integration remains implementation work. Existing post-first-Core global Storage/Inventory access stays independent.
 
 | Working project name | Purchase structure | Adopted benefit |
 | --- | --- | --- |
@@ -58,9 +58,19 @@ The coupled move must preserve IDs, owner linkage, inventories, capacities, supp
 
 ## Adopted Lake relocation and connected Intakes (Q138, November 4, 2026)
 
+**Superseded by the November 18, 2026 Lake relocation revision below.** Preserve the following as the original Q138 decision.
+
 The user selects option 1: moving a Lake alone leaves its connected Lake Intakes in place and preserves their connections. Players can explicitly group-select Intakes when they want to move the installation together. Automatic inclusion of connected Intakes was not selected.
 
 Current Intakes obtain Water through a Lake connection, not a shoreline-distance test, and each Lake currently supports at most two connected Intakes. Preserve these rules, node IDs, Water stock, progress, connections and in-flight goods. Moving a Lake must not automatically collect connected Intakes or downstream factory nodes. Retain same-map scope and legal placement requirements. Lake Intakes remain Production nodes; this decision grants no new Water rate, extra Intake connection or cross-map movement. Sources: [Intake production](../../src/simulation/progression.ts), [connection validation](../../src/simulation/engine.ts). Runtime Lake relocation remains pending.
+
+## Lake relocation revision November 18 2026
+
+**New worlds only, confirmed November 18, 2026.** Apply this revision with the reviewed Deep Hole and Lake rules only in newly created worlds. Existing worlds retain their current relocation behavior and other obstruction rules, including on unexplored maps. Preserve that choice through load, import and re-save.
+
+The obstruction review replaces Q138's optional grouping with automatic inclusion: moving a Lake carries all its directly connected Lake Intakes by the same displacement. Preserve relative positions, node identities, stored Water, progress and connections. Deduplicate Intakes already included in an explicit group selection. Downstream factory nodes and disconnected Intakes are not automatically collected.
+
+Treat the move as one transaction. Reject the entire move if the Lake, any included Intake, or an affected cable fails field, placement or obstruction validation. Retain the same-map and post-victory research gates. Lake Intakes remain Production nodes. This is agreed design pending implementation; the current game still permits moving a Lake without automatically carrying the Intakes. The reviewed upgrade-based 2 → 3 → 4 connection limit and Intake-only Water supply are recorded in [the obstruction rules](../obstruction-types-and-behavior.md#lakes).
 
 ## Deep Hole efficiency rules to resolve
 

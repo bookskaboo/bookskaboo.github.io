@@ -49,7 +49,11 @@ export function updateProductionPort(view: PortView, node: MachineNode, sector: 
   });
 }
 
+const bufferSignatures = new WeakMap<Graphics, string>();
 export function drawBufferSquares(graphics: Graphics, amount: number, capacity: number, color: number, cell = 11, gap = 4, columns = 10, maximumSquares = 40) {
+  const signature = [amount, capacity, color, cell, gap, columns, maximumSquares].join(':');
+  if (bufferSignatures.get(graphics) === signature) return;
+  bufferSignatures.set(graphics, signature);
   graphics.clear();
   const slots = bufferSlots(amount, capacity, maximumSquares);
   slots.forEach((fill, index) => {
@@ -75,7 +79,11 @@ export function updateBufferSquares(view: NodeView, node: MachineNode) {
   view.bufferSquares.position.set(-(Math.min(count, columns) * stride - gap) / 2, size.h / 2 - (isStorageNode(node.kind) ? 14 : 42) - (rows * stride - gap));
 }
 
+const cueSignatures = new WeakMap<Graphics, string>();
 export function drawProductionCue(graphics: Graphics, node: MachineNode, cue: ProductionVisual | undefined, completed: readonly string[]) {
+  const signature = JSON.stringify([cue?.missingInputs, cue?.blockedOutputs]);
+  if (cueSignatures.get(graphics) === signature) return;
+  cueSignatures.set(graphics, signature);
   graphics.clear();
   if (!cue || isResourceNode(node) || isOrganicNode(node) || isProductionMachine(node)) return;
   // Hollow sockets identify the exact ingredient feed that is short.

@@ -1,5 +1,7 @@
 # Progression and Scaling Design
 
+For current local mechanics, see [progression tiers](systems/progression-tiers.md), [resource use](systems/resource-use.md) and the [recipe catalog](systems/catalogs/recipes.md). This document retains balancing decisions and dated calculations; older numeric examples may predate current rules.
+
 **November 8 revision.** Corner quotas are 500 Dragon AP, 50 Circuit B / 25 Sealed Frames / 100 Mythril Gears at the Foundry, and 1,000 Grove growth. Reclamation takes 20 Metallic Fines or equivalent mixed waste. Final Robotics and Victory each cost five of every Core through Final. See the [current implementation](master-plan/20-endgame-implementation.md).
 
 Updated November 2, 2026.

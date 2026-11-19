@@ -1,0 +1,53 @@
+{
+  "commit": "d3f62b5efdbbeb850a80635efefb3229e7085bcc",
+  "base": "4aa0617302d84a4267ac0564183ed49307b5fcf4",
+  "url": "https://bookskaboo.github.io/node/",
+  "verifiedAt": "2026-11-17T04:52:41.949Z",
+  "matchedRuntimeFiles": 11,
+  "files": [
+    {
+      "file": "index.html",
+      "sha256": "04643049963736a5807aca95f40bf2ac8b61d1b5f09fe9c8a91f16d6f85f72e9"
+    },
+    {
+      "file": "assets/CanvasPool-O_8k9jVW.js",
+      "sha256": "9cf12a9f53a878bb8f9f46337b799031a6986b5f87dd775ef57b2902ae0dc9cd"
+    },
+    {
+      "file": "assets/RenderTargetSystem-CHWUCnC7.js",
+      "sha256": "39880073141b4419980d7b5baf22961675d208105c37f87c54a099e6433ad70f"
+    },
+    {
+      "file": "assets/browserAll-k2caPLew.js",
+      "sha256": "899ea38fe9b27134ce758db5fe797d843fe03cb42498c6a3f7d7452d88d80c37"
+    },
+    {
+      "file": "assets/canvasUtils-DHiBpmSz.js",
+      "sha256": "8843c3459529c72ffb9a82655454eff39f3458448dd2ae362764f3be4933288f"
+    },
+    {
+      "file": "assets/getTexelRangeRects-5CG6mIA2.js",
+      "sha256": "aea8c02569d6923eec2b28e6973b032101297b4fc9acc85b573146bd074d4974"
+    },
+    {
+      "file": "assets/getTextureBatchBindGroup-CDnZS9mH.js",
+      "sha256": "2b2eff79ef557432774e0acd98963de65847a16840f0b738b07556ea37e21caa"
+    },
+    {
+      "file": "assets/index-CZty5UnZ.js",
+      "sha256": "fc6fa787b263c2fe4a50ed04da146e56549d72bae86891f08e6ca4a15f075d23"
+    },
+    {
+      "file": "assets/index-MoTNZaQg.css",
+      "sha256": "7c6c8caeb04927ebfb13f3d1a7bf7ea35be2009ed05a0c313c13960799ef13c8"
+    },
+    {
+      "file": "assets/init-DjejyVh_.js",
+      "sha256": "948054de63633da72a701c4eb53d7ec902073d85a4da7a323e20e4ebfc1a5d69"
+    },
+    {
+      "file": "assets/webworkerAll-DpW7ixR_.js",
+      "sha256": "259b61e1df36706c96433af04ee5c24e898d17a781fde1f2b38e684eaf648455"
+    }
+  ]
+}

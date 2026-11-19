@@ -1,0 +1,57 @@
+{
+  "date": "2026-11-14",
+  "verifiedAtUtc": "2026-11-15T07:03:40.716673+00:00",
+  "url": "https://bookskaboo.github.io/node/",
+  "repository": "bookskaboo/bookskaboo.github.io",
+  "contentCommit": "95a2bb5caeedf1705b61282ece705235c5ac0b05",
+  "priorLiveCommit": "d43b163db424635358f967d71c2fabf311d2b7c4",
+  "livePublicationVerified": true,
+  "standardUrlMatches": true,
+  "matchedRuntimeFiles": 11,
+  "assets": [
+    {
+      "file": "index.html",
+      "sha256": "af60a51409c53fd392ce86c8fd8bb30b067872eb75721a29eb1908eef69e080a"
+    },
+    {
+      "file": "assets/CanvasPool-O_8k9jVW.js",
+      "sha256": "9cf12a9f53a878bb8f9f46337b799031a6986b5f87dd775ef57b2902ae0dc9cd"
+    },
+    {
+      "file": "assets/RenderTargetSystem-CHWUCnC7.js",
+      "sha256": "39880073141b4419980d7b5baf22961675d208105c37f87c54a099e6433ad70f"
+    },
+    {
+      "file": "assets/browserAll-xMzOBeKX.js",
+      "sha256": "d693dc75ccd8dc6101171d4b454695a8b83992dafe6904c810b9b4a0a0c06b21"
+    },
+    {
+      "file": "assets/canvasUtils-DHiBpmSz.js",
+      "sha256": "8843c3459529c72ffb9a82655454eff39f3458448dd2ae362764f3be4933288f"
+    },
+    {
+      "file": "assets/getTexelRangeRects-5CG6mIA2.js",
+      "sha256": "aea8c02569d6923eec2b28e6973b032101297b4fc9acc85b573146bd074d4974"
+    },
+    {
+      "file": "assets/getTextureBatchBindGroup-CDnZS9mH.js",
+      "sha256": "2b2eff79ef557432774e0acd98963de65847a16840f0b738b07556ea37e21caa"
+    },
+    {
+      "file": "assets/index-CnwypGAt.js",
+      "sha256": "d5381885f7f2866efb52bbe991f7a0d7b878e2d2912f7815cfd337006cca5b95"
+    },
+    {
+      "file": "assets/index-lzPRCSKB.css",
+      "sha256": "6a579e7fb80b418d6626c5b11e9450465381ed67e8f615970df34cfb1da04166"
+    },
+    {
+      "file": "assets/init-CMu80J23.js",
+      "sha256": "d2be1d553949f85ae9c582b518cb788160094b2a6b4408b12fa0f74c4d6f0ff2"
+    },
+    {
+      "file": "assets/webworkerAll-DBccPIg-.js",
+      "sha256": "d60aece3cbb0ffd8cfca7f106e47171b58827145e1d6f5b077d754d356ca7f28"
+    }
+  ]
+}

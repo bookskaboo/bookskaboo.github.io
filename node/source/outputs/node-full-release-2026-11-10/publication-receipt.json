@@ -1,0 +1,59 @@
+{
+  "date": "2026-11-10",
+  "verifiedAtUtc": "2026-11-10T08:50:36.728Z",
+  "url": "https://bookskaboo.github.io/node/",
+  "repository": "bookskaboo/bookskaboo.github.io",
+  "contentCommit": "afdea7a72552e6c1575dc039b54018c909a50edb",
+  "priorLiveCommit": "8ba36918eaf14ad8fb30b0cf26af0d180a03d31d",
+  "priorFullRelease": "ad996a79ee0a3588bc9aeeef6db9d79b2863d32e",
+  "livePublicationVerified": true,
+  "standardUrlMatches": true,
+  "expectedScript": "/node/assets/index-zwTYj21L.js",
+  "matchedRuntimeFiles": 11,
+  "assets": [
+    {
+      "file": "index.html",
+      "sha256": "a44db84a3f9a512653edfcd4ce6fbece1761c3824fc06d66ef1db98fa1660d80"
+    },
+    {
+      "file": "assets/CanvasPool-O_8k9jVW.js",
+      "sha256": "9cf12a9f53a878bb8f9f46337b799031a6986b5f87dd775ef57b2902ae0dc9cd"
+    },
+    {
+      "file": "assets/RenderTargetSystem-CHWUCnC7.js",
+      "sha256": "39880073141b4419980d7b5baf22961675d208105c37f87c54a099e6433ad70f"
+    },
+    {
+      "file": "assets/browserAll-Mq7Bsa7_.js",
+      "sha256": "fd8df7de2c748a4d019745b4f1dc9eeffd1e596397f681e4a169d09889f00b27"
+    },
+    {
+      "file": "assets/canvasUtils-DHiBpmSz.js",
+      "sha256": "8843c3459529c72ffb9a82655454eff39f3458448dd2ae362764f3be4933288f"
+    },
+    {
+      "file": "assets/getTexelRangeRects-5CG6mIA2.js",
+      "sha256": "aea8c02569d6923eec2b28e6973b032101297b4fc9acc85b573146bd074d4974"
+    },
+    {
+      "file": "assets/getTextureBatchBindGroup-CDnZS9mH.js",
+      "sha256": "2b2eff79ef557432774e0acd98963de65847a16840f0b738b07556ea37e21caa"
+    },
+    {
+      "file": "assets/index-CLI3Ubdh.css",
+      "sha256": "7daa69e0d12914bf98ae72ec4cfeb99f1f211ebf26378e22b1d37edbba1f1275"
+    },
+    {
+      "file": "assets/index-zwTYj21L.js",
+      "sha256": "f633d41c9126ec9eebfd21f86f2ab7b7655423e3eb6e8843c7d26be3d0a2713c"
+    },
+    {
+      "file": "assets/init-CEu1_XTg.js",
+      "sha256": "c1d6f5de6dafb182a2345c76ceb641014ba503e6d45c4dd82403733475d057c9"
+    },
+    {
+      "file": "assets/webworkerAll-Dd3Z8xwX.js",
+      "sha256": "62ed305a8137e8ab7f3bc7be1ef9d5f062926138eac4026f524a280c1a44f558"
+    }
+  ]
+}

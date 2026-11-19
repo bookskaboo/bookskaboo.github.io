@@ -6,9 +6,8 @@ import type { CurveMotionSample } from './playfieldTypes';
 
 export function connectionPoints(connection: Connection, nodes: Map<string, MachineNode>, connections: Connection[]) {
   const from = nodes.get(connection.from); const to = nodes.get(connection.to); if (!from || !to) return undefined;
-  const outgoing = connections.filter((candidate) => candidate.from === from.id);
   const outputCount = Math.max(1, NODE_DEFINITIONS[from.kind].output.length);
-  const outputIndex = Math.min(outputCount - 1, Math.max(0, connection.fromPort ?? outgoing.findIndex((candidate) => candidate.id === connection.id)));
+  const outputIndex = Math.min(outputCount - 1, Math.max(0, connection.fromPort ?? connections.filter(candidate => candidate.from === from.id).findIndex(candidate => candidate.id === connection.id)));
   const inputCount = to.kind === 'cornerChallenge' ? getEffectiveNodeInputFamilies(to, []).length : NODE_DEFINITIONS[to.kind].input.length;
   const inputIndex = Math.min(Math.max(0, inputCount - 1), Math.max(0, connection.toPort ?? 0));
   const startAnchor = getPortAnchor(from, 'output', outputIndex); const endAnchor = getPortAnchor(to, 'input', inputIndex);
@@ -25,9 +24,16 @@ export function curvePoint(connection: Connection, nodes: Map<string, MachineNod
 }
 
 export function buildCurveMotionPath(connection: Connection, nodes: Map<string, MachineNode>, connections: Connection[]) {
+  const points = connectionPoints(connection, nodes, connections);
+  if (!points) return [];
+  const controls = getConnectionControlPoints(points.start, points.end, points.sourceSide, points.targetSide);
   const samples: CurveMotionSample[] = []; let distance = 0; let previous: { x: number; y: number } | undefined;
   for (let index = 0; index <= 40; index += 1) {
-    const point = curvePoint(connection, nodes, connections, index / 40); if (!point) return [];
+    const t = index / 40, u = 1 - t;
+    const point = {
+      x: u ** 3 * points.start.x + 3 * u * u * t * controls.first.x + 3 * u * t * t * controls.second.x + t ** 3 * points.end.x,
+      y: u ** 3 * points.start.y + 3 * u * u * t * controls.first.y + 3 * u * t * t * controls.second.y + t ** 3 * points.end.y,
+    };
     if (previous) distance += Math.hypot(point.x - previous.x, point.y - previous.y);
     samples.push({ ...point, distance }); previous = point;
   }

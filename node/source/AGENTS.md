@@ -36,8 +36,16 @@ The live game is `https://bookskaboo.github.io/node/`, published from `main` in 
 
 After the push, wait for GitHub Pages and verify the HTML at the normal live URL and the SHA-256 hashes of every asset in the new build. Update the publication history only after verification. If the configured reviewer denies the push, preserve the tested commit and report the denial and the exact command the user can run. A feature-branch push alone does not publish the live game.
 
+# System documentation
+
+Current system references live in `docs/systems/`, indexed by `docs/README.md`. Read the relevant system document before changing its behavior, and update it in the same change. Regenerate exact catalog tables with `npm run docs:systems` and check freshness and local links with `npm run docs:systems:check`. Keep current implementation separate from dated design proposals and playtest evidence; preserve recorded decisions and flag discrepancies rather than silently changing gameplay while documenting it.
+
+This is required for every future chat working on NODE, without a separate reminder or documentation request. A meaningful change is complete only when its affected system references, applicable guides and generated catalogs are current and its history is recorded. Update existing documents instead of creating a competing reference. If a major new system has no document, add one and link it from the system index. Keep system documents focused on current rules, constraints and implementation entry points.
+
 # Change history
 
 Maintain `docs/changelog/entries.json` after each completed meaningful game, documentation, or tooling change. Read `docs/changelog/README.md` for the format. Add a stable NODE ID, local date, concise outcome, topics, source/evidence, actual verification and material limits. Batch related changes; do not log unimplemented proposals as completed. Search the history when checking earlier decisions or regressions.
+
+The changelog is the primary source of NODE history moving forward. Record meaningful decisions, reversals and deliberate deferrals there with their correct states as well as completed implementations. Search it first for what changed, when and why. System documents describe the current state; plans hold intended work; playtest reports and style review notes retain detailed evidence. Link those supporting records from the changelog and use stable NODE IDs when referring to a change. Do not start new chronological histories in READMEs, system documents or separate change-summary files. Preserve existing historical records and archives.
 
 Keep past records intact. Mark replaced behavior superseded and link the replacing record. Distinguish exact dates from retrospective known-by dates, original-game behavior from the rebuild, and local changes from confirmed publications. Only associate a release after publication is verified. Run `npm run changelog` and `npm run changelog:check` to refresh and verify the generated Markdown and searchable view. Update this history as part of the authorized work without asking for a separate approval.

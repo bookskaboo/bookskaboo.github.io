@@ -1,0 +1,1052 @@
+{
+  "date": "2026-11-18",
+  "status": "completed",
+  "reason": "Remove obsolete emitted config, stale root logs, temporary document renders and generated preview bundles after system-library organization.",
+  "preserved": [
+    "src",
+    "node_modules",
+    "dist",
+    "official documents and decision records",
+    "preview and document authoring source",
+    "publication receipts and deployment checkouts",
+    "playtest reports and checkpoints"
+  ],
+  "archived": [
+    "docs/archive/reference-snapshots/project-readme-2026-11-18.md",
+    "docs/archive/reference-snapshots/research-catalog-2026-11-18.md"
+  ],
+  "removedFileCount": 151,
+  "removedBytes": 25861436.0,
+  "targets": [
+    {
+      "path": ".artifact-work/dwarven-copy-guide-render",
+      "absolutePath": "D:\\node factory v2\\.artifact-work\\dwarven-copy-guide-render",
+      "directory": true,
+      "files": [],
+      "bytes": null
+    },
+    {
+      "path": ".artifact-work/dwarven-copy-review-render",
+      "absolutePath": "D:\\node factory v2\\.artifact-work\\dwarven-copy-review-render",
+      "directory": true,
+      "files": [],
+      "bytes": null
+    },
+    {
+      "path": ".artifact-work/dwarven-discovery-fixture-build",
+      "absolutePath": "D:\\node factory v2\\.artifact-work\\dwarven-discovery-fixture-build",
+      "directory": true,
+      "files": [
+        {
+          "path": ".artifact-work/dwarven-discovery-fixture-build/index.html",
+          "bytes": 294,
+          "sha256": "f56d82c189f1a6454a55e8601d83abd8cc082d6065fa4e4c65f7193b817d275a"
+        },
+        {
+          "path": ".artifact-work/dwarven-discovery-fixture-build/assets/index-CKVdccys.js",
+          "bytes": 220804,
+          "sha256": "04ef0ecdcbf95cce4bc037565bb4c2843d39e169baf5a46fe08905b1fbf328a3"
+        },
+        {
+          "path": ".artifact-work/dwarven-discovery-fixture-build/assets/index-D1U5QTLy.js",
+          "bytes": 220738,
+          "sha256": "b1503ca0649f2fa9e9f8baac9528448c12d6f0ab5f11cff3161b18588f816a07"
+        },
+        {
+          "path": ".artifact-work/dwarven-discovery-fixture-build/assets/index-LurAN43n.css",
+          "bytes": 164498,
+          "sha256": "d439db4aa7e1971aeb5e8a8cca5b18347e2a6bdfa42478f16ac28d769043ee74"
+        }
+      ],
+      "bytes": 606334.0
+    },
+    {
+      "path": ".artifact-work/efficiency-fixture-build",
+      "absolutePath": "D:\\node factory v2\\.artifact-work\\efficiency-fixture-build",
+      "directory": true,
+      "files": [
+        {
+          "path": ".artifact-work/efficiency-fixture-build/index.html",
+          "bytes": 294,
+          "sha256": "d72b76de6bc0d70a4c77aae623e33d48d6b16aa656d5c7a009a669ea602284ac"
+        },
+        {
+          "path": ".artifact-work/efficiency-fixture-build/assets/index-B_BUWbi9.js",
+          "bytes": 502348,
+          "sha256": "e209357d5b1c9862c5606ab20e8728753a591312876e8fcaba773e13ced61601"
+        },
+        {
+          "path": ".artifact-work/efficiency-fixture-build/assets/index-JV7tYgav.css",
+          "bytes": 166953,
+          "sha256": "ca46116281f6a3bc66a0a350a1bafce6ffe40f95032bcc2b77f71001a1cacb41"
+        },
+        {
+          "path": ".artifact-work/efficiency-fixture-build/assets/index-MyuAbNS0.js",
+          "bytes": 502372,
+          "sha256": "c7cb5f97c949073449ac74616536d2623770cbddc29e4ff1d5b6d81127023cf3"
+        },
+        {
+          "path": ".artifact-work/efficiency-fixture-build/assets/index-X7jFhM9i.js",
+          "bytes": 502500,
+          "sha256": "8cd1d5adcb6f43242251d977b1e98969ac0ae8e999620d32dca4344d7ee71db9"
+        }
+      ],
+      "bytes": 1674467.0
+    },
+    {
+      "path": ".artifact-work/efficiency-guide-render",
+      "absolutePath": "D:\\node factory v2\\.artifact-work\\efficiency-guide-render",
+      "directory": true,
+      "files": [],
+      "bytes": null
+    },
+    {
+      "path": ".artifact-work/efficiency-review-render",
+      "absolutePath": "D:\\node factory v2\\.artifact-work\\efficiency-review-render",
+      "directory": true,
+      "files": [],
+      "bytes": null
+    },
+    {
+      "path": ".artifact-work/efficiency-source-build",
+      "absolutePath": "D:\\node factory v2\\.artifact-work\\efficiency-source-build",
+      "directory": true,
+      "files": [
+        {
+          "path": ".artifact-work/efficiency-source-build/index.html",
+          "bytes": 2445,
+          "sha256": "66f445d2ad1d474248d2ec4b8de27f8a7851436cd226e4d8e4dff2bfa1a1b117"
+        },
+        {
+          "path": ".artifact-work/efficiency-source-build/assets/browserAll-DyX9CXvi.js",
+          "bytes": 43485,
+          "sha256": "cd2dd798a102e0a026227b90210b4a6b87073ae2c4f134905b9b6dd8506577c0"
+        },
+        {
+          "path": ".artifact-work/efficiency-source-build/assets/CanvasPool-O_8k9jVW.js",
+          "bytes": 113033,
+          "sha256": "9cf12a9f53a878bb8f9f46337b799031a6986b5f87dd775ef57b2902ae0dc9cd"
+        },
+        {
+          "path": ".artifact-work/efficiency-source-build/assets/canvasUtils-DHiBpmSz.js",
+          "bytes": 6013,
+          "sha256": "8843c3459529c72ffb9a82655454eff39f3458448dd2ae362764f3be4933288f"
+        },
+        {
+          "path": ".artifact-work/efficiency-source-build/assets/getTexelRangeRects-5CG6mIA2.js",
+          "bytes": 11314,
+          "sha256": "aea8c02569d6923eec2b28e6973b032101297b4fc9acc85b573146bd074d4974"
+        },
+        {
+          "path": ".artifact-work/efficiency-source-build/assets/getTextureBatchBindGroup-CDnZS9mH.js",
+          "bytes": 344,
+          "sha256": "2b2eff79ef557432774e0acd98963de65847a16840f0b738b07556ea37e21caa"
+        },
+        {
+          "path": ".artifact-work/efficiency-source-build/assets/index-CXUoVnvo.js",
+          "bytes": 1103546,
+          "sha256": "5422d35175d19b3b4aec591bbca46ad452a40c45a80a2b8e6886b7943e71997a"
+        },
+        {
+          "path": ".artifact-work/efficiency-source-build/assets/index-JV7tYgav.css",
+          "bytes": 166953,
+          "sha256": "ca46116281f6a3bc66a0a350a1bafce6ffe40f95032bcc2b77f71001a1cacb41"
+        },
+        {
+          "path": ".artifact-work/efficiency-source-build/assets/init-D8ZxXYPW.js",
+          "bytes": 14190,
+          "sha256": "50b77db22b77754237eb37d236ed8c8316b767eb18ae68fc7650e6da4c885137"
+        },
+        {
+          "path": ".artifact-work/efficiency-source-build/assets/RenderTargetSystem-CHWUCnC7.js",
+          "bytes": 78110,
+          "sha256": "39880073141b4419980d7b5baf22961675d208105c37f87c54a099e6433ad70f"
+        },
+        {
+          "path": ".artifact-work/efficiency-source-build/assets/webworkerAll-B8ilOuwf.js",
+          "bytes": 55,
+          "sha256": "830811fc931553d62e88fa250fefb555e98747389e3b5c9ebc5ff22818190f45"
+        }
+      ],
+      "bytes": 1539488.0
+    },
+    {
+      "path": ".artifact-work/map-pricing-qa",
+      "absolutePath": "D:\\node factory v2\\.artifact-work\\map-pricing-qa",
+      "directory": true,
+      "files": [
+        {
+          "path": ".artifact-work/map-pricing-qa/browser-1180.png",
+          "bytes": 226854,
+          "sha256": "4622b3d585decdc5fcb4728329423a05ad451c17aa1558af28ee39103ad4fd24"
+        },
+        {
+          "path": ".artifact-work/map-pricing-qa/browser-390.png",
+          "bytes": 82728,
+          "sha256": "2060e41d46b17c738d4729e3f467a87345a7e4bb69fc636bb025f1f8ca72fe95"
+        },
+        {
+          "path": ".artifact-work/map-pricing-qa/final-guide-overview.png",
+          "bytes": 279280,
+          "sha256": "d782917b73872785896f04f4b9b14f5982c25a61eb37748ee4519fa373b49d36"
+        },
+        {
+          "path": ".artifact-work/map-pricing-qa/final-review-overview.png",
+          "bytes": 684858,
+          "sha256": "2f04cec6a29cfac65ae6fa19bfc05dde8bd2d830907a8392ccb30f377e6ea1d5"
+        },
+        {
+          "path": ".artifact-work/map-pricing-qa/guide-overview.png",
+          "bytes": 278145,
+          "sha256": "5a69cfcf189910649d95a022858900768f906e09eb987fb66d0fb84ea0b0a291"
+        },
+        {
+          "path": ".artifact-work/map-pricing-qa/review-overview.png",
+          "bytes": 677780,
+          "sha256": "0cf8cdbeb1e6f580a396b3f2a0728a72a92befa5e384c4aace4ac22206c01338"
+        },
+        {
+          "path": ".artifact-work/map-pricing-qa/final-guide/page-1.png",
+          "bytes": 401660,
+          "sha256": "8a190901171b24b598764ed296251f294f8545fe0f1c056928170d3ba98e1df0"
+        },
+        {
+          "path": ".artifact-work/map-pricing-qa/final-guide/page-2.png",
+          "bytes": 444873,
+          "sha256": "0780faf8154cf90d1e581b668fb6aa28e1cc07999dd1f8013153099fc8dc0593"
+        },
+        {
+          "path": ".artifact-work/map-pricing-qa/final-guide/page-3.png",
+          "bytes": 151602,
+          "sha256": "4cc9f67647d4d5cba57819718a33913da81bc855428ab21781189de6a05ffc6b"
+        },
+        {
+          "path": ".artifact-work/map-pricing-qa/final-review/page-1.png",
+          "bytes": 338957,
+          "sha256": "ce0ed826e98ebf4137ff7240d8dd1d8862e951c170ec7a2c0670a05aa884e04f"
+        },
+        {
+          "path": ".artifact-work/map-pricing-qa/final-review/page-2.png",
+          "bytes": 58305,
+          "sha256": "78655ab83f72fe92c52aad60db3c92b9e57499899d2d39388c3b02fcf377d134"
+        },
+        {
+          "path": ".artifact-work/map-pricing-qa/final-review/page-3.png",
+          "bytes": 442015,
+          "sha256": "e35b7f303a7a7ab2335913fd81e76a5093ecb85112a2474786433b9c93bc64ad"
+        },
+        {
+          "path": ".artifact-work/map-pricing-qa/final-review/page-4.png",
+          "bytes": 490915,
+          "sha256": "3a3f6f611e05c5f4aee02dab4a5a76277b50b864f87483d1ee7fe3e627bcfaa0"
+        },
+        {
+          "path": ".artifact-work/map-pricing-qa/final-review/page-5.png",
+          "bytes": 523388,
+          "sha256": "2439d9238d8267fc41e2bc9a42db44aaeba94c41fc849631e3927db58ad07825"
+        },
+        {
+          "path": ".artifact-work/map-pricing-qa/final-review/page-6.png",
+          "bytes": 502490,
+          "sha256": "408376979fecd0c6a22afad7f9bda60a4bc6d9ea2e4c2aa7b8ddcd1eb5e938f5"
+        },
+        {
+          "path": ".artifact-work/map-pricing-qa/final-review/page-7.png",
+          "bytes": 194703,
+          "sha256": "a1a378b8859fe8fadbbb3462e4eea3538f74fe9ebb592e4af3c7547decbc31f4"
+        },
+        {
+          "path": ".artifact-work/map-pricing-qa/guide/page-1.png",
+          "bytes": 401660,
+          "sha256": "8a190901171b24b598764ed296251f294f8545fe0f1c056928170d3ba98e1df0"
+        },
+        {
+          "path": ".artifact-work/map-pricing-qa/guide/page-2.png",
+          "bytes": 496176,
+          "sha256": "fbad3a3f608504a464ea16903b3d0aa7b95a2cf949aea4c990e7632f096baa3e"
+        },
+        {
+          "path": ".artifact-work/map-pricing-qa/guide/page-3.png",
+          "bytes": 99388,
+          "sha256": "84f9bb7c21c320aafce7483850bd9ed1b9bfe88213290ed0e16b53cc103f6c19"
+        },
+        {
+          "path": ".artifact-work/map-pricing-qa/render-temp/comgr-4b3f17/input/linked.bc",
+          "bytes": 37408,
+          "sha256": "14deecea9b51cb4a3b46ee85cd112d3a8c753f207d2f9f83d3c9bd8827088052"
+        },
+        {
+          "path": ".artifact-work/map-pricing-qa/render-temp/comgr-4b3f17/output/linked.bc.o",
+          "bytes": 34224,
+          "sha256": "c5e21d370fc4359c88a264c9ce8fe815f44269dea7a0a1eac2bd34a0fb41a921"
+        },
+        {
+          "path": ".artifact-work/map-pricing-qa/review/page-1.png",
+          "bytes": 338957,
+          "sha256": "ce0ed826e98ebf4137ff7240d8dd1d8862e951c170ec7a2c0670a05aa884e04f"
+        },
+        {
+          "path": ".artifact-work/map-pricing-qa/review/page-2.png",
+          "bytes": 441946,
+          "sha256": "7ed52b62efe220c9b3b2763d0623397d87ce3fff03f23b30a1ec8dc32d548827"
+        },
+        {
+          "path": ".artifact-work/map-pricing-qa/review/page-3.png",
+          "bytes": 491030,
+          "sha256": "7d4e09bf735a5cca347a87cd628d46000232f445ffc98ce0afc7d6b2a14921a5"
+        },
+        {
+          "path": ".artifact-work/map-pricing-qa/review/page-4.png",
+          "bytes": 523339,
+          "sha256": "9b00071a2b5707d495a323e31e1bede19189eb5601b69670b0eb1979aca2aeab"
+        },
+        {
+          "path": ".artifact-work/map-pricing-qa/review/page-5.png",
+          "bytes": 60084,
+          "sha256": "49df929c8bd0ef4cbd901259d739ea11edf7037684bf646ad1a96d8526c4b26b"
+        },
+        {
+          "path": ".artifact-work/map-pricing-qa/review/page-6.png",
+          "bytes": 502490,
+          "sha256": "408376979fecd0c6a22afad7f9bda60a4bc6d9ea2e4c2aa7b8ddcd1eb5e938f5"
+        },
+        {
+          "path": ".artifact-work/map-pricing-qa/review/page-7.png",
+          "bytes": 194703,
+          "sha256": "a1a378b8859fe8fadbbb3462e4eea3538f74fe9ebb592e4af3c7547decbc31f4"
+        },
+        {
+          "path": ".artifact-work/map-pricing-qa/review-release/page-1.png",
+          "bytes": 338957,
+          "sha256": "ce0ed826e98ebf4137ff7240d8dd1d8862e951c170ec7a2c0670a05aa884e04f"
+        },
+        {
+          "path": ".artifact-work/map-pricing-qa/review-release/page-2.png",
+          "bytes": 441946,
+          "sha256": "7ed52b62efe220c9b3b2763d0623397d87ce3fff03f23b30a1ec8dc32d548827"
+        },
+        {
+          "path": ".artifact-work/map-pricing-qa/review-release/page-3.png",
+          "bytes": 491030,
+          "sha256": "7d4e09bf735a5cca347a87cd628d46000232f445ffc98ce0afc7d6b2a14921a5"
+        },
+        {
+          "path": ".artifact-work/map-pricing-qa/review-release/page-4.png",
+          "bytes": 523339,
+          "sha256": "9b00071a2b5707d495a323e31e1bede19189eb5601b69670b0eb1979aca2aeab"
+        },
+        {
+          "path": ".artifact-work/map-pricing-qa/review-release/page-5.png",
+          "bytes": 502408,
+          "sha256": "04a782173808e7e7e5b72631433e519eeab6f0d1266ecfc6991efe45512003ef"
+        },
+        {
+          "path": ".artifact-work/map-pricing-qa/review-release/page-6.png",
+          "bytes": 236386,
+          "sha256": "09ffcfe9868ae94dd7cf0d1bf045bc4d9e8a44d7e94d935d07a8bc7c2431e351"
+        },
+        {
+          "path": ".artifact-work/map-pricing-qa/temp/comgr-67e9ee/input/CompileSource",
+          "bytes": 13184,
+          "sha256": "8175d9917f8c2b487014fa757384f0e394f9b638a40fc09cdd306d2eb4bf3eb3"
+        },
+        {
+          "path": ".artifact-work/map-pricing-qa/temp/comgr-67e9ee/output/CompileSource.bc",
+          "bytes": 15152,
+          "sha256": "00dbc72bcc78f0165f4d97a7b63aeb1b3c00a87fe8697c9cca15dff51bbae15f"
+        },
+        {
+          "path": ".artifact-work/map-pricing-qa/temp/comgr-8afea4/input/linked.bc",
+          "bytes": 37408,
+          "sha256": "14deecea9b51cb4a3b46ee85cd112d3a8c753f207d2f9f83d3c9bd8827088052"
+        },
+        {
+          "path": ".artifact-work/map-pricing-qa/temp/comgr-8afea4/output/linked.bc.o",
+          "bytes": 34224,
+          "sha256": "c5e21d370fc4359c88a264c9ce8fe815f44269dea7a0a1eac2bd34a0fb41a921"
+        }
+      ],
+      "bytes": 12033992.0
+    },
+    {
+      "path": ".artifact-work/node-ui-guide-qa",
+      "absolutePath": "D:\\node factory v2\\.artifact-work\\node-ui-guide-qa",
+      "directory": true,
+      "files": [
+        {
+          "path": ".artifact-work/node-ui-guide-qa/page-1.png",
+          "bytes": 316211,
+          "sha256": "6a3ef8363e1199ad599b145a8860a18f6832067b004a05dcdd34d220dc94afa4"
+        },
+        {
+          "path": ".artifact-work/node-ui-guide-qa/page-2.png",
+          "bytes": 319091,
+          "sha256": "58142a9d4b7f0be3cc0f7f48c36923f51c8337865b580e5771d57f76fc498756"
+        }
+      ],
+      "bytes": 635302.0
+    },
+    {
+      "path": ".artifact-work/research-proposal-build",
+      "absolutePath": "D:\\node factory v2\\.artifact-work\\research-proposal-build",
+      "directory": true,
+      "files": [
+        {
+          "path": ".artifact-work/research-proposal-build/index.html",
+          "bytes": 736,
+          "sha256": "15c7fdfd3fc504701d1a8c9f32dd3cb80fd9700505d6e458559702a5afa30f3a"
+        },
+        {
+          "path": ".artifact-work/research-proposal-build/assets/efficiency-Bhc3OfWL.js",
+          "bytes": 6178,
+          "sha256": "b33c2093c407b09ae47e56d7d520ec48c0f387dab68881f81037c4abda0f2266"
+        },
+        {
+          "path": ".artifact-work/research-proposal-build/assets/engine-CQt5nUva.js",
+          "bytes": 142516,
+          "sha256": "c44cbd679b4518c6236d7a795f40bcbb50c6c82e40c7a9e2328d39bdf597e826"
+        },
+        {
+          "path": ".artifact-work/research-proposal-build/assets/index-CzpxTIHw.js",
+          "bytes": 220771,
+          "sha256": "d758960ea85ba809ed7ba2683ffa5c2c1f5a7436bfdf18836ce5eeb510f94d23"
+        },
+        {
+          "path": ".artifact-work/research-proposal-build/assets/index-D8GxMx6e.css",
+          "bytes": 167369,
+          "sha256": "d5855f87690f8b2d78bc22adcef6754790d526199709918bc6a0273126596315"
+        },
+        {
+          "path": ".artifact-work/research-proposal-build/assets/index-DAoTlUby.js",
+          "bytes": 220271,
+          "sha256": "64b96d8fad7c40cdd2ddd240e3662d501aa32d3c5f00080942a2403815a5eb82"
+        },
+        {
+          "path": ".artifact-work/research-proposal-build/assets/index-Y91mES2j.js",
+          "bytes": 220949,
+          "sha256": "fbd41edb62a026021fb025a6a23ae906561d496c01f9d0b783c28d18417b86a5"
+        },
+        {
+          "path": ".artifact-work/research-proposal-build/assets/jsx-runtime-aXUJj2y6.js",
+          "bytes": 84779,
+          "sha256": "fa1c33cd35045b4080ae02f8b69f614ff9ee7e85654f0560642b1fc4404ff6ac"
+        },
+        {
+          "path": ".artifact-work/research-proposal-build/assets/mapExpansion-BrwBzjFZ.js",
+          "bytes": 1201,
+          "sha256": "c8be460d8b9e53fdf2227c6a1872545935e5b46986b40d1610a5d0d53dbafa6c"
+        },
+        {
+          "path": ".artifact-work/research-proposal-build/assets/RecipesPanel-CC3Xe8eT.js",
+          "bytes": 24217,
+          "sha256": "43bc6cb0509525d74e65c85e6e649b68da4c1ec48794a02afd899feaddb4d444"
+        },
+        {
+          "path": ".artifact-work/research-proposal-build/assets/ResearchPanel-CnFx0KyO.js",
+          "bytes": 21502,
+          "sha256": "26d4480ffa4dd5c5178615432611b2b31956986ddbcf7be8a1995d3ce0148545"
+        },
+        {
+          "path": ".artifact-work/research-proposal-build/assets/ResearchTreeModal-CNyy7teC.js",
+          "bytes": 68,
+          "sha256": "f20a0fa9f31e4c0eb189e5d0e8a61284df530b1d9e6420663632f7c19506067a"
+        },
+        {
+          "path": ".artifact-work/research-proposal-build/assets/ResearchTreeModal-HzFx6f-Z.js",
+          "bytes": 14743,
+          "sha256": "5b78d57967c4bf5a48861692471d3f3c42fa682c24ffe872ba64fffa00faf1fc"
+        }
+      ],
+      "bytes": 1125300.0
+    },
+    {
+      "path": ".artifact-work/research-proposal-guide-render",
+      "absolutePath": "D:\\node factory v2\\.artifact-work\\research-proposal-guide-render",
+      "directory": true,
+      "files": [],
+      "bytes": null
+    },
+    {
+      "path": ".artifact-work/research-proposal-review-render",
+      "absolutePath": "D:\\node factory v2\\.artifact-work\\research-proposal-review-render",
+      "directory": true,
+      "files": [],
+      "bytes": null
+    },
+    {
+      "path": ".artifact-work/tutorial-start-guide-render",
+      "absolutePath": "D:\\node factory v2\\.artifact-work\\tutorial-start-guide-render",
+      "directory": true,
+      "files": [],
+      "bytes": null
+    },
+    {
+      "path": ".artifact-work/tutorial-start-review-render",
+      "absolutePath": "D:\\node factory v2\\.artifact-work\\tutorial-start-review-render",
+      "directory": true,
+      "files": [],
+      "bytes": null
+    },
+    {
+      "path": ".artifact-work/tutorial-style-guide-render",
+      "absolutePath": "D:\\node factory v2\\.artifact-work\\tutorial-style-guide-render",
+      "directory": true,
+      "files": [],
+      "bytes": null
+    },
+    {
+      "path": ".artifact-work/tutorial-style-review-render",
+      "absolutePath": "D:\\node factory v2\\.artifact-work\\tutorial-style-review-render",
+      "directory": true,
+      "files": [],
+      "bytes": null
+    },
+    {
+      "path": ".artifact-work/typography-implementation-qa",
+      "absolutePath": "D:\\node factory v2\\.artifact-work\\typography-implementation-qa",
+      "directory": true,
+      "files": [
+        {
+          "path": ".artifact-work/typography-implementation-qa/page-1.png",
+          "bytes": 313115,
+          "sha256": "cb8ca72633bd28eead921dc5d8231245c6c9a49f2a97e846c1352b470aecea75"
+        },
+        {
+          "path": ".artifact-work/typography-implementation-qa/page-2.png",
+          "bytes": 365716,
+          "sha256": "a34e0fe98513e5952a462af61d3f98d09bdd717578e9360bbd9e6a6189a2bcae"
+        },
+        {
+          "path": ".artifact-work/typography-implementation-qa/page-3.png",
+          "bytes": 428095,
+          "sha256": "e269d6bfdcb8ece19b70aec8c712263097da8d565abffe37186f9315ebf430a8"
+        },
+        {
+          "path": ".artifact-work/typography-implementation-qa/page-4.png",
+          "bytes": 499059,
+          "sha256": "5023d96117a698fb2d9542f09ac964a9037b4adcf66c15b4b13f6208256e900a"
+        },
+        {
+          "path": ".artifact-work/typography-implementation-qa/page-5.png",
+          "bytes": 446592,
+          "sha256": "6d422cd10370e50c998ad8535ec595aa87eddc3c14c2fd21fc858bb4357d7a85"
+        }
+      ],
+      "bytes": 2052577.0
+    },
+    {
+      "path": ".artifact-work/typography-review-final-qa",
+      "absolutePath": "D:\\node factory v2\\.artifact-work\\typography-review-final-qa",
+      "directory": true,
+      "files": [
+        {
+          "path": ".artifact-work/typography-review-final-qa/page-1.png",
+          "bytes": 308996,
+          "sha256": "797750909391dba6363748a26d83d5b0d468f40bdbaf12ec1b5767beffe2942a"
+        },
+        {
+          "path": ".artifact-work/typography-review-final-qa/page-2.png",
+          "bytes": 381770,
+          "sha256": "15611f99c7c76a7203f8d90bd31ea59f4a822fc71b2783b234747d0d1e7332c1"
+        },
+        {
+          "path": ".artifact-work/typography-review-final-qa/page-3.png",
+          "bytes": 446276,
+          "sha256": "7302db7ecf0aafe3be62efcb5d1b8a9fb2f6d0b1ccf6c6ff69e031f471573e04"
+        },
+        {
+          "path": ".artifact-work/typography-review-final-qa/page-4.png",
+          "bytes": 507307,
+          "sha256": "e21e2430a563cdcb9f354e18e1668c1e4333b19ea234c8649b2903b04104a9ad"
+        },
+        {
+          "path": ".artifact-work/typography-review-final-qa/page-5.png",
+          "bytes": 485745,
+          "sha256": "9b42a74f34c10205c1abdaa9343830a4b87551528bb4866525e9fe88918aa781"
+        },
+        {
+          "path": ".artifact-work/typography-review-final-qa/typography-style-review.pdf",
+          "bytes": 130595,
+          "sha256": "05dd3af37d6a5668de89935cd5de75e1395739c8cd0c41bde2f5a86a29232faf"
+        }
+      ],
+      "bytes": 2260689.0
+    },
+    {
+      "path": ".artifact-work/typography-review-qa",
+      "absolutePath": "D:\\node factory v2\\.artifact-work\\typography-review-qa",
+      "directory": true,
+      "files": [
+        {
+          "path": ".artifact-work/typography-review-qa/page-1.png",
+          "bytes": 260078,
+          "sha256": "6a17409e88656ff02ecf40ac3f41103da7e002f3eec78c696cf39363dba61df9"
+        },
+        {
+          "path": ".artifact-work/typography-review-qa/page-2.png",
+          "bytes": 388313,
+          "sha256": "7f0a75a215473d906397aaba246edb512f3c210442b00ae95d42af36c24080ad"
+        },
+        {
+          "path": ".artifact-work/typography-review-qa/page-3.png",
+          "bytes": 447798,
+          "sha256": "0d797c598f496c74ba119d4e8eceaef4bb917ba5940e27d017f0bf6639f282be"
+        },
+        {
+          "path": ".artifact-work/typography-review-qa/page-4.png",
+          "bytes": 521946,
+          "sha256": "e37f10ff9e0356716389ebafa460df73a11c72304443c256fad11f592b931d2f"
+        },
+        {
+          "path": ".artifact-work/typography-review-qa/page-5.png",
+          "bytes": 20401,
+          "sha256": "d352aeb957b627ec742d7b9b128623596dc48c9c49b36e90cd81e441b2c4a986"
+        },
+        {
+          "path": ".artifact-work/typography-review-qa/page-6.png",
+          "bytes": 500535,
+          "sha256": "10173706c3048af4820ea1f349476c45581af1dccd4e79b5e37840a7015675ae"
+        },
+        {
+          "path": ".artifact-work/typography-review-qa/page-7.png",
+          "bytes": 48087,
+          "sha256": "d3ea46ca9f7a7c6622e80f36c754fece9f3f819fd82ef7f81a4cd5c13f363be2"
+        },
+        {
+          "path": ".artifact-work/typography-review-qa/typography-style-review.pdf",
+          "bytes": 124343,
+          "sha256": "c2e79506a563d6d22f3205c8b5f311266759eb8702ce96eb7eef5a58a6bffc44"
+        }
+      ],
+      "bytes": 2311501.0
+    },
+    {
+      "path": ".artifact-work/typography-review-temp",
+      "absolutePath": "D:\\node factory v2\\.artifact-work\\typography-review-temp",
+      "directory": true,
+      "files": [
+        {
+          "path": ".artifact-work/typography-review-temp/comgr-15ba63/input/Assembly Text.o",
+          "bytes": 2768,
+          "sha256": "6ea59c2a449bb73a3827aaee6f4d338b6e4f63516f25792693bd8927fae97ff2"
+        },
+        {
+          "path": ".artifact-work/typography-review-temp/comgr-15ba63/output/a.so",
+          "bytes": 4032,
+          "sha256": "f06632b20c09e560da1665193faabd13923c962f9ba11038b7dbd21d06babb84"
+        },
+        {
+          "path": ".artifact-work/typography-review-temp/comgr-178c9d/input/CompileSource",
+          "bytes": 13184,
+          "sha256": "8175d9917f8c2b487014fa757384f0e394f9b638a40fc09cdd306d2eb4bf3eb3"
+        },
+        {
+          "path": ".artifact-work/typography-review-temp/comgr-178c9d/output/CompileSource.bc",
+          "bytes": 15160,
+          "sha256": "d6af8762f180f5dfcd6e29d3d953c39bad478aa11643dd5f6064127d3d266b2c"
+        },
+        {
+          "path": ".artifact-work/typography-review-temp/comgr-1b8eba/input/linked.bc",
+          "bytes": 37408,
+          "sha256": "14deecea9b51cb4a3b46ee85cd112d3a8c753f207d2f9f83d3c9bd8827088052"
+        },
+        {
+          "path": ".artifact-work/typography-review-temp/comgr-1b8eba/output/linked.bc.o",
+          "bytes": 34224,
+          "sha256": "c5e21d370fc4359c88a264c9ce8fe815f44269dea7a0a1eac2bd34a0fb41a921"
+        },
+        {
+          "path": ".artifact-work/typography-review-temp/comgr-248470/input/linked.bc",
+          "bytes": 37408,
+          "sha256": "14deecea9b51cb4a3b46ee85cd112d3a8c753f207d2f9f83d3c9bd8827088052"
+        },
+        {
+          "path": ".artifact-work/typography-review-temp/comgr-248470/output/linked.bc.o",
+          "bytes": 34224,
+          "sha256": "c5e21d370fc4359c88a264c9ce8fe815f44269dea7a0a1eac2bd34a0fb41a921"
+        },
+        {
+          "path": ".artifact-work/typography-review-temp/comgr-29c4d5/input/linked.bc.o",
+          "bytes": 34224,
+          "sha256": "c5e21d370fc4359c88a264c9ce8fe815f44269dea7a0a1eac2bd34a0fb41a921"
+        },
+        {
+          "path": ".artifact-work/typography-review-temp/comgr-29c4d5/output/a.so",
+          "bytes": 36528,
+          "sha256": "afc5dd5ba52ce5eea8b0cebab1d13661c0fb8356990ff920ae21590a82dc1d7f"
+        },
+        {
+          "path": ".artifact-work/typography-review-temp/comgr-2ef9d7/input/linked.bc.o",
+          "bytes": 5264,
+          "sha256": "03870604182cc45f4ca613bbaa9f77b5a45972ffa2e8b3e4f4e8b72014976bcb"
+        },
+        {
+          "path": ".artifact-work/typography-review-temp/comgr-2ef9d7/output/a.so",
+          "bytes": 6328,
+          "sha256": "b422bbbf9865c8b2c79a06107c21337cce9a0656019e7ea63d91c6d3e86a0263"
+        },
+        {
+          "path": ".artifact-work/typography-review-temp/comgr-305b3c/input/linked.bc.o",
+          "bytes": 34224,
+          "sha256": "c5e21d370fc4359c88a264c9ce8fe815f44269dea7a0a1eac2bd34a0fb41a921"
+        },
+        {
+          "path": ".artifact-work/typography-review-temp/comgr-305b3c/output/a.so",
+          "bytes": 36528,
+          "sha256": "afc5dd5ba52ce5eea8b0cebab1d13661c0fb8356990ff920ae21590a82dc1d7f"
+        },
+        {
+          "path": ".artifact-work/typography-review-temp/comgr-3b144b/input/CompileSource",
+          "bytes": 13184,
+          "sha256": "8175d9917f8c2b487014fa757384f0e394f9b638a40fc09cdd306d2eb4bf3eb3"
+        },
+        {
+          "path": ".artifact-work/typography-review-temp/comgr-3b144b/output/CompileSource.bc",
+          "bytes": 15160,
+          "sha256": "5c9b1c2cd6e1ba0095bf75644bb259843ea7ee564ed7fb0ff6006c48ad3bef9c"
+        },
+        {
+          "path": ".artifact-work/typography-review-temp/comgr-4fc573/input/CompileSource",
+          "bytes": 13184,
+          "sha256": "8175d9917f8c2b487014fa757384f0e394f9b638a40fc09cdd306d2eb4bf3eb3"
+        },
+        {
+          "path": ".artifact-work/typography-review-temp/comgr-4fc573/output/CompileSource.bc",
+          "bytes": 15160,
+          "sha256": "b80895657a57f8654937314aabde8001ae1b04096f40d09477094f813e15a1a1"
+        },
+        {
+          "path": ".artifact-work/typography-review-temp/comgr-60f678/input/linked.bc.o",
+          "bytes": 5264,
+          "sha256": "03870604182cc45f4ca613bbaa9f77b5a45972ffa2e8b3e4f4e8b72014976bcb"
+        },
+        {
+          "path": ".artifact-work/typography-review-temp/comgr-60f678/output/a.so",
+          "bytes": 6328,
+          "sha256": "b422bbbf9865c8b2c79a06107c21337cce9a0656019e7ea63d91c6d3e86a0263"
+        },
+        {
+          "path": ".artifact-work/typography-review-temp/comgr-638ace/input/CompileSource",
+          "bytes": 1312,
+          "sha256": "ea1789ffe7babf1791a7e1807b43ebcd8092a991483534142430da2dea1bbbb9"
+        },
+        {
+          "path": ".artifact-work/typography-review-temp/comgr-638ace/output/CompileSource.bc",
+          "bytes": 10976,
+          "sha256": "d209d15184e6f12b1e3c57116424b98bd1599c56c8b1d8a8849858410bbd6262"
+        },
+        {
+          "path": ".artifact-work/typography-review-temp/comgr-72317b/input/linked.bc",
+          "bytes": 19240,
+          "sha256": "05b2f35898058bcd17b727b139a79b8013239a55a0527a76f6608562eb827ee4"
+        },
+        {
+          "path": ".artifact-work/typography-review-temp/comgr-72317b/output/linked.bc.o",
+          "bytes": 5264,
+          "sha256": "03870604182cc45f4ca613bbaa9f77b5a45972ffa2e8b3e4f4e8b72014976bcb"
+        },
+        {
+          "path": ".artifact-work/typography-review-temp/comgr-74d742/input/linked.bc",
+          "bytes": 19240,
+          "sha256": "05b2f35898058bcd17b727b139a79b8013239a55a0527a76f6608562eb827ee4"
+        },
+        {
+          "path": ".artifact-work/typography-review-temp/comgr-74d742/output/linked.bc.o",
+          "bytes": 5264,
+          "sha256": "03870604182cc45f4ca613bbaa9f77b5a45972ffa2e8b3e4f4e8b72014976bcb"
+        },
+        {
+          "path": ".artifact-work/typography-review-temp/comgr-7e4943/input/linked.bc.o",
+          "bytes": 34224,
+          "sha256": "c5e21d370fc4359c88a264c9ce8fe815f44269dea7a0a1eac2bd34a0fb41a921"
+        },
+        {
+          "path": ".artifact-work/typography-review-temp/comgr-7e4943/output/a.so",
+          "bytes": 36528,
+          "sha256": "afc5dd5ba52ce5eea8b0cebab1d13661c0fb8356990ff920ae21590a82dc1d7f"
+        },
+        {
+          "path": ".artifact-work/typography-review-temp/comgr-8b30a9/input/linked.bc.o",
+          "bytes": 34224,
+          "sha256": "c5e21d370fc4359c88a264c9ce8fe815f44269dea7a0a1eac2bd34a0fb41a921"
+        },
+        {
+          "path": ".artifact-work/typography-review-temp/comgr-8b30a9/output/a.so",
+          "bytes": 36528,
+          "sha256": "afc5dd5ba52ce5eea8b0cebab1d13661c0fb8356990ff920ae21590a82dc1d7f"
+        },
+        {
+          "path": ".artifact-work/typography-review-temp/comgr-a0747a/input/Assembly Text.o",
+          "bytes": 2768,
+          "sha256": "6ea59c2a449bb73a3827aaee6f4d338b6e4f63516f25792693bd8927fae97ff2"
+        },
+        {
+          "path": ".artifact-work/typography-review-temp/comgr-a0747a/output/a.so",
+          "bytes": 4032,
+          "sha256": "f06632b20c09e560da1665193faabd13923c962f9ba11038b7dbd21d06babb84"
+        },
+        {
+          "path": ".artifact-work/typography-review-temp/comgr-b19296/input/Assembly Text",
+          "bytes": 7136,
+          "sha256": "5335964caedc8c6c3bcfaa8a09732de681810a7c687b9d9f86fe69ff2dea2962"
+        },
+        {
+          "path": ".artifact-work/typography-review-temp/comgr-b19296/output/Assembly Text.o",
+          "bytes": 2768,
+          "sha256": "6ea59c2a449bb73a3827aaee6f4d338b6e4f63516f25792693bd8927fae97ff2"
+        },
+        {
+          "path": ".artifact-work/typography-review-temp/comgr-c19c60/input/linked.bc.o",
+          "bytes": 5264,
+          "sha256": "03870604182cc45f4ca613bbaa9f77b5a45972ffa2e8b3e4f4e8b72014976bcb"
+        },
+        {
+          "path": ".artifact-work/typography-review-temp/comgr-c19c60/output/a.so",
+          "bytes": 6328,
+          "sha256": "b422bbbf9865c8b2c79a06107c21337cce9a0656019e7ea63d91c6d3e86a0263"
+        },
+        {
+          "path": ".artifact-work/typography-review-temp/comgr-c2a970/input/Assembly Text.o",
+          "bytes": 2768,
+          "sha256": "6ea59c2a449bb73a3827aaee6f4d338b6e4f63516f25792693bd8927fae97ff2"
+        },
+        {
+          "path": ".artifact-work/typography-review-temp/comgr-c2a970/output/a.so",
+          "bytes": 4032,
+          "sha256": "f06632b20c09e560da1665193faabd13923c962f9ba11038b7dbd21d06babb84"
+        },
+        {
+          "path": ".artifact-work/typography-review-temp/comgr-c5ca93/input/linked.bc",
+          "bytes": 37408,
+          "sha256": "14deecea9b51cb4a3b46ee85cd112d3a8c753f207d2f9f83d3c9bd8827088052"
+        },
+        {
+          "path": ".artifact-work/typography-review-temp/comgr-c5ca93/output/linked.bc.o",
+          "bytes": 34224,
+          "sha256": "c5e21d370fc4359c88a264c9ce8fe815f44269dea7a0a1eac2bd34a0fb41a921"
+        },
+        {
+          "path": ".artifact-work/typography-review-temp/comgr-c7e698/input/linked.bc",
+          "bytes": 37408,
+          "sha256": "14deecea9b51cb4a3b46ee85cd112d3a8c753f207d2f9f83d3c9bd8827088052"
+        },
+        {
+          "path": ".artifact-work/typography-review-temp/comgr-c7e698/output/linked.bc.o",
+          "bytes": 34224,
+          "sha256": "c5e21d370fc4359c88a264c9ce8fe815f44269dea7a0a1eac2bd34a0fb41a921"
+        },
+        {
+          "path": ".artifact-work/typography-review-temp/comgr-e53494/input/Assembly Text.o",
+          "bytes": 2768,
+          "sha256": "6ea59c2a449bb73a3827aaee6f4d338b6e4f63516f25792693bd8927fae97ff2"
+        },
+        {
+          "path": ".artifact-work/typography-review-temp/comgr-e53494/output/a.so",
+          "bytes": 4032,
+          "sha256": "f06632b20c09e560da1665193faabd13923c962f9ba11038b7dbd21d06babb84"
+        },
+        {
+          "path": ".artifact-work/typography-review-temp/comgr-ed39c8/input/CompileSource",
+          "bytes": 1312,
+          "sha256": "ea1789ffe7babf1791a7e1807b43ebcd8092a991483534142430da2dea1bbbb9"
+        },
+        {
+          "path": ".artifact-work/typography-review-temp/comgr-ed39c8/output/CompileSource.bc",
+          "bytes": 10976,
+          "sha256": "ac5fa8ad8bf5b57f91544a71c45b889167b33e3bb8dc1cc443c5455eb1f05d2e"
+        }
+      ],
+      "bytes": 800032.0
+    },
+    {
+      "path": "outputs/grid-contact-32-doc-qa",
+      "absolutePath": "D:\\node factory v2\\outputs\\grid-contact-32-doc-qa",
+      "directory": true,
+      "files": [],
+      "bytes": null
+    },
+    {
+      "path": "outputs/grid-contact-adopted-doc-qa",
+      "absolutePath": "D:\\node factory v2\\outputs\\grid-contact-adopted-doc-qa",
+      "directory": true,
+      "files": [],
+      "bytes": null
+    },
+    {
+      "path": "outputs/grid-contact-doc-qa",
+      "absolutePath": "D:\\node factory v2\\outputs\\grid-contact-doc-qa",
+      "directory": true,
+      "files": [],
+      "bytes": null
+    },
+    {
+      "path": "vite.config.js",
+      "absolutePath": "D:\\node factory v2\\vite.config.js",
+      "directory": false,
+      "files": [
+        {
+          "path": "vite.config.js",
+          "bytes": 232,
+          "sha256": "09aab9f972d76a4117ddfbcd570920c997e04f33b8dcc2d3446110b44091abc5"
+        }
+      ],
+      "bytes": 232.0
+    },
+    {
+      "path": "vite.config.d.ts",
+      "absolutePath": "D:\\node factory v2\\vite.config.d.ts",
+      "directory": false,
+      "files": [
+        {
+          "path": "vite.config.d.ts",
+          "bytes": 76,
+          "sha256": "4b96dd19fd2949d28ce80e913412b0026dc421e5bf6c31d87c7b5eb11b5753b4"
+        }
+      ],
+      "bytes": 76.0
+    },
+    {
+      "path": "tsconfig.app.tsbuildinfo",
+      "absolutePath": "D:\\node factory v2\\tsconfig.app.tsbuildinfo",
+      "directory": false,
+      "files": [
+        {
+          "path": "tsconfig.app.tsbuildinfo",
+          "bytes": 24933,
+          "sha256": "22e7b068f7e1b11233f9ed060316d576d3f0e7990bc56355a0cadc054200071d"
+        }
+      ],
+      "bytes": 24933.0
+    },
+    {
+      "path": "tsconfig.node.tsbuildinfo",
+      "absolutePath": "D:\\node factory v2\\tsconfig.node.tsbuildinfo",
+      "directory": false,
+      "files": [
+        {
+          "path": "tsconfig.node.tsbuildinfo",
+          "bytes": 25246,
+          "sha256": "6287e29353229761fcc07f8a93c8088fd4e047a4c9d1669809ec1fe9179bc474"
+        }
+      ],
+      "bytes": 25246.0
+    },
+    {
+      "path": ".vite-host.error.log",
+      "absolutePath": "D:\\node factory v2\\.vite-host.error.log",
+      "directory": false,
+      "files": [
+        {
+          "path": ".vite-host.error.log",
+          "bytes": 582,
+          "sha256": "8c756a5bd6e17ec71ab399aaac97f6eb5b78c1173143ebae6093069aed1fe680"
+        }
+      ],
+      "bytes": 582.0
+    },
+    {
+      "path": ".vite-host.log",
+      "absolutePath": "D:\\node factory v2\\.vite-host.log",
+      "directory": false,
+      "files": [
+        {
+          "path": ".vite-host.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ],
+      "bytes": 0.0
+    },
+    {
+      "path": ".vite-server.error.log",
+      "absolutePath": "D:\\node factory v2\\.vite-server.error.log",
+      "directory": false,
+      "files": [
+        {
+          "path": ".vite-server.error.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ],
+      "bytes": 0.0
+    },
+    {
+      "path": ".vite-server.log",
+      "absolutePath": "D:\\node factory v2\\.vite-server.log",
+      "directory": false,
+      "files": [
+        {
+          "path": ".vite-server.log",
+          "bytes": 216,
+          "sha256": "22964fd6a24d965de92565a488c1cd8865156826c282507c20784206cd036419"
+        }
+      ],
+      "bytes": 216.0
+    },
+    {
+      "path": "vite-dev-active-error.log",
+      "absolutePath": "D:\\node factory v2\\vite-dev-active-error.log",
+      "directory": false,
+      "files": [
+        {
+          "path": "vite-dev-active-error.log",
+          "bytes": 767234,
+          "sha256": "567e03bea5d647a21fd956b4e5bd28566ad88d1a26e0830f341b957bf382064f"
+        }
+      ],
+      "bytes": 767234.0
+    },
+    {
+      "path": "vite-dev-active.log",
+      "absolutePath": "D:\\node factory v2\\vite-dev-active.log",
+      "directory": false,
+      "files": [
+        {
+          "path": "vite-dev-active.log",
+          "bytes": 2969,
+          "sha256": "8a7f86646f4325b15eb1e7532e3bdcd6b2f49463551e93af88f39f03588f7a8a"
+        }
+      ],
+      "bytes": 2969.0
+    },
+    {
+      "path": "vite-dev-error.log",
+      "absolutePath": "D:\\node factory v2\\vite-dev-error.log",
+      "directory": false,
+      "files": [
+        {
+          "path": "vite-dev-error.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ],
+      "bytes": 0.0
+    },
+    {
+      "path": "vite-dev.log",
+      "absolutePath": "D:\\node factory v2\\vite-dev.log",
+      "directory": false,
+      "files": [
+        {
+          "path": "vite-dev.log",
+          "bytes": 259,
+          "sha256": "3a3119a1092742ae8c81f90fd8d0f7a2a592197ba89704c6be1e859736a56b96"
+        }
+      ],
+      "bytes": 259.0
+    },
+    {
+      "path": ".vite-server.pid",
+      "absolutePath": "D:\\node factory v2\\.vite-server.pid",
+      "directory": false,
+      "files": [
+        {
+          "path": ".vite-server.pid",
+          "bytes": 7,
+          "sha256": "e42e765e74621b4b5c6ae37d90a7fe96ba6eaf80ace7d2e7aa79aeeb567ac865"
+        }
+      ],
+      "bytes": 7.0
+    }
+  ]
+}

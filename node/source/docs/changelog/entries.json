@@ -9428,7 +9428,7 @@
       "date": "2026-11-04",
       "dateBasis": "chat",
       "kind": "decision",
-      "state": "recorded",
+      "state": "superseded",
       "delivery": "not-applicable",
       "title": "Move Lakes independently of connected Intakes unless group-selected",
       "summary": "Record Q138 option 1: Lake relocation preserves connections while leaving Intakes in place; players explicitly select Intakes for a group move.",
@@ -17916,6 +17916,881 @@
         "src/simulation/connectionRules.ts"
       ],
       "validation": "Read the Water Tools discovery trigger and zero research bill, Intake unlock, direct Lake production and independent Lake-fed Intake simulation. Verified the documentation records removal of direct production and buffer, preserved Intake access and rates, and prevention of bypass routes. No game source change, new progression or browser tests, or publication."
+    },
+    {
+      "id": "NODE-0581",
+      "date": "2026-11-18",
+      "dateBasis": "chat",
+      "kind": "decision",
+      "state": "recorded",
+      "delivery": "not-applicable",
+      "title": "Move Lakes with all directly connected Production Intakes",
+      "summary": "The obstruction review adopts automatic coupled relocation of a Lake and every directly connected Lake Intake, replacing optional explicit grouping.",
+      "details": [
+        "Translate the Lake and attached Intakes by the same displacement, preserving relative positions, IDs, Water stock, progress and connections. Deduplicate explicitly selected members. Do not automatically include downstream factory nodes or disconnected Intakes.",
+        "Reject the entire move if any member or affected cable fails field, collision or obstruction validation. Retain same-map scope and post-victory Lake Relocation research. Lake Intakes remain Production nodes.",
+        "Preserve the original Q138 text as a superseded decision and add the November 18 revision to the endgame reshaping reference. This is agreed design pending implementation; current Lake movement still does not automatically collect Intakes."
+      ],
+      "supersedes": [
+        "NODE-0305"
+      ],
+      "topics": [
+        "World",
+        "Encounters",
+        "Production",
+        "Connections",
+        "Research",
+        "Planning"
+      ],
+      "sources": [
+        "local-code"
+      ],
+      "evidence": [
+        "docs/obstruction-types-and-behavior.md",
+        "docs/master-plan/17-endgame-research-and-world-reshaping.md",
+        "src/content/endgame.ts",
+        "src/simulation/engine.ts"
+      ],
+      "validation": "Read current Lake relocation research and group-movement validation. Verified the obstruction reference and endgame plan record automatic Intake inclusion, equal displacement, state preservation, deduplication and all-or-nothing validation, while retaining the older Q138 record with a supersession notice. Documentation and decision record only; no game source change, runtime relocation tests or publication."
+    },
+    {
+      "id": "NODE-0582",
+      "date": "2026-11-18",
+      "dateBasis": "chat",
+      "kind": "decision",
+      "state": "recorded",
+      "delivery": "not-applicable",
+      "title": "Retain twelve-unit building clearance around active obstructions",
+      "summary": "The obstruction review retains 12 world units of clearance between building bodies and active obstruction borders, with the previously agreed filled grey terrain exempt.",
+      "details": [
+        "Retain current active-obstruction geometry and placement behavior. The separate zero-gap contact rule between ordinary factory bodies is unchanged.",
+        "Completed grey hole patches may be built on and have no obstruction clearance under the reviewed design; that terrain feature remains pending implementation."
+      ],
+      "topics": [
+        "World",
+        "Encounters",
+        "Interface",
+        "Planning"
+      ],
+      "sources": [
+        "local-code"
+      ],
+      "evidence": [
+        "docs/obstruction-types-and-behavior.md",
+        "src/simulation/collisions.ts",
+        "src/domain/obstructionGeometry.ts"
+      ],
+      "validation": "Read the current shared clearance constant and polygon-based placement checks. Verified the documentation records the retained 12-unit active-obstruction gap, preserves ordinary factory contact and distinguishes the pending grey-terrain exception. No game source change, new geometry tests or publication."
+    },
+    {
+      "id": "NODE-0583",
+      "date": "2026-11-18",
+      "dateBasis": "chat",
+      "kind": "decision",
+      "state": "recorded",
+      "delivery": "not-applicable",
+      "title": "Retain cable blocking at visible obstruction borders without an extra gap",
+      "summary": "The obstruction review keeps unrelated cables from crossing or touching active obstruction borders, with no additional clearance halo and the existing own-port endpoint exemption.",
+      "details": [
+        "Connections to an obstruction own ports may enter that endpoint obstruction for Stone delivery, Intake attachment or bot supply. Other obstructions along the route remain blocking.",
+        "The reviewed completed grey hole patches permit cables across them; that terrain feature remains pending implementation. Active-obstruction cable behavior is unchanged."
+      ],
+      "topics": [
+        "World",
+        "Encounters",
+        "Connections",
+        "Planning"
+      ],
+      "sources": [
+        "local-code"
+      ],
+      "evidence": [
+        "docs/obstruction-types-and-behavior.md",
+        "src/simulation/connectionRules.ts",
+        "src/domain/obstructionGeometry.ts"
+      ],
+      "validation": "Read endpoint obstacle exclusion, adaptive cable geometry and visible-polygon segment intersection. Verified the documentation records border touching/crossing, no extra cable gap, the own-port exception and the pending grey-terrain exemption. Documentation and decision record only; no game source change, new geometry tests or publication."
+    },
+    {
+      "id": "NODE-0584",
+      "date": "2026-11-18",
+      "dateBasis": "chat",
+      "kind": "decision",
+      "state": "recorded",
+      "delivery": "not-applicable",
+      "title": "Retain pause and recovery for cables covered by camp growth",
+      "summary": "The obstruction review keeps camp-covered cables in place, pauses transfers, refunds in-flight items to their senders and allows the route to resume when clear.",
+      "details": [
+        "Do not destroy covered cables or require rebuilding. Resume on the same connection after camp shrinkage, subject to normal endpoint and routing conditions.",
+        "This retains current cable behavior and complements the separately agreed preservation of guarded-deposit connections during suppression loss."
+      ],
+      "topics": [
+        "World",
+        "Encounters",
+        "Connections",
+        "Logistics",
+        "Planning"
+      ],
+      "sources": [
+        "local-code"
+      ],
+      "evidence": [
+        "docs/obstruction-types-and-behavior.md",
+        "src/simulation/engine.ts",
+        "src/simulation/obstructedConnections.ts",
+        "src/simulation/obstructionBorders.test.ts"
+      ],
+      "validation": "Read the growth-time obstruction recheck and refund path. The existing targeted pause/refund/resume test passed: Vitest reported two passed and 16 skipped across two files. Verified the documentation records cable preservation, sender refunds and conditional resumption. No game source change or publication."
+    },
+    {
+      "id": "NODE-0585",
+      "date": "2026-11-18",
+      "dateBasis": "chat",
+      "kind": "decision",
+      "state": "recorded",
+      "delivery": "not-applicable",
+      "title": "Retain state-preserving disablement of factory nodes covered by camp growth",
+      "summary": "The obstruction review keeps covered factory nodes disabled until clear, preserving inventory, production progress and connections rather than destroying nodes or blocking camp growth.",
+      "details": [
+        "Restore normal operation only after the whole node body is clear of every camp, subject to other operating conditions. Multiple camp footprints combine their influence.",
+        "Logistics nodes retain stored cargo and capacity. Resource nodes and other world obstructions retain the current disabling-pass exemptions.",
+        "This records retention of current behavior; no game source change."
+      ],
+      "topics": [
+        "World",
+        "Encounters",
+        "Production",
+        "Logistics",
+        "Planning"
+      ],
+      "sources": [
+        "local-code"
+      ],
+      "evidence": [
+        "docs/obstruction-types-and-behavior.md",
+        "src/simulation/campEffects.ts",
+        "src/simulation/engine.ts",
+        "src/simulation/obstructionBorders.test.ts"
+      ],
+      "validation": "Read the union-of-camp body overlap calculation, resource/world exemptions and simulation skip for disabled nodes. Verified the documentation records preservation, whole-body clearance from every camp and Logistics inventory/capacity retention. Documentation and decision record only; no new state-preservation tests or publication."
+    },
+    {
+      "id": "NODE-0586",
+      "date": "2026-11-18",
+      "dateBasis": "chat",
+      "kind": "decision",
+      "state": "recorded",
+      "delivery": "not-applicable",
+      "title": "Retain sixty-second camp checks and early Dwarven recovery retries",
+      "summary": "The obstruction review retains the normal 60-second camp suppression interval and the existing early retry after a failed Dwarven check when sufficient AP becomes available.",
+      "details": [
+        "An early Dwarven retry starts a fresh 60-second countdown. The timing decision changes neither AP requirements nor per-check payments.",
+        "This retains current runtime behavior."
+      ],
+      "topics": [
+        "World",
+        "Encounters",
+        "Balance",
+        "Planning"
+      ],
+      "sources": [
+        "local-code"
+      ],
+      "evidence": [
+        "docs/obstruction-types-and-behavior.md",
+        "src/content/goblinSettlements.ts",
+        "src/simulation/engine.ts"
+      ],
+      "validation": "Read the 60,000 ms interval constant and Dwarven retry condition/reset. Verified the documentation records both normal timing and the retained early retry. Documentation and decision record only; no game source change, new timing tests or publication."
+    },
+    {
+      "id": "NODE-0587",
+      "date": "2026-11-18",
+      "dateBasis": "chat",
+      "kind": "decision",
+      "state": "recorded",
+      "delivery": "not-applicable",
+      "title": "Retain ten-percentage-point camp growth and suppression steps",
+      "summary": "The obstruction review retains a ten-percentage-point camp area decrease on successful checks and increase on failed checks, within the existing ten-to-one-hundred-percent bounds.",
+      "details": [
+        "The percentage represents area, not a linear radius change. Keep the fresh 25% camp progression of 25 to 15 to 10 percent over two successful checks.",
+        "This retains current runtime behavior and the reviewed full-suppression access threshold."
+      ],
+      "topics": [
+        "World",
+        "Encounters",
+        "Balance",
+        "Planning"
+      ],
+      "sources": [
+        "local-code"
+      ],
+      "evidence": [
+        "docs/obstruction-types-and-behavior.md",
+        "src/simulation/engine.ts",
+        "src/domain/nodeGeometry.ts"
+      ],
+      "validation": "Read the current growth/shrink calculation, bound clamps and area-based geometry. Verified the documentation records both ten-point directions, the existing bounds and the two-pass fresh-camp example. Documentation and decision record only; no game source change, new gameplay tests or publication."
+    },
+    {
+      "id": "NODE-0588",
+      "date": "2026-11-18",
+      "dateBasis": "chat",
+      "kind": "decision",
+      "state": "recorded",
+      "delivery": "not-applicable",
+      "title": "Retain a shared six-hundred-unit nominal maximum camp radius",
+      "summary": "The obstruction review retains a nominal maximum radius of 600 world units for every Goblin and Dwarven Camp, Village and Kingdom.",
+      "details": [
+        "Do not scale the maximum by settlement subtype or map tier. Preserve the existing area-percentage square-root radius scaling and shared grid-sized geometry.",
+        "This retains current behavior; AP requirements and resource rewards remain separate settlement-difficulty settings."
+      ],
+      "topics": [
+        "World",
+        "Encounters",
+        "Balance",
+        "Planning"
+      ],
+      "sources": [
+        "local-code"
+      ],
+      "evidence": [
+        "docs/obstruction-types-and-behavior.md",
+        "src/content/goblinSettlements.ts",
+        "src/content/lizardSettlements.ts",
+        "src/domain/nodeGeometry.ts"
+      ],
+      "validation": "Verified all three Goblin and three Dwarven definitions use maxRadius 600 and read the area-based geometry scaling. Verified the documentation specifies a nominal parameter rather than an exact unsnapped drawn dimension. Documentation and decision record only; no game source change, new geometry tests or publication."
+    },
+    {
+      "id": "NODE-0589",
+      "date": "2026-11-18",
+      "dateBasis": "chat",
+      "kind": "decision",
+      "state": "recorded",
+      "delivery": "not-applicable",
+      "title": "Retain full-growth camp reservations during map generation",
+      "summary": "The obstruction review keeps generation clearance based on a camp at 100% size, with ordinary mineral deposits and Forests outside its entire maximum-growth reservation.",
+      "details": [
+        "Include each ordinary resource full body and placement clearance, rather than checking only its center. Restore the camp initial 25% state after validating placement.",
+        "Keep existing saved layouts. This retains current ordinary-resource generation behavior."
+      ],
+      "topics": [
+        "World",
+        "World generation",
+        "Encounters",
+        "Resources",
+        "Planning"
+      ],
+      "sources": [
+        "local-code"
+      ],
+      "evidence": [
+        "docs/obstruction-types-and-behavior.md",
+        "src/simulation/worldGeneration.ts",
+        "src/domain/obstructionGeometry.ts",
+        "src/simulation/obstructionBorders.test.ts"
+      ],
+      "validation": "Read maximum-size placement validation, ordinary-resource reservation and full resource-body distance checks. Verified the documentation records 100% validation, the resource-body/clearance reservation and saved-layout preservation. Documentation and decision record only; no game source change, new generation tests or publication."
+    },
+    {
+      "id": "NODE-0590",
+      "date": "2026-11-18",
+      "dateBasis": "chat",
+      "kind": "decision",
+      "state": "recorded",
+      "delivery": "not-applicable",
+      "title": "Retain one-time Resource Golem defeats and infinite reserve rewards",
+      "summary": "The obstruction review retains normal Resource Golems as one-time encounters that permanently become infinite mineral reserves, without recurring AP upkeep.",
+      "details": [
+        "Extractors work the defeated reserve. Preserve accumulated damage through saves and permanent defeat history.",
+        "This retains current behavior and does not introduce a recurring suppression requirement for cleared Golems."
+      ],
+      "topics": [
+        "World",
+        "Encounters",
+        "Resources",
+        "Balance",
+        "Planning"
+      ],
+      "sources": [
+        "local-code"
+      ],
+      "evidence": [
+        "docs/obstruction-types-and-behavior.md",
+        "src/content/resourceGolems.ts",
+        "src/simulation/progression.ts"
+      ],
+      "validation": "Read Golem identities, AP prices and permanent defeat conversion. Verified the documentation records one-time defeat, infinite extraction, no recurring AP and saved damage/defeat history. Documentation and decision record only; no game source change, new gameplay tests or publication."
+    },
+    {
+      "id": "NODE-0591",
+      "date": "2026-11-18",
+      "dateBasis": "chat",
+      "kind": "decision",
+      "state": "recorded",
+      "delivery": "not-applicable",
+      "title": "Retain double-width and double-height defeated Golem reserves",
+      "summary": "The obstruction review retains infinite Golem reserve dimensions at twice the ordinary resource node width and height, currently 640 by 512 world units.",
+      "details": [
+        "Ordinary deposits are currently 320 by 256; doubling both dimensions gives four times their rectangular area.",
+        "Preserve placement clearance for both the living silhouette and the future reserve footprint while the Golem is alive. This retains current geometry and placement behavior."
+      ],
+      "topics": [
+        "World",
+        "Encounters",
+        "Resources",
+        "Interface",
+        "Planning"
+      ],
+      "sources": [
+        "local-code"
+      ],
+      "evidence": [
+        "docs/obstruction-types-and-behavior.md",
+        "src/domain/nodeGeometry.ts",
+        "src/simulation/collisions.ts"
+      ],
+      "validation": "Verified the ordinary dimensions, factor-of-two infinite-reserve dimensions and collision checks reserving the converted footprint from either argument position. Verified the documentation states dimensions, area relationship and future-footprint reservation accurately. Documentation and decision record only; no game source change, new geometry tests or publication."
+    },
+    {
+      "id": "NODE-0592",
+      "date": "2026-11-18",
+      "dateBasis": "chat",
+      "kind": "decision",
+      "state": "recorded",
+      "delivery": "not-applicable",
+      "title": "Keep living Golems fixed and relocate only defeated reserves",
+      "summary": "The obstruction review retains relocation eligibility only for defeated Golem reserves, through Resource Relocation after victory and within the same map.",
+      "details": [
+        "Living Resource Golems stay immovable even when Resource Relocation is completed.",
+        "Moving a defeated reserve retains its identity, mineral, stock and permanent defeat history. This retains current relocation eligibility."
+      ],
+      "topics": [
+        "World",
+        "Encounters",
+        "Resources",
+        "Research",
+        "Planning"
+      ],
+      "sources": [
+        "local-code"
+      ],
+      "evidence": [
+        "docs/obstruction-types-and-behavior.md",
+        "src/content/nodeModules.ts",
+        "src/content/endgame.ts"
+      ],
+      "validation": "Read the movement-eligibility helper and the post-victory Resource Relocation definition. Verified the documentation distinguishes living encounters from defeated infinite reserves and retains same-map scope and state preservation. Documentation and decision record only; no game source change, new movement tests or publication."
+    },
+    {
+      "id": "NODE-0593",
+      "date": "2026-11-18",
+      "dateBasis": "chat",
+      "kind": "decision",
+      "state": "recorded",
+      "delivery": "not-applicable",
+      "title": "Retain permanent blocking footprints for repeatable corner encounters",
+      "summary": "The obstruction review keeps all four corner encounters as permanent blocking sites after each completed reward cycle, with component rewards remaining repeatable.",
+      "details": [
+        "Retain the Ancient Dragon, Ancient Foundry, Ancient Reclamation and Elder Grove footprints. Completing a cycle does not remove or shrink them or make their area buildable.",
+        "Continue the shared active-obstruction placement and cable rules. This is separate from the agreed buildable grey terrain for completed Deep Holes.",
+        "Add corner encounters to the obstruction reference and clarify that its older baseline comparisons coexist with dated review notes. This retains current corner behavior."
+      ],
+      "topics": [
+        "World",
+        "Encounters",
+        "Endgame",
+        "Planning"
+      ],
+      "sources": [
+        "local-code"
+      ],
+      "evidence": [
+        "docs/obstruction-types-and-behavior.md",
+        "src/content/nodeCapabilities.ts",
+        "src/simulation/endgameRuntime.ts",
+        "src/content/endgame.ts"
+      ],
+      "validation": "Read the corner worldObstacle capability, persistent challenge generation and repeatable award runtime. Verified the documentation records all four sites, permanent blocking, repeatable rewards and the distinction from filled holes. Documentation and decision record only; no game source change, new endgame tests or publication."
+    },
+    {
+      "id": "NODE-0594",
+      "date": "2026-11-18",
+      "dateBasis": "chat",
+      "kind": "docs",
+      "state": "implemented",
+      "delivery": "local",
+      "title": "Organize current systems into linked references and generated catalogs",
+      "summary": "Added a documentation hub, 24 focused system guides and six source-generated base-game catalogs covering resource use, production, recipes, research, exploration, progression and supporting systems.",
+      "details": [
+        "Keep current local mechanics separate from historical plans, dated balance calculations, playtest evidence and agreed changes awaiting implementation. Add entry links from the project README, master plan, older research catalog and progression discussion without removing their history.",
+        "Generate all 126 live grouped recipes, 128 live research projects, named materials and direct recipe uses, node definitions/capability defaults, efficiency ranks and 25 bot combinations from assembled runtime catalogs. Preserve serialized IDs and distinguish deferred Power, inactive Fluid Roads and save aliases.",
+        "Add docs:systems and docs:systems:check commands plus maintenance instructions. Validate catalog freshness, local file links and explicit recipe/research anchors across the 32 new documentation files."
+      ],
+      "topics": [
+        "Documentation",
+        "Resources",
+        "Production",
+        "Recipes",
+        "Research",
+        "World",
+        "Progression",
+        "Tooling"
+      ],
+      "sources": [
+        "local-code"
+      ],
+      "evidence": [
+        "docs/README.md",
+        "docs/systems/README.md",
+        "docs/systems/resource-use.md",
+        "docs/systems/catalogs/recipes.md",
+        "docs/systems/catalogs/research.md",
+        "scripts/system-docs.mjs",
+        "package.json",
+        "AGENTS.md"
+      ],
+      "validation": "Read relevant content and simulation modules, persistence, tutorials, controls, mods and existing design references. Ran node --check scripts/system-docs.mjs, npm run docs:systems and npm run docs:systems:check successfully; the checker verified six fresh catalogs and links across 32 documentation files. Refreshed history with npm run changelog and verified it with npm run changelog:check. No gameplay source or player-facing UI changes; no new browser playtest, balance run or live publication."
+    },
+    {
+      "id": "NODE-0595",
+      "date": "2026-11-18",
+      "dateBasis": "chat",
+      "kind": "decision",
+      "state": "recorded",
+      "delivery": "not-applicable",
+      "title": "Close the obstruction review with new-world-only compatibility",
+      "summary": "The reviewed Deep Hole and Lake changes apply only to newly created worlds, matching the guarded camp resource proposal. Existing worlds retain their rules even on unexplored maps.",
+      "details": [
+        "Preserve the world rule choice through loading, importing and re-saving; worlds without the new rules version keep legacy behavior. Rule-version persistence remains an implementation requirement.",
+        "Consolidate the completed review in the obstruction reference and add matching scope to the Lake relocation plan and current system reference. Keep the earlier runtime comparisons and dated decisions as history.",
+        "The review is complete; changed game behavior and save compatibility remain pending implementation."
+      ],
+      "topics": [
+        "World",
+        "Encounters",
+        "Planning",
+        "Documentation"
+      ],
+      "sources": [
+        "local-code"
+      ],
+      "evidence": [
+        "docs/obstruction-types-and-behavior.md",
+        "docs/master-plan/17-endgame-research-and-world-reshaping.md",
+        "docs/systems/encounters-and-obstructions.md",
+        "docs/previews/monster-camps/index.html"
+      ],
+      "validation": "Checked the three documentation references for consistent new-world-only scope, explicit unexplored-map coverage and pending implementation status. Refreshed the generated history and ran its consistency checks. Documentation and decision record only; no game source change, save migration test, commit or publication."
+    },
+    {
+      "id": "NODE-0596",
+      "date": "2026-11-18",
+      "dateBasis": "chat",
+      "kind": "refactored",
+      "state": "implemented",
+      "delivery": "local",
+      "title": "Retire duplicate references and remove unused workspace artifacts",
+      "summary": "Replace the oversized project README and former research catalog with current-library entry points, archive their full historical text, and remove 151 verified temporary files totaling 25,861,436 bytes.",
+      "details": [
+        "Preserve original historical reference paths and section anchors, rebase snapshot links, and add a documentation archive index. Retain the master plan, active balance/obstruction decisions, playtest reports/checkpoints, publication receipts, authoring scripts, preview source and deployment checkouts.",
+        "Delete stale emitted Vite config copies, root server logs and a dead PID marker, old root compiler caches, generated preview bundles and temporary document-render/compiler directories. The cleanup manifest records exact paths, byte sizes and SHA-256 hashes.",
+        "Store subsequent TypeScript build information under node_modules/.cache/node so builds leave the project root clear. Extend documentation checks to archived/reference entry documents, angle-bracket paths and Markdown section anchors."
+      ],
+      "topics": [
+        "Documentation",
+        "Tooling",
+        "Architecture",
+        "Saves"
+      ],
+      "sources": [
+        "local-code"
+      ],
+      "evidence": [
+        "README.md",
+        "docs/README.md",
+        "docs/archive/README.md",
+        "docs/archive/reference-snapshots/project-readme-2026-11-18.md",
+        "docs/archive/reference-snapshots/research-catalog-2026-11-18.md",
+        "docs/research-catalog.md",
+        "outputs/workspace-cleanup-2026-11-18/manifest.json",
+        "scripts/system-docs.mjs",
+        "tsconfig.app.json",
+        "tsconfig.node.json"
+      ],
+      "validation": "npm run build passed, with the existing large-chunk advisory. npm test passed: 175 files and 1,803 tests passed, with 2 files/tests skipped. npm run docs:systems:check verified six catalog files plus local links and Markdown anchors across 38 documents. Confirmed all 36 cleanup targets remain absent and both compiler caches regenerate only in node_modules/.cache/node. Ran npm run changelog and npm run changelog:check. No gameplay-source changes, browser playtest, balance run or publication."
+    },
+    {
+      "id": "NODE-0597",
+      "date": "2026-11-18",
+      "dateBasis": "chat",
+      "kind": "decision",
+      "state": "recorded",
+      "delivery": "not-applicable",
+      "title": "Require future chats to maintain system documents and use the changelog as primary history",
+      "summary": "All future NODE chats must update affected system references and applicable guides with their changes, while the changelog becomes the primary history of implementations, decisions, reversals and deliberate deferrals.",
+      "details": [
+        "Persist the requirement in project AGENTS.md so future work does not depend on this chat or a separate documentation reminder. Treat affected documents, generated catalogs and history as part of completing meaningful work. Extend existing references and index documents for major new systems.",
+        "Keep system references focused on current behavior and plans on intended work. Search the changelog first for what changed, when and why. Link supporting run reports, style review notes and detailed rationale with stable NODE IDs instead of creating competing chronological histories.",
+        "Preserve existing historical records and archives. Use accurate implemented, recorded, planned or deferred states, and retain the existing rule that publication is claimed only after live verification."
+      ],
+      "topics": [
+        "Documentation",
+        "Planning",
+        "Tooling"
+      ],
+      "sources": [
+        "local-code"
+      ],
+      "evidence": [
+        "AGENTS.md",
+        "docs/README.md",
+        "docs/systems/README.md",
+        "docs/changelog/README.md",
+        "docs/master-plan/README.md"
+      ],
+      "validation": "Updated and read back the persistent project instructions and matching documentation maintenance guidance. npm run docs:systems:check passed for six generated catalogs and local links/Markdown anchors across 38 documentation files. Ran npm run changelog and npm run changelog:check successfully. Documentation and standing workflow policy only; no gameplay changes, new game tests or publication."
+    },
+    {
+      "id": "NODE-0598",
+      "date": "2026-11-18",
+      "dateBasis": "chat",
+      "kind": "added",
+      "state": "superseded",
+      "delivery": "local",
+      "title": "Add a current-engine test page with 300 active factory nodes on one map",
+      "summary": "Create an isolated browser factory with 120 Production nodes, 60 Dev Sources, 60 Carts, 60 Warehouses and 315 material connections, with a 150-node comparison load.",
+      "details": [
+        "Reuse GameEngine and PixiPlayfield, ordinary recipe and cable timing, two real processing stages per branch and physical Cart-to-Warehouse delivery. Synthetic supply, staggered initial progress, an expanded empty field and one-million-item final storage keep the fixture active without changing normal gameplay.",
+        "Expose Pause/Resume, Fit all, Inspect a line, Reset test, produced/delivered/in-transit totals, page FPS and last tick time. Autosave is disabled; there are no save-slot or persistent-preference controls. Reset and load changes reuse the renderer; hot reload disposes the React root.",
+        "Preserve the current renderer limit of 64 visible transfer animations and count all physical cargo separately from Dev Source cosmetic pulses. An experimental 600-node fixture passed engine delivery checks but repeatedly crashed the in-app browser; remove that load from the shipped controls and retain the observation as a browser-renderer limit with no root-cause claim."
+      ],
+      "topics": [
+        "Tooling",
+        "Production",
+        "Connections",
+        "Logistics",
+        "Documentation"
+      ],
+      "sources": [
+        "local-code"
+      ],
+      "evidence": [
+        "previews/active-factory/main.tsx",
+        "previews/active-factory/model.ts",
+        "previews/active-factory/model.test.ts",
+        "previews/active-factory/README.md",
+        "docs/systems/testing-and-publishing.md",
+        "docs/node-ui-style-guide.docx",
+        "docs/typography-style-review.docx"
+      ],
+      "validation": "Full workspace suite passed 1,806 tests with two existing skips; the local game build passed. After final fixture/lifecycle changes, preview TypeScript checks, all three focused delivery/reset tests and the standalone preview production build passed. Tests verified map bounds, nonoverlap, continued delivery to every final Warehouse over three simulated minutes at 150 and 300 nodes, pause behavior, replacement and disabled-autosave operation. Browser verified active production and delivery at 300 nodes, switching to 150 and back, reset, pause/resume, overview and line camera controls, and a 390 px layout without horizontal overflow. The final fresh browser session had no warning/error logs at the checked point. System catalogs and documentation link checks passed. Both Word references reopened with earlier paragraphs preserved; both packaged render attempts failed because LibreOffice soffice.exe is unavailable, so no visual Word layout check is claimed. Synthetic load test only; no balance run or live publication."
+    },
+    {
+      "id": "NODE-0599",
+      "date": "2026-11-18",
+      "dateBasis": "chat",
+      "kind": "review",
+      "state": "recorded",
+      "delivery": "not-applicable",
+      "title": "Estimate Deep Hole exploration blocking with unknown terrain",
+      "summary": "Record the proposed all-approaches neighbor exploration gate and run seeded offline comparisons of ignoring holes, direct route clearing and adaptive clearing using revealed information only.",
+      "details": [
+        "Use 2,000 actual standard-world seeded layouts with four decision sequences per main policy. No-clearing policies reached no complete four-corner set in 8,000 runs each. Adaptive revealed-information clearing used a median 45,986 Stone versus 70,771 for direct routes, with 10-hop Home-to-corner paths in both policies.",
+        "Include individual-hole and map clearing counts, exploration/Core costs, local Stone shortfalls, optional Golem-search costs, candidate-area sensitivity and correlated within-seed variability. Keep hidden-information controls separate from the user-requested unknown-distribution estimates.",
+        "Keep the proposal new-world-only, with grey blocked-map cells and a nearby-hole explanation. Existing explored maps remain accessible; later depletion holes and purchased-but-unvisited maps remain unresolved.",
+        "The tool performs graph and budget experiments, not factory completion or normal-play balance runs. It never edits game source, player saves or rules."
+      ],
+      "topics": [
+        "World",
+        "Encounters",
+        "Planning",
+        "Logistics",
+        "Tooling",
+        "Documentation"
+      ],
+      "sources": [
+        "local-code"
+      ],
+      "evidence": [
+        "docs/deep-hole-exploration-simulation.md",
+        "scripts/analysis/deep-hole-exploration.mjs",
+        "outputs/deep-hole-exploration-2026-11-18/results.json",
+        "docs/obstruction-types-and-behavior.md",
+        "docs/systems/encounters-and-obstructions.md",
+        "docs/systems/map-nodes-and-exploration.md",
+        "src/simulation/worldGeneration.ts",
+        "src/simulation/mapExpansion.ts"
+      ],
+      "validation": "Ran the 2,000-seed analysis with executable graph, integer-budget, terrain-classification, blocking and shortest-corner-route assertions. Checked JavaScript syntax and an independent small-run reproduction against saved full-run examples. Refreshed and checked the changelog and system documentation. Main policies consult only revealed map state. Limits: no physical placement, affordability/progression timing, crafting, UI or save-compatibility implementation; supplementary oracle data is not used as player knowledge. No game source changes, commits or publication."
+    },
+    {
+      "id": "NODE-0600",
+      "date": "2026-11-18",
+      "dateBasis": "chat",
+      "kind": "review",
+      "state": "recorded",
+      "delivery": "not-applicable",
+      "title": "Review the system library and create a temporary queue of 27 issues",
+      "summary": "Review all 24 current system guides and six generated catalogs against source and decision records, and create a prioritized temporary register separating approved implementation gaps, confirmed presentation/documentation mismatches, unresolved policies and validation work.",
+      "details": [
+        "Give every finding a stable SR ID, evidence, next action or decision, closure check and pending outcome. Preserve one-question-at-a-time handling and do not re-request settled decisions. Decisions, implementations and deferrals go into the permanent changelog; archive the queue after disposition without breaking evidence paths.",
+        "Confirm two player-facing presentation defects: Road rate ignores Train Freight Capacity rank and mod dispatch time, and the mod recovery checkbox promises a speed effect that no longer exists. Confirm documentation mistakes about Pump relay, Mythril Drill selection and the postgame global-pool fluid exception. No fixes are implemented by this review.",
+        "Identify the missing new-world rule boundary as an implementation prerequisite. A write-intercepted historical content-compiler run demonstrates that regeneration would restore obsolete Hydro/Shiny/Complex recipe gates; gameplay source was not overwritten.",
+        "Include approved guarded-resource, Lake and hole changes, current balance/feasibility evidence gaps, later teaching and Research shortage navigation, performance, accessibility, audio, Word rendering and historical reconciliation. Incorporate NODE-0598 browser-load evidence and NODE-0599 unresolved depletion-hole/purchased-unvisited exploration cases without treating graph simulations as completed gameplay."
+      ],
+      "topics": [
+        "Documentation",
+        "Planning",
+        "Research",
+        "Production",
+        "World",
+        "Tooling",
+        "Playtesting"
+      ],
+      "sources": [
+        "local-code"
+      ],
+      "evidence": [
+        "docs/reviews/system-review-temporary.md",
+        "docs/README.md",
+        "docs/systems/README.md",
+        "docs/obstruction-types-and-behavior.md",
+        "docs/deep-hole-exploration-simulation.md",
+        "outputs/document-review-2026-11-18/audit.mjs",
+        "outputs/document-review-2026-11-18/results.json",
+        "src/ui/RoadFlowPanel.tsx",
+        "src/ui/ModEntryEditor.tsx",
+        "scripts/sync-progression-content.mjs"
+      ],
+      "validation": "The isolated source audit passed: 128 live projects, 126 live grouped recipes, 64 efficiency ranks, no unknown recipe item names or missing explicit prerequisite IDs. Engine fixtures delivered eight Coolant through a Lake-free Pump and eight Water between maps through global Storage/Inventory, rejected Mythril Drill selection and Slurry Tank intake, and confirmed 72/minute actual versus 48/minute displayed Road formulas at Train freight rank two. Both recovery-flag multipliers are one. The content-compiler run intercepted all writes. Checked 27 unique review IDs/outcomes and 124 local links/anchors. npm run docs:systems:check passed for six catalogs and 38 documents. Targeted Vitest run passed 113 tests across seven files. Word text extraction included 76/205 paragraphs; no fresh Word render, browser review, normal-play balance run, gameplay fix or publication. Ran npm run changelog and npm run changelog:check."
+    },
+    {
+      "id": "NODE-0601",
+      "date": "2026-11-19",
+      "dateBasis": "chat",
+      "kind": "decision",
+      "state": "recorded",
+      "delivery": "not-applicable",
+      "title": "Limit Deep Hole exploration blocking to generated terrain",
+      "summary": "Only generated Deep Holes can block neighboring exploration in the proposed new-world rule. Later resource-depletion holes retain physical blocking and their 250-Stone base filling bill.",
+      "details": [
+        "Clearing the final generated hole removes that map's exploration block even if depletion holes remain. Depletion cannot start, extend or reactivate the gate.",
+        "Update the obstruction proposal, system references, analysis scope and SR-26 review item. Preserve the counterfactual depletion stress result as unselected analysis rather than rewriting the prior record.",
+        "The main 2,000-world estimate already excludes depletion holes; no simulation rerun is needed for this scope choice. Purchased-but-unvisited map access remains unresolved."
+      ],
+      "topics": [
+        "World",
+        "Encounters",
+        "Planning",
+        "Documentation"
+      ],
+      "sources": [
+        "local-code"
+      ],
+      "evidence": [
+        "docs/deep-hole-exploration-simulation.md",
+        "docs/obstruction-types-and-behavior.md",
+        "docs/systems/encounters-and-obstructions.md",
+        "docs/systems/map-nodes-and-exploration.md",
+        "docs/reviews/system-review-temporary.md"
+      ],
+      "validation": "Checked the five documentation references for generated-only scope, mixed-hole completion behavior, the retained 250-Stone depletion rule and pending purchased-map policy. Refreshed history and ran changelog and system-document consistency checks. No game source or simulation changes, new gameplay tests, commit or publication."
+    },
+    {
+      "id": "NODE-0602",
+      "date": "2026-11-19",
+      "dateBasis": "chat",
+      "kind": "decision",
+      "state": "recorded",
+      "delivery": "not-applicable",
+      "title": "Honor purchased map access after nearby Deep Hole discovery",
+      "summary": "Completed destination purchases retain first-entry access even when a neighboring generated Deep Hole is discovered later. New purchases remain subject to known blockers.",
+      "details": [
+        "Preserve unlocked map access without another payment or a disabled/grey map cell. Already explored maps remain accessible. Buying ahead may preserve routes and is the selected exception.",
+        "Qualify the prior graph estimates: they visit each map immediately and do not measure advance-purchase play. Keep the original simulation evidence and numbers unchanged rather than claiming the exception was tested.",
+        "Update the proposal, current system references and SR-27. Partially funded destination quotes remain unresolved; preserve contributed Cores, quoted prices and existing Map Points."
+      ],
+      "topics": [
+        "World",
+        "Encounters",
+        "Planning",
+        "Research",
+        "Documentation"
+      ],
+      "sources": [
+        "local-code"
+      ],
+      "evidence": [
+        "docs/deep-hole-exploration-simulation.md",
+        "docs/obstruction-types-and-behavior.md",
+        "docs/systems/encounters-and-obstructions.md",
+        "docs/systems/map-nodes-and-exploration.md",
+        "docs/reviews/system-review-temporary.md",
+        "src/simulation/engine.ts",
+        "src/simulation/researchRuntime.ts"
+      ],
+      "validation": "Read the separate map-unlock, first-visit and destination-research completion paths. Checked five references for the completed-purchase exception, accessible map presentation, conditional simulation scope and outstanding partial-payment policy. Regenerated history and ran changelog/system documentation checks. Documentation decision only: no new simulation, game source change, UI implementation, save test, commit or publication."
+    },
+    {
+      "id": "NODE-0603",
+      "date": "2026-11-19",
+      "dateBasis": "chat",
+      "kind": "decision",
+      "state": "recorded",
+      "delivery": "not-applicable",
+      "title": "Allow started map purchases to finish after nearby hole discovery",
+      "summary": "A destination purchase funded before a neighboring generated Deep Hole is discovered may continue and complete, preserving its quote and subsequent entry access.",
+      "details": [
+        "Keep the original destination, quoted price and paid contributions through project switching and reload. On completion unlock that destination and honor entry under NODE-0602. An unfunded quote does not qualify as a started purchase.",
+        "Preserve saved Map Points without treating them as completed purchases of unspecified destinations. New unfunded purchases remain subject to known neighboring blockers.",
+        "Update the five references and SR-27. The exploration-gate policy review is complete; implementation, compatibility and gameplay checks remain pending. Retain the old report anchor for existing evidence links.",
+        "The prior simulations visit maps immediately and do not measure advance purchases or started-funding exceptions. Keep their results conditional rather than reporting a new simulation."
+      ],
+      "topics": [
+        "World",
+        "Encounters",
+        "Research",
+        "Planning",
+        "Documentation"
+      ],
+      "sources": [
+        "local-code"
+      ],
+      "evidence": [
+        "docs/deep-hole-exploration-simulation.md",
+        "docs/obstruction-types-and-behavior.md",
+        "docs/systems/encounters-and-obstructions.md",
+        "docs/systems/map-nodes-and-exploration.md",
+        "docs/reviews/system-review-temporary.md"
+      ],
+      "validation": "Checked the five references for completed and partially funded purchase exceptions, unfunded-quote eligibility, preserved payment/destination state and settled review status. Regenerated history and ran changelog and system-document consistency checks. Documentation decision only; no gameplay source change, simulation rerun, save test, commit or publication."
+    },
+    {
+      "id": "NODE-0604",
+      "date": "2026-11-19",
+      "dateBasis": "chat",
+      "kind": "refactored",
+      "state": "implemented",
+      "delivery": "local",
+      "title": "Retain factory graphics and stabilize frame times under heavier production",
+      "summary": "Reuse node, cable and cargo graphics, skip offscreen visual work, and scale detail with zoom; restore the 600-node test option after sustained browser verification.",
+      "details": [
+        "Retain node views across stock, progress and position changes; rebuild affected structures for selection, socket arrangement, group markers, research, state replacement and mod changes. Update affected cable geometry during single-node or group dragging and invalidate cached cargo paths without altering transfer clocks.",
+        "Pool cargo graphics under the existing 64-animation cap, cache route samples, avoid per-sample graph scans, cache buffer and warning drawing, animate prebuilt arrival outlines, and update detailed readouts on simulation changes. Cull offscreen visual work and cable drawing while all maps keep simulating.",
+        "Hide secondary labels and buffers below 40 percent zoom while preserving sockets, recipe icons, progress, overview warnings and essential special readouts; selection, hover, dragging and active cable endpoints restore detail. Honor native display density with a maximum of two rather than forcing a two-times minimum.",
+        "Add bounded frame-time samples and optional renderer allocation diagnostics to the isolated test page. Restore 150/300/600-node loads. The earlier 600-node crash remains historical evidence, not a diagnosed root cause.",
+        "Keep simulation on the main thread at the existing cadence. A worker is not introduced because measured optimized tick-plus-subscriber p95 was 2.0 ms at 300 nodes and 3.2 ms at 600; performance across many active maps remains unverified."
+      ],
+      "topics": [
+        "Performance",
+        "Architecture",
+        "Production",
+        "Connections",
+        "Controls",
+        "Tooling",
+        "Documentation"
+      ],
+      "sources": [
+        "local-code"
+      ],
+      "evidence": [
+        "src/renderer/PixiPlayfield.tsx",
+        "src/renderer/sceneUpdates.ts",
+        "src/renderer/sceneUpdates.test.ts",
+        "src/renderer/cableGeometry.ts",
+        "src/renderer/nodeBuffers.ts",
+        "src/renderer/playfieldDrawing.ts",
+        "previews/active-factory/main.tsx",
+        "previews/active-factory/model.test.ts",
+        "outputs/renderer-performance/results.json",
+        "docs/systems/architecture-and-simulation.md",
+        "docs/systems/interface-and-assets.md",
+        "docs/systems/controls-and-factory-layouts.md",
+        "docs/systems/testing-and-publishing.md",
+        "docs/node-ui-style-guide.docx",
+        "docs/typography-style-review.docx"
+      ],
+      "supersedes": [
+        "NODE-0598"
+      ],
+      "validation": "All 1,812 workspace tests passed with two existing skips; preview TypeScript checks, the standalone preview build, main build and /node/ build passed. Five new renderer tests cover retained identities, state-source replacement, socket/camp invalidation, visibility/detail transitions, crossing cables, moved/mirrored curve sampling and pixel budgets. Browser verified single-node and Shift-selected movement, cable attachment and hit targeting, deletion and rewiring after wheel zoom, panning, load changes, 390 px layout and restored desktop detail. Serial single-tab built-page observations at 300 nodes showed frame p95 33.4 to 25.0 ms, p99 158.4 to 25.1 ms and tick-plus-subscriber p95 36.9 to 2.0 ms, with 172/2,405 versus 0/3,311 frames above 33.4 ms over differing 50-57 second windows after five seconds warmup. The updated 600-node page ran beyond two simulated minutes, producing and delivering cargo through resize/zoom with no warning/error logs at the checked point; its pre-interaction p99 was 33.4 ms. Measurements are local single observations, not universal FPS, long-duration memory or multi-map capacity claims. Catalog/link and changelog checks passed. Both Word documents preserved prior paragraphs and reopened; both required render attempts failed because LibreOffice soffice.exe is unavailable, so Word layout was not visually verified. No game-rule changes or live publication."
+    },
+    {
+      "id": "NODE-0605",
+      "date": "2026-11-19",
+      "dateBasis": "chat",
+      "kind": "review",
+      "state": "recorded",
+      "delivery": "not-applicable",
+      "title": "Estimate a Deep Hole distribution matching 10/5/15 filling targets",
+      "summary": "A tested 28-hole-map quota favoring tiers 3–4 matched target median map-filling counts of 10 for direct routes, 5 for adaptive routes and 15 for adaptive play plus all Golems.",
+      "details": [
+        "Compare 44 quota/weight combinations on 384 calibration seeds with four decision sequences per policy. Select the 28-map, tier-3-and-4 weight-four candidate before testing it on 1,000 disjoint validation seeds, with 4,000 runs per policy.",
+        "Validation middle-80% filling ranges were 8–13, 3–8 and 11–18. Uniformly selecting 30 maps gave medians 10/6/13; the unthinned 49–50-map control gave 17/13/23. Retain the agreed one-to-five holes and budgets within each selected map.",
+        "The estimate keeps Lakes, settlements, Golems, clear outposts, Home and corners unchanged, converting 21–22 formerly eligible hole locations to clear resource maps. It is an unadopted balance candidate, not gameplay implementation.",
+        "Refactor the existing offline study to export reusable policies while retaining direct execution. Add a calibration runner with exact quotas, weighted selection, paired controls and independent validation outputs. Analysis-only Vite servers disable WebSockets.",
+        "Players use revealed information only. Results still assume immediate visits and do not estimate the adopted advance-purchase/started-payment exceptions, factory affordability, physical routing or victory timing."
+      ],
+      "topics": [
+        "World",
+        "Encounters",
+        "Planning",
+        "Logistics",
+        "Tooling",
+        "Documentation"
+      ],
+      "sources": [
+        "local-code"
+      ],
+      "evidence": [
+        "docs/deep-hole-exploration-simulation.md",
+        "docs/obstruction-types-and-behavior.md",
+        "docs/systems/encounters-and-obstructions.md",
+        "docs/systems/map-nodes-and-exploration.md",
+        "docs/reviews/system-review-temporary.md",
+        "scripts/analysis/deep-hole-exploration.mjs",
+        "scripts/analysis/deep-hole-density.mjs",
+        "outputs/deep-hole-exploration-2026-11-19/scan.json",
+        "outputs/deep-hole-exploration-2026-11-19/tier34-scan.json",
+        "outputs/deep-hole-exploration-2026-11-19/validation.json"
+      ],
+      "validation": "Ran the 44-scenario calibration and three-scenario independent validation. Assertions check exact quota/subset and preserved costs, legal gate handling and ten-hop corner routes. Reproduced original three-seed examples exactly after the module refactor, verified final Road-order trial counts do not affect discovery/cost, checked zero-hole/zero-cost boundaries, reproduced the first two validation worlds and matched the unchanged generation source hash. JavaScript syntax, generated history and system-document checks passed. No game source change, normal-play balance run, save test, commit or publication."
+    },
+    {
+      "id": "NODE-0606",
+      "date": "2026-11-19",
+      "dateBasis": "chat",
+      "kind": "decision",
+      "state": "recorded",
+      "delivery": "not-applicable",
+      "title": "Adopt the 28-hole-map distribution with tier-3/4 weighting",
+      "summary": "Add the calibrated distribution to the new-world proposal: exactly 28 eligible hole maps in standard worlds, with selection weight four at tiers 3–4 and one elsewhere.",
+      "details": [
+        "Use seeded weighted sampling without replacement and preserve the selected layout through saves and later discovery. Other eligible hole locations become clear resource maps while existing reserved encounters remain unchanged.",
+        "Retain one-to-five individual holes within each selected map, the agreed five-candidate area/Stone budgets, generated-only exploration blocking and completed/started-purchase exceptions. Existing worlds keep their current rules, including unexplored maps.",
+        "The simulation-supported 10/5/15 median filling counts are balance targets for the tested immediate-visit policies, not per-world guarantees or estimates for buying ahead. NODE-0605 remains the supporting calibration review.",
+        "Update the proposal, analysis status, current system references and SR-05 implementation checklist. This adopts the design only; gameplay generation remains pending."
+      ],
+      "topics": [
+        "World",
+        "Encounters",
+        "Planning",
+        "Documentation"
+      ],
+      "sources": [
+        "local-code"
+      ],
+      "evidence": [
+        "docs/obstruction-types-and-behavior.md",
+        "docs/deep-hole-exploration-simulation.md",
+        "docs/systems/encounters-and-obstructions.md",
+        "docs/systems/map-nodes-and-exploration.md",
+        "docs/reviews/system-review-temporary.md",
+        "outputs/deep-hole-exploration-2026-11-19/validation.json"
+      ],
+      "validation": "Checked five references for the exact 28-map standard-world quota, four-to-one tier selection weights, persisted selection, unchanged within-map rules, new-world-only scope and pending implementation status. Regenerated history and ran changelog/system-document consistency checks. No new simulation, gameplay source change, save test, commit or publication."
     }
   ]
 }

@@ -1,0 +1,56 @@
+{
+  "date": "2026-11-19",
+  "method": "Serial built Vite pages in the in-app browser, one test tab at a time, overview camera, default desktop viewport; five-second warmup. No simulation speed or recipe changes. Samples are single local observations; background desktop apps, browser scheduling and differing 50–57s observation windows remain uncontrolled.",
+  "baseline": {
+    "frameP95": 33.4,
+    "frameP99": 158.4,
+    "tickP95": 36.9,
+    "slowFrames": 172,
+    "count": 2405,
+    "seconds": 57.2446,
+    "load": 300,
+    "produced": 837,
+    "delivered": 171
+  },
+  "optimized": {
+    "load": 300,
+    "frameP95": 25,
+    "frameP99": 25.1,
+    "tickP95": 2,
+    "slowFrames": 0,
+    "count": 3311,
+    "seconds": 50.3504,
+    "produced": 759,
+    "delivered": 153,
+    "diagnostics": {
+      "nodesCreated": 300,
+      "nodesDestroyed": 0,
+      "particleObjectsCreated": 64,
+      "visibleNodes": 300,
+      "totalNodes": 300,
+      "activeParticles": 30,
+      "pooledParticles": 34
+    }
+  },
+  "checks": [
+    "300-node selection recreated only one selected node; node drag retained the other 299 views.",
+    "Shift-selected Smelter and Refiner moved together; selected Smelter Y changed from 329.555559 to 369.555527.",
+    "After movement and wheel zoom, deleted and restored the Refiner-to-Cart cable through socket dragging; connection count returned from 314 to 315.",
+    "Recipe and delivery behavior verified separately by fixture tests; initial benchmark totals are observations, not matched simulation snapshots.",
+    "600-node resize to 390x844 had document scrollWidth=390; restored desktop viewport and close-up showed readable ingredient rows, recipe icons and live production.",
+    "All 1,812 workspace tests passed with two existing skips; main and /node/ builds passed. Both Word documents passed paragraph-preservation checks; packaged rendering unavailable because soffice.exe was not found."
+  ],
+  "optimized600": {
+    "load": 600,
+    "frameP95": 33.3,
+    "frameP99": 33.4,
+    "tickP95": 3.2,
+    "slowFrames": 41,
+    "count": 2362,
+    "seconds": 57.224,
+    "produced": 1662,
+    "delivered": 336,
+    "notes": "Taken before resize/close-up interactions. Continued through 132s simulation with 3150 produced and 870 delivered, no warning/error logs at the checked point. Later resize and close-up: 12/600 nodes visually active; view allocation counters did not change."
+  },
+  "simulationDecision": "Keep existing main-thread simulation cadence and rules. The measured optimized tick plus synchronous subscriber p95 was 2.0ms at 300 nodes and 3.2ms at 600; a worker was not introduced in this change. This does not establish performance across many active maps."
+}

@@ -6,7 +6,21 @@ The current game calls this obstruction Deep Hole. The old game calls it Big Hol
 
 The current game in `D:\node factory v2` and the old game in `D:\Node Game` share three core world obstruction types: **Deep Hole**, **Lake**, and **Monster Camp**. The current game also marks **Resource Golems** as world obstacles. Deep Holes can be filled and cleared, Lakes provide permanent water sources, and Monster Camps expand unless supplied with Attack Power. Camp suppression, collision geometry, and water handling differ between the two implementations.
 
-Map tier below means Manhattan distance from Home at world coordinate `5,5`. Dimensions and radii are in world units. This is an inventory of implemented behavior; future endgame Monster Nodes are outside this inventory.
+Map tier below means Manhattan distance from Home at world coordinate `5,5`. Dimensions and radii are in world units. The original inventory predates the corner encounters; the current review includes them below. Older implementation comparisons remain as historical context. Dated review notes distinguish retained behavior from agreed changes that are still pending implementation.
+
+## Review complete: new-world rules
+
+**November 18, 2026.** The obstruction review is complete. The changed Deep Hole and Lake rules below join the [guarded camp resource proposal and test page](previews/monster-camps/index.html) as **new-world-only design**. They remain pending game implementation.
+
+Existing worlds keep their current rules, including on unexplored maps generated later. Loading, importing or re-saving an existing world must not opt it into these changes. Persist the selected rules with the world; worlds without the new rules version retain legacy behavior. This is a compatibility requirement for implementation, not a claim that world-rule versioning has already been added.
+
+The agreed changes are:
+
+- **Deep Holes:** select exactly **28 hole-bearing maps** in a standard new world, favoring eligible locations at tiers **3–4 with selection weight 4**, versus **1 elsewhere**. In each selected map, create five randomly sized and area-priced candidates, then select one to five with equal probability per count. The full candidate pool uses the 15%–35% area progression and 1,650–13,200 Stone tier progression; selected candidates retain their prices and sizes. Keep partial holes fully blocking. Completed holes retain their borders with uniform grey, buildable interiors, and refund all unused Stone. Later depletion holes retain their separate 250-Stone base price and may coexist with other obstructions.
+- **Lakes:** require Production Lake Intakes for all Water, increase the permitted Intake count from two to three to four through the two reviewed upgrades, and automatically move all directly connected Intakes with a relocated Lake. Retain permanent supply, the existing size range and current efficiency-based Intake rates.
+- **Camps:** replace separate Tribute rewards with always-visible guarded deposits, accessible only while fully suppressed. Preserve the separately reviewed resource, regeneration, connection and relocation rules in the linked proposal. Corner reward titles identify their component.
+
+The review also retains active-obstruction building and cable clearances, recoverable camp encroachment, camp timing and size limits, one-time Golem defeat with infinite double-sized reserves, and permanent repeatable corner sites. Generated Deep Holes must not share an initial map with another obstruction type; depletion-created holes are the exception. Detailed dated decisions below govern the reviewed design; historical comparisons describe the earlier implementations.
 
 ## Overview
 
@@ -20,6 +34,10 @@ Map tier below means Manhattan distance from Home at world coordinate `5,5`. Dim
 All three are fixed world features rather than ordinary movable factory machines. Neither game provides a normal removal action for Lakes or Monster Camps. Suppression reduces a camp to a minimum size; it does not destroy it.
 
 ## Deep Holes
+
+**Exploration-gate extension requested November 18, 2026.** In new worlds, discovering unfinished generated Deep Holes is proposed to block the four edge-sharing unexplored map nodes until every generated hole in the blocking map is filled. The user confirmed blocking applies from every approach; already explored maps remain accessible. Grey out affected map cells and explain the nearby blocker on hover and in map details. The [offline simulation and design estimate](deep-hole-exploration-simulation.md) evaluates players with no knowledge of hidden distribution, including no clearing and adaptive shortest-route clearing. The gate is not implemented. Only generated holes trigger the gate (NODE-0601); depletion-created holes do not start, extend or reactivate it, and keep their physical obstruction and 250-Stone base bill. Honor completed purchases and allow first entry to purchased-but-unvisited maps even if a blocker is discovered later (NODE-0602); keep those map cells accessible. New destination purchases remain subject to known blockers. The existing estimates assume immediate visits and do not measure buying ahead. Allow destination purchases that received Cores before the blocker was discovered to finish at their original quoted price and unlock entry (NODE-0603), including after project switching or reload. An unfunded quote does not qualify; new unfunded purchases remain gated. The exploration-gate policy review is complete; gameplay implementation remains pending.
+
+**Adopted 28-map distribution (NODE-0606).** For standard 11 × 11 new worlds, choose exactly **28** of the eligible hole-only locations using seeded weighted sampling without replacement. Eligible tier-3 and tier-4 maps have selection weight **4**; all other eligible tiers have weight **1**. Rank independent seeded uniform draws by `-ln(U) / weight` and keep the 28 smallest. Preserve the chosen layout through save/load and later map discovery. The unselected 21–22 locations in the current standard layout become clear resource maps; retain existing reserved Home, outposts, Lakes, settlements, Golems and corners. Within each selected map, keep the agreed one-to-five-hole candidate rules, area budgets and Stone prices. This is a world-level count, not 28 individual holes or a fixed per-tier quota. The [calibration evidence](deep-hole-exploration-simulation.md#distribution-calibration-for-10515-targets) matched target median maps filled of 10 / 5 / 15 for direct, adaptive and adaptive-plus-all-Golems policies on 1,000 validation worlds. These are balance targets for the tested immediate-visit policies, not guarantees per world or advance-purchase play. This rule joins the new-world-only proposal; game implementation remains pending.
 
 **Clear outposts (November 8, 2026, NODE-0347).** The first sector east of Home (E1) always generates clear. In later map tiers, the seed selects about one quarter of ordinary sectors as clear outposts, rounding to the nearest whole sector per tier. Ordinary sectors in this selection have no Lake, settlement, or Golem. The standard grid has 20 clear outposts including E1, each with Iron, Copper, Stone, and Wood.
 
@@ -75,13 +93,19 @@ New Lakes target **15% to just under 25% of field area**. The old game scales an
 
 **Lake permanence retained November 18, 2026.** Keep Lakes as permanent, non-depleting Water sources. Players cannot fill them in or remove them to reclaim land. Retain the existing post-victory Lake Relocation research, which permits movement within the same map without deleting the Water source. This retains current behavior.
 
-**Lake Intake limit retained November 18, 2026.** Keep a maximum of **two directly connected Lake Intakes per Lake**. Lake Intakes are Production nodes. This is the total limit for the Lake, not a separate allowance for each directional Water outlet. Retain current connection enforcement; this decision changes neither Water rates nor buffer capacities.
+**Lake Intake connection progression agreed November 18, 2026.** Keep **two directly connected Lake Intakes per Lake at base**, then allow **three after the first of the two discussed Water upgrades** and **four after the second**. Each of those upgrades adds one permitted Intake connection alongside its rate improvement. Lake Intakes are Production nodes. The limit applies to the whole Lake; retain the existing four directional Water outlets. This replaces the earlier fixed two-Intake review decision and is pending implementation; current runtime enforcement still caps the Lake at two.
+
+**Research integration note November 18, 2026.** The current workspace's newer machine-efficiency system controls Intake Water rates. The two upgrade identities discussed in this review were Pressure Systems and High Pressure Intakes; the existing efficiency migration maps them to `fluidLink5` and `fluidLink6`. Align the connection progression with those upgrade identities during implementation. This connection-limit decision preserves the current efficiency-based rate formula and buffer capacity.
+
+**Intake-only Water supply agreed November 18, 2026.** Require a Lake Intake for all Water drawn from a Lake. Remove the Lake's autonomous one-Water-per-second production and shared five-item Water output buffer in the reviewed design. Keep its four directional ports as direct Intake attachment points, subject to the agreed 2 → 3 → 4 Intake limit. Water enters the factory through the connected Production Intakes and is then routed to consumers; direct Lake-to-consumer or Lake-to-logistics Water routes must not bypass an Intake. Retain infinite Lake supply, the current efficiency-based Intake rates, and Intake buffers. The existing free Water Tools discovery unlock makes the first Intake available when a Lake is discovered. This design change is pending implementation; current direct Lake production below is still implemented.
+
+**Coupled Lake relocation agreed November 18, 2026.** Moving a Lake automatically includes all directly connected Lake Intakes, whether or not they were explicitly selected. Move the Lake and those Production nodes by the same displacement, preserving their relative positions, identities, Water stock, progress, and connections. Include each member only once in an explicit group selection. Do not automatically include downstream factory nodes or disconnected Intakes. Validate the entire move against field boundaries, placement collisions, and cable obstruction; if any member or affected route is invalid, reject the whole move. Retain same-map scope and the existing post-victory Lake Relocation research requirement. This replaces the earlier Lake-only movement choice and is pending implementation.
 
 ### Current game
 
 Base Water production accumulates in a shared **five-item output buffer**. Production stops when the buffer is full. Routing alternates among usable outputs and skips destinations that cannot accept Water.
 
-A **Pump** draws **4 Water per second** from a direct Lake connection. Pressure Systems raises that to **8**, and High Pressure Intakes raises it to **16**. Each Lake supports up to **two Pumps**, each with a **64-unit output buffer**. Pump extraction runs separately from the Lake's own Water output. When another node supplies the Pump, it relays Water or Coolant to an available outlet. Lake to Extractor connections are rejected.
+A **Lake Intake** draws **4 Water per second** at base from a direct Lake connection. The current machine-efficiency runtime uses `round(4 / efficiency multiplier)`; its four research ranks produce **5, 6, 8, and 11 Water per second**. This replaces the earlier Pressure Systems / High Pressure Intakes rate schedule in the older reference. Current connection enforcement still allows up to **two Lake Intakes**, each with a **64-unit output buffer**; the reviewed 2 → 3 → 4 connection progression above remains pending implementation. Intake extraction runs separately from the Lake's own Water output. When another node supplies the Intake, it relays Water or Coolant to an available outlet. Lake to Extractor connections are rejected.
 
 Encountering a Lake also participates in the current game's encounter-based water-tool unlocks.
 
@@ -96,6 +120,10 @@ Sources: [current resource and routing simulation](../src/simulation/engine.ts),
 ### Shared behavior
 
 The current game generates **Goblin Camps**, **Goblin Villages**, **Goblin Kingdoms**, **Dwarven Camps**, **Dwarven Villages**, and **Dwarven Kingdoms**. The old game generates only Small Goblin Camps. Settlements normally check suppression every **60 seconds**. Meeting the Attack Power requirement reduces size by **10 percentage points**; failing it increases size by **10 percentage points**, within a **10% to 100%** range. Size percentage represents the area ratio used to scale the radius, rather than a linear radius percentage. Every fresh current-game settlement begins at **25%**.
+
+**Camp timing retained November 18, 2026.** Keep the normal suppression check interval at **60 seconds**. Retain the existing Dwarven exception: after a failed check, sufficient newly available AP permits an early retry; a retry starts a fresh 60-second countdown. This retains current timing without changing AP requirements or per-check payments.
+
+**Camp size step retained November 18, 2026.** Keep a **10-percentage-point** area change per completed suppression check: shrink on success and grow on failure, clamped to the existing **10%–100%** range. The percentage describes camp area, not a linear change in radius. A fresh 25% camp still reaches 10% in two successful checks, 25% → 15% → 10%. This retains current behavior.
 
 ### Current settlement tiers and Attack Power
 
@@ -190,9 +218,15 @@ The current game uses a shared polygon for the camp's visible border, placement,
 
 Encroachment updates every simulation step and immediately after size checks. Multiple camps combine their influence; shrinking a camp restores a machine only when no camp still overlaps it. Resource nodes and other world obstructions are protected. Growing across an existing cable stops its transfers and refunds reserved stock; the cable remains and can resume when clear.
 
+**Covered factory nodes retained November 18, 2026.** Camp growth disables an affected factory node rather than destroying it or being stopped by it. Preserve the node's inventory, production progress, and connections while it is disabled. This includes stored cargo and capacity on Logistics nodes. Resume normal operation only when the node's entire body is clear of every camp, subject to its other operating conditions. Resource nodes and other world obstructions retain their existing protection from this disabling pass. This retains current behavior.
+
 Generation validates each camp at 100% size against field edges and other obstructions before restoring its initial 25%. Natural resources reserve the entire maximum-growth circle, including their own full body and placement clearance. These rules apply to newly generated sectors; existing saved layouts are preserved.
 
+**Full-growth generation clearance retained November 18, 2026.** Continue checking a camp at its full **100% footprint** during generation before restoring its initial 25% state. Keep ordinary mineral deposits and Forests outside the entire maximum-growth reservation, including each resource's full body and the placement clearance. Do not limit the generation reservation to the initial camp footprint. This retains current ordinary-resource placement behavior and does not regenerate existing saved layouts.
+
 All current subtypes retain the same 600-unit maximum radius and suppression behavior. Their names, map distribution, and AP requirements distinguish their difficulty. They keep the serialized `monster-camp` kind, with an optional `goblinSettlement` subtype, preserving existing saves and Attack Power connections.
+
+**Maximum camp footprint retained November 18, 2026.** Keep the same **600-world-unit nominal maximum radius** for all Goblin and Dwarven Camps, Villages, and Kingdoms. Do not scale that maximum by settlement subtype or map tier. Continue deriving the current footprint from camp area percentage using the existing square-root radius scaling and shared geometry, including normal grid sizing. This retains current behavior.
 
 The runtime check uses a fixed **60,000 ms** interval, even though nodes have a `cycleMs` field. The old runtime uses each camp's stored `expansionCheckIntervalMs`; its tutorial demonstration uses a separate **2-second** interval.
 
@@ -224,6 +258,12 @@ Both games reject construction or movement into obstruction footprints and rejec
 
 Current collisions use the same outline drawn on screen for Lakes, Deep Holes, camps, and Golems, with **12 units** of ordinary placement clearance. Cable curves are adaptively flattened to a quarter world unit and their entire segments intersected with the visible polygon, without an extra invisible halo. Small obstructions cannot fall between a fixed set of point samples. Runtime routing rechecks changed geometry and pauses obstructed cables.
 
+**Building clearance retained November 18, 2026.** Keep **12 world units** between a building's body and an active obstruction's visible border. This retains current active-obstruction placement behavior and does not change the separate rule allowing ordinary factory bodies to touch without overlapping. Under the agreed filled-hole terrain design, completed grey patches have no obstruction clearance and may be built on; that terrain exception remains pending implementation.
+
+**Cable border blocking retained November 18, 2026.** Unrelated cables cannot cross or touch an active obstruction's visible border. Apply no extra clearance halo or 12-unit cable gap. A connection to an obstruction's own port excludes that endpoint obstruction from the blocking test, permitting Stone delivery, Intake attachment and bot supply; other obstructions along the route still block it. Under the agreed filled-hole terrain design, cables may cross completed grey patches. The active-obstruction rule retains current behavior; the grey-terrain feature remains pending implementation.
+
+**Camp-covered cables retained November 18, 2026.** When camp growth covers an existing cable, keep the cable and pause its transfers. Refund the affected in-flight items to their senders. Once suppression shrinks the camp clear of the route, allow transfers to resume through the same connection, subject to normal endpoint and routing conditions. Do not destroy the cable or require the player to rebuild it. This retains current behavior.
+
 The old game uses circles for hole collision and stored polygons for Lake and camp collision. Its hole clearance constant is **10**, while ordinary node clearance is **12**. Hole cable checking adapts its sample count to estimated curve length, with a minimum of 16 segments. Camp cable checks at connection creation use zero extra clearance. These differences can make an apparently similar shoreline or camp boundary accept a route in one game and reject it in the other.
 
 Sources: [current collisions](../src/simulation/collisions.ts), [current cable rules](../src/simulation/connectionRules.ts), [old geometry](../../Node%20Game/game/geometry/connections.ts), [old clearance and ports](../../Node%20Game/game/domain/obstructions.ts), and [old connection creation](../../Node%20Game/app/page.tsx).
@@ -240,11 +280,23 @@ New worlds contain exactly **four Resource Golems**, one each for **Iron, Copper
 
 Find a Golem camp by visiting its map. Deliver Suppression Bots to permanently reduce the Golem's remaining health. Iron, Copper and Stone start at **100 AP**. Mythril starts at **150 AP**. Mixed deliveries also work. Partial damage persists through saves.
 
+**One-time Golem reward retained November 18, 2026.** Keep normal Resource Golems as one-time encounters. Defeat permanently converts the Golem into an infinite reserve of its mineral, worked by Extractors. Do not require recurring AP payments to keep that reserve accessible or producing. Retain saved damage and permanent defeat history. This retains current behavior.
+
 At zero health, the same node becomes a permanent **Iron**, **Copper**, **Stone**, or **Mythril** reserve at the same position. It is twice as wide and twice as tall as a normal resource node, with **∞** above its full reserve bar. Placement keeps that footprint clear while the Golem is alive. Its bot input and incoming attack cables are removed. The new reserve has **four multi-connection star outputs**, centered on its north, east, south, and west faces. Connect Extractors to any face. All four sockets expose only that Golem's mineral.
+
+**Defeated reserve footprint retained November 18, 2026.** Keep infinite Golem reserves at **twice an ordinary resource node's width and height**: currently **640 × 512 world units**, compared with an ordinary **320 × 256** deposit. This is four times the ordinary rectangular area. While the Golem is alive, placement must keep both its visible silhouette and its future reserve footprint clear, with normal placement clearance. This retains current geometry and placement behavior.
+
+**Golem relocation boundary retained November 18, 2026.** Living Resource Golems remain immovable, including after Resource Relocation research. Once defeated, their infinite reserves are eligible for movement within the same map through the existing post-victory Resource Relocation project. Preserve reserve identity, mineral, stock and permanent defeat history when moving it. This retains current relocation eligibility.
 
 Existing saves retain their explored layouts and the exact AP already paid. Loading a save converts a Golem whose prior damage covers the new price and returns its in-flight bots to their source. Any unspent bots already in that Golem's input go to the global pool. Existing infinite reserves retain their node IDs and minerals.
 
 Sources: [Golem costs and conversion](../src/content/resourceGolems.ts), [current capability catalog](../src/content/nodeCapabilities.ts), [additional capability definitions](../src/content/progression.ts), [encounters and Golem simulation](../src/simulation/progression.ts), [infinite extraction](../src/simulation/engine.ts), [directional socket geometry](../src/renderer/nodeLayout.ts), and [world placement](../src/simulation/worldGeneration.ts).
+
+## Corner encounters
+
+**Permanent corner footprints retained November 18, 2026.** Keep the blocking footprints of all four corner encounters after reward-cycle completion: Ancient Dragon, Ancient Foundry, Ancient Reclamation, and Elder Grove. Each remains a repeatable source of its corner component. Completing a cycle does not remove the obstruction, shrink its footprint, or make its area buildable. The shared active-obstruction building-clearance and cable-border rules continue to apply. This retains current behavior and is distinct from the agreed grey buildable terrain for filled Deep Holes.
+
+Sources: [corner capabilities](../src/content/nodeCapabilities.ts), [corner generation and repeatable rewards](../src/simulation/endgameRuntime.ts), and [corner component definitions](../src/content/endgame.ts).
 
 ## Importing obstructions from old saves
 

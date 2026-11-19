@@ -1,0 +1,802 @@
+{
+  "tag": "actual-release-40",
+  "ready": true,
+  "warmupSeconds": 1723.4,
+  "settlingSeconds": 480,
+  "botsBeforeMeasurement": 12,
+  "initialPlantInputs": {
+    "final-frame": 5,
+    "final-cannon": 3
+  },
+  "finalPlantInputs": {
+    "final-frame": 5,
+    "final-cannon": 4
+  },
+  "extractedBefore": {
+    "water": 11342,
+    "iron": 23606,
+    "wood": 28623,
+    "copper": 25296,
+    "stone": 673,
+    "mythril": 4404
+  },
+  "measuredSeconds": 2400,
+  "machineCounts": {
+    "advancedAssembler": 31,
+    "assembler": 6,
+    "smelter": 34,
+    "iron": 1,
+    "extractor": 82,
+    "kiln": 20,
+    "forest": 1,
+    "refiner": 10,
+    "copper": 1,
+    "hydroProcessor": 5,
+    "lake": 1,
+    "fluidLink": 1,
+    "stoneDeposit": 1,
+    "separationFurnace": 4,
+    "mythril": 1,
+    "filter": 4,
+    "botPlant": 1,
+    "woodenChest": 30,
+    "wasteHopper": 1,
+    "recycler": 1,
+    "fluidStorage": 2,
+    "merger": 1,
+    "splitter": 4
+  },
+  "productionCounts": {
+    "final-frame": 2,
+    "servo-frame": 4,
+    "mithril-frame": 4,
+    "sealed-frame": 2,
+    "simple-robot-frame": 1,
+    "iron-plate": 15,
+    "iron": 24,
+    "charcoal": 20,
+    "wood": 29,
+    "motor": 2,
+    "iron-gear": 1,
+    "copper-wire": 6,
+    "copper-plate": 16,
+    "copper": 24,
+    "hydraulic-actuator": 2,
+    "coolant": 3,
+    "water": 1,
+    "brick": 1,
+    "stone": 1,
+    "refined-mithril": 2,
+    "mythril-plate": 3,
+    "mythril": 4,
+    "advanced-actuator": 3,
+    "mithril-mesh": 2,
+    "precision-controller": 4,
+    "circuit-a": 2,
+    "mythril-gear": 1,
+    "conductive-slurry": 2,
+    "final-cannon": 2,
+    "pulse-cannon": 3,
+    "focused-gun": 2,
+    "cooled-gun": 1,
+    "simple-robot-gun": 1,
+    "logic-substrate": 1,
+    "ceramic-electrode": 1,
+    "mythril-wire": 1
+  },
+  "wires": 518,
+  "finishes": [
+    40,
+    80,
+    120,
+    160,
+    200,
+    240,
+    280,
+    320,
+    360,
+    400,
+    440,
+    480,
+    520,
+    560,
+    600,
+    640,
+    680,
+    720,
+    760,
+    800,
+    840,
+    880,
+    920,
+    960,
+    1000,
+    1040,
+    1080,
+    1120,
+    1160,
+    1200,
+    1240,
+    1280,
+    1320,
+    1360,
+    1400,
+    1440,
+    1480,
+    1520,
+    1560,
+    1600,
+    1640,
+    1680,
+    1720,
+    1760,
+    1800,
+    1840,
+    1880,
+    1920,
+    1960,
+    2000,
+    2040,
+    2080,
+    2120,
+    2160,
+    2200,
+    2240,
+    2280,
+    2320,
+    2360,
+    2400
+  ],
+  "idleSeconds": 0,
+  "dryTicks": {
+    "frame": 0,
+    "cannon": 0
+  },
+  "buffer": 71,
+  "raw": {
+    "wood": 58751,
+    "iron": 48253,
+    "copper": 52455,
+    "stone": 1382,
+    "mythril": 9204
+  },
+  "wasteStock": 0,
+  "before": {
+    "final-frame": {
+      "pool": 24,
+      "output": 0,
+      "missing": {
+        "servo-frame": 1,
+        "advanced-actuator": 0,
+        "brick": 0
+      },
+      "built": 41
+    },
+    "servo-frame": {
+      "pool": 0,
+      "output": 0,
+      "missing": {
+        "mithril-frame": 0,
+        "advanced-actuator": 0,
+        "precision-controller": 0
+      },
+      "built": 134
+    },
+    "mithril-frame": {
+      "pool": 0,
+      "output": 0,
+      "missing": {
+        "sealed-frame": 1,
+        "refined-mithril": 0,
+        "motor": 0
+      },
+      "built": 152
+    },
+    "sealed-frame": {
+      "pool": 0,
+      "output": 0,
+      "missing": {
+        "simple-robot-frame": 1,
+        "hydraulic-actuator": 0,
+        "brick": 0
+      },
+      "built": 171
+    },
+    "simple-robot-frame": {
+      "pool": 0,
+      "output": 0,
+      "missing": {
+        "iron-plate": 0,
+        "motor": 0
+      },
+      "built": 177
+    },
+    "iron-plate": {
+      "pool": 77,
+      "output": 18,
+      "missing": {
+        "iron": 0,
+        "charcoal": 0
+      },
+      "built": 11825
+    },
+    "iron": {
+      "pool": 72,
+      "output": 43,
+      "missing": {},
+      "built": 0
+    },
+    "charcoal": {
+      "pool": 69,
+      "output": 21,
+      "missing": {
+        "wood": 0
+      },
+      "built": 28386
+    },
+    "wood": {
+      "pool": 70,
+      "output": 60,
+      "missing": {},
+      "built": 0
+    },
+    "motor": {
+      "pool": 80,
+      "output": 4,
+      "missing": {
+        "iron-gear": 0,
+        "copper-wire": 0
+      },
+      "built": 1207
+    },
+    "iron-gear": {
+      "pool": 0,
+      "output": 0,
+      "missing": {
+        "iron-plate": 0
+      },
+      "built": 1821
+    },
+    "copper-wire": {
+      "pool": 77,
+      "output": 12,
+      "missing": {
+        "copper-plate": 3
+      },
+      "built": 4138
+    },
+    "copper-plate": {
+      "pool": 68,
+      "output": 20,
+      "missing": {
+        "copper": 0,
+        "charcoal": 0
+      },
+      "built": 12538
+    },
+    "copper": {
+      "pool": 75,
+      "output": 66,
+      "missing": {},
+      "built": 0
+    },
+    "hydraulic-actuator": {
+      "pool": 1,
+      "output": 1,
+      "missing": {
+        "iron-gear": 1,
+        "motor": 0,
+        "coolant": 0
+      },
+      "built": 598
+    },
+    "coolant": {
+      "pool": 510,
+      "output": 6,
+      "missing": {
+        "water": 1,
+        "iron-plate": 0
+      },
+      "built": 4542
+    },
+    "water": {
+      "pool": 512,
+      "output": 58,
+      "missing": {},
+      "built": 0
+    },
+    "brick": {
+      "pool": 80,
+      "output": 3,
+      "missing": {
+        "stone": 0
+      },
+      "built": 665
+    },
+    "stone": {
+      "pool": 0,
+      "output": 3,
+      "missing": {},
+      "built": 0
+    },
+    "refined-mithril": {
+      "pool": 80,
+      "output": 0,
+      "missing": {
+        "mythril-plate": 0,
+        "iron-plate": 0,
+        "charcoal": 0
+      },
+      "built": 1792
+    },
+    "mythril-plate": {
+      "pool": 0,
+      "output": 0,
+      "missing": {
+        "mythril": 0,
+        "charcoal": 0
+      },
+      "built": 2196
+    },
+    "mythril": {
+      "pool": 0,
+      "output": 0,
+      "missing": {},
+      "built": 0
+    },
+    "advanced-actuator": {
+      "pool": 2,
+      "output": 0,
+      "missing": {
+        "hydraulic-actuator": 0,
+        "mithril-mesh": 0,
+        "coolant": 1
+      },
+      "built": 395
+    },
+    "mithril-mesh": {
+      "pool": 79,
+      "output": 7,
+      "missing": {
+        "refined-mithril": 0,
+        "copper-wire": 0,
+        "coolant": 0
+      },
+      "built": 499
+    },
+    "precision-controller": {
+      "pool": 80,
+      "output": 3,
+      "missing": {
+        "circuit-a": 0,
+        "mythril-gear": 0,
+        "conductive-slurry": 0
+      },
+      "built": 480
+    },
+    "circuit-a": {
+      "pool": 80,
+      "output": 3,
+      "missing": {
+        "copper-wire": 0,
+        "iron-plate": 0
+      },
+      "built": 1362
+    },
+    "mythril-gear": {
+      "pool": 80,
+      "output": 4,
+      "missing": {
+        "mythril-plate": 0
+      },
+      "built": 588
+    },
+    "conductive-slurry": {
+      "pool": 0,
+      "output": 3,
+      "missing": {
+        "water": 0,
+        "copper-wire": 0,
+        "charcoal": 0
+      },
+      "built": 1526
+    },
+    "final-cannon": {
+      "pool": 0,
+      "output": 0,
+      "missing": {
+        "pulse-cannon": 0,
+        "precision-controller": 0,
+        "logic-substrate": 1
+      },
+      "built": 15
+    },
+    "pulse-cannon": {
+      "pool": 47,
+      "output": 0,
+      "missing": {
+        "focused-gun": 1,
+        "precision-controller": 0,
+        "coolant": 0
+      },
+      "built": 89
+    },
+    "focused-gun": {
+      "pool": 0,
+      "output": 0,
+      "missing": {
+        "cooled-gun": 1,
+        "refined-mithril": 0,
+        "circuit-a": 0
+      },
+      "built": 100
+    },
+    "cooled-gun": {
+      "pool": 0,
+      "output": 0,
+      "missing": {
+        "simple-robot-gun": 0,
+        "coolant": 0,
+        "iron-plate": 0
+      },
+      "built": 107
+    },
+    "simple-robot-gun": {
+      "pool": 0,
+      "output": 4,
+      "missing": {
+        "copper-wire": 0,
+        "iron-plate": 0,
+        "brick": 0
+      },
+      "built": 117
+    },
+    "logic-substrate": {
+      "pool": 0,
+      "output": 0,
+      "missing": {
+        "circuit-a": 0,
+        "ceramic-electrode": 0,
+        "mythril-wire": 1
+      },
+      "built": 35
+    },
+    "ceramic-electrode": {
+      "pool": 0,
+      "output": 5,
+      "missing": {
+        "brick": 0,
+        "copper-wire": 0,
+        "conductive-slurry": 0
+      },
+      "built": 46
+    },
+    "mythril-wire": {
+      "pool": 0,
+      "output": 0,
+      "missing": {
+        "mythril-plate": 1
+      },
+      "built": 36
+    }
+  },
+  "after": {
+    "final-frame": {
+      "pool": 28,
+      "output": 0,
+      "missing": {
+        "servo-frame": 1,
+        "advanced-actuator": 0,
+        "brick": 0
+      },
+      "built": 105
+    },
+    "servo-frame": {
+      "pool": 0,
+      "output": 0,
+      "missing": {
+        "mithril-frame": 0,
+        "advanced-actuator": 0,
+        "precision-controller": 0
+      },
+      "built": 325
+    },
+    "mithril-frame": {
+      "pool": 4,
+      "output": 0,
+      "missing": {
+        "sealed-frame": 1,
+        "refined-mithril": 0,
+        "motor": 0
+      },
+      "built": 353
+    },
+    "sealed-frame": {
+      "pool": 0,
+      "output": 0,
+      "missing": {
+        "simple-robot-frame": 1,
+        "hydraulic-actuator": 0,
+        "brick": 0
+      },
+      "built": 371
+    },
+    "simple-robot-frame": {
+      "pool": 0,
+      "output": 0,
+      "missing": {
+        "iron-plate": 0,
+        "motor": 0
+      },
+      "built": 377
+    },
+    "iron-plate": {
+      "pool": 69,
+      "output": 14,
+      "missing": {
+        "iron": 0,
+        "charcoal": 0
+      },
+      "built": 24295
+    },
+    "iron": {
+      "pool": 68,
+      "output": 26,
+      "missing": {},
+      "built": 0
+    },
+    "charcoal": {
+      "pool": 65,
+      "output": 21,
+      "missing": {
+        "wood": 0
+      },
+      "built": 58516
+    },
+    "wood": {
+      "pool": 66,
+      "output": 61,
+      "missing": {},
+      "built": 0
+    },
+    "motor": {
+      "pool": 80,
+      "output": 6,
+      "missing": {
+        "iron-gear": 0,
+        "copper-wire": 0
+      },
+      "built": 2510
+    },
+    "iron-gear": {
+      "pool": 0,
+      "output": 0,
+      "missing": {
+        "iron-plate": 0
+      },
+      "built": 3821
+    },
+    "copper-wire": {
+      "pool": 78,
+      "output": 9,
+      "missing": {
+        "copper-plate": 4
+      },
+      "built": 8670
+    },
+    "copper-plate": {
+      "pool": 65,
+      "output": 14,
+      "missing": {
+        "copper": 0,
+        "charcoal": 0
+      },
+      "built": 26125
+    },
+    "copper": {
+      "pool": 71,
+      "output": 54,
+      "missing": {},
+      "built": 0
+    },
+    "hydraulic-actuator": {
+      "pool": 1,
+      "output": 1,
+      "missing": {
+        "iron-gear": 1,
+        "motor": 0,
+        "coolant": 0
+      },
+      "built": 1298
+    },
+    "coolant": {
+      "pool": 512,
+      "output": 9,
+      "missing": {
+        "water": 1,
+        "iron-plate": 0
+      },
+      "built": 9162
+    },
+    "water": {
+      "pool": 512,
+      "output": 62,
+      "missing": {},
+      "built": 0
+    },
+    "brick": {
+      "pool": 80,
+      "output": 4,
+      "missing": {
+        "stone": 0
+      },
+      "built": 1374
+    },
+    "stone": {
+      "pool": 0,
+      "output": 3,
+      "missing": {},
+      "built": 0
+    },
+    "refined-mithril": {
+      "pool": 80,
+      "output": 1,
+      "missing": {
+        "mythril-plate": 0,
+        "iron-plate": 1,
+        "charcoal": 0
+      },
+      "built": 3636
+    },
+    "mythril-plate": {
+      "pool": 0,
+      "output": 0,
+      "missing": {
+        "mythril": 0,
+        "charcoal": 0
+      },
+      "built": 4596
+    },
+    "mythril": {
+      "pool": 0,
+      "output": 0,
+      "missing": {},
+      "built": 0
+    },
+    "advanced-actuator": {
+      "pool": 0,
+      "output": 0,
+      "missing": {
+        "hydraulic-actuator": 0,
+        "mithril-mesh": 0,
+        "coolant": 0
+      },
+      "built": 895
+    },
+    "mithril-mesh": {
+      "pool": 80,
+      "output": 5,
+      "missing": {
+        "refined-mithril": 0,
+        "copper-wire": 0,
+        "coolant": 0
+      },
+      "built": 998
+    },
+    "precision-controller": {
+      "pool": 80,
+      "output": 3,
+      "missing": {
+        "circuit-a": 0,
+        "mythril-gear": 0,
+        "conductive-slurry": 0
+      },
+      "built": 1033
+    },
+    "circuit-a": {
+      "pool": 78,
+      "output": 5,
+      "missing": {
+        "copper-wire": 0,
+        "iron-plate": 0
+      },
+      "built": 2958
+    },
+    "mythril-gear": {
+      "pool": 79,
+      "output": 4,
+      "missing": {
+        "mythril-plate": 0
+      },
+      "built": 1141
+    },
+    "conductive-slurry": {
+      "pool": 0,
+      "output": 4,
+      "missing": {
+        "water": 0,
+        "copper-wire": 0,
+        "charcoal": 0
+      },
+      "built": 3310
+    },
+    "final-cannon": {
+      "pool": 0,
+      "output": 0,
+      "missing": {
+        "pulse-cannon": 0,
+        "precision-controller": 0,
+        "logic-substrate": 1
+      },
+      "built": 76
+    },
+    "pulse-cannon": {
+      "pool": 42,
+      "output": 0,
+      "missing": {
+        "focused-gun": 1,
+        "precision-controller": 0,
+        "coolant": 0
+      },
+      "built": 208
+    },
+    "focused-gun": {
+      "pool": 0,
+      "output": 0,
+      "missing": {
+        "cooled-gun": 1,
+        "refined-mithril": 0,
+        "circuit-a": 0
+      },
+      "built": 220
+    },
+    "cooled-gun": {
+      "pool": 0,
+      "output": 0,
+      "missing": {
+        "simple-robot-gun": 0,
+        "coolant": 0,
+        "iron-plate": 0
+      },
+      "built": 227
+    },
+    "simple-robot-gun": {
+      "pool": 0,
+      "output": 4,
+      "missing": {
+        "copper-wire": 0,
+        "iron-plate": 0,
+        "brick": 0
+      },
+      "built": 237
+    },
+    "logic-substrate": {
+      "pool": 0,
+      "output": 0,
+      "missing": {
+        "circuit-a": 0,
+        "ceramic-electrode": 0,
+        "mythril-wire": 1
+      },
+      "built": 160
+    },
+    "ceramic-electrode": {
+      "pool": 0,
+      "output": 5,
+      "missing": {
+        "brick": 0,
+        "copper-wire": 0,
+        "conductive-slurry": 0
+      },
+      "built": 170
+    },
+    "mythril-wire": {
+      "pool": 0,
+      "output": 0,
+      "missing": {
+        "mythril-plate": 1
+      },
+      "built": 160
+    }
+  }
+}

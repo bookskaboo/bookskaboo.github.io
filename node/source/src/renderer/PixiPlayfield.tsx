@@ -34,7 +34,7 @@ import { getWorldFieldSize } from '../simulation/worldGeneration';
 import { clampFieldCamera, scrollCameraForDrag } from '../domain/camera';
 import { WORLD_GRID_SIZE, draggedNodePositions, snapNodePosition } from '../domain/nodeGrid';
 import { boxControlSelection, ControlGroupSelection } from '../domain/controlGroups';
-import { getPortSide, isMultiConnectionPort } from '../simulation/connectionRules';
+import { getConnectionControlPoints, getPortSide, isMultiConnectionPort } from '../simulation/connectionRules';
 import { filterOutletLabels, getNodeSize, getPortAnchor, isCompactNode, isOrganicNode, isResourceNode, organicPolygon } from '../domain/nodeGeometry';
 import { blockedFilterPort, filterOutlet } from '../domain/filterRouting';
 import { obstructionOutline } from '../domain/obstructionGeometry';
@@ -46,6 +46,7 @@ import { RESEARCH_CORE_TYPES } from '../simulation/researchStatus';
 import { modNode } from '../mods/modRules';
 import { mapNodePosition } from '../ui/mapNodePresentation';
 import { measureFieldViewport } from '../ui/responsiveLayout';
+import { boundsOnScreen, nodeDrawingKey, nodeOnScreen, playfieldResolution, reconcileViews, showNodeDetails, type CableBounds, type ViewIdentity } from './sceneUpdates';
 
 const CORNER_SOCKET_RADIUS = 13;
 const cornerSocketScale = (zoom: number, limit: number) => Math.min(Math.max(2, 1 / zoom), limit);
@@ -77,15 +78,24 @@ export function PixiPlayfield(props: Props) {
     const controlHover = new NodeControlHover();
     const enterNodeHover = (id: string) => { controlHover.enter(id); hoveredNodeId = id; propsRef.current.onHoverNode?.(id); };
     let hoveredNodeId: string | undefined; let tooltipIntent: (PlayfieldTooltip & { key: string; visible: boolean }) | undefined; let tooltipTimer: number | undefined;
-    let lastSceneSignature = ''; let drawnGridEnabled = props.engine.getState().preferences.showGrid; let lastTooltipAt = 0; let lastUiSignature = '';
+    let drawnGridEnabled = props.engine.getState().preferences.showGrid; let lastTooltipAt = 0; let lastUiSignature = '';
     let observedPlayTimeMs = props.engine.getState().playTimeMs; let observedPlayTimeAt = performance.now();
     const nodeViews = new Map<string, NodeView>(); const portViews = new Map<string, PortView>(); const particles: FlowParticle[] = [];
+    const nodeIdentities = new Map<string, ViewIdentity>();
+    const cableViews = new Map<string, Container>();
+    const cableIdentities = new Map<string, ViewIdentity>();
+    const cableBounds = new Map<string, CableBounds>();
+    const pathCache = new Map<string, { ids: string[]; motion: ReturnType<typeof buildTransferMotionPath> }>();
+    const particlePool: FlowParticle[] = [];
+    const diagnostics = { nodesCreated: 0, nodesDestroyed: 0, particleObjectsCreated: 0 };
+    let diagnosticsAt = 0;
     const flashStartedAt = new Map<string, number>(); const lastInputTotals = new Map<string, number>(); const seenTransferIds = new Set<string>(); const trackedTransfers = new Map<string, InFlightTransfer>();
     let lastParticleSignature = '';
     let sceneNodes = new Map<string, MachineNode>();
-    let sceneNodeSource: MachineNode[] | undefined;
     let sceneMod = props.engine.getState().mod;
     let sceneConnections = new Map<string, Connection>();
+    let motionNodes = new Map<string, MachineNode>();
+    let pathRevision = 0;
 
 
     const toWorld = (x: number, y: number) => ({ x: (x - camera.x) / camera.zoom, y: (y - camera.y) / camera.zoom });
@@ -251,6 +261,7 @@ export function PixiPlayfield(props: Props) {
       drawnGridEnabled = propsRef.current.engine.getState().preferences.showGrid;
       surfaceLayer.removeChildren().forEach(child => child.destroy());
       surfaceLayer.addChild(fieldSurface(worldSize, drawnGridEnabled));
+
     };
 
     const drawFrame = (node: MachineNode, body: Graphics, header: Graphics) => {
@@ -530,6 +541,11 @@ export function PixiPlayfield(props: Props) {
       const productionRecipeIcon = !placementPreview && isProductionMachine(node) ? createProductionRecipeIcon(node) : undefined;
       if (productionRecipeIcon) root.addChild(productionRecipeIcon.root);
       const productionCue = new Graphics(); productionCue.eventMode = 'none'; root.addChild(productionCue);
+      const overviewWarning = new Graphics({ eventMode: 'none', visible: false });
+      overviewWarning.circle(0, 0, 13).fill({ color: 0xffc46b }).stroke({ color: 0x191b1f, width: 2 });
+      overviewWarning.moveTo(0, -6).lineTo(0, 2).stroke({ color: 0x191b1f, width: 3 });
+      overviewWarning.circle(0, 7, 1.5).fill(0x191b1f);
+      overviewWarning.position.set(size.w / 2 - 18, -size.h / 2 + 18); root.addChild(overviewWarning);
       const flash = new Graphics(); const marqueeHighlight = new Graphics(); const invalidOverlay = new Graphics(); root.addChild(flash, marqueeHighlight, invalidOverlay);
       if (!placementPreview) {
         const nodeTooltip = (event: FederatedPointerEvent) => { const obstruction = isOrganicNode(node); const engine = propsRef.current.engine; const live = engine.getSector().nodes.find(n => n.id === node.id) ?? node; const production = productionExplanation(live, engine.getState(), engine.getSector()); const detail = node.kind === 'lake' ? 'Water source · Fixed world obstruction · Connect from any output socket.' : node.kind === 'big-hole' ? `${Math.floor(node.resourceRemaining ?? 0)} Stone required · Fixed world obstruction.` : node.kind === 'monster-camp' ? `Threat ${live.campStrength ?? 25}% · ${campStatus(live).apLabel} per check · ${campStatus(live).checkLabel}.` : production.summary || `Click to select${movable ? ' · Drag to move' : ''}.`; showTooltip(event, getNodeDisplayName(live), detail, definition.accentCss, obstruction ? 'WORLD OBSTRUCTION' : definition.category.toUpperCase(), node.id); };
@@ -568,7 +584,8 @@ export function PixiPlayfield(props: Props) {
           }
         });
       }
-      return { root, campStatus: campView, golemApLabel, cornerCampStatus, cornerTributeLabel, jointMoveHandle, researchStatus, productionRecipeIcon, productionCue, progress, progressLabel, bufferLabel, bufferSquares, inputSquares, coreStorageLabels, coreStorageSquares, readabilityLabels, flash, marqueeHighlight, invalidOverlay, invalidVisible: false, displayedProgress: initialProgress };
+      const detailChildren = [...readabilityLabels.filter(text => text !== golemApLabel && !(node.infiniteResource && text === bufferLabel)), ...[bufferSquares, inputSquares].filter((child): child is Graphics => Boolean(child))];
+      return { root, detailChildren, overviewWarning, campStatus: campView, golemApLabel, cornerCampStatus, cornerTributeLabel, jointMoveHandle, researchStatus, productionRecipeIcon, productionCue, progress, progressLabel, bufferLabel, bufferSquares, inputSquares, coreStorageLabels, coreStorageSquares, readabilityLabels, flash, marqueeHighlight, invalidOverlay, invalidVisible: false, displayedProgress: initialProgress };
     };
 
     const drawInsertionPreview = (node?: MachineNode, valid = true) => {
@@ -793,41 +810,90 @@ export function PixiPlayfield(props: Props) {
       root.on('pointerover', cableTooltip); root.on('pointermove', cableTooltip); root.on('pointerout', clearTooltip);
       if (selected && !propsRef.current.training) { const midpoint = curvePoint(connection, nodes, connections, .5)!; const button = new Container(); button.position.set(midpoint.x, midpoint.y + 22 / camera.zoom); button.eventMode = 'static'; button.cursor = 'pointer'; button.hitArea = new Rectangle(-15, -15, 30, 30); button.addChild(new Graphics().circle(0, 0, 13).fill({ color: 0x291316, alpha: .98 }).stroke({ color: 0xf06c72, width: 2 })); drawTrashIcon(button, 0, 0, 0xff8d93); button.on('pointerdown', (event) => { if (event.button === 0) event.stopPropagation(); }); button.on('pointertap', (event) => { if (event.button !== 0) return; event.stopPropagation(); propsRef.current.onDeleteConnection(connection.id); }); root.addChild(button); }
       cableLayer.addChild(root);
+      return root;
+    };
+
+    const syncCableViews = (nodes: Map<string, MachineNode>, connections: Connection[]) => {
+      motionNodes = nodes;
+      const next = new Map<string, ViewIdentity>();
+      for (const connection of connections) {
+        const points = connectionPoints(connection, nodes, connections);
+        if (!points) continue;
+        const controls = getConnectionControlPoints(points.start, points.end, points.sourceSide, points.targetSide);
+        const xs = [points.start.x, points.end.x, controls.first.x, controls.second.x], ys = [points.start.y, points.end.y, controls.first.y, controls.second.y];
+        cableBounds.set(connection.id, { left: Math.min(...xs), right: Math.max(...xs), top: Math.min(...ys), bottom: Math.max(...ys) });
+        next.set(connection.id, { source: connection, key: [points.start.x, points.start.y, points.end.x, points.end.y,
+          points.sourceSide, points.targetSide, points.outputIndex, points.inputIndex, points.from.name, points.to.name,
+          connection.item, propsRef.current.selectedConnection === connection.id].join(':') });
+      }
+      const changed = new Set([...cableIdentities.keys(), ...next.keys()].filter(id => cableIdentities.get(id)?.key !== next.get(id)?.key || cableIdentities.get(id)?.source !== next.get(id)?.source));
+      if (changed.size) pathRevision++;
+      for (const [key, cached] of pathCache) if (cached.ids.some(id => changed.has(id))) pathCache.delete(key);
+      const byId = new Map(connections.map(connection => [connection.id, connection]));
+      reconcileViews(cableViews, cableIdentities, next, id => createCableView(byId.get(id)!, nodes, connections), (view, id) => { view.destroy({ children: true }); if (!next.has(id)) cableBounds.delete(id); });
+    };
+
+    const transferPath = (transfer: InFlightTransfer, nodes: Map<string, MachineNode>) => {
+      const ids = transfer.routeConnectionIds ?? [transfer.connectionId];
+      const key = JSON.stringify(ids);
+      let cached = pathCache.get(key);
+      if (!cached) {
+        if (pathCache.size > 2048) pathCache.clear();
+        cached = { ids, motion: buildTransferMotionPath(transfer, nodes, propsRef.current.engine.getSector().connections) };
+        pathCache.set(key, cached);
+      }
+      return cached.motion;
     };
 
     const syncParticles = () => {
       const engine = propsRef.current.engine;
       const sector = engine.getSector();
       const visible = engine.getState().preferences.particles ? engine.getActiveTransfers().slice(0, MAX_VISIBLE_TRANSFERS) : [];
-      const signature = `${sector.id}|${visible.map((transfer) => transfer.id).join(',')}`;
+      const signature = `${sector.id}|${pathRevision}|${visible.map((transfer) => transfer.id).join(',')}`;
       if (signature === lastParticleSignature) return;
       lastParticleSignature = signature;
-      particleLayer.removeChildren().forEach((child) => child.destroy({ children: true }));
-      const passedByTransfer = new Map(particles.map(particle => [particle.transfer.id, particle.passed]));
+      const retained = new Map(particles.map(particle => [particle.transfer.id, particle]));
+      const visibleIds = new Set(visible.map(transfer => transfer.id));
+      for (const particle of particles) if (!visibleIds.has(particle.transfer.id)) {
+        particle.root.visible = false; particle.root.removeFromParent(); particlePool.push(particle); retained.delete(particle.transfer.id);
+      }
       particles.length = 0;
       for (const transfer of visible) {
         const connection = sceneConnections.get(transfer.connectionId);
         if (!connection) continue;
-        const { path, passages } = buildTransferMotionPath(transfer, sceneNodes, sector.connections);
+        const { path, passages } = transferPath(transfer, motionNodes);
         if (!path.length) continue;
-        const root = new Container();
+        let particle = retained.get(transfer.id);
+        if (!particle) {
+        particle = particlePool.pop();
+        if (!particle) {
+        diagnostics.particleObjectsCreated++;
+        const root = new Container({ eventMode: 'none' });
         const outerGlow = new Graphics().roundRect(-23, -7, 46, 14, 7).fill({ color: THEME.flow, alpha: .1 });
         const glow = new Graphics().roundRect(-19, -4.5, 38, 9, 4.5).fill({ color: THEME.flow, alpha: .32 });
         const bar = new Graphics().roundRect(-16, -2, 32, 4, 2).fill({ color: THEME.flowCore, alpha: 1 });
         outerGlow.blendMode = 'add'; glow.blendMode = 'add'; bar.blendMode = 'add';
         root.addChild(outerGlow, glow, bar);
-        if ((transfer.amount ?? 1) > 1) {
-          const quantity = label(`×${transfer.amount}`, 14, THEME.text, 'normal', 'mono');
-          quantity.position.set(4, -24); root.addChild(quantity);
+        particle = { root, connectionId: connection.id, transfer, path, passages, passed: new Set() };
         }
-        particleLayer.addChild(root);
-        particles.push({ root, connectionId: connection.id, transfer, path, passages, passed: passedByTransfer.get(transfer.id) ?? new Set() });
+        particle.passed.clear();
+        particleLayer.addChild(particle.root);
+        }
+        particle.connectionId = connection.id; particle.transfer = transfer; particle.path = path; particle.passages = passages;
+        const quantityText = (transfer.amount ?? 1) > 1 ? `×${transfer.amount}` : '';
+        if (quantityText && !particle.quantity) {
+          particle.quantity = label('', 14, THEME.text, 'normal', 'mono');
+          particle.quantity.position.set(4, -24); particle.root.addChild(particle.quantity);
+        }
+        if (particle.quantity) { particle.quantity.text = quantityText; particle.quantity.visible = Boolean(quantityText); }
+        particles.push(particle); retained.delete(transfer.id);
         if (!seenTransferIds.has(transfer.id)) {
           seenTransferIds.add(transfer.id);
           const pulse = portViews.get(`${transfer.from}:output:${connection.fromPort ?? 0}`);
           if (pulse) pulse.pulseStartedAt = performance.now();
         }
       }
+      for (const particle of retained.values()) { particle.root.visible = false; particle.root.removeFromParent(); particlePool.push(particle); }
     };
 
     const renderScene = () => {
@@ -837,28 +903,45 @@ export function PixiPlayfield(props: Props) {
         const summary = live && productionExplanation(live, propsRef.current.engine.getState(), sector).summary;
         if (summary && summary !== tooltipIntent.detail) { tooltipIntent.detail = summary; propsRef.current.onTooltip?.({ ...tooltipIntent }); }
       }
-      const positionPart = drag ? '' : sector.nodes.map((node) => `${Math.round(node.x)}:${Math.round(node.y)}`).join(',');
-      const recyclerOutputs = sector.nodes.filter(node => node.kind === 'recycler').map(node => getEffectiveNodeOutputFamilies(node).join(',')).join('|');
-      const signature = [recyclerOutputs, sector.id, propsRef.current.engine.getState().research.completed.join(','), JSON.stringify(propsRef.current.engine.getState().research.repeatableCompletions), nextWorldSize.width, nextWorldSize.height, preferences.particles, preferences.showGrid, propsRef.current.engine.getState().research.selected ?? '', Number(propsRef.current.engine.getState().research.completed.includes('treePlanter')), propsRef.current.selectedIds.join(','), propsRef.current.selectedConnection ?? '', positionPart, JSON.stringify(sector.controlGroups ?? []), sector.nodes.map((node) => `${node.id}:${node.kind}:${node.name}:${node.tributeItem ?? ''}:${node.golemMineral ?? ''}:${node.recipeId ?? ''}:${node.filterItem ?? ''}:${node.filterOutputPort ?? 0}:${node.rotation}:${node.roadMode ?? ""}:${node.roadFacing ?? ""}:${node.inputPortOrder?.join('.') ?? ''}:${node.outputPortOrder?.join('.') ?? ''}:${node.outputRowOffset ?? 0}:${Number(node.connectorsMirrored)}:${Number(node.disabled)}:${Number(node.processingPaused)}:${node.campStrength ?? 0}:${node.obstructionRadius ?? 0}:${node.obstructionMaxRadius ?? 0}:${node.obstructionWidth ?? 0}:${node.obstructionHeight ?? 0}`).join('|'), sector.connections.map((connection) => `${connection.id}:${connection.from}:${connection.fromPort ?? 0}:${connection.to}:${connection.toPort ?? 0}:${connection.item ?? ''}`).join('|')].join('~');
-      if (signature === lastSceneSignature && sceneNodeSource === sector.nodes && sceneMod === propsRef.current.engine.getState().mod) { syncParticles(); return; } lastSceneSignature = signature;
-      sceneMod = propsRef.current.engine.getState().mod;
+      const game = propsRef.current.engine.getState();
+      const common = [game.research.completed.join(','), JSON.stringify(game.research.repeatableCompletions), propsRef.current.training].join('|');
+      const reset = renderedSectorId !== sector.id || renderedState !== game || sceneMod !== game.mod;
+      sceneMod = game.mod;
       const worldSizeChanged = worldSize.width !== nextWorldSize.width || worldSize.height !== nextWorldSize.height;
       worldSize = nextWorldSize;
       if (renderedSectorId !== sector.id || renderedState !== propsRef.current.engine.getState()) { drag = undefined; propsRef.current.onDragPreview?.(undefined); groupSelection.clear(); controlHover.clear(); renderedState = propsRef.current.engine.getState(); renderedSectorId = sector.id; camera = { ...sector.camera }; clearConnectionRejection(); trackedTransfers.clear(); seenTransferIds.clear(); lastInputTotals.clear(); flashStartedAt.clear(); updateCamera(); }
       if (worldSizeChanged || !surfaceLayer.children.length) { drawWorldSurface(); updateCamera(); }
       else if (preferences.showGrid !== drawnGridEnabled) drawWorldSurface();
-      nodeLayer.removeChildren().forEach((child) => child.destroy({ children: true })); cableLayer.removeChildren().forEach((child) => child.destroy({ children: true })); particleLayer.removeChildren().forEach((child) => child.destroy({ children: true })); nodeViews.clear(); portViews.clear(); particles.length = 0;
-      const nodes = new Map(sector.nodes.map((node) => [node.id, node])); sector.connections.forEach((connection) => createCableView(connection, nodes, sector.connections));
+      if (reset) {
+        nodeIdentities.clear(); cableIdentities.clear(); pathCache.clear();
+        particleLayer.removeChildren().forEach(child => child.destroy({ children: true }));
+        particlePool.forEach(particle => particle.root.destroy({ children: true })); particlePool.length = 0; particles.length = 0;
+      }
+      const nodes = new Map(sector.nodes.map((node) => [node.id, node]));
+      const groupKeys = new Map<string, string>();
+      for (const group of sector.controlGroups ?? []) for (const id of group.nodeIds) groupKeys.set(id, `${group.id}:${group.color}`);
+      const next = new Map(sector.nodes.map(node => [node.id, { source: node, key: `${common}|${nodeDrawingKey(node)}|${getEffectiveNodeOutputFamilies(node).join(',')}|${propsRef.current.selectedIds.includes(node.id)}|${groupKeys.get(node.id) ?? ''}` }]));
+      reconcileViews(nodeViews, nodeIdentities, next, id => {
+        const node = nodes.get(id)!;
+        diagnostics.nodesCreated++;
+        lastInputTotals.set(id, inputTotal(node));
+        const view = createNodeView(node); nodeLayer.addChild(view.root); return view;
+      }, (view, id) => {
+        diagnostics.nodesDestroyed++;
+        for (const [key, port] of portViews) if (port.nodeId === id) portViews.delete(key);
+        view.root.destroy({ children: true });
+        lastInputTotals.delete(id); flashStartedAt.delete(id);
+      });
+      const visualNodes = drag?.desired ? new Map(sector.nodes.map(node => [node.id, drag!.desired![node.id] ? { ...node, ...drag!.desired![node.id] } : node])) : nodes;
+      syncCableViews(visualNodes, sector.connections);
       sceneNodes = nodes;
-      sceneNodeSource = sector.nodes;
       sceneConnections = new Map(sector.connections.map((connection) => [connection.id, connection]));
       lastParticleSignature = '';
-      sector.nodes.forEach((node) => { lastInputTotals.set(node.id, inputTotal(node)); const view = createNodeView(node); nodeLayer.addChild(view.root); nodeViews.set(node.id, view); });
       syncParticles();
     };
 
     const init = async () => {
-      app = new Application(); await app.init({ resizeTo: host, backgroundAlpha: 0, antialias: true, resolution: Math.min(3, Math.max(2, window.devicePixelRatio || 1)), autoDensity: true, preference: 'webgl' }); initialized = true;
+      app = new Application(); await app.init({ resizeTo: host, backgroundAlpha: 0, antialias: true, resolution: playfieldResolution(window.devicePixelRatio), autoDensity: true, preference: 'webgl' }); initialized = true;
       if (destroyed) { app.destroy(true); return; } host.appendChild(app.canvas); app.stage.eventMode = 'static'; app.stage.hitArea = app.screen;
       viewport = measureFieldViewport(viewportElement);
       viewportObserver.observe(viewportElement);
@@ -907,16 +990,15 @@ export function PixiPlayfield(props: Props) {
           drag.road = road?.road;
           drag.desired = desired; propsRef.current.onDragPreview?.(desired); drag.valid = road?.valid ?? engine.canMoveNodesTo(desired);
           drag.ids.forEach((id) => { const position = desired[id]; if (position) nodeViews.get(id)?.root.position.set(position.x, position.y); });
-          cableLayer.removeChildren().forEach((child) => child.destroy({ children: true }));
           const nodeMap = new Map(sector.nodes.map((candidate) => { const position = desired[candidate.id]; return [candidate.id, position ? { ...candidate, ...position } : candidate] as const; }));
-          sector.connections.forEach((connection) => createCableView(connection, nodeMap, sector.connections));
+          syncCableViews(nodeMap, sector.connections);
           // In-flight bars must remain attached to the live cable geometry while
           // either endpoint is being dragged. Their transfer clock is unchanged;
           // only the path is resampled against the preview node positions.
           particles.forEach((particle) => {
-            const connection = sector.connections.find((candidate) => candidate.id === particle.connectionId);
+            const connection = sceneConnections.get(particle.connectionId);
             if (!connection) return;
-            const { path, passages } = buildTransferMotionPath(particle.transfer, nodeMap, sector.connections);
+            const { path, passages } = transferPath(particle.transfer, nodeMap);
             if (path.length) { particle.path = path; particle.passages = passages; }
           });
           drawInsertionPreview(drag.ids.length === 1 ? nodeMap.get(drag.ids[0]) : undefined, drag.valid);
@@ -953,7 +1035,7 @@ export function PixiPlayfield(props: Props) {
             propsRef.current.onConnectionRejected({ ...failure, x: event.global.x, y: event.global.y });
           }
         }
-        if (panning) { panning = undefined; updateCamera(); } if (drag) { const finished = drag; drag = undefined; if (commitInteraction && finished.moved && finished.valid && finished.desired) { propsRef.current.engine.beginMove(); if (propsRef.current.engine.tryMoveNodesTo(finished.desired)) propsRef.current.engine.commitMove(); } propsRef.current.onDragPreview?.(undefined); lastSceneSignature = ''; renderScene(); }
+        if (panning) { panning = undefined; updateCamera(); } if (drag) { const finished = drag; drag = undefined; if (commitInteraction && finished.moved && finished.valid && finished.desired) { propsRef.current.engine.beginMove(); if (propsRef.current.engine.tryMoveNodesTo(finished.desired)) propsRef.current.engine.commitMove(); } propsRef.current.onDragPreview?.(undefined); renderScene(); }
         if (marquee) { const finished = marquee; if (commitInteraction) { const hits = nodesInMarquee(finished.startX, finished.startY, event.global.x, event.global.y); const ids = Array.from(new Set([...finished.baseSelection, ...hits])); const priority = event.global.x < finished.startX && event.global.y < finished.startY; groupSelection.box(ids, priority); propsRef.current.onSelect(ids, { source: 'box', priority, forward: event.global.x >= finished.startX && event.global.y >= finished.startY }); } drawMarqueeHighlights(new Set()); finished.graphic.destroy(); marquee = undefined; }
       };
       app.stage.on('pointerup', (event) => pointerUp(event, event.global.y >= viewport.top)); app.stage.on('pointerupoutside', (event) => pointerUp(event, event.global.y >= viewport.top)); app.stage.on('pointercancel', (event) => pointerUp(event, false));
@@ -969,7 +1051,7 @@ export function PixiPlayfield(props: Props) {
         clearConnectionRejection();
         if (connectionDrag) cancelConnectionDrag();
         if (panning) { panning = undefined; updateCamera(); }
-        if (drag) { drag = undefined; propsRef.current.onDragPreview?.(undefined); lastSceneSignature = ''; renderScene(); }
+        if (drag) { drag = undefined; propsRef.current.onDragPreview?.(undefined); renderScene(); }
         if (marquee) { drawMarqueeHighlights(new Set()); marquee.graphic.destroy(); marquee = undefined; }
       };
       const releaseGlobalInteractions = (event: PointerEvent) => {
@@ -988,6 +1070,11 @@ export function PixiPlayfield(props: Props) {
       app.canvas.addEventListener('pointerenter', pointerEnter); app.canvas.addEventListener('pointerleave', pointerLeave);
       let cueRevision = -1; let cueTime = -1; const productionCues = new Map<string, ProductionVisual>();
       app.ticker.add(() => {
+        if (propsRef.current.onDiagnostics && performance.now() - diagnosticsAt > 1000) {
+          diagnosticsAt = performance.now();
+          propsRef.current.onDiagnostics({ ...diagnostics, visibleNodes: [...nodeViews.values()].filter(view => view.root.visible).length,
+            totalNodes: nodeViews.size, activeParticles: particles.length, pooledParticles: particlePool.length });
+        }
         const roadHeld = roadInHand();
         if (lastRoadInHand && !roadHeld) updateCamera();
         lastRoadInHand = roadHeld;
@@ -1005,6 +1092,7 @@ export function PixiPlayfield(props: Props) {
         syncPlacementPreview();
         const focus = propsRef.current.cameraFocus; if (focus && focus.nonce !== appliedCameraNonce) { appliedCameraNonce = focus.nonce; camera = { ...focus.camera }; updateCamera(); }
         syncParticles();
+        cableViews.forEach((view, id) => { const bounds = cableBounds.get(id); view.visible = Boolean(bounds && boundsOnScreen(bounds, camera, viewport)); });
         const sector = propsRef.current.engine.getSector(); const nodeMap = sceneNodes; const frameNow = performance.now();
         const gameState = propsRef.current.engine.getState();
         if (gameState.playTimeMs !== observedPlayTimeMs) { observedPlayTimeMs = gameState.playTimeMs; observedPlayTimeAt = frameNow; }
@@ -1018,12 +1106,65 @@ export function PixiPlayfield(props: Props) {
         const liveTransferIds = new Set(activeTransfers.map((transfer) => transfer.id));
         activeTransfers.forEach((transfer) => trackedTransfers.set(transfer.id, transfer));
         seenTransferIds.forEach((id) => { if (!liveTransferIds.has(id)) seenTransferIds.delete(id); });
-        trackedTransfers.forEach((transfer, id) => { if (liveTransferIds.has(id)) return; trackedTransfers.delete(id); if (transfer.sectorId !== sector.id || transfer.arrivesAtMs > gameState.playTimeMs) return; const connection = sector.connections.find((candidate) => candidate.id === (transfer.routeConnectionIds?.at(-1) ?? transfer.connectionId)); const inputPulse = portViews.get(`${transfer.to}:input:${connection?.toPort ?? 0}`); if (inputPulse) inputPulse.pulseStartedAt = frameNow; });
-        particles.forEach((particle) => { const connection = sector.connections.find((candidate) => candidate.id === particle.connectionId); if (!connection) { particle.root.visible = false; return; } const phase = transferProgress(particle.transfer, animationPlayTimeMs); particle.passages.forEach(passage => { if (phase >= passage.phase && !particle.passed.has(passage.nodeId)) { particle.passed.add(passage.nodeId); flashStartedAt.set(passage.nodeId, frameNow); portViews.forEach(port => { if (port.nodeId === passage.nodeId) port.pulseStartedAt = frameNow; }); } }); const motion = sampleCurveMotion(particle.path, phase); if (!motion) return; particle.root.visible = phase < 1; particle.root.position.set(motion.x, motion.y); particle.root.rotation = motion.angle; particle.root.alpha = Math.max(0, Math.min(1, phase / .08, (1 - phase) / .12)); });
-        nodeViews.forEach((view, id) => { const node = nodeMap.get(id); if (!node) return; const selectable = canSelectNode(id); view.root.eventMode = node.disabled || !selectable ? 'none' : 'static'; view.root.alpha = node.disabled ? .68 : selectable ? 1 : .45; const controlsVisible = selectable && !propsRef.current.placing && controlHover.visible(id, frameNow); view.root.children.forEach(child => { if (child.label === 'node-control') child.visible = controlsVisible; }); if (view.jointMoveHandle) { view.jointMoveHandle.visible = !propsRef.current.placing && (controlsVisible || Boolean(propsRef.current.jointMoveHint)); view.jointMoveHandle.cursor = drag?.ids.includes(id) ? 'grabbing' : 'grab'; } const dragPosition = drag?.desired?.[id]; view.root.position.set(dragPosition?.x ?? node.x, dragPosition?.y ?? node.y); const readabilityScale = nodeTextScale(camera.zoom); view.readabilityLabels.forEach((text) => text.scale.set(readabilityScale)); const invalid = Boolean(drag?.moved && !drag.valid && drag.ids.includes(id)); if (invalid !== view.invalidVisible) { view.invalidVisible = invalid; view.invalidOverlay.clear(); if (invalid) { const size = getNodeSize(node); view.invalidOverlay.roundRect(-size.w / 2 - 5, -size.h / 2 - 5, size.w + 10, size.h + 10, 16).fill({ color: THEME.danger, alpha: .18 }).stroke({ color: THEME.danger, width: 3, alpha: .98 }); } } const currentInput = inputTotal(node); if (getNodeCapabilities(node.kind).behavior !== 'research' && (lastInputTotals.get(id) ?? currentInput) < currentInput) flashStartedAt.set(id, frameNow); lastInputTotals.set(id, currentInput); const duration = nodeCycleDuration(node, gameState.research.completed); const interpolation = !gameState.paused && !node.disabled && !node.processingPaused && node.progressMs > 0 ? (animationPlayTimeMs - gameState.playTimeMs) / (modNode(node.kind)?.cycleMultiplier ?? 1) : 0; const cycleProgress = duration ? Math.min(1, (node.progressMs + interpolation) / duration) : 0; if (view.campStatus) updateCampNodeStatus(view.campStatus, node, interpolation, readabilityScale); const cue = productionCues.get(id);
+        trackedTransfers.forEach((transfer, id) => { if (liveTransferIds.has(id)) return; trackedTransfers.delete(id); if (transfer.sectorId !== sector.id || transfer.arrivesAtMs > gameState.playTimeMs) return; const connection = sceneConnections.get(transfer.routeConnectionIds?.at(-1) ?? transfer.connectionId); const inputPulse = portViews.get(`${transfer.to}:input:${connection?.toPort ?? 0}`); if (inputPulse) inputPulse.pulseStartedAt = frameNow; });
+        particles.forEach((particle) => { const connection = sceneConnections.get(particle.connectionId); if (!connection) { particle.root.visible = false; return; } const phase = transferProgress(particle.transfer, animationPlayTimeMs); particle.passages.forEach(passage => { if (phase >= passage.phase && !particle.passed.has(passage.nodeId)) { particle.passed.add(passage.nodeId); flashStartedAt.set(passage.nodeId, frameNow); portViews.forEach(port => { if (port.nodeId === passage.nodeId) port.pulseStartedAt = frameNow; }); } }); const motion = sampleCurveMotion(particle.path, phase); if (!motion) return; particle.root.visible = phase < 1; particle.root.position.set(motion.x, motion.y); particle.root.rotation = motion.angle; particle.root.alpha = Math.max(0, Math.min(1, phase / .08, (1 - phase) / .12)); });
+        nodeViews.forEach((view, id) => {
+          const node = nodeMap.get(id); if (!node) return;
+          const dragPosition = drag?.desired?.[id];
+          view.root.visible = nodeOnScreen(node, camera, viewport, dragPosition ?? node);
+          if (!view.root.visible) return;
+          const important = propsRef.current.selectedIds.includes(id) || hoveredNodeId === id || Boolean(drag?.ids.includes(id)) || connectionDrag?.active.nodeId === id || connectionDrag?.snapped?.nodeId === id;
+          const details = showNodeDetails(camera.zoom, important);
+          const dataChanged = view.dataRevision !== gameState.revision || view.dataTime !== gameState.playTimeMs || view.detailVisible !== details || view.dataZoom !== camera.zoom;
+          view.detailVisible = details;
+          view.detailChildren?.forEach(child => { child.visible = details; });
+          const selectable = canSelectNode(id);
+          view.root.eventMode = node.disabled || !selectable ? 'none' : 'static';
+          view.root.alpha = node.disabled ? .68 : selectable ? 1 : .45;
+          const controlsVisible = selectable && !propsRef.current.placing && controlHover.visible(id, frameNow);
+          view.root.children.forEach(child => { if (child.label === 'node-control') child.visible = controlsVisible; });
+          if (view.jointMoveHandle) {
+            view.jointMoveHandle.visible = !propsRef.current.placing && (controlsVisible || Boolean(propsRef.current.jointMoveHint));
+            view.jointMoveHandle.cursor = drag?.ids.includes(id) ? 'grabbing' : 'grab';
+          }
+          view.root.position.set(dragPosition?.x ?? node.x, dragPosition?.y ?? node.y);
+          const readabilityScale = nodeTextScale(camera.zoom);
+          if (details) view.readabilityLabels.forEach(text => text.scale.set(readabilityScale));
+          const invalid = Boolean(drag?.moved && !drag.valid && drag.ids.includes(id));
+          if (invalid !== view.invalidVisible) {
+            view.invalidVisible = invalid; view.invalidOverlay.clear();
+            if (invalid) { const size = getNodeSize(node); view.invalidOverlay.roundRect(-size.w / 2 - 5, -size.h / 2 - 5, size.w + 10, size.h + 10, 16).fill({ color: THEME.danger, alpha: .18 }).stroke({ color: THEME.danger, width: 3, alpha: .98 }); }
+          }
+          if (dataChanged) {
+            const currentInput = inputTotal(node);
+            if (getNodeCapabilities(node.kind).behavior !== 'research' && (lastInputTotals.get(id) ?? currentInput) < currentInput) flashStartedAt.set(id, frameNow);
+            lastInputTotals.set(id, currentInput);
+          }
+          const duration = nodeCycleDuration(node, gameState.research.completed);
+          const interpolation = !gameState.paused && !node.disabled && !node.processingPaused && node.progressMs > 0 ? (animationPlayTimeMs - gameState.playTimeMs) / (modNode(node.kind)?.cycleMultiplier ?? 1) : 0;
+          const cycleProgress = duration ? Math.min(1, (node.progressMs + interpolation) / duration) : 0;
+          if (view.campStatus) updateCampNodeStatus(view.campStatus, node, interpolation, readabilityScale);
+          const cue = productionCues.get(id);
+          if (view.overviewWarning) { view.overviewWarning.visible = !details && !cue?.working && Boolean(cue?.missingInputs.length || cue?.blockedOutputs.length); }
           if (view.golemApLabel) view.golemApLabel.text = golemApReadout(node);
           view.productionRecipeIcon?.update(node, propsRef.current.showRecipeIcons);
-          drawProductionCue(view.productionCue, node, cue, gameState.research.completed); const grove = groveProgress(node); const target = grove ? grove.fraction : isResourceNode(node) ? resourceReserveFraction(node) : getNodeCapabilities(node.kind).behavior === 'research' ? researchCenterView(node, gameState).progress : cue?.working ? cycleProgress : 0; view.displayedProgress = target; view.progress.scale.x = target; if (view.progressLabel) view.progressLabel.text = grove?.label ?? `${Math.round(target * 100)}%`; if (node.kind === 'filter') { if (!view.filterNotice) { view.filterNotice = label('', 13, 0xffc46b, '600'); view.filterNotice.anchor.set(.5, 0); view.filterNotice.position.set(0, getNodeSize(node).h / 2 + 10); view.root.addChild(view.filterNotice); } const blockedPort = blockedFilterPort(node); view.filterNotice.text = blockedPort === undefined ? '' : `! ${filterOutletLabels(node)[blockedPort].toUpperCase()} OUTLET BLOCKED`; } if (view.bufferLabel) view.bufferLabel.text = node.resourceItem ? resourceCapacityReadout(node) : `${outputTotal(node)} / ${outputCapacity(node)}`; updateBufferSquares(view, node); updateInputSquares(view, node); if (view.researchStatus) updateResearchNodeStatus(view.researchStatus, researchCenterView(node, gameState).projectName, readabilityScale); if (view.coreStorageLabels) {
+          const grove = groveProgress(node);
+          const target = grove ? grove.fraction : isResourceNode(node) ? resourceReserveFraction(node) : getNodeCapabilities(node.kind).behavior === 'research' ? researchCenterView(node, gameState).progress : cue?.working ? cycleProgress : 0;
+          view.displayedProgress = target; view.progress.scale.x = target;
+          if (details && view.progressLabel) view.progressLabel.text = grove?.label ?? `${Math.round(target * 100)}%`;
+          if (dataChanged) {
+            view.dataRevision = gameState.revision; view.dataTime = gameState.playTimeMs; view.dataZoom = camera.zoom;
+            drawProductionCue(view.productionCue, node, cue, gameState.research.completed);
+            if (node.kind === 'filter') {
+              if (!view.filterNotice) { view.filterNotice = label('', 13, 0xffc46b, '600'); view.filterNotice.anchor.set(.5, 0); view.filterNotice.position.set(0, getNodeSize(node).h / 2 + 10); view.root.addChild(view.filterNotice); }
+              const blockedPort = blockedFilterPort(node);
+              view.filterNotice.text = blockedPort === undefined ? '' : `! ${filterOutletLabels(node)[blockedPort].toUpperCase()} OUTLET BLOCKED`;
+            }
+            if (view.bufferLabel && (details || node.infiniteResource)) view.bufferLabel.text = node.resourceItem ? resourceCapacityReadout(node) : `${outputTotal(node)} / ${outputCapacity(node)}`;
+            if (details) { updateBufferSquares(view, node); updateInputSquares(view, node); }
+          }
+          if (view.researchStatus) updateResearchNodeStatus(view.researchStatus, researchCenterView(node, gameState).projectName, readabilityScale);
+          if (view.coreStorageLabels && dataChanged) {
           const storage = researchCoreGrid(node, gameState.research);
           const { w } = getNodeSize(node);
           const gridTop = getPortAnchor(node, 'input', 0).y + 28;
@@ -1032,8 +1173,8 @@ export function PixiPlayfield(props: Props) {
           view.coreStorageLabels.forEach((text, index) => {
             const core = storage[index];
             const squares = view.coreStorageSquares?.[index];
-            text.visible = Boolean(core) && camera.zoom >= .48;
-            if (squares) squares.visible = Boolean(core);
+            text.visible = Boolean(core) && (details || camera.zoom >= .48);
+            if (squares) squares.visible = Boolean(core) && details;
             if (!core) return;
             text.style.fill = ITEM_COLORS[core.item];
             text.text = ITEM_NAMES[core.item].replace(' Core', '');
@@ -1063,19 +1204,27 @@ export function PixiPlayfield(props: Props) {
             else flashAlpha = Math.sin(Math.PI * elapsed / 480);
           }
         }
-        view.flash.clear();
-        if (flashAlpha > 0) {
-          if (node.kind === 'cornerChallenge' || node.kind === 'big-hole') {
-            view.flash.poly(obstructionOutline(node));
-          } else {
-            const size = getNodeSize(node);
-            view.flash.roundRect(-size.w / 2 - 3, -size.h / 2 - 3, size.w + 6, size.h + 6, 14);
-          }
-          view.flash.fill({ color: 0x168cf0, alpha: flashAlpha * .08 }).stroke({ color: 0x55baff, width: 2, alpha: flashAlpha });
+        if (!view.flashActive) {
+          view.flashActive = true;
+          if (node.kind === 'cornerChallenge' || node.kind === 'big-hole') view.flash.poly(obstructionOutline(node));
+          else { const size = getNodeSize(node); view.flash.roundRect(-size.w / 2 - 3, -size.h / 2 - 3, size.w + 6, size.h + 6, 14); }
+          view.flash.fill({ color: 0x168cf0, alpha: .08 }).stroke({ color: 0x55baff, width: 2, alpha: 1 });
         }
+        view.flash.visible = flashAlpha > 0;
+        view.flash.alpha = flashAlpha;
         });
         portViews.forEach((port) => {
-          const live = nodeMap.get(port.nodeId); if (live && port.materialBuffer) updateProductionPort(port, live, sector);
+          const live = nodeMap.get(port.nodeId);
+          const owner = nodeViews.get(port.nodeId);
+          if (!live || !owner?.root.visible) return;
+          const details = owner.detailVisible || port.hovered || Boolean(connectionDrag);
+          if (port.materialLabel) port.materialLabel.visible = Boolean(details);
+          if (port.materialBuffer) port.materialBuffer.visible = Boolean(details);
+          if (details && (port.dataRevision !== gameState.revision || port.dataTime !== gameState.playTimeMs || port.detailVisible !== Boolean(details))) {
+            updateProductionPort(port, live, sector);
+            port.dataRevision = gameState.revision; port.dataTime = gameState.playTimeMs;
+          }
+          port.detailVisible = Boolean(details);
           if (live && port.stoneCounter) {
             const { root, plate, text } = port.stoneCounter;
             const zoom = camera.zoom;
@@ -1092,10 +1241,12 @@ export function PixiPlayfield(props: Props) {
                 .fill({ color: 0x111419, alpha: .96 }).stroke({ color: ITEM_COLORS.stone, width: 1, alpha: .78 });
             }
           }
-          port.highlight.clear();
           const active = connectionDrag && portKey(connectionDrag.active) === portKey(port);
           const snapped = snappedPortKey === portKey(port);
           const rejected = connectionRejection?.target && portKey(connectionRejection.target) === portKey(port);
+          const highlightSignature = active || snapped || rejected || port.hovered ? `${Boolean(active)}:${Boolean(snapped)}:${Boolean(rejected)}:${port.hovered}:${Boolean(connectionDrag)}:${gameState.revision}` : '';
+          if (port.highlightSignature !== highlightSignature) {
+          port.highlightSignature = highlightSignature; port.highlight.clear();
           if (!rejected && (port.hovered || active || snapped)) {
             let invalid = false;
             if (snapped && connectionDrag) { const { output, input } = normalizedConnection(activeHandleForTarget(connectionDrag, port), port); invalid = Boolean(propsRef.current.engine.getConnectionFailure(output.nodeId, output.index, input.nodeId, input.index, connectionDrag.replaceConnectionId)); }
@@ -1112,8 +1263,11 @@ export function PixiPlayfield(props: Props) {
               port.highlight.moveTo(dx * tail - dy * 5, dy * tail + dx * 5).lineTo(dx * tip, dy * tip).lineTo(dx * tail + dy * 5, dy * tail - dx * 5).stroke({ color, width: 2.5 });
             }
           }
+          }
           port.root.cursor = connectionDrag ? 'grabbing' : 'grab';
-          port.pulse.clear(); let arrivalScale = 1;
+          if (port.pulseStartedAt || port.pulseActive) port.pulse.clear();
+          port.pulseActive = Boolean(port.pulseStartedAt);
+          let arrivalScale = 1;
           if (port.pulseStartedAt) {
             const progress = (frameNow - port.pulseStartedAt) / 520;
             if (progress >= 1) port.pulseStartedAt = 0;
@@ -1166,7 +1320,7 @@ export function PixiPlayfield(props: Props) {
       const unsubscribe = props.engine.subscribe(renderScene); (host as HTMLDivElement & { cleanup?: () => void }).cleanup = () => { unsubscribe(); app.canvas.removeEventListener('wheel', wheel); app.canvas.removeEventListener('contextmenu', blockContextMenu); app.canvas.removeEventListener('pointerenter', pointerEnter); app.canvas.removeEventListener('pointerleave', pointerLeave); window.removeEventListener('keydown', keyDown); window.removeEventListener('keyup', keyUp); window.removeEventListener('pointerup', releaseGlobalInteractions); window.removeEventListener('pointercancel', cancelLostInteractions); window.removeEventListener('blur', cancelLostInteractions); };
     };
     void init().catch((error: unknown) => { console.error('Pixi playfield failed to initialize', error); if (!destroyed) { const message = error instanceof Error ? error.message : String(error); host.innerHTML = `<div class="pixi-boot-error"><b>PLAYFIELD BOOT INTERRUPTED</b><span>${escapeHtml(message)}</span><small>Reload the local page. If this persists, verify that WebGL is enabled.</small></div>`; } });
-    return () => { viewportObserver.disconnect(); propsRef.current.onDragPreview?.(undefined); destroyed = true; clearRoadPreview(); clearConnectionRejection(); clearTooltip(); (host as HTMLDivElement & { cleanup?: () => void }).cleanup?.(); if (initialized && app) app.destroy(true, { children: true }); };
+    return () => { particlePool.forEach(particle => particle.root.destroy({ children: true })); particlePool.length = 0; viewportObserver.disconnect(); propsRef.current.onDragPreview?.(undefined); destroyed = true; clearRoadPreview(); clearConnectionRejection(); clearTooltip(); (host as HTMLDivElement & { cleanup?: () => void }).cleanup?.(); if (initialized && app) app.destroy(true, { children: true }); };
   }, [props.engine, props.viewportRef]);
 
   return <div ref={props.viewportRef} className="playfield-viewport">

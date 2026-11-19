@@ -2,7 +2,9 @@
 
 Open [the searchable history](index.html) for topic, text, state, publication, and date filters. It is a self-contained file: it works offline without installing anything or loading the game. It can also be opened at `http://127.0.0.1:4174/docs/changelog/index.html` while the local development server is running.
 
-Start with the [changelog index](../../CHANGELOG.md) for local changes awaiting publication, monthly history, and release links. The [source register](sources.md) records the initial backfill's coverage and gaps. Existing detailed design documents remain authoritative for current formulas and open balancing discussions; this history records when and why those documents or behaviors changed.
+Start with the [changelog index](../../CHANGELOG.md) for local changes awaiting publication, monthly history, and release links. The [source register](sources.md) records the initial backfill's coverage and gaps. The [system library](../systems/README.md) and generated catalogs describe current mechanics and formulas; plans retain intended work and balancing discussions.
+
+The changelog is the primary source of NODE history moving forward. Every future chat working on the project must maintain it and the affected system references as part of the same work, without a separate request. Record meaningful implementations, decisions, reversals and deliberate deferrals with accurate states. Search this history first when checking what changed, when and why. Link detailed plans, run reports and required style review notes as supporting evidence rather than creating new competing timelines. Preserve existing historical records and archives.
 
 ## Reading a record
 
@@ -18,7 +20,7 @@ The search includes titles, details, topics, files, sources, verification notes,
 ## Updating after completed work
 
 1. Edit **[entries.json](entries.json)**, the single source of truth. Obtain the next unused ID with `npm run changelog -- --next-id`. Never renumber existing IDs.
-2. Add a concise player-visible outcome or meaningful internal change. Batch closely related fixes; avoid one entry per changed file. Include the request/reason when useful.
+2. Add a concise player-visible outcome, meaningful internal change or settled decision/deferral. Batch closely related work; avoid one entry per changed file. Include the request/reason when useful. Update affected system documents and applicable guides in the same change, and reference the stable NODE ID where useful.
 3. Use today's local date for newly completed work. For backfills, use the supported date and the correct `dateBasis`; do not guess. New topics should reuse existing names where possible.
 4. Keep implementations separate from proposals, reviews, and deferrals. Record actual verification and its limits. Cite relevant source files or a source chat; add a source-register record if needed. Chat IDs can be found through the app's chat tools; missing IDs need not block a new record when repository evidence is sufficient.
 5. Mark a replaced record `superseded` and add its ID to the replacing record's `supersedes` array. Preserve the old record. Its publication information describes historical delivery, not current behavior.

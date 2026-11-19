@@ -1,0 +1,25 @@
+.active-factory-test { --test-header-height: 180px; height: 100%; background: #191b1f; color: #e3e6e2; }
+.factory-test-header { position: relative; z-index: 2; padding: 14px 20px; border-bottom: 1px solid #52616c; background: #20262c; }
+.factory-test-title, .factory-test-controls, .factory-test-stats { display: flex; align-items: center; flex-wrap: wrap; gap: 10px 16px; }
+.factory-test-title h1 { margin: 0; font: var(--ui-title-font); }
+.factory-test-title > span, .factory-test-header > p, .factory-test-help p { font: var(--ui-meta-font); color: #b8c5cc; }
+.factory-test-controls { margin-top: 12px; }
+.factory-test-controls label { display: flex; align-items: center; gap: 8px; font: var(--ui-control-font); }
+.factory-test-controls :is(button, select), .factory-test-help button { min-height: 34px; padding: 6px 12px; border: 1px solid #6b7c88; border-radius: 6px; background: #2b353d; color: #edf0ed; font: var(--ui-control-font); cursor: pointer; }
+.factory-test-controls button:hover, .factory-test-help button:hover { background: #3c4b55; }
+.factory-test-controls :focus-visible, .factory-test-help :focus-visible { outline: 2px solid #e5c36b; outline-offset: 3px; }
+.factory-test-stats { margin-top: 12px; gap: 6px 18px; font: var(--ui-meta-font); font-variant-numeric: tabular-nums; color: #e5c36b; }
+.factory-test-header > p { margin: 10px 0 0; }
+.active-factory-test .playfield-viewport { inset: var(--test-header-height) 0 0; }
+.active-factory-test .playfield-viewport > .pixi-host { top: calc(-1 * var(--test-header-height)); }
+.factory-test-help { position: absolute; bottom: 12px; left: 12px; z-index: 1; max-width: min(650px, calc(100% - 24px)); padding: 8px 12px; background: #20262cf2; border: 1px solid #52616c; border-radius: 8px; pointer-events: none; }
+.factory-test-help p { margin: 3px 0; }
+.factory-test-help button { pointer-events: auto; }
+.factory-test-help .factory-test-selection { color: #e5c36b; }
+@media (max-width: 600px) {
+  .factory-test-header { padding: 12px; }
+  .factory-test-title { gap: 6px; }
+  .factory-test-controls { gap: 8px; }
+  .factory-test-stats { gap: 5px 12px; }
+  .factory-test-help { bottom: 8px; left: 8px; max-width: calc(100% - 16px); }
+}

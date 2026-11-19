@@ -1,0 +1,376 @@
+{
+  "scope": "Static review and isolated engine fixtures; not a normal-play balance run",
+  "checks": {
+    "catalogs": {
+      "projects": 128,
+      "recipesInLiveGroups": 126,
+      "efficiencyRanks": 64,
+      "missingPrerequisites": [],
+      "unknownItems": []
+    },
+    "pumpRelay": {
+      "suppliedCoolant": 8,
+      "receivedCoolant": 8,
+      "extractedWater": 0
+    },
+    "crossMapFluidPool": {
+      "suppliedWaterAtHome": 8,
+      "receivedWaterOnNeighbor": 8,
+      "usedRoads": false,
+      "researchAccess": "Autonomous Logistics; post-first-Final-Core bill"
+    },
+    "slurryClassification": {
+      "classifiedFluid": true,
+      "tankAccepts": false
+    },
+    "mythrilDrill": {
+      "selectable": false
+    },
+    "roadRatePresentation": {
+      "repeatableRank": 2,
+      "actualIdealPerMinute": 72,
+      "panelFormulaPerMinute": 48,
+      "panelReadsModInterval": false
+    },
+    "recoveryFlag": {
+      "plainMultiplier": 1,
+      "recoveryMultiplier": 1,
+      "editorPromisesRecoveryResearch": true
+    },
+    "historicalContentCompiler": {
+      "realFilesWritten": 0,
+      "coreRecipeGates": [
+        {
+          "recipe": "hydro-core",
+          "current": "hydroCore",
+          "compilerOutput": "hydraulicAssembly"
+        },
+        {
+          "recipe": "shiny-core",
+          "current": "shinyCore",
+          "compilerOutput": "oreSeparation"
+        },
+        {
+          "recipe": "command-core",
+          "current": "complexCore",
+          "compilerOutput": "precisionControl"
+        }
+      ]
+    },
+    "reviewRegister": {
+      "issueCount": 27,
+      "pendingOutcomes": 27,
+      "checkedLinks": 124
+    }
+  },
+  "documentInventory": [
+    {
+      "path": "docs/archive/bot-production/NODE Bot Assembly Proposal.docx",
+      "sha256": "c243c85f9b2275dd0d7d33e195243ad4c76a11c52c71edad56f9ed4b7286d6a4"
+    },
+    {
+      "path": "docs/archive/bot-production/README.md",
+      "sha256": "84306ffd7bc9475704ce6a3342c00bbf9f1e6df28c1998e63df23cfc238c772f"
+    },
+    {
+      "path": "docs/archive/README.md",
+      "sha256": "b817f2a48f019f1aba6124b246e9a07fa9a2be3f613fc72dd8b655e9f591b31d"
+    },
+    {
+      "path": "docs/archive/reference-snapshots/project-readme-2026-11-18.md",
+      "sha256": "a4181918c437415fb904cfe2d4238eade7ee2e19b690b204c8275b2831eb0ba8"
+    },
+    {
+      "path": "docs/archive/reference-snapshots/research-catalog-2026-11-18.md",
+      "sha256": "0792fb90f896e208944ae4575060ff170a6ae31cabd96c0a4f8be95a61969c92"
+    },
+    {
+      "path": "docs/blind-research-playtest-2026-11-11.md",
+      "sha256": "47ee89e4f6f74acc63310c3d4743cf012bba95cbec4b174a289e611fe2191530"
+    },
+    {
+      "path": "docs/browser-playtest.md",
+      "sha256": "002e58e4d6de90d9a99858ae027a5ed617ebac5cb69215fa8ae4cbb33b6880ea"
+    },
+    {
+      "path": "docs/changelog/2026-10.md",
+      "sha256": "5267b953d6399ec999dd28befb91f48d2bb869f1bb1dc01da6ae4e70f77228c0"
+    },
+    {
+      "path": "docs/changelog/2026-11.md",
+      "sha256": "838612f7320eaafc17bc2180a20d7888a0fa1c387d5567fec7c5e152c4969a19"
+    },
+    {
+      "path": "docs/changelog/README.md",
+      "sha256": "e508295152137af29ca7da14ea3480d3eedde92af81dc7a720bb817727e07a75"
+    },
+    {
+      "path": "docs/changelog/sources.md",
+      "sha256": "ea346bd027106c90f6479d0056545f16cbd3fa1726470165b2b36f43b9154f6e"
+    },
+    {
+      "path": "docs/core-consumption-balance-proposal.md",
+      "sha256": "f86ef6bb2a30c19294d2d57ae53999860a6227f3d6ff4cdde1eab73baae230d5"
+    },
+    {
+      "path": "docs/deep-hole-exploration-simulation.md",
+      "sha256": "27e34c9c4a7b0ca67e04728764e89392ef0d48618ffdb414b71f9efe72592074"
+    },
+    {
+      "path": "docs/final-core-blind-run.md",
+      "sha256": "0f0619938c54b49d708f00be32fe9c6b5d831e70397608100ff02cfdddaf445e"
+    },
+    {
+      "path": "docs/final-core-dry-run.md",
+      "sha256": "0be5406c17aa55e297fd8040d0a0d7994717709fe84731bc86d1008d053470ba"
+    },
+    {
+      "path": "docs/master-plan/01-vision-and-scope.md",
+      "sha256": "489dd52f70323910c1d7c8b05d70f75bf0c4438164ecb7d560bde736e2233c0b"
+    },
+    {
+      "path": "docs/master-plan/02-gameplay-and-systems.md",
+      "sha256": "dac8aee6b2577b4635c05ba7ff677e1e0d5cf8ccce7226de6992a8881fa3db1b"
+    },
+    {
+      "path": "docs/master-plan/03-progression-and-economy.md",
+      "sha256": "357ccc3a19fc1f6038b913d2f13f51f367c252a96df2a58a352f0a30448dd6d7"
+    },
+    {
+      "path": "docs/master-plan/04-world-and-encounters.md",
+      "sha256": "4a02cc73812f1e2647df3240b2d4e02bd7bd8bc1e8dc97989612fed0e4c51318"
+    },
+    {
+      "path": "docs/master-plan/05-interface-and-learning.md",
+      "sha256": "40b76149b6ae2ea453884f1d46acde39cea9596592696646331d37d4f611c7f5"
+    },
+    {
+      "path": "docs/master-plan/06-art-audio-and-writing.md",
+      "sha256": "54c20b116a0c2d50b0a178855e35d9acdce667572632210f5d59245f74d06034"
+    },
+    {
+      "path": "docs/master-plan/07-technical-design.md",
+      "sha256": "064ba582a89373c8993b19cb3fdadda3656c48b05c51258d2131fc8749915750"
+    },
+    {
+      "path": "docs/master-plan/08-quality-and-playtesting.md",
+      "sha256": "8dd9375b5610fe471ac17462d1f014a49486599d63cdce61a21029d20aca0c89"
+    },
+    {
+      "path": "docs/master-plan/09-production-roadmap.md",
+      "sha256": "1be5d6e81cddf9425ff3dd110756860dc9e518219ed67c7ba6d1778c25a6d793"
+    },
+    {
+      "path": "docs/master-plan/10-decisions-and-review-queue.md",
+      "sha256": "d5f89935ac0b774eb13370f312a65fbaea6ae033faf818d538575cc5f190670e"
+    },
+    {
+      "path": "docs/master-plan/11-sources-and-reconciliation.md",
+      "sha256": "f39c36de8305a90927fda75f9aecddeff219919b18eb4308e9583febe522a2a6"
+    },
+    {
+      "path": "docs/master-plan/12-endgame-component-costs.md",
+      "sha256": "eade6f6b9c92237a140e0d9d4aab7a03e77440d88cb6d83140401432c5607b4b"
+    },
+    {
+      "path": "docs/master-plan/13-recycling-and-waste-benchmark.md",
+      "sha256": "c8de7d3cb1240d3e9e9ddf4c7f44ab9e4689a6b3385fc8d0e96ec5d131ce45af"
+    },
+    {
+      "path": "docs/master-plan/14-expansion-solvability-and-golem-rescue.md",
+      "sha256": "39f93f2048f462ca90973952b17d0ed634fd0ab51ea17a2a78a165411f032015"
+    },
+    {
+      "path": "docs/master-plan/15-final-core-victory-and-postgame.md",
+      "sha256": "8c33c4d535d8dadd9e00500b1602d470a64c842d7fa4b5a6f9e3d32047f71166"
+    },
+    {
+      "path": "docs/master-plan/16-victory-modal.md",
+      "sha256": "a001391d59ac5139ad212a5da44fd8a7c42f24581159ba9d88be376d835dbf5c"
+    },
+    {
+      "path": "docs/master-plan/17-endgame-research-and-world-reshaping.md",
+      "sha256": "0f2d30b242b32a0b99822ae9351edf180e9a72ea5062cde113c5f8ecb02baf40"
+    },
+    {
+      "path": "docs/master-plan/18-endgame-transport-research.md",
+      "sha256": "c7b78357e07b70fd0a3fde5e1fb0218a1ac6298347bcaeb7668ee5b096a50b27"
+    },
+    {
+      "path": "docs/master-plan/19-implementation-status.md",
+      "sha256": "b966986def2dfb01811b3add3c9fab5556024fdea203e66528d912fd3ac02a6f"
+    },
+    {
+      "path": "docs/master-plan/20-endgame-implementation.md",
+      "sha256": "db451792d7d4fd2e4fca9cbb2edd987e7a1b0f52cc9deec434000c51693e8c39"
+    },
+    {
+      "path": "docs/master-plan/README.md",
+      "sha256": "6a6ad579b221a7657369cb90ffb2b38d583bbeb6671f56ab5636d6c2a2a83d64"
+    },
+    {
+      "path": "docs/mods.md",
+      "sha256": "70b91d10a15bbaecea069bf7e650e31a7ec8f5bb90d63fb219b916dac6deffbf"
+    },
+    {
+      "path": "docs/node-ui-style-guide.docx",
+      "sha256": "9c5a0fc77176b305da14033401d2a61aa9902e2d8da8add58c465e048b4ec2f0"
+    },
+    {
+      "path": "docs/novice-playtest-findings.md",
+      "sha256": "5ac67ee2ef35a6b2be3c89bf4983661aa43a993e4672b9746fc25d5990e0f72b"
+    },
+    {
+      "path": "docs/obstruction-types-and-behavior.md",
+      "sha256": "a7f1fe79c916245224cea7ebe17e3ec204e67bb706e1b4816e92fd8c6ee239ed"
+    },
+    {
+      "path": "docs/playtest-build-guide.md",
+      "sha256": "d07ac792af1880d98f026fc170914047d693c4997a07526be7f66ded45616ac2"
+    },
+    {
+      "path": "docs/progression-and-scaling.md",
+      "sha256": "f318cb8e13f4fd41801650f573ec37c9b259afadb3caa94d06ab12ced2ff644f"
+    },
+    {
+      "path": "docs/README.md",
+      "sha256": "8af75003b57b7e1ec9a6de7b6c29c5e0b17b081c816715771f70ed14d45a1bec"
+    },
+    {
+      "path": "docs/research-catalog.md",
+      "sha256": "91e3bbbd6dd79b457d68999555c307871cd86d3b9e8e3f3ee443048254ddcab2"
+    },
+    {
+      "path": "docs/reviews/system-review-temporary.md",
+      "sha256": "c31ec79fe1a7955da6cc9d436ef143d9518b2e82df4dfcf6f699b98c97d3f7c6"
+    },
+    {
+      "path": "docs/systems/architecture-and-simulation.md",
+      "sha256": "34b0f84cf8a400830e5962790e79005439675b11756d95dcc3dc5752dca94b69"
+    },
+    {
+      "path": "docs/systems/bots-and-attack-power.md",
+      "sha256": "5b9ea4c36ab284b0116c84b4b3f2fe2e58ae846116e8509506e42983619a6a42"
+    },
+    {
+      "path": "docs/systems/catalogs/bots.md",
+      "sha256": "7280cf559d9e470196a95c7c33788f1d61994aad5bcf4b65dd8ced28f01a1b60"
+    },
+    {
+      "path": "docs/systems/catalogs/efficiency.md",
+      "sha256": "068400859aae57f124b568c4e6306f0828534f5209c63fd8f2aa536fd0312a59"
+    },
+    {
+      "path": "docs/systems/catalogs/items.md",
+      "sha256": "4e3e7942eae509e27089390fdf896342369f4f0d7f77670a61d2d8a206dafbe2"
+    },
+    {
+      "path": "docs/systems/catalogs/nodes.md",
+      "sha256": "d88e1b3d3cfad6eac3f06ca3b69774187c715023ab1007c98d66d7033ff14ec8"
+    },
+    {
+      "path": "docs/systems/catalogs/recipes.md",
+      "sha256": "cf470821ee9676726e14c49b3083f2d2d267f4449682081d3f1f13713602423e"
+    },
+    {
+      "path": "docs/systems/catalogs/research.md",
+      "sha256": "318f9c23d10d7be271e7b89ee86ebb3f0307daa6cb83b94d2f77308b30f650f4"
+    },
+    {
+      "path": "docs/systems/connections-and-routing.md",
+      "sha256": "c37ee35b600b5d77771338b60836777d53073cff2bc9b94801f56ad71c7e42f1"
+    },
+    {
+      "path": "docs/systems/controls-and-factory-layouts.md",
+      "sha256": "793fa51e1e1af36fcaddefea74a5307056098aecee07f530e65d67b57335a34c"
+    },
+    {
+      "path": "docs/systems/development-tools.md",
+      "sha256": "a1f876cd95c98610e141ae2f6ebe976fd033a69538b0767b5928d4a048ddf3d3"
+    },
+    {
+      "path": "docs/systems/efficiency.md",
+      "sha256": "a24f46f93f9a505c9ab4d39d7e4efe161fe2eeac536ef4993933b2d0cfb69b92"
+    },
+    {
+      "path": "docs/systems/encounters-and-obstructions.md",
+      "sha256": "b61c6ab668d0bb4b27e29e4ec163b811f53ca93071ed5f79044e1e9b398b5712"
+    },
+    {
+      "path": "docs/systems/endgame-and-victory.md",
+      "sha256": "99e79f1c1146edcb3a479a7fb2467734eaff651d65c9860d0a957372182dfbf4"
+    },
+    {
+      "path": "docs/systems/fluids.md",
+      "sha256": "b8aa96e8b0e934de96e22ee2bc3f3d3de9cea779a5dc224c71de4626588f2b90"
+    },
+    {
+      "path": "docs/systems/interface-and-assets.md",
+      "sha256": "5b746b0da7fe412c0eeeff37a32eae24a5da96a91fdd36708fe27e7e43e0d470"
+    },
+    {
+      "path": "docs/systems/map-nodes-and-exploration.md",
+      "sha256": "2e57ae357395833eb05165eb30b7b2adc8723834e928ca4b9b6e390a2c4d8065"
+    },
+    {
+      "path": "docs/systems/mods.md",
+      "sha256": "f0590fe304799242e0ea6cd505bb5de68fbdfd54a953c61fe17e2ce6211b8e03"
+    },
+    {
+      "path": "docs/systems/production-nodes.md",
+      "sha256": "9ddb4b18b3e4ddca42f5d0b57ac8a677e36170fff210a914157f15168172c9c5"
+    },
+    {
+      "path": "docs/systems/progression-tiers.md",
+      "sha256": "c2eb94c09cfced366d9dd202fdfe103f9d78f98b6b5e96ffbb3fb77e49571766"
+    },
+    {
+      "path": "docs/systems/README.md",
+      "sha256": "783b59f00529375aacf126f39607481ab7815171ef2220865409b1ca33cf02ab"
+    },
+    {
+      "path": "docs/systems/recipes.md",
+      "sha256": "dd343ed47814da6126c84d3ea4bd6f0883233d8ccbdb62acc1857c7ea784d580"
+    },
+    {
+      "path": "docs/systems/research.md",
+      "sha256": "dc7b6a1296b57aa064f6a4433db1c59a66448a12da3acc3b169ad31485459406"
+    },
+    {
+      "path": "docs/systems/resource-use.md",
+      "sha256": "f2b10eae8e9d9ae78dc3ca1a972990bb9566763cb118b25bf39e88d26c6497bb"
+    },
+    {
+      "path": "docs/systems/roads-and-vehicles.md",
+      "sha256": "8acecf75af4f25f8825a9f177131e6b6afa252b597273ab3c9cf57859e236d50"
+    },
+    {
+      "path": "docs/systems/saves-and-compatibility.md",
+      "sha256": "15e2362a08314da7c3700a5b758c19b6741ce330c6150a58328aee876bbbdac7"
+    },
+    {
+      "path": "docs/systems/storage-and-inventory.md",
+      "sha256": "42d416006c7f1176c557ff74795bffbd7f5aa875409cdd5d5ef56b5289d49f01"
+    },
+    {
+      "path": "docs/systems/sustainability-and-recovery.md",
+      "sha256": "63678f65bedbe9ecfb5c3f0ad9e9d2039ac5373c1d42ddf05a55258e0a3a7516"
+    },
+    {
+      "path": "docs/systems/testing-and-publishing.md",
+      "sha256": "8879e7faf443ec5e9083c4034c9e46e5259243a87fe1bae7853d775add871afe"
+    },
+    {
+      "path": "docs/systems/tutorials-and-discovery.md",
+      "sha256": "a141326dd83ab3693d5cc7b669c3d1c37c2db1fe1145baefc23f18c5953010d2"
+    },
+    {
+      "path": "docs/systems/waste-and-recycling.md",
+      "sha256": "1e10ceb0a1e2c9ae27ad19707dc8f859782a343d3944514ff38fa47de5d3701f"
+    },
+    {
+      "path": "docs/typography-style-review.docx",
+      "sha256": "b5e062d56b9f0974b485c723d671691c14cb033d396340c22f56dafb1549e402"
+    }
+  ]
+}

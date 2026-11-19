@@ -1,0 +1,74 @@
+{
+  "commit": "8437231277dca6792b429da3aa91080be0ab5224",
+  "base": "95a2bb5caeedf1705b61282ece705235c5ac0b05",
+  "url": "https://bookskaboo.github.io/node/",
+  "verifiedAt": "2026-11-15T08:54:25.050564+00:00",
+  "files": {
+    "assets/browserAll-DOej8xg1.js": {
+      "url": "https://bookskaboo.github.io/node/assets/browserAll-DOej8xg1.js",
+      "status": 200,
+      "sha256": "ffb9c83f04346232257ab5b27e0bca5cf6e7fec530f07762a72e58a46f80d25c",
+      "matched": true
+    },
+    "assets/CanvasPool-O_8k9jVW.js": {
+      "url": "https://bookskaboo.github.io/node/assets/CanvasPool-O_8k9jVW.js",
+      "status": 200,
+      "sha256": "9cf12a9f53a878bb8f9f46337b799031a6986b5f87dd775ef57b2902ae0dc9cd",
+      "matched": true
+    },
+    "assets/canvasUtils-DHiBpmSz.js": {
+      "url": "https://bookskaboo.github.io/node/assets/canvasUtils-DHiBpmSz.js",
+      "status": 200,
+      "sha256": "8843c3459529c72ffb9a82655454eff39f3458448dd2ae362764f3be4933288f",
+      "matched": true
+    },
+    "assets/getTexelRangeRects-5CG6mIA2.js": {
+      "url": "https://bookskaboo.github.io/node/assets/getTexelRangeRects-5CG6mIA2.js",
+      "status": 200,
+      "sha256": "aea8c02569d6923eec2b28e6973b032101297b4fc9acc85b573146bd074d4974",
+      "matched": true
+    },
+    "assets/getTextureBatchBindGroup-CDnZS9mH.js": {
+      "url": "https://bookskaboo.github.io/node/assets/getTextureBatchBindGroup-CDnZS9mH.js",
+      "status": 200,
+      "sha256": "2b2eff79ef557432774e0acd98963de65847a16840f0b738b07556ea37e21caa",
+      "matched": true
+    },
+    "assets/index-BFzYD841.js": {
+      "url": "https://bookskaboo.github.io/node/assets/index-BFzYD841.js",
+      "status": 200,
+      "sha256": "2483c18b0ce690eea79cf8d05d643ef531352ef9df59c2a5306b31cd25466fdb",
+      "matched": true
+    },
+    "assets/index-lzPRCSKB.css": {
+      "url": "https://bookskaboo.github.io/node/assets/index-lzPRCSKB.css",
+      "status": 200,
+      "sha256": "6a579e7fb80b418d6626c5b11e9450465381ed67e8f615970df34cfb1da04166",
+      "matched": true
+    },
+    "assets/init-D5ru8Qmm.js": {
+      "url": "https://bookskaboo.github.io/node/assets/init-D5ru8Qmm.js",
+      "status": 200,
+      "sha256": "e753702b9769b8679e84a0d60992ee2eaf2deb7219b4c502d983416ff2b776f3",
+      "matched": true
+    },
+    "assets/RenderTargetSystem-CHWUCnC7.js": {
+      "url": "https://bookskaboo.github.io/node/assets/RenderTargetSystem-CHWUCnC7.js",
+      "status": 200,
+      "sha256": "39880073141b4419980d7b5baf22961675d208105c37f87c54a099e6433ad70f",
+      "matched": true
+    },
+    "assets/webworkerAll-BvV5ZaPS.js": {
+      "url": "https://bookskaboo.github.io/node/assets/webworkerAll-BvV5ZaPS.js",
+      "status": 200,
+      "sha256": "bd68562e69f36ccd9937efa126066b7f1da430b499c0973e03244955b21f121d",
+      "matched": true
+    },
+    "index.html": {
+      "url": "https://bookskaboo.github.io/node/",
+      "status": 200,
+      "sha256": "6f9bd4f06d582e3a878291ced06b5606cd04639d5e15dd2e4757b859a5fb8699",
+      "matched": true
+    }
+  }
+}

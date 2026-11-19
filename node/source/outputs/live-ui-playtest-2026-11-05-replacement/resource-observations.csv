@@ -1,0 +1,106 @@
+phase,map,copper_remaining,iron_remaining,wood_remaining,stone_remaining,notes
+Start,H,1000,1000,1000,,Two unconnected Extractors
+After Exploration,H,963,982,950,,UI Map panel; paid Assembler1Simple Exploration1Simple1Basic
+Automata assembly started,H,843,926,833,,Added second Copper Plate Smelter and dedicated Circuit branch; gross Wood consumption exceeds net decline due regeneration
+Medium sustained and first camp pass,N2,790,819,769,1890,"Normal Node Map panel; 15 Medium Bots verified before camp supply; research spending 52S 26B 21A 6H; Wood is net stock with regeneration"
+Before Mining Drill,H,84,602,449,,"Normal Node Map preview; started Mining Drill10S10B10A after sustained Medium verification; not yet paid in full"
+After Motor export and CuWire repair,N2,762,674,747,1884,"Exact normal Node Map stocks;20Motors consumed by Home CopperDrill; extra IronSmelter added; ongoing Hydro and bots mixed with buffer filling"
+Post renewal and forestry,N2,1026,971,202,1787,"Two new1000-unit deposits; Copper total includes old30; growth active; gross wood consumption not inferable"
+Before Smelter2 completion,H,314,195,88,,"Home originalForest nearly depleted; originalIron195; renewedCopper314"
+Complex setup before local bot restart,S2,467,792,868,1965,Exact Node Map reserves; Water unlimited; Complex output not yet measured
+Local Small Bot start,N2.E2,3000,2370,2933,3000,Exact Node Map reserves; local Small Bot production shares Iron and Forest with Mythril refining
+After local depletion and Wire import,S2,0,405,1188,1946,Map panel; no verified Complex output yet; Water unlimited
+West Wire factory first delivery,S2.W1,2319,2500,2386,2500,Map panel; virgin sector 2500 of each
+East Wire buffer with no export,S2.E1,2120,2500,2265,2500,Map panel; virgin sector 2500 of each; both east Mythril lanes retained
+Camp after local Small Bot scale,N2.E2,1705,1316,1786,3000,Map panel; alternating checks; wood value is net stock
+Before two more Home Drills,H,80,26,869,873,Map panel; near exhausted Iron and Copper; 20 Motors per drill if completed
+regional-bot-start,N3.E2,3500,3500,3500,3500,Pre-construction reserves from Node Map
+regional-bot-scale,N3.E2,3248,3028,3109,3500,After initial bot production and fourth Copper Smelter hookup
+brick-export,N2.E1,2500,2500,2500,2450,First 50 Stone drawn by new Brick export and its buffers
+late-continuation,N2.E2,608,0,657,3000,Earlier baseline: Iron depleted; two bot supply routes tested
+late-continuation,S2,313,979,1148,1942,Earlier baseline: fresh Iron connected via dedicated Extractor
+late-continuation,N2,953,1021,802,1476,Earlier baseline: refreshed Copper is drawn and Iron not yet drawn
+regional-bot-226s,N3.E2,3157,2948,3009,3500,After 226 wall seconds from regional-bot-scale; 91 Copper 80 Iron 100 Wood drawn incl buffers
+compact-copper-check,N3.E2,2974,2801,2852,3500,126 seconds since compact kiln attached; interval from previous reserve row includes additional setup
+late-hydro,S2,181,773,2000,1930,Before fresh Mythril; Wood recovered to its cap
+late-hydro,N2,893,1007,828,1476,Research still 8 of 16; first fresh Iron draw confirmed
+regional-iron-motor-baseline,N3.E2,2371,2349,2351,3500,After Motor Wire separation; extra Iron Smelter still being fueled
+regional-iron-motor-281s,N3.E2,2119,2095,2139,3500,Near 281 wall seconds after final Iron hookup; comparison includes brief setup and buffers
+late-camp,N2.E2,222,0,570,3000,Local Iron exhausted; camp running from regional road
+late-brick,N2.E1,2500,2500,2500,2450,Brick branch backed up after filling the Hydro Circuit B path
+medium-restore-baseline,N2,893,911,825,1476,Gear Cart direct to Hydro Piston; N2 water unlimited
+medium-restore-baseline,N2.E1,2500,2500,2500,2412,Brick export
+medium-restore-baseline,N2.E2,222,0,601,3000,Small Bot road still attached to camp while Medium tested
+medium-restore-baseline,S2,181,773,2000,1930,Complex line awaiting Mythril
+medium-ore-repair,N2,846,640,735,1476,"Visible reserve snapshot; copper and iron are fresh 1000-unit deposits; Wood is net and includes regrowth"
+medium-gear-ore-restart,N2,23,511,720,1476,"23 Copper is the older upper deposit; 511 Iron is the fresh NW deposit after the Gear Ore restart"
+medium-basic-copper-repair,N2,664,,,,"Fresh west Copper deposit; prior sample of the same deposit was 846; other Copper branches were also drawing ore"
+mythril-local-iron-salvage,N2.E2,,0,704,3000,"Local Iron deposit exhausted; recovered only in-flight Ore and inventory in existing machines; Wood is net"
+complex-copper-depleted,S2,0,,2000,,"Original S2 Copper deposit depleted from baseline 181; dedicated S2.W1 Copper Plate road started, keeping existing Copper Wire road"
+complex-mining-drill,S2,,995,,,"20 Motors consumed for a new 1000-Iron deposit; 5 drawn from that deposit by the next exact reading; original Iron counted separately"
+medium-iron-wire-restart,N2,315,,, ,West copper only; Basic Core resumed after Iron Wire feed from existing Iron Plate smelter.
+medium-replacement-iron,N2,,1000,,,New Iron deposit from Mining Drill; 20 Motors spent; initial 1000 fell to 995 after original extraction was connected.
+tree-planter-recovery,N2,23,346,15,1466,East copper and replacement iron only; forest rose from zero to 15 after Stone and Iron Plate feeds. Net Wood includes regrowth.
+cooled-gun-plate-rewire,N2,,5,,,new Iron Drill deposit 5 of 1000; other visible Iron reserve 266 of 1000; imported Iron Plate buffer still full
+coolant-plate-rewire,N2,,193,,,same eastern reserve previously measured at 266; 73 net iron drawn across the observed interval
+map-survey-1,N4.E2,3577,3460,3503,,new Small Bot supply area; normal Node Map figures
+map-survey-2,N4.E2,3462,3375,3409,4000,net change since prior observation minus 115 Copper minus 85 Iron minus 94 Wood
+map-survey-1,N1.E1,1904,2000,1922,,new Simple Core supply area; first confirmed production period
+map-survey-1,N1.E2,2500,1477,2058,,dual Iron Plate exports for camp; initial Iron 2500 so 1023 net Iron drawn; wood includes regrowth
+four-iron-smelters,N4.E2,,2704,2584,4000,visible Iron and Forest labels; four local Iron smelters now wired; wood includes regrowth
+piston-buffer-rewire,N2,23,69,2000,1444,normal Node Map reserve totals; no copper drill deposit observed yet
+2026-11-07T11:05:00Z,N4.E2,Iron,1084,visible reserves; Small Bot backup and shared stock
+2026-11-07T11:05:00Z,N4.E2,Copper,962,visible reserves; Small Bot backup and shared stock
+2026-11-07T11:05:00Z,N4.E2,Wood,1114,visible reserves; net of regrowth
+2026-11-07T11:05:00Z,N1.E2,Iron,1158,visible reserves; main Plate road
+2026-11-07T11:05:00Z,N1.E2,Copper,2194,306 net draw from initial 2500 since adding camp Wire
+2026-11-07T11:05:00Z,N1.E2,Wood,1882,visible reserves; net of regrowth
+2026-11-07T11:23:00Z,S2,Metallic Fines,12,consumed across 3 verified recovery cycles; 3 more buffered
+2026-11-07T11:23:00Z,S2,Water,3,consumed for the 3 verified Iron Plate recovery cycles
+2026-11-07T11:23:00Z,S2,Iron Plate,3,recovered into isolated Cart
+2026-11-07T11:24:00Z,H,Complex Core,5,full Research Center buffer; earlier observations 1 then 2
+2026-11-07T11:20:00Z,N2.E2,Motor,20,installed into completed Mining Drill; yielded 1000 new Iron reserve
+
+Recovery final,S2,,,,,11 recovered Iron Plates in isolated Cart; 44 Metallic Fines and 11 Water consumed by 11 verified batches
+Waste staged,S2.E1,,,,,12 Metallic Fines actually received through S3 and S3.E1; do not add the earlier transit sightings
+S3 Iron export started,S3,,2455,,,2500 initial; 45 net Iron extracted through last clear reading; stock includes extraction buffers
+Camp drill exhausted,N2.E2,,0,,,new 1000-unit drill reserve depleted after earlier visible 87; deposit became Deep Hole; 20 Motors had paid for drill
+Map Node #33,S3,,,,,17 each of Simple Basic Automata and Hydro paid; 68 cores total; S3 opened
+Complex Core home delivery,H,,,,,Observed inventory 1 to 2 to 5 across successive deliveries; per-core buffer full at 5
+S2 waste recovery verified,S2,,,,,11 Iron Plate recovered from 44 Metallic Fines and 11 Water; recipe 4 Fines + 1 Water per plate in 10 s
+Metallic Fines staged northeast,S2.E2,,,,,12 Metallic Fines observed in relay after S2.E1; count the same shipment once; no confirmed reclamation site receipt
+Map Node #34,S2.E2,,,,,18 each of Simple Basic Automata and Hydro paid; 72 cores total
+Map Node #35,S1.E2,,,,,18 each of Simple Basic Automata and Hydro paid; 72 cores total
+Map Node #36 stalled,H,,,,,6/19 each of Simple Basic Automata and Hydro; 24 cores invested; waiting on Basic and Automata
+N2.W1 Copper Plate branch restored,N2.W1,,766,,,Iron deposit label 766/2500; fresh raw Copper imported from N3.W1; no exact copper reserve recorded
+Dwarven Camp recovery sample,N2.E2,,,,,Three consecutive green checks after the N2 repairs; observed Medium Bot delivery and raw Mythril and Mythril Plate outbound; later failed at 0/6 AP
+Medium Bot final shortage,N2,,,,,Recipe 1 Sealed Frame + 1 Cooled Gun + 1 Basic Core per 25 s; Basic remained buffered; Sealed Frame and Cooled Gun empty
+Autosave resumed,N2,23,5,2000,1443,Initial visible resource reserves at 21:13:08 game-time checkpoint
+New E1 core factory baseline,E1,1500,1500,1500,1500,Initial visible reserves before installing Basic and Automata production
+E1 resource draw at Map Node #36 completion,E1,1373,1373,1394,1468,Net extraction of 127 Copper and 127 Iron and 106 Wood and 32 Stone; includes production and buffers
+Map Node #36 complete,H,,,,,19 each of Simple Basic Automata and Hydro paid; 76 total; 13 more of each tier since previous checkpoint; Map Point used for E2
+First Reclamation Component confirmed,N5.E5,,,,,One visible component in dedicated Cart. Metallic Fines reached Ancient Reclamation and triggered Corner Components research. Site UI did not expose exact Fines requirement.
+Dwarven Camp resumed Medium delivery,N2.E2,,,,,Observed 3/6 AP and typed Medium Bot delivery on camp cable. Each Medium Bot adds 3 AP. Need 2 bots per 60 s check.
+Second Iron Plate source after startup,N1.W1,2000,1947,1963,2000,Fresh factory net draw 53 Iron and 37 Wood versus 2000 each; includes buffers
+Later ore and fuel check,N3,230,2072,1583,2500,N3 remains the source of N2 Iron Plate and Copper Wire; Copper reserve approaching exhaustion
+Later reserve check after #37 began,E1,996,1116,1133,1432,Versus initial 1500 each; total net draw 504 Copper 384 Iron 367 Wood 68 Stone including buffers and continued production
+Brick feed repair,N2,23,5,2000,1396,Visible reserves after Basic and Brick routing. Brick uses 1 Stone per unit.
+Late supply check before repeated camp verification,N3,100,1740,1390,2500,130 Copper and 332 Iron and 193 Wood net extraction since prior N3 sample; supports several branches and buffers
+Backup Copper shipping begins,N3.E1,3000,3000,3000,3000,Initial pre-extraction reserves; typed raw Copper received in N3 Cart
+Before backup Copper,N3,76,1714,1369,2500,N3 Copper reserve at 3%; smelter inputs still buffered
+N2 assembly recipe costs,N2,,,,,One Medium Bot: 1 Sealed Frame + 1 Cooled Gun + 1 Basic Core; direct subassemblies use 1 Bot Frame + 1 Hydro Piston + 2 Brick and 1 Bot Gun + 2 Coolant + 2 Iron Plate. Separate from deposit totals.
+Late E1 resource snapshot,E1,980,1100,1204,1430,"Versus original 1500 each: net change 520 Copper and 400 Iron and 296 Wood and 70 Stone lower; Wood reserve rose from prior snapshot so values are reserve deltas, not gross use"
+N3.E1 backup export observed,N3.E1,2944,3000,3000,3000,Net 56 Copper removed; includes shipped Copper and stored inventory
+Late bot factory resource snapshot,N2,23,5,2000,1370,Stone down 73 from 1443 at resumed autosave; imported material and local buffer changes excluded
+Late reclamation source area snapshot,S2,,75,2000,1901,Only displayed reserve types captured; no exact attributed recipe consumption from map counters
+Dedicated Bot Gun recipe,N2,,,,,1 Copper Wire + 2 Iron Plate per Bot Gun; Refiner consumes 3 Copper Plate per Wire. Cooled Gun adds 2 more Iron Plate and 2 Coolant per Bot.
+Sustained Medium Bot verification after dedicated Gun feed,N2.E2,,,,,Four consecutive green checks. Two full intervals consumed two new Medium Bots each; third full interval received three and retained 3 AP. Tribute route visibly typed Mythril.
+End-of-session Map Node #37 checkpoint,H,,,,,7 each Simple Basic Automata and Hydro credited; waiting on Hydro Core. Victory incomplete. Autosave game time 23:16:44.
+#37 continuation reserve sample,E1,892,1012,1156,1419,Compared with prior 980/1100/1204/1430 snapshot: net decreases 88 Copper 88 Iron 48 Wood 11 Stone; core production and buffers combined
+Foundry route scouting reserve sample,N3.E1,2705,3000,3000,3000,Net 239 Copper lower than prior sample; supports the N3 backup road
+#37 continuation reserve sample,N3,76,1444,1162,2500,Compared with prior 76/1714/1369/2500: net decreases 270 Iron and 207 Wood; Copper remains 76 after external backup
+#37 continuation reserve sample,N2,23,5,2000,1328,42 net Stone drawn since 1370 at last session; includes Brick supplies and buffers
+Map Node #37 complete,H,,,,,19 each of Simple Basic Automata and Hydro paid; 76 total; 12 more of each than at resumed checkpoint
+Drill deposit spawned,N2,1023,5,2000,,New 1000-unit Copper deposit shown by the drill; pre-existing Copper 23 and Iron 5 were unchanged at this observation.
+N5.E1 Golem factory baseline,N5.E1,4000,4000,4000,4000,All four deposits before new Small Bot factory
+Map Node #38 complete,H,,,,,20 each of Simple Basic Automata and Hydro paid; 80 total; point spent to open S4

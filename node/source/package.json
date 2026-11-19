@@ -14,6 +14,8 @@
     "preview": "vite preview --host 127.0.0.1",
     "preview:milestones": "node scripts/build-milestone-preview.mjs",
     "preview:item-art": "node scripts/build-item-art.mjs",
+    "docs:systems": "node scripts/system-docs.mjs",
+    "docs:systems:check": "node scripts/system-docs.mjs --check",
     "changelog": "node scripts/changelog.mjs",
     "changelog:check": "node scripts/changelog.mjs --check && node --test scripts/check-changelog.mjs"
   },

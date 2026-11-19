@@ -1,0 +1,31 @@
+NORMAL-UI MEDIUM BOT REPAIR — VERIFIED NOVEMBER 6, 2026
+
+Target: https://bookskaboo.github.io/node/ — current N2 factory.
+Controls: visible Codex in-app browser only; no desktop input, game source inspection, developer tools, exported game reports, save injection, acceleration, code fixes or rule changes.
+
+RESULT
+Final unchanged observation: 314 wall-clock seconds (5 minutes 14 seconds).
+Isolated collection Cart: nine Medium Bots at baseline, fifteen at the intermediate observation, twenty by the late observation. The assembler continued cycling after the Cart filled, using its own output buffer. At least eleven additional completed Bots were collected during this window.
+Game left paused, with the browser tab retained for continuation. The three existing permanent save slots were not overwritten. Save/Load showed the latest autosave at game elapsed 07:00:04, dated November 6 at 1:47:09 AM; do not describe that autosave timestamp as the exact final pause time.
+Proof: medium-bots-sustained-verified.jpg in this directory.
+
+WHAT WAS REPAIRED
+Circle sockets accept one cable; star sockets accept several. The normal UI Logistics guide confirms that a Joint's input and output share its center. Earlier attempts repeatedly missed sockets after camera movement or replaced an existing shared feed. Several attempted repairs therefore did not establish the intended connection.
+
+The Forest was visibly depleted at 0/2000. Tree Planter funding lacked Stone and Iron Plate supplies. Stone was routed through a free Splitter and an upper-shore Joint; a dedicated Iron Extractor and right Iron Smelter supplied the Plate. Remaining stored Wood restarted a Kiln. A clean Wood Splitter then shared Wood between the left Kiln and the Planter, preserving the regrowth loop. Forest stock recovered above 100 during later observations.
+
+The final fuel route used a fresh, isolated solid Cart below the Lake, supplied from the actual left Kiln output through a left-shore routing Splitter. Its star output fed the four stalled Smelters' actual Charcoal inputs. Earlier source Cart identities and attempted routes were not reliable; do not reuse an old gray inventory as proof of Charcoal content.
+
+Dedicated Iron Plate supply to Iron Wire and Basic Cores was restored. A separate fresh right-side Plate Cart shared the right Iron Smelter output between forestry, Coolant and Gear production. This prevented restoring forestry from removing the only Plate feed to Coolant. Fluid Links continued sharing Coolant with Pistons and Cooled Guns.
+
+One further normal Mining Drill consumed twenty Motors from the incoming Motor Cart and became a 1,000-Iron deposit. The Motor route had to go around the Goblin Camp. Both production Extractors were connected to the renewed deposit through normal resource connections and a Joint. This follows an earlier twenty-Motor Drill in the same extended follow-up; these two replenishments cost forty Motors in total. No resources were granted.
+
+FAILED CHECKS AND LIMITS
+Earlier short restarts only consumed buffered ingredients. One isolated count stopped at nine when Charcoal and forestry funding failed; another exposed an empty Basic Core buffer. Those observations are failures, not sustained-production evidence.
+The final 314-second check involved no rewiring or purchases. Its result is local Medium Bot production only. Sustained export, camp AP checks, Mythril, later core tiers and victory were not verified here.
+The final collection Cart is full at twenty; it needs export or additional storage for a longer run. Ore remains finite, including a low forestry Iron source and an older almost-depleted deposit. The new drilled deposit provides further ordinary supply, but the test does not prove indefinite production.
+Experimental unused nodes and cables remain. The factory was not claimed to be a clean minimal blueprint. No unsupported engine bug diagnosis was established.
+
+BALANCE INTERPRETATION
+Most of this follow-up was agent UI diagnosis and construction overhead, including unsuccessful coordinate attempts. Do not classify that elapsed time as recipe waiting or representative human speedrun pacing. Resource totals beyond visible ordinary Drill spending were not reconstructed from hidden state or exports.
+For future runs: center ports away from camera auto-pan edges, refresh screenshots after movement, preserve proven branches, verify actual socket materials, and count an isolated output inventory beyond the initial five-item buffers.

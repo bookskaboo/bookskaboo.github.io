@@ -1,0 +1,57 @@
+{
+  "date": "2026-11-11",
+  "verifiedAtUtc": "2026-11-12T02:00:36.520662+00:00",
+  "url": "https://bookskaboo.github.io/node/",
+  "repository": "bookskaboo/bookskaboo.github.io",
+  "contentCommit": "d43b163db424635358f967d71c2fabf311d2b7c4",
+  "priorLiveCommit": "afdea7a72552e6c1575dc039b54018c909a50edb",
+  "livePublicationVerified": true,
+  "standardUrlMatches": true,
+  "matchedRuntimeFiles": 11,
+  "assets": [
+    {
+      "file": "assets/browserAll-CM6omMga.js",
+      "sha256": "4eb8883a5470c3785af62a0555eb5cec6a15297f2a6cf27d159dca3f6b98d120"
+    },
+    {
+      "file": "assets/CanvasPool-O_8k9jVW.js",
+      "sha256": "9cf12a9f53a878bb8f9f46337b799031a6986b5f87dd775ef57b2902ae0dc9cd"
+    },
+    {
+      "file": "assets/canvasUtils-DHiBpmSz.js",
+      "sha256": "8843c3459529c72ffb9a82655454eff39f3458448dd2ae362764f3be4933288f"
+    },
+    {
+      "file": "assets/getTexelRangeRects-5CG6mIA2.js",
+      "sha256": "aea8c02569d6923eec2b28e6973b032101297b4fc9acc85b573146bd074d4974"
+    },
+    {
+      "file": "assets/getTextureBatchBindGroup-CDnZS9mH.js",
+      "sha256": "2b2eff79ef557432774e0acd98963de65847a16840f0b738b07556ea37e21caa"
+    },
+    {
+      "file": "assets/index-Dx-Vk4cU.js",
+      "sha256": "c9e28c762e50d86ac4f3fd0c75e95d051061a6dbc477993665afeb1d9fcede79"
+    },
+    {
+      "file": "assets/index-lzPRCSKB.css",
+      "sha256": "6a579e7fb80b418d6626c5b11e9450465381ed67e8f615970df34cfb1da04166"
+    },
+    {
+      "file": "assets/init-CM79FaRp.js",
+      "sha256": "adb7d9a995daa64afc3d63f9d127e3b219a2e7a50ba2679755149f4a555ae6b0"
+    },
+    {
+      "file": "assets/RenderTargetSystem-CHWUCnC7.js",
+      "sha256": "39880073141b4419980d7b5baf22961675d208105c37f87c54a099e6433ad70f"
+    },
+    {
+      "file": "assets/webworkerAll-DR0jekph.js",
+      "sha256": "43521f4279e99aa338fdb7b44453d9c27eaf5efe3d1acc5f05220958ee74d696"
+    },
+    {
+      "file": "index.html",
+      "sha256": "69c6f4351fd433ecab0655b72adabf292d41ac309328583f0f10f3a904894d03"
+    }
+  ]
+}

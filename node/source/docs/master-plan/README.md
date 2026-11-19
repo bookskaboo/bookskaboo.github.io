@@ -1,5 +1,7 @@
 # NODE master development plan
 
+For current local mechanics and exact catalog values, start with the [system reference library](../systems/README.md). This plan retains dated decisions, proposals and implementation reports; older numeric summaries below may predate current rules.
+
 **November 8 update.** The Ancient Dragon now requires 500 AP per α Piece. Final Robotics requires a Final Core and unlocks the 72 AP Final Bot. See the [current implementation](20-endgame-implementation.md).
 
 **November 5, 2026 balance record (NODE-0321):** explicit user quotas replace five-minute sizing for Alpha (50 AP), Foundry (50 Circuit B / 25 Sealed Frames / 100 Mythril Gears) and Grove (500 growth). Reclamation retains its five-minute credits. Endgame Theory is retired. Victory is a manually selected Research Center project costing one each of all seven Core types; producing a Final Core alone does not win. See [current implementation](20-endgame-implementation.md).
@@ -51,6 +53,8 @@ The baseline comes from source and maintained reports reviewed on November 2. Th
 ## Maintain the plan
 
 Source defines current runtime behavior. Explicit recorded decisions define intended behavior. If those disagree, record the discrepancy and resolve it; neither should silently overwrite the other. Existing detailed catalogs remain the home for exact recipes and formulas. This plan summarizes and links them.
+
+The [changelog](../changelog/README.md) is the primary history moving forward. Future chats must update the affected [system references](../systems/README.md) and record meaningful outcomes, decisions, reversals and deferrals there as part of the same work. Keep this plan focused on intended direction, current task status and supporting rationale; link stable NODE records instead of appending a competing timeline. Preserve the existing dated review history.
 
 After a review answer, update the decision queue and affected component document. Turn agreed work into tasks using the roadmap format. After implementation, update the current-state section and project change history with actual verification. A deferred answer settles that question for now and advances the review. Keep stable question IDs when reordering the queue.
 

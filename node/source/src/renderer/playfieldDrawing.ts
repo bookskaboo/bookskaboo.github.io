@@ -23,7 +23,7 @@ const CANVAS_FONTS = {
 export function label(text: string, size: number, color: number, weight: TextStyle['fontWeight'] = 'normal', family: keyof typeof CANVAS_FONTS = 'ui') {
   const rendered = new Text({
     text,
-    resolution: Math.min(4, Math.max(2, (globalThis.devicePixelRatio || 1) * 1.5)),
+    resolution: Math.min(2, Math.max(1, globalThis.devicePixelRatio || 1)),
     style: new TextStyle({ fontFamily: CANVAS_FONTS[family], fontSize: size, fill: color, fontWeight: weight }),
   });
   rendered.roundPixels = true;

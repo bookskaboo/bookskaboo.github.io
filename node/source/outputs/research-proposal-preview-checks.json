@@ -1,0 +1,15 @@
+{
+  "verifiedAt": "2026-11-19T01:17:24.143Z",
+  "checks": [
+    "planned project payment and cancellation",
+    "current/planned comparison",
+    "four planned ranks and six current ranks",
+    "optional upgrades gated behind Automata Core",
+    "page and tree at 1440, 1180, and 390 CSS pixels",
+    "tree project opens matching details",
+    "Splitter and Merger point to Refiner production",
+    "pending automatic unlock has no Start button",
+    "no localStorage changes"
+  ],
+  "errors": []
+}

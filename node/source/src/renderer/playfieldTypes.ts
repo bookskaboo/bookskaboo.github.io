@@ -12,6 +12,7 @@ export interface PlayfieldTooltip { title: string; detail: string; x: number; y:
 export interface SelectionInfo { source: 'node' | 'box'; individual?: boolean; priority?: boolean; forward?: boolean; }
 
 export interface PixiPlayfieldProps {
+  onDiagnostics?(stats: import('./sceneUpdates').RendererDiagnostics): void;
   viewportRef: RefObject<HTMLDivElement | null>;
   engine: GameEngine;
   revision: number;
@@ -47,12 +48,12 @@ export interface PixiPlayfieldProps {
 }
 
 export interface DragState { ids: string[]; anchorId: string; anchorSize: NodeSize; start: { x: number; y: number }; origins: Map<string, { x: number; y: number }>; moved: boolean; desired?: Record<string, { x: number; y: number }>; road?: RoadPlacementTarget; valid: boolean }
-export interface NodeView { root: Container; campStatus?: CampNodeStatus; golemApLabel?: Text; cornerCampStatus?: CornerCampStatus; cornerTributeLabel?: Text; filterNotice?: Text; jointMoveHandle?: Container; researchStatus?: ResearchNodeStatus; productionRecipeIcon?: ReturnType<typeof createProductionRecipeIcon>; productionCue: Graphics; progress: Graphics; progressLabel?: Text; bufferLabel?: Text; bufferSquares?: Graphics; bufferSignature?: string; inputSquares?: Graphics; inputSignature?: string; coreStorageLabels?: Text[]; coreStorageSquares?: Graphics[]; readabilityLabels: Text[]; flash: Graphics; marqueeHighlight: Graphics; invalidOverlay: Graphics; invalidVisible: boolean; displayedProgress: number }
+export interface NodeView { root: Container; detailChildren?: Container[]; overviewWarning?: Graphics; detailVisible?: boolean; dataZoom?: number; dataRevision?: number; dataTime?: number; cueSignature?: string; flashActive?: boolean; coreSignature?: string; campStatus?: CampNodeStatus; golemApLabel?: Text; cornerCampStatus?: CornerCampStatus; cornerTributeLabel?: Text; filterNotice?: Text; jointMoveHandle?: Container; researchStatus?: ResearchNodeStatus; productionRecipeIcon?: ReturnType<typeof createProductionRecipeIcon>; productionCue: Graphics; progress: Graphics; progressLabel?: Text; bufferLabel?: Text; bufferSquares?: Graphics; bufferSignature?: string; inputSquares?: Graphics; inputSignature?: string; coreStorageLabels?: Text[]; coreStorageSquares?: Graphics[]; readabilityLabels: Text[]; flash: Graphics; marqueeHighlight: Graphics; invalidOverlay: Graphics; invalidVisible: boolean; displayedProgress: number }
 export interface PortHandle { nodeId: string; direction: 'input' | 'output'; index: number }
-export interface PortView extends PortHandle { root: Container; highlight: Graphics; pulse: Graphics; pulseColor: number; pulseStartedAt: number; hovered: boolean; cornerScaleLimit?: number; materialShape?: Graphics; materialLabel?: Text; materialBuffer?: Graphics; materialSignature?: string; stoneCounter?: { root: Container; plate: Graphics; text: Text } }
+export interface PortView extends PortHandle { detailVisible?: boolean; dataZoom?: number; dataRevision?: number; dataTime?: number; highlightSignature?: string; pulseActive?: boolean; root: Container; highlight: Graphics; pulse: Graphics; pulseColor: number; pulseStartedAt: number; hovered: boolean; cornerScaleLimit?: number; materialShape?: Graphics; materialLabel?: Text; materialBuffer?: Graphics; materialSignature?: string; stoneCounter?: { root: Container; plate: Graphics; text: Text } }
 export interface ConnectionDragState { originNodeId: string; active: PortHandle; replaceConnectionId?: string; adaptiveJointDirection: boolean; startX: number; startY: number; moved: boolean; snapped?: PortHandle }
 export interface ConnectionRejection { origin: PortHandle; target?: PortHandle; point: { x: number; y: number }; startedAt: number }
 export interface CurveMotionSample { x: number; y: number; distance: number }
-export interface FlowParticle { root: Container; connectionId: string; transfer: InFlightTransfer; path: CurveMotionSample[]; passages: Array<{ nodeId: string; phase: number }>; passed: Set<string> }
+export interface FlowParticle { root: Container; quantity?: Text; connectionId: string; transfer: InFlightTransfer; path: CurveMotionSample[]; passages: Array<{ nodeId: string; phase: number }>; passed: Set<string> }
 export interface PlacementView { kind: NodeKind; roadFacing?: MachineNode['roadFacing']; view: NodeView; status: Text }
 
