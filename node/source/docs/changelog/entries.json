@@ -16,6 +16,14 @@
   },
   "releases": [
     {
+      "id": "89b5709",
+      "date": "2026-11-18",
+      "title": "32-unit grid and touching node bodies",
+      "commit": "89b5709b15d7ecc07f9438bb1ef9eb5658391aa0",
+      "url": "https://github.com/bookskaboo/bookskaboo.github.io/commit/89b5709b15d7ecc07f9438bb1ef9eb5658391aa0",
+      "notes": "Fast-forwarded main from db779c7 with changes confined to node/. GitHub Pages completed successfully. Verified the normal live HTML and all ten runtime assets by SHA-256; all ten previous runtime assets remain available."
+    },
+    {
       "id": "fa3647e",
       "date": "2026-11-18",
       "title": "Standalone Core research and guided tutorial improvements",
@@ -16739,7 +16747,7 @@
       "dateBasis": "chat",
       "kind": "changed",
       "state": "implemented",
-      "delivery": "local",
+      "delivery": "published",
       "title": "Use a 32-unit grid and allow node bodies to touch",
       "summary": "Adopt the selected layout behavior in the game: snap top-left corners at 32-unit intervals and allow touching player-built bodies while rejecting overlap. Keep resource, obstacle and field-boundary clearance.",
       "details": [
@@ -16773,7 +16781,37 @@
       "supersedes": [
         "NODE-0117"
       ],
-      "validation": "All 1,777 workspace tests passed with two existing skips. The /node/ site build, preview type-check and comparison production build passed. Chromium with the actual Pixi renderer verified 32-unit dragging, contact placement, rejected overlap, half-grid placement at top-left 832,160, wiring from either side of coincident origin sockets, shared-socket access at 70% zoom, and Wood delivery between touching Carts. Saved outputs/grid-contact-game-32.jpg; no browser console errors. Both Word references passed ZIP and text checks; the packaged renderer cannot find LibreOffice for visual document QA. Isolated fixture only, no progression/balance run or publication."
+      "validation": "All 1,777 workspace tests passed with two existing skips. The /node/ site build, preview type-check and comparison production build passed. Chromium with the actual Pixi renderer verified 32-unit dragging, contact placement, rejected overlap, half-grid placement at top-left 832,160, wiring from either side of coincident origin sockets, shared-socket access at 70% zoom, and Wood delivery between touching Carts. Saved outputs/grid-contact-game-32.jpg; no browser console errors. Both Word references passed ZIP and text checks; the packaged renderer cannot find LibreOffice for visual document QA. Pre-publication interaction checks used an isolated fixture; no progression or balance run. Publication subsequently verified by NODE-0546.",
+      "publishedBy": "89b5709"
+    },
+    {
+      "id": "NODE-0546",
+      "date": "2026-11-18",
+      "dateBasis": "chat",
+      "kind": "changed",
+      "state": "implemented",
+      "delivery": "published",
+      "publishedBy": "89b5709",
+      "title": "Publish the 32-unit grid and touching node bodies",
+      "summary": "Publish 32-unit placement and drag snapping, zero clearance between player-built bodies, and shared-socket approach targeting. Retain resource, obstacle and field-edge clearance and the previous runtime assets.",
+      "topics": [
+        "Interface",
+        "Controls",
+        "Placement",
+        "Connections"
+      ],
+      "sources": [
+        "local-code"
+      ],
+      "evidence": [
+        "outputs/node-grid-contact-release-2026-11-18/publication-receipt.json",
+        "outputs/node-grid-contact-release-2026-11-18/preflight-report.json",
+        "outputs/node-grid-contact-release-2026-11-18/build-manifest.json",
+        "src/domain/nodeGrid.ts",
+        "src/simulation/collisions.ts",
+        "src/renderer/socketTargeting.ts"
+      ],
+      "validation": "Fresh release checks passed all 1,777 workspace tests with two existing skips, the /node/ site build and changelog checks. Preflight verified a clean tested commit, matching source/build, only node/ changes and a fast-forward from current main. GitHub Pages run 44430291889 completed successfully. Verified the normal live URL HTML and every new runtime asset (11 files total) by SHA-256, plus all ten previous runtime assets. No player browser tabs or saves were changed."
     }
   ]
 }
