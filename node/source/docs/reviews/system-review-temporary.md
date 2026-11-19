@@ -2,7 +2,7 @@
 
 [Documentation hub](../README.md) · [Current systems](../systems/README.md) · [Primary history](../changelog/README.md)
 
-Working issue queue from the November 18, 2026 document review. **27 items are open. No gameplay changes are implemented by this review.** Two items should precede future content implementation: world-rule compatibility and the outdated content compiler. The review also confirms two player-facing presentation defects and three errors or overstatements in the new system references. The newer Deep Hole exploration proposal has settled generated-only blocking; completed-purchase access and continued funding of already-started destination purchases are also settled. SR-26/SR-27 implementation checks are still pending.
+Working issue queue from the November 18, 2026 document review. New-world implementation and related reference corrections completed November 19 (NODE-0608) are recorded below; unrelated tooling, policy and validation work remains open. The review itself did not implement gameplay. The original findings remain dated evidence.
 
 ## How to use this register
 
@@ -16,19 +16,19 @@ Priorities indicate work order: **P1** protects future releases or content editi
 
 | ID | Priority | Classification | Issue | State |
 | --- | --- | --- | --- | --- |
-| [SR-01](#sr-01-world-rule-persistence) | P1 | Approved implementation prerequisite | Preserve old/new world rules through saves and future exploration | Open |
+| [SR-01](#sr-01-world-rule-persistence) | P1 | Approved implementation prerequisite | Preserve old/new world rules through saves and future exploration | Completed (NODE-0608) |
 | [SR-02](#sr-02-historical-content-compiler) | P1 | Confirmed tooling regression risk | Historical compiler would restore obsolete Core recipe gates | Open |
-| [SR-03](#sr-03-unused-stone) | P2 | Approved implementation gap | Refund unused Stone on completed holes | Open |
-| [SR-04](#sr-04-filled-terrain) | P2 | Approved implementation gap | Preserve non-blocking grey filled terrain | Open |
-| [SR-05](#sr-05-hole-candidate-budgets) | P2 | Approved implementation gap | Implement five-candidate area and Stone budgets | Open |
-| [SR-06](#sr-06-guarded-camp-resources) | P2 | Approved implementation gap | Replace new-world Tribute with guarded deposits | Open |
-| [SR-07](#sr-07-intake-only-water) | P2 | Approved implementation gap | Require Intakes for all new-world Lake Water | Open |
-| [SR-08](#sr-08-intake-count-upgrades) | P2 | Approved implementation gap | Raise Intake cap from two to three to four | Open |
-| [SR-09](#sr-09-coupled-lake-relocation) | P2 | Approved implementation gap | Move connected Intakes automatically with Lakes | Open |
+| [SR-03](#sr-03-unused-stone) | P2 | Approved implementation gap | Refund unused Stone on completed holes | Completed (NODE-0608) |
+| [SR-04](#sr-04-filled-terrain) | P2 | Approved implementation gap | Preserve non-blocking grey filled terrain | Completed (NODE-0608) |
+| [SR-05](#sr-05-hole-candidate-budgets) | P2 | Approved implementation gap | Implement five-candidate area and Stone budgets | Completed (NODE-0608) |
+| [SR-06](#sr-06-guarded-camp-resources) | P2 | Approved implementation gap | Replace new-world Tribute with guarded deposits | Completed (NODE-0608) |
+| [SR-07](#sr-07-intake-only-water) | P2 | Approved implementation gap | Require Intakes for all new-world Lake Water | Completed (NODE-0608) |
+| [SR-08](#sr-08-intake-count-upgrades) | P2 | Approved implementation gap | Raise Intake cap from two to three to four | Completed (NODE-0608) |
+| [SR-09](#sr-09-coupled-lake-relocation) | P2 | Approved implementation gap | Move connected Intakes automatically with Lakes | Completed (NODE-0608) |
 | [SR-10](#sr-10-freight-rate-display) | P2 | Confirmed game presentation defect | Road rate omits postgame payload ranks and mod timing | Open |
-| [SR-11](#sr-11-pump-relay-reference) | P2 | Confirmed documentation error | Library denies implemented Pump relay behavior | Open |
-| [SR-12](#sr-12-mythril-drill-reference) | P2 | Confirmed documentation error | Library advertises a rejected Mythril Drill target | Open |
-| [SR-13](#sr-13-postgame-fluid-transport) | P2 | Confirmed documentation overstatement | Shared pool provides a postgame fluid transport exception | Open |
+| [SR-11](#sr-11-pump-relay-reference) | P2 | Confirmed documentation error | Library denies implemented Pump relay behavior | Completed (NODE-0608) |
+| [SR-12](#sr-12-mythril-drill-reference) | P2 | Confirmed documentation error | Library advertises a rejected Mythril Drill target | Completed (NODE-0608) |
+| [SR-13](#sr-13-postgame-fluid-transport) | P2 | Confirmed documentation overstatement | Shared pool provides a postgame fluid transport exception | Completed (NODE-0608) |
 | [SR-14](#sr-14-copper-slurry-storage) | P2 | Policy clarification | Slurry is a fluid but Fluid Tanks reject it | Open |
 | [SR-15](#sr-15-mod-recovery-control) | P2 | Confirmed game presentation defect | Mod checkbox promises a removed recovery speed effect | Open |
 | [SR-16](#sr-16-research-shortage-navigation) | P2 | Approved implementation gap | Missing-Core links stop at recipes rather than shortages | Open |
@@ -41,8 +41,8 @@ Priorities indicate work order: **P1** protects future releases or content editi
 | [SR-23](#sr-23-word-layout-verification) | P3 | Documentation QA gap | Current style references lack successful final render QA | Open |
 | [SR-24](#sr-24-planning-status-conflicts) | P2 | Documentation reconciliation | Active plans still present obsolete rules as current | Open |
 | [SR-25](#sr-25-history-supersession) | P2 | History reconciliation | Some replaced decisions lack clear replacement links | Open |
-| [SR-26](#sr-26-depletion-and-exploration) | P1 | Settled scope; validation pending | Only generated holes trigger the exploration gate | Decision recorded (NODE-0601); checks pending |
-| [SR-27](#sr-27-purchased-but-unvisited-maps) | P1 | Settled payment/access policy; validation pending | Honor completed purchases and let started purchases finish | Decisions recorded (NODE-0602/NODE-0603); checks pending |
+| [SR-26](#sr-26-depletion-and-exploration) | P1 | Settled scope; validation pending | Only generated holes trigger the exploration gate | Completed (NODE-0608) |
+| [SR-27](#sr-27-purchased-but-unvisited-maps) | P1 | Settled payment/access policy; validation pending | Honor completed purchases and let started purchases finish | Completed (NODE-0608) |
 
 Suggested batches: establish SR-01/SR-02 safeguards, preserve the settled SR-26/SR-27 rules before implementing the exploration gate; resolve SR-10/SR-15 presentation defects; correct SR-11–SR-13 and SR-24/SR-25; implement authorized new-world work SR-03–SR-09 behind its version boundary; address SR-14/SR-16/SR-17; then collect the acceptance evidence in SR-18–SR-23. Keep dependencies explicit rather than interpreting this order as approval to implement everything.
 
@@ -56,7 +56,7 @@ Suggested batches: establish SR-01/SR-02 safeguards, preserve the settled SR-26/
 
 **Close when:** old/new worlds pass manual save, autosave, import, reload, re-save, undo and later-sector generation checks. Include mod activation/removal so it cannot silently change the world model.
 
-**Evidence:** [compatibility decision](../obstruction-types-and-behavior.md#review-complete-new-world-rules), [initial state](../../src/simulation/createInitialState.ts), [state types](../../src/domain/types.ts), [normalization](../../src/persistence/legacyMigration.ts), [generation](../../src/simulation/worldGeneration.ts). **Outcome: pending.**
+**Evidence:** [compatibility decision](../obstruction-types-and-behavior.md#review-complete-new-world-rules), [initial state](../../src/simulation/createInitialState.ts), [state types](../../src/domain/types.ts), [normalization](../../src/persistence/legacyMigration.ts), [generation](../../src/simulation/worldGeneration.ts). **Outcome: completed locally (NODE-0608).** Implemented saved version selection with legacy fallback and unknown-version rejection. Slot, copied-slot, autosave, JSON import/re-save, mod activation/removal, undo and later-generation regression checks pass.
 
 ### SR-02 Historical content compiler
 
@@ -74,7 +74,7 @@ Suggested batches: establish SR-01/SR-02 safeguards, preserve the settled SR-26/
 
 **Next action:** Implement the settled refund rule for the new world model, preserving the legacy-world boundary in SR-01. Define a valid return destination when the original supplier is gone or full without duplicating cargo.
 
-**Close when:** normal filling, discount-triggered completion and save-load completion conserve unused Stone once, remove supply cables and stop further dispatch. **Evidence:** [hole clearing](../../src/simulation/engine.ts), [reviewed refund rule](../obstruction-types-and-behavior.md#deep-holes), NODE-0571. **Outcome: pending.**
+**Close when:** normal filling, discount-triggered completion and save-load completion conserve unused Stone once, remove supply cables and stop further dispatch. **Evidence:** [hole clearing](../../src/simulation/engine.ts), [reviewed refund rule](../obstruction-types-and-behavior.md#deep-holes), NODE-0571. **Outcome: completed locally (NODE-0608).** Implemented exactly-once buffered and in-flight refunds, including missing suppliers and paused holes completed by Efficient Landfill. Regression checks and engine fixture filling pass.
 
 ### SR-04 Filled terrain
 
@@ -82,7 +82,7 @@ Suggested batches: establish SR-01/SR-02 safeguards, preserve the settled SR-26/
 
 **Next action:** Add a persistent terrain representation drawn beneath factories, with no active placement or cable obstruction. Coordinate with SR-03 and SR-01 rather than retaining a zero-bill active obstacle.
 
-**Close when:** factories and cables can occupy the completed patch, partial fill never reduces its footprint, and save/load and field expansion preserve the visual result without recharging Stone. **Evidence:** [hole runtime](../../src/simulation/engine.ts), [geometry](../../src/domain/obstructionGeometry.ts), [review](../obstruction-types-and-behavior.md#deep-holes), NODE-0569. **Outcome: pending.**
+**Close when:** factories and cables can occupy the completed patch, partial fill never reduces its footprint, and save/load and field expansion preserve the visual result without recharging Stone. **Evidence:** [hole runtime](../../src/simulation/engine.ts), [geometry](../../src/domain/obstructionGeometry.ts), [review](../obstruction-types-and-behavior.md#deep-holes), NODE-0569. **Outcome: completed locally (NODE-0608).** Implemented persistent decorative grey terrain using the same outline, outside the active obstacle graph. Construction/cable, reload and desktop fixture checks pass.
 
 ### SR-05 Hole candidate budgets
 
@@ -90,9 +90,9 @@ Suggested batches: establish SR-01/SR-02 safeguards, preserve the settled SR-26/
 
 **Next action:** implement NODE-0569/NODE-0570 and NODE-0606 behind SR-01, including deterministic integer allocation and persisted selection. In standard 11 × 11 new worlds, select exactly 28 eligible hole maps with tier-3/4 weight four and weight one elsewhere, then generate the approved one-to-five holes inside each selected map. Retain the separate 250-Stone depletion-hole rule and generated-obstruction exclusivity.
 
-**Close when:** the standard-world hole-map quota is exactly 28, tier weighting and reserved-map exclusions match the adopted proposal, candidate bills sum exactly, selected bills retain their shares, counts/subsets follow the adopted policy, and seeded generation survives reload and later discovery without rerolling. Explicitly check Area Expansion and modded reserve/field settings. **Evidence:** [generation](../../src/simulation/worldGeneration.ts), [candidate rules](../obstruction-types-and-behavior.md#deep-holes). **Outcome: pending.**
+**Close when:** the standard-world hole-map quota is exactly 28, tier weighting and reserved-map exclusions match the adopted proposal, candidate bills sum exactly, selected bills retain their shares, counts/subsets follow the adopted policy, and seeded generation survives reload and later discovery without rerolling. Explicitly check Area Expansion and modded reserve/field settings. **Evidence:** [generation](../../src/simulation/worldGeneration.ts), [candidate rules](../obstruction-types-and-behavior.md#deep-holes). **Outcome: completed locally (NODE-0608).** Implemented the exact standard-world 28-map mask, seeded tier weights, five-candidate integer budgets, uniform count/subset and mod-aware Stone pool. Three full seeded worlds and mod reserve/field settings are covered; no normal-play balance claim.
 
-The [28-map distribution calibration](../deep-hole-exploration-simulation.md#distribution-calibration-for-10515-targets) matched 10 / 5 / 15 median map-filling targets in separate validation. NODE-0606 adopts that global quota and tier-3/4 weighting alongside SR-05's settled within-map candidate rules. The design is settled; SR-05 implementation and gameplay checks remain pending.
+The [28-map distribution calibration](../deep-hole-exploration-simulation.md#distribution-calibration-for-10515-targets) matched 10 / 5 / 15 median map-filling targets in separate validation. NODE-0606 adopts that global quota and tier-3/4 weighting alongside SR-05's settled within-map candidate rules. The design and local implementation are complete; the analytical targets remain conditional rather than guaranteed campaign outcomes.
 
 ### SR-06 Guarded camp resources
 
@@ -100,7 +100,7 @@ The [28-map distribution calibration](../deep-hole-exploration-simulation.md#dis
 
 **Next action:** implement the settled proposal after SR-01, including first actual Dwarven extraction unlocking Mythril Refining, full-map capacities, retained reserve/wiring on suppression loss, gated new connections and coupled relocation. Integrate recovery budgets: visible but inaccessible guarded stock must not be counted as currently collectable supply.
 
-**Close when:** all settlement families/subtypes, failed checks, credit/retry, refill upgrades, extraction routes, placement, relocation and both save-rule models pass their checks. **Evidence:** [isolated proposal](../previews/monster-camps/index.html), [proposal model](../previews/monster-camps/model.mjs), [Tribute runtime](../../src/simulation/goblinTribute.ts), [recovery budgets](../../src/simulation/progressionRecovery.ts), NODE-0558/NODE-0559/NODE-0561–NODE-0563. **Outcome: pending.**
+**Close when:** all settlement families/subtypes, failed checks, credit/retry, refill upgrades, extraction routes, placement, relocation and both save-rule models pass their checks. **Evidence:** [isolated proposal](../previews/monster-camps/index.html), [proposal model](../previews/monster-camps/model.mjs), [Tribute runtime](../../src/simulation/goblinTribute.ts), [recovery budgets](../../src/simulation/progressionRecovery.ts), NODE-0558/NODE-0559/NODE-0561–NODE-0563. **Outcome: completed locally (NODE-0608).** Implemented guarded camp deposits, all camp rates/multipliers, suppression pause/resume, actual-extraction Mythril unlock, recovery exclusion and paired movement. Regression and desktop/narrow fixture checks pass; full campaign pacing remains unmeasured.
 
 ### SR-07 Intake only Water
 
@@ -108,7 +108,7 @@ The [28-map distribution calibration](../deep-hole-exploration-simulation.md#dis
 
 **Next action:** apply the settled rule behind SR-01 while preserving free Water Tools discovery and actual Intake rates/buffers. Do not accidentally remove the implemented relay mode in SR-11.
 
-**Close when:** direct Lake-to-consumer, Tank, router and Dev-source-adjacent bypass cases cannot extract Lake Water under new rules; Intake-first routes work; old worlds retain their routes. **Evidence:** [Lake simulation](../../src/simulation/engine.ts), [socket validation](../../src/simulation/connectionRules.ts), [reviewed access rule](../obstruction-types-and-behavior.md#lakes), NODE-0580. **Outcome: pending.**
+**Close when:** direct Lake-to-consumer, Tank, router and Dev-source-adjacent bypass cases cannot extract Lake Water under new rules; Intake-first routes work; old worlds retain their routes. **Evidence:** [Lake simulation](../../src/simulation/engine.ts), [socket validation](../../src/simulation/connectionRules.ts), [reviewed access rule](../obstruction-types-and-behavior.md#lakes), NODE-0580. **Outcome: completed locally (NODE-0608).** Implemented Intake-only Water for new worlds while preserving legacy direct output and the existing Pump behavior/rates. Regression and fixture checks pass.
 
 ### SR-08 Intake count upgrades
 
@@ -116,7 +116,7 @@ The [28-map distribution calibration](../deep-hole-exploration-simulation.md#dis
 
 **Next action:** derive the permitted count from saved rule model and research. Clarify the displayed upgrade effects while keeping serialized IDs and migrated purchases stable.
 
-**Close when:** the same Lake accepts exactly 2/3/4 direct Intakes at the relevant ranks across all four ports, with unchanged 4/5/6/8/11 Water rates and legacy-world limits. **Evidence:** [connection limit](../../src/simulation/engine.ts), [migration](../../src/simulation/machineEfficiencyMigration.ts), [rates](../systems/efficiency.md), NODE-0578. **Outcome: pending.**
+**Close when:** the same Lake accepts exactly 2/3/4 direct Intakes at the relevant ranks across all four ports, with unchanged 4/5/6/8/11 Water rates and legacy-world limits. **Evidence:** [connection limit](../../src/simulation/engine.ts), [migration](../../src/simulation/machineEfficiencyMigration.ts), [rates](../systems/efficiency.md), NODE-0578. **Outcome: completed locally (NODE-0608).** Implemented the new-world two/three/four distinct-Intake cap with existing rate progression. Regression and fixture checks pass.
 
 ### SR-09 Coupled Lake relocation
 
@@ -124,7 +124,7 @@ The [28-map distribution calibration](../deep-hole-exploration-simulation.md#dis
 
 **Next action:** collect attached Intakes, deduplicate selected members, translate them equally and validate the whole move atomically. Keep unrelated downstream nodes stationary.
 
-**Close when:** collision, field-edge or cable failure rejects the whole move; IDs, stock, timers and cables survive success/undo/load; legacy behavior remains available. **Evidence:** [relocation plan](../master-plan/17-endgame-research-and-world-reshaping.md), [movement commands](../../src/simulation/engine.ts), NODE-0581/NODE-0595. **Outcome: pending.**
+**Close when:** collision, field-edge or cable failure rejects the whole move; IDs, stock, timers and cables survive success/undo/load; legacy behavior remains available. **Evidence:** [relocation plan](../master-plan/17-endgame-research-and-world-reshaping.md), [movement commands](../../src/simulation/engine.ts), NODE-0581/NODE-0595. **Outcome: completed locally (NODE-0608).** Implemented atomic same-displacement movement of directly connected Intakes with Lakes, deduplicating selections and rejecting invalid groups. Regression and fixture checks pass.
 
 ## Current presentation and documentation inconsistencies
 
@@ -142,7 +142,7 @@ The [28-map distribution calibration](../deep-hole-exploration-simulation.md#dis
 
 **Next action:** correct the fluids and production references to distinguish generation from routing, preserving NODE-0446. This is a documentation correction, not a request to remove working relay behavior.
 
-**Close when:** source-backed explanations cover both modes and their actual socket restrictions. **Evidence:** [fluids guide](../systems/fluids.md), [routing](../../src/simulation/engine.ts), [existing regression](../../src/simulation/playtest.regressions.test.ts), [results](../../outputs/document-review-2026-11-18/results.json). **Outcome: pending.**
+**Close when:** source-backed explanations cover both modes and their actual socket restrictions. **Evidence:** [fluids guide](../systems/fluids.md), [routing](../../src/simulation/engine.ts), [existing regression](../../src/simulation/playtest.regressions.test.ts), [results](../../outputs/document-review-2026-11-18/results.json). **Outcome: completed locally (NODE-0608).** Corrected the fluid reference to describe the existing direct-Lake draw and material relay modes. Documentation correction only; no relay-rule change.
 
 ### SR-12 Mythril Drill reference
 
@@ -150,7 +150,7 @@ The [28-map distribution calibration](../deep-hole-exploration-simulation.md#dis
 
 **Next action:** correct the references to the three selectable minerals and describe any retained legacy fields separately. Do not enable a Mythril bypass to make the game match the mistaken text.
 
-**Close when:** all current descriptions agree with UI, engine and NODE-0295 source restrictions; compatible historical material remains described accurately. **Evidence:** [resource use](../systems/resource-use.md), [sustainability](../systems/sustainability-and-recovery.md), [inspector](../../src/ui/NodeInspector.tsx), [engine](../../src/simulation/engine.ts), [results](../../outputs/document-review-2026-11-18/results.json). **Outcome: pending.**
+**Close when:** all current descriptions agree with UI, engine and NODE-0295 source restrictions; compatible historical material remains described accurately. **Evidence:** [resource use](../systems/resource-use.md), [sustainability](../systems/sustainability-and-recovery.md), [inspector](../../src/ui/NodeInspector.tsx), [engine](../../src/simulation/engine.ts), [results](../../outputs/document-review-2026-11-18/results.json). **Outcome: completed locally (NODE-0608).** Corrected resource/recovery references: Mining Drill accepts Iron, Copper and Stone, not Mythril. Documentation correction only; no Drill-rule change.
 
 ### SR-13 Postgame fluid transport
 
@@ -158,7 +158,7 @@ The [28-map distribution calibration](../deep-hole-exploration-simulation.md#dis
 
 **Next action:** scope mandatory Lake-local production to ordinary pre-global transport and document the postgame shared-pool exception. Retain implemented behavior unless a separate design change is explicitly chosen.
 
-**Close when:** fluids, storage and progression references explain the same boundary and a regression verifies the allowed postgame route plus locked pre-access behavior. **Evidence:** [fluids](../systems/fluids.md), [pool runtime](../../src/simulation/progression.ts), [global research](../../src/content/research.ts), [results](../../outputs/document-review-2026-11-18/results.json). **Outcome: pending.**
+**Close when:** fluids, storage and progression references explain the same boundary and a regression verifies the allowed postgame route plus locked pre-access behavior. **Evidence:** [fluids](../systems/fluids.md), [pool runtime](../../src/simulation/progression.ts), [global research](../../src/content/research.ts), [results](../../outputs/document-review-2026-11-18/results.json). **Outcome: completed locally (NODE-0608).** Qualified the direct solid-only transport rule with the existing post-victory shared-pool fluid exception. Documentation correction only; no fluid-policy change.
 
 ### SR-14 Copper Slurry storage
 
@@ -268,7 +268,7 @@ The [28-map distribution calibration](../deep-hole-exploration-simulation.md#dis
 
 **Next action:** preserve the generated-only scope and its new-world boundary during implementation. Depletion holes retain their physical obstruction and 250-Stone base bill but cannot start, extend or reactivate an exploration lock. Preserve the already confirmed all-approaches rule; neither decision needs to be asked again.
 
-**Close when:** test Home, sequential depletion, mixed generated/depletion holes, multiple neighboring blockers, zero accessible Stone and saved rule versions. Confirm filling the final generated hole lifts that map's exploration block even while a depletion hole remains. The offline adaptive estimate's median 45,986 Stone excludes depletion and assumes affordable bills; it is not a completion-time or solvability result. **Evidence:** [estimate and selected scope](../deep-hole-exploration-simulation.md#boundaries-to-settle-before-implementation), [recovery](../../src/simulation/progressionRecovery.ts), NODE-0599/NODE-0601. **Outcome: scope decided; implementation and gameplay checks pending (NODE-0601).**
+**Close when:** test Home, sequential depletion, mixed generated/depletion holes, multiple neighboring blockers, zero accessible Stone and saved rule versions. Confirm filling the final generated hole lifts that map's exploration block even while a depletion hole remains. The offline adaptive estimate's median 45,986 Stone excludes depletion and assumes affordable bills; it is not a completion-time or solvability result. **Evidence:** [estimate and selected scope](../deep-hole-exploration-simulation.md#boundaries-to-settle-before-implementation), [recovery](../../src/simulation/progressionRecovery.ts), NODE-0599/NODE-0601. **Outcome: completed locally (NODE-0608).** Implemented generated-only exploration blocking, all four neighboring approaches, multiple blockers and depletion exclusion. Tests verify the final generated fill unblocks entry even with depletion terrain remaining, and recovery cannot bypass a known gate. Whole-campaign Stone feasibility remains a separate balance task.
 
 ### SR-27 Purchased but unvisited maps
 
@@ -278,7 +278,7 @@ The [28-map distribution calibration](../deep-hole-exploration-simulation.md#dis
 
 **Settled funding (NODE-0603):** let a destination purchase with Cores contributed before blocker discovery continue and finish. Preserve the quoted destination, price and contributions through project switching and reload, then unlock that destination and honor first entry. An unfunded quote does not establish an exception. Preserve saved Map Points without treating them as an already purchased destination. The policy questions for SR-27 are settled; do not ask them again.
 
-**Close when:** test paid-unvisited chains, active/paused partially funded quotes, saved Map Points, multiple blockers, entry from every side, save/load and legacy worlds. No paid contribution or point may disappear or be charged twice. **Evidence:** [policy boundary](../deep-hole-exploration-simulation.md#boundaries-to-settle-before-implementation), [map pricing](../../src/simulation/mapExpansion.ts), [quotes](../../src/simulation/researchRuntime.ts), NODE-0599/NODE-0602/NODE-0603. **Outcome: access and funding policies decided; implementation checks pending (NODE-0602/NODE-0603).**
+**Close when:** test paid-unvisited chains, active/paused partially funded quotes, saved Map Points, multiple blockers, entry from every side, save/load and legacy worlds. No paid contribution or point may disappear or be charged twice. **Evidence:** [policy boundary](../deep-hole-exploration-simulation.md#boundaries-to-settle-before-implementation), [map pricing](../../src/simulation/mapExpansion.ts), [quotes](../../src/simulation/researchRuntime.ts), NODE-0599/NODE-0602/NODE-0603. **Outcome: completed locally (NODE-0608).** Implemented completed-purchase entry and started-funding protection across switching/reload. Tests cover unfunded quotes, remaining funding, multiple blockers and spare Map Points without duplicate payment. Buying-ahead balance remains unmeasured.
 
 ## Review coverage
 

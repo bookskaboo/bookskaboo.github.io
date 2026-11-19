@@ -167,7 +167,9 @@ function migrateOriginalPayload(payloadValue: unknown): GameState | null {
 
 function normalizeGameState(value: GameState) {
   if (value.worldGridSize !== undefined && !isWorldGridSize(value.worldGridSize)) return null;
+  if (value.worldRulesVersion !== undefined && value.worldRulesVersion !== 1 && value.worldRulesVersion !== 2) return null;
   const state = structuredClone(value);
+  state.worldRulesVersion ??= 1;
   if (state.mod) {
     try { state.mod = validateMod(state.mod); } catch { return null; }
   }

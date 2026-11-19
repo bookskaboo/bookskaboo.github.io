@@ -1,0 +1,3 @@
+.obstruction-preview .inspector { top:calc(var(--test-header-height) + 8px); max-height:calc(100% - var(--test-header-height) - 16px); }
+.obstruction-preview .factory-test-title span { font:var(--ui-meta-font); }
+@media (max-width:600px) { .obstruction-preview .inspector { width:calc(100% - 24px); right:12px; max-height:40%; top:auto; bottom:8px; } }

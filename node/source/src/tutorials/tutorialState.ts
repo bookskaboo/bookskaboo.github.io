@@ -83,6 +83,7 @@ export function createTutorialState(kind: TutorialKind, board = ''): GameState {
     sector.nodes = [];
     add('monster-camp', 'tutorial-camp', 1000, 440, { campStrength: 25, attackRequirement: 3, progressMs: 54000 });
     add('woodenChest', 'tutorial-bots', 450, 440, { output: { 'suppression-bot': 20 }, capacity: 20 });
+    add('iron', 'tutorial-guarded-iron', 1800, 440, { resourceItem:'iron',resourceRemaining:1500,resourceCapacity:1500,guardedCampId:'tutorial-camp',guardedLocked:true });
     state.research.completed = ['suppressionBot'];
   }
   state.research.unlocked = ['extractor', ...state.research.completed];

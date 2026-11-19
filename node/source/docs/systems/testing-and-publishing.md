@@ -32,12 +32,22 @@ Synthetic stress scenarios bypass ordinary placement and use prepared buffers; t
 ### Active factory browser test
 
 With the local Vite server running, open `/previews/active-factory/`. This isolated
-page imports the current engine and Pixi renderer and starts 300 nodes on one
-Map Node, including 120 Production nodes. The load selector also offers 150 and
-600 nodes. Each branch has two recipe stages, a Cart and a Warehouse, with Dev
-Sources supplying missing ingredients. Production and physical delivery counters
-allow repeated activity to be checked separately. Pause/Resume, Reset test,
-Fit all and Inspect a line control the fixture and camera.
+page imports the current engine and Pixi renderer. Dense routing defaults to
+1,200 nodes and offers 600 and 2,400 on the same Map Node. Each compact cell has
+three Production nodes, seven Splitters and seven Mergers, plus a Dev Source,
+Cart and Warehouse. Real material routes fan out through two downstream recipe
+machines and rejoin through routing blocks. At 2,400 nodes, 360 Production nodes
+and 840 of each router fit within the expanded field without overlapping bodies.
+Production lines retains the previous 150/300/600-node layouts and old URL query
+compatibility. Production, cycling, router, transfer and delivery counters keep
+the load inspectable. Pause/Resume, Reset test, Fit all and Inspect a cell/line
+control the fixture and camera.
+
+Emphasize progress bars gives actual progress fills and tracks a three-CSS-pixel
+minimum height in this fixture, retaining their bottom edge as zoom changes.
+It defaults on for dense routing and off for the original lines. The normal game
+keeps its current bar sizing. This is visual emphasis, not fake progress or a
+simulation speed change.
 
 The page disables autosave and does not expose save-slot or persistent preference
 controls. Reload creates a fresh fixture. The empty expanded field, staggered

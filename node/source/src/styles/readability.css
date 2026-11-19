@@ -288,3 +288,6 @@ kbd, .modal-trigger-strip .rail-button kbd, .command-row kbd { font:400 12px/1.2
 .save-slot-copy > strong { height: auto; min-height: 34px; padding-block: 6px; overflow-wrap: anywhere; }
 .autosave-copy-actions { flex-wrap: wrap; }
 
+
+/* Locked map cells remain inspectable; details explain the blocking terrain. */
+.node-map-sector.exploration-blocked { filter:grayscale(1); opacity:.65; background:#34363a; border-color:#737780; }

@@ -10,7 +10,7 @@ Configure recipe machines before wiring. Their effective sockets come from the s
 
 Generic families include ANY, RESOURCE, METAL, PLATE, CORE, WASTE, ROBOT_FRAME, ROBOT_WEAPON and ATTACK_POWER. ANY excludes deferred Power and Forest Growth. The general fluid classifier includes Water, Coolant and Copper Slurry, while the FLUID socket family currently accepts Water and Coolant. A generic socket does not override Road, vehicle, Recycler or natural-resource restrictions.
 
-Natural reserves feed Extractors directly or through permitted pass-through routing. Inventory outputs feed Filters. Both ends of a Road require a directly connected freight vehicle. Forest Growth uses a dedicated matching socket. A Stone reserve cannot fill a Deep Hole without extraction.
+Natural reserves feed Extractors directly or through permitted pass-through routing. Inventory outputs feed Filters. Both ends of a Road require a directly connected freight vehicle. Forest Growth uses a dedicated matching socket. A Stone reserve cannot fill a Deep Hole without extraction. New-world guarded reserves reject new extraction connections until fully suppressed; retained connections pause during suppression loss. New-world Lakes connect directly only to Lake Intakes, with a research-based limit of two/three/four distinct Intakes.
 
 ## Routing nodes
 
@@ -29,7 +29,7 @@ Validation checks the proposed graph, including generic chains wired before thei
 
 The base cable launch interval is 400 ms and base travel time is 1,000 ms. Reservations include cargo already in flight so multiple sources cannot overfill the same target. Transparent routes retain their complete cable path for animation and delivery validation. Certain fluid, tribute and waste routes use batch rates rather than the ordinary one-item launch behavior.
 
-Obstruction boundaries constrain cable geometry as well as placement. Changing camp size can invalidate routes. When diagnosing a stopped line, inspect the actual source material, selected recipe, target room, required Filter outlet, in-flight reservations and obstruction path before assuming a production-rate fault.
+Obstruction boundaries constrain cable geometry as well as placement. Active borders block unrelated cables with no extra clearance halo; buildings retain 12 world units. Completed grey hole terrain in new worlds permits both construction and cable crossings. Changing camp size can invalidate routes. When diagnosing a stopped line, inspect the actual source material, selected recipe, target room, required Filter outlet, in-flight reservations and obstruction path before assuming a production-rate fault.
 
 Sources: [socket validation](../../src/simulation/connectionRules.ts), [material tracing](../../src/simulation/connectionMaterials.ts), [route planning](../../src/simulation/logisticsRoutes.ts), [routing and reservations](../../src/simulation/engine.ts), [lookup indexes](../../src/simulation/simulationLookups.ts), [obstructed connections](../../src/simulation/obstructedConnections.ts).
 

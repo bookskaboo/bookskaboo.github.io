@@ -12,7 +12,7 @@ import { MapNodeDetails } from './MapNodeDetails';
 import { IconGlyph } from './NodeIcon';
 import { sectorId } from '../simulation/worldGeneration';
 import { roadMaterialState } from '../simulation/roadMaterials';
-import { destinationMapCosts, isMapFrontier, pendingMapPayment } from '../simulation/mapExpansion';
+import { destinationMapCosts, isMapFrontier, pendingMapPayment, mapExplorationBlockers, mapPurchaseProtected } from '../simulation/mapExpansion';
 import { MAP_LANDMARKS, mapCornerMarkers, mapLandmarkSurvey, mapNodeHoverDetails, mapNodeName, mapNodePosition, type MapLandmark } from './mapNodePresentation';
 
 const landmarkOrder = Object.keys(MAP_LANDMARKS) as MapLandmark[];
@@ -70,7 +70,8 @@ export function NodeMinimap({ game, engine, allowedSectorId, dockHeight = 0, exp
   const active = selectedKey === game.activeSectorId;
   const [x, y] = selectedKey.split(',').map(Number);
   const available = Boolean(selected) && isMapFrontier(game, x, y);
-  const hasPoint = game.research.mapPoints > 0;
+  const hasPoint = game.research.mapPoints > 0 && !mapPurchaseProtected(game,selectedKey);
+  const selectedBlocked = mapExplorationBlockers(game,x,y).length > 0 && !mapPurchaseProtected(game,selectedKey);
   const price = available && !hasPoint ? destinationMapCosts(game, x, y) : undefined;
   const quoted = game.research.mapNodeQuote?.destination === selected;
   const funding = quoted && game.research.selected === 'mapNode';
@@ -143,6 +144,9 @@ export function NodeMinimap({ game, engine, allowedSectorId, dockHeight = 0, exp
           const depletionPending = known?.resourceDepletionPending;
           const isActive = id === game.activeSectorId; const isSelected = id === selected;
           const isAvailable = isMapFrontier(game, cx, cy);
+          const blockers = mapExplorationBlockers(game,cx,cy);
+          const blocked = blockers.length > 0 && !mapPurchaseProtected(game,id);
+          const blockedReason = blocked ? `Nearby Deep Holes on ${blockers.map(s=>mapNodePosition(s.x,s.y)).join(', ')} prevent exploration. Fill all generated holes there.` : undefined;
           const nodePrice = isAvailable && !hasPoint ? destinationMapCosts(game, cx, cy) : undefined;
           const priceText = nodePrice ? Object.entries(nodePrice).map(([core, amount]) => `${amount} ${ITEM_NAMES[core as ItemId]}`).join(' · ') : undefined;
           const location = mapNodePosition(cx, cy);
@@ -162,20 +166,20 @@ export function NodeMinimap({ game, engine, allowedSectorId, dockHeight = 0, exp
             {markers.filter(landmark => landmark !== 'camps').map(landmark => <IconGlyph key={landmark} icon={MAP_LANDMARKS[landmark].icon} className={`map-landmark-${landmark}`} />)}
           </span>;
           const markerClass = icons ? ' has-landmarks' : '';
-          const tooltipDetails = !expanded && corner !== '???' && (isUnlocked || isAvailable) ? [
+          const tooltipDetails = blockedReason ?? (!expanded && corner !== '???' && (isUnlocked || isAvailable) ? [
             ...(isActive ? ['Current Node'] : []),
             ...(depletionPending ? ['Resource depleted'] : []),
             ...mapNodeHoverDetails(game, id),
             ...(!isUnlocked ? [hasPoint ? 'Double-click to activate for 1 Map Point' : priceText ?? 'Requires 1 Map Point'] : []),
             ...markers.filter(landmark => landmark !== 'camps').map(landmark => MAP_LANDMARKS[landmark].label),
-          ].join('\n') : undefined;
+          ].join('\n') : undefined);
           return isUnlocked || isAvailable || (expanded && corner) ? <button key={id} data-map-sector={id}
-            aria-label={`Map Node ${location}: ${isUnlocked ? isActive ? 'current map' : 'travel available' : isAvailable ? priceText ?? 'activate for 1 Map Point' : 'locked'}${depletionPending ? ' · Resource depleted' : ''}${markerNames ? ` · ${markerNames}` : ''}`}
+            aria-label={`Map Node ${location}: ${blockedReason ?? (isUnlocked ? isActive ? 'current map' : 'travel available' : isAvailable ? priceText ?? 'activate for 1 Map Point' : 'locked')}${depletionPending ? ' · Resource depleted' : ''}${markerNames ? ` · ${markerNames}` : ''}`}
             disabled={!permitsTutorialChoice(allowedSectorId, id)} type="button"
-            className={`node-map-sector ${id === HOME_SECTOR_ID ? 'home' : isUnlocked ? 'explored' : isAvailable ? 'adjacent' : 'uncharted'} ${isActive ? 'current' : ''} ${isSelected ? 'selected' : ''}${markerClass}${depletionPending ? ' resource-depleted' : ''}`}
+            className={`node-map-sector ${id === HOME_SECTOR_ID ? 'home' : isUnlocked ? 'explored' : isAvailable ? 'adjacent' : 'uncharted'} ${isActive ? 'current' : ''} ${isSelected ? 'selected' : ''}${markerClass}${blocked ? ' exploration-blocked' : ''}${depletionPending ? ' resource-depleted' : ''}`}
             onClick={() => setSelected(id)}
             onDoubleClick={() => { setSelected(id); if (isUnlocked && !isActive) { onTravel(id); setSelected(null); } else if (isAvailable && game.research.mapPoints > 0 && engine.unlockSector(cx, cy) && !expanded) setSelected(null); }}
-            data-tooltip={corner ?? (expanded ? undefined : name)}
+            data-tooltip={blocked ? 'Exploration blocked' : corner ?? (expanded ? undefined : name)}
             data-tooltip-detail={tooltipDetails}>
             {expanded ? locationLabel : <strong>{known?.label ?? (isSelected ? '●' : '?')}</strong>}
             {icons}
@@ -199,7 +203,7 @@ export function NodeMinimap({ game, engine, allowedSectorId, dockHeight = 0, exp
         })}
       </div>
     </div>{expanded && <MapNodeDetails game={game} engine={engine} selectedId={selected} cornerName={cornerMarkers.get(selectedKey)} allowedSectorId={allowedSectorId} onActivate={activate} />}</div>
-    {!expanded && <footer><span>{!selected ? 'Select a Map Node' : active ? 'Current node' : sector ? mapNodeName(sector) : mapNodePosition(x, y)}</span><button className={selected && ((!active && unlocked) || (available && hasPoint) || price) ? 'ready' : ''} disabled={!selected || !permitsTutorialChoice(allowedSectorId, selected) || active || (!unlocked && (!available || (!hasPoint && !price)))} onClick={price ? onOpenMap : activate}>{!selected ? 'Select a Node' : active ? 'Current Node' : unlocked ? 'Travel' : available && hasPoint ? 'Activate · 1' : price ? 'View price' : 'Select a Node'}</button></footer>}
+    {!expanded && <footer><span>{!selected ? 'Select a Map Node' : active ? 'Current node' : sector ? mapNodeName(sector) : mapNodePosition(x, y)}</span><button className={selected && !selectedBlocked && ((!active && unlocked) || (available && hasPoint) || price) ? 'ready' : ''} disabled={!selected || selectedBlocked || !permitsTutorialChoice(allowedSectorId, selected) || active || (!unlocked && (!available || (!hasPoint && !price)))} onClick={price ? onOpenMap : activate}>{!selected ? 'Select a Node' : active ? 'Current Node' : unlocked ? 'Travel' : selectedBlocked ? 'Exploration blocked' : available && hasPoint ? 'Activate · 1' : price ? 'View price' : 'Select a Node'}</button></footer>}
     {!expanded && <button className="node-map-resize" aria-label="Resize Node Map" onPointerDown={beginResize} onPointerMove={moveResize} onPointerUp={endResize} onPointerCancel={endResize} />}
   </aside></div>;
 }

@@ -1,0 +1,308 @@
+
+0.00m  blind seed selected {"seed":1361531576}
+3.71m  assembler
+5m  exploration
+7.04m  exploration
+7.04m  survey 5,4 {"reason":"nearest map after Exploration","lake":false}
+10m  road
+10.38m  road
+12.38m  survey 4,5 {"reason":"near-Home resource survey","lake":false}
+14.11m  survey 5,6 {"reason":"near-Home resource survey","lake":false}
+15m  mapNode
+15.71m  survey 6,5 {"reason":"near-Home resource survey","lake":false}
+17.44m  survey 5,3 {"reason":"near-Home resource survey","lake":false}
+19.04m  survey 4,4 {"reason":"near-Home resource survey","lake":true}
+20m  mapNode
+20.78m  survey 6,4 {"reason":"near-Home resource survey","lake":true}
+22.38m  survey 3,5 {"reason":"near-Home resource survey","lake":true}
+24.11m  survey 4,6 {"reason":"near-Home resource survey","lake":true}
+25m  mapNode
+25.71m  survey 5,7 {"reason":"near-Home resource survey","lake":true}
+27.44m  automataCore
+27.44m  built Core bank 1 automata-core {"map":"6,5","production":17}
+30m  fabricatorTools | Core bank 1 automata-core 4/100
+30.40m  fabricatorTools
+31.65m  hydrochemistry
+32.65m  hydraulicAssembly
+35m  treePlanter | Core bank 1 automata-core 31/100
+35.71m  treePlanter
+38.95m  Home Simple production quota {"item":"simple-core","made":100}
+39.04m  areaExpansion1
+39.04m  built Core bank 2 simple-core {"map":"5,4","production":11}
+39.04m  built Core bank 3 hydro-core {"map":"4,4","production":31}
+40.00m  Home Basic production quota {"item":"basic-core","made":60}
+40m  roadChannels1 | Core bank 1 automata-core 61/100, Core bank 2 simple-core 2/120, Core bank 3 hydro-core 0/85
+45m  roadChannels1 | Core bank 1 automata-core 85/100, Core bank 2 simple-core 24/120, Core bank 3 hydro-core 4/85
+45.50m  roadChannels1
+47.00m  fluidRouting
+47.00m  built Core bank 4 basic-core {"map":"6,5","production":13}
+48.96m  sealedRobotics
+49.40m  Core bank 1 automata-core production quota {"item":"automata-core","made":100}
+50m  resourceGolemSurvey | Core bank 2 simple-core 47/120, Core bank 3 hydro-core 17/85, Core bank 4 basic-core 11/140
+51.42m  resourceGolemSurvey
+51.42m  starter research and survey complete
+51.83m  survey 2,5 {"reason":"shared route toward visible world corners","lake":false}
+52.83m  survey 1,5 {"reason":"shared route toward visible world corners","lake":false}
+53.83m  survey 0,5 {"reason":"shared route toward visible world corners","lake":false}
+54.92m  survey 0,4 {"reason":"approach a visible corner","lake":false,"dwarves":"village"}
+55m  freight and production | Core bank 2 simple-core 69/120, Core bank 3 hydro-core 29/85, Core bank 4 basic-core 41/140
+56.00m  survey 0,3 {"reason":"approach a visible corner","lake":false}
+57.17m  survey 0,2 {"reason":"approach a visible corner","lake":false}
+58.33m  survey 0,1 {"reason":"approach a visible corner","lake":false,"dwarves":"kingdom"}
+59.58m  survey 0,0 {"reason":"approach a visible corner","lake":false,"corner":"foundry"}
+60m  freight and production | Core bank 2 simple-core 92/120, Core bank 3 hydro-core 41/85, Core bank 4 basic-core 71/140
+60.83m  survey 7,5 {"reason":"shared route toward visible world corners","lake":true}
+62.38m  survey 8,5 {"reason":"shared route toward visible world corners","lake":false}
+63.29m  survey 9,5 {"reason":"shared route toward visible world corners","lake":false}
+64.29m  survey 10,5 {"reason":"shared route toward visible world corners","lake":false}
+65m  mapNode | Core bank 2 simple-core 111/120, Core bank 3 hydro-core 57/85, Core bank 4 basic-core 101/140
+65.58m  survey 10,4 {"reason":"approach a visible corner","lake":false}
+66.08m  built Core bank 5 simple-core {"map":"5,6","production":11}
+67.54m  survey 10,3 {"reason":"approach a visible corner","lake":false}
+68.22m  Core bank 2 simple-core production quota {"item":"simple-core","made":120}
+68.88m  survey 10,2 {"reason":"approach a visible corner","lake":false}
+69.38m  built Core bank 6 automata-core {"map":"4,5","production":17}
+70m  mapNode | Core bank 3 hydro-core 74/85, Core bank 4 basic-core 128/140, Core bank 5 simple-core 15/120, Core bank 6 automata-core 0/100
+71.38m  survey 10,1 {"reason":"approach a visible corner","lake":false,"dwarves":"kingdom"}
+71.88m  built Core bank 7 basic-core {"map":"5,4","production":13}
+73.12m  Core bank 3 hydro-core production quota {"item":"hydro-core","made":85}
+73.52m  Core bank 4 basic-core production quota {"item":"basic-core","made":140}
+74.17m  survey 10,0 {"reason":"approach a visible corner","lake":false,"corner":"alpha"}
+75m  mapNode | Core bank 5 simple-core 37/120, Core bank 6 automata-core 19/100, Core bank 7 basic-core 12/140
+76.88m  survey 10,6 {"reason":"approach a visible corner","lake":false}
+80m  mapNode | Core bank 5 simple-core 60/120, Core bank 6 automata-core 49/100, Core bank 7 basic-core 42/140
+80.04m  survey 10,7 {"reason":"approach a visible corner","lake":false}
+83.38m  survey 10,8 {"reason":"approach a visible corner","lake":true}
+84.46m  survey 10,9 {"reason":"approach a visible corner","lake":false}
+85m  mapNode | Core bank 5 simple-core 82/120, Core bank 6 automata-core 78/100, Core bank 7 basic-core 72/140
+86.04m  survey 10,10 {"reason":"approach a visible corner","lake":false,"corner":"reclamation"}
+87.79m  survey 0,6 {"reason":"approach a visible corner","lake":false}
+90m  mapNode | Core bank 5 simple-core 105/120, Core bank 6 automata-core 98/100, Core bank 7 basic-core 102/140
+90.04m  survey 0,7 {"reason":"approach a visible corner","lake":false,"dwarves":"village"}
+90.45m  Core bank 6 automata-core production quota {"item":"automata-core","made":100}
+94.21m  survey 0,8 {"reason":"approach a visible corner","lake":false}
+94.71m  built Core bank 8 simple-core {"map":"6,4","production":11}
+94.71m  built Core bank 9 automata-core {"map":"4,5","production":17}
+95m  mapNode | Core bank 5 simple-core 119/120, Core bank 7 basic-core 128/140, Core bank 8 simple-core 0/120, Core bank 9 automata-core 0/100
+95.25m  Core bank 5 simple-core production quota {"item":"simple-core","made":120}
+98.38m  Core bank 7 basic-core production quota {"item":"basic-core","made":140}
+98.92m  survey 0,9 {"reason":"approach a visible corner","lake":false,"dwarves":"kingdom"}
+99.42m  built Core bank 10 hydro-core {"map":"3,5","production":31}
+100m  mapNode | Core bank 8 simple-core 21/120, Core bank 9 automata-core 16/100, Core bank 10 hydro-core 0/85
+105m  mapNode | Core bank 8 simple-core 44/120, Core bank 9 automata-core 46/100, Core bank 10 hydro-core 2/85
+105.88m  survey 0,10 {"reason":"approach a visible corner","lake":false,"corner":"grove"}
+110m  mapNode | Core bank 8 simple-core 66/120, Core bank 9 automata-core 76/100, Core bank 10 hydro-core 16/85
+112.38m  survey 2,4 {"reason":"midfield survey for a small Dwarven Camp and two Golems","lake":false}
+112.88m  built Core bank 11 basic-core {"map":"5,6","production":13}
+115m  mapNode | Core bank 8 simple-core 89/120, Core bank 9 automata-core 96/100, Core bank 10 hydro-core 27/85, Core bank 11 basic-core 7/140
+116.17m  Core bank 9 automata-core production quota {"item":"automata-core","made":100}
+120m  mapNode | Core bank 8 simple-core 110/120, Core bank 10 hydro-core 40/85, Core bank 11 basic-core 36/140
+120.04m  survey 2,6 {"reason":"midfield survey for a small Dwarven Camp and two Golems","lake":false}
+123.88m  Core bank 8 simple-core production quota {"item":"simple-core","made":120}
+125m  mapNode | Core bank 10 hydro-core 56/85, Core bank 11 basic-core 66/140
+126.21m  survey 1,4 {"reason":"midfield survey for a small Dwarven Camp and two Golems","lake":false,"dwarves":"camp"}
+126.71m  built Core bank 12 automata-core {"map":"6,4","production":17}
+130m  mapNode | Core bank 10 hydro-core 73/85, Core bank 11 basic-core 92/140, Core bank 12 automata-core 6/100
+132.54m  survey 1,6 {"reason":"midfield survey for a small Dwarven Camp and two Golems","lake":false}
+133.04m  built Core bank 13 simple-core {"map":"4,6","production":11}
+133.04m  built Core bank 14 hydro-core {"map":"5,7","production":31}
+133.50m  Core bank 10 hydro-core production quota {"item":"hydro-core","made":85}
+135m  mapNode | Core bank 11 basic-core 105/140, Core bank 12 automata-core 34/100, Core bank 13 simple-core 6/120, Core bank 14 hydro-core 0/85
+140m  mapNode | Core bank 11 basic-core 111/140, Core bank 12 automata-core 64/100, Core bank 13 simple-core 29/120, Core bank 14 hydro-core 7/85
+143.92m  survey 8,4 {"reason":"midfield survey for a small Dwarven Camp and two Golems","lake":false,"dwarves":"camp"}
+145m  mapNode | Core bank 11 basic-core 123/140, Core bank 12 automata-core 88/100, Core bank 13 simple-core 51/120, Core bank 14 hydro-core 19/85
+147.78m  Core bank 12 automata-core production quota {"item":"automata-core","made":100}
+150m  mapNode | Core bank 11 basic-core 135/140, Core bank 13 simple-core 74/120, Core bank 14 hydro-core 32/85
+152.33m  Core bank 11 basic-core production quota {"item":"basic-core","made":140}
+153.00m  survey 8,6 {"reason":"midfield survey for a small Dwarven Camp and two Golems","lake":false}
+155m  mapNode | Core bank 13 simple-core 96/120, Core bank 14 hydro-core 44/85
+159.58m  survey 9,4 {"reason":"midfield survey for a small Dwarven Camp and two Golems","lake":false}
+160m  freight and production | Core bank 13 simple-core 114/120, Core bank 14 hydro-core 61/85
+162.22m  Core bank 13 simple-core production quota {"item":"simple-core","made":120}
+165m  mapNode | Core bank 14 hydro-core 77/85
+165.84m  survey 9,6 {"reason":"midfield survey for a small Dwarven Camp and two Golems","lake":false}
+166.34m  built Core bank 15 basic-core {"map":"4,6","production":13}
+166.34m  built Core bank 16 automata-core {"map":"7,5","production":17}
+166.34m  built Core bank 17 hydro-core {"map":"10,8","production":31}
+167.12m  Core bank 14 hydro-core production quota {"item":"hydro-core","made":85}
+170m  mapNode | Core bank 15 basic-core 15/140, Core bank 16 automata-core 8/100, Core bank 17 hydro-core 0/85
+175m  mapNode | Core bank 15 basic-core 45/140, Core bank 16 automata-core 37/100, Core bank 17 hydro-core 12/85
+177.71m  survey 2,3 {"reason":"midfield survey for a small Dwarven Camp and two Golems","lake":false}
+180m  mapNode | Core bank 15 basic-core 75/140, Core bank 16 automata-core 68/100, Core bank 17 hydro-core 24/85
+185m  mapNode | Core bank 15 basic-core 103/140, Core bank 16 automata-core 90/100, Core bank 17 hydro-core 34/85
+187.13m  survey 2,7 {"reason":"midfield survey for a small Dwarven Camp and two Golems","lake":false}
+187.63m  built Core bank 18 simple-core {"map":"5,3","production":11}
+188.03m  Core bank 16 automata-core production quota {"item":"automata-core","made":100}
+190m  mapNode | Core bank 15 basic-core 117/140, Core bank 17 hydro-core 50/85, Core bank 18 simple-core 8/120
+193.96m  survey 8,3 {"reason":"midfield survey for a small Dwarven Camp and two Golems","lake":false}
+195m  mapNode | Core bank 15 basic-core 133/140, Core bank 17 hydro-core 66/85, Core bank 18 simple-core 31/120
+196.87m  Core bank 15 basic-core production quota {"item":"basic-core","made":140}
+200m  mapNode | Core bank 17 hydro-core 83/85, Core bank 18 simple-core 53/120
+200.42m  Core bank 17 hydro-core production quota {"item":"hydro-core","made":85}
+200.54m  survey 8,7 {"reason":"midfield survey for a small Dwarven Camp and two Golems","lake":false,"dwarves":"camp"}
+201.04m  built Core bank 19 hydro-core {"map":"10,8","production":31}
+205m  mapNode | Core bank 18 simple-core 76/120, Core bank 19 hydro-core 0/85
+210m  mapNode | Core bank 18 simple-core 98/120, Core bank 19 hydro-core 13/85
+213.92m  survey 3,3 {"reason":"midfield survey for a small Dwarven Camp and two Golems","lake":false,"dwarves":"camp"}
+214.42m  built Core bank 20 automata-core {"map":"7,5","production":17}
+215m  mapNode | Core bank 18 simple-core 115/120, Core bank 19 hydro-core 24/85, Core bank 20 automata-core 0/100
+216.80m  Core bank 18 simple-core production quota {"item":"simple-core","made":120}
+220m  mapNode | Core bank 19 hydro-core 35/85, Core bank 20 automata-core 19/100
+223.25m  survey 3,7 {"reason":"midfield survey for a small Dwarven Camp and two Golems","lake":false}
+223.75m  built Core bank 21 basic-core {"map":"4,6","production":13}
+225m  mapNode | Core bank 19 hydro-core 51/85, Core bank 20 automata-core 49/100, Core bank 21 basic-core 2/140
+230m  mapNode | Core bank 19 hydro-core 67/85, Core bank 20 automata-core 78/100, Core bank 21 basic-core 31/140
+230.17m  survey 7,3 {"reason":"midfield survey for a small Dwarven Camp and two Golems","lake":false}
+230.67m  built Core bank 22 simple-core {"map":"2,5","production":11}
+230.67m  built Core bank 23 hydro-core {"map":"10,8","production":31}
+235m  mapNode | Core bank 19 hydro-core 84/85, Core bank 20 automata-core 98/100, Core bank 21 basic-core 61/140, Core bank 22 simple-core 17/120, Core bank 23 hydro-core 0/85
+235.12m  Core bank 19 hydro-core production quota {"item":"hydro-core","made":85}
+235.50m  Core bank 20 automata-core production quota {"item":"automata-core","made":100}
+237.34m  survey 7,7 {"reason":"midfield survey for a small Dwarven Camp and two Golems","lake":false}
+240m  mapNode | Core bank 21 basic-core 91/140, Core bank 22 simple-core 40/120, Core bank 23 hydro-core 14/85
+245m  mapNode | Core bank 21 basic-core 121/140, Core bank 22 simple-core 62/120, Core bank 23 hydro-core 25/85
+246.75m  survey 3,2 {"reason":"midfield survey for a small Dwarven Camp and two Golems","lake":false}
+247.25m  built Core bank 24 automata-core {"map":"5,3","production":17}
+250m  mapNode | Core bank 21 basic-core 134/140, Core bank 22 simple-core 85/120, Core bank 23 hydro-core 36/85, Core bank 24 automata-core 4/100
+252.03m  Core bank 21 basic-core production quota {"item":"basic-core","made":140}
+255m  mapNode | Core bank 22 simple-core 107/120, Core bank 23 hydro-core 52/85, Core bank 24 automata-core 31/100
+255.00m  survey 3,8 {"reason":"midfield survey for a small Dwarven Camp and two Golems","lake":false,"dwarves":"camp"}
+259.83m  Core bank 22 simple-core production quota {"item":"simple-core","made":120}
+260m  mapNode | Core bank 23 hydro-core 69/85, Core bank 24 automata-core 61/100
+262.17m  survey 7,2 {"reason":"midfield survey for a small Dwarven Camp and two Golems","lake":false}
+262.67m  built Core bank 27 hydro-core {"map":"10,8","production":31}
+264.75m  Core bank 23 hydro-core production quota {"item":"hydro-core","made":85}
+265m  mapNode | Core bank 24 automata-core 86/100, Core bank 27 hydro-core 0/35
+268.33m  Core bank 24 automata-core production quota {"item":"automata-core","made":100}
+270m  mapNode | Core bank 27 hydro-core 8/35
+272.34m  survey 7,8 {"reason":"midfield survey for a small Dwarven Camp and two Golems","lake":true}
+272.84m  built Core bank 28 simple-core {"map":"2,5","production":11}
+272.84m  built Core bank 29 basic-core {"map":"7,5","production":13}
+272.84m  built Core bank 30 hydro-core {"map":"7,8","production":31}
+275m  mapNode | Core bank 27 hydro-core 24/35, Core bank 28 simple-core 7/120, Core bank 29 basic-core 7/140, Core bank 30 hydro-core 0/85
+278.23m  Core bank 27 hydro-core production quota {"item":"hydro-core","made":35}
+279.00m  survey 4,2 {"reason":"midfield survey for a small Dwarven Camp and two Golems","lake":false}
+279.50m  built Core bank 31 automata-core {"map":"1,5","production":17}
+280m  mapNode | Core bank 28 simple-core 30/120, Core bank 29 basic-core 36/140, Core bank 30 hydro-core 8/85, Core bank 31 automata-core 0/100
+285m  mapNode | Core bank 28 simple-core 52/120, Core bank 29 basic-core 66/140, Core bank 30 hydro-core 20/85, Core bank 31 automata-core 17/100
+287.92m  survey 4,8 {"reason":"midfield survey for a small Dwarven Camp and two Golems","lake":true}
+290m  mapNode | Core bank 28 simple-core 75/120, Core bank 29 basic-core 96/140, Core bank 30 hydro-core 32/85, Core bank 31 automata-core 47/100
+295m  mapNode | Core bank 28 simple-core 97/120, Core bank 29 basic-core 122/140, Core bank 30 hydro-core 45/85, Core bank 31 automata-core 77/100
+297.00m  survey 6,2 {"reason":"midfield survey for a small Dwarven Camp and two Golems","lake":false}
+300m  mapNode | Core bank 28 simple-core 115/120, Core bank 29 basic-core 139/140, Core bank 30 hydro-core 61/85, Core bank 31 automata-core 97/100
+300.20m  Core bank 29 basic-core production quota {"item":"basic-core","made":140}
+300.58m  Core bank 31 automata-core production quota {"item":"automata-core","made":100}
+302.00m  Core bank 28 simple-core production quota {"item":"simple-core","made":120}
+304.50m  survey 6,8 {"reason":"midfield survey for a small Dwarven Camp and two Golems","lake":false}
+305m  freight and production | Core bank 30 hydro-core 78/85
+305.00m  built Core bank 32 hydro-core {"map":"7,8","production":31}
+306.92m  Core bank 30 hydro-core production quota {"item":"hydro-core","made":85}
+310m  mapNode | Core bank 32 hydro-core 0/85
+315m  mapNode | Core bank 32 hydro-core 16/85
+315.17m  survey 4,1 {"reason":"midfield survey for a small Dwarven Camp and two Golems","lake":false,"golem":"mythril"}
+315.67m  built Core bank 33 simple-core {"map":"1,5","production":11}
+315.67m  built Core bank 34 automata-core {"map":"1,5","production":17}
+320m  mapNode | Core bank 32 hydro-core 26/85, Core bank 33 simple-core 17/120, Core bank 34 automata-core 11/100
+325m  mapNode | Core bank 32 hydro-core 38/85, Core bank 33 simple-core 40/120, Core bank 34 automata-core 41/100
+326.00m  survey 4,9 {"reason":"midfield survey for a small Dwarven Camp and two Golems","lake":false,"golem":"copper"}
+326.50m  built Core bank 35 basic-core {"map":"8,5","production":13}
+330m  mapNode | Core bank 32 hydro-core 54/85, Core bank 33 simple-core 62/120, Core bank 34 automata-core 73/100, Core bank 35 basic-core 14/140
+333.67m  survey 6,1 {"reason":"midfield survey for a small Dwarven Camp and two Golems","lake":false,"golem":"stone"}
+334.17m  built Core bank 38 hydro-core {"map":"7,8","production":31}
+335m  mapNode | Core bank 32 hydro-core 71/85, Core bank 33 simple-core 85/120, Core bank 34 automata-core 93/100, Core bank 35 basic-core 44/140, Core bank 38 hydro-core 0/35
+336.75m  Core bank 34 automata-core production quota {"item":"automata-core","made":100}
+339.08m  Core bank 32 hydro-core production quota {"item":"hydro-core","made":85}
+340m  mapNode | Core bank 33 simple-core 107/120, Core bank 35 basic-core 74/140, Core bank 38 hydro-core 3/35
+341.00m  survey 6,9 {"reason":"midfield survey for a small Dwarven Camp and two Golems","lake":false,"golem":"iron"}
+344.83m  Core bank 33 simple-core production quota {"item":"simple-core","made":120}
+345m  mapNode | Core bank 35 basic-core 104/140, Core bank 38 hydro-core 19/35
+349.17m  survey 9,0 {"reason":"survey an outer map for a Lake and industrial reserves","lake":false}
+349.67m  built Core bank 39 automata-core {"map":"2,4","production":17}
+349.67m  built Core bank 40 hydro-core {"map":"4,8","production":31}
+349.73m  Core bank 38 hydro-core production quota {"item":"hydro-core","made":35}
+350m  mapNode | Core bank 35 basic-core 129/140, Core bank 39 automata-core 0/100, Core bank 40 hydro-core 0/85
+353.02m  Core bank 35 basic-core production quota {"item":"basic-core","made":140}
+355m  mapNode | Core bank 39 automata-core 17/100, Core bank 40 hydro-core 2/85
+360m  mapNode | Core bank 39 automata-core 47/100, Core bank 40 hydro-core 16/85
+363.21m  survey 9,1 {"reason":"survey an outer map for a Lake and industrial reserves","lake":false}
+363.71m  built Core bank 41 simple-core {"map":"8,5","production":11}
+365m  mapNode | Core bank 39 automata-core 77/100, Core bank 40 hydro-core 26/85, Core bank 41 simple-core 3/120
+370m  mapNode | Core bank 39 automata-core 97/100, Core bank 40 hydro-core 39/85, Core bank 41 simple-core 26/120
+370.75m  Core bank 39 automata-core production quota {"item":"automata-core","made":100}
+373.46m  survey 8,0 {"reason":"survey an outer map for a Lake and industrial reserves","lake":false,"dwarves":"kingdom"}
+373.96m  built Core bank 42 basic-core {"map":"8,5","production":13}
+375m  mapNode | Core bank 40 hydro-core 55/85, Core bank 41 simple-core 48/120, Core bank 42 basic-core 1/140
+380m  mapNode | Core bank 40 hydro-core 72/85, Core bank 41 simple-core 71/120, Core bank 42 basic-core 30/140
+381.30m  survey 9,2 {"reason":"survey an outer map for a Lake and industrial reserves","lake":true}
+381.80m  built Core bank 43 hydro-core {"map":"4,8","production":31}
+383.75m  Core bank 40 hydro-core production quota {"item":"hydro-core","made":85}
+385m  mapNode | Core bank 41 simple-core 93/120, Core bank 42 basic-core 60/140, Core bank 43 hydro-core 0/85
+390m  mapNode | Core bank 41 simple-core 112/120, Core bank 42 basic-core 90/140, Core bank 43 hydro-core 10/85
+392.09m  survey 8,1 {"reason":"survey an outer map for a Lake and industrial reserves","lake":false}
+392.59m  built Core bank 44 automata-core {"map":"2,4","production":17}
+392.88m  Core bank 41 simple-core production quota {"item":"simple-core","made":120}
+395m  mapNode | Core bank 42 basic-core 120/140, Core bank 43 hydro-core 23/85, Core bank 44 automata-core 3/100
+400m  mapNode | Core bank 42 basic-core 138/140, Core bank 43 hydro-core 34/85, Core bank 44 automata-core 29/100
+400.47m  Core bank 42 basic-core production quota {"item":"basic-core","made":140}
+403.67m  survey 7,0 {"reason":"survey an outer map for a Lake and industrial reserves","lake":false}
+405m  mapNode | Core bank 43 hydro-core 48/85, Core bank 44 automata-core 59/100
+410m  mapNode | Core bank 43 hydro-core 65/85, Core bank 44 automata-core 85/100
+411.76m  survey 9,3 {"reason":"survey an outer map for a Lake and industrial reserves","lake":false,"dwarves":"village"}
+412.26m  built Core bank 45 simple-core {"map":"8,6","production":11}
+412.26m  built Core bank 49 hydro-core {"map":"4,4","production":31}
+413.67m  Core bank 44 automata-core production quota {"item":"automata-core","made":100}
+415m  mapNode | Core bank 43 hydro-core 82/85, Core bank 45 simple-core 10/120, Core bank 49 hydro-core 0/22
+415.87m  Core bank 43 hydro-core production quota {"item":"hydro-core","made":85}
+420m  mapNode | Core bank 45 simple-core 32/120, Core bank 49 hydro-core 10/22
+420.34m  survey 8,2 {"reason":"survey an outer map for a Lake and industrial reserves","lake":false}
+420.84m  built Core bank 50 basic-core {"map":"1,5","production":13}
+420.84m  built Core bank 51 hydro-core {"map":"9,2","production":31}
+423.47m  Core bank 49 hydro-core production quota {"item":"hydro-core","made":22}
+425m  mapNode | Core bank 45 simple-core 55/120, Core bank 50 basic-core 18/140, Core bank 51 hydro-core 0/85
+430m  mapNode | Core bank 45 simple-core 77/120, Core bank 50 basic-core 48/140, Core bank 51 hydro-core 13/85
+431.30m  survey 7,1 {"reason":"survey an outer map for a Lake and industrial reserves","lake":true}
+431.80m  built Core bank 52 automata-core {"map":"2,4","production":17}
+435m  mapNode | Core bank 45 simple-core 100/120, Core bank 50 basic-core 78/140, Core bank 51 hydro-core 24/85, Core bank 52 automata-core 6/100
+440m  mapNode | Core bank 45 simple-core 116/120, Core bank 50 basic-core 108/140, Core bank 51 hydro-core 36/85, Core bank 52 automata-core 34/100
+441.42m  Core bank 45 simple-core production quota {"item":"simple-core","made":120}
+442.88m  survey 6,0 {"reason":"survey an outer map for a Lake and industrial reserves","lake":false}
+445m  mapNode | Core bank 50 basic-core 132/140, Core bank 51 hydro-core 51/85, Core bank 52 automata-core 64/100
+447.35m  Core bank 50 basic-core production quota {"item":"basic-core","made":140}
+450m  mapNode | Core bank 51 hydro-core 68/85, Core bank 52 automata-core 88/100
+451.30m  survey 4,0 {"reason":"survey an outer map for a Lake and industrial reserves","lake":false}
+451.80m  built Core bank 53 simple-core {"map":"8,6","production":11}
+451.80m  built Core bank 54 hydro-core {"map":"9,2","production":31}
+452.87m  Core bank 52 automata-core production quota {"item":"automata-core","made":100}
+454.92m  Core bank 51 hydro-core production quota {"item":"hydro-core","made":85}
+455m  mapNode | Core bank 53 simple-core 12/120, Core bank 54 hydro-core 0/85
+460m  mapNode | Core bank 53 simple-core 34/120, Core bank 54 hydro-core 10/85
+461.63m  survey 3,0 {"reason":"survey an outer map for a Lake and industrial reserves","lake":false}
+462.13m  built Core bank 55 automata-core {"map":"2,4","production":17}
+465m  mapNode | Core bank 53 simple-core 57/120, Core bank 54 hydro-core 23/85, Core bank 55 automata-core 5/100
+470m  mapNode | Core bank 53 simple-core 79/120, Core bank 54 hydro-core 34/85, Core bank 55 automata-core 32/100
+473.54m  survey 9,7 {"reason":"survey an outer map for a Lake and industrial reserves","lake":false}
+474.04m  built Core bank 56 basic-core {"map":"2,6","production":13}
+475m  mapNode | Core bank 53 simple-core 102/120, Core bank 54 hydro-core 48/85, Core bank 55 automata-core 62/100, Core bank 56 basic-core 1/140
+480m  mapNode | Core bank 53 simple-core 117/120, Core bank 54 hydro-core 65/85, Core bank 55 automata-core 87/100, Core bank 56 basic-core 29/140
+480.97m  Core bank 53 simple-core production quota {"item":"simple-core","made":120}
+481.96m  survey 3,1 {"reason":"survey an outer map for a Lake and industrial reserves","lake":false}
+482.46m  built Core bank 57 hydro-core {"map":"9,2","production":31}
+483.20m  Core bank 55 automata-core production quota {"item":"automata-core","made":100}
+485m  mapNode | Core bank 54 hydro-core 82/85, Core bank 56 basic-core 59/140, Core bank 57 hydro-core 0/85
+485.87m  Core bank 54 hydro-core production quota {"item":"hydro-core","made":85}
+490m  mapNode | Core bank 56 basic-core 89/140, Core bank 57 hydro-core 9/85
+491.96m  survey 2,0 {"reason":"survey an outer map for a Lake and industrial reserves","lake":false}
+492.46m  built Core bank 58 simple-core {"map":"9,5","production":11}
+495m  mapNode | Core bank 56 basic-core 119/140, Core bank 57 hydro-core 21/85, Core bank 58 simple-core 9/120
+500m  mapNode | Core bank 56 basic-core 138/140, Core bank 57 hydro-core 32/85, Core bank 58 simple-core 32/120
+500.55m  Core bank 56 basic-core production quota {"item":"basic-core","made":140}
+504.21m  survey 1,0 {"reason":"survey an outer map for a Lake and industrial reserves","lake":true}
+504.71m  built Core bank 59 automata-core {"map":"2,6","production":17}
+505m  mapNode | Core bank 57 hydro-core 46/85, Core bank 58 simple-core 54/120, Core bank 59 automata-core 0/100
+510m  mapNode | Core bank 57 hydro-core 63/85, Core bank 58 simple-core 77/120, Core bank 59 automata-core 16/100
+512.96m  survey 9,8 {"reason":"survey an outer map for a Lake and industrial reserves","lake":false}
+513.46m  built Core bank 60 hydro-core {"map":"7,1","production":31}
+515m  mapNode | Core bank 57 hydro-core 79/85, Core bank 58 simple-core 99/120, Core bank 59 automata-core 46/100, Core bank 60 hydro-core 0/85
+516.53m  Core bank 57 hydro-core production quota {"item":"hydro-core","made":85}
+520m  mapNode | Core bank 58 simple-core 115/120, Core bank 59 automata-core 76/100, Core bank 60 hydro-core 6/85
+521.63m  Core bank 58 simple-core production quota {"item":"simple-core","made":120}

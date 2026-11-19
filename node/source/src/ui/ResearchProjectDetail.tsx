@@ -8,7 +8,7 @@ import type { GameEngine } from '../simulation/engine';
 import { researchPrerequisiteName, researchSection, visibleResearchRequirements } from './researchPresentation';
 import { researchProgress } from './researchProgress';
 import { RESEARCH_FILTER_OPTIONS } from './researchUiConfig';
-import { mapResearchNeedsDestination } from '../simulation/mapExpansion';
+import { mapResearchNeedsDestination, canPurchaseMap } from '../simulation/mapExpansion';
 import { mapNodePosition } from '../domain/worldGrid';
 
 export function ResearchProjectDetail({ project, game, engine, canInspect, guided, onPrerequisite, onOpenRecipe, onOpenMap }: { project: ResearchProject; game: GameState; engine: GameEngine; canInspect?(id: string): boolean; guided?: boolean; onPrerequisite(id: string): void; onOpenRecipe(recipeId: string): void; onOpenMap?(): void }) {
@@ -19,6 +19,8 @@ export function ResearchProjectDetail({ project, game, engine, canInspect, guide
   const selectDestination = project.id === 'mapNode' && mapResearchNeedsDestination(game);
   const destination = project.id === 'mapNode' ? game.research.mapNodeQuote?.destination : undefined;
   const [x, y] = destination?.split(',').map(Number) ?? [];
+  const description = game.worldRulesVersion===2 && project.id==='lakeRelocation' ? 'Move Lakes and all directly connected Lake Intakes together within their map.'
+    : game.worldRulesVersion===2 && project.id==='campRelocation' ? 'Move a Monster Camp and its guarded deposit together within their map.' : project.description || project.unlock;
   const current = getResearchProject(game.research.selected);
   const total = rows.reduce((sum, row) => sum + row.required, 0);
   const paid = rows.reduce((sum, row) => sum + row.researched, 0);
@@ -53,8 +55,13 @@ export function ResearchProjectDetail({ project, game, engine, canInspect, guide
       ? <button key={id} disabled={guided} onClick={() => onOpenRecipe('final-core')}>Produce a Final Core →</button>
       : <button key={id} disabled={Boolean(canInspect && !canInspect(id))} onClick={() => onPrerequisite(id)}>Requires {researchPrerequisiteName(id)} →</button>)}</div>
     <p className="research-description">{destination ? `Deliver these Cores to unlock ${mapNodePosition(x, y)}.` : selectDestination
-      ? 'Choose a neighboring node on the map to see its Core cost.' : project.description || project.unlock}</p>
+      ? 'Choose a neighboring node on the map to see its Core cost.' : description}</p>
+    {destination && !canPurchaseMap(game,x,y) && <p className="field-help" role="status">Nearby generated Deep Holes prevent this new purchase. Fill them to continue; the quote is retained.</p>}
     {project.flavorText && <p className="research-flavor">{project.flavorText}</p>}
+    {game.worldRulesVersion===2 && ['fluidLink5','fluidLink6'].includes(project.id) && <p className="field-help">Also raises each Lake's Intake limit to {project.id==='fluidLink5'?3:4}.</p>}
+    {game.worldRulesVersion===2 && project.id==='lakeRelocation' && <p className="field-help">All directly connected Lake Intakes move with the Lake.</p>}
+    {game.worldRulesVersion===2 && project.id==='campRelocation' && <p className="field-help">The guarded deposit moves with its settlement.</p>}
+    {game.worldRulesVersion===2 && project.id==='resourceRelocation' && <p className="field-help">Guarded deposits use Monster Camp Relocation and move with their settlement.</p>}
     {!project.trigger && active && <p className="research-delivery-status" role="status">{status}</p>}
     {expansionFunded && <p>All maps are unlocked or funded. The world has run out of elsewhere.</p>}
   </article>;

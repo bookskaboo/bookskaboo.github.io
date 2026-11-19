@@ -94,6 +94,7 @@ for (const kind of Object.keys(NODE_MODULES) as NodeKind[]) {
 const configurableKiln = { ...NODE_MODULES.kiln, controls: { ...NODE_MODULES.kiln.controls, configuration: 'recipe' as const } };
 export const getNodeModule = (kind: NodeKind) => kind === 'kiln' && modNode(kind)?.recipeIds ? configurableKiln : NODE_MODULES[modNodeTemplate(kind)];
 export function isPlayerMovableNode(kind: NodeKind, state?: import('../domain/types').GameState, node?: import('../domain/types').MachineNode) {
+  if (node?.guardedCampId) return Boolean(state?.research.completed.includes('campRelocation'));
   if(getNodeModule(kind).controls.movable)return true;
   const completed=state?.research.completed??[];
   if(kind==='lake')return completed.includes('lakeRelocation');

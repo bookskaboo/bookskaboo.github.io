@@ -2,49 +2,53 @@
 
 [System index](README.md)
 
-World encounters constrain placement and cable routing while providing new supply options. Settlements require continuing suppression; mineral Golems become permanent reserves after defeat; Deep Holes consume Stone to reclaim space.
+New worlds use the guarded-deposit and obstruction rules below. Existing worlds, including saves without an explicit world-rule marker, keep legacy behavior even on unexplored maps. See [save compatibility](saves-and-compatibility.md).
 
-## Settlements and tribute
+## Settlements and guarded deposits
 
-New standard worlds contain five Goblin Camps, five Villages and five Kingdoms. They also contain five of each Dwarven settlement subtype in separate sectors across tiers four through nine. Both use serialized kind `monster-camp`; subtype fields distinguish their behavior.
+Standard worlds contain five each of Goblin Camps, Villages and Kingdoms, and five each of the Dwarven equivalents. Settlements keep their recurring suppression checks, growth, AP credit/retry rules and protected maximum-growth space. Suppression succeeds at the 10% minimum after a passed check; it does not remove the settlement.
 
-| Settlement | AP required per 60-second check | Tribute per 5-second production cycle | Tribute capacity |
-| --- | --- | --- | --- |
-| Goblin Camp | 3 | 6 | 100 |
-| Goblin Village | 9 | 18 | 100 |
-| Goblin Kingdom | 16 | 36 | 100 |
-| Dwarven Camp | 6 | 1 Mythril | 100 |
-| Dwarven Village | 16 | 5 Mythril | 120 |
-| Dwarven Kingdom | 32 | 12 Mythril | 288 |
+| Settlement | AP per normal 60-second check | Base reserve regeneration per 5 seconds |
+| --- | ---: | ---: |
+| Goblin Camp | 3 | 6 |
+| Goblin Village | 9 | 18 |
+| Goblin Kingdom | 16 | 36 |
+| Dwarven Camp | 6 | 1 Mythril |
+| Dwarven Village | 16 | 5 Mythril |
+| Dwarven Kingdom | 32 | 12 Mythril |
 
-Successful AP checks shrink the camp toward minimum size; failure grows it. Tribute operates only while suppressed at minimum size. The linked Tribute node stores output and can stop when full. Failed Goblin suppression removes its Tribute and stock. Dwarven Tribute remains linked but stops producing while the camp is not fully suppressed. Recurring supply matters even after the camp is small.
+In new worlds, each settlement has an always-visible guarded deposit. A seeded Goblin mineral choice of Iron, Copper or Stone replaces the matching ordinary deposit. Dwarven Mythril is additional to ordinary Iron, Copper, Stone and Forest supplies. Deposits start at the normal full map reserve and have the normal map maximum. They require Production Extractors; they do not emit free cargo or create separate Tribute boxes.
 
-Goblin tribute can select Iron, Copper, Stone or Wood. Dwarven tribute is Mythril only. Dwarven overpayment retains surplus AP as credit and can retry a failed check when sufficient supply arrives. Goblin and Dwarven payment behavior must not be treated as identical.
+Before full suppression, inspection is allowed but new outgoing extraction connections are blocked. Losing suppression pauses extraction and regeneration without discarding stock, extraction progress, connections or fractional regeneration credit. Restoring suppression resumes the branch. Empty guarded deposits remain in place and refill without Mineral Regeneration research. Mineral Regeneration 2 doubles their base rate; Mineral Regeneration Rate multiplies by one plus 0.2 per completion; endgame Resource Regeneration multiplies again by one plus its completion count. Reserve caps clear surplus regeneration credit. First actual guarded Dwarven Mythril extraction unlocks Mythril Refining.
 
-## Mineral Golems
+Monster Camp Relocation moves a settlement and its guarded deposit together, including when the deposit is dragged. Resource Relocation does not move guarded deposits separately. Growth still pauses covered factory nodes and blocked cables while preserving their state. Locked guarded reserves are excluded from currently collectable recovery supply.
 
-New worlds reserve four clear tier-five sectors for Iron, Copper, Stone and Mythril Golems. The first three require 100 AP each; Mythril requires 150 AP. Bots reduce remaining health, and defeat converts the same node into an infinite reserve with four directional extraction sockets. Extractors still determine output rate.
+## Legacy settlement rewards
 
-Saved worlds can retain tier-six placement from an earlier layout. Cost-version migrations and saved encounter identity matter when comparing an existing world with a freshly generated one. The current source supersedes older documentation quoting 180/360 AP.
+Legacy worlds retain Tribute. Goblins can select Iron, Copper, Stone or Wood, produce only at minimum suppressed size and lose their Tribute node, stock and routes on failure. Dwarven Mythril Tribute remains linked but pauses when suppression lapses; its Camp/Village/Kingdom capacities are 100/120/288. Goblin capacity is 100. Dwarven overpayment and failed-check retries retain their existing behavior. Legacy worlds do not gain guarded deposits during later map generation.
 
-## Deep Holes and landmarks
+## Deep Holes
 
-Generated Deep Holes vary with tier and geometry. Feed extracted Stone to reduce the outstanding amount; filling a hole reclaims its space. Depleted ordinary mineral reserves can also become Deep Holes. Efficient Landfill compounds the original Stone bill by 0.8 per rank, rounds upward, subtracts Stone already consumed and has a one-Stone minimum.
+Standard new worlds select exactly 28 eligible hole maps by seeded weighted sampling without replacement: weight four at tiers 3–4, one elsewhere. Other eligible locations become clear resource maps. Reserved Home, outposts, Lakes, settlements, Golems and corners remain separate. The fixed 28-map quota is specific to the standard grid; larger mod grids retain their existing eligible-map distribution. Explicit mod spawns can override normal terrain.
 
-Fabricator Ruin and Sorting Ruin are discovery landmarks. Their presence can satisfy discovery conditions; they are not ordinary selectable production machines. Four distinct corner encounters have separate requirements in [endgame](endgame-and-victory.md).
+Each selected map first sizes five candidate holes against a circular area budget of 15% at tier one through 35% at tier nine. Their Stone pool is 1,650 through 13,200 at default settings, preserving the agreed eightfold progression. Divide the bill by candidate area using largest-remainder integer rounding. Choose one through five candidates with an equal 20% probability per count and a uniform distinct subset; omitted cost and area are not redistributed. Resource multipliers/custom Stone capacities affect the base Stone pool. Legacy worlds retain radius-based pricing and their former distribution.
 
-Camp radii, Lake rectangles, hole circles and corner quadrants have distinct geometry. A node that fits visually can still have an illegal cable crossing. Post-victory relocation preserves stock and obeys placement restrictions; camp relocation moves its linked Tribute nodes together.
+Partial holes keep their full visible blocking footprint. In new worlds, completion retains the exact outline and border as uniform grey buildable terrain beneath factories and cables. Remove active fill ports and routes, refund buffered and in-flight surplus once, and preserve the terrain through saves. Buffered surplus returns to a surviving upstream supplier; missing suppliers use the shared pool to preserve the material. Efficient Landfill completion also clears paused holes. Legacy holes disappear and retain their prior buffered-surplus handling.
 
-## Agreed changes awaiting implementation
+Depletion-created holes keep a 250-Stone base bill and may coexist with other obstructions. They never trigger or extend the new exploration restriction. [Exploration rules](map-nodes-and-exploration.md#deep-hole-exploration) describe generated-hole blocking and paid-purchase exceptions. The [proposal and simulation](../deep-hole-exploration-simulation.md) retain the decision and analytical evidence; 10/5/15 filling counts are balance targets, not guaranteed gameplay outcomes.
 
-A subsequent [Deep Hole exploration-gate estimate](../deep-hole-exploration-simulation.md) models the requested restriction on the four unexplored neighbors of a discovered generated-hole map, blocked from every approach until all its generated holes are filled. Already explored maps remain accessible. Main results use revealed information only; no hidden distribution guides player decisions. Only generated holes block exploration (NODE-0601); later depletion holes retain physical blocking and their 250-Stone base bill but never trigger or extend the gate. Honor completed destination purchases: purchased-but-unvisited maps stay enterable despite a later-discovered neighboring blocker (NODE-0602). Do not grey out or disable those purchased cells. New unfunded destination purchases remain gated. Purchases with contributed Cores before the blocker was discovered may continue and complete, keeping their quote, payment and subsequent entry access (NODE-0603), including after switching projects or reload. The exploration-gate policy review is complete; implementation remains pending. The graph estimates assume immediate visits and do not model buying ahead. No runtime gate is implemented.
+## Lakes
 
-The adopted [28-map distribution](../deep-hole-exploration-simulation.md#distribution-calibration-for-10515-targets) (NODE-0606) selects exactly 28 eligible hole-only maps in standard 11 × 11 new worlds. Use seeded weighted sampling without replacement: weight four at tiers 3–4, one elsewhere, with the selected layout preserved through saves and discovery. Unselected eligible locations become clear resource maps. Keep the approved one-to-five holes and budgets within selected maps and preserve other reserved encounters. Validation matched target medians of 10 / 5 / 15 maps filled for direct, adaptive and adaptive-with-all-Golems play; those targets are not per-world guarantees. This is adopted design awaiting implementation, with the existing new-world-only boundary.
+New-world Lakes provide all Water through directly connected Production Lake Intakes, called Pumps in the build catalog. They have no autonomous Water production or direct consumer/logistics output. Intake rates, buffers, permanence and the 15%–25% ellipse budget remain unchanged. Each Lake permits two Intakes at base, three with fluidLink5 and four with fluidLink6 or the later rank. Lake Relocation automatically moves all directly connected Intakes by the same displacement and rejects the whole move if a member or affected cable is invalid. Unrelated downstream factories and disconnected Intakes stay put. Legacy Lakes retain direct Water, a two-Intake limit and optional group movement. See [fluids](fluids.md).
 
-The November 18, 2026 review is complete. All changed camp, Deep Hole and Lake rules in that review apply only to newly created worlds. Existing worlds retain their current rules, including on unexplored maps; loading, importing or re-saving must preserve that boundary. These are compatibility requirements for the pending implementation.
+## Golems and corner encounters
 
-The [obstruction review](../obstruction-types-and-behavior.md) records newer design decisions separately from current runtime: a five-candidate generated-hole budget, random subsets, persistent grey buildable terrain after filling and refunds of unused Stone. Current code still removes filled holes. Lake Intake naming/access and automatic inclusion of Intakes in Lake relocation also have review decisions; consult that record before implementing changes rather than treating current labels or manual selection as the intended final behavior.
+Four tier-five mineral Golems remain one-time encounters: 100 AP for Iron, Copper and Stone, 150 for Mythril. Defeat creates a permanent infinite reserve worked by Extractors, with a 640 × 512 body. Living Golems stay fixed; defeated reserves use post-victory Resource Relocation. Saved older placements remain compatible.
 
-Sources: [Goblin definitions](../../src/content/goblinSettlements.ts), [Dwarven definitions](../../src/content/lizardSettlements.ts), [tribute](../../src/simulation/goblinTribute.ts), [Golems](../../src/content/resourceGolems.ts), [generation](../../src/simulation/worldGeneration.ts), [geometry](../../src/domain/obstructionGeometry.ts).
+Corner encounters retain permanent blocking footprints and repeatable rewards. New-world reward node titles use their component names: α Piece, β Piece, γ Piece and δ Piece. Encounter names stay unchanged; legacy reward titles are preserved. Fabricator and Sorting Ruins remain discovery landmarks.
 
-Coverage: [Goblins](../../src/simulation/goblinSettlements.test.ts), [Dwarven settlements](../../src/simulation/lizardSettlements.test.ts), [Golems](../../src/simulation/resourceGolems.test.ts), [obstruction borders](../../src/simulation/obstructionBorders.test.ts). [Earlier obstruction documentation](../obstruction-types-and-behavior.md) preserves detailed history and older observations.
+## Verification and entry points
+
+[New-world compatibility and mechanics tests](../../src/simulation/newWorldObstructions.test.ts) pair legacy and new rules, including generation, persistence, guarded access/refill, movement, completion/refunds and exploration purchases. The [engine test page](../../previews/obstructions/index.html) uses isolated fixtures with manual controls and autosave disabled; it is not a normal-play balance run.
+
+Sources: [world rules](../../src/simulation/worldRules.ts), [generation](../../src/simulation/worldGeneration.ts), [guarded regeneration](../../src/simulation/guardedResources.ts), [engine](../../src/simulation/engine.ts), [legacy Tribute](../../src/simulation/goblinTribute.ts), [Golems](../../src/content/resourceGolems.ts), [geometry](../../src/domain/obstructionGeometry.ts). [Earlier obstruction comparisons](../obstruction-types-and-behavior.md) retain the dated historical context.

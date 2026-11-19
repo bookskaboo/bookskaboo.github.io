@@ -52,6 +52,8 @@ export function roadVehicleError(source: MachineNode, target: MachineNode) {
 }
 
 export function portFamiliesCompatible(source: MachineNode, fromPort: number, target: MachineNode, toPort: number, completedResearch: readonly string[] = []) {
+  if (source.guardedCampId && source.guardedLocked !== false) return false;
+  if (source.kind === 'lake' && source.lakeIntakeOnly && target.kind !== 'fluidLink') return false;
   if (roadVehicleError(source, target)) return false;
   const output = getEffectiveNodeOutputFamilies(source)[fromPort]; const input = getEffectiveNodeInputFamilies(target, completedResearch)[toPort];
   if (!output || !input) return false;

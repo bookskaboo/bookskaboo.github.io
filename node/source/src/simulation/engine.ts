@@ -8,7 +8,9 @@ import { validateMod } from '../mods/modValidation';
 import { applyModNames, modCompatibilityError } from '../mods/modRuntime';
 import { modNode, modNodeTemplate, modRule, modWorldGridSize } from '../mods/modRules';
 import { HOME_SECTOR_ID, mapNodePosition, worldGridBounds, worldGridSize } from '../domain/worldGrid';
-import { isMapFrontier } from './mapExpansion';
+import { canPurchaseMap, mapPurchaseProtected } from './mapExpansion';
+import { usesNewWorldRules, syncGuardedResources, guardedResourceAccessible, lakeIntakeLimit } from './worldRules';
+import { regenerateGuardedResources, isDwarvenGuardedDeposit } from './guardedResources';
 import type { GameMod } from '../mods/modTypes';
 import { FactoryTemplateRuntime } from './factoryTemplateRuntime';
 import { ResearchRuntime } from './researchRuntime';
@@ -147,6 +149,7 @@ export class GameEngine {
     this.publish();
   }
   private normalizeExtractorCycles() {
+    this.state.worldRulesVersion ??= 1;
     normalizeWorldFieldSize(this.state);
     this.state.golemPlacementTier ??= getGolemPlacementTier(this.state);
     this.state.encounterLayoutVersion ??= getEncounterLayoutVersion(this.state);
@@ -172,7 +175,9 @@ export class GameEngine {
       }
     }
     for (const sector of Object.values(this.state.sectors)) {
+      syncGuardedResources(sector);
       for (const node of sector.nodes) {
+        if (node.kind === 'lake') node.lakeIntakeOnly = usesNewWorldRules(this.state);
         // A committed Bot Plant batch still identifies its exact parts, even when its old AP bucket was shared.
         const botBuild = node.kind === 'botPlant' && node.batch && BOT_BUILD_BY_ID.get(node.batch.recipeId);
         if (botBuild && node.batch) node.batch.outputs = { ...botBuild.recipe.outputs };
@@ -310,6 +315,7 @@ export class GameEngine {
 
   private simulateSector(sector: SectorState, dt: number, lookups = new SimulationLookups(this.state)) {
     const baseDt = dt;
+    syncGuardedResources(sector);
     updateCampEncroachment(sector.nodes);
     for (const supply of supplyDevInputs(this.state, sector, lookups, (target, item) => this.inputCapacity(target, item))) {
       (this.state.inFlightTransfers ??= []).push({ ...supply, id: makeId('dev-pulse'), sectorId: sector.id, launchedAtMs: this.state.playTimeMs, arrivesAtMs: this.state.playTimeMs + modRule('cableTravelMs'), cosmeticOnly: true });
@@ -351,6 +357,7 @@ export class GameEngine {
             }
           } else consumeCampBots(node, requirement);
           updateCampEncroachment(sector.nodes);
+          syncGuardedResources(sector);
           this.cancelTransfers(new Set(obstructedConnections(sector)));
         }
         continue;
@@ -444,9 +451,10 @@ export class GameEngine {
         // only lakes create a freely routed resource on their own timer.
         if (node.kind !== 'lake') {
           node.progressMs = 0;
-          if (!node.infiniteResource && (node.resourceRemaining ?? 1) <= 0 && node.kind !== 'forest' && !this.state.research.completed.includes('mineralRegeneration')) depleted.push(node.id);
+          if (!node.guardedCampId && !node.infiniteResource && (node.resourceRemaining ?? 1) <= 0 && node.kind !== 'forest' && !this.state.research.completed.includes('mineralRegeneration')) depleted.push(node.id);
           continue;
         }
+        if (usesNewWorldRules(this.state)) { node.output = {}; node.progressMs = 0; continue; }
         const item = node.resourceItem!;
         if (sum(node.output) >= (modNode(node.kind)?.capacity ?? node.capacity ?? 5)) continue;
         node.progressMs += dt;
@@ -461,6 +469,7 @@ export class GameEngine {
         const source = resourceRoute?.source;
         const item = source?.resourceItem;
         this.reconcileExtractorStorage(node, item);
+        if (source?.guardedCampId && !guardedResourceAccessible(source, sector.nodes)) continue;
         if (!resourceEdge || !source || !item || (!source.infiniteResource && (source.resourceRemaining ?? 0) <= 0) || sum(node.output) >= 5) { node.progressMs = 0; continue; }
         node.progressMs += dt;
         const duration = node.cycleMs * this.efficiencyMultiplier('extractor');
@@ -475,6 +484,7 @@ export class GameEngine {
             }
           }
           node.output[item] = (node.output[item] ?? 0) + 1;
+          if (isDwarvenGuardedDeposit(source, sector)) this.state.dwarvenMythrilProduced = true;
           const route = [...resourceRoute!.connections, resourceEdge];
           route.forEach(cable => { cable.item = item; });
           (this.state.inFlightTransfers ??= []).push({ id: makeId('pulse'), sectorId: sector.id, connectionId: route[0].id, routeConnectionIds: route.length > 1 ? route.map(cable => cable.id) : undefined, from: source.id, to: node.id, item, launchedAtMs: this.state.playTimeMs, arrivesAtMs: this.state.playTimeMs + modRule('cableTravelMs'), cosmeticOnly: true });
@@ -525,12 +535,15 @@ export class GameEngine {
       if (!source || sum(source.output) > 0) return;
       this.cancelTransfers(new Set(sector.connections.filter((connection) => connection.from === id || connection.to === id).map((connection) => connection.id)));
       source.kind = 'big-hole'; source.name = 'Deep Hole'; source.resourceItem = undefined; source.resourceRemaining = 250; source.holeBaseStone=250;source.holeStoneConsumed=0; source.resourceCapacity = undefined; source.obstructionRadius = 38 * Math.sqrt(10); source.input = {}; source.output = {}; source.progressMs = 0;
+      source.holeOrigin = 'depletion';
       sector.connections = sector.connections.filter((connection) => connection.from !== id && connection.to !== id);
     });
-    this.clearFilledHoles(sector, filledHoles);
+    this.clearFilledHoles(sector, usesNewWorldRules(this.state) ? sector.nodes.filter(node=>node.kind==='big-hole'&&node.resourceRemaining===0) : filledHoles);
+    if (usesNewWorldRules(this.state)) regenerateGuardedResources(this.state, sector, baseDt);
     this.removeDefeatedGolemCables(sector);
     this.removeInactiveTribute(sector);
     for (const camp of checkedCamps) {
+      if (usesNewWorldRules(this.state)) continue;
       if (!isCampFullySuppressed(camp) || sector.nodes.some(node => node.kind === 'goblinTribute' && node.tributeCampId === camp.id)) continue;
       const tribute = createGoblinTribute(camp, sector.nodes, getWorldFieldSize(this.state));
       if (tribute) { sector.nodes.push(tribute); this.event('NodePlaced', `${camp.name} is suppressed and now supplies configurable tribute.`); }
@@ -892,6 +905,10 @@ export class GameEngine {
       if (transfer.cosmeticOnly) continue;
       const source = this.state.sectors[transfer.sectorId]?.nodes.find((node) => node.id === transfer.from);
       if (source) returnOutput(source, transfer.item, transfer.amount ?? 1);
+      else if (usesNewWorldRules(this.state)) {
+        this.state.globalPool ??= {};
+        this.state.globalPool[transfer.item] = (this.state.globalPool[transfer.item] ?? 0) + (transfer.amount ?? 1);
+      }
     }
     this.state.inFlightTransfers = retained.reverse();
   }
@@ -921,6 +938,7 @@ export class GameEngine {
       const source = index.nodes.get(connection.from);
       let target = index.nodes.get(connection.to);
       if (!source || !target || source.disabled || target.disabled) continue;
+      if (usesNewWorldRules(this.state) && source.kind === 'lake') continue;
       if (source.kind === 'filter' && this.filterBlockage(source, sector, lookups)) continue;
       if (source.kind === 'devSource') continue; // Inputs are supplied directly before simulation.
       if (source.kind === 'lake' && target.kind === 'fluidLink') continue;
@@ -1195,11 +1213,22 @@ export class GameEngine {
     const sector = this.getSector();
     positions={...positions};
     if(this.state.research.completed.includes('campRelocation'))for(const camp of sector.nodes.filter(n=>n.kind==='monster-camp')) {
-      const box=sector.nodes.find(n=>n.kind==='goblinTribute'&&n.tributeCampId===camp.id);
+      const box=sector.nodes.find(n=>usesNewWorldRules(this.state)?n.guardedCampId===camp.id:n.kind==='goblinTribute'&&n.tributeCampId===camp.id);
       if(!box||(!positions[camp.id]&&!positions[box.id]))continue;
       const anchor=positions[camp.id]?camp:box, point=positions[anchor.id];
       const dx=point.x-anchor.x,dy=point.y-anchor.y;
       for(const member of [camp,box]) {const next={x:member.x+dx,y:member.y+dy};if(positions[member.id]&&(Math.abs(positions[member.id].x-next.x)>1e-7||Math.abs(positions[member.id].y-next.y)>1e-7))return false;positions[member.id]=next;}
+    }
+    if (usesNewWorldRules(this.state) && this.state.research.completed.includes('lakeRelocation')) {
+      for (const lake of sector.nodes.filter(n => n.kind === 'lake' && positions[n.id])) {
+        const dx = positions[lake.id].x - lake.x, dy = positions[lake.id].y - lake.y;
+        const attached = new Set(sector.connections.filter(c => c.from === lake.id).map(c => c.to));
+        for (const intake of sector.nodes.filter(n => n.kind === 'fluidLink' && attached.has(n.id))) {
+          const next = { x: intake.x + dx, y: intake.y + dy };
+          if (positions[intake.id] && (Math.abs(positions[intake.id].x-next.x)>1e-7 || Math.abs(positions[intake.id].y-next.y)>1e-7)) return false;
+          positions[intake.id] = next;
+        }
+      }
     }
     const selected = sector.nodes.filter((node) => positions[node.id] && isPlayerMovableNode(node.kind,this.state,node));
     if (!selected.length) return false;
@@ -1336,6 +1365,8 @@ export class GameEngine {
     if (!source || !target) return { title: 'Socket unavailable', detail: 'Choose an output and an input on existing nodes.' };
     if (source === target) return { title: 'Choose another node', detail: 'A cable must connect two different nodes.' };
     if (source.disabled || target.disabled) return { title: 'Node disabled', detail: 'Enable both nodes before connecting them.' };
+    if (source.guardedCampId && !guardedResourceAccessible(source, sector.nodes)) return { title: 'Deposit guarded', detail: 'Fully suppress the linked settlement before connecting extraction.' };
+    if (source.kind === 'lake' && usesNewWorldRules(this.state) && target.kind !== 'fluidLink') return { title: 'Lake Intake required', detail: 'Connect the Lake to a Lake Intake, then route its Water to the factory.' };
     const vehicleError = roadVehicleError(source, target);
     if (vehicleError) return { title: 'Freight vehicle required', detail: vehicleError };
     const unconfigured = [source, target].find(needsRecipeSelection);
@@ -1399,7 +1430,7 @@ export class GameEngine {
     if (source.kind === 'lake' && target.kind === 'fluidLink') {
       const connectedPumps = connections.filter(cable => cable.from === source.id && cable.to !== target.id &&
         this.getSector().nodes.some(node => node.id === cable.to && node.kind === 'fluidLink'));
-      if (connectedPumps.length >= 2) return false;
+      if (new Set(connectedPumps.map(c => c.to)).size >= lakeIntakeLimit(this.state)) return false;
     }
     if(source.kind==='inventory'&&connections.filter(c=>c.from===source.id).length>=connectionLimit(this.state,'inventory'))return false;
     if(target.kind==='storage'&&connections.filter(c=>c.to===target.id).length>=connectionLimit(this.state,'storage'))return false;
@@ -1432,6 +1463,27 @@ export class GameEngine {
       .filter(connection => ids.has(connection.from) || ids.has(connection.to))
       .map(connection => connection.id));
     this.cancelTransfers(removedConnectionIds);
+    if (usesNewWorldRules(this.state)) for (const hole of holes) {
+      const unused = (hole.input.stone ?? 0) + (hole.output.stone ?? 0);
+      if (unused > 0) {
+        const queue = sector.connections.filter(c => c.to === hole.id).map(c => c.from), visited = new Set<string>();
+        let supplier: MachineNode | undefined;
+        while (queue.length && !supplier) {
+          const id = queue.shift()!;
+          if (visited.has(id)) continue;
+          visited.add(id);
+          const node = sector.nodes.find(n => n.id === id);
+          if (!node) continue;
+          if (!getNodeCapabilities(node.kind).passThrough && !ids.has(id)) supplier = node;
+          else queue.push(...sector.connections.filter(c => c.to === id).map(c => c.from));
+        }
+        if (supplier) returnOutput(supplier, 'stone', unused);
+        else { this.state.globalPool ??= {}; this.state.globalPool.stone = (this.state.globalPool.stone ?? 0) + unused; }
+      }
+      sector.filledHoles ??= [];
+      if (!sector.filledHoles.some(patch => patch.id === hole.id)) sector.filledHoles.push({ id: hole.id, x: hole.x, y: hole.y, rotation: hole.rotation, radius: hole.obstructionRadius ?? 38 });
+      hole.input = {}; hole.output = {};
+    }
     // Discard buffered surplus with the filled hole instead of creating a node.
     sector.nodes = sector.nodes.filter(node => !ids.has(node.id));
     sector.connections = sector.connections.filter(connection => !removedConnectionIds.has(connection.id));
@@ -1777,7 +1829,8 @@ export class GameEngine {
   } }
   replaceState(state: GameState) { const next = clone(state); if (next.mod) next.mod = validateMod(next.mod); this.state = next; if (this.realtimeTickAt !== undefined) this.startRealtimeClock(); activateMod(this.state.mod); applyModNames(this.state); this.state.produced ??= {}; this.state.extracted ??= {}; this.state.hasCreatedConnection ??= false; this.state.research.completed ??= []; this.state.research.repeatableCompletions ??= {}; this.state.research.projectContributions ??= {}; this.state.inFlightTransfers ??= []; this.normalizeExtractorCycles(); applyModNames(this.state); this.research.reconcileResearchSelection(); this.pruneLockedForestInputs(); this.history = []; this.publish(); }
   unlockSector(x: number, y: number) {
-    if (this.state.research.mapPoints < 1 || !isMapFrontier(this.state, x, y)) return false;
+    if (usesNewWorldRules(this.state) && mapPurchaseProtected(this.state,sectorId(x,y))) return false;
+    if (this.state.research.mapPoints < 1 || !canPurchaseMap(this.state, x, y)) return false;
     this.checkpoint();
     if (!this.openFundedSector(sectorId(x, y))) return false;
     this.state.research.mapPoints--;
@@ -1786,7 +1839,7 @@ export class GameEngine {
   }
   private openFundedSector(destination: string) {
     const [x, y] = destination.split(',').map(Number);
-    if (!isMapFrontier(this.state, x, y)) return false;
+    if (!canPurchaseMap(this.state, x, y)) return false;
     const sector = this.ensureSector(x, y);
     sector.unlocked = true;
     this.state.sectors[destination] = sector;

@@ -6,7 +6,7 @@ import { BOT_STRENGTH } from '../content/progression';
 import { defeatResourceGolem, getGolemMineral, golemApCost } from '../content/resourceGolems';
 import { getEncounterLayoutVersion, getGolemPlacementTier, sectorDistance, sectorForState, sectorId } from './worldGeneration';
 import { isWorldGridCell, worldGridBounds, worldGridSize } from '../domain/worldGrid';
-import { destinationMapCosts, pendingMapPayment, usesDestinationMapPricing } from './mapExpansion';
+import { destinationMapCosts, pendingMapPayment, usesDestinationMapPricing, mapExplorationBlockers, mapPurchaseProtected } from './mapExpansion';
 import { progressionDeficits } from './progressionRecovery';
 import { returnOutput } from './mixedOutput';
 
@@ -55,7 +55,7 @@ export function nextExpansionShortages(state: GameState): Resource[] {
     ? sectors.flatMap(({ x, y }) => [[x - 1, y], [x + 1, y], [x, y - 1], [x, y + 1]]
       .map(([nx, ny]) => destinationMapCosts(state, nx, ny)).filter(cost => cost !== undefined))
     : [getResearchCostsForState(project, state.research)];
-  const nodes = sectors.flatMap(s=>s.nodes);
+  const nodes = sectors.flatMap(s=>s.nodes).filter(n=>!n.guardedCampId||n.guardedLocked===false);
   const plans = quotes.map(quote => progressionDeficits(state, 'mapNode', quote));
   const exact = plans.every(plan => plan !== undefined);
   const bags = nodes.flatMap(n=>[n.input,n.output,...(n.batch?[n.batch.outputs]:[])]);
@@ -97,8 +97,9 @@ export function shortestRescuePath(state: GameState, target: string) {
   for(let index=0;index<queue.length;index++){
     const key=queue[index];if(key===target)break;
     const [x,y]=key.split(',').map(Number);
-    for(const [nx,ny]of [[x,y-1],[x+1,y],[x,y+1],[x-1,y]]){const next=`${nx},${ny}`;if(!isWorldGridCell(nx,ny,gridSize)||previous.has(next))continue;previous.set(next,key);queue.push(next);}
+    for(const [nx,ny]of [[x,y-1],[x+1,y],[x,y+1],[x-1,y]]){const next=`${nx},${ny}`;if(!isWorldGridCell(nx,ny,gridSize)||previous.has(next)||mapExplorationBlockers(state,nx,ny).length>0&&!mapPurchaseProtected(state,next))continue;previous.set(next,key);queue.push(next);}
   }
+  if (!previous.has(target)) return [];
   const path:string[]=[];let key:string|undefined=target;
   while(key!==undefined){if(!state.sectors[key]?.unlocked)path.unshift(key);key=previous.get(key);}
   return path;
@@ -116,7 +117,7 @@ export function applyExpansionRescue(state: GameState) {
     for(const node of sector.nodes)if(node.kind==='resourceGolem'&&shortages.includes(getGolemMineral(node) as Resource))candidates.push({resource:getGolemMineral(node) as Resource,sectorId:key,node,path:shortestRescuePath(state,key)});
   }
   candidates.sort((a,b)=>a.path.length-b.path.length||RESCUE_RESOURCES.indexOf(a.resource)-RESCUE_RESOURCES.indexOf(b.resource));
-  const choice=candidates[0];if(!choice)return false;
+  const choice=candidates.find(candidate=>state.sectors[candidate.sectorId]?.unlocked||candidate.path.length>0);if(!choice)return false;
   state.golemPlacementTier ??= golemTier;
   state.encounterLayoutVersion ??= getEncounterLayoutVersion(state);
   for(const key of choice.path){const [x,y]=key.split(',').map(Number);state.sectors[key]=sectorForState(state,x,y);state.sectors[key].unlocked=true;}

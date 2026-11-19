@@ -5,7 +5,7 @@ import type { GameEngine } from '../simulation/engine';
 import { mapNodeName, mapNodePosition, mapNodeSurvey } from './mapNodePresentation';
 import { permitsTutorialChoice, type TutorialChoice } from '../tutorials/tutorialChoices';
 import { MaterialIcon } from './MaterialIcon';
-import { destinationMapCosts, isMapFrontier, pendingMapPayment } from '../simulation/mapExpansion';
+import { destinationMapCosts, isMapFrontier, pendingMapPayment, mapExplorationBlockers, mapPurchaseProtected } from '../simulation/mapExpansion';
 
 /** Inspection and actions for the expanded state of the minimap. */
 export function MapNodeDetails({ game, engine, selectedId, cornerName, allowedSectorId, onActivate }: {
@@ -18,13 +18,15 @@ export function MapNodeDetails({ game, engine, selectedId, cornerName, allowedSe
   const selectedUnlocked = Boolean(selected?.unlocked);
   const selectedActive = displayId === game.activeSectorId;
   const selectedAdjacent = Boolean(selectedId) && isMapFrontier(game, selectedX, selectedY);
-  const hasPoint = game.research.mapPoints > 0;
+  const blockers = mapExplorationBlockers(game,selectedX,selectedY);
+  const blocked = blockers.length > 0 && !mapPurchaseProtected(game,displayId);
+  const hasPoint = game.research.mapPoints > 0 && !mapPurchaseProtected(game,displayId);
   const price = selectedAdjacent && !hasPoint ? destinationMapCosts(game, selectedX, selectedY) : undefined;
   const quoted = game.research.mapNodeQuote?.destination === selectedId;
   const funding = quoted && game.research.selected === 'mapNode';
   const anotherPayment = !quoted && pendingMapPayment(game);
   const action = !selectedId ? 'Select a node' : selectedActive ? 'Current node' : selectedUnlocked ? 'Travel to node'
-    : !selectedAdjacent ? 'Locked' : hasPoint ? 'Activate node · 1 point' : !price ? 'Need 1 Map Point'
+    : blocked ? 'Exploration blocked' : !selectedAdjacent ? 'Locked' : hasPoint ? 'Activate node · 1 point' : !price ? 'Need 1 Map Point'
     : funding ? 'Research in progress' : anotherPayment ? 'Another map has a payment' : quoted ? 'Resume research' : 'Start research';
   const selectedName = selected ? mapNodeName(selected) : '';
   const [draftName, setDraftName] = useState(selectedName);
@@ -41,6 +43,7 @@ export function MapNodeDetails({ game, engine, selectedId, cornerName, allowedSe
         <button disabled={allowedSectorId !== undefined || draftName.trim() === selectedName && draftLabel.trim().toUpperCase() === selected.label} onClick={() => engine.renameSector(draftName, draftLabel, selectedId)}>Save name</button>
       </div>}
       <hr />
+      {blocked && <p className="field-help" role="status">Nearby generated Deep Holes on {blockers.map(s=>mapNodePosition(s.x,s.y)).join(', ')} prevent exploration. Fill all generated holes on those maps to continue.</p>}
       {price && <section className="map-survey-list" aria-label="Core cost">
         <h3>Core cost</h3>
         <ul>{Object.entries(price).map(([key, amount]) => {
@@ -66,7 +69,7 @@ export function MapNodeDetails({ game, engine, selectedId, cornerName, allowedSe
     </div>
     <div className="map-action-footer">
       <div className="map-points"><span>Map Points</span><b>{game.research.mapPoints}</b></div>
-      <button className="map-primary-action" disabled={!selectedId || !permitsTutorialChoice(allowedSectorId, selectedId) || selectedActive || (!selectedUnlocked && (!selectedAdjacent || (!hasPoint && (!price || funding || anotherPayment))))} onClick={onActivate}>
+      <button className="map-primary-action" disabled={!selectedId || blocked || !permitsTutorialChoice(allowedSectorId, selectedId) || selectedActive || (!selectedUnlocked && (!selectedAdjacent || (!hasPoint && (!price || funding || anotherPayment))))} onClick={onActivate}>
         {action}
       </button>
     </div>

@@ -78,7 +78,7 @@ export function PixiPlayfield(props: Props) {
     const controlHover = new NodeControlHover();
     const enterNodeHover = (id: string) => { controlHover.enter(id); hoveredNodeId = id; propsRef.current.onHoverNode?.(id); };
     let hoveredNodeId: string | undefined; let tooltipIntent: (PlayfieldTooltip & { key: string; visible: boolean }) | undefined; let tooltipTimer: number | undefined;
-    let drawnGridEnabled = props.engine.getState().preferences.showGrid; let lastTooltipAt = 0; let lastUiSignature = '';
+    let drawnGridEnabled = props.engine.getState().preferences.showGrid; let drawnTerrain = ''; let lastTooltipAt = 0; let lastUiSignature = '';
     let observedPlayTimeMs = props.engine.getState().playTimeMs; let observedPlayTimeAt = performance.now();
     const nodeViews = new Map<string, NodeView>(); const portViews = new Map<string, PortView>(); const particles: FlowParticle[] = [];
     const nodeIdentities = new Map<string, ViewIdentity>();
@@ -261,7 +261,15 @@ export function PixiPlayfield(props: Props) {
       drawnGridEnabled = propsRef.current.engine.getState().preferences.showGrid;
       surfaceLayer.removeChildren().forEach(child => child.destroy());
       surfaceLayer.addChild(fieldSurface(worldSize, drawnGridEnabled));
-
+      const sector = propsRef.current.engine.getSector();
+      drawnTerrain = sector.id + JSON.stringify(sector.filledHoles ?? []);
+      for (const patch of sector.filledHoles ?? []) {
+        const hole: MachineNode = { id:patch.id, kind:'big-hole', name:'Filled ground', x:patch.x,y:patch.y,rotation:patch.rotation,
+          obstructionRadius:patch.radius, input:{},output:{},cycleMs:0,progressMs:0,constructedAt:0,constructionMs:0 };
+        const ground = new Graphics(); ground.eventMode='none'; ground.position.set(patch.x,patch.y);
+        ground.poly(obstructionOutline(hole)).fill({color:0x676b70}).stroke({color:getNodeDisplayDefinition(hole).accent,width:2,alpha:.86});
+        surfaceLayer.addChild(ground);
+      }
     };
 
     const drawFrame = (node: MachineNode, body: Graphics, header: Graphics) => {
@@ -442,6 +450,10 @@ export function PixiPlayfield(props: Props) {
       else if (isCartKind(node.kind)) drawFreightVehicleFlowArrow(root, node);
       if (node.kind === 'devSource') {
         const status = label('Auto supply', 15, definition.accent, '500'); status.anchor.set(.5); status.position.set(0, 24); root.addChild(status); readabilityLabels.push(status);
+      }
+      if (node.guardedCampId) {
+        const status = label(node.guardedLocked ? 'Locked' : 'Accessible',14,node.guardedLocked?0xeac56d:0x8fe5b0,'500');
+        status.anchor.set(.5);status.position.set(0,-getNodeSize(node).h/2+70);root.addChild(status);readabilityLabels.push(status);
       }
       const grove = groveProgress(node); const initialProgress = grove ? grove.fraction : isResourceNode(node) ? resourceReserveFraction(node) : getNodeCapabilities(node.kind).behavior === 'research' ? researchCenterView(node, propsRef.current.engine.getState()).progress : 0;
       const campView = node.kind === 'monster-camp' ? createCampNodeStatus() : undefined;
@@ -911,7 +923,7 @@ export function PixiPlayfield(props: Props) {
       worldSize = nextWorldSize;
       if (renderedSectorId !== sector.id || renderedState !== propsRef.current.engine.getState()) { drag = undefined; propsRef.current.onDragPreview?.(undefined); groupSelection.clear(); controlHover.clear(); renderedState = propsRef.current.engine.getState(); renderedSectorId = sector.id; camera = { ...sector.camera }; clearConnectionRejection(); trackedTransfers.clear(); seenTransferIds.clear(); lastInputTotals.clear(); flashStartedAt.clear(); updateCamera(); }
       if (worldSizeChanged || !surfaceLayer.children.length) { drawWorldSurface(); updateCamera(); }
-      else if (preferences.showGrid !== drawnGridEnabled) drawWorldSurface();
+      else if (preferences.showGrid !== drawnGridEnabled || drawnTerrain !== sector.id + JSON.stringify(sector.filledHoles ?? [])) drawWorldSurface();
       if (reset) {
         nodeIdentities.clear(); cableIdentities.clear(); pathCache.clear();
         particleLayer.removeChildren().forEach(child => child.destroy({ children: true }));

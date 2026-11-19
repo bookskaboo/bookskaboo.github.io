@@ -199,7 +199,7 @@ export function simulateProgressionNode(state:GameState,sector:SectorState,node:
   }
   return true;
  }
- if(!node.infiniteResource&&getNodeCapabilities(node.kind).behavior==='resource'&&node.kind!=='forest'&&state.research.completed.includes('mineralRegeneration')){
+ if(!node.guardedCampId&&!node.infiniteResource&&getNodeCapabilities(node.kind).behavior==='resource'&&node.kind!=='forest'&&state.research.completed.includes('mineralRegeneration')){
   const ranks=state.research.repeatableCompletions?.mineralRegenerationRate??0;
   const period=(state.research.completed.includes('mineralRegeneration2')?15000:30000)/(1+.2*ranks)/(1+endgameRank(state,'resourceRegeneration'));
   if((node.resourceRemaining??0)<(node.resourceCapacity??0)){node.regenMs=(node.regenMs??0)+dt;const q=Math.floor(node.regenMs/period);node.regenMs%=period;node.resourceRemaining=Math.min(node.resourceCapacity??0,(node.resourceRemaining??0)+q);}else node.regenMs=0;

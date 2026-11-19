@@ -225,13 +225,17 @@ describe('imported tutorial practice', () => {
     run(engine, 10);
     expect(lessonSatisfied('monster-camp-suppression', engine.getState(), null)).toBe(true);
   });
-  it('supplies enough practice bots to activate and produce real Goblin Tribute', () => {
+  it('supplies enough practice bots to unlock and refill the real guarded deposit', () => {
     const engine = new GameEngine(createTutorialState('monster-camps'), { autosave: false });
     expect(engine.connectPorts('tutorial-bots', 0, 'tutorial-camp', 0)).toBe(true);
     run(engine, 75);
     const camp = engine.getSector().nodes.find(node => node.id === 'tutorial-camp')!;
-    const tribute = engine.getSector().nodes.find(node => node.kind === 'goblinTribute');
-    expect(camp.campStrength).toBe(10); expect(tribute?.output.iron).toBeGreaterThan(0);
+    const deposit = engine.getSector().nodes.find(node => node.guardedCampId === camp.id)!;
+    expect(camp.campStrength).toBe(10); expect(deposit.guardedLocked).toBe(false);
+    expect(engine.getSector().nodes.some(node=>node.kind==='goblinTribute')).toBe(false);
+    deposit.resourceRemaining=1494;
+    for(let i=0;i<50;i++)engine.tick(100);
+    expect(deposit.resourceRemaining).toBe(1500);
     expect(camp.campLastCheck?.passed).toBe(true);
   });
 });

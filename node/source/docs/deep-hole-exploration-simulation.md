@@ -1,14 +1,14 @@
 # Deep Hole exploration restriction: design estimate
 
-November 18, 2026. Proposal and offline simulation only. No gameplay or save behavior has changed. The previously agreed new-world-only boundary applies.
+November 18–19, 2026 offline design estimate. The reviewed rules were subsequently implemented locally for new worlds (NODE-0608); see [current mechanics](systems/encounters-and-obstructions.md). The numerical results below retain their original simulation scope and are not a normal-gameplay completion or balance test.
 
-The [distribution calibration](#distribution-calibration-for-10515-targets) supports the **adopted 28-hole-map distribution** with tier-3/4 selection weight four (NODE-0606). It is part of the new-world-only proposal, pending implementation. Its balance targets are median maps filled of 10 / 5 / 15; the earlier results below retain their original 49–50-hole-map distribution as comparison evidence.
+The [distribution calibration](#distribution-calibration-for-10515-targets) supports the **adopted 28-hole-map distribution** with tier-3/4 selection weight four (NODE-0606). It is now part of the new-world-only implementation. Its balance targets are median maps filled of 10 / 5 / 15; the earlier results below retain their original 49–50-hole-map distribution as comparison evidence.
 
-## Proposed rule
+## Adopted rule
 
 Discovering a map with unfinished **generated** Deep Holes prevents exploration of its four edge-sharing unexplored neighbors until **all generated** Deep Holes in that blocking map are filled. The user confirmed that another approach cannot bypass the restriction. Already explored maps remain accessible; this does not suspend their factories or Roads. A completed purchase also preserves access to an unvisited map: a later-discovered neighboring generated hole cannot prevent its first visit (NODE-0602). Apply the gate to new destination purchases after a blocker is known, without disabling entry or greying out a map whose purchase was already completed. Filling keeps the agreed grey buildable terrain, which no longer blocks exploration.
 
-Grey out affected unexplored map cells. Their hover explanation must identify the nearby discovered hole map preventing exploration. Give the same reason in the selected-map details and keyboard/touch interaction. When multiple discovered neighbors block a cell, all must be resolved; the explanation must not disappear when only one blocker is cleared. Do not reveal undiscovered terrain. This records an interface requirement, not final player-facing wording or implemented styling.
+Grey out affected unexplored map cells. Their hover explanation must identify the nearby discovered hole map preventing exploration. Give the same reason in the selected-map details and keyboard/touch interaction. When multiple discovered neighbors block a cell, all must be resolved; the explanation must not disappear when only one blocker is cleared. Do not reveal undiscovered terrain. The local implementation provides grey map cells, hover/focus explanations and selected-map details; this analysis retains the original interface requirement.
 
 **Confirmed scope (NODE-0601): only generated Deep Holes block exploration.** Depletion-created holes never start, extend or reactivate this gate, including when they appear in a map that also has generated holes. They retain their physical obstruction and fixed 250-Stone base filling bill. The main estimate already excludes them, so no rerun is needed for the generated-only scope. The estimates remain conditional on immediate visits; advance-purchase behavior under the completed-purchase exception has not been simulated. Existing worlds retain their rules, including on unexplored maps.
 

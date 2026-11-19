@@ -8,14 +8,14 @@ Resources support production, research, transport and world challenges. A materi
 
 | Resource | Acquisition | Main uses |
 | --- | --- | --- |
-| Wood | Forest extraction; Goblin tribute; recycling | Charcoal, paid Forest Growth and downstream fuel demand |
-| Iron | Finite deposits, Goblin tribute, Drills, regeneration and defeated Golem reserve | Plates, wire, gears, machinery and all later chains |
-| Copper | Finite deposits, Goblin tribute, Drills, regeneration and defeated Golem reserve | Plates, gears, wire, circuitry and early Cores |
-| Stone | Deposits, Goblin tribute, Drills, regeneration and defeated Golem reserve | Brick, Tree Planter funding and filling Deep Holes |
-| Water | Lakes through Lake Intakes called Pumps; local Lake output | Coolant, Copper Slurry and Recycler input |
-| Mythril | Dwarven tribute, defeated Mythril Golem, selected Drill deposits and compatible saved reserves | Mythril Plates, parts, Pure Mythril, Mesh, advanced bots and later Cores |
+| Wood | Forest extraction; legacy Goblin Tribute; recycling | Charcoal, paid Forest Growth and downstream fuel demand |
+| Iron | Finite deposits, guarded Goblin reserves or legacy Tribute, Drills, regeneration and defeated Golem reserve | Plates, wire, gears, machinery and all later chains |
+| Copper | Finite deposits, guarded Goblin reserves or legacy Tribute, Drills, regeneration and defeated Golem reserve | Plates, gears, wire, circuitry and early Cores |
+| Stone | Deposits, guarded Goblin reserves or legacy Tribute, Drills, regeneration and defeated Golem reserve | Brick, Tree Planter funding and filling Deep Holes |
+| Water | Lakes through Production Lake Intakes called Pumps; direct Lake output only in legacy worlds | Coolant, Copper Slurry and Recycler input |
+| Mythril | Guarded Dwarven reserves or legacy Tribute; defeated Mythril Golem; compatible saved reserves | Mythril Plates, parts, Pure Mythril, Mesh, advanced bots and later Cores |
 
-New ordinary maps do not roll natural Mythril deposits. Dwarven tribute is the early Mythril supply route. A Golem becomes an inexhaustible reserve after its AP payment, but still needs extraction. Earlier saved worlds can retain deposits absent from new generation.
+New ordinary maps do not roll natural Mythril deposits. Dwarven guarded deposits are the early new-world Mythril supply route; legacy worlds retain Tribute. Mining Drills accept Iron, Copper or Stone, not Mythril. A Golem becomes an inexhaustible reserve after its AP payment, but still needs extraction. Earlier saved worlds can retain deposits absent from new generation.
 
 ## Consumption outside recipes
 
@@ -39,7 +39,7 @@ Expand a recipe bill recursively as `required output / output per batch × input
 
 For a fully supplied recipe, ideal output per minute is `60,000 / (base cycle ms × efficiency multiplier) × output per batch`. This excludes startup, delivery, output blockage and tick rounding. A 12/minute Road stream can constrain a faster factory; larger vehicle payloads raise that ceiling.
 
-Mythril tribute requires continuing bot supply. Include that acquisition support when comparing regional factories. Include paid forestry inputs if passive regeneration is insufficient. Count input bags, output bags, committed batches, shared stock and non-cosmetic cargo once each. Do not count already-delivered research Cores again as spendable inventory.
+Guarded camp extraction/refill and legacy Mythril Tribute require continuing suppression support. Include that acquisition support when comparing regional factories. Include paid forestry inputs if passive regeneration is insufficient. Count input bags, output bags, committed batches, shared stock and non-cosmetic cargo once each. Do not count already-delivered research Cores again as spendable inventory.
 
 ## Implementation and related systems
 

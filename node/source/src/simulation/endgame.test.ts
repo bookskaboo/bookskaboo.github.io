@@ -280,6 +280,7 @@ describe('endgame research and preservation',()=>{
   });
   it('discards surplus buffered Stone without creating a Cart and refunds Stone still in transit', () => {
     const state = createInitialState(6);
+    state.worldRulesVersion = 1;
     const source = machine('woodenChest', 'stone-cart', 1300);
     const hole = machine('big-hole', 'hole', 1800);
     source.output.stone = 2;
@@ -358,6 +359,7 @@ describe('endgame research and preservation',()=>{
   });
   it('moves a camp and Tribute together, rejects an invalid pair and supports undo',()=>{
     const s=createInitialState();s.research.completed=['campRelocation'];s.research.unlocked=[...s.research.completed];const camp=machine('monster-camp','camp',2200,1600),box=machine('goblinTribute','box',2600,1600);camp.campStrength=10;camp.lizardSettlement='camp';camp.suppressionCredit=7;box.tributeCampId=camp.id;box.output.mythril=8;s.sectors['5,5'].nodes=[camp,box];
+    s.worldRulesVersion=1;
     const e=new GameEngine(s,{autosave:false});expect(e.tryMoveNodesTo({camp:{x:2300,y:1700}})).toBe(true);expect(e.getSector().nodes[1]).toMatchObject({x:2700,y:1700,output:{mythril:8}});expect(e.getSector().nodes[0].suppressionCredit).toBe(7);
     expect(e.tryMoveNodesTo({camp:{x:10,y:10}})).toBe(false);expect(e.getSector().nodes[0].x).toBe(2300);e.undo();expect(e.getSector().nodes[0].x).toBe(2200);
   });

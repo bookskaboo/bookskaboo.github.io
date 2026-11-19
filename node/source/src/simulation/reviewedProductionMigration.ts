@@ -17,7 +17,7 @@ export function migrateReviewedProduction(state: GameState) {
     }
   }
   for (const sector of Object.values(state.sectors)) {
-    const retired = new Set(sector.nodes.filter(node => (node.kind === 'mythril' || node.resourceItem === 'mythril' && node.kind === 'deposit') && !node.infiniteResource).map(node => node.id));
+    const retired = new Set(sector.nodes.filter(node => (node.kind === 'mythril' || node.resourceItem === 'mythril' && node.kind === 'deposit') && !node.infiniteResource && !node.guardedCampId).map(node => node.id));
     if (retired.size) {
       const archive = sector.retiredMythril ??= { nodes: [], connections: [] };
       const edges = sector.connections.filter(edge => retired.has(edge.from) || retired.has(edge.to));

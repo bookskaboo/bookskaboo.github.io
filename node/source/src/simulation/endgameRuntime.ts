@@ -4,6 +4,7 @@ import type { GameState, ItemId, MachineNode, SectorState } from '../domain/type
 import { DEFAULT_WORLD_GRID_SIZE, HOME_COORDINATE, worldCornerIds, worldGridSize } from '../domain/worldGrid';
 import { canPlaceNode } from './collisions';
 import { obstructedConnections } from './obstructedConnections';
+import { ITEM_NAMES } from '../content/items';
 
 const CORNER_QUADRANTS = ['northwest', 'northeast', 'southeast', 'southwest'] as const;
 const CAMP_EDGE_MARGIN = 24;
@@ -53,6 +54,8 @@ export function syncCornerLayout(sector: SectorState, field: { width: number; he
 export function initializeEndgame(state: GameState) {
   state.endgame ??= { version: 1, cornerOrder: seededCornerOrder(state.seed), pairIndex: seededPairIndex(state.seed) };
   state.rescue ??= { resources: [] };
+  if (state.worldRulesVersion === 2) for (const sector of Object.values(state.sectors)) for (const node of sector.nodes)
+    if (node.kind === 'cornerTribute' && node.cornerType) node.name = ITEM_NAMES[CORNER_ITEMS[node.cornerType]];
   for (const sector of Object.values(state.sectors)) for (const node of sector.nodes) if (node.kind === 'big-hole') reconcileHole(node, state);
   if ((state.produced?.['final-core'] ?? 0) > 0) state.finalCoreProduced = true;
 }

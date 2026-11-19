@@ -47,13 +47,17 @@ export function NodeInspector({ node, game, engine, onClose, onConfigureRecipe, 
   const roadMaterial = engine.getRoadTransportStatus(node.id);
   const sector = game.sectors[game.activeSectorId];
   const production = productionExplanation(node, game, sector);
-  const tributeCamp = node.kind === 'monster-camp' ? node : node.kind === 'goblinTribute' ? sector.nodes.find(camp => camp.id === node.tributeCampId && camp.kind === 'monster-camp') : undefined;
+  const guardedCamp = node.guardedCampId ? sector.nodes.find(camp=>camp.id===node.guardedCampId) : undefined;
+  const guardedDeposit = node.kind === 'monster-camp' ? sector.nodes.find(deposit=>deposit.guardedCampId===node.id) : undefined;
+  const tributeCamp = game.worldRulesVersion === 2 ? undefined : node.kind === 'monster-camp' ? node : node.kind === 'goblinTribute' ? sector.nodes.find(camp => camp.id === node.tributeCampId && camp.kind === 'monster-camp') : undefined;
   const tributeNode = tributeCamp ? sector.nodes.find(candidate => candidate.kind === 'goblinTribute' && candidate.tributeCampId === tributeCamp.id) : undefined;
   const status = node.disabled ? 'DISABLED' : constructing ? 'CONSTRUCTING' : roadMaterial?.fluid ? 'FLUID TRANSPORT DISABLED' : roadMaterial?.mixed ? 'MIXED MATERIALS · TRANSPORT BLOCKED' : node.processingPaused && definition.category !== 'Logistics' ? 'PROCESSING PAUSED' : configuration === 'recipe' && !recipe ? 'RECIPE REQUIRED' : '';
   return <aside className="inspector glass" style={{ '--node-color': definition.accentCss } as React.CSSProperties}>
     <div className="panel-header"><div><small>{definition.category}</small><h2>{getNodeDisplayName(node)}</h2></div><button onClick={onClose} aria-label="Close inspector">×</button></div>
     <div className="node-hero"><i><NodeIcon kind={node.kind} node={node} completedResearch={game.research.completed} /></i><span>{node.infiniteResource ? 'An inexhaustible mineral reserve. Connect Extractors to the star output on any face.' : definition.description}{status && <b>{status}</b>}</span></div>
     <div className="inspector-body">
+      {(guardedCamp || guardedDeposit) && <p className="field-help" role="status">{guardedDeposit ? `${ITEM_NAMES[guardedDeposit.resourceItem!]} deposit` : `Guarded by ${guardedCamp!.name}`} · {isCampFullySuppressed(guardedCamp ?? node) ? 'Accessible' : 'Locked — fully suppress the settlement to extract resources'}. Stock, extraction progress and connections are retained when suppression lapses. The deposit refills while fully suppressed.</p>}
+      {node.kind === 'lake' && game.worldRulesVersion === 2 && <p className="field-help">Connect Production Lake Intakes for Water. Intake limit: {game.research.completed.some(r=>['fluidLink6','fluidLink7'].includes(r))?4:game.research.completed.includes('fluidLink5')?3:2}. Moving this Lake also moves every directly connected Intake.</p>}
       {configuration === 'recipe' && <button className="inspector-configure" onClick={onConfigureRecipe}><span>Production recipe</span><b>{recipe?.name ?? 'Choose recipe'}</b></button>}
       {configuration === 'recipe-preview' && <button className="inspector-configure" onClick={onConfigureRecipe}>View build</button>}
       {production.summary && <p className="production-status" role="status">{production.summary}</p>}

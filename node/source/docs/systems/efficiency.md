@@ -14,7 +14,7 @@ The Research Center's seven multipliers are 0.90, 0.80, 0.70, 0.65, 0.55, 0.45 a
 
 ## Throughput and exceptions
 
-Ideal throughput scales by `1 / multiplier` only while fully supplied and unblocked. Additional machine capacity can expose an upstream shortage, output congestion or Road limit. Pump Water draw uses `round(4 / multiplier)` per second. Tree Planter upgrades speed credit emission, and the designated capacity rank also raises its output buffer.
+Ideal throughput scales by `1 / multiplier` only while fully supplied and unblocked. Additional machine capacity can expose an upstream shortage, output congestion or Road limit. Pump Water draw uses `round(4 / multiplier)` per second. New-world Lake Intake limits also rise from two to three with fluidLink5 and four with fluidLink6 (or its later rank); legacy Lakes retain two. Tree Planter upgrades speed credit emission, and the designated capacity rank also raises its output buffer.
 
 Recipe alternatives use the machine's multiplier. Recovery does not receive a separate stacking efficiency factor. Vehicle upgrades, Road payload research, storage limits, mineral regeneration and area expansion have separate rules.
 

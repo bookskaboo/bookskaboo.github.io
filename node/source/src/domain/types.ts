@@ -61,6 +61,11 @@ export interface MachineNode {
   /** A defeated Golem is an inexhaustible reserve with four directional outputs. */
   infiniteResource?: boolean;
   regenMs?: number;
+  /** New-world reserve owned by this settlement; never a separate Tribute box. */
+  guardedCampId?: string;
+  guardedLocked?: boolean;
+  guardedRegenCarry?: number;
+  lakeIntakeOnly?: boolean;
   input: Partial<Record<ItemId, number>>;
   output: Partial<Record<ItemId, number>>;
   progressMs: number;
@@ -128,6 +133,8 @@ export interface MachineNode {
   cornerProgress?: number;
   holeBaseStone?: number;
   holeStoneConsumed?: number;
+  /** Only initially generated holes restrict neighboring map purchases. */
+  holeOrigin?: 'generated' | 'depletion';
 }
 
 export interface Connection { id: string; from: string; to: string; fromPort?: number; toPort?: number; item?: ItemId; createdAt: number; batchCredit?: number; }
@@ -173,6 +180,8 @@ export interface SectorState {
   lastSimulatedAt: number;
   visited?: boolean;
   resourceDepletionPending?: true;
+  /** Completed hole outlines are decorative terrain, outside the active node graph. */
+  filledHoles?: Array<{ id: string; x: number; y: number; radius: number; rotation: number }>;
 }
 
 export interface ResearchProject {
@@ -227,6 +236,8 @@ export interface GameState {
   devResearchUnlocked?: true;
   golemPlacementTier?: import('../content/resourceGolems').GolemPlacementTier;
   encounterLayoutVersion?: 1 | 2;
+  /** Absent on old saves means legacy rules. Only newly created worlds select 2. */
+  worldRulesVersion?: 1 | 2;
   research: ResearchState;
   isTraining?: boolean;
   paused: boolean;

@@ -14,6 +14,7 @@ const camp = (engine: GameEngine) => engine.getSector().nodes.find(node => node.
 function setup(tier: number) {
   const spec = getLizardSettlementForMapTier(tier);
   const state = createInitialState(37);
+  state.worldRulesVersion = 1; // These fixtures verify preserved Tribute-era saves.
   state.sectors['5,5'].nodes = [{ id: 'lizard', kind: 'monster-camp', name: spec.name,
     lizardSettlement: spec.settlement, settlementMapTier: spec.mapTier, attackRequirement: spec.attackRequirement, campStrength: 25,
     obstructionMaxRadius: spec.maxRadius, x: 2400, y: 1400, rotation: 0, input: {}, output: {},

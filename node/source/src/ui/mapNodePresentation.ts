@@ -3,6 +3,7 @@ import { isWorldObstacle } from '../content/nodeCapabilities';
 import type { LineArtId } from '../art/lineArt';
 import type { GameState, ItemId, SectorState } from '../domain/types';
 import { mapNodePosition, worldCornerIds, worldGridSize } from '../domain/worldGrid';
+import { mapExplorationBlockers, mapPurchaseProtected } from '../simulation/mapExpansion';
 
 export { mapNodePosition } from '../domain/worldGrid';
 
@@ -79,6 +80,9 @@ export function mapNodeSurvey(game: GameState, id: string) {
 }
 
 export function mapNodeHoverDetails(game: GameState, id: string) {
+  const [x,y]=id.split(',').map(Number);
+  const blockers=mapExplorationBlockers(game,x,y);
+  if (blockers.length && !mapPurchaseProtected(game,id)) return [`Nearby Deep Holes on ${blockers.map(s=>mapNodePosition(s.x,s.y)).join(', ')} prevent exploration. Fill all generated holes there.`];
   const survey = mapNodeSurvey(game, id);
   if (!survey.explored) return ['Map Node Unexplored'];
   const resources = survey.resources.map(({ item, remaining }) => `${ITEM_NAMES[item]} ${Math.floor(remaining).toLocaleString()}`);

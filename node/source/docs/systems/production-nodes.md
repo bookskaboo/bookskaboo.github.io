@@ -30,7 +30,9 @@ Select a recipe before connecting a configurable machine. Availability follows r
 
 Production needs complete inputs and output space. Advanced batches reserve inputs and determine chance outputs when committed. Pausing a production node stops processing; completed stock can still route. Construction and global pause also affect when work occurs.
 
-Extractor rewiring keeps matching stock and discards stock of a different resource. A depleted reserve cannot be replaced by feeding ordinary manufactured stock into the resource socket. Forest Growth is a dedicated material connection, rather than ordinary Wood cargo.
+Extractor rewiring keeps matching stock and discards stock of a different resource. In new worlds, guarded camp reserves accept new extraction connections only while fully suppressed. Suppression loss pauses extraction while preserving progress and existing connections; empty guarded reserves refill instead of collapsing. Lake Intakes are the sole source of new-world Lake Water, with the upgraded two/three/four connection cap.
+
+A depleted reserve cannot be replaced by feeding ordinary manufactured stock into the resource socket. Forest Growth is a dedicated material connection, rather than ordinary Wood cargo.
 
 ## Changes and verification
 

@@ -11,6 +11,7 @@ import { normalizeLegacy } from '../persistence/saves';
 const machine = (kind: NodeKind, id: string, extra: Partial<MachineNode> = {}): MachineNode => ({ kind, id, name: id, x: 300, y: 300, rotation: 0, input: {}, output: {}, progressMs: 0, cycleMs: 1000, constructedAt: 0, constructionMs: 0, ...extra });
 function setup(nodes: MachineNode[], completed: string[] = []) {
   const state = createInitialState(204);
+  state.worldRulesVersion = 1; // Prior production rules remain valid in saved worlds.
   state.sectors['5,5'].nodes = nodes;
   state.sectors['5,5'].connections = [];
   state.research.completed.push(...completed);

@@ -14,6 +14,7 @@ export function createInitialState(seed = Math.floor(Math.random() * 2 ** 31)): 
     machineEfficiencyVersion: 1,
     golemPlacementTier: GOLEM_PLACEMENT_TIER,
     encounterLayoutVersion: 2,
+    worldRulesVersion: 2,
     research: { unlocked: ['extractor'], contributed: {}, completed: [], mapPoints: 0, repeatableCompletions: {} },
     paused: false, playTimeMs: 0, achievements: [],
     preferences: { autosaveMinutes: 5, confirmDelete: true, particles: true, showGrid: true, snapToGrid: false, sound: false },

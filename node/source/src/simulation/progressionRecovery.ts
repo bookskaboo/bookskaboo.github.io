@@ -54,7 +54,7 @@ export function progressionDeficits(state: GameState, target: string, quotedCost
   const stock: Bag = access ? { ...access.stock } : completedPool(state);
   if (!access) for (const node of nodes) {
     for (const bag of [node.input, node.output, node.batch?.outputs ?? {}]) for (const [item, amount] of Object.entries(bag)) if (amount! > 0) add(stock, item as ItemId, amount!);
-    if (node.resourceItem) {
+    if (node.resourceItem && (!node.guardedCampId || node.guardedLocked === false)) {
       const renewable = node.infiniteResource || node.kind === 'forest' && (node.resourceCapacity ?? 0) > 0
         || state.research.completed.includes('mineralRegeneration') && (node.resourceCapacity ?? 0) > 0 && getNodeCapabilities(node.kind).behavior === 'resource';
       add(stock, node.resourceItem, renewable ? Infinity : node.resourceRemaining ?? 0);

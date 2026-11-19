@@ -6,7 +6,7 @@ import type { GameEvent, GameState, ItemId, MachineNode, NodeKind } from '../dom
 import { isResearchCycleActive } from './researchStatus';
 import { RESEARCH_CENTER_BASE_CYCLE_MS } from '../content/researchTiming';
 import { applyCartUpgrades } from '../content/cartUpgrades';
-import { destinationMapCosts, pendingMapPayment, usesDestinationMapPricing } from './mapExpansion';
+import { destinationMapCosts, pendingMapPayment, usesDestinationMapPricing, canPurchaseMap } from './mapExpansion';
 
 /** Research lifecycle owns payments, milestones, and project selection. State is read lazily so undo/load remain valid. */
 export class ResearchRuntime {
@@ -112,6 +112,11 @@ export class ResearchRuntime {
     if (selected.id === 'mapNode') {
       if (!this.state.research.mapNodeQuote?.destination && remainingMapNodePurchases(this.state) === 0) { this.reconcileResearchSelection(); node.progressMs = 0; return; }
       this.quoteMapNodeResearch();
+      const destination = this.state.research.mapNodeQuote?.destination;
+      if (destination) {
+        const [x,y]=destination.split(',').map(Number);
+        if (!canPurchaseMap(this.state,x,y)) { node.progressMs=0; return; }
+      }
     }
     const costs = getResearchCostsForState(selected, this.state.research);
     const outstanding = Object.keys(costs).filter((item) => (this.state.research.contributed[item as ItemId] ?? 0) < (costs[item as ItemId] ?? 0)) as ItemId[];
@@ -137,7 +142,7 @@ export class ResearchRuntime {
 
   startMapResearch(x: number, y: number) {
     const research = this.state.research;
-    if (research.mapPoints > 0) return false;
+    if (research.mapPoints > 0 && !(research.mapNodeQuote?.destination===`${x},${y}` && pendingMapPayment(this.state))) return false;
     const costs = destinationMapCosts(this.state, x, y);
     if (!costs) return false;
     const destination = `${x},${y}`;

@@ -16,6 +16,7 @@ function setup(tier = 1) {
     input: { 'suppression-bot': spec.attackRequirement }, output: {}, progressMs: 0,
     cycleMs: 60000, constructedAt: 0, constructionMs: 0 };
   const state = createInitialState(37);
+  state.worldRulesVersion = 1; // Explicit coverage of retained Tribute behavior.
   state.sectors['5,5'].nodes = [settlement];
   return new GameEngine(state);
 }

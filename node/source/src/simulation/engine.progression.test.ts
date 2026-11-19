@@ -8,7 +8,7 @@ import {generateSector} from './worldGeneration';
 import {normalizeLegacy} from '../persistence/saves';
 import type {MachineNode,NodeKind,ItemId} from '../domain/types';
 const machine=(kind:NodeKind,id=kind as string,extra:Partial<MachineNode>={}):MachineNode=>({id,kind,name:kind,x:400,y:400,rotation:0,input:{},output:{},progressMs:0,cycleMs:1000,constructedAt:0,constructionMs:0,...extra});
-function setup(nodes:MachineNode[],completed:string[]=[]){const state=createInitialState(204);state.sectors['5,5'].nodes=nodes;state.research.completed=completed;state.research.unlocked.push(...completed);const e=new GameEngine(state);return e;}
+function setup(nodes:MachineNode[],completed:string[]=[]){const state=createInitialState(204);state.worldRulesVersion=1;state.sectors['5,5'].nodes=nodes;state.research.completed=completed;state.research.unlocked.push(...completed);const e=new GameEngine(state);return e;}
 const tick=(e:GameEngine,seconds:number)=>{for(let i=0;i<seconds*10;i++)e.tick(100);};
 describe('six-tier gameplay progression',()=>{
  it('normalizes saved Mythril display names without changing stored resources or research IDs',()=>{
