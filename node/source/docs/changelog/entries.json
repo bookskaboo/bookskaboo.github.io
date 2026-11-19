@@ -16,6 +16,14 @@
   },
   "releases": [
     {
+      "id": "d96e032",
+      "date": "2026-11-19",
+      "title": "New-world monster camps and obstruction rules",
+      "commit": "d96e032856547a61bc0909764dd3c98e2b02d52d",
+      "url": "https://github.com/bookskaboo/bookskaboo.github.io/commit/d96e032856547a61bc0909764dd3c98e2b02d52d",
+      "notes": "Changes confined to node/, preserving all previous runtime assets. GitHub Pages succeeded; normal live HTML and every current build asset matched SHA-256. Existing saves retain legacy rules; only new worlds use the rework."
+    },
+    {
       "id": "5a44feb",
       "date": "2026-11-19",
       "title": "Retained rendering and higher-load factory performance",
@@ -18842,7 +18850,7 @@
       "dateBasis": "chat",
       "kind": "added",
       "state": "implemented",
-      "delivery": "local",
+      "delivery": "published",
       "title": "Implement guarded camps and revised obstructions for new worlds",
       "summary": "New worlds gain guarded camp resources, the weighted 28-hole-map distribution, Deep Hole exploration restrictions and buildable filled terrain, plus Intake-only Lakes and coupled relocation. Existing worlds keep legacy rules.",
       "details": [
@@ -18886,7 +18894,47 @@
         "outputs/new-world-obstructions/blocked-map-tooltip.jpg",
         "outputs/new-world-obstructions/word-structure.json"
       ],
-      "validation": "Full workspace suite: 1,835 tests passed, two existing skips. npm run build and build:site passed; the engine preview passed its TypeScript check and production build. Desktop and 390-pixel browser fixtures verified camp gating/extraction/pause, grey map tooltip/details, final-hole unblocking and filled terrain, Intake caps/group movement, legacy behavior and component titles; no browser console errors. Both Word guides were structurally reopened and checked; visual rendering remains unavailable because LibreOffice soffice.exe is missing. System/history freshness and link checks passed. Fixture controls are not a normal-play balance run; 10/5/15 clearing counts remain analytical targets, advance-purchase balance and whole-campaign feasibility remain unverified. No commit or publication."
+      "validation": "Full workspace suite: 1,835 tests passed, two existing skips. npm run build and build:site passed; the engine preview passed its TypeScript check and production build. Desktop and 390-pixel browser fixtures verified camp gating/extraction/pause, grey map tooltip/details, final-hole unblocking and filled terrain, Intake caps/group movement, legacy behavior and component titles; no browser console errors. Both Word guides were structurally reopened and checked; visual rendering remains unavailable because LibreOffice soffice.exe is missing. System/history freshness and link checks passed. Fixture controls are not a normal-play balance run; 10/5/15 clearing counts remain analytical targets, advance-purchase balance and whole-campaign feasibility remain unverified. No commit or publication.",
+      "publishedBy": "d96e032"
+    },
+    {
+      "id": "NODE-0609",
+      "date": "2026-11-19",
+      "dateBasis": "chat",
+      "kind": "changed",
+      "state": "implemented",
+      "delivery": "published",
+      "publishedBy": "d96e032",
+      "title": "Publish new-world guarded camps and obstruction rules",
+      "summary": "Publish guarded camp deposits, the weighted 28-hole-map distribution and exploration restriction, buildable filled terrain/refunds, and Intake-only Lakes for new worlds. Existing saves retain legacy rules.",
+      "details": [
+        "Fast-forward main from 9bdcb6a7b79584dbf29861abe8ee1dda94aaa9a6 to d96e032856547a61bc0909764dd3c98e2b02d52d, changing only node/. Ship the matching tested site build and source snapshot; retain all 109 existing runtime assets for open games.",
+        "New games save worldRulesVersion 2. Existing or unmarked saves retain version 1, including during later exploration, import/re-save, slot copies, autosave, mod changes and undo. No Tribute conversion or legacy terrain regeneration.",
+        "Use the isolated published source plus the authorized 32-file camp/obstruction overlay. Retain the live renderer optimizations and exclude concurrent fixture-only progress-bar work. Keep the engine preview as isolated test source; its manual presets are not normal-play balance evidence."
+      ],
+      "topics": [
+        "World",
+        "Encounters",
+        "Saves",
+        "Production",
+        "Research",
+        "Publishing"
+      ],
+      "sources": [
+        "local-code"
+      ],
+      "evidence": [
+        "src/simulation/newWorldObstructions.test.ts",
+        "docs/systems/encounters-and-obstructions.md",
+        "outputs/node-obstruction-release-2026-11-19/publication-receipt.json",
+        "outputs/node-obstruction-release-2026-11-19/preflight-report.json",
+        "outputs/node-obstruction-release-2026-11-19/build-manifest.json",
+        "outputs/node-obstruction-release-2026-11-19/source-manifest.json",
+        "outputs/node-obstruction-release-2026-11-19/workspace-tests.log",
+        "outputs/node-obstruction-release-2026-11-19/candidate-tests.log",
+        "outputs/node-obstruction-release-2026-11-19/candidate-build.log"
+      ],
+      "validation": "Workspace suite passed 1,840 tests with two skips, site build and system/history checks. Isolated candidate passed 1,039 tests with one existing skip, site build, preview TypeScript and system/history checks. Preflight confirmed a clean fast-forward, only node/ changes, exact 32-file runtime source scope, matching committed build/source and all prior assets preserved. GitHub Pages run 44495382589 succeeded. Normal live HTML and all ten current runtime assets matched SHA-256, and all ten preceding-build assets remained available with matching hashes. Earlier desktop/390-pixel engine-fixture checks are recorded in NODE-0608; no player game tab was reloaded. Whole-campaign balance, advance-purchase strategies and Word visual render QA remain outside this publication verification."
     }
   ]
 }

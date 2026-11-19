@@ -2,17 +2,16 @@
 
 A searchable record of completed changes, design decisions, and relevant review findings. Stable NODE IDs can be cited in chats and searched in the repository.
 
-**608 records · 2026-10-12–2026-11-19 · America/Los_Angeles**
+**609 records · 2026-10-12–2026-11-19 · America/Los_Angeles**
 
 [Open searchable history](<docs/changelog/index.html>) · [How to review and maintain it](<docs/changelog/README.md>) · [Sources and coverage gaps](<docs/changelog/sources.md>)
 
 ## Local changes awaiting publication
 
-Latest confirmed game publication: [5a44feb](https://github.com/bookskaboo/bookskaboo.github.io/commit/5a44feb4e14945365dff935e76ea451b1a518a1e).
+Latest confirmed game publication: [d96e032](https://github.com/bookskaboo/bookskaboo.github.io/commit/d96e032856547a61bc0909764dd3c98e2b02d52d).
 
 | ID | Change | Topics |
 | --- | --- | --- |
-| [NODE-0608](<docs/changelog/2026-11.md#node-0608>) | Implement guarded camps and revised obstructions for new worlds | World, Encounters, Saves, Production, Research, Controls, Documentation |
 | [NODE-0596](<docs/changelog/2026-11.md#node-0596>) | Retire duplicate references and remove unused workspace artifacts | Documentation, Tooling, Architecture, Saves |
 | [NODE-0594](<docs/changelog/2026-11.md#node-0594>) | Organize current systems into linked references and generated catalogs | Documentation, Resources, Production, Recipes, Research, World, Progression, Tooling |
 | [NODE-0549](<docs/changelog/2026-11.md#node-0549>) | Move Road and Exploration to Simple Cores in the research proposal | Research, Balance, Interface |
@@ -82,13 +81,14 @@ Latest confirmed game publication: [5a44feb](https://github.com/bookskaboo/books
 
 ## Dated history
 
-- [2026-11](<docs/changelog/2026-11.md>) — 590 records
+- [2026-11](<docs/changelog/2026-11.md>) — 591 records
 - [2026-10](<docs/changelog/2026-10.md>) — 18 records
 
 “Known by” dates are implementation/publication bounds, not exact change dates. “Backfilled” dates mark records with uncertain original dates. Supersession links explain reversals. Original-game records do not certify current rebuild behavior.
 
 ## Published releases
 
+- 2026-11-19 — [d96e032: New-world monster camps and obstruction rules](https://github.com/bookskaboo/bookskaboo.github.io/commit/d96e032856547a61bc0909764dd3c98e2b02d52d) — Changes confined to node/, preserving all previous runtime assets. GitHub Pages succeeded; normal live HTML and every current build asset matched SHA-256. Existing saves retain legacy rules; only new worlds use the rework.
 - 2026-11-19 — [5a44feb: Retained rendering and higher-load factory performance](https://github.com/bookskaboo/bookskaboo.github.io/commit/5a44feb4e14945365dff935e76ea451b1a518a1e) — Fast-forwarded main with changes confined to node/. GitHub Pages succeeded; normal live HTML and all ten runtime assets matched SHA-256. Previous assets remain available. Concurrent unfinished new-world gameplay edits were excluded.
 - 2026-11-18 — [f1d5681: Node-owned efficiency through Final and early production recovery](https://github.com/bookskaboo/bookskaboo.github.io/commit/f1d56811f463fd300a7f64ddd17e69fd8319d62d) — Fast-forwarded main with changes confined to node/. Verified normal live HTML and all ten new runtime assets by SHA-256 after successful GitHub Pages deployment. All previous runtime assets were retained. Includes the earlier Basic Gun recipe, short Dwarven hint and filled-hole cleanup fixes.
 - 2026-11-18 — [89b5709: 32-unit grid and touching node bodies](https://github.com/bookskaboo/bookskaboo.github.io/commit/89b5709b15d7ecc07f9438bb1ef9eb5658391aa0) — Fast-forwarded main from db779c7 with changes confined to node/. GitHub Pages completed successfully. Verified the normal live HTML and all ten runtime assets by SHA-256; all ten previous runtime assets remain available.
@@ -136,7 +136,7 @@ A record marked “Published by” was known in that snapshot and may have appea
 - [Developer tools](<docs/changelog/index.html?topic=Developer%20tools>) (1)
 - [Discovery](<docs/changelog/index.html?topic=Discovery>) (5)
 - [Documentation](<docs/changelog/index.html?topic=Documentation>) (222)
-- [Encounters](<docs/changelog/index.html?topic=Encounters>) (138)
+- [Encounters](<docs/changelog/index.html?topic=Encounters>) (139)
 - [Endgame](<docs/changelog/index.html?topic=Endgame>) (5)
 - [Exploration](<docs/changelog/index.html?topic=Exploration>) (23)
 - [Extraction](<docs/changelog/index.html?topic=Extraction>) (1)
@@ -154,17 +154,17 @@ A record marked “Published by” was known in that snapshot and may have appea
 - [Planning](<docs/changelog/index.html?topic=Planning>) (218)
 - [Playtesting](<docs/changelog/index.html?topic=Playtesting>) (49)
 - [Power](<docs/changelog/index.html?topic=Power>) (2)
-- [Production](<docs/changelog/index.html?topic=Production>) (93)
+- [Production](<docs/changelog/index.html?topic=Production>) (94)
 - [Progression](<docs/changelog/index.html?topic=Progression>) (213)
 - [Publication](<docs/changelog/index.html?topic=Publication>) (2)
-- [Publishing](<docs/changelog/index.html?topic=Publishing>) (9)
+- [Publishing](<docs/changelog/index.html?topic=Publishing>) (10)
 - [Recipes](<docs/changelog/index.html?topic=Recipes>) (111)
-- [Research](<docs/changelog/index.html?topic=Research>) (232)
+- [Research](<docs/changelog/index.html?topic=Research>) (233)
 - [Resources](<docs/changelog/index.html?topic=Resources>) (112)
 - [Responsive](<docs/changelog/index.html?topic=Responsive>) (2)
 - [Roads](<docs/changelog/index.html?topic=Roads>) (13)
 - [Save compatibility](<docs/changelog/index.html?topic=Save%20compatibility>) (3)
-- [Saves](<docs/changelog/index.html?topic=Saves>) (7)
+- [Saves](<docs/changelog/index.html?topic=Saves>) (8)
 - [Search](<docs/changelog/index.html?topic=Search>) (2)
 - [Shortcuts](<docs/changelog/index.html?topic=Shortcuts>) (12)
 - [Simulation](<docs/changelog/index.html?topic=Simulation>) (8)
@@ -177,7 +177,7 @@ A record marked “Published by” was known in that snapshot and may have appea
 - [Undo](<docs/changelog/index.html?topic=Undo>) (4)
 - [Waste](<docs/changelog/index.html?topic=Waste>) (21)
 - [Workflow](<docs/changelog/index.html?topic=Workflow>) (1)
-- [World](<docs/changelog/index.html?topic=World>) (92)
+- [World](<docs/changelog/index.html?topic=World>) (93)
 - [World generation](<docs/changelog/index.html?topic=World%20generation>) (18)
 - [World map](<docs/changelog/index.html?topic=World%20map>) (28)
 - [Writing](<docs/changelog/index.html?topic=Writing>) (1)

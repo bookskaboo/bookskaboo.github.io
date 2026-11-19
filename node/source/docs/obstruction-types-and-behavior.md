@@ -10,7 +10,7 @@ Map tier below means Manhattan distance from Home at world coordinate `5,5`. Dim
 
 ## Review complete: new-world rules
 
-**Implemented locally November 19, 2026 (NODE-0608).** New worlds now use the reviewed camp, Deep Hole and Lake rules, including the 28-map distribution and exploration gate. Existing worlds retain their previous rules. The [current system reference](systems/encounters-and-obstructions.md) and [engine test page](../previews/obstructions/index.html) describe the implementation. The [original proposal specimen](previews/monster-camps/index.html) remains an isolated review model. This implementation has not been published.
+**Implemented locally November 19, 2026 (NODE-0608).** New worlds now use the reviewed camp, Deep Hole and Lake rules, including the 28-map distribution and exploration gate. Existing worlds retain their previous rules. The [current system reference](systems/encounters-and-obstructions.md) and [engine test page](../previews/obstructions/index.html) describe the implementation. The [original proposal specimen](previews/monster-camps/index.html) remains an isolated review model. Published November 19, 2026 (NODE-0609); [live game](https://bookskaboo.github.io/node/).
 
 Existing worlds keep their current rules, including on unexplored maps generated later. Loading, importing or re-saving an existing world must not opt it into these changes. Persist the selected rules with the world; worlds without the new rules version retain legacy behavior. The saved `worldRulesVersion` selects version 2 for newly created worlds and version 1 for existing/unmarked worlds. Importing, re-saving, mod changes and later map generation preserve that choice.
 
