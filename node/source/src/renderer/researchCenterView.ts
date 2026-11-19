@@ -1,7 +1,19 @@
 import { ITEM_NAMES } from '../content/items';
 import { getResearchCostsForState, getResearchProject } from '../content/research';
 import type { GameState, ItemId, MachineNode } from '../domain/types';
-import { outstandingResearchCores } from '../simulation/researchStatus';
+import { outstandingResearchCores, RESEARCH_CORE_TYPES, researchCoreStorage } from '../simulation/researchStatus';
+
+export function researchCoreGrid(node: MachineNode, research: GameState['research']) {
+  const storage = researchCoreStorage(node, research);
+  const finalCore = storage.find(core => core.item === 'final-core');
+  const otherCores = storage.filter(core => core.item !== 'final-core')
+    .slice(0, RESEARCH_CORE_TYPES.length - Number(Boolean(finalCore)));
+  const entries = otherCores.map((core, index) => ({
+    ...core, column: index % 2 === 0 ? -1 : 1, row: Math.floor(index / 2),
+  }));
+  if (finalCore) entries.push({ ...finalCore, column: 0, row: Math.ceil(otherCores.length / 2) });
+  return entries;
+}
 
 /** Keep total project progress visible while the Center waits for more Cores. */
 export function researchCenterView(node: MachineNode, game: GameState) {

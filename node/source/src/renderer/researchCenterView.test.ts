@@ -2,9 +2,22 @@ import { describe, expect, it } from 'vitest';
 import { createInitialState } from '../simulation/createInitialState';
 import { tutorialNode } from '../tutorials/tutorialState';
 import { getResearchCostsForState, getResearchProject } from '../content/research';
-import { researchCenterView } from './researchCenterView';
+import { researchCenterView, researchCoreGrid } from './researchCenterView';
+import { bufferSlots } from './bufferSlots';
 
 describe('Research Center project display', () => {
+  it('centers the Final Core buffer on a separate row and uses the current stored amount', () => {
+    const game = createInitialState(1);
+    game.research.completed = ['simpleCore', 'finalCore'];
+    const node = tutorialNode('researchCenter', 'lab', 500, 500);
+    expect(researchCoreGrid(node, game.research)).toEqual([
+      { item: 'simple-core', amount: 0, capacity: 5, column: -1, row: 0 },
+      { item: 'final-core', amount: 0, capacity: 5, column: 0, row: 1 },
+    ]);
+    node.input['final-core'] = 2;
+    const final = researchCoreGrid(node, game.research).at(-1)!;
+    expect(bufferSlots(final.amount, final.capacity, 5)).toEqual([1, 1, 0, 0, 0]);
+  });
   it('keeps paid progress visible while waiting, including while paused', () => {
     const game = createInitialState(1);
     game.research.completed = ['refiner', 'researchCenter'];

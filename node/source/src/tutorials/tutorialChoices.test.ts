@@ -37,6 +37,16 @@ describe('tutorial choices', () => {
     expect(tutorialChoices('basic', 'make-core', game).researchProjectId).toBeNull();
   });
 
+  it('enables the Basics panel named by the current instruction and leaves out the Cart', () => {
+    const game = createTutorialState('basic');
+    expect(tutorialChoices('basic', 'build-open', game).panel).toBe('build');
+    expect(tutorialChoices('basic', 'connect-resource', game).panel).toBeUndefined();
+    expect(tutorialChoices('basic', 'research-explain', game).panel).toBe('research');
+    expect(tutorialChoices('basic', 'cores-explain', game).panel).toBeUndefined();
+    expect(tutorialChoices('basic', 'options-explain', game).panel).toBe('options');
+    for (const stage of BASIC_STAGES) expect(tutorialChoices('basic', stage, game).buildKind).not.toBe('woodenChest');
+  });
+
   it('permits only the required Expansion destination, including minimap actions', () => {
     const game = createTutorialState('expansion');
     for (const stage of EXPANSION_STAGES) {

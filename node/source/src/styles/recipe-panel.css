@@ -70,7 +70,10 @@
 .recipe-guide-groups.compact-recipe-view .recipe-guide-card:not(.compact-expanded) .recipe-guide-copy { display:none; }
 .recipe-guide-groups.compact-recipe-view .recipe-guide-card.compact-expanded { grid-column:1/-1; grid-template-columns:42px minmax(0,1fr); justify-items:stretch; }
 .recipe-guide-icon-button { cursor:pointer; }
-.training-session .recipe-picker-panel { right: calc(var(--tutorial-width) + var(--hud-gap) * 2); max-width: calc(100vw - var(--tutorial-width) - var(--hud-gap) * 3); }
+.training-session .recipe-picker-panel { grid-template-rows: auto minmax(0, 1fr); max-width: calc(100vw - var(--tutorial-width) - var(--hud-gap) * 3); }
+@media (max-width: 720px) {
+  .training-session .recipe-picker-panel { max-width: none; max-height: calc(100dvh - var(--hud-clear) - var(--hud-bottom) - var(--tutorial-reserve) - var(--hud-gap)); }
+}
 .game-shell:has(.recipe-picker-panel) .tutorial-placement-target,
 .game-shell:has(.recipe-picker-panel) .tutorial-port-target { display: none; }
 @media (max-height: 560px) and (min-width: 701px) {

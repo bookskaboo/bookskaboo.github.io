@@ -1,6 +1,7 @@
 import { validateMod } from '../mods/modValidation';
 import { isWorldGridSize } from '../domain/worldGrid';
 import { NODE_DEFINITIONS } from '../content/nodes';
+import { migrateCoreResearch } from '../content/coreResearch';
 import { RECIPES } from '../content/recipes';
 import { getResearchProject, getResearchCosts, RESEARCH_PROJECTS } from '../content/research';
 import { isRetiredWasteNode, migratedWasteNodeName, migrateRetiredNodes } from '../content/retiredNodes';
@@ -144,14 +145,19 @@ function migrateOriginalPayload(payloadValue: unknown): GameState | null {
   const activeProject = typeof oldResearch.activeProject === 'string' ? oldResearch.activeProject : undefined;
   const repeatableCompletions = { mapNode: Math.max(0, Math.floor(number(oldResearch.mapNodeResearchCompletions))) };
   const contributed: Partial<Record<ItemId, number>> = {};
+  const research = {
+    unlocked: Array.from(new Set(['extractor', 'woodenChest', ...unlocked])),
+    selected: activeProject, contributed, completed: unlocked.filter((id) => id !== 'mapNode'),
+    mapPoints: Math.max(0, Math.floor(number(runtime.mapPoints))), repeatableCompletions,
+  };
+  migrateCoreResearch({ research });
   if (activeProject) {
     const project = getResearchProject(activeProject) ?? (DEFERRED_POWER_RESEARCH.has(activeProject) || RETIRED_RESEARCH.has(activeProject) ? LATE_RESEARCH.find(project => project.id === activeProject) : undefined);
     let progress = Math.max(0, Math.floor(number(record(oldResearch.progress)[activeProject])));
-    if (project) for (const [item, cost] of Object.entries(getResearchCosts(project, repeatableCompletions.mapNode, unlocked))) { const amount = Math.min(progress, cost ?? 0); contributed[item as ItemId] = amount; progress -= amount; }
+    if (project) for (const [item, cost] of Object.entries(getResearchCosts(project, repeatableCompletions.mapNode, research.completed))) { const amount = Math.min(progress, cost ?? 0); contributed[item as ItemId] = amount; progress -= amount; }
   }
   return {
-    version: 1, seed: 1, activeSectorId, sectors,
-    research: { unlocked: Array.from(new Set(['extractor', 'woodenChest', ...unlocked])), selected: activeProject, contributed, completed: unlocked.filter((id) => id !== 'mapNode'), mapPoints: Math.max(0, Math.floor(number(runtime.mapPoints))), repeatableCompletions },
+    version: 1, seed: 1, activeSectorId, sectors, coreResearchVersion: 1, research,
     paused: payload.isRunning === false, playTimeMs: Math.max(0, number(payload.gameElapsedMs)), achievements: Array.isArray(payload.achievements) ? payload.achievements.filter((value): value is string => typeof value === 'string') : [],
     preferences: { autosaveMinutes: 5, confirmDelete: !record(payload.promptPreferences).skipNodeDestructionConfirmation, particles: true, showGrid: true, snapToGrid: false, sound: false, skipMultiConnectionTooltip: Boolean(record(payload.promptPreferences).skipMultiConnectionTooltip) },
     tutorialStep: 0, events: [], revision: 1, produced: legacyBag(runtime.produced), extracted: legacyBag(runtime.extractorProduced), hasCreatedConnection: sectors[activeSectorId].connections.length > 0,
@@ -168,6 +174,7 @@ function normalizeGameState(value: GameState) {
   migrateRetiredNodes(state);
   for (const sector of Object.values(state.sectors)) if (sector.controlGroups !== undefined) sector.controlGroups = normalizeControlGroups(sector.controlGroups, sector.nodes);
   state.produced ??= {}; state.extracted ??= {}; state.hasCreatedConnection ??= false; state.research.completed ??= []; state.research.repeatableCompletions ??= {};
+  migrateCoreResearch(state);
   state.preferences ??= { autosaveMinutes: 5, confirmDelete: true, particles: true, showGrid: true, snapToGrid: false, sound: false };
   state.preferences.snapToGrid ??= false;
   state.events ??= []; state.achievements ??= [];

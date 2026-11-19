@@ -44,7 +44,7 @@ describe('Road capacity per map face', () => {
     const secondSlot = getResearchProject('roadChannels1')!;
     const thirdSlot = getResearchProject('roadChannels2')!;
     expect(Object.keys(secondSlot.costs)).toEqual(['simple-core', 'basic-core', 'automata-core', 'hydro-core']);
-    expect(thirdSlot.costs).toEqual({ 'simple-core': 20, 'basic-core': 20, 'automata-core': 20, 'hydro-core': 20 });
+    expect(thirdSlot.costs).toEqual({ 'simple-core': 20, 'basic-core': 20, 'automata-core': 20, 'hydro-core': 20, 'shiny-core': 20 });
     expect(isResearchAvailable(secondSlot, ['road'])).toBe(false);
     expect(isResearchAvailable(secondSlot, ['road', 'hydraulicAssembly'])).toBe(true);
     expect(isResearchAvailable(thirdSlot, ['road', 'oreSeparation'])).toBe(false);

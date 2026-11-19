@@ -1,3 +1,4 @@
+import { CORE_RESEARCH } from '../content/coreResearch';
 import { atResearchCap, FINAL_CORE_PRODUCTION } from '../content/endgame';
 import { getResearchProject, getResearchCostsForState, isResearchAvailable, remainingMapNodePurchases, RESEARCH_PROJECTS } from '../content/research';
 import { ITEM_NAMES } from '../content/items';
@@ -9,12 +10,13 @@ export type ResearchSection = 'active' | 'milestones' | 'available' | 'future' |
 export const researchPrerequisiteName = (id: string) =>
   id === FINAL_CORE_PRODUCTION ? 'first Final Core' : getResearchProject(id)?.name ?? id;
 
-const CORE_ACCESS: Partial<Record<ItemId, string>> = { 'simple-core': 'refiner', 'basic-core': 'assembler', 'automata-core': 'automataCore', 'hydro-core': 'hydraulicAssembly', 'shiny-core': 'oreSeparation', 'command-core': 'precisionControl', 'final-core': FINAL_CORE_PRODUCTION };
+const CORE_ACCESS: Partial<Record<ItemId, string>> = Object.fromEntries(CORE_RESEARCH.map(({ item, id }) =>
+  [item, item === 'final-core' ? FINAL_CORE_PRODUCTION : id]));
 const milestoneAccess: Partial<Record<NonNullable<ResearchProject['trigger']>['id'], string>> = {
   'plate-produced': 'smelter', 'refiner-unlocked': 'refiner', 'assembler-built': 'assembler',
-  'basic-core-produced': 'assembler', 'motor-produced': 'assembler', 'monster-camp': 'exploration',
+  'basic-core-produced': 'basicCore', 'motor-produced': 'assembler', 'monster-camp': 'exploration',
   encounter: 'exploration', 'dwarven-mythril-produced': 'exploration',
-  'precision-control': 'precisionControl', 'complex-core-produced': 'precisionControl',
+  'precision-control': 'precisionControl', 'complex-core-produced': 'complexCore',
 };
 
 export function researchDependencies(project: ResearchProject, costs = project.costs) {
@@ -42,7 +44,7 @@ export function visibleResearchRequirements(project: ResearchProject, game: Game
   if (missing.length < 2) return missing;
   const predecessors = new Set<string>();
   function requirementsFor(id: string): string[] {
-    if (id === FINAL_CORE_PRODUCTION) return ['cornerComponents'];
+    if (id === FINAL_CORE_PRODUCTION) return ['finalCore'];
     const prerequisite = getResearchProject(id);
     return prerequisite ? researchDependencies(prerequisite, getResearchCostsForState(prerequisite, game.research)) : [];
   }

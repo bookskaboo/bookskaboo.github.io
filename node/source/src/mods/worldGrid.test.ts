@@ -76,7 +76,7 @@ it('generates and reveals all 441 sectors with seeded camps at the four outer co
 
 it('starts and ramps a newly unlocked Map Node core tier after the standard map limit', () => {
   const { research } = createInitialState(82);
-  research.completed = ['refiner', 'assembler'];
+  research.completed = ['simpleCore', 'basicCore'];
   research.repeatableCompletions = { mapNode: 130 };
   research.mapNodePricingPhase = { tier: 1, startedAt: 0 };
   const phase = mapNodePricingPhaseForState(research);

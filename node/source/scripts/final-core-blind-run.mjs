@@ -8,6 +8,7 @@ const { GOLEM_AP_COST, MYTHRIL_GOLEM_AP_COST } = await import('../src/content/re
 const { roadChannels } = await import('../src/simulation/progression.ts');
 const { getNodeSize } = await import('../src/domain/nodeGeometry.ts');
 const { connectionBlockedByWorld } = await import('../src/simulation/connectionRules.ts');
+const { destinationMapCosts } = await import('../src/simulation/mapExpansion.ts');
 
 const surveySeconds = 30;
 const coordinate = id => id.split(',').map(Number);
@@ -34,7 +35,7 @@ export function runBlind(context) {
   const { engine, state, home, sector, source, activate, mark, tick, wait, research, place, connect, input, disconnect,
     stop, cart, freight, retireLane, lanes, factory, tryFactory, campaign, coreFreight, watches, cornerItems, unlocked, startHome, protectLakes, resume,
     allResearch, pilot, throughVictory, roadComparison, buyRoadChannels2, shinySurvey, shinyCopperBudget, researchCosts, remainingProjects, recordVictory, trackRoad,
-    efficiencyArm, efficiencyUpgrade, peripheralSupply } = context;
+    efficiencyArm, efficiencyUpgrade, peripheralSupply, maintainMapSupply } = context;
   const visited = new Map();
   const corners = new Map();
   const reserved = new Map();
@@ -42,11 +43,14 @@ export function runBlind(context) {
   const planned = { 'simple-core': 100, 'basic-core': 60 };
   const expeditions = [];
   const coreLoads = new Map();
+  const oreLoads = new Map();
+  const activeBankMaps = new Set();
   const homeStock = new Map();
   let coreDistricts = 0;
   let mythrilSupply;
   let lab;
   const recoveredCoreStock = {};
+  const lateBankSize = { 'shiny-core': 54, 'command-core': 38 };
   const lateResearch = [
     'heavyRobotics', 'precisionControl', 'commandRobotics',
     ...(buyRoadChannels2 ? ['roadChannels2'] : []),
@@ -78,7 +82,7 @@ export function runBlind(context) {
     const observations = {
       resources: Object.fromEntries(localResources.map(item => [item, source(id, item)?.resourceRemaining ?? 0])),
       lake: nodes.some(n => n.kind === 'lake'),
-      golem: nodes.find(n => n.kind === 'resourceGolem')?.golemMineral,
+      golem: nodes.find(n => n.kind === 'resourceGolem' || n.infiniteResource && n.golemMineral)?.golemMineral,
       dwarves: nodes.find(n => n.kind === 'monster-camp')?.lizardSettlement,
       goblin: nodes.some(n => n.kind === 'monster-camp' && !n.lizardSettlement),
       corner: nodes.find(n => n.kind === 'cornerChallenge')?.cornerType,
@@ -170,14 +174,36 @@ export function runBlind(context) {
     const producers = Object.fromEntries(Object.entries(plan.work).filter(([product]) => product !== 'mythril')
       .map(([product, seconds]) => [product, Math.ceil(seconds * efficiencyFactor(product) / (count / rate * 60 * .9))]));
     const build = options.tryPlacement ? tryFactory : factory;
-    return build(name, { ...options, plan: { id, ...plan, producers }, meterInputs: options.meterInputs ?? true });
+    const existing = maintainMapSupply ? new Set(sector(id).nodes.map(node => node.id)) : undefined;
+    const district = build(name, { ...options, plan: { id, ...plan, producers }, meterInputs: options.meterInputs ?? true });
+    if (existing && district) district.floor = sector(id).nodes.filter(node => !existing.has(node.id));
+    return district;
+  }
+
+  function clearFinishedFloor(district) {
+    const { id, floor } = district;
+    const lake = source(id, 'water');
+    const intakes = new Set(sector(id).connections.filter(cable => cable.from === lake?.id).map(cable => cable.to));
+    activate(id);
+    engine.deleteNodes(floor.filter(node => !intakes.has(node.id)).map(node => node.id));
+  }
+
+  function clearFloorAfterDelivery(district, item, coreBank = false) {
+    const members = new Set(district.floor.map(node => node.id));
+    watches.push(() => {
+      if (!mythrilSupply || !district.meter.finishedAt || stock(district.output, item) || district.meter.nodes.some(node => stock(node, item)) ||
+        state.inFlightTransfers.some(transfer => !transfer.cosmeticOnly && transfer.item === item &&
+          (members.has(transfer.from) || members.has(transfer.to)))) return false;
+      clearFinishedFloor(district);
+      if (coreBank) activeBankMaps.delete(district.id);
+      return true;
+    });
   }
 
   const supplies = (id, raw) => canSupply(id, raw) && localResources.every(item =>
     (source(id, item)?.resourceRemaining ?? 0) >= reserveFor(raw)[item]);
 
-  function inwardPlan(item, count, center, excluded, crossings = 1) {
-    const imported = item === 'shiny-core' ? ['circuit-a'] : ['circuit-a', 'hydraulic-actuator'];
+  function inwardPlan(item, count, center, excluded, crossings = 1, imported = item === 'shiny-core' ? ['circuit-a'] : ['circuit-a', 'hydraulic-actuator']) {
     const local = campaign(item, { [item]: count }, { imported });
     if (!supplies(center, local.raw)) return;
     const imports = [];
@@ -212,8 +238,9 @@ export function runBlind(context) {
   function addCore(item, count) {
     const name = `Core bank ${++coreDistricts} ${item}`;
     const bill = campaign(name, { [item]: count }).raw;
+    const lateBank = maintainMapSupply && Boolean(bill.water) && mythrilSupply;
     const sites = [...visited.keys()].filter(id => id !== home && (!bill.water || visited.get(id).lake)
-      && canSupply(id, bill) && researchPath(id, item));
+      && (lateBank ? !activeBankMaps.has(id) : canSupply(id, bill)) && researchPath(id, item));
     const lakeCost = id => {
       const map = visited.get(id);
       if (!protectLakes || !map.lake) return 0;
@@ -221,43 +248,91 @@ export function runBlind(context) {
     };
     const fallbackEntry = id => protectLakes && researchPath(id, item).at(-2) !== homeEntry[item] ? 1 : 0;
     const postVictory = unlocked('victory');
-    const flexiblePlacement = postVictory || (distributedVictory && unlocked('commandRobotics'));
-    sites.sort((a, b) => (flexiblePlacement ? sector(a).nodes.length - sector(b).nodes.length : 0)
+    const flexiblePlacement = postVictory || (distributedVictory && unlocked('commandRobotics')) || maintainMapSupply;
+    const oreDistance = id => maintainMapSupply && bill.mythril && mythrilSupply ? distance(mythrilSupply.id, id) : 0;
+    sites.sort((a, b) => oreDistance(a) - oreDistance(b) || (flexiblePlacement ? sector(a).nodes.length - sector(b).nodes.length : 0)
       || fallbackEntry(a) - fallbackEntry(b) || lakeCost(a) - lakeCost(b) || researchPath(a, item).length - researchPath(b, item).length
       || Number(Boolean(visited.get(a).dwarves || visited.get(a).goblin)) - Number(Boolean(visited.get(b).dwarves || visited.get(b).goblin))
       || visited.get(a).holes - visited.get(b).holes);
-    let id, district;
+    let id, district, delivery, ore, distributed, inwardFreight;
     for (const candidate of sites) {
-      district = makeFactory(name, item, count, candidate, { tryPlacement: flexiblePlacement, rate: postVictory && item === 'hydro-core' ? 2 : undefined });
-      if (district) { id = candidate; break; }
+      if (bill.mythril && (!mythrilSupply || !path(mythrilSupply.id, candidate, 'mythril'))) continue;
+      distributed = lateBank ? inwardPlan(item, count, candidate, [home, mythrilSupply.id], 5, ['iron-plate'])
+        ?? inwardPlan(item, count, candidate, [home, mythrilSupply.id], 5,
+          item === 'hydro-core' ? ['copper-plate'] : undefined) : undefined;
+      if (lateBank && !distributed && !supplies(candidate, bill)) continue;
+      const rate = lateBank ? (item === 'command-core' ? .5 : 1.3) : postVictory && item === 'hydro-core' ? 2 : undefined;
+      district = makeFactory(name, item, count, candidate, { tryPlacement: flexiblePlacement, rate,
+        campaign: distributed?.local, localSupply: distributed?.localSupply });
+      if (!district) continue;
+      if (lateBank) {
+        const previousLanes = new Set(lanes.values());
+        try {
+          if (bill.mythril) ore = route('mythril', mythrilSupply.id, candidate, mythrilSupply.bus, district.buses.get('mythril'), name);
+          delivery = route(item, candidate, home, district.output, undefined, name, homeEntry[item]);
+          inwardFreight = distributed?.imports.map(shipment => {
+            const supplier = makeFactory(`Map bank ${name} ${shipment.item}`, shipment.item, shipment.count, shipment.from, { rate: 6, tryPlacement: true });
+            if (!supplier) throw new Error(`No surveyed factory fit for ${shipment.item} on ${shipment.from}`);
+            const input = route(shipment.item, shipment.from, candidate, supplier.output, district.buses.get(shipment.item), name);
+            return { supplier, item: shipment.item, count: shipment.count, input };
+          });
+        } catch (error) {
+          if (!error.message.startsWith('No surveyed ')) throw error;
+          for (const lane of [...lanes.values()]) if (!previousLanes.has(lane)) retireLane(lane);
+          clearFinishedFloor(district);
+          mark('tried another revealed factory site for freight', { item, map: candidate, reason: error.message });
+          district = undefined;
+          ore = undefined;
+          delivery = undefined;
+          continue;
+        }
+      }
+      id = candidate;
+      break;
     }
-    if (!district && count > (postVictory ? 8 : 30)) return addCore(item, Math.floor(count * .65));
+    if (!district && count > (lateBank ? 2 : postVictory || maintainMapSupply ? 8 : 30)) return addCore(item, Math.floor(count * .65));
     assert(district, `No surveyed site can support another ${count} ${item}`);
-    book(id, bill);
+    if (distributed) {
+      reserveInward(id, distributed);
+      for (const shipment of inwardFreight) {
+        countFreight(shipment.input.lanes, shipment.count, coreLoads);
+        clearFloorAfterDelivery(shipment.supplier, shipment.item);
+      }
+    } else book(id, bill);
     const lab = sector(home).nodes.find(node => node.kind === 'researchCenter');
-    const delivery = allResearch ? route(item, id, home, district.output, undefined, name, homeEntry[item])
+    delivery ??= allResearch || maintainMapSupply ? route(item, id, home, district.output, undefined, name, homeEntry[item])
       : coreFreight(district, item, researchPath(id, item));
-    if (allResearch && !sector(home).connections.some(cable => cable.from === delivery.sink.id && cable.to === lab.id)) connect(home, delivery.sink, lab);
+    if ((allResearch || maintainMapSupply) && !sector(home).connections.some(cable => cable.from === delivery.sink.id && cable.to === lab.id)) connect(home, delivery.sink, lab);
     if (bill.mythril) {
       assert(mythrilSupply, `No mine for ${item}`);
-      route('mythril', mythrilSupply.id, id, mythrilSupply.bus, district.buses.get('mythril'), name);
+      ore ??= route('mythril', mythrilSupply.id, id, mythrilSupply.bus, district.buses.get('mythril'), name);
+      if (maintainMapSupply) countFreight(ore.lanes, distributed?.local.raw.mythril ?? bill.mythril, oreLoads);
     }
     if (!homeStock.has(item)) homeStock.set(item, new Set());
     homeStock.get(item).add(delivery.sink);
-    for (const lane of delivery.lanes) {
+    countFreight(delivery.lanes, count, coreLoads);
+    if (maintainMapSupply) {
+      if (lateBank) activeBankMaps.add(id);
+      clearFloorAfterDelivery(district, item, Boolean(lateBank));
+    }
+    planned[item] = (planned[item] ?? 0) + count;
+  }
+
+  function countFreight(delivery, count, loads) {
+    for (const lane of delivery) {
       if (lane.restored) continue;
-      if (!coreLoads.has(lane)) {
-        coreLoads.set(lane, 0);
+      if (!loads.has(lane)) {
+        loads.set(lane, 0);
         watches.push(() => {
-          if (lane.delivered < coreLoads.get(lane)) return false;
+          if (!lanes.has(lane.key)) { loads.delete(lane); return true; }
+          if (lane.delivered < loads.get(lane)) return false;
           if (lanes.has(lane.key)) retireLane(lane);
-          coreLoads.delete(lane);
+          loads.delete(lane);
           return true;
         });
       }
-      coreLoads.set(lane, coreLoads.get(lane) + count);
+      loads.set(lane, loads.get(lane) + count);
     }
-    planned[item] = (planned[item] ?? 0) + count;
   }
 
   function pay(id, destination) {
@@ -265,11 +340,16 @@ export function runBlind(context) {
       const entries = Object.entries(bill);
       if (unlocked('victory')) entries.reverse();
       for (const [item, count] of entries) {
-        while (Math.max((planned[item] ?? 0) - (paid[item] ?? 0), unlocked('victory') ? labStock(item) : 0) < count) {
-          const lateCore = allResearch && mythrilSupply && ['shiny-core', 'command-core'].includes(item);
+        while (Math.max((planned[item] ?? 0) - (paid[item] ?? 0), unlocked('victory') || (maintainMapSupply && mythrilSupply) ? labStock(item) : 0) < count) {
+          const lateCore = (allResearch || maintainMapSupply) && mythrilSupply && Object.hasOwn(lateBankSize, item);
           assert(coreSize[item] || lateCore, `Waiting for the dedicated ${item} plant`);
           try {
-            addCore(item, lateCore ? Math.max(count, 20) : protectLakes && item === 'hydro-core' ? 115 : coreSize[item][0]);
+            const remaining = count - Math.max((planned[item] ?? 0) - (paid[item] ?? 0), labStock(item));
+            const standardBank = protectLakes && item === 'hydro-core' ? 115 : coreSize[item]?.[0];
+            const size = maintainMapSupply && mythrilSupply
+              ? Math.max(remaining, Math.min(lateBankSize[item] ?? standardBank, remaining + 12))
+              : lateCore ? Math.max(remaining, 20) : standardBank;
+            addCore(item, size);
           } catch (error) {
             if (!unlocked('victory') || !error.message.startsWith('No surveyed site can support another')) throw error;
             const contributed = state.research.contributed[item] ?? 0;
@@ -312,8 +392,14 @@ export function runBlind(context) {
   }
 
   const frontier = () => [...new Set([...visited.keys()].flatMap(neighbors))].filter(id => !visited.has(id));
-  function scout(reason, score) {
-    const next = frontier().sort((a, b) => score(a) - score(b))[0];
+  function scout(reason, score, maxTier = Infinity) {
+    const canFundTier = id => {
+      if (!maintainMapSupply || state.research.mapPoints || state.sectors[id]?.unlocked) return true;
+      const price = destinationMapCosts(state, ...coordinate(id));
+      return price && Object.keys(price).every(item => item === 'simple-core' || (state.produced[item] ?? 0) > 0) &&
+        (mythrilSupply || !price['shiny-core']);
+    };
+    const next = frontier().filter(id => nearHome(id) <= maxTier && canFundTier(id)).sort((a, b) => score(a) - score(b))[0];
     assert(next, `No frontier for ${reason}`);
     discover(next, reason);
   }
@@ -323,6 +409,7 @@ export function runBlind(context) {
 
   if (resume) {
     for (const map of Object.values(state.sectors)) if (map.unlocked && (map.visited || map.id === home)) survey(map.id, 'saved survey', false);
+    if (maintainMapSupply && resume.audit) return resumeMapSupply(resume.audit);
     if (resume.audit) {
       const { trace, payments, failure } = resume.audit;
       const { sites, dwarf, mythrilMap, ironMap } = trace.find(entry => entry.name === 'scouting and revealed site selection complete');
@@ -446,6 +533,34 @@ export function runBlind(context) {
 
   function scoutCorners() {
     // Corner coordinates are visible. Challenge types are learned on arrival.
+    if (maintainMapSupply) {
+      for (const corner of ['0,0', '10,0', '10,10', '0,10']) {
+        while (!visited.has(corner)) {
+          const queue = [...visited.keys()].map(id => ({ id, cost: 0, first: undefined }));
+          const best = new Map(queue.map(entry => [entry.id, 0]));
+          let nextOpening;
+          while (queue.length) {
+            queue.sort((a, b) => a.cost - b.cost);
+            const current = queue.shift();
+            if (current.cost > best.get(current.id)) continue;
+            if (current.id === corner) { nextOpening = current.first; break; }
+            for (const id of neighbors(current.id)) {
+              if (visited.has(id)) continue;
+              const price = destinationMapCosts(state, ...coordinate(id));
+              const estimate = price ? Object.values(price).reduce((n, count) => n + count, 0) : 5 * nearHome(id);
+              const cost = current.cost + estimate;
+              if (cost >= (best.get(id) ?? Infinity)) continue;
+              best.set(id, cost);
+              queue.push({ id, cost, first: current.first ?? id });
+            }
+          }
+          assert(nextOpening, `No frontier route to corner ${corner}`);
+          discover(nextOpening, 'reuse surveyed territory on the route to a corner');
+        }
+      }
+      assert.equal(corners.size, 4);
+      return;
+    }
     for (const [x, y] of [[0, 0], [10, 0], [10, 10], [0, 10]]) {
       for (let column = 5 + Math.sign(x - 5); column !== x + Math.sign(x - 5); column += Math.sign(x - 5)) discover(`${column},5`, 'shared route toward visible world corners');
       for (let row = 5 + Math.sign(y - 5); row !== y + Math.sign(y - 5); row += Math.sign(y - 5)) discover(`${x},${row}`, 'approach a visible corner');
@@ -457,8 +572,10 @@ export function runBlind(context) {
     const local = new Map(reserved), choices = { ...previousChoices };
     for (const [role, near, lake, items] of roles) {
       const raw = sumRaw(items.map(([item, count]) => campaign(role, { [item]: count })));
+      const occupied = Object.entries(choices).filter(([name]) => !maintainMapSupply || !mythrilSupply ||
+        !['medium', 'control', 'complex', 'mythril'].includes(name)).map(([, id]) => id);
       const available = [...visited.keys()].filter(id => id !== home && (!lake || visited.get(id).lake)
-        && (!pilot || (!Object.values(choices).includes(id) && (role !== 'control' || id !== dwarf)))
+        && (!pilot || (!occupied.includes(id) && (role !== 'control' || id !== dwarf)))
         && (!protectLakes || role !== 'foundry' || id !== choices.control) && canSupply(id, raw, local));
       available.sort((a, b) => distance(a, near) - distance(b, near) || visited.get(a).holes - visited.get(b).holes);
       if (!available.length) return;
@@ -533,7 +650,7 @@ export function runBlind(context) {
     const foundry = corners.get('foundry'), dragon = corners.get('alpha');
     const roles = [
       ['dragon', dragon, true, [['command-suppression-bot', dragonBotCount]]],
-      ['mythril', mythrilMap, true, [['command-suppression-bot', mythrilBots]]],
+      ...(!earlierSites.mythril ? [['mythril', mythrilMap, true, [['command-suppression-bot', mythrilBots]]]] : []),
       ...(!earlierSites.medium ? [mediumRole(dwarf)] : []),
       ['iron', ironMap, true, [['command-suppression-bot', ironBotCount]]],
       ...(!earlierSites.control ? [controlRole] : []),
@@ -577,7 +694,7 @@ export function runBlind(context) {
       }
       wait('stage lower Cores for the remaining projects', () => amounts.every(([item, count]) =>
         (pilot ? labStock(item) : (lab.input[item] ?? 0) + [...(homeStock.get(item) ?? [])].reduce((sum, buffer) => sum + stock(buffer, item), 0)) >= count), 75);
-      for (const lane of [...lanes.values()]) if (lane.item.endsWith('-core')) retireLane(lane);
+      if (!maintainMapSupply) for (const lane of [...lanes.values()]) if (lane.item.endsWith('-core')) retireLane(lane);
       if (efficiencyArm) {
         planned['simple-core'] = (paid['simple-core'] ?? 0) + labStock('simple-core');
       }
@@ -587,7 +704,7 @@ export function runBlind(context) {
         const retired = sector(id).nodes.filter(node => node.kind === 'road' && node.roadMode === 'export' && !active.has(node.id));
         if (retired.length) engine.deleteNodes(retired.map(node => node.id));
       }
-      mark('staged lower Cores and released research Roads');
+      mark(maintainMapSupply ? 'staged lower Cores and kept freight in service' : 'staged lower Cores and released research Roads');
     }
     wait('stage 34 Medium Bots', () => stock(staged, 'medium-suppression-bot') + stock(botRoute.sink, 'medium-suppression-bot') >= 34, 75);
     disconnect(dwarf, staging);
@@ -648,6 +765,7 @@ export function runBlind(context) {
     if (distributedVictory) {
       deliverShiny();
       for (const lane of new Set([...researchOre.lanes, ...solidLanes, ...inwardShiny])) if (lanes.has(lane.key)) retireLane(lane);
+      if (maintainMapSupply) clearFinishedFloor(shiny);
       const complexBill = campaign('Complex research', { 'command-core': complexCount }).raw;
       const candidates = () => [...visited.keys()].filter(id => id !== sites.control && id !== sites.medium && id !== dwarf
         && visited.get(id).lake && (peripheralSupply || canSupply(id, complexBill)) && path(dwarf, id, 'mythril') && path(id, home, 'command-core'))
@@ -682,11 +800,28 @@ export function runBlind(context) {
       pay('commandRobotics');
       wait('deliver the Complex Core reserved for victory', () => delivery.last.delivered >= complexCount, efficiencyArm ? 45 : 20);
       for (const lane of [...ore.lanes, ...delivery.lanes, ...inwardComplex]) if (lanes.has(lane.key)) retireLane(lane);
+      if (maintainMapSupply) clearFinishedFloor(complex);
       mark('paid research complete');
-      // The early staging step retired the original Core Roads. Count only stock
-      // still accessible at Home before planning a second wave of Map Points.
-      planned['simple-core'] = (paid['simple-core'] ?? 0) + labStock('simple-core');
-      const late = selectCornerSites({ medium: sites.medium, control: sites.control, complex: complex.id });
+      const earlierSites = { medium: sites.medium, control: sites.control, complex: complex.id };
+      let late;
+      if (maintainMapSupply) {
+        for (const item of ['shiny-core', 'command-core']) planned[item] = (paid[item] ?? 0) + labStock(item);
+        while (!findGolem('mythril') || !findGolem('iron')) {
+          scout('find the Golem reserves before corner expansion', id => Math.abs(nearHome(id) - 5), 5);
+        }
+        const mythrilMap = findGolem('mythril'), ironMap = findGolem('iron');
+        const attackRole = [['mythril', mythrilMap, true, [['command-suppression-bot', mythrilBots]]]];
+        let attackSites = chooseSites(attackRole, dwarf, earlierSites);
+        while (!attackSites) {
+          scout('find a Lake to supply the Mythril Golem attack', id => distance(id, mythrilMap), 7);
+          attackSites = chooseSites(attackRole, dwarf, earlierSites);
+        }
+        late = { sites: attackSites, mythrilMap, ironMap };
+      } else {
+        // Count only stock still accessible at Home after retiring the early freight.
+        planned['simple-core'] = (paid['simple-core'] ?? 0) + labStock('simple-core');
+        late = selectCornerSites(earlierSites);
+      }
       const replenishment = 65;
       const botBill = campaign('Dwarven replenishment', { 'medium-suppression-bot': replenishment }).raw;
       const supplySites = () => [...visited.keys()].filter(id => id !== dwarf && id !== home
@@ -713,7 +848,7 @@ export function runBlind(context) {
       wait('buffer Bots for renewed Dwarven supply', ready, 45);
       // Put the first reserve to work, then keep the new freight connected.
       connect(dwarf, refill.sink, camp);
-      return clearMythrilGolem(late.sites, late.mythrilMap, late.ironMap, () => route('mythril', dwarf, late.sites.mythril, tributeCart, undefined, 'attack Tribute'), [botRoute, refill]);
+      return clearMythrilGolem(late.sites, late.mythrilMap, late.ironMap, id => route('mythril', dwarf, id, tributeCart, undefined, 'attack Tribute'), [botRoute, refill]);
     }
     if (pilot) {
       deliverShiny();
@@ -743,8 +878,28 @@ export function runBlind(context) {
   }
 
   function clearMythrilGolem(sites, mythrilMap, ironMap, supply, retiredRoutes, forgeStock = []) {
-    const mythrilAttack = makeFactory('Mythril Golem attack', 'command-suppression-bot', mythrilBots, sites.mythril);
-    const attackSupply = supply();
+    const name = 'Mythril Golem attack';
+    let mythrilAttack = makeFactory(name, 'command-suppression-bot', mythrilBots, sites.mythril, { tryPlacement: maintainMapSupply });
+    if (!mythrilAttack && maintainMapSupply) {
+      const raw = campaign(name, { 'command-suppression-bot': mythrilBots }).raw;
+      const tried = new Set(Object.values(sites));
+      while (!mythrilAttack) {
+        const alternates = [...visited.keys()].filter(id => !tried.has(id) && visited.get(id).lake && supplies(id, raw)
+          && path(id, mythrilMap, 'command-suppression-bot'))
+          .sort((a, b) => distance(a, mythrilMap) - distance(b, mythrilMap));
+        for (const id of alternates) {
+          tried.add(id);
+          mythrilAttack = makeFactory(name, 'command-suppression-bot', mythrilBots, id, { tryPlacement: true });
+          if (!mythrilAttack) continue;
+          book(id, raw);
+          mark('relocated the Mythril attack to a surveyed Lake with room', { from: sites.mythril, to: id });
+          sites = { ...sites, mythril: id };
+          break;
+        }
+        if (!mythrilAttack) scout('find an alternate Lake for the Mythril attack', id => distance(id, mythrilMap), 7);
+      }
+    }
+    const attackSupply = supply(sites.mythril);
     for (const buffer of [...forgeStock, attackSupply.sink]) connect(sites.mythril, buffer, mythrilAttack.buses.get('mythril'));
     const mythrilGolem = sector(mythrilMap).nodes.find(n => n.golemMineral === 'mythril');
     const attack = route('command-suppression-bot', sites.mythril, mythrilMap, mythrilAttack.output);
@@ -752,23 +907,95 @@ export function runBlind(context) {
     wait('Mythril Golem', () => mythrilGolem.infiniteResource, 100);
     mark('Mythril Golem defeated', { map: mythrilMap, bots: attack.last?.delivered ?? mythrilBots });
     for (const lane of new Set([attack, attackSupply, ...retiredRoutes].flatMap(route => route.lanes))) if (lanes.has(lane.key)) retireLane(lane);
+    if (maintainMapSupply) {
+      const reserveOre = extract(mythrilMap, mythrilGolem, 4);
+      mythrilSupply = { id: mythrilMap, bus: reserveOre };
+      const late = selectCornerSites(sites);
+      return finishAfterMythril(late.sites, mythrilMap, mythrilGolem, ironMap, reserveOre);
+    }
     return finishAfterMythril(sites, mythrilMap, mythrilGolem, ironMap);
   }
-  
-  function finishAfterMythril(sites, mythrilMap, mythrilGolem, ironMap) {
-    const foundry = corners.get('foundry'), dragon = corners.get('alpha'), grove = corners.get('grove'), reclamation = corners.get('reclamation');
 
-    function extract(id, node, count, item) {
-      const bus = cart(id, { x: node.x + 650, y: node.y });
-      for (let i = 0; i < count; i++) {
-        const extractor = place(id, 'extractor', node.x + 350, node.y + i * 280);
-        connect(id, node, extractor, node.infiniteResource ? i : 0);
-        connect(id, extractor, bus);
-      }
-      return bus;
+  function extract(id, node, count) {
+    const bus = cart(id, { x: node.x + 650, y: node.y });
+    for (let i = 0; i < count; i++) {
+      const extractor = place(id, 'extractor', node.x + 350, node.y + i * 280);
+      connect(id, node, extractor, node.infiniteResource ? i : 0);
+      connect(id, extractor, bus);
     }
+    return bus;
+  }
 
-    const reserveOre = extract(mythrilMap, mythrilGolem, 2, 'mythril');
+  function resumeMapSupply(audit) {
+    const mythrilMap = findGolem('mythril') ?? audit.trace.find(entry => entry.name === 'Mythril Golem defeated')?.map;
+    const ironMap = findGolem('iron');
+    const golem = mythrilMap && sector(mythrilMap).nodes.find(node => node.golemMineral === 'mythril');
+    assert(golem && ironMap && unlocked('commandRobotics') && !Object.keys(state.produced).some(item => Object.values(CORNER_ITEMS).includes(item)),
+      'Recovery needs a surveyed Mythril Golem, Command Robotics and an unfinished corner survey');
+    for (const payment of audit.payments) for (const [item, count] of Object.entries(payment.costs)) paid[item] = (paid[item] ?? 0) + count;
+    lab = sector(home).nodes.find(node => node.kind === 'researchCenter');
+    const priorContributions = { ...state.research.contributed };
+    const active = corners.size < 4 || Object.values(priorContributions).some(Boolean) ? state.research.mapNodeQuote : undefined;
+    for (const item of [...Object.keys(coreSize), ...Object.keys(lateBankSize)]) {
+      planned[item] = (paid[item] ?? 0) + labStock(item);
+    }
+    // Rebuild the stopped districts through ordinary deletion and construction.
+    // Keep Home stock and the working infinite-reserve production in place.
+    for (const id of visited.keys()) {
+      const obsolete = sector(id).nodes.filter(node => node.kind === 'road' && node.roadMode === 'export' ||
+        (id !== home && id !== mythrilMap && node.constructedAt > 0 && node.kind !== 'road'));
+      if (!obsolete.length) continue;
+      activate(id);
+      engine.deleteNodes(obsolete.map(node => node.id));
+    }
+    if (!golem.infiniteResource) clearGolemWithLocalBots(mythrilMap, golem);
+    const oreMap = sector(mythrilMap);
+    const extractors = new Set(oreMap.connections.filter(cable => cable.from === golem.id).map(cable => cable.to));
+    const busId = oreMap.connections.find(cable => extractors.has(cable.from) && cable.item === 'mythril')?.to;
+    const reserveOre = oreMap.nodes.find(node => node.id === busId) ?? extract(mythrilMap, golem, 4);
+    mythrilSupply = { id: mythrilMap, bus: reserveOre };
+    mark('resumed stopped map research with rebuilt production space', { destination: active?.destination });
+    if (!active?.destination && corners.size < 4 && !unlocked('roadChannels2')) pay('roadChannels2');
+    if (!active && state.research.selected === 'mapNode') engine.selectResearch(undefined);
+    if (active?.destination) {
+      discover(active.destination, 'finish the saved map quote');
+      for (const [item, count] of Object.entries(priorContributions)) planned[item] = (planned[item] ?? 0) + count;
+    }
+    const former = audit.trace.find(entry => entry.name === 'scouting and revealed site selection complete')?.sites ?? {};
+    const complex = audit.trace.find(entry => entry.name === 'built Complex research')?.map;
+    const late = selectCornerSites({ medium: former.medium, control: former.control, complex, mythril: mythrilMap });
+    return finishAfterMythril(late.sites, mythrilMap, golem, ironMap, reserveOre);
+  }
+
+  function clearGolemWithLocalBots(id, golem) {
+    const bot = 'medium-suppression-bot', damage = BOT_STRENGTH[bot];
+    while (!golem.infiniteResource) {
+      const count = Math.min(12, Math.ceil(golem.health / damage));
+      const raw = campaign('Medium Bot Golem attack', { [bot]: count }).raw;
+      const candidates = [...visited.keys()].filter(map => visited.get(map).lake && supplies(map, raw) && path(map, id, bot))
+        .sort((a, b) => distance(a, id) - distance(b, id));
+      let district;
+      for (const map of candidates) {
+        district = makeFactory('Medium Bot Golem attack', bot, count, map, { tryPlacement: true });
+        if (district) break;
+      }
+      if (!district) {
+        scout('find a Lake for a small Medium Bot batch', map => distance(id, map), 7);
+        continue;
+      }
+      book(district.id, raw);
+      const delivery = route(bot, district.id, id, district.output);
+      connect(id, delivery.sink, golem);
+      const remaining = golem.health - count * damage;
+      wait('deliver a Medium Bot Golem attack batch', () => golem.infiniteResource || golem.health <= remaining, 35);
+      for (const lane of delivery.lanes) if (lanes.has(lane.key)) retireLane(lane);
+      clearFinishedFloor(district);
+    }
+    mark('Mythril Golem defeated by Medium Bots', { map: id });
+  }
+
+  function finishAfterMythril(sites, mythrilMap, mythrilGolem, ironMap, reserveOre = extract(mythrilMap, mythrilGolem, 2)) {
+    const foundry = corners.get('foundry'), dragon = corners.get('alpha'), grove = corners.get('grove'), reclamation = corners.get('reclamation');
     mythrilSupply = { id: mythrilMap, bus: reserveOre };
     const beforeIron = new Set(sector(sites.iron).nodes.map(node => node.id));
     const ironAttack = makeFactory('Iron Golem attack', 'command-suppression-bot', ironBotCount, sites.iron);

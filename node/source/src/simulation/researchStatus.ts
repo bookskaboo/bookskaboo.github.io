@@ -24,8 +24,7 @@ export function researchCoreStorage(node: MachineNode, research: ResearchState) 
   const required = outstandingResearchCores(research);
   const capacity = getNodeCapabilities(node.kind).inputCapacity ?? 5;
   return [...new Set<ItemId>([...RESEARCH_CORE_TYPES, ...required, ...Object.keys(node.input) as ItemId[]])].filter((item) => {
-    const unlocked = item === 'simple-core' ? research.completed.includes('refiner') :
-      item === 'basic-core' ? research.completed.includes('assembler') : isRecipeUnlocked(item, research.completed);
+    const unlocked = isRecipeUnlocked(item, research.completed);
     return unlocked || (node.input[item] ?? 0) > 0 || required.includes(item);
   }).map((item) => ({ item, amount: node.input[item] ?? 0, capacity }));
 }

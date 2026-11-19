@@ -41,13 +41,11 @@ export function basicTutorialRefinerRecipe(node: MachineNode, nodes: MachineNode
 /** Basics only permits the next machine, and closes placement as soon as it exists. */
 export function basicTutorialPlacementKind(stage: TutorialStage, nodes: MachineNode[]): NodeKind | undefined {
   if (stage === 'build-explain' || stage === 'build-place') return nodes.some(n => n.kind === 'extractor') ? undefined : 'extractor';
-  if (stage === 'chest-shortcut' || stage === 'chest-place') return nodes.some(n => n.kind === 'woodenChest') ? undefined : 'woodenChest';
   return productionTarget(stage, nodes)?.kind;
 }
 /** The marker and corrected placement must use exactly the same lesson coordinates. */
 export function tutorialPlacementTarget(stage: TutorialStage, state: GameState): TutorialPlacementTarget | undefined {
   if (stage === 'build-place') return { kind: 'extractor', ...TARGETS.extractor };
-  if (stage === 'chest-place') return { kind: 'woodenChest', ...TARGETS.woodenChest };
   if (stage === 'expansion-road-place') {
     const field = getWorldFieldSize(state);
     const { x, y } = pairedRoadPositions({ x: field.width, y: 350 }, 'west', field).local;

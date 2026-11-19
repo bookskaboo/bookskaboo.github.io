@@ -1,4 +1,7 @@
 import { describe, expect, it } from 'vitest';
+import { CORE_RESEARCH } from '../content/coreResearch';
+import { getResearchProject } from '../content/research';
+import { isRecipeUnlocked } from '../content/recipes';
 import { createInitialState, GameEngine } from './engine';
 import type { MachineNode } from '../domain/types';
 import { isResearchCycleActive, researchCoreStorage } from './researchStatus';
@@ -64,7 +67,7 @@ describe('synchronized Research Center cycles', () => {
   it('shows zero storage for unlocked cores and preserves visible buffered higher tiers', () => {
     const { center, state } = setup();
     state.research.selected = undefined;
-    state.research.completed = ['refiner', 'assembler', 'automataCore'];
+    state.research.completed = ['simpleCore', 'basicCore', 'automataCore'];
     center.input = { 'basic-core': 3, 'command-core': 2 };
     expect(researchCoreStorage(center, state.research)).toEqual([
       { item: 'simple-core', amount: 0, capacity: 5 },
@@ -72,7 +75,7 @@ describe('synchronized Research Center cycles', () => {
       { item: 'automata-core', amount: 0, capacity: 5 },
       { item: 'command-core', amount: 2, capacity: 5 },
     ]);
-    state.research.completed.push('hydraulicAssembly', 'oreSeparation', 'precisionControl');
+    state.research.completed.push('hydroCore', 'shinyCore', 'complexCore');
     expect(researchCoreStorage(center, state.research).map((core) => core.item)).toEqual([
       'simple-core', 'basic-core', 'automata-core', 'hydro-core', 'shiny-core', 'command-core',
     ]);
@@ -159,5 +162,53 @@ describe('synchronized Research Center cycles', () => {
     advance(engine, 1);
     expect(state.research.completed).toContain('assembler');
     expect(center.input).toEqual({ 'simple-core': 0, 'basic-core': 5 });
+  });
+});
+
+describe('standalone Core research', () => {
+  it('charges five of every earlier Core and lets only its own project unlock each recipe', () => {
+    const earlier = ['simple-core', 'basic-core', 'automata-core', 'hydro-core', 'shiny-core', 'command-core'];
+    CORE_RESEARCH.forEach(({ id, item, prerequisite }, index) => {
+      const project = getResearchProject(id)!;
+      expect(project.costs).toEqual(Object.fromEntries(earlier.slice(0, index).map(core => [core, 5])));
+      expect(isRecipeUnlocked(item, [prerequisite])).toBe(false);
+      expect(isRecipeUnlocked(item, [prerequisite, id])).toBe(true);
+    });
+    expect(getResearchProject('simpleCore')?.trigger?.id).toBe('refiner-unlocked');
+  });
+
+  it('requires all earlier Core types in a synchronized payment before unlocking Hydro Core', () => {
+    const initial = createInitialState(301);
+    initial.research.completed = ['refiner', 'simpleCore', 'basicCore', 'automataCore', 'hydraulicAssembly'];
+    initial.sectors['5,5'].nodes = [setup().center];
+    const engine = new GameEngine(initial, { autosave: false });
+    engine.selectResearch('hydroCore');
+    const lab = engine.getSector().nodes[0];
+    lab.input = { 'simple-core': 5, 'basic-core': 5 };
+    advance(engine, 5000);
+    const research = engine.getState().research;
+    expect(research.contributed).toEqual({});
+    lab.input['automata-core'] = 5;
+    advance(engine, 25000);
+    expect(research.completed).toContain('hydroCore');
+    expect(lab.input).toEqual({ 'simple-core': 0, 'basic-core': 0, 'automata-core': 0 });
+  });
+
+  it('retains previously bundled recipes on load while leaving later recipes locked', () => {
+    const old = createInitialState(301);
+    delete old.coreResearchVersion;
+    old.research.completed = ['refiner', 'assembler', 'automataCore', 'hydraulicAssembly'];
+    old.research.unlocked.push(...old.research.completed);
+    const engine = new GameEngine(old, { autosave: false });
+    const game = engine.getState();
+    expect(game.coreResearchVersion).toBe(1);
+    for (const { id, item } of CORE_RESEARCH.slice(0, 4)) {
+      expect(game.research.unlocked).toContain(id);
+      expect(isRecipeUnlocked(item, game.research.completed)).toBe(true);
+    }
+    expect(isRecipeUnlocked('shiny-core', game.research.completed)).toBe(false);
+    game.research.completed.push('oreSeparation');
+    engine.replaceState(game);
+    expect(isRecipeUnlocked('shiny-core', engine.getState().research.completed)).toBe(false);
   });
 });

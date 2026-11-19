@@ -32,6 +32,7 @@ const shinyCopperBudget = process.argv.find(arg => arg.startsWith('--shiny-local
 const efficiencyArm = process.argv.find(arg => arg.startsWith('--core-efficiency='))?.split('=')[1];
 const peripheralSupply = process.argv.includes('--peripheral-supply');
 const balancePatch = process.argv.find(arg => arg.startsWith('--balance-patch='))?.split('=')[1];
+const maintainMapSupply = balancePatch === 'standard-map-price' && process.argv.includes('--maintain-map-supply');
 const pilotRoute = pilot || Boolean(balancePatch);
 assert(!balancePatch || (['matched-map-price', 'standard-map-price'].includes(balancePatch) && peripheralSupply && !pilot && !efficiencyArm
   && shinySurvey === 'shiny-with-imports' && process.argv.includes('--through-victory')),
@@ -47,7 +48,7 @@ if (roadComparison !== undefined) {
 if (shinySurvey !== undefined) {
   assert(['corners-first', 'tribute-first', 'bots-during-survey', 'shiny-with-imports'].includes(shinySurvey),
     'Unknown Shiny survey mode');
-  assert(blind && pilotRoute && protectLakes && auditPath && seedOverride && !resumePath && !roadComparison
+  assert(blind && pilotRoute && protectLakes && auditPath && seedOverride && (!resumePath || maintainMapSupply) && !roadComparison
     && (!throughVictory || shinySurvey === 'shiny-with-imports'),
     'Shiny survey comparisons need a fresh, seeded blind pilot with protected Lakes and an audit');
 }
@@ -91,7 +92,9 @@ let cables = previousAudit?.end.cables ?? 0;
 let joints = previousAudit?.end.joints ?? 0;
 const boundaries = [...(previousAudit?.boundaries ?? [])];
 const payments = [...(previousAudit?.payments ?? [])];
-const researchWait = { anyMs: 0, byCoreMs: {}, byProject: {} };
+const captureWait = throughVictory && (!resumed || maintainMapSupply);
+const researchWait = { anyMs: previousAudit?.end.researchWait?.anyMs ?? 0, byCoreMs: { ...previousAudit?.end.researchWait?.byCoreMs },
+  byProject: structuredClone(previousAudit?.researchWaitByProject ?? {}) };
 let nextCore = SEVEN_CORES.filter(item => boundaries.some(boundary => boundary.label === item)).length;
 
 class OfflineEngine extends GameEngine {
@@ -162,7 +165,7 @@ if (balancePatch === 'matched-map-price') {
   engine.applyMod(mod);
 }
 const state = engine.getState();
-if (throughVictory && auditPath && !resumed) {
+if (captureWait && auditPath) {
   const simulate = engine.research.simulateResearch.bind(engine.research);
   engine.research.simulateResearch = (node, dt) => {
     const id = state.research.selected;
@@ -1016,7 +1019,7 @@ function auditSnapshot(label) {
     selected: state.research.selected, contributed: { ...state.research.contributed },
     maps: Object.values(state.sectors).filter(map => map.visited || map.id === home).length,
     placed, cables, joints, installed,
-    ...(throughVictory && !resumed ? { researchWait: { anyMs: researchWait.anyMs, byCoreMs: { ...researchWait.byCoreMs } } } : {}) };
+    ...(captureWait ? { researchWait: { anyMs: researchWait.anyMs, byCoreMs: { ...researchWait.byCoreMs } } } : {}) };
 }
 
 let result, failure;
@@ -1027,6 +1030,7 @@ try {
     engine, state, home, sector, source, activate, mark, tick, wait, research, place, connect, input, disconnect, stop, meter,
     middle, cart, freight, retireLane, lanes, factory, tryFactory, campaign, coreFreight, watches, cornerItems, unlocked, protectLakes, allResearch, pilot: pilotRoute, throughVictory, roadComparison, buyRoadChannels2, shinySurvey,
     efficiencyArm: balancePatch ? 'skip' : efficiencyArm, efficiencyUpgrade, peripheralSupply,
+    maintainMapSupply,
     shinyCopperBudget: shinyCopperBudget === undefined ? undefined : Number(shinyCopperBudget),
     researchCosts: id => getResearchCostsForState(getResearchProject(id), state.research),
     remainingProjects: () => RESEARCH_PROJECTS.filter(project => !project.trigger && !unlocked(project.id)
@@ -1074,7 +1078,7 @@ try {
     writeFileSync(auditPath, JSON.stringify({ seed: state.seed, tickMs, mod: state.mod?.name, failure: failure?.message, roadComparison, roadUsage, shinySurvey, efficiencyArm,
       ...(peripheralSupply ? { peripheralSupply } : {}), ...(balancePatch ? { balancePatch } : {}),
       boundaries, end: auditSnapshot(failure ? 'attempt stopped' : 'run ended'), payments, trace, cornerRecords,
-      ...(throughVictory && !resumed ? { researchWaitByProject: researchWait.byProject } : {}),
+      ...(captureWait ? { researchWaitByProject: researchWait.byProject } : {}),
       catalog: RESEARCH_PROJECTS.map(({ id, name, trigger, repeatable, prerequisite, prerequisites }) =>
         ({ id, name, milestone: Boolean(trigger), repeatable: Boolean(repeatable), prerequisites: [prerequisite, ...(prerequisites ?? [])].filter(Boolean) })) }, null, 2));
   }

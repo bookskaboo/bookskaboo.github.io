@@ -1,0 +1,24 @@
+{
+  "recipes": {
+    "hydro-core": { "cycleMs": 20000, "inputs": { "hydraulic-actuator": 1, "ceramic-electrode": 2, "coolant": 2 } },
+    "shiny-core": { "cycleMs": 30000, "inputs": { "mithril-mesh": 1, "hydraulic-actuator": 1, "circuit-a": 3 } },
+    "precision-controller": { "cycleMs": 36000, "inputs": { "circuit-a": 2, "mythril-gear": 1, "conductive-slurry": 3 } },
+    "logic-substrate": { "cycleMs": 36000 },
+    "advanced-actuator": { "cycleMs": 36000 },
+    "command-core": { "cycleMs": 45000 },
+    "final-core": { "cycleMs": 60000 }
+  },
+  "milestoneBills": {
+    "hydraulicAssembly": [3, 15],
+    "oreSeparation": [4, 20],
+    "heavyRobotics": [5, 20],
+    "precisionControl": [5, 30],
+    "commandRobotics": [6, 30]
+  },
+  "upgrade": {
+    "id": "mod-core-assembly-efficiency",
+    "bill": [4, 5],
+    "cycleMultiplier": 0.6,
+    "recipes": ["hydro-core", "shiny-core", "command-core"]
+  }
+}

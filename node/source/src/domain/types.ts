@@ -251,6 +251,7 @@ export interface GameState {
   progressionVersion?: number;
   reviewedProductionVersion?: 1;
   botAssemblyVersion?: 1;
+  coreResearchVersion?: 1;
   endgame?: { cornerOrder: import('../content/endgame').CornerType[]; pairIndex: number; version: 1; victoryAcknowledged?: boolean };
   rescue?: { resources: Array<'iron' | 'copper' | 'stone'>; pending?: { resource: 'iron' | 'copper' | 'stone'; sectorId: string; newMaps: number } };
   dwarvenMythrilProduced?: boolean;

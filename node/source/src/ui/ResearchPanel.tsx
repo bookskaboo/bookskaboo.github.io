@@ -46,8 +46,11 @@ export function ResearchPanel({ focusProjectId, allowedProjectId, showMilestones
 
   const normalizedQuery = query.trim().toLowerCase();
   const { active, projects, completed } = researchCatalog(game);
+  const guided = allowedProjectId !== undefined;
   const results = normalizedQuery ? searchResearch(game, query) : [];
-  const listed = normalizedQuery ? results.filter(project => project.id !== active?.id) : projects;
+  const listed = guided ? projects.filter(project => project.id === allowedProjectId)
+    : normalizedQuery ? results.filter(project => project.id !== active?.id) : projects;
+  const completedList = guided ? completed.filter(project => project.id === allowedProjectId) : completed;
   const canInspect = (id: string) => permitsTutorialChoice(allowedProjectId, id);
 
   useEffect(() => {
@@ -69,7 +72,7 @@ export function ResearchPanel({ focusProjectId, allowedProjectId, showMilestones
     if (allowedProjectId === undefined) return;
     setQuery('');
     setRequirementFilters([]);
-    setInspectedId(allowedProjectId ?? undefined);
+    setInspectedId(undefined);
   }, [allowedProjectId]);
 
   useEffect(() => {
@@ -92,7 +95,8 @@ export function ResearchPanel({ focusProjectId, allowedProjectId, showMilestones
     requestAnimationFrame(() => openResearchCard(id));
   };
   const toggleProject = (id: string, keyboard: boolean) => {
-    const next = inspectedId === id ? undefined : id;
+    if (!canInspect(id)) return;
+    const next = !guided && inspectedId === id ? undefined : id;
     setInspectedId(next);
     if (next && keyboard) requestAnimationFrame(() => {
       const detail = contentRef.current?.querySelector<HTMLElement>('[data-project-detail]');
@@ -115,10 +119,10 @@ export function ResearchPanel({ focusProjectId, allowedProjectId, showMilestones
         <section className="modal research-modal glass">
           <PanelHeader
             title="Research projects" onClose={onClose}
-            actions={(
+            actions={!guided && (
               <button
                 ref={treeButton} type="button" className="research-tree-trigger"
-                disabled={allowedProjectId !== undefined} onClick={() => setTreeOpen(true)}
+                onClick={() => setTreeOpen(true)}
               >
                 <span aria-hidden="true">⑂</span> Research tree
               </button>
@@ -126,11 +130,11 @@ export function ResearchPanel({ focusProjectId, allowedProjectId, showMilestones
           />
           <div className="research-layout">
             <div className="research-browser">
-              <div className="research-tools">
+              {!guided && <div className="research-tools">
                 <div className="research-requirement-filters" aria-label="Highlight research by requirement">
                   {RESEARCH_FILTER_OPTIONS.map(option => (
                     <button
-                      type="button" key={option.id} disabled={allowedProjectId !== undefined}
+                      type="button" key={option.id}
                       className={`research-requirement-filter ${requirementFilters.includes(option.id) ? 'selected' : ''}`}
                       aria-pressed={requirementFilters.includes(option.id)}
                       style={{ '--research-filter-color': option.color } as CSSProperties}
@@ -143,7 +147,7 @@ export function ResearchPanel({ focusProjectId, allowedProjectId, showMilestones
                 <label className="research-search-field">
                   <span aria-hidden="true">⌕</span>
                   <input
-                    disabled={allowedProjectId !== undefined} type="search" value={query}
+                    type="search" value={query}
                     placeholder="Search research..." aria-label="Search research projects"
                     onChange={event => changeQuery(event.target.value)}
                   />
@@ -154,24 +158,24 @@ export function ResearchPanel({ focusProjectId, allowedProjectId, showMilestones
                     <button onClick={() => changeQuery('')}>Clear search</button>
                   </div>
                 )}
-              </div>
+              </div>}
               <div className="research-content" ref={contentRef}>
                 <div className="research-summary-row">
-                  <section className="research-active-slot" aria-label="Active project">
+                  {(!guided || active?.id === allowedProjectId) && <section className="research-active-slot" aria-label="Active project">
                     <h3>Active project</h3>
                     {active ? card(active, []) : <div className="research-active-empty">
                       <strong>No project selected</strong><span>Science is awaiting direction.</span>
                     </div>}
-                  </section>
+                  </section>}
                   {inspected && <section className="research-inspected-slot" aria-label="Selected project">
                     <h3>Selected project</h3>
-                    <ResearchProjectDetail canInspect={canInspect} project={inspected} game={game} engine={engine}
+                    <ResearchProjectDetail canInspect={canInspect} guided={guided} project={inspected} game={game} engine={engine}
                       onPrerequisite={inspectPrerequisite} onOpenRecipe={onOpenRecipe} onOpenMap={onOpenMap} />
                   </section>}
                   {showMilestones && <ResearchHintCard game={game} />}
                 </div>
                 <div className="research-sections" ref={listRef}>
-                  <section className="research-section" aria-label={normalizedQuery ? 'Search results' : 'Research'}>
+                  {(!guided || listed.length > 0) && <section className="research-section" aria-label={normalizedQuery ? 'Search results' : 'Research'}>
                     <div className="research-catalog-heading">
                       <h3>{normalizedQuery ? 'Search results' : 'Research'}</h3>
                       <span className="research-catalog-key"><i /> Within reach <i /> Requires progress</span>
@@ -179,10 +183,10 @@ export function ResearchPanel({ focusProjectId, allowedProjectId, showMilestones
                     {listed.length > 0 && <div className="research-grid">{listed.map(project => card(project))}</div>}
                     {normalizedQuery && !results.length && <p className="research-section-empty">No matches. Try a project, material, or Core type.</p>}
                     {normalizedQuery && results.length > listed.length && <p className="research-section-empty">The active project matches your search.</p>}
-                  </section>
-                  {!normalizedQuery && completed.length > 0 && <details className="research-section research-completed">
-                    <summary>Completed research · {completed.length}</summary>
-                    <div className="research-grid">{completed.map(project => card(project))}</div>
+                  </section>}
+                  {!normalizedQuery && completedList.length > 0 && <details className="research-section research-completed" open={guided || undefined}>
+                    <summary>Completed research · {completedList.length}</summary>
+                    <div className="research-grid">{completedList.map(project => card(project))}</div>
                   </details>}
                 </div>
               </div>

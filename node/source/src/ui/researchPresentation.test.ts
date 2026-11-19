@@ -22,18 +22,20 @@ describe('research browsing', () => {
   });
   it('puts capabilities before efficiency upgrades when Core production is unlocked', () => {
     const state = createInitialState(1);
-    state.research.completed = ['joint', 'kiln', 'smelter', 'refiner', 'researchCenter'];
+    state.research.completed = ['joint', 'kiln', 'smelter', 'refiner', 'simpleCore', 'researchCenter'];
     const catalog = researchCatalog(state);
     expect(catalog.projects[0].id).toBe('assembler');
     expect(catalog.completed.map(p => p.id)).toContain('joint');
     expect(researchSection(project('exploration'), state)).toBe('future');
     state.research.completed.push('assembler');
+    expect(researchSection(project('exploration'), state)).toBe('future');
+    state.research.completed.push('basicCore');
     expect(researchSection(project('exploration'), state)).toBe('available');
   });
 
   it('puts Extra Map Point first when available and keeps other cards ordered by access and complexity', () => {
     const state = createInitialState(1);
-    state.research.completed = ['joint', 'kiln', 'smelter', 'refiner', 'researchCenter', 'assembler'];
+    state.research.completed = ['joint', 'kiln', 'smelter', 'refiner', 'simpleCore', 'researchCenter', 'assembler', 'basicCore'];
     expect(researchCatalog(state).projects[0].id).not.toBe('mapNode');
     state.research.completed.push('exploration');
     state.research.selected = 'road';
@@ -66,13 +68,13 @@ describe('research browsing', () => {
   it('shows independent blockers and omits the research they already require', () => {
     const state = createInitialState(1);
     const mirroring = project('connectorMirroring');
-    expect(visibleResearchRequirements(mirroring, state)).toEqual(['hydraulicAssembly']);
-    expect(researchCardDetails(mirroring, state).status).toBe('Requires Hydraulic Assembly');
+    expect(visibleResearchRequirements(mirroring, state)).toEqual(['hydroCore']);
+    expect(researchCardDetails(mirroring, state).status).toBe('Requires Hydro Core');
 
     const finalRobotics = project('finalRobotics');
     expect(visibleResearchRequirements(finalRobotics, state)).toEqual(['finalCoreProduction', 'commandRobotics']);
     expect(researchCardDetails(finalRobotics, state).status).toBe('Requires first Final Core, Command Robotics');
-    state.research.completed.push('finalCoreProduction', 'refiner', 'assembler', 'automataCore', 'hydraulicAssembly', 'oreSeparation', 'precisionControl');
+    state.research.completed.push('finalCoreProduction', 'simpleCore', 'basicCore', 'automataCore', 'hydroCore', 'shinyCore', 'complexCore', 'finalCore');
     expect(visibleResearchRequirements(finalRobotics, state)).toEqual(['commandRobotics']);
     expect(researchSection(finalRobotics, state)).toBe('future');
   });
@@ -81,7 +83,7 @@ describe('research browsing', () => {
     const state = createInitialState(1);
     const exploration = project('exploration');
     expect(researchCardDetails(exploration, state).tooltip).toBe(
-      `Requires Assembler\nSimple Core + Basic Core · 0/10\n\n${exploration.description}`,
+      `Requires Basic Core\nSimple Core + Basic Core · 0/10\n\n${exploration.description}`,
     );
 
     state.research.completed.push('refiner', 'assembler');

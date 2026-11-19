@@ -839,6 +839,7 @@ describe('simulation architecture', () => {
     const triggerRequirements = Object.fromEntries(RESEARCH_PROJECTS.filter((project) => project.trigger && project.trigger.id!=='encounter').map((project) => [project.id, project.trigger?.pending]));
     expect(triggerRequirements).toEqual({
       cornerComponents: 'Take the next step in Core production',
+      simpleCore: 'Unlock the Refiner',
       mithrilTools: 'Produce Mythril Tribute at a Dwarven settlement',
       sortingTools: 'Complete Precision Control',
       mineralRecovery: 'Complete Precision Control',

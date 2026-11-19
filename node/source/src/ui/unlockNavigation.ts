@@ -14,6 +14,6 @@ export function unlockDestination(projectId: string, nodeKind?: NodeKind): Unloc
   if (projectId === 'mithrilTools') return { panel: 'recipes', recipeId: 'mythril-gear' };
   const node = BUILDABLE_NODES.find(node => node.unlockResearch === projectId);
   if (node) return { panel: 'build', nodeKind: node.kind };
-  const recipe = projectId === 'automataCore' ? 'automata-core' : projectId === 'suppressionBot' ? 'robot-frame' : Object.values(RECIPES).find(recipe => recipe.unlockResearch === projectId)?.id;
+  const recipe = projectId === 'suppressionBot' ? 'robot-frame' : Object.values(RECIPES).find(recipe => recipe.unlockResearch === projectId)?.id;
   return recipe ? { panel: 'recipes', recipeId: recipe } : { panel: 'research', projectId };
 }

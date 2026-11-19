@@ -44,7 +44,7 @@ const descriptions={
  fluidRoad:'Transfers a connected fluid buffer every five seconds to an adjacent map, with a 256-unit receiving buffer.',
  abandonedFabricator:'Remains of an old Fabricator.',
  sortingStation:'Remains of an old waste sorting station.',
- resourceGolem:'Deliver Bots after Resource Golem Survey to pay the AP shown in the inspector. Defeating a Golem creates an infinite mineral reserve with a star connection on each face for Extractors.',
+ resourceGolem:'Deliver Suppression Bots to the camp. Defeating the Golem creates an infinite mineral reserve with a star connection on each face for Extractors.',
 };
 function node(kind,name,category,input,output,behavior,unlockResearch,extra={},cap={}){
  nodes[kind]={kind,name,category,input,output,description:descriptions[kind]??name,accent:0x75bfc1,accentCss:'#75bfc1',icon:'◆',unlockResearch,...extra};
@@ -59,7 +59,7 @@ node('powerConduit','Power Line','Power',['POWER'],['POWER'],'router','powerDist
 node('fluidRoad','Fluid Road','Logistics',['water'],['water'],'road','fluidRouting',{size:'large'},{pairedSectorPlacement:true,duplicateAllowed:false,inputCapacity:256,defaultCapacity:256});
 node('abandonedFabricator','Fabricator Ruin','World',[],[],'landmark',undefined,{hidden:true},{duplicateAllowed:false});
 node('sortingStation','Sorting Ruin','World',[],[],'landmark',undefined,{hidden:true},{duplicateAllowed:false});
-node('resourceGolem','Resource Golem','World',['ATTACK_POWER'],['RESOURCE','RESOURCE'],'golem','resourceGolemSurvey',{hidden:true,size:'large'},{worldObstacle:true,duplicateAllowed:false,multiInput:true,multiOutput:true,inputCapacity:1000});
+node('resourceGolem','Golem Camp','World',['ATTACK_POWER'],['RESOURCE','RESOURCE'],'golem',undefined,{hidden:true,size:'large'},{worldObstacle:true,duplicateAllowed:false,multiInput:true,multiOutput:true,inputCapacity:1000});
 const nodeArt = {
   hydroProcessor: 'hydro-processor', advancedAssembler: 'advanced-assembler',
   separationFurnace: 'furnace', wasteHopper: 'archive', fluidStorage: 'tank',

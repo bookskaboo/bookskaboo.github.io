@@ -170,7 +170,7 @@ body,button,input,select,textarea {
 .research-card.requirement-filter-muted:not([aria-expanded="true"]) { opacity:1; color:#a4b1bb; }
 
 .factory-template-controls p, .tutorial-intro, .tutorial-unlock-copy,
-.tutorial-card-copy p, .tutorial-reference, .tutorial-callout p,
+.tutorial-card-copy p, .tutorial-callout p,
 .confirm-modal p, .interaction-explanation p { font:var(--modal-reading-font); }
 .tutorial-placement-target span, .tutorial-port-target span { font:var(--ui-control-font); letter-spacing:normal; }
 

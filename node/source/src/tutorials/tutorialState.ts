@@ -85,8 +85,7 @@ export function createTutorialState(kind: TutorialKind, board = ''): GameState {
     add('woodenChest', 'tutorial-bots', 450, 440, { output: { 'suppression-bot': 20 }, capacity: 20 });
     state.research.completed = ['suppressionBot'];
   }
-  // Basics lends the Cart schematic for its buffer lesson; normal games require Road research.
-  state.research.unlocked = ['extractor', ...(kind === 'basic' ? ['road'] : []), ...state.research.completed];
+  state.research.unlocked = ['extractor', ...state.research.completed];
   return state;
 }
 

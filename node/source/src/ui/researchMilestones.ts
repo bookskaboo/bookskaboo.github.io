@@ -99,11 +99,13 @@ export function getResearchMilestones(game: GameState): ResearchMilestone[] {
   const knownCornerWork = cornerWork.filter(entry => entry.action.kind === 'sector');
   const halfWork = done('cornerComponents') ? missingHalves.filter(half => Object.keys(half.inputs).every(item => (stock[item as ItemId] ?? 0) > 0))
     .map(half => recipe(half.id, half.name, 'Two pieces seem to agree.')) : [];
-  const finalAssembly = recipe('final-core', 'Final Core', 'It’s like they fit together.');
+  const core = (projectId: string, recipeId: string, name: string, detail: string) =>
+    done(projectId) ? recipe(recipeId, name, detail) : research(projectId, detail);
+  const finalAssembly = core('finalCore', 'final-core', 'Final Core', 'It’s like they fit together.');
   const lab = build('researchCenter', 'Research Center', 'Home could use a lab.');
   const simple = recipe('simple-core', 'Simple Core', 'Copper Gears have ambitions.');
-  const basic = recipe('basic-core', 'Basic Core', 'Iron Wire enters the picture.');
-  const complex = recipe('command-core', 'Complex Core', 'The leftovers may have a future.');
+  const basic = core('basicCore', 'basic-core', 'Basic Core', 'Iron Wire enters the picture.');
+  const complex = core('complexCore', 'command-core', 'Complex Core', 'The leftovers may have a future.');
 
   let primary: ResearchMilestone;
   if (done('refiner') && !labInstalled && (made('simple-core') || done('assembler'))) {
@@ -126,7 +128,7 @@ export function getResearchMilestones(game: GameState): ResearchMilestone[] {
   else if (!done('lakeTools')) primary = expansion(lake);
   else if (!done('hydrochemistry')) primary = research('hydrochemistry', 'Copper needn’t stay dry.');
   else if (!done('hydraulicAssembly')) primary = research('hydraulicAssembly', 'The Pistons are getting ambitious.');
-  else if (!made('hydro-core') && !done('fluidRouting')) primary = recipe('hydro-core', 'Hydro Core', 'The Lake may have a second job.');
+  else if (!made('hydro-core') && !done('fluidRouting')) primary = core('hydroCore', 'hydro-core', 'Hydro Core', 'The Lake may have a second job.');
   else if (!done('fluidRouting')) primary = research('fluidRouting', 'Fluids have places to be.');
   else if (!done('suppressionBot')) primary = expansion(camp);
   else if (!done('sealedRobotics')) primary = research('sealedRobotics', 'One AP only gets you so far.');
@@ -134,7 +136,7 @@ export function getResearchMilestones(game: GameState): ResearchMilestone[] {
     ? visit(tributeSettlement.sector.id, 'Dwarven Tribute', 'The factory’s future depends on their cooperation.')
     : expansion(dwarves);
   else if (!done('oreSeparation')) primary = research('oreSeparation', 'There’s something shiny in there.');
-  else if (!made('shiny-core') && !done('precisionControl')) primary = recipe('shiny-core', 'Shiny Core', 'Mythril looks promising in Mesh.');
+  else if (!made('shiny-core') && !done('precisionControl')) primary = core('shinyCore', 'shiny-core', 'Shiny Core', 'Mythril looks promising in Mesh.');
   else if (!done('precisionControl')) primary = research('precisionControl', 'Complications are now a feature.');
   else if (!made('command-core') && !done('cornerComponents')) primary = complex;
   else if (!done('treePlanter') && isCorner(knownCornerWork[0], 'grove') && !halfWork.length) primary = research('treePlanter', treePlanterHint);
@@ -159,7 +161,8 @@ export function getResearchMilestones(game: GameState): ResearchMilestone[] {
       if (!made('command-core')) candidates.push(complex);
       const paid = game.research.selected === 'victory' ? game.research.contributed : game.research.projectContributions?.victory;
       const needFinal = !((stock['final-core'] ?? 0) || (paid?.['final-core'] ?? 0));
-      if (needFinal) candidates.push(...halfWork, ...knownCornerWork, ...cornerWork, ...(!missingHalves.length ? [finalAssembly] : []));
+      if (needFinal) candidates.push(...halfWork, ...knownCornerWork, ...cornerWork,
+        ...(done('cornerComponents') && (!done('finalCore') || !missingHalves.length) ? [finalAssembly] : []));
       if (!done('cornerComponents')) candidates.push(expansion(corners));
       candidates.push(golemHint);
     }

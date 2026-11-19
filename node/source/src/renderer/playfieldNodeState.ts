@@ -8,6 +8,7 @@ import { CORNER_ITEMS, landfillTotal } from '../content/endgame';
 import { modNode } from '../mods/modRules';
 import { RECIPES } from '../content/recipes';
 import { getGoblinAttackRequirement } from '../content/goblinSettlements';
+import { golemApCost } from '../content/resourceGolems';
 import type { ItemId, MachineNode } from '../domain/types';
 import { selectedFilterPort } from '../domain/filterRouting';
 
@@ -29,6 +30,7 @@ export function deepHoleStoneReadout(node: MachineNode, landfillRank: number) {
     : consumed + remaining;
   return `STONE ${delivered.toLocaleString()} / ${required.toLocaleString()}`;
 }
+export const golemApReadout = (node: MachineNode) => `${(node.health ?? golemApCost(node)).toLocaleString()} AP required`;
 export const nodeTextScale = (zoom: number) => Math.min(1.55, 1.12 + Math.max(0, 1 - zoom) * .9);
 
 const cornerPieceItems = Object.values(CORNER_ITEMS);

@@ -33,7 +33,7 @@ describe('six-tier gameplay progression',()=>{
   ['advancedAssembler','advanced-actuator'],['advancedAssembler','command-core'],
  ] as const)('produces %s recipe %s at its base time within five-item buffers',(kind,id)=>{
   const r=RECIPES[id];
-  const e=setup([machine(kind,'producer',{capacity:5})],['assembler','fabricatorTools','mithrilTools','oreSeparation','precisionControl']);
+  const e=setup([machine(kind,'producer',{capacity:5})],['assembler','fabricatorTools','mithrilTools','oreSeparation','precisionControl','complexCore']);
   expect(e.setRecipe('producer',id)).toBe(true);
   const n=e.getSector().nodes[0];n.input={...r.inputs};
   tick(e,r.cycleMs/1000-.1);expect(n.output).toEqual({});
@@ -229,7 +229,8 @@ describe('six-tier gameplay progression',()=>{
   expect(isResearchAvailable(project,[])).toBe(false);
   expect(isResearchAvailable(project,['assembler'])).toBe(false);
   expect(isResearchAvailable(project,['assembler','automataCore'])).toBe(true);
-  expect(isRecipeUnlocked('basic-core',['assembler'])).toBe(true);
+  expect(isRecipeUnlocked('basic-core',['assembler'])).toBe(false);
+  expect(isRecipeUnlocked('basic-core',['assembler','basicCore'])).toBe(true);
   const e=setup([machine('researchCenter','lab',{input:{'simple-core':5,'basic-core':5,'automata-core':5}})],['assembler','automataCore']);
   e.selectResearch('fabricatorTools');tick(e,25);
   expect(e.getState().research.completed).toContain('fabricatorTools');

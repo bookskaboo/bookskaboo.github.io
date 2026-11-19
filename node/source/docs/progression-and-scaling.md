@@ -17,6 +17,7 @@ This is the ongoing discussion and decision record. Implemented decisions are id
 - Encourage scaling with every new core tier, with different bottlenecks to overcome at each tier.
 - Use Map Nodes to support exploration and productive expansion. Count working outposts and sustainable output when evaluating scale, rather than unlocked territory alone.
 - Encourage intermediate production near resources and increasingly complex products and cores moving toward Home. The single Research Center is anchored at Home.
+- For playtests through the first six Core tiers, favor assembly sites closer to Home and use surveyed outposts to make and ship solid intermediates. Keep Water-dependent processing at Lakes. For Final Core, use peripheral factories to supply the corners over Roads. Track nodes and connections placed per phase and still standing at each Core milestone alongside time and resource use.
 - Keep earlier core factories useful as later tiers increase research demand. Core recipes remain independent; higher cores do not consume lower cores.
 - Keep the game completable without efficiency upgrades. Investment in those upgrades should feel worthwhile across a large production network.
 - Review problems individually in conversation. Efficiency balance is on hold; progression demand and distinct tier bottlenecks are the current topic.
@@ -43,11 +44,31 @@ Current details: [research catalog](research-catalog.md#implemented-linear-machi
 
 ## Problem 2 Progression demand and scaling
 
+**Agreed throughput target (November 12, 2026).** An efficient player aims to deliver one of each Core the active project still needs every Research Center cycle. At the unupgraded five-second cycle, that is 12 Cores per minute from each required line. Simple should make this target approachable. Later tiers should make it progressively harder to sustain through longer production times and greater material demand, while earlier lines continue supplying research alongside the new ones. Faster Core production and delivery should let players advance sooner. Final Core production should take longer and be harder to optimize than Complex Core production.
+
+Use this as a target for efficient play. Evaluate whether each required line can sustain its delivery rate once initial stock runs out, and note where faster production or delivery advances the next milestone.
+
+**Agreed placement of larger research bills (November 12, 2026).** Keep first access to each Core affordable. After access, place the larger bill on a separate milestone that draws on the new Core and earlier Core lines. Show the bill early enough for players to plan capacity and supply while establishing the new line. The milestone rewards, prerequisites, and quantities remain open.
+
+**Agreed path to first victory (November 12, 2026).** Players can win with the research needed to produce the required Cores, reach the required sites, and complete victory. The larger research milestones are optional investments. Their benefits should make progression substantially faster when players apply them to a bottleneck, giving players a reason to spend the Cores and time. Compare first-victory times against the essential route and include the cost of producing the Cores for the upgrade, completing the research, and putting the upgrade to use.
+
 **Status: Simple through Hydro roles agreed. The revised Shiny and Complex recipes, work times and Map Node scaling are implemented. Throughput figures below are analytical estimates pending gameplay validation.**
 
 Most main progression projects currently cost 2 of each required core; Hydrochemistry costs 1 each through Automata. A few batches can therefore establish access to the next capability without demonstrating sustained production at the current tier. The concern is that larger factories may have too little opportunity to show their value before the player moves to the next chain.
 
-Affordable access is already an intentional design rule. The next decision is where to place meaningful production demand while preserving that rule: which milestones should reward sustained output, and which unlocks should remain inexpensive introductions to new tools and recipes?
+**Agreed payback horizon (November 12, 2026).** A well-chosen optional upgrade should produce a net time saving by first victory. Its benefits can accrue across multiple Core tiers. Compare total time through victory, including the time invested in the upgrade.
+
+**Agreed pacing direction (November 12, 2026).** Keep the opening fast and make each successive Core tier take progressively longer on the essential research route. Measure the opening from fresh Home and later phases from the first Core of the previous tier to the first Core of the next. Optional research should give players a reason to invest by shortening the work ahead and saving time overall by first victory. Use the essential route to set the pacing curve and compare it with a route that buys upgrades.
+
+**Agreed opening target (November 12, 2026).** Reach the first Automata Core in 25–30 minutes from fresh Home on the headless benchmark. The three matched runs reached first Automata at 29:10 on the game clock, which excludes hands-on placement and wiring. Use that opening as the reference for setting the later phase intervals. [Headless playtest audit](../outputs/road-channels-payback-2026-11-12/paired/680312004-skip.json)
+
+**Agreed Automata-to-Hydro target (November 12, 2026).** Aim for 28–35 minutes from first Automata to first Hydro on the headless benchmark. Use that interval for finding, building, and supplying the first Lake factory. The earlier matched runs took 11:11 for this phase, so the target calls for more useful production and logistics work before first Hydro.
+
+**Agreed Hydro-to-Shiny target (November 12, 2026).** Aim for 40–55 minutes from first Hydro to first Shiny on the headless benchmark. Shorten the survey and give more of the phase to Suppression Bot production, Dwarven Mythril Tribute delivery, and the first Shiny factory. The matched runs took 2:06–2:09 and opened 64–66 maps during this interval.
+
+**Agreed Shiny-to-Complex target (November 12, 2026).** Aim for 60–75 minutes from first Shiny to first Complex on the headless benchmark. Give players time to expand shared inputs and balance the three Complex component lines. The matched runs took about 24 minutes. The Final Core phase should take longer than this Complex buildout.
+
+**Agreed Complex-to-Final target (November 12, 2026).** Aim for 90–105 minutes from first Complex to first Final Core on the headless benchmark. This is the longest phase and includes supplying the four corner challenges, delivering their pieces, and assembling the first Final Core. The matched runs took about 93–95 minutes. The five agreed intervals add up to 4:03–5:00 from fresh Home to first Final Core.
 
 ### Adopted Simple Core scaling and exploration
 

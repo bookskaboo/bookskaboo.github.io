@@ -16,37 +16,24 @@ const TUTORIAL_DESCRIPTIONS: Record<TutorialKind, string> = {
   basic: 'Make a Simple Core and complete your first research.',
   expansion: 'Ship Wood Home with a Cart at each end of a Road pair.',
   logistics: 'Route, split, and merge materials.',
-  'monster-camps': 'Supply Attack Power and collect Tribute.',
+  'monster-camps': 'Practice keeping a Monster Camp under control.',
   'control-groups': 'Select and move machines as a group.',
 };
 
 export function TutorialMenu({ game, onStart, onClose }: { game: GameState; onStart(kind: TutorialKind): void; onClose(): void }) {
-  const [reference, setReference] = useState<TutorialKind>();
-  const title = reference ? `${TUTORIAL_NAMES[reference]} guide` : 'Tutorials';
   return <div className="modal-backdrop tutorial-menu-backdrop">
-    <section className="modal glass tutorial-dialog tutorial-menu" role="dialog" aria-modal="true" aria-label={title}>
-      <PanelHeader title={title} onClose={onClose} />
-      <div className="tutorial-modal-content" key={title}>
-        {reference ? <>
-          <button className="tutorial-button tutorial-back" onClick={() => setReference(undefined)}>← Back to tutorials</button>
-          <ol className="tutorial-list tutorial-reference">
-            {tutorialStages(reference).map(stage => {
-              const copy = lessonCopy(stage);
-              return <li className="tutorial-card tutorial-card-copy" key={stage}><h3>{copy.title}</h3>{copy.instruction && <p className="tutorial-reference-instruction">{copy.instruction}</p>}{copy.body && <p>{copy.body}</p>}</li>;
-            })}
-          </ol>
-        </> : <>
-          <p className="tutorial-intro">Practice in a separate factory.</p>
-          <div className="tutorial-list tutorial-library">
-            {availableTutorials(game).map(kind => <article className="tutorial-card tutorial-choice" key={kind}>
-              <div className="tutorial-card-copy"><h3>{TUTORIAL_NAMES[kind]}</h3><p>{TUTORIAL_DESCRIPTIONS[kind]}</p></div>
-              <div className="tutorial-choice-actions">
-                <button className="tutorial-button tutorial-primary" onClick={() => onStart(kind)} aria-label={`Start ${TUTORIAL_NAMES[kind]}`}>Start</button>
-                {kind !== 'expansion' && <button className="tutorial-button" onClick={() => setReference(kind)} aria-label={`Read ${TUTORIAL_NAMES[kind]} guide`}>Read guide</button>}
-              </div>
-            </article>)}
-          </div>
-        </>}
+    <section className="modal glass tutorial-dialog tutorial-menu" role="dialog" aria-modal="true" aria-label="Tutorials">
+      <PanelHeader title="Tutorials" onClose={onClose} />
+      <div className="tutorial-modal-content">
+        <p className="tutorial-intro">Practice in a separate factory.</p>
+        <div className="tutorial-list tutorial-library">
+          {availableTutorials(game).map(kind => <article className="tutorial-card tutorial-choice" key={kind}>
+            <div className="tutorial-card-copy"><h3>{TUTORIAL_NAMES[kind]}</h3><p>{TUTORIAL_DESCRIPTIONS[kind]}</p></div>
+            <div className="tutorial-choice-actions">
+              <button className="tutorial-button tutorial-primary" onClick={() => onStart(kind)} aria-label={`Start ${TUTORIAL_NAMES[kind]}`}>Start</button>
+            </div>
+          </article>)}
+        </div>
       </div>
     </section>
   </div>;
@@ -84,12 +71,6 @@ export function TutorialGuide({ session, game, camera, nodePositions, panel, pla
   useEffect(() => {
     if (stepComplete) advance();
   }, [stage, stepComplete]);
-  useEffect(() => {
-    const target = stage === 'research-explain' ? 'joint' : stage === 'cores-open' ? 'assembler' : undefined;
-    if (!target || panel !== 'research') return;
-    const frame = requestAnimationFrame(() => { const card = document.querySelector(`[data-research-id="${target}"]`); const completed = card?.closest('details'); if (completed) completed.open = true; card?.scrollIntoView({ block: 'center' }); });
-    return () => cancelAnimationFrame(frame);
-  }, [stage, panel]);
 
   const nodes = game.sectors[game.activeSectorId].nodes.map(node => nodePositions?.[node.id] ? { ...node, ...nodePositions[node.id] } : node);
   let target: { x: number; y: number; w: number; h: number } | undefined;
@@ -110,14 +91,15 @@ export function TutorialGuide({ session, game, camera, nodePositions, panel, pla
     const node = nodes.find(node => node.id === CONTROL_GROUP_NODE_IDS[0]);
     if (node) target = { x: node.x, y: node.y, ...getNodeSize(node) };
   }
-  const source = stage === 'connect-resource' ? nodes.find(n => n.kind === 'forest') : stage === 'store-item' ? nodes.find(n => n.kind === 'extractor') : undefined;
-  const destination = stage === 'connect-resource' ? nodes.find(n => n.kind === 'extractor') : stage === 'store-item' ? nodes.find(n => n.kind === 'woodenChest') : undefined;
+  const source = stage === 'connect-resource' ? nodes.find(n => n.kind === 'forest') : undefined;
+  const destination = stage === 'connect-resource' ? nodes.find(n => n.kind === 'extractor') : undefined;
   let ports = source && destination ? [{ node: source, direction: 'output' as const, port: 0, label: 'DRAG FROM HERE' }, { node: destination, direction: 'input' as const, port: 0, label: 'TO HERE' }] : [];
   const node = (kind: NodeKind) => nodes.find(n => n.kind === kind);
   const copperExtractor = nodes.find(n => n.kind === 'extractor' && game.sectors[game.activeSectorId].connections.some(c => c.from === 'tutorial-copper' && c.to === n.id)) ?? nodes.filter(n => n.kind === 'extractor')[1];
   const gearRefiner = nodes.find(n => n.kind === 'refiner' && n.recipeId?.endsWith('-gear'));
   const coreRefiner = nodes.find(n => n.kind === 'refiner' && n.recipeId === 'simple-core');
-  const hints: Array<[MachineNode | undefined, MachineNode | undefined, number]> = stage === 'make-charcoal' ? [[node('woodenChest'), node('kiln'), 0]]
+  const woodExtractor = nodes.find(n => n.kind === 'extractor' && game.sectors[game.activeSectorId].connections.some(c => c.from === 'tutorial-forest' && c.to === n.id));
+  const hints: Array<[MachineNode | undefined, MachineNode | undefined, number]> = stage === 'make-charcoal' ? [[woodExtractor, node('kiln'), 0]]
     : stage === 'mine-copper' ? [[node('copper'), copperExtractor, 0]]
     : stage === 'make-plates' ? [[copperExtractor, node('smelter'), 0], [node('kiln'), node('smelter'), 1]]
     : stage === 'make-gears' ? [[node('smelter'), gearRefiner, 0]]

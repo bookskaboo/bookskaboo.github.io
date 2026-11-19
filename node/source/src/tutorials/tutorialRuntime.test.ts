@@ -13,7 +13,7 @@ describe('imported tutorial practice', () => {
   it('only permits the intended Basics machine, including selection steps before placement', () => {
     const extractor = tutorialNode('extractor', 'wood', 650, 340);
     const gear = tutorialNode('refiner', 'gear', 1010, 1040, { recipeId: 'copper-gear' });
-    const placements = { 'build-explain': 'extractor', 'build-place': 'extractor', 'chest-shortcut': 'woodenChest', 'chest-place': 'woodenChest', 'make-charcoal': 'kiln', 'mine-copper': 'extractor', 'make-plates': 'smelter', 'make-gears': 'refiner', 'make-core': 'refiner', 'build-lab': 'researchCenter' } as const;
+    const placements = { 'build-explain': 'extractor', 'build-place': 'extractor', 'make-charcoal': 'kiln', 'mine-copper': 'extractor', 'make-plates': 'smelter', 'make-gears': 'refiner', 'make-core': 'refiner', 'build-lab': 'researchCenter' } as const;
     for (const stage of BASIC_STAGES) {
       const nodes = stage === 'make-core' ? [extractor, gear] : [extractor];
       const initialNodes = stage === 'build-explain' || stage === 'build-place' ? [] : nodes;
@@ -67,7 +67,6 @@ describe('imported tutorial practice', () => {
   });
   it('uses one target definition for production, Chests, and paired Roads without affecting ordinary placement', () => {
     const state = createTutorialState('basic');
-    expect(tutorialPlacementTarget('chest-place',state)).toEqual({kind:'woodenChest',...TARGETS.woodenChest});
     expect(tutorialPlacementTarget('make-charcoal',state)).toEqual({kind:'kiln',...PRODUCTION_TARGETS.kiln});
     const expansion = createTutorialState('expansion');
     expansion.fieldSizeScale = 1.2;
@@ -166,10 +165,8 @@ describe('imported tutorial practice', () => {
     };
     const connect = (from:string, to:string, toPort=0) => expect(engine.connectPorts(from, 0, to, toPort)).toBe(true);
     const wood = place('extractor', TARGETS.extractor);
-    const chest = place('woodenChest', TARGETS.woodenChest);
-    connect('tutorial-forest', wood); connect(wood, chest); run(engine, 10);
-    expect(lessonSatisfied('store-item', engine.getState(), null)).toBe(true);
-    const kiln = place('kiln', PRODUCTION_TARGETS.kiln); connect(chest, kiln); run(engine, 10);
+    connect('tutorial-forest', wood); run(engine, 10);
+    const kiln = place('kiln', PRODUCTION_TARGETS.kiln); connect(wood, kiln); run(engine, 10);
     expect(lessonSatisfied('make-charcoal', engine.getState(), null)).toBe(true);
     const copper = place('extractor', PRODUCTION_TARGETS.copperExtractor); connect('tutorial-copper', copper); run(engine, 7);
     expect(lessonSatisfied('mine-copper', engine.getState(), null)).toBe(true);

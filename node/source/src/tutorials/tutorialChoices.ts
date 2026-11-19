@@ -4,6 +4,7 @@ import { basicTutorialPlacementKind, basicTutorialRefinerRecipe, CONTROL_GROUP_N
 /** undefined permits normal play; null disables choices when the lesson needs none. */
 export type TutorialChoice = string | null | undefined;
 export const permitsTutorialChoice = (allowed: TutorialChoice, choice: string) => allowed === undefined || allowed === choice;
+const mapSteps: TutorialStage[] = ['expansion-map-open', 'expansion-activate', 'expansion-travel', 'expansion-return', 'expansion-outpost', 'expansion-home-receive'];
 
 export function tutorialChoices(kind: TutorialKind, stage: TutorialStage, game: GameState) {
   const nodes = game.sectors[game.activeSectorId].nodes;
@@ -13,7 +14,13 @@ export function tutorialChoices(kind: TutorialKind, stage: TutorialStage, game: 
     : kind === 'basic' && ['cores-open', 'cores-explain'].includes(stage) ? 'assembler' : null;
   const sectorId = kind !== 'expansion' ? null
     : ['expansion-map-open', 'expansion-activate', 'expansion-travel', 'expansion-outpost', 'expansion-road-place', 'expansion-road-feed'].includes(stage) ? EXPANSION_OUTPOST : EXPANSION_HOME;
-  return { buildKind, researchProjectId, sectorId,
+  const panel = buildKind || stage === 'build-open' ? 'build'
+    : researchProjectId && stage !== 'cores-explain' ? 'research'
+    : mapSteps.includes(stage) ? 'map'
+    : stage === 'options-open' || stage === 'options-explain' ? 'options' : undefined;
+  const recipeKind = stage === 'make-plates' ? 'smelter' : stage === 'make-gears' || stage === 'make-core' ? 'refiner' : undefined;
+  const rotationKind = stage === 'logistics-splitter-rotate' ? 'splitter' : stage === 'logistics-merger-rotate' ? 'merger' : undefined;
+  return { buildKind, panel, recipeKind, rotationKind, researchProjectId, sectorId,
     selectableNodeId: ['control-group-double-click', 'control-group-select-forward', 'control-group-select-reverse'].includes(stage) ? CONTROL_GROUP_NODE_IDS[0] : undefined };
 }
 

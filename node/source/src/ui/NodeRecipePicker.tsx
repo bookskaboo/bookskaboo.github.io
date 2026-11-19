@@ -22,7 +22,8 @@ export function NodeRecipePicker({ game, engine, node, requiredRecipeId, skipWar
   onClose(): void;
 }) {
   const [pending, setPending] = useState<string>();
-  const { compact, toggle } = useRecipeIconView();
+  const { compact: iconsOnly, toggle } = useRecipeIconView();
+  const compact = requiredRecipeId === undefined && iconsOnly;
   const choices = (RECIPE_GROUPS[node.kind] ?? []).filter(id => isRecipeAvailable(id, game, node.kind));
   const recycler = node.kind === 'recycler';
   const activeId = node.batch?.recipeId ?? node.recipeId;
@@ -60,9 +61,9 @@ export function NodeRecipePicker({ game, engine, node, requiredRecipeId, skipWar
           <div><h2 id="recipe-picker-title">{machineName} recipes</h2>{requiredRecipeId && <p>Select {RECIPES[requiredRecipeId].name}, highlighted below.</p>}{waitingForWater && <p>Waiting for Water.</p>}</div>
           <button onClick={onClose} aria-label="Close recipe picker">×</button>
         </header>
-        <div className="recipe-view-toolbar">
+        {requiredRecipeId === undefined && <div className="recipe-view-toolbar">
           <RecipeViewToggle compact={compact} onToggle={toggle} />
-        </div>
+        </div>}
         <div className={`recipe-picker-list ${compact ? 'compact-recipe-view' : ''}`}>
           <div role="listbox" aria-readonly={recycler || undefined} aria-label={`${machineName} recipes`}>
           {groups.filter(group => group.choices.length).map(group => <div key={group.title} role={compact ? undefined : 'group'} aria-label={compact ? undefined : group.title || `${machineName} recipes`} className={`recipe-picker-group ${group.title === 'Gear' || group.title === 'Wire' ? 'material-variants' : ''} ${group.featured ? 'featured-recipe' : ''}`}>

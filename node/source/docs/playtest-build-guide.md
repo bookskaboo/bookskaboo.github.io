@@ -28,6 +28,8 @@ Where a Core crosses maps, collect it in a sending Cart and use the Road route b
 
 ## Medium Bot wiring reference
 
+See [NODE Bot Production](https://chatgpt.com/space/page_f61bbb51dba88191b758234023997faa) for part recipes, research costs, and the AP of every pairing.
+
 Keep this chain independent until repeated output is verified. The wiring below incorporates the revised recipe catalog. The prior browser runs used the former Core-fed Medium Bot recipe.
 
 | Producer | Required incoming items | Output goes to |
@@ -93,3 +95,36 @@ The same replacement run subsequently completed **Precision Control** through no
 - Keep both wiring endpoints away from screen edges. Edge panning shifted the camera during some drags and caused missed connections. Inspect a fresh settled screenshot and the exact socket, then verify receipt. Clicking a cable exposes its material and producer → recipient names in the normal UI; use that evidence instead of inferring material from gray pips or overlapping lines.
 
 The earlier halt's southern relay experiments remain unverified except where explicitly superseded by the successful paths above. No developer controls, reports, save injection, accelerated time, code fixes or rule changes were used. Ordinary finite-deposit maintenance still applies; sustained Medium Bot/camp throughput was not remeasured during this Hydro repair. UI improvements remain queued.
+
+## November 11 headless endgame route
+
+- Reserve one of each pre-Final Core at Home before releasing the research Roads. The first Final Core then paid for A Remarkably Indirect Conclusion 7.6 seconds after production on seed `680312004`.
+- Size a surveyed factory site for both its raw reserves and its open floor. An existing Hydro and Mythril attack district could not fit the Iron attack line. The Iron attack worked on a less developed Lake, and the Foundry district reused that floor after the five Bots arrived.
+- For the Grove, make Iron Plate on an adjacent surveyed map with Wood, Iron and Stone. Three separate short Roads delivered Wood, Stone and Plate to two Tree Planters and produced the Grove piece. An earlier cross-world Iron Plate route stalled at a crowded crossing.
+- Reserve room for the Road pair, both freight vehicles, and their local cables. Moving a Road farther along the boundary let the Iron attack pass a crossing where the first pair had no usable receiving Cart position.
+
+The [headless research report](blind-research-playtest-2026-11-11.md) records the recovered route and phase totals. These layouts were exercised through normal engine actions on one seed.
+
+## November 12 research Tribute routing
+
+The balance pilot needed more Mythril before the first Golem attack. A parallel attack route filled its reserve Carts while the Complex line waited for ore. The successful run capped and completed the research shipment first, then retired that route and supplied the attack. It also reused the completed Shiny line's floor space for Complex while keeping the Lake intake and Mythril receiving Cart. [Pilot trace](../outputs/core-consumption-pilot-2026-11-12/measured-progress.log)
+
+The earlier Shiny Golem Survey pilot paid for Golem combat after first Shiny on all three tested seeds. In the current build, visit the Golem camp and deliver Suppression Bots directly. Add another Home Cart when a research shipment exceeds the combined capacity of the Research Center and its supply Cart. [Balance proposal and pilot results](core-consumption-balance-proposal.md#golem-survey-follow-up)
+
+## November 12 corner freight with two Road channels
+
+When the Foundry crossing is full, deliver the ceramic electrode quota, retire its Road pairs, and reuse the crossing for sealed frames. At the Grove, fill the receiving Cart with ten Stone, then switch that Road slot to Iron Plate. Keep the receiving Stone Cart and wire it to the Tree Planters. Both changes worked through first victory on all three paired seeds. [Road Channels 2 payback test](../outputs/road-channels-payback-2026-11-12/README.md)
+
+## November 12 Tribute-first route
+
+Before surveying the corners, find a small Dwarven Camp and two Lake sites with enough local reserves for the Medium Suppression Bot and Shiny factories. Stage 34 Medium Bots at the camp, connect the reserve, and ship the resulting Mythril Tribute from its own Cart to the Shiny factory. This sequence produced the first Shiny Core on all three paired seeds. [Tribute-first playtest](../outputs/tribute-first-playtest-2026-11-12/README.md)
+
+Once a suitable Medium Bot Lake is surveyed, pay for Sealed Robotics and start the factory and staging freight while scouting for the Shiny site. The earlier start reached first Shiny 6–22 minutes sooner on the same three seeds. [Bot production during scouting](../outputs/bots-during-survey-playtest-2026-11-12/README.md)
+
+Size the first Shiny site for Shiny production. If the Lake lacks Copper, smelt Plates on a surveyed supplier map and connect its receiving Cart to the Shiny factory's Copper Plate bus. This worked over one Road crossing on seed 680312004. [Shiny siting and imports comparison](../outputs/shiny-with-imports-playtest-2026-11-12/README.md)
+
+For a later wave of map purchases, check Simple Core stock still accessible at Home after retiring the original research Roads. Plan a replacement shipment when needed. Maintain Dwarven Tribute until the Mythril Golem attack is supplied. A second Medium Bot factory with its own staged receiving Cart restored supply on all three measured seeds. Disconnect the retired feed before wiring the new Cart to the camp's single input. [Full distributed layout comparison](../outputs/distributed-victory-playtest-2026-11-12/README.md)
+
+For the rounded research bills, reserve the Shiny Lake's planned solid inputs before siting the earlier Core banks. Add Home Carts so the Research Center can draw from more than one load of each required Core. If the largest Complex factory cannot fit on the surveyed Lakes, retry at a smaller production target before opening additional maps. These steps completed all six pilot runs. [Core Assembly Efficiency comparison](../outputs/core-efficiency-payback-2026-11-12/README.md)
+
+For inward freight, build Circuit A on an outward neighbor for Shiny. Give Complex separate Circuit A and Hydro Piston suppliers and keep the Piston line at a Lake. Routes of up to four crossings let all three seeds fit the planned Complex factory. If Reclamation has no free route home after its piece appears, finish the Dragon shipment and release its Roads, then return the pieces. Both arms of seed `10` used that sequence. [Peripheral supply results](../outputs/peripheral-supply-playtest-2026-11-12/README.md)

@@ -56,7 +56,7 @@ export const ENDGAME_RECIPES: Record<string, Recipe> = Object.fromEntries(PAIRS.
     unlockResearch: 'cornerComponents',
   }];
 })));
-ENDGAME_RECIPES['final-core'] = { id: 'final-core', name: 'Final Core', inputs: { 'core-half-a': 1, 'core-half-b': 1 }, outputs: { 'final-core': 1 }, cycleMs: 60000, unlockResearch: 'cornerComponents' };
+ENDGAME_RECIPES['final-core'] = { id: 'final-core', name: 'Final Core', inputs: { 'core-half-a': 1, 'core-half-b': 1 }, outputs: { 'final-core': 1 }, cycleMs: 60000, unlockResearch: 'finalCore' };
 export function worldRecipeAllowed(id: string, state: GameState) { return !id.match(/^core-half-[ab]-\d$/) || Number(id.at(-1)) === (state.endgame?.pairIndex ?? seededPairIndex(state.seed)); }
 export const endgameRank = (state: Pick<GameState, 'research'>, id: string) => state.research.repeatableCompletions?.[id] ?? 0;
 export const ENDGAME_CAPS: Record<string, number> = { efficientLandfill: 45, advancedRoadChannels: 2 };
@@ -64,7 +64,7 @@ export function atResearchCap(project: ResearchProject, research: GameState['res
 const bill = () => Object.fromEntries(SEVEN_CORES.map(i => [i, 1]));
 const project = (id: string, name: string, unlock: string, prerequisites: string[], repeatable = false): ResearchProject => ({ id, name, category: 'Endgame', description: unlock, unlock, costs: bill(), prerequisites, ...(repeatable ? { repeatable: true, costGrowth: 1.5 } : {}) });
 export const ENDGAME_RESEARCH: ResearchProject[] = [
-  { id: 'cornerComponents', name: 'End of the World', category: 'Milestone', description: 'There may be more to the map than the middle.', unlock: 'Unlocks Yin, Yang and Final Core assembly.', costs: {}, trigger: { id: 'complex-core-produced', pending: 'Take the next step in Core production', complete: 'First Complex Core produced' } },
+  { id: 'cornerComponents', name: 'End of the World', category: 'Milestone', description: 'There may be more to the map than the middle.', unlock: 'Unlocks the Yin and Yang recipes.', costs: {}, trigger: { id: 'complex-core-produced', pending: 'Take the next step in Core production', complete: 'First Complex Core produced' } },
   {
     id: 'finalRobotics', name: 'Final Robotics', category: 'Endgame',
     description: `Make the Final Frame and Final Cannon in the Fabricator. Together they make a Suppression Bot ${FINAL_BOT_AP} AP in the Bot Plant.`,

@@ -31,20 +31,17 @@
 .tutorial-intro, .tutorial-card-copy p, .tutorial-unlock-copy { color: #b9c7ce; margin: 0; }
 .tutorial-card-copy h3 + p { margin-block-start: var(--modal-label-gap); }
 .tutorial-card-copy p + p { margin-block-start: var(--modal-paragraph-gap); }
-.tutorial-choice-actions { display: grid; grid-template-columns: repeat(2, minmax(0, 7.25rem)); gap: var(--modal-paragraph-gap); }
+.tutorial-choice-actions { display: grid; grid-template-columns: minmax(0, 7.25rem); gap: var(--modal-paragraph-gap); }
 .tutorial-actions, .tutorial-unlock-actions { display: flex; align-items: center; justify-content: flex-end; gap: var(--modal-paragraph-gap); flex-wrap: wrap; }
 .tutorial-button { min-height: var(--tutorial-action-height, 36px); padding: 5px 12px; border: 1px solid #ffffff30; border-radius: 6px; color: #e4e8ec; background: #ffffff08; cursor: pointer; }
 .tutorial-button:hover { border-color: #ffffff60; background: #ffffff14; }
 .tutorial-button:focus-visible { outline: 2px solid #f2d585; outline-offset: 2px; }
 .tutorial-primary { border-color: #d5b66680; color: #f1dda2; background: #d5b6661c; }
 .tutorial-primary:hover { border-color: #efd588; background: #d5b66633; }
-.tutorial-back { align-self: flex-start; }
-.tutorial-reference { padding-inline-start: 26px; }
-.tutorial-reference li::marker, .tutorial-card-copy .tutorial-reference-instruction { color: #f1dda2; }
 @media (max-width: 600px) {
   .tutorial-library { grid-auto-rows: auto; }
   .tutorial-choice { grid-template-columns: minmax(0, 1fr); }
-  .tutorial-choice-actions { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .tutorial-choice-actions { grid-template-columns: minmax(0, 1fr); }
 }
 .tutorial-layer { position: fixed; inset: 0; pointer-events: none; z-index: 100; }
 .tutorial-callout { position: absolute; display: flex; flex-direction: column; gap: var(--modal-paragraph-gap); overflow: hidden; pointer-events: auto; border: 1px solid #d5b66670; border-radius: 14px; box-shadow: 0 10px 36px #0009; background: linear-gradient(160deg,#2a2d31,#1c1e21 72%); }
@@ -63,8 +60,6 @@
 .tutorial-placement-target span { position: absolute; bottom: -24px; left: 0; right: 0; text-align: center; color: #e6cb7c; font-size: 10px; letter-spacing: 1px; }
 .game-shell:has(.modal-backdrop) .tutorial-placement-target,
 .game-shell:has(.modal-backdrop) .tutorial-port-target { display: none; }
-.training-session:has([data-stage="chest-shortcut"]) [data-shortcut-kind="woodenChest"],
-.training-session:has([data-stage="chest-shortcut"]) [data-build-kind="woodenChest"],
 .training-session:has([data-stage="build-open"]) .build-trigger,
 .training-session:has([data-stage="research-open"]) .research-trigger,
 .training-session:has([data-stage="options-open"]) .options-trigger,
@@ -73,7 +68,6 @@
 .training-session:has([data-stage="cores-open"]) [data-start-research="assembler"] { outline: 3px solid #f2d585; box-shadow: 0 0 20px #e6cb7c80; }
 .training-session .dev-trigger { display: none; }
 .training-session .canvas-help { display: none; }
-.training-session:has(.map-modal) .tutorial-layer.expansion .tutorial-callout { top: auto; left: 16px; right: auto; width: min(270px, calc(100vw - 32px)); }
 .training-session:has([data-stage="expansion-map-open"]) .map-trigger,
 .training-session:has([data-stage="expansion-activate"]) [data-map-sector="4,5"],
 .training-session:has([data-stage="expansion-travel"]) .map-primary-action,

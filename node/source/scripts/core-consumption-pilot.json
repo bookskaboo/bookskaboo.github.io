@@ -1,0 +1,37 @@
+{
+  "version": 1,
+  "name": "Core consumption pilot",
+  "author": "",
+  "description": "Experimental headless balance variant.",
+  "resources": {},
+  "nodes": {},
+  "recipes": {
+    "hydro-core": { "cycleMs": 18000, "inputs": { "hydraulic-actuator": 1, "ceramic-electrode": 1, "coolant": 2 } },
+    "shiny-core": { "cycleMs": 24000, "inputs": { "mithril-mesh": 1, "hydraulic-actuator": 1, "circuit-a": 2 } },
+    "precision-controller": { "cycleMs": 30000, "inputs": { "circuit-a": 2, "mythril-gear": 1, "conductive-slurry": 2 } },
+    "logic-substrate": { "cycleMs": 30000 },
+    "advanced-actuator": { "cycleMs": 30000 },
+    "command-core": { "cycleMs": 36000 },
+    "final-core": { "cycleMs": 30000 }
+  },
+  "research": {
+    "mapNode": { "costs": { "simple-core": 5 } },
+    "hydraulicAssembly": { "costs": { "simple-core": 5, "basic-core": 5, "automata-core": 5 } },
+    "oreSeparation": { "costs": { "simple-core": 5, "basic-core": 5, "automata-core": 5, "hydro-core": 5 } },
+    "heavyRobotics": {
+      "costs": { "simple-core": 5, "basic-core": 5, "automata-core": 5, "hydro-core": 5, "shiny-core": 10 }
+    },
+    "precisionControl": {
+      "costs": { "simple-core": 5, "basic-core": 5, "automata-core": 5, "hydro-core": 5, "shiny-core": 14 }
+    },
+    "commandRobotics": {
+      "costs": { "simple-core": 5, "basic-core": 5, "automata-core": 5, "hydro-core": 5, "shiny-core": 5, "command-core": 8 }
+    },
+    "roadChannels2": {
+      "costs": { "simple-core": 5, "basic-core": 5, "automata-core": 5, "hydro-core": 5, "shiny-core": 5, "command-core": 12 },
+      "prerequisites": ["roadChannels1", "oreSeparation", "commandRobotics"]
+    },
+    "victory": { "prerequisites": ["finalCoreProduction", "roadChannels2"] }
+  },
+  "rules": {}
+}

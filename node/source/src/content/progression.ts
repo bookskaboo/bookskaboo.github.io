@@ -115,7 +115,7 @@ export const LATE_RECIPES = {
       "hydro-core": 1
     },
     "cycleMs": 20000,
-    "unlockResearch": "hydraulicAssembly"
+    "unlockResearch": "hydroCore"
   },
   "refined-mithril": {
     "id": "refined-mithril",
@@ -143,7 +143,7 @@ export const LATE_RECIPES = {
       "shiny-core": 1
     },
     "cycleMs": 30000,
-    "unlockResearch": "oreSeparation"
+    "unlockResearch": "shinyCore"
   },
   "precision-controller": {
     "id": "precision-controller",
@@ -186,7 +186,7 @@ export const LATE_RECIPES = {
       "command-core": 1
     },
     "cycleMs": 45000,
-    "unlockResearch": "precisionControl"
+    "unlockResearch": "complexCore"
   },
   "ceramic-electrode": {
     "id": "ceramic-electrode",
@@ -658,8 +658,8 @@ export const LATE_RESEARCH = [
     "id": "hydraulicAssembly",
     "name": "Hydraulic Assembly",
     "category": "Progression",
-    "description": "Make Hydro Pistons, Circuit B, and Hydro Cores in the Fabricator.",
-    "unlock": "Unlocks Hydro Piston, Circuit B, and Hydro Core recipes.",
+    "description": "Make Hydro Pistons and Circuit B in the Fabricator.",
+    "unlock": "Unlocks the Hydro Piston and Circuit B recipes.",
     "costs": {
       "simple-core": 15,
       "basic-core": 15,
@@ -706,8 +706,8 @@ export const LATE_RESEARCH = [
     "id": "oreSeparation",
     "name": "Ore Separation",
     "category": "Progression",
-    "description": "Make Mythril Mesh in the Synthesizer, then use it to make Shiny Cores in the Fabricator.",
-    "unlock": "Unlocks Mythril Mesh and Shiny Core recipes.",
+    "description": "Make Mythril Mesh in the Synthesizer.",
+    "unlock": "Unlocks the Mythril Mesh recipe.",
     "costs": {
       "simple-core": 20,
       "basic-core": 20,
@@ -770,8 +770,8 @@ export const LATE_RESEARCH = [
     "id": "precisionControl",
     "name": "Precision Control",
     "category": "Progression",
-    "description": "Make Complex Cores and their components. This also unlocks the Waste Bin and Iron Plate recovery from Metallic Fines.",
-    "unlock": "Unlocks Complex Core production.",
+    "description": "Make Controllers, Servo Pistons, and Circuit C. This also unlocks the Waste Bin and Iron Plate recovery from Metallic Fines.",
+    "unlock": "Unlocks Controller, Servo Piston, and Circuit C recipes.",
     "costs": {
       "simple-core": 30,
       "basic-core": 30,
@@ -1095,7 +1095,7 @@ export const LATE_RESEARCH = [
   },
   {
     "id": "mineralRegeneration",
-    "name": "Mineral Regeneration",
+    "name": "Mineral Regeneration 1",
     "category": "Progression",
     "description": "Ordinary mineral deposits regenerate 1 unit every 30 seconds, up to capacity. Depleted deposits stay in place and refill.",
     "unlock": "Ordinary mineral deposits now regenerate.",
@@ -1103,11 +1103,9 @@ export const LATE_RESEARCH = [
       "simple-core": 2,
       "basic-core": 2,
       "automata-core": 2,
-      "hydro-core": 2,
-      "shiny-core": 2
+      "hydro-core": 2
     },
     "prerequisites": [
-      "mineralRecovery",
       "oreSeparation"
     ]
   },
@@ -1121,7 +1119,8 @@ export const LATE_RESEARCH = [
       "simple-core": 20,
       "basic-core": 20,
       "automata-core": 20,
-      "hydro-core": 20
+      "hydro-core": 20,
+      "shiny-core": 20
     },
     "prerequisites": [
       "roadChannels1",

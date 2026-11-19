@@ -26,7 +26,7 @@ describe('linear machine efficiency progression', () => {
       const p = project(`${family}${rank}`);
       expect(RESEARCH_PROJECTS.filter(candidate => candidate.id === p.id)).toHaveLength(1);
       expect(getResearchCosts(p)).toEqual(Object.fromEntries(cores.slice(0, rank).map(core => [core, costsByRank[rank - 1]])));
-      const access = [undefined, undefined, 'automataCore', 'hydraulicAssembly', 'oreSeparation', 'precisionControl'][rank - 1];
+      const access = [undefined, undefined, 'automataCore', 'hydroCore', 'shinyCore', 'complexCore'][rank - 1];
       const machineAccess: Record<string, string> = { hydroProcessor: 'lakeTools', advancedAssembler: 'fabricatorTools', separationFurnace: 'mithrilTools' };
       const completed = [rank > 1 ? `${family}${rank - 1}` : machineAccess[family] ?? family, access].filter((id): id is string => Boolean(id));
       expect(isResearchAvailable(p, completed)).toBe(true);
@@ -68,7 +68,7 @@ describe('linear machine efficiency progression', () => {
 
   it('preserves saved ranks and completes a six-core project in synchronized 2000ms cycles', () => {
     const state = createInitialState(301);
-    state.research.completed.push('researchCenter1', 'researchCenter2', 'researchCenter6', 'extractor5', 'precisionControl');
+    state.research.completed.push('researchCenter1', 'researchCenter2', 'researchCenter6', 'extractor5', 'complexCore');
     state.research.selected = 'extractor6';
     state.research.contributed = Object.fromEntries(cores.map(core => [core, 34]));
     state.sectors['5,5'].nodes = [machine('researchCenter')];
@@ -86,7 +86,7 @@ describe('linear machine efficiency progression', () => {
 
   it('completes an already funded saved rank at the lower price without consuming stock', () => {
     const state = createInitialState(301);
-    state.research.completed.push('extractor5', 'precisionControl');
+    state.research.completed.push('extractor5', 'complexCore');
     state.research.selected = 'extractor6';
     state.research.contributed = Object.fromEntries(cores.map(core => [core, 40]));
     const lab = machine('researchCenter');

@@ -23,9 +23,7 @@
 .modal-trigger-strip .pause-button { display: flex; align-items: center; justify-content: center; gap: 7px; padding: 0 9px; white-space: nowrap; }
 .modal-trigger-strip .pause-button span { margin: 0; }
 .modal-backdrop { grid-template-columns: minmax(0, 1fr); padding: var(--hud-clear) var(--hud-gap) var(--hud-gap); }
-.training-session .modal-backdrop { padding-right: calc(var(--tutorial-width) + var(--hud-gap) * 2); }
-.training-session:has(:where(.tutorial-layer.expansion[data-sector="4,5"])) .modal-backdrop,
-.training-session:has(:where(.tutorial-layer.expansion)) .modal-backdrop:has(:where(.map-modal)) { padding-inline: calc(var(--tutorial-width) + var(--hud-gap) * 2) var(--hud-gap); }
+.training-session .modal-backdrop { padding-left: calc(var(--tutorial-width) + var(--hud-gap) * 2); }
 .training-session .build-card:disabled { opacity: .3; }
 .modal { max-width: 100%; max-height: calc(100dvh - var(--hud-clear) - var(--hud-gap)); }
 .build-modal, .inventory-modal, .research-modal, .map-modal, .journal-modal, .options-modal, .save-modal, .commands-modal, .dev-modal, .recipes-modal, .recipe-picker-modal {
@@ -98,15 +96,12 @@
 .shortcut-bars-layer[data-stacked="true"] .node-shortcut-bar { flex-direction: row; align-items: center; height: 45px; padding: 4px 9px; gap: 8px; }
 .shortcut-bars-layer[data-stacked="true"] .shortcut-bar-name { flex: 0 0 66px; font-size: 9px; }
 .shortcut-bars-layer[data-stacked="true"] .shortcut-bar-name { flex-basis:92px; }
-.tutorial-callout { top: var(--hud-clear); right: var(--hud-gap); bottom: auto; width: var(--tutorial-width); max-height: calc(100dvh - var(--hud-clear) - var(--hud-bottom)); padding: clamp(16px, 1.5vw, 25px); }
+.tutorial-callout { left: var(--hud-gap); bottom: var(--hud-bottom); width: var(--tutorial-width); max-height: calc(100dvh - var(--hud-clear) - var(--hud-bottom)); padding: clamp(16px, 1.5vw, 25px); }
 .tutorial-details-toggle { display: none; }
-.training-session:has(.map-modal) .tutorial-layer.expansion .tutorial-callout,
-.tutorial-layer.expansion[data-sector="4,5"] .tutorial-callout { top: var(--hud-clear); left: var(--hud-gap); right: auto; bottom: auto; width: var(--tutorial-width); }
 @media (min-width: 1500px) {
   .brand > span:last-child { display: block; }
   .topbar { height: 76px; }
   :root, .game-shell { --hud-height: 76px; --hud-button-height: 46px; }
-  .tutorial-callout { top: clamp(130px, 17dvh, 220px); }
   .build-modal { height: min(650px, calc(100dvh - var(--hud-clear) - var(--hud-gap))); }
   .build-modal .build-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-content: start; }
 }
@@ -139,13 +134,12 @@
   .tutorial-callout:not(.details-expanded) .tutorial-description { display: none; }
   .tutorial-callout { --tutorial-action-height: 32px; padding: 12px 14px; }
 }
-@media (max-width: 700px) and (min-height: 561px) {
-  .game-shell { --tutorial-reserve: 235px; }
-  .tutorial-layer .tutorial-callout,
-  .training-session:has(.map-modal) .tutorial-layer.expansion .tutorial-callout,
-  .tutorial-layer.expansion[data-sector="4,5"] .tutorial-callout { top: auto; left: var(--hud-gap); right: var(--hud-gap); bottom: var(--hud-bottom); width: auto; max-height: min(38dvh, 300px); }
+@media (max-width: 720px) {
+  .training-session { --tutorial-reserve: 160px; }
+  .training-session:has(.tutorial-callout.details-expanded) { --tutorial-reserve: min(38dvh, 230px); }
+  .training-session .tutorial-callout { right: var(--hud-gap); width: auto; max-height: var(--tutorial-reserve); }
   .training-session .modal-backdrop { padding-inline: var(--hud-gap); padding-bottom: calc(var(--hud-bottom) + var(--tutorial-reserve)); }
-  .training-session .modal { height: calc(100dvh - var(--hud-clear) - var(--hud-bottom) - var(--tutorial-reserve)); max-height: calc(100dvh - var(--hud-clear) - var(--hud-bottom) - var(--tutorial-reserve)); }
+  .training-session .modal { height: calc(100dvh - var(--hud-clear) - var(--hud-bottom) - var(--tutorial-reserve) - var(--hud-gap)); max-height: calc(100dvh - var(--hud-clear) - var(--hud-bottom) - var(--tutorial-reserve) - var(--hud-gap)); }
   .world-node-minimap .minimap-zoom { display: none; }
 }
 @media (max-width: 720px) {
@@ -161,14 +155,13 @@
   .recipe-picker-header { padding: 12px; gap: 8px; }
   .recipe-picker-header h2 { font-size: 17px; }
 }
-@media (max-height: 560px) and (min-width: 701px) {
+@media (max-height: 560px) and (min-width: 721px) {
   :root, .game-shell { --hud-height: 56px; --hud-button-height: 40px; --tutorial-width: 300px; }
   .topbar { display: flex; gap: 8px; padding: 6px; }
   .brand, .sector-crumb { display: none; }
   .modal-trigger-strip { flex: 1; display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); margin-left: 0; width: auto; padding: 0; }
   .modal-trigger-strip :is(.rail-button, .pause-button) { width: 100%; min-width: 0; flex-direction: row; }
   .modal-trigger-strip .pause-button { position: static; height: var(--hud-button-height); min-height: var(--hud-button-height); }
-  .tutorial-layer .tutorial-callout { top: var(--hud-clear); bottom: var(--hud-bottom); max-height: none; }
   .tutorial-details-toggle { display: block; }
   .tutorial-callout:not(.details-expanded) .tutorial-description { display: none; }
   .tutorial-callout { --tutorial-action-height: 32px; padding: 12px; }
@@ -188,12 +181,7 @@
   .shortcut-bars-layer[data-stacked="true"] .node-shortcut-bar { height: 39px; padding-block: 3px; }
   .shortcut-bars-layer[data-stacked="true"] .shortcut-slot > button { width: 33px; height: 33px; flex-basis: 33px; }
   .shortcut-bars-layer[data-stacked="true"] .shortcut-slot > button > i .node-icon { width: 24px; height: 24px; }
-  .tutorial-layer .tutorial-callout,
-  .training-session:has(.map-modal) .tutorial-layer.expansion .tutorial-callout,
-  .tutorial-layer.expansion[data-sector="4,5"] .tutorial-callout { top: auto; left: var(--hud-gap); right: var(--hud-gap); bottom: var(--hud-bottom); width: auto; max-height: var(--tutorial-compact-height, 145px); padding: 9px 11px; }
-  .tutorial-callout.details-expanded { --tutorial-compact-height: 42dvh; }
-  .training-session .modal-backdrop { padding-inline: var(--hud-gap); padding-bottom: calc(var(--hud-bottom) + var(--tutorial-reserve)); }
-  .training-session .modal { height: max(120px, calc(100dvh - var(--hud-clear) - var(--hud-bottom) - var(--tutorial-reserve))); max-height: max(120px, calc(100dvh - var(--hud-clear) - var(--hud-bottom) - var(--tutorial-reserve))); }
+  .training-session .tutorial-callout { padding: 9px 11px; }
   .training-session .modal .panel-header { min-height: 44px; padding-block: 5px; }
   .training-session .category-tabs { padding-block: 5px; }
   .training-session .category-tabs button { min-height: 30px; padding-block: 5px; }

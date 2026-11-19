@@ -8,7 +8,7 @@ import { destinationMapCosts } from './mapExpansion';
 
 const project = RESEARCH_PROJECTS.find(p => p.id === 'mapNode')!;
 const cores = ['simple-core', 'basic-core', 'automata-core', 'hydro-core', 'shiny-core', 'command-core'];
-const access = ['refiner', 'assembler', 'automataCore', 'hydraulicAssembly', 'oreSeparation', 'precisionControl'];
+const access = ['simpleCore', 'basicCore', 'automataCore', 'hydroCore', 'shinyCore', 'complexCore'];
 function setup(completions = 0, unlocked = access, legacyPricing = true) {
   const state = createInitialState(301);
   if (legacyPricing) state.isTraining = true;
@@ -52,7 +52,7 @@ describe('legacy Map Point research', () => {
     engine.selectResearch('mapNode');
     const quote = getResearchCostsForState(project, engine.getState().research);
     expect(quote).toEqual({ 'simple-core': 21, 'basic-core': 21, 'automata-core': 21, 'hydro-core': 21 });
-    engine.getState().research.completed.push('oreSeparation');
+    engine.getState().research.completed.push('shinyCore');
     engine.selectResearch('mapNode');
     delete engine.getState().research.mapNodePricingPhase;
     engine = new GameEngine(normalizeLegacy(JSON.parse(JSON.stringify(engine.getState())))!, { autosave: false });
@@ -72,7 +72,7 @@ describe('legacy Map Point research', () => {
     const engine = setup(39, access.slice(0, 4));
     engine.selectResearch('mapNode');
     engine.getState().research.contributed = { 'simple-core': 3 };
-    engine.getState().research.completed.push('oreSeparation');
+    engine.getState().research.completed.push('shinyCore');
     engine.selectResearch('extractor1');
     engine.selectResearch('mapNode');
     expect(engine.getState().research.contributed).toEqual({ 'simple-core': 3 });
@@ -112,7 +112,7 @@ describe('legacy Map Point research', () => {
     const engine = setup(59, access.slice(0, 5));
     const state = engine.getState();
     expect(getResearchCostsForState(project, state.research)).toEqual(Object.fromEntries(cores.slice(0, 5).map(core => [core, 28])));
-    state.research.completed.push('precisionControl');
+    state.research.completed.push('complexCore');
     const resetBill = Object.fromEntries(cores.map(core => [core, 5]));
     expect(getResearchCostsForState(project, state.research)).toEqual(resetBill);
     engine.selectResearch('mapNode');

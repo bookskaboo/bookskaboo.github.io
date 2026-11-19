@@ -129,7 +129,7 @@ export function RecipesPanel({ game, onClose, initialRecipeId, initialNode, back
             const color = recipeColor(recipe);
             const missingMaterials = (Object.keys(recipe.inputs) as ItemId[]).filter(item => !materials.has(item));
             const cycleMs = recipeGuideCycle(recipe, group.node, game);
-            const recipeResearch = recipe.unlockResearch ?? (recipe.id === 'automata-core' ? 'automataCore' : undefined);
+            const recipeResearch = recipe.unlockResearch;
             const machineResearch = NODE_DEFINITIONS[group.node].unlockResearch;
             const unlocked = isRecipeUnlocked(recipe.id, game.research.completed);
             const requiredResearch = !unlocked ? recipeResearch : !isNodeUnlocked(group.node, game.research.unlocked) ? machineResearch : undefined;

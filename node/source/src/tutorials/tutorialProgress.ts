@@ -12,7 +12,6 @@ export function lessonSatisfied(stage: TutorialStage, state: GameState, panel: s
   const has = (kind: NodeKind) => nodes.some(n => n.kind === kind);
   const link = (from: string, to: string) => sector.connections.some(c => c.from === from && c.to === to);
   const extractor = nodes.find(n => n.kind === 'extractor');
-  const chest = nodes.find(n => n.kind === 'woodenChest');
   switch (stage) {
     case 'control-group-select': return CONTROL_GROUP_NODE_IDS.every(id => control?.selectedIds.includes(id));
     case 'control-group-create': return sector.controlGroups?.some(group => CONTROL_GROUP_NODE_IDS.every(id => group.nodeIds.includes(id))) ?? false;
@@ -41,9 +40,6 @@ export function lessonSatisfied(stage: TutorialStage, state: GameState, panel: s
     case 'build-explain': return placing === 'extractor';
     case 'build-place': return has('extractor');
     case 'connect-resource': return !!extractor && link('tutorial-forest', extractor.id);
-    case 'chest-shortcut': return placing === 'woodenChest';
-    case 'chest-place': return has('woodenChest');
-    case 'store-item': return !!chest && (chest.output.wood ?? 0) + (chest.input.wood ?? 0) > 0;
     case 'research-open': return panel === 'research';
     case 'make-charcoal': return (state.produced?.charcoal ?? 0) > 0;
     case 'mine-copper': return (state.extracted?.copper ?? 0) > 0;

@@ -1,6 +1,6 @@
 import { applyExpansionRescue } from './expansionRescue';
 import { firstSpottedDwarvenCamp, DWARVEN_DISCOVERY_PROMPT } from '../tutorials/dwarvenDiscovery';
-import { endgameRank, reconcileHole, worldRecipeAllowed, FOUNDRY_INPUTS } from '../content/endgame';
+import { endgameRank, reconcileHole, worldRecipeAllowed, FOUNDRY_INPUTS, SEVEN_CORES } from '../content/endgame';
 import { initializeEndgame, simulateCorner, cornerInputAllowed, syncCornerLayout } from './endgameRuntime';
 import { simulatePlanter } from '../content/forestry';
 import { activateMod, BASE_MOD_CONTENT } from '../mods/modContent';
@@ -499,7 +499,7 @@ export class GameEngine {
         continue;
       }
       const recipe = node.recipeId ? RECIPES[node.recipeId] : undefined;
-      if (!recipe) continue;
+      if (!recipe || (SEVEN_CORES.includes(recipe.id as ItemId) && !isRecipeUnlocked(recipe.id, this.state.research.completed))) continue;
       const hasInputs = Object.entries(recipe.inputs).every(([item, count]) => (node.input[item as ItemId] ?? 0) >= (count ?? 0));
       const hasOutputRoom = sum(node.output) + sum(recipe.outputs) <= (modNode(node.kind)?.capacity ?? 5);
       if (!hasInputs || !hasOutputRoom) { node.progressMs = 0; continue; }
@@ -1565,7 +1565,6 @@ export class GameEngine {
     const sector = this.getSector();
     const node = sector.nodes.find((n) => n.id === nodeId);
     if (!node || getNodeCapabilities(node.kind).behavior === 'bot-assembly' || node.batch || !RECIPES[recipeId] || !RECIPE_GROUPS[node.kind]?.includes(recipeId) || !isRecipeUnlocked(recipeId,this.state.research.completed) || !worldRecipeAllowed(recipeId,this.state)) return false;
-    if (recipeId === 'automata-core' && !this.state.research.completed.includes('automataCore')) return false;
     if (['robot-frame', 'robot-gun', 'suppression-bot'].includes(recipeId) && !this.state.research.completed.includes('suppressionBot')) return false;
     if (node.recipeId === recipeId) return true;
     this.checkpoint();

@@ -4,25 +4,26 @@ import type { GameState, NodeDefinition, NodeKind } from '../../domain/types';
 import { NodeIcon } from '../NodeIcon';
 import { PanelHeader } from '../PanelHeader';
 
-export function BuildPanel({ canBuild, extra, focusKind, game, category, setCategory, showAllNodes, onChoose, onClose }: { canBuild(kind: NodeKind): boolean; extra?: React.ReactNode; focusKind?: NodeKind; game: GameState; category: string; setCategory(v: string): void; showAllNodes: boolean; onChoose(k: NodeKind): void; onClose(): void }) {
+export function BuildPanel({ canBuild, training, extra, focusKind, game, category, setCategory, showAllNodes, onChoose, onClose }: { canBuild(kind: NodeKind): boolean; training?: boolean; extra?: React.ReactNode; focusKind?: NodeKind; game: GameState; category: string; setCategory(v: string): void; showAllNodes: boolean; onChoose(k: NodeKind): void; onClose(): void }) {
   useEffect(() => { if (!focusKind) return; const frame = requestAnimationFrame(() => { const target = document.querySelector<HTMLElement>(`[data-build-kind="${focusKind}"]`); target?.scrollIntoView({ block: 'center' }); target?.focus({ preventScroll: true }); }); return () => cancelAnimationFrame(frame); }, [focusKind]);
   const selectedCategory = nodeCategoryOrder.includes(category) ? category : 'All';
   const nodes = BUILDABLE_NODES.filter(node =>
-    (showAllNodes || isNodeUnlocked(node.kind, game.research.unlocked)) && (selectedCategory === 'All' || buildCategory(node) === selectedCategory)
+    training ? canBuild(node.kind) :
+      (showAllNodes || isNodeUnlocked(node.kind, game.research.unlocked)) && (selectedCategory === 'All' || buildCategory(node) === selectedCategory)
   ).map(node => getBuildNodeDefinition(node.kind, game.research.completed));
   return <div className="modal-backdrop"><section className="modal build-modal glass">
     <PanelHeader title="Build" onClose={onClose} />
-    <div className="category-tabs">{nodeCategoryOrder.map(name => (
+    {!training && <div className="category-tabs">{nodeCategoryOrder.map(name => (
       <button key={name} disabled={name !== 'All' && !BUILDABLE_NODES.some(node => buildCategory(node) === name && canBuild(node.kind))}
         className={selectedCategory === name ? 'active' : ''} onClick={() => setCategory(name)}>{name}</button>
-    ))}</div>
+    ))}</div>}
     <div className="build-list">
       {nodes.map(node => {
         const unlocked = isNodeUnlocked(node.kind, game.research.unlocked);
         const lockedDescription = `Research required: ${node.unlockResearch}`;
         return <button key={node.kind} data-build-kind={node.kind} disabled={!unlocked || !canBuild(node.kind)}
           className={`build-card ${unlocked ? '' : 'locked'}`} data-tooltip={node.name}
-          data-tooltip-detail={unlocked ? `${buildCategory(node)} · ${node.description}` : `Developer preview · ${lockedDescription}`}
+          data-tooltip-detail={unlocked ? `${buildCategory(node)} · ${node.description}` : lockedDescription}
           style={{ '--node-color': node.accentCss, '--tooltip-tone': node.accentCss } as React.CSSProperties} onClick={() => onChoose(node.kind)}>
           <i>{unlocked ? <NodeIcon kind={node.kind} completedResearch={game.research.completed} /> : '◇'}</i>
           <span><b>{node.name}</b><small>{unlocked ? node.description : lockedDescription}</small></span>

@@ -4,6 +4,7 @@ import { getEffectiveNodeInputFamilies, getEffectiveNodeOutputFamilies } from '.
 import type { MachineNode } from '../domain/types';
 import { normalizeLegacy } from '../persistence/saves';
 import { getNodeSize, getPortAnchor } from '../renderer/nodeLayout';
+import { golemApReadout } from '../renderer/playfieldNodeState';
 import { createInitialState, GameEngine } from './engine';
 import { getPortSide, isMultiConnectionPort } from './connectionRules';
 import { nodesOverlap } from './collisions';
@@ -84,9 +85,12 @@ describe('resource Golems', () => {
     let engine = setup();
     let golem = engine.getSector().nodes[0];
     expect(getEffectiveNodeOutputFamilies(golem)).toEqual([]);
+    expect(golemApReadout(golem)).toBe('100 AP required');
+    expect(golemApReadout({ ...golem, health: undefined, golemMineral: 'mythril' })).toBe('150 AP required');
     golem.input['heavy-suppression-bot'] = 10;
     advance(engine, .1);
     expect(golem.health).toBe(10);
+    expect(golemApReadout(golem)).toBe('10 AP required');
     engine = new GameEngine(normalizeLegacy(JSON.parse(JSON.stringify(engine.getState())))!);
     golem = engine.getSector().nodes[0];
     advance(engine, 60);

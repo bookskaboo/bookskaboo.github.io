@@ -1,5 +1,6 @@
 import { modNode, modNodeTemplate } from '../mods/modRules';
 import { isCustomContentId } from '../mods/modTypes';
+import { migrateCoreResearch } from '../content/coreResearch';
 import { endgameRank } from '../content/endgame';
 import type { GameState, ItemId, MachineNode, SectorState } from '../domain/types';
 import { getBotPlantBuild, RECIPES, RETIRED_RECIPES } from '../content/recipes';
@@ -52,6 +53,7 @@ export function consumeCampBots(node: MachineNode, requirement: number): number 
  return bots.reduce((sum, [,power], index) => sum + power * payment.quantities[index], 0);
 }
 export function initializeProgression(state:GameState){
+ migrateCoreResearch(state);
  const legacy=state.progressionVersion===undefined;
  state.encounters??=[];state.globalPool??={};state.factoryTemplates??=[];state.randomState??=state.seed||1;
  // Update saved display text while retaining item and research IDs for compatibility.

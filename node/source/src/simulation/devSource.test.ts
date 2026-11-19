@@ -117,6 +117,20 @@ describe('Dev Source', () => {
     expect(node('lab').input['command-core']).toBeUndefined();
   });
 
+  it('supplies Final Cores when selected research needs them', () => {
+    const { engine, node } = setup([machine('researchCenter', 'lab')], state => {
+      state.research.completed = state.research.completed.filter(id => id !== 'finalRobotics');
+      state.finalCoreProduced = true;
+    });
+    expect(engine.connect('dev', 'lab')).toBe(true);
+    advance(engine, .1);
+    expect(node('lab').input['final-core']).toBeUndefined();
+    engine.selectResearch('finalRobotics');
+    expect(engine.getState().research.selected).toBe('finalRobotics');
+    advance(engine, .1);
+    expect(node('lab').input['final-core']).toBe(5);
+  });
+
   it('supplies growth, bots and Stone and funds Tree Planters without Power', () => {
     const { engine, node } = setup([
       machine('treePlanter', 'planter', 1100),

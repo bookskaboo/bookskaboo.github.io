@@ -6,6 +6,8 @@ The [master development plan](docs/master-plan/README.md) organizes the current 
 
 The [change history](CHANGELOG.md) tracks completed work, earlier decisions, and publication status. Use the [searchable view](docs/changelog/index.html) to filter by topic, date, state, or publication, and the [maintenance guide](docs/changelog/README.md) when adding records.
 
+The [NODE Bot Production reference](https://chatgpt.com/space/page_f61bbb51dba88191b758234023997faa) lists the current part recipes, research unlocks, and attack power for all 25 frame and gun combinations.
+
 The [November 4 endgame implementation report](docs/master-plan/20-endgame-implementation.md) covers four seeded corner challenges, Final Core assembly and victory, post-victory research, relocation, the Recycler and hidden recovery. Reclamation balance is provisional; normal-play balance and visual QA remain to validate.
 
 ## Run locally
@@ -244,13 +246,6 @@ for slower factories. Source placement, map expansion, finite deposits, travel,
 combat, power and explicit waste queues remain outside the model. Keep the
 one-hour necessary-route goal distinct from the three-hour maximum-throughput
 checklist and the 20–30-hour tier-7 endgame target.
-
-The [research proposal](https://chatgpt.com/space/page_3f63cbe142508191a73e41bc10b7f530)
-also records design decisions. Routine construction stays free, Road channels
-retain sending-chest instant batches, and late Storage/Inventory share one pool
-with initial Inventory outputs through Filters. Regeneration and combat-earned
-Resource Golems provide the intended late renewal direction. These systems
-remain proposals; synchronized consumption is implemented in the live lab.
 
 Encounter-based machine access is implemented; details are in
 `outputs/progression/encounter-unlocks.json` and `encounter-unlocks.html`.

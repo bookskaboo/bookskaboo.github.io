@@ -2,11 +2,11 @@ import { createCampNodeStatus, updateCampNodeStatus } from './campNodeStatus';
 import { createCornerCampStatus, drawCornerCamp, updateCornerCampStatus } from './cornerCampView';
 import { campStatus } from '../simulation/campStatus';
 import { groveProgress } from './groveProgress';
-import { researchCenterView } from './researchCenterView';
+import { researchCenterView, researchCoreGrid } from './researchCenterView';
 import { researchConsumptionGlow } from './researchConsumptionGlow';
 import { createResearchNodeStatus, updateResearchNodeStatus } from './researchNodeStatus';
 import { THEME } from './playfieldTheme';
-import { outputTotal, inputTotal, outputCapacity, resourceCapacityReadout, resourceReserveFraction, deepHoleStoneReadout, nodeTextScale, isItemId, portLabelText, portRoleLabel, canDeleteNode, canCyclePortPositions, nodeCycleDuration } from './playfieldNodeState';
+import { outputTotal, inputTotal, outputCapacity, resourceCapacityReadout, resourceReserveFraction, deepHoleStoneReadout, golemApReadout, nodeTextScale, isItemId, portLabelText, portRoleLabel, canDeleteNode, canCyclePortPositions, nodeCycleDuration } from './playfieldNodeState';
 import { connectionPoints, curvePoint, buildTransferMotionPath, sampleCurveMotion } from './cableGeometry';
 import { drawCurve, label, drawTrashIcon, drawRoadFlowArrow, drawFreightVehicleFlowArrow, escapeHtml, nodeHeaderHeight } from './playfieldDrawing';
 import { drawBufferSquares, updateProductionPort, updateBufferSquares, drawProductionCue, updateInputSquares } from './nodeBuffers';
@@ -42,7 +42,7 @@ import { drawNodeIcon } from './drawNodeIcon';
 import { drawEncounterArt } from './encounterArt';
 import { getNodeArt } from '../art/nodeArt';
 import { MAX_VISIBLE_TRANSFERS, transferProgress } from '../simulation/transfers';
-import { RESEARCH_CORE_TYPES, researchCoreStorage } from '../simulation/researchStatus';
+import { RESEARCH_CORE_TYPES } from '../simulation/researchStatus';
 import { modNode } from '../mods/modRules';
 import { mapNodePosition } from '../ui/mapNodePresentation';
 import { measureFieldViewport } from '../ui/responsiveLayout';
@@ -435,6 +435,14 @@ export function PixiPlayfield(props: Props) {
       const grove = groveProgress(node); const initialProgress = grove ? grove.fraction : isResourceNode(node) ? resourceReserveFraction(node) : getNodeCapabilities(node.kind).behavior === 'research' ? researchCenterView(node, propsRef.current.engine.getState()).progress : 0;
       const campView = node.kind === 'monster-camp' ? createCampNodeStatus() : undefined;
       if (campView) { root.addChild(campView.halo, campView.root); updateCampNodeStatus(campView, node, 0, 1); }
+      const golemApLabel = node.kind === 'resourceGolem' ? label(golemApReadout(node), 22, 0xf3f5f7, 'normal', 'mono') : undefined;
+      if (golemApLabel) {
+        golemApLabel.eventMode = 'none';
+        golemApLabel.anchor.set(.5);
+        golemApLabel.position.set(0, 52);
+        root.addChild(golemApLabel);
+        readabilityLabels.push(golemApLabel);
+      }
       const cornerCampStatus = node.kind === 'cornerChallenge' ? createCornerCampStatus(node) : undefined;
       if (cornerCampStatus) { root.addChild(cornerCampStatus.root); updateCornerCampStatus(cornerCampStatus, node, camera.zoom); }
       let cornerTributeLabel: Text | undefined;
@@ -486,7 +494,7 @@ export function PixiPlayfield(props: Props) {
         inputSquares = new Graphics(); inputSquares.eventMode = 'none'; root.addChild(inputSquares);
       }
       getEffectiveNodeInputFamilies(node, propsRef.current.engine.getState().research.completed).forEach((family, index) => addPort(node, root, 'input', index, family, !placementPreview, sector)); getEffectiveNodeOutputFamilies(node).forEach((family, index) => addPort(node, root, 'output', index, family, !placementPreview, sector));
-      if (!placementPreview) {
+      if (!placementPreview && !propsRef.current.training) {
         const chest = getNodeModule(node.kind).appearance.shape === 'chest';
         let actionX = size.w / 2 - (compact ? 9 : chest ? 25 : 32);
         if (canDeleteNode(node)) { addAction(node, root, actionX, 'delete', '×', 0xff8d93, () => propsRef.current.onDeleteNode(node.id)); actionX -= compact || chest ? 22 : 30; }
@@ -560,7 +568,7 @@ export function PixiPlayfield(props: Props) {
           }
         });
       }
-      return { root, campStatus: campView, cornerCampStatus, cornerTributeLabel, jointMoveHandle, researchStatus, productionRecipeIcon, productionCue, progress, progressLabel, bufferLabel, bufferSquares, inputSquares, coreStorageLabels, coreStorageSquares, readabilityLabels, flash, marqueeHighlight, invalidOverlay, invalidVisible: false, displayedProgress: initialProgress };
+      return { root, campStatus: campView, golemApLabel, cornerCampStatus, cornerTributeLabel, jointMoveHandle, researchStatus, productionRecipeIcon, productionCue, progress, progressLabel, bufferLabel, bufferSquares, inputSquares, coreStorageLabels, coreStorageSquares, readabilityLabels, flash, marqueeHighlight, invalidOverlay, invalidVisible: false, displayedProgress: initialProgress };
     };
 
     const drawInsertionPreview = (node?: MachineNode, valid = true) => {
@@ -783,7 +791,7 @@ export function PixiPlayfield(props: Props) {
       root.on('pointerdown', (event) => { if (event.button !== 0) return; event.stopPropagation(); propsRef.current.onConnectionSelect(connection.id); propsRef.current.onSelect([]); });
       const cableTooltip = (event: FederatedPointerEvent) => showTooltip(event, connection.item ? ITEM_NAMES[connection.item] : 'Untyped cable', `${points.from.name} [${points.outputIndex + 1}] → ${points.to.name} [${points.inputIndex + 1}] · Click to select.`, connection.item ? `#${ITEM_COLORS[connection.item].toString(16).padStart(6, '0')}` : '#60758f', 'CONNECTION');
       root.on('pointerover', cableTooltip); root.on('pointermove', cableTooltip); root.on('pointerout', clearTooltip);
-      if (selected) { const midpoint = curvePoint(connection, nodes, connections, .5)!; const button = new Container(); button.position.set(midpoint.x, midpoint.y + 22 / camera.zoom); button.eventMode = 'static'; button.cursor = 'pointer'; button.hitArea = new Rectangle(-15, -15, 30, 30); button.addChild(new Graphics().circle(0, 0, 13).fill({ color: 0x291316, alpha: .98 }).stroke({ color: 0xf06c72, width: 2 })); drawTrashIcon(button, 0, 0, 0xff8d93); button.on('pointerdown', (event) => { if (event.button === 0) event.stopPropagation(); }); button.on('pointertap', (event) => { if (event.button !== 0) return; event.stopPropagation(); propsRef.current.onDeleteConnection(connection.id); }); root.addChild(button); }
+      if (selected && !propsRef.current.training) { const midpoint = curvePoint(connection, nodes, connections, .5)!; const button = new Container(); button.position.set(midpoint.x, midpoint.y + 22 / camera.zoom); button.eventMode = 'static'; button.cursor = 'pointer'; button.hitArea = new Rectangle(-15, -15, 30, 30); button.addChild(new Graphics().circle(0, 0, 13).fill({ color: 0x291316, alpha: .98 }).stroke({ color: 0xf06c72, width: 2 })); drawTrashIcon(button, 0, 0, 0xff8d93); button.on('pointerdown', (event) => { if (event.button === 0) event.stopPropagation(); }); button.on('pointertap', (event) => { if (event.button !== 0) return; event.stopPropagation(); propsRef.current.onDeleteConnection(connection.id); }); root.addChild(button); }
       cableLayer.addChild(root);
     };
 
@@ -1013,9 +1021,10 @@ export function PixiPlayfield(props: Props) {
         trackedTransfers.forEach((transfer, id) => { if (liveTransferIds.has(id)) return; trackedTransfers.delete(id); if (transfer.sectorId !== sector.id || transfer.arrivesAtMs > gameState.playTimeMs) return; const connection = sector.connections.find((candidate) => candidate.id === (transfer.routeConnectionIds?.at(-1) ?? transfer.connectionId)); const inputPulse = portViews.get(`${transfer.to}:input:${connection?.toPort ?? 0}`); if (inputPulse) inputPulse.pulseStartedAt = frameNow; });
         particles.forEach((particle) => { const connection = sector.connections.find((candidate) => candidate.id === particle.connectionId); if (!connection) { particle.root.visible = false; return; } const phase = transferProgress(particle.transfer, animationPlayTimeMs); particle.passages.forEach(passage => { if (phase >= passage.phase && !particle.passed.has(passage.nodeId)) { particle.passed.add(passage.nodeId); flashStartedAt.set(passage.nodeId, frameNow); portViews.forEach(port => { if (port.nodeId === passage.nodeId) port.pulseStartedAt = frameNow; }); } }); const motion = sampleCurveMotion(particle.path, phase); if (!motion) return; particle.root.visible = phase < 1; particle.root.position.set(motion.x, motion.y); particle.root.rotation = motion.angle; particle.root.alpha = Math.max(0, Math.min(1, phase / .08, (1 - phase) / .12)); });
         nodeViews.forEach((view, id) => { const node = nodeMap.get(id); if (!node) return; const selectable = canSelectNode(id); view.root.eventMode = node.disabled || !selectable ? 'none' : 'static'; view.root.alpha = node.disabled ? .68 : selectable ? 1 : .45; const controlsVisible = selectable && !propsRef.current.placing && controlHover.visible(id, frameNow); view.root.children.forEach(child => { if (child.label === 'node-control') child.visible = controlsVisible; }); if (view.jointMoveHandle) { view.jointMoveHandle.visible = !propsRef.current.placing && (controlsVisible || Boolean(propsRef.current.jointMoveHint)); view.jointMoveHandle.cursor = drag?.ids.includes(id) ? 'grabbing' : 'grab'; } const dragPosition = drag?.desired?.[id]; view.root.position.set(dragPosition?.x ?? node.x, dragPosition?.y ?? node.y); const readabilityScale = nodeTextScale(camera.zoom); view.readabilityLabels.forEach((text) => text.scale.set(readabilityScale)); const invalid = Boolean(drag?.moved && !drag.valid && drag.ids.includes(id)); if (invalid !== view.invalidVisible) { view.invalidVisible = invalid; view.invalidOverlay.clear(); if (invalid) { const size = getNodeSize(node); view.invalidOverlay.roundRect(-size.w / 2 - 5, -size.h / 2 - 5, size.w + 10, size.h + 10, 16).fill({ color: THEME.danger, alpha: .18 }).stroke({ color: THEME.danger, width: 3, alpha: .98 }); } } const currentInput = inputTotal(node); if (getNodeCapabilities(node.kind).behavior !== 'research' && (lastInputTotals.get(id) ?? currentInput) < currentInput) flashStartedAt.set(id, frameNow); lastInputTotals.set(id, currentInput); const duration = nodeCycleDuration(node, gameState.research.completed); const interpolation = !gameState.paused && !node.disabled && !node.processingPaused && node.progressMs > 0 ? (animationPlayTimeMs - gameState.playTimeMs) / (modNode(node.kind)?.cycleMultiplier ?? 1) : 0; const cycleProgress = duration ? Math.min(1, (node.progressMs + interpolation) / duration) : 0; if (view.campStatus) updateCampNodeStatus(view.campStatus, node, interpolation, readabilityScale); const cue = productionCues.get(id);
+          if (view.golemApLabel) view.golemApLabel.text = golemApReadout(node);
           view.productionRecipeIcon?.update(node, propsRef.current.showRecipeIcons);
           drawProductionCue(view.productionCue, node, cue, gameState.research.completed); const grove = groveProgress(node); const target = grove ? grove.fraction : isResourceNode(node) ? resourceReserveFraction(node) : getNodeCapabilities(node.kind).behavior === 'research' ? researchCenterView(node, gameState).progress : cue?.working ? cycleProgress : 0; view.displayedProgress = target; view.progress.scale.x = target; if (view.progressLabel) view.progressLabel.text = grove?.label ?? `${Math.round(target * 100)}%`; if (node.kind === 'filter') { if (!view.filterNotice) { view.filterNotice = label('', 13, 0xffc46b, '600'); view.filterNotice.anchor.set(.5, 0); view.filterNotice.position.set(0, getNodeSize(node).h / 2 + 10); view.root.addChild(view.filterNotice); } const blockedPort = blockedFilterPort(node); view.filterNotice.text = blockedPort === undefined ? '' : `! ${filterOutletLabels(node)[blockedPort].toUpperCase()} OUTLET BLOCKED`; } if (view.bufferLabel) view.bufferLabel.text = node.resourceItem ? resourceCapacityReadout(node) : `${outputTotal(node)} / ${outputCapacity(node)}`; updateBufferSquares(view, node); updateInputSquares(view, node); if (view.researchStatus) updateResearchNodeStatus(view.researchStatus, researchCenterView(node, gameState).projectName, readabilityScale); if (view.coreStorageLabels) {
-          const storage = researchCoreStorage(node, gameState.research);
+          const storage = researchCoreGrid(node, gameState.research);
           const { w } = getNodeSize(node);
           const gridTop = getPortAnchor(node, 'input', 0).y + 28;
           const columnOffset = (w - 36) / 4;
@@ -1029,7 +1038,7 @@ export function PixiPlayfield(props: Props) {
             text.style.fill = ITEM_COLORS[core.item];
             text.text = ITEM_NAMES[core.item].replace(' Core', '');
             text.scale.set(readabilityScale);
-            text.position.set(index % 2 === 0 ? -columnOffset : columnOffset, gridTop + Math.floor(index / 2) * 42);
+            text.position.set(core.column * columnOffset, gridTop + core.row * 42);
             if (squares) {
               const pipCount = Math.min(maxPips, Math.ceil(core.capacity));
               const pipWidth = pipCount * (pipSize + pipGap) - pipGap;

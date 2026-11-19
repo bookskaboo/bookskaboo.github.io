@@ -216,7 +216,7 @@ Fabricators and Sorting Stations provide encounter unlocks.
 
 New worlds contain exactly **four Resource Golems**, one each for **Iron, Copper, Stone, and Mythril**. Each occupies a different **tier 5** map sector. Their sectors exclude **Deep Holes, Lakes, and settlements**, while retaining normal mineral and Forest nodes. The Golem starts at the center of its play area, using the field size at the time of generation. Selection is deterministic for the world seed. Older worlds with sectors already generated at tier 5 or farther out retain their seeded tier-6 assignments.
 
-After **Resource Golem Survey**, bot deliveries permanently reduce the Golem's remaining health. Iron, Copper and Stone start at **100 AP**, covered by 100 Small Bots or five Command Bots. Mythril starts at **150 AP**, covered by 150 Small Bots or seven Command Bots. Mixed deliveries also work. Partial damage persists through saves.
+Find a Golem camp by visiting its map. Deliver Suppression Bots to permanently reduce the Golem's remaining health. Iron, Copper and Stone start at **100 AP**. Mythril starts at **150 AP**. Mixed deliveries also work. Partial damage persists through saves.
 
 At zero health, the same node becomes a permanent **Iron**, **Copper**, **Stone**, or **Mythril** reserve at the same position. It is twice as wide and twice as tall as a normal resource node, with **∞** above its full reserve bar. Placement keeps that footprint clear while the Golem is alive. Its bot input and incoming attack cables are removed. The new reserve has **four multi-connection star outputs**, centered on its north, east, south, and west faces. Connect Extractors to any face. All four sockets expose only that Golem's mineral.
 

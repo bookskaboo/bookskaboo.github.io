@@ -1,0 +1,82 @@
+html, body, #root {
+  height: auto;
+  min-height: 100%;
+  overflow: visible;
+}
+
+body { background: #191b1f; }
+
+.bot-preview {
+  width: min(1080px, 100%);
+  min-height: 100dvh;
+  padding: clamp(20px, 5vw, 54px);
+  margin-inline: auto;
+}
+
+.bot-preview h1 {
+  margin: 0 0 18px;
+  color: #e8e6df;
+  font: var(--ui-title-font);
+}
+
+.preview-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 250px;
+  align-items: start;
+  gap: 16px;
+}
+
+.preview-field {
+  display: grid;
+  place-items: center;
+  min-height: 392px;
+  padding: 20px;
+  border: 1px solid #34383d;
+  border-radius: 12px;
+  background-color: #1e2024;
+  background-image: linear-gradient(#ffffff06 1px, transparent 1px), linear-gradient(90deg, #ffffff06 1px, transparent 1px);
+  background-size: 24px 24px;
+  background-position: center;
+}
+
+.preview-field .bot-plant-panel {
+  position: relative;
+  inset: auto;
+  width: min(100%, 348px);
+  max-height: none;
+}
+
+.preview-controls {
+  display: grid;
+  gap: 14px;
+  padding: 16px;
+  color: #e3e5e5;
+  border: 1px solid #414348;
+  border-radius: 12px;
+  background: #222529;
+}
+
+.preview-controls h2 { margin: 0; font: var(--ui-section-font); }
+.preview-supply { display: grid; gap: var(--modal-label-gap); font: var(--ui-control-font); }
+.preview-presets { display: flex; flex-wrap: wrap; gap: 6px; }
+
+.preview-controls select, .preview-button {
+  min-height: 34px;
+  padding: 6px 9px;
+  border: 1px solid #514c42;
+  border-radius: 6px;
+  background: #292b2e;
+  color: #e3e5e5;
+  font: var(--ui-control-font);
+}
+
+.preview-button { cursor: pointer; }
+.preview-button:hover { border-color: #9f8a5d; }
+.preview-button[aria-pressed='true'] { border-color: #ac955f; color: #efda99; background: #3a3222; }
+.open-plant { display: inline-flex; align-items: center; gap: 8px; }
+.open-plant .node-icon { width: 20px; height: 20px; }
+
+@media (max-width: 700px) {
+  .preview-layout { grid-template-columns: minmax(0, 1fr); }
+  .preview-field { min-height: 290px; padding: 12px; }
+}

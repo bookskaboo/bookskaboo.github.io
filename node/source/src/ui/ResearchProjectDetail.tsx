@@ -11,7 +11,7 @@ import { RESEARCH_FILTER_OPTIONS } from './researchUiConfig';
 import { mapResearchNeedsDestination } from '../simulation/mapExpansion';
 import { mapNodePosition } from '../domain/worldGrid';
 
-export function ResearchProjectDetail({ project, game, engine, canInspect, onPrerequisite, onOpenRecipe, onOpenMap }: { project: ResearchProject; game: GameState; engine: GameEngine; canInspect?(id: string): boolean; onPrerequisite(id: string): void; onOpenRecipe(recipeId: string): void; onOpenMap?(): void }) {
+export function ResearchProjectDetail({ project, game, engine, canInspect, guided, onPrerequisite, onOpenRecipe, onOpenMap }: { project: ResearchProject; game: GameState; engine: GameEngine; canInspect?(id: string): boolean; guided?: boolean; onPrerequisite(id: string): void; onOpenRecipe(recipeId: string): void; onOpenMap?(): void }) {
   const { active, rows, status } = researchProgress(project, game);
   const section = researchSection(project, game);
   const expansionFunded = project.id === 'mapNode' && remainingMapNodePurchases(game) === 0;
@@ -26,7 +26,7 @@ export function ResearchProjectDetail({ project, game, engine, canInspect, onPre
     <header className="research-detail-heading">
       <div className="research-detail-title">
         <h3>{project.name}</h3>
-        {section === 'active' ? <button type="button" className="research-detail-action research-cancel" aria-label={`Cancel ${project.name} research`}
+        {section === 'active' ? guided ? <span className="research-detail-state">Active</span> : <button type="button" className="research-detail-action research-cancel" aria-label={`Cancel ${project.name} research`}
           data-tooltip="Cancel research" data-tooltip-detail="Keep the Cores already researched. The current cycle restarts when you resume."
           onClick={() => engine.selectResearch(undefined)}>Cancel research</button>
           : canStart && selectDestination ? <button type="button" className="research-detail-action research-start" onClick={onOpenMap}>Open Node Map</button>
@@ -38,9 +38,9 @@ export function ResearchProjectDetail({ project, game, engine, canInspect, onPre
       {!project.trigger && !selectDestination && <div className="research-detail-cores" role="group" aria-label={`${project.name} required Cores`}>
         {rows.map(row => {
           const option = RESEARCH_FILTER_OPTIONS.find(option => option.id === row.item);
-          const detail = `${row.required} required${RECIPES[row.item] ? '. Click to view the recipe.' : '.'}`;
+          const detail = `${row.required} required${!guided && RECIPES[row.item] ? '. Click to view the recipe.' : '.'}`;
           return <button key={row.item} type="button" className="research-requirement-filter research-core-badge" style={{ '--research-filter-color': option?.color } as CSSProperties}
-            aria-label={`View ${ITEM_NAMES[row.item]} recipe`} aria-description={detail} disabled={!RECIPES[row.item]} onClick={() => onOpenRecipe(row.item)}
+            aria-label={guided ? ITEM_NAMES[row.item] : `View ${ITEM_NAMES[row.item]} recipe`} aria-description={detail} disabled={guided || !RECIPES[row.item]} onClick={() => onOpenRecipe(row.item)}
             data-tooltip={ITEM_NAMES[row.item]} data-tooltip-detail={detail} data-tooltip-tone={option?.color}>
             <i /><span>{option?.label ?? ITEM_NAMES[row.item]}</span><span className="research-core-paid" style={{ width: `${row.required > 0 ? row.researched / row.required * 100 : 0}%` }} aria-hidden="true" />
           </button>;
@@ -50,7 +50,7 @@ export function ResearchProjectDetail({ project, game, engine, canInspect, onPre
     </header>
     {project.trigger && <p>{section === 'completed' ? project.trigger.complete : project.trigger.pending}</p>}
     <div className="research-prerequisites">{visibleResearchRequirements(project, game).map(id => id === FINAL_CORE_PRODUCTION
-      ? <button key={id} onClick={() => onOpenRecipe('final-core')}>Produce a Final Core →</button>
+      ? <button key={id} disabled={guided} onClick={() => onOpenRecipe('final-core')}>Produce a Final Core →</button>
       : <button key={id} disabled={Boolean(canInspect && !canInspect(id))} onClick={() => onPrerequisite(id)}>Requires {researchPrerequisiteName(id)} →</button>)}</div>
     <p className="research-description">{destination ? `Deliver these Cores to unlock ${mapNodePosition(x, y)}.` : selectDestination
       ? 'Choose a neighboring node on the map to see its Core cost.' : project.description || project.unlock}</p>

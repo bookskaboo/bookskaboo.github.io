@@ -28,14 +28,15 @@ describe('Dwarven discovery and Tribute teaching', () => {
     expect(firstSpottedDwarvenCamp(restored)).toBeUndefined();
     expect(createInitialState(9).tutorialPromptsSeen ?? []).not.toContain(DWARVEN_DISCOVERY_PROMPT);
   });
-  it('ignores Goblins and teaches the real family-specific resources and failure behavior', () => {
+  it('keeps settlement rewards a discovery while the practice teaches suppression', () => {
     const state = createInitialState(10);
     state.sectors['5,5'].nodes.push(tutorialNode('monster-camp', 'goblin', 1500, 1000));
     expect(firstSpottedDwarvenCamp(state)).toBeUndefined();
-    const copy = lessonCopy('monster-camp-growth');
-    expect(copy.body).toContain('10%'); expect(copy.body).toContain('Iron, Copper, Stone or Wood');
-    expect(copy.body).toContain('Dwarves supply Mythril'); expect(copy.body).toContain('different Tribute amounts');
-    expect(copy.body).toContain('removes its Tribute box'); expect(copy.body).toContain('preserving stored Tribute and wiring');
-    expect(lessonCopy('monster-camp-suppression').body).toContain('every 60 seconds');
+    const growth = lessonCopy('monster-camp-growth');
+    expect(growth.instruction).toBe('Continued suppression may bring rewards.');
+    const suppression = lessonCopy('monster-camp-suppression');
+    expect(suppression.instruction).toContain('Connect the stocked Cart to the camp’s center input');
+    expect([suppression, growth].flatMap(({ title, body, instruction }) => [title, body, instruction]).join(' '))
+      .not.toMatch(/goblin|dwarv|tribute|mythril|10%/i);
   });
 });

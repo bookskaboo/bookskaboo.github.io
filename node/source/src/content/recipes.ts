@@ -23,11 +23,11 @@ export const RECIPES: Record<string, Recipe> = {
   'composite-mythril-gear': { id: 'composite-mythril-gear', name: 'Composite Mythril Gear', inputs: { 'copper-gear': 4, 'mythril-plate': 1 }, outputs: { 'mythril-gear': 4 }, cycleMs: 12000, unlockResearch: 'precisionControl' },
   'composite-mythril-wire': { id: 'composite-mythril-wire', name: 'Composite Mythril Wire', inputs: { 'iron-wire': 4, 'mythril-plate': 1 }, outputs: { 'mythril-wire': 4 }, cycleMs: 12000, unlockResearch: 'precisionControl' },
   brick: { id: 'brick', name: 'Brick', inputs: { stone: 1 }, outputs: { brick: 1 }, cycleMs: 4000 },
-  'simple-core': { id: 'simple-core', name: 'Simple Core', inputs: { 'copper-gear': 2 }, outputs: { 'simple-core': 1 }, cycleMs: 5000 },
+  'simple-core': { id: 'simple-core', name: 'Simple Core', inputs: { 'copper-gear': 2 }, outputs: { 'simple-core': 1 }, cycleMs: 5000, unlockResearch: 'simpleCore' },
   motor: { id: 'motor', name: 'Motor', inputs: { 'iron-gear': 1, 'copper-wire': 1 }, outputs: { motor: 1 }, cycleMs: 6500 },
   'circuit-a': { id: 'circuit-a', name: 'Circuit A', inputs: { 'copper-wire': 1, 'iron-plate': 1 }, outputs: { 'circuit-a': 1 }, cycleMs: 5000 },
-  'basic-core': { id: 'basic-core', name: 'Basic Core', inputs: { 'copper-plate': 1, 'iron-wire': 1 }, outputs: { 'basic-core': 1 }, cycleMs: 10000 },
-  'automata-core': { id: 'automata-core', name: 'Automata Core', inputs: { 'circuit-a': 1, brick: 1 }, outputs: { 'automata-core': 1 }, cycleMs: 15000 },
+  'basic-core': { id: 'basic-core', name: 'Basic Core', inputs: { 'copper-plate': 1, 'iron-wire': 1 }, outputs: { 'basic-core': 1 }, cycleMs: 10000, unlockResearch: 'basicCore' },
+  'automata-core': { id: 'automata-core', name: 'Automata Core', inputs: { 'circuit-a': 1, brick: 1 }, outputs: { 'automata-core': 1 }, cycleMs: 15000, unlockResearch: 'automataCore' },
   'robot-frame': { id: 'robot-frame', name: 'Basic Frame', inputs: { 'iron-plate': 2, motor: 1 }, outputs: { 'simple-robot-frame': 1 }, cycleMs: 30000 },
   'robot-gun': { id: 'robot-gun', name: 'Basic Gun', inputs: { 'copper-wire': 1, 'iron-plate': 2, brick: 1 }, outputs: { 'simple-robot-gun': 1 }, cycleMs: 30000 },
 };
@@ -48,7 +48,6 @@ export function isRecipeUnlocked(id: string, completed: readonly string[]) {
   if (RETIRED_RECIPES.has(id)) return false;
   const recipe=RECIPES[id];if(!recipe)return false;
   if(recipe.unlockResearch&&!completed.includes(recipe.unlockResearch))return false;
-  if(id==='automata-core'&&!completed.includes('automataCore'))return false;
   if(['robot-frame','robot-gun'].includes(id)&&!completed.includes('suppressionBot'))return false;
   return true;
 }

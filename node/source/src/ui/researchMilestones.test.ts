@@ -31,9 +31,9 @@ function expectPrimary(game: GameState, action: MilestoneAction, title?: string)
   return cards;
 }
 
-const throughAutomata = ['kiln', 'smelter', 'refiner', 'researchCenter', 'assembler', 'exploration', 'road', 'automataCore', 'fabricatorTools'];
-const throughHydro = [...throughAutomata, 'lakeTools', 'hydrochemistry', 'hydraulicAssembly', 'fluidRouting', 'suppressionBot', 'sealedRobotics'];
-const throughComplex = [...throughHydro, 'mithrilTools', 'oreSeparation', 'precisionControl'];
+const throughAutomata = ['kiln', 'smelter', 'refiner', 'simpleCore', 'researchCenter', 'assembler', 'basicCore', 'exploration', 'road', 'automataCore', 'fabricatorTools'];
+const throughHydro = [...throughAutomata, 'lakeTools', 'hydrochemistry', 'hydraulicAssembly', 'hydroCore', 'fluidRouting', 'suppressionBot', 'sealedRobotics'];
+const throughComplex = [...throughHydro, 'mithrilTools', 'oreSeparation', 'shinyCore', 'precisionControl', 'complexCore'];
 
 function campaign(completed: string[], produced: Partial<Record<ItemId, number>> = {}): GameState {
   const game = createInitialState(321);
@@ -54,7 +54,7 @@ describe('Research milestones', () => {
     expectPrimary(game, { kind: 'recipe', id: 'charcoal' });
     game.produced!.charcoal = 1;
     expectPrimary(game, { kind: 'recipe', id: 'smelt-copper' });
-    game.research.completed.push('refiner', 'researchCenter');
+    game.research.completed.push('refiner', 'simpleCore', 'researchCenter');
     expectPrimary(game, { kind: 'recipe', id: 'simple-core' });
     game.produced!['simple-core'] = 1;
     const beforeLab = expectPrimary(game, { kind: 'build', id: 'researchCenter' });
@@ -63,6 +63,8 @@ describe('Research milestones', () => {
     const beforeBasic = expectPrimary(game, { kind: 'research', id: 'assembler' });
     expect(beforeBasic[1].title).toBe('Iron prospects');
     game.research.completed.push('assembler');
+    expectPrimary(game, { kind: 'research', id: 'basicCore' });
+    game.research.completed.push('basicCore');
     expectPrimary(game, { kind: 'recipe', id: 'basic-core' });
     game.produced!['basic-core'] = 1;
     const afterBasic = expectPrimary(game, { kind: 'research', id: 'exploration' });
@@ -94,6 +96,8 @@ describe('Research milestones', () => {
     game.research.completed.push('hydrochemistry');
     expectPrimary(game, { kind: 'research', id: 'hydraulicAssembly' });
     game.research.completed.push('hydraulicAssembly');
+    expectPrimary(game, { kind: 'research', id: 'hydroCore' });
+    game.research.completed.push('hydroCore');
     const cards = expectPrimary(game, { kind: 'recipe', id: 'hydro-core' });
     expect(cards).toContainEqual(expect.objectContaining({ title: 'Some rocks have opinions', detail: expect.stringContaining('outer sectors') }));
     game.produced!['hydro-core'] = 1;
@@ -123,10 +127,14 @@ describe('Research milestones', () => {
     game.research.completed.push('mithrilTools');
     expectPrimary(game, { kind: 'research', id: 'oreSeparation' });
     game.research.completed.push('oreSeparation');
+    expectPrimary(game, { kind: 'research', id: 'shinyCore' });
+    game.research.completed.push('shinyCore');
     expectPrimary(game, { kind: 'recipe', id: 'shiny-core' });
     game.produced!['shiny-core'] = 1;
     expectPrimary(game, { kind: 'research', id: 'precisionControl' });
     game.research.completed.push('precisionControl');
+    expectPrimary(game, { kind: 'research', id: 'complexCore' });
+    game.research.completed.push('complexCore');
     expectPrimary(game, { kind: 'recipe', id: 'command-core' });
   });
 
@@ -166,6 +174,8 @@ describe('Research milestones', () => {
     game.globalPool = { 'core-half-a': 1, ...yang.inputs };
     expectPrimary(game, { kind: 'recipe', id: yang.id });
     game.globalPool = { 'core-half-a': 1, 'core-half-b': 1 };
+    expectPrimary(game, { kind: 'research', id: 'finalCore' });
+    game.research.completed.push('finalCore');
     expectPrimary(game, { kind: 'recipe', id: 'final-core' });
     game.globalPool = { 'final-core': 1 };
     game.research.completed.push('finalCoreProduction');

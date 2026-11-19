@@ -121,14 +121,14 @@ export function NodeMinimap({ game, engine, allowedSectorId, dockHeight = 0, exp
     <header onPointerDown={beginDrag} onPointerMove={moveDrag} onPointerUp={endDrag} onPointerCancel={endDrag}>
       <div className="minimap-drag-handle" aria-label={expanded ? 'Node Map' : 'Move Node Map'} data-tooltip={expanded ? undefined : 'Move Node Map'} data-tooltip-detail={expanded ? undefined : 'Drag this header to move the map. Press M to hide or show it.'}><span>{expanded ? 'Node Map' : <>⠿ Node Map <kbd>M</kbd></>}</span></div>
       {!expanded && <button className="minimap-open" aria-label="Expand Node Map" onClick={onOpenMap} data-tooltip="Expand Node Map">↗</button>}
-      {(!expanded || gridSize > DEFAULT_WORLD_GRID_SIZE) && <div className="minimap-zoom">
+      {allowedSectorId === undefined && (!expanded || gridSize > DEFAULT_WORLD_GRID_SIZE) && <div className="minimap-zoom">
         <button aria-label="Zoom out" onClick={() => setZoom(value => Math.max(.65, +(value - .15).toFixed(2)))}>−</button>
         <button aria-label={`Reset map zoom, currently ${Math.round(zoom * 100)}%`} onClick={() => setZoom(1)}>{Math.round(zoom * 100)}%</button>
         <button aria-label="Zoom in" onClick={() => setZoom(value => Math.min(2.5, +(value + .15).toFixed(2)))}>+</button>
       </div>}
       <button className="minimap-close" aria-label={expanded ? 'Close expanded Node Map' : 'Hide Node Map'} onClick={onClose} data-tooltip={expanded ? 'Close expanded Node Map' : 'Hide Node Map'} data-tooltip-detail={expanded ? 'Return to the minimap.' : 'Press M to show it again.'}>×</button>
     </header>
-    {expanded && availableFilters.length > 0 && <div className="node-map-filters" role="group" aria-label="Map landmark filters">
+    {allowedSectorId === undefined && expanded && availableFilters.length > 0 && <div className="node-map-filters" role="group" aria-label="Map landmark filters">
       <span>Show on map</span>
       {availableFilters.map(landmark => <button key={landmark} type="button" className={`map-landmark-${landmark}`}
         aria-pressed={filters.has(landmark)} onClick={() => toggleFilter(landmark)}>

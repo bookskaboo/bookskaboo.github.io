@@ -72,22 +72,14 @@ const adaptations: Partial<Record<TutorialStage, Partial<{ title: string; body: 
     body: 'Press Escape or right-click to cancel placement.',
     instruction: 'Place the Extractor on the highlighted spot.',
   },
-  'chest-shortcut': {
-    body: 'Carts normally unlock with Road research. This lesson lends you one early.',
-    instruction: 'Select Cart in the Logistics shortcut bar or in Build.',
-  },
-  'store-item': {
-    body: 'The arrow above the Cart’s inventory points from input to output.',
-    instruction: 'Connect the Extractor output to the Cart input and wait for Wood.',
-  },
   'research-explain': {
     body: 'Milestones such as your first cable unlock research without spending Cores.',
     instruction: 'Find Joint under Completed Research.',
   },
   'make-charcoal': {
     title: 'Make Charcoal',
-    body: 'The Kiln turns Wood into fuel for the Smelter.',
-    instruction: 'Build a Kiln, connect Cart → Kiln, and wait for Charcoal.',
+    body: 'Your first Wood unlocks the Kiln. It makes fuel for the Smelter.',
+    instruction: 'Build a Kiln, connect the Wood Extractor directly to it, and wait for Charcoal.',
   },
   'mine-copper': {
     title: 'Gather Copper',
@@ -128,12 +120,12 @@ const adaptations: Partial<Record<TutorialStage, Partial<{ title: string; body: 
     instruction: 'Wait for the Core payment. Resume the simulation if paused.',
   },
   'cores-complete': {
-    body: 'The Assembler can make Basic Cores. Exploration needs both Simple and Basic Cores.',
+    body: 'Research Basic Core next. Exploration needs both Simple and Basic Cores.',
     instruction: 'Continue to review the shortcut bars.',
   },
   shortcuts: { instruction: 'Inspect the shortcut bars, then continue.' },
   'options-explain': {
-    body: 'Use Commands for controls, Recipes for ingredients, and Tutorials to revisit a lesson.',
+    body: 'In your factory, Options has Commands for controls, Recipes for ingredients, and Tutorials for practice.',
     instruction: '',
   },
   'logistics-joint-connect': {
@@ -183,18 +175,18 @@ const adaptations: Partial<Record<TutorialStage, Partial<{ title: string; body: 
   },
   'monster-camp-boundary': {
     title: 'Inspect the camp',
-    body: 'The camp blocks construction inside its border. Nodes it reaches turn red and shut down until the border recedes.',
+    body: 'Give the border some room. Machines caught inside it shut down.',
     instruction: 'Check the border, then continue.',
   },
   'monster-camp-suppression': {
     title: 'Supply Attack Power',
-    body: 'A Suppression Bot’s name ends with its attack power. The Bot Plant combines frames and guns automatically. The camp checks every 60 seconds. Green means it shrank. Red means it grew.',
+    body: 'The camp keeps a schedule. Supplying enough attack power at a check pushes its border back.',
     instruction: 'Connect the stocked Cart to the camp’s center input and wait for a passed check.',
   },
   'monster-camp-growth': {
-    title: 'Collect Tribute',
-    body: 'Passing checks shrinks the camp to 10%, when a separate Tribute box appears. Goblins offer Iron, Copper, Stone or Wood. Dwarves supply Mythril. Camps require different AP and yield different Tribute amounts. A missed Goblin check removes its Tribute box, stock and cables. Dwarves pause production while preserving stored Tribute and wiring.',
-    instruction: 'Collect directly from the Tribute box with a Cart or production node.',
+    title: 'Keep the bots coming',
+    body: '',
+    instruction: 'Continued suppression may bring rewards.',
   },
 };
 

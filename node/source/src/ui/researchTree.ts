@@ -12,7 +12,7 @@ export interface ResearchTreeGroup { anchorId: string; name: string; ranks: Rese
 export function buildResearchTree(projects = RESEARCH_PROJECTS): ResearchTree {
   const ids = new Set(projects.map(project => project.id));
   const dependencies = new Map(projects.map(project => {
-    const parents = researchDependencies(project).map(id => id === FINAL_CORE_PRODUCTION ? 'cornerComponents' : id);
+    const parents = researchDependencies(project).map(id => id === FINAL_CORE_PRODUCTION ? 'finalCore' : id);
     return [project.id, [...new Set(parents.filter(id => ids.has(id)))]];
   }));
   const depths = new Map<string, number>(), ancestors = new Map<string, Set<string>>();
@@ -93,7 +93,7 @@ export function researchPathSteps(tree: ResearchTree, lineage: ReadonlySet<strin
     const section = researchSection(project, game);
     if (section === 'completed') continue;
     if (section !== 'future') ids.add(project.id);
-    else if (game.research.completed.includes('cornerComponents')) {
+    else if (game.research.completed.includes('finalCore')) {
       const missing = visibleResearchRequirements(project, game);
       if (missing.length === 1 && missing[0] === FINAL_CORE_PRODUCTION) needsFinalCore = true;
     }

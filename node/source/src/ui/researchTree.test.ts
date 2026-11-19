@@ -19,9 +19,29 @@ describe('research dependency tree', () => {
     expect([...researchAncestors(tree, 'connectorMirroring')]).toEqual(expect.arrayContaining(['hydraulicAssembly', 'hydrochemistry', 'automataCore', 'assembler', 'refiner']));
   });
 
+  it('routes each Core through its own project before showing the first Final Core as a victory requirement', () => {
+    const chain = ['simpleCore', 'basicCore', 'automataCore', 'hydroCore', 'shinyCore', 'complexCore', 'finalCore'];
+    chain.forEach((id, index) => {
+      const ancestors = researchAncestors(tree, id);
+      for (const previous of chain.slice(0, index)) expect(ancestors.has(previous)).toBe(true);
+    });
+    expect(tree.edges).toContainEqual({ from: 'complexCore', to: 'cornerComponents' });
+    expect(tree.edges).toContainEqual({ from: 'cornerComponents', to: 'finalCore' });
+    expect(tree.edges).toContainEqual({ from: 'finalCore', to: 'victory' });
+  });
+
+  it('places Mineral Regeneration 1 below Hydro and Road Channels 2 below Shiny', () => {
+    const mineral = researchAncestors(tree, 'mineralRegeneration');
+    expect(mineral.has('hydroCore')).toBe(true);
+    expect(mineral.has('shinyCore')).toBe(false);
+    const road = researchAncestors(tree, 'roadChannels2');
+    expect(road.has('roadChannels1')).toBe(true);
+    expect(road.has('shinyCore')).toBe(true);
+  });
+
   it('removes redundant lines while preserving indirect dependencies', () => {
     const node = tree.nodes.find(node => node.project.id === 'connectorMirroring')!;
-    expect(node.dependencies).toEqual(['hydraulicAssembly']);
+    expect(node.dependencies).toEqual(['hydroCore']);
     expect(researchAncestors(tree, node.project.id).has('automataCore')).toBe(true);
   });
 
