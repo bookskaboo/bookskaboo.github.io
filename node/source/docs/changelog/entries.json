@@ -16,6 +16,14 @@
   },
   "releases": [
     {
+      "id": "5a44feb",
+      "date": "2026-11-19",
+      "title": "Retained rendering and higher-load factory performance",
+      "commit": "5a44feb4e14945365dff935e76ea451b1a518a1e",
+      "url": "https://github.com/bookskaboo/bookskaboo.github.io/commit/5a44feb4e14945365dff935e76ea451b1a518a1e",
+      "notes": "Fast-forwarded main with changes confined to node/. GitHub Pages succeeded; normal live HTML and all ten runtime assets matched SHA-256. Previous assets remain available. Concurrent unfinished new-world gameplay edits were excluded."
+    },
+    {
       "id": "f1d5681",
       "date": "2026-11-18",
       "title": "Node-owned efficiency through Final and early production recovery",
@@ -18673,7 +18681,7 @@
       "dateBasis": "chat",
       "kind": "refactored",
       "state": "implemented",
-      "delivery": "local",
+      "delivery": "published",
       "title": "Retain factory graphics and stabilize frame times under heavier production",
       "summary": "Reuse node, cable and cargo graphics, skip offscreen visual work, and scale detail with zoom; restore the 600-node test option after sustained browser verification.",
       "details": [
@@ -18715,7 +18723,8 @@
       "supersedes": [
         "NODE-0598"
       ],
-      "validation": "All 1,812 workspace tests passed with two existing skips; preview TypeScript checks, the standalone preview build, main build and /node/ build passed. Five new renderer tests cover retained identities, state-source replacement, socket/camp invalidation, visibility/detail transitions, crossing cables, moved/mirrored curve sampling and pixel budgets. Browser verified single-node and Shift-selected movement, cable attachment and hit targeting, deletion and rewiring after wheel zoom, panning, load changes, 390 px layout and restored desktop detail. Serial single-tab built-page observations at 300 nodes showed frame p95 33.4 to 25.0 ms, p99 158.4 to 25.1 ms and tick-plus-subscriber p95 36.9 to 2.0 ms, with 172/2,405 versus 0/3,311 frames above 33.4 ms over differing 50-57 second windows after five seconds warmup. The updated 600-node page ran beyond two simulated minutes, producing and delivering cargo through resize/zoom with no warning/error logs at the checked point; its pre-interaction p99 was 33.4 ms. Measurements are local single observations, not universal FPS, long-duration memory or multi-map capacity claims. Catalog/link and changelog checks passed. Both Word documents preserved prior paragraphs and reopened; both required render attempts failed because LibreOffice soffice.exe is unavailable, so Word layout was not visually verified. No game-rule changes or live publication."
+      "validation": "All 1,812 workspace tests passed with two existing skips; preview TypeScript checks, the standalone preview build, main build and /node/ build passed. Five new renderer tests cover retained identities, state-source replacement, socket/camp invalidation, visibility/detail transitions, crossing cables, moved/mirrored curve sampling and pixel budgets. Browser verified single-node and Shift-selected movement, cable attachment and hit targeting, deletion and rewiring after wheel zoom, panning, load changes, 390 px layout and restored desktop detail. Serial single-tab built-page observations at 300 nodes showed frame p95 33.4 to 25.0 ms, p99 158.4 to 25.1 ms and tick-plus-subscriber p95 36.9 to 2.0 ms, with 172/2,405 versus 0/3,311 frames above 33.4 ms over differing 50-57 second windows after five seconds warmup. The updated 600-node page ran beyond two simulated minutes, producing and delivering cargo through resize/zoom with no warning/error logs at the checked point; its pre-interaction p99 was 33.4 ms. Measurements are local single observations, not universal FPS, long-duration memory or multi-map capacity claims. Catalog/link and changelog checks passed. Both Word documents preserved prior paragraphs and reopened; both required render attempts failed because LibreOffice soffice.exe is unavailable, so Word layout was not visually verified. No game-rule changes or live publication.",
+      "publishedBy": "5a44feb"
     },
     {
       "id": "NODE-0605",
@@ -18791,6 +18800,41 @@
         "outputs/deep-hole-exploration-2026-11-19/validation.json"
       ],
       "validation": "Checked five references for the exact 28-map standard-world quota, four-to-one tier selection weights, persisted selection, unchanged within-map rules, new-world-only scope and pending implementation status. Regenerated history and ran changelog/system-document consistency checks. No new simulation, gameplay source change, save test, commit or publication."
+    },
+    {
+      "id": "NODE-0607",
+      "date": "2026-11-19",
+      "dateBasis": "chat",
+      "kind": "changed",
+      "state": "implemented",
+      "delivery": "published",
+      "publishedBy": "5a44feb",
+      "title": "Publish retained factory rendering and higher-load performance improvements",
+      "summary": "Publish retained node/cable views, pooled cargo, cached paths, visual culling, zoom detail and native rendering density to the live NODE game.",
+      "details": [
+        "Fast-forward main from 7a2fdbb55dc4bdc534bcbbc9a751da34f6505ed2 to 5a44feb4e14945365dff935e76ea451b1a518a1e, changing only node/ and preserving all 105 previous runtime asset files. Ship matching built files and an isolated source snapshot.",
+        "Build from the published source plus the seven renderer files and the active-factory fixture. Exclude concurrent unfinished new-world gameplay edits, including later guarded-resource and filled-terrain additions to shared renderer files. The candidate reproduces all eleven runtime files from the previously tested renderer build byte-for-byte.",
+        "Retain the current production rules, simulation cadence and save format. The synthetic 600-node fixture and local before/after measurements remain supporting test evidence, not universal FPS or multi-map capacity guarantees."
+      ],
+      "topics": [
+        "Performance",
+        "Production",
+        "Controls",
+        "Publishing"
+      ],
+      "sources": [
+        "local-code"
+      ],
+      "evidence": [
+        "outputs/node-renderer-release-2026-11-19/publication-receipt.json",
+        "outputs/node-renderer-release-2026-11-19/preflight-report.json",
+        "outputs/node-renderer-release-2026-11-19/build-manifest.json",
+        "outputs/node-renderer-release-2026-11-19/source-manifest.json",
+        "outputs/renderer-performance/results.json",
+        "src/renderer/PixiPlayfield.tsx",
+        "src/renderer/sceneUpdates.ts"
+      ],
+      "validation": "The shared workspace suite passed 1,827 tests with two skips, but concurrent new-world edits prevented its build. The isolated release source passed all 1,016 tests with one opt-in skip, preview/type and documentation/history checks, and npm run build:site. All eleven files matched the earlier tested renderer build exactly. Preflight confirmed a clean commit, only node/ changes, exactly seven runtime source changes, fast-forward ancestry and unchanged prior assets. GitHub Pages run 44491391601 succeeded. Verified normal live HTML and all ten runtime assets by SHA-256, plus all ten assets from the preceding live build. Production/movement/zoom/rewiring and 600-node browser checks are recorded in NODE-0604. No player game tab was reloaded and no unrelated gameplay change was published."
     }
   ]
 }

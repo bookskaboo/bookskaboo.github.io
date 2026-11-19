@@ -1,0 +1,23 @@
+{
+  "commit": "5a44feb4e14945365dff935e76ea451b1a518a1e",
+  "base": "7a2fdbb55dc4bdc534bcbbc9a751da34f6505ed2",
+  "destination": "https://github.com/bookskaboo/bookskaboo.github.io.git refs/heads/main",
+  "changedFiles": 139,
+  "runtimeFiles": 11,
+  "previousRuntimeAssetsRetained": 105,
+  "onlyNodeChanged": true,
+  "canFastForward": true,
+  "worktreeClean": true,
+  "exactPreviouslyTestedBuild": true,
+  "runtimeSourceOverlay": [
+    "src/renderer/PixiPlayfield.tsx",
+    "src/renderer/cableGeometry.ts",
+    "src/renderer/nodeBuffers.ts",
+    "src/renderer/playfieldDrawing.ts",
+    "src/renderer/playfieldTypes.ts",
+    "src/renderer/sceneUpdates.test.ts",
+    "src/renderer/sceneUpdates.ts"
+  ],
+  "isolatedCandidateTests": 1016,
+  "checkedAt": "2026-11-19T08:51:54.674Z"
+}
