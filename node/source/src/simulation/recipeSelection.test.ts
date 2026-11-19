@@ -23,6 +23,66 @@ function setup(kind: NodeKind) {
 }
 
 describe('choosing a recipe before connecting production nodes', () => {
+  it('produces a Basic Gun through two Assembler inputs using only Copper Wire and Brick', () => {
+    const { engine, source, machine, node } = setup('assembler');
+    engine.getState().research.completed = ['assembler', 'suppressionBot', 'road'];
+    const brickSource = engine.placeNode('woodenChest', 400, 950)!;
+    const stock = (id: string) => engine.getSector().nodes.find(candidate => candidate.id === id)!;
+    stock(source).constructionMs = 0;
+    stock(brickSource).constructionMs = 0;
+    stock(source).output = { 'copper-wire': 1 };
+    stock(brickSource).output = { brick: 1 };
+    expect(engine.setRecipe(machine, 'robot-gun')).toBe(true);
+    expect(getEffectiveNodeInputFamilies(node, [])).toEqual(['copper-wire', 'brick']);
+    expect(engine.connectPorts(source, 0, machine, 0)).toBe(true);
+    expect(engine.connectPorts(brickSource, 0, machine, 1)).toBe(true);
+    for (let tick = 0; tick < 330; tick++) engine.tick(100);
+    expect(engine.getState().produced?.['simple-robot-gun']).toBe(1);
+    expect(node.input).toEqual({ 'copper-wire': 0, brick: 0 });
+  });
+
+  it('migrates the old Gun sockets and refunds surplus Iron once while retaining progress and Brick shipments', () => {
+    const state = createInitialState(82);
+    state.research.completed = ['assembler', 'suppressionBot', 'road'];
+    state.research.unlocked.push(...state.research.completed);
+    state.botAssemblyVersion = 1;
+    delete state.basicGunRecipeVersion;
+    const base: MachineNode = {
+      id: 'wire', kind: 'woodenChest', name: 'Wire', x: 400, y: 400, rotation: 0,
+      input: {}, output: {}, progressMs: 0, cycleMs: 1000, constructedAt: 0, constructionMs: 0,
+    };
+    const sector = state.sectors[state.activeSectorId];
+    sector.nodes = [
+      base,
+      { ...base, id: 'iron', y: 900, output: { 'iron-plate': 3 } },
+      { ...base, id: 'brick', y: 1400 },
+      { ...base, id: 'gun', kind: 'assembler', x: 1200, y: 900, recipeId: 'robot-gun',
+        input: { 'copper-wire': 1, 'iron-plate': 2, brick: 1 }, progressMs: 12000, inputPortOrder: [2, 0, 1] },
+    ];
+    sector.connections = ['wire', 'iron', 'brick'].map((from, toPort) => ({
+      id: from, from, to: 'gun', fromPort: 0, toPort, createdAt: 0,
+    }));
+    state.factoryTemplates = [{ name: 'Gun line', nodes: structuredClone(sector.nodes).map(node => ({ ...node, input: {}, output: {} })),
+      connections: structuredClone(sector.connections) }];
+    state.inFlightTransfers = ['iron-plate', 'brick'].map((item, index) => ({
+      id: item, sectorId: sector.id, connectionId: index ? 'brick' : 'iron', from: index ? 'brick' : 'iron',
+      to: 'gun', item: item as 'iron-plate' | 'brick', launchedAtMs: 0, arrivesAtMs: 1000,
+    }));
+    const engine = new GameEngine(state, { autosave: false });
+    const node = engine.getSector().nodes.find(node => node.id === 'gun')!;
+    expect(node).toMatchObject({ input: { 'copper-wire': 1, brick: 1 }, progressMs: 12000, inputPortOrder: [1, 0] });
+    expect(node.input['iron-plate']).toBeUndefined();
+    expect(engine.getSector().connections.map(({ id, toPort }) => ({ id, toPort })))
+      .toEqual([{ id: 'wire', toPort: 0 }, { id: 'brick', toPort: 1 }]);
+    expect(engine.getState().factoryTemplates?.[0].connections).toEqual(engine.getSector().connections);
+    expect(engine.getSector().nodes.find(node => node.id === 'iron')?.output['iron-plate']).toBe(6);
+    expect(engine.getState().inFlightTransfers?.map(transfer => transfer.item)).toEqual(['brick']);
+    const reloaded = new GameEngine(engine.getState(), { autosave: false });
+    expect(reloaded.getSector()).toEqual(engine.getSector());
+    for (let tick = 0; tick < 180; tick++) reloaded.tick(100);
+    expect(reloaded.getState().produced?.['simple-robot-gun']).toBe(1);
+  });
+
   it.each<[NodeKind, string]>([
     ['smelter', 'smelt-copper'], ['refiner', 'copper-gear'], ['assembler', 'motor'],
     ['hydroProcessor', 'coolant'], ['advancedAssembler', 'efficient-motor'], ['separationFurnace', 'refined-mithril'],

@@ -7,7 +7,7 @@ import { createInitialState, GameEngine } from './engine';
 
 function setup(input: MachineNode['input'] = { 'simple-core': 5, 'basic-core': 5 }) {
   const state = createInitialState(308);
-  state.research.completed = ['refiner', 'assembler', 'exploration', 'extractor1'];
+  state.research.completed = ['refiner', 'assembler', 'exploration', 'basicCore'];
   state.sectors['5,5'].nodes = [{ id: 'lab', kind: 'researchCenter', name: 'Research Center', x: 1000, y: 1000, rotation: 0, input, output: {}, progressMs: 0, cycleMs: 5000, constructedAt: 0, constructionMs: 0 }];
   state.sectors['5,5'].connections = [];
   const engine = new GameEngine(state, { autosave: false });

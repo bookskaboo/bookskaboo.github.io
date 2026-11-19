@@ -73,7 +73,7 @@ describe('legacy Map Point research', () => {
     engine.selectResearch('mapNode');
     engine.getState().research.contributed = { 'simple-core': 3 };
     engine.getState().research.completed.push('shinyCore');
-    engine.selectResearch('extractor1');
+    engine.selectResearch('assembler');
     engine.selectResearch('mapNode');
     expect(engine.getState().research.contributed).toEqual({ 'simple-core': 3 });
     expect(getResearchCostsForState(project, engine.getState().research)['shiny-core']).toBe(5);
@@ -200,7 +200,7 @@ describe('destination map pricing', () => {
     for (let i = 0; i < 5; i++) engine.tick(1000);
     expect(state.research.contributed).toEqual({ 'simple-core': 1 });
     expect(engine.startMapResearch(6, 5)).toBe(false);
-    engine.selectResearch('extractor1');
+    engine.selectResearch('assembler');
     engine = new GameEngine(normalizeLegacy(JSON.parse(JSON.stringify(state)))!, { autosave: false });
     expect(engine.startMapResearch(5, 4)).toBe(true);
     expect(engine.getState().research).toMatchObject({ contributed: { 'simple-core': 1 },

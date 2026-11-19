@@ -29,7 +29,7 @@ export const RECIPES: Record<string, Recipe> = {
   'basic-core': { id: 'basic-core', name: 'Basic Core', inputs: { 'copper-plate': 1, 'iron-wire': 1 }, outputs: { 'basic-core': 1 }, cycleMs: 10000, unlockResearch: 'basicCore' },
   'automata-core': { id: 'automata-core', name: 'Automata Core', inputs: { 'circuit-a': 1, brick: 1 }, outputs: { 'automata-core': 1 }, cycleMs: 15000, unlockResearch: 'automataCore' },
   'robot-frame': { id: 'robot-frame', name: 'Basic Frame', inputs: { 'iron-plate': 2, motor: 1 }, outputs: { 'simple-robot-frame': 1 }, cycleMs: 30000 },
-  'robot-gun': { id: 'robot-gun', name: 'Basic Gun', inputs: { 'copper-wire': 1, 'iron-plate': 2, brick: 1 }, outputs: { 'simple-robot-gun': 1 }, cycleMs: 30000 },
+  'robot-gun': { id: 'robot-gun', name: 'Basic Gun', inputs: { 'copper-wire': 1, brick: 1 }, outputs: { 'simple-robot-gun': 1 }, cycleMs: 30000 },
 };
 
 export const RECIPE_GROUPS: Record<string, string[]> = {

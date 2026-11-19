@@ -98,7 +98,7 @@ export const NODE_DEFINITIONS: Record<NodeKind, NodeDefinition> = {
   storage: node({ kind: 'storage', name: 'Storage', category: 'Storage', description: 'Deposits materials into the shared global pool. Starts with a 1,000-item limit per material.', icon: '▣', input: ['ANY'], output: [], size: 'large', unlockResearch: 'autonomousLogistics' }),
 
   charcoalGenerator: node({ kind: 'charcoalGenerator', name: 'Generator', category: 'Power', description: 'Burns Charcoal into a shared 100W reserve for advanced machines.', icon: '⚡', input: ['charcoal'], output: ['POWER'], unlockResearch: 'basicElectricity' }),
-  treePlanter: node({ kind: 'treePlanter', name: 'Tree Planter', category: 'Production', description: 'Consumes 10 Wood, 1 Iron Plate and 1 Stone to fund 100 growth units. Emits one per second; Industrial Forestry makes production ten times faster.', icon: 'T', input: ['wood', 'iron-plate', 'stone'], output: ['forest-growth'], unlockResearch: 'treePlanter' }),
+  treePlanter: node({ kind: 'treePlanter', name: 'Tree Planter', category: 'Production', description: 'Consumes 10 Wood, 1 Iron Plate and 1 Stone to fund 100 growth units. Emits four growth units per second before Tree Planter upgrades.', icon: 'T', input: ['wood', 'iron-plate', 'stone'], output: ['forest-growth'], unlockResearch: 'treePlanter' }),
   researchCenter: node({ kind: 'researchCenter', name: 'Research Center', category: 'Research', description: 'Studies the selected project by consuming one of every required Core together each cycle. Waits for a complete set.', icon: 'Q', input: ['CORE'], output: [], size: 'large', unlockResearch: 'researchCenter' }),
 
   'monster-camp': node({ kind: 'monster-camp', name: 'Monster Camp', category: 'World', description: 'Expands unless supplied with Attack Power.', icon: 'M', input: ['ATTACK_POWER'], output: [], size: 'large', hidden: true }),
@@ -108,7 +108,7 @@ export const NODE_DEFINITIONS: Record<NodeKind, NodeDefinition> = {
   // Early reconstruction aliases remain loadable without appearing twice.
   chest: node({ kind: 'chest', name: 'Cart', category: 'Logistics', description: 'Stores up to 20 solid items of any tier with ordinary local transfers. Fluids are excluded.', icon: '□', input: ['ANY'], output: ['ANY'], unlockResearch: 'road', hidden: true, legacyAlias: true }),
   generator: node({ kind: 'generator', name: 'Generator', category: 'Power', description: 'Legacy Generator identifier.', icon: '⚡', input: ['charcoal'], output: ['POWER'], hidden: true, legacyAlias: true }),
-  'tree-planter': node({ kind: 'tree-planter', name: 'Tree Planter', category: 'Production', description: 'Consumes 10 Wood, 1 Iron Plate and 1 Stone to fund 100 growth units. Emits one per second; Industrial Forestry makes production ten times faster.', icon: 'T', input: ['wood', 'iron-plate', 'stone'], output: ['forest-growth'], hidden: true, legacyAlias: true }),
+  'tree-planter': node({ kind: 'tree-planter', name: 'Tree Planter', category: 'Production', description: 'Consumes 10 Wood, 1 Iron Plate and 1 Stone to fund 100 growth units. Emits four growth units per second before Tree Planter upgrades.', icon: 'T', input: ['wood', 'iron-plate', 'stone'], output: ['forest-growth'], hidden: true, legacyAlias: true }),
   'research-center': node({ kind: 'research-center', name: 'Research Center', category: 'Research', description: 'Legacy Research Center identifier.', icon: 'Q', input: ['CORE'], output: [], size: 'large', hidden: true, legacyAlias: true }),
 };
 

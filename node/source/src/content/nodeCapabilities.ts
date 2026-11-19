@@ -1,5 +1,7 @@
 import type { ItemId, MachineNode, NodeKind } from '../domain/types';
 import { LATE_CAPABILITIES } from './progression';
+import type { EfficiencyFamily } from './machineEfficiency';
+export type { EfficiencyFamily } from './machineEfficiency';
 
 export type NodeBehavior =
   | 'corner'
@@ -10,7 +12,6 @@ export type NodeBehavior =
   | 'inventory' | 'filter' | 'road' | 'mining-drill'
   | 'monster-camp' | 'tribute' | 'big-hole';
 
-export type EfficiencyFamily = 'hydroProcessor' | 'advancedAssembler' | 'separationFurnace' | 'extractor' | 'kiln' | 'smelter' | 'refiner' | 'assembler' | 'researchCenter' | 'botPlant';
 
 /**
  * Runtime capabilities shared by simulation, routing, placement, and validation.
@@ -48,7 +49,8 @@ const passThrough = (overrides: Omit<NodeCapabilities, 'behavior' | 'passThrough
 
 export const NODE_CAPABILITIES: Record<NodeKind, NodeCapabilities> = {
   ...LATE_CAPABILITIES,
-  recycler: capability('recipe', { inputCapacity: 10, defaultCapacity: 10 }),
+  fluidLink: { ...LATE_CAPABILITIES.fluidLink, efficiencyFamily: 'fluidLink' },
+  recycler: capability('recipe', { inputCapacity: 10, defaultCapacity: 10, efficiencyFamily: 'recycler' }),
   cornerChallenge: capability('corner', {inputCapacity:100,multiInput:true,worldObstacle:true,duplicateAllowed:false}),
   cornerTribute: capability('tribute', {defaultCapacity:10,multiOutput:true,duplicateAllowed:false}),
   devSource: capability('dev-source', { multiOutput: true, defaultCapacity: 0 }),
@@ -81,7 +83,7 @@ export const NODE_CAPABILITIES: Record<NodeKind, NodeCapabilities> = {
   storage: capability('storage', { inputCapacity: 64, perItemInputCapacity:true, multiInput: true, duplicateAllowed: false }),
 
   charcoalGenerator: capability('generator', { inputCapacity: 5, defaultCapacity: 100, multiOutput: true }),
-  treePlanter: capability('planter', { inputCapacity: 10, perItemInputCapacity: true }),
+  treePlanter: capability('planter', { inputCapacity: 10, perItemInputCapacity: true, efficiencyFamily: 'treePlanter' }),
   researchCenter: capability('research', { inputCapacity: 5, perItemInputCapacity: true, multiInput: true, efficiencyFamily: 'researchCenter', globallyUnique: true, duplicateAllowed: false }),
 
   'monster-camp': capability('monster-camp', { worldObstacle: true, duplicateAllowed: false }),
@@ -91,7 +93,7 @@ export const NODE_CAPABILITIES: Record<NodeKind, NodeCapabilities> = {
   // Save-file aliases deliberately preserve the canonical runtime behavior.
   chest: capability('buffer', { inputCapacity: 20, defaultCapacity: 20, multiInput: true, multiOutput: true }),
   generator: capability('generator', { inputCapacity: 5, defaultCapacity: 100, multiOutput: true }),
-  'tree-planter': capability('planter', { inputCapacity: 10, perItemInputCapacity: true }),
+  'tree-planter': capability('planter', { inputCapacity: 10, perItemInputCapacity: true, efficiencyFamily: 'treePlanter' }),
   'research-center': capability('research', { inputCapacity: 5, perItemInputCapacity: true, multiInput: true, efficiencyFamily: 'researchCenter', globallyUnique: true, duplicateAllowed: false }),
 };
 

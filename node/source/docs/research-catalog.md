@@ -8,7 +8,7 @@
 
 # Research rules
 
-A price of **5 each through Hydro** means 5 Simple + 5 Basic + 5 Automata + 5 Hydro Cores. At the end of each cycle, the Research Center consumes and credits one of every Core it still needs together. A missing Core stops the cycle. The single Research Center is anchored at Home. Its base cycle is five seconds for new and loaded nodes; six upgrades use 90%, 80%, 70%, 60%, 50% and 40% of base time, giving 4.5, 4, 3.5, 3, 2.5 and 2 seconds per synchronized set. The highest completed rank replaces earlier effects.
+A price of **5 each through Hydro** means 5 Simple + 5 Basic + 5 Automata + 5 Hydro Cores. At the end of each cycle, the Research Center consumes and credits one of every Core it still needs together. A missing Core stops the cycle. The single Research Center is anchored at Home. Its base cycle is five seconds for new and loaded nodes; seven upgrades use 90%, 80%, 70%, 65%, 55%, 45% and 35% of base time, giving 4.5, 4, 3.5, 3.25, 2.75, 2.25 and 1.75 seconds per synchronized set. The highest completed rank replaces earlier effects.
 
 Use **Research tree** at the top right of the research header to browse prerequisites from top to bottom. Search keeps matching projects and their prerequisite paths visible. Click a tree node to open its details; click the same research card again to collapse the details. Tree cards show names only, with colors indicating research status.
 
@@ -155,91 +155,108 @@ The [NODE Bot Production reference](https://chatgpt.com/space/page_f61bbb51dba88
 | A Remarkably Indirect Conclusion | 1 each through Final | First Final Core produced | Select at the Research Center and pay one set to record victory and open the modal. |
 | Mineral Regeneration 1 | 5 each through Hydro | Ore Separation | Ordinary non-wood deposits recover 1 unit every 30 seconds up to capacity. Depleted deposits remain after this unlock; existing Deep Holes are not restored. |
 
-# Implemented efficiency and logistics research
+# Implemented production efficiency through Final
 
-Cycle upgrades replace the earlier speed factor unless the effect explicitly says otherwise. Their costs can use earlier core tiers even when the prerequisites are later in progression. The nine machine lines extend through Complex with six ranks each, as detailed below.
+There are 64 node-owned efficiency projects: 57 Production upgrades and seven Research Center upgrades. Names count ranks within each node, while serialized numeric suffixes retain their Core tier for compatibility. Every rank requires the machine unlock, the matching Core recipe research and the preceding rank in its chain.
+
+Extractor, Kiln and Smelter start at Basic; Refiner, Assembler, Fabricator and Bot Plant at Automata; Hydro Plant, Pump, Tree Planter and Recycler at Hydro; Synthesizer at Shiny; Research Center at Simple. The final cycle factor is 35% of base time. Intermediate reductions round to multiples of five percentage points, with halfway values toward the larger reduction.
+
+Each rank costs 10 of every Core through Simple, 15 through Basic, 20 through Automata, 25 through Hydro, 30 through Shiny, 35 through Complex or 40 through Final. These optional upgrades are not prerequisites for the Core progression or victory.
+
+| Research | Core cost | Research prerequisites | Benefit |
+| --- | --- | --- | --- |
+| Extractor 1 | 15 each through Basic | Basic Core | Extractor cycles take 10% less time than the base cycle. |
+| Extractor 2 | 20 each through Automata | Extractor 1 + Automata Core | Extractor cycles take 20% less time than the base cycle. |
+| Extractor 3 | 25 each through Hydro | Extractor 2 + Hydro Core | Extractor cycles take 35% less time than the base cycle. |
+| Extractor 4 | 30 each through Shiny | Extractor 3 + Shiny Core | Extractor cycles take 45% less time than the base cycle. |
+| Extractor 5 | 35 each through Complex | Extractor 4 + Complex Core | Extractor cycles take 55% less time than the base cycle. |
+| Extractor 6 | 40 each through Final | Extractor 5 + Final Core | Extractor cycles take 65% less time than the base cycle. |
+| Kiln 1 | 15 each through Basic | Kiln + Basic Core | Kiln cycles take 10% less time than the base cycle. |
+| Kiln 2 | 20 each through Automata | Kiln 1 + Automata Core | Kiln cycles take 20% less time than the base cycle. |
+| Kiln 3 | 25 each through Hydro | Kiln 2 + Hydro Core | Kiln cycles take 35% less time than the base cycle. |
+| Kiln 4 | 30 each through Shiny | Kiln 3 + Shiny Core | Kiln cycles take 45% less time than the base cycle. |
+| Kiln 5 | 35 each through Complex | Kiln 4 + Complex Core | Kiln cycles take 55% less time than the base cycle. |
+| Kiln 6 | 40 each through Final | Kiln 5 + Final Core | Kiln cycles take 65% less time than the base cycle. |
+| Smelter 1 | 15 each through Basic | Smelter + Basic Core | Smelter cycles take 10% less time than the base cycle. |
+| Smelter 2 | 20 each through Automata | Smelter 1 + Automata Core | Smelter cycles take 20% less time than the base cycle. |
+| Smelter 3 | 25 each through Hydro | Smelter 2 + Hydro Core | Smelter cycles take 35% less time than the base cycle. |
+| Smelter 4 | 30 each through Shiny | Smelter 3 + Shiny Core | Smelter cycles take 45% less time than the base cycle. |
+| Smelter 5 | 35 each through Complex | Smelter 4 + Complex Core | Smelter cycles take 55% less time than the base cycle. |
+| Smelter 6 | 40 each through Final | Smelter 5 + Final Core | Smelter cycles take 65% less time than the base cycle. |
+| Refiner 1 | 20 each through Automata | Refiner + Automata Core | Refiner cycles take 15% less time than the base cycle. |
+| Refiner 2 | 25 each through Hydro | Refiner 1 + Hydro Core | Refiner cycles take 25% less time than the base cycle. |
+| Refiner 3 | 30 each through Shiny | Refiner 2 + Shiny Core | Refiner cycles take 40% less time than the base cycle. |
+| Refiner 4 | 35 each through Complex | Refiner 3 + Complex Core | Refiner cycles take 50% less time than the base cycle. |
+| Refiner 5 | 40 each through Final | Refiner 4 + Final Core | Refiner cycles take 65% less time than the base cycle. |
+| Assembler 1 | 20 each through Automata | Assembler + Automata Core | Assembler cycles take 15% less time than the base cycle. |
+| Assembler 2 | 25 each through Hydro | Assembler 1 + Hydro Core | Assembler cycles take 25% less time than the base cycle. |
+| Assembler 3 | 30 each through Shiny | Assembler 2 + Shiny Core | Assembler cycles take 40% less time than the base cycle. |
+| Assembler 4 | 35 each through Complex | Assembler 3 + Complex Core | Assembler cycles take 50% less time than the base cycle. |
+| Assembler 5 | 40 each through Final | Assembler 4 + Final Core | Assembler cycles take 65% less time than the base cycle. |
+| Research Center 1 | 10 each through Simple | Research Center + Simple Core | Research Center cycles take 10% less time than the base cycle. |
+| Research Center 2 | 15 each through Basic | Research Center 1 + Basic Core | Research Center cycles take 20% less time than the base cycle. |
+| Research Center 3 | 20 each through Automata | Research Center 2 + Automata Core | Research Center cycles take 30% less time than the base cycle. |
+| Research Center 4 | 25 each through Hydro | Research Center 3 + Hydro Core | Research Center cycles take 35% less time than the base cycle. |
+| Research Center 5 | 30 each through Shiny | Research Center 4 + Shiny Core | Research Center cycles take 45% less time than the base cycle. |
+| Research Center 6 | 35 each through Complex | Research Center 5 + Complex Core | Research Center cycles take 55% less time than the base cycle. |
+| Research Center 7 | 40 each through Final | Research Center 6 + Final Core | Research Center cycles take 65% less time than the base cycle. |
+| Hydro Plant 1 | 25 each through Hydro | Water Tools + Hydro Core | Hydro Plant cycles take 15% less time than the base cycle. |
+| Hydro Plant 2 | 30 each through Shiny | Hydro Plant 1 + Shiny Core | Hydro Plant cycles take 35% less time than the base cycle. |
+| Hydro Plant 3 | 35 each through Complex | Hydro Plant 2 + Complex Core | Hydro Plant cycles take 50% less time than the base cycle. |
+| Hydro Plant 4 | 40 each through Final | Hydro Plant 3 + Final Core | Hydro Plant cycles take 65% less time than the base cycle. |
+| Fabricator 1 | 20 each through Automata | Advanced Fabrication + Automata Core | Fabricator cycles take 15% less time than the base cycle. |
+| Fabricator 2 | 25 each through Hydro | Fabricator 1 + Hydro Core | Fabricator cycles take 25% less time than the base cycle. |
+| Fabricator 3 | 30 each through Shiny | Fabricator 2 + Shiny Core | Fabricator cycles take 40% less time than the base cycle. |
+| Fabricator 4 | 35 each through Complex | Fabricator 3 + Complex Core | Fabricator cycles take 50% less time than the base cycle. |
+| Fabricator 5 | 40 each through Final | Fabricator 4 + Final Core | Fabricator cycles take 65% less time than the base cycle. |
+| Synthesizer 1 | 30 each through Shiny | Mythril Refining + Shiny Core | Synthesizer cycles take 20% less time than the base cycle. |
+| Synthesizer 2 | 35 each through Complex | Synthesizer 1 + Complex Core | Synthesizer cycles take 45% less time than the base cycle. |
+| Synthesizer 3 | 40 each through Final | Synthesizer 2 + Final Core | Synthesizer cycles take 65% less time than the base cycle. |
+| Bot Plant 1 | 20 each through Automata | Suppression Bot + Automata Core | Bot Plant cycles take 15% less time than the base cycle. |
+| Bot Plant 2 | 25 each through Hydro | Bot Plant 1 + Hydro Core | Bot Plant cycles take 25% less time than the base cycle. |
+| Bot Plant 3 | 30 each through Shiny | Bot Plant 2 + Shiny Core | Bot Plant cycles take 40% less time than the base cycle. |
+| Bot Plant 4 | 35 each through Complex | Bot Plant 3 + Complex Core | Bot Plant cycles take 50% less time than the base cycle. |
+| Bot Plant 5 | 40 each through Final | Bot Plant 4 + Final Core | Bot Plant cycles take 65% less time than the base cycle. |
+| Pump 1 | 25 each through Hydro | Water Tools + Hydro Core | Each Lake Pump draws up to 5 Water per second. |
+| Pump 2 | 30 each through Shiny | Pump 1 + Shiny Core | Each Lake Pump draws up to 6 Water per second. |
+| Pump 3 | 35 each through Complex | Pump 2 + Complex Core | Each Lake Pump draws up to 8 Water per second. |
+| Pump 4 | 40 each through Final | Pump 3 + Final Core | Each Lake Pump draws up to 11 Water per second. |
+| Tree Planter 1 | 25 each through Hydro | Tree Planter + Hydro Core | Tree Planter cycles take 15% less time than the base cycle. |
+| Tree Planter 2 | 30 each through Shiny | Tree Planter 1 + Shiny Core | Tree Planter cycles take 35% less time than the base cycle. |
+| Tree Planter 3 | 35 each through Complex | Tree Planter 2 + Complex Core | Tree Planter cycles take 50% less time than the base cycle. Also expands growth buffers and allows ten growth units per transfer. |
+| Tree Planter 4 | 40 each through Final | Tree Planter 3 + Final Core | Tree Planter cycles take 65% less time than the base cycle. |
+| Recycler 1 | 25 each through Hydro | Intermediate Recycling + Hydro Core | Recycler cycles take 15% less time than the base cycle. |
+| Recycler 2 | 30 each through Shiny | Recycler 1 + Shiny Core | Recycler cycles take 35% less time than the base cycle. |
+| Recycler 3 | 35 each through Complex | Recycler 2 + Complex Core | Recycler cycles take 50% less time than the base cycle. |
+| Recycler 4 | 40 each through Final | Recycler 3 + Final Core | Recycler cycles take 65% less time than the base cycle. |
+
+All recipes use the efficiency of the node performing the work. Mythril Mesh and composite Mythril Gears and Wire use Synthesizer upgrades. Crust Recovery uses Recycler upgrades. Mineral Recovery discovery and recipe yields are retained; the extra Mineral Recovery 1 speed project is retired.
+
+Pumps draw 4 Water/s before research, then 5, 6, 8 and 11 Water/s. These rounded whole-number rates are the explicit exception to the exact 35% interval endpoint. Two Pumps per Lake and routing capacity rules remain.
+
+Tree Planters fund 100 growth units with 10 Wood, one Iron Plate and one Stone. Their base interval is 250 ms, followed by 212.5, 162.5, 125 and 87.5 ms at Hydro through Final. Complex also expands the buffers and enables ten growth units per transfer. Pressure Systems, High Pressure Intakes and Industrial Forestry no longer appear as separate projects.
+
+Older saves keep valid purchases at the same Core tier. Removed lower-tier purchases and partial payments are refunded once, to an existing Research Center when possible. Consolidated special upgrades receive equivalent new-chain credit. Paid production batches retain their contents and fractional progress.
+
+# Resource recovery from the start
+
+Before Exploration, a typed stock ledger checks the first unpaid prerequisite on the actual path to Exploration, including Core recipe access. It counts accessible reserves, real buffers and shipments, paid research and available renewable or recycling routes. Unusable Copper Wire is not treated as Copper Gears, and global-pool stock is not spendable before Inventory access. Slow delivery and blocked outputs do not constitute a shortage.
+
+If materials cannot fund progression, restore only the missing raw Iron, Copper or Stone in an accessible starting deposit. Early exhausted deposits stay in place; a collapsed legacy Home deposit can be restored without opening maps or charging AP. If production consumes the restored stock into another dead end, recovery can run again. The existing expansion/Golem safeguard remains available after Exploration. Refill state and research migration persist across save reloads.
+
+# Other efficiency and logistics research
 
 | Research | Core cost | Research prerequisites | Unlock or benefit |
 | --- | --- | --- | --- |
-| Pressure Systems | 45 each through Shiny | Ore Separation | A Pump connected directly to a Lake draws 8 Water/s instead of 4. |
 | Mineral Regeneration 2 | 30 each through Shiny | Mineral Regeneration 1 + Precision Control | Ordinary mineral recovery improves to 1 unit every 15 seconds and opens repeatable rate research. |
-| High Pressure Intakes | 60 each through Shiny | Pressure Systems + Precision Control | A Pump connected directly to a Lake draws 16 Water/s. |
-| Industrial Forestry | 25 each through Complex | Tree Planter + Precision Control | Tree Planters produce ten times faster and send up to ten funded growth units per local shipment. |
 | Connector Mirroring | 10 each through Hydro | Hydraulic Assembly | Right-click a production node to mirror its input/output banks left-to-right. Cables, buffers and port identities are retained. Left-click recipe selection and the connector-order button remain available. |
 | Factory Templates | 15 each through Automata | Hydraulic Assembly | Paid core research for saved layouts and batch placement previews; existing duplicate controls remain available. |
-| Tree Planter 1 | 10 each through Automata | Tree Planter | Tree Planter cycles use 90% of base time. |
-| Mineral Recovery 1 | 10 each through Hydro | Mineral Recovery + Hydraulic Assembly | Waste recovery recipes take 10% less time after any applicable family modifier. |
 | Warehouse Logistics | 20 each through Hydro | Ore Separation + Fluid Routing | Dedicated one-item Warehouse holds 250 items with a filtered outlet; Inventory retrieval stays a later unlock. |
 | Trucks | 15 each through Automata | Road + Automata Core | Doubles vehicle storage to 40 solid items and raises the Road limit to 24 items per minute. |
 | Trains | 40 each through Hydro | Trucks + Hydraulic Assembly | Upgrades all existing and future vehicles to 80 solid items, retaining stock and cables. Every solid tier is allowed; fluids are excluded. |
 | Road Channels 1 | 5 each through Hydro | Road + Hydraulic Assembly | Adds the second Road slot per map face. Sending and receiving endpoints share the limit. |
 | Area Expansion 2 | 50 each through Shiny | Area Expansion 1 + Precision Control | Each sector grows from 1.25 to 1.5 times its base width and height. That gives 44% more field area than Area Expansion 1. |
 | Road Channels 2 | 20 each through Shiny | Road Channels 1 + Ore Separation | Adds the third Road slot per map face. Sending and receiving endpoints share the limit. |
-| Extractor 1 | 10 each through Simple | None specified | All Extractor cycles use 90% of base time, replacing earlier ranks. Ingredient quantities and output yields stay unchanged. |
-| Extractor 2 | 15 each through Basic | Extractor 1 | All Extractor cycles use 80% of base time, replacing earlier ranks. Ingredient quantities and output yields stay unchanged. |
-| Extractor 3 | 20 each through Automata | Extractor 2 + Automata Core | All Extractor cycles use 70% of base time, replacing earlier ranks. Ingredient quantities and output yields stay unchanged. |
-| Extractor 4 | 25 each through Hydro | Extractor 3 + Hydro Core | All Extractor cycles use 60% of base time, replacing earlier ranks. Ingredient quantities and output yields stay unchanged. |
-| Extractor 5 | 30 each through Shiny | Extractor 4 + Shiny Core | All Extractor cycles use 50% of base time, replacing earlier ranks. Ingredient quantities and output yields stay unchanged. |
-| Extractor 6 | 35 each through Complex | Extractor 5 + Complex Core | All Extractor cycles use 40% of base time, replacing earlier ranks. Ingredient quantities and output yields stay unchanged. |
-| Kiln 1 | 10 each through Simple | Kiln | All Kiln cycles use 90% of base time, replacing earlier ranks. Ingredient quantities and output yields stay unchanged. |
-| Kiln 2 | 15 each through Basic | Kiln 1 | All Kiln cycles use 80% of base time, replacing earlier ranks. Ingredient quantities and output yields stay unchanged. |
-| Kiln 3 | 20 each through Automata | Kiln 2 + Automata Core | All Kiln cycles use 70% of base time, replacing earlier ranks. Ingredient quantities and output yields stay unchanged. |
-| Kiln 4 | 25 each through Hydro | Kiln 3 + Hydro Core | All Kiln cycles use 60% of base time, replacing earlier ranks. Ingredient quantities and output yields stay unchanged. |
-| Kiln 5 | 30 each through Shiny | Kiln 4 + Shiny Core | All Kiln cycles use 50% of base time, replacing earlier ranks. Ingredient quantities and output yields stay unchanged. |
-| Kiln 6 | 35 each through Complex | Kiln 5 + Complex Core | All Kiln cycles use 40% of base time, replacing earlier ranks. Ingredient quantities and output yields stay unchanged. |
-| Smelter 1 | 10 each through Simple | Smelter | All Smelter cycles use 90% of base time, replacing earlier ranks. Ingredient quantities and output yields stay unchanged. |
-| Smelter 2 | 15 each through Basic | Smelter 1 | All Smelter cycles use 80% of base time, replacing earlier ranks. Ingredient quantities and output yields stay unchanged. |
-| Smelter 3 | 20 each through Automata | Smelter 2 + Automata Core | All Smelter cycles use 70% of base time, replacing earlier ranks. Ingredient quantities and output yields stay unchanged. |
-| Smelter 4 | 25 each through Hydro | Smelter 3 + Hydro Core | All Smelter cycles use 60% of base time, replacing earlier ranks. Ingredient quantities and output yields stay unchanged. |
-| Smelter 5 | 30 each through Shiny | Smelter 4 + Shiny Core | All Smelter cycles use 50% of base time, replacing earlier ranks. Ingredient quantities and output yields stay unchanged. |
-| Smelter 6 | 35 each through Complex | Smelter 5 + Complex Core | All Smelter cycles use 40% of base time, replacing earlier ranks. Ingredient quantities and output yields stay unchanged. |
-| Refiner 1 | 10 each through Simple | Refiner | All Refiner cycles use 90% of base time, replacing earlier ranks. Ingredient quantities and output yields stay unchanged. |
-| Refiner 2 | 15 each through Basic | Refiner 1 | All Refiner cycles use 80% of base time, replacing earlier ranks. Ingredient quantities and output yields stay unchanged. |
-| Refiner 3 | 20 each through Automata | Refiner 2 + Automata Core | All Refiner cycles use 70% of base time, replacing earlier ranks. Ingredient quantities and output yields stay unchanged. |
-| Refiner 4 | 25 each through Hydro | Refiner 3 + Hydro Core | All Refiner cycles use 60% of base time, replacing earlier ranks. Ingredient quantities and output yields stay unchanged. |
-| Refiner 5 | 30 each through Shiny | Refiner 4 + Shiny Core | All Refiner cycles use 50% of base time, replacing earlier ranks. Ingredient quantities and output yields stay unchanged. |
-| Refiner 6 | 35 each through Complex | Refiner 5 + Complex Core | All Refiner cycles use 40% of base time, replacing earlier ranks. Ingredient quantities and output yields stay unchanged. |
-| Assembler 1 | 10 each through Simple | Assembler | All Assembler cycles use 90% of base time, replacing earlier ranks. Ingredient quantities and output yields stay unchanged. |
-| Assembler 2 | 15 each through Basic | Assembler 1 | All Assembler cycles use 80% of base time, replacing earlier ranks. Ingredient quantities and output yields stay unchanged. |
-| Assembler 3 | 20 each through Automata | Assembler 2 + Automata Core | All Assembler cycles use 70% of base time, replacing earlier ranks. Ingredient quantities and output yields stay unchanged. |
-| Assembler 4 | 25 each through Hydro | Assembler 3 + Hydro Core | All Assembler cycles use 60% of base time, replacing earlier ranks. Ingredient quantities and output yields stay unchanged. |
-| Assembler 5 | 30 each through Shiny | Assembler 4 + Shiny Core | All Assembler cycles use 50% of base time, replacing earlier ranks. Ingredient quantities and output yields stay unchanged. |
-| Assembler 6 | 35 each through Complex | Assembler 5 + Complex Core | All Assembler cycles use 40% of base time, replacing earlier ranks. Ingredient quantities and output yields stay unchanged. |
-| Research Center 1 | 10 each through Simple | Research Center | All Research Center cycles use 90% of base time, replacing earlier ranks. Ingredient quantities and output yields stay unchanged. |
-| Research Center 2 | 15 each through Basic | Research Center 1 | All Research Center cycles use 80% of base time, replacing earlier ranks. Ingredient quantities and output yields stay unchanged. |
-| Research Center 3 | 20 each through Automata | Research Center 2 + Automata Core | All Research Center cycles use 70% of base time, replacing earlier ranks. Ingredient quantities and output yields stay unchanged. |
-| Research Center 4 | 25 each through Hydro | Research Center 3 + Hydro Core | All Research Center cycles use 60% of base time, replacing earlier ranks. Ingredient quantities and output yields stay unchanged. |
-| Research Center 5 | 30 each through Shiny | Research Center 4 + Shiny Core | All Research Center cycles use 50% of base time, replacing earlier ranks. Ingredient quantities and output yields stay unchanged. |
-| Research Center 6 | 35 each through Complex | Research Center 5 + Complex Core | All Research Center cycles use 40% of base time, replacing earlier ranks. Ingredient quantities and output yields stay unchanged. |
-| Hydro Plant 1 | 10 each through Simple | Water Tools | All Hydro Plant cycles use 90% of base time, replacing earlier ranks. Ingredient quantities and output yields stay unchanged. |
-| Hydro Plant 2 | 15 each through Basic | Hydro Plant 1 | All Hydro Plant cycles use 80% of base time, replacing earlier ranks. Ingredient quantities and output yields stay unchanged. |
-| Hydro Plant 3 | 20 each through Automata | Hydro Plant 2 + Automata Core | All Hydro Plant cycles use 70% of base time, replacing earlier ranks. Ingredient quantities and output yields stay unchanged. |
-| Hydro Plant 4 | 25 each through Hydro | Hydro Plant 3 + Hydro Core | All Hydro Plant cycles use 60% of base time, replacing earlier ranks. Ingredient quantities and output yields stay unchanged. |
-| Hydro Plant 5 | 30 each through Shiny | Hydro Plant 4 + Shiny Core | All Hydro Plant cycles use 50% of base time, replacing earlier ranks. Ingredient quantities and output yields stay unchanged. |
-| Hydro Plant 6 | 35 each through Complex | Hydro Plant 5 + Complex Core | All Hydro Plant cycles use 40% of base time, replacing earlier ranks. Ingredient quantities and output yields stay unchanged. |
-| Fabricator 1 | 10 each through Simple | Advanced Fabrication | All Fabricator cycles use 90% of base time, replacing earlier ranks. Ingredient quantities and output yields stay unchanged. |
-| Fabricator 2 | 15 each through Basic | Fabricator 1 | All Fabricator cycles use 80% of base time, replacing earlier ranks. Ingredient quantities and output yields stay unchanged. |
-| Fabricator 3 | 20 each through Automata | Fabricator 2 + Automata Core | All Fabricator cycles use 70% of base time, replacing earlier ranks. Ingredient quantities and output yields stay unchanged. |
-| Fabricator 4 | 25 each through Hydro | Fabricator 3 + Hydro Core | All Fabricator cycles use 60% of base time, replacing earlier ranks. Ingredient quantities and output yields stay unchanged. |
-| Fabricator 5 | 30 each through Shiny | Fabricator 4 + Shiny Core | All Fabricator cycles use 50% of base time, replacing earlier ranks. Ingredient quantities and output yields stay unchanged. |
-| Fabricator 6 | 35 each through Complex | Fabricator 5 + Complex Core | All Fabricator cycles use 40% of base time, replacing earlier ranks. Ingredient quantities and output yields stay unchanged. |
-| Synthesizer 1 | 10 each through Simple | Mythril Refining | Pure Mythril and Crust Recovery cycles use 90% of base time, replacing earlier ranks. Ingredient quantities and output yields stay unchanged. |
-| Synthesizer 2 | 15 each through Basic | Synthesizer 1 | Pure Mythril and Crust Recovery cycles use 80% of base time, replacing earlier ranks. Ingredient quantities and output yields stay unchanged. |
-| Synthesizer 3 | 20 each through Automata | Synthesizer 2 + Automata Core | Pure Mythril and Crust Recovery cycles use 70% of base time, replacing earlier ranks. Ingredient quantities and output yields stay unchanged. |
-| Synthesizer 4 | 25 each through Hydro | Synthesizer 3 + Hydro Core | Pure Mythril and Crust Recovery cycles use 60% of base time, replacing earlier ranks. Ingredient quantities and output yields stay unchanged. |
-| Synthesizer 5 | 30 each through Shiny | Synthesizer 4 + Shiny Core | Pure Mythril and Crust Recovery cycles use 50% of base time, replacing earlier ranks. Ingredient quantities and output yields stay unchanged. |
-| Synthesizer 6 | 35 each through Complex | Synthesizer 5 + Complex Core | Pure Mythril and Crust Recovery cycles use 40% of base time, replacing earlier ranks. Ingredient quantities and output yields stay unchanged. |
-| Bot Plant 1 | 10 each through Simple | Suppression Bot | All Bot Plant cycles use 90% of base time. |
-| Bot Plant 2 | 15 each through Basic | Bot Plant 1 | All Bot Plant cycles use 80% of base time. |
-| Bot Plant 3 | 20 each through Automata | Bot Plant 2 + Automata Core | All Bot Plant cycles use 70% of base time. |
-| Bot Plant 4 | 25 each through Hydro | Bot Plant 3 + Hydro Core | All Bot Plant cycles use 60% of base time. |
-| Bot Plant 5 | 30 each through Shiny | Bot Plant 4 + Shiny Core | All Bot Plant cycles use 50% of base time. |
-| Bot Plant 6 | 35 each through Complex | Bot Plant 5 + Complex Core | All Bot Plant cycles use 40% of base time. |
-
-The two Mythril Mesh recipes retain Fabricator efficiency in the Synthesizer. Composite Mythril Gear and Wire retain Assembler efficiency. Crust Recovery retains Synthesizer efficiency in the Recycler.
-
-# Implemented repeatable research
-
 | Research | First rank cost | Research prerequisites | Benefit per completion |
 | --- | --- | --- | --- |
 | Mineral Regeneration Rate | 10 each through Complex | Mineral Regeneration 2 | Each rank adds 0.8 mineral units per minute per ordinary deposit. Players can buy further ranks indefinitely. |
@@ -248,46 +265,12 @@ The two Mythril Mesh recipes retain Fabricator efficiency in the Synthesizer. Co
 | Storage Connection Capacity | 1 each through Final | Autonomous Logistics | Each rank adds one permitted connection per Storage; no maximum rank. |
 | Inventory Connection Capacity | 1 each through Final | Autonomous Logistics | Each rank adds one permitted output connection per Inventory; Inventory still initially connects only to Filters. |
 
-At rank r, repeatables charge **ceil(base × 1.5^(r−1))** of each required Core. Final Core research uses that price directly, so Storage and Inventory prices start at 1, 2, 3, 4 and 6 of each Core. The five-Core minimum applies through Complex. Mineral Regeneration Rate starts at 10, 15, 23, 34 and 51 of each Core. Players can buy further ranks indefinitely.
+The dedicated Automata Core Assembler remains retired. Saved machines and templates retain their items and connections while converting to regular Assemblers.
 
-# Implemented linear machine research through Complex
+# Historical tier 7 design notes
 
-The ten machine lines use the same six ranks. The price per required Core starts at 10 and rises by five per rank. Each rank adds the next Core type through Complex. Completing one line costs 560 Cores. Completing all ten costs 5,600 Cores.
+The dated notes below predate the implemented endgame. They are historical design context; the Core progression, efficiency schedule above and source catalog take precedence.
 
-| Rank | Highest required core | Amount of each required core | Total physical cores | Cycle time as a share of base |
-| --- | --- | --- | --- | --- |
-| 1 | Simple | 10 | 10 | 90% |
-| 2 | Basic | 15 | 30 | 80% |
-| 3 | Automata | 20 | 60 | 70% |
-| 4 | Hydro | 25 | 100 | 60% |
-| 5 | Shiny | 30 | 150 | 50% |
-| 6 | Complex | 35 | 210 | 40% |
-
-Each completed rank reduces cycle time by 10 percentage points of the original base time. The highest completed rank replaces the earlier modifier. Ingredient amounts and output yields stay unchanged. All ten lines are optional for unlocking new core tiers.
-
-| Research line | Projects | Rank 1 access requirement |
-| --- | --- | --- |
-| Extractor | Extractor 1, Extractor 2, Extractor 3, Extractor 4, Extractor 5, Extractor 6 | Starting Extractor access |
-| Kiln | Kiln 1, Kiln 2, Kiln 3, Kiln 4, Kiln 5, Kiln 6 | Kiln unlocked |
-| Smelter | Smelter 1, Smelter 2, Smelter 3, Smelter 4, Smelter 5, Smelter 6 | Smelter unlocked |
-| Refiner | Refiner 1, Refiner 2, Refiner 3, Refiner 4, Refiner 5, Refiner 6 | Refiner unlocked |
-| Assembler | 5 Simple Cores | Assembler unlocked |
-| Research Center | Research Center 1, Research Center 2, Research Center 3, Research Center 4, Research Center 5, Research Center 6 | Research Center unlocked |
-| Hydro Plant | Hydro Plant 1, Hydro Plant 2, Hydro Plant 3, Hydro Plant 4, Hydro Plant 5, Hydro Plant 6 | Water Tools discovery |
-| Fabricator | Fabricator 1, Fabricator 2, Fabricator 3, Fabricator 4, Fabricator 5, Fabricator 6 | Advanced Fabrication |
-| Synthesizer | Synthesizer 1, Synthesizer 2, Synthesizer 3, Synthesizer 4, Synthesizer 5, Synthesizer 6 | Mythril Refining discovery |
-| Bot Plant | Bot Plant 1, Bot Plant 2, Bot Plant 3, Bot Plant 4, Bot Plant 5, Bot Plant 6 | Suppression Bot discovery |
-
-Ranks 2–6 require the preceding rank in the same research line. Rank 2 needs Basic Core supply. Ranks 3–6 require the Automata, Hydro, Shiny, and Complex Core projects respectively. Machine access and Core access remain independent of these optional efficiency upgrades.
-
-For example, Extractor 4 costs 40 Simple + 40 Basic + 40 Automata + 40 Hydro Cores and reduces the five-second base cycle to three seconds. Extractor 6 costs 60 of each of all six core types and reduces that base cycle to two seconds. Research Center 6 uses a two-second cycle from its five-second base; sustained operation needs 0.5 complete required core sets per second.
-
-All 54 projects are implemented. Existing saved rank 1 and rank 2 completions retain their effects; later ranks can be researched in order.
-
-
-The dedicated Automata Core Assembler is retired. Automata Cores use the regular Assembler recipe. Saved dedicated machines and factory templates convert to regular Assemblers while preserving their items, progress and connections. Mineral Recovery 1 applies its additional 10% time reduction to recovery recipes after the machine family modifier, including Synthesizer upgrades.
-
-# Planned tier 7 research
 
 The following entries are retained from the design proposal and are absent from the live research catalog. Prices are sample design values.
 
@@ -312,6 +295,6 @@ Hydro, Shiny and Complex chains, machine upgrades, logistics upgrades, regenerat
 
 # Sources
 
-Live snapshot: `src/content/research.ts`, `src/content/progression.ts`, `src/content/recipes.ts`, `src/simulation/progression.ts` and `src/simulation/engine.ts` in the Node Factory v2 project. Live implementation takes precedence over older proposal wording.
+Current catalog: `src/content/machineEfficiency.ts`, `src/content/research.ts`, `src/content/progression.ts`, `src/content/recipes.ts`, `src/simulation/progression.ts` and `src/simulation/engine.ts` in the Node Factory v2 project. Live implementation takes precedence over older proposal wording.
 
 See `README.md` for progression targets and the [bot production archive](archive/bot-production/README.md) for earlier design proposals.

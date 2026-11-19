@@ -46,7 +46,7 @@ Browser verification was attempted with an isolated no-autosave fixture. Local n
 
 The rescue solver deliberately uses an optimistic resource-cost relaxation and generous stock potential: only failure of that relaxation triggers rescue. It can defer difficult cases rather than incorrectly rescue a repairable factory. It is not an exhaustive integer production planner. Affordable supply alternatives are treated conservatively; custom mods, Dev Sources and tutorials disable automatic rescue because the vanilla proof does not establish their feasibility. Broader simultaneous-deficit/achievement attainability and normal-play rescue coverage still need validation.
 
-Legacy holes without original-price/paid-fill provenance use their saved remaining bill as a best-effort base. New holes track both explicitly. Already consumed Stone is never refunded; unused buffered Stone survives clearing in a salvage Cart. No user save is reset.
+Legacy holes without original-price/paid-fill provenance use their saved remaining bill as a best-effort base. New holes track both explicitly. Already consumed Stone is never refunded. Clearing discards unused buffered Stone and creates no replacement node; Stone still in transit returns to its sender. No user save is reset.
 
 Normal-play six-Core throughput, first-ending pacing, Reclamation calibration, human learning, accessibility acceptance and release verification remain separate work. A pushed implementation branch is not a verified live publication.
 

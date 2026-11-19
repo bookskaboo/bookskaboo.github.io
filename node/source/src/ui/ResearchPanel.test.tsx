@@ -4,14 +4,14 @@ import { createInitialState, GameEngine } from '../simulation/engine';
 import { ResearchPanel } from './ResearchPanel';
 
 it.each([
-  ['extractor1', 'Start research'],
+  ['researchCenter1', 'Start research'],
   ['assembler', 'Cancel research'],
   ['victory', 'Locked'],
   ['joint', 'Automatic'],
   ['kiln', 'Complete'],
 ])('shows the appropriate action or status for %s in the center card', (focusProjectId, action) => {
   const state = createInitialState(1);
-  state.research.completed = ['kiln', 'smelter', 'refiner', 'researchCenter'];
+  state.research.completed = ['simpleCore', 'kiln', 'smelter', 'refiner', 'researchCenter'];
   state.research.selected = 'assembler';
   const engine = new GameEngine(state, { autosave: false });
   const html = renderToStaticMarkup(<ResearchPanel game={engine.getState()} engine={engine} focusProjectId={focusProjectId}
@@ -29,7 +29,7 @@ it.each([
   const header = html.slice(inspected, html.indexOf('</header>', inspected));
   expect(header).toContain(`>${action}</`);
   if (action === 'Start research') {
-    expect(header).toMatch(/<button [^>]*data-start-research="extractor1"[^>]*>Start research<\/button>/);
+    expect(header).toMatch(/<button [^>]*data-start-research="researchCenter1"[^>]*>Start research<\/button>/);
     expect(header).not.toMatch(/<button [^>]*disabled[^>]*>Start research/);
   } else {
     expect(header).not.toContain('data-start-research');

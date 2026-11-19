@@ -23,15 +23,15 @@ describe('five-second Research Center baseline', () => {
     expect(engine.getSector().nodes[0].cycleMs).toBe(RESEARCH_CENTER_BASE_CYCLE_MS);
   });
 
-  it.each(Array.from({ length: 7 }, (_, rank) => rank))('credits only at the end of each rank-%i cycle', rank => {
+  it.each(Array.from({ length: 8 }, (_, rank) => rank))('credits only at the end of each rank-%i cycle', rank => {
     const state = createInitialState(402);
     state.sectors['5,5'].nodes = [{ ...lab(), input: { 'simple-core': 2, 'basic-core': 2 } }];
     state.sectors['5,5'].connections = [];
-    state.research.completed = ['exploration', 'extractor1', ...Array.from({ length: rank }, (_, i) => `researchCenter${i + 1}`)];
+    state.research.completed = ['exploration', 'basicCore', ...Array.from({ length: rank }, (_, i) => `researchCenter${i + 1}`)];
     const engine = new GameEngine(state, { autosave: false });
     engine.selectResearch('extractor2');
     const center = engine.getSector().nodes[0];
-    const duration = 5000 - rank * 500;
+    const duration = 5000 * [1,.9,.8,.7,.65,.55,.45,.35][rank];
     expect(center.cycleMs).toBe(5000);
     expect(center.input).toEqual({ 'simple-core': 2, 'basic-core': 2 });
     expect(engine.getState().research.contributed).toEqual({});

@@ -35,17 +35,17 @@ Keep this chain independent until repeated output is verified. The wiring below 
 | Producer | Required incoming items | Output goes to |
 | --- | --- | --- |
 | Wood Extractor → Kiln | 1 Wood | Charcoal to **every** active Iron/Copper Smelter |
-| Iron Smelter | 2 Iron + 1 Charcoal | Plates to Gear, Wire, Frame, Gun, Coolant and Cooled Gun branches |
+| Iron Smelter | 2 Iron + 1 Charcoal | Plates to Gear, Wire, Frame, Coolant and Cooled Gun branches |
 | Copper Smelter | 2 Copper + 1 Charcoal | Plates to Copper Wire and Basic Core branches |
 | Iron Gear Refiner | 2 Iron Plates | Motors and Hydro Pistons |
 | Iron Wire Refiner | 3 Iron Plates | Basic Cores |
-| Copper Wire Refiner | 3 Copper Plates | Motors and Robot Guns |
+| Copper Wire Refiner | 3 Copper Plates | Motors and Basic Guns |
 | Motor Assembler | 1 Iron Gear + 1 Copper Wire | Robot Frames and Hydro Pistons |
 | Robot Frame Assembler | 2 Iron Plates + 1 Motor | Sealed Frame |
-| Robot Gun Assembler | 1 Copper Wire + 2 Iron Plates + 1 Brick | Cooled Gun |
+| Basic Gun Assembler | 1 Copper Wire + 1 Brick | Cooled Gun |
 | Lake-fed Pump → Coolant Hydro Plant | 4 Water + 1 Iron Plate → 2 Coolant | Hydro Piston and Cooled Gun |
 | Hydro Piston Fabricator | 1 Iron Gear + 1 Motor + 2 Coolant | Sealed Frame |
-| Stone Extractor → Brick Refiner | 1 Stone → 1 Brick | Sealed Frame and Robot Gun |
+| Stone Extractor → Brick Refiner | 1 Stone → 1 Brick | Sealed Frame and Basic Gun |
 | Sealed Frame Fabricator | 1 Robot Frame + 1 Hydro Piston + 2 Bricks | Bot Plant |
 | Cooled Gun Fabricator | 1 Robot Gun + 2 Coolant + 2 Iron Plates | Bot Plant |
 | Basic Core Assembler | 1 Copper Plate + 1 Iron Wire | Research Center |
@@ -53,7 +53,7 @@ Keep this chain independent until repeated output is verified. The wiring below 
 
 Each cable must reach the correct ingredient socket. Charcoal present at a Kiln is not proof that it reaches a Smelter. In the successful repair, a Smelter had ore but an empty Charcoal input; a direct fuel connection restored cycling. Gear/Frame production also depended on repairing the Plate branches. Keep the working branches while adding capacity; the later Merger/Joint rewrite was an unsuccessful scaling attempt, not a known improvement.
 
-For steady production at two Medium Bots/minute, standard ingredients average **56 Iron, 36 Copper, 46 harvested Wood, 16 Water and six Stone per minute**. These figures are an analytical supply budget. The local 20-second recipe allows one fully supplied base final assembler to make three bots per minute. Upstream production, routing, depletion and shared Core demand can lower actual output.
+For steady production at two Medium Bots/minute, standard ingredients average **48 Iron, 36 Copper, 42 harvested Wood, 16 Water and six Stone per minute**. These figures are an analytical supply budget. The local 20-second recipe allows one fully supplied base final assembler to make three bots per minute. Upstream production, routing, depletion and shared Core demand can lower actual output.
 
 ## Road route that delivered a real bot
 

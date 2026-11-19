@@ -106,23 +106,23 @@ describe('six-tier gameplay progression',()=>{
   lab.input['command-core']=1;tick(e,5);expect(Object.values(e.getState().research.contributed)).toEqual([1,1,1,1,1,1]);expect(lab.input['command-core']).toBe(0);
  });
  it('completes saved contributions that already cover the price without more inputs',()=>{
-  const e=setup([machine('researchCenter')]);e.selectResearch('assembler');e.getState().research.contributed={'simple-core':6};tick(e,.1);expect(e.getState().research.completed).toContain('assembler');
+  const e=setup([machine('researchCenter')],['researchCenter','simpleCore']);e.selectResearch('assembler');e.getState().research.contributed={'simple-core':6};tick(e,.1);expect(e.getState().research.completed).toContain('assembler');
  });
  it('does not grant a discovery merely by generating or activating a map',()=>{
   const e=setup([]);const map=generateSector(7,5,204,0);map.unlocked=true;e.getState().sectors[map.id]=map;tick(e,.1);
   expect(e.getState().research.completed).not.toContain('lakeTools');e.switchSector(map.id);expect(e.getState().research.completed).toContain('lakeTools');expect(e.getState().research.completed).not.toContain('mithrilTools');
  });
  it('does not interrupt a selected paid project on discovery',()=>{
-  const e=setup([machine('researchCenter')]);e.selectResearch('extractor1');e.getState().research.contributed={'simple-core':3,'basic-core':3};
+  const e=setup([machine('researchCenter')],['researchCenter','simpleCore']);e.selectResearch('researchCenter1');e.getState().research.contributed={'simple-core':3,'basic-core':3};
   const map=generateSector(6,5,204,0);map.unlocked=true;e.getState().sectors[map.id]=map;e.switchSector(map.id);
-  expect(e.getState().research.completed).not.toContain('fabricatorTools');expect(e.getState().research.selected).toBe('extractor1');expect(e.getState().research.contributed['simple-core']).toBe(3);
+  expect(e.getState().research.completed).not.toContain('fabricatorTools');expect(e.getState().research.selected).toBe('researchCenter1');expect(e.getState().research.contributed['simple-core']).toBe(3);
  });
  it('does not grant Mythril processing or waste handling for merely visiting a deposit',()=>{
-  const e=setup([machine('researchCenter')]);e.selectResearch('extractor1');e.getState().research.contributed={'simple-core':3};
+  const e=setup([machine('researchCenter')],['researchCenter','simpleCore']);e.selectResearch('researchCenter1');e.getState().research.contributed={'simple-core':3};
   const map=generateSector(9,5,204);map.unlocked=true;map.nodes=[machine('mythril','deposit')];e.getState().sectors[map.id]=map;e.switchSector(map.id);
   expect(e.getState().research.completed).not.toContain('mithrilTools');
   expect(e.getState().research.completed).not.toContain('sortingTools');
-  expect(e.getState().research.selected).toBe('extractor1');
+  expect(e.getState().research.selected).toBe('researchCenter1');
  });
  it('grants basic handling and direct Fines recovery with Precision Control, without Complex Cores',()=>{
   const r=RECIPES['recover-fines'];const e=setup([machine('hydroProcessor','wash',{recipeId:r.id,input:{...r.inputs}})],['precisionControl']);
@@ -257,8 +257,10 @@ describe('six-tier gameplay progression',()=>{
  });
  it.each([
   { upgrades: [], rate: 4 },
-  { upgrades: ['pressureSystems'], rate: 8 },
-  { upgrades: ['pressureSystems', 'highPressureIntakes'], rate: 16 },
+  { upgrades: ['fluidLink4'], rate: 5 },
+  { upgrades: ['fluidLink5'], rate: 6 },
+  { upgrades: ['fluidLink6'], rate: 8 },
+  { upgrades: ['fluidLink7'], rate: 11 },
  ])('draws $rate Water per second from a direct connection and limits each Lake to two Pumps', ({ upgrades, rate }) => {
   const e=setup([machine('lake','lake',{x:500,y:800,resourceItem:'water'}),machine('fluidLink','a',{x:1500,y:300}),machine('fluidLink','b',{x:1500,y:800}),machine('fluidLink','c',{x:1500,y:1300})],['lakeTools', ...upgrades]);
   expect(e.connectPorts('lake',0,'a',0)).toBe(true);expect(e.connectPorts('lake',1,'b',0)).toBe(true);expect(e.connectPorts('lake',2,'c',0)).toBe(false);

@@ -1,3 +1,4 @@
+import { MACHINE_EFFICIENCY, efficiencyFactors } from '../content/machineEfficiency';
 import { describe, expect, it } from 'vitest';
 import { getEfficiencyMultiplier } from '../content/efficiency';
 import { getResearchCosts, isResearchAvailable, RESEARCH_PROJECTS } from '../content/research';
@@ -10,7 +11,6 @@ import { recipeGuideCycle } from '../ui/recipeGuide';
 
 const families = ['extractor', 'kiln', 'smelter', 'refiner', 'assembler', 'researchCenter', 'hydroProcessor', 'advancedAssembler', 'separationFurnace'] as const;
 const cores = ['simple-core', 'basic-core', 'automata-core', 'hydro-core', 'shiny-core', 'command-core'];
-const costsByRank = [10, 15, 20, 25, 30, 35];
 const project = (id: string) => RESEARCH_PROJECTS.find(p => p.id === id)!;
 const machine = (kind: NodeKind, recipeId?: string): MachineNode => ({
   id: 'machine', name: kind, kind, recipeId, x: 1000, y: 1000, rotation: 0,
@@ -22,16 +22,14 @@ const advance = (engine: GameEngine, milliseconds: number) => {
 
 describe('linear machine efficiency progression', () => {
   it('requires earlier ranks and core access without putting upgrades on core unlock paths', () => {
-    for (const family of families) for (let rank = 1; rank <= 6; rank++) {
-      const p = project(`${family}${rank}`);
+    for (const definition of MACHINE_EFFICIENCY) for (let tier = definition.start; tier <= 7; tier++) {
+      const p = project(`${definition.family}${tier}`);
       expect(RESEARCH_PROJECTS.filter(candidate => candidate.id === p.id)).toHaveLength(1);
-      expect(getResearchCosts(p)).toEqual(Object.fromEntries(cores.slice(0, rank).map(core => [core, costsByRank[rank - 1]])));
-      const access = [undefined, undefined, 'automataCore', 'hydroCore', 'shinyCore', 'complexCore'][rank - 1];
-      const machineAccess: Record<string, string> = { hydroProcessor: 'lakeTools', advancedAssembler: 'fabricatorTools', separationFurnace: 'mithrilTools' };
-      const completed = [rank > 1 ? `${family}${rank - 1}` : machineAccess[family] ?? family, access].filter((id): id is string => Boolean(id));
+      expect(Object.keys(getResearchCosts(p))).toHaveLength(tier);
+      const access = ['simpleCore','basicCore','automataCore','hydroCore','shinyCore','complexCore','finalCore'][tier-1];
+      const completed = [tier > definition.start ? `${definition.family}${tier-1}` : definition.access, access].filter((id): id is string => Boolean(id));
       expect(isResearchAvailable(p, completed)).toBe(true);
-      if (rank > 1) expect(isResearchAvailable(p, completed.filter(id => id !== `${family}${rank - 1}`))).toBe(false);
-      if (access) expect(isResearchAvailable(p, completed.filter(id => id !== access))).toBe(false);
+      expect(isResearchAvailable(p, completed.filter(id => id !== access))).toBe(false);
     }
     for (const id of ['automataCore', 'hydraulicAssembly', 'oreSeparation', 'precisionControl', 'victory']) {
       const p = project(id);
@@ -40,33 +38,33 @@ describe('linear machine efficiency progression', () => {
   });
 
   it.each(families)('uses the highest %s rank without compounding earlier ranks', family => {
-    for (let rank = 1; rank <= 6; rank++) {
-      expect(getEfficiencyMultiplier(family, Array.from({ length: rank }, (_, i) => `${family}${i + 1}`))).toBe((10 - rank) / 10);
-    }
-    expect(getEfficiencyMultiplier(family, [`${family}2`, `${family}6`])).toBe(.4);
+    const definition = MACHINE_EFFICIENCY.find(d=>d.family===family)!;
+    const factors = efficiencyFactors(definition.start);
+    for (let index=0; index<factors.length; index++) expect(getEfficiencyMultiplier(family, Array.from({length:index+1},(_,i)=>`${family}${definition.start+i}`))).toBe(factors[index]);
+    expect(getEfficiencyMultiplier(family,[`${family}7`])).toBe(.35);
   });
 
   it.each([
     ['kiln', 'charcoal'], ['smelter', 'smelt-copper'], ['refiner', 'copper-gear'], ['assembler', 'basic-core'],
     ['hydroProcessor', 'coolant'], ['advancedAssembler', 'hydro-core'], ['separationFurnace', 'refined-mithril'],
-  ] as const)('finishes %s recipes at 40 percent of base with original inputs and yields', (kind, recipeId) => {
+  ] as const)('finishes %s recipes at 35 percent of base with original inputs and yields', (kind, recipeId) => {
     const recipe = RECIPES[recipeId];
     const state = createInitialState(301);
     const node = machine(kind, recipeId);
     node.input = { ...recipe.inputs };
     state.sectors['5,5'].nodes = [node];
-    state.research.completed.push(`${kind}1`, `${kind}2`, `${kind}6`);
+    state.research.completed.push(`${kind}1`, `${kind}2`, `${kind}7`);
     if (recipe.unlockResearch) state.research.completed.push(recipe.unlockResearch);
     const engine = new GameEngine(state);
     const live = engine.getSector().nodes[0];
-    advance(engine, recipe.cycleMs * .4 - 1);
+    advance(engine, recipe.cycleMs * .35 - 1);
     expect(live.output).toEqual({});
     engine.tick(1);
     expect(live.output).toEqual(recipe.outputs);
     expect(Object.values(live.input).every(q => q === 0)).toBe(true);
   });
 
-  it('preserves saved ranks and completes a six-core project in synchronized 2000ms cycles', () => {
+  it('preserves saved ranks and completes a six-core project in synchronized 2250ms cycles', () => {
     const state = createInitialState(301);
     state.research.completed.push('researchCenter1', 'researchCenter2', 'researchCenter6', 'extractor5', 'complexCore');
     state.research.selected = 'extractor6';
@@ -76,8 +74,7 @@ describe('linear machine efficiency progression', () => {
     const engine = new GameEngine(loaded);
     const lab = engine.getSector().nodes[0];
     lab.input = Object.fromEntries(cores.map(core => [core, 1]));
-    engine.tick(1000);
-    engine.tick(999);
+    advance(engine,2249);
     expect(engine.getState().research.completed).not.toContain('extractor6');
     engine.tick(1);
     expect(engine.getState().research.completed).toContain('extractor6');
@@ -104,21 +101,20 @@ describe('linear machine efficiency progression', () => {
     ['composite-mythril-gear', 'assembler', 'separationFurnace'],
     ['composite-mythril-wire', 'assembler', 'separationFurnace'],
     ['recover-crust', 'separationFurnace', 'recycler'],
-  ] as const)('retains %s cycle upgrades after moving the recipe', (recipeId, former, destination) => {
+  ] as const)('uses the receiving node upgrades for %s after moving the recipe', (recipeId, former, destination) => {
     const recipe = RECIPES[recipeId];
     const state = createInitialState(301);
     state.sectors['5,5'].nodes = [
       { ...machine(former), id: 'former' },
       { ...machine(destination), id: 'destination', x: 1800 },
     ];
-    state.research.completed.push(`${former}2`, 'separationFurnace6', 'mineralRecovery1', recipe.unlockResearch!);
-    if (former === 'separationFurnace') state.research.completed.splice(state.research.completed.indexOf('separationFurnace6'), 1);
+    state.research.completed.push(`${former}7`, `${destination}7`, recipe.unlockResearch!);
     const engine = new GameEngine(state);
     expect(engine.setRecipe('former', recipeId)).toBe(false);
     expect(engine.setRecipe('destination', recipeId)).toBe(true);
     const live = engine.getSector().nodes.find(node => node.id === 'destination')!;
     live.input = { ...recipe.inputs };
-    const cycle = recipe.cycleMs * .8 * (recipe.recovery ? .9 : 1);
+    const cycle = recipe.cycleMs * .35;
     expect(nodeCycleDuration(live, engine.getState().research.completed)).toBe(cycle);
     expect(recipeGuideCycle(recipe, destination, engine.getState())).toBe(cycle);
     advance(engine, cycle - 1);
@@ -127,13 +123,13 @@ describe('linear machine efficiency progression', () => {
     expect(live.output).toEqual(recipe.outputs);
   });
 
-  it('extracts every two seconds at rank six while retaining the five-second base', () => {
+  it('extracts every 1.75 seconds at Final rank while retaining the five-second base', () => {
     const engine = new GameEngine(createInitialState(23));
-    engine.getState().research.completed.push('extractor1', 'extractor2', 'extractor6');
+    engine.getState().research.completed.push('extractor2', 'extractor7');
     const extractor = engine.getSector().nodes.find(n => n.kind === 'extractor')!;
     const forest = engine.getSector().nodes.find(n => n.kind === 'forest')!;
     expect(engine.connect(forest.id, extractor.id)).toBe(true);
-    advance(engine, 1999);
+    advance(engine, 1749);
     expect(extractor.output.wood ?? 0).toBe(0);
     engine.tick(1);
     expect(extractor.output.wood).toBe(1);

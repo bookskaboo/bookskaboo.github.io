@@ -18,6 +18,8 @@ import { isRecipeUnlocked, RECIPES, RECIPE_GROUPS, recyclerRecipeForMaterial } f
 import { BOT_BUILD_BY_ID, cargoMaterial, MATCHED_BOTS } from '../content/botAssembly';
 import { RESEARCH_PROJECTS } from '../content/research';
 import { getRecipeEfficiencyMultiplier } from '../content/efficiency';
+import { hasForestryCapacity } from '../content/machineEfficiency';
+import { migrateMachineEfficiency } from './machineEfficiencyMigration';
 import { migrateRetiredNodes } from '../content/retiredNodes';
 import { canonicalNodeName } from '../content/displayNameChanges';
 import { CONTROL_GROUP_COLORS, copyControlGroups, normalizeControlGroups, regroupControlNodes } from '../domain/controlGroups';
@@ -150,11 +152,14 @@ export class GameEngine {
     this.state.encounterLayoutVersion ??= getEncounterLayoutVersion(this.state);
     migrateRetiredNodes(this.state);
     initializeProgression(this.state);
+    migrateMachineEfficiency(this.state);
     migrateReviewedProduction(this.state);
     this.migrateBotAssembly();
+    this.migrateBasicGunRecipe();
     initializeEndgame(this.state);
     applyCartUpgrades(this.state);
     for (const node of [...Object.values(this.state.sectors).flatMap(sector => sector.nodes), ...(this.state.factoryTemplates ?? []).flatMap(template => template.nodes)]) {
+      if (getNodeCapabilities(node.kind).behavior === 'planter') node.cycleMs = 250;
       node.name = canonicalNodeName(node.kind, node.name);
       if (node.modBaseName) node.modBaseName = canonicalNodeName(node.kind, node.modBaseName);
       if (node.kind === 'goblinTribute') node.name = 'Tribute';
@@ -514,6 +519,7 @@ export class GameEngine {
       }
     }
     depleted.forEach((id) => {
+      if (!this.state.mod && !this.state.isTraining && !this.state.research.completed.includes('exploration')) return;
       if(this.state.research.completed.includes('mineralRegeneration'))return;
       const source = sector.nodes.find((node) => node.id === id);
       if (!source || sum(source.output) > 0) return;
@@ -648,7 +654,7 @@ export class GameEngine {
     if(node.kind==='cornerChallenge')return node.cornerType==='foundry'?(FOUNDRY_INPUTS[item]??0):100;
     if (node.kind === 'road') return 0;
     if (modNode(node.kind)?.inputCapacity !== undefined) return modNode(node.kind)!.inputCapacity!;
-    if (node.kind === 'forest' && this.state.research.completed.includes('planterThroughput')) return 20;
+    if (node.kind === 'forest' && hasForestryCapacity(this.state.research.completed)) return 20;
     if (node.kind === 'monster-camp') return Math.max(5, getGoblinAttackRequirement(node));
     return getNodeCapabilities(node.kind).inputCapacity ?? 5;
   }
@@ -848,6 +854,37 @@ export class GameEngine {
     this.state.botAssemblyVersion = 1;
   }
 
+  private migrateBasicGunRecipe() {
+    if (this.state.basicGunRecipeVersion) return;
+    const removed = new Set<string>();
+    const layouts = [...Object.values(this.state.sectors), ...(this.state.factoryTemplates ?? [])];
+    for (const layout of layouts) {
+      const guns = new Set(layout.nodes.filter(node => node.recipeId === 'robot-gun').map(node => node.id));
+      for (const node of layout.nodes.filter(node => guns.has(node.id))) {
+        const iron = node.input['iron-plate'] ?? 0;
+        const feed = layout.connections.find(edge => edge.to === node.id && edge.toPort === 1);
+        const source = feed && layout.nodes.find(candidate => candidate.id === feed.from);
+        if (iron > 0 && 'id' in layout) {
+          if (source && (getNodeCapabilities(source.kind).behavior === 'buffer' || source.recipeId && RECIPES[source.recipeId]?.outputs['iron-plate'])) {
+            returnOutput(source, 'iron-plate', iron);
+          } else {
+            const pool = this.state.globalPool ??= {};
+            pool['iron-plate'] = (pool['iron-plate'] ?? 0) + iron;
+          }
+        }
+        delete node.input['iron-plate'];
+        if (node.inputPortOrder) node.inputPortOrder = node.inputPortOrder.filter(port => port !== 1).map(port => port === 2 ? 1 : port);
+      }
+      for (const edge of layout.connections.filter(edge => guns.has(edge.to))) {
+        if (edge.toPort === 1) removed.add(edge.id);
+        if (edge.toPort === 2) edge.toPort = 1;
+      }
+    }
+    this.cancelTransfers(removed);
+    for (const layout of layouts) layout.connections = layout.connections.filter(edge => !removed.has(edge.id));
+    this.state.basicGunRecipeVersion = 1;
+  }
+
   private cancelTransfers(connectionIds: Set<string>) {
     const retained = [] as NonNullable<GameState['inFlightTransfers']>;
     for (const transfer of [...this.state.inFlightTransfers ?? []].reverse()) {
@@ -942,7 +979,7 @@ export class GameEngine {
         }
         continue;
       }
-      const payload = item === 'forest-growth' && this.state.research.completed.includes('planterThroughput') ? 10 : isCartKind(source.kind) || isCartKind(target.kind) ? vehiclePayload(this.state.research.completed) : 1;
+      const payload = item === 'forest-growth' && hasForestryCapacity(this.state.research.completed) ? 10 : isCartKind(source.kind) || isCartKind(target.kind) ? vehiclePayload(this.state.research.completed) : 1;
       const runLength = source.outputQueue ? source.outputQueue.findIndex(key => key !== item) : -1;
       const amount = Math.min(payload, source.output[item] ?? 0, cap - occupied - pendingForTarget, source.outputQueue ? runLength < 0 ? source.outputQueue.length : runLength : Infinity);
       if (amount <= 0) continue;
@@ -1018,7 +1055,7 @@ export class GameEngine {
     const recipeId = defaultRecipe && (!configuredRecipes || configuredRecipes.includes(defaultRecipe)) ? defaultRecipe : undefined;
     const node: MachineNode = {
       id: preview ? '__placement-preview__' : makeId(kind), kind, name: def.name, x, y, rotation: 0, recipeId, input: {}, output: {}, progressMs: 0,
-      cycleMs: recipeId ? RECIPES[recipeId].cycleMs : capabilities.behavior === 'research' ? RESEARCH_CENTER_BASE_CYCLE_MS : kind === 'extractor' ? 5000 : capabilities.behavior === 'recipe' ? 0 : 1000, constructedAt: Date.now(), constructionMs: kind === 'devSource' ? 0 : 1500,
+      cycleMs: recipeId ? RECIPES[recipeId].cycleMs : capabilities.behavior === 'research' ? RESEARCH_CENTER_BASE_CYCLE_MS : kind === 'extractor' ? 5000 : capabilities.behavior === 'planter' ? 250 : capabilities.behavior === 'recipe' ? 0 : 1000, constructedAt: Date.now(), constructionMs: kind === 'devSource' ? 0 : 1500,
       capacity: BASE_MOD_CONTENT.capabilities[modNodeTemplate(kind)].defaultCapacity,
       ...(modNode(kind)?.name ? { modBaseName: BASE_MOD_CONTENT.nodes[modNodeTemplate(kind)].name } : {}),
       ...(capabilities.defaultFilterItem ? { filterItem: capabilities.defaultFilterItem } : {}),
@@ -1395,21 +1432,12 @@ export class GameEngine {
       .filter(connection => ids.has(connection.from) || ids.has(connection.to))
       .map(connection => connection.id));
     this.cancelTransfers(removedConnectionIds);
+    // Discard buffered surplus with the filled hole instead of creating a node.
     sector.nodes = sector.nodes.filter(node => !ids.has(node.id));
     sector.connections = sector.connections.filter(connection => !removedConnectionIds.has(connection.id));
-    for (const hole of holes) {
-      const unusedStone = hole.input.stone ?? 0;
-      if (unusedStone > 0) {
-        sector.nodes.push({
-          id: makeId('fill-salvage'), kind: 'woodenChest', name: 'Unused fill Stone',
-          x: hole.x, y: hole.y, rotation: 0, input: {}, output: { stone: unusedStone },
-          outputQueue: Array(unusedStone).fill('stone'), progressMs: 0, cycleMs: 0,
-          capacity: Math.max(unusedStone, cartUpgrade(this.state.research.completed, endgameRank(this.state, 'trainFreightCapacity')).capacity),
-          constructedAt: 0, constructionMs: 0,
-        });
-      }
+    holes.forEach(() => {
       this.event('NodePlaced', 'Deep Hole filled in. The obstruction has been cleared.');
-    }
+    });
   }
 
   toggleNodeProcessingPause(nodeId: string) {

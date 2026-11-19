@@ -7,6 +7,8 @@ import { defeatResourceGolem, getGolemMineral, golemApCost } from '../content/re
 import { getEncounterLayoutVersion, getGolemPlacementTier, sectorDistance, sectorForState, sectorId } from './worldGeneration';
 import { isWorldGridCell, worldGridBounds, worldGridSize } from '../domain/worldGrid';
 import { destinationMapCosts, pendingMapPayment, usesDestinationMapPricing } from './mapExpansion';
+import { progressionDeficits } from './progressionRecovery';
+import { returnOutput } from './mixedOutput';
 
 export const RESCUE_RESOURCES = ['iron', 'copper', 'stone'] as const;
 type Resource = typeof RESCUE_RESOURCES[number];
@@ -54,6 +56,8 @@ export function nextExpansionShortages(state: GameState): Resource[] {
       .map(([nx, ny]) => destinationMapCosts(state, nx, ny)).filter(cost => cost !== undefined))
     : [getResearchCostsForState(project, state.research)];
   const nodes = sectors.flatMap(s=>s.nodes);
+  const plans = quotes.map(quote => progressionDeficits(state, 'mapNode', quote));
+  const exact = plans.every(plan => plan !== undefined);
   const bags = nodes.flatMap(n=>[n.input,n.output,...(n.batch?[n.batch.outputs]:[])]);
   bags.push(state.globalPool ?? {});
   // Pending transfers have already left their sources. Cosmetic pulses contain no stock.
@@ -69,7 +73,7 @@ export function nextExpansionShortages(state: GameState): Resource[] {
     if (!Number.isFinite(needed) || needed<=1e-9) return false; // Unknown is never proof.
     let available=nodes.filter(n=>n.resourceItem===resource&&!n.infiniteResource).reduce((n,node)=>n+(node.resourceRemaining??0),0);
     for(const bag of bags)for(const [i,q]of Object.entries(bag))if(q&&q>0)available+=q*resourcePotential(i as ItemId,resource);
-    if(available+1e-9>=needed)return false;
+    if (exact ? plans.some(plan => (plan![resource] ?? 0) <= 1e-9) : available+1e-9>=needed) return false;
     // An affordable regeneration unlock can repair supply without exploration.
     const regeneration=getResearchProject('mineralRegeneration');
     if(regeneration&&nodes.some(n=>n.resourceItem===resource&&(n.resourceCapacity??0)>0)&&isResearchAvailable(regeneration,state.research.completed)){
@@ -101,6 +105,7 @@ export function shortestRescuePath(state: GameState, target: string) {
 }
 
 export function applyExpansionRescue(state: GameState) {
+  if (!state.research.completed.includes('exploration')) return applyStartingRecovery(state);
   const shortages=nextExpansionShortages(state);if(!shortages.length)return false;
   const candidates:Array<{resource:Resource;sectorId:string;node:MachineNode;path:string[]}>=[];
   const golemTier = getGolemPlacementTier(state);
@@ -124,4 +129,54 @@ export function applyExpansionRescue(state: GameState) {
     (state.achievementTimes ??= {})['destructive-testing'] = state.playTimeMs;
   }
   return true;
+}
+
+/** Replenish only the missing early bill; a second production dead end can recover again. */
+export function applyStartingRecovery(state: GameState) {
+  if (state.isTraining || state.mod || state.rescue?.pending || Object.values(state.sectors).some(s => s.unlocked && s.nodes.some(n => n.kind === 'devSource'))) return false;
+  const missing = progressionDeficits(state, 'exploration');
+  if (!missing) return false;
+  const sectors = Object.values(state.sectors).filter(sector => sector.unlocked);
+  for (const resource of RESCUE_RESOURCES) {
+    const amount = Math.ceil((missing[resource] ?? 0) - 1e-9);
+    if (!(amount > 0)) continue;
+    const sector = sectors.find(sector => sector.nodes.some(node => node.resourceItem === resource && node.resourceCapacity
+      || sector.id === '5,5' && node.id === resource && node.kind === 'big-hole'));
+    const deposit = sector?.nodes.find(node => node.resourceItem === resource && node.resourceCapacity
+      || sector.id === '5,5' && node.id === resource && node.kind === 'big-hole');
+    if (!sector || !deposit) continue;
+    if (deposit.kind === 'big-hole') {
+      // Original Home IDs identify already-collapsed legacy starting deposits.
+      // Reuse the same object and position. Return any buffered Stone to its supplier.
+      const incoming = new Set(sector.connections.filter(edge => edge.to === deposit.id).map(edge => edge.id));
+      const edge = sector.connections.find(edge => edge.to === deposit.id);
+      const source = edge && sector.nodes.find(node => node.id === edge.from);
+      if (source) for (const [item, count] of Object.entries(deposit.input)) returnOutput(source, item as ItemId, count!);
+      else for (const [item, count] of Object.entries(deposit.input)) (state.globalPool ??= {})[item as ItemId] = (state.globalPool![item as ItemId] ?? 0) + count!;
+      if ((deposit.holeStoneConsumed ?? 0) > 0) {
+        if (source) returnOutput(source, 'stone', deposit.holeStoneConsumed!);
+        else (state.globalPool ??= {}).stone = (state.globalPool!.stone ?? 0) + deposit.holeStoneConsumed!;
+      }
+      for (const shipment of state.inFlightTransfers ?? []) if (incoming.has(shipment.connectionId) && !shipment.cosmeticOnly) {
+        const connection = sector.connections.find(edge => edge.id === shipment.connectionId);
+        const sender = connection && sector.nodes.find(node => node.id === connection.from);
+        if (sender) returnOutput(sender, shipment.item, shipment.amount ?? 1);
+      }
+      state.inFlightTransfers = (state.inFlightTransfers ?? []).filter(shipment => !incoming.has(shipment.connectionId));
+      sector.connections = sector.connections.filter(edge => !incoming.has(edge.id));
+      deposit.kind = resource === 'stone' ? 'stoneDeposit' : resource;
+      deposit.name = resource[0].toUpperCase() + resource.slice(1);
+      deposit.resourceItem = resource; deposit.resourceCapacity = 1000; deposit.resourceRemaining = 0;
+      deposit.input = {}; deposit.output = {}; deposit.progressMs = 0;
+      delete deposit.holeBaseStone; delete deposit.holeStoneConsumed; delete deposit.obstructionRadius;
+    }
+    deposit.resourceRemaining = (deposit.resourceRemaining ?? 0) + amount;
+    deposit.resourceCapacity = Math.max(deposit.resourceCapacity ?? 0, deposit.resourceRemaining);
+    const rescue = state.rescue ??= { resources: [] };
+    rescue.restored ??= {};
+    rescue.restored[resource] = (rescue.restored[resource] ?? 0) + amount;
+    rescue.pending = { resource, sectorId: sector.id, newMaps: 0, kind: 'local', amount };
+    return true;
+  }
+  return false;
 }

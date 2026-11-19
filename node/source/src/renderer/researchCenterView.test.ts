@@ -20,11 +20,11 @@ describe('Research Center project display', () => {
   });
   it('keeps paid progress visible while waiting, including while paused', () => {
     const game = createInitialState(1);
-    game.research.completed = ['refiner', 'researchCenter'];
-    game.research.selected = 'extractor1';
+    game.research.completed = ['refiner', 'researchCenter', 'simpleCore'];
+    game.research.selected = 'researchCenter1';
     game.research.contributed = { 'simple-core': 1 };
     const node = tutorialNode('researchCenter', 'lab', 500, 500);
-    const cost = getResearchCostsForState(getResearchProject('extractor1')!, game.research)['simple-core']!;
+    const cost = getResearchCostsForState(getResearchProject('researchCenter1')!, game.research)['simple-core']!;
     const display = researchCenterView(node, game);
     expect(display.progress).toBe(1 / cost);
     expect(display.summary).toContain('Waiting for Simple Core');
@@ -34,10 +34,10 @@ describe('Research Center project display', () => {
 
   it('counts consumed Cores, without counting buffered Cores or the current cycle', () => {
     const game = createInitialState(1);
-    game.research.completed = ['refiner', 'researchCenter'];
-    game.research.selected = 'extractor1';
+    game.research.completed = ['refiner', 'researchCenter', 'simpleCore'];
+    game.research.selected = 'researchCenter1';
     const node = tutorialNode('researchCenter', 'lab', 500, 500, { input: { 'simple-core': 1 } });
-    const cost = getResearchCostsForState(getResearchProject('extractor1')!, game.research)['simple-core']!;
+    const cost = getResearchCostsForState(getResearchProject('researchCenter1')!, game.research)['simple-core']!;
     node.progressMs = 500;
     expect(researchCenterView(node, game).progress).toBe(0);
     expect(researchCenterView(node, game).summary).toContain('Processing complete Core sets.');
@@ -50,16 +50,16 @@ describe('Research Center project display', () => {
 
   it('shows 20% after consuming two of ten Cores, and keeps the selected project visible while waiting', () => {
     const game = createInitialState(1);
-    game.research.selected = 'extractor1';
+    game.research.selected = 'researchCenter1';
     game.research.contributed = { 'simple-core': 2 };
     const node = tutorialNode('researchCenter', 'lab', 500, 500);
-    expect(getResearchCostsForState(getResearchProject('extractor1')!, game.research)).toEqual({ 'simple-core': 10 });
-    expect(researchCenterView(node, game)).toMatchObject({ progress: .2, projectName: 'Extractor 1' });
+    expect(getResearchCostsForState(getResearchProject('researchCenter1')!, game.research)).toEqual({ 'simple-core': 10 });
+    expect(researchCenterView(node, game)).toMatchObject({ progress: .2, projectName: 'Research Center 1' });
   });
 
   it('uses every required Core type in overall progress, excluding unrelated Cores', () => {
     const game = createInitialState(1);
-    game.research.completed = ['extractor1'];
+    game.research.completed = ['researchCenter1'];
     game.research.selected = 'extractor2';
     const costs = getResearchCostsForState(getResearchProject('extractor2')!, game.research);
     game.research.contributed = { 'simple-core': costs['simple-core']! / 5, 'basic-core': costs['basic-core']! / 5, 'command-core': 1000 };

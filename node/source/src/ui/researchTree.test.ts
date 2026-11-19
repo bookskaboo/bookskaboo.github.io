@@ -15,7 +15,7 @@ describe('research dependency tree', () => {
   });
 
   it('includes required core access and milestone prerequisites', () => {
-    expect([...researchAncestors(tree, 'extractor1')]).toEqual(expect.arrayContaining(['extractor1', 'refiner', 'smelter']));
+    expect([...researchAncestors(tree, 'extractor2')]).toEqual(expect.arrayContaining(['extractor2', 'refiner', 'smelter']));
     expect([...researchAncestors(tree, 'connectorMirroring')]).toEqual(expect.arrayContaining(['hydraulicAssembly', 'hydrochemistry', 'automataCore', 'assembler', 'refiner']));
   });
 
@@ -52,23 +52,23 @@ describe('research dependency tree', () => {
     expect(parents.has('hydraulicAssembly')).toBe(false);
   });
 
-  it('folds six-rank machine families and keeps individual ranks available to expand or search', () => {
+  it('folds variable-length machine families and keeps individual ranks available to expand or search', () => {
     const groups = researchTreeGroups(tree);
-    expect(groups).toHaveLength(10);
+    expect(groups).toHaveLength(13);
     const collapsed = visibleResearchTreeNodes(tree, groups, new Set(), '', new Set());
-    expect(collapsed).toHaveLength(tree.nodes.length - 50);
-    expect(collapsed.map(node => node.project.id)).toContain('botPlant1');
+    expect(collapsed).toHaveLength(tree.nodes.length - 51);
+    expect(collapsed.map(node => node.project.id)).toContain('botPlant3');
     expect(collapsed.map(node => node.project.id)).not.toContain('botPlant6');
-    expect(collapsed.map(node => node.project.id)).toContain('kiln1');
+    expect(collapsed.map(node => node.project.id)).toContain('kiln2');
     expect(collapsed.map(node => node.project.id)).not.toContain('kiln6');
 
-    const expanded = visibleResearchTreeNodes(tree, groups, new Set(['kiln1']), '', new Set());
+    const expanded = visibleResearchTreeNodes(tree, groups, new Set(['kiln2']), '', new Set());
     expect(expanded).toHaveLength(collapsed.length + 5);
     expect(expanded.map(node => node.project.id)).toContain('kiln6');
 
     const pinnedPath = researchAncestors(tree, 'road');
     const results = visibleResearchTreeNodes(tree, groups, new Set(), 'Kiln 6', pinnedPath);
-    expect(new Set(results.map(node => node.project.id))).toEqual(new Set([...researchAncestors(tree, 'kiln6'), ...pinnedPath]));
+    expect(new Set(results.map(node => node.project.id))).toEqual(new Set([...researchAncestors(tree, 'kiln7'), ...pinnedPath]));
   });
 
   it('marks the reachable prerequisite frontier and recognizes the first Final Core gate', () => {

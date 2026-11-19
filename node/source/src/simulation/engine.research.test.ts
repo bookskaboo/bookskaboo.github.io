@@ -13,7 +13,7 @@ function advance(engine: GameEngine, milliseconds: number) {
 function setup(project = 'extractor2') {
   const state = createInitialState(301);
   state.sectors['5,5'].nodes = [];
-  state.research.completed = ['exploration', 'extractor1'];
+  state.research.completed = ['exploration', 'basicCore'];
   const center: MachineNode = {
     id: 'lab', kind: 'researchCenter', name: 'Research Center', x: 1000, y: 1000, rotation: 0,
     input: {}, output: {}, progressMs: 0, cycleMs: 5000, constructedAt: 0, constructionMs: 0,

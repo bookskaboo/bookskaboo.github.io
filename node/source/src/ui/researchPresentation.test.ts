@@ -45,7 +45,7 @@ describe('research browsing', () => {
     const reachable = projects.slice(0, firstLocked).map(p => p.id);
     const locked = projects.slice(firstLocked).map(p => p.id);
     expect(reachable).toContain('lakeTools');
-    expect(reachable.indexOf('automataCore')).toBeLessThan(reachable.indexOf('extractor1'));
+    expect(reachable.indexOf('automataCore')).toBeLessThan(reachable.indexOf('extractor2'));
     expect(reachable[0]).toBe('mapNode');
     expect(projects[0].name).toBe('Extra Map Point');
     expect(projects.slice(firstLocked).every(p => researchSection(p, state) === 'future')).toBe(true);
@@ -108,7 +108,7 @@ describe('research browsing', () => {
   it('finds completed and distant future projects without selecting research or changing progression', () => {
     const state = createInitialState(1);
     state.research.completed = ['assembler'];
-    state.research.selected = 'extractor1';
+    state.research.selected = 'extractor2';
     const before = structuredClone(state);
     expect(searchResearch(state, 'Assembler')[0].id).toBe('assembler');
     expect(searchResearch(state, project('victory').name)[0].id).toBe('victory');

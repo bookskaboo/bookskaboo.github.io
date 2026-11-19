@@ -1,0 +1,30 @@
+{
+  "verifiedAt": "2026-11-19T05:48:20.788Z",
+  "oldBuild": "/node/assets/index-tsAUP2mC.js",
+  "newBuild": "/node/assets/index-CXUoVnvo.js",
+  "oldTabContinued": true,
+  "timeBefore": 243663.10000002384,
+  "timeAfter": 248463,
+  "reloadPreserved": [
+    "seed",
+    "elapsed time",
+    "active map",
+    "nodes",
+    "connections",
+    "stocks plus retired-research refunds",
+    "production counters",
+    "in-flight transfers",
+    "recipes",
+    "active batches",
+    "fractional batch progress",
+    "research project",
+    "research contributions",
+    "saved project contributions"
+  ],
+  "retiredResearchRefunds": {
+    "simple-core": 38,
+    "basic-core": 16
+  },
+  "retainedCoreProjects": 7,
+  "errors": []
+}

@@ -90,7 +90,6 @@ export const RECYCLER_RETURNS: Partial<Record<ItemId, Partial<Record<ItemId, num
     "wood": 1
   },
   "simple-robot-gun": {
-    "iron": 1,
     "copper": 1,
     "wood": 1
   },

@@ -8,6 +8,7 @@ import { CORE_RECIPE_PROJECTS, CORE_RESEARCH } from './coreResearch';
 import { RETIRED_RESEARCH } from './retiredResearch';
 import { modResearch } from '../mods/modRules';
 import { DEFAULT_WORLD_GRID_SIZE, worldGridSize } from '../domain/worldGrid';
+import { MACHINE_EFFICIENCY, EFFICIENCY_CORES, EFFICIENCY_ACCESS, efficiencyFactors } from './machineEfficiency';
 
 const simple = (amount: number): Partial<Record<ItemId, number>> => ({ 'simple-core': amount });
 const basic = (amount: number): Partial<Record<ItemId, number>> => ({ 'simple-core': amount, 'basic-core': amount });
@@ -19,45 +20,29 @@ const researchCoreMinimum = (project: ResearchProject, item: ItemId, amount: num
 
 const trigger = (id: NonNullable<ResearchProject['trigger']>['id'], pending: string, complete: string): NonNullable<ResearchProject['trigger']> => ({ id, pending, complete });
 
-const EFFICIENCY_CORES: ItemId[] = ['simple-core', 'basic-core', 'automata-core', 'hydro-core', 'shiny-core', 'command-core'];
-const EFFICIENCY_CORE_ACCESS = [undefined, undefined, 'automataCore', 'hydroCore', 'shinyCore', 'complexCore'];
-export const MACHINE_EFFICIENCY_FAMILIES = [
-  ['extractor', 'Extractor'], ['kiln', 'Kiln'], ['smelter', 'Smelter'],
-  ['refiner', 'Refiner'], ['assembler', 'Assembler'], ['researchCenter', 'Research Center'],
-  ['hydroProcessor', 'Hydro Plant'], ['advancedAssembler', 'Fabricator'], ['separationFurnace', 'Synthesizer'],
-  ['botPlant', 'Bot Plant'],
-] as const;
-const MACHINE_EFFICIENCY_RESEARCH = MACHINE_EFFICIENCY_FAMILIES.flatMap(([family, name]) => Array.from({ length: EFFICIENCY_CORES.length }, (_, index): ResearchProject => {
-  const rank = index + 1;
-  const machineAccess: Record<string, string> = { hydroProcessor: 'lakeTools', advancedAssembler: 'fabricatorTools', separationFurnace: 'mithrilTools', botPlant: 'suppressionBot' };
-  const prerequisite = rank > 1 ? `${family}${rank - 1}` : family === 'extractor' ? undefined : machineAccess[family] ?? family;
-  const access = EFFICIENCY_CORE_ACCESS[index];
-  const effect = family === 'separationFurnace'
-    ? `Pure Mythril and Crust Recovery cycles take ${rank * 10}% less time than the base cycle.`
-    : `${name} cycles take ${rank * 10}% less time than the base cycle.`;
-  const movedRecipeNote = family === 'assembler' ? ' Also applies to composite Mythril gears and wire in the Synthesizer.'
-    : family === 'advancedAssembler' ? ' Also applies to both Mythril Mesh recipes in the Synthesizer.'
-    : family === 'separationFurnace' ? ' Crust Recovery runs in the Recycler.' : '';
-  return {
-    id: `${family}${rank}`, name: `${name} ${rank}`, category: 'Efficiency',
-    description: effect + movedRecipeNote, unlock: effect,
-    costs: Object.fromEntries(EFFICIENCY_CORES.slice(0, rank).map(core => [core, 5 + rank * 5])),
-    ...(prerequisite ? { prerequisite } : {}),
-    ...(access ? { prerequisites: [access] } : {}),
-  };
-}));
+export const MACHINE_EFFICIENCY_FAMILIES = MACHINE_EFFICIENCY.map(({ family, name }) => [family, name] as const);
+const MACHINE_EFFICIENCY_RESEARCH = MACHINE_EFFICIENCY.flatMap(({ family, name, start, access }) =>
+  efficiencyFactors(start).map((factor, index): ResearchProject => {
+    const tier = start + index, rank = index + 1;
+    const effect = family === 'fluidLink'
+      ? `Each Lake Pump draws up to ${Math.round(4 / factor)} Water per second.`
+      : `${name} cycles take ${Math.round((1 - factor) * 100)}% less time than the base cycle.`;
+    const forestry = family === 'treePlanter' && tier === 6 ? ' Also expands growth buffers and allows ten growth units per transfer.' : '';
+    return {
+      id: `${family}${tier}`, name: `${name} ${rank}`, category: 'Efficiency',
+      description: effect + forestry, unlock: effect + forestry,
+      costs: Object.fromEntries(EFFICIENCY_CORES.slice(0, tier).map(core => [core, 5 + tier * 5])),
+      ...(index ? { prerequisite: `${family}${tier - 1}` } : access ? { prerequisite: access } : {}),
+      prerequisites: [EFFICIENCY_ACCESS[tier - 1]],
+    };
+  }));
 
 /** Complete research catalog and player-facing copy from the source game. */
 export const RESEARCH_PROJECTS: ResearchProject[] = [
   ...ENDGAME_RESEARCH,
-  ...LATE_RESEARCH.filter(project => !DEFERRED_POWER_RESEARCH.has(project.id) && !RETIRED_RESEARCH.has(project.id) && !MACHINE_EFFICIENCY_RESEARCH.some(upgrade => upgrade.id === project.id)).map(project => ({
-    ...project,
-    prerequisites: project.prerequisites?.filter(id => !DEFERRED_POWER_RESEARCH.has(id)),
-    ...(project.id === 'treePlanter1' ? {
-      description: 'Tree Planter cycles take 10% less time than the base cycle.',
-      unlock: 'Tree Planter cycles take 10% less time than the base cycle.',
-    } : {}),
-  })),
+  ...LATE_RESEARCH.filter(project => !DEFERRED_POWER_RESEARCH.has(project.id) && !RETIRED_RESEARCH.has(project.id)
+    && !MACHINE_EFFICIENCY.some(({ family }) => project.id !== family && project.id.replace(/\d+$/, '') === family))
+    .map(project => ({ ...project, prerequisites: project.prerequisites?.filter(id => !DEFERRED_POWER_RESEARCH.has(id)) })),
   ...MACHINE_EFFICIENCY_RESEARCH,
   {
     id: CONNECTOR_MIRRORING_RESEARCH, name: 'Connector Mirroring', category: 'Efficiency',
@@ -87,7 +72,7 @@ export const RESEARCH_PROJECTS: ResearchProject[] = [
   { id: 'miningDrill', name: 'Mining Drill', category: 'Extraction', description: 'Feed a Mining Drill 20 Motors to create a 1,000-unit deposit of the selected material.', unlock: 'Unlocks the Mining Drill node', flavorText: "I'm a miner, not a major.", costs: mixed(10) },
 ];
 
-const MAP_NODE_CORE_ACCESS = CORE_RESEARCH.slice(0, EFFICIENCY_CORES.length).map(({ id }) => id);
+const MAP_NODE_CORE_ACCESS = CORE_RESEARCH.slice(0, 6).map(({ id }) => id);
 const mapNodePhaseStart = (tier: number) => tier === 1 ? 0 : (tier - 1) * 10 - 1;
 const mapNodeCompletion = (completions: number) =>
   Math.max(0, Number.isFinite(completions) ? Math.floor(completions) : 0);

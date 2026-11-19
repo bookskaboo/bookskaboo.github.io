@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>NODE monster camp proposal and test page</title>
+  <link rel="stylesheet" href="../../../src/styles/readability.css">
+  <link rel="stylesheet" href="./preview.css">
+</head>
+<body>
+<main>
+  <header class="page-header"><div><span class="eyebrow">NODE / Design review</span><h1>Resources under guard</h1><p>A permanent deposit. Access earned through continued suppression.</p></div><span class="draft">Proposal · local simulation</span></header>
+  <nav aria-label="Review views"><button type="button" id="test-tab" aria-pressed="true" aria-controls="test-view">Test page</button><button type="button" id="proposal-tab" aria-pressed="false" aria-controls="proposal-view">Proposal</button></nav>
+  <section id="test-view" aria-labelledby="test-tab">
+    <div class="test-controls">
+      <label>Camp family<select id="family"><option value="goblin">Goblin</option><option value="dwarven">Dwarven</option></select></label>
+      <label>Settlement<select id="rank"><option value="0">Camp</option><option value="1">Village</option><option value="2">Kingdom</option></select></label>
+      <label>Map tier<select id="tier"></select></label>
+      <label id="material-label">Goblin resource specimen<select id="material"><option value="iron">Iron</option><option value="stone">Stone</option><option value="copper">Copper</option></select></label>
+      <label class="upgrade-control">Upgrade example<select id="upgrades"><option value="base">Base camp rate · ×1</option><option value="stage2">Mineral Regeneration 2 · ×2</option><option value="repeat1">Rate upgrade example · ×2.4</option><option value="endgame1">Endgame upgrade example · ×4.8</option></select></label>
+    </div>
+    <p class="test-note">Camp, tier, and material controls reset this specimen. Upgrade examples preserve the reserve and suppression. The actual Goblin material would be chosen once per map, with no player material picker.</p>
+    <div class="specimen-layout">
+      <section class="world" aria-label="Illustrative camp and resource layout">
+        <div class="map-label">Node map specimen <span id="map-tier"></span></div>
+        <div class="world-nodes">
+          <article class="camp-node" id="camp-node"><div class="camp-mark" aria-hidden="true">⌂</div><h2 id="camp-name"></h2><p id="camp-state"></p><div class="camp-size"><span id="camp-size"></span></div><small id="ap"></small></article>
+          <span class="ownership" aria-hidden="true">guards</span>
+          <button type="button" class="resource-node" id="resource" aria-controls="resource-detail"><span class="node-tag">Resource</span><h2 id="resource-name"></h2><img id="resource-icon" alt="" width="76" height="76"><span id="resource-access"></span><span class="reserve" id="reserve"></span><span class="reserve-track"><span id="reserve-fill"></span></span><small>Inspect deposit</small></button>
+        </div>
+        <div class="connection" id="connection"><span></span><p id="connection-state">No Extractor connected</p></div>
+        <article class="extractor-node"><span class="node-tag">Production</span><h2>Extractor</h2><p id="extractor-state">Waiting for access</p><p id="collected">Collected 0</p></article>
+        <p class="world-caption">Illustrative placement. Camp and resource remain separate objects; no reward box appears.</p>
+      </section>
+      <aside>
+        <section class="panel" id="resource-detail"><span class="eyebrow">Resource inspector</span><h2 id="inspector-title"></h2><p id="access-reason"></p><dl><div><dt>Reserve</dt><dd id="inspector-reserve"></dd></div><div><dt>Average regeneration</dt><dd id="regen-rate"></dd></div><div><dt>Upgrade example</dt><dd id="regen-multiplier"></dd></div><div><dt>Regeneration status</dt><dd id="regen-status"></dd></div><div><dt>Maximum</dt><dd>Normal map deposit cap</dd></div></dl><button type="button" id="connect">Connect Extractor</button><button type="button" id="extract">Extract 1 item</button><p class="small">Extraction uses a connected Production node. The single-item action demonstrates access; it is not a throughput or balance test. Fractional regeneration carries forward to produce whole items.</p></section>
+        <section class="simulation-controls"><h2>Suppression controls</h2><p>Checks still use the current 60-second interval in the game. These buttons apply a review result immediately.</p><div class="button-row"><button type="button" id="pass">Pass next check</button><button type="button" id="fail">Fail next check</button></div><div class="button-row"><button type="button" id="advance">Advance 5 seconds</button><button type="button" id="deplete">Set reserve to zero</button></div><button type="button" id="reset">Reset specimen</button><p id="event" role="status" aria-live="polite">Fresh camp. The resource is already visible.</p><span class="small" id="elapsed"></span></section>
+      </aside>
+    </div>
+    <section class="corners"><div><span class="eyebrow">Corner reward titles</span><h2>The item is the title</h2><p>The encounter keeps its name. Its output node tells you what you will receive, even before completion.</p></div><label class="corner-toggle"><input type="checkbox" id="corner-complete">Show a completed cycle</label><div id="corner-grid"></div></section>
+    <p class="scope-note">This specimen shows the agreed behavior for new worlds. Existing worlds retain Tribute behavior. The examples use temporary memory and do not load game saves. Design review is complete; game implementation remains pending.</p>
+  </section>
+  <section id="proposal-view" aria-labelledby="proposal-tab" hidden>
+    <div class="proposal-intro"><span class="eyebrow">Draft 11 · November 18 2026 · Review complete</span><h2>Monster camp resource rework</h2><p>For new worlds, keep each camp’s reward visible as a persistent resource deposit. Fully suppress the camp to connect a Production node and extract it. Replace the settlement Tribute lifecycle with an access gate on the deposit. Existing worlds retain their current Tribute behavior.</p></div>
+    <div class="proposal-columns">
+    <article><h3>Requested and settled</h3><ul>
+      <li><strong>World compatibility:</strong> apply the rework only to newly created worlds. Existing worlds keep their current camp behavior, including when loading a save or exploring previously unvisited maps. Do not convert Tribute stock, rewire routes, or migrate existing worlds to guarded deposits. Confirmed during this review.</li>
+      <li>Show the guarded deposit whenever its map is visible, including before the first suppression check. Do not reveal unexplored maps.</li>
+      <li>Allow extraction only after a successful check has brought camp strength to its existing 10% minimum. A fresh 25% camp still needs two passes: 25 → 15 → 10.</li>
+      <li><strong>Locked interaction:</strong> allow inspection and show the exact blocking reason; reject new extraction connections and resource withdrawals until full suppression. Apply the same gate to every collection route. Preserve previously established connections when suppression later lapses. Confirmed during this review.</li>
+      <li>Dwarven Camps, Villages, and Kingdoms guard Mythril.</li>
+      <li><strong>Dwarven placement:</strong> add a guarded Mythril deposit while preserving ordinary Iron, Copper, Stone, and Forest. Confirmed during this review.</li>
+      <li>Goblins guard one fixed Iron, Stone, or Copper deposit, chosen when generating the map. Use the matching ordinary deposit slot, so it replaces that map’s normal deposit of the same material. Keep the other ordinary deposits and Forest.</li>
+      <li>Retain current camp rates as base regeneration: Goblin 6 / 18 / 36 and Dwarven 1 / 5 / 12 items per five seconds for Camp / Village / Kingdom. Confirmed during this review.</li>
+      <li>Use the same maximum reserve as other ordinary deposits on that map. Reuse the shared map-cap function, including its existing mod multiplier and tier ceiling. Default maximum: 1,000 + 500 × map tier, capped at tier 10.</li>
+      <li><strong>Initial stock:</strong> start at the full ordinary map reserve, visible but inaccessible until the camp is fully suppressed. For example, a tier-4 deposit starts with 3,000 items under default rules. Confirmed during this review.</li>
+      <li><strong>Suppression lost:</strong> relock extraction and pause regeneration. Preserve the reserve, attached Extractor, and cables. Existing machines resume once suppression is restored; no rebuilding or reward-node respawn. Confirmed during this review.</li>
+      <li><strong>Upgrade formula:</strong> use all existing mineral-regeneration multipliers on the camp base rate: ×2 after Mineral Regeneration 2, ×(1 + 0.2 × Mineral Regeneration Rate completions), and ×(1 + endgame Resource Regeneration completions). Mineral Regeneration itself remains optional for guarded deposits and adds no separate regeneration stream. Preserve fractional output over time; pause at the cap and discard overflow. Confirmed during this review.</li>
+      <li><strong>Depletion:</strong> retain the empty deposit and its connections. Let camp regeneration refill it while fully suppressed, without requiring Mineral Regeneration research. Never turn it into a Deep Hole. Confirmed during this review.</li>
+      <li><strong>Mythril progression:</strong> unlock Mythril Refining on the first actual Mythril extraction from a guarded Dwarven deposit. Visibility, full suppression, and reserve regeneration alone do not trigger the unlock. Once earned, retain the unlock through saves and reloads. Existing worlds retain their current unlock behavior. Confirmed during this review.</li>
+      <li><strong>Relocation:</strong> move the camp and its linked guarded deposit together through the existing Monster Camp Relocation upgrade. Prevent independent resource relocation from separating the pair or bypassing suppression. Confirmed during this review.</li>
+      <li>Corner output titles become α Piece, β Piece, γ Piece, and δ Piece, using current item names. Keep encounter names, objectives, reward amounts, output capacity, and serialized IDs.</li>
+      <li>Review using this interactive local prototype before committing to game implementation.</li>
+    </ul><h3>Rates retained</h3><table><thead><tr><th>Family</th><th>Camp</th><th>Village</th><th>Kingdom</th></tr></thead><tbody><tr><th>Goblin</th><td>6</td><td>18</td><td>36</td></tr><tr><th>Dwarven</th><td>1</td><td>5</td><td>12</td></tr></tbody></table><p class="small">Base items regenerated per five seconds, before upgrades. These are reserve rates, not guaranteed delivered throughput.</p></article>
+    <article><h3>Implementation scope</h3><p>All design decisions in this review are settled. Implement the new-world behavior only after the user requests implementation. The local test page is an isolated demonstration; the game has not been changed or committed by this review.</p><h3>World rules version</h3><p>Store the selected camp rules with each newly created world. A saved world without the new rules marker uses the existing Tribute system. Loading, importing, saving again, or exploring a new map must preserve that world’s rules. Worlds created with guarded deposits continue to use them after reload.</p><h3>Existing worlds</h3><p>Keep their camp progress, stored and in-flight items, collection routes, earned unlocks, and current regeneration and relocation rules. No Tribute conversion or resource replacement is required in those worlds.</p></article>
+    </div>
+    <article class="verification"><h3>Implementation checks after agreement</h3><p>Verify fresh map generation, fixed Goblin selection after reload, map caps, both successful checks, failure and recovery, empty deposits, full-cap behavior, locked transfers and alternate extraction routes, Mythril progression, camp relocation, and repeated save loading. Cover all settlement sizes and all four corner rewards. Verify that new worlds retain guarded-deposit rules after save and reload, and that existing worlds retain Tribute behavior after loading, importing, saving, and exploring new maps. Inspect normal and narrow screens, run workspace tests and the site build, then conduct a separate normal-gameplay balance run.</p><h3>Prototype limits</h3><p>This page demonstrates the agreed states and rates in isolation. It has no camp AI, automated extraction timing, obstruction collision, mod support, offline simulation, research progression, or world-version persistence. Simulated check and time controls are review tools. They are not evidence of a completed gameplay or balance test.</p><h3>Current source references</h3><p><code>src/simulation/goblinTribute.ts</code>, <code>src/content/goblinSettlements.ts</code>, <code>src/content/lizardSettlements.ts</code>, <code>src/simulation/worldGeneration.ts</code>, <code>src/simulation/engine.ts</code>, <code>src/content/endgame.ts</code>, and <code>src/simulation/endgameRuntime.ts</code>.</p></article>
+  </section>
+</main>
+<script type="module" src="./preview.mjs"></script>
+</body>
+</html>

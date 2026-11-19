@@ -278,6 +278,29 @@ describe('endgame research and preservation',()=>{
     reconcileHole(hole, state);
     expect(deepHoleStoneReadout(hole, 5)).toBe('STONE 103 / 82');
   });
+  it('discards surplus buffered Stone without creating a Cart and refunds Stone still in transit', () => {
+    const state = createInitialState(6);
+    const source = machine('woodenChest', 'stone-cart', 1300);
+    const hole = machine('big-hole', 'hole', 1800);
+    source.output.stone = 2;
+    hole.resourceRemaining = 1;
+    hole.input.stone = 3;
+    hole.processingPaused = true;
+    state.sectors['5,5'].nodes = [source, hole];
+    const engine = new GameEngine(state, { autosave: false });
+    expect(engine.connect(source.id, hole.id)).toBe(true);
+    engine.tick(400);
+    engine.tick(400);
+    expect(engine.getActiveTransfers()).toHaveLength(2);
+    const liveHole = engine.getSector().nodes.find(node => node.id === hole.id)!;
+    liveHole.processingPaused = false;
+    engine.tick(100);
+    expect(engine.getSector().nodes.map(node => node.id)).toEqual([source.id]);
+    expect(engine.getSector().nodes[0].output.stone).toBe(2);
+    expect(engine.getSector().connections).toHaveLength(0);
+    expect(engine.getActiveTransfers()).toHaveLength(0);
+    expect(engine.placeNode('kiln', hole.x, hole.y)).toBeTruthy();
+  });
   it('retains the original save’s Stone requirement and fill progress', () => {
     const state = normalizeLegacy({
       version: 1, nodes: [], runtime: { bigHoles: { hole: { stoneRequirement: 250, stoneFilled: 75 } } },
@@ -287,7 +310,7 @@ describe('endgame research and preservation',()=>{
     expect(hole.resourceRemaining).toBe(175);
     expect(deepHoleStoneReadout(hole, 0)).toBe('STONE 75 / 250');
   });
-  it('automatically clears an already-paid hole after a Landfill discount and preserves its unused Stone', () => {
+  it('automatically clears an already-paid hole after a Landfill discount without creating a Cart', () => {
     const state = createInitialState();
     state.research.repeatableCompletions = { efficientLandfill: 4 };
     const hole = machine('big-hole', 'hole');
@@ -300,14 +323,16 @@ describe('endgame research and preservation',()=>{
 
     engine.getState().research.repeatableCompletions!.efficientLandfill = 5;
     engine.tick(100);
-    expect(engine.getSector().nodes).toMatchObject([{ kind: 'woodenChest', output: { stone: 3 } }]);
+    expect(engine.getSector().nodes).toHaveLength(0);
   });
   it('clears already-filled saved holes on load, including holes with only a remaining bill', () => {
     const state = createInitialState();
     const filled = machine('big-hole', 'filled');
     Object.assign(filled, { holeBaseStone: 250, holeStoneConsumed: 250, resourceRemaining: 0 });
+    filled.input.stone = 5;
     const older = machine('big-hole', 'older', 2000);
     older.resourceRemaining = 0;
+    older.input.stone = 2;
     const partial = machine('big-hole', 'partial', 2500);
     partial.resourceRemaining = 1;
     state.sectors['5,5'].nodes = [filled, older, partial];

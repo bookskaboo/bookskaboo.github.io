@@ -1,3 +1,4 @@
+import { getEfficiencyMultiplier } from '../content/efficiency';
 import { modNode, modNodeTemplate } from '../mods/modRules';
 import { isCustomContentId } from '../mods/modTypes';
 import { migrateCoreResearch } from '../content/coreResearch';
@@ -150,7 +151,7 @@ export function simulateProgressionNode(state:GameState,sector:SectorState,node:
    node.progressMs = 0;
    return true;
   }
-  const rate = state.research.completed.includes('highPressureIntakes') ? 16 : state.research.completed.includes('pressureSystems') ? 8 : 4;
+  const rate = Math.round(4 / getEfficiencyMultiplier('fluidLink', state.research.completed));
   node.progressMs += dt;
   const cycles = Math.floor(node.progressMs / 1000);
   node.progressMs %= 1000;

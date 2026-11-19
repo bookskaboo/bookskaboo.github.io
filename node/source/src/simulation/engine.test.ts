@@ -31,7 +31,7 @@ describe('simulation architecture', () => {
     const extractor = engine.getSector().nodes.find((node) => node.kind === 'extractor')!;
     const forest = engine.getSector().nodes.find((node) => node.kind === 'forest')!;
     expect(engine.connect(forest.id, extractor.id)).toBe(true);
-    for (let i = 0; i < 39; i++) engine.tick(100);
+    for (let i = 0; i < 44; i++) engine.tick(100);
     expect(extractor.output.wood ?? 0).toBe(0);
     engine.tick(100);
     expect(extractor.output.wood).toBe(1);
@@ -277,7 +277,8 @@ describe('simulation architecture', () => {
   });
 
   it('collapses depleted deposits into a 250-Stone hole and clears it when filled', () => {
-    const engine = new GameEngine(createInitialState(21));
+    const collapseState=createInitialState(21);collapseState.research.completed.push('exploration');
+    const engine = new GameEngine(collapseState);
     const sector = engine.getSector();
     const copper = sector.nodes.find((node) => node.id === 'copper')!;
     const extractor = sector.nodes.find((node) => node.id === 'extractor-2')!;
@@ -783,7 +784,7 @@ describe('simulation architecture', () => {
     expect(RECIPES['assemble-bot-f1-g1'].name).toBe('Suppression Bot 1 AP');
     expect(RESEARCH_PROJECTS.map((project) => project.id)).toEqual(expect.arrayContaining([
       'joint', 'splitter', 'merger', 'researchCenter1', 'areaExpansion1',
-      'extractor2', 'kiln2', 'smelter2', 'refiner2', 'assembler2', 'treePlanter', 'miningDrill',
+      'extractor2', 'kiln2', 'smelter2', 'refiner3', 'assembler3', 'treePlanter', 'miningDrill',
     ]));
     expect(Object.keys(NODE_MODULES).sort()).toEqual(Object.keys(NODE_DEFINITIONS).sort());
     expect(NODE_MODULES.smelter.appearance.icon).toBe('smelter');
@@ -797,17 +798,17 @@ describe('simulation architecture', () => {
     for (const entry of RESEARCH_PROJECTS) {
       const costs = Object.values(getResearchCosts(entry));
       if (entry.trigger) expect(costs, entry.id).toEqual([]);
-      else if (entry.costs['final-core']) expect(costs, entry.id).toEqual(costs.map(() => 1));
+      else if (entry.costs['final-core'] && entry.category !== 'Efficiency') expect(costs, entry.id).toEqual(costs.map(() => 1));
       else for (const amount of costs) expect(amount, entry.id).toBeGreaterThanOrEqual(5);
     }
-    expect(getResearchCosts(project('extractor1'))).toEqual({ 'simple-core': 10 });
+    expect(getResearchCosts(project('extractor2'))).toEqual({ 'simple-core': 15, 'basic-core': 15 });
     expect(getResearchCosts(project('researchCenter1'))).toEqual({ 'simple-core': 10 });
     expect(isResearchAvailable(project('road'), [])).toBe(true);
     expect(isResearchAvailable(project('areaExpansion1'), [])).toBe(true);
     expect(isResearchAvailable(project('mapNode'), [])).toBe(false);
     expect(isResearchAvailable(project('mapNode'), ['exploration'])).toBe(true);
     expect(isResearchAvailable(project('extractor2'), [])).toBe(false);
-    expect(isResearchAvailable(project('extractor2'), ['extractor1'])).toBe(true);
+    expect(isResearchAvailable(project('extractor2'), ['basicCore'])).toBe(true);
   });
 
   it('does not treat a revealed node schematic as completed research', () => {

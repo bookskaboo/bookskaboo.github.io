@@ -25,7 +25,7 @@ describe('Power retirement', () => {
     expect(getResearchProject('basicElectricity')).toBeUndefined();
     expect(getResearchProject('powerDistribution')).toBeUndefined();
     expect(isResearchAvailable(getResearchProject('hydrochemistry')!, ['automataCore'])).toBe(true);
-    expect(isResearchAvailable(getResearchProject('treePlanter1')!, ['treePlanter'])).toBe(true);
+    expect(isResearchAvailable(getResearchProject('treePlanter4')!, ['treePlanter','hydroCore'])).toBe(true);
     for (const project of RESEARCH_PROJECTS) {
       expect([project.prerequisite, ...(project.prerequisites ?? [])]).not.toEqual(expect.arrayContaining(['basicElectricity']));
       expect([project.prerequisite, ...(project.prerequisites ?? [])]).not.toEqual(expect.arrayContaining(['powerDistribution']));
@@ -74,13 +74,14 @@ describe('Power retirement', () => {
       state.sectors['5,5'].connections = [];
       const engine = new GameEngine(state, { autosave: false });
       const planter = engine.getSector().nodes[0];
+      expect(planter.cycleMs).toBe(250);
       expect(NODE_DEFINITIONS[kind].input).toEqual(['wood','iron-plate','stone']);
       expect(NODE_DEFINITIONS[kind].category).toBe('Production');
       expect(inputBufferRows(planter)).toHaveLength(3);
       expect(productionPortRow(planter, 'output', 0)).toMatchObject({ name: 'Forest Growth', amount: 0 });
       expect(productionVisual(planter, engine.getState(), engine.getSector()).missingInputs).toEqual([]);
       for (let i = 0; i < 10; i++) engine.tick(100);
-      expect(planter.output['forest-growth']).toBe(1);
+      expect(planter.output['forest-growth']).toBe(4);
       for (let i = 0; i < 70; i++) engine.tick(100);
       expect(planter.output['forest-growth']).toBe(5);
       expect(planter.input.power).toBeUndefined();

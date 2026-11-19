@@ -26,7 +26,7 @@ describe('recipe guide catalog', () => {
   it('shows the same upgraded cycle duration as the production machine', () => {
     const game = createTutorialState('basic');
     expect(recipeGuideCycle(RECIPES['copper-gear'], 'refiner', game)).toBe(RECIPES['copper-gear'].cycleMs);
-    game.research.completed.push('refiner2');
-    expect(recipeGuideCycle(RECIPES['copper-gear'], 'refiner', game)).toBe(RECIPES['copper-gear'].cycleMs * .8);
+    game.research.completed.push('refiner3');
+    expect(recipeGuideCycle(RECIPES['copper-gear'], 'refiner', game)).toBe(RECIPES['copper-gear'].cycleMs * .85);
   });
 });

@@ -1,0 +1,19 @@
+{
+  "widths": [
+    {
+      "width": 1180,
+      "projects": 5,
+      "tree": true,
+      "recovery": true,
+      "focusAndEscape": true
+    },
+    {
+      "width": 390,
+      "projects": 5,
+      "tree": true,
+      "recovery": true,
+      "focusAndEscape": true
+    }
+  ],
+  "errors": []
+}

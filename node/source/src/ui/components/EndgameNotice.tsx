@@ -17,7 +17,8 @@ export function EndgameNotice({ game, engine }: { game: GameState; engine: GameE
   }, [open, rescue?.resource]);
   if (!open) return null;
   const stage = game.rescue?.resources.length ?? 1;
-  const title = rescue ? ['Congratulations. You found the edge case.', 'Another successful failure.', 'Congratulations. The checklist is on fire.'][Math.min(2, stage - 1)] : 'Victory. Somehow.';
+  const local = rescue?.kind === 'local';
+  const title = local ? 'Production has been unblocked.' : rescue ? ['Congratulations. You found the edge case.', 'Another successful failure.', 'Congratulations. The checklist is on fire.'][Math.min(2, Math.max(0, stage - 1))] : 'Victory. Somehow.';
   const close = () => rescue ? engine.acknowledgeRescue() : engine.acknowledgeVictory();
   return <div className="endgame-backdrop" onKeyDown={event => {
     event.stopPropagation();
@@ -31,9 +32,11 @@ export function EndgameNotice({ game, engine }: { game: GameState; engine: GameE
     <small>{rescue ? 'EMERGENCY PROCEDURE: SUCCESSFUL' : 'FINAL CORE ACCEPTED'}</small>
     <h1 id="endgame-title">{title}</h1>
     {rescue ? <>
-      <p>{stage === 1 ? 'Thank you for trying to break the game.' : stage === 2 ? 'Two resources. Two rescue routes. Your commitment to a test nobody assigned has been noted.' : 'Iron, Copper and Stone. All three. Thank you. We have enough data.'}</p>
-      <p>The {rescue.resource[0].toUpperCase() + rescue.resource.slice(1)} Golem at <strong>{rescue.sectorId}</strong> has received an administrative defeat. Its infinite reserve and a shortest route are open. Extraction and transport remain your department.</p>
-      {stage === 3 && <p className="endgame-achievement">Achievement unlocked: Destructive Testing</p>}
+      {local ? <p>{rescue.amount} {rescue.resource[0].toUpperCase() + rescue.resource.slice(1)} restored to the deposit on this map. Enough to put progression back on the schedule.</p> : <>
+        <p>{stage === 1 ? 'Thank you for trying to break the game.' : stage === 2 ? 'Two resources. Two rescue routes. Your commitment to a test nobody assigned has been noted.' : 'Iron, Copper and Stone. All three. Thank you. We have enough data.'}</p>
+        <p>The {rescue.resource[0].toUpperCase() + rescue.resource.slice(1)} Golem at <strong>{rescue.sectorId}</strong> has received an administrative defeat. Its infinite reserve and a shortest route are open. Extraction and transport remain your department.</p>
+        {stage === 3 && <p className="endgame-achievement">Achievement unlocked: Destructive Testing</p>}
+      </>}
       <div className="endgame-actions"><button onClick={() => { engine.switchSector(rescue.sectorId); close(); }}>SHOW RESERVE</button><button onClick={close}>CONTINUE</button></div>
     </> : <>
       <p className="endgame-subtitle">All four corners. One Final Core. A remarkably indirect way to finish a to-do list.</p>

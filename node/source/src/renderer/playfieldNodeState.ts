@@ -65,6 +65,7 @@ export const canCyclePortPositions = (node: MachineNode) => {
   return inputs.length > 1 && (getNodeCapabilities(node.kind).behavior === 'recipe' || new Set(inputs).size > 1);
 };
 export const nodeCycleDuration = (node: MachineNode, unlocked: readonly string[]) => {
+  if (node.kind === 'fluidLink') return 1000;
   const prefix = getNodeCapabilities(node.kind).efficiencyFamily;
   const recipe = RECIPES[node.batch?.recipeId ?? node.recipeId ?? ''];
   const multiplier = getRecipeEfficiencyMultiplier(recipe?.id, prefix, unlocked);

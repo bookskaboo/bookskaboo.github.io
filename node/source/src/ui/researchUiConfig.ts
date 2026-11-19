@@ -5,11 +5,12 @@ export type RequirementFilter = 'simple-core' | 'basic-core' | 'automata-core' |
 const efficiencyGlyphs = {
   extractor: '⛏', kiln: '♨', smelter: '◈', refiner: '⚙', assembler: '⌑',
   researchCenter: '⌬', hydroProcessor: '≈', advancedAssembler: '⌑', separationFurnace: '♨',
+  botPlant: '♟', fluidLink: '≈', treePlanter: '♧', recycler: '♻',
 };
 
 export const RESEARCH_GLYPHS: Record<string, string> = {
   ...Object.fromEntries(Object.entries(efficiencyGlyphs).flatMap(([family, glyph]) =>
-    Array.from({ length: 6 }, (_, rank) => [`${family}${rank + 1}`, glyph]))),
+    Array.from({ length: 7 }, (_, rank) => [`${family}${rank + 1}`, glyph]))),
   connectorMirroring: '⇄', joint: '⌁', kiln: '♨', smelter: '◈', refiner: '⚙',
   researchCenter: '⌬', assembler: '⌑', splitter: '⑂', merger: '⋈', suppressionBot: '♟',
   exploration: '◎', mapNode: '◇', road: '⇥', automataCore: '◉', areaExpansion1: '⌗',

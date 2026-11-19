@@ -8,7 +8,7 @@ import { researchConsumptionGlow } from './researchConsumptionGlow';
 
 function setup() {
   const state = createInitialState(301);
-  state.research.completed = ['exploration', 'extractor1'];
+  state.research.completed = ['exploration', 'basicCore'];
   state.sectors['5,5'].nodes = [{ id: 'lab', kind: 'researchCenter', name: 'Research Center', x: 1000, y: 1000, rotation: 0, input: {}, output: {}, progressMs: 0, cycleMs: RESEARCH_CENTER_BASE_CYCLE_MS, constructedAt: 0, constructionMs: 0 }];
   const engine = new GameEngine(state, { autosave: false });
   engine.selectResearch('extractor2');

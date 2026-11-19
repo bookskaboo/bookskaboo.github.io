@@ -1,0 +1,2205 @@
+{
+  "projects": [
+    {
+      "id": "cornerComponents",
+      "name": "End of the World",
+      "category": "Milestone",
+      "description": "There may be more to the map than the middle.",
+      "unlock": "Unlocks the Yin and Yang recipes.",
+      "costs": {},
+      "trigger": {
+        "id": "complex-core-produced",
+        "pending": "Take the next step in Core production",
+        "complete": "First Complex Core produced"
+      }
+    },
+    {
+      "id": "finalRobotics",
+      "name": "Final Robotics",
+      "category": "Endgame",
+      "description": "Make the Final Frame and Final Cannon in the Fabricator. Together they make a Suppression Bot 70 AP in the Bot Plant.",
+      "unlock": "Unlocks the Final Frame and Final Cannon. Pair them in the Bot Plant or combine them with earlier parts.",
+      "flavorText": "Management has approved another layer of management.",
+      "costs": {
+        "simple-core": 1,
+        "basic-core": 1,
+        "automata-core": 1,
+        "hydro-core": 1,
+        "shiny-core": 1,
+        "command-core": 1,
+        "final-core": 1
+      },
+      "prerequisites": [
+        "finalCoreProduction",
+        "commandRobotics"
+      ]
+    },
+    {
+      "id": "victory",
+      "name": "A Remarkably Indirect Conclusion",
+      "category": "Endgame",
+      "description": "Complete this project to achieve victory and keep playing in this world.",
+      "unlock": "Victory achieved.",
+      "flavorText": "The factory may continue after its point has been made.",
+      "costs": {
+        "simple-core": 1,
+        "basic-core": 1,
+        "automata-core": 1,
+        "hydro-core": 1,
+        "shiny-core": 1,
+        "command-core": 1,
+        "final-core": 1
+      },
+      "prerequisites": [
+        "finalCoreProduction"
+      ]
+    },
+    {
+      "id": "resourceRelocation",
+      "name": "Resource Relocation",
+      "category": "Endgame",
+      "description": "Move Forests, mineral deposits, and defeated Golem reserves within their map. They keep their stock.",
+      "unlock": "Move Forests, mineral deposits, and defeated Golem reserves within their map. They keep their stock.",
+      "costs": {
+        "simple-core": 1,
+        "basic-core": 1,
+        "automata-core": 1,
+        "hydro-core": 1,
+        "shiny-core": 1,
+        "command-core": 1,
+        "final-core": 1
+      },
+      "prerequisites": [
+        "victory"
+      ]
+    },
+    {
+      "id": "lakeRelocation",
+      "name": "Lake Relocation",
+      "category": "Endgame",
+      "description": "Move Lakes within their map. Pumps stay connected. Select a Pump with the Lake to move them together.",
+      "unlock": "Move Lakes within their map. Pumps stay connected. Select a Pump with the Lake to move them together.",
+      "costs": {
+        "simple-core": 1,
+        "basic-core": 1,
+        "automata-core": 1,
+        "hydro-core": 1,
+        "shiny-core": 1,
+        "command-core": 1,
+        "final-core": 1
+      },
+      "prerequisites": [
+        "victory"
+      ]
+    },
+    {
+      "id": "campRelocation",
+      "name": "Monster Camp Relocation",
+      "category": "Endgame",
+      "description": "Move a Monster Camp and its linked Tribute boxes together within their map.",
+      "unlock": "Move a Monster Camp and its linked Tribute boxes together within their map.",
+      "costs": {
+        "simple-core": 1,
+        "basic-core": 1,
+        "automata-core": 1,
+        "hydro-core": 1,
+        "shiny-core": 1,
+        "command-core": 1,
+        "final-core": 1
+      },
+      "prerequisites": [
+        "victory"
+      ]
+    },
+    {
+      "id": "efficientLandfill",
+      "name": "Efficient Landfill",
+      "category": "Endgame",
+      "description": "Reduces the Deep Hole Stone requirement by 20% each time, compounded before rounding up. Stone already delivered still counts. The minimum is 1 Stone, with up to 45 completions.",
+      "unlock": "Reduces the Deep Hole Stone requirement by 20% each time, compounded before rounding up. Stone already delivered still counts. The minimum is 1 Stone, with up to 45 completions.",
+      "costs": {
+        "simple-core": 1,
+        "basic-core": 1,
+        "automata-core": 1,
+        "hydro-core": 1,
+        "shiny-core": 1,
+        "command-core": 1,
+        "final-core": 1
+      },
+      "prerequisites": [
+        "victory"
+      ],
+      "repeatable": true,
+      "costGrowth": 1.5
+    },
+    {
+      "id": "advancedRoadChannels",
+      "name": "Advanced Road Channels",
+      "category": "Endgame",
+      "description": "Adds one Road slot per map side each time, up to five slots total.",
+      "unlock": "Adds one Road slot per map side each time, up to five slots total.",
+      "costs": {
+        "simple-core": 1,
+        "basic-core": 1,
+        "automata-core": 1,
+        "hydro-core": 1,
+        "shiny-core": 1,
+        "command-core": 1,
+        "final-core": 1
+      },
+      "prerequisites": [
+        "victory",
+        "roadChannels2"
+      ],
+      "repeatable": true,
+      "costGrowth": 1.5
+    },
+    {
+      "id": "trainFreightCapacity",
+      "name": "Train Freight Capacity",
+      "category": "Endgame",
+      "description": "Each completion adds space for 20 items per Train and 1 item per Road shipment.",
+      "unlock": "Each completion adds space for 20 items per Train and 1 item per Road shipment.",
+      "costs": {
+        "simple-core": 1,
+        "basic-core": 1,
+        "automata-core": 1,
+        "hydro-core": 1,
+        "shiny-core": 1,
+        "command-core": 1,
+        "final-core": 1
+      },
+      "prerequisites": [
+        "victory",
+        "trains"
+      ],
+      "repeatable": true,
+      "costGrowth": 1.5
+    },
+    {
+      "id": "resourceRegeneration",
+      "name": "Resource Regeneration",
+      "category": "Endgame",
+      "description": "Each completion adds the pre-upgrade regeneration rate again to Forests and mineral deposits.",
+      "unlock": "Each completion adds the pre-upgrade regeneration rate again to Forests and mineral deposits.",
+      "costs": {
+        "simple-core": 1,
+        "basic-core": 1,
+        "automata-core": 1,
+        "hydro-core": 1,
+        "shiny-core": 1,
+        "command-core": 1,
+        "final-core": 1
+      },
+      "prerequisites": [
+        "victory",
+        "mineralRegeneration2"
+      ],
+      "repeatable": true,
+      "costGrowth": 1.5
+    },
+    {
+      "id": "recycler",
+      "name": "Intermediate Recycling",
+      "category": "Ecology",
+      "description": "Supply Water to break down items and run unlocked waste recovery recipes in the Recycler. Use Filters to sort the output.",
+      "unlock": "Unlocks the Recycler.",
+      "costs": {
+        "simple-core": 10,
+        "basic-core": 10,
+        "automata-core": 10,
+        "hydro-core": 10
+      },
+      "prerequisites": [
+        "hydraulicAssembly"
+      ]
+    },
+    {
+      "id": "lakeTools",
+      "name": "Water Tools",
+      "category": "Discovery",
+      "description": "Draw Water from a Lake with a Pump, then use a Hydro Plant to make Coolant.",
+      "unlock": "Unlocks the Pump, Hydro Plant, and Coolant recipe.",
+      "costs": {},
+      "trigger": {
+        "id": "encounter",
+        "kinds": [
+          "lake"
+        ],
+        "pending": "Visit a map with a Lake",
+        "complete": "Lake discovered"
+      },
+      "flavorText": "Water was here first. You have found a use for it."
+    },
+    {
+      "id": "mithrilTools",
+      "name": "Mythril Refining",
+      "category": "Discovery",
+      "description": "Make Mythril Plates in the Smelter and Mythril Gears and Wire in the Refiner. Use the Synthesizer to make Pure Mythril.",
+      "unlock": "Unlocks Mythril Gear and Mythril Wire in the Refiner, Mythril Plate in the Smelter, and the Synthesizer.",
+      "costs": {},
+      "trigger": {
+        "id": "dwarven-mythril-produced",
+        "pending": "Produce Mythril Tribute at a Dwarven settlement",
+        "complete": "First Dwarven Mythril Tribute produced"
+      },
+      "flavorText": "A rare material with very ordinary demands."
+    },
+    {
+      "id": "fabricatorTools",
+      "name": "Advanced Fabrication",
+      "category": "Fabrication",
+      "description": "Build a Fabricator for advanced intermediates, Cores, and Bot Plant parts.",
+      "unlock": "Unlocks the Fabricator.",
+      "costs": {
+        "simple-core": 5,
+        "basic-core": 5,
+        "automata-core": 5
+      },
+      "prerequisite": "assembler",
+      "prerequisites": [
+        "automataCore"
+      ],
+      "flavorText": "More complicated things can now go wrong."
+    },
+    {
+      "id": "sortingTools",
+      "name": "Waste Handling",
+      "category": "Discovery",
+      "description": "Collect mixed waste in a Waste Bin. Use Filters to send each waste type where it belongs.",
+      "unlock": "Unlocks the Waste Bin.",
+      "costs": {},
+      "trigger": {
+        "id": "precision-control",
+        "pending": "Complete Precision Control",
+        "complete": "Precision Control completed"
+      },
+      "flavorText": "Waste has been promoted to logistics."
+    },
+    {
+      "id": "hydrochemistry",
+      "name": "Hydrochemistry",
+      "category": "Progression",
+      "description": "Make Copper Slurry in a Hydro Plant.",
+      "unlock": "Unlocks the Copper Slurry recipe.",
+      "costs": {
+        "simple-core": 5,
+        "basic-core": 5,
+        "automata-core": 5
+      },
+      "prerequisites": [
+        "automataCore"
+      ],
+      "flavorText": "The water has joined Production."
+    },
+    {
+      "id": "hydraulicAssembly",
+      "name": "Hydraulic Assembly",
+      "category": "Progression",
+      "description": "Make Hydro Pistons and Circuit B in the Fabricator.",
+      "unlock": "Unlocks the Hydro Piston and Circuit B recipes.",
+      "costs": {
+        "simple-core": 15,
+        "basic-core": 15,
+        "automata-core": 15
+      },
+      "prerequisites": [
+        "hydrochemistry"
+      ],
+      "flavorText": "Progress, under pressure."
+    },
+    {
+      "id": "fluidRouting",
+      "name": "Fluid Routing",
+      "category": "Progression",
+      "description": "Build a Fluid Tank to buffer up to 256 units of Water or Coolant.",
+      "unlock": "Unlocks the Fluid Tank.",
+      "costs": {
+        "simple-core": 5,
+        "basic-core": 5,
+        "automata-core": 5,
+        "hydro-core": 5
+      },
+      "prerequisites": [
+        "hydraulicAssembly"
+      ],
+      "flavorText": "The pipes would like a plan."
+    },
+    {
+      "id": "sealedRobotics",
+      "name": "Sealed Robotics",
+      "category": "Progression",
+      "description": "Make Sealed Frames and Cooled Guns in the Fabricator for the Bot Plant. Together they produce a Suppression Bot 3 AP.",
+      "unlock": "Unlocks Sealed Frame and Cooled Gun for bot assembly.",
+      "costs": {
+        "simple-core": 5,
+        "basic-core": 5,
+        "automata-core": 5,
+        "hydro-core": 5
+      },
+      "prerequisites": [
+        "hydraulicAssembly",
+        "suppressionBot"
+      ],
+      "flavorText": "The machinery would prefer to stay dry."
+    },
+    {
+      "id": "oreSeparation",
+      "name": "Ore Separation",
+      "category": "Progression",
+      "description": "Make Mythril Mesh in the Synthesizer.",
+      "unlock": "Unlocks the Mythril Mesh recipe.",
+      "costs": {
+        "simple-core": 20,
+        "basic-core": 20,
+        "automata-core": 20,
+        "hydro-core": 20
+      },
+      "prerequisites": [
+        "fluidRouting"
+      ],
+      "flavorText": "Keeps the valuable part. Sends an invoice for the rest."
+    },
+    {
+      "id": "mineralRecovery",
+      "name": "Mineral Recovery",
+      "category": "Discovery",
+      "description": "Use a Recycler to turn 4 Metallic Fines and 1 Water into 1 Iron Plate.",
+      "unlock": "Iron Plates can now be recovered from Metallic Fines.",
+      "costs": {},
+      "trigger": {
+        "id": "precision-control",
+        "pending": "Complete Precision Control",
+        "complete": "Precision Control completed"
+      },
+      "flavorText": "The rubbish was not entirely rubbish."
+    },
+    {
+      "id": "pressureSystems",
+      "name": "Pressure Systems",
+      "category": "Efficiency",
+      "description": "Each Pump connected to a Lake draws up to 8 Water per second.",
+      "unlock": "Lake Pumps now draw up to 8 Water per second.",
+      "costs": {
+        "simple-core": 45,
+        "basic-core": 45,
+        "automata-core": 45,
+        "hydro-core": 45,
+        "shiny-core": 45
+      },
+      "prerequisites": [
+        "oreSeparation"
+      ],
+      "flavorText": "The pressure is now an engineering choice."
+    },
+    {
+      "id": "heavyRobotics",
+      "name": "Heavy Robotics",
+      "category": "Progression",
+      "description": "Make Mythril Frames and Focused Guns in the Fabricator for the Bot Plant. Together they produce a Suppression Bot 8 AP.",
+      "unlock": "Unlocks Mythril Frame and Focused Gun for bot assembly.",
+      "costs": {
+        "simple-core": 20,
+        "basic-core": 20,
+        "automata-core": 20,
+        "hydro-core": 20,
+        "shiny-core": 20
+      },
+      "prerequisites": [
+        "sealedRobotics",
+        "oreSeparation"
+      ],
+      "flavorText": "Subtlety was considered and found underpowered."
+    },
+    {
+      "id": "precisionControl",
+      "name": "Precision Control",
+      "category": "Progression",
+      "description": "Make Controllers, Servo Pistons, and Circuit C. This also unlocks the Waste Bin and Iron Plate recovery from Metallic Fines.",
+      "unlock": "Unlocks Controller, Servo Piston, and Circuit C recipes.",
+      "costs": {
+        "simple-core": 30,
+        "basic-core": 30,
+        "automata-core": 30,
+        "hydro-core": 30,
+        "shiny-core": 30
+      },
+      "prerequisites": [
+        "oreSeparation"
+      ],
+      "flavorText": "Fewer errors. More precise ones."
+    },
+    {
+      "id": "autonomousLogistics",
+      "name": "Autonomous Logistics",
+      "category": "Progression",
+      "description": "Use Storage to deposit materials in a shared pool across maps. Retrieve them by connecting Inventory to a Filter.",
+      "unlock": "Unlocks Storage and Inventory.",
+      "costs": {
+        "simple-core": 1,
+        "basic-core": 1,
+        "automata-core": 1,
+        "hydro-core": 1,
+        "shiny-core": 1,
+        "command-core": 1,
+        "final-core": 1
+      },
+      "prerequisites": [
+        "precisionControl",
+        "finalCoreProduction"
+      ],
+      "flavorText": "The materials can arrange their own commute."
+    },
+    {
+      "id": "commandRobotics",
+      "name": "Command Robotics",
+      "category": "Progression",
+      "description": "Make Servo Frames and Pulse Cannons in the Fabricator for the Bot Plant. Together they produce a Suppression Bot 24 AP.",
+      "unlock": "Unlocks Servo Frame and Pulse Cannon for bot assembly.",
+      "costs": {
+        "simple-core": 30,
+        "basic-core": 30,
+        "automata-core": 30,
+        "hydro-core": 30,
+        "shiny-core": 30,
+        "command-core": 30
+      },
+      "prerequisites": [
+        "precisionControl",
+        "heavyRobotics"
+      ],
+      "flavorText": "Management has acquired heavier equipment."
+    },
+    {
+      "id": "mineralRegeneration2",
+      "name": "Mineral Regeneration 2",
+      "category": "Efficiency",
+      "description": "Mineral deposits now regenerate 1 unit every 15 seconds at their base rate. Unlocks repeatable upgrades to that rate.",
+      "unlock": "Base mineral regeneration increases to 1 unit every 15 seconds.",
+      "costs": {
+        "simple-core": 30,
+        "basic-core": 30,
+        "automata-core": 30,
+        "hydro-core": 30,
+        "shiny-core": 30
+      },
+      "prerequisites": [
+        "mineralRegeneration",
+        "precisionControl"
+      ],
+      "flavorText": "A slightly less geological timescale."
+    },
+    {
+      "id": "highPressureIntakes",
+      "name": "High Pressure Intakes",
+      "category": "Efficiency",
+      "description": "Each Pump connected to a Lake draws up to 16 Water per second.",
+      "unlock": "Lake Pumps now draw up to 16 Water per second.",
+      "costs": {
+        "simple-core": 60,
+        "basic-core": 60,
+        "automata-core": 60,
+        "hydro-core": 60,
+        "shiny-core": 60
+      },
+      "prerequisites": [
+        "pressureSystems",
+        "precisionControl"
+      ],
+      "flavorText": "The Lake has received a larger request."
+    },
+    {
+      "id": "factoryTemplates",
+      "name": "Factory Templates",
+      "category": "Logistics",
+      "description": "Save factory layouts as templates and preview the whole layout before placing it.",
+      "unlock": "Unlocks factory templates.",
+      "costs": {
+        "simple-core": 15,
+        "basic-core": 15,
+        "automata-core": 15
+      },
+      "prerequisites": [
+        "hydraulicAssembly"
+      ],
+      "flavorText": "Repeat your successes. Also your layout."
+    },
+    {
+      "id": "treePlanter1",
+      "name": "Tree Planter 1",
+      "category": "Efficiency",
+      "description": "Tree Planter cycles take 10% less time than the base cycle.",
+      "unlock": "Tree Planter cycles take 10% less time than the base cycle.",
+      "costs": {
+        "simple-core": 10,
+        "basic-core": 10,
+        "automata-core": 10
+      },
+      "prerequisites": [
+        "treePlanter"
+      ],
+      "flavorText": "The apology is being expedited."
+    },
+    {
+      "id": "mineralRecovery1",
+      "name": "Mineral Recovery 1",
+      "category": "Efficiency",
+      "description": "Waste recovery cycles take 10% less time after machine upgrades.",
+      "unlock": "Waste recovery cycles are 10% shorter.",
+      "costs": {
+        "simple-core": 10,
+        "basic-core": 10,
+        "automata-core": 10,
+        "hydro-core": 10
+      },
+      "prerequisites": [
+        "mineralRecovery",
+        "hydraulicAssembly"
+      ],
+      "flavorText": "Same rubbish. Shorter meeting."
+    },
+    {
+      "id": "warehouseLogistics",
+      "name": "Warehouse Logistics",
+      "category": "Logistics",
+      "description": "Build a Warehouse to buffer up to 250 items.",
+      "unlock": "Unlocks the Warehouse.",
+      "costs": {
+        "simple-core": 20,
+        "basic-core": 20,
+        "automata-core": 20,
+        "hydro-core": 20
+      },
+      "prerequisites": [
+        "oreSeparation",
+        "fluidRouting"
+      ],
+      "flavorText": "A bigger box is still a plan."
+    },
+    {
+      "id": "roadChannels1",
+      "name": "Road Channels 1",
+      "category": "Logistics",
+      "description": "Each side of a map can hold two Roads. Sending and receiving Roads share those slots.",
+      "unlock": "Adds a second Road slot to each side of every map.",
+      "costs": {
+        "simple-core": 5,
+        "basic-core": 5,
+        "automata-core": 5,
+        "hydro-core": 5
+      },
+      "prerequisites": [
+        "road",
+        "hydraulicAssembly"
+      ],
+      "flavorText": "The border now has a second appointment."
+    },
+    {
+      "id": "areaExpansion2",
+      "name": "Area Expansion 2",
+      "category": "Logistics",
+      "description": "Make every play area 50% wider and 50% taller than its original size.",
+      "unlock": "Expands every play area.",
+      "costs": {
+        "simple-core": 50,
+        "basic-core": 50,
+        "automata-core": 50,
+        "hydro-core": 50,
+        "shiny-core": 50
+      },
+      "prerequisites": [
+        "areaExpansion1",
+        "precisionControl"
+      ],
+      "flavorText": "The extra space has already been spoken for."
+    },
+    {
+      "id": "mineralRegeneration",
+      "name": "Mineral Regeneration 1",
+      "category": "Progression",
+      "description": "Ordinary mineral deposits regenerate 1 unit every 30 seconds, up to capacity. Depleted deposits stay in place and refill.",
+      "unlock": "Ordinary mineral deposits now regenerate.",
+      "costs": {
+        "simple-core": 5,
+        "basic-core": 5,
+        "automata-core": 5,
+        "hydro-core": 5
+      },
+      "prerequisites": [
+        "oreSeparation"
+      ],
+      "flavorText": "The ground has agreed to a slow refill."
+    },
+    {
+      "id": "roadChannels2",
+      "name": "Road Channels 2",
+      "category": "Logistics",
+      "description": "Each side of a map can hold three Roads. Sending and receiving Roads share those slots.",
+      "unlock": "Adds a third Road slot to each side of every map.",
+      "costs": {
+        "simple-core": 20,
+        "basic-core": 20,
+        "automata-core": 20,
+        "hydro-core": 20,
+        "shiny-core": 20
+      },
+      "prerequisites": [
+        "roadChannels1",
+        "oreSeparation"
+      ],
+      "flavorText": "Congestion now has additional lanes."
+    },
+    {
+      "id": "mineralRegenerationRate",
+      "name": "Mineral Regeneration Rate",
+      "category": "Repeatable",
+      "description": "Each completion adds 20% of the base rate from Mineral Regeneration 2.",
+      "unlock": "Increases mineral regeneration.",
+      "costs": {
+        "simple-core": 10,
+        "basic-core": 10,
+        "automata-core": 10,
+        "hydro-core": 10,
+        "shiny-core": 10,
+        "command-core": 10
+      },
+      "prerequisites": [
+        "mineralRegeneration2"
+      ],
+      "repeatable": true,
+      "costGrowth": 1.5,
+      "flavorText": "Nature has accepted another performance review."
+    },
+    {
+      "id": "storagePlacementCapacity",
+      "name": "Storage Placement Capacity",
+      "category": "Repeatable",
+      "description": "Each completion lets you place one more Storage node across the world.",
+      "unlock": "Increases the global Storage limit by one.",
+      "costs": {
+        "simple-core": 1,
+        "basic-core": 1,
+        "automata-core": 1,
+        "hydro-core": 1,
+        "shiny-core": 1,
+        "command-core": 1,
+        "final-core": 1
+      },
+      "prerequisites": [
+        "autonomousLogistics"
+      ],
+      "repeatable": true,
+      "costGrowth": 1.5,
+      "flavorText": "Another place to put off organizing."
+    },
+    {
+      "id": "inventoryPlacementCapacity",
+      "name": "Inventory Placement Capacity",
+      "category": "Repeatable",
+      "description": "Each completion lets you place one more Inventory node across the world.",
+      "unlock": "Increases the global Inventory limit by one.",
+      "costs": {
+        "simple-core": 1,
+        "basic-core": 1,
+        "automata-core": 1,
+        "hydro-core": 1,
+        "shiny-core": 1,
+        "command-core": 1,
+        "final-core": 1
+      },
+      "prerequisites": [
+        "autonomousLogistics"
+      ],
+      "repeatable": true,
+      "costGrowth": 1.5,
+      "flavorText": "Retrieval is becoming a department."
+    },
+    {
+      "id": "storageConnectionCapacity",
+      "name": "Storage Connection Capacity",
+      "category": "Repeatable",
+      "description": "Each completion adds one connection slot to every Storage node.",
+      "unlock": "Adds a connection slot to every Storage node.",
+      "costs": {
+        "simple-core": 1,
+        "basic-core": 1,
+        "automata-core": 1,
+        "hydro-core": 1,
+        "shiny-core": 1,
+        "command-core": 1,
+        "final-core": 1
+      },
+      "prerequisites": [
+        "autonomousLogistics"
+      ],
+      "repeatable": true,
+      "costGrowth": 1.5,
+      "flavorText": "The storage problem has more connections."
+    },
+    {
+      "id": "inventoryConnectionCapacity",
+      "name": "Inventory Connection Capacity",
+      "category": "Repeatable",
+      "description": "Each completion lets every Inventory node connect to one more Filter.",
+      "unlock": "Adds a Filter connection to every Inventory node.",
+      "costs": {
+        "simple-core": 1,
+        "basic-core": 1,
+        "automata-core": 1,
+        "hydro-core": 1,
+        "shiny-core": 1,
+        "command-core": 1,
+        "final-core": 1
+      },
+      "prerequisites": [
+        "autonomousLogistics"
+      ],
+      "repeatable": true,
+      "costGrowth": 1.5,
+      "flavorText": "More outlets for accumulated ambition."
+    },
+    {
+      "id": "efficientIntermediates",
+      "name": "Efficient Intermediates",
+      "category": "Efficiency",
+      "description": "Unlocks efficient recipes for Circuit A, Motors, and Basic Frames. Use Filters to separate products from waste at the shared output.",
+      "unlock": "Unlocks efficient Circuit A, Motor, and Basic Frame recipes.",
+      "costs": {
+        "simple-core": 25,
+        "basic-core": 25,
+        "automata-core": 25,
+        "hydro-core": 25,
+        "shiny-core": 25,
+        "command-core": 25
+      },
+      "prerequisites": [
+        "precisionControl"
+      ]
+    },
+    {
+      "id": "efficientHigherIntermediates",
+      "name": "Efficient Higher Intermediates",
+      "category": "Efficiency",
+      "description": "Make Efficient Hydro Pistons and Circuit C in the Fabricator and Efficient Mythril Mesh in the Synthesizer. Use the Recycler to recover materials from Spent Flux, Glassy Crust, and Slag.",
+      "unlock": "Unlocks more efficient recipes and waste recovery.",
+      "costs": {
+        "simple-core": 50,
+        "basic-core": 50,
+        "automata-core": 50,
+        "hydro-core": 50,
+        "shiny-core": 50,
+        "command-core": 50
+      },
+      "prerequisites": [
+        "precisionControl"
+      ]
+    },
+    {
+      "id": "planterThroughput",
+      "name": "Industrial Forestry",
+      "category": "Efficiency",
+      "description": "Tree Planters produce growth ten times as fast and can send up to ten growth units in one transfer.",
+      "unlock": "Increases Tree Planter speed and transfer capacity.",
+      "costs": {
+        "simple-core": 25,
+        "basic-core": 25,
+        "automata-core": 25,
+        "hydro-core": 25,
+        "shiny-core": 25,
+        "command-core": 25
+      },
+      "prerequisites": [
+        "precisionControl",
+        "treePlanter"
+      ]
+    },
+    {
+      "id": "extractor1",
+      "name": "Extractor 1",
+      "category": "Efficiency",
+      "description": "Extractor cycles take 10% less time than the base cycle.",
+      "unlock": "Extractor cycles take 10% less time than the base cycle.",
+      "costs": {
+        "simple-core": 10
+      },
+      "flavorText": "The ground has been asked to keep up."
+    },
+    {
+      "id": "extractor2",
+      "name": "Extractor 2",
+      "category": "Efficiency",
+      "description": "Extractor cycles take 20% less time than the base cycle.",
+      "unlock": "Extractor cycles take 20% less time than the base cycle.",
+      "costs": {
+        "simple-core": 15,
+        "basic-core": 15
+      },
+      "prerequisite": "extractor1",
+      "flavorText": "The ground has been asked to keep up."
+    },
+    {
+      "id": "extractor3",
+      "name": "Extractor 3",
+      "category": "Efficiency",
+      "description": "Extractor cycles take 30% less time than the base cycle.",
+      "unlock": "Extractor cycles take 30% less time than the base cycle.",
+      "costs": {
+        "simple-core": 20,
+        "basic-core": 20,
+        "automata-core": 20
+      },
+      "prerequisite": "extractor2",
+      "prerequisites": [
+        "automataCore"
+      ],
+      "flavorText": "The ground has been asked to keep up."
+    },
+    {
+      "id": "extractor4",
+      "name": "Extractor 4",
+      "category": "Efficiency",
+      "description": "Extractor cycles take 40% less time than the base cycle.",
+      "unlock": "Extractor cycles take 40% less time than the base cycle.",
+      "costs": {
+        "simple-core": 25,
+        "basic-core": 25,
+        "automata-core": 25,
+        "hydro-core": 25
+      },
+      "prerequisite": "extractor3",
+      "prerequisites": [
+        "hydroCore"
+      ],
+      "flavorText": "The ground has been asked to keep up."
+    },
+    {
+      "id": "extractor5",
+      "name": "Extractor 5",
+      "category": "Efficiency",
+      "description": "Extractor cycles take 50% less time than the base cycle.",
+      "unlock": "Extractor cycles take 50% less time than the base cycle.",
+      "costs": {
+        "simple-core": 30,
+        "basic-core": 30,
+        "automata-core": 30,
+        "hydro-core": 30,
+        "shiny-core": 30
+      },
+      "prerequisite": "extractor4",
+      "prerequisites": [
+        "shinyCore"
+      ],
+      "flavorText": "The ground has been asked to keep up."
+    },
+    {
+      "id": "extractor6",
+      "name": "Extractor 6",
+      "category": "Efficiency",
+      "description": "Extractor cycles take 60% less time than the base cycle.",
+      "unlock": "Extractor cycles take 60% less time than the base cycle.",
+      "costs": {
+        "simple-core": 35,
+        "basic-core": 35,
+        "automata-core": 35,
+        "hydro-core": 35,
+        "shiny-core": 35,
+        "command-core": 35
+      },
+      "prerequisite": "extractor5",
+      "prerequisites": [
+        "complexCore"
+      ],
+      "flavorText": "The ground has been asked to keep up."
+    },
+    {
+      "id": "kiln1",
+      "name": "Kiln 1",
+      "category": "Efficiency",
+      "description": "Kiln cycles take 10% less time than the base cycle.",
+      "unlock": "Kiln cycles take 10% less time than the base cycle.",
+      "costs": {
+        "simple-core": 10
+      },
+      "prerequisite": "kiln",
+      "flavorText": "Same fire. Tighter schedule."
+    },
+    {
+      "id": "kiln2",
+      "name": "Kiln 2",
+      "category": "Efficiency",
+      "description": "Kiln cycles take 20% less time than the base cycle.",
+      "unlock": "Kiln cycles take 20% less time than the base cycle.",
+      "costs": {
+        "simple-core": 15,
+        "basic-core": 15
+      },
+      "prerequisite": "kiln1",
+      "flavorText": "Same fire. Tighter schedule."
+    },
+    {
+      "id": "kiln3",
+      "name": "Kiln 3",
+      "category": "Efficiency",
+      "description": "Kiln cycles take 30% less time than the base cycle.",
+      "unlock": "Kiln cycles take 30% less time than the base cycle.",
+      "costs": {
+        "simple-core": 20,
+        "basic-core": 20,
+        "automata-core": 20
+      },
+      "prerequisite": "kiln2",
+      "prerequisites": [
+        "automataCore"
+      ],
+      "flavorText": "Same fire. Tighter schedule."
+    },
+    {
+      "id": "kiln4",
+      "name": "Kiln 4",
+      "category": "Efficiency",
+      "description": "Kiln cycles take 40% less time than the base cycle.",
+      "unlock": "Kiln cycles take 40% less time than the base cycle.",
+      "costs": {
+        "simple-core": 25,
+        "basic-core": 25,
+        "automata-core": 25,
+        "hydro-core": 25
+      },
+      "prerequisite": "kiln3",
+      "prerequisites": [
+        "hydroCore"
+      ],
+      "flavorText": "Same fire. Tighter schedule."
+    },
+    {
+      "id": "kiln5",
+      "name": "Kiln 5",
+      "category": "Efficiency",
+      "description": "Kiln cycles take 50% less time than the base cycle.",
+      "unlock": "Kiln cycles take 50% less time than the base cycle.",
+      "costs": {
+        "simple-core": 30,
+        "basic-core": 30,
+        "automata-core": 30,
+        "hydro-core": 30,
+        "shiny-core": 30
+      },
+      "prerequisite": "kiln4",
+      "prerequisites": [
+        "shinyCore"
+      ],
+      "flavorText": "Same fire. Tighter schedule."
+    },
+    {
+      "id": "kiln6",
+      "name": "Kiln 6",
+      "category": "Efficiency",
+      "description": "Kiln cycles take 60% less time than the base cycle.",
+      "unlock": "Kiln cycles take 60% less time than the base cycle.",
+      "costs": {
+        "simple-core": 35,
+        "basic-core": 35,
+        "automata-core": 35,
+        "hydro-core": 35,
+        "shiny-core": 35,
+        "command-core": 35
+      },
+      "prerequisite": "kiln5",
+      "prerequisites": [
+        "complexCore"
+      ],
+      "flavorText": "Same fire. Tighter schedule."
+    },
+    {
+      "id": "smelter1",
+      "name": "Smelter 1",
+      "category": "Efficiency",
+      "description": "Smelter cycles take 10% less time than the base cycle.",
+      "unlock": "Smelter cycles take 10% less time than the base cycle.",
+      "costs": {
+        "simple-core": 10
+      },
+      "prerequisite": "smelter",
+      "flavorText": "The queue is getting warmer."
+    },
+    {
+      "id": "smelter2",
+      "name": "Smelter 2",
+      "category": "Efficiency",
+      "description": "Smelter cycles take 20% less time than the base cycle.",
+      "unlock": "Smelter cycles take 20% less time than the base cycle.",
+      "costs": {
+        "simple-core": 15,
+        "basic-core": 15
+      },
+      "prerequisite": "smelter1",
+      "flavorText": "The queue is getting warmer."
+    },
+    {
+      "id": "smelter3",
+      "name": "Smelter 3",
+      "category": "Efficiency",
+      "description": "Smelter cycles take 30% less time than the base cycle.",
+      "unlock": "Smelter cycles take 30% less time than the base cycle.",
+      "costs": {
+        "simple-core": 20,
+        "basic-core": 20,
+        "automata-core": 20
+      },
+      "prerequisite": "smelter2",
+      "prerequisites": [
+        "automataCore"
+      ],
+      "flavorText": "The queue is getting warmer."
+    },
+    {
+      "id": "smelter4",
+      "name": "Smelter 4",
+      "category": "Efficiency",
+      "description": "Smelter cycles take 40% less time than the base cycle.",
+      "unlock": "Smelter cycles take 40% less time than the base cycle.",
+      "costs": {
+        "simple-core": 25,
+        "basic-core": 25,
+        "automata-core": 25,
+        "hydro-core": 25
+      },
+      "prerequisite": "smelter3",
+      "prerequisites": [
+        "hydroCore"
+      ],
+      "flavorText": "The queue is getting warmer."
+    },
+    {
+      "id": "smelter5",
+      "name": "Smelter 5",
+      "category": "Efficiency",
+      "description": "Smelter cycles take 50% less time than the base cycle.",
+      "unlock": "Smelter cycles take 50% less time than the base cycle.",
+      "costs": {
+        "simple-core": 30,
+        "basic-core": 30,
+        "automata-core": 30,
+        "hydro-core": 30,
+        "shiny-core": 30
+      },
+      "prerequisite": "smelter4",
+      "prerequisites": [
+        "shinyCore"
+      ],
+      "flavorText": "The queue is getting warmer."
+    },
+    {
+      "id": "smelter6",
+      "name": "Smelter 6",
+      "category": "Efficiency",
+      "description": "Smelter cycles take 60% less time than the base cycle.",
+      "unlock": "Smelter cycles take 60% less time than the base cycle.",
+      "costs": {
+        "simple-core": 35,
+        "basic-core": 35,
+        "automata-core": 35,
+        "hydro-core": 35,
+        "shiny-core": 35,
+        "command-core": 35
+      },
+      "prerequisite": "smelter5",
+      "prerequisites": [
+        "complexCore"
+      ],
+      "flavorText": "The queue is getting warmer."
+    },
+    {
+      "id": "refiner1",
+      "name": "Refiner 1",
+      "category": "Efficiency",
+      "description": "Refiner cycles take 10% less time than the base cycle.",
+      "unlock": "Refiner cycles take 10% less time than the base cycle.",
+      "costs": {
+        "simple-core": 10
+      },
+      "prerequisite": "refiner",
+      "flavorText": "Refinement is now on a deadline."
+    },
+    {
+      "id": "refiner2",
+      "name": "Refiner 2",
+      "category": "Efficiency",
+      "description": "Refiner cycles take 20% less time than the base cycle.",
+      "unlock": "Refiner cycles take 20% less time than the base cycle.",
+      "costs": {
+        "simple-core": 15,
+        "basic-core": 15
+      },
+      "prerequisite": "refiner1",
+      "flavorText": "Refinement is now on a deadline."
+    },
+    {
+      "id": "refiner3",
+      "name": "Refiner 3",
+      "category": "Efficiency",
+      "description": "Refiner cycles take 30% less time than the base cycle.",
+      "unlock": "Refiner cycles take 30% less time than the base cycle.",
+      "costs": {
+        "simple-core": 20,
+        "basic-core": 20,
+        "automata-core": 20
+      },
+      "prerequisite": "refiner2",
+      "prerequisites": [
+        "automataCore"
+      ],
+      "flavorText": "Refinement is now on a deadline."
+    },
+    {
+      "id": "refiner4",
+      "name": "Refiner 4",
+      "category": "Efficiency",
+      "description": "Refiner cycles take 40% less time than the base cycle.",
+      "unlock": "Refiner cycles take 40% less time than the base cycle.",
+      "costs": {
+        "simple-core": 25,
+        "basic-core": 25,
+        "automata-core": 25,
+        "hydro-core": 25
+      },
+      "prerequisite": "refiner3",
+      "prerequisites": [
+        "hydroCore"
+      ],
+      "flavorText": "Refinement is now on a deadline."
+    },
+    {
+      "id": "refiner5",
+      "name": "Refiner 5",
+      "category": "Efficiency",
+      "description": "Refiner cycles take 50% less time than the base cycle.",
+      "unlock": "Refiner cycles take 50% less time than the base cycle.",
+      "costs": {
+        "simple-core": 30,
+        "basic-core": 30,
+        "automata-core": 30,
+        "hydro-core": 30,
+        "shiny-core": 30
+      },
+      "prerequisite": "refiner4",
+      "prerequisites": [
+        "shinyCore"
+      ],
+      "flavorText": "Refinement is now on a deadline."
+    },
+    {
+      "id": "refiner6",
+      "name": "Refiner 6",
+      "category": "Efficiency",
+      "description": "Refiner cycles take 60% less time than the base cycle.",
+      "unlock": "Refiner cycles take 60% less time than the base cycle.",
+      "costs": {
+        "simple-core": 35,
+        "basic-core": 35,
+        "automata-core": 35,
+        "hydro-core": 35,
+        "shiny-core": 35,
+        "command-core": 35
+      },
+      "prerequisite": "refiner5",
+      "prerequisites": [
+        "complexCore"
+      ],
+      "flavorText": "Refinement is now on a deadline."
+    },
+    {
+      "id": "assembler1",
+      "name": "Assembler 1",
+      "category": "Efficiency",
+      "description": "Assembler cycles take 10% less time than the base cycle. Also applies to composite Mythril gears and wire in the Synthesizer.",
+      "unlock": "Assembler cycles take 10% less time than the base cycle.",
+      "costs": {
+        "simple-core": 10
+      },
+      "prerequisite": "assembler",
+      "flavorText": "The parts have less time to disagree."
+    },
+    {
+      "id": "assembler2",
+      "name": "Assembler 2",
+      "category": "Efficiency",
+      "description": "Assembler cycles take 20% less time than the base cycle. Also applies to composite Mythril gears and wire in the Synthesizer.",
+      "unlock": "Assembler cycles take 20% less time than the base cycle.",
+      "costs": {
+        "simple-core": 15,
+        "basic-core": 15
+      },
+      "prerequisite": "assembler1",
+      "flavorText": "The parts have less time to disagree."
+    },
+    {
+      "id": "assembler3",
+      "name": "Assembler 3",
+      "category": "Efficiency",
+      "description": "Assembler cycles take 30% less time than the base cycle. Also applies to composite Mythril gears and wire in the Synthesizer.",
+      "unlock": "Assembler cycles take 30% less time than the base cycle.",
+      "costs": {
+        "simple-core": 20,
+        "basic-core": 20,
+        "automata-core": 20
+      },
+      "prerequisite": "assembler2",
+      "prerequisites": [
+        "automataCore"
+      ],
+      "flavorText": "The parts have less time to disagree."
+    },
+    {
+      "id": "assembler4",
+      "name": "Assembler 4",
+      "category": "Efficiency",
+      "description": "Assembler cycles take 40% less time than the base cycle. Also applies to composite Mythril gears and wire in the Synthesizer.",
+      "unlock": "Assembler cycles take 40% less time than the base cycle.",
+      "costs": {
+        "simple-core": 25,
+        "basic-core": 25,
+        "automata-core": 25,
+        "hydro-core": 25
+      },
+      "prerequisite": "assembler3",
+      "prerequisites": [
+        "hydroCore"
+      ],
+      "flavorText": "The parts have less time to disagree."
+    },
+    {
+      "id": "assembler5",
+      "name": "Assembler 5",
+      "category": "Efficiency",
+      "description": "Assembler cycles take 50% less time than the base cycle. Also applies to composite Mythril gears and wire in the Synthesizer.",
+      "unlock": "Assembler cycles take 50% less time than the base cycle.",
+      "costs": {
+        "simple-core": 30,
+        "basic-core": 30,
+        "automata-core": 30,
+        "hydro-core": 30,
+        "shiny-core": 30
+      },
+      "prerequisite": "assembler4",
+      "prerequisites": [
+        "shinyCore"
+      ],
+      "flavorText": "The parts have less time to disagree."
+    },
+    {
+      "id": "assembler6",
+      "name": "Assembler 6",
+      "category": "Efficiency",
+      "description": "Assembler cycles take 60% less time than the base cycle. Also applies to composite Mythril gears and wire in the Synthesizer.",
+      "unlock": "Assembler cycles take 60% less time than the base cycle.",
+      "costs": {
+        "simple-core": 35,
+        "basic-core": 35,
+        "automata-core": 35,
+        "hydro-core": 35,
+        "shiny-core": 35,
+        "command-core": 35
+      },
+      "prerequisite": "assembler5",
+      "prerequisites": [
+        "complexCore"
+      ],
+      "flavorText": "The parts have less time to disagree."
+    },
+    {
+      "id": "researchCenter1",
+      "name": "Research Center 1",
+      "category": "Efficiency",
+      "description": "Research Center cycles take 10% less time than the base cycle.",
+      "unlock": "Research Center cycles take 10% less time than the base cycle.",
+      "costs": {
+        "simple-core": 10
+      },
+      "prerequisite": "researchCenter",
+      "flavorText": "The uncertainty is being processed faster."
+    },
+    {
+      "id": "researchCenter2",
+      "name": "Research Center 2",
+      "category": "Efficiency",
+      "description": "Research Center cycles take 20% less time than the base cycle.",
+      "unlock": "Research Center cycles take 20% less time than the base cycle.",
+      "costs": {
+        "simple-core": 15,
+        "basic-core": 15
+      },
+      "prerequisite": "researchCenter1",
+      "flavorText": "The uncertainty is being processed faster."
+    },
+    {
+      "id": "researchCenter3",
+      "name": "Research Center 3",
+      "category": "Efficiency",
+      "description": "Research Center cycles take 30% less time than the base cycle.",
+      "unlock": "Research Center cycles take 30% less time than the base cycle.",
+      "costs": {
+        "simple-core": 20,
+        "basic-core": 20,
+        "automata-core": 20
+      },
+      "prerequisite": "researchCenter2",
+      "prerequisites": [
+        "automataCore"
+      ],
+      "flavorText": "The uncertainty is being processed faster."
+    },
+    {
+      "id": "researchCenter4",
+      "name": "Research Center 4",
+      "category": "Efficiency",
+      "description": "Research Center cycles take 40% less time than the base cycle.",
+      "unlock": "Research Center cycles take 40% less time than the base cycle.",
+      "costs": {
+        "simple-core": 25,
+        "basic-core": 25,
+        "automata-core": 25,
+        "hydro-core": 25
+      },
+      "prerequisite": "researchCenter3",
+      "prerequisites": [
+        "hydroCore"
+      ],
+      "flavorText": "The uncertainty is being processed faster."
+    },
+    {
+      "id": "researchCenter5",
+      "name": "Research Center 5",
+      "category": "Efficiency",
+      "description": "Research Center cycles take 50% less time than the base cycle.",
+      "unlock": "Research Center cycles take 50% less time than the base cycle.",
+      "costs": {
+        "simple-core": 30,
+        "basic-core": 30,
+        "automata-core": 30,
+        "hydro-core": 30,
+        "shiny-core": 30
+      },
+      "prerequisite": "researchCenter4",
+      "prerequisites": [
+        "shinyCore"
+      ],
+      "flavorText": "The uncertainty is being processed faster."
+    },
+    {
+      "id": "researchCenter6",
+      "name": "Research Center 6",
+      "category": "Efficiency",
+      "description": "Research Center cycles take 60% less time than the base cycle.",
+      "unlock": "Research Center cycles take 60% less time than the base cycle.",
+      "costs": {
+        "simple-core": 35,
+        "basic-core": 35,
+        "automata-core": 35,
+        "hydro-core": 35,
+        "shiny-core": 35,
+        "command-core": 35
+      },
+      "prerequisite": "researchCenter5",
+      "prerequisites": [
+        "complexCore"
+      ],
+      "flavorText": "The uncertainty is being processed faster."
+    },
+    {
+      "id": "hydroProcessor1",
+      "name": "Hydro Plant 1",
+      "category": "Efficiency",
+      "description": "Hydro Plant cycles take 10% less time than the base cycle.",
+      "unlock": "Hydro Plant cycles take 10% less time than the base cycle.",
+      "costs": {
+        "simple-core": 10
+      },
+      "prerequisite": "lakeTools",
+      "flavorText": "The water has a shorter lunch break."
+    },
+    {
+      "id": "hydroProcessor2",
+      "name": "Hydro Plant 2",
+      "category": "Efficiency",
+      "description": "Hydro Plant cycles take 20% less time than the base cycle.",
+      "unlock": "Hydro Plant cycles take 20% less time than the base cycle.",
+      "costs": {
+        "simple-core": 15,
+        "basic-core": 15
+      },
+      "prerequisite": "hydroProcessor1",
+      "flavorText": "The water has a shorter lunch break."
+    },
+    {
+      "id": "hydroProcessor3",
+      "name": "Hydro Plant 3",
+      "category": "Efficiency",
+      "description": "Hydro Plant cycles take 30% less time than the base cycle.",
+      "unlock": "Hydro Plant cycles take 30% less time than the base cycle.",
+      "costs": {
+        "simple-core": 20,
+        "basic-core": 20,
+        "automata-core": 20
+      },
+      "prerequisite": "hydroProcessor2",
+      "prerequisites": [
+        "automataCore"
+      ],
+      "flavorText": "The water has a shorter lunch break."
+    },
+    {
+      "id": "hydroProcessor4",
+      "name": "Hydro Plant 4",
+      "category": "Efficiency",
+      "description": "Hydro Plant cycles take 40% less time than the base cycle.",
+      "unlock": "Hydro Plant cycles take 40% less time than the base cycle.",
+      "costs": {
+        "simple-core": 25,
+        "basic-core": 25,
+        "automata-core": 25,
+        "hydro-core": 25
+      },
+      "prerequisite": "hydroProcessor3",
+      "prerequisites": [
+        "hydroCore"
+      ],
+      "flavorText": "The water has a shorter lunch break."
+    },
+    {
+      "id": "hydroProcessor5",
+      "name": "Hydro Plant 5",
+      "category": "Efficiency",
+      "description": "Hydro Plant cycles take 50% less time than the base cycle.",
+      "unlock": "Hydro Plant cycles take 50% less time than the base cycle.",
+      "costs": {
+        "simple-core": 30,
+        "basic-core": 30,
+        "automata-core": 30,
+        "hydro-core": 30,
+        "shiny-core": 30
+      },
+      "prerequisite": "hydroProcessor4",
+      "prerequisites": [
+        "shinyCore"
+      ],
+      "flavorText": "The water has a shorter lunch break."
+    },
+    {
+      "id": "hydroProcessor6",
+      "name": "Hydro Plant 6",
+      "category": "Efficiency",
+      "description": "Hydro Plant cycles take 60% less time than the base cycle.",
+      "unlock": "Hydro Plant cycles take 60% less time than the base cycle.",
+      "costs": {
+        "simple-core": 35,
+        "basic-core": 35,
+        "automata-core": 35,
+        "hydro-core": 35,
+        "shiny-core": 35,
+        "command-core": 35
+      },
+      "prerequisite": "hydroProcessor5",
+      "prerequisites": [
+        "complexCore"
+      ],
+      "flavorText": "The water has a shorter lunch break."
+    },
+    {
+      "id": "advancedAssembler1",
+      "name": "Fabricator 1",
+      "category": "Efficiency",
+      "description": "Fabricator cycles take 10% less time than the base cycle. Also applies to both Mythril Mesh recipes in the Synthesizer.",
+      "unlock": "Fabricator cycles take 10% less time than the base cycle.",
+      "costs": {
+        "simple-core": 10
+      },
+      "prerequisite": "fabricatorTools",
+      "flavorText": "Complexity has been given a stopwatch."
+    },
+    {
+      "id": "advancedAssembler2",
+      "name": "Fabricator 2",
+      "category": "Efficiency",
+      "description": "Fabricator cycles take 20% less time than the base cycle. Also applies to both Mythril Mesh recipes in the Synthesizer.",
+      "unlock": "Fabricator cycles take 20% less time than the base cycle.",
+      "costs": {
+        "simple-core": 15,
+        "basic-core": 15
+      },
+      "prerequisite": "advancedAssembler1",
+      "flavorText": "Complexity has been given a stopwatch."
+    },
+    {
+      "id": "advancedAssembler3",
+      "name": "Fabricator 3",
+      "category": "Efficiency",
+      "description": "Fabricator cycles take 30% less time than the base cycle. Also applies to both Mythril Mesh recipes in the Synthesizer.",
+      "unlock": "Fabricator cycles take 30% less time than the base cycle.",
+      "costs": {
+        "simple-core": 20,
+        "basic-core": 20,
+        "automata-core": 20
+      },
+      "prerequisite": "advancedAssembler2",
+      "prerequisites": [
+        "automataCore"
+      ],
+      "flavorText": "Complexity has been given a stopwatch."
+    },
+    {
+      "id": "advancedAssembler4",
+      "name": "Fabricator 4",
+      "category": "Efficiency",
+      "description": "Fabricator cycles take 40% less time than the base cycle. Also applies to both Mythril Mesh recipes in the Synthesizer.",
+      "unlock": "Fabricator cycles take 40% less time than the base cycle.",
+      "costs": {
+        "simple-core": 25,
+        "basic-core": 25,
+        "automata-core": 25,
+        "hydro-core": 25
+      },
+      "prerequisite": "advancedAssembler3",
+      "prerequisites": [
+        "hydroCore"
+      ],
+      "flavorText": "Complexity has been given a stopwatch."
+    },
+    {
+      "id": "advancedAssembler5",
+      "name": "Fabricator 5",
+      "category": "Efficiency",
+      "description": "Fabricator cycles take 50% less time than the base cycle. Also applies to both Mythril Mesh recipes in the Synthesizer.",
+      "unlock": "Fabricator cycles take 50% less time than the base cycle.",
+      "costs": {
+        "simple-core": 30,
+        "basic-core": 30,
+        "automata-core": 30,
+        "hydro-core": 30,
+        "shiny-core": 30
+      },
+      "prerequisite": "advancedAssembler4",
+      "prerequisites": [
+        "shinyCore"
+      ],
+      "flavorText": "Complexity has been given a stopwatch."
+    },
+    {
+      "id": "advancedAssembler6",
+      "name": "Fabricator 6",
+      "category": "Efficiency",
+      "description": "Fabricator cycles take 60% less time than the base cycle. Also applies to both Mythril Mesh recipes in the Synthesizer.",
+      "unlock": "Fabricator cycles take 60% less time than the base cycle.",
+      "costs": {
+        "simple-core": 35,
+        "basic-core": 35,
+        "automata-core": 35,
+        "hydro-core": 35,
+        "shiny-core": 35,
+        "command-core": 35
+      },
+      "prerequisite": "advancedAssembler5",
+      "prerequisites": [
+        "complexCore"
+      ],
+      "flavorText": "Complexity has been given a stopwatch."
+    },
+    {
+      "id": "separationFurnace1",
+      "name": "Synthesizer 1",
+      "category": "Efficiency",
+      "description": "Pure Mythril and Crust Recovery cycles take 10% less time than the base cycle. Crust Recovery runs in the Recycler.",
+      "unlock": "Pure Mythril and Crust Recovery cycles take 10% less time than the base cycle.",
+      "costs": {
+        "simple-core": 10
+      },
+      "prerequisite": "mithrilTools",
+      "flavorText": "The Slag will be with you shortly."
+    },
+    {
+      "id": "separationFurnace2",
+      "name": "Synthesizer 2",
+      "category": "Efficiency",
+      "description": "Pure Mythril and Crust Recovery cycles take 20% less time than the base cycle. Crust Recovery runs in the Recycler.",
+      "unlock": "Pure Mythril and Crust Recovery cycles take 20% less time than the base cycle.",
+      "costs": {
+        "simple-core": 15,
+        "basic-core": 15
+      },
+      "prerequisite": "separationFurnace1",
+      "flavorText": "The Slag will be with you shortly."
+    },
+    {
+      "id": "separationFurnace3",
+      "name": "Synthesizer 3",
+      "category": "Efficiency",
+      "description": "Pure Mythril and Crust Recovery cycles take 30% less time than the base cycle. Crust Recovery runs in the Recycler.",
+      "unlock": "Pure Mythril and Crust Recovery cycles take 30% less time than the base cycle.",
+      "costs": {
+        "simple-core": 20,
+        "basic-core": 20,
+        "automata-core": 20
+      },
+      "prerequisite": "separationFurnace2",
+      "prerequisites": [
+        "automataCore"
+      ],
+      "flavorText": "The Slag will be with you shortly."
+    },
+    {
+      "id": "separationFurnace4",
+      "name": "Synthesizer 4",
+      "category": "Efficiency",
+      "description": "Pure Mythril and Crust Recovery cycles take 40% less time than the base cycle. Crust Recovery runs in the Recycler.",
+      "unlock": "Pure Mythril and Crust Recovery cycles take 40% less time than the base cycle.",
+      "costs": {
+        "simple-core": 25,
+        "basic-core": 25,
+        "automata-core": 25,
+        "hydro-core": 25
+      },
+      "prerequisite": "separationFurnace3",
+      "prerequisites": [
+        "hydroCore"
+      ],
+      "flavorText": "The Slag will be with you shortly."
+    },
+    {
+      "id": "separationFurnace5",
+      "name": "Synthesizer 5",
+      "category": "Efficiency",
+      "description": "Pure Mythril and Crust Recovery cycles take 50% less time than the base cycle. Crust Recovery runs in the Recycler.",
+      "unlock": "Pure Mythril and Crust Recovery cycles take 50% less time than the base cycle.",
+      "costs": {
+        "simple-core": 30,
+        "basic-core": 30,
+        "automata-core": 30,
+        "hydro-core": 30,
+        "shiny-core": 30
+      },
+      "prerequisite": "separationFurnace4",
+      "prerequisites": [
+        "shinyCore"
+      ],
+      "flavorText": "The Slag will be with you shortly."
+    },
+    {
+      "id": "separationFurnace6",
+      "name": "Synthesizer 6",
+      "category": "Efficiency",
+      "description": "Pure Mythril and Crust Recovery cycles take 60% less time than the base cycle. Crust Recovery runs in the Recycler.",
+      "unlock": "Pure Mythril and Crust Recovery cycles take 60% less time than the base cycle.",
+      "costs": {
+        "simple-core": 35,
+        "basic-core": 35,
+        "automata-core": 35,
+        "hydro-core": 35,
+        "shiny-core": 35,
+        "command-core": 35
+      },
+      "prerequisite": "separationFurnace5",
+      "prerequisites": [
+        "complexCore"
+      ],
+      "flavorText": "The Slag will be with you shortly."
+    },
+    {
+      "id": "botPlant1",
+      "name": "Bot Plant 1",
+      "category": "Efficiency",
+      "description": "Bot Plant cycles take 10% less time than the base cycle.",
+      "unlock": "Bot Plant cycles take 10% less time than the base cycle.",
+      "costs": {
+        "simple-core": 10
+      },
+      "prerequisite": "suppressionBot"
+    },
+    {
+      "id": "botPlant2",
+      "name": "Bot Plant 2",
+      "category": "Efficiency",
+      "description": "Bot Plant cycles take 20% less time than the base cycle.",
+      "unlock": "Bot Plant cycles take 20% less time than the base cycle.",
+      "costs": {
+        "simple-core": 15,
+        "basic-core": 15
+      },
+      "prerequisite": "botPlant1"
+    },
+    {
+      "id": "botPlant3",
+      "name": "Bot Plant 3",
+      "category": "Efficiency",
+      "description": "Bot Plant cycles take 30% less time than the base cycle.",
+      "unlock": "Bot Plant cycles take 30% less time than the base cycle.",
+      "costs": {
+        "simple-core": 20,
+        "basic-core": 20,
+        "automata-core": 20
+      },
+      "prerequisite": "botPlant2",
+      "prerequisites": [
+        "automataCore"
+      ]
+    },
+    {
+      "id": "botPlant4",
+      "name": "Bot Plant 4",
+      "category": "Efficiency",
+      "description": "Bot Plant cycles take 40% less time than the base cycle.",
+      "unlock": "Bot Plant cycles take 40% less time than the base cycle.",
+      "costs": {
+        "simple-core": 25,
+        "basic-core": 25,
+        "automata-core": 25,
+        "hydro-core": 25
+      },
+      "prerequisite": "botPlant3",
+      "prerequisites": [
+        "hydroCore"
+      ]
+    },
+    {
+      "id": "botPlant5",
+      "name": "Bot Plant 5",
+      "category": "Efficiency",
+      "description": "Bot Plant cycles take 50% less time than the base cycle.",
+      "unlock": "Bot Plant cycles take 50% less time than the base cycle.",
+      "costs": {
+        "simple-core": 30,
+        "basic-core": 30,
+        "automata-core": 30,
+        "hydro-core": 30,
+        "shiny-core": 30
+      },
+      "prerequisite": "botPlant4",
+      "prerequisites": [
+        "shinyCore"
+      ]
+    },
+    {
+      "id": "botPlant6",
+      "name": "Bot Plant 6",
+      "category": "Efficiency",
+      "description": "Bot Plant cycles take 60% less time than the base cycle.",
+      "unlock": "Bot Plant cycles take 60% less time than the base cycle.",
+      "costs": {
+        "simple-core": 35,
+        "basic-core": 35,
+        "automata-core": 35,
+        "hydro-core": 35,
+        "shiny-core": 35,
+        "command-core": 35
+      },
+      "prerequisite": "botPlant5",
+      "prerequisites": [
+        "complexCore"
+      ]
+    },
+    {
+      "id": "connectorMirroring",
+      "name": "Connector Mirroring",
+      "category": "Efficiency",
+      "description": "Right-click a production node to swap its input and output banks between the left and right sides. Cables and materials stay attached.",
+      "unlock": "Right-click a production node to mirror its connectors.",
+      "flavorText": "Because I knew you would want this.",
+      "costs": {
+        "simple-core": 10,
+        "basic-core": 10,
+        "automata-core": 10,
+        "hydro-core": 10
+      },
+      "prerequisite": "hydraulicAssembly"
+    },
+    {
+      "id": "joint",
+      "name": "Joint",
+      "category": "Milestone",
+      "description": "Add a pass-through to bend or organize a cable route.",
+      "unlock": "Unlocks the Joint node",
+      "flavorText": "One cable. A promising start for the department.",
+      "costs": {},
+      "trigger": {
+        "id": "connection",
+        "pending": "Connect two nodes",
+        "complete": "First connection created"
+      }
+    },
+    {
+      "id": "kiln",
+      "name": "Kiln",
+      "category": "Milestone",
+      "description": "Fires Wood into Charcoal for metal processing.",
+      "unlock": "Unlocks the Kiln node",
+      "flavorText": "A controlled fire qualifies as progress.",
+      "costs": {},
+      "trigger": {
+        "id": "wood-extracted",
+        "pending": "Extract 1 Wood with an Extractor",
+        "complete": "Wood extracted"
+      }
+    },
+    {
+      "id": "smelter",
+      "name": "Smelter",
+      "category": "Milestone",
+      "description": "Smelts metal ore with Charcoal into matching Plates.",
+      "unlock": "Unlocks the Smelter node",
+      "flavorText": "The ore has agreed to flatten.",
+      "costs": {},
+      "trigger": {
+        "id": "metal-extracted",
+        "pending": "Extract 1 metal with an Extractor",
+        "complete": "Metal extracted"
+      }
+    },
+    {
+      "id": "refiner",
+      "name": "Refiner",
+      "category": "Milestone",
+      "description": "Turn metal Plates into parts such as Gears and Wire.",
+      "unlock": "Unlocks the Refiner node",
+      "flavorText": "The material has been asked to reconsider.",
+      "costs": {},
+      "trigger": {
+        "id": "plate-produced",
+        "pending": "Produce at least 1 metal Plate",
+        "complete": "Metal Plate produced"
+      }
+    },
+    {
+      "id": "simpleCore",
+      "name": "Simple Core",
+      "prerequisite": "refiner",
+      "category": "Milestone",
+      "description": "Unlock the Simple Core recipe in the Refiner.",
+      "unlock": "Unlocks the Simple Core recipe in the Refiner.",
+      "costs": {},
+      "trigger": {
+        "id": "refiner-unlocked",
+        "pending": "Unlock the Refiner",
+        "complete": "Refiner unlocked"
+      }
+    },
+    {
+      "id": "basicCore",
+      "name": "Basic Core",
+      "prerequisite": "assembler",
+      "category": "Fabrication",
+      "description": "Unlock the Basic Core recipe in the Assembler.",
+      "unlock": "Unlocks the Basic Core recipe in the Assembler.",
+      "costs": {
+        "simple-core": 5
+      },
+      "prerequisites": [
+        "simpleCore"
+      ]
+    },
+    {
+      "id": "automataCore",
+      "name": "Automata Core",
+      "prerequisite": "exploration",
+      "category": "Fabrication",
+      "description": "Unlock the Automata Core recipe in the Assembler.",
+      "unlock": "Unlocks the Automata Core recipe in the Assembler.",
+      "costs": {
+        "simple-core": 5,
+        "basic-core": 5
+      },
+      "prerequisites": [
+        "basicCore"
+      ],
+      "flavorText": "The new Core requires the old problems."
+    },
+    {
+      "id": "hydroCore",
+      "name": "Hydro Core",
+      "prerequisite": "hydraulicAssembly",
+      "category": "Fabrication",
+      "description": "Unlock the Hydro Core recipe in the Fabricator.",
+      "unlock": "Unlocks the Hydro Core recipe in the Fabricator.",
+      "costs": {
+        "simple-core": 5,
+        "basic-core": 5,
+        "automata-core": 5
+      },
+      "prerequisites": [
+        "automataCore"
+      ]
+    },
+    {
+      "id": "shinyCore",
+      "name": "Shiny Core",
+      "prerequisite": "oreSeparation",
+      "category": "Fabrication",
+      "description": "Unlock the Shiny Core recipe in the Fabricator.",
+      "unlock": "Unlocks the Shiny Core recipe in the Fabricator.",
+      "costs": {
+        "simple-core": 5,
+        "basic-core": 5,
+        "automata-core": 5,
+        "hydro-core": 5
+      },
+      "prerequisites": [
+        "hydroCore"
+      ]
+    },
+    {
+      "id": "complexCore",
+      "name": "Complex Core",
+      "prerequisite": "precisionControl",
+      "category": "Fabrication",
+      "description": "Unlock the Complex Core recipe in the Fabricator.",
+      "unlock": "Unlocks the Complex Core recipe in the Fabricator.",
+      "costs": {
+        "simple-core": 5,
+        "basic-core": 5,
+        "automata-core": 5,
+        "hydro-core": 5,
+        "shiny-core": 5
+      },
+      "prerequisites": [
+        "shinyCore"
+      ]
+    },
+    {
+      "id": "finalCore",
+      "name": "Final Core",
+      "prerequisite": "cornerComponents",
+      "category": "Fabrication",
+      "description": "Unlock the Final Core recipe in the Assembler.",
+      "unlock": "Unlocks the Final Core recipe in the Assembler.",
+      "costs": {
+        "simple-core": 5,
+        "basic-core": 5,
+        "automata-core": 5,
+        "hydro-core": 5,
+        "shiny-core": 5,
+        "command-core": 5
+      },
+      "prerequisites": [
+        "complexCore"
+      ]
+    },
+    {
+      "id": "researchCenter",
+      "name": "Research Center",
+      "category": "Milestone",
+      "description": "Choose a project, then deliver its required Cores to a Research Center.",
+      "unlock": "Unlocks the Research Center node",
+      "flavorText": "At last, a formal place to be uncertain.",
+      "costs": {},
+      "trigger": {
+        "id": "refiner-unlocked",
+        "pending": "Unlock the Refiner",
+        "complete": "Refiner unlocked"
+      }
+    },
+    {
+      "id": "assembler",
+      "name": "Assembler",
+      "category": "Fabrication",
+      "description": "Combine parts to make Motors, Circuit A, and other components.",
+      "unlock": "Unlocks the Assembler node",
+      "flavorText": "Putting things together is now a specialty.",
+      "costs": {
+        "simple-core": 5
+      }
+    },
+    {
+      "id": "splitter",
+      "name": "Splitter",
+      "category": "Milestone",
+      "description": "Alternate incoming items between two outputs.",
+      "unlock": "Unlocks the Splitter node",
+      "costs": {},
+      "trigger": {
+        "id": "assembler-built",
+        "pending": "Build an Assembler",
+        "complete": "First Assembler built"
+      },
+      "flavorText": "Sharing, with a diagram."
+    },
+    {
+      "id": "merger",
+      "name": "Merger",
+      "category": "Milestone",
+      "description": "Combine two matching item streams into one output.",
+      "unlock": "Unlocks the Merger node",
+      "costs": {},
+      "trigger": {
+        "id": "basic-core-produced",
+        "pending": "Produce a Basic Core",
+        "complete": "First Basic Core produced"
+      },
+      "flavorText": "Consolidation has found the factory."
+    },
+    {
+      "id": "suppressionBot",
+      "name": "Suppression Bot",
+      "category": "Defense",
+      "description": "Feed a Basic Frame and Basic Gun into a Bot Plant to make a Suppression Bot for Monster Camps.",
+      "unlock": "Unlocks the Bot Plant and the Assembler recipes for Basic Frame and Basic Gun.",
+      "costs": {},
+      "trigger": {
+        "id": "monster-camp",
+        "pending": "Encounter a Monster Camp",
+        "complete": "Monster Camp encountered"
+      },
+      "flavorText": "For negotiations conducted at a distance."
+    },
+    {
+      "id": "exploration",
+      "name": "Exploration",
+      "category": "World",
+      "description": "Open the world map and gain 1 Map Point to unlock a neighboring map.",
+      "unlock": "Unlocks the Map and awards 1 Map Point",
+      "flavorText": "There is more outside. This may be a problem.",
+      "costs": {
+        "simple-core": 5,
+        "basic-core": 5
+      }
+    },
+    {
+      "id": "mapNode",
+      "name": "Extra Map Point",
+      "category": "Repeatable",
+      "description": "Subsequent Map Points cost more Cores.",
+      "unlock": "Awards 1 Map Point.",
+      "costs": {
+        "simple-core": 5
+      },
+      "prerequisite": "exploration",
+      "repeatable": true,
+      "flavorText": "Another place to put the overflow."
+    },
+    {
+      "id": "road",
+      "name": "Road",
+      "category": "World",
+      "description": "Ship items between adjacent maps. Connect a freight vehicle directly to each end of the Road. Each map starts with one Road slot per side.",
+      "unlock": "Unlocks Roads and Carts.",
+      "costs": {
+        "simple-core": 5,
+        "basic-core": 5
+      },
+      "flavorText": "Distance becomes a scheduling issue."
+    },
+    {
+      "id": "trucks",
+      "name": "Trucks",
+      "category": "Logistics",
+      "description": "Upgrade Carts to Trucks that hold 40 solid items and ship up to 2 items at a time.",
+      "unlock": "Carts are now Trucks.",
+      "flavorText": "The box has received a promotion.",
+      "costs": {
+        "simple-core": 15,
+        "basic-core": 15,
+        "automata-core": 15
+      },
+      "prerequisites": [
+        "road",
+        "automataCore"
+      ]
+    },
+    {
+      "id": "trains",
+      "name": "Trains",
+      "category": "Logistics",
+      "description": "Upgrade Trucks to Trains that hold 80 solid items and ship up to 4 items at a time.",
+      "unlock": "Trucks are now Trains.",
+      "flavorText": "A larger commitment to putting things somewhere else.",
+      "costs": {
+        "simple-core": 40,
+        "basic-core": 40,
+        "automata-core": 40,
+        "hydro-core": 40
+      },
+      "prerequisites": [
+        "trucks",
+        "hydraulicAssembly"
+      ]
+    },
+    {
+      "id": "areaExpansion1",
+      "name": "Area Expansion 1",
+      "category": "World",
+      "description": "Make every play area 25% wider and 25% taller than its original size.",
+      "unlock": "Expands every play area.",
+      "flavorText": "The factory was only temporarily large enough.",
+      "costs": {
+        "simple-core": 10,
+        "basic-core": 10,
+        "automata-core": 10
+      }
+    },
+    {
+      "id": "treePlanter",
+      "name": "Tree Planter",
+      "category": "Ecology",
+      "description": "Restore Wood to depleted Forests with a Tree Planter.",
+      "unlock": "Unlocks the Tree Planter node",
+      "flavorText": "The trees have accepted the apology.",
+      "costs": {
+        "simple-core": 10,
+        "basic-core": 10,
+        "automata-core": 10
+      }
+    },
+    {
+      "id": "miningDrill",
+      "name": "Mining Drill",
+      "category": "Extraction",
+      "description": "Feed a Mining Drill 20 Motors to create a 1,000-unit deposit of the selected material.",
+      "unlock": "Unlocks the Mining Drill node",
+      "flavorText": "The surface was merely the opening offer.",
+      "costs": {
+        "simple-core": 10,
+        "basic-core": 10,
+        "automata-core": 10
+      }
+    }
+  ],
+  "families": [
+    [
+      "extractor",
+      "Extractor"
+    ],
+    [
+      "kiln",
+      "Kiln"
+    ],
+    [
+      "smelter",
+      "Smelter"
+    ],
+    [
+      "refiner",
+      "Refiner"
+    ],
+    [
+      "assembler",
+      "Assembler"
+    ],
+    [
+      "researchCenter",
+      "Research Center"
+    ],
+    [
+      "hydroProcessor",
+      "Hydro Plant"
+    ],
+    [
+      "advancedAssembler",
+      "Fabricator"
+    ],
+    [
+      "separationFurnace",
+      "Synthesizer"
+    ],
+    [
+      "botPlant",
+      "Bot Plant"
+    ]
+  ]
+}

@@ -66,7 +66,7 @@ describe('reviewed production implementation', () => {
     }
   });
 
-  it.each([[0, 100000], [6, 40000]])('produces 70 AP bots every %i-rank cycle of %i ms', (rank, cycleMs) => {
+  it.each([[0, 100000], [7, 35000]])('produces 70 AP bots every %i-rank cycle of %i ms', (rank, cycleMs) => {
     const completed = ['finalRobotics', ...Array.from({ length: rank }, (_, i) => `botPlant${i + 1}`)];
     const engine = setup([machine('botPlant', 'plant', { input: { 'final-frame': 3, 'final-cannon': 3 } })], completed);
     const plant = engine.getSector().nodes[0];
@@ -194,12 +194,12 @@ describe('reviewed production implementation', () => {
   });
 
   it('funds exactly one hundred growth, dispatches groups and preserves supply wiring on reload', () => {
-    const engine = setup([machine('treePlanter','planter',{input:{wood:10,'iron-plate':1,stone:1}}),machine('forest','forest',{resourceItem:'wood',resourceRemaining:0,resourceCapacity:1000}),machine('warehouse','supplies')], ['treePlanter','planterThroughput']);
+    const engine = setup([machine('treePlanter','planter',{input:{wood:10,'iron-plate':1,stone:1}}),machine('forest','forest',{resourceItem:'wood',resourceRemaining:0,resourceCapacity:1000}),machine('warehouse','supplies')], ['treePlanter','treePlanter6']);
     link(engine,'planter','forest');
     engine.getSector().connections.push({id:'supply',from:'supplies',to:'planter',toPort:0,createdAt:0});
     advance(engine,400);
-    expect(engine.getState().inFlightTransfers?.find(t=>!t.cosmeticOnly)?.amount).toBe(4);
-    expect(engine.getSector().nodes[0].growthCredit).toBe(96);
+    expect(engine.getState().inFlightTransfers?.find(t=>!t.cosmeticOnly)?.amount).toBe(3);
+    expect(engine.getSector().nodes[0].growthCredit).toBe(97);
     const loaded = new GameEngine(normalizeLegacy(structuredClone(engine.getState()))!);
     expect(loaded.getSector().connections.some(edge=>edge.id==='supply')).toBe(true);
     advance(loaded,20000);

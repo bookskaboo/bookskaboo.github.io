@@ -1,24 +1,21 @@
+import { efficiencyDefinition, efficiencyFactors } from './machineEfficiency';
+
 /** Shared by simulation and animation so upgraded cycles stay in sync. */
 export function getEfficiencyMultiplier(family: string | undefined, completed: readonly string[]) {
   if (!family) return 1;
-  for (let rank = 6; rank >= 1; rank--) {
-    if (completed.includes(`${family}${rank}`)) return (10 - rank) / 10;
+  const definition = efficiencyDefinition(family);
+  if (!definition) return 1;
+  const factors = efficiencyFactors(definition.start);
+  for (let tier = 7; tier >= definition.start; tier--) {
+    if (completed.includes(`${family}${tier}`)) return factors[tier - definition.start];
   }
   return 1;
 }
 
-const retainedRecipeFamilies = new Map([
-  ['mithril-mesh', 'advancedAssembler'],
-  ['efficient-mythril-mesh', 'advancedAssembler'],
-  ['composite-mythril-gear', 'assembler'],
-  ['composite-mythril-wire', 'assembler'],
-  ['recover-crust', 'separationFurnace'],
-]);
-
-export function getRecipeEfficiencyMultiplier(recipeId: string | undefined, machineFamily: string | undefined, completed: readonly string[]) {
-  return getEfficiencyMultiplier(retainedRecipeFamilies.get(recipeId ?? '') ?? machineFamily, completed);
+export function getRecipeEfficiencyMultiplier(_recipeId: string | undefined, machineFamily: string | undefined, completed: readonly string[]) {
+  return getEfficiencyMultiplier(machineFamily, completed);
 }
 
-export function getRecoveryMultiplier(recipe: { recovery?: boolean } | undefined, completed: readonly string[]) {
-  return recipe?.recovery && completed.includes('mineralRecovery1') ? 0.9 : 1;
+export function getRecoveryMultiplier(_recipe: { recovery?: boolean } | undefined, _completed: readonly string[]) {
+  return 1;
 }

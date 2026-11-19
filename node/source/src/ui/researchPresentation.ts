@@ -13,7 +13,7 @@ export const researchPrerequisiteName = (id: string) =>
 const CORE_ACCESS: Partial<Record<ItemId, string>> = Object.fromEntries(CORE_RESEARCH.map(({ item, id }) =>
   [item, item === 'final-core' ? FINAL_CORE_PRODUCTION : id]));
 const milestoneAccess: Partial<Record<NonNullable<ResearchProject['trigger']>['id'], string>> = {
-  'plate-produced': 'smelter', 'refiner-unlocked': 'refiner', 'assembler-built': 'assembler',
+  'plate-produced': 'smelter', 'refiner-unlocked': 'refiner', 'refiner-produced': 'refiner', 'assembler-built': 'assembler',
   'basic-core-produced': 'basicCore', 'motor-produced': 'assembler', 'monster-camp': 'exploration',
   encounter: 'exploration', 'dwarven-mythril-produced': 'exploration',
   'precision-control': 'precisionControl', 'complex-core-produced': 'complexCore',

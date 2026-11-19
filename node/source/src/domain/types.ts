@@ -188,7 +188,7 @@ export interface ResearchProject {
   costGrowth?: number;
   repeatable?: boolean;
   trigger?: {
-    id: 'encounter' | 'connection' | 'assembler-built' | 'basic-core-produced' | 'wood-extracted' | 'motor-produced' | 'metal-extracted' | 'plate-produced' | 'refiner-unlocked' | 'monster-camp' | 'dwarven-mythril-produced' | 'precision-control' | 'complex-core-produced';
+    id: 'encounter' | 'connection' | 'assembler-built' | 'basic-core-produced' | 'wood-extracted' | 'motor-produced' | 'metal-extracted' | 'plate-produced' | 'refiner-unlocked' | 'refiner-produced' | 'monster-camp' | 'dwarven-mythril-produced' | 'precision-control' | 'complex-core-produced';
     kinds?: NodeKind[];
     pending: string;
     complete: string;
@@ -251,9 +251,11 @@ export interface GameState {
   progressionVersion?: number;
   reviewedProductionVersion?: 1;
   botAssemblyVersion?: 1;
+  basicGunRecipeVersion?: 1;
+  machineEfficiencyVersion?: 1;
   coreResearchVersion?: 1;
   endgame?: { cornerOrder: import('../content/endgame').CornerType[]; pairIndex: number; version: 1; victoryAcknowledged?: boolean };
-  rescue?: { resources: Array<'iron' | 'copper' | 'stone'>; pending?: { resource: 'iron' | 'copper' | 'stone'; sectorId: string; newMaps: number } };
+  rescue?: { resources: Array<'iron' | 'copper' | 'stone'>; restored?: Partial<Record<'iron' | 'copper' | 'stone', number>>; pending?: { resource: 'iron' | 'copper' | 'stone'; sectorId: string; newMaps: number; kind?: 'local'; amount?: number } };
   dwarvenMythrilProduced?: boolean;
   /** Production milestone for the future Final Core route; never set by delivery. */
   finalCoreProduced?: boolean;

@@ -1,0 +1,47 @@
+.research-preview { min-height: 100dvh; padding: 20px; color: #dbe5ec; background: radial-gradient(ellipse at top left, #283641, #171d22 62%); font: var(--modal-reading-font); }
+.proposal-toolbar { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 14px; margin-bottom: 18px; }
+.proposal-heading { display: flex; align-items: center; gap: 12px; }
+.proposal-heading h1 { margin: 0; font: var(--ui-section-font); font-size: 20px; }
+.proposal-heading > span { font-size: 12px; color: #d6bb83; }
+.proposal-controls { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; }
+.proposal-controls label { display: flex; align-items: center; gap: 8px; font-size: 12px; color: #b8c7d2; }
+.proposal-segment { display: flex; border: 1px solid #526573; border-radius: 7px; overflow: hidden; }
+.proposal-controls button, .proposal-controls select, .proposal-reopen { min-height: 36px; font: var(--ui-control-font); padding: 7px 12px; color: #cbd9e3; background: #24313b; cursor: pointer; border: 1px solid #526573; border-radius: 6px; }
+.proposal-segment button { border: 0; border-radius: 0; background: transparent; }
+.proposal-segment button[aria-pressed="true"] { color: #f3dfad; background: #67533366; }
+.proposal-controls button:focus-visible, .proposal-controls select:focus-visible, .proposal-reopen:focus-visible { outline: 2px solid #e7c786; outline-offset: 2px; }
+.proposal-layout { display: grid; grid-template-columns: minmax(0, 1fr) 280px; gap: 18px; align-items: start; }
+.proposal-stage { min-width: 0; height: calc(100dvh - 98px); min-height: 510px; position: relative; }
+.proposal-stage > .modal-backdrop { position: absolute; inset: 0; padding: 0; background: transparent; }
+.proposal-stage .modal { width: 100%; max-width: 100%; height: 100%; max-height: 100%; margin: 0; }
+.proposal-schedule { padding: 18px; border: 1px solid #44535f; background: #1e282fe6; border-radius: 12px; }
+.proposal-schedule h2 { font: var(--ui-section-font); margin: 0 0 12px; }
+.proposal-schedule p { font: var(--modal-reading-font); color: #aebdc7; margin: 12px 0; }
+.proposal-schedule p:last-child { margin-bottom: 0; }
+.proposal-table-wrap { overflow-x: auto; }
+.proposal-schedule table { border-collapse: collapse; width: 100%; font-size: 12px; line-height: 1.5; }
+.proposal-schedule caption { caption-side: bottom; color: #9eafbc; text-align: left; padding-top: 10px; font-size: 11px; }
+.proposal-schedule th, .proposal-schedule td { text-align: left; border-bottom: 1px solid #ffffff12; padding: 10px 3px; }
+.proposal-schedule th { font-weight: 500; }
+.proposal-schedule td { font-variant-numeric: tabular-nums; }
+.proposal-schedule td small { color: #a3b5c1; font-size: 11px; }
+.proposal-schedule thead th { color: #c3d5df; }
+.proposal-schedule .proposal-budget { display: grid; gap: 5px; padding-top: 6px; }
+.proposal-budget strong { font-weight: 500; font-size: 18px; color: #ebd29f; }
+.proposal-schedule .proposal-scope { border-top: 1px solid #ffffff12; padding-top: 12px; font-size: 11px; }
+@media (max-width: 1050px) {
+  .research-preview { padding: 12px; }
+  .proposal-layout { grid-template-columns: minmax(0, 1fr); }
+  .proposal-stage { height: 680px; }
+  .proposal-schedule { max-width: none; }
+  .proposal-schedule table { max-width: 600px; }
+}
+@media (max-width: 600px) {
+  .proposal-toolbar { gap: 12px; }
+  .proposal-controls { gap: 8px; }
+  .proposal-controls button, .proposal-controls select { padding-inline: 10px; }
+  .proposal-stage { height: 660px; min-height: 0; }
+  .proposal-stage .panel-header { padding-inline: 12px; }
+  .proposal-stage .research-tree-tools { grid-template-columns: minmax(0, 1fr); padding-inline: 12px; }
+  .proposal-stage .research-tree-tools input { max-width: 100%; }
+}
