@@ -16,6 +16,14 @@
   },
   "releases": [
     {
+      "id": "f1d5681",
+      "date": "2026-11-18",
+      "title": "Node-owned efficiency through Final and early production recovery",
+      "commit": "f1d56811f463fd300a7f64ddd17e69fd8319d62d",
+      "url": "https://github.com/bookskaboo/bookskaboo.github.io/commit/f1d56811f463fd300a7f64ddd17e69fd8319d62d",
+      "notes": "Fast-forwarded main with changes confined to node/. Verified normal live HTML and all ten new runtime assets by SHA-256 after successful GitHub Pages deployment. All previous runtime assets were retained. Includes the earlier Basic Gun recipe, short Dwarven hint and filled-hole cleanup fixes."
+    },
+    {
       "id": "89b5709",
       "date": "2026-11-18",
       "title": "32-unit grid and touching node bodies",
@@ -16820,7 +16828,7 @@
       "dateBasis": "chat",
       "kind": "fixed",
       "state": "implemented",
-      "delivery": "local",
+      "delivery": "published",
       "title": "Clear filled Deep Holes without creating a Cart",
       "summary": "Remove the salvage Cart previously created when a Deep Hole cleared with excess Stone in its input buffer. Discard buffered surplus with the hole and keep returning in-flight Stone to its sender.",
       "details": [
@@ -16845,7 +16853,8 @@
       "supersedes": [
         "NODE-0428"
       ],
-      "validation": "All 1,778 workspace tests passed with two existing skips; the /node/ site build passed. The focused endgame checks passed all 67 tests. Regression coverage verifies ordinary completion with buffered surplus and two in-flight Stone refunds, cleared cables, no replacement Cart, reclaimed build space, Landfill discount completion, and loading filled legacy and current holes with buffered Stone. No browser playtest, balance run or publication."
+      "validation": "All 1,778 workspace tests passed with two existing skips; the /node/ site build passed. The focused endgame checks passed all 67 tests. Regression coverage verifies ordinary completion with buffered surplus and two in-flight Stone refunds, cleared cables, no replacement Cart, reclaimed build space, Landfill discount completion, and loading filled legacy and current holes with buffered Stone. No browser playtest, balance run or publication.",
+      "publishedBy": "f1d5681"
     },
     {
       "id": "NODE-0548",
@@ -16914,7 +16923,7 @@
       "dateBasis": "chat",
       "kind": "changed",
       "state": "implemented",
-      "delivery": "local",
+      "delivery": "published",
       "title": "Shorten Dwarven discovery to a single attack hint",
       "summary": "The discovery modal says “Attacking them might be worth your while.” beneath “Dwarven settlement discovered”, with a short “Noted.” dismissal.",
       "details": [
@@ -16934,7 +16943,8 @@
         "docs/node-ui-style-guide.docx",
         "docs/typography-style-review.docx"
       ],
-      "validation": "The /node/ site build and six existing discovery checks passed. An isolated Chromium component fixture verified the single hint, absence of reward and mechanics details, initial button focus, Escape and button dismissal at 1,180 and 390 CSS pixels. Both Word references passed structural checks. LibreOffice was unavailable for rendering. Local change."
+      "validation": "The /node/ site build and six existing discovery checks passed. An isolated Chromium component fixture verified the single hint, absence of reward and mechanics details, initial button focus, Escape and button dismissal at 1,180 and 390 CSS pixels. Both Word references passed structural checks. LibreOffice was unavailable for rendering. Local change.",
+      "publishedBy": "f1d5681"
     },
     {
       "id": "NODE-0551",
@@ -16942,7 +16952,7 @@
       "dateBasis": "chat",
       "kind": "changed",
       "state": "implemented",
-      "delivery": "local",
+      "delivery": "published",
       "title": "Make Basic Gun use Copper Wire and Brick in two Assembler sockets",
       "summary": "Basic Gun now consumes one Copper Wire and one Brick, removing the Iron Plate requirement so an Assembler can supply both ingredients.",
       "details": [
@@ -16967,7 +16977,8 @@
         "src/simulation/recipeSelection.test.ts",
         "docs/playtest-build-guide.md"
       ],
-      "validation": "The full workspace suite passed 1,782 tests with two existing skips before the two new regression checks were added. After those additions, all 90 focused recipe-selection and endgame checks passed, including production through two normally connected Assembler sockets and idempotent save migration with refunds, preserved progress, Brick shipments and factory templates. The /node/ site build passed. No browser balance run or publication."
+      "validation": "The full workspace suite passed 1,782 tests with two existing skips before the two new regression checks were added. After those additions, all 90 focused recipe-selection and endgame checks passed, including production through two normally connected Assembler sockets and idempotent save migration with refunds, preserved progress, Brick shipments and factory templates. The /node/ site build passed. No browser balance run or publication.",
+      "publishedBy": "f1d5681"
     },
     {
       "id": "NODE-0552",
@@ -17722,7 +17733,7 @@
       "date": "2026-11-18",
       "dateBasis": "chat",
       "kind": "decision",
-      "state": "recorded",
+      "state": "superseded",
       "delivery": "not-applicable",
       "title": "Retain two Production Lake Intakes per Lake",
       "summary": "The obstruction review retains the maximum of two directly connected Lake Intakes per Lake.",
@@ -17753,7 +17764,7 @@
       "dateBasis": "chat",
       "kind": "changed",
       "state": "implemented",
-      "delivery": "local",
+      "delivery": "published",
       "title": "Implement node-owned research through Final and recovery before Exploration",
       "summary": "Implement the reviewed 64-rank efficiency schedule, consolidated Pump, Tree Planter and Recycler upgrades, save migration and repeatable early mineral recovery for production-only dead ends.",
       "details": [
@@ -17794,7 +17805,117 @@
         "outputs/node-efficiency-recovery-release-2026-11-18/browser-report.json",
         "outputs/node-efficiency-recovery-release-2026-11-18/continuity-report.json"
       ],
-      "validation": "All 1,803 workspace tests passed with two existing skips; the /node/ site build passed. New coverage includes rounded factors and Core access, all Pump rates, node-owned recipe timing, idempotent refunds and progress migration, the Copper Wire and Iron Gear dead ends, repeated refills, collapsed legacy deposits, payments, shipments, inaccessible storage and affordable recycling unlock paths. Isolated Chromium checked representative Research details, seven-Core costs, start/cancel, Final Recycler tree navigation and recovery focus/dismissal at 1,180 and 390 CSS pixels with no page errors. An isolated save kept producing on the previous build after files switched, then migrated on reload with stock, wiring, batches, fractional progress, active and saved research payments, seven Core unlocks and 38 Simple plus 16 Basic Core refunds preserved. Word structural checks passed; both render attempts could not locate LibreOffice. These were regression fixtures, not a normal-play balance run. Publication remains pending."
+      "validation": "All 1,803 workspace tests passed with two existing skips; the /node/ site build passed. New coverage includes rounded factors and Core access, all Pump rates, node-owned recipe timing, idempotent refunds and progress migration, the Copper Wire and Iron Gear dead ends, repeated refills, collapsed legacy deposits, payments, shipments, inaccessible storage and affordable recycling unlock paths. Isolated Chromium checked representative Research details, seven-Core costs, start/cancel, Final Recycler tree navigation and recovery focus/dismissal at 1,180 and 390 CSS pixels with no page errors. An isolated save kept producing on the previous build after files switched, then migrated on reload with stock, wiring, batches, fractional progress, active and saved research payments, seven Core unlocks and 38 Simple plus 16 Basic Core refunds preserved. Word structural checks passed; both render attempts could not locate LibreOffice. These were regression fixtures, not a normal-play balance run. Publication remains pending.",
+      "publishedBy": "f1d5681"
+    },
+    {
+      "id": "NODE-0578",
+      "date": "2026-11-18",
+      "dateBasis": "chat",
+      "kind": "decision",
+      "state": "recorded",
+      "delivery": "not-applicable",
+      "title": "Increase Lake Intake connections from two to three to four through upgrades",
+      "summary": "The obstruction review replaces the fixed two-Intake limit with two connections at base, three after the first discussed Water upgrade and four after the second.",
+      "details": [
+        "Each of the two discussed upgrades adds one permitted direct Lake Intake connection alongside its rate improvement. Retain four directional Lake outlets, Production categorization and buffer capacity.",
+        "The current workspace now uses machine-efficiency Water rates rather than the earlier 4/8/16 schedule. Preserve that formula; current rates are 4 at base and 5/6/8/11 across the four ranks.",
+        "The discussed Pressure Systems and High Pressure Intakes identities map to fluidLink5 and fluidLink6 in the existing efficiency migration. Note that integration mapping for implementation. The connection cap is still two in current runtime; no game source is changed here."
+      ],
+      "supersedes": [
+        "NODE-0576"
+      ],
+      "topics": [
+        "World",
+        "Encounters",
+        "Production",
+        "Connections",
+        "Research",
+        "Planning"
+      ],
+      "sources": [
+        "local-code"
+      ],
+      "evidence": [
+        "docs/obstruction-types-and-behavior.md",
+        "src/simulation/engine.ts",
+        "src/simulation/progression.ts",
+        "src/content/machineEfficiency.ts",
+        "src/content/efficiency.ts",
+        "src/simulation/machineEfficiencyMigration.ts"
+      ],
+      "validation": "Read current connection enforcement, efficiency-based Intake production, four efficiency factors and the old-upgrade migration map. Checked the derived 5/6/8/11 rank rates and verified the documentation distinguishes agreed connection progression from implemented two-Intake enforcement. Documentation and decision record only; no game source change, new gameplay tests or publication."
+    },
+    {
+      "id": "NODE-0579",
+      "date": "2026-11-18",
+      "dateBasis": "chat",
+      "kind": "changed",
+      "state": "implemented",
+      "delivery": "published",
+      "publishedBy": "f1d5681",
+      "title": "Publish reviewed efficiency research and early resource recovery",
+      "summary": "Publish 64 node-owned research ranks, Pump and Tree Planter consolidation, Recycler-owned recovery speed, save migration and repeated resource recovery before Exploration.",
+      "details": [
+        "Publish tested commit f1d56811f463fd300a7f64ddd17e69fd8319d62d as a fast-forward from 76b19b79e1954af44f98bf5f0b38e657d92b197f with changes only in node/. Ship matching built files and source, retain older assets for open games, and include the pending Basic Gun, Dwarven hint and filled-hole fixes.",
+        "After GitHub Pages success, verify the normal live HTML, every new build asset and all ten assets from the preceding live build against their SHA-256 hashes. Update proposal Page page_e205a13269008191ac24634cdbe2711b to implemented."
+      ],
+      "topics": [
+        "Research",
+        "Production",
+        "Resources",
+        "Persistence",
+        "Publishing"
+      ],
+      "sources": [
+        "local-code"
+      ],
+      "evidence": [
+        "outputs/node-efficiency-recovery-release-2026-11-18/publication-receipt.json",
+        "outputs/node-efficiency-recovery-release-2026-11-18/preflight-report.json",
+        "outputs/node-efficiency-recovery-release-2026-11-18/build-manifest.json",
+        "outputs/node-efficiency-recovery-release-2026-11-18/browser-report.json",
+        "outputs/node-efficiency-recovery-release-2026-11-18/continuity-report.json",
+        "src/content/machineEfficiency.ts",
+        "src/simulation/progressionRecovery.ts"
+      ],
+      "validation": "All 1,803 workspace tests passed with two existing skips. The /node/ build passed; an isolated source checkout reproduced all eleven build files byte-for-byte. Desktop and 390px Research, tree and recovery checks passed. A separate previous-build factory kept producing after the files switched, then migrated its save with factory state, payments, fractional batch progress and retirement refunds preserved. Preflight verified a clean commit, matching source, only node/ changes, fast-forward ancestry and unchanged older assets. GitHub Pages run 44468322178 succeeded; normal live HTML and all eleven build files matched by SHA-256, with ten preceding runtime assets also verified. No player browser tabs were refreshed. No normal-play balance run; internal Word references passed structural checks but LibreOffice was unavailable for rendering."
+    },
+    {
+      "id": "NODE-0580",
+      "date": "2026-11-18",
+      "dateBasis": "chat",
+      "kind": "decision",
+      "state": "recorded",
+      "delivery": "not-applicable",
+      "title": "Require Production Lake Intakes for all Lake Water supply",
+      "summary": "The obstruction review removes proposed direct Lake Water output: every Lake Water route must begin through a connected Production Lake Intake.",
+      "details": [
+        "Remove autonomous one-Water-per-second Lake production and its shared five-item buffer. Retain the four directional ports as Intake attachment points, with the agreed upgrade-based 2/3/4 connection limit.",
+        "Consumers and logistics receive Water from Intakes; direct Lake routing must not bypass an Intake. Preserve infinite Lake supply, current efficiency-based Intake rates and Intake buffers.",
+        "Current Water Tools research is a free automatic discovery unlock on visiting a Lake and already unlocks the Intake, supporting first Water access without direct Lake production. Preserve that access path.",
+        "This is a design change pending implementation. Current game source still includes direct Lake Water output and its two-Intake cap."
+      ],
+      "topics": [
+        "World",
+        "Encounters",
+        "Production",
+        "Resources",
+        "Connections",
+        "Planning"
+      ],
+      "sources": [
+        "local-code"
+      ],
+      "evidence": [
+        "docs/obstruction-types-and-behavior.md",
+        "src/content/progression.ts",
+        "src/content/research.ts",
+        "src/simulation/engine.ts",
+        "src/simulation/progression.ts",
+        "src/simulation/connectionRules.ts"
+      ],
+      "validation": "Read the Water Tools discovery trigger and zero research bill, Intake unlock, direct Lake production and independent Lake-fed Intake simulation. Verified the documentation records removal of direct production and buffer, preserved Intake access and rates, and prevention of bypass routes. No game source change, new progression or browser tests, or publication."
     }
   ]
 }

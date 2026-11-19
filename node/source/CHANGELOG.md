@@ -2,22 +2,18 @@
 
 A searchable record of completed changes, design decisions, and relevant review findings. Stable NODE IDs can be cited in chats and searched in the repository.
 
-**577 records · 2026-10-12–2026-11-18 · America/Los_Angeles**
+**580 records · 2026-10-12–2026-11-18 · America/Los_Angeles**
 
 [Open searchable history](<docs/changelog/index.html>) · [How to review and maintain it](<docs/changelog/README.md>) · [Sources and coverage gaps](<docs/changelog/sources.md>)
 
 ## Local changes awaiting publication
 
-Latest confirmed game publication: [89b5709](https://github.com/bookskaboo/bookskaboo.github.io/commit/89b5709b15d7ecc07f9438bb1ef9eb5658391aa0).
+Latest confirmed game publication: [f1d5681](https://github.com/bookskaboo/bookskaboo.github.io/commit/f1d56811f463fd300a7f64ddd17e69fd8319d62d).
 
 | ID | Change | Topics |
 | --- | --- | --- |
-| [NODE-0577](<docs/changelog/2026-11.md#node-0577>) | Implement node-owned research through Final and recovery before Exploration | Research, Production, Resources, Persistence, Interface |
-| [NODE-0551](<docs/changelog/2026-11.md#node-0551>) | Make Basic Gun use Copper Wire and Brick in two Assembler sockets | Production, Bots, Save compatibility |
-| [NODE-0550](<docs/changelog/2026-11.md#node-0550>) | Shorten Dwarven discovery to a single attack hint | Interface, Encounters, Tutorials |
 | [NODE-0549](<docs/changelog/2026-11.md#node-0549>) | Move Road and Exploration to Simple Cores in the research proposal | Research, Balance, Interface |
 | [NODE-0548](<docs/changelog/2026-11.md#node-0548>) | Preview compact research upgrades and first Refiner routing unlocks | Research, Interface, Balance, Tutorials |
-| [NODE-0547](<docs/changelog/2026-11.md#node-0547>) | Clear filled Deep Holes without creating a Cart | World, Resources, Connections, Persistence |
 | [NODE-0543](<docs/changelog/2026-11.md#node-0543>) | Add 32-unit snapping with touching bodies to the grid test page | Interface, Controls, Placement |
 | [NODE-0542](<docs/changelog/2026-11.md#node-0542>) | Compare touching nodes and closer grid snapping in a test page | Interface, Controls, Placement |
 | [NODE-0536](<docs/changelog/2026-11.md#node-0536>) | Use whole-number AP ratings in the Bot Plant preview | Interface, Production, Recipes |
@@ -83,13 +79,14 @@ Latest confirmed game publication: [89b5709](https://github.com/bookskaboo/books
 
 ## Dated history
 
-- [2026-11](<docs/changelog/2026-11.md>) — 559 records
+- [2026-11](<docs/changelog/2026-11.md>) — 562 records
 - [2026-10](<docs/changelog/2026-10.md>) — 18 records
 
 “Known by” dates are implementation/publication bounds, not exact change dates. “Backfilled” dates mark records with uncertain original dates. Supersession links explain reversals. Original-game records do not certify current rebuild behavior.
 
 ## Published releases
 
+- 2026-11-18 — [f1d5681: Node-owned efficiency through Final and early production recovery](https://github.com/bookskaboo/bookskaboo.github.io/commit/f1d56811f463fd300a7f64ddd17e69fd8319d62d) — Fast-forwarded main with changes confined to node/. Verified normal live HTML and all ten new runtime assets by SHA-256 after successful GitHub Pages deployment. All previous runtime assets were retained. Includes the earlier Basic Gun recipe, short Dwarven hint and filled-hole cleanup fixes.
 - 2026-11-18 — [89b5709: 32-unit grid and touching node bodies](https://github.com/bookskaboo/bookskaboo.github.io/commit/89b5709b15d7ecc07f9438bb1ef9eb5658391aa0) — Fast-forwarded main from db779c7 with changes confined to node/. GitHub Pages completed successfully. Verified the normal live HTML and all ten runtime assets by SHA-256; all ten previous runtime assets remain available.
 - 2026-11-18 — [fa3647e: Standalone Core research and guided tutorial improvements](https://github.com/bookskaboo/bookskaboo.github.io/commit/fa3647ee98a2f4c9c7a20317628b6be6b8381e5b) — Fast-forwarded main from d3f62b5 with changes confined to node/. Verified normal live HTML and all ten new runtime assets by SHA-256. All ten previous runtime assets remain available for open games.
 - 2026-11-16 — [d3f62b5: Whole-number bot AP and Bot Plant input cards](https://github.com/bookskaboo/bookskaboo.github.io/commit/d3f62b5efdbbeb850a80635efefb3229e7085bcc) — Fast-forwarded main from 4aa0617 with changes confined to node/. Verified the normal live HTML and all ten runtime assets by SHA-256.
@@ -126,7 +123,7 @@ A record marked “Published by” was known in that snapshot and may have appea
 - [Camera](<docs/changelog/index.html?topic=Camera>) (3)
 - [Combat](<docs/changelog/index.html?topic=Combat>) (16)
 - [Compatibility](<docs/changelog/index.html?topic=Compatibility>) (3)
-- [Connections](<docs/changelog/index.html?topic=Connections>) (36)
+- [Connections](<docs/changelog/index.html?topic=Connections>) (38)
 - [Construction](<docs/changelog/index.html?topic=Construction>) (15)
 - [Control groups](<docs/changelog/index.html?topic=Control%20groups>) (3)
 - [Controls](<docs/changelog/index.html?topic=Controls>) (43)
@@ -135,7 +132,7 @@ A record marked “Published by” was known in that snapshot and may have appea
 - [Developer tools](<docs/changelog/index.html?topic=Developer%20tools>) (1)
 - [Discovery](<docs/changelog/index.html?topic=Discovery>) (5)
 - [Documentation](<docs/changelog/index.html?topic=Documentation>) (208)
-- [Encounters](<docs/changelog/index.html?topic=Encounters>) (115)
+- [Encounters](<docs/changelog/index.html?topic=Encounters>) (117)
 - [Endgame](<docs/changelog/index.html?topic=Endgame>) (4)
 - [Exploration](<docs/changelog/index.html?topic=Exploration>) (23)
 - [Extraction](<docs/changelog/index.html?topic=Extraction>) (1)
@@ -148,18 +145,18 @@ A record marked “Published by” was known in that snapshot and may have appea
 - [Nodes](<docs/changelog/index.html?topic=Nodes>) (2)
 - [Options](<docs/changelog/index.html?topic=Options>) (4)
 - [Performance](<docs/changelog/index.html?topic=Performance>) (1)
-- [Persistence](<docs/changelog/index.html?topic=Persistence>) (43)
+- [Persistence](<docs/changelog/index.html?topic=Persistence>) (44)
 - [Placement](<docs/changelog/index.html?topic=Placement>) (4)
-- [Planning](<docs/changelog/index.html?topic=Planning>) (194)
+- [Planning](<docs/changelog/index.html?topic=Planning>) (196)
 - [Playtesting](<docs/changelog/index.html?topic=Playtesting>) (48)
 - [Power](<docs/changelog/index.html?topic=Power>) (2)
-- [Production](<docs/changelog/index.html?topic=Production>) (82)
+- [Production](<docs/changelog/index.html?topic=Production>) (85)
 - [Progression](<docs/changelog/index.html?topic=Progression>) (212)
 - [Publication](<docs/changelog/index.html?topic=Publication>) (2)
-- [Publishing](<docs/changelog/index.html?topic=Publishing>) (7)
+- [Publishing](<docs/changelog/index.html?topic=Publishing>) (8)
 - [Recipes](<docs/changelog/index.html?topic=Recipes>) (110)
-- [Research](<docs/changelog/index.html?topic=Research>) (223)
-- [Resources](<docs/changelog/index.html?topic=Resources>) (105)
+- [Research](<docs/changelog/index.html?topic=Research>) (225)
+- [Resources](<docs/changelog/index.html?topic=Resources>) (107)
 - [Responsive](<docs/changelog/index.html?topic=Responsive>) (2)
 - [Roads](<docs/changelog/index.html?topic=Roads>) (13)
 - [Save compatibility](<docs/changelog/index.html?topic=Save%20compatibility>) (3)
@@ -176,7 +173,7 @@ A record marked “Published by” was known in that snapshot and may have appea
 - [Undo](<docs/changelog/index.html?topic=Undo>) (4)
 - [Waste](<docs/changelog/index.html?topic=Waste>) (21)
 - [Workflow](<docs/changelog/index.html?topic=Workflow>) (1)
-- [World](<docs/changelog/index.html?topic=World>) (67)
+- [World](<docs/changelog/index.html?topic=World>) (69)
 - [World generation](<docs/changelog/index.html?topic=World%20generation>) (17)
 - [World map](<docs/changelog/index.html?topic=World%20map>) (28)
 - [Writing](<docs/changelog/index.html?topic=Writing>) (1)
