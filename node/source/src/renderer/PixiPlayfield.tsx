@@ -109,7 +109,7 @@ export function PixiPlayfield(props: Props) {
         if (handle.cornerScaleLimit !== undefined
           ? Math.hypot(dx, dy) > CORNER_SOCKET_RADIUS * handle.root.scale.x * camera.zoom
           : !socketHitContains(dx, dy, getPortSide(node, handle.direction, handle.index), isCompactNode(node))) return [];
-        return [{ ...point, key: portKey(handle), handle }];
+        return [{ ...point, key: portKey(handle), side: getPortSide(node, handle.direction, handle.index), handle }];
       });
       return nearestSocket(candidates, x, y, Infinity)?.handle;
     };

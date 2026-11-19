@@ -14,3 +14,14 @@ it('keeps compact bodies selectable while extending the outside socket target', 
   expect(socketHitContains(8, 0, 'east', true)).toBe(true);
   expect(socketHitContains(0, 12, 'west', true)).toBe(false);
 });
+it('selects either touching socket from its own body side, independent of drawing order', () => {
+  const ports = [{ key: 'a-output', x: 100, y: 100, side: 'east' }, { key: 'b-input', x: 100, y: 100, side: 'west' }];
+  for (const candidates of [ports, [...ports].reverse()]) {
+    expect(nearestSocket(candidates, 97, 100, 10)?.key).toBe('a-output');
+    expect(nearestSocket(candidates, 103, 100, 10)?.key).toBe('b-input');
+    expect(nearestSocket(candidates, 100, 100, 10)?.key).toBe('a-output');
+  }
+  const vertical = [{ key: 'upper', x: 100, y: 100, side: 'south' }, { key: 'lower', x: 100, y: 100, side: 'north' }];
+  expect(nearestSocket(vertical, 100, 97, 10)?.key).toBe('upper');
+  expect(nearestSocket(vertical, 100, 103, 10)?.key).toBe('lower');
+});

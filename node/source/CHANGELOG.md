@@ -2,7 +2,7 @@
 
 A searchable record of completed changes, design decisions, and relevant review findings. Stable NODE IDs can be cited in chats and searched in the repository.
 
-**544 records · 2026-10-12–2026-11-18 · America/Los_Angeles**
+**545 records · 2026-10-12–2026-11-18 · America/Los_Angeles**
 
 [Open searchable history](<docs/changelog/index.html>) · [How to review and maintain it](<docs/changelog/README.md>) · [Sources and coverage gaps](<docs/changelog/sources.md>)
 
@@ -12,6 +12,7 @@ Latest confirmed game publication: [fa3647e](https://github.com/bookskaboo/books
 
 | ID | Change | Topics |
 | --- | --- | --- |
+| [NODE-0545](<docs/changelog/2026-11.md#node-0545>) | Use a 32-unit grid and allow node bodies to touch | Interface, Controls, Placement, Connections |
 | [NODE-0543](<docs/changelog/2026-11.md#node-0543>) | Add 32-unit snapping with touching bodies to the grid test page | Interface, Controls, Placement |
 | [NODE-0542](<docs/changelog/2026-11.md#node-0542>) | Compare touching nodes and closer grid snapping in a test page | Interface, Controls, Placement |
 | [NODE-0536](<docs/changelog/2026-11.md#node-0536>) | Use whole-number AP ratings in the Bot Plant preview | Interface, Production, Recipes |
@@ -47,7 +48,6 @@ Latest confirmed game publication: [fa3647e](https://github.com/bookskaboo/books
 | [NODE-0120](<docs/changelog/2026-11.md#node-0120>) | Create a local master development plan and sequential review queue | Documentation, Planning |
 | [NODE-0119](<docs/changelog/2026-11.md#node-0119>) | Realign Research Center status and Core buffers | Research, Interface |
 | [NODE-0118](<docs/changelog/2026-11.md#node-0118>) | Use 64-unit multiples for node bodies | Nodes, Construction, Interface |
-| [NODE-0117](<docs/changelog/2026-11.md#node-0117>) | Align grid snapping by top-left corners | Construction, Controls, Options |
 | [NODE-0116](<docs/changelog/2026-11.md#node-0116>) | Remove the fixed command strip and Running badge | Interface, Controls |
 | [NODE-0115](<docs/changelog/2026-11.md#node-0115>) | Require extraction before resource delivery | Connections, Resources, Production |
 | [NODE-0114](<docs/changelog/2026-11.md#node-0114>) | Copy recipes with a held-Shift gesture | Controls, Recipes, Undo |
@@ -78,7 +78,7 @@ Latest confirmed game publication: [fa3647e](https://github.com/bookskaboo/books
 
 ## Dated history
 
-- [2026-11](<docs/changelog/2026-11.md>) — 526 records
+- [2026-11](<docs/changelog/2026-11.md>) — 527 records
 - [2026-10](<docs/changelog/2026-10.md>) — 18 records
 
 “Known by” dates are implementation/publication bounds, not exact change dates. “Backfilled” dates mark records with uncertain original dates. Supersession links explain reversals. Original-game records do not certify current rebuild behavior.
@@ -119,10 +119,10 @@ A record marked “Published by” was known in that snapshot and may have appea
 - [Camera](<docs/changelog/index.html?topic=Camera>) (3)
 - [Combat](<docs/changelog/index.html?topic=Combat>) (16)
 - [Compatibility](<docs/changelog/index.html?topic=Compatibility>) (3)
-- [Connections](<docs/changelog/index.html?topic=Connections>) (31)
+- [Connections](<docs/changelog/index.html?topic=Connections>) (32)
 - [Construction](<docs/changelog/index.html?topic=Construction>) (15)
 - [Control groups](<docs/changelog/index.html?topic=Control%20groups>) (3)
-- [Controls](<docs/changelog/index.html?topic=Controls>) (41)
+- [Controls](<docs/changelog/index.html?topic=Controls>) (42)
 - [Deployment](<docs/changelog/index.html?topic=Deployment>) (1)
 - [Design](<docs/changelog/index.html?topic=Design>) (7)
 - [Developer tools](<docs/changelog/index.html?topic=Developer%20tools>) (1)
@@ -132,7 +132,7 @@ A record marked “Published by” was known in that snapshot and may have appea
 - [Endgame](<docs/changelog/index.html?topic=Endgame>) (4)
 - [Exploration](<docs/changelog/index.html?topic=Exploration>) (23)
 - [Extraction](<docs/changelog/index.html?topic=Extraction>) (1)
-- [Interface](<docs/changelog/index.html?topic=Interface>) (204)
+- [Interface](<docs/changelog/index.html?topic=Interface>) (205)
 - [Logistics](<docs/changelog/index.html?topic=Logistics>) (92)
 - [Map](<docs/changelog/index.html?topic=Map>) (3)
 - [Mods](<docs/changelog/index.html?topic=Mods>) (6)
@@ -142,7 +142,7 @@ A record marked “Published by” was known in that snapshot and may have appea
 - [Options](<docs/changelog/index.html?topic=Options>) (4)
 - [Performance](<docs/changelog/index.html?topic=Performance>) (1)
 - [Persistence](<docs/changelog/index.html?topic=Persistence>) (41)
-- [Placement](<docs/changelog/index.html?topic=Placement>) (2)
+- [Placement](<docs/changelog/index.html?topic=Placement>) (3)
 - [Planning](<docs/changelog/index.html?topic=Planning>) (169)
 - [Playtesting](<docs/changelog/index.html?topic=Playtesting>) (48)
 - [Power](<docs/changelog/index.html?topic=Power>) (2)

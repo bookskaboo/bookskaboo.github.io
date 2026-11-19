@@ -1,6 +1,6 @@
 import type { NodeSize } from './nodeGeometry';
 
-export const WORLD_GRID_SIZE = 64;
+export const WORLD_GRID_SIZE = 32;
 
 interface Point { x: number; y: number }
 

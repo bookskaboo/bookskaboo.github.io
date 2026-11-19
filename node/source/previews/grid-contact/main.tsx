@@ -4,20 +4,21 @@ import { NODE_DEFINITIONS } from '../../src/content/nodes';
 import { getNodeSize, getPortAnchor } from '../../src/domain/nodeGeometry';
 import type { MachineNode } from '../../src/domain/types';
 import { NodeIcon } from '../../src/ui/NodeIcon';
-import { edgeTarget, FIELD, fixture, gapBetween, snap, stepFor, valid, type Layout, type Mode } from './model';
+import { allowsContact, edgeTarget, FIELD, fixture, gapBetween, snap, stepFor, valid, type Layout, type Mode } from './model';
 import '../../src/styles/readability.css';
 import './preview.css';
 
 const modes: { id: Mode; title: string; tag: string; copy: string }[] = [
-  { id: 'current', title: 'Current spacing', tag: '64-unit gap', copy: '64-unit grid · 12-unit clearance' },
-  { id: 'contact', title: 'Edges touch', tag: 'Recommended', copy: '64-unit grid · no body clearance' },
+  { id: 'current', title: 'Previous spacing', tag: '64-unit gap', copy: '64-unit grid · 12-unit clearance' },
+  { id: 'contact', title: '64-unit contact', tag: 'Edges touch', copy: '64-unit grid · no body clearance' },
+  { id: 'half', title: '32-unit contact', tag: 'Selected', copy: '32-unit grid · no body clearance' },
   { id: 'fine', title: 'Small gap', tag: '16-unit gap', copy: '16-unit snap · 12-unit clearance' },
 ];
 
 function App() {
-  const [mode, setMode] = useState<Mode>('contact');
+  const [mode, setMode] = useState<Mode>('half');
   const [layout, setLayout] = useState<Layout>('horizontal');
-  const [nodes, setNodes] = useState(() => fixture('contact', 'horizontal'));
+  const [nodes, setNodes] = useState(() => fixture('half', 'horizontal'));
   const [ghost, setGhost] = useState<MachineNode>();
   const [notice, setNotice] = useState('Drag the gold-outlined node, or use its arrow keys.');
   const [zoom, setZoom] = useState(1);
@@ -45,7 +46,7 @@ function App() {
       setNotice('Placement accepted. The factory has acquired a neighbor.');
     } else {
       setGhost(candidate); setSocketInfo(undefined);
-      setNotice(mode === 'contact' ? 'Blocked: bodies cannot overlap or cross the field boundary.' : 'Blocked: this position needs at least 12 units of clearance.');
+      setNotice(allowsContact(mode) ? 'Blocked: bodies cannot overlap or cross the field boundary.' : 'Blocked: this position needs at least 12 units of clearance.');
     }
   }
   function touch() { commit(edgeTarget(nodes, layout)); }
@@ -138,7 +139,7 @@ function App() {
         </div><label className="zoom-label">Zoom <select aria-label="Zoom" value={zoom} onChange={event => setZoom(Number(event.target.value))}>
           <option value={0.7}>70%</option><option value={1}>100%</option><option value={1.35}>135%</option></select></label></div>
         <svg ref={svg} className="field" viewBox={`${576 - FIELD.width / zoom / 2} ${384 - FIELD.height / zoom / 2} ${FIELD.width / zoom} ${FIELD.height / zoom}`} aria-label="Two nodes on the world grid">
-          <defs><pattern id="world-grid" width="64" height="64" patternUnits="userSpaceOnUse"><path d="M64 0H0V64" fill="none" stroke="#ffffff" strokeOpacity=".10" /></pattern>
+          <defs><pattern id="world-grid" width={mode === 'half' ? 32 : 64} height={mode === 'half' ? 32 : 64} patternUnits="userSpaceOnUse"><path d={mode === 'half' ? 'M32 0H0V32' : 'M64 0H0V64'} fill="none" stroke="#ffffff" strokeOpacity=".10" /></pattern>
             <pattern id="fine-grid" width="16" height="16" patternUnits="userSpaceOnUse"><circle cx="0" cy="0" r="1" fill="#9cb4bc" opacity=".34" /></pattern></defs>
           <rect width={FIELD.width} height={FIELD.height} fill="#1e2024" />
           {grid && <rect width={FIELD.width} height={FIELD.height} fill="url(#world-grid)" />}
@@ -153,13 +154,13 @@ function App() {
       </section>
       <aside>
         <section className="detail"><span className="eyebrow">Selected proposal</span><h2>{current.title}</h2>
-          <p>{mode === 'contact' ? 'Keep the current grid. Let rectangular node bodies meet edge to edge, while still rejecting overlap.' : mode === 'fine' ? 'Keep the clearance rule. Add 16-unit snap points so the smallest gap is 16 units instead of 64.' : 'The grid already matches node sizes. The extra 12-unit collision buffer rejects edge contact, forcing a 64-unit gap.'}</p>
-          <dl><div><dt>Snap step</dt><dd>{stepFor(mode)} units</dd></div><div><dt>Body clearance</dt><dd>{mode === 'contact' ? 0 : 12} units</dd></div><div><dt>Shown edge gap</dt><dd>{gap} units</dd></div></dl>
+          <p>{mode === 'half' ? 'Use a 32-unit grid for finer positioning. Let rectangular node bodies touch, while still rejecting overlap.' : mode === 'contact' ? 'Use the previous 64-unit grid. Let rectangular node bodies meet edge to edge, while still rejecting overlap.' : mode === 'fine' ? 'Keep the former clearance rule. Add 16-unit snap points so the smallest gap is 16 units instead of 64.' : 'The previous grid matched node sizes. Its extra 12-unit collision buffer rejected edge contact, forcing a 64-unit gap.'}</p>
+          <dl><div><dt>Snap step</dt><dd>{stepFor(mode)} units</dd></div><div><dt>Body clearance</dt><dd>{allowsContact(mode) ? 0 : 12} units</dd></div><div><dt>Shown edge gap</dt><dd>{gap} units</dd></div></dl>
           <div className="actions"><button className="primary" onClick={touch}>Try touching edges</button><button onClick={() => reset()}>Reset layout</button></div>
           <label className="check"><input type="checkbox" checked={grid} onChange={event => setGrid(event.target.checked)} />Show grid</label>
           <label className="check"><input type="checkbox" checked={sockets} onChange={event => setSockets(event.target.checked)} />Show sockets</label>
         </section>
-        <section className="detail rationale"><h2>What I would change</h2><p>Allow body contact for player-built nodes. Retain clearance around natural obstacles and the field boundary.</p>
+        <section className="detail rationale"><h2>Selected behavior</h2><p>Use a 32-unit grid and allow body contact for player-built nodes. Retain clearance around natural obstacles and the field boundary.</p>
           <p>Touching sockets need a choice of node and direction when both occupy the same point. Click a socket to inspect that proposal.</p>
           <small>Spacing prototype: game dimensions, socket anchors and collision checks; simplified node rendering. No production, wiring or save data.</small></section>
       </aside>
@@ -168,7 +169,7 @@ function App() {
       <h2>{socketInfo.length > 1 ? 'Sockets share this spot' : 'Socket inspection'}</h2><p>{socketInfo.length > 1 ? 'Proposed wiring behavior: choose the intended socket before connecting.' : 'This socket has a separate hit target.'}</p>
       <ul>{socketInfo.map(value => <li key={value}>{value}</li>)}</ul><small>This inspects the proposed choices. Connections are not simulated.</small><button autoFocus onClick={() => setSocketInfo(undefined)} onKeyDown={event => { if (event.key === 'Escape') setSocketInfo(undefined); }}>Close</button>
     </section></div>}
-    <footer>Comparison only. The main game still uses its existing placement rules.</footer>
+    <footer>The local game now uses 32-unit snapping and allows body contact. This page remains a simulated comparison.</footer>
   </main>;
 }
 

@@ -5,10 +5,11 @@ import { isWorldObstacle } from '../../src/content/nodeCapabilities';
 import { NODE_DEFINITIONS } from '../../src/content/nodes';
 import { nodeInsideField, nodesOverlap, NODE_CLEARANCE } from '../../src/simulation/collisions';
 
-export type Mode = 'current' | 'contact' | 'fine';
+export type Mode = 'current' | 'contact' | 'half' | 'fine';
 export type Layout = 'horizontal' | 'vertical' | 'mixed';
 export const FIELD = { width: 1152, height: 768 };
-export const stepFor = (mode: Mode) => mode === 'fine' ? 16 : 64;
+export const stepFor = (mode: Mode) => mode === 'fine' ? 16 : mode === 'half' ? 32 : 64;
+export const allowsContact = (mode: Mode) => mode === 'contact' || mode === 'half';
 
 export function specimen(kind: NodeKind, id: string, left: number, top: number): MachineNode {
   const size = getNodeSize({ kind });
@@ -18,14 +19,15 @@ export function specimen(kind: NodeKind, id: string, left: number, top: number):
 
 export function snap(node: MachineNode, point: { x: number; y: number }, mode: Mode) {
   const size = getNodeSize(node);
-  if (mode !== 'fine') return { ...node, ...snapNodePosition(point, true, size) };
-  return { ...node, x: Math.round((point.x - size.w / 2) / 16) * 16 + size.w / 2,
-    y: Math.round((point.y - size.h / 2) / 16) * 16 + size.h / 2 };
+  const step = stepFor(mode);
+  if (mode === 'half') return { ...node, ...snapNodePosition(point, true, size) };
+  return { ...node, x: Math.round((point.x - size.w / 2) / step) * step + size.w / 2,
+    y: Math.round((point.y - size.h / 2) / step) * step + size.h / 2 };
 }
 
 export function valid(node: MachineNode, others: MachineNode[], mode: Mode) {
   return nodeInsideField(node, FIELD) && !others.some(other => other.id !== node.id &&
-    nodesOverlap(node, other, mode === 'contact' && NODE_DEFINITIONS[node.kind].category !== 'World' && NODE_DEFINITIONS[other.kind].category !== 'World'
+    nodesOverlap(node, other, allowsContact(mode) && NODE_DEFINITIONS[node.kind].category !== 'World' && NODE_DEFINITIONS[other.kind].category !== 'World'
       && !isWorldObstacle(node.kind) && !isWorldObstacle(other.kind) ? 0 : NODE_CLEARANCE));
 }
 

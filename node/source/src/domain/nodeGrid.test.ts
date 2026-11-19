@@ -15,7 +15,8 @@ describe('world grid placement and movement', () => {
     expect(corner(snapNodePosition(point, true, chest))).toEqual({ x: 640, y: 640 });
     expect(point).toEqual({ x: 713, y: 689 });
   });
-  it('uses the same corner grid for every node type and 64-unit body dimensions', () => {
+  it('uses a 32-unit corner grid for every node type without resizing bodies', () => {
+    expect(WORLD_GRID_SIZE).toBe(32);
     for (const kind of Object.keys(NODE_DEFINITIONS) as NodeKind[]) {
       const size = getNodeSize({ kind });
       expect(size.w % WORLD_GRID_SIZE, `${kind} width`).toBe(0);
@@ -29,8 +30,8 @@ describe('world grid placement and movement', () => {
       const pointer = { x: 745 * camera.zoom + camera.x, y: 679 * camera.zoom + camera.y };
       const world = { x: (pointer.x - camera.x) / camera.zoom, y: (pointer.y - camera.y) / camera.zoom };
       const snapped = snapNodePosition(world, true, chest);
-      expect(corner(snapped)).toEqual({ x: 704, y: 640 });
-      expect(snapNodePosition({ ...world, x: world.x + 64 }, true, chest).x).toBe(snapped.x + 64);
+      expect(corner(snapped)).toEqual({ x: 672, y: 608 });
+      expect(snapNodePosition({ ...world, x: world.x + 32 }, true, chest).x).toBe(snapped.x + 32);
     }
   });
   it('matches the preview and committed node while rejecting collisions', () => {

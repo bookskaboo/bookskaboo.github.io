@@ -2993,7 +2993,7 @@
       "date": "2026-11-02",
       "dateBasis": "chat",
       "kind": "changed",
-      "state": "implemented",
+      "state": "superseded",
       "delivery": "local",
       "title": "Align grid snapping by top-left corners",
       "summary": "Change placement and drag snapping from node centers to top-left corners on the existing 64-world-unit grid.",
@@ -3012,7 +3012,8 @@
       ],
       "details": [
         "The player selected corner alignment after reviewing the two alternatives.",
-        "Preview, placement commit, and dragging use the same size-aware anchor. Selected groups retain their internal spacing."
+        "Preview, placement commit, and dragging use the same size-aware anchor. Selected groups retain their internal spacing.",
+        "NODE-0545 replaces the 64-unit snap step with 32 units while retaining top-left alignment and body sizes."
       ],
       "validation": "Tests cover all node types, pan/zoom, preview/commit agreement, collision rejection, group offsets, and toggling snapping."
     },
@@ -16731,6 +16732,48 @@
         "src/ui/Tutorials.tsx"
       ],
       "validation": "The /node/ site build and 1,765 workspace tests passed with two skips. An isolated Chromium fixture continued production on the old build after the hosted files switched, then loaded its save in the new build with matching nodes, connections, stock, elapsed time, production totals, transfers, recipe selections, active batches and research contributions. All seven Core projects were retained. Chromium verified the tutorial Start actions at 1,180 and 390 CSS pixels and the seven-project Core tree. GitHub Pages completed successfully. The normal live HTML and all ten new runtime assets matched by SHA-256, and ten previous assets still matched. Player browser tabs were untouched. The transition used an isolated save fixture."
+    },
+    {
+      "id": "NODE-0545",
+      "date": "2026-11-18",
+      "dateBasis": "chat",
+      "kind": "changed",
+      "state": "implemented",
+      "delivery": "local",
+      "title": "Use a 32-unit grid and allow node bodies to touch",
+      "summary": "Adopt the selected layout behavior in the game: snap top-left corners at 32-unit intervals and allow touching player-built bodies while rejecting overlap. Keep resource, obstacle and field-boundary clearance.",
+      "details": [
+        "Reuse the shared grid step for drawing, placement previews, committed placement, paste anchors and dragging; keep body sizes, existing saved positions and selected-group offsets. Adopts the option reviewed in NODE-0543.",
+        "Resolve coincident origin sockets from the intended body side without changing nearest-socket behavior for separate ports or compatibility checks. Keep exact-center ties deterministic.",
+        "Keep the comparison reproducible with explicit old grid and clearance settings, update its labels, and add a separate persistence-free actual-renderer fixture for placement, dragging, wiring and transfer checks."
+      ],
+      "topics": [
+        "Interface",
+        "Controls",
+        "Placement",
+        "Connections"
+      ],
+      "sources": [
+        "local-code"
+      ],
+      "evidence": [
+        "src/domain/nodeGrid.ts",
+        "src/domain/nodeGrid.test.ts",
+        "src/simulation/collisions.ts",
+        "src/simulation/collisions.test.ts",
+        "src/renderer/socketTargeting.ts",
+        "src/renderer/socketTargeting.test.ts",
+        "src/renderer/PixiPlayfield.tsx",
+        "previews/grid-contact/game.tsx",
+        "previews/grid-contact/README.md",
+        "README.md",
+        "docs/node-ui-style-guide.docx",
+        "docs/typography-style-review.docx"
+      ],
+      "supersedes": [
+        "NODE-0117"
+      ],
+      "validation": "All 1,777 workspace tests passed with two existing skips. The /node/ site build, preview type-check and comparison production build passed. Chromium with the actual Pixi renderer verified 32-unit dragging, contact placement, rejected overlap, half-grid placement at top-left 832,160, wiring from either side of coincident origin sockets, shared-socket access at 70% zoom, and Wood delivery between touching Carts. Saved outputs/grid-contact-game-32.jpg; no browser console errors. Both Word references passed ZIP and text checks; the packaged renderer cannot find LibreOffice for visual document QA. Isolated fixture only, no progression/balance run or publication."
     }
   ]
 }
