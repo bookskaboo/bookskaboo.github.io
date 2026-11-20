@@ -265,7 +265,7 @@ function makeModSpawn(kind: MachineNode['kind'], patch: ModNode, tier: number, c
     });
   }
   const item = template === 'stoneDeposit' ? 'stone' : template === 'forest' ? 'wood' : template as 'iron' | 'copper' | 'mythril';
-  const name = template === 'stoneDeposit' ? 'Stone Deposit' : template === 'forest' ? 'Forest' : `${item[0].toUpperCase()}${item.slice(1)}`;
+  const name = template === 'stoneDeposit' ? 'Stone' : template === 'forest' ? 'Forest' : `${item[0].toUpperCase()}${item.slice(1)}`;
   return node(kind, name, 0, 0, {
     resourceItem: patch.resourceItem ?? item, resourceRemaining: capacity, resourceCapacity: capacity, cycleMs: 5000, capacity: 5,
     ...(template === 'forest' ? { regenMs: 0 } : {}),
@@ -491,7 +491,7 @@ function tryGenerateSector(x: number, y: number, seed: number, now: number, gole
     } else {
       const kind: MachineNode['kind'] = item === 'stone' ? 'stoneDeposit' : item === 'iron' || item === 'copper' || item === 'mythril' ? item : 'deposit';
       if (replaces(kind)) return;
-      const name = item === 'stone' ? 'Stone Deposit' : `${item[0].toUpperCase()}${item.slice(1)}`;
+      const name = `${item[0].toUpperCase()}${item.slice(1)}`;
       const variant = variants.find(([, patch]) => patch.template === kind && !patch.worldSpawn && variantRandom() < (patch.worldChance ?? 0.25));
       const resourceItem = variant?.[1].resourceItem ?? item;
       nodes.push(node(variant?.[0] ?? kind, name, px, py, { resourceItem, resourceRemaining: capacity, resourceCapacity: capacity, cycleMs: 5000, capacity: 5 }));
@@ -499,16 +499,24 @@ function tryGenerateSector(x: number, y: number, seed: number, now: number, gole
   });
   if (reward && camp) {
     camp.tributeItem = reward;
-    nodes.push(node(reward==='stone'?'stoneDeposit':reward, `${ITEM_NAMES[reward]} Deposit`, 0, 0, {
+    nodes.push(node(reward==='stone'?'stoneDeposit':reward, reward === 'stone' ? 'Stone' : `${ITEM_NAMES[reward]} Deposit`, 0, 0, {
       resourceItem: reward, resourceCapacity: getMapNodeMaximumResourceCapacity(x,y), resourceRemaining: getMapNodeMaximumResourceCapacity(x,y),
       guardedCampId: camp.id, guardedLocked: true, cycleMs: 5000, regenMs: 0,
     }));
   }
   nodes.forEach((entry, index) => { if(entry.kind==='cornerChallenge'||entry.kind==='cornerTribute')return; entry.id = `${x}-${y}-${entry.kind}-${index}`; });
-  if (camp) for (const entry of nodes) if (entry.guardedCampId) entry.guardedCampId = camp.id;
+  if (camp) for (const entry of nodes) if (entry.guardedCampId) { entry.guardedCampId = camp.id; camp.guardedDepositId = entry.id; }
   const placed: MachineNode[] = [];
   for (const entry of nodes) {
     if (entry.kind === 'big-hole' || entry.kind === 'lake') { placed.push(entry); continue; }
+    if (entry.guardedCampId) {
+      const owner = placed.find(other => other.id === entry.guardedCampId && other.kind === 'monster-camp');
+      if (!owner) return;
+      // This reserve is part of its settlement, not an ordinary scattered deposit.
+      entry.x = owner.x; entry.y = owner.y;
+      if (!canPlaceNode(entry, placed, field)) return;
+      placed.push(entry); continue;
+    }
     const campStrength = entry.kind === 'monster-camp' ? entry.campStrength : undefined;
     if (entry.kind === 'monster-camp') entry.campStrength = 100;
     const isResource = (candidate: MachineNode) => Boolean(candidate.resourceItem && candidate.kind !== 'lake');

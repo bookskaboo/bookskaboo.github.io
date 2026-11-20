@@ -37,5 +37,8 @@ export function nodeInsideField(node: MachineNode, field: { width: number; heigh
 }
 
 export function canPlaceNode(node: MachineNode, others: readonly MachineNode[], field: { width: number; height: number }, ignoredIds: ReadonlySet<string> = new Set()) {
-  return nodeInsideField(node, field) && !others.some((other) => !ignoredIds.has(other.id) && other.id !== node.id && nodesOverlap(node, other));
+  return nodeInsideField(node, field) && !others.some((other) => !ignoredIds.has(other.id) && other.id !== node.id
+    && !(node.kind === 'monster-camp' && other.guardedCampId === node.id)
+    && !(other.kind === 'monster-camp' && node.guardedCampId === other.id)
+    && nodesOverlap(node, other));
 }

@@ -3,6 +3,7 @@ import type { MachineNode } from '../domain/types';
 import { obstructionOutline } from '../domain/obstructionGeometry';
 import { campStatus } from '../simulation/campStatus';
 import { label } from './playfieldDrawing';
+import { RESOURCE_NODE_SIZE } from '../domain/nodeGeometry';
 
 export interface CampNodeStatus { root: Container; halo: Graphics; plate: Graphics; bar: Graphics; ap: Text; check: Text; signature?: string; }
 export function createCampNodeStatus(): CampNodeStatus {
@@ -26,7 +27,7 @@ export function updateCampNodeStatus(view: CampNodeStatus, node: MachineNode, in
     view.plate.clear().roundRect(-128, 3, 256, 71, 8).fill({ color: 0x11171d, alpha: .97 }).stroke({ color: status.color, width: 1, alpha: .7 });
     view.plate.roundRect(-112, 35, 224, 8, 4).fill(0x333c45);
   }
-  view.root.position.set(0, 35 * readabilityScale); view.root.scale.set(readabilityScale);
+  view.root.position.set(0, node.guardedDepositId ? RESOURCE_NODE_SIZE.h / 2 + 12 * readabilityScale : 35 * readabilityScale); view.root.scale.set(readabilityScale);
   view.ap.text = status.apLabel; view.check.text = status.checkLabel;
   view.ap.style.fill = status.color; view.check.style.fill = status.color;
   view.bar.clear().roundRect(-112, 35, 224 * status.fraction, 8, 4).fill(status.color);

@@ -1,5 +1,9 @@
 # World exploration and encounters
 
+## Border obstruction planning
+
+The [border obstruction plan](21-border-obstructions.md) covers visible rivers, chasms and mountains on shared Map Node edges, Road crossing research and initial density estimates. Whole-border obstruction is agreed; the plan distinguishes the remaining recommendations from decisions. Current gameplay remains described in the [system references](../systems/map-nodes-and-exploration.md).
+
 ## Current geography
 
 The world is an 11 × 11 grid, with Home at 5,5. Map tier is Manhattan distance from Home. Research funds Map Points and adjacent activation. The single Research Center stays at Home. Ordinary resource-bearing outposts offer Wood, Iron, Copper and Stone; Lakes and special encounters create additional reasons to specialize. Q14 changes intended Mythril access from deposits to Dwarven Tribute; this source transition is not yet implemented.
@@ -14,8 +18,8 @@ The world is an 11 × 11 grid, with Home at 5,5. Map tier is Manhattan distance 
 | --- | --- | --- |
 | Deep Hole | Blocks space until the processed Stone bill is paid, then clears automatically | Cost versus useful reclaimed space; depletion recovery |
 | Lake | Permanent obstacle and local Water source with directional outputs and Intake support. One seed-selected Lake appears per tier from 3 through 9, in addition to the early tier-2 Lakes. | Shoreline layout, intake competition and readable capacity |
-| Goblin settlements | Five Camps, five Villages and five Kingdoms per new world; recurring AP suppression and configurable Tribute | Q14 keeps them an early optional bonus; exclude Mythril from their rewards |
-| Dwarven settlements | Formerly Lizard settlements; current display names are Dwarven Camp, Village and Kingdom; five of each across tiers 4–9; internal IDs retain `lizardSettlement` | Q14 makes their Tribute the regular Mythril source; Q14B1 permits the retained Mythril Golem exception; source/progression changes remain pending |
+| Goblin settlements | Five Camps, five Villages and five Kingdoms per world, retaining the original tier quotas; guarded reserves require recurring suppression. Earlier saved worlds retain their saved reward rules | Q14 keeps them an early optional bonus; exclude Mythril from their rewards |
+| Dwarven settlements | Five each of Dwarven Camp, Village and Kingdom across tiers 4–9, split two/three across 4/5, 6/7 and 8/9. Internal IDs retain `lizardSettlement` | Q14 makes their Tribute the regular Mythril source; Q14B1 permits the retained Mythril Golem exception; source/progression changes remain pending |
 | Mineral Golems | Four clear tier-5 encounters in new worlds that become infinite mineral reserves. Iron, Copper and Stone cost 180 AP each. Mythril costs 360 AP. | Investment payoff against drills and regeneration |
 | Four corner obstructions | Q06 requires a unique obstruction and final-Core component at each world corner; tier 10 currently empty | Challenge identities, solving conditions, repeatable component supply and routes |
 

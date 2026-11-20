@@ -31,7 +31,7 @@ Static socket families are templates. Recipe selection, Road direction, tribute 
 | Iron | `iron` | World | World / discovery | resource | runtime / runtime | None | None → iron |
 | Copper | `copper` | World | World / discovery | resource | runtime / runtime | None | None → copper |
 | Mythril | `mythril` | World | World / discovery | resource | runtime / runtime | None | None → mythril |
-| Stone Deposit | `stoneDeposit` | World | World / discovery | resource | runtime / runtime | None | None → stone |
+| Stone | `stoneDeposit` | World | World / discovery | resource | runtime / runtime | None | None → stone |
 | Lake | `lake` | World | World / discovery | lake | runtime / runtime | None | None → water, water, water, water |
 | Extractor | `extractor` | Production | Build catalog | extractor | runtime / runtime | None | RESOURCE → RESOURCE |
 | Mining Drill | `miningDrill` | Extraction | Build catalog | mining-drill | runtime / runtime | [Mining Drill](research.md#research-miningDrill) | motor → None |

@@ -10,7 +10,7 @@ The [UI style guide](../node-ui-style-guide.docx) owns current style rules and e
 
 [Readability styles](../../src/styles/readability.css) define shared type roles, including a sans-serif UI family and a named monospace family for technical notation. Reserve heavier weight for hierarchy and essential warnings. Selected project descriptions remain 12 CSS px; Start/Cancel actions, Core badges and progress counts use regular weight. Core badge labels match research filters, such as Simple and Basic.
 
-Dry, understated humor is the game's voice in modal subtext, tutorials, introductions and help. Keep control instructions, quantities and goals explicit. Use Complex Core and Mythril in player-facing text; retain compatibility IDs internally. Command Robotics and Command Bots keep their names.
+Dry, understated humor is the game's voice in modal subtext, tutorials, introductions and help. Keep control instructions, quantities and goals explicit. Use Complex Core and Mythril in player-facing text; retain compatibility IDs internally. Command Robotics and Command Bots keep their names. Stone resource nodes use the title Stone, retaining the serialized stoneDeposit kind. Existing default Stone Deposit titles normalize on load, while custom titles remain. Guarded camps keep their AP socket to the left and their AP/check readout below the interior deposit.
 
 ## Asset ownership
 

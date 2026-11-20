@@ -63,6 +63,8 @@ export interface MachineNode {
   regenMs?: number;
   /** New-world reserve owned by this settlement; never a separate Tribute box. */
   guardedCampId?: string;
+  /** Linked reserve; keeps this camp's socket and status clear of its interior deposit. */
+  guardedDepositId?: string;
   guardedLocked?: boolean;
   guardedRegenCarry?: number;
   lakeIntakeOnly?: boolean;

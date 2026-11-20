@@ -142,7 +142,8 @@ export function connectionObstruction(source: MachineNode, target: MachineNode, 
   const startAnchor = getPortAnchor(source, 'output', plan.fromPort); const endAnchor = getPortAnchor(target, 'input', plan.toPort);
   const start = { x: source.x + startAnchor.x, y: source.y + startAnchor.y }; const end = { x: target.x + endAnchor.x, y: target.y + endAnchor.y };
   const controls = getConnectionControlPoints(start, end, getPortSide(source, 'output', plan.fromPort), getPortSide(target, 'input', plan.toPort));
-  const obstacles = nodes.filter((node) => node.id !== source.id && node.id !== target.id && isWorldObstacle(node.kind));
+  const obstacles = nodes.filter((node) => node.id !== source.id && node.id !== target.id && isWorldObstacle(node.kind)
+    && !(node.kind === 'monster-camp' && source.guardedCampId === node.id && source.guardedLocked === false));
   if (!obstacles.length) return undefined;
   const midpoint = (a: Point, b: Point): Point => ({ x: (a.x + b.x) / 2, y: (a.y + b.y) / 2 });
   // Flatten adaptively to a quarter world unit, then intersect entire segments.

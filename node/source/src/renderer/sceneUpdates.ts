@@ -29,7 +29,7 @@ export function nodeDrawingKey(node: MachineNode) {
     node.filterItem, node.filterOutputPort, node.roadMode, node.roadFacing, node.inputPortOrder?.join('.'),
     node.outputPortOrder?.join('.'), node.outputRowOffset, node.connectorsMirrored, node.disabled, node.protected,
     node.campStrength, node.obstructionRadius, node.obstructionMaxRadius, node.obstructionWidth, node.obstructionHeight,
-    node.infiniteResource, node.resourceItem, node.cornerType, node.cornerCampQuadrant, node.guardedCampId, node.guardedLocked].join(':');
+    node.infiniteResource, node.resourceItem, node.cornerType, node.cornerCampQuadrant, node.guardedCampId, node.guardedLocked, node.guardedDepositId].join(':');
 }
 
 export interface CableBounds { left: number; right: number; top: number; bottom: number }

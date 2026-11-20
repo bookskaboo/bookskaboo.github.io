@@ -22,7 +22,7 @@ An applied mod is embedded in game state and restored with the save. The editor 
 
 Only new-game creation selects worldRulesVersion 2. Imports and loads without a marker normalize to version 1; explicit versions survive slot saves, copied slots, autosaves, exports, re-saves, undo and mod activation/removal. Unsupported world-rule versions are rejected rather than silently converted. Never infer a ruleset from the load date or explored-map count.
 
-Version 2 enables guarded camp deposits, revised Deep Hole generation/completion/exploration and Lake access/capacity/relocation. Version 1 keeps Tribute and legacy obstruction behavior, including on unexplored maps generated later. New fields preserve guarded owner/lock and regeneration credit, generated/depletion hole origin, and completed grey terrain outside the active node graph. World generation selects the versioned algorithm from the saved marker and seed.
+Version 2 enables guarded camp deposits, revised Deep Hole generation/completion/exploration and Lake access/capacity/relocation. Version 1 keeps Tribute and legacy obstruction behavior, including on unexplored maps generated later. New fields preserve guarded owner/lock and regeneration credit, generated/depletion hole origin, and completed grey terrain outside the active node graph. World generation selects the versioned algorithm from the saved marker and seed. Guarded-camp placement corrections apply to newly generated maps; loading a saved map preserves its node positions and cables. The camp’s reverse reserve link is rebuilt from guardedCampId. Default Stone Deposit titles become Stone on load and in templates without changing IDs, quantities or custom names.
 
 ## Undo
 

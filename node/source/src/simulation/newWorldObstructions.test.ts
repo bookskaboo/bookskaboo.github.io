@@ -12,6 +12,9 @@ import { progressionDeficits } from './progressionRecovery';
 import { emptyMod } from '../mods/modTypes';
 import { shortestRescuePath } from './expansionRescue';
 import { reconcileHole } from '../content/endgame';
+import { getNodeSize, getPortAnchor } from '../domain/nodeGeometry';
+import { obstructionOutline, pointInPolygon, overlapsMaximumCampRadius } from '../domain/obstructionGeometry';
+import { obstructedConnections } from './obstructedConnections';
 
 const makeNode = (kind: NodeKind, id: string, x=600,y=500, extra: Partial<MachineNode> = {}): MachineNode => ({
   kind,id,name:id,x,y,rotation:0,input:{},output:{},progressMs:0,cycleMs:5000,constructedAt:0,constructionMs:0,...extra,
@@ -56,6 +59,7 @@ describe('new-world rules and saved legacy worlds',()=>{
     let holeMaps=0,goblins=0,dwarves=0,fullPools=0;
     for(let y=0;y<11;y++)for(let x=0;x<11;x++){
       const sector=generateSector(x,y,seed,0,[],5,2,11,1,2),holes=sector.nodes.filter(n=>n.kind==='big-hole');
+      for(const reserve of sector.nodes.filter(n=>n.kind==='stoneDeposit'))expect(reserve.name).toBe('Stone');
       if(holes.length){holeMaps++;expect(holes.length).toBeLessThanOrEqual(5);expect(holes.every(n=>n.holeOrigin==='generated')).toBe(true);
         expect(sector.nodes.some(n=>['lake','monster-camp','resourceGolem','cornerChallenge'].includes(n.kind))).toBe(false);
         const budget=Math.round(1650*(1+7*(sectorDistance(x,y)-1)/8));
@@ -64,6 +68,11 @@ describe('new-world rules and saved legacy worlds',()=>{
       }
       const camp=sector.nodes.find(n=>n.kind==='monster-camp');
       if(camp){const deposit=sector.nodes.find(n=>n.guardedCampId===camp.id)!;expect(deposit).toBeDefined();expect(deposit.guardedLocked).toBe(true);
+        expect(deposit.x).toBe(camp.x);expect(deposit.y).toBe(camp.y);expect(camp.guardedDepositId).toBe(deposit.id);
+        const outline=obstructionOutline(camp),polygon=Array.from({length:outline.length/2},(_,i)=>({x:outline[i*2],y:outline[i*2+1]}));
+        const size=getNodeSize(deposit);
+        for(const dx of [-size.w/2,size.w/2])for(const dy of [-size.h/2,size.h/2])expect(pointInPolygon({x:dx,y:dy},polygon)).toBe(true);
+        for(const other of sector.nodes.filter(n=>n.resourceItem&&n.id!==deposit.id))expect(overlapsMaximumCampRadius(other,camp,12)).toBe(false);
         expect(deposit.resourceRemaining).toBe(1000+500*sectorDistance(x,y));
         expect(sector.nodes.some(n=>n.kind==='goblinTribute')).toBe(false);
         if(camp.lizardSettlement){dwarves++;expect(deposit.resourceItem).toBe('mythril');expect(sector.nodes.filter(n=>n.resourceItem&&n.kind!=='lake')).toHaveLength(5);}
@@ -82,6 +91,39 @@ describe('new-world rules and saved legacy worlds',()=>{
 });
 
 describe('guarded deposits',()=>{
+  it.each([false,true])('keeps an interior deposit usable through suppression, growth and paired relocation (Dwarven=%s)',dwarven=>{
+    const generated=Array.from({length:121},(_,i)=>generateSector(i%11,Math.floor(i/11),37,0,[],5,2,11,1,2))
+      .find(s=>s.nodes.some(n=>n.kind==='monster-camp'&&Boolean(n.lizardSettlement)===dwarven))!;
+    const originalCamp=generated.nodes.find(n=>n.kind==='monster-camp')!,originalDeposit=generated.nodes.find(n=>n.guardedCampId===originalCamp.id)!;
+    const startingPosition={x:originalDeposit.x,y:originalDeposit.y};
+    const extractor=makeNode('extractor','interior-worker',originalCamp.x+450,originalCamp.y);
+    const engine=new GameEngine(fixture([...generated.nodes,extractor]));
+    const camp=engine.getSector().nodes.find(n=>n.id===originalCamp.id)!,deposit=engine.getSector().nodes.find(n=>n.id===originalDeposit.id)!;
+    expect(canPlaceNode(deposit,engine.getSector().nodes,{width:3600,height:2400})).toBe(true);
+    expect(canPlaceNode(makeNode('extractor','intruder',camp.x,camp.y),engine.getSector().nodes,{width:3600,height:2400})).toBe(false);
+    expect(engine.connect(deposit.id,extractor.id)).toBe(false);
+    camp.suppressed=true;camp.campStrength=10;engine.tick(100);
+    expect(getPortAnchor(camp,'input',0).x).toBeLessThanOrEqual(-getNodeSize(deposit).w/2-24);
+    expect(engine.connect(deposit.id,extractor.id)).toBe(true);
+    advance(engine,5000);expect(engine.getSector().nodes.find(n=>n.id===extractor.id)!.output[deposit.resourceItem!]).toBe(1);
+    const cable=engine.getSector().connections[0];expect(obstructedConnections(engine.getSector()).has(cable.id)).toBe(false);
+    camp.campStrength=100;
+    expect(obstructedConnections(engine.getSector()).has(cable.id)).toBe(false);
+    deposit.guardedLocked=true;expect(obstructedConnections(engine.getSector()).has(cable.id)).toBe(true);
+    deposit.guardedLocked=false;expect(obstructedConnections(engine.getSector()).has(cable.id)).toBe(false);
+    camp.campStrength=25;camp.suppressed=false;
+    const stock=deposit.resourceRemaining;advance(engine,5000);
+    expect(deposit.resourceRemaining).toBe(stock);expect(engine.getSector().connections).toHaveLength(1);
+    camp.campStrength=10;camp.suppressed=true;engine.tick(100);
+    const unrelated=makeNode('monster-camp','other-camp',camp.x+300,camp.y,{campStrength:100,obstructionMaxRadius:100});
+    expect(connectionBlockedByWorld(deposit,extractor,{fromPort:0,toPort:0},[...engine.getSector().nodes,unrelated])).toBe(true);
+    engine.getState().research.completed.push('campRelocation');
+    expect(engine.tryMoveNodesTo({[camp.id]:{x:camp.x+32,y:camp.y+32}})).toBe(true);
+    expect(deposit.x).toBe(camp.x);expect(deposit.y).toBe(camp.y);
+    const reloaded=new GameEngine(normalizeLegacy(JSON.parse(JSON.stringify(engine.getState())))!);
+    expect(reloaded.getSector().nodes.find(n=>n.id===deposit.id)).toMatchObject({x:deposit.x,y:deposit.y,guardedCampId:camp.id});
+    engine.undo();expect(engine.getSector().nodes.find(n=>n.id===deposit.id)).toMatchObject(startingPosition);
+  });
   it.each([false,true])('preserves stock, progress and wiring through suppression loss (Dwarven=%s)',dwarven=>{
     const {camp,deposit}=guarded(dwarven);camp.suppressed=false;camp.campStrength=25;deposit.resourceRemaining=50;
     const extractor=makeNode('extractor','extractor',1100,500);

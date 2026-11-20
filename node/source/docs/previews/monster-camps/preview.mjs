@@ -1,7 +1,7 @@
 import { rates, ap, maximum, material, fullySuppressed, createState, check, advance, extract, cornerRewards, upgradeMultiplier } from './model.mjs';
 
 const $ = id => document.getElementById(id);
-const names = { iron: 'Iron', copper: 'Copper', stone: 'Stone Deposit', mythril: 'Mythril' };
+const names = { iron: 'Iron', copper: 'Copper', stone: 'Stone', mythril: 'Mythril' };
 const sizes = ['Camp', 'Village', 'Kingdom'];
 let state = createState();
 const family = () => $('family').value;

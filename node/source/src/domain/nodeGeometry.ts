@@ -85,9 +85,9 @@ export function getPortAnchor(node: MachineNode, direction: 'input' | 'output', 
     return { x: cornerCampInward(node.cornerCampQuadrant).x * size.w / 2, y: (index - (count - 1) / 2) * spacing };
   }
   if (node.infiniteResource && direction === 'output') return index % 4 === 0 ? { x: 0, y: -size.h / 2 } : index % 4 === 1 ? { x: size.w / 2, y: 0 } : index % 4 === 2 ? { x: 0, y: size.h / 2 } : { x: -size.w / 2, y: 0 };
-  if (node.kind === 'lake') {
-    const polygon = organicPolygon(node, 18);
-    const ray = [{ x: 0, y: -1 }, { x: 1, y: 0 }, { x: 0, y: 1 }, { x: -1, y: 0 }][index % 4];
+  if (node.kind === 'lake' || (node.kind === 'monster-camp' && node.guardedDepositId)) {
+    const polygon = organicPolygon(node, node.kind === 'lake' ? 18 : 15);
+    const ray = node.kind === 'monster-camp' ? { x: -1, y: 0 } : [{ x: 0, y: -1 }, { x: 1, y: 0 }, { x: 0, y: 1 }, { x: -1, y: 0 }][index % 4];
     const cross = (a: Point, b: Point) => a.x * b.y - a.y * b.x;
     for (let i = 0; i < polygon.length; i += 2) {
       const a = { x: polygon[i], y: polygon[i + 1] };
@@ -97,7 +97,10 @@ export function getPortAnchor(node: MachineNode, direction: 'input' | 'output', 
       if (Math.abs(denominator) < 1e-8) continue;
       const distance = cross(a, edge) / denominator;
       const along = cross(a, ray) / denominator;
-      if (distance > 0 && along >= -1e-8 && along <= 1 + 1e-8) return { x: ray.x * distance, y: ray.y * distance };
+      if (distance > 0 && along >= -1e-8 && along <= 1 + 1e-8) {
+        const reach = node.kind === 'monster-camp' ? Math.max(distance, RESOURCE_NODE_SIZE.w / 2 + 32) : distance;
+        return { x: ray.x * reach, y: ray.y * reach };
+      }
     }
   }
   if (node.kind === 'road' || node.kind === 'fluidRoad') {

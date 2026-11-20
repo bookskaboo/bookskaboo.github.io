@@ -1,0 +1,55 @@
+{
+  "date": "2026-11-20",
+  "historyId": "NODE-0640",
+  "restored": {
+    "total": 30,
+    "perFaction": {
+      "camp": 5,
+      "village": 5,
+      "kingdom": 5
+    },
+    "goblinTierCounts": [
+      0,
+      1,
+      2,
+      2,
+      2,
+      2,
+      1,
+      2,
+      2,
+      1
+    ],
+    "dwarvenTierCounts": [
+      0,
+      0,
+      0,
+      0,
+      2,
+      3,
+      2,
+      3,
+      2,
+      3
+    ],
+    "newGameLayoutVersion": 2,
+    "layoutAlgorithmMatchesPublished": true
+  },
+  "retainedFixes": [
+    "Interior guarded deposits",
+    "Camp AP socket/status clearance",
+    "Suppression-gated extraction and paired relocation",
+    "Stone naming"
+  ],
+  "checks": {
+    "workspacePassed": 1885,
+    "workspaceSkipped": 2,
+    "focusedPassed": 100,
+    "build": true,
+    "siteBuild": true,
+    "systemDocs": true,
+    "history": true
+  },
+  "canceledRevisionPublished": false,
+  "published": false
+}

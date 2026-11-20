@@ -8,7 +8,13 @@ export function guardedResourceAccessible(node: MachineNode, nodes: readonly Mac
 }
 
 export function syncGuardedResources(sector: SectorState) {
-  for (const node of sector.nodes) if (node.guardedCampId) node.guardedLocked = !guardedResourceAccessible(node, sector.nodes);
+  const camps = new Map(sector.nodes.filter(node => node.kind === 'monster-camp').map(camp => [camp.id, camp]));
+  for (const camp of camps.values()) camp.guardedDepositId = undefined;
+  for (const node of sector.nodes) if (node.guardedCampId) {
+    const owner = camps.get(node.guardedCampId);
+    node.guardedLocked = !isCampFullySuppressed(owner);
+    if (owner) owner.guardedDepositId = node.id;
+  }
 }
 
 export function lakeIntakeLimit(state: Pick<GameState, 'worldRulesVersion' | 'research'>) {

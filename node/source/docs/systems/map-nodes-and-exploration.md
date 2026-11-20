@@ -33,15 +33,17 @@ In new worlds, discovering unfinished generated Deep Holes prevents new purchase
 
 Already unlocked maps remain enterable, including purchased but unvisited destinations. A destination quote with Cores contributed before blocker discovery may keep funding and finish at its original price, including after switching projects or save/load. Unlock that destination on completion; preserve its entry access and paid value. A selected but unfunded quote does not qualify. Saved Map Points cannot bypass a known blocker or pay twice for an already-started destination purchase; resume that project instead. Unfunded blocked quotes retain their destination, price and input Cores without consuming more.
 
-Standard new worlds use the [28-hole-map distribution](../deep-hole-exploration-simulation.md#distribution-calibration-for-10515-targets), with selection weight four at tiers 3–4 and one elsewhere. Other eligible locations become clear resource maps. The saved seed and world-rule version keep selection stable through later discovery. [Encounter rules](encounters-and-obstructions.md) describe candidate sizes, prices, completion and legacy differences. Existing worlds keep their original exploration and generation rules on every later map. The analytical 10/5/15 median filling targets assume immediate visits and do not estimate advance-purchase strategies.
+Standard new worlds use the [28-hole-map distribution](../deep-hole-exploration-simulation.md#distribution-calibration-for-10515-targets), with selection weight four at tiers 3–4 and one elsewhere. Other eligible locations become clear resource maps. The saved seed, world-rule version and encounter-layout version keep selection stable through later discovery. [Encounter rules](encounters-and-obstructions.md) describe candidate sizes, prices, completion and legacy differences. Existing worlds keep their original exploration and generation rules on every later map. The analytical 10/5/15 median filling targets assume the retained thirty-settlement distribution and immediate visits; they do not estimate advance-purchase strategies.
 
 ## Fields and generation
+
+Visible river, chasm and mountain borders are [planned separately](../master-plan/21-border-obstructions.md); they are not current map-generation or exploration rules.
 
 New fields begin at 3,600 × 2,400 world units. Area Expansion grows field dimensions across the world; older saves preserve their largest prior field as the shared baseline. Corner layouts follow expansion only when the move fits existing factories and cable boundaries.
 
 Home starts with Wood, Copper and Iron reserves of 1,000 each. Ordinary mineral/Forest reserve capacity increases with distance: `1,000 + min(10, tier) × 500` before mod multipliers. Standard tier-ten generation has no ordinary resource reserve; corners require supply networks. New natural Mythril spawn chance is zero.
 
-Seeded layouts reserve Lakes, settlements, clear sectors and four mineral Golems. A Lake is guaranteed at `7,5`; the east neighbor `6,5` is reserved clear; a Sorting Ruin appears at `5,7`. Goblin and Dwarven settlements occupy distinct sectors, with Golems reserved separately. Saved layout versions preserve older placement rules.
+Seeded layouts reserve Lakes, settlements, clear sectors and four mineral Golems. A Lake is guaranteed at `7,5`; the east neighbor `6,5` is reserved clear; a Sorting Ruin appears at `5,7`. New worlds retain thirty Goblin/Dwarven settlements, five of each level per faction in their original tier distributions. Settlements occupy distinct sectors, with Golems reserved separately. Saved layout versions preserve older placement rules.
 
 Sources: [grid and labels](../../src/domain/worldGrid.ts), [destination pricing](../../src/simulation/mapExpansion.ts), [generation](../../src/simulation/worldGeneration.ts), [travel and unlock actions](../../src/simulation/engine.ts), [research quotes](../../src/simulation/researchRuntime.ts).
 

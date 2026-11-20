@@ -424,7 +424,7 @@ export class GameEngine {
         if ((node.miningProgress ?? 0) >= 20) {
           const target = node.miningTarget ?? 'iron';
           node.kind = target === 'stone' ? 'stoneDeposit' : target;
-          node.name = target === 'stone' ? 'Stone Deposit' : `${target[0].toUpperCase()}${target.slice(1)}`;
+          node.name = `${target[0].toUpperCase()}${target.slice(1)}`;
           node.resourceItem = target;
           node.resourceRemaining = 1000;
           node.resourceCapacity = 1000;

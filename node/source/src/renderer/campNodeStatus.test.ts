@@ -3,6 +3,13 @@ import { createCampNodeStatus, updateCampNodeStatus } from './campNodeStatus';
 import { tutorialNode } from '../tutorials/tutorialRuntime';
 
 describe('always-visible camp feedback', () => {
+  it('keeps AP and countdown feedback below an interior guarded reserve', () => {
+    const node=tutorialNode('monster-camp','guarding-camp',0,0,{guardedDepositId:'reserve'}),view=createCampNodeStatus();
+    updateCampNodeStatus(view,node,0,1);
+    expect(view.root.y+view.ap.y).toBeGreaterThan(128);
+    expect(view.root.y+view.check.y).toBeGreaterThan(128);
+    view.root.destroy({children:true});view.halo.destroy();
+  });
   it('updates live AP, countdown, and last-result color without changing socket input', () => {
     const node = tutorialNode('monster-camp', 'camp', 0, 0, { attackRequirement: 6, progressMs: 30000, input: { 'medium-suppression-bot': 2 } });
     const view = createCampNodeStatus();

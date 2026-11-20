@@ -24,6 +24,7 @@ export const LEGACY_NODE_DISPLAY_NAMES: Record<string, string> = {
 };
 
 export function canonicalNodeName(kind: string, name: string) {
+  if (kind === 'stoneDeposit' && name === 'Stone Deposit') return 'Stone';
   if (kind === 'abandonedFabricator' && name === 'Fabricator') return 'Fabricator Ruin';
   if (kind === 'monster-camp' && name === 'Small Goblin Camp') return 'Goblin Camp';
   return LEGACY_NODE_DISPLAY_NAMES[name] ?? name;

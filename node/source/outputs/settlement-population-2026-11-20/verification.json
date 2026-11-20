@@ -1,0 +1,100 @@
+{
+  "date": "2026-11-20",
+  "historyId": "NODE-0638",
+  "layoutVersion": 3,
+  "worldRuleVersion": 2,
+  "settlements": {
+    "perFaction": {
+      "camp": 2,
+      "village": 2,
+      "kingdom": 2
+    },
+    "total": 12,
+    "distinctTiers": true,
+    "goblinBands": [
+      [
+        1,
+        2,
+        3
+      ],
+      [
+        4,
+        5,
+        6
+      ],
+      [
+        7,
+        8,
+        9
+      ]
+    ],
+    "dwarvenBands": [
+      [
+        4,
+        5
+      ],
+      [
+        6,
+        7
+      ],
+      [
+        8,
+        9
+      ]
+    ],
+    "tierSampling": "Uniform pair without replacement",
+    "mapPlacement": "Seeded and quadrant balanced"
+  },
+  "savedLayouts": {
+    "oneAndTwo": "Preserved at thirty settlements",
+    "unmarked": "Prior version 1/2 inference retained",
+    "newCreation": 3,
+    "roundTrips": [
+      "slot",
+      "copy",
+      "autosave",
+      "JSON import/re-save",
+      "mods",
+      "undo",
+      "later generation"
+    ]
+  },
+  "checks": {
+    "workspacePassed": 1887,
+    "workspaceSkipped": 2,
+    "focusedPassed": 135,
+    "standardSeeds": [
+      1,
+      7,
+      37,
+      99,
+      98765,
+      2147483647
+    ],
+    "tierVariationSeeds": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      7,
+      13,
+      37,
+      57,
+      99,
+      314,
+      2026
+    ],
+    "largerGrids": [
+      13,
+      21
+    ],
+    "build": true,
+    "siteBuild": true,
+    "systemDocs": true,
+    "history": true
+  },
+  "holeMaps": 28,
+  "routeCalibration": "Not rerun; prior study used thirty settlements",
+  "published": false
+}

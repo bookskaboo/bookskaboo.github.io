@@ -42,4 +42,14 @@ describe('shorter node names in existing factories', () => {
     state.sectors[state.activeSectorId].nodes = [tutorialNode('advancedAssembler', 'custom-machine', 1000, 1000, { name: 'My machine' })];
     expect(new GameEngine(state, { autosave: false }).getSector().nodes[0].name).toBe('My machine');
   });
+  it('shortens generated Stone names without changing reserve identity, stock or custom titles', () => {
+    const state=createInitialState(87);
+    state.sectors['5,5'].nodes=[tutorialNode('stoneDeposit','stone',1000,1000,{name:'Stone Deposit',resourceItem:'stone',resourceCapacity:1500,resourceRemaining:1234}),
+      tutorialNode('stoneDeposit','custom-stone',1800,1000,{name:'Landfill supply',resourceItem:'stone',resourceRemaining:500})];
+    state.factoryTemplates=[{name:'Saved Stone',nodes:[structuredClone(state.sectors['5,5'].nodes[0])],connections:[]}];
+    const engine=new GameEngine(state,{autosave:false});
+    expect(engine.getSector().nodes[0]).toMatchObject({id:'stone',kind:'stoneDeposit',name:'Stone',resourceItem:'stone',resourceRemaining:1234,resourceCapacity:1500});
+    expect(engine.getSector().nodes[1].name).toBe('Landfill supply');
+    expect(engine.getState().factoryTemplates![0].nodes[0].name).toBe('Stone');
+  });
 });

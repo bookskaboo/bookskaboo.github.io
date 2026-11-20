@@ -10,7 +10,7 @@ Configure recipe machines before wiring. Their effective sockets come from the s
 
 Generic families include ANY, RESOURCE, METAL, PLATE, CORE, WASTE, ROBOT_FRAME, ROBOT_WEAPON and ATTACK_POWER. ANY excludes deferred Power and Forest Growth. The general fluid classifier includes Water, Coolant and Copper Slurry, while the FLUID socket family currently accepts Water and Coolant. A generic socket does not override Road, vehicle, Recycler or natural-resource restrictions.
 
-Natural reserves feed Extractors directly or through permitted pass-through routing. Inventory outputs feed Filters. Both ends of a Road require a directly connected freight vehicle. Forest Growth uses a dedicated matching socket. A Stone reserve cannot fill a Deep Hole without extraction. New-world guarded reserves reject new extraction connections until fully suppressed; retained connections pause during suppression loss. New-world Lakes connect directly only to Lake Intakes, with a research-based limit of two/three/four distinct Intakes.
+Natural reserves feed Extractors directly or through permitted pass-through routing. Inventory outputs feed Filters. Both ends of a Road require a directly connected freight vehicle. Forest Growth uses a dedicated matching socket. A Stone reserve cannot fill a Deep Hole without extraction. New-world guarded reserves reject new extraction connections until fully suppressed; retained connections pause during suppression loss. Once unlocked, the interior deposit’s outgoing cable may cross its own camp border, while other obstructions and unrelated cables remain blocked. New-world Lakes connect directly only to Lake Intakes, with a research-based limit of two/three/four distinct Intakes.
 
 ## Routing nodes
 

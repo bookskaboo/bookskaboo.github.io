@@ -74,7 +74,7 @@ export const NODE_DEFINITIONS: Record<NodeKind, NodeDefinition> = {
   iron: node({ kind: 'iron', name: 'Iron', category: 'World', description: 'Finite Iron reserve.', icon: '◆', input: [], output: ['iron'], size: 'large', hidden: true }),
   copper: node({ kind: 'copper', name: 'Copper', category: 'World', description: 'Finite Copper reserve.', icon: '◆', input: [], output: ['copper'], size: 'large', hidden: true }),
   mythril: node({ kind: 'mythril', name: 'Mythril', category: 'World', description: 'Rare finite Mythril reserve.', icon: '◆', input: [], output: ['mythril'], size: 'large', hidden: true }),
-  stoneDeposit: node({ kind: 'stoneDeposit', name: 'Stone Deposit', category: 'World', description: 'Finite Stone reserve.', icon: '▲', input: [], output: ['stone'], size: 'large', hidden: true }),
+  stoneDeposit: node({ kind: 'stoneDeposit', name: 'Stone', category: 'World', description: 'Finite Stone reserve.', icon: '▲', input: [], output: ['stone'], size: 'large', hidden: true }),
   lake: node({ kind: 'lake', name: 'Lake', category: 'World', description: 'Produces Water from four directional outlets.', icon: '≈', input: [], output: ['water', 'water', 'water', 'water'], size: 'large', hidden: true }),
 
   extractor: node({ kind: 'extractor', name: 'Extractor', category: 'Production', description: 'Automates resource gathering from any natural source.', icon: 'E', input: ['RESOURCE'], output: ['RESOURCE'] }),
