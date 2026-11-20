@@ -16,6 +16,14 @@
   },
   "releases": [
     {
+      "id": "d9642dc",
+      "date": "2026-11-19",
+      "title": "Active dense-factory rendering optimizations",
+      "commit": "d9642dc0ab01e48031aae317887fd1777f571b93",
+      "url": "https://github.com/bookskaboo/bookskaboo.github.io/commit/d9642dc0ab01e48031aae317887fd1777f571b93",
+      "notes": "Changes confined to node/. GitHub Pages succeeded; normal live HTML and all ten build assets verified by SHA-256, plus ten prior-build assets. New-world camp/obstruction behavior and player saves are preserved."
+    },
+    {
       "id": "d96e032",
       "date": "2026-11-19",
       "title": "New-world monster camps and obstruction rules",
@@ -18985,7 +18993,7 @@
       "dateBasis": "chat",
       "kind": "changed",
       "state": "implemented",
-      "delivery": "local",
+      "delivery": "published",
       "title": "Improve active 2,400-node overview performance with shared artwork and local cable caches",
       "summary": "Reduce dense-factory drawing and lookup work while keeping production, real progress bars and physical material transfers active at normal speed.",
       "details": [
@@ -19021,7 +19029,48 @@
         "docs/typography-style-review.docx",
         "outputs/dense-optimization/verification.json"
       ],
-      "validation": "All 1,843 workspace tests passed with two existing skips. Main and /node/ site builds, preview TypeScript and standalone build passed. Cache tests verify shared artwork, exclusion of live overlays, restoration on generation failure, selected cable ownership, local movement and reopening culled regions. Dense fixture tests verify active progress, all router ports carrying real cargo and continued delivery to every Warehouse over three simulated minutes. Browser checked individual and grouped movement, overview dragging, zoom/cell transitions, cable selection, socket detachment/reconnection restoring 3,330 connections, real progress emphasis, continued production/delivery and 390 px width without horizontal overflow. Serial timing observations use the same desktop browser/overview, an older paused test tab and different sample durations; they are not universal FPS or balance claims. System catalogs/local links pass. Both Word files preserve prior paragraphs and reopen; both packaged render attempts fail because LibreOffice is unavailable, so Word page layout is unverified. Changes remain local; no publication or browser-save writes. Final compiled-build smoke check captures all 2,400 visible nodes, 77 cable neighborhoods, active cargo and no new browser warnings/errors. A null-label failure in an intermediate snapshot build was fixed and its stopped-renderer timing discarded; regression coverage includes unnamed art and restoration of animated socket scale."
+      "validation": "All 1,843 workspace tests passed with two existing skips. Main and /node/ site builds, preview TypeScript and standalone build passed. Cache tests verify shared artwork, exclusion of live overlays, restoration on generation failure, selected cable ownership, local movement and reopening culled regions. Dense fixture tests verify active progress, all router ports carrying real cargo and continued delivery to every Warehouse over three simulated minutes. Browser checked individual and grouped movement, overview dragging, zoom/cell transitions, cable selection, socket detachment/reconnection restoring 3,330 connections, real progress emphasis, continued production/delivery and 390 px width without horizontal overflow. Serial timing observations use the same desktop browser/overview, an older paused test tab and different sample durations; they are not universal FPS or balance claims. System catalogs/local links pass. Both Word files preserve prior paragraphs and reopen; both packaged render attempts fail because LibreOffice is unavailable, so Word page layout is unverified. Changes remain local; no publication or browser-save writes. Final compiled-build smoke check captures all 2,400 visible nodes, 77 cable neighborhoods, active cargo and no new browser warnings/errors. A null-label failure in an intermediate snapshot build was fixed and its stopped-renderer timing discarded; regression coverage includes unnamed art and restoration of animated socket scale.",
+      "publishedBy": "d9642dc"
+    },
+    {
+      "id": "NODE-0612",
+      "date": "2026-11-19",
+      "dateBasis": "chat",
+      "kind": "changed",
+      "state": "implemented",
+      "delivery": "published",
+      "publishedBy": "d9642dc",
+      "title": "Publish active dense-factory rendering and cable-cache optimizations",
+      "summary": "Publish shared overview artwork, locally refreshed cable neighborhoods and faster renderer lookups to the live NODE game while production and physical transfers stay active.",
+      "details": [
+        "Fast-forward main from 24bdb03ff3c25a8d9e3601889eef22f8a24defbb to d9642dc0ab01e48031aae317887fd1777f571b93. Changes are confined to node/; all 114 previous runtime assets remain unchanged, and built output matches its source snapshot.",
+        "Preserve the newer published camp and obstruction gameplay. The release changes exactly seven renderer source/test files; simulation cadence, recipes, reservations, physical transfer timing and the existing 64-animation limit remain unchanged.",
+        "The dense fixture source and performance evidence are archived in node/source/. The standalone compiled test page remains a local development preview. Local serial measurements improved the active 2,400-node overview from about 7.1 to 61.7 page FPS, with frame p95 falling from 166.8 to 25.1 ms; these are browser-specific measurements rather than a universal FPS guarantee."
+      ],
+      "topics": [
+        "Performance",
+        "Production",
+        "Connections",
+        "Controls",
+        "Publishing"
+      ],
+      "sources": [
+        "local-code"
+      ],
+      "evidence": [
+        "outputs/node-dense-optimization-release-2026-11-19/publication-receipt.json",
+        "outputs/node-dense-optimization-release-2026-11-19/preflight-report.json",
+        "outputs/node-dense-optimization-release-2026-11-19/build-manifest.json",
+        "outputs/node-dense-optimization-release-2026-11-19/source-manifest.json",
+        "outputs/node-dense-optimization-release-2026-11-19/workspace-tests.log",
+        "outputs/node-dense-optimization-release-2026-11-19/candidate-tests.log",
+        "outputs/node-dense-optimization-release-2026-11-19/candidate-build.log",
+        "outputs/dense-optimization/verification.json",
+        "src/renderer/PixiPlayfield.tsx",
+        "src/renderer/cableLayers.ts",
+        "src/renderer/overviewTextures.ts"
+      ],
+      "validation": "All 1,843 workspace tests passed with two existing skips. The isolated release passed 1,047 tests with one opt-in skip, preview TypeScript, system documentation/catalog and history checks, and npm run build:site. All eleven runtime files match the workspace build byte-for-byte. Preflight confirmed a clean commit, exact seven-file renderer overlay, only node/ changes, fast-forward ancestry and all 114 prior assets unchanged. GitHub Pages run 44659512350 succeeded. The normal live HTML and every one of the ten new build assets matched SHA-256, as did all ten assets from the previous live build. Movement, group movement, zoom, cable selection and reconnection, continued production and Warehouse delivery were verified before release. Word structure checks passed, but visual Word rendering remains unavailable because LibreOffice is missing. No player game tab was reloaded or save modified."
     }
   ]
 }

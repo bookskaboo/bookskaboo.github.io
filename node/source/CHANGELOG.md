@@ -2,17 +2,16 @@
 
 A searchable record of completed changes, design decisions, and relevant review findings. Stable NODE IDs can be cited in chats and searched in the repository.
 
-**611 records · 2026-10-12–2026-11-19 · America/Los_Angeles**
+**612 records · 2026-10-12–2026-11-19 · America/Los_Angeles**
 
 [Open searchable history](<docs/changelog/index.html>) · [How to review and maintain it](<docs/changelog/README.md>) · [Sources and coverage gaps](<docs/changelog/sources.md>)
 
 ## Local changes awaiting publication
 
-Latest confirmed game publication: [d96e032](https://github.com/bookskaboo/bookskaboo.github.io/commit/d96e032856547a61bc0909764dd3c98e2b02d52d).
+Latest confirmed game publication: [d9642dc](https://github.com/bookskaboo/bookskaboo.github.io/commit/d9642dc0ab01e48031aae317887fd1777f571b93).
 
 | ID | Change | Topics |
 | --- | --- | --- |
-| [NODE-0611](<docs/changelog/2026-11.md#node-0611>) | Improve active 2,400-node overview performance with shared artwork and local cable caches | Performance, Production, Connections, Controls, Tooling, Documentation |
 | [NODE-0610](<docs/changelog/2026-11.md#node-0610>) | Add dense factory tests with live progress bars and Splitter/Merger routing | Tooling, Performance, Production, Connections, Logistics, Controls, Documentation |
 | [NODE-0596](<docs/changelog/2026-11.md#node-0596>) | Retire duplicate references and remove unused workspace artifacts | Documentation, Tooling, Architecture, Saves |
 | [NODE-0594](<docs/changelog/2026-11.md#node-0594>) | Organize current systems into linked references and generated catalogs | Documentation, Resources, Production, Recipes, Research, World, Progression, Tooling |
@@ -83,13 +82,14 @@ Latest confirmed game publication: [d96e032](https://github.com/bookskaboo/books
 
 ## Dated history
 
-- [2026-11](<docs/changelog/2026-11.md>) — 593 records
+- [2026-11](<docs/changelog/2026-11.md>) — 594 records
 - [2026-10](<docs/changelog/2026-10.md>) — 18 records
 
 “Known by” dates are implementation/publication bounds, not exact change dates. “Backfilled” dates mark records with uncertain original dates. Supersession links explain reversals. Original-game records do not certify current rebuild behavior.
 
 ## Published releases
 
+- 2026-11-19 — [d9642dc: Active dense-factory rendering optimizations](https://github.com/bookskaboo/bookskaboo.github.io/commit/d9642dc0ab01e48031aae317887fd1777f571b93) — Changes confined to node/. GitHub Pages succeeded; normal live HTML and all ten build assets verified by SHA-256, plus ten prior-build assets. New-world camp/obstruction behavior and player saves are preserved.
 - 2026-11-19 — [d96e032: New-world monster camps and obstruction rules](https://github.com/bookskaboo/bookskaboo.github.io/commit/d96e032856547a61bc0909764dd3c98e2b02d52d) — Changes confined to node/, preserving all previous runtime assets. GitHub Pages succeeded; normal live HTML and every current build asset matched SHA-256. Existing saves retain legacy rules; only new worlds use the rework.
 - 2026-11-19 — [5a44feb: Retained rendering and higher-load factory performance](https://github.com/bookskaboo/bookskaboo.github.io/commit/5a44feb4e14945365dff935e76ea451b1a518a1e) — Fast-forwarded main with changes confined to node/. GitHub Pages succeeded; normal live HTML and all ten runtime assets matched SHA-256. Previous assets remain available. Concurrent unfinished new-world gameplay edits were excluded.
 - 2026-11-18 — [f1d5681: Node-owned efficiency through Final and early production recovery](https://github.com/bookskaboo/bookskaboo.github.io/commit/f1d56811f463fd300a7f64ddd17e69fd8319d62d) — Fast-forwarded main with changes confined to node/. Verified normal live HTML and all ten new runtime assets by SHA-256 after successful GitHub Pages deployment. All previous runtime assets were retained. Includes the earlier Basic Gun recipe, short Dwarven hint and filled-hole cleanup fixes.
@@ -129,10 +129,10 @@ A record marked “Published by” was known in that snapshot and may have appea
 - [Camera](<docs/changelog/index.html?topic=Camera>) (3)
 - [Combat](<docs/changelog/index.html?topic=Combat>) (16)
 - [Compatibility](<docs/changelog/index.html?topic=Compatibility>) (3)
-- [Connections](<docs/changelog/index.html?topic=Connections>) (45)
+- [Connections](<docs/changelog/index.html?topic=Connections>) (46)
 - [Construction](<docs/changelog/index.html?topic=Construction>) (15)
 - [Control groups](<docs/changelog/index.html?topic=Control%20groups>) (3)
-- [Controls](<docs/changelog/index.html?topic=Controls>) (48)
+- [Controls](<docs/changelog/index.html?topic=Controls>) (49)
 - [Deployment](<docs/changelog/index.html?topic=Deployment>) (1)
 - [Design](<docs/changelog/index.html?topic=Design>) (7)
 - [Developer tools](<docs/changelog/index.html?topic=Developer%20tools>) (1)
@@ -150,16 +150,16 @@ A record marked “Published by” was known in that snapshot and may have appea
 - [Naming](<docs/changelog/index.html?topic=Naming>) (7)
 - [Nodes](<docs/changelog/index.html?topic=Nodes>) (2)
 - [Options](<docs/changelog/index.html?topic=Options>) (4)
-- [Performance](<docs/changelog/index.html?topic=Performance>) (5)
+- [Performance](<docs/changelog/index.html?topic=Performance>) (6)
 - [Persistence](<docs/changelog/index.html?topic=Persistence>) (44)
 - [Placement](<docs/changelog/index.html?topic=Placement>) (4)
 - [Planning](<docs/changelog/index.html?topic=Planning>) (218)
 - [Playtesting](<docs/changelog/index.html?topic=Playtesting>) (49)
 - [Power](<docs/changelog/index.html?topic=Power>) (2)
-- [Production](<docs/changelog/index.html?topic=Production>) (96)
+- [Production](<docs/changelog/index.html?topic=Production>) (97)
 - [Progression](<docs/changelog/index.html?topic=Progression>) (213)
 - [Publication](<docs/changelog/index.html?topic=Publication>) (2)
-- [Publishing](<docs/changelog/index.html?topic=Publishing>) (10)
+- [Publishing](<docs/changelog/index.html?topic=Publishing>) (11)
 - [Recipes](<docs/changelog/index.html?topic=Recipes>) (111)
 - [Research](<docs/changelog/index.html?topic=Research>) (233)
 - [Resources](<docs/changelog/index.html?topic=Resources>) (112)

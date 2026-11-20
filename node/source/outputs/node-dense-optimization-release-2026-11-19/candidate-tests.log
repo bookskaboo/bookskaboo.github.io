@@ -1,0 +1,16 @@
+
+> factorinode-reconstruction@0.1.0 test
+> vitest run
+
+
+ RUN  v5.0.5 D:/node factory v2/outputs/node-dense-optimization-release-2026-11-19/repo/node/source
+
+
+ Test Files  97 passed | 1 skipped (98)
+      Tests  1047 passed | 1 skipped (1048)
+   Start at  18:13:12
+   Duration  23.15s (tests 43%, transform 33%, import 23%, worker 1%)
+
+    Isolate  98 workers spawned · ~363ms startup each (spawn + environment, per file)
+             at least ~1.18s faster with isolate: false — reuses workers across files instead of one per file
+
