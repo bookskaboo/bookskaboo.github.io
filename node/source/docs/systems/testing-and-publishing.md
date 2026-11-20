@@ -65,6 +65,17 @@ production active; keep inspection/movement checks separate from timing samples.
 See the [fixture guide](../../previews/active-factory/README.md)
 and [sustained-delivery checks](../../previews/active-factory/model.test.ts).
 
+Renderer metadata also reports shared overview appearances, cable neighborhoods
+and whether overview cable caching is active. Check movement, group movement,
+socket reconnection, selected cables, zoom threshold crossings and pan separately
+from an uninterrupted timing sample. The cache regression tests exercise overlay
+exclusion, appearance sharing, restoration after snapshot failure, neighborhood
+movement and reopening culled regions. The 2,400-node optimization changes drawing
+and lookup work, without changing simulation cadence, recipe timing, transfer
+timing or the existing animation cap. Local measurement evidence is retained in
+`outputs/dense-optimization/` and recorded by NODE-0611; it is not a universal FPS
+guarantee.
+
 ## Publishing
 
 The live game is [NODE](https://bookskaboo.github.io/node/), published from `main` in `bookskaboo/bookskaboo.github.io`. An explicit request to publish authorizes the full release workflow in [project instructions](../../AGENTS.md).

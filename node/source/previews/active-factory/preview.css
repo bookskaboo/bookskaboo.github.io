@@ -5,6 +5,7 @@
 .factory-test-title > span, .factory-test-header > p, .factory-test-help p { font: var(--ui-meta-font); color: #b8c5cc; }
 .factory-test-controls { margin-top: 12px; }
 .factory-test-controls label { display: flex; align-items: center; gap: 8px; font: var(--ui-control-font); }
+.factory-test-controls input[type="checkbox"] { width: 16px; height: 16px; margin: 0; accent-color: #e5c36b; }
 .factory-test-controls :is(button, select), .factory-test-help button { min-height: 34px; padding: 6px 12px; border: 1px solid #6b7c88; border-radius: 6px; background: #2b353d; color: #edf0ed; font: var(--ui-control-font); cursor: pointer; }
 .factory-test-controls button:hover, .factory-test-help button:hover { background: #3c4b55; }
 .factory-test-controls :focus-visible, .factory-test-help :focus-visible { outline: 2px solid #e5c36b; outline-offset: 3px; }

@@ -1,0 +1,15 @@
+{
+  "url": "http://127.0.0.1:4181/previews/active-factory/?layout=dense&nodes=2400",
+  "frameP95": 166.80000000447035,
+  "frameP99": 175.10000000149012,
+  "tickP95": 25.30000001192093,
+  "slowFrames": 315,
+  "count": 315,
+  "seconds": 44.19390000002086,
+  "observedPageFps": 7,
+  "gameSeconds": 49,
+  "produced": 1476,
+  "delivered": 343,
+  "physicalInTransit": 57,
+  "cycling": 253
+}

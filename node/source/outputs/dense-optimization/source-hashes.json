@@ -1,0 +1,7 @@
+{
+  "src/renderer/PixiPlayfield.tsx": "9b65f7991ff30d4cba45cb09f6034a122bf21caece195f192e773e9ecc145c93",
+  "src/renderer/cableLayers.ts": "2a8b0edf838ed1d3e7ff98d01576f2051ede6a35e636a7585ae8666fdcc4edd1",
+  "src/renderer/overviewTextures.ts": "8e06174104c44dfcb108328648d2bf6266310e61a243991e1b95b8e4e355ebab",
+  "src/renderer/overviewTextures.test.ts": "9db3d2aefb03872cb8b4bfacd1591c2baeadadf9dc5dbdb968089386880a8c1c",
+  "outputs/dense-optimization/build/assets/index-C3RKnDPf.js": "45de0e22084909110f09de4f5c984bae1df8b6d44603ce20cb3e1b71e284b29f"
+}

@@ -1,0 +1,27 @@
+{
+  "benchmark": {
+    "frameP95": 25.10000000000582,
+    "frameP99": 41.60000000000582,
+    "tickP95": 13.399999976158142,
+    "slowFrames": 58,
+    "count": 3661,
+    "seconds": 81.18180000002386
+  },
+  "renderer": {
+    "nodesCreated": 7202,
+    "nodesDestroyed": 4802,
+    "particleObjectsCreated": 128,
+    "visibleNodes": 2400,
+    "totalNodes": 2400,
+    "activeParticles": 64,
+    "pooledParticles": 0,
+    "overviewTextures": 17,
+    "cableChunks": 77,
+    "cachedCables": true
+  },
+  "activity": "2400 nodes\n360 producers\n3330 connections\n840 Splitters\n840 Mergers\n242 cycling\n26 materials in transit\n2,616 produced\n714 delivered\n85 s elapsed\n61 page FPS\n1.6 ms last tick\n25.1 ms p95 frame",
+  "assets": [
+    "/assets/index-C3RKnDPf.js"
+  ],
+  "newLogs": []
+}

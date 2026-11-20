@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from 'vitest';
 import { createInitialState } from '../simulation/engine';
 import type { MachineNode } from '../domain/types';
-import { boundsOnScreen, nodeDrawingKey, nodeOnScreen, playfieldResolution, reconcileViews, showNodeDetails, type ViewIdentity } from './sceneUpdates';
+import { boundsOnScreen, nodeDrawingKey, nodeOnScreen, playfieldResolution, progressBarTransform, reconcileViews, showNodeDetails, type ViewIdentity } from './sceneUpdates';
 import { buildCurveMotionPath, curvePoint, buildTransferMotionPath } from './cableGeometry';
 
 const node = (id = 'a', x = 500): MachineNode => ({ id, kind: 'smelter', name: 'Smelter', x, y: 500, rotation: 0, recipeId: 'smelt-iron', input: {}, output: {}, progressMs: 0, cycleMs: 6000, constructedAt: 0, constructionMs: 0 });
@@ -71,5 +71,12 @@ describe('retained factory drawing', () => {
 
   it('uses native display density within a bounded pixel budget', () => {
     expect([1, 1.5, 2, 3].map(playfieldResolution)).toEqual([1, 1.5, 2, 2]);
+  });
+  it('keeps emphasized fixture bars readable and bottom-aligned without changing ordinary bars', () => {
+    expect(progressBarTransform(.1, 8, 90)).toEqual({ scaleY: 1, y: 90 });
+    const overview = progressBarTransform(.1, 8, 90, 3);
+    expect(overview.scaleY * 8 * .1).toBeCloseTo(3);
+    expect(overview.y + overview.scaleY * 8).toBeCloseTo(98);
+    expect(progressBarTransform(1, 8, 90, 3)).toEqual({ scaleY: 1, y: 90 });
   });
 });

@@ -5,6 +5,7 @@ import type { FieldViewport } from '../domain/camera';
 export interface ViewIdentity { key: string; source: unknown }
 export interface RendererDiagnostics {
   nodesCreated: number; nodesDestroyed: number; particleObjectsCreated: number;
+  overviewTextures?: number; cableChunks?: number; cachedCables?: boolean;
   visibleNodes: number; totalNodes: number; activeParticles: number; pooledParticles: number;
 }
 
@@ -50,3 +51,9 @@ export function showNodeDetails(zoom: number, important: boolean) { return impor
 
 /** Honor display density without forcing a 4x pixel workload on 1x displays. */
 export function playfieldResolution(pixelRatio: number) { return Math.min(2, Math.max(1, pixelRatio || 1)); }
+
+/** Keep a fixture's emphasized progress bar inside its original bottom edge. */
+export function progressBarTransform(zoom: number, height: number, y: number, minimumPixels = 0) {
+  const scaleY = Math.max(1, minimumPixels / (height * Math.max(.001, zoom)));
+  return { scaleY, y: y - (scaleY - 1) * height };
+}

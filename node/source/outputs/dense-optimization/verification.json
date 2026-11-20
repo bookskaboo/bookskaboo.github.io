@@ -1,0 +1,124 @@
+{
+  "date": "2026-11-19",
+  "record": "NODE-0611",
+  "scope": "Serial local built-page observations, synthetic dense layout, no balance or universal-FPS claim",
+  "viewport": {
+    "width": 1210,
+    "height": 924
+  },
+  "layout": {
+    "nodes": 2400,
+    "production": 360,
+    "splitters": 840,
+    "mergers": 840,
+    "connections": 3330
+  },
+  "baseline": {
+    "url": "http://127.0.0.1:4181/previews/active-factory/?layout=dense&nodes=2400",
+    "frameP95": 166.80000000447035,
+    "frameP99": 175.10000000149012,
+    "tickP95": 25.30000001192093,
+    "slowFrames": 315,
+    "count": 315,
+    "seconds": 44.19390000002086,
+    "observedPageFps": 7,
+    "gameSeconds": 49,
+    "produced": 1476,
+    "delivered": 343,
+    "physicalInTransit": 57,
+    "cycling": 253
+  },
+  "optimized": {
+    "build": "index-C3RKnDPf.js",
+    "frameP95": 25.10000000000582,
+    "frameP99": 41.69999999999709,
+    "tickP95": 13.5,
+    "slowFrames": 65,
+    "count": 2958,
+    "seconds": 47.93110000002384,
+    "averagePageFps": 61.713584708018985,
+    "gameSeconds": 53,
+    "cycling": 240,
+    "physicalInTransit": 52,
+    "produced": 1580,
+    "delivered": 386,
+    "nodes": 2400,
+    "connections": 3330
+  },
+  "changes": [
+    "Shared bounded low-zoom snapshots of existing static node artwork; retain actual progress, warning and arrival overlays",
+    "Independently cached 1,024-unit cable neighborhoods; refresh changed chunks and keep selected cables interactive vectors",
+    "Cache unchanged cable endpoint inputs; index ports by node and use node maps during socket targeting"
+  ],
+  "simulation": "No simulation, recipe, dispatch, reservation or transfer-timing code changed. Existing 64-animation limit unchanged. Physical cargo counter excludes cosmetic pulses.",
+  "checks": [
+    "1843 workspace tests passed, 2 existing skips",
+    "Main build, /node/ site build, preview type-check and standalone production build passed",
+    "Dense tests verify body nonoverlap, bounds, valid wiring, both Splitter outlets and Merger inlets used, real progress and every final Warehouse still receiving at 180 simulated seconds",
+    "Browser: individual movement, Shift-selected group movement, overview dragging, cell/overview transitions, wheel zoom, selected cable, input detach and output-to-input reconnection restoring 3330 connections, progress emphasis toggle",
+    "390 CSS px viewport: document clientWidth=scrollWidth=390; restored desktop viewport",
+    "System catalogs and local documentation links passed",
+    "Word guides preserve all previous paragraphs and reopen successfully; both required render attempts fail because LibreOffice soffice.exe is unavailable",
+    "Final build source index-C3RKnDPf.js visibly renders the active overview, survives cell/overview movement checks and has no warning/error entries since its reload. All 1843 workspace tests pass after the null-label guard; snapshot tests also preserve socket pulse scale after capture."
+  ],
+  "limits": [
+    "Baseline measured 44.2 seconds and final clean sample 47.9 seconds after five seconds of warmup. Both recorded fewer than 3600 frames. Average page FPS is frames divided by measured seconds: approximately 7.1 before and 61.7 after. Game totals are activity evidence, not an exact matched-throughput test. The later smoke snapshot uses bounded rolling history and must not be averaged over its full elapsed duration.",
+    "Measurements include normal runtime work and main-thread garbage collection; they are not an isolated hardware benchmark. An older 600-node test tab remains paused in the same browser during both observations.",
+    "One heavy 2400-node tab was navigated serially between static built versions. No production save or browser storage was modified.",
+    "Word page layout could not be rendered. No live publication."
+  ],
+  "earlierOptimized": {
+    "benchmark": {
+      "frameP95": 25,
+      "frameP99": 41.60000000000582,
+      "tickP95": 13.400000035762787,
+      "slowFrames": 48,
+      "count": 3685,
+      "seconds": 81.88529999998808
+    },
+    "renderer": {
+      "nodesCreated": 12008,
+      "nodesDestroyed": 9608,
+      "particleObjectsCreated": 192,
+      "visibleNodes": 2400,
+      "totalNodes": 2400,
+      "activeParticles": 49,
+      "pooledParticles": 15,
+      "overviewTextures": 17,
+      "cableChunks": 77,
+      "cachedCables": true
+    },
+    "activity": "2400 nodes\n360 producers\n3330 connections\n840 Splitters\n840 Mergers\n247 cycling\n19 materials in transit\n2,640 produced\n720 delivered\n86 s elapsed\n85 page FPS\n1.7 ms last tick\n25.0 ms p95 frame"
+  },
+  "finalBuildSmoke": {
+    "benchmark": {
+      "frameP95": 25.10000000000582,
+      "frameP99": 41.60000000000582,
+      "tickP95": 13.399999976158142,
+      "slowFrames": 58,
+      "count": 3661,
+      "seconds": 81.18180000002386
+    },
+    "renderer": {
+      "nodesCreated": 7202,
+      "nodesDestroyed": 4802,
+      "particleObjectsCreated": 128,
+      "visibleNodes": 2400,
+      "totalNodes": 2400,
+      "activeParticles": 64,
+      "pooledParticles": 0,
+      "overviewTextures": 17,
+      "cableChunks": 77,
+      "cachedCables": true
+    },
+    "activity": "2400 nodes\n360 producers\n3330 connections\n840 Splitters\n840 Mergers\n242 cycling\n26 materials in transit\n2,616 produced\n714 delivered\n85 s elapsed\n61 page FPS\n1.6 ms last tick\n25.1 ms p95 frame",
+    "assets": [
+      "/assets/index-C3RKnDPf.js"
+    ],
+    "newLogs": []
+  },
+  "discardedAttempt": {
+    "build": "index-C_MMrfiI.js",
+    "reason": "An intermediate null-label snapshot error stopped Pixi rendering. Its apparent 120 FPS / 8.5 ms result is invalid and excluded. Fixed optional label lookup and added regression coverage for unnamed art children; final build has no new warnings/errors."
+  }
+}

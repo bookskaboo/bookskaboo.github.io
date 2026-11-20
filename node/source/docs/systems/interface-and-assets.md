@@ -39,4 +39,12 @@ and Golem readouts keep their existing special treatment. Culling is visual
 only: offscreen machines continue producing. Native display density is capped
 at two for the playfield and canvas labels to bound pixel and texture costs.
 
+Low-zoom ordinary node artwork is shared as small cached images of the existing
+vectors. Progress bars and waiting/arrival overlays stay dynamic. Generic socket
+labels follow the same detail threshold as Production labels; full text and
+buffers return on inspection. Natural resources, Extractors and Research Centers
+retain specialized live views. Cable neighborhoods cache their existing colors
+and curves at overview scale, and refresh locally when an endpoint moves or a
+route changes. Zooming in returns to vector drawing and the original controls.
+
 Sources: [UI components](../../src/ui/App.tsx), [node modules](../../src/content/nodeModules.ts), [shared geometry](../../src/domain/nodeGeometry.ts), [stylesheet entry](../../src/styles.css), [responsive layout](../../src/ui/responsiveLayout.ts). Broader art/audio direction and unfinished production work remain in the [art audio and writing plan](../master-plan/06-art-audio-and-writing.md).

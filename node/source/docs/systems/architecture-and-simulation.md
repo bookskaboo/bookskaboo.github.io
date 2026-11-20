@@ -46,6 +46,25 @@ and actively wired nodes retaining detail. Readouts follow simulation revisions
 and time; progress and cargo motion interpolate between ticks. Renderer and text
 resolution follow display density with a maximum of two.
 
+Below 40 percent zoom, ordinary rectangular player nodes share bounded snapshots
+of their existing static artwork. Progress fills/tracks, waiting markers and
+arrival flashes remain live; selection, hover, dragging and wiring restore full
+detail. Organic/resource nodes, Extractors and Research Centers retain their
+specialized drawing. Snapshot keys distinguish recipes, socket appearance and
+group colors; research/mod changes invalidate the shared cache. At most 256
+appearances are retained, each at most 256 pixels on its longer edge. Further
+appearances fall back to vectors. Render targets are released on teardown.
+
+Cables use independently cached neighborhoods grouped by source position on a
+1,024-unit grid. Each target is bounded to 2,048 pixels on its longer edge and
+culls against its complete curve bounds. Movement, insertion and rewiring dirty
+the affected neighborhoods; zooming above the threshold restores vector drawing.
+Selected cables remain individual vectors with their existing interaction and
+delete control. Hit testing uses the original node/socket/cable objects, and
+camera-dependent socket hit areas remain active. Endpoint input signatures avoid
+recomputing unchanged curve geometry on stock/progress publications. Node and
+port indexes avoid full-factory scans for socket lookup and router arrival pulses.
+
 Simulation remains on the main thread at its existing cadence. A worker is a
 separate architectural change; it is not required to use the retained renderer.
 The active-factory fixture exposes frame percentiles and renderer allocation

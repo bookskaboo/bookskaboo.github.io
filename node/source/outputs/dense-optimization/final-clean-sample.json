@@ -1,0 +1,17 @@
+{
+  "build": "index-C3RKnDPf.js",
+  "frameP95": 25.10000000000582,
+  "frameP99": 41.69999999999709,
+  "tickP95": 13.5,
+  "slowFrames": 65,
+  "count": 2958,
+  "seconds": 47.93110000002384,
+  "averagePageFps": 61.713584708018985,
+  "gameSeconds": 53,
+  "cycling": 240,
+  "physicalInTransit": 52,
+  "produced": 1580,
+  "delivered": 386,
+  "nodes": 2400,
+  "connections": 3330
+}

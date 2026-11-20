@@ -1,0 +1,31 @@
+{
+  "date": "2026-11-19",
+  "url": "http://127.0.0.1:4181/previews/active-factory/?layout=dense&nodes=2400",
+  "loads": [600, 1200, 2400],
+  "largestFixture": {
+    "nodes": 2400,
+    "productionNodes": 360,
+    "splitters": 840,
+    "mergers": 840,
+    "connections": 3330,
+    "cellPitchWorldUnits": [1024, 512],
+    "progressBarMinimumCssPixels": 3
+  },
+  "automated": {
+    "workspaceTestsPassed": 1840,
+    "existingSkips": 2,
+    "mainBuild": "passed",
+    "previewTypeCheck": "passed",
+    "standalonePreviewBuild": "passed",
+    "denseFixtureChecks": "All bodies fit within one field without overlap; valid ports and recipe routes; every Splitter outlet and Merger inlet carried physical cargo; real recipe progress; every final Warehouse continued receiving items during three simulated minutes at all dense loads.",
+    "progressBarChecks": "Default sizing unchanged; emphasized bar reaches three CSS pixels at overview zoom; fill and track stay anchored to their original bottom edge."
+  },
+  "browser": {
+    "checked": ["1200 and 2400 active node layouts", "overview and cell inspection", "progress emphasis off and on", "pause and resume", "original production-line comparison", "layout/load resets", "390x844 viewport without horizontal overflow", "restored desktop viewport"],
+    "warningOrErrorLogsAtCheckedPoint": [],
+    "largestObservedActivity": { "elapsedSimulationSeconds": 69, "produced": 2098, "delivered": 514, "physicalTransfers": 78 },
+    "performanceLimit": "A 2400-node desktop overview observation was about 6 page FPS. This is deliberately a heavy stress fixture, not an FPS target or controlled benchmark; an earlier test tab was preserved paused and other desktop apps were running."
+  },
+  "documents": "Both style guides preserved earlier paragraphs and reopened. Required packaged render attempts failed because LibreOffice soffice.exe is unavailable; no visual Word layout verification is claimed.",
+  "scope": "Local synthetic test page; no save writes, recipe/routing timing changes or live publication. Normal-game progress bars retain their existing dimensions."
+}

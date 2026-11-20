@@ -1,4 +1,4 @@
-import type { Container, Graphics, Text } from 'pixi.js';
+import type { Container, Graphics, Sprite, Text } from 'pixi.js';
 import type { RefObject } from 'react';
 import type { CameraState, InFlightTransfer, MachineNode, NodeKind } from '../domain/types';
 import type { GameEngine, RoadPlacementTarget } from '../simulation/engine';
@@ -23,6 +23,8 @@ export interface PixiPlayfieldProps {
   placing?: NodeKind;
   snapToGrid: boolean;
   showRecipeIcons: boolean;
+  /** Optional fixture emphasis; ordinary game rendering keeps its current bar size. */
+  minimumProgressBarPixels?: number;
   roadPlacementPoint?(point: Point): Point;
   cameraFocus?: { camera: CameraState; nonce: number };
   onSelect(ids: string[], info?: SelectionInfo): void;
@@ -48,7 +50,7 @@ export interface PixiPlayfieldProps {
 }
 
 export interface DragState { ids: string[]; anchorId: string; anchorSize: NodeSize; start: { x: number; y: number }; origins: Map<string, { x: number; y: number }>; moved: boolean; desired?: Record<string, { x: number; y: number }>; road?: RoadPlacementTarget; valid: boolean }
-export interface NodeView { root: Container; detailChildren?: Container[]; overviewWarning?: Graphics; detailVisible?: boolean; dataZoom?: number; dataRevision?: number; dataTime?: number; cueSignature?: string; flashActive?: boolean; coreSignature?: string; campStatus?: CampNodeStatus; golemApLabel?: Text; cornerCampStatus?: CornerCampStatus; cornerTributeLabel?: Text; filterNotice?: Text; jointMoveHandle?: Container; researchStatus?: ResearchNodeStatus; productionRecipeIcon?: ReturnType<typeof createProductionRecipeIcon>; productionCue: Graphics; progress: Graphics; progressLabel?: Text; bufferLabel?: Text; bufferSquares?: Graphics; bufferSignature?: string; inputSquares?: Graphics; inputSignature?: string; coreStorageLabels?: Text[]; coreStorageSquares?: Graphics[]; readabilityLabels: Text[]; flash: Graphics; marqueeHighlight: Graphics; invalidOverlay: Graphics; invalidVisible: boolean; displayedProgress: number }
+export interface NodeView { overviewArtwork?: Container[]; overviewKey?: string; overviewSpriteKey?: string; overviewSprite?: Sprite; root: Container; detailChildren?: Container[]; overviewWarning?: Graphics; detailVisible?: boolean; dataZoom?: number; dataRevision?: number; dataTime?: number; cueSignature?: string; flashActive?: boolean; coreSignature?: string; campStatus?: CampNodeStatus; golemApLabel?: Text; cornerCampStatus?: CornerCampStatus; cornerTributeLabel?: Text; filterNotice?: Text; jointMoveHandle?: Container; researchStatus?: ResearchNodeStatus; productionRecipeIcon?: ReturnType<typeof createProductionRecipeIcon>; productionCue: Graphics; progress: Graphics; progressTrack?: Graphics; progressLabel?: Text; bufferLabel?: Text; bufferSquares?: Graphics; bufferSignature?: string; inputSquares?: Graphics; inputSignature?: string; coreStorageLabels?: Text[]; coreStorageSquares?: Graphics[]; readabilityLabels: Text[]; flash: Graphics; marqueeHighlight: Graphics; invalidOverlay: Graphics; invalidVisible: boolean; displayedProgress: number }
 export interface PortHandle { nodeId: string; direction: 'input' | 'output'; index: number }
 export interface PortView extends PortHandle { detailVisible?: boolean; dataZoom?: number; dataRevision?: number; dataTime?: number; highlightSignature?: string; pulseActive?: boolean; root: Container; highlight: Graphics; pulse: Graphics; pulseColor: number; pulseStartedAt: number; hovered: boolean; cornerScaleLimit?: number; materialShape?: Graphics; materialLabel?: Text; materialBuffer?: Graphics; materialSignature?: string; stoneCounter?: { root: Container; plate: Graphics; text: Text } }
 export interface ConnectionDragState { originNodeId: string; active: PortHandle; replaceConnectionId?: string; adaptiveJointDirection: boolean; startX: number; startY: number; moved: boolean; snapped?: PortHandle }
