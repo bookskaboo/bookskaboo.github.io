@@ -16,6 +16,14 @@
   },
   "releases": [
     {
+      "id": "fa7aa81",
+      "date": "2026-11-20",
+      "title": "Interior camp reserves and Stone naming with original thirty settlements",
+      "commit": "fa7aa81a10fa0273f0a3eba3fbe9b544f273d9ae",
+      "url": "https://github.com/bookskaboo/bookskaboo.github.io/commit/fa7aa81a10fa0273f0a3eba3fbe9b544f273d9ae",
+      "notes": "Changes confined to node/. GitHub Pages succeeded; normal live HTML and every current build asset matched SHA-256. Original 30-settlement layout unchanged; prior assets retained. Placement correction applies to newly generated camp maps; saved layouts are preserved."
+    },
+    {
       "id": "d9642dc",
       "date": "2026-11-19",
       "title": "Active dense-factory rendering optimizations",
@@ -19078,7 +19086,7 @@
       "dateBasis": "chat",
       "kind": "fixed",
       "state": "implemented",
-      "delivery": "local",
+      "delivery": "published",
       "title": "Spawn guarded resources inside their camps and shorten Stone titles",
       "summary": "Newly generated guarded camp reserves now appear at the camp center inside its initial footprint. Stone resource nodes use the title Stone, including existing default titles on load.",
       "details": [
@@ -19122,7 +19130,8 @@
         "outputs/guarded-camp-placement-2026-11-20/inside-camp.jpg",
         "outputs/guarded-camp-placement-2026-11-20/word-structure.json"
       ],
-      "validation": "Full workspace suite passed 1,872 tests with two existing skips; both game builds and obstruction-preview TypeScript passed. Focused generation/access/relocation/name/tutorial/geometry checks passed 83 tests; the final name assertion was rechecked in the same focused set. Three complete seeded worlds verify all 90 camp reserves centered inside initial visible outlines, while ordinary resources remain outside full growth. Regression checks cover actual extraction, cache invalidation, suppression loss, unrelated blockers, paired relocation, undo/reload and preserved custom Stone names. Browser fixtures verified both camp families, initial interior placement, locked connection rejection, actual extraction after suppression, retained stock/wiring on lapse and a 390-pixel viewport with no horizontal overflow; desktop viewport restored and no warning/error logs. Both Word files preserve existing paragraphs and reopen; packaged rendering fails because LibreOffice soffice.exe is missing, so Word visual layout is unverified. System/history checks passed. No normal-play balance run, saved-map position migration, commit or publication."
+      "validation": "Full workspace suite passed 1,872 tests with two existing skips; both game builds and obstruction-preview TypeScript passed. Focused generation/access/relocation/name/tutorial/geometry checks passed 83 tests; the final name assertion was rechecked in the same focused set. Three complete seeded worlds verify all 90 camp reserves centered inside initial visible outlines, while ordinary resources remain outside full growth. Regression checks cover actual extraction, cache invalidation, suppression loss, unrelated blockers, paired relocation, undo/reload and preserved custom Stone names. Browser fixtures verified both camp families, initial interior placement, locked connection rejection, actual extraction after suppression, retained stock/wiring on lapse and a 390-pixel viewport with no horizontal overflow; desktop viewport restored and no warning/error logs. Both Word files preserve existing paragraphs and reopen; packaged rendering fails because LibreOffice soffice.exe is missing, so Word visual layout is unverified. System/history checks passed. No normal-play balance run, saved-map position migration, commit or publication.",
+      "publishedBy": "fa7aa81"
     },
     {
       "id": "NODE-0633",
@@ -19238,7 +19247,7 @@
       "dateBasis": "chat",
       "kind": "changed",
       "state": "implemented",
-      "delivery": "local",
+      "delivery": "published",
       "title": "Retain the original thirty-settlement distribution",
       "summary": "Cancel the twelve-settlement population revision and restore fifteen Goblin plus fifteen Dwarven settlements with their original per-tier quotas.",
       "details": [
@@ -19279,7 +19288,52 @@
         "outputs/settlement-population-reversal-2026-11-20/build-site.log",
         "outputs/settlement-population-reversal-2026-11-20/verification.json"
       ],
-      "validation": "All 1,885 workspace tests passed with two existing skips; both game builds passed. The focused population/Goblin/Dwarven/guarded set passed 100 checks. Compared the complete layout-generation/cache/version section against the previously published source and confirmed an exact normalized match; separately confirmed the interior guarded-reserve placement and Stone naming fixes remain. Restored regressions cover six standard seeds, larger grids and layout persistence. Six generated catalogs, local documentation links and history checks passed. No browser/balance run, player-save edit, commit or publication."
+      "validation": "All 1,885 workspace tests passed with two existing skips; both game builds passed. The focused population/Goblin/Dwarven/guarded set passed 100 checks. Compared the complete layout-generation/cache/version section against the previously published source and confirmed an exact normalized match; separately confirmed the interior guarded-reserve placement and Stone naming fixes remain. Restored regressions cover six standard seeds, larger grids and layout persistence. Six generated catalogs, local documentation links and history checks passed. No browser/balance run, player-save edit, commit or publication.",
+      "publishedBy": "fa7aa81"
+    },
+    {
+      "id": "NODE-0645",
+      "date": "2026-11-20",
+      "dateBasis": "chat",
+      "kind": "fixed",
+      "state": "implemented",
+      "delivery": "published",
+      "publishedBy": "fa7aa81",
+      "title": "Publish interior camp reserves and Stone naming with thirty settlements",
+      "summary": "Publish guarded reserves at their camp centers on newly generated maps and rename default Stone Deposit titles to Stone. Preserve the original fifteen Goblin plus fifteen Dwarven distribution.",
+      "details": [
+        "Fast-forward main from edc6d90010c2bddcb2347590a5888ee231e6e5e1 to fa7aa81a10fa0273f0a3eba3fbe9b544f273d9ae, changing only node/. Publish a matching tested build and isolated source snapshot, retaining all 118 prior runtime assets.",
+        "Guarded reserves intentionally overlap their camp. Keep its AP socket/status clear, allow fully suppressed extraction through its own camp border, and preserve normal blocking for unrelated routes. Paired relocation and suppression pause/resume remain. Rename generated, mod and Drill Stone nodes and old default save/template titles without changing IDs, stock or custom names.",
+        "Keep the exact published thirty-settlement layout algorithm, tier quotas, cache behavior and new-game encounter layout version 2. The cancelled twelve-settlement revision was never published. Existing generated map positions are not relocated; earlier-world Tribute rules remain.",
+        "Isolate the seventeen authorized source files from the latest live renderer. Exclude unrelated Upgrades/hint-copy and border prototype code from runtime. Retain prior browser fixture evidence and update the applicable system references, both style guides, review specimen and camp practice fixture."
+      ],
+      "topics": [
+        "World",
+        "Encounters",
+        "Saves",
+        "Interface",
+        "Tutorials",
+        "Publishing"
+      ],
+      "sources": [
+        "local-code"
+      ],
+      "evidence": [
+        "src/simulation/worldGeneration.ts",
+        "src/simulation/newWorldObstructions.test.ts",
+        "src/simulation/settlementPopulation.test.ts",
+        "src/content/displayNameChanges.ts",
+        "docs/systems/encounters-and-obstructions.md",
+        "outputs/node-camp-fixes-release-2026-11-20/publication-receipt.json",
+        "outputs/node-camp-fixes-release-2026-11-20/preflight-report.json",
+        "outputs/node-camp-fixes-release-2026-11-20/build-manifest.json",
+        "outputs/node-camp-fixes-release-2026-11-20/source-manifest.json",
+        "outputs/node-camp-fixes-release-2026-11-20/workspace-tests.log",
+        "outputs/node-camp-fixes-release-2026-11-20/candidate-tests.log",
+        "outputs/node-camp-fixes-release-2026-11-20/candidate-build.log",
+        "outputs/guarded-camp-placement-2026-11-20/inside-camp.jpg"
+      ],
+      "validation": "Workspace passed 1,889 tests with two existing skips and its site build. The isolated release passed 1,064 tests with one existing skip, site build, obstruction preview TypeScript and system/history checks. Corrected candidate history-template line endings after its viewer check failed; all six history checks then passed. Preflight confirmed a clean fast-forward, only node/ changes, exact seventeen-file source scope, committed build/source matching the tested files, all prior assets unchanged and the complete original layout algorithm identical to the published base. GitHub Pages run 44835599086 succeeded. Normal live HTML and all ten current assets matched SHA-256; all ten preceding-build assets also matched. Desktop/390-pixel interior-camp fixture evidence remains in NODE-0632. No player game tab was reloaded, saved map position migrated or normal-play balance run performed. Word structural checks passed earlier; visual render QA remains unavailable because LibreOffice is missing."
     }
   ]
 }
