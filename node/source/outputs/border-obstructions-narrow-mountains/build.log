@@ -1,0 +1,22 @@
+
+> factorinode-reconstruction@0.1.0 build
+> tsc -b && vite build
+
+vite v8.3.4 building client environment for production...
+transforming...
+✓ 916 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                                       2.41 kB │ gzip:   1.19 kB
+dist/assets/index-BoNQ0Cmo.css                      168.94 kB │ gzip:  35.14 kB
+dist/assets/webworkerAll-BBHRnRIa.js                  0.05 kB │ gzip:   0.06 kB
+dist/assets/getTextureBatchBindGroup-CDnZS9mH.js      0.34 kB │ gzip:   0.27 kB
+dist/assets/canvasUtils-DHiBpmSz.js                   6.01 kB │ gzip:   2.05 kB
+dist/assets/getTexelRangeRects-BhRlOlmi.js           11.31 kB │ gzip:   2.98 kB
+dist/assets/init-Kw5l7Cv9.js                         14.19 kB │ gzip:   4.51 kB
+dist/assets/browserAll-Dzz8YahO.js                   43.48 kB │ gzip:  11.29 kB
+dist/assets/RenderTargetSystem-D85YXrAp.js           78.11 kB │ gzip:  22.08 kB
+dist/assets/CanvasPool-O_8k9jVW.js                  113.03 kB │ gzip:  34.47 kB
+dist/assets/index-ZYFHWkKl.js                     1,166.33 kB │ gzip: 363.24 kB
+
+✓ built in 489ms

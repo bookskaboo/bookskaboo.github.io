@@ -1,4 +1,6 @@
 import { LINE_ART } from './lineArt';
+import { BORDER_BAND_WIDTH_MULTIPLIER, mountainFaces, mountainPoint, MOUNTAIN_FACE_OUTLINE, type BorderArtProjection } from '../domain/borderTerrainGeometry';
+export { BORDER_BAND_WIDTH_MULTIPLIER } from '../domain/borderTerrainGeometry';
 
 /** Shared flat outlined terrain artwork for the game and reference screens. */
 export type BorderTerrain = 'river' | 'mountain' | 'chasm';
@@ -23,22 +25,23 @@ function river() {
     art += path(`M${x} ${y}q-10 12 -3 23t-2 19`, 'none', '#78c2d0', 1.6, 'opacity=".54"');
     if (i % 2 === 0) art += path(`M${x + 23} ${y + 17}q-5 9 -1 18`, 'none', '#a1dfdf', 1.5, 'opacity=".42"');
   }
-  for (let i = 0; i < 13; i++) {
-    const y = i * 42 + 3, x = i % 2 ? 428 : 267;
-    art += poly([[x, y], [x + 9, y - 4], [x + 16, y + 4], [x + 5, y + 9]], '#354849', '#729085', 1.4);
-    art += path(`M${x - 11} ${y + 19}l-4 -9m4 9l5 -6`, 'none', '#65897c', 1.6);
-  }
   return art;
 }
 
-function mountain() {
+function mountain(artSeed = 0x4d4f554e, projection: BorderArtProjection = {}) {
   let art = path('M286 -20L425 -20L445 52L426 103L450 157L429 219L449 281L427 347L446 409L425 520H279L263 457L282 395L264 333L282 272L262 205L281 142L265 77Z', '#252f3a', '#566273', 2.3);
-  for (let i = -1; i < 7; i++) {
-    const y = i * 92 + 36, x = 354 + (i % 2 ? -13 : 13);
-    art += poly([[x - 72, y + 65], [x - 46, y + 11], [x - 22, y - 8], [x + 4, y - 49], [x + 30, y - 10], [x + 51, y + 8], [x + 80, y + 68], [x + 28, y + 82], [x - 20, y + 71]], '#45505f', '#95a1af', 2.2);
-    art += poly([[x + 4, y - 49], [x + 14, y + 13], [x + 80, y + 68], [x + 28, y + 82], [x - 3, y + 32]], '#2d3746', '#69768a', 1.5);
-    art += path(`M${x + 4} ${y - 49}l-8 33 -18 8m26 -8l15 12m-41 -4l-5 31 -23 38m44 -29l-20 33 -22 12m89 -9l-24 -12 -10 -16`, 'none', '#b4bfca', 1.5, 'opacity=".7"');
-    art += path(`M${x - 63} ${y + 66}l20 -31 10 -3m69 33l-10 -17`, 'none', '#78889c', 1.5);
+  const faces = mountainFaces(artSeed);
+  if (projection.horizontal) faces.sort((a,b) => a.x - b.x || a.y - b.y);
+  for (const mountain of faces) {
+    const face = ['#45505f', '#404c5b', '#4a5563'][mountain.shade];
+    // Shape individual rocks within the full-width ridge. Use explicit vertices:
+    // Pixi's SVG path reader does not apply nested SVG group transforms.
+    const points = (offsets: number[][]) => offsets.map(([dx, dy]) => mountainPoint(mountain, dx, dy, projection));
+    const lines = (segments: number[][][]) => segments.map(segment => `M${points(segment).map(p => p.join(',')).join('L')}`).join(' ');
+    art += poly(points(MOUNTAIN_FACE_OUTLINE), face, '#95a1af', 2.2);
+    art += poly(points([[4, -49], [14, 13], [80, 68], [28, 82], [-3, 32]]), '#2d3746', '#69768a', 1.5);
+    art += path(lines([[[4, -49], [-4, -16], [-22, -8]], [[4, -16], [19, -4]], [[-22, -8], [-27, 23], [-50, 61]], [[-6, 32], [-26, 65], [-48, 77]], [[41, 68], [17, 56], [7, 40]]]), 'none', '#b4bfca', 1.5, 'opacity=".7"');
+    art += path(lines([[[-63, 66], [-43, 35], [-33, 32]], [[36, 65], [26, 48]]]), 'none', '#78889c', 1.5);
   }
   return art;
 }
@@ -54,12 +57,8 @@ function chasm() {
   art += poly([...l, ...[...r].reverse()], '#1c1c2a', '#b1a3bc', 2);
   art += poly([...l.map(([x, y]) => [x + 23, y + 8]), ...[...r].reverse().map(([x, y]) => [x - 24, y + 8])], '#090c15', '#51485f', 1.3);
   for (let i = 1; i < l.length - 1; i++) {
-    const [x, y] = l[i], [rx, ry] = r[i];
+    const [x, y] = l[i], [rx] = r[i];
     art += path(`M${x} ${y}l18 12 -3 18m${rx - x - 15} -30l-17 17 1 13`, 'none', '#6c617d', 1.4);
-    if (i % 3 === 0) {
-      art += path(`M${x - 3} ${y}l-16 -8 -6 -17m6 17l-21 6M${rx + 3} ${ry}l15 9 15 -8`, 'none', '#918497', 1.6);
-      art += poly([[x - 28, y + 15], [x - 17, y + 13], [x - 12, y + 24], [x - 25, y + 27]], '#44414d', '#8c8396', 1.3);
-    }
   }
   return art;
 }
@@ -84,11 +83,11 @@ export function borderObstructionSvg(kind: BorderTerrain, options: { grid?: bool
     <rect width="700" height="500" fill="#101923"/>
     ${options.grid === false ? '' : `<rect width="700" height="500" fill="url(#field-grid-${kind})"/>`}
     <path d="M350 0V500" stroke="#8b9dac" stroke-dasharray="4 10" opacity=".2"/>
-    <g>${art}</g>${options.context ? nearbyNodes() : ''}
+    <g transform="matrix(${BORDER_BAND_WIDTH_MULTIPLIER} 0 0 1 ${350 * (1 - BORDER_BAND_WIDTH_MULTIPLIER)} 0)">${art}</g>${options.context ? nearbyNodes() : ''}
   </svg>`;
 }
 
 /** Canonical shared terrain strip; the field renderer owns clipping and placement. */
-export function borderTerrainMarkup(kind: BorderTerrain) {
-  return kind === 'river' ? river() : kind === 'mountain' ? mountain() : chasm();
+export function borderTerrainMarkup(kind: BorderTerrain, artSeed?: number, projection: BorderArtProjection = {}) {
+  return kind === 'river' ? river() : kind === 'mountain' ? mountain(artSeed, projection) : chasm();
 }

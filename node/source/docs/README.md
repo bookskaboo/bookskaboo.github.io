@@ -15,7 +15,7 @@ Start with the [system reference library](systems/README.md) for the current gam
 | Run a browser playtest or recover its browser session | [Browser playtests](browser-playtest.md) |
 | Build a factory using verified normal-play layouts | [Playtest build guide](playtest-build-guide.md) |
 | Review balancing discussions | [Progression and scaling](progression-and-scaling.md), [Core consumption proposal](core-consumption-balance-proposal.md) |
-| Edit UI typography or player-facing copy | [UI style guide](node-ui-style-guide.docx), [style review notes](typography-style-review.docx) |
+| Edit UI typography or player-facing copy | [UI style guide](node-ui-style-guide.md), [style review notes](typography-style-review.md) |
 | Create or share a data mod | [Mod guide](mods.md) |
 | Inspect historical observations | [Novice findings](novice-playtest-findings.md), [blind research playtest](blind-research-playtest-2026-11-11.md), [Final Core dry run](final-core-dry-run.md), [Final Core blind run](final-core-blind-run.md) |
 

@@ -1,4 +1,4 @@
-import { borderTerrainMarkup, BORDER_ART } from '../../src/art/borderObstructionArt';
+import { borderTerrainMarkup, BORDER_ART, BORDER_BAND_WIDTH_MULTIPLIER } from '../../src/art/borderObstructionArt';
 import { LINE_ART } from '../../src/art/lineArt';
 import { BORDER_SIDES, SIDE_LABELS } from '../../src/domain/borderObstructionLayout';
 import type { BorderSide, MapBorderLayout } from '../../src/domain/borderObstructionLayout';
@@ -6,14 +6,15 @@ import { ROAD_PREVIEW_GAP, roadPreviewCrop, roadPreviewPosition } from '../../sr
 
 const FIELD = { x: 140, y: 100, width: 840, height: 560 };
 const FACING = { north: 'south', east: 'west', south: 'north', west: 'east' } as const;
+const bandScale = .7 * BORDER_BAND_WIDTH_MULTIPLIER;
 const transforms = {
-  north: 'matrix(0 .7 1.68 0 140 -145)', south: 'matrix(0 -.7 1.68 0 140 905)',
-  west: 'matrix(.7 0 0 1.12 -105 100)', east: 'matrix(.7 0 0 1.12 735 100)',
+  north: `matrix(0 ${bandScale} 1.68 0 140 ${100 - 350 * bandScale})`, south: `matrix(0 ${bandScale} 1.68 0 140 ${660 - 350 * bandScale})`,
+  west: `matrix(${bandScale} 0 0 1.12 ${140 - 350 * bandScale} 100)`, east: `matrix(${bandScale} 0 0 1.12 ${980 - 350 * bandScale} 100)`,
 };
 export interface RoadPlacementExample { side: BorderSide; researched: boolean }
 
 function terrain(layout: MapBorderLayout, only?: BorderSide) {
-  return BORDER_SIDES.filter(side => !only || side === only).map(side => layout[side] ? `<g data-edge="${side}" transform="${transforms[side]}">${borderTerrainMarkup(layout[side]!)}</g>` : '').join('');
+  return BORDER_SIDES.filter(side => !only || side === only).map(side => layout[side] ? `<g data-edge="${side}" transform="${transforms[side]}">${borderTerrainMarkup(layout[side]!, undefined, { horizontal: side === 'north' || side === 'south', field: FIELD, crossScale: bandScale })}</g>` : '').join('');
 }
 function road(x: number, y: number, color: string, facing: string) {
   return `<g data-road-preview="${facing}" transform="translate(${x} ${y})"><rect x="-25" y="-25" width="50" height="50" rx="4" fill="#17222d" stroke="${color}" stroke-width="2"/><g transform="translate(-15 -15) scale(1.25)"><path d="${LINE_ART.road}" fill="none" stroke="${color}" stroke-width="1.5" stroke-linecap="round"/></g></g>`;

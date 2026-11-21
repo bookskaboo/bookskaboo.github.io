@@ -1,0 +1,23 @@
+[
+  {
+    "kind": "river",
+    "validXml": true,
+    "bandScale": 1.25,
+    "centerline": 350,
+    "paths": 49
+  },
+  {
+    "kind": "mountain",
+    "validXml": true,
+    "bandScale": 1.25,
+    "centerline": 350,
+    "paths": 39
+  },
+  {
+    "kind": "chasm",
+    "validXml": true,
+    "bandScale": 1.25,
+    "centerline": 350,
+    "paths": 36
+  }
+]

@@ -1,0 +1,73 @@
+{
+  "reproduced": "Mountain label with prior River still rendered",
+  "checks": [
+    {
+      "control": "Terrain",
+      "kind": "river",
+      "status": "N3.E2 · south river · Crossing blocked · 36 generated borders. Normal view shows only terrain within the current field."
+    },
+    {
+      "control": "Terrain",
+      "kind": "mountain",
+      "status": "N2.E4 · south mountain · Crossing blocked · 36 generated borders. Normal view shows only terrain within the current field."
+    },
+    {
+      "control": "Terrain",
+      "kind": "chasm",
+      "status": "S3.E2 · south chasm · Crossing blocked · 36 generated borders. Normal view shows only terrain within the current field."
+    },
+    {
+      "control": "Next border",
+      "status": "S3.W2 · south chasm · Crossing blocked · 36 generated borders. Normal view shows only terrain within the current field."
+    },
+    {
+      "control": "View other side",
+      "status": "S4.W2 · north chasm · Crossing blocked · 36 generated borders. Normal view shows only terrain within the current field."
+    },
+    {
+      "control": "Map travel to clear Home",
+      "status": "H · Clear borders · Choose a terrain example · 36 generated borders. No border obstruction on this map. Choose a terrain type to inspect an example.",
+      "roadDisabled": true
+    },
+    {
+      "control": "Map travel to obstructed field",
+      "status": "N2.E4 · south mountain · Crossing blocked · 36 generated borders. Normal view shows only terrain within the current field."
+    },
+    {
+      "control": "Grant and place",
+      "status": "N2.E4 · south mountain · Crossing permitted · 36 generated borders. Road pair placed with the normal channel limit."
+    },
+    {
+      "control": "Reset fixture",
+      "status": "N3.E2 · south river · Crossing blocked · 36 generated borders. Normal view shows only terrain within the current field."
+    },
+    {
+      "preview": "Art gallery",
+      "status": "West Road preview: placement permitted. The adjacent map ghost is visible.",
+      "enlargeWorked": true
+    },
+    {
+      "preview": "Modal test",
+      "markers": 9,
+      "crossable": 6
+    },
+    {
+      "control": "Reselect same terrain after clear map",
+      "emptyChoiceOnClear": true,
+      "status": "N3.E2 · south river · Crossing blocked · 36 generated borders. Normal view shows only terrain within the current field."
+    }
+  ],
+  "currentPreviewTab": "8",
+  "visibleTab": "8",
+  "retiredObsoleteNormalTabs": [
+    "5",
+    "6",
+    "7"
+  ],
+  "oldErrorTabLeftUntouched": true,
+  "errors": [],
+  "limits": [
+    "Synthetic preview fixtures only; no campaign saves or live game changes"
+  ],
+  "screenshotFormat": "JPEG, saved with .jpg and displayed with image/jpeg"
+}

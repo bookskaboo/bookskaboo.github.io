@@ -1,0 +1,11 @@
+{
+  "eastAndWestInspected": true,
+  "sharedHalvesAndGhostRetained": true,
+  "mountainBandWider": true,
+  "individualMountainFacesNarrower": true,
+  "shownSide": "N4.E2 · west mountain · Crossing blocked · 36 generated borders. Mountain crossing requires Shiny research: Mountain Tunnels.",
+  "errors": [],
+  "limits": [
+    "Local synthetic engine fixture, not a live publication or balance run"
+  ]
+}

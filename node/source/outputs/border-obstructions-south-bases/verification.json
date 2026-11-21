@@ -1,0 +1,91 @@
+{
+  "date": "2026-11-20",
+  "checks": {
+    "focusedTests": {
+      "files": 3,
+      "passed": 20
+    },
+    "mainBuild": "passed",
+    "previewTypeScript": "passed",
+    "borderPreviewBuild": "passed",
+    "generationAudit": [
+      {
+        "size": 11,
+        "seeds": 1000,
+        "width": 1,
+        "height": 1,
+        "maps": 65008,
+        "failures": 0
+      },
+      {
+        "size": 13,
+        "seeds": 5,
+        "width": 1,
+        "height": 1,
+        "maps": 468,
+        "failures": 0
+      },
+      {
+        "size": 15,
+        "seeds": 5,
+        "width": 1,
+        "height": 1,
+        "maps": 618,
+        "failures": 0
+      },
+      {
+        "size": 17,
+        "seeds": 5,
+        "width": 1,
+        "height": 1,
+        "maps": 813,
+        "failures": 0
+      },
+      {
+        "size": 19,
+        "seeds": 5,
+        "width": 1,
+        "height": 1,
+        "maps": 1015,
+        "failures": 0
+      },
+      {
+        "size": 21,
+        "seeds": 5,
+        "width": 1,
+        "height": 1,
+        "maps": 1223,
+        "failures": 0
+      },
+      {
+        "size": 11,
+        "seeds": 20,
+        "width": 1,
+        "height": 1,
+        "maps": 1293,
+        "failures": 0
+      },
+      {
+        "size": 11,
+        "seeds": 10,
+        "width": 4,
+        "height": 1,
+        "maps": 645,
+        "failures": 0
+      },
+      {
+        "size": 11,
+        "seeds": 10,
+        "width": 1,
+        "height": 4,
+        "maps": 645,
+        "failures": 0
+      }
+    ],
+    "browser": "browser-review.json"
+  },
+  "limits": [
+    "No fresh full workspace test suite; targeted geometry, generation and settlement regressions plus the broad static sweep were run",
+    "Saved sectors are preserved; this is local work and has not been published"
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "url": "http://127.0.0.1:4185/outputs/border-obstructions-page/runtime.html",
+  "selectedTab": "8",
+  "previewTab": "8",
+  "checks": [
+    "South-border mountain bases are substantially more visible",
+    "Peaks remain upright; underlying band width and center are unchanged",
+    "North view uses the matching clipped remainder",
+    "Generated contents automatically fits the replacement fixture without manual camera repair"
+  ],
+  "logs": [],
+  "limits": [
+    "Synthetic isolated fixture; no campaign-save writes",
+    "Local artwork change, not publication or a normal-play balance run"
+  ]
+}

@@ -1,0 +1,17 @@
+[
+  {
+    "kind": "river",
+    "validXml": true,
+    "paths": 49
+  },
+  {
+    "kind": "mountain",
+    "validXml": true,
+    "paths": 55
+  },
+  {
+    "kind": "chasm",
+    "validXml": true,
+    "paths": 36
+  }
+]

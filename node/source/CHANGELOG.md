@@ -2,7 +2,7 @@
 
 A searchable record of completed changes, design decisions, and relevant review findings. Stable NODE IDs can be cited in chats and searched in the repository.
 
-**620 records · 2026-10-12–2026-11-20 · America/Los_Angeles**
+**625 records · 2026-10-12–2026-11-20 · America/Los_Angeles**
 
 [Open searchable history](<docs/changelog/index.html>) · [How to review and maintain it](<docs/changelog/README.md>) · [Sources and coverage gaps](<docs/changelog/sources.md>)
 
@@ -12,6 +12,11 @@ Latest confirmed game publication: [7c4abe4](https://github.com/bookskaboo/books
 
 | ID | Change | Topics |
 | --- | --- | --- |
+| [NODE-0688](<docs/changelog/2026-11.md#node-0688>) | Expose more mountain bases along south borders | Map, Obstructions, Interface, Prototypes, Documentation |
+| [NODE-0686](<docs/changelog/2026-11.md#node-0686>) | Cluster upright border mountains and keep generated bodies clear of terrain art | Map, Obstructions, Resources, Interface, Prototypes, Documentation |
+| [NODE-0681](<docs/changelog/2026-11.md#node-0681>) | Refresh paused border previews and show the current test tab | Testing, Interface, Documentation |
+| [NODE-0680](<docs/changelog/2026-11.md#node-0680>) | Stagger and overlap mountains with stable per-border variation | Art, Interface, World, Documentation |
+| [NODE-0679](<docs/changelog/2026-11.md#node-0679>) | Widen border terrain bands while slimming individual mountain faces | Art, Interface, World, Documentation |
 | [NODE-0610](<docs/changelog/2026-11.md#node-0610>) | Add dense factory tests with live progress bars and Splitter/Merger routing | Tooling, Performance, Production, Connections, Logistics, Controls, Documentation |
 | [NODE-0596](<docs/changelog/2026-11.md#node-0596>) | Retire duplicate references and remove unused workspace artifacts | Documentation, Tooling, Architecture, Saves |
 | [NODE-0594](<docs/changelog/2026-11.md#node-0594>) | Organize current systems into linked references and generated catalogs | Documentation, Resources, Production, Recipes, Research, World, Progression, Tooling |
@@ -82,7 +87,7 @@ Latest confirmed game publication: [7c4abe4](https://github.com/bookskaboo/books
 
 ## Dated history
 
-- [2026-11](<docs/changelog/2026-11.md>) — 602 records
+- [2026-11](<docs/changelog/2026-11.md>) — 607 records
 - [2026-10](<docs/changelog/2026-10.md>) — 18 records
 
 “Known by” dates are implementation/publication bounds, not exact change dates. “Backfilled” dates mark records with uncertain original dates. Supersession links explain reversals. Original-game records do not certify current rebuild behavior.
@@ -123,7 +128,7 @@ A record marked “Published by” was known in that snapshot and may have appea
 - [Accessibility](<docs/changelog/index.html?topic=Accessibility>) (6)
 - [Animation](<docs/changelog/index.html?topic=Animation>) (6)
 - [Architecture](<docs/changelog/index.html?topic=Architecture>) (5)
-- [Art](<docs/changelog/index.html?topic=Art>) (8)
+- [Art](<docs/changelog/index.html?topic=Art>) (10)
 - [Audio](<docs/changelog/index.html?topic=Audio>) (1)
 - [Balance](<docs/changelog/index.html?topic=Balance>) (125)
 - [Bots](<docs/changelog/index.html?topic=Bots>) (1)
@@ -139,18 +144,19 @@ A record marked “Published by” was known in that snapshot and may have appea
 - [Design](<docs/changelog/index.html?topic=Design>) (7)
 - [Developer tools](<docs/changelog/index.html?topic=Developer%20tools>) (1)
 - [Discovery](<docs/changelog/index.html?topic=Discovery>) (5)
-- [Documentation](<docs/changelog/index.html?topic=Documentation>) (231)
+- [Documentation](<docs/changelog/index.html?topic=Documentation>) (236)
 - [Encounters](<docs/changelog/index.html?topic=Encounters>) (145)
 - [Endgame](<docs/changelog/index.html?topic=Endgame>) (5)
 - [Exploration](<docs/changelog/index.html?topic=Exploration>) (23)
 - [Extraction](<docs/changelog/index.html?topic=Extraction>) (1)
-- [Interface](<docs/changelog/index.html?topic=Interface>) (220)
+- [Interface](<docs/changelog/index.html?topic=Interface>) (225)
 - [Logistics](<docs/changelog/index.html?topic=Logistics>) (101)
-- [Map](<docs/changelog/index.html?topic=Map>) (3)
+- [Map](<docs/changelog/index.html?topic=Map>) (5)
 - [Mods](<docs/changelog/index.html?topic=Mods>) (6)
 - [Mythril](<docs/changelog/index.html?topic=Mythril>) (14)
 - [Naming](<docs/changelog/index.html?topic=Naming>) (7)
 - [Nodes](<docs/changelog/index.html?topic=Nodes>) (2)
+- [Obstructions](<docs/changelog/index.html?topic=Obstructions>) (2)
 - [Options](<docs/changelog/index.html?topic=Options>) (4)
 - [Performance](<docs/changelog/index.html?topic=Performance>) (6)
 - [Persistence](<docs/changelog/index.html?topic=Persistence>) (44)
@@ -160,11 +166,12 @@ A record marked “Published by” was known in that snapshot and may have appea
 - [Power](<docs/changelog/index.html?topic=Power>) (2)
 - [Production](<docs/changelog/index.html?topic=Production>) (97)
 - [Progression](<docs/changelog/index.html?topic=Progression>) (213)
+- [Prototypes](<docs/changelog/index.html?topic=Prototypes>) (2)
 - [Publication](<docs/changelog/index.html?topic=Publication>) (2)
 - [Publishing](<docs/changelog/index.html?topic=Publishing>) (13)
 - [Recipes](<docs/changelog/index.html?topic=Recipes>) (111)
 - [Research](<docs/changelog/index.html?topic=Research>) (235)
-- [Resources](<docs/changelog/index.html?topic=Resources>) (112)
+- [Resources](<docs/changelog/index.html?topic=Resources>) (113)
 - [Responsive](<docs/changelog/index.html?topic=Responsive>) (2)
 - [Roads](<docs/changelog/index.html?topic=Roads>) (13)
 - [Save compatibility](<docs/changelog/index.html?topic=Save%20compatibility>) (3)
@@ -173,7 +180,7 @@ A record marked “Published by” was known in that snapshot and may have appea
 - [Shortcuts](<docs/changelog/index.html?topic=Shortcuts>) (12)
 - [Simulation](<docs/changelog/index.html?topic=Simulation>) (8)
 - [Storage](<docs/changelog/index.html?topic=Storage>) (7)
-- [Testing](<docs/changelog/index.html?topic=Testing>) (18)
+- [Testing](<docs/changelog/index.html?topic=Testing>) (19)
 - [Text](<docs/changelog/index.html?topic=Text>) (6)
 - [Tooling](<docs/changelog/index.html?topic=Tooling>) (13)
 - [Tutorials](<docs/changelog/index.html?topic=Tutorials>) (37)
@@ -181,7 +188,7 @@ A record marked “Published by” was known in that snapshot and may have appea
 - [Undo](<docs/changelog/index.html?topic=Undo>) (4)
 - [Waste](<docs/changelog/index.html?topic=Waste>) (21)
 - [Workflow](<docs/changelog/index.html?topic=Workflow>) (1)
-- [World](<docs/changelog/index.html?topic=World>) (101)
+- [World](<docs/changelog/index.html?topic=World>) (103)
 - [World generation](<docs/changelog/index.html?topic=World%20generation>) (18)
 - [World map](<docs/changelog/index.html?topic=World%20map>) (28)
 - [Writing](<docs/changelog/index.html?topic=Writing>) (1)

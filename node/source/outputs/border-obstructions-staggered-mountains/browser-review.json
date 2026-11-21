@@ -1,0 +1,16 @@
+{
+  "inspected": [
+    "south",
+    "east",
+    "west"
+  ],
+  "irregularSpacingAndSizes": true,
+  "overlappingFacesVisible": true,
+  "distinctPatternsOnOppositeBorders": true,
+  "matchingNeighboringHalf": true,
+  "wideBandsRetained": true,
+  "errors": [],
+  "limits": [
+    "Synthetic fixture, local art change, not a live publication or normal-play balance run"
+  ]
+}

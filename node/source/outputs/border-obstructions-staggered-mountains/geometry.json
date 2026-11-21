@@ -1,0 +1,12 @@
+{
+  "stableOppositeViews": true,
+  "stableRedraws": true,
+  "distinctBorderAndWorldPatterns": true,
+  "bandWidthMultiplier": 1.25,
+  "mountainFaces": 14,
+  "uniqueFaceWidths": 13,
+  "uniqueFaceHeights": 14,
+  "overlappingBoundsPairs": 20,
+  "shadeVariants": 3,
+  "riverAndChasmUnchanged": true
+}

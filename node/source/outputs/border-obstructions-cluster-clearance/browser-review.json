@@ -1,0 +1,20 @@
+{
+  "url": "http://127.0.0.1:4185/outputs/border-obstructions-page/runtime.html",
+  "selectedTab": "8",
+  "previewTab": "8",
+  "checks": [
+    "Generated contents toggle draws actual generated resources and encounters",
+    "Mountains inspected north/east/south/west; dense overlapping faces remain upright",
+    "River exterior debris/caret marks removed",
+    "Chasm exterior diamonds/Y marks removed",
+    "Current field clips at boundary; held Road reveals matching adjacent mountain half",
+    "Missing research blocks actual synthetic Road placement",
+    "Cancel Road removes ghost; both side controls redraw the paused field"
+  ],
+  "logs": [],
+  "limits": [
+    "Synthetic paused fixture, not a normal-play balance run",
+    "No campaign saves read or written",
+    "Existing generated sectors are not retrofitted"
+  ]
+}

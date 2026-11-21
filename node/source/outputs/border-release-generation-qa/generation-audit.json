@@ -1,0 +1,233 @@
+{
+  "generatedAt": "2026-11-21T04:20:24.874Z",
+  "milliseconds": 24268,
+  "groups": [
+    {
+      "size": 11,
+      "seeds": 1000,
+      "expansion": false,
+      "scale": 1,
+      "width": 1,
+      "height": 1,
+      "required": true,
+      "maps": 65008,
+      "bodies": 342173,
+      "failures": [],
+      "kinds": {
+        "iron": 65008,
+        "copper": 65008,
+        "stoneDeposit": 65008,
+        "forest": 65008,
+        "monster-camp": 15910,
+        "mythril": 7908,
+        "big-hole": 48725,
+        "resourceGolem": 2764,
+        "lake": 6497,
+        "sortingStation": 337
+      }
+    },
+    {
+      "size": 13,
+      "seeds": 5,
+      "expansion": false,
+      "scale": 1,
+      "width": 1,
+      "height": 1,
+      "required": true,
+      "maps": 468,
+      "bodies": 2751,
+      "failures": [],
+      "kinds": {
+        "monster-camp": 98,
+        "iron": 468,
+        "copper": 468,
+        "stoneDeposit": 468,
+        "forest": 468,
+        "mythril": 57,
+        "big-hole": 671,
+        "lake": 41,
+        "resourceGolem": 12
+      }
+    },
+    {
+      "size": 15,
+      "seeds": 5,
+      "expansion": false,
+      "scale": 1,
+      "width": 1,
+      "height": 1,
+      "required": true,
+      "maps": 618,
+      "bodies": 3656,
+      "failures": [],
+      "kinds": {
+        "iron": 618,
+        "copper": 618,
+        "stoneDeposit": 618,
+        "forest": 618,
+        "big-hole": 1002,
+        "lake": 45,
+        "monster-camp": 83,
+        "mythril": 36,
+        "resourceGolem": 14,
+        "sortingStation": 4
+      }
+    },
+    {
+      "size": 17,
+      "seeds": 5,
+      "expansion": false,
+      "scale": 1,
+      "width": 1,
+      "height": 1,
+      "required": true,
+      "maps": 813,
+      "bodies": 4945,
+      "failures": [],
+      "kinds": {
+        "big-hole": 1499,
+        "iron": 813,
+        "copper": 813,
+        "stoneDeposit": 813,
+        "forest": 813,
+        "lake": 48,
+        "monster-camp": 88,
+        "mythril": 45,
+        "resourceGolem": 11,
+        "sortingStation": 2
+      }
+    },
+    {
+      "size": 19,
+      "seeds": 5,
+      "expansion": false,
+      "scale": 1,
+      "width": 1,
+      "height": 1,
+      "required": true,
+      "maps": 1015,
+      "bodies": 6180,
+      "failures": [],
+      "kinds": {
+        "big-hole": 1904,
+        "iron": 1015,
+        "copper": 1015,
+        "stoneDeposit": 1015,
+        "forest": 1015,
+        "lake": 56,
+        "resourceGolem": 15,
+        "monster-camp": 90,
+        "mythril": 53,
+        "sortingStation": 2
+      }
+    },
+    {
+      "size": 21,
+      "seeds": 5,
+      "expansion": false,
+      "scale": 1,
+      "width": 1,
+      "height": 1,
+      "required": true,
+      "maps": 1223,
+      "bodies": 7459,
+      "failures": [],
+      "kinds": {
+        "iron": 1223,
+        "copper": 1223,
+        "stoneDeposit": 1223,
+        "forest": 1223,
+        "big-hole": 2365,
+        "lake": 55,
+        "monster-camp": 85,
+        "mythril": 48,
+        "resourceGolem": 13,
+        "sortingStation": 1
+      }
+    },
+    {
+      "size": 11,
+      "seeds": 20,
+      "expansion": true,
+      "scale": 2,
+      "width": 1,
+      "height": 1,
+      "required": true,
+      "maps": 1293,
+      "bodies": 6801,
+      "failures": [],
+      "kinds": {
+        "iron": 1293,
+        "copper": 1293,
+        "stoneDeposit": 1293,
+        "forest": 1293,
+        "monster-camp": 321,
+        "mythril": 166,
+        "big-hole": 961,
+        "resourceGolem": 52,
+        "lake": 124,
+        "sortingStation": 5
+      }
+    },
+    {
+      "size": 11,
+      "seeds": 10,
+      "expansion": false,
+      "scale": 1,
+      "width": 4,
+      "height": 1,
+      "required": false,
+      "maps": 645,
+      "bodies": 3345,
+      "failures": [],
+      "kinds": {
+        "iron": 645,
+        "copper": 645,
+        "stoneDeposit": 645,
+        "forest": 645,
+        "monster-camp": 161,
+        "mythril": 82,
+        "big-hole": 428,
+        "resourceGolem": 26,
+        "lake": 64,
+        "sortingStation": 4
+      }
+    },
+    {
+      "size": 11,
+      "seeds": 10,
+      "expansion": false,
+      "scale": 1,
+      "width": 1,
+      "height": 4,
+      "required": false,
+      "maps": 645,
+      "bodies": 3362,
+      "failures": [],
+      "kinds": {
+        "iron": 645,
+        "copper": 645,
+        "stoneDeposit": 645,
+        "forest": 645,
+        "monster-camp": 161,
+        "mythril": 82,
+        "big-hole": 445,
+        "resourceGolem": 26,
+        "lake": 64,
+        "sortingStation": 4
+      }
+    }
+  ],
+  "rules": [
+    "Artwork-derived conservative half-band bounds plus 32 world units",
+    "Full settlement growth and defeated Golem reserve footprint",
+    "Reserve maximum Area Expansion peak height at initial generation",
+    "Preserve existing generated sectors and legacy clear borders"
+  ],
+  "limits": [
+    "Static generation audit, not a normal-play progression or optimization balance run",
+    "Does not reposition existing saved nodes",
+    "Extreme asymmetric mod fields are exploratory limit cases; failures remain explicit and never return border overlaps",
+    "Extreme mod node sizes can still exhaust bounded generation retries"
+  ]
+}

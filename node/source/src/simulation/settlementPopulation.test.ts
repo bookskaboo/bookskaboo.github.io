@@ -6,6 +6,8 @@ import { activateMod } from '../mods/modContent';
 import { emptyMod } from '../mods/modTypes';
 import { createInitialState, GameEngine } from './engine';
 import { generateSector, getEncounterLayoutVersion, sectorDistance, sectorForState } from './worldGeneration';
+import { generateBorderObstructions } from './borderObstructions';
+import { borderTerrainInsets } from './borderTerrainClearance';
 
 type LayoutVersion = NonNullable<GameState['encounterLayoutVersion']>;
 const bands: Record<string, number[]> = {
@@ -14,8 +16,9 @@ const bands: Record<string, number[]> = {
 };
 const world = (seed: number, version: LayoutVersion, size = 11) => {
   const sectors: SectorState[] = [], { min, max } = worldGridBounds(size);
+  const borders = { seed, borderObstructionVersion: 1 as const, borderObstructions: generateBorderObstructions(seed, size) };
   for (let y = min; y <= max; y++) for (let x = min; x <= max; x++) {
-    sectors.push(generateSector(x, y, seed, 0, [], 5, version, size, 1, 2));
+    sectors.push(generateSector(x, y, seed, 0, [], 5, version, size, 1, 2, borderTerrainInsets(borders, `${x},${y}`, { width: 5400, height: 3600 })));
   }
   return sectors;
 };
