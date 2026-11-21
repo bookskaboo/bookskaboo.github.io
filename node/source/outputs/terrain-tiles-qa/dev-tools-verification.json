@@ -1,0 +1,41 @@
+{
+  "id": "NODE-0689",
+  "delivery": "local",
+  "devSource": {
+    "usesEngineInputCapacityGrouping": true,
+    "foundryQuotasIndependent": true,
+    "recyclerAutomaticSelection": true,
+    "modReserveInference": true,
+    "allSelectableRecipeInputsAudited": true,
+    "automaticBotPlantCombinationsAudited": 25
+  },
+  "developerMapReveal": {
+    "unlocksAndMarksVisited": true,
+    "updatesEncounterDiscovery": true,
+    "preservesActiveMapAndCameras": true,
+    "paidResearchUnchanged": true,
+    "persistsThroughSave": true,
+    "olderDevSavesCanReapply": true,
+    "undoRestoresVisitsAndDiscoveries": true
+  },
+  "verification": {
+    "focused": {
+      "passed": 88,
+      "files": 7
+    },
+    "full": {
+      "passed": 2066,
+      "skipped": 2,
+      "command": "npm test -- --testTimeout=15000"
+    },
+    "productionBuild": true,
+    "previewTypeScript": true,
+    "systemCatalogs": 6,
+    "documentationFilesChecked": 39,
+    "browser": "dev-tools-browser.json"
+  },
+  "limits": [
+    "Synthetic developer verification, not normal-play balance evidence.",
+    "No campaign save writes or publication."
+  ]
+}

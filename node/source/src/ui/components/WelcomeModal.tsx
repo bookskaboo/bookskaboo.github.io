@@ -31,7 +31,7 @@ export function WelcomeModal({ onClose, onTutorials }: { onClose(): void; onTuto
         <div className="welcome-points">
           <span><b>Build</b><small>Place a machine. It will need somewhere to stand.</small></span>
           <span><b>Connect</b><small>Connect inputs to outputs. They need it spelled out.</small></span>
-          <span><b>Research</b><small>Make Cores. Science prefers payment in advance.</small></span>
+          <span><b>Upgrade</b><small>Make Cores. Self-improvement prefers payment in advance.</small></span>
         </div>
         <div className="welcome-actions">
           <button className="primary-cta" onClick={onTutorials}>Tutorials <span aria-hidden="true">→</span></button>

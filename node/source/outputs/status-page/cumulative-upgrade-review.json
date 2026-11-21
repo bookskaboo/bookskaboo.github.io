@@ -1,0 +1,49 @@
+{
+  "date": "2026-11-20",
+  "scope": "Local Upgrades prototype; no publication or main-game adoption",
+  "costs": "Five of each Core from Simple through the named upgrade tier",
+  "examples": {
+    "Basic": {
+      "Simple": 5,
+      "Basic": 5
+    },
+    "Final": {
+      "Simple": 5,
+      "Basic": 5,
+      "Automata": 5,
+      "Hydro": 5,
+      "Shiny": 5,
+      "Complex": 5,
+      "Final": 5
+    }
+  },
+  "browser": {
+    "BasicPartial": "Simple 2/5 and Basic 2/5; aggregate 4/10",
+    "cancelResumeRetainsCounts": true,
+    "completionShowsNextThreeCoreBill": true,
+    "FinalPartial": "Seven badges each 2/5; aggregate 14/35",
+    "allSevenVisibleOnShortDesktop": true,
+    "mobileWidth": 390,
+    "mobileHorizontalOverflow": false,
+    "warningsAndErrors": []
+  },
+  "verification": {
+    "focusedPassed": 68,
+    "workspacePassed": 1868,
+    "workspaceSkipped": 2,
+    "previewTypeScript": "passed",
+    "standaloneBuild": "passed",
+    "systemCatalogsAndLinks": "passed",
+    "wordStructuralReopen": "passed",
+    "wordRender": "Unavailable because LibreOffice soffice.exe is missing"
+  },
+  "screenshots": [
+    "cumulative-upgrade-desktop.jpg",
+    "cumulative-upgrade-390.jpg"
+  ],
+  "limits": [
+    "Payment fixtures seed synthetic supply and use ordinary engine cycles; no balance run",
+    "No save migration or main-game adoption",
+    "Word visual layout remains unverified"
+  ]
+}

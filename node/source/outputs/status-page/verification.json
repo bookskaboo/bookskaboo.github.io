@@ -1,0 +1,59 @@
+{
+  "date": "2026-11-19",
+  "scope": "Isolated AI status and robot art prototype; no runtime game adoption or publication",
+  "browser": {
+    "url": "http://127.0.0.1:4194/outputs/status-page/status-modal.html",
+    "viewports": [
+      "1280 x 720",
+      "390 x 844"
+    ],
+    "checks": [
+      "original Automata Core project starts and cancels under its upgrade display name",
+      "locked Complex upgrade shows original bill and prerequisite",
+      "completed Basic upgrade retains five-Simple bill",
+      "Final preset shows separate seven-Core victory project",
+      "Junior preset shows automatic Simple upgrade with Refiner requirement",
+      "pointer hold reveals Charcoal guidance and release conceals it",
+      "Core filter, alias search and empty-result state",
+      "recipe link and return to research",
+      "Escape close and reopen",
+      "transient role wording updates the character heading",
+      "eight SVG portraits loaded and later tiers visually inspected",
+      "desktop and 390 px layouts without horizontal overflow",
+      "description computes to 12px and actions/badges/count to weight 400",
+      "fresh compiled-preview tab has no warning/error logs"
+    ],
+    "limits": [
+      "Keyboard/cancel/blur hint handling is reused unchanged from ResearchHintCard; only pointer hold/release was freshly exercised",
+      "Production, real upgrade completion and map destination selection are outside the paused specimen",
+      "No normal-play balance run or browser save migration verification"
+    ],
+    "screenshots": [
+      "outputs/status-page/status-modal.jpg",
+      "outputs/status-page/status-modal-390.jpg",
+      "outputs/status-page/robot-tier-art.jpg",
+      "outputs/status-page/robot-tier-art-390.jpg"
+    ]
+  },
+  "automated": {
+    "workspacePassed": 1847,
+    "workspaceSkipped": 2,
+    "prototypeChecks": 4,
+    "mainBuild": "passed",
+    "previewTypecheck": "passed",
+    "standaloneBuild": "passed",
+    "systemCatalogsAndLinks": "passed"
+  },
+  "wordReferences": {
+    "paragraphsPreserved": true,
+    "reopened": true,
+    "renderAttempt": "Both packaged render attempts failed: LibreOffice soffice.exe is unavailable",
+    "visualLayoutVerified": false
+  },
+  "art": {
+    "format": "Editable code-native SVG",
+    "count": 8,
+    "source": "previews/status-page/robotArt.ts",
+    "externalArtService": false
+  }
+}

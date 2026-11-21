@@ -6,7 +6,7 @@ import { BOT_STRENGTH } from '../content/progression';
 import { defeatResourceGolem, getGolemMineral, golemApCost } from '../content/resourceGolems';
 import { getEncounterLayoutVersion, getGolemPlacementTier, sectorDistance, sectorForState, sectorId } from './worldGeneration';
 import { isWorldGridCell, worldGridBounds, worldGridSize } from '../domain/worldGrid';
-import { destinationMapCosts, pendingMapPayment, usesDestinationMapPricing, mapExplorationBlockers, mapPurchaseProtected } from './mapExpansion';
+import { destinationMapCosts, pendingMapPayment, usesDestinationMapPricing } from './mapExpansion';
 import { progressionDeficits } from './progressionRecovery';
 import { returnOutput } from './mixedOutput';
 
@@ -97,7 +97,7 @@ export function shortestRescuePath(state: GameState, target: string) {
   for(let index=0;index<queue.length;index++){
     const key=queue[index];if(key===target)break;
     const [x,y]=key.split(',').map(Number);
-    for(const [nx,ny]of [[x,y-1],[x+1,y],[x,y+1],[x-1,y]]){const next=`${nx},${ny}`;if(!isWorldGridCell(nx,ny,gridSize)||previous.has(next)||mapExplorationBlockers(state,nx,ny).length>0&&!mapPurchaseProtected(state,next))continue;previous.set(next,key);queue.push(next);}
+    for(const [nx,ny]of [[x,y-1],[x+1,y],[x,y+1],[x-1,y]]){const next=`${nx},${ny}`;if(!isWorldGridCell(nx,ny,gridSize)||previous.has(next))continue;previous.set(next,key);queue.push(next);}
   }
   if (!previous.has(target)) return [];
   const path:string[]=[];let key:string|undefined=target;
@@ -139,13 +139,17 @@ export function applyStartingRecovery(state: GameState) {
   if (!missing) return false;
   const sectors = Object.values(state.sectors).filter(sector => sector.unlocked);
   for (const resource of RESCUE_RESOURCES) {
-    const amount = Math.ceil((missing[resource] ?? 0) - 1e-9);
+    let amount = Math.ceil((missing[resource] ?? 0) - 1e-9);
     if (!(amount > 0)) continue;
     const sector = sectors.find(sector => sector.nodes.some(node => node.resourceItem === resource && node.resourceCapacity
       || sector.id === '5,5' && node.id === resource && node.kind === 'big-hole'));
     const deposit = sector?.nodes.find(node => node.resourceItem === resource && node.resourceCapacity
       || sector.id === '5,5' && node.id === resource && node.kind === 'big-hole');
     if (!sector || !deposit) continue;
+    if (state.mapTerrainVersion === 1) {
+      amount = Math.min(amount, Math.max(0, (deposit.resourceCapacity ?? 1000) - (deposit.resourceRemaining ?? 0)));
+      if (!amount) continue;
+    }
     if (deposit.kind === 'big-hole') {
       // Original Home IDs identify already-collapsed legacy starting deposits.
       // Reuse the same object and position. Return any buffered Stone to its supplier.

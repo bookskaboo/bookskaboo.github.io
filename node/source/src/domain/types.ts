@@ -196,10 +196,12 @@ export interface ResearchProject {
   costs: Partial<Record<ItemId, number>>;
   prerequisite?: string;
   prerequisites?: string[];
+  /** Infer recipe-access prerequisites from Core costs unless explicitly disabled. */
+  coreAccessPrerequisites?: boolean;
   costGrowth?: number;
   repeatable?: boolean;
   trigger?: {
-    id: 'encounter' | 'connection' | 'assembler-built' | 'basic-core-produced' | 'wood-extracted' | 'motor-produced' | 'metal-extracted' | 'plate-produced' | 'refiner-unlocked' | 'refiner-produced' | 'monster-camp' | 'dwarven-mythril-produced' | 'precision-control' | 'complex-core-produced';
+    id: 'encounter' | 'connection' | 'assembler-built' | 'simple-core-produced' | 'basic-core-produced' | 'wood-extracted' | 'motor-produced' | 'metal-extracted' | 'plate-produced' | 'refiner-unlocked' | 'refiner-produced' | 'monster-camp' | 'dwarven-mythril-produced' | 'precision-control' | 'complex-core-produced' | 'complex-core-unlocked';
     kinds?: NodeKind[];
     pending: string;
     complete: string;
@@ -210,6 +212,10 @@ export interface MapNodePricingPhase {
   startedAt: number;
 }
 export interface ResearchState {
+  /** Ordered manual projects, including the active queued project; maximum four. */
+  queue?: string[];
+  /** Stops research payments without pausing production or discarding progress. */
+  paused?: boolean;
   unlocked: string[];
   selected?: string;
   contributed: Partial<Record<ItemId, number>>;
@@ -226,6 +232,9 @@ export interface ResearchState {
 export interface GameEvent { id: string; type: 'ItemProduced' | 'TransferStarted' | 'ResearchCompleted' | 'DepositDepleted' | 'NodePlaced'; message: string; at: number; projectId?: string; elapsedMs?: number; }
 export interface GamePreferences { autosaveMinutes: number; confirmDelete: boolean; particles: boolean; showGrid: boolean; snapToGrid: boolean; sound: boolean; skipMultiConnectionTooltip?: boolean; }
 export interface GameState {
+  researchHintHistory?: import('./researchHintHistory').ResearchHintHistory;
+  /** Destination-free Map Point research; currently selected by the Upgrades prototype. */
+  mapResearchMode?: 'points';
   mod?: import('../mods/modTypes').GameMod;
   version: 1;
   seed: number;
@@ -236,10 +245,15 @@ export interface GameState {
   fieldSizeScale?: number;
   devMapSurveysRevealed?: true;
   devResearchUnlocked?: true;
+  /** Dev-used factories keep automatic lessons quiet; manual Tutorials remain available. */
+  devTutorialPromptsSuppressed?: true;
   golemPlacementTier?: import('../content/resourceGolems').GolemPlacementTier;
   encounterLayoutVersion?: 1 | 2;
   /** Absent on old saves means legacy rules. Only newly created worlds select 2. */
   worldRulesVersion?: 1 | 2;
+  /** Explicit opt-in: missing/zero worlds keep legacy resources and plain ground forever. */
+  mapTerrainVersion?: 0 | 1;
+  mapTerrains?: Record<string, import('./mapTerrain').Terrain>;
   /** Absent or zero preserves a world without border terrain, including future discoveries. */
   borderObstructionVersion?: 0 | 1;
   borderObstructions?: import('./borderObstructionLayout').SharedBorderObstruction[];
@@ -263,6 +277,8 @@ export interface GameState {
   produced?: Partial<Record<ItemId, number>>;
   extracted?: Partial<Record<ItemId, number>>;
   hasCreatedConnection?: boolean;
+  /** At least one item actually completed production in a Refiner. */
+  hasProducedWithRefiner?: boolean;
   inFlightTransfers?: InFlightTransfer[];
   progressionVersion?: number;
   reviewedProductionVersion?: 1;
@@ -270,7 +286,7 @@ export interface GameState {
   basicGunRecipeVersion?: 1;
   machineEfficiencyVersion?: 1;
   coreResearchVersion?: 1;
-  endgame?: { cornerOrder: import('../content/endgame').CornerType[]; pairIndex: number; version: 1; victoryAcknowledged?: boolean };
+  endgame?: { cornerOrder: import('../content/endgame').CornerType[]; pairIndex: number; version: 1; victoryAcknowledged?: boolean; cornerMapAcknowledged?: boolean; acknowledgedCorners?: string[] };
   rescue?: { resources: Array<'iron' | 'copper' | 'stone'>; restored?: Partial<Record<'iron' | 'copper' | 'stone', number>>; pending?: { resource: 'iron' | 'copper' | 'stone'; sectorId: string; newMaps: number; kind?: 'local'; amount?: number } };
   dwarvenMythrilProduced?: boolean;
   /** Production milestone for the future Final Core route; never set by delivery. */

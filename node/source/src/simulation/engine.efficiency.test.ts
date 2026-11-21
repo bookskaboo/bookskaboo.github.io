@@ -26,7 +26,7 @@ describe('linear machine efficiency progression', () => {
       const p = project(`${definition.family}${tier}`);
       expect(RESEARCH_PROJECTS.filter(candidate => candidate.id === p.id)).toHaveLength(1);
       expect(Object.keys(getResearchCosts(p))).toHaveLength(tier);
-      const access = ['simpleCore','basicCore','automataCore','hydroCore','shinyCore','complexCore','finalCore'][tier-1];
+      const access = ['refiner','basicCore','automataCore','hydroCore','shinyCore','complexCore','finalCore'][tier-1];
       const completed = [tier > definition.start ? `${definition.family}${tier-1}` : definition.access, access].filter((id): id is string => Boolean(id));
       expect(isResearchAvailable(p, completed)).toBe(true);
       expect(isResearchAvailable(p, completed.filter(id => id !== access))).toBe(false);

@@ -2,22 +2,13 @@ import { SEVEN_CORES } from '../content/endgame';
 import { getResearchProject, isResearchAvailable } from '../content/research';
 import type { GameState, ItemId } from '../domain/types';
 import { HOME_COORDINATE, isWorldGridCell, worldCornerIds, worldGridSize } from '../domain/worldGrid';
-import { usesNewWorldRules } from './worldRules';
-
-/** Only discovered generated holes restrict new purchases; paid destinations retain entry. */
-export function mapExplorationBlockers(game: GameState, x: number, y: number) {
-  if (!usesNewWorldRules(game) || game.sectors[`${x},${y}`]?.unlocked) return [];
-  return [[x-1,y],[x+1,y],[x,y-1],[x,y+1]].map(([nx,ny])=>game.sectors[`${nx},${ny}`])
-    .filter(sector => sector?.unlocked && (sector.visited || sector.id === game.activeSectorId)
-      && sector.nodes.some(node => node.kind === 'big-hole' && node.holeOrigin === 'generated' && (node.resourceRemaining ?? 0)>0));
-}
 
 export function mapPurchaseProtected(game: GameState, destination: string) {
   return game.research.mapNodeQuote?.destination === destination && pendingMapPayment(game);
 }
 
 export function canPurchaseMap(game: GameState, x: number, y: number) {
-  return isMapFrontier(game,x,y) && (mapPurchaseProtected(game,`${x},${y}`) || mapExplorationBlockers(game,x,y).length===0);
+  return isMapFrontier(game,x,y);
 }
 
 function mapTier(x: number, y: number) {
@@ -31,7 +22,7 @@ function priceBand(tier: number) {
 
 export function usesDestinationMapPricing(game: GameState) {
   const override = game.mod?.research?.mapNode;
-  return !game.isTraining && override?.costs === undefined && !override?.costGrowth;
+  return game.mapResearchMode !== 'points' && !game.isTraining && override?.costs === undefined && !override?.costGrowth;
 }
 
 export function isMapFrontier(game: GameState, x: number, y: number) {

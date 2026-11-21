@@ -1,0 +1,40 @@
+{
+  "date": "2026-11-20",
+  "scope": "Temporary visual-review state of local Upgrades prototype",
+  "change": "Hide Selected project heading and entire detail card with SHOW_SELECTED_PROJECT=false; list follows search directly",
+  "browser": {
+    "selectedHeadingCount": 0,
+    "selectedCardCount": 0,
+    "headingCountAfterRowSelection": 0,
+    "rightSections": [
+      "status-research-tools",
+      "status-stage-list status-project-list"
+    ],
+    "nextRankRows": [
+      "mapNode",
+      "researchCenter1",
+      "extractor2",
+      "kiln2",
+      "smelter2"
+    ],
+    "mobileWidth": 390,
+    "mobileHorizontalOverflow": false,
+    "warningsAndErrors": []
+  },
+  "verification": {
+    "previewTypeScript": "passed",
+    "standaloneBuild": "passed",
+    "systemCatalogsAndLinks": "passed",
+    "wordStructuralReopen": "passed",
+    "wordRender": "Unavailable: LibreOffice soffice.exe missing"
+  },
+  "screenshots": [
+    "hidden-selected-project-desktop.jpg",
+    "hidden-selected-project-390.jpg"
+  ],
+  "limits": [
+    "Ordinary Start/Cancel controls inside the hidden panel are temporarily unavailable; no replacement activation flow introduced",
+    "No tests or full-suite repeat for this reversible visual-only change",
+    "No gameplay, save, main-game adoption or publication change"
+  ]
+}

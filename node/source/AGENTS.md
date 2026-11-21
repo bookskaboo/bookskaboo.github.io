@@ -20,7 +20,7 @@ Dry, understated humor is the canonical voice of NODE: Another Factory Game. Use
 
 Read [the NODE UI style guide](docs/node-ui-style-guide.md) and [the style review notes](docs/typography-style-review.md) before changing player-facing style or copy. Update both as part of the same change. Put the current rule and examples in the guide, and record what changed, where it applies, and how it was checked in the notes.
 
-Maintain the style references in Markdown; the retained Word files are historical snapshots.
+Maintain these references in Markdown. Do not create or update Word copies or require Word/LibreOffice page rendering. Original Word files are archived historical evidence only.
 
 Reuse the shared typography roles in `src/styles/readability.css`. Use sans-serif for player-facing text, named monospace for technical notation, and reserve heavier weights for hierarchy or essential warnings. Keep the Selected project description at 12 CSS px and its Start and Cancel actions, Core badges, and progress count at regular weight. Match Core badges to the research filter buttons, using labels like Simple and Basic.
 

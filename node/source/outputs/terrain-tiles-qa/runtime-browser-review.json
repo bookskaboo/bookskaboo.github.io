@@ -1,0 +1,68 @@
+{
+  "url": "http://127.0.0.1:4196/previews/terrain-tiles/runtime.html",
+  "scope": "Synthetic paused QA, real generated reserves and renderer; no campaign save writes or normal-play balance claim.",
+  "checks": [
+    {
+      "terrain": "badlands",
+      "status": "Badlands · Map 10,2 · terrain rules 1 · field 3600 × 2400 · Iron 2500/2500 · Copper 2500/2500 · Stone 2500/2500"
+    },
+    {
+      "terrain": "grassland",
+      "status": "Grassland · Map 7,1 · terrain rules 1 · field 3600 × 2400 · Iron 4000/4000 · Copper 4000/4000 · Stone 4000/4000 · Forest 4000/4000"
+    },
+    {
+      "terrain": "desert",
+      "status": "Desert · Map 7,0 · terrain rules 1 · field 3600 × 2400 · Iron 2250/2250 · Copper 2250/2250 · Stone 2250/2250 · Forest 450/450"
+    },
+    {
+      "terrain": "rocky",
+      "status": "Rocky · Map 3,0 · terrain rules 1 · field 3600 × 2400 · Iron 9000/9000 · Copper 9000/9000 · Stone 9000/9000 · Forest 2250/2250"
+    },
+    {
+      "check": "snapshot reload",
+      "status": "Rocky · Map 3,0 · terrain rules 1 · field 3600 × 2400 · Iron 9000/9000 · Copper 9000/9000 · Stone 9000/9000 · Forest 2250/2250"
+    },
+    {
+      "check": "Area Expansion review",
+      "status": "Rocky · Map 3,0 · terrain rules 1 · field 5400 × 3600 · Iron 9000/9000 · Copper 9000/9000 · Stone 9000/9000 · Forest 2250/2250"
+    },
+    {
+      "check": "visited map label",
+      "visible": true
+    },
+    {
+      "check": "unvisited frontier label",
+      "visible": false
+    },
+    {
+      "check": "legacy comparison",
+      "status": "Legacy plain ground · Map 3,0 · terrain rules 0 · field 3600 × 2400 · Iron 4500/4500 · Copper 4500/4500 · Stone 4500/4500 · Forest 4500/4500"
+    },
+    {
+      "check": "mobile layout",
+      "width": 390,
+      "scrollWidth": 390,
+      "canvasCount": 1
+    }
+  ],
+  "cleanSessionChecks": [
+    {
+      "terrain": "badlands",
+      "status": "Badlands · Map 10,2 · terrain rules 1 · field 3600 × 2400 · Iron 2500/2500 · Copper 2500/2500 · Stone 2500/2500"
+    },
+    {
+      "terrain": "grassland",
+      "status": "Grassland · Map 7,1 · terrain rules 1 · field 3600 × 2400 · Iron 4000/4000 · Copper 4000/4000 · Stone 4000/4000 · Forest 4000/4000"
+    },
+    {
+      "terrain": "desert",
+      "status": "Desert · Map 7,0 · terrain rules 1 · field 3600 × 2400 · Iron 2250/2250 · Copper 2250/2250 · Stone 2250/2250 · Forest 450/450"
+    },
+    {
+      "terrain": "rocky",
+      "status": "Rocky · Map 3,0 · terrain rules 1 · field 3600 × 2400 · Iron 9000/9000 · Copper 9000/9000 · Stone 9000/9000 · Forest 2250/2250"
+    }
+  ],
+  "cleanSessionWarningsAndErrors": [],
+  "earlierSessionLimit": "Transient hot-update errors occurred while changing the renderer API; the final fresh tab has separate logs."
+}

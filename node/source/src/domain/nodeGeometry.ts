@@ -9,6 +9,12 @@ export interface NodeSize { w: number; h: number }
 export interface Point { x: number; y: number }
 
 export const RESOURCE_NODE_SIZE: NodeSize = { w: 320, h: 256 };
+/** Clear the full-suppression outline; growth to 20% reaches the card again. */
+export function guardedDepositPosition(camp: MachineNode, deposit: MachineNode): Point {
+  const outline = organicPolygon({ ...camp, campStrength: 10 }, 15);
+  const right = Math.max(...outline.filter((_, index) => index % 2 === 0));
+  return { x: camp.x + right + 12 + getNodeSize(deposit).w / 2, y: camp.y };
+}
 const INFINITE_RESERVE_SIZE: NodeSize = { w: RESOURCE_NODE_SIZE.w * 2, h: RESOURCE_NODE_SIZE.h * 2 };
 export const GOLEM_NODE_SIZE: NodeSize = { w: 512, h: 768 };
 export const STANDARD_NODE_WIDTH = 256;
@@ -85,9 +91,9 @@ export function getPortAnchor(node: MachineNode, direction: 'input' | 'output', 
     return { x: cornerCampInward(node.cornerCampQuadrant).x * size.w / 2, y: (index - (count - 1) / 2) * spacing };
   }
   if (node.infiniteResource && direction === 'output') return index % 4 === 0 ? { x: 0, y: -size.h / 2 } : index % 4 === 1 ? { x: size.w / 2, y: 0 } : index % 4 === 2 ? { x: 0, y: size.h / 2 } : { x: -size.w / 2, y: 0 };
-  if (node.kind === 'lake' || (node.kind === 'monster-camp' && node.guardedDepositId)) {
-    const polygon = organicPolygon(node, node.kind === 'lake' ? 18 : 15);
-    const ray = node.kind === 'monster-camp' ? { x: -1, y: 0 } : [{ x: 0, y: -1 }, { x: 1, y: 0 }, { x: 0, y: 1 }, { x: -1, y: 0 }][index % 4];
+  if (node.kind === 'lake') {
+    const polygon = organicPolygon(node, 18);
+    const ray = [{ x: 0, y: -1 }, { x: 1, y: 0 }, { x: 0, y: 1 }, { x: -1, y: 0 }][index % 4];
     const cross = (a: Point, b: Point) => a.x * b.y - a.y * b.x;
     for (let i = 0; i < polygon.length; i += 2) {
       const a = { x: polygon[i], y: polygon[i + 1] };
@@ -98,8 +104,7 @@ export function getPortAnchor(node: MachineNode, direction: 'input' | 'output', 
       const distance = cross(a, edge) / denominator;
       const along = cross(a, ray) / denominator;
       if (distance > 0 && along >= -1e-8 && along <= 1 + 1e-8) {
-        const reach = node.kind === 'monster-camp' ? Math.max(distance, RESOURCE_NODE_SIZE.w / 2 + 32) : distance;
-        return { x: ray.x * reach, y: ray.y * reach };
+        return { x: ray.x * distance, y: ray.y * distance };
       }
     }
   }

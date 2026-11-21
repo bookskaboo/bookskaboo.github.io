@@ -53,7 +53,7 @@ describe('progressive tutorial unlocks', () => {
     expect(engine.acknowledgeTutorialInvitation('expansion')).toBe(false);
     expect(engine.acknowledgeTutorialInvitation('monster-camps')).toBe(false);
     const game = engine.getState();
-    game.research.completed.push('exploration'); game.encounters!.push('monster-camp');
+    game.research.completed.push('exploration'); (game.encounters??=[]).push('monster-camp');
     const research = structuredClone(game.research), sectors = structuredClone(game.sectors);
     expect(nextTutorialInvitation(game)).toBe('expansion');
     expect(engine.acknowledgeTutorialInvitation('expansion')).toBe(true);
@@ -89,12 +89,31 @@ describe('progressive tutorial unlocks', () => {
     expect(availableTutorials(restored)).toContain('expansion');
     expect(nextTutorialInvitation(restored)).toBeUndefined();
     restored.encounters!.push('monster-camp');
-    expect(nextTutorialInvitation(restored)).toBe('monster-camps');
+    expect(nextTutorialInvitation(restored)).toBeUndefined();
 
     engine.undo();
     const game = engine.getState();
     expect(game.devResearchUnlocked).toBeUndefined();
     game.research.completed.push('exploration');
-    expect(nextTutorialInvitation(game)).toBe('expansion');
+    expect(nextTutorialInvitation(game)).toBeUndefined();
+    expect(game.devTutorialPromptsSuppressed).toBe(true);
+    expect(game.tutorialPromptsSeen??[]).toEqual([]);
+  });
+  it.each(['developerUnlockAllNodes','developerUnlockAllResearch','developerUnlockAllSectors','developerSuppressTutorialPrompts'] as const)('keeps automatic prompts quiet after %s while leaving manual lessons available',action=>{
+    const engine=new GameEngine(createInitialState(101),{autosave:false});
+    engine[action]();const game=engine.getState();game.research.completed.push('exploration');(game.encounters??=[]).push('monster-camp');
+    expect(nextTutorialInvitation(game)).toBeUndefined();expect(availableTutorials(game)).toContain('expansion');expect(availableTutorials(game)).toContain('monster-camps');
+    const restored=normalizeLegacy(JSON.parse(JSON.stringify(game)))!;expect(nextTutorialInvitation(restored)).toBeUndefined();expect(restored.tutorialPromptsSeen??[]).toEqual([]);
+    expect(nextTutorialInvitation({...createInitialState(101),research:game.research,encounters:['monster-camp']})).toBe('expansion');
+  });
+  it.each(['devResearchUnlocked','devMapSurveysRevealed'] as const)('silences older debug saves with %s and no new marker',marker=>{
+    const game=createInitialState(101);game[marker]=true;game.research.completed.push('exploration');(game.encounters??=[]).push('monster-camp');
+    expect(game.devTutorialPromptsSuppressed).toBeUndefined();expect(nextTutorialInvitation(normalizeLegacy(game)!)).toBeUndefined();
+  });
+  it('keeps Dev Source factories quiet, including after placement undo, without changing ordinary factories',()=>{
+    const engine=new GameEngine(createInitialState(101),{autosave:false});expect(engine.placeNode('devSource',2000,1700)).toBeTruthy();
+    engine.undo();const game=engine.getState();game.research.completed.push('exploration');expect(nextTutorialInvitation(game)).toBeUndefined();
+    const legacy=createInitialState(101);legacy.research.completed.push('exploration');legacy.sectors['5,5'].nodes.push(tutorialNode('devSource','legacy-dev',2000,1700));
+    expect(nextTutorialInvitation(legacy)).toBeUndefined();
   });
 });

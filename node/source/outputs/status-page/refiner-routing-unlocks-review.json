@@ -1,0 +1,46 @@
+{
+  "date": "2026-11-20",
+  "scope": "Routing-unlock change in local Upgrades proposal; shared runtime support added, base catalog triggers unchanged",
+  "requirements": {
+    "Splitter": "Create an item with a Refiner",
+    "Merger": "Create an item with a Refiner"
+  },
+  "runtime": {
+    "trigger": "refiner-produced",
+    "savedFlag": "hasProducedWithRefiner",
+    "ordinaryPositiveOutputUnlocksBoth": true,
+    "extendedPositiveOutputUnlocksBoth": true,
+    "partialBlockedOrNoOutputDoesNotCount": true,
+    "accessAssemblerAndStoredPartsDoNotCount": true,
+    "flagAndCompletedUnlocksSurviveSaveLoadAfterProducerRemoval": true,
+    "pastProductionNotBackfilled": true
+  },
+  "browser": {
+    "searchShowsBothRoutingRows": true,
+    "labelsMatch": true,
+    "mobileWidth": 390,
+    "mobileHorizontalOverflow": false,
+    "warningsAndErrors": []
+  },
+  "verification": {
+    "focusedPassed": 104,
+    "workspacePassed": 1939,
+    "workspaceSkipped": 2,
+    "previewTypeScript": "passed",
+    "mainBuild": "passed with existing large-chunk warning",
+    "standaloneBuild": "passed",
+    "systemCatalogsAndLinks": "passed",
+    "wordStructuralReopen": "passed",
+    "wordRender": "Unavailable: LibreOffice soffice.exe missing"
+  },
+  "screenshots": [
+    "refiner-routing-unlocks-desktop.jpg",
+    "refiner-routing-unlocks-390.jpg"
+  ],
+  "limits": [
+    "Base Splitter assembler-built and Merger basic-core-produced definitions remain unchanged; proposal is not adopted into the main catalog",
+    "No historical machine provenance inferred from old ledgers; persistent-game adoption needs a migration decision",
+    "No normal-play balance run or publication",
+    "Word visual layout remains unverified"
+  ]
+}

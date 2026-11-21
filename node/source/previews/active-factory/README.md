@@ -61,5 +61,33 @@ Measure with these caches warm, then test movement, wiring and camera changes
 separately. The comparison evidence for this optimization lives in
 `outputs/dense-optimization/` (NODE-0611).
 
+**Show distant text and boxes** restores titles, socket labels and current buffer
+boxes below the usual detail threshold. Static node artwork and cable caches
+remain active. It defaults off and changes only this preview; switching it resets
+the synthetic factory and timing samples. Ordinary game defaults stay unchanged.
+
+Add `sampleSeconds=25` to the URL for a five-second warmup followed by a fixed
+25-second measurement window. The metadata's `complete` flag then stays true and
+the benchmark freezes while production and the live FPS counter continue.
+`averageFps` and `meanFrameMs` use actual sampled intervals, including in rolling
+windows. Repeat off/on runs at the same viewport and camera; verify live text,
+stock and movement outside timed windows. Comparative evidence is retained in
+`outputs/distant-node-details/`.
+
+For centered zoom comparisons, `details=1` starts with distant text/boxes enabled
+and `zoom=0.25` starts at 25 percent zoom (accepted range: 0.05–2). Reset test
+reuses that zoom; Fit all and Inspect a cell still use their normal framing.
+The activity metadata's `data-camera` reports the actual clamped camera. Combine
+these options with a fixed sample window to compare visible-node counts, average
+FPS and frame p95 at different zooms while all nodes keep simulating. Repeat a
+borderline result; a single average above 30 FPS does not establish a stable
+30 FPS floor across camera locations or host load.
+
+The toolbar's **Zoom** dropdown shows the actual percentage. Select **35%** to
+set that view directly, or use the wheel and watch the value update. Fit all and
+Inspect a cell update it too. Presets preserve the current view center and keep
+production running; actual zoom changes restart frame measurements and warmup,
+without resetting the factory.
+
 Verify with `npx tsc -p previews/active-factory/tsconfig.json --noEmit` and
 `npx vitest run previews/active-factory/`.

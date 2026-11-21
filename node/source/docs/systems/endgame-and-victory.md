@@ -17,11 +17,13 @@ Reclamation values one Fines at 1/20 piece, Spent Flux at 1/132, Glassy Crust at
 
 Each camp has a linked reward node with capacity ten pieces. New-world reward titles identify α/β/γ/δ Piece; legacy titles retain Corner Tribute. Challenges repeat while output has room. Fractional progress and excess supplied material survive saturation; Foundry can collect its next complete bill while its Tribute waits for collection. Camp locations and which pieces form each half are seeded and saved.
 
+The separate [ground-terrain proposal](../master-plan/22-map-terrain-tiles.md#corner-quadrant-preferences) associates each encounter identity with a mild quadrant preference: Dragon/Badlands, Grove/Grassland, Reclamation/Desert and Foundry/Rocky. Its isolated preview reuses the current seeded corner order, guarantees the preferred terrain at each first diagonal from Home, and uses 1.5x preferred weight for the remaining maps. This planned terrain layer does not move encounters, change payments/rewards or implement game terrain generation.
+
 ## Halves and Final Core
 
-Producing the first Complex Core triggers End of the World, unlocking Yin and Yang recipes. One of three pairing patterns determines which two corner pieces make each half in the Assembler. Each half takes twenty base seconds. Only the recipes matching the world's saved pairing index are available.
+Complex Core research directly unlocks Yin and Yang recipes and reveals all four corner locations on the Node Map. End of the World is retired as a separate research entry. No Complex Core production or corner visit is required. Locked corners keep anonymous markers until their challenges are unlocked; the reveal does not purchase maps, mark visits, reveal resource surveys or bypass ordinary map adjacency or prices. Existing completed Complex Core research applies these effects on load. One of three pairing patterns determines which two corner pieces make each half in the Assembler. Each half takes twenty base seconds. Only the recipes matching the world's saved pairing index are available.
 
-Final Core research costs five of every earlier Core and requires End of the World and Complex Core research. Its Assembler recipe combines one Yin and one Yang over sixty base seconds. First Final Core production records an internal milestone and unlocks access to victory and Final Robotics subject to their prerequisites.
+Final Core research costs five of every earlier Core and requires Complex Core research. Its Assembler recipe combines one Yin and one Yang over sixty base seconds. First Final Core production records an internal milestone and unlocks access to victory and Final Robotics subject to their prerequisites.
 
 A Remarkably Indirect Conclusion costs one Simple, Basic, Automata, Hydro, Shiny, Complex and Final Core. The player must select it and fund it at the Research Center. First Final Core production alone does not trigger victory.
 

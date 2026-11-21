@@ -1,0 +1,37 @@
+{
+  "date": "2026-11-20",
+  "scope": "Larger guarded-camp artwork and deposit placement across suppression boundaries; local only",
+  "url": "http://127.0.0.1:4197/previews/obstructions/",
+  "behavior": [
+    "Place new guarded deposit left edge 12 world units beyond the rightmost point of its owner’s exact 15-point outline at campStrength 10, sharing the camp vertical center",
+    "Full resource card clears the fully suppressed footprint and intersects the camp again at campStrength 20; the card does not have to fit entirely inside the camp",
+    "Enlarge guarded artwork from 144 to 256 world units; lower art edge stays 20 units above centered socket and its right edge stays left of the deposit",
+    "Retain red inaccessible styling without card lock/status labels, compact AP card, centered AP input, paired relocation, saved positions and original 30-settlement distribution"
+  ],
+  "automated": {
+    "focused": "52 passed across 6 files",
+    "workspace": "2118 passed, 2 skipped across 207 files with maxWorkers=4",
+    "builds": "npm run build and npm run build:site passed; existing large-chunk warning",
+    "previewTypes": "npx tsc -p previews/obstructions/tsconfig.json --pretty false passed"
+  },
+  "browser": [
+    "Dwarven and Goblin fixtures at 10% showed the full resource clear of the camp, normal card colors and enlarged camp art",
+    "Both factions at 20% showed the camp reaching the left side of the resource and the red inaccessible appearance",
+    "Selecting the camp preserved the resource; enlarged art remained clear of the resource, centered socket and AP card",
+    "Dwarven extraction worked after suppression, reducing stock to 2999; suppression loss retained that stock and the route after advancing five seconds",
+    "390 by 844 low-zoom Goblin 20% layout inspected, with the viewport override restored afterward"
+  ],
+  "screenshots": [
+    "dwarven-10-clear.jpg",
+    "dwarven-20-covered.jpg",
+    "goblin-10-clear.jpg",
+    "goblin-20-covered.jpg",
+    "narrow-goblin-20.jpg",
+    "final-layout.jpg"
+  ],
+  "limits": [
+    "Synthetic manually advanced fixtures with autosave disabled, not normal-play balance; campaign saves untouched",
+    "New placement applies to newly generated guarded maps; existing saved positions and legacy artwork sizing remain",
+    "No live publication; geometry checks cover standard-world generation and border-clearance fixtures rather than every arbitrary mod configuration"
+  ]
+}

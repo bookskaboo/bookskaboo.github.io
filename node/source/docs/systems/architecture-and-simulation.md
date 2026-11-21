@@ -55,6 +55,12 @@ group colors; research/mod changes invalidate the shared cache. At most 256
 appearances are retained, each at most 256 pixels on its longer edge. Further
 appearances fall back to vectors. Render targets are released on teardown.
 
+The optional `showDistantNodeDetails` renderer input supports a local performance
+comparison. It restores live text and buffer overlays at overview zoom while
+keeping the shared static artwork and cable caches enabled. Socket graphics
+already present in the shared image stay hidden beneath these overlays; their
+interactive roots remain available. The normal game does not enable this input.
+
 Cables use independently cached neighborhoods grouped by source position on a
 1,024-unit grid. Each target is bounded to 2,048 pixels on its longer edge and
 culls against its complete curve bounds. Movement, insertion and rewiring dirty

@@ -23,3 +23,7 @@ Recipe alternatives use the machine's multiplier. Recovery does not receive a se
 [Family definitions and formula](../../src/content/machineEfficiency.ts), [multiplier lookup](../../src/content/efficiency.ts), [generated research](../../src/content/research.ts), [save migration](../../src/simulation/machineEfficiencyMigration.ts).
 
 Coverage: [family definitions](../../src/content/machineEfficiency.test.ts), [simulation](../../src/simulation/engine.efficiency.test.ts), [migration](../../src/simulation/machineEfficiencyMigration.test.ts). Update the generated [efficiency](catalogs/efficiency.md) and [research](catalogs/research.md) catalogs after changing ranks.
+
+The isolated [Upgrades prototype](../../previews/status-page/README.md) lists only the lowest available or active rank per machine family in Node upgrades. It chooses that rank before applying search, hides future/completed ranks and advances after completion when the next rank becomes eligible. Research Center remains a separate Research family; Extractors and Lake Intakes retain Production classification. The main Research screen and saved rank IDs are unchanged.
+
+Queued research uses these same rank-adjusted Center intervals. A completed queued Research Center rank affects the following project's cycles. Research pause freezes partial research cycle time and suppresses active-cycle status; it does not change the stored rank, multiplier or other machine processing.

@@ -1,0 +1,29 @@
+{
+  "date": "2026-11-19",
+  "outcome": "Explicit enabled-only Core payments and no badge underline",
+  "semantics": "Enabled is the current selected upgrade project. Disabled/switching away stops payments and retains paid contributions. Next upgrade stays unselected on completion.",
+  "engineChecks": [
+    "disabled 2/5 upgrade keeps all three remaining lab Cores after ten simulated seconds",
+    "re-enable consumes one Core after the ordinary five-second cycle, advancing to 3/5",
+    "next tier leaves its five stocked Cores untouched for ten seconds after previous completion"
+  ],
+  "browser": [
+    "Enabled -> Disabled -> Enabled retains 2/5",
+    "aria-pressed false while disabled",
+    "no research-core-paid underline in upgrade control",
+    "390 px layout has no horizontal overflow",
+    "isolated test tab reports no warnings/errors"
+  ],
+  "checks": {
+    "focusedPassed": 40,
+    "previewTypecheck": "passed",
+    "standaloneBuild": "passed"
+  },
+  "screenshot": "outputs/status-page/bot-upgrade-disabled-no-bar.jpg",
+  "limits": [
+    "Main game unchanged; collection uses the prototype selected-project gate",
+    "Only the bot upgrade badge underline is removed; existing normal research badge styling remains",
+    "No normal-play balance or save migration check",
+    "Word visual rendering unavailable because LibreOffice is missing"
+  ]
+}

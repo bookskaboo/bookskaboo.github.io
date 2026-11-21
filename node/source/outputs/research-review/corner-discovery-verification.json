@@ -1,0 +1,52 @@
+{
+  "changeId": "NODE-0668",
+  "date": "2026-11-20",
+  "liveResearchProjects": 129,
+  "checks": {
+    "focused": {
+      "passed": 154
+    },
+    "workspace": {
+      "command": "npm test -- --testTimeout=15000",
+      "passed": 1987,
+      "skipped": 2,
+      "failed": 0,
+      "note": "Default five-second run hit the existing 100-seed border audit timeout; the complete suite passes with a fifteen-second per-test allowance."
+    },
+    "mainBuild": "passed",
+    "statusPreviewTypecheck": "passed",
+    "statusPreviewBuild": "passed",
+    "catalogFreshnessAndLinks": "passed",
+    "wordStructure": "Both reopened with accepted rules.",
+    "wordRendering": "Both attempted; LibreOffice soffice.exe missing."
+  },
+  "browser": {
+    "fixture": "corner-discovery-preview.html",
+    "synthetic": true,
+    "autosave": false,
+    "layoutPersistence": false,
+    "checks": [
+      "Actual paid Complex Core completion reveals four pending corner flashes and two map emphasis elements.",
+      "Computed corner animation is map-discovery-flash.",
+      "Inspecting a compact corner clears only that corner and map emphasis; no map selection is recorded.",
+      "Keyboard Tab independently clears another corner.",
+      "Selecting an expanded corner clears only its own remaining flash.",
+      "Reloading saved acknowledgement preserves the one remaining pending corner.",
+      "Keyboard focus clears the final pending corner.",
+      "No console warnings or errors."
+    ],
+    "remainingCornerCounts": [
+      4,
+      3,
+      2,
+      1,
+      1,
+      0
+    ]
+  },
+  "limits": [
+    "Not a normal-play balance run.",
+    "Word page layout is not visually verified.",
+    "No publication."
+  ]
+}

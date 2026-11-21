@@ -1,0 +1,125 @@
+{
+  "scope": "Adopt the reviewed Upgrades modal into unmodded gameplay; retain existing Research screen/catalog for applied-mod factories.",
+  "build": {
+    "production": "Main production build passed; final TypeScript build and isolated production build passed, with the same source served from outputs/upgrades-integration/game and base /",
+    "warning": "Existing large-chunk build warning remains.",
+    "assets": [
+      {
+        "file": "assets/browserAll-DLY-Xjou.js",
+        "sha256": "05c3045137fbe6d84dd5dd3613e9a7fae5db48d929ca639bbfd7f4197e64b245"
+      },
+      {
+        "file": "assets/CanvasPool-O_8k9jVW.js",
+        "sha256": "9cf12a9f53a878bb8f9f46337b799031a6986b5f87dd775ef57b2902ae0dc9cd"
+      },
+      {
+        "file": "assets/canvasUtils-DHiBpmSz.js",
+        "sha256": "8843c3459529c72ffb9a82655454eff39f3458448dd2ae362764f3be4933288f"
+      },
+      {
+        "file": "assets/getTexelRangeRects-BhRlOlmi.js",
+        "sha256": "ca0b3e94399ce67c9dca1ec3021473e2542251d523bc93bd04a9b149070dd130"
+      },
+      {
+        "file": "assets/getTextureBatchBindGroup-CDnZS9mH.js",
+        "sha256": "2b2eff79ef557432774e0acd98963de65847a16840f0b738b07556ea37e21caa"
+      },
+      {
+        "file": "assets/index-BE579CTm.css",
+        "sha256": "5a9a9b37837eedd68a874ee0f19273a44d7c14aa313c90e9123bb0c5ee31ac61"
+      },
+      {
+        "file": "assets/index-WwVItEZK.js",
+        "sha256": "488962ed86b45240f94001613e1ac3ded398a0c4b826efa1d61fcb4cc761e022"
+      },
+      {
+        "file": "assets/init-B_dYvkLl.js",
+        "sha256": "bcfc73a53ca15b02f96caf1f72f7d3f75f4f860ba852a0e34f85ff1260c6bc37"
+      },
+      {
+        "file": "assets/RenderTargetSystem-D85YXrAp.js",
+        "sha256": "20605afc2541d39cab4bebe036e73f8de687ac78d22cd48b5485993be0c8604f"
+      },
+      {
+        "file": "assets/webworkerAll-DH_72sUI.js",
+        "sha256": "38cce336d523576e683fff7ca131e8b354c2f9caa8ac928af5d50d4773d8fabf"
+      },
+      {
+        "file": "index.html",
+        "sha256": "950a372035142a2cdba92ebfc3ed860548f288c05f289ef5d0f78c2863fa2d89"
+      }
+    ]
+  },
+  "automated": {
+    "workspace": "2124 passed, 2 skipped across 208 files on final full run",
+    "newIntegration": "Initial modal, guided one-project restriction, normal slot/save normalization and replaceState preserving old paid bills/history, applied-mod fallback/removal",
+    "previewTypeScript": "passed",
+    "authorPreviewExport": "passed",
+    "catalogsAndLinks": "six catalogs and 39 documents passed",
+    "finalFocused": "71 passed across nine files after the final Factory paused copy cleanup",
+    "changelog": "passed: 712 entries, five generated files, six tests"
+  },
+  "browser": {
+    "fullBasics": {
+      "url": "http://127.0.0.1:4195/",
+      "stages": 19,
+      "method": "Normal tutorial UI: Extractors, Kiln, Smelter, two Refiners, Research Center, actual production/delivery and five paid Simple Cores; no grants or injected state",
+      "results": [
+        "Early Upgrades permits completed Joint inspection only",
+        "Single selection stays on step 14; Queue research advances while research is paused",
+        "Step 15 has no Continue bypass and waits for five actual Core payments",
+        "Step 16 introduces the four-card queue and Simple upgrade; all Options/shortcut steps finish",
+        "Finish restores the original paused factory"
+      ]
+    },
+    "productionBuild": {
+      "url": "http://127.0.0.1:42815/",
+      "results": [
+        "Saved a separate real unmodded factory through Save / Load in a fresh origin test slot",
+        "Changed upgrade selection and research pause, loaded the saved slot and restored both; acknowledged assignment retained in hint history",
+        "Tab/Shift+Tab wrap within the modal; Q/Escape close/reopen and restore toolbar focus",
+        "Core recipe inspection returns through Back to Upgrades with originating badge focus and list scroll",
+        "Hint arrows change eligible clues without resizing (331.24 by 120.60 CSS px at desktop); wheel leaves selection unchanged",
+        "Exclusive filters and search remain operable in stacked mobile layout",
+        "No captured warning/error console logs in final production-build checks"
+      ]
+    },
+    "layouts": [
+      {
+        "size": "1280x720",
+        "result": "Modal fits below toolbar; no document overflow"
+      },
+      {
+        "size": "960x720",
+        "result": "Normal modal fits; compact guided modal right edge 948.49 and left edge 313.03 clear the guide right edge 301.51"
+      },
+      {
+        "size": "960x540",
+        "result": "Four compact empty queue slots retain 162.79 CSS px research-list height"
+      },
+      {
+        "size": "390x844 requested, 390x845 reported",
+        "result": "Normal modal bottom 836.61; guided modal bottom 548.61 precedes guide top 573.44; document width 390"
+      }
+    ]
+  },
+  "screenshots": [
+    "integrated-upgrades.jpg",
+    "basics-paid-research.jpg",
+    "basics-research-complete.jpg",
+    "basics-final-step.jpg",
+    "saved-factory-restored.jpg",
+    "compact-desktop.jpg",
+    "short-window.jpg",
+    "mobile-controls.jpg",
+    "compact-tutorial.jpg",
+    "mobile-tutorial.jpg"
+  ],
+  "limits": [
+    "Functional practice and synthetic migration regression evidence, not full normal-play campaign balance",
+    "Applied-mod Upgrades support/pricing deliberately deferred; existing Research behavior retained",
+    "Browser checks used separate local origins and their own test factories/slot; existing campaign tabs were preserved",
+    "No release action was initiated by this integration workflow"
+  ],
+  "change": "NODE-0712"
+}

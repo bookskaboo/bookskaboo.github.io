@@ -224,7 +224,7 @@ The [28-map distribution calibration](../deep-hole-exploration-simulation.md#dis
 
 **Next action:** assess contrast/readability at supported zoom/viewport, non-color state cues, motion control, focus/dismissal, tooltip alternatives and socket/input precision. Record actual findings before adding a broad redesign.
 
-**Close when:** each observed issue has environment, severity and a repeatable acceptance check, with prioritized fixes verified. **Evidence:** [accessibility commitment](../master-plan/05-interface-and-learning.md#accessibility-commitment), [style references](../node-ui-style-guide.docx), [UI system](../systems/interface-and-assets.md). **Outcome: pending.**
+**Close when:** each observed issue has environment, severity and a repeatable acceptance check, with prioritized fixes verified. **Evidence:** [accessibility commitment](../master-plan/05-interface-and-learning.md#accessibility-commitment), [style references](../node-ui-style-guide.md), [UI system](../systems/interface-and-assets.md). **Outcome: pending.**
 
 ### SR-22 Audio scope
 
@@ -234,13 +234,13 @@ The [28-map distribution calibration](../deep-hole-exploration-simulation.md#dis
 
 **Close when:** a permanent disposition and accurate current reference exist; if implemented, test playback and saved controls. This is not an invitation to commission assets during this review. **Evidence:** [audio plan](../master-plan/06-art-audio-and-writing.md#audio), [preferences](../../src/domain/types.ts), [initial state](../../src/simulation/createInitialState.ts). **Outcome: pending.**
 
-### SR-23 Word layout verification
+### SR-23 Style reference format
 
 **Finding:** recent style-review entries record structural preservation checks but failed final rendering because packaged LibreOffice was unavailable. This review extracted Word text, including tables, but did not certify page layout.
 
-**Next action:** restore the bundled document rendering path and render/inspect both current style references, keeping their latest text intact. Do not treat old page images as current verification.
+**Disposition:** the user chose Markdown for both maintained style references. Preserve the Word originals only as archived evidence; the former Word page-rendering requirement is retired. Future updates check Markdown headings, tables and links.
 
-**Close when:** every current page is visually checked for clipping, overflow, glyphs and hierarchy, with results linked from the permanent history. **Evidence:** [guide](../node-ui-style-guide.docx), [review notes](../typography-style-review.docx), NODE-0577. **Outcome: pending.**
+**Verification:** conversion preserves all 290 source paragraphs and six tables; the archived originals retain their source hashes. **Evidence:** [guide](../node-ui-style-guide.md), [review notes](../typography-style-review.md), [conversion checks](../../outputs/style-markdown-conversion/verification.json). **Outcome: resolved by the requested format change; historical Word page layout was not certified.**
 
 ## Reference and history reconciliation
 

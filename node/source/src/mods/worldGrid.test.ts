@@ -56,6 +56,7 @@ it('generates and reveals all 441 sectors with seeded camps at the four outer co
   const sectors = Object.values(state.sectors);
   expect(sectors).toHaveLength(441);
   expect(sectors.every(sector => sector.unlocked)).toBe(true);
+  expect(sectors.every(sector => sector.visited)).toBe(true);
   expect(state.devMapSurveysRevealed).toBe(true);
   expect(remainingMapNodePurchases(state)).toBe(0);
   expect(sectors.filter(sector => sector.nodes.some(node => node.kind === 'cornerChallenge')).map(sector => sector.id).sort()).toEqual(worldCornerIds(21).sort());

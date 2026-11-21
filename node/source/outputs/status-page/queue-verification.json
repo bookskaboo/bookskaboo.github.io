@@ -1,0 +1,55 @@
+{
+  "date": "2026-11-20",
+  "scope": "Local Upgrades prototype queue and shared optional research queue/pause runtime; no publication",
+  "focused": {
+    "command": "npx vitest run src/simulation/researchQueue.test.ts src/simulation/researchSelection.test.ts src/simulation/researchTiming.test.ts src/simulation/engine.research.test.ts src/simulation/mapResearch.test.ts src/ui/researchProgress.test.ts src/ui/ResearchPanel.test.tsx src/ui/researchMilestones.test.ts previews/status-page/",
+    "filesPassed": 19,
+    "testsPassed": 221
+  },
+  "checks": {
+    "previewTypeScript": "passed",
+    "standaloneBuild": "passed",
+    "mainBuild": "passed, existing large-chunk warning",
+    "systemsGeneratedAndChecked": "passed",
+    "changelog": "Generated and checked 667 entries; six history checks passed after the concurrently rebuilt terrain evidence returned."
+  },
+  "workspaceSuite": {
+    "passed": 1970,
+    "failed": 16,
+    "skipped": 2,
+    "failedFiles": [
+      "src/simulation/engine.test.ts",
+      "src/simulation/mapTerrain.test.ts",
+      "src/ui/mapNodePresentation.test.ts",
+      "src/simulation/borderObstructions.test.ts"
+    ],
+    "limits": "Failures concern remote forest refill, world-size/terrain and corner save fixtures, and the 100-seed border audit timeout. Queue tests and research-focused checks pass. Concurrent terrain work was preserved."
+  },
+  "browser": {
+    "url": "http://127.0.0.1:4194/outputs/status-page/status-modal.html",
+    "viewport": [
+      1280,
+      720
+    ],
+    "observed": [
+      "Green Queue research after Node upgrades; icon-only control immediately after it",
+      "Running control has two SVG rectangles and no visible text; paused control has one forward triangle path and no visible text",
+      "Four cards accepted; duplicate/capacity are protected; fifth-card attempt shows Queue full",
+      "First live queued project processed 2 of 30 paid Cores through ordinary real-time research",
+      "Paused count stayed at 2 of 30 during subsequent interaction and inspection",
+      "Removing a queued project freed its slot",
+      "Synthetic Complete current test project finished only the head, automatically starting Kiln 1 and leaving Research Center 1 queued",
+      "Resume restored pause bars; final fixture left research paused",
+      "No captured browser warnings/errors"
+    ],
+    "screenshots": [
+      "outputs/status-page/queue-paused-review.jpg",
+      "outputs/status-page/queue-running-review.jpg"
+    ],
+    "limits": "Live lab has synthetic stock. Explicit completion control supplies Cores and steps ordinary cycles, not a balance run. Requested viewport override did not change observed size and was reset; narrow-browser QA not claimed."
+  },
+  "word": {
+    "structuralReopen": "both documents reopened with prior sections retained",
+    "visualRender": "Attempt failed: LibreOffice soffice.exe missing from PATH; no visual page QA claim"
+  }
+}

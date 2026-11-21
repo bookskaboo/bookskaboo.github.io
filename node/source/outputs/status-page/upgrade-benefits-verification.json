@@ -1,0 +1,52 @@
+{
+  "date": "2026-11-20",
+  "scope": "Local Upgrades prototype benefit tooltip and transient character-completion notice",
+  "behavior": [
+    "Button remains Upgrade; shared hover/focus tooltip and accessible description name the promotion title, next Core recipe and priority/return behavior",
+    "New character completions show a polite, dismissible 4.5-second research-style notice",
+    "Notice names completed tier, new title and unlocked recipe; Final says Self-Optimizing Intelligence and all character upgrades complete",
+    "Current-engine completions are observed once; loaded stage history and ordinary research produce no character notice",
+    "External Test completion explicitly previews the notice; live lab completion uses the ordinary engine subscription",
+    "Fixture changes clear transient notices and timers; keyboard dismissal participates in the active modal focus cycle",
+    "No persistent explanatory text, game rules or save fields added"
+  ],
+  "checks": {
+    "targeted": {
+      "command": "npx vitest run previews/status-page/ src/ui/ResearchPanel.test.tsx",
+      "testsPassed": 50,
+      "filesPassed": 7
+    },
+    "previewTypeScript": "passed",
+    "standaloneBuild": "passed, three offline HTML exports",
+    "systemDocs": "6 catalogs and local links across 39 documents passed"
+  },
+  "browser": {
+    "url": "http://127.0.0.1:4194/outputs/status-page/status-modal.html",
+    "viewport": [
+      1280,
+      720
+    ],
+    "observed": [
+      "Initial Junior stage has no completion notice",
+      "Shift+Tab from the Simple Core badge focuses Upgrade and shows Simple upgrade tooltip: Resource Technician, Basic Core recipe, current priority rules",
+      "Explicit Test completion shows Simple upgrade complete / Resource Technician. Basic Core recipe unlocked.",
+      "Notice expires automatically; loading live lab does not replay old character completions",
+      "Live Basic completion shows Basic upgrade complete / Fabrication Specialist. Automata Core recipe unlocked.",
+      "Shift+Tab from modal Close reaches Dismiss upgrade notification; Enter dismisses it",
+      "Completing ordinary Extra Map Point research creates no bot notice and does not replay the dismissed promotion",
+      "Complex fixture exposes Final upgrade tooltip naming Self-Optimizing Intelligence and final character upgrade, without another Core",
+      "Explicit Final completion shows Final upgrade complete / Self-Optimizing Intelligence. All character upgrades complete.",
+      "No captured browser warnings/errors"
+    ],
+    "screenshots": [
+      "outputs/status-page/upgrade-benefit-tooltip.jpg",
+      "outputs/status-page/upgrade-completion-notice.jpg",
+      "outputs/status-page/final-upgrade-completion-notice.jpg"
+    ]
+  },
+  "clarificationOfPriorEvidence": {
+    "reference": "NODE-0677 / outputs/status-page/priority-return-verification.json",
+    "clarification": "The earlier phrase Automata portrait/next upgrade referred to the next Automata upgrade. Completing Basic actually shows the Basic portrait and Fabrication Specialist title; Automata is the next recipe/upgrade. The original screenshot is retained."
+  },
+  "limits": "Synthetic stage/live-lab fixture review, not normal-play balance. No fresh full-suite, main-game build or narrow-viewport run for this preview-only presentation change. Main-game notifications and campaign saves are unchanged. No commit or publication."
+}

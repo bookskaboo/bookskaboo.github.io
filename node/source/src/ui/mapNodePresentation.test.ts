@@ -4,9 +4,25 @@ import { worldCornerIds } from '../domain/worldGrid';
 import { normalizeLegacy } from '../persistence/saves';
 import { createInitialState, GameEngine } from '../simulation/engine';
 import { generateSector } from '../simulation/worldGeneration';
+import { generateMapTerrains } from '../simulation/mapTerrain';
 import { mapCornerMarkers, mapLandmarkSurvey, mapNodeHoverDetails, mapNodeName, mapNodePosition, mapNodeSurvey } from './mapNodePresentation';
 
 describe('Home-relative map positions', () => {
+  it.each([11, 13, 15, 17, 19, 21])('reveals four locked corner locations after Complex Core research on a %s grid', gridSize => {
+    const game = createInitialState(41);
+    game.worldGridSize = gridSize;
+    game.mapTerrains = generateMapTerrains(game.seed, gridSize);
+    expect(mapCornerMarkers(game).size).toBe(0);
+    const before = JSON.stringify(game.sectors);
+    game.research.completed.push('complexCore');
+    const expected = new Map(worldCornerIds(gridSize).map(id => [id, '???']));
+    expect(mapCornerMarkers(game)).toEqual(expected);
+    expect(JSON.stringify(game.sectors)).toBe(before);
+    expect(game.produced?.['command-core'] ?? 0).toBe(0);
+    expect(mapCornerMarkers(normalizeLegacy(game)!)).toEqual(expected);
+    game.research.completed = ['cornerComponents'];
+    expect(mapCornerMarkers(game)).toEqual(expected);
+  });
   it('uses dotted compass directions with the vertical offset first and H for Home', () => {
     for (const [x, y, expected] of [[5, 5, 'H'], [5, 4, 'N1'], [4, 5, 'W1'], [6, 5, 'E1'], [5, 6, 'S1'], [4, 4, 'N1.W1'], [6, 4, 'N1.E1'], [4, 6, 'S1.W1'], [10, 10, 'S5.E5']] as const) {
       expect(mapNodePosition(x, y)).toBe(expected);
@@ -23,7 +39,7 @@ describe('Home-relative map positions', () => {
 });
 
 describe('map exploration surveys', () => {
-  it('reveals all map contents with the dev tool without recording visits or discoveries', () => {
+  it('marks every map explored with the dev tool, retaining field/camera and reversible discovery', () => {
     const engine = new GameEngine(createInitialState(301), { autosave: false });
     const game = engine.getState();
     const outpost = generateSector(7, 5, game.seed, 0);
@@ -35,23 +51,26 @@ describe('map exploration surveys', () => {
     engine.developerUnlockAllSectors();
     expect(Object.values(game.sectors).filter(sector => sector.unlocked)).toHaveLength(121);
     expect(game.activeSectorId).toBe('5,5');
-    expect(game.encounters).toEqual(encounters);
+    expect(game.encounters).toContain('resourceGolem');
     expect(game.research.completed).not.toContain('exploration');
-    expect(outpost.visited).toBeFalsy();
+    expect(outpost.visited).toBe(true);
+    expect(Object.values(game.sectors).every(sector=>sector.visited)).toBe(true);
     expect(mapNodeSurvey(game, outpost.id).obstructions).toContainEqual({ name: 'Lake', count: 1 });
     expect(mapNodeHoverDetails(game, outpost.id)).toContain('Water ∞');
     expect(mapLandmarkSurvey(game).discovered).toEqual(new Set(['camps', 'lakes', 'golems']));
-    expect(mapCornerMarkers(game).size).toBe(0);
+    expect(mapCornerMarkers(game).size).toBe(4);
 
     const restored = new GameEngine(normalizeLegacy(game)!, { autosave: false });
+    expect(Object.values(restored.getState().sectors).every(sector=>sector.visited)).toBe(true);
     expect(mapNodeSurvey(restored.getState(), outpost.id).explored).toBe(true);
     const firstView = { x: 25, y: 120, zoom: .18 };
     restored.switchSector(outpost.id, firstView);
-    expect(restored.getSector().camera).toEqual(firstView);
+    expect(restored.getSector().camera).toEqual(outpost.camera);
 
     engine.undo();
     expect(engine.getState().sectors[outpost.id].unlocked).toBe(true);
     expect(mapNodeSurvey(engine.getState(), outpost.id).explored).toBe(false);
+    expect(engine.getState().encounters).toEqual(encounters);
   });
 
   it('reveals each filter and its locations only after those maps are visited', () => {
@@ -89,6 +108,7 @@ describe('map exploration surveys', () => {
   it.each([11, 21])('reveals persistent corner markers on a %i-wide grid and hides locked names', gridSize => {
     const game = createInitialState(301);
     game.worldGridSize = gridSize;
+    game.mapTerrains = generateMapTerrains(game.seed, gridSize);
     const ids = worldCornerIds(gridSize);
     const addSector = (id: string, unlocked: boolean) => {
       const [x, y] = id.split(',').map(Number);

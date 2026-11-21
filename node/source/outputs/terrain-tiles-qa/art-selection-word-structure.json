@@ -1,0 +1,16 @@
+{
+  "node-ui-style-guide.docx": {
+    "reopened": true,
+    "priorParagraphs": 92,
+    "currentParagraphs": 92,
+    "tablesPreserved": 1,
+    "scope": "one guide status paragraph"
+  },
+  "typography-style-review.docx": {
+    "reopened": true,
+    "priorParagraphs": 146,
+    "currentParagraphs": 148,
+    "tablesPreserved": 5,
+    "scope": "append-only selection record"
+  }
+}

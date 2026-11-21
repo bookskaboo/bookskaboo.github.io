@@ -1,35 +1,60 @@
-# Research
+# Research and Upgrades
 
 [System index](README.md) · [Complete research catalog](catalogs/research.md)
 
-Research combines free discoveries with paid projects. The single Research Center is anchored at Home. It consumes synchronized Core sets for the manually selected paid project; higher tiers continue requiring earlier Core supply.
+Unmodded factories use **Upgrades** (Q) for character progression and ordinary research. The robot uses this world's resources to manufacture Cores and upgrade itself. The single Research Center stays anchored at Home and processes synchronized Core sets. Applied-mod factories retain the existing Research screen/catalog while support for the new progression is deferred.
 
-## Discoveries and projects
+## Character progression
 
-Three independent Logistics projects grant permanent worldwide Road crossing permission: River Bridges at Hydro, Mountain Tunnels at Shiny and Chasm Spans at Complex. Each requires Road and the corresponding Core project, and costs five of every Core from Simple through that tier. Research Centers process these ordinary paid projects through the existing selection and synchronized payment rules. They place no Roads automatically and add no transport penalty. See [crossing rules](roads-and-vehicles.md#border-crossing-research).
+Simple Core is a starting Refiner recipe with no research gate or card. Each character upgrade unlocks the next Core recipe. Machine access and ingredients still determine whether that recipe can actually be produced.
 
-Automatic milestones complete when their trigger occurs, such as extracting Wood, producing a Plate, encountering a Lake or producing the first Complex Core. They are not paid projects to start in the lab. Ordinary projects require all named prerequisites, including both the singular and plural prerequisite fields.
+| Upgrade | Promotion | Bill | Unlock |
+| --- | --- | --- | --- |
+| Arrival | Probationary Unit | None | Junior starting stage |
+| Simple | Resource Technician | 5 Simple | Basic Core recipe |
+| Basic | Fabrication Specialist | 5 each through Basic | Automata Core recipe |
+| Automata | Systems Coordinator | 5 each through Automata | Hydro Core recipe |
+| Hydro | Operations Supervisor | 5 each through Hydro | Shiny Core recipe |
+| Shiny | Development Director | 5 each through Shiny | Complex Core and Yin/Yang recipes; reveal all four corners |
+| Complex | Planetary Administrator | 5 each through Complex | Final Core recipe |
+| Final | Self-Optimizing Intelligence | 5 each of all seven Cores | All character upgrades complete; victory remains separate |
 
-Each Core has its own recipe project. Simple Core unlocks automatically with the Refiner. Every later Core project costs five of each earlier Core and also requires the prior Core project and its machine/technology prerequisite. Unlocking a machine alone does not unlock all its recipes.
+Simple upgrade is selectable at the start. Every later upgrade becomes selectable immediately after its predecessor completes, without extra technology/production gates. The button stays labeled Upgrade; ascending Core badges show paid/required amounts and the button fills from actual contributions. The next upgrade remains unselected after completion. Tooltip/accessibility copy names promotion and benefits; Shiny lists all three effects. Existing research notifications announce the completed promotion for 4.5 seconds, with no historical replay on factory load.
 
-## Payment cycle
+Stable recipe project IDs represent their preceding character upgrade: basicCore is Simple upgrade, through finalCore as Complex upgrade. finalBotUpgrade is the new Final character upgrade. The [catalog transform](../../src/content/botUpgrades.ts) applies only to the unmodded runtime catalog; the preserved base catalog still supports deferred applied-mod factories. Existing completed recipe projects and payments migrate without repayment; [save policy](saves-and-compatibility.md#migration-policy) owns this boundary.
 
-The base research interval is five seconds, including the first payment after selection. At each completed interval the lab consumes one of every still-outstanding Core type together. If any outstanding type is missing, cycle progress resets and stocked types wait. A type already fully paid is omitted from subsequent sets.
+## Discoveries and ordinary projects
 
-For an equal bill of five each through Basic, one cycle consumes one Simple and one Basic. Five continuously supplied base cycles take 25 seconds after selection, excluding delivery. This is five payment cycles, rather than ten separate Core-processing cycles.
+The separate [power-up proposal](../master-plan/23-map-power-ups.md) selects extending Resource Relocation to all four landmark types while retaining its post-victory-research gate and one-time price of one of each of the seven Core types. Landmark movement stays within the current Map Node, with no transfer between Map Nodes and no additional material fee after research. Landmark support is not implemented; the current project still covers its existing natural-resource targets.
 
-Switching or canceling projects stores paid contributions under the project ID. Starting another project resets the cycle; returning restores the paid quantities. Completion applies effects, clears selection for that project and records its event. The UI's overall count totals consumed Cores, while badge details retain each type's cost and progress.
+Automatic discoveries include extraction, Plate production, Lake/camp encounters and first Simple Core production. They are not manual lab projects. Splitter and Merger unlock together when one Simple Core is actually produced; stock, Refiner access and other outputs do not satisfy that trigger. Historical simpleCore and cornerComponents IDs remain readable, without live cards.
 
-Standard paid Core costs have a minimum of five per required type. Projects whose bill includes Final Core retain their smaller listed amounts, including victory and postgame projects costing one of every Core. Mods may override bills. Use assembled prices in the generated catalog rather than raw literal values in an earlier definition.
+Ordinary projects retain their prices and prerequisites. River Bridges, Mountain Tunnels and Chasm Spans grant worldwide Road crossing permissions without removing terrain or placing Roads. See [crossing rules](roads-and-vehicles.md#border-crossing-research). Connector Mirroring retains its complexCore gate and 10 of each Core through Complex; unfinished old contributions remain valid.
 
-## Repeatables and map purchases
+The right column orders mutually exclusive Production nodes/Node upgrades filters and the completed-project checkbox, then search, queue and research rows. Selected project details stay hidden. Ordinary progression research appears under Production nodes without changing actual Build categories: Extractors/Lake Intakes are Production, vehicles are Logistics. Node upgrades offers only the lowest eligible rank per family. Extra Map Point remains the first ordinary, nonsticky row. Each 190 px card has quantity-first Core badges on its right; free/automatic rows show their actual unlock requirement instead of 0 Cores. List cards have no payment bar. Search may include related recipe/prerequisite terms; it does not reveal later machine ranks.
 
-Repeatables track completion counts separately. Growth prices round upward and apply the applicable Core minimum. Extra Map Point normally takes a destination quote from the Node Map; paid quotes preserve their target and price across switching and saving. Training and compatible mod overrides use the fallback schedule.
+<a id="optional-queue-and-research-pause"></a>
 
-Efficiency research belongs to a node family. Research Center ranks cover Simple through Final, ending at 35% of the five-second base. [Efficiency](efficiency.md) explains rank replacement; [map exploration](map-nodes-and-exploration.md) owns destination pricing. Research availability, affordability and completed status are distinct.
+## Queue and priority
 
-## Implementation and checks
+Single-click selects a card. Double-click or Queue research appends it. Four distinct cards, including the active queued project, run FIFO. Duplicate, unavailable and full-queue attempts explain the result. Completion removes the card and starts the next eligible project. Each repeatable appears at most once at a time. Removing a project retains its paid contributions.
 
-[Catalog and pricing](../../src/content/research.ts), [Core projects](../../src/content/coreResearch.ts), [research runtime](../../src/simulation/researchRuntime.ts), [cycle status](../../src/simulation/researchStatus.ts), [tree model](../../src/ui/researchTree.ts).
+The icon-only control shows pause bars while research is enabled and a forward triangle while paused. It pauses only research processing, retaining queue, buffered/paid Cores and partial cycle time. Other production continues. New unmodded factories start with an empty enabled queue; valid saved pauses remain in force.
 
-Relevant coverage: [timing](../../src/simulation/researchTiming.test.ts), [selection](../../src/simulation/researchSelection.test.ts), [research engine](../../src/simulation/engine.research.test.ts), [tree prerequisites](../../src/ui/researchTree.test.ts). The [older research catalog](../research-catalog.md) retains dated summaries and planning context; use this reference and its generated table for current implementation.
+An enabled bot Upgrade takes priority outside the four queue slots. Disabling or completing it resumes the preserved queue unless research was explicitly paused. It collects Cores only while selected. releasePriorityResearch preserves payments and releases older queue-adopted priority entries; ordinary manual cancellation retains its prior semantics.
+
+## Payment cycles and Map Points
+
+A base Research Center cycle is five seconds, including the first payment. A cycle consumes one of every outstanding Core type together. If an outstanding type is missing, stocked types wait and cycle progress resets. Fully paid types are omitted. Five Simple plus five Basic therefore takes five synchronized sets, not ten serial cycles. Switching projects resets partial cycles while retaining per-project contributions.
+
+Extra Map Point research needs no destination and awards one banked point. Its completion-count/Core-access price schedule starts at five Simple Cores. A quoted active/parked bill stays fixed through switching, Core unlocks and reload; the next purchase reprices normally. The player spends points in the Map modal to activate a frontier, then travels separately. Existing destination quotes retain exact bills and paid Cores but release their old target and award a point on completion. Existing opened/visited maps and saved points remain intact. [Map rules](map-nodes-and-exploration.md) cover capacity and selection.
+
+## Guidance and practice
+
+The robot's always-visible thought bubble starts with Your assignment. Arrow triangles and left/right keys browse only previously eligible clues; the primary hint follows world progress automatically. Its dimensions stay anchored to the assignment at the current column width; wheel scrolling never changes the chosen hint. Learned hint copies and assignment acknowledgement persist with the factory. [Guidance](tutorials-and-discovery.md) owns eligibility/history.
+
+Basics uses the actual Upgrades screen: inspect completed Joint, later select Assembler and press Queue research. Practice permits only its required project and one queue slot, with unrelated controls disabled. Actual lab payment is required before the full four-card explanation. Restart/Exit/Finish retain the existing isolated-practice lifecycle.
+
+Sources: [screen](../../src/ui/ResearchPanel.tsx), [shared controls](../../src/ui/upgrades/ResearchQueue.tsx), [catalog](../../src/content/botUpgrades.ts), [runtime](../../src/simulation/researchRuntime.ts), [migration](../../src/simulation/upgradesMigration.ts), [legacy mod screen](../../src/ui/LegacyResearchPanel.tsx).
+
+Coverage: [adoption and slots](../../src/ui/UpgradesIntegration.test.tsx), [queue/payments](../../src/simulation/researchQueue.test.ts), [map research](../../src/simulation/mapResearch.test.ts), [legacy-compatible transition fixtures](../../previews/status-page/savedProgress.test.ts), [banked quotes](../../previews/status-page/mapPoints.test.ts). The [author study](../../previews/status-page/README.md) remains available for art, copy and synthetic fixtures; its controls are not part of the game.

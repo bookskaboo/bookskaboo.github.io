@@ -1,0 +1,54 @@
+{
+  "base": "00a81bea23211576fa2c4921330e6839b9452dd1",
+  "files": [
+    {
+      "file": "assets/upgrades-20261120/browserAll-xqzXAG29.js",
+      "sha256": "0ea47dc44bbd4c44db785a4989efb6e267030529cb1bc8e6a13975be23e079e4"
+    },
+    {
+      "file": "assets/upgrades-20261120/CanvasPool-O_8k9jVW.js",
+      "sha256": "9cf12a9f53a878bb8f9f46337b799031a6986b5f87dd775ef57b2902ae0dc9cd"
+    },
+    {
+      "file": "assets/upgrades-20261120/canvasUtils-DHiBpmSz.js",
+      "sha256": "8843c3459529c72ffb9a82655454eff39f3458448dd2ae362764f3be4933288f"
+    },
+    {
+      "file": "assets/upgrades-20261120/getTexelRangeRects-BhRlOlmi.js",
+      "sha256": "ca0b3e94399ce67c9dca1ec3021473e2542251d523bc93bd04a9b149070dd130"
+    },
+    {
+      "file": "assets/upgrades-20261120/getTextureBatchBindGroup-CDnZS9mH.js",
+      "sha256": "2b2eff79ef557432774e0acd98963de65847a16840f0b738b07556ea37e21caa"
+    },
+    {
+      "file": "assets/upgrades-20261120/index-BE579CTm.css",
+      "sha256": "5a9a9b37837eedd68a874ee0f19273a44d7c14aa313c90e9123bb0c5ee31ac61"
+    },
+    {
+      "file": "assets/upgrades-20261120/index-D5JjNX_D.js",
+      "sha256": "f8a8a788175349beb2ffef40a0360864b547e092a276b211bc1d95e5f512f774"
+    },
+    {
+      "file": "assets/upgrades-20261120/init-k3RpAboB.js",
+      "sha256": "5c7acb553eaec0b004d3322c9465978eb16b767687320475e0c2263cd7318fc3"
+    },
+    {
+      "file": "assets/upgrades-20261120/RenderTargetSystem-D85YXrAp.js",
+      "sha256": "20605afc2541d39cab4bebe036e73f8de687ac78d22cd48b5485993be0c8604f"
+    },
+    {
+      "file": "assets/upgrades-20261120/webworkerAll-CnBjKyRv.js",
+      "sha256": "871814ed65af7e361dc61d634ecdd256545e950cce57d84218ac443a887b744b"
+    },
+    {
+      "file": "index.html",
+      "sha256": "f2663bf2c6e8fc76bf24a9a728039a06472c70746c90d47a8146b52928a0307a"
+    }
+  ],
+  "tests": {
+    "workspace": 2129,
+    "candidate": 1333
+  },
+  "scope": "Frozen current game source and documentation; author previews remain separate from the main build."
+}

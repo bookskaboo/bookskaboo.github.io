@@ -1,0 +1,26 @@
+{
+  "id": "NODE-0676",
+  "scope": "Expanded Node Map visual trial; gameplay and saves unchanged.",
+  "tint": {
+    "strength": 0.18,
+    "palette": "src/art/mapTerrainArt.ts PALETTE accent",
+    "base": "#1a1e21",
+    "requiresVisited": true,
+    "compactMapTinted": false,
+    "depletionRedPreserved": true
+  },
+  "detailPlacement": "Terrain type directly before Resources.",
+  "verification": {
+    "focusedTests": 28,
+    "testFiles": 4,
+    "productionBuild": true,
+    "previewTypeScript": true,
+    "systemCatalogs": 6,
+    "documentationFilesChecked": 39,
+    "browser": "map-tint-browser.json"
+  },
+  "limits": [
+    "Synthetic review fixture, not a normal-play balance run.",
+    "No publication."
+  ]
+}

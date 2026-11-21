@@ -5,6 +5,7 @@ import { getGolemMineral, type GolemMineral } from '../content/resourceGolems';
 import { getNodeSize } from '../domain/nodeGeometry';
 import type { MachineNode } from '../domain/types';
 import { drawLineArt } from './drawNodeIcon';
+import { campArtworkLayout } from './campPresentation';
 
 const MINERAL_INLAY: Record<GolemMineral, LineArtId> = {
   iron: 'iron-ingot', copper: 'copper-ingot', stone: 'stone-rune', mythril: 'gem',
@@ -12,8 +13,8 @@ const MINERAL_INLAY: Record<GolemMineral, LineArtId> = {
 
 export function drawEncounterArt(root: Container, node: MachineNode, accent: number) {
   if (node.kind === 'monster-camp') {
-    const { w, h } = getNodeSize(node);
-    drawLineArt(root, getNodeArt(node.kind, node), 0, -h * .19, Math.min(w, h) * .4,
+    const { x, y, size } = campArtworkLayout(node);
+    drawLineArt(root, getNodeArt(node.kind, node), x, y, size,
       node.lizardSettlement ? 0xa9e4bb : 0xffa298, 1.15);
   } else if (node.kind === 'resourceGolem') {
     const { w, h } = getNodeSize(node);

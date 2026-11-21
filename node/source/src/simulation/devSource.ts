@@ -9,7 +9,7 @@ import { outstandingResearchCores } from './researchStatus';
 import type { SimulationLookups } from './simulationLookups';
 
 type Wiring = Pick<SectorState, 'nodes' | 'connections'>;
-const RESOURCE_ITEMS: ItemId[] = ['iron', 'copper', 'stone', 'wood', 'mythril', 'water'];
+const resourceItems = () => expandPortFamily('RESOURCE');
 
 /** Resolve one semantic input, looking through generic logistics only when needed. */
 export function devInputItems(target: MachineNode, port: number, wiring: Wiring, state?: GameState, seen = new Set<string>()): ItemId[] {
@@ -30,7 +30,7 @@ export function devInputItems(target: MachineNode, port: number, wiring: Wiring,
       const destination = wiring.nodes.find(node => node.id === edge.to);
       return destination ? devInputItems(destination, edge.toPort ?? 0, wiring, state, path) : [];
     });
-    const choices = [...new Set(downstream)].filter(item => target.kind === 'extractor' ? RESOURCE_ITEMS.includes(item) : allowed.includes(item));
+    const choices = [...new Set(downstream)].filter(item => target.kind === 'extractor' ? resourceItems().includes(item) : allowed.includes(item));
     if (choices.length) return choices;
   }
   // An untyped buffer has no required recipe: retain its material, otherwise use Iron.
@@ -40,10 +40,13 @@ export function devInputItems(target: MachineNode, port: number, wiring: Wiring,
 
 /** An Extractor still mines on its ordinary cycle, from a virtual infinite reserve. */
 export function devExtractorMaterial(extractor: MachineNode, wiring: Wiring, state?: GameState): ItemId {
-  return devInputItems(extractor, 0, wiring, state).find(item => RESOURCE_ITEMS.includes(item)) ?? 'iron';
+  return devInputItems(extractor, 0, wiring, state).find(item => resourceItems().includes(item)) ?? 'iron';
 }
 
-export function supplyDevInputs(state: GameState, sector: SectorState, lookups: SimulationLookups, capacity: (target: MachineNode, item: ItemId) => number) {
+export function supplyDevInputs(state: GameState, sector: SectorState, lookups: SimulationLookups, capacity: (target: MachineNode, item: ItemId) => number, options: {
+  perItemCapacity?(target: MachineNode): boolean;
+  onSupply?(target: MachineNode, item: ItemId): void;
+} = {}) {
   const supplies: Array<{ connectionId: string; from: string; to: string; item: ItemId }> = [];
   if (!sector.nodes.some(node => node.kind === 'devSource')) return supplies;
   const index = lookups.sector(sector);
@@ -52,7 +55,8 @@ export function supplyDevInputs(state: GameState, sector: SectorState, lookups: 
     if (source?.kind !== 'devSource' || source.disabled || !target || target.disabled) continue;
     if (target.kind === 'extractor') continue;
     const items = devInputItems(target, edge.toPort ?? 0, sector, state);
-    const perItem = target.kind !== 'recycler' && Boolean(getNodeCapabilities(target.kind).perItemInputCapacity || target.recipeId);
+    const perItem = target.kind !== 'recycler' && (options.perItemCapacity?.(target)
+      ?? Boolean(target.kind === 'cornerChallenge' && target.cornerType === 'foundry' || getNodeCapabilities(target.kind).perItemInputCapacity || target.recipeId));
     const pending = lookups.target(sector.id, target.id);
     let supplied: ItemId | undefined;
     // Fill balanced shared buffers; research and production have separate item limits.
@@ -66,6 +70,7 @@ export function supplyDevInputs(state: GameState, sector: SectorState, lookups: 
       }).sort((a, b) => (target.input[a] ?? 0) - (target.input[b] ?? 0))[0];
       if (!item) break;
       target.input[item] = (target.input[item] ?? 0) + 1;
+      options.onSupply?.(target, item);
       supplied = item;
     }
     if (supplied) {

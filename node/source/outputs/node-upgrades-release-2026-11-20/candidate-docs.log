@@ -1,0 +1,5 @@
+
+> factorinode-reconstruction@0.1.0 docs:systems:check
+> node scripts/system-docs.mjs --check
+
+Verified 6 system catalogs; checked 39 documentation files for local links.

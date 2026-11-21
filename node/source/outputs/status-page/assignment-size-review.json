@@ -1,0 +1,35 @@
+{
+  "date": "2026-11-20",
+  "scope": "Local Upgrades prototype",
+  "change": "Reserve the Your assignment title/body dimensions while browsing other hints; corner controls and upgrade retain their relative placement",
+  "layout": "Hidden, aria-hidden assignment sizing reference; displayed copy overlays the same responsive area",
+  "browser": {
+    "desktopAssignmentHeight": 120.60096740722656,
+    "desktopForestHeight": 120.60096740722656,
+    "mobileAssignmentHeight": 120.60096740722656,
+    "mobileForestHeight": 120.60096740722656,
+    "mobileWidth": 390,
+    "mobileArrowOffsetBeforeAndAfter": 89.83172607421875,
+    "mobileUpgradeOffsetBeforeAndAfter": 138.59375,
+    "mobileHorizontalOverflow": false,
+    "FinalSevenBadgesVisible": true,
+    "keyboardArrowRight": "Copper prospects"
+  },
+  "verification": {
+    "focusedPassed": 47,
+    "previewTypeScript": "passed",
+    "standaloneBuild": "passed",
+    "systemCatalogsAndLocalLinks": "passed",
+    "wordStructuralReopen": "passed",
+    "wordRender": "Unavailable: LibreOffice soffice.exe missing"
+  },
+  "screenshots": [
+    "assignment-size-desktop.jpg",
+    "assignment-size-390.jpg"
+  ],
+  "limits": [
+    "Native focus or page/panel scrolling can move the whole column; reserved layout dimensions stay constant",
+    "Full workspace suite not repeated for this isolated preview layout change",
+    "No gameplay, save or publication change"
+  ]
+}

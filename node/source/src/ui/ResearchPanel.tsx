@@ -1,205 +1,117 @@
-import { useEffect, useRef, useState, type CSSProperties } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { getResearchProject } from '../content/research';
-import type { GameState, ResearchProject } from '../domain/types';
+import { ASSIGNMENT, BOT_UPGRADES, STAGES, characterStage } from '../content/botUpgrades';
+import type { GameState } from '../domain/types';
 import type { GameEngine } from '../simulation/engine';
 import { permitsTutorialChoice, type TutorialChoice } from '../tutorials/tutorialChoices';
 import { PanelHeader } from './PanelHeader';
-import { ResearchCard } from './ResearchCard';
-import { ResearchProjectDetail } from './ResearchProjectDetail';
-import { ResearchTreeModal } from './ResearchTreeModal';
-import { searchResearch } from './researchPresentation';
-import { researchCatalog } from './researchCatalog';
-import { ResearchHintCard } from './ResearchHintCard';
-import { RESEARCH_FILTER_OPTIONS, type RequirementFilter } from './researchUiConfig';
+import { LegacyResearchPanel } from './LegacyResearchPanel';
+import { HintBrowser } from './upgrades/HintBrowser';
+import { acknowledgeStatusAssignment } from './upgrades/statusHints';
+import { BotUpgrade } from './upgrades/BotUpgrade';
+import { ResearchListRow } from './upgrades/ResearchListRow';
+import { ResearchQueue } from './upgrades/ResearchQueue';
+import { statusResearchList, type ResearchListFilter } from './upgrades/researchList';
+import { robotSvg } from './upgrades/robotArt';
+import { researchCardDetails } from './researchPresentation';
 
 interface ResearchPanelProps {
-  focusProjectId?: string;
-  allowedProjectId?: TutorialChoice;
-  showMilestones?: boolean;
-  game: GameState;
-  engine: GameEngine;
-  onClose(): void;
-  onOpenRecipe(recipeId: string): void;
-  onOpenMap?(): void;
+  focusProjectId?: string; allowedProjectId?: TutorialChoice; showMilestones?: boolean;
+  game: GameState; engine: GameEngine; onClose(): void;
+  onOpenRecipe(recipeId: string): void; onOpenMap?(): void;
+}
+const portraits = STAGES.map((_, tier) => `data:image/svg+xml;charset=utf-8,${encodeURIComponent(robotSvg(tier))}`);
+
+export function ResearchPanel(props: ResearchPanelProps) {
+  return props.game.mod ? <LegacyResearchPanel {...props} /> : <UpgradesPanel {...props} />;
 }
 
-function openResearchCard(id: string, focus = false) {
-  const card = document.querySelector<HTMLElement>(`[data-research-id="${id}"]`);
-  const archive = card?.closest('details');
-  if (archive) archive.open = true;
-  if (focus) card?.focus({ preventScroll: true });
-}
-
-function researchScroller(content: HTMLDivElement | null, list: HTMLDivElement | null) {
-  return content && getComputedStyle(content).overflowY === 'auto' ? content : list;
-}
-
-export function ResearchPanel({ focusProjectId, allowedProjectId, showMilestones = true, game, engine, onClose, onOpenRecipe, onOpenMap }: ResearchPanelProps) {
-  const [treeOpen, setTreeOpen] = useState(false);
+function UpgradesPanel({ game, engine, focusProjectId, allowedProjectId, showMilestones = true, onClose, onOpenRecipe }: ResearchPanelProps) {
+  const [filter, setFilter] = useState<ResearchListFilter>('nodes');
   const [query, setQuery] = useState('');
-  const [requirementFilters, setRequirementFilters] = useState<RequirementFilter[]>([]);
-  const [inspectedId, setInspectedId] = useState(focusProjectId);
-  const treeButton = useRef<HTMLButtonElement>(null);
-  const contentRef = useRef<HTMLDivElement>(null);
-  const listRef = useRef<HTMLDivElement>(null);
-  const browseScrollTop = useRef(0);
-
-  const normalizedQuery = query.trim().toLowerCase();
-  const { active, projects, completed } = researchCatalog(game);
+  const [showCompleted, setShowCompleted] = useState(false);
+  const [selected, setSelected] = useState(focusProjectId);
+  const [message, setMessage] = useState('');
+  const [, refreshHints] = useState(0);
+  const dialog = useRef<HTMLElement>(null);
   const guided = allowedProjectId !== undefined;
-  const results = normalizedQuery ? searchResearch(game, query) : [];
-  const listed = guided ? projects.filter(project => project.id === allowedProjectId)
-    : normalizedQuery ? results.filter(project => project.id !== active?.id) : projects;
-  const completedList = guided ? completed.filter(project => project.id === allowedProjectId) : completed;
+  const tier = characterStage(game);
+  const { projects, mapProject } = statusResearchList(game, filter, query, showCompleted);
+  const guidedProject = allowedProjectId ? getResearchProject(allowedProjectId) : undefined;
+  const listed = guided ? guidedProject && (!game.research.completed.includes(guidedProject.id) || showCompleted) ? [guidedProject] : [] : projects;
+  const isBot = (id?: string) => BOT_UPGRADES.some(upgrade => upgrade.id === id);
   const canInspect = (id: string) => permitsTutorialChoice(allowedProjectId, id);
-
-  useEffect(() => {
-    if (!focusProjectId) return;
-    const frame = requestAnimationFrame(() => openResearchCard(focusProjectId, true));
-    return () => cancelAnimationFrame(frame);
-  }, [focusProjectId]);
-
-  useEffect(() => {
-    if (!inspectedId) return;
-    const frame = requestAnimationFrame(() => {
-      const content = contentRef.current;
-      if (researchScroller(content, listRef.current) === content) content?.scrollTo({ top: 0 });
-    });
-    return () => cancelAnimationFrame(frame);
-  }, [inspectedId]);
-
+  const inspect = (id: string) => { if (canInspect(id)) { setSelected(id); setMessage(''); } };
+  const enqueue = (id?: string) => {
+    if (!id || isBot(id)) { setMessage('Select a research card from the list first.'); return; }
+    if (!canInspect(id)) return;
+    const project = getResearchProject(id);
+    if (!project) return;
+    const details = researchCardDetails(project, game);
+    if (!details.selectable) { setMessage(project.trigger?.pending ?? details.status); return; }
+    const result = engine.queueResearch(id, { adoptSelected: !isBot(game.research.selected) });
+    setMessage(result === 'added' ? '' : result === 'full' ? 'Queue full. Remove a project to add another.'
+      : result === 'duplicate' ? 'That project is already queued.' : 'This research is not available yet.');
+  };
   useEffect(() => {
     if (allowedProjectId === undefined) return;
-    setQuery('');
-    setRequirementFilters([]);
-    setInspectedId(undefined);
+    setSelected(undefined); setQuery(''); setFilter('nodes'); setMessage('');
   }, [allowedProjectId]);
-
   useEffect(() => {
-    researchScroller(contentRef.current, listRef.current)?.scrollTo({ top: normalizedQuery ? 0 : browseScrollTop.current });
-  }, [normalizedQuery]);
-
-  const closeTree = () => {
-    setTreeOpen(false);
-    requestAnimationFrame(() => treeButton.current?.focus());
-  };
-  const changeQuery = (value: string) => {
-    if (!normalizedQuery && value.trim()) browseScrollTop.current = researchScroller(contentRef.current, listRef.current)?.scrollTop ?? 0;
-    setQuery(value);
-    setInspectedId(undefined);
-  };
-  const inspectPrerequisite = (id: string) => {
-    if (!canInspect(id)) return;
-    if (normalizedQuery && !results.some(project => project.id === id)) changeQuery(getResearchProject(id)?.name ?? id);
-    setInspectedId(id);
-    requestAnimationFrame(() => openResearchCard(id));
-  };
-  const toggleProject = (id: string, keyboard: boolean) => {
-    if (!canInspect(id)) return;
-    const next = !guided && inspectedId === id ? undefined : id;
-    setInspectedId(next);
-    if (next && keyboard) requestAnimationFrame(() => {
-      const detail = contentRef.current?.querySelector<HTMLElement>('[data-project-detail]');
-      const action = detail?.querySelector<HTMLButtonElement>('.research-detail-action');
-      (action ?? detail)?.focus({ preventScroll: true });
+    const origin = document.activeElement instanceof HTMLElement ? document.activeElement : undefined;
+    const frame = requestAnimationFrame(() => {
+      const target = focusProjectId && !isBot(focusProjectId) ? dialog.current?.querySelector<HTMLElement>(`[data-research-id="${focusProjectId}"]`) : undefined;
+      (target ?? dialog.current?.querySelector<HTMLElement>('button'))?.focus({ preventScroll: true });
     });
-  };
-  const toggleRequirement = (id: RequirementFilter) => setRequirementFilters(current =>
-    current.includes(id) ? current.filter(filter => filter !== id) : [...current, id]);
-  const card = (project: ResearchProject, filters = requirementFilters) => (
-    <ResearchCard key={project.id} project={project} game={game}
-      disabled={!canInspect(project.id)} expanded={inspectedId === project.id}
-      tutorialChoice={allowedProjectId === project.id} filters={filters} onToggle={toggleProject} />
-  );
-  const inspected = inspectedId && canInspect(inspectedId) ? getResearchProject(inspectedId) : undefined;
-
-  return (
-    <>
-      <div className="modal-backdrop" style={treeOpen ? { display: 'none' } : undefined}>
-        <section className="modal research-modal glass">
-          <PanelHeader
-            title="Research projects" onClose={onClose}
-            actions={!guided && (
-              <button
-                ref={treeButton} type="button" className="research-tree-trigger"
-                onClick={() => setTreeOpen(true)}
-              >
-                <span aria-hidden="true">⑂</span> Research tree
+    const key = (event: KeyboardEvent) => {
+      if (event.key !== 'Tab') return;
+      const controls = [...(dialog.current?.querySelectorAll<HTMLElement>('button:not(:disabled),input:not(:disabled),[tabindex="0"]') ?? []),
+        ...document.querySelectorAll<HTMLElement>('.tutorial-callout button:not(:disabled), .notification-stack button:not(:disabled)')]
+        .filter(node => node.getClientRects().length > 0);
+      if (!controls.length) return;
+      if (event.shiftKey && document.activeElement === controls[0]) { event.preventDefault(); controls.at(-1)?.focus(); }
+      else if (!event.shiftKey && document.activeElement === controls.at(-1)) { event.preventDefault(); controls[0].focus(); }
+    };
+    window.addEventListener('keydown', key);
+    return () => { cancelAnimationFrame(frame); window.removeEventListener('keydown', key); if (origin?.isConnected) origin.focus({ preventScroll: true }); };
+  }, []);
+  useEffect(() => {
+    if (!focusProjectId || guided) return;
+    if (isBot(focusProjectId)) return;
+    const project = getResearchProject(focusProjectId);
+    if (!project) return;
+    setShowCompleted(game.research.completed.includes(focusProjectId));
+    setFilter(/\d+$/.test(focusProjectId) ? 'upgrades' : 'nodes');
+  }, [focusProjectId]);
+  return <div className="upgrades-modal-scope"><div className="modal-backdrop">
+    <section ref={dialog} className="modal research-modal status-modal glass" role="dialog" aria-modal={guided ? undefined : true} aria-label="Upgrades">
+      <PanelHeader title="Upgrades" onClose={onClose} />
+      <div className="status-layout">
+        <aside className="character-column" aria-label="Your AI bot">
+          <div className="robot-portrait"><img src={portraits[tier]} alt={`${STAGES[tier].role} (${STAGES[tier].label} AI bot)`} /></div>
+          {showMilestones && <div className="robot-thought"><HintBrowser game={game} assignment={ASSIGNMENT} onAssignmentRead={() => { acknowledgeStatusAssignment(game); refreshHints(value => value + 1); }} /></div>}
+          <BotUpgrade disabled={guided} game={game} engine={engine} onInspect={inspect} onOpenRecipe={onOpenRecipe} />
+        </aside>
+        <div className="status-research-column">
+          <div className="status-research-tools">
+            <div className="status-filter-bar"><div className="status-filters" role="group" aria-label="Research view">
+              <button disabled={guided} aria-pressed={filter === 'nodes'} onClick={() => setFilter('nodes')}>Production nodes</button>
+              <button disabled={guided} aria-pressed={filter === 'upgrades'} onClick={() => setFilter('upgrades')}>Node upgrades</button>
+              <button disabled={guided && allowedProjectId !== 'assembler'} className="queue-research-button" aria-controls="research-queue-panel" aria-description="Add the selected research card to the queue. You can also double-click a card." onClick={() => enqueue(selected)}>Queue research</button>
+              <button disabled={guided && allowedProjectId !== 'assembler'} className="pause-research-toggle" aria-label={game.research.paused ? 'Resume research' : 'Pause research'} title={game.research.paused ? 'Resume research' : 'Pause research'} aria-pressed={Boolean(game.research.paused)} onClick={() => { engine.setResearchPaused(!game.research.paused); setMessage(''); }}>
+                <svg viewBox="0 0 16 16" aria-hidden="true">{game.research.paused ? <path d="M4 2L14 8L4 14Z" /> : <><rect x="3" y="2" width="3" height="12" /><rect x="10" y="2" width="3" height="12" /></>}</svg>
               </button>
-            )}
-          />
-          <div className="research-layout">
-            <div className="research-browser">
-              {!guided && <div className="research-tools">
-                <div className="research-requirement-filters" aria-label="Highlight research by requirement">
-                  {RESEARCH_FILTER_OPTIONS.map(option => (
-                    <button
-                      type="button" key={option.id}
-                      className={`research-requirement-filter ${requirementFilters.includes(option.id) ? 'selected' : ''}`}
-                      aria-pressed={requirementFilters.includes(option.id)}
-                      style={{ '--research-filter-color': option.color } as CSSProperties}
-                      onClick={() => toggleRequirement(option.id)}
-                    >
-                      <i /><span>{option.label}</span>
-                    </button>
-                  ))}
-                </div>
-                <label className="research-search-field">
-                  <span aria-hidden="true">⌕</span>
-                  <input
-                    type="search" value={query}
-                    placeholder="Search research..." aria-label="Search research projects"
-                    onChange={event => changeQuery(event.target.value)}
-                  />
-                </label>
-                {normalizedQuery && (
-                  <div className="research-search-summary">
-                    <span role="status">{results.length} {results.length === 1 ? 'result' : 'results'}</span>
-                    <button onClick={() => changeQuery('')}>Clear search</button>
-                  </div>
-                )}
-              </div>}
-              <div className="research-content" ref={contentRef}>
-                <div className="research-summary-row">
-                  {(!guided || active?.id === allowedProjectId) && <section className="research-active-slot" aria-label="Active project">
-                    <h3>Active project</h3>
-                    {active ? card(active, []) : <div className="research-active-empty">
-                      <strong>No project selected</strong><span>Science is awaiting direction.</span>
-                    </div>}
-                  </section>}
-                  {inspected && <section className="research-inspected-slot" aria-label="Selected project">
-                    <h3>Selected project</h3>
-                    <ResearchProjectDetail canInspect={canInspect} guided={guided} project={inspected} game={game} engine={engine}
-                      onPrerequisite={inspectPrerequisite} onOpenRecipe={onOpenRecipe} onOpenMap={onOpenMap} />
-                  </section>}
-                  {showMilestones && <ResearchHintCard game={game} />}
-                </div>
-                <div className="research-sections" ref={listRef}>
-                  {(!guided || listed.length > 0) && <section className="research-section" aria-label={normalizedQuery ? 'Search results' : 'Research'}>
-                    <div className="research-catalog-heading">
-                      <h3>{normalizedQuery ? 'Search results' : 'Research'}</h3>
-                      <span className="research-catalog-key"><i /> Within reach <i /> Requires progress</span>
-                    </div>
-                    {listed.length > 0 && <div className="research-grid">{listed.map(project => card(project))}</div>}
-                    {normalizedQuery && !results.length && <p className="research-section-empty">No matches. Try a project, material, or Core type.</p>}
-                    {normalizedQuery && results.length > listed.length && <p className="research-section-empty">The active project matches your search.</p>}
-                  </section>}
-                  {!normalizedQuery && completedList.length > 0 && <details className="research-section research-completed" open={guided || undefined}>
-                    <summary>Completed research · {completedList.length}</summary>
-                    <div className="research-grid">{completedList.map(project => card(project))}</div>
-                  </details>}
-                </div>
-              </div>
-            </div>
+            </div>{filter === 'nodes' && <label className="completed-toggle"><input type="checkbox" disabled={guided && allowedProjectId !== 'joint'} checked={showCompleted} onChange={event => setShowCompleted(event.target.checked)} /> Show completed projects</label>}</div>
+            <label className="research-search-field"><span aria-hidden="true">⌕</span><input type="search" disabled={guided} aria-label="Search research projects" placeholder="Search research or upgrades..." value={query} onChange={event => setQuery(event.target.value)} /></label>
           </div>
-        </section>
+          {(!guided || allowedProjectId === 'assembler') && <ResearchQueue practice={guided} game={game} engine={engine} message={message} />}
+          <div className="status-stage-list status-project-list" role="list" aria-label="Research projects">
+            {!guided && mapProject && <ResearchListRow project={mapProject} game={game} selected={selected} onInspect={inspect} onQueue={enqueue} onOpenRecipe={onOpenRecipe} />}
+            {listed.map(project => <ResearchListRow key={project.id} project={project} game={game} selected={selected} onInspect={inspect} onQueue={enqueue} onOpenRecipe={onOpenRecipe} disabled={!canInspect(project.id)} tutorialChoice={guided && allowedProjectId === project.id} recipesDisabled={guided} />)}
+            {!listed.length && <p className="no-results" role="status">{guided ? 'Follow the current practice step.' : query.trim() ? 'No projects match this search.' : filter === 'upgrades' ? 'No node upgrades are available yet.' : 'No projects remain in this view.'}</p>}
+          </div>
+        </div>
       </div>
-      {treeOpen && (
-        <ResearchTreeModal
-          game={game} focusProjectId={inspectedId} onClose={closeTree}
-          onInspect={id => { setTreeOpen(false); inspectPrerequisite(id); }}
-        />
-      )}
-    </>
-  );
+    </section>
+  </div></div>;
 }

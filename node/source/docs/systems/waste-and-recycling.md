@@ -12,6 +12,8 @@ Machines producing mixed output use a shared output stream and queue. Filters se
 
 ## Recycler behavior
 
+The separate [map power-up proposal](../master-plan/23-map-power-ups.md) selects one permanent Recovery Works landmark that requires no Water while retaining ordinary non-Water ingredients, recovery quantities and research gates. Its proposed speed is four times base processing. This landmark exception is not implemented; ordinary Recycler Water requirements below remain current.
+
 Intermediate Recycling unlocks the Recycler. Incoming material selects its matching live breakdown or unlocked waste recovery recipe. Water enters through the dedicated second inlet. Mixed recovery output uses the normal queue and should be sorted with Filters.
 
 Standard breakdown consumes one item and one Water over two base seconds. Its returns are a fixed constituent map, rather than a reversal of the exact recipe used to create that item. Fuel Wood can be included, returns are deliberately limited, and raw-resource disposal recipes can have no output. Bot AP variants use the shared bot material for recipe matching.

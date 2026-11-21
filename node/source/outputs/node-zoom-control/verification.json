@@ -1,0 +1,41 @@
+{
+  "record": "NODE-0716",
+  "date": "2026-11-20",
+  "scope": "Local active-factory preview only",
+  "proof": {
+    "zoomValue": "35",
+    "camera": {
+      "zoom": 0.35,
+      "x": -1265.4,
+      "y": -701.3532591710157
+    },
+    "activity": "2400 nodes\n360 producers\n3330 connections\n840 Splitters\n840 Mergers\n223 cycling\n24 materials in transit\n3,652 produced\n1,039 delivered\n118 s elapsed\n59 page FPS\n3.3 ms last tick\n33.3 ms p95 frame",
+    "fitAll": {
+      "value": "10.3",
+      "camera": {
+        "zoom": 0.10317601884404819,
+        "x": 53.62735529740644,
+        "y": 189.0701087315877
+      }
+    },
+    "logs": []
+  },
+  "checks": [
+    "Preview TypeScript passed",
+    "Standalone preview build passed",
+    "Two existing benchmark checks passed",
+    "Six system catalogs and 39 documentation files passed freshness/local-link checks",
+    "Selected 35% agrees with actual camera zoom 0.35",
+    "Selected 50%, then wheel zoom updated displayed value to custom 55%",
+    "Fit all displayed 10.3% for actual zoom 0.10317601884404819; Inspect a cell displayed 90%",
+    "Changing actual zoom cleared old frame samples and restarted warmup",
+    "Production and deliveries kept increasing through the checks; no fixture reset on zoom presets",
+    "390 CSS pixel viewport had matching client/scroll width 390; restored desktop viewport",
+    "No warning/error logs since opening this build"
+  ],
+  "limits": [
+    "Camera/viewport bounds can adjust the requested center or zoom; the dropdown follows actual values.",
+    "FPS benchmarks were not repeated for this toolbar-only change; previous measurements retain their original build and viewport.",
+    "No full workspace test run, publication or campaign save changes."
+  ]
+}

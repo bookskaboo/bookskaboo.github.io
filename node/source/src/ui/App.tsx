@@ -26,7 +26,6 @@ import { readSlots, type SaveSlot } from '../persistence/saves';
 import { PixiPlayfield, type PlayfieldTooltip, type SelectionInfo } from '../renderer/PixiPlayfield';
 import { CONTROL_GROUP_COLORS } from '../domain/controlGroups';
 import { startingCamera } from './startingCamera';
-import { sectorOverviewCamera } from '../domain/camera';
 import { snapNodePosition } from '../domain/nodeGrid';
 import { getNodeSize } from '../domain/nodeGeometry';
 import { useGridSnapKey } from './useGridSnapKey';
@@ -35,7 +34,9 @@ import { SelectionActions } from './SelectionActions';
 import { canDeleteNode } from '../renderer/playfieldNodeState';
 import { GameEngine, createInitialState } from '../simulation/engine';
 import { getWorldFieldSize, sectorDistance } from '../simulation/worldGeneration';
+import { exteriorFieldOverviewSize } from '../domain/camera';
 import { NodeMinimap } from './NodeMinimap';
+import { cornerDiscoveryPending } from '../content/endgame';
 import { NodeInspector } from './NodeInspector';
 import { NodeRecipePicker } from './NodeRecipePicker';
 import { BotPlantInspector } from './BotPlantPanel';
@@ -47,6 +48,8 @@ import { FactoryTemplates } from './FactoryTemplates';
 import { DiscoveryJournal } from './DiscoveryJournal';
 import { researchEventProject, unlockDestination, type UnlockDestination } from './unlockNavigation';
 import { ResearchPanel } from './ResearchPanel';
+import { ASSIGNMENT, BOT_UPGRADES, STAGES, botUpgradeBenefits } from '../content/botUpgrades';
+import { syncStatusHintHistory } from './upgrades/statusHints';
 import { PanelHeader } from './PanelHeader';
 import { InteractionNotice, type InteractionFailure } from './InteractionNotice';
 import { TutorialUnlockInvitation } from './TutorialUnlockInvitation';
@@ -235,7 +238,10 @@ function FactoryApp({ engine, training, welcome, onShowWelcome, onCloseWelcome, 
   };
   const knownShortcutUnlocks = useRef(new Set((training ? undefined : readKnownShortcutUnlocks()) ?? SHORTCUT_BAR_IDS.flatMap((id) => shortcutBars[id].assignments.filter((kind): kind is NodeKind => Boolean(kind)))));
 
-  useEffect(() => engine.subscribe(() => forceRender((v) => v + 1)), [engine]);
+  useEffect(() => {
+    const update = () => { if (!engine.getState().mod) syncStatusHintHistory(engine.getState(), ASSIGNMENT); forceRender(v => v + 1); };
+    update(); return engine.subscribe(update);
+  }, [engine]);
   useEffect(() => {
     engine.startRealtimeClock();
     const timer = window.setInterval(() => engine.tickRealtime(), 100);
@@ -268,7 +274,7 @@ function FactoryApp({ engine, training, welcome, onShowWelcome, onCloseWelcome, 
     const fresh = noticeEvents.filter(event => !seenNoticeIds.current.has(event.id)).sort((a, b) => b.at - a.at);
     if (!fresh.length) return;
     fresh.forEach((event) => seenNoticeIds.current.add(event.id));
-    const next = fresh.map(eventNotice);
+    const next = fresh.map(event => eventNotice(event, game));
     setNotices((current) => [...next, ...current].slice(0, 4));
     next.forEach((notice) => { const timer = window.setTimeout(() => { setNotices((current) => current.filter((candidate) => candidate.id !== notice.id)); noticeTimers.current.delete(notice.id); }, 4500); noticeTimers.current.set(notice.id, timer); });
   }, [noticeSignature, training]);
@@ -285,23 +291,23 @@ function FactoryApp({ engine, training, welcome, onShowWelcome, onCloseWelcome, 
     if (training) return;
     researchRecipeParent.current = returnPanel;
     researchRecipeFocus.current = document.activeElement instanceof HTMLElement ? document.activeElement : null;
-    researchRecipeScroll.current = document.querySelector('.research-sections')?.scrollTop ?? 0;
+    researchRecipeScroll.current = document.querySelector('.status-stage-list, .research-sections')?.scrollTop ?? 0;
     setUnlockFocus({ panel: 'recipes', recipeId }); setReturnPanel('research'); setPanel('recipes');
   };
   useEffect(() => {
     if (panel !== 'research' || !researchRecipeFocus.current) return;
     const target = researchRecipeFocus.current; researchRecipeFocus.current = null;
     const frame = requestAnimationFrame(() => {
-      document.querySelector('.research-sections')?.scrollTo({ top: researchRecipeScroll.current });
+      document.querySelector('.status-stage-list, .research-sections')?.scrollTo({ top: researchRecipeScroll.current });
       if (target.isConnected) target.focus({ preventScroll: true });
     });
     return () => cancelAnimationFrame(frame);
   }, [panel]);
   const togglePanel = useCallback((next: Exclude<Panel, null>) => {
     if (training && allowedPanel !== next) return;
-    if (next === 'map') setMinimapVisible(true);
+    if (next === 'map') { setMinimapVisible(true); engine.acknowledgeCornerDiscovery(); }
     setUnlockFocus(undefined); setReturnPanel(null); setPanel((current) => current === next ? null : next); setPlacement(undefined); setPasting(false); setInspectingNodeId(undefined); setConfiguringNodeId(undefined);
-  }, [training, allowedPanel]);
+  }, [training, allowedPanel, engine]);
   const openSubPanel = useCallback((next: Exclude<Panel, null>, parent: Exclude<Panel, null>) => { setUnlockFocus(undefined); setReturnPanel(parent); setPanel(next); }, []);
   const openUnlock = (projectId: string, fromJournal = false, nodeKind?: NodeKind) => {
     const destination = unlockDestination(projectId, nodeKind);
@@ -432,12 +438,15 @@ function FactoryApp({ engine, training, welcome, onShowWelcome, onCloseWelcome, 
     return totals;
   }, [game.revision]);
 
-  const travelToSector = (id: string) => {
+  const travelToSector = (id: string, sourceRoadId?: string) => {
     const target = game.sectors[id];
     if (!target?.unlocked || !permitsTutorialChoice(choices?.sectorId, id)) return;
-    const overview = training || !fieldViewportRef.current ? undefined : sectorOverviewCamera(getWorldFieldSize(game), measureFieldViewport(fieldViewportRef.current));
-    engine.switchSector(id, overview);
-    setSelectedIds([]);
+    let arrivalRoadId: string | undefined;
+    if (training || !fieldViewportRef.current) engine.switchSector(id);
+    else if (sourceRoadId) arrivalRoadId=engine.travelThroughRoad(sourceRoadId, measureFieldViewport(fieldViewportRef.current), exteriorFieldOverviewSize(getWorldFieldSize(game)));
+    else engine.travelToSector(id, measureFieldViewport(fieldViewportRef.current), exteriorFieldOverviewSize(getWorldFieldSize(game)));
+    setSelectedIds(arrivalRoadId ? [arrivalRoadId] : []);
+    setConfiguringNodeId(undefined);
   };
   const startPlacement = (kind: NodeKind) => {
     if (!canBuild(kind)) return;
@@ -506,11 +515,17 @@ function FactoryApp({ engine, training, welcome, onShowWelcome, onCloseWelcome, 
           if (!welcome && !panel && !placing && target && source?.recipeId) engine.copyRecipe(source.id, id);
           return true;
         }}
-        onSelect={selectNodes} onNodeContextMenu={(id, priority, shiftKey) => {
+        onTravelToSector={travelToSector} onSelect={selectNodes} onNodeContextMenu={(id, priority, shiftKey) => {
           const node = sector.nodes.find(node => node.id === id);
           if (!node || welcome || panel || placing) return;
           setTooltip(undefined);
           if (shiftKey) { if (!training) recipeCopySource.current = node.recipeId ? node.id : ''; return; }
+          if (!training && getNodeModule(node.kind).controls.configuration === 'road') {
+            const error=engine.getRoadReversalError(id);
+            if (error) setInteractionFailure({title:'Cannot reverse Road',detail:error,x:node.x*camera.zoom+camera.x,y:node.y*camera.zoom+camera.y});
+            else engine.reverseRoad(id);
+            return;
+          }
           if ((!training || choices?.rotationKind === node.kind) && getNodeModule(node.kind).controls.rotatable && NODE_DEFINITIONS[node.kind].category === 'Logistics') { engine.rotateNode(node.id); return; }
           if (!training && isProductionMachine(node) && game.research.completed.includes(CONNECTOR_MIRRORING_RESEARCH)) { engine.mirrorProductionConnectors(id); return; }
           const group = sector.controlGroups?.find(group => group.nodeIds.includes(id));
@@ -535,8 +550,8 @@ function FactoryApp({ engine, training, welcome, onShowWelcome, onCloseWelcome, 
         </button>
         <div className="sector-crumb"><span className="status-dot" /> <b>{sector.label}</b><span>/</span><strong>{sector.name}</strong><small>LVL {sectorDistance(sector.x, sector.y)}</small></div>
         <nav className="modal-trigger-strip" aria-label="Factory systems">
-          {mapAvailable && <RailButton tone="map" icon="◎" label="Map" shortcut="⇧M" active={panel === 'map'} disabled={!canOpenPanel('map')} onClick={() => togglePanel('map')} />}
-          <RailButton tone="research" icon="⌁" label="Research" shortcut="Q" active={panel === 'research'} disabled={!canOpenPanel('research')} onClick={() => togglePanel('research')} />
+          {mapAvailable && <RailButton tone="map" icon="◎" label="Map" attention={cornerDiscoveryPending(game)} onInspect={() => engine.acknowledgeCornerDiscovery()} shortcut="⇧M" active={panel === 'map'} disabled={!canOpenPanel('map')} onClick={() => togglePanel('map')} />}
+          <RailButton tone="research" icon="⌁" label={game.mod ? "Research" : "Upgrades"} shortcut="Q" active={panel === 'research'} disabled={!canOpenPanel('research')} onClick={() => togglePanel('research')} />
           <RailButton tone="build" icon="＋" label="Build" shortcut="B" active={panel === 'build'} disabled={!canOpenPanel('build')} onClick={() => togglePanel('build')} />
           <RailButton tone="options" icon="⚙" label="Options" shortcut="O" active={panel === 'options'} disabled={!canOpenPanel('options')} onClick={() => togglePanel('options')} />
           {!training && <RailButton tone="dev" icon="⚛" label="Dev" shortcut="" active={panel === 'dev'} onClick={() => togglePanel('dev')} />}
@@ -589,7 +604,7 @@ function FactoryApp({ engine, training, welcome, onShowWelcome, onCloseWelcome, 
         <button className="primary-cta" onClick={() => setPendingGroupNodes(undefined)}>Cancel</button>
       </section></div>}
       {pendingDisbandGroup && <ConfirmModal title="Disband this control group?" body={`The ${sector.controlGroups?.find(group => group.id === pendingDisbandGroup)?.colorName ?? 'selected'} group will be removed. Its nodes, cables, and positions stay unchanged. An administrative separation.`} confirm="DISBAND" onCancel={() => setPendingDisbandGroup(undefined)} onConfirm={() => { engine.disbandControlGroup(pendingDisbandGroup); setPendingDisbandGroup(undefined); }} />}
-      {training && <TutorialGuide session={training} game={game} camera={camera} nodePositions={tutorialNodePositions} onStageChange={setTutorialStage} onPlacementTarget={setTutorialTarget} placementCorrection={placementCorrection?.text} panel={panel} placing={placing} selectedIds={selectedIds} selectionInfo={selectionInfo} onPanel={value => { setPanel(value); setReturnPanel(null); setSelectedIds([]); setPlacement(undefined); }} onExit={onExitTutorial} onFinish={onFinishTutorial} />}
+      {training && <TutorialGuide researchLayout={game.mod ? "current" : "upgrades"} session={training} game={game} camera={camera} nodePositions={tutorialNodePositions} onStageChange={setTutorialStage} onPlacementTarget={setTutorialTarget} placementCorrection={placementCorrection?.text} panel={panel} placing={placing} selectedIds={selectedIds} selectionInfo={selectionInfo} onPanel={value => { setPanel(value); setReturnPanel(null); setSelectedIds([]); setPlacement(undefined); }} onExit={onExitTutorial} onFinish={onFinishTutorial} />}
       {configuringNode?.kind === 'botPlant' && <BotPlantInspector node={configuringNode} completed={game.research.completed} onClose={() => setConfiguringNodeId(undefined)} />}
       {configuringNode && getNodeModule(configuringNode.kind).controls.configuration === 'recipe' && <NodeRecipePicker key={configuringNode.id} requiredRecipeId={training ? tutorialRecipeChoice(training.kind, configuringNode, sector.nodes) : undefined} game={game} engine={engine} node={configuringNode} skipWarnings={skipRecipeWarnings} onSkipWarnings={setSkipRecipeWarnings} onClose={() => setConfiguringNodeId(undefined)} />}
       {configuringNode?.kind === 'filter' && !panel && !welcome && <FilterPicker key={configuringNode.id} engine={engine} node={configuringNode} onClose={() => setConfiguringNodeId(undefined)} />}
@@ -599,7 +614,9 @@ function FactoryApp({ engine, training, welcome, onShowWelcome, onCloseWelcome, 
   );
 }
 
-function eventNotice(event: GameEvent): Notice {
+function eventNotice(event: GameEvent, game: GameState): Notice {
+  const tier = !game.mod ? BOT_UPGRADES.findIndex(upgrade => upgrade.id === event.projectId) : -1;
+  if (tier >= 0) return { id: event.id, label: `${BOT_UPGRADES[tier].label} complete`, message: `${STAGES[tier + 1].role}. ${botUpgradeBenefits(BOT_UPGRADES[tier].id, true)}`, tone: 'research', projectId: event.projectId };
   if (event.type === 'DepositDepleted') return { id: event.id, message: event.message, label: 'RESOURCE DEPLETED', tone: 'warning' };
   return { id: event.id, message: event.message, label: event.projectId === 'mithrilTools' ? 'NEW RECIPES DISCOVERED' : 'RESEARCH COMPLETE', tone: 'research', projectId: researchEventProject(event) };
 }

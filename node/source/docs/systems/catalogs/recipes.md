@@ -38,7 +38,7 @@ Sources: [recipes](../../../src/content/recipes.ts), [progression](../../../src/
 
 | ID | Machine | Inputs | Guaranteed outputs | Chance outputs | Base seconds | Recipe gate |
 | --- | --- | --- | --- | --- | --- | --- |
-| `hydro-core` | Fabricator | 1 Hydro Piston + 2 Circuit B + 2 Coolant | 1 Hydro Core | None | 20 | [Hydro Core](research.md#research-hydroCore) |
+| `hydro-core` | Fabricator | 1 Hydro Piston + 2 Circuit B + 2 Coolant | 1 Hydro Core | None | 20 | [Automata upgrade](research.md#research-hydroCore) |
 
 <a id="recipe-refined-mithril"></a>
 
@@ -54,7 +54,7 @@ Sources: [recipes](../../../src/content/recipes.ts), [progression](../../../src/
 
 | ID | Machine | Inputs | Guaranteed outputs | Chance outputs | Base seconds | Recipe gate |
 | --- | --- | --- | --- | --- | --- | --- |
-| `shiny-core` | Fabricator | 1 Mythril Mesh + 1 Hydro Piston + 3 Circuit A | 1 Shiny Core | None | 30 | [Shiny Core](research.md#research-shinyCore) |
+| `shiny-core` | Fabricator | 1 Mythril Mesh + 1 Hydro Piston + 3 Circuit A | 1 Shiny Core | None | 30 | [Hydro upgrade](research.md#research-shinyCore) |
 
 <a id="recipe-precision-controller"></a>
 
@@ -78,7 +78,7 @@ Sources: [recipes](../../../src/content/recipes.ts), [progression](../../../src/
 
 | ID | Machine | Inputs | Guaranteed outputs | Chance outputs | Base seconds | Recipe gate |
 | --- | --- | --- | --- | --- | --- | --- |
-| `command-core` | Fabricator | 1 Circuit C + 1 Controller + 1 Servo Piston | 1 Complex Core | None | 45 | [Complex Core](research.md#research-complexCore) |
+| `command-core` | Fabricator | 1 Circuit C + 1 Controller + 1 Servo Piston | 1 Complex Core | None | 45 | [Shiny upgrade](research.md#research-complexCore) |
 
 <a id="recipe-ceramic-electrode"></a>
 
@@ -238,7 +238,7 @@ Sources: [recipes](../../../src/content/recipes.ts), [progression](../../../src/
 
 | ID | Machine | Inputs | Guaranteed outputs | Chance outputs | Base seconds | Recipe gate |
 | --- | --- | --- | --- | --- | --- | --- |
-| `core-half-a-0` | Assembler | 1 α Piece + 1 β Piece | 1 Yin | None | 20 | [End of the World](research.md#research-cornerComponents) |
+| `core-half-a-0` | Assembler | 1 α Piece + 1 β Piece | 1 Yin | None | 20 | [Shiny upgrade](research.md#research-complexCore) |
 
 <a id="recipe-core-half-b-0"></a>
 
@@ -246,7 +246,7 @@ Sources: [recipes](../../../src/content/recipes.ts), [progression](../../../src/
 
 | ID | Machine | Inputs | Guaranteed outputs | Chance outputs | Base seconds | Recipe gate |
 | --- | --- | --- | --- | --- | --- | --- |
-| `core-half-b-0` | Assembler | 1 δ Piece + 1 γ Piece | 1 Yang | None | 20 | [End of the World](research.md#research-cornerComponents) |
+| `core-half-b-0` | Assembler | 1 δ Piece + 1 γ Piece | 1 Yang | None | 20 | [Shiny upgrade](research.md#research-complexCore) |
 
 <a id="recipe-core-half-a-1"></a>
 
@@ -254,7 +254,7 @@ Sources: [recipes](../../../src/content/recipes.ts), [progression](../../../src/
 
 | ID | Machine | Inputs | Guaranteed outputs | Chance outputs | Base seconds | Recipe gate |
 | --- | --- | --- | --- | --- | --- | --- |
-| `core-half-a-1` | Assembler | 1 α Piece + 1 δ Piece | 1 Yin | None | 20 | [End of the World](research.md#research-cornerComponents) |
+| `core-half-a-1` | Assembler | 1 α Piece + 1 δ Piece | 1 Yin | None | 20 | [Shiny upgrade](research.md#research-complexCore) |
 
 <a id="recipe-core-half-b-1"></a>
 
@@ -262,7 +262,7 @@ Sources: [recipes](../../../src/content/recipes.ts), [progression](../../../src/
 
 | ID | Machine | Inputs | Guaranteed outputs | Chance outputs | Base seconds | Recipe gate |
 | --- | --- | --- | --- | --- | --- | --- |
-| `core-half-b-1` | Assembler | 1 β Piece + 1 γ Piece | 1 Yang | None | 20 | [End of the World](research.md#research-cornerComponents) |
+| `core-half-b-1` | Assembler | 1 β Piece + 1 γ Piece | 1 Yang | None | 20 | [Shiny upgrade](research.md#research-complexCore) |
 
 <a id="recipe-core-half-a-2"></a>
 
@@ -270,7 +270,7 @@ Sources: [recipes](../../../src/content/recipes.ts), [progression](../../../src/
 
 | ID | Machine | Inputs | Guaranteed outputs | Chance outputs | Base seconds | Recipe gate |
 | --- | --- | --- | --- | --- | --- | --- |
-| `core-half-a-2` | Assembler | 1 α Piece + 1 γ Piece | 1 Yin | None | 20 | [End of the World](research.md#research-cornerComponents) |
+| `core-half-a-2` | Assembler | 1 α Piece + 1 γ Piece | 1 Yin | None | 20 | [Shiny upgrade](research.md#research-complexCore) |
 
 <a id="recipe-core-half-b-2"></a>
 
@@ -278,7 +278,7 @@ Sources: [recipes](../../../src/content/recipes.ts), [progression](../../../src/
 
 | ID | Machine | Inputs | Guaranteed outputs | Chance outputs | Base seconds | Recipe gate |
 | --- | --- | --- | --- | --- | --- | --- |
-| `core-half-b-2` | Assembler | 1 β Piece + 1 δ Piece | 1 Yang | None | 20 | [End of the World](research.md#research-cornerComponents) |
+| `core-half-b-2` | Assembler | 1 β Piece + 1 δ Piece | 1 Yang | None | 20 | [Shiny upgrade](research.md#research-complexCore) |
 
 <a id="recipe-final-core"></a>
 
@@ -286,7 +286,7 @@ Sources: [recipes](../../../src/content/recipes.ts), [progression](../../../src/
 
 | ID | Machine | Inputs | Guaranteed outputs | Chance outputs | Base seconds | Recipe gate |
 | --- | --- | --- | --- | --- | --- | --- |
-| `final-core` | Assembler | 1 Yin + 1 Yang | 1 Final Core | None | 60 | [Final Core](research.md#research-finalCore) |
+| `final-core` | Assembler | 1 Yin + 1 Yang | 1 Final Core | None | 60 | [Complex upgrade](research.md#research-finalCore) |
 
 <a id="recipe-final-frame"></a>
 
@@ -966,7 +966,7 @@ Sources: [recipes](../../../src/content/recipes.ts), [progression](../../../src/
 
 | ID | Machine | Inputs | Guaranteed outputs | Chance outputs | Base seconds | Recipe gate |
 | --- | --- | --- | --- | --- | --- | --- |
-| `simple-core` | Refiner | 2 Copper Gear | 1 Simple Core | None | 5 | [Simple Core](research.md#research-simpleCore) |
+| `simple-core` | Refiner | 2 Copper Gear | 1 Simple Core | None | 5 | Machine access |
 
 <a id="recipe-motor"></a>
 
@@ -990,7 +990,7 @@ Sources: [recipes](../../../src/content/recipes.ts), [progression](../../../src/
 
 | ID | Machine | Inputs | Guaranteed outputs | Chance outputs | Base seconds | Recipe gate |
 | --- | --- | --- | --- | --- | --- | --- |
-| `basic-core` | Assembler | 1 Copper Plate + 1 Iron Wire | 1 Basic Core | None | 10 | [Basic Core](research.md#research-basicCore) |
+| `basic-core` | Assembler | 1 Copper Plate + 1 Iron Wire | 1 Basic Core | None | 10 | [Simple upgrade](research.md#research-basicCore) |
 
 <a id="recipe-automata-core"></a>
 
@@ -998,7 +998,7 @@ Sources: [recipes](../../../src/content/recipes.ts), [progression](../../../src/
 
 | ID | Machine | Inputs | Guaranteed outputs | Chance outputs | Base seconds | Recipe gate |
 | --- | --- | --- | --- | --- | --- | --- |
-| `automata-core` | Assembler | 1 Circuit A + 1 Brick | 1 Automata Core | None | 15 | [Automata Core](research.md#research-automataCore) |
+| `automata-core` | Assembler | 1 Circuit A + 1 Brick | 1 Automata Core | None | 15 | [Basic upgrade](research.md#research-automataCore) |
 
 <a id="recipe-robot-frame"></a>
 

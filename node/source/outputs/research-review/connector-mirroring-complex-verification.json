@@ -1,0 +1,28 @@
+{
+  "changeId": "NODE-0671",
+  "date": "2026-11-20",
+  "project": "connectorMirroring",
+  "prerequisite": "complexCore",
+  "highestCore": "Complex Core",
+  "amountPerCore": 10,
+  "totalCores": 60,
+  "checks": {
+    "focusedTests": 153,
+    "workspace": {
+      "command": "npm test -- --testTimeout=15000",
+      "passed": 2005,
+      "skipped": 2,
+      "failed": 0
+    },
+    "mainBuild": "passed",
+    "statusStandaloneBuild": "passed",
+    "systemCatalogFreshnessAndLinks": "passed",
+    "progressionReport": "passed; exact current Complex prerequisite and six-Core bill confirmed",
+    "saveCompatibility": "Old completed unlocks retain mirroring; active Hydro payments retained under project ID, resume after Complex access and pay only outstanding inputs."
+  },
+  "tooling": "The report runner now excludes .artifact-work release tests after a historical copy was observed overwriting current output. The corrected report was rerun and its serialized bill verified.",
+  "limits": [
+    "No normal-play balance run or publication.",
+    "Browser playtest not repeated for this numeric cost/prerequisite change."
+  ]
+}

@@ -6,15 +6,185 @@ Generated base-game reference. Run `npm run docs:systems` after catalog changes;
 
 Sources: [research](../../../src/content/research.ts), [coreResearch](../../../src/content/coreResearch.ts), [machineEfficiency](../../../src/content/machineEfficiency.ts), [endgame](../../../src/content/endgame.ts).
 
-131 live projects, including automatic discoveries and repeatables. Costs are the assembled first-purchase prices after minimum-price rules. Extra Map Point uses destination pricing in ordinary play; its row is the fallback opening price. Repeatable costs can grow. Prerequisites include both prerequisite fields; an internal production milestone has no research card.
+130 live unmodded projects, including character upgrades, automatic discoveries and repeatables. Costs are the assembled first-purchase prices after minimum-price rules. Extra Map Point awards a banked point; its row is the opening price and repeatable costs can grow. Prerequisites include both prerequisite fields; an internal production milestone has no research card. Applied-mod factories retain their existing catalog pending Upgrades support.
 
-<a id="research-cornerComponents"></a>
+## Progression review chart
 
-## End of the World
+All live projects in Core-stage order, with prerequisites before dependent projects using the game's research tree. Independent branches within a stage have no mandatory order; ties retain catalog order. A stage includes any later Core access required by prerequisites or a Core-production trigger. Automatic discoveries can occur at different times during play.
 
-| ID | Category | Price or discovery | Prerequisites | Effect |
-| --- | --- | --- | --- | --- |
-| `cornerComponents` | Milestone | Automatic: Take the next step in Core production | None | Unlocks the Yin and Yang recipes. |
+**Highest Core** is the highest-tier Core in the project's bill. **Number cost** is the quantity of that Core on the first purchase, not the total bill. All current paid opening bills require the same quantity of every lower Core too. Simple Core is a starting Refiner recipe with no research gate or research row. Automatic discoveries cost 0. Repeatables are marked ↻; later prices can grow. Extra Map Point shows its fallback opening price; ordinary play uses the selected destination's quote. These are current base-game values, separate from the Status prototype proposals.
+
+### Before paid research
+
+| Name | Highest Core | Number cost | Effect |
+| --- | --- | --- | --- |
+| [Joint](research.md#research-joint) | None (automatic) | 0 | Unlocks the Joint node. Automatic: Connect two nodes. |
+| [Kiln](research.md#research-kiln) | None (automatic) | 0 | Unlocks the Kiln node. Automatic: Extract 1 Wood with an Extractor. |
+| [Smelter](research.md#research-smelter) | None (automatic) | 0 | Unlocks the Smelter node. Automatic: Extract 1 metal with an Extractor. |
+| [Refiner](research.md#research-refiner) | None (automatic) | 0 | Unlocks the Refiner node. Automatic: Produce at least 1 metal Plate. |
+| [Research Center](research.md#research-researchCenter) | None (automatic) | 0 | Unlocks the Research Center node. Automatic: Unlock the Refiner. |
+
+### Simple stage
+
+| Name | Highest Core | Number cost | Effect |
+| --- | --- | --- | --- |
+| [Simple upgrade](research.md#research-basicCore) | Simple Core | 5 | Unlocks the Basic Core recipe in the Assembler. |
+| [Assembler](research.md#research-assembler) | Simple Core | 5 | Unlocks the Assembler node. |
+| [Splitter](research.md#research-splitter) | None (automatic) | 0 | Unlocks the Splitter node. Automatic: Produce 1 Simple Core. |
+| [Merger](research.md#research-merger) | None (automatic) | 0 | Unlocks the Merger node. Automatic: Produce 1 Simple Core. |
+| [Research Center 1](research.md#research-researchCenter1) | Simple Core | 10 | Research Center cycles take 10% less time than the base cycle. |
+
+### Basic stage
+
+| Name | Highest Core | Number cost | Effect |
+| --- | --- | --- | --- |
+| [Basic upgrade](research.md#research-automataCore) | Basic Core | 5 | Unlocks the Automata Core recipe in the Assembler. |
+| [Extractor 1](research.md#research-extractor2) | Basic Core | 15 | Extractor cycles take 10% less time than the base cycle. |
+| [Kiln 1](research.md#research-kiln2) | Basic Core | 15 | Kiln cycles take 10% less time than the base cycle. |
+| [Smelter 1](research.md#research-smelter2) | Basic Core | 15 | Smelter cycles take 10% less time than the base cycle. |
+| [Exploration](research.md#research-exploration) | Basic Core | 5 | Unlocks the Map and awards 1 Map Point. |
+| [Road](research.md#research-road) | Basic Core | 5 | Unlocks Roads and Carts. |
+| [Water Tools](research.md#research-lakeTools) | None (automatic) | 0 | Unlocks the Pump, Hydro Plant, and Coolant recipe. Automatic: Visit a map with a Lake. |
+| [Mythril Refining](research.md#research-mithrilTools) | None (automatic) | 0 | Unlocks Mythril Gear and Mythril Wire in the Refiner, Mythril Plate in the Smelter, and the Synthesizer. Automatic: Produce Mythril Tribute at a Dwarven settlement. |
+| [Suppression Bot](research.md#research-suppressionBot) | None (automatic) | 0 | Unlocks the Bot Plant and the Assembler recipes for Basic Frame and Basic Gun. Automatic: Encounter a Monster Camp. |
+| [Extra Map Point](research.md#research-mapNode) ↻ | Simple Core | 5 | Awards 1 Map Point. |
+| [Research Center 2](research.md#research-researchCenter2) | Basic Core | 15 | Research Center cycles take 20% less time than the base cycle. |
+
+### Automata stage
+
+| Name | Highest Core | Number cost | Effect |
+| --- | --- | --- | --- |
+| [Hydrochemistry](research.md#research-hydrochemistry) | Automata Core | 5 | Unlocks the Copper Slurry recipe. |
+| [Refiner 1](research.md#research-refiner3) | Automata Core | 20 | Refiner cycles take 15% less time than the base cycle. |
+| [Automata upgrade](research.md#research-hydroCore) | Automata Core | 5 | Unlocks the Hydro Core recipe in the Fabricator. |
+| [Area Expansion 1](research.md#research-areaExpansion1) | Automata Core | 10 | Expands every play area. |
+| [Tree Planter](research.md#research-treePlanter) | Automata Core | 10 | Unlocks the Tree Planter node. |
+| [Mining Drill](research.md#research-miningDrill) | Automata Core | 10 | Unlocks the Mining Drill node. |
+| [Advanced Fabrication](research.md#research-fabricatorTools) | Automata Core | 5 | Unlocks the Fabricator. |
+| [Hydraulic Assembly](research.md#research-hydraulicAssembly) | Automata Core | 15 | Unlocks the Hydro Piston and Circuit B recipes. |
+| [Extractor 2](research.md#research-extractor3) | Automata Core | 20 | Extractor cycles take 20% less time than the base cycle. |
+| [Kiln 2](research.md#research-kiln3) | Automata Core | 20 | Kiln cycles take 20% less time than the base cycle. |
+| [Smelter 2](research.md#research-smelter3) | Automata Core | 20 | Smelter cycles take 20% less time than the base cycle. |
+| [Assembler 1](research.md#research-assembler3) | Automata Core | 20 | Assembler cycles take 15% less time than the base cycle. |
+| [Trucks](research.md#research-trucks) | Automata Core | 15 | Carts are now Trucks. |
+| [Factory Templates](research.md#research-factoryTemplates) | Automata Core | 15 | Unlocks factory templates. |
+| [Fabricator 1](research.md#research-advancedAssembler3) | Automata Core | 20 | Fabricator cycles take 15% less time than the base cycle. |
+| [Bot Plant 1](research.md#research-botPlant3) | Automata Core | 20 | Bot Plant cycles take 15% less time than the base cycle. |
+| [Research Center 3](research.md#research-researchCenter3) | Automata Core | 20 | Research Center cycles take 30% less time than the base cycle. |
+
+### Hydro stage
+
+| Name | Highest Core | Number cost | Effect |
+| --- | --- | --- | --- |
+| [Refiner 2](research.md#research-refiner4) | Hydro Core | 25 | Refiner cycles take 25% less time than the base cycle. |
+| [Tree Planter 1](research.md#research-treePlanter4) | Hydro Core | 25 | Tree Planter cycles take 15% less time than the base cycle. |
+| [Hydro upgrade](research.md#research-shinyCore) | Hydro Core | 5 | Unlocks the Shiny Core recipe in the Fabricator. |
+| [River Bridges](research.md#research-riverBridges) | Hydro Core | 5 | Roads can cross rivers worldwide. |
+| [Intermediate Recycling](research.md#research-recycler) | Hydro Core | 10 | Unlocks the Recycler. |
+| [Fluid Routing](research.md#research-fluidRouting) | Hydro Core | 5 | Unlocks the Fluid Tank. |
+| [Sealed Robotics](research.md#research-sealedRobotics) | Hydro Core | 5 | Unlocks Sealed Frame and Cooled Gun for bot assembly. |
+| [Road Channels 1](research.md#research-roadChannels1) | Hydro Core | 5 | Adds a second Road slot to each side of every map. |
+| [Extractor 3](research.md#research-extractor4) | Hydro Core | 25 | Extractor cycles take 35% less time than the base cycle. |
+| [Kiln 3](research.md#research-kiln4) | Hydro Core | 25 | Kiln cycles take 35% less time than the base cycle. |
+| [Smelter 3](research.md#research-smelter4) | Hydro Core | 25 | Smelter cycles take 35% less time than the base cycle. |
+| [Assembler 2](research.md#research-assembler4) | Hydro Core | 25 | Assembler cycles take 25% less time than the base cycle. |
+| [Hydro Plant 1](research.md#research-hydroProcessor4) | Hydro Core | 25 | Hydro Plant cycles take 15% less time than the base cycle. |
+| [Pump 1](research.md#research-fluidLink4) | Hydro Core | 25 | Each Lake Pump draws up to 5 Water per second. |
+| [Trains](research.md#research-trains) | Hydro Core | 40 | Trucks are now Trains. |
+| [Ore Separation](research.md#research-oreSeparation) | Hydro Core | 20 | Unlocks the Mythril Mesh recipe. |
+| [Fabricator 2](research.md#research-advancedAssembler4) | Hydro Core | 25 | Fabricator cycles take 25% less time than the base cycle. |
+| [Bot Plant 2](research.md#research-botPlant4) | Hydro Core | 25 | Bot Plant cycles take 25% less time than the base cycle. |
+| [Recycler 1](research.md#research-recycler4) | Hydro Core | 25 | Recycler cycles take 15% less time than the base cycle. |
+| [Warehouse Logistics](research.md#research-warehouseLogistics) | Hydro Core | 20 | Unlocks the Warehouse. |
+| [Mineral Regeneration 1](research.md#research-mineralRegeneration) | Hydro Core | 5 | Ordinary mineral deposits now regenerate. |
+| [Research Center 4](research.md#research-researchCenter4) | Hydro Core | 25 | Research Center cycles take 35% less time than the base cycle. |
+
+### Shiny stage
+
+| Name | Highest Core | Number cost | Effect |
+| --- | --- | --- | --- |
+| [Refiner 3](research.md#research-refiner5) | Shiny Core | 30 | Refiner cycles take 40% less time than the base cycle. |
+| [Synthesizer 1](research.md#research-separationFurnace5) | Shiny Core | 30 | Synthesizer cycles take 20% less time than the base cycle. |
+| [Tree Planter 2](research.md#research-treePlanter5) | Shiny Core | 30 | Tree Planter cycles take 35% less time than the base cycle. |
+| [Shiny upgrade](research.md#research-complexCore) | Shiny Core | 5 | Unlocks the Complex Core recipe in the Fabricator. Unlocks the Yin and Yang recipes and reveals all four map corners. |
+| [Mountain Tunnels](research.md#research-mountainTunnels) | Shiny Core | 5 | Roads can cross mountains worldwide. |
+| [Extractor 4](research.md#research-extractor5) | Shiny Core | 30 | Extractor cycles take 45% less time than the base cycle. |
+| [Kiln 4](research.md#research-kiln5) | Shiny Core | 30 | Kiln cycles take 45% less time than the base cycle. |
+| [Smelter 4](research.md#research-smelter5) | Shiny Core | 30 | Smelter cycles take 45% less time than the base cycle. |
+| [Assembler 3](research.md#research-assembler5) | Shiny Core | 30 | Assembler cycles take 40% less time than the base cycle. |
+| [Hydro Plant 2](research.md#research-hydroProcessor5) | Shiny Core | 30 | Hydro Plant cycles take 35% less time than the base cycle. |
+| [Pump 2](research.md#research-fluidLink5) | Shiny Core | 30 | Each Lake Pump draws up to 6 Water per second. |
+| [Heavy Robotics](research.md#research-heavyRobotics) | Shiny Core | 20 | Unlocks Mythril Frame and Focused Gun for bot assembly. |
+| [Precision Control](research.md#research-precisionControl) | Shiny Core | 30 | Unlocks Controller, Servo Piston, and Circuit C recipes. |
+| [Road Channels 2](research.md#research-roadChannels2) | Shiny Core | 20 | Adds a third Road slot to each side of every map. |
+| [Fabricator 3](research.md#research-advancedAssembler5) | Shiny Core | 30 | Fabricator cycles take 40% less time than the base cycle. |
+| [Bot Plant 3](research.md#research-botPlant5) | Shiny Core | 30 | Bot Plant cycles take 40% less time than the base cycle. |
+| [Recycler 2](research.md#research-recycler5) | Shiny Core | 30 | Recycler cycles take 35% less time than the base cycle. |
+| [Waste Handling](research.md#research-sortingTools) | None (automatic) | 0 | Unlocks the Waste Bin. Automatic: Complete Precision Control. |
+| [Mineral Recovery](research.md#research-mineralRecovery) | None (automatic) | 0 | Iron Plates can now be recovered from Metallic Fines. Automatic: Complete Precision Control. |
+| [Mineral Regeneration 2](research.md#research-mineralRegeneration2) | Shiny Core | 30 | Base mineral regeneration increases to 1 unit every 15 seconds. |
+| [Area Expansion 2](research.md#research-areaExpansion2) | Shiny Core | 50 | Expands every play area. |
+| [Research Center 5](research.md#research-researchCenter5) | Shiny Core | 30 | Research Center cycles take 45% less time than the base cycle. |
+
+### Complex stage
+
+| Name | Highest Core | Number cost | Effect |
+| --- | --- | --- | --- |
+| [Refiner 4](research.md#research-refiner6) | Complex Core | 35 | Refiner cycles take 50% less time than the base cycle. |
+| [Synthesizer 2](research.md#research-separationFurnace6) | Complex Core | 35 | Synthesizer cycles take 45% less time than the base cycle. |
+| [Tree Planter 3](research.md#research-treePlanter6) | Complex Core | 35 | Tree Planter cycles take 50% less time than the base cycle. Also expands growth buffers and allows ten growth units per transfer. |
+| [Connector Mirroring](research.md#research-connectorMirroring) | Complex Core | 10 | Right-click a production node to mirror its connectors. |
+| [Complex upgrade](research.md#research-finalCore) | Complex Core | 5 | Unlocks the Final Core recipe in the Assembler. |
+| [Chasm Spans](research.md#research-chasmSpans) | Complex Core | 5 | Roads can cross chasms worldwide. |
+| [Extractor 5](research.md#research-extractor6) | Complex Core | 35 | Extractor cycles take 55% less time than the base cycle. |
+| [Kiln 5](research.md#research-kiln6) | Complex Core | 35 | Kiln cycles take 55% less time than the base cycle. |
+| [Smelter 5](research.md#research-smelter6) | Complex Core | 35 | Smelter cycles take 55% less time than the base cycle. |
+| [Assembler 4](research.md#research-assembler6) | Complex Core | 35 | Assembler cycles take 50% less time than the base cycle. |
+| [Hydro Plant 3](research.md#research-hydroProcessor6) | Complex Core | 35 | Hydro Plant cycles take 50% less time than the base cycle. |
+| [Pump 3](research.md#research-fluidLink6) | Complex Core | 35 | Each Lake Pump draws up to 8 Water per second. |
+| [Command Robotics](research.md#research-commandRobotics) | Complex Core | 30 | Unlocks Servo Frame and Pulse Cannon for bot assembly. |
+| [Efficient Intermediates](research.md#research-efficientIntermediates) | Complex Core | 25 | Unlocks efficient Circuit A, Motor, and Basic Frame recipes. |
+| [Efficient Higher Intermediates](research.md#research-efficientHigherIntermediates) | Complex Core | 50 | Unlocks more efficient recipes and waste recovery. |
+| [Fabricator 4](research.md#research-advancedAssembler6) | Complex Core | 35 | Fabricator cycles take 50% less time than the base cycle. |
+| [Bot Plant 4](research.md#research-botPlant6) | Complex Core | 35 | Bot Plant cycles take 50% less time than the base cycle. |
+| [Recycler 3](research.md#research-recycler6) | Complex Core | 35 | Recycler cycles take 50% less time than the base cycle. |
+| [Mineral Regeneration Rate](research.md#research-mineralRegenerationRate) ↻ | Complex Core | 10 | Increases mineral regeneration. |
+| [Research Center 6](research.md#research-researchCenter6) | Complex Core | 35 | Research Center cycles take 55% less time than the base cycle. |
+
+### Final stage
+
+| Name | Highest Core | Number cost | Effect |
+| --- | --- | --- | --- |
+| [A Remarkably Indirect Conclusion](research.md#research-victory) | Final Core | 1 | Victory achieved. |
+| [Refiner 5](research.md#research-refiner7) | Final Core | 40 | Refiner cycles take 65% less time than the base cycle. |
+| [Synthesizer 3](research.md#research-separationFurnace7) | Final Core | 40 | Synthesizer cycles take 65% less time than the base cycle. |
+| [Tree Planter 4](research.md#research-treePlanter7) | Final Core | 40 | Tree Planter cycles take 65% less time than the base cycle. |
+| [Final upgrade](research.md#research-finalBotUpgrade) | Final Core | 5 | All character upgrades complete. |
+| [Resource Relocation](research.md#research-resourceRelocation) | Final Core | 1 | Move Forests, mineral deposits, and defeated Golem reserves within their map. They keep their stock. |
+| [Lake Relocation](research.md#research-lakeRelocation) | Final Core | 1 | Move Lakes within their map. Pumps stay connected. Select a Pump with the Lake to move them together. |
+| [Monster Camp Relocation](research.md#research-campRelocation) | Final Core | 1 | Move a Monster Camp and its linked Tribute boxes together within their map. |
+| [Efficient Landfill](research.md#research-efficientLandfill) ↻ | Final Core | 1 | Reduces the Deep Hole Stone requirement by 20% each time, compounded before rounding up. Stone already delivered still counts. The minimum is 1 Stone, with up to 45 completions. |
+| [Advanced Road Channels](research.md#research-advancedRoadChannels) ↻ | Final Core | 1 | Adds one Road slot per map side each time, up to five slots total. |
+| [Train Freight Capacity](research.md#research-trainFreightCapacity) ↻ | Final Core | 1 | Each completion adds space for 20 items per Train and 1 item per Road shipment. |
+| [Autonomous Logistics](research.md#research-autonomousLogistics) | Final Core | 1 | Unlocks Storage and Inventory. |
+| [Extractor 6](research.md#research-extractor7) | Final Core | 40 | Extractor cycles take 65% less time than the base cycle. |
+| [Kiln 6](research.md#research-kiln7) | Final Core | 40 | Kiln cycles take 65% less time than the base cycle. |
+| [Smelter 6](research.md#research-smelter7) | Final Core | 40 | Smelter cycles take 65% less time than the base cycle. |
+| [Assembler 5](research.md#research-assembler7) | Final Core | 40 | Assembler cycles take 65% less time than the base cycle. |
+| [Hydro Plant 4](research.md#research-hydroProcessor7) | Final Core | 40 | Hydro Plant cycles take 65% less time than the base cycle. |
+| [Pump 4](research.md#research-fluidLink7) | Final Core | 40 | Each Lake Pump draws up to 11 Water per second. |
+| [Final Robotics](research.md#research-finalRobotics) | Final Core | 1 | Unlocks the Final Frame and Final Cannon. Pair them in the Bot Plant or combine them with earlier parts. |
+| [Resource Regeneration](research.md#research-resourceRegeneration) ↻ | Final Core | 1 | Each completion adds the pre-upgrade regeneration rate again to Forests and mineral deposits. |
+| [Storage Placement Capacity](research.md#research-storagePlacementCapacity) ↻ | Final Core | 1 | Increases the global Storage limit by one. |
+| [Inventory Placement Capacity](research.md#research-inventoryPlacementCapacity) ↻ | Final Core | 1 | Increases the global Inventory limit by one. |
+| [Storage Connection Capacity](research.md#research-storageConnectionCapacity) ↻ | Final Core | 1 | Adds a connection slot to every Storage node. |
+| [Inventory Connection Capacity](research.md#research-inventoryConnectionCapacity) ↻ | Final Core | 1 | Adds a Filter connection to every Inventory node. |
+| [Fabricator 5](research.md#research-advancedAssembler7) | Final Core | 40 | Fabricator cycles take 65% less time than the base cycle. |
+| [Bot Plant 5](research.md#research-botPlant7) | Final Core | 40 | Bot Plant cycles take 65% less time than the base cycle. |
+| [Recycler 4](research.md#research-recycler7) | Final Core | 40 | Recycler cycles take 65% less time than the base cycle. |
+| [Research Center 7](research.md#research-researchCenter7) | Final Core | 40 | Research Center cycles take 65% less time than the base cycle. |
+
+## Full project details
 
 <a id="research-finalRobotics"></a>
 
@@ -126,7 +296,7 @@ Cost growth per completion: ×1.5, rounded up with the applicable Core minimum.
 
 | ID | Category | Price or discovery | Prerequisites | Effect |
 | --- | --- | --- | --- | --- |
-| `fabricatorTools` | Fabrication | 5 Simple Core + 5 Basic Core + 5 Automata Core | [Assembler](research.md#research-assembler), [Automata Core](research.md#research-automataCore) | Unlocks the Fabricator. |
+| `fabricatorTools` | Fabrication | 5 Simple Core + 5 Basic Core + 5 Automata Core | [Assembler](research.md#research-assembler), [Basic upgrade](research.md#research-automataCore) | Unlocks the Fabricator. |
 
 <a id="research-sortingTools"></a>
 
@@ -142,7 +312,7 @@ Cost growth per completion: ×1.5, rounded up with the applicable Core minimum.
 
 | ID | Category | Price or discovery | Prerequisites | Effect |
 | --- | --- | --- | --- | --- |
-| `hydrochemistry` | Progression | 5 Simple Core + 5 Basic Core + 5 Automata Core | [Automata Core](research.md#research-automataCore) | Unlocks the Copper Slurry recipe. |
+| `hydrochemistry` | Progression | 5 Simple Core + 5 Basic Core + 5 Automata Core | [Basic upgrade](research.md#research-automataCore) | Unlocks the Copper Slurry recipe. |
 
 <a id="research-hydraulicAssembly"></a>
 
@@ -344,7 +514,7 @@ Cost growth per completion: ×1.5, rounded up with the applicable Core minimum.
 
 | ID | Category | Price or discovery | Prerequisites | Effect |
 | --- | --- | --- | --- | --- |
-| `extractor2` | Efficiency | 15 Simple Core + 15 Basic Core | [Basic Core](research.md#research-basicCore) | Extractor cycles take 10% less time than the base cycle. |
+| `extractor2` | Efficiency | 15 Simple Core + 15 Basic Core | [Simple upgrade](research.md#research-basicCore) | Extractor cycles take 10% less time than the base cycle. |
 
 <a id="research-extractor3"></a>
 
@@ -352,7 +522,7 @@ Cost growth per completion: ×1.5, rounded up with the applicable Core minimum.
 
 | ID | Category | Price or discovery | Prerequisites | Effect |
 | --- | --- | --- | --- | --- |
-| `extractor3` | Efficiency | 20 Simple Core + 20 Basic Core + 20 Automata Core | [Extractor 1](research.md#research-extractor2), [Automata Core](research.md#research-automataCore) | Extractor cycles take 20% less time than the base cycle. |
+| `extractor3` | Efficiency | 20 Simple Core + 20 Basic Core + 20 Automata Core | [Extractor 1](research.md#research-extractor2), [Basic upgrade](research.md#research-automataCore) | Extractor cycles take 20% less time than the base cycle. |
 
 <a id="research-extractor4"></a>
 
@@ -360,7 +530,7 @@ Cost growth per completion: ×1.5, rounded up with the applicable Core minimum.
 
 | ID | Category | Price or discovery | Prerequisites | Effect |
 | --- | --- | --- | --- | --- |
-| `extractor4` | Efficiency | 25 Simple Core + 25 Basic Core + 25 Automata Core + 25 Hydro Core | [Extractor 2](research.md#research-extractor3), [Hydro Core](research.md#research-hydroCore) | Extractor cycles take 35% less time than the base cycle. |
+| `extractor4` | Efficiency | 25 Simple Core + 25 Basic Core + 25 Automata Core + 25 Hydro Core | [Extractor 2](research.md#research-extractor3), [Automata upgrade](research.md#research-hydroCore) | Extractor cycles take 35% less time than the base cycle. |
 
 <a id="research-extractor5"></a>
 
@@ -368,7 +538,7 @@ Cost growth per completion: ×1.5, rounded up with the applicable Core minimum.
 
 | ID | Category | Price or discovery | Prerequisites | Effect |
 | --- | --- | --- | --- | --- |
-| `extractor5` | Efficiency | 30 Simple Core + 30 Basic Core + 30 Automata Core + 30 Hydro Core + 30 Shiny Core | [Extractor 3](research.md#research-extractor4), [Shiny Core](research.md#research-shinyCore) | Extractor cycles take 45% less time than the base cycle. |
+| `extractor5` | Efficiency | 30 Simple Core + 30 Basic Core + 30 Automata Core + 30 Hydro Core + 30 Shiny Core | [Extractor 3](research.md#research-extractor4), [Hydro upgrade](research.md#research-shinyCore) | Extractor cycles take 45% less time than the base cycle. |
 
 <a id="research-extractor6"></a>
 
@@ -376,7 +546,7 @@ Cost growth per completion: ×1.5, rounded up with the applicable Core minimum.
 
 | ID | Category | Price or discovery | Prerequisites | Effect |
 | --- | --- | --- | --- | --- |
-| `extractor6` | Efficiency | 35 Simple Core + 35 Basic Core + 35 Automata Core + 35 Hydro Core + 35 Shiny Core + 35 Complex Core | [Extractor 4](research.md#research-extractor5), [Complex Core](research.md#research-complexCore) | Extractor cycles take 55% less time than the base cycle. |
+| `extractor6` | Efficiency | 35 Simple Core + 35 Basic Core + 35 Automata Core + 35 Hydro Core + 35 Shiny Core + 35 Complex Core | [Extractor 4](research.md#research-extractor5), [Shiny upgrade](research.md#research-complexCore) | Extractor cycles take 55% less time than the base cycle. |
 
 <a id="research-extractor7"></a>
 
@@ -384,7 +554,7 @@ Cost growth per completion: ×1.5, rounded up with the applicable Core minimum.
 
 | ID | Category | Price or discovery | Prerequisites | Effect |
 | --- | --- | --- | --- | --- |
-| `extractor7` | Efficiency | 40 Simple Core + 40 Basic Core + 40 Automata Core + 40 Hydro Core + 40 Shiny Core + 40 Complex Core + 40 Final Core | [Extractor 5](research.md#research-extractor6), [Final Core](research.md#research-finalCore) | Extractor cycles take 65% less time than the base cycle. |
+| `extractor7` | Efficiency | 40 Simple Core + 40 Basic Core + 40 Automata Core + 40 Hydro Core + 40 Shiny Core + 40 Complex Core + 40 Final Core | [Extractor 5](research.md#research-extractor6), [Complex upgrade](research.md#research-finalCore) | Extractor cycles take 65% less time than the base cycle. |
 
 <a id="research-kiln2"></a>
 
@@ -392,7 +562,7 @@ Cost growth per completion: ×1.5, rounded up with the applicable Core minimum.
 
 | ID | Category | Price or discovery | Prerequisites | Effect |
 | --- | --- | --- | --- | --- |
-| `kiln2` | Efficiency | 15 Simple Core + 15 Basic Core | [Kiln](research.md#research-kiln), [Basic Core](research.md#research-basicCore) | Kiln cycles take 10% less time than the base cycle. |
+| `kiln2` | Efficiency | 15 Simple Core + 15 Basic Core | [Kiln](research.md#research-kiln), [Simple upgrade](research.md#research-basicCore) | Kiln cycles take 10% less time than the base cycle. |
 
 <a id="research-kiln3"></a>
 
@@ -400,7 +570,7 @@ Cost growth per completion: ×1.5, rounded up with the applicable Core minimum.
 
 | ID | Category | Price or discovery | Prerequisites | Effect |
 | --- | --- | --- | --- | --- |
-| `kiln3` | Efficiency | 20 Simple Core + 20 Basic Core + 20 Automata Core | [Kiln 1](research.md#research-kiln2), [Automata Core](research.md#research-automataCore) | Kiln cycles take 20% less time than the base cycle. |
+| `kiln3` | Efficiency | 20 Simple Core + 20 Basic Core + 20 Automata Core | [Kiln 1](research.md#research-kiln2), [Basic upgrade](research.md#research-automataCore) | Kiln cycles take 20% less time than the base cycle. |
 
 <a id="research-kiln4"></a>
 
@@ -408,7 +578,7 @@ Cost growth per completion: ×1.5, rounded up with the applicable Core minimum.
 
 | ID | Category | Price or discovery | Prerequisites | Effect |
 | --- | --- | --- | --- | --- |
-| `kiln4` | Efficiency | 25 Simple Core + 25 Basic Core + 25 Automata Core + 25 Hydro Core | [Kiln 2](research.md#research-kiln3), [Hydro Core](research.md#research-hydroCore) | Kiln cycles take 35% less time than the base cycle. |
+| `kiln4` | Efficiency | 25 Simple Core + 25 Basic Core + 25 Automata Core + 25 Hydro Core | [Kiln 2](research.md#research-kiln3), [Automata upgrade](research.md#research-hydroCore) | Kiln cycles take 35% less time than the base cycle. |
 
 <a id="research-kiln5"></a>
 
@@ -416,7 +586,7 @@ Cost growth per completion: ×1.5, rounded up with the applicable Core minimum.
 
 | ID | Category | Price or discovery | Prerequisites | Effect |
 | --- | --- | --- | --- | --- |
-| `kiln5` | Efficiency | 30 Simple Core + 30 Basic Core + 30 Automata Core + 30 Hydro Core + 30 Shiny Core | [Kiln 3](research.md#research-kiln4), [Shiny Core](research.md#research-shinyCore) | Kiln cycles take 45% less time than the base cycle. |
+| `kiln5` | Efficiency | 30 Simple Core + 30 Basic Core + 30 Automata Core + 30 Hydro Core + 30 Shiny Core | [Kiln 3](research.md#research-kiln4), [Hydro upgrade](research.md#research-shinyCore) | Kiln cycles take 45% less time than the base cycle. |
 
 <a id="research-kiln6"></a>
 
@@ -424,7 +594,7 @@ Cost growth per completion: ×1.5, rounded up with the applicable Core minimum.
 
 | ID | Category | Price or discovery | Prerequisites | Effect |
 | --- | --- | --- | --- | --- |
-| `kiln6` | Efficiency | 35 Simple Core + 35 Basic Core + 35 Automata Core + 35 Hydro Core + 35 Shiny Core + 35 Complex Core | [Kiln 4](research.md#research-kiln5), [Complex Core](research.md#research-complexCore) | Kiln cycles take 55% less time than the base cycle. |
+| `kiln6` | Efficiency | 35 Simple Core + 35 Basic Core + 35 Automata Core + 35 Hydro Core + 35 Shiny Core + 35 Complex Core | [Kiln 4](research.md#research-kiln5), [Shiny upgrade](research.md#research-complexCore) | Kiln cycles take 55% less time than the base cycle. |
 
 <a id="research-kiln7"></a>
 
@@ -432,7 +602,7 @@ Cost growth per completion: ×1.5, rounded up with the applicable Core minimum.
 
 | ID | Category | Price or discovery | Prerequisites | Effect |
 | --- | --- | --- | --- | --- |
-| `kiln7` | Efficiency | 40 Simple Core + 40 Basic Core + 40 Automata Core + 40 Hydro Core + 40 Shiny Core + 40 Complex Core + 40 Final Core | [Kiln 5](research.md#research-kiln6), [Final Core](research.md#research-finalCore) | Kiln cycles take 65% less time than the base cycle. |
+| `kiln7` | Efficiency | 40 Simple Core + 40 Basic Core + 40 Automata Core + 40 Hydro Core + 40 Shiny Core + 40 Complex Core + 40 Final Core | [Kiln 5](research.md#research-kiln6), [Complex upgrade](research.md#research-finalCore) | Kiln cycles take 65% less time than the base cycle. |
 
 <a id="research-smelter2"></a>
 
@@ -440,7 +610,7 @@ Cost growth per completion: ×1.5, rounded up with the applicable Core minimum.
 
 | ID | Category | Price or discovery | Prerequisites | Effect |
 | --- | --- | --- | --- | --- |
-| `smelter2` | Efficiency | 15 Simple Core + 15 Basic Core | [Smelter](research.md#research-smelter), [Basic Core](research.md#research-basicCore) | Smelter cycles take 10% less time than the base cycle. |
+| `smelter2` | Efficiency | 15 Simple Core + 15 Basic Core | [Smelter](research.md#research-smelter), [Simple upgrade](research.md#research-basicCore) | Smelter cycles take 10% less time than the base cycle. |
 
 <a id="research-smelter3"></a>
 
@@ -448,7 +618,7 @@ Cost growth per completion: ×1.5, rounded up with the applicable Core minimum.
 
 | ID | Category | Price or discovery | Prerequisites | Effect |
 | --- | --- | --- | --- | --- |
-| `smelter3` | Efficiency | 20 Simple Core + 20 Basic Core + 20 Automata Core | [Smelter 1](research.md#research-smelter2), [Automata Core](research.md#research-automataCore) | Smelter cycles take 20% less time than the base cycle. |
+| `smelter3` | Efficiency | 20 Simple Core + 20 Basic Core + 20 Automata Core | [Smelter 1](research.md#research-smelter2), [Basic upgrade](research.md#research-automataCore) | Smelter cycles take 20% less time than the base cycle. |
 
 <a id="research-smelter4"></a>
 
@@ -456,7 +626,7 @@ Cost growth per completion: ×1.5, rounded up with the applicable Core minimum.
 
 | ID | Category | Price or discovery | Prerequisites | Effect |
 | --- | --- | --- | --- | --- |
-| `smelter4` | Efficiency | 25 Simple Core + 25 Basic Core + 25 Automata Core + 25 Hydro Core | [Smelter 2](research.md#research-smelter3), [Hydro Core](research.md#research-hydroCore) | Smelter cycles take 35% less time than the base cycle. |
+| `smelter4` | Efficiency | 25 Simple Core + 25 Basic Core + 25 Automata Core + 25 Hydro Core | [Smelter 2](research.md#research-smelter3), [Automata upgrade](research.md#research-hydroCore) | Smelter cycles take 35% less time than the base cycle. |
 
 <a id="research-smelter5"></a>
 
@@ -464,7 +634,7 @@ Cost growth per completion: ×1.5, rounded up with the applicable Core minimum.
 
 | ID | Category | Price or discovery | Prerequisites | Effect |
 | --- | --- | --- | --- | --- |
-| `smelter5` | Efficiency | 30 Simple Core + 30 Basic Core + 30 Automata Core + 30 Hydro Core + 30 Shiny Core | [Smelter 3](research.md#research-smelter4), [Shiny Core](research.md#research-shinyCore) | Smelter cycles take 45% less time than the base cycle. |
+| `smelter5` | Efficiency | 30 Simple Core + 30 Basic Core + 30 Automata Core + 30 Hydro Core + 30 Shiny Core | [Smelter 3](research.md#research-smelter4), [Hydro upgrade](research.md#research-shinyCore) | Smelter cycles take 45% less time than the base cycle. |
 
 <a id="research-smelter6"></a>
 
@@ -472,7 +642,7 @@ Cost growth per completion: ×1.5, rounded up with the applicable Core minimum.
 
 | ID | Category | Price or discovery | Prerequisites | Effect |
 | --- | --- | --- | --- | --- |
-| `smelter6` | Efficiency | 35 Simple Core + 35 Basic Core + 35 Automata Core + 35 Hydro Core + 35 Shiny Core + 35 Complex Core | [Smelter 4](research.md#research-smelter5), [Complex Core](research.md#research-complexCore) | Smelter cycles take 55% less time than the base cycle. |
+| `smelter6` | Efficiency | 35 Simple Core + 35 Basic Core + 35 Automata Core + 35 Hydro Core + 35 Shiny Core + 35 Complex Core | [Smelter 4](research.md#research-smelter5), [Shiny upgrade](research.md#research-complexCore) | Smelter cycles take 55% less time than the base cycle. |
 
 <a id="research-smelter7"></a>
 
@@ -480,7 +650,7 @@ Cost growth per completion: ×1.5, rounded up with the applicable Core minimum.
 
 | ID | Category | Price or discovery | Prerequisites | Effect |
 | --- | --- | --- | --- | --- |
-| `smelter7` | Efficiency | 40 Simple Core + 40 Basic Core + 40 Automata Core + 40 Hydro Core + 40 Shiny Core + 40 Complex Core + 40 Final Core | [Smelter 5](research.md#research-smelter6), [Final Core](research.md#research-finalCore) | Smelter cycles take 65% less time than the base cycle. |
+| `smelter7` | Efficiency | 40 Simple Core + 40 Basic Core + 40 Automata Core + 40 Hydro Core + 40 Shiny Core + 40 Complex Core + 40 Final Core | [Smelter 5](research.md#research-smelter6), [Complex upgrade](research.md#research-finalCore) | Smelter cycles take 65% less time than the base cycle. |
 
 <a id="research-refiner3"></a>
 
@@ -488,7 +658,7 @@ Cost growth per completion: ×1.5, rounded up with the applicable Core minimum.
 
 | ID | Category | Price or discovery | Prerequisites | Effect |
 | --- | --- | --- | --- | --- |
-| `refiner3` | Efficiency | 20 Simple Core + 20 Basic Core + 20 Automata Core | [Refiner](research.md#research-refiner), [Automata Core](research.md#research-automataCore) | Refiner cycles take 15% less time than the base cycle. |
+| `refiner3` | Efficiency | 20 Simple Core + 20 Basic Core + 20 Automata Core | [Refiner](research.md#research-refiner), [Basic upgrade](research.md#research-automataCore) | Refiner cycles take 15% less time than the base cycle. |
 
 <a id="research-refiner4"></a>
 
@@ -496,7 +666,7 @@ Cost growth per completion: ×1.5, rounded up with the applicable Core minimum.
 
 | ID | Category | Price or discovery | Prerequisites | Effect |
 | --- | --- | --- | --- | --- |
-| `refiner4` | Efficiency | 25 Simple Core + 25 Basic Core + 25 Automata Core + 25 Hydro Core | [Refiner 1](research.md#research-refiner3), [Hydro Core](research.md#research-hydroCore) | Refiner cycles take 25% less time than the base cycle. |
+| `refiner4` | Efficiency | 25 Simple Core + 25 Basic Core + 25 Automata Core + 25 Hydro Core | [Refiner 1](research.md#research-refiner3), [Automata upgrade](research.md#research-hydroCore) | Refiner cycles take 25% less time than the base cycle. |
 
 <a id="research-refiner5"></a>
 
@@ -504,7 +674,7 @@ Cost growth per completion: ×1.5, rounded up with the applicable Core minimum.
 
 | ID | Category | Price or discovery | Prerequisites | Effect |
 | --- | --- | --- | --- | --- |
-| `refiner5` | Efficiency | 30 Simple Core + 30 Basic Core + 30 Automata Core + 30 Hydro Core + 30 Shiny Core | [Refiner 2](research.md#research-refiner4), [Shiny Core](research.md#research-shinyCore) | Refiner cycles take 40% less time than the base cycle. |
+| `refiner5` | Efficiency | 30 Simple Core + 30 Basic Core + 30 Automata Core + 30 Hydro Core + 30 Shiny Core | [Refiner 2](research.md#research-refiner4), [Hydro upgrade](research.md#research-shinyCore) | Refiner cycles take 40% less time than the base cycle. |
 
 <a id="research-refiner6"></a>
 
@@ -512,7 +682,7 @@ Cost growth per completion: ×1.5, rounded up with the applicable Core minimum.
 
 | ID | Category | Price or discovery | Prerequisites | Effect |
 | --- | --- | --- | --- | --- |
-| `refiner6` | Efficiency | 35 Simple Core + 35 Basic Core + 35 Automata Core + 35 Hydro Core + 35 Shiny Core + 35 Complex Core | [Refiner 3](research.md#research-refiner5), [Complex Core](research.md#research-complexCore) | Refiner cycles take 50% less time than the base cycle. |
+| `refiner6` | Efficiency | 35 Simple Core + 35 Basic Core + 35 Automata Core + 35 Hydro Core + 35 Shiny Core + 35 Complex Core | [Refiner 3](research.md#research-refiner5), [Shiny upgrade](research.md#research-complexCore) | Refiner cycles take 50% less time than the base cycle. |
 
 <a id="research-refiner7"></a>
 
@@ -520,7 +690,7 @@ Cost growth per completion: ×1.5, rounded up with the applicable Core minimum.
 
 | ID | Category | Price or discovery | Prerequisites | Effect |
 | --- | --- | --- | --- | --- |
-| `refiner7` | Efficiency | 40 Simple Core + 40 Basic Core + 40 Automata Core + 40 Hydro Core + 40 Shiny Core + 40 Complex Core + 40 Final Core | [Refiner 4](research.md#research-refiner6), [Final Core](research.md#research-finalCore) | Refiner cycles take 65% less time than the base cycle. |
+| `refiner7` | Efficiency | 40 Simple Core + 40 Basic Core + 40 Automata Core + 40 Hydro Core + 40 Shiny Core + 40 Complex Core + 40 Final Core | [Refiner 4](research.md#research-refiner6), [Complex upgrade](research.md#research-finalCore) | Refiner cycles take 65% less time than the base cycle. |
 
 <a id="research-assembler3"></a>
 
@@ -528,7 +698,7 @@ Cost growth per completion: ×1.5, rounded up with the applicable Core minimum.
 
 | ID | Category | Price or discovery | Prerequisites | Effect |
 | --- | --- | --- | --- | --- |
-| `assembler3` | Efficiency | 20 Simple Core + 20 Basic Core + 20 Automata Core | [Assembler](research.md#research-assembler), [Automata Core](research.md#research-automataCore) | Assembler cycles take 15% less time than the base cycle. |
+| `assembler3` | Efficiency | 20 Simple Core + 20 Basic Core + 20 Automata Core | [Assembler](research.md#research-assembler), [Basic upgrade](research.md#research-automataCore) | Assembler cycles take 15% less time than the base cycle. |
 
 <a id="research-assembler4"></a>
 
@@ -536,7 +706,7 @@ Cost growth per completion: ×1.5, rounded up with the applicable Core minimum.
 
 | ID | Category | Price or discovery | Prerequisites | Effect |
 | --- | --- | --- | --- | --- |
-| `assembler4` | Efficiency | 25 Simple Core + 25 Basic Core + 25 Automata Core + 25 Hydro Core | [Assembler 1](research.md#research-assembler3), [Hydro Core](research.md#research-hydroCore) | Assembler cycles take 25% less time than the base cycle. |
+| `assembler4` | Efficiency | 25 Simple Core + 25 Basic Core + 25 Automata Core + 25 Hydro Core | [Assembler 1](research.md#research-assembler3), [Automata upgrade](research.md#research-hydroCore) | Assembler cycles take 25% less time than the base cycle. |
 
 <a id="research-assembler5"></a>
 
@@ -544,7 +714,7 @@ Cost growth per completion: ×1.5, rounded up with the applicable Core minimum.
 
 | ID | Category | Price or discovery | Prerequisites | Effect |
 | --- | --- | --- | --- | --- |
-| `assembler5` | Efficiency | 30 Simple Core + 30 Basic Core + 30 Automata Core + 30 Hydro Core + 30 Shiny Core | [Assembler 2](research.md#research-assembler4), [Shiny Core](research.md#research-shinyCore) | Assembler cycles take 40% less time than the base cycle. |
+| `assembler5` | Efficiency | 30 Simple Core + 30 Basic Core + 30 Automata Core + 30 Hydro Core + 30 Shiny Core | [Assembler 2](research.md#research-assembler4), [Hydro upgrade](research.md#research-shinyCore) | Assembler cycles take 40% less time than the base cycle. |
 
 <a id="research-assembler6"></a>
 
@@ -552,7 +722,7 @@ Cost growth per completion: ×1.5, rounded up with the applicable Core minimum.
 
 | ID | Category | Price or discovery | Prerequisites | Effect |
 | --- | --- | --- | --- | --- |
-| `assembler6` | Efficiency | 35 Simple Core + 35 Basic Core + 35 Automata Core + 35 Hydro Core + 35 Shiny Core + 35 Complex Core | [Assembler 3](research.md#research-assembler5), [Complex Core](research.md#research-complexCore) | Assembler cycles take 50% less time than the base cycle. |
+| `assembler6` | Efficiency | 35 Simple Core + 35 Basic Core + 35 Automata Core + 35 Hydro Core + 35 Shiny Core + 35 Complex Core | [Assembler 3](research.md#research-assembler5), [Shiny upgrade](research.md#research-complexCore) | Assembler cycles take 50% less time than the base cycle. |
 
 <a id="research-assembler7"></a>
 
@@ -560,7 +730,7 @@ Cost growth per completion: ×1.5, rounded up with the applicable Core minimum.
 
 | ID | Category | Price or discovery | Prerequisites | Effect |
 | --- | --- | --- | --- | --- |
-| `assembler7` | Efficiency | 40 Simple Core + 40 Basic Core + 40 Automata Core + 40 Hydro Core + 40 Shiny Core + 40 Complex Core + 40 Final Core | [Assembler 4](research.md#research-assembler6), [Final Core](research.md#research-finalCore) | Assembler cycles take 65% less time than the base cycle. |
+| `assembler7` | Efficiency | 40 Simple Core + 40 Basic Core + 40 Automata Core + 40 Hydro Core + 40 Shiny Core + 40 Complex Core + 40 Final Core | [Assembler 4](research.md#research-assembler6), [Complex upgrade](research.md#research-finalCore) | Assembler cycles take 65% less time than the base cycle. |
 
 <a id="research-researchCenter1"></a>
 
@@ -568,7 +738,7 @@ Cost growth per completion: ×1.5, rounded up with the applicable Core minimum.
 
 | ID | Category | Price or discovery | Prerequisites | Effect |
 | --- | --- | --- | --- | --- |
-| `researchCenter1` | Efficiency | 10 Simple Core | [Research Center](research.md#research-researchCenter), [Simple Core](research.md#research-simpleCore) | Research Center cycles take 10% less time than the base cycle. |
+| `researchCenter1` | Efficiency | 10 Simple Core | [Research Center](research.md#research-researchCenter), [Refiner](research.md#research-refiner) | Research Center cycles take 10% less time than the base cycle. |
 
 <a id="research-researchCenter2"></a>
 
@@ -576,7 +746,7 @@ Cost growth per completion: ×1.5, rounded up with the applicable Core minimum.
 
 | ID | Category | Price or discovery | Prerequisites | Effect |
 | --- | --- | --- | --- | --- |
-| `researchCenter2` | Efficiency | 15 Simple Core + 15 Basic Core | [Research Center 1](research.md#research-researchCenter1), [Basic Core](research.md#research-basicCore) | Research Center cycles take 20% less time than the base cycle. |
+| `researchCenter2` | Efficiency | 15 Simple Core + 15 Basic Core | [Research Center 1](research.md#research-researchCenter1), [Simple upgrade](research.md#research-basicCore) | Research Center cycles take 20% less time than the base cycle. |
 
 <a id="research-researchCenter3"></a>
 
@@ -584,7 +754,7 @@ Cost growth per completion: ×1.5, rounded up with the applicable Core minimum.
 
 | ID | Category | Price or discovery | Prerequisites | Effect |
 | --- | --- | --- | --- | --- |
-| `researchCenter3` | Efficiency | 20 Simple Core + 20 Basic Core + 20 Automata Core | [Research Center 2](research.md#research-researchCenter2), [Automata Core](research.md#research-automataCore) | Research Center cycles take 30% less time than the base cycle. |
+| `researchCenter3` | Efficiency | 20 Simple Core + 20 Basic Core + 20 Automata Core | [Research Center 2](research.md#research-researchCenter2), [Basic upgrade](research.md#research-automataCore) | Research Center cycles take 30% less time than the base cycle. |
 
 <a id="research-researchCenter4"></a>
 
@@ -592,7 +762,7 @@ Cost growth per completion: ×1.5, rounded up with the applicable Core minimum.
 
 | ID | Category | Price or discovery | Prerequisites | Effect |
 | --- | --- | --- | --- | --- |
-| `researchCenter4` | Efficiency | 25 Simple Core + 25 Basic Core + 25 Automata Core + 25 Hydro Core | [Research Center 3](research.md#research-researchCenter3), [Hydro Core](research.md#research-hydroCore) | Research Center cycles take 35% less time than the base cycle. |
+| `researchCenter4` | Efficiency | 25 Simple Core + 25 Basic Core + 25 Automata Core + 25 Hydro Core | [Research Center 3](research.md#research-researchCenter3), [Automata upgrade](research.md#research-hydroCore) | Research Center cycles take 35% less time than the base cycle. |
 
 <a id="research-researchCenter5"></a>
 
@@ -600,7 +770,7 @@ Cost growth per completion: ×1.5, rounded up with the applicable Core minimum.
 
 | ID | Category | Price or discovery | Prerequisites | Effect |
 | --- | --- | --- | --- | --- |
-| `researchCenter5` | Efficiency | 30 Simple Core + 30 Basic Core + 30 Automata Core + 30 Hydro Core + 30 Shiny Core | [Research Center 4](research.md#research-researchCenter4), [Shiny Core](research.md#research-shinyCore) | Research Center cycles take 45% less time than the base cycle. |
+| `researchCenter5` | Efficiency | 30 Simple Core + 30 Basic Core + 30 Automata Core + 30 Hydro Core + 30 Shiny Core | [Research Center 4](research.md#research-researchCenter4), [Hydro upgrade](research.md#research-shinyCore) | Research Center cycles take 45% less time than the base cycle. |
 
 <a id="research-researchCenter6"></a>
 
@@ -608,7 +778,7 @@ Cost growth per completion: ×1.5, rounded up with the applicable Core minimum.
 
 | ID | Category | Price or discovery | Prerequisites | Effect |
 | --- | --- | --- | --- | --- |
-| `researchCenter6` | Efficiency | 35 Simple Core + 35 Basic Core + 35 Automata Core + 35 Hydro Core + 35 Shiny Core + 35 Complex Core | [Research Center 5](research.md#research-researchCenter5), [Complex Core](research.md#research-complexCore) | Research Center cycles take 55% less time than the base cycle. |
+| `researchCenter6` | Efficiency | 35 Simple Core + 35 Basic Core + 35 Automata Core + 35 Hydro Core + 35 Shiny Core + 35 Complex Core | [Research Center 5](research.md#research-researchCenter5), [Shiny upgrade](research.md#research-complexCore) | Research Center cycles take 55% less time than the base cycle. |
 
 <a id="research-researchCenter7"></a>
 
@@ -616,7 +786,7 @@ Cost growth per completion: ×1.5, rounded up with the applicable Core minimum.
 
 | ID | Category | Price or discovery | Prerequisites | Effect |
 | --- | --- | --- | --- | --- |
-| `researchCenter7` | Efficiency | 40 Simple Core + 40 Basic Core + 40 Automata Core + 40 Hydro Core + 40 Shiny Core + 40 Complex Core + 40 Final Core | [Research Center 6](research.md#research-researchCenter6), [Final Core](research.md#research-finalCore) | Research Center cycles take 65% less time than the base cycle. |
+| `researchCenter7` | Efficiency | 40 Simple Core + 40 Basic Core + 40 Automata Core + 40 Hydro Core + 40 Shiny Core + 40 Complex Core + 40 Final Core | [Research Center 6](research.md#research-researchCenter6), [Complex upgrade](research.md#research-finalCore) | Research Center cycles take 65% less time than the base cycle. |
 
 <a id="research-hydroProcessor4"></a>
 
@@ -624,7 +794,7 @@ Cost growth per completion: ×1.5, rounded up with the applicable Core minimum.
 
 | ID | Category | Price or discovery | Prerequisites | Effect |
 | --- | --- | --- | --- | --- |
-| `hydroProcessor4` | Efficiency | 25 Simple Core + 25 Basic Core + 25 Automata Core + 25 Hydro Core | [Water Tools](research.md#research-lakeTools), [Hydro Core](research.md#research-hydroCore) | Hydro Plant cycles take 15% less time than the base cycle. |
+| `hydroProcessor4` | Efficiency | 25 Simple Core + 25 Basic Core + 25 Automata Core + 25 Hydro Core | [Water Tools](research.md#research-lakeTools), [Automata upgrade](research.md#research-hydroCore) | Hydro Plant cycles take 15% less time than the base cycle. |
 
 <a id="research-hydroProcessor5"></a>
 
@@ -632,7 +802,7 @@ Cost growth per completion: ×1.5, rounded up with the applicable Core minimum.
 
 | ID | Category | Price or discovery | Prerequisites | Effect |
 | --- | --- | --- | --- | --- |
-| `hydroProcessor5` | Efficiency | 30 Simple Core + 30 Basic Core + 30 Automata Core + 30 Hydro Core + 30 Shiny Core | [Hydro Plant 1](research.md#research-hydroProcessor4), [Shiny Core](research.md#research-shinyCore) | Hydro Plant cycles take 35% less time than the base cycle. |
+| `hydroProcessor5` | Efficiency | 30 Simple Core + 30 Basic Core + 30 Automata Core + 30 Hydro Core + 30 Shiny Core | [Hydro Plant 1](research.md#research-hydroProcessor4), [Hydro upgrade](research.md#research-shinyCore) | Hydro Plant cycles take 35% less time than the base cycle. |
 
 <a id="research-hydroProcessor6"></a>
 
@@ -640,7 +810,7 @@ Cost growth per completion: ×1.5, rounded up with the applicable Core minimum.
 
 | ID | Category | Price or discovery | Prerequisites | Effect |
 | --- | --- | --- | --- | --- |
-| `hydroProcessor6` | Efficiency | 35 Simple Core + 35 Basic Core + 35 Automata Core + 35 Hydro Core + 35 Shiny Core + 35 Complex Core | [Hydro Plant 2](research.md#research-hydroProcessor5), [Complex Core](research.md#research-complexCore) | Hydro Plant cycles take 50% less time than the base cycle. |
+| `hydroProcessor6` | Efficiency | 35 Simple Core + 35 Basic Core + 35 Automata Core + 35 Hydro Core + 35 Shiny Core + 35 Complex Core | [Hydro Plant 2](research.md#research-hydroProcessor5), [Shiny upgrade](research.md#research-complexCore) | Hydro Plant cycles take 50% less time than the base cycle. |
 
 <a id="research-hydroProcessor7"></a>
 
@@ -648,7 +818,7 @@ Cost growth per completion: ×1.5, rounded up with the applicable Core minimum.
 
 | ID | Category | Price or discovery | Prerequisites | Effect |
 | --- | --- | --- | --- | --- |
-| `hydroProcessor7` | Efficiency | 40 Simple Core + 40 Basic Core + 40 Automata Core + 40 Hydro Core + 40 Shiny Core + 40 Complex Core + 40 Final Core | [Hydro Plant 3](research.md#research-hydroProcessor6), [Final Core](research.md#research-finalCore) | Hydro Plant cycles take 65% less time than the base cycle. |
+| `hydroProcessor7` | Efficiency | 40 Simple Core + 40 Basic Core + 40 Automata Core + 40 Hydro Core + 40 Shiny Core + 40 Complex Core + 40 Final Core | [Hydro Plant 3](research.md#research-hydroProcessor6), [Complex upgrade](research.md#research-finalCore) | Hydro Plant cycles take 65% less time than the base cycle. |
 
 <a id="research-advancedAssembler3"></a>
 
@@ -656,7 +826,7 @@ Cost growth per completion: ×1.5, rounded up with the applicable Core minimum.
 
 | ID | Category | Price or discovery | Prerequisites | Effect |
 | --- | --- | --- | --- | --- |
-| `advancedAssembler3` | Efficiency | 20 Simple Core + 20 Basic Core + 20 Automata Core | [Advanced Fabrication](research.md#research-fabricatorTools), [Automata Core](research.md#research-automataCore) | Fabricator cycles take 15% less time than the base cycle. |
+| `advancedAssembler3` | Efficiency | 20 Simple Core + 20 Basic Core + 20 Automata Core | [Advanced Fabrication](research.md#research-fabricatorTools), [Basic upgrade](research.md#research-automataCore) | Fabricator cycles take 15% less time than the base cycle. |
 
 <a id="research-advancedAssembler4"></a>
 
@@ -664,7 +834,7 @@ Cost growth per completion: ×1.5, rounded up with the applicable Core minimum.
 
 | ID | Category | Price or discovery | Prerequisites | Effect |
 | --- | --- | --- | --- | --- |
-| `advancedAssembler4` | Efficiency | 25 Simple Core + 25 Basic Core + 25 Automata Core + 25 Hydro Core | [Fabricator 1](research.md#research-advancedAssembler3), [Hydro Core](research.md#research-hydroCore) | Fabricator cycles take 25% less time than the base cycle. |
+| `advancedAssembler4` | Efficiency | 25 Simple Core + 25 Basic Core + 25 Automata Core + 25 Hydro Core | [Fabricator 1](research.md#research-advancedAssembler3), [Automata upgrade](research.md#research-hydroCore) | Fabricator cycles take 25% less time than the base cycle. |
 
 <a id="research-advancedAssembler5"></a>
 
@@ -672,7 +842,7 @@ Cost growth per completion: ×1.5, rounded up with the applicable Core minimum.
 
 | ID | Category | Price or discovery | Prerequisites | Effect |
 | --- | --- | --- | --- | --- |
-| `advancedAssembler5` | Efficiency | 30 Simple Core + 30 Basic Core + 30 Automata Core + 30 Hydro Core + 30 Shiny Core | [Fabricator 2](research.md#research-advancedAssembler4), [Shiny Core](research.md#research-shinyCore) | Fabricator cycles take 40% less time than the base cycle. |
+| `advancedAssembler5` | Efficiency | 30 Simple Core + 30 Basic Core + 30 Automata Core + 30 Hydro Core + 30 Shiny Core | [Fabricator 2](research.md#research-advancedAssembler4), [Hydro upgrade](research.md#research-shinyCore) | Fabricator cycles take 40% less time than the base cycle. |
 
 <a id="research-advancedAssembler6"></a>
 
@@ -680,7 +850,7 @@ Cost growth per completion: ×1.5, rounded up with the applicable Core minimum.
 
 | ID | Category | Price or discovery | Prerequisites | Effect |
 | --- | --- | --- | --- | --- |
-| `advancedAssembler6` | Efficiency | 35 Simple Core + 35 Basic Core + 35 Automata Core + 35 Hydro Core + 35 Shiny Core + 35 Complex Core | [Fabricator 3](research.md#research-advancedAssembler5), [Complex Core](research.md#research-complexCore) | Fabricator cycles take 50% less time than the base cycle. |
+| `advancedAssembler6` | Efficiency | 35 Simple Core + 35 Basic Core + 35 Automata Core + 35 Hydro Core + 35 Shiny Core + 35 Complex Core | [Fabricator 3](research.md#research-advancedAssembler5), [Shiny upgrade](research.md#research-complexCore) | Fabricator cycles take 50% less time than the base cycle. |
 
 <a id="research-advancedAssembler7"></a>
 
@@ -688,7 +858,7 @@ Cost growth per completion: ×1.5, rounded up with the applicable Core minimum.
 
 | ID | Category | Price or discovery | Prerequisites | Effect |
 | --- | --- | --- | --- | --- |
-| `advancedAssembler7` | Efficiency | 40 Simple Core + 40 Basic Core + 40 Automata Core + 40 Hydro Core + 40 Shiny Core + 40 Complex Core + 40 Final Core | [Fabricator 4](research.md#research-advancedAssembler6), [Final Core](research.md#research-finalCore) | Fabricator cycles take 65% less time than the base cycle. |
+| `advancedAssembler7` | Efficiency | 40 Simple Core + 40 Basic Core + 40 Automata Core + 40 Hydro Core + 40 Shiny Core + 40 Complex Core + 40 Final Core | [Fabricator 4](research.md#research-advancedAssembler6), [Complex upgrade](research.md#research-finalCore) | Fabricator cycles take 65% less time than the base cycle. |
 
 <a id="research-separationFurnace5"></a>
 
@@ -696,7 +866,7 @@ Cost growth per completion: ×1.5, rounded up with the applicable Core minimum.
 
 | ID | Category | Price or discovery | Prerequisites | Effect |
 | --- | --- | --- | --- | --- |
-| `separationFurnace5` | Efficiency | 30 Simple Core + 30 Basic Core + 30 Automata Core + 30 Hydro Core + 30 Shiny Core | [Mythril Refining](research.md#research-mithrilTools), [Shiny Core](research.md#research-shinyCore) | Synthesizer cycles take 20% less time than the base cycle. |
+| `separationFurnace5` | Efficiency | 30 Simple Core + 30 Basic Core + 30 Automata Core + 30 Hydro Core + 30 Shiny Core | [Mythril Refining](research.md#research-mithrilTools), [Hydro upgrade](research.md#research-shinyCore) | Synthesizer cycles take 20% less time than the base cycle. |
 
 <a id="research-separationFurnace6"></a>
 
@@ -704,7 +874,7 @@ Cost growth per completion: ×1.5, rounded up with the applicable Core minimum.
 
 | ID | Category | Price or discovery | Prerequisites | Effect |
 | --- | --- | --- | --- | --- |
-| `separationFurnace6` | Efficiency | 35 Simple Core + 35 Basic Core + 35 Automata Core + 35 Hydro Core + 35 Shiny Core + 35 Complex Core | [Synthesizer 1](research.md#research-separationFurnace5), [Complex Core](research.md#research-complexCore) | Synthesizer cycles take 45% less time than the base cycle. |
+| `separationFurnace6` | Efficiency | 35 Simple Core + 35 Basic Core + 35 Automata Core + 35 Hydro Core + 35 Shiny Core + 35 Complex Core | [Synthesizer 1](research.md#research-separationFurnace5), [Shiny upgrade](research.md#research-complexCore) | Synthesizer cycles take 45% less time than the base cycle. |
 
 <a id="research-separationFurnace7"></a>
 
@@ -712,7 +882,7 @@ Cost growth per completion: ×1.5, rounded up with the applicable Core minimum.
 
 | ID | Category | Price or discovery | Prerequisites | Effect |
 | --- | --- | --- | --- | --- |
-| `separationFurnace7` | Efficiency | 40 Simple Core + 40 Basic Core + 40 Automata Core + 40 Hydro Core + 40 Shiny Core + 40 Complex Core + 40 Final Core | [Synthesizer 2](research.md#research-separationFurnace6), [Final Core](research.md#research-finalCore) | Synthesizer cycles take 65% less time than the base cycle. |
+| `separationFurnace7` | Efficiency | 40 Simple Core + 40 Basic Core + 40 Automata Core + 40 Hydro Core + 40 Shiny Core + 40 Complex Core + 40 Final Core | [Synthesizer 2](research.md#research-separationFurnace6), [Complex upgrade](research.md#research-finalCore) | Synthesizer cycles take 65% less time than the base cycle. |
 
 <a id="research-botPlant3"></a>
 
@@ -720,7 +890,7 @@ Cost growth per completion: ×1.5, rounded up with the applicable Core minimum.
 
 | ID | Category | Price or discovery | Prerequisites | Effect |
 | --- | --- | --- | --- | --- |
-| `botPlant3` | Efficiency | 20 Simple Core + 20 Basic Core + 20 Automata Core | [Suppression Bot](research.md#research-suppressionBot), [Automata Core](research.md#research-automataCore) | Bot Plant cycles take 15% less time than the base cycle. |
+| `botPlant3` | Efficiency | 20 Simple Core + 20 Basic Core + 20 Automata Core | [Suppression Bot](research.md#research-suppressionBot), [Basic upgrade](research.md#research-automataCore) | Bot Plant cycles take 15% less time than the base cycle. |
 
 <a id="research-botPlant4"></a>
 
@@ -728,7 +898,7 @@ Cost growth per completion: ×1.5, rounded up with the applicable Core minimum.
 
 | ID | Category | Price or discovery | Prerequisites | Effect |
 | --- | --- | --- | --- | --- |
-| `botPlant4` | Efficiency | 25 Simple Core + 25 Basic Core + 25 Automata Core + 25 Hydro Core | [Bot Plant 1](research.md#research-botPlant3), [Hydro Core](research.md#research-hydroCore) | Bot Plant cycles take 25% less time than the base cycle. |
+| `botPlant4` | Efficiency | 25 Simple Core + 25 Basic Core + 25 Automata Core + 25 Hydro Core | [Bot Plant 1](research.md#research-botPlant3), [Automata upgrade](research.md#research-hydroCore) | Bot Plant cycles take 25% less time than the base cycle. |
 
 <a id="research-botPlant5"></a>
 
@@ -736,7 +906,7 @@ Cost growth per completion: ×1.5, rounded up with the applicable Core minimum.
 
 | ID | Category | Price or discovery | Prerequisites | Effect |
 | --- | --- | --- | --- | --- |
-| `botPlant5` | Efficiency | 30 Simple Core + 30 Basic Core + 30 Automata Core + 30 Hydro Core + 30 Shiny Core | [Bot Plant 2](research.md#research-botPlant4), [Shiny Core](research.md#research-shinyCore) | Bot Plant cycles take 40% less time than the base cycle. |
+| `botPlant5` | Efficiency | 30 Simple Core + 30 Basic Core + 30 Automata Core + 30 Hydro Core + 30 Shiny Core | [Bot Plant 2](research.md#research-botPlant4), [Hydro upgrade](research.md#research-shinyCore) | Bot Plant cycles take 40% less time than the base cycle. |
 
 <a id="research-botPlant6"></a>
 
@@ -744,7 +914,7 @@ Cost growth per completion: ×1.5, rounded up with the applicable Core minimum.
 
 | ID | Category | Price or discovery | Prerequisites | Effect |
 | --- | --- | --- | --- | --- |
-| `botPlant6` | Efficiency | 35 Simple Core + 35 Basic Core + 35 Automata Core + 35 Hydro Core + 35 Shiny Core + 35 Complex Core | [Bot Plant 3](research.md#research-botPlant5), [Complex Core](research.md#research-complexCore) | Bot Plant cycles take 50% less time than the base cycle. |
+| `botPlant6` | Efficiency | 35 Simple Core + 35 Basic Core + 35 Automata Core + 35 Hydro Core + 35 Shiny Core + 35 Complex Core | [Bot Plant 3](research.md#research-botPlant5), [Shiny upgrade](research.md#research-complexCore) | Bot Plant cycles take 50% less time than the base cycle. |
 
 <a id="research-botPlant7"></a>
 
@@ -752,7 +922,7 @@ Cost growth per completion: ×1.5, rounded up with the applicable Core minimum.
 
 | ID | Category | Price or discovery | Prerequisites | Effect |
 | --- | --- | --- | --- | --- |
-| `botPlant7` | Efficiency | 40 Simple Core + 40 Basic Core + 40 Automata Core + 40 Hydro Core + 40 Shiny Core + 40 Complex Core + 40 Final Core | [Bot Plant 4](research.md#research-botPlant6), [Final Core](research.md#research-finalCore) | Bot Plant cycles take 65% less time than the base cycle. |
+| `botPlant7` | Efficiency | 40 Simple Core + 40 Basic Core + 40 Automata Core + 40 Hydro Core + 40 Shiny Core + 40 Complex Core + 40 Final Core | [Bot Plant 4](research.md#research-botPlant6), [Complex upgrade](research.md#research-finalCore) | Bot Plant cycles take 65% less time than the base cycle. |
 
 <a id="research-fluidLink4"></a>
 
@@ -760,7 +930,7 @@ Cost growth per completion: ×1.5, rounded up with the applicable Core minimum.
 
 | ID | Category | Price or discovery | Prerequisites | Effect |
 | --- | --- | --- | --- | --- |
-| `fluidLink4` | Efficiency | 25 Simple Core + 25 Basic Core + 25 Automata Core + 25 Hydro Core | [Water Tools](research.md#research-lakeTools), [Hydro Core](research.md#research-hydroCore) | Each Lake Pump draws up to 5 Water per second. |
+| `fluidLink4` | Efficiency | 25 Simple Core + 25 Basic Core + 25 Automata Core + 25 Hydro Core | [Water Tools](research.md#research-lakeTools), [Automata upgrade](research.md#research-hydroCore) | Each Lake Pump draws up to 5 Water per second. |
 
 <a id="research-fluidLink5"></a>
 
@@ -768,7 +938,7 @@ Cost growth per completion: ×1.5, rounded up with the applicable Core minimum.
 
 | ID | Category | Price or discovery | Prerequisites | Effect |
 | --- | --- | --- | --- | --- |
-| `fluidLink5` | Efficiency | 30 Simple Core + 30 Basic Core + 30 Automata Core + 30 Hydro Core + 30 Shiny Core | [Pump 1](research.md#research-fluidLink4), [Shiny Core](research.md#research-shinyCore) | Each Lake Pump draws up to 6 Water per second. |
+| `fluidLink5` | Efficiency | 30 Simple Core + 30 Basic Core + 30 Automata Core + 30 Hydro Core + 30 Shiny Core | [Pump 1](research.md#research-fluidLink4), [Hydro upgrade](research.md#research-shinyCore) | Each Lake Pump draws up to 6 Water per second. |
 
 <a id="research-fluidLink6"></a>
 
@@ -776,7 +946,7 @@ Cost growth per completion: ×1.5, rounded up with the applicable Core minimum.
 
 | ID | Category | Price or discovery | Prerequisites | Effect |
 | --- | --- | --- | --- | --- |
-| `fluidLink6` | Efficiency | 35 Simple Core + 35 Basic Core + 35 Automata Core + 35 Hydro Core + 35 Shiny Core + 35 Complex Core | [Pump 2](research.md#research-fluidLink5), [Complex Core](research.md#research-complexCore) | Each Lake Pump draws up to 8 Water per second. |
+| `fluidLink6` | Efficiency | 35 Simple Core + 35 Basic Core + 35 Automata Core + 35 Hydro Core + 35 Shiny Core + 35 Complex Core | [Pump 2](research.md#research-fluidLink5), [Shiny upgrade](research.md#research-complexCore) | Each Lake Pump draws up to 8 Water per second. |
 
 <a id="research-fluidLink7"></a>
 
@@ -784,7 +954,7 @@ Cost growth per completion: ×1.5, rounded up with the applicable Core minimum.
 
 | ID | Category | Price or discovery | Prerequisites | Effect |
 | --- | --- | --- | --- | --- |
-| `fluidLink7` | Efficiency | 40 Simple Core + 40 Basic Core + 40 Automata Core + 40 Hydro Core + 40 Shiny Core + 40 Complex Core + 40 Final Core | [Pump 3](research.md#research-fluidLink6), [Final Core](research.md#research-finalCore) | Each Lake Pump draws up to 11 Water per second. |
+| `fluidLink7` | Efficiency | 40 Simple Core + 40 Basic Core + 40 Automata Core + 40 Hydro Core + 40 Shiny Core + 40 Complex Core + 40 Final Core | [Pump 3](research.md#research-fluidLink6), [Complex upgrade](research.md#research-finalCore) | Each Lake Pump draws up to 11 Water per second. |
 
 <a id="research-treePlanter4"></a>
 
@@ -792,7 +962,7 @@ Cost growth per completion: ×1.5, rounded up with the applicable Core minimum.
 
 | ID | Category | Price or discovery | Prerequisites | Effect |
 | --- | --- | --- | --- | --- |
-| `treePlanter4` | Efficiency | 25 Simple Core + 25 Basic Core + 25 Automata Core + 25 Hydro Core | [Tree Planter](research.md#research-treePlanter), [Hydro Core](research.md#research-hydroCore) | Tree Planter cycles take 15% less time than the base cycle. |
+| `treePlanter4` | Efficiency | 25 Simple Core + 25 Basic Core + 25 Automata Core + 25 Hydro Core | [Tree Planter](research.md#research-treePlanter), [Automata upgrade](research.md#research-hydroCore) | Tree Planter cycles take 15% less time than the base cycle. |
 
 <a id="research-treePlanter5"></a>
 
@@ -800,7 +970,7 @@ Cost growth per completion: ×1.5, rounded up with the applicable Core minimum.
 
 | ID | Category | Price or discovery | Prerequisites | Effect |
 | --- | --- | --- | --- | --- |
-| `treePlanter5` | Efficiency | 30 Simple Core + 30 Basic Core + 30 Automata Core + 30 Hydro Core + 30 Shiny Core | [Tree Planter 1](research.md#research-treePlanter4), [Shiny Core](research.md#research-shinyCore) | Tree Planter cycles take 35% less time than the base cycle. |
+| `treePlanter5` | Efficiency | 30 Simple Core + 30 Basic Core + 30 Automata Core + 30 Hydro Core + 30 Shiny Core | [Tree Planter 1](research.md#research-treePlanter4), [Hydro upgrade](research.md#research-shinyCore) | Tree Planter cycles take 35% less time than the base cycle. |
 
 <a id="research-treePlanter6"></a>
 
@@ -808,7 +978,7 @@ Cost growth per completion: ×1.5, rounded up with the applicable Core minimum.
 
 | ID | Category | Price or discovery | Prerequisites | Effect |
 | --- | --- | --- | --- | --- |
-| `treePlanter6` | Efficiency | 35 Simple Core + 35 Basic Core + 35 Automata Core + 35 Hydro Core + 35 Shiny Core + 35 Complex Core | [Tree Planter 2](research.md#research-treePlanter5), [Complex Core](research.md#research-complexCore) | Tree Planter cycles take 50% less time than the base cycle. Also expands growth buffers and allows ten growth units per transfer. |
+| `treePlanter6` | Efficiency | 35 Simple Core + 35 Basic Core + 35 Automata Core + 35 Hydro Core + 35 Shiny Core + 35 Complex Core | [Tree Planter 2](research.md#research-treePlanter5), [Shiny upgrade](research.md#research-complexCore) | Tree Planter cycles take 50% less time than the base cycle. Also expands growth buffers and allows ten growth units per transfer. |
 
 <a id="research-treePlanter7"></a>
 
@@ -816,7 +986,7 @@ Cost growth per completion: ×1.5, rounded up with the applicable Core minimum.
 
 | ID | Category | Price or discovery | Prerequisites | Effect |
 | --- | --- | --- | --- | --- |
-| `treePlanter7` | Efficiency | 40 Simple Core + 40 Basic Core + 40 Automata Core + 40 Hydro Core + 40 Shiny Core + 40 Complex Core + 40 Final Core | [Tree Planter 3](research.md#research-treePlanter6), [Final Core](research.md#research-finalCore) | Tree Planter cycles take 65% less time than the base cycle. |
+| `treePlanter7` | Efficiency | 40 Simple Core + 40 Basic Core + 40 Automata Core + 40 Hydro Core + 40 Shiny Core + 40 Complex Core + 40 Final Core | [Tree Planter 3](research.md#research-treePlanter6), [Complex upgrade](research.md#research-finalCore) | Tree Planter cycles take 65% less time than the base cycle. |
 
 <a id="research-recycler4"></a>
 
@@ -824,7 +994,7 @@ Cost growth per completion: ×1.5, rounded up with the applicable Core minimum.
 
 | ID | Category | Price or discovery | Prerequisites | Effect |
 | --- | --- | --- | --- | --- |
-| `recycler4` | Efficiency | 25 Simple Core + 25 Basic Core + 25 Automata Core + 25 Hydro Core | [Intermediate Recycling](research.md#research-recycler), [Hydro Core](research.md#research-hydroCore) | Recycler cycles take 15% less time than the base cycle. |
+| `recycler4` | Efficiency | 25 Simple Core + 25 Basic Core + 25 Automata Core + 25 Hydro Core | [Intermediate Recycling](research.md#research-recycler), [Automata upgrade](research.md#research-hydroCore) | Recycler cycles take 15% less time than the base cycle. |
 
 <a id="research-recycler5"></a>
 
@@ -832,7 +1002,7 @@ Cost growth per completion: ×1.5, rounded up with the applicable Core minimum.
 
 | ID | Category | Price or discovery | Prerequisites | Effect |
 | --- | --- | --- | --- | --- |
-| `recycler5` | Efficiency | 30 Simple Core + 30 Basic Core + 30 Automata Core + 30 Hydro Core + 30 Shiny Core | [Recycler 1](research.md#research-recycler4), [Shiny Core](research.md#research-shinyCore) | Recycler cycles take 35% less time than the base cycle. |
+| `recycler5` | Efficiency | 30 Simple Core + 30 Basic Core + 30 Automata Core + 30 Hydro Core + 30 Shiny Core | [Recycler 1](research.md#research-recycler4), [Hydro upgrade](research.md#research-shinyCore) | Recycler cycles take 35% less time than the base cycle. |
 
 <a id="research-recycler6"></a>
 
@@ -840,7 +1010,7 @@ Cost growth per completion: ×1.5, rounded up with the applicable Core minimum.
 
 | ID | Category | Price or discovery | Prerequisites | Effect |
 | --- | --- | --- | --- | --- |
-| `recycler6` | Efficiency | 35 Simple Core + 35 Basic Core + 35 Automata Core + 35 Hydro Core + 35 Shiny Core + 35 Complex Core | [Recycler 2](research.md#research-recycler5), [Complex Core](research.md#research-complexCore) | Recycler cycles take 50% less time than the base cycle. |
+| `recycler6` | Efficiency | 35 Simple Core + 35 Basic Core + 35 Automata Core + 35 Hydro Core + 35 Shiny Core + 35 Complex Core | [Recycler 2](research.md#research-recycler5), [Shiny upgrade](research.md#research-complexCore) | Recycler cycles take 50% less time than the base cycle. |
 
 <a id="research-recycler7"></a>
 
@@ -848,7 +1018,7 @@ Cost growth per completion: ×1.5, rounded up with the applicable Core minimum.
 
 | ID | Category | Price or discovery | Prerequisites | Effect |
 | --- | --- | --- | --- | --- |
-| `recycler7` | Efficiency | 40 Simple Core + 40 Basic Core + 40 Automata Core + 40 Hydro Core + 40 Shiny Core + 40 Complex Core + 40 Final Core | [Recycler 3](research.md#research-recycler6), [Final Core](research.md#research-finalCore) | Recycler cycles take 65% less time than the base cycle. |
+| `recycler7` | Efficiency | 40 Simple Core + 40 Basic Core + 40 Automata Core + 40 Hydro Core + 40 Shiny Core + 40 Complex Core + 40 Final Core | [Recycler 3](research.md#research-recycler6), [Complex upgrade](research.md#research-finalCore) | Recycler cycles take 65% less time than the base cycle. |
 
 <a id="research-connectorMirroring"></a>
 
@@ -856,7 +1026,7 @@ Cost growth per completion: ×1.5, rounded up with the applicable Core minimum.
 
 | ID | Category | Price or discovery | Prerequisites | Effect |
 | --- | --- | --- | --- | --- |
-| `connectorMirroring` | Efficiency | 10 Simple Core + 10 Basic Core + 10 Automata Core + 10 Hydro Core | [Hydraulic Assembly](research.md#research-hydraulicAssembly) | Right-click a production node to mirror its connectors. |
+| `connectorMirroring` | Efficiency | 10 Simple Core + 10 Basic Core + 10 Automata Core + 10 Hydro Core + 10 Shiny Core + 10 Complex Core | [Shiny upgrade](research.md#research-complexCore) | Right-click a production node to mirror its connectors. |
 
 <a id="research-joint"></a>
 
@@ -890,61 +1060,53 @@ Cost growth per completion: ×1.5, rounded up with the applicable Core minimum.
 | --- | --- | --- | --- | --- |
 | `refiner` | Milestone | Automatic: Produce at least 1 metal Plate | None | Unlocks the Refiner node |
 
-<a id="research-simpleCore"></a>
-
-## Simple Core
-
-| ID | Category | Price or discovery | Prerequisites | Effect |
-| --- | --- | --- | --- | --- |
-| `simpleCore` | Milestone | Automatic: Unlock the Refiner | [Refiner](research.md#research-refiner) | Unlocks the Simple Core recipe in the Refiner. |
-
 <a id="research-basicCore"></a>
 
-## Basic Core
+## Simple upgrade
 
 | ID | Category | Price or discovery | Prerequisites | Effect |
 | --- | --- | --- | --- | --- |
-| `basicCore` | Fabrication | 5 Simple Core | [Assembler](research.md#research-assembler), [Simple Core](research.md#research-simpleCore) | Unlocks the Basic Core recipe in the Assembler. |
+| `basicCore` | Fabrication | 5 Simple Core | None | Unlocks the Basic Core recipe in the Assembler. |
 
 <a id="research-automataCore"></a>
 
-## Automata Core
+## Basic upgrade
 
 | ID | Category | Price or discovery | Prerequisites | Effect |
 | --- | --- | --- | --- | --- |
-| `automataCore` | Fabrication | 5 Simple Core + 5 Basic Core | [Exploration](research.md#research-exploration), [Basic Core](research.md#research-basicCore) | Unlocks the Automata Core recipe in the Assembler. |
+| `automataCore` | Fabrication | 5 Simple Core + 5 Basic Core | [Simple upgrade](research.md#research-basicCore) | Unlocks the Automata Core recipe in the Assembler. |
 
 <a id="research-hydroCore"></a>
 
-## Hydro Core
+## Automata upgrade
 
 | ID | Category | Price or discovery | Prerequisites | Effect |
 | --- | --- | --- | --- | --- |
-| `hydroCore` | Fabrication | 5 Simple Core + 5 Basic Core + 5 Automata Core | [Hydraulic Assembly](research.md#research-hydraulicAssembly), [Automata Core](research.md#research-automataCore) | Unlocks the Hydro Core recipe in the Fabricator. |
+| `hydroCore` | Fabrication | 5 Simple Core + 5 Basic Core + 5 Automata Core | [Basic upgrade](research.md#research-automataCore) | Unlocks the Hydro Core recipe in the Fabricator. |
 
 <a id="research-shinyCore"></a>
 
-## Shiny Core
+## Hydro upgrade
 
 | ID | Category | Price or discovery | Prerequisites | Effect |
 | --- | --- | --- | --- | --- |
-| `shinyCore` | Fabrication | 5 Simple Core + 5 Basic Core + 5 Automata Core + 5 Hydro Core | [Ore Separation](research.md#research-oreSeparation), [Hydro Core](research.md#research-hydroCore) | Unlocks the Shiny Core recipe in the Fabricator. |
+| `shinyCore` | Fabrication | 5 Simple Core + 5 Basic Core + 5 Automata Core + 5 Hydro Core | [Automata upgrade](research.md#research-hydroCore) | Unlocks the Shiny Core recipe in the Fabricator. |
 
 <a id="research-complexCore"></a>
 
-## Complex Core
+## Shiny upgrade
 
 | ID | Category | Price or discovery | Prerequisites | Effect |
 | --- | --- | --- | --- | --- |
-| `complexCore` | Fabrication | 5 Simple Core + 5 Basic Core + 5 Automata Core + 5 Hydro Core + 5 Shiny Core | [Precision Control](research.md#research-precisionControl), [Shiny Core](research.md#research-shinyCore) | Unlocks the Complex Core recipe in the Fabricator. |
+| `complexCore` | Fabrication | 5 Simple Core + 5 Basic Core + 5 Automata Core + 5 Hydro Core + 5 Shiny Core | [Hydro upgrade](research.md#research-shinyCore) | Unlocks the Complex Core recipe in the Fabricator. Unlocks the Yin and Yang recipes and reveals all four map corners. |
 
 <a id="research-finalCore"></a>
 
-## Final Core
+## Complex upgrade
 
 | ID | Category | Price or discovery | Prerequisites | Effect |
 | --- | --- | --- | --- | --- |
-| `finalCore` | Fabrication | 5 Simple Core + 5 Basic Core + 5 Automata Core + 5 Hydro Core + 5 Shiny Core + 5 Complex Core | [End of the World](research.md#research-cornerComponents), [Complex Core](research.md#research-complexCore) | Unlocks the Final Core recipe in the Assembler. |
+| `finalCore` | Fabrication | 5 Simple Core + 5 Basic Core + 5 Automata Core + 5 Hydro Core + 5 Shiny Core + 5 Complex Core | [Shiny upgrade](research.md#research-complexCore) | Unlocks the Final Core recipe in the Assembler. |
 
 <a id="research-researchCenter"></a>
 
@@ -968,7 +1130,7 @@ Cost growth per completion: ×1.5, rounded up with the applicable Core minimum.
 
 | ID | Category | Price or discovery | Prerequisites | Effect |
 | --- | --- | --- | --- | --- |
-| `splitter` | Milestone | Automatic: Build an Assembler | None | Unlocks the Splitter node |
+| `splitter` | Milestone | Automatic: Produce 1 Simple Core | None | Unlocks the Splitter node |
 
 <a id="research-merger"></a>
 
@@ -976,7 +1138,7 @@ Cost growth per completion: ×1.5, rounded up with the applicable Core minimum.
 
 | ID | Category | Price or discovery | Prerequisites | Effect |
 | --- | --- | --- | --- | --- |
-| `merger` | Milestone | Automatic: Produce a Basic Core | None | Unlocks the Merger node |
+| `merger` | Milestone | Automatic: Produce 1 Simple Core | None | Unlocks the Merger node |
 
 <a id="research-suppressionBot"></a>
 
@@ -1016,7 +1178,7 @@ Cost growth per completion: ×1.5, rounded up with the applicable Core minimum.
 
 | ID | Category | Price or discovery | Prerequisites | Effect |
 | --- | --- | --- | --- | --- |
-| `riverBridges` | Logistics | 5 Simple Core + 5 Basic Core + 5 Automata Core + 5 Hydro Core | [Road](research.md#research-road), [Hydro Core](research.md#research-hydroCore) | Roads can cross rivers worldwide. |
+| `riverBridges` | Logistics | 5 Simple Core + 5 Basic Core + 5 Automata Core + 5 Hydro Core | [Road](research.md#research-road), [Automata upgrade](research.md#research-hydroCore) | Roads can cross rivers worldwide. |
 
 <a id="research-mountainTunnels"></a>
 
@@ -1024,7 +1186,7 @@ Cost growth per completion: ×1.5, rounded up with the applicable Core minimum.
 
 | ID | Category | Price or discovery | Prerequisites | Effect |
 | --- | --- | --- | --- | --- |
-| `mountainTunnels` | Logistics | 5 Simple Core + 5 Basic Core + 5 Automata Core + 5 Hydro Core + 5 Shiny Core | [Road](research.md#research-road), [Shiny Core](research.md#research-shinyCore) | Roads can cross mountains worldwide. |
+| `mountainTunnels` | Logistics | 5 Simple Core + 5 Basic Core + 5 Automata Core + 5 Hydro Core + 5 Shiny Core | [Road](research.md#research-road), [Hydro upgrade](research.md#research-shinyCore) | Roads can cross mountains worldwide. |
 
 <a id="research-chasmSpans"></a>
 
@@ -1032,7 +1194,7 @@ Cost growth per completion: ×1.5, rounded up with the applicable Core minimum.
 
 | ID | Category | Price or discovery | Prerequisites | Effect |
 | --- | --- | --- | --- | --- |
-| `chasmSpans` | Logistics | 5 Simple Core + 5 Basic Core + 5 Automata Core + 5 Hydro Core + 5 Shiny Core + 5 Complex Core | [Road](research.md#research-road), [Complex Core](research.md#research-complexCore) | Roads can cross chasms worldwide. |
+| `chasmSpans` | Logistics | 5 Simple Core + 5 Basic Core + 5 Automata Core + 5 Hydro Core + 5 Shiny Core + 5 Complex Core | [Road](research.md#research-road), [Shiny upgrade](research.md#research-complexCore) | Roads can cross chasms worldwide. |
 
 <a id="research-trucks"></a>
 
@@ -1040,7 +1202,7 @@ Cost growth per completion: ×1.5, rounded up with the applicable Core minimum.
 
 | ID | Category | Price or discovery | Prerequisites | Effect |
 | --- | --- | --- | --- | --- |
-| `trucks` | Logistics | 15 Simple Core + 15 Basic Core + 15 Automata Core | [Road](research.md#research-road), [Automata Core](research.md#research-automataCore) | Carts are now Trucks. |
+| `trucks` | Logistics | 15 Simple Core + 15 Basic Core + 15 Automata Core | [Road](research.md#research-road), [Basic upgrade](research.md#research-automataCore) | Carts are now Trucks. |
 
 <a id="research-trains"></a>
 
@@ -1073,3 +1235,11 @@ Cost growth per completion: ×1.5, rounded up with the applicable Core minimum.
 | ID | Category | Price or discovery | Prerequisites | Effect |
 | --- | --- | --- | --- | --- |
 | `miningDrill` | Extraction | 10 Simple Core + 10 Basic Core + 10 Automata Core | None | Unlocks the Mining Drill node |
+
+<a id="research-finalBotUpgrade"></a>
+
+## Final upgrade
+
+| ID | Category | Price or discovery | Prerequisites | Effect |
+| --- | --- | --- | --- | --- |
+| `finalBotUpgrade` | Character | 5 Simple Core + 5 Basic Core + 5 Automata Core + 5 Hydro Core + 5 Shiny Core + 5 Complex Core + 5 Final Core | [Complex upgrade](research.md#research-finalCore) | All character upgrades complete. |

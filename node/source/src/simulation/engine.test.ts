@@ -303,6 +303,9 @@ describe('simulation architecture', () => {
 
   it('keeps a remote depletion warning until arrival, even after refill, event churn, and save reload', () => {
     const state = createInitialState(17);
+    // This fixture checks legacy refill timing; terrain timing has separate coverage.
+    state.mapTerrainVersion = 0;
+    delete state.mapTerrains;
     const outpost = { ...createHomeSector(0), id: '4,4', x: 4, y: 4, visited: true };
     const other = { ...createHomeSector(0), id: '5,4', x: 5, y: 4 };
     const forest = outpost.nodes.find(node => node.kind === 'forest')!;
@@ -798,7 +801,7 @@ describe('simulation architecture', () => {
     for (const entry of RESEARCH_PROJECTS) {
       const costs = Object.values(getResearchCosts(entry));
       if (entry.trigger) expect(costs, entry.id).toEqual([]);
-      else if (entry.costs['final-core'] && entry.category !== 'Efficiency') expect(costs, entry.id).toEqual(costs.map(() => 1));
+      else if (entry.costs['final-core'] && entry.category !== 'Efficiency' && entry.id !== 'finalBotUpgrade') expect(costs, entry.id).toEqual(costs.map(() => 1));
       else for (const amount of costs) expect(amount, entry.id).toBeGreaterThanOrEqual(5);
     }
     expect(getResearchCosts(project('extractor2'))).toEqual({ 'simple-core': 15, 'basic-core': 15 });
@@ -821,7 +824,7 @@ describe('simulation architecture', () => {
     expect(getSectorWorldSize(engine.getSector(), state.research.completed).width).toBe(3600);
 
     state.research.completed.push('exploration', 'extractor1', 'areaExpansion1');
-    expect(engine.startMapResearch(4, 5)).toBe(true);
+    engine.selectResearch('mapNode');
     expect(state.research.selected).toBe('mapNode');
     expect(getSectorWorldSize(engine.getSector(), state.research.completed).width).toBe(4500);
   });
@@ -839,8 +842,6 @@ describe('simulation architecture', () => {
   it('uses the original trigger requirements and keeps them out of manual research selection', () => {
     const triggerRequirements = Object.fromEntries(RESEARCH_PROJECTS.filter((project) => project.trigger && project.trigger.id!=='encounter').map((project) => [project.id, project.trigger?.pending]));
     expect(triggerRequirements).toEqual({
-      cornerComponents: 'Take the next step in Core production',
-      simpleCore: 'Unlock the Refiner',
       mithrilTools: 'Produce Mythril Tribute at a Dwarven settlement',
       sortingTools: 'Complete Precision Control',
       mineralRecovery: 'Complete Precision Control',
@@ -849,8 +850,8 @@ describe('simulation architecture', () => {
       smelter: 'Extract 1 metal with an Extractor',
       refiner: 'Produce at least 1 metal Plate',
       researchCenter: 'Unlock the Refiner',
-      splitter: 'Build an Assembler',
-      merger: 'Produce a Basic Core',
+      splitter: 'Produce 1 Simple Core',
+      merger: 'Produce 1 Simple Core',
       suppressionBot: 'Encounter a Monster Camp',
     });
     const engine = new GameEngine(createInitialState(31));
@@ -873,7 +874,7 @@ describe('simulation architecture', () => {
 
     state.hasCreatedConnection = true;
     state.extracted = { wood: 1, iron: 1 };
-    state.produced = { motor: 1, 'basic-core': 1, 'iron-plate': 1 };
+    state.produced = { motor: 1, 'simple-core': 1, 'basic-core': 1, 'iron-plate': 1 };
     const template = sector.nodes.find((node) => node.kind === 'extractor')!;
     sector.nodes.push({ ...structuredClone(template), id: 'trigger-assembler', kind: 'assembler', name: 'Assembler' });
     sector.nodes.push(camp);
@@ -906,9 +907,9 @@ describe('simulation architecture', () => {
     expect(state.research.contributed).toEqual({});
     expect(state.research.unlocked).not.toContain('mapNode');
     expect(engine.unlockSector(4, 5)).toBe(true);
-    expect(engine.startMapResearch(6, 5)).toBe(true);
+    engine.selectResearch('mapNode');
     expect(state.research.selected).toBe('mapNode');
-    expect(state.research.mapNodeQuote?.costs).toEqual({ 'simple-core': 10 });
+    expect(state.research.mapNodeQuote?.costs).toEqual({ 'simple-core': 5 });
   });
 
   it('turns a completed Mining Drill into the selected 1,000-unit deposit', () => {

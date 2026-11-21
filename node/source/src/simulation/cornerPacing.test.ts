@@ -59,7 +59,7 @@ describe('explicit corner quotas and production cadence', () => {
   });
   it('makes Final Robotics payable only after the first Final Core and charges one Final Core', () => {
     const f = fixture('reclamation');
-    f.state.research.completed.push('commandRobotics', 'cornerComponents');
+    f.state.research.completed.push('commandRobotics', 'complexCore');
     const project = getResearchProject('finalRobotics')!;
     expect(project.costs['final-core']).toBe(1);
     expect(isResearchAvailable(project, f.state.research.completed)).toBe(false);

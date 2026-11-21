@@ -6,7 +6,7 @@ A recipe defines inputs, guaranteed outputs, optional chance outputs, a base cyc
 
 ## Availability and configuration
 
-A recipe must be live, research-unlocked, assigned to an available machine and allowed in the current world. Ingredient ownership is not an availability requirement. Retired recipe definitions remain loadable for already-paid batches without returning to the live picker.
+A recipe must be live, research-unlocked, assigned to an available machine and allowed in the current world. Ingredient ownership is not an availability requirement. Simple Core has no recipe research gate: an accessible Refiner can select it immediately, including before producing or owning any Cores. Its serialized simple-core recipe/item IDs and recipe bill remain unchanged. Retired recipe definitions remain loadable for already-paid batches without returning to the live picker.
 
 Smelters, Refiners, Assemblers and advanced processors use explicit selection. The base Kiln has a fixed recipe. Bot Plants choose from supplied frame and gun pairs. Recyclers infer their recipe from incoming material. Yin and Yang definitions include three possible world pairings; only the current world's pairing is usable.
 

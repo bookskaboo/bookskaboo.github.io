@@ -4,6 +4,14 @@ PROJECT REFERENCE  •  NOVEMBER 9 2026
 
 Use this guide when creating a new screen, panel, control, tooltip, tutorial, or playfield label for NODE. Start with an existing component and choose a shared text role based on what the player needs to read or do.
 
+## Current Upgrades screen
+
+Unmodded factories use the reviewed Upgrades modal in the game, opened with Q or the toolbar. Reuse src/ui/ResearchPanel.tsx, src/ui/upgrades components, src/content/botUpgrades.ts and src/styles/upgrades.css. Applied-mod factories retain the existing Research screen while support is deferred; its Selected project rules below still apply there. Author study sections describe the separate test/gallery controls, not extra player actions.
+
+Keep only the portrait, uniform assignment-sized thought bubble, centered Upgrade button and ascending paid/required Core badges on the left. Keep exclusive filters/completed toggle, search, four-slot queue and compact cost rows on the right. Hide selected details and list payment bars. Use existing regular-weight control/body/count roles, green Queue research and icon-only pause/resume. Welcome framing now says Upgrade and describes self-improvement; ingredient and control instructions stay explicit.
+
+Fit the modal below the toolbar and keep document width within the viewport. Stack/scroll the normal modal on mobile with a sticky close header. In short desktop windows, use four compact queue slots to retain usable list height. During guided practice at compact widths, hide the disabled character column and keep the one permitted project clear of the tutorial card; mobile practice stacks the modal above the card. Preserve Q/Escape, Tab wrap, origin focus and scroll after Back to Upgrades. Wheel scrolling leaves the chosen hint unchanged.
+
 ### Font families and weight
 
 Use Segoe UI Variable Text, Segoe UI, Inter, Arial, then sans-serif for interface text. Use Cascadia Mono, Consolas, ui-monospace, then monospace for keycaps, code, exports, and fixed-width technical readouts. Use italic sans-serif for flavor. Use tabular digits in UI sans when changing numbers need to stay aligned.
@@ -34,6 +42,12 @@ Use a 15 px semibold title and a fixed 12 px regular description with 1.45 line 
 
 ### Panels and controls
 
+For Roads in the main game and workshop, show a red directional arrow with Travel above it in the unplayable area outside the field boundary. Give north, south, east and west arrows the same 32 × 32 CSS pixel footprint and a consistent label gap. Use the shared UI sans stack at 12 CSS px / 500 for Travel and retain its screen size while zooming. The arrow indicates the adjacent travel destination independently of the Road’s gold shipment arrow. Omit the Road gear. Stationary plain right-click reverses flow; right-drag pans.
+
+Keep field zoom consistent when traveling through the Node Map or a Road. Road arrival focuses and highlights the paired endpoint within camera bounds. Ordinary Node Map travel centers a new field and retains a revisited field’s saved center; tutorial practice retains authored views.
+
+Describe Road navigation as “Travel arrow / double-click a Road” in Commands and explain retained zoom and paired-endpoint focus. List “Right-click a Road” separately with the endpoint cable disconnection needed for rewiring. Keep the existing command-row typography. Single-click remains configuration.
+
 Use sentence case for labels, statuses, and actions. Let card titles and control rows wrap before reducing font size. Keep action labels and long text visible when a panel narrows. Preserve keyboard focus, meaningful accessible names, and the visible reason a player is blocked.
 
 In modals, use 4 px between labels and related copy, 8 px between text blocks, and 16 px before new groups. Top-align neighboring card descriptions. Click the Filter body to choose its item and outlet. Show the Recycler’s active recipe first. Ctrl+V previews the copied layout. Click to place it.
@@ -56,13 +70,17 @@ The Tutorials modal lists each available lesson with its description and a singl
 
 ### Guided practice
 
-In the Upgrades prototype, adapt Basics to “Select Assembler, then press Queue research.” Show only that project and one queue slot during practice, retaining the hidden Selected project card. Disable unrelated choices and preserve pause/resume and lesson navigation. Introduce the regular four-card queue after actual research completion. This optional copy applies to Upgrades; the current main-game screen keeps its matching Start-based instructions.
+In the unmodded game and author study, adapt Basics to “Select Assembler, then press Queue research.” Show only that project and one queue slot during practice, retaining the hidden Selected project card. Disable unrelated choices and preserve pause/resume and lesson navigation. Introduce the regular four-card queue after actual research completion. This optional copy applies to Upgrades; the current main-game screen keeps its matching Start-based instructions.
 
-Anchor the practice card at the bottom left, above the shortcut dock. Keep the recipe picker on the right. Stack the current modal above the card at narrow widths. Keep the current action, step number, and navigation visible while the explanation scrolls. Enable the controls the instruction names. Keep Restart, Exit practice, Continue, and Finish tutorial available when they apply. In Research, show the one project the lesson uses, such as Joint or Assembler, and keep its selected details visible.
+Anchor the practice card at the bottom left, above the shortcut dock. Keep the recipe picker on the right. Stack the current modal above the card at narrow widths. Keep the current action, step number, and navigation visible while the explanation scrolls. Enable the controls the instruction names. Keep Restart, Exit practice, Continue, and Finish tutorial available when they apply. In Upgrades practice, show only the project the lesson uses, such as Joint or Assembler; keep Selected project details hidden and unrelated controls disabled.
 
 Keep discovery dialogue short. The Monster Camps lesson tells players where to connect the supply and when to wait. End it with “Continued suppression may bring rewards.” In Basics, send Wood directly from the Extractor to the Kiln. The Assembler walkthrough directs players to Basic Core research before Exploration. The Dwarven discovery modal uses the heading “Dwarven settlement discovered”, one hint, “Attacking them might be worth your while.”, and the dismissal “Noted.”
 
 ### Player facing copy
+
+When the Upgrades prototype restores earned research, show the saved bot stage and actual paid/required badges in the existing controls. Keep the button labeled Upgrade and use its existing tooltip to identify the next benefit. Do not replay historical promotion notices. The author-only Test saved progress action belongs in Payment tests and introduces no permanent migration text below the bot.
+
+For converted Map Point purchases, retain the quoted cost badges and actual queue total, such as 9 Simple, 4 Basic and 11/13 paid. Show the banked point through the existing map count, then use Activate node · 1 point and the separate Travel action. Test saved map purchase belongs only in the author Payment tests menu; no permanent destination or migration label is added to the research card.
 
 Use direct verbs and state the next action first. Keep quantities, units, and control names easy to find. Put the dry humor in flavor and supporting lines. Use Complex Core and Mythril in visible text, and follow the naming and category rules in AGENTS.md. Show attack power after the name, as in Suppression Bot 3 AP. Use Basic Frame and Basic Gun for the starter parts. Clicking a Bot Plant opens Frame and Gun cards. Show the current batch or ready parts. Leave an outlined slot labeled Empty when a part is absent. Show the supplied frame rating in base AP and the gun multiplier below their names. Center the product below the cards when a build is ready or underway. Use the existing node tooltip to show the bot name and AP on hover. Use the shared bot icon in stock, buffers, and the Filter.
 
@@ -112,9 +130,22 @@ The early resource recovery notice uses the existing emergency dialog and focus 
 
 ## Active factory test page
 
+Show the actual camera percentage in a labeled **Zoom** dropdown in the test
+toolbar. Include a 35% preset and retain a custom current percentage after wheel
+zooming; use regular shared control text and tabular digits. The value follows
+camera clamping, Fit all and Inspect a cell. Choosing a preset keeps the current
+view center and running factory, and restarts only the frame measurements.
+
 Use the shared UI sans roles for the active factory test page, with regular tabular digits for live counts. Keep Load, Pause or Resume, Fit all, Inspect a line and Reset test visible in a wrapping toolbar. Label the fixture as one Map Node using the current game engine at normal speed. State that Dev Sources and large final storage are synthetic and that browser saves are untouched. Keep the dry supporting line separate from controls: One Map Node. Several questionable staffing decisions. Distinguish produced items, final deliveries and physical cargo in transit. State the current renderer animation limit beside the canvas rather than presenting it as a simulation limit.
 
 ## Factory view detail and rendering density
+
+The active-factory performance preview has a **Show distant text and boxes**
+comparison checkbox, off by default. It restores node titles, socket labels and
+live buffer boxes below 40 percent zoom while retaining cached bodies and cables.
+Keep the existing font sizes, zoom scaling and buffer colors; do not enlarge all
+labels across the overview. Switching this comparison resets the synthetic test
+and its measurements. The ordinary game's detail threshold remains unchanged.
 
 At less than 40 percent zoom, keep node bodies, recipe icons, sockets and progress visible while hiding secondary labels and buffer detail. Restore that detail for selected, hovered, dragged and actively wired nodes. Use a small exclamation marker for a waiting or blocked node at overview zoom; selection reveals the full labels and buffers. Preserve essential Golem and Deep Hole readouts and the existing interaction feedback. Recalculate visibility when the camera or a dragged group moves. Render canvas text with the established UI sans and named monospace families at native display density, capped at two. The active factory test uses regular tabular counts for its p95 frame interval in milliseconds; keep test measurements outside the game field.
 
@@ -162,7 +193,13 @@ For The factory is thirsty, use the clue “Dry land has its limits.” Keep its
 
 ### Guarded camp placement and Stone naming
 
-Spawn each new-world guarded reserve at the center of its owning settlement, inside the initial camp outline. Keep its resource body, Locked or Accessible state, reserve count and inspector available. Put the camp Attack Power socket on the left border, with enough outward clearance to stay visible after suppression; keep AP and check status below the resource body. Use the existing shared text roles and colors. Ordinary resources remain outside the camp maximum-growth reservation.
+Spawn each new-world guarded reserve to the right of its owning settlement, at the same vertical center. Put its left edge 12 world units beyond the rightmost point of that camp's exact visible outline at the fully suppressed 10% footprint. The whole resource body must clear that footprint and intersect the camp again at its 20% footprint; the resource need not fit wholly inside the camp. Keep the Attack Power socket centered with its badge on the left. Enlarge guarded-camp artwork from 144 to 256 world units, positioned above the socket and to the left of the resource with a clear gap. Keep its title above the artwork and the AP card below the resource body. Draw camp backgrounds beneath resource cards consistently, including after selection or growth redraws, so selecting a camp cannot hide its reserve. Preserve existing saved map positions.
+
+Keep a locked reserve visible and inspectable, using exactly the red body, red header, danger accent and opacity of a factory node covered by a camp. Do not add a padlock or Locked/Accessible text to the resource card. Retain its name, icon and reserve count; restore normal colors when fully suppressed. The inspector retains the access explanation and extraction connections remain blocked until suppression. Ordinary resources remain outside the camp maximum-growth reservation.
+
+For every Goblin and Dwarven settlement in both new and legacy worlds, show only the AP amount and its progress bar on the compact camp AP card. Omit the countdown/result line beneath the bar and shorten the card to remove that row. Keep result colors and the camp halo; timing and last-check details remain in the inspector. Reuse the existing technical readout typography.
+
+When a guarded camp is fully suppressed, show its automatic refill output 64 world units to the right of the centered AP socket, connected to the resource card's left-center inlet. Keep these sockets noninteractive and outside the player wiring controls. Use the resource color for the fixed cable and sockets, the existing blue cargo packet/arrival style, and regular technical quantity text for batches larger than one. Animate only actual refill awards at the agreed rate, including upgrades and reserve caps; keep a full reserve's link idle. Remove the link on suppression loss. Freeze packet motion with game pause and retain only the static link with reduced-motion or particles disabled. Do not add new resource-card status labels. The obstruction test page keeps Run clock/Stop clock and manual presets outside the specimen; reset stops its ordinary-speed test clock and autosave stays disabled.
 
 Use Stone as the visible Stone resource-node title in the playfield, inspector, catalogs, Drill results and review specimen. Preserve the serialized stoneDeposit node kind and stone item ID. Normalize an existing default Stone Deposit title to Stone on load, including templates; preserve custom titles and stock.
 
@@ -242,6 +279,8 @@ In the Upgrades prototype, queue Extra Map Point like other paid research, witho
 
 ### Prototype upgrade benefits and notices
 
+List every unlocked benefit when an upgrade has more than a Core recipe. For Shiny: Upgrade to Development Director. Unlock the Complex Core recipe. Unlock the Yin and Yang recipes. Reveal all four corner locations. Its completion notice uses the corresponding completed wording. Keep the same regular body role and allow wrapping; no permanent text returns below Upgrade.
+
 Keep the button labeled Upgrade. Use the shared hover/focus tooltip and accessible description to name the promotion title and next Core recipe, followed by its existing priority/return behavior. For Simple: Upgrade to Resource Technician. Unlock the Basic Core recipe. Final describes the last character upgrade and promises no further Core or victory. Do not add a permanent explanatory line beneath the control.
 
 After a new character completion, reuse the research notification surface, shared sans typography and polite live announcement for 4.5 seconds. Name the completed tier, new title and recipe, such as Simple upgrade complete / Resource Technician. Basic Core recipe unlocked. Final reads Final upgrade complete / Self-Optimizing Intelligence. All character upgrades complete. Allow pointer and keyboard dismissal without stealing focus; include the dismiss action in the active modal's focus cycle. Loaded progress does not replay notices, and ordinary projects do not create character notices. The external Test completion fixture can explicitly preview one. Keep the existing Upgrade payment fill and next-upgrade selection behavior.
@@ -253,3 +292,7 @@ Store eligible hint history and assignment acknowledgement with each factory. Pr
 ### Developer map exploration state
 
 Keep the Unlock all map nodes label and shared Dev control typography. Explain that the action activates every map and marks it explored, revealing terrain and surveys. Show REVEALED and disable the control only when every map is both unlocked and visited with the dev survey marker. An older survey-only debug save must be able to run it again. Preserve the active field and cameras. Dev grants remain explicitly separate from ordinary gameplay evidence.
+
+### Automatic prompts after Dev controls
+
+Do not open automatic Expansion or Monster Camps tutorial invitations, or the Dwarven discovery modal, after an enabled Dev control is used. Apply the saved per-factory quiet setting before changing research, map or placement state. Keep manual Tutorials available under normal unlock rules and preserve actual tutorial history. Read-only report export remains observational. No new modal, confirmation or typography change is needed.

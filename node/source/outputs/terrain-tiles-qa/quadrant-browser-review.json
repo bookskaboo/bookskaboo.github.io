@@ -1,0 +1,93 @@
+{
+  "state": {
+    "entries": [
+      "4,4 Rocky Guaranteed first diagonal N1.W1 · Ancient Foundry",
+      "6,4 Desert Guaranteed first diagonal N1.E1 · Ancient Reclamation",
+      "4,6 Badlands Guaranteed first diagonal S1.W1 · Ancient Dragon",
+      "6,6 Grassland Guaranteed first diagonal S1.E1 · Elder Grove"
+    ],
+    "overflow": false,
+    "quadrants": "Northwest · Ancient FoundryRocky · 8 / 25 quadrant mapsN1.W1: guaranteed RockyNortheast · Ancient ReclamationDesert · 12 / 25 quadrant mapsN1.E1: guaranteed DesertSoutheast · Elder GroveGrassland · 9 / 25 quadrant mapsS1.E1: guaranteed GrasslandSouthwest · Ancient DragonBadlands · 10 / 25 quadrant mapsS1.W1: guaranteed Badlands",
+    "summary": "Seed 2718. 11 × 11 · 121 maps: 30 Badlands, 31 Grassland, 30 Desert, 30 Rocky. Home and four corners: Grassland. 1.5× preferred quadrant weight; four first diagonals guaranteed.",
+    "weight": "1.5"
+  },
+  "allSizes": [
+    {
+      "cells": 121,
+      "entries": [
+        "4,4 Rocky Guaranteed first diagonal N1.W1 · Ancient Foundry",
+        "6,4 Desert Guaranteed first diagonal N1.E1 · Ancient Reclamation",
+        "4,6 Badlands Guaranteed first diagonal S1.W1 · Ancient Dragon",
+        "6,6 Grassland Guaranteed first diagonal S1.E1 · Elder Grove"
+      ],
+      "size": 11,
+      "summary": "Seed 2718. 11 × 11 · 121 maps: 30 Badlands, 31 Grassland, 30 Desert, 30 Rocky. Home and four corners: Grassland. 1.5× preferred quadrant weight; four first diagonals guaranteed."
+    },
+    {
+      "cells": 169,
+      "entries": [
+        "4,4 Rocky Guaranteed first diagonal N1.W1 · Ancient Foundry",
+        "6,4 Desert Guaranteed first diagonal N1.E1 · Ancient Reclamation",
+        "4,6 Badlands Guaranteed first diagonal S1.W1 · Ancient Dragon",
+        "6,6 Grassland Guaranteed first diagonal S1.E1 · Elder Grove"
+      ],
+      "size": 13,
+      "summary": "Seed 2718. 13 × 13 · 169 maps: 42 Badlands, 43 Grassland, 42 Desert, 42 Rocky. Home and four corners: Grassland. 1.5× preferred quadrant weight; four first diagonals guaranteed."
+    },
+    {
+      "cells": 225,
+      "entries": [
+        "4,4 Rocky Guaranteed first diagonal N1.W1 · Ancient Foundry",
+        "6,4 Desert Guaranteed first diagonal N1.E1 · Ancient Reclamation",
+        "4,6 Badlands Guaranteed first diagonal S1.W1 · Ancient Dragon",
+        "6,6 Grassland Guaranteed first diagonal S1.E1 · Elder Grove"
+      ],
+      "size": 15,
+      "summary": "Seed 2718. 15 × 15 · 225 maps: 56 Badlands, 57 Grassland, 56 Desert, 56 Rocky. Home and four corners: Grassland. 1.5× preferred quadrant weight; four first diagonals guaranteed."
+    },
+    {
+      "cells": 289,
+      "entries": [
+        "4,4 Rocky Guaranteed first diagonal N1.W1 · Ancient Foundry",
+        "6,4 Desert Guaranteed first diagonal N1.E1 · Ancient Reclamation",
+        "4,6 Badlands Guaranteed first diagonal S1.W1 · Ancient Dragon",
+        "6,6 Grassland Guaranteed first diagonal S1.E1 · Elder Grove"
+      ],
+      "size": 17,
+      "summary": "Seed 2718. 17 × 17 · 289 maps: 72 Badlands, 73 Grassland, 72 Desert, 72 Rocky. Home and four corners: Grassland. 1.5× preferred quadrant weight; four first diagonals guaranteed."
+    },
+    {
+      "cells": 361,
+      "entries": [
+        "4,4 Rocky Guaranteed first diagonal N1.W1 · Ancient Foundry",
+        "6,4 Desert Guaranteed first diagonal N1.E1 · Ancient Reclamation",
+        "4,6 Badlands Guaranteed first diagonal S1.W1 · Ancient Dragon",
+        "6,6 Grassland Guaranteed first diagonal S1.E1 · Elder Grove"
+      ],
+      "size": 19,
+      "summary": "Seed 2718. 19 × 19 · 361 maps: 90 Badlands, 91 Grassland, 90 Desert, 90 Rocky. Home and four corners: Grassland. 1.5× preferred quadrant weight; four first diagonals guaranteed."
+    },
+    {
+      "cells": 441,
+      "entries": [
+        "4,4 Rocky Guaranteed first diagonal N1.W1 · Ancient Foundry",
+        "6,4 Desert Guaranteed first diagonal N1.E1 · Ancient Reclamation",
+        "4,6 Badlands Guaranteed first diagonal S1.W1 · Ancient Dragon",
+        "6,6 Grassland Guaranteed first diagonal S1.E1 · Elder Grove"
+      ],
+      "size": 21,
+      "summary": "Seed 2718. 21 × 21 · 441 maps: 110 Badlands, 111 Grassland, 110 Desert, 110 Rocky. Home and four corners: Grassland. 1.5× preferred quadrant weight; four first diagonals guaranteed."
+    }
+  ],
+  "logs": [],
+  "checks": [
+    "1.5x default and nine fixed sites represented",
+    "Four gold-inset first diagonal entries at every supported size",
+    "Seed 1 changes entry terrain with actual encounter order",
+    "Earlier unbiased mode clears entry guarantees",
+    "Adopted and unbiased v4 snapshot downloads at 11 and 21",
+    "390px controls/map/quad rows without horizontal overflow",
+    "Viewport reset; default adopted mode restored"
+  ],
+  "url": "http://127.0.0.1:4186/outputs/terrain-tiles-page/terrain-proposal.html#spawning"
+}

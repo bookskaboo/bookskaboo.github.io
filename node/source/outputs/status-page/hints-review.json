@@ -1,0 +1,37 @@
+{
+  "date": "2026-11-19",
+  "outcome": "Character column ends at thought bubble; assignment is first hint; separate complete hint review opened",
+  "hintEntries": 46,
+  "assignmentTrigger": "Positive extracted Wood total or completed Kiln discovery",
+  "laterSelection": "Existing getResearchMilestones(game).at(-1), with title de-duplication and first-three limit",
+  "browser": [
+    "caption absent",
+    "no character-column element below thought bubble",
+    "exact assignment text revealed by pointer hold and hidden on release",
+    "entire long bubble visible at 1280 x 720",
+    "46 review entries loaded",
+    "search by trigger returns matching entry",
+    "review page and status specimen fit 390 CSS px without horizontal overflow",
+    "isolated review tab has no warning/error logs"
+  ],
+  "automated": {
+    "workspacePassed": 1850,
+    "skipped": 2,
+    "focusedChecks": 29,
+    "previewTypecheck": "passed",
+    "standaloneBuild": "passed",
+    "mainBuild": "passed",
+    "copyCoverage": "every sentence literal from existing selector is in review data"
+  },
+  "screenshots": [
+    "outputs/status-page/assignment-first-hint.jpg",
+    "outputs/status-page/hint-texts-and-triggers.jpg",
+    "outputs/status-page/hint-texts-and-triggers-390.jpg"
+  ],
+  "limits": [
+    "Prototype only; actual game selector remains unchanged",
+    "Dwarven Tribute wording mismatch exposed for later review, not rewritten",
+    "Condition descriptions are manually reviewed against current selector; row order is not a guaranteed sequence",
+    "Word structural checks pass; visual rendering remains unavailable because LibreOffice is missing"
+  ]
+}

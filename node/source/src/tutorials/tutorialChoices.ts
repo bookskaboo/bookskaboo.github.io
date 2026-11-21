@@ -1,4 +1,6 @@
 import type { GameState, MachineNode, NodeKind } from '../domain/types';
+import type { GameEngine } from '../simulation/engine';
+import type { QueueResearchResult } from '../content/researchQueue';
 import { basicTutorialPlacementKind, basicTutorialRefinerRecipe, CONTROL_GROUP_NODE_IDS, EXPANSION_HOME, EXPANSION_OUTPOST, type TutorialKind, type TutorialStage } from './tutorialRuntime';
 
 /** undefined permits normal play; null disables choices when the lesson needs none. */
@@ -15,7 +17,7 @@ export function tutorialChoices(kind: TutorialKind, stage: TutorialStage, game: 
   const sectorId = kind !== 'expansion' ? null
     : ['expansion-map-open', 'expansion-activate', 'expansion-travel', 'expansion-outpost', 'expansion-road-place', 'expansion-road-feed'].includes(stage) ? EXPANSION_OUTPOST : EXPANSION_HOME;
   const panel = buildKind || stage === 'build-open' ? 'build'
-    : researchProjectId && stage !== 'cores-explain' ? 'research'
+    : researchProjectId ? 'research'
     : mapSteps.includes(stage) ? 'map'
     : stage === 'options-open' || stage === 'options-explain' ? 'options' : undefined;
   const recipeKind = stage === 'make-plates' ? 'smelter' : stage === 'make-gears' || stage === 'make-core' ? 'refiner' : undefined;
@@ -27,4 +29,10 @@ export function tutorialChoices(kind: TutorialKind, stage: TutorialStage, game: 
 export function tutorialRecipeChoice(kind: TutorialKind, node: MachineNode, nodes: MachineNode[]): TutorialChoice {
   if (kind === 'basic' && node.kind === 'smelter') return 'smelt-copper';
   return (kind === 'basic' ? basicTutorialRefinerRecipe(node, nodes) : undefined) ?? node.recipeId ?? null;
+}
+
+/** Use the same lesson choice guard for button and double-click queue actions. */
+export function queueTutorialResearch(engine: GameEngine, kind: TutorialKind, stage: TutorialStage, id: string): QueueResearchResult {
+  if (!permitsTutorialChoice(tutorialChoices(kind, stage, engine.getState()).researchProjectId, id)) return 'unavailable';
+  return engine.queueResearch(id);
 }

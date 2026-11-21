@@ -9,6 +9,11 @@ import { createInitialState, GameEngine } from './engine';
 import { portFamiliesCompatible } from './connectionRules';
 import { devInputItems, supplyDevInputs } from './devSource';
 import { SimulationLookups } from './simulationLookups';
+import { FOUNDRY_INPUTS } from '../content/endgame';
+import { RECIPES, RECIPE_GROUPS, RETIRED_RECIPES } from '../content/recipes';
+import { BOT_BUILDS, BOT_ITEMS } from '../content/botAssembly';
+import { emptyMod } from '../mods/modTypes';
+import { activateMod } from '../mods/modContent';
 
 const machine = (kind: NodeKind, id: string, x = 1500, extra: Partial<MachineNode> = {}): MachineNode => ({ kind, id, name: NODE_DEFINITIONS[kind].name, x, y: 900, rotation: 0, input: {}, output: {}, progressMs: 0, cycleMs: kind === 'extractor' ? 5000 : 1000, constructedAt: 0, constructionMs: 0, ...extra });
 function setup(nodes: MachineNode[], configure?: (state: GameState) => void) {
@@ -24,6 +29,57 @@ function setup(nodes: MachineNode[], configure?: (state: GameState) => void) {
 const advance = (engine: GameEngine, seconds: number) => { for (let i = 0; i < seconds * 10; i++) engine.tick(100); };
 
 describe('Dev Source', () => {
+  it('fills every ingredient socket of every registered selectable recipe',()=>{
+    let checked=0;
+    for(const [kind,recipes] of Object.entries(RECIPE_GROUPS))for(const recipeId of recipes){
+      if(!NODE_DEFINITIONS[kind as NodeKind]||kind==='botPlant'||RETIRED_RECIPES.has(recipeId))continue;
+      const state=createInitialState(37);state.research.completed=RESEARCH_PROJECTS.filter(p=>!p.repeatable).map(p=>p.id);
+      const target=machine(kind as NodeKind,'recipe',1500,{recipeId}),sector=state.sectors['5,5'];
+      sector.nodes=[machine('devSource','dev',400),target];
+      sector.connections=getEffectiveNodeInputFamilies(target,state.research.completed).map((_,port)=>({id:`feed-${port}`,from:'dev',to:'recipe',fromPort:0,toPort:port,createdAt:0}));
+      supplyDevInputs(state,sector,new SimulationLookups(state),()=>5);
+      for(const [item,count] of Object.entries(RECIPES[recipeId].inputs)) {
+        const amount=target.kind==='recycler'&&item==='suppression-bot'?BOT_ITEMS.reduce((n,bot)=>n+(target.input[bot]??0),0):target.input[item as keyof typeof target.input]??0;
+        expect(amount,`${kind}/${recipeId}: ${item}`).toBeGreaterThanOrEqual(count!);
+      }
+      checked++;
+    }
+    expect(checked).toBeGreaterThan(80);
+  });
+
+  it('supplies all Foundry quotas independently and produces its corner piece',()=>{
+    const {engine,node}=setup([machine('cornerChallenge','foundry',1500,{cornerType:'foundry'}),machine('cornerTribute','reward',2400,{cornerType:'foundry',tributeCampId:'foundry',capacity:10})]);
+    for(let port=0;port<Object.keys(FOUNDRY_INPUTS).length;port++)expect(engine.connectPorts('dev',0,'foundry',port)).toBe(true);
+    advance(engine,.1);
+    expect(node('reward').output['foundry-component']).toBe(1);
+    advance(engine,.1);expect(node('reward').output['foundry-component']).toBe(2);
+  });
+
+  it('automatically starts Recycler processing when a Dev Source supplies material and Water',()=>{
+    const {engine,node}=setup([machine('recycler','recycler',1500)]);
+    expect(engine.connectPorts('dev',0,'recycler',0)).toBe(true);expect(engine.connectPorts('dev',0,'recycler',1)).toBe(true);
+    advance(engine,.1);
+    expect(node('recycler').recipeId).toBeTruthy();expect(node('recycler').batch?.recipeId).toBe(node('recycler').recipeId);
+    expect(node('recycler').input.iron).toBeLessThan(10);expect(node('recycler').input.water).toBeLessThan(10);
+  });
+
+  it.each(BOT_BUILDS)('supplies the $frame and $gun inputs of automatic Bot assembly',build=>{
+    const {engine,node}=setup([machine('botPlant','plant',1500,{input:{[build.frame]:1,[build.gun]:1}})]);
+    expect(engine.connectPorts('dev',0,'plant',0)).toBe(true);expect(engine.connectPorts('dev',0,'plant',1)).toBe(true);
+    advance(engine,.1);
+    expect(node('plant').batch).toMatchObject({recipeId:build.recipe.id,outputs:{[build.item]:1}});
+    expect(node('plant').input[build.frame]).toBeGreaterThan(0);expect(node('plant').input[build.gun]).toBeGreaterThan(0);
+  });
+
+  it('infers a mod-defined reserve material for a Dev-fed Extractor',()=>{
+    const {engine}=setup([machine('extractor','extractor',1100),machine('smelter','smelter',1900)]);
+    try {
+      engine.applyMod({...emptyMod(),resources:{'mod-ore':{name:'Test Ore',color:'#aabbcc'}},nodes:{'mod-ore-vein':{template:'iron',name:'Test Vein',resourceItem:'mod-ore'},smelter:{recipeIds:['mod-smelt']}},recipes:{'mod-smelt':{name:'Test Smelting',inputs:{'mod-ore':1,charcoal:1},outputs:{'iron-plate':1},cycleMs:1000}}});
+      expect(engine.setRecipe('smelter','mod-smelt')).toBe(true);expect(engine.connectPorts('extractor',0,'smelter',0)).toBe(true);expect(engine.connect('dev','extractor')).toBe(true);expect(engine.connectPorts('dev',0,'smelter',1)).toBe(true);
+      expect(devInputItems(engine.getSector().nodes.find(n=>n.id==='extractor')!,0,engine.getSector(),engine.getState())).toEqual(['mod-ore']);
+      advance(engine,10);expect(engine.getState().extracted?.['mod-ore']).toBeGreaterThan(0);expect(engine.getState().produced?.['iron-plate']).toBeGreaterThan(0);
+    } finally {activateMod();}
+  });
   it('recognizes POWER inputs without reintroducing deferred power nodes into normal play', () => {
     const state = createInitialState(37), sector = state.sectors['5,5'];
     const power = machine('powerSplitter', 'power');
@@ -110,11 +166,11 @@ describe('Dev Source', () => {
     expect(engine.connect('dev', 'lab')).toBe(true);
     advance(engine, 2);
     const contributions = engine.getState().research.contributed;
-    for (const item of ['simple-core', 'basic-core', 'automata-core', 'hydro-core'] as const) {
+    for (const item of ['simple-core', 'basic-core', 'automata-core', 'hydro-core', 'shiny-core', 'command-core'] as const) {
       expect(contributions[item]).toBeGreaterThan(0);
       expect(node('lab').input[item]).toBeLessThanOrEqual(5);
     }
-    expect(node('lab').input['command-core']).toBeUndefined();
+    expect(node('lab').input['final-core']).toBeUndefined();
   });
 
   it('supplies Final Cores when selected research needs them', () => {

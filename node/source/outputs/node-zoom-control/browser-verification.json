@@ -1,0 +1,18 @@
+{
+  "zoomValue": "35",
+  "camera": {
+    "zoom": 0.35,
+    "x": -1265.4,
+    "y": -701.3532591710157
+  },
+  "activity": "2400 nodes\n360 producers\n3330 connections\n840 Splitters\n840 Mergers\n223 cycling\n24 materials in transit\n3,652 produced\n1,039 delivered\n118 s elapsed\n59 page FPS\n3.3 ms last tick\n33.3 ms p95 frame",
+  "fitAll": {
+    "value": "10.3",
+    "camera": {
+      "zoom": 0.10317601884404819,
+      "x": 53.62735529740644,
+      "y": 189.0701087315877
+    }
+  },
+  "logs": []
+}

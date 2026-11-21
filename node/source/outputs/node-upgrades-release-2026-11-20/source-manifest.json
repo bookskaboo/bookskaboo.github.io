@@ -1,0 +1,3709 @@
+{
+  "base": "00a81bea23211576fa2c4921330e6839b9452dd1",
+  "scope": "Frozen current game source and documentation; author previews remain separate from the main build.",
+  "sourceFiles": [
+    {
+      "file": "art/borderObstructionArt.ts",
+      "sha256": "d7aef97b20419bf25b4c08f44279e399bf53a85b2348a3b5633f4dbab6ef74d2",
+      "normalizedSha256": "d7aef97b20419bf25b4c08f44279e399bf53a85b2348a3b5633f4dbab6ef74d2"
+    },
+    {
+      "file": "art/cornerIllustrations.ts",
+      "sha256": "f8c65e5396abcf583bad4058c2531d0fee8b945fc9636fac644545c037532cc2",
+      "normalizedSha256": "f8c65e5396abcf583bad4058c2531d0fee8b945fc9636fac644545c037532cc2"
+    },
+    {
+      "file": "art/dragonIllustration.ts",
+      "sha256": "93d90de37f444892ffda71ff65c24f593330b8d0524e17f2c6aab4badd9c94b2",
+      "normalizedSha256": "93d90de37f444892ffda71ff65c24f593330b8d0524e17f2c6aab4badd9c94b2"
+    },
+    {
+      "file": "art/itemArt.ts",
+      "sha256": "30ce9e488b812b08e8a70ba24c1a467603ecd1b221adf9be959dc9c0a92888d9",
+      "normalizedSha256": "30ce9e488b812b08e8a70ba24c1a467603ecd1b221adf9be959dc9c0a92888d9"
+    },
+    {
+      "file": "art/lineArt.ts",
+      "sha256": "18bfd8aa8155cc3570ecb06df65e6b78c62a00ac45aea4ac2b5ff4f15d8df74c",
+      "normalizedSha256": "18bfd8aa8155cc3570ecb06df65e6b78c62a00ac45aea4ac2b5ff4f15d8df74c"
+    },
+    {
+      "file": "art/mapTerrainArt.ts",
+      "sha256": "b3b39aa5f13de9513d8cce664643bd3e864d6a35e1752573572a597d0eaa1359",
+      "normalizedSha256": "ed70efdd059190476e67b4d34357ae3295ec5230957b45d7f449b0615572c365"
+    },
+    {
+      "file": "art/nodeArt.ts",
+      "sha256": "694e31617325c10d429e2e57744b00e5c73283efebc16d2547014313ec805407",
+      "normalizedSha256": "694e31617325c10d429e2e57744b00e5c73283efebc16d2547014313ec805407"
+    },
+    {
+      "file": "art/recipeArt.ts",
+      "sha256": "f4e139fb0ebe2d71888fba5176e0500f47a0bd900cb243fe0d2bca6466d8ad1f",
+      "normalizedSha256": "f4e139fb0ebe2d71888fba5176e0500f47a0bd900cb243fe0d2bca6466d8ad1f"
+    },
+    {
+      "file": "content/botAssembly.ts",
+      "sha256": "8887fc5d6ab9de30ce97e17e2034b6221017c1366f8186093b5820f4366f21d0",
+      "normalizedSha256": "8887fc5d6ab9de30ce97e17e2034b6221017c1366f8186093b5820f4366f21d0"
+    },
+    {
+      "file": "content/botUpgrades.ts",
+      "sha256": "8519ea0337a2208016c9fb360bec9479b580894a95dd7db8c0055bfce710cdc0",
+      "normalizedSha256": "576ba75838164862823ccba380d152c123adbc260bb88748d5ce7eb0860576ad"
+    },
+    {
+      "file": "content/cartUpgrades.ts",
+      "sha256": "74100c5f78e248629a0de69709f57137adfa09e1d6c39cee8875767612529a04",
+      "normalizedSha256": "74100c5f78e248629a0de69709f57137adfa09e1d6c39cee8875767612529a04"
+    },
+    {
+      "file": "content/catalogIntegrity.test.ts",
+      "sha256": "e73782c2952e607ff879ff46401491ce918e6a41bb6812ffd57c2c52e630372d",
+      "normalizedSha256": "e73782c2952e607ff879ff46401491ce918e6a41bb6812ffd57c2c52e630372d"
+    },
+    {
+      "file": "content/coreResearch.ts",
+      "sha256": "190396751252c318e46428c5eaf10e364ce9606449456ba958fc2db99b926f92",
+      "normalizedSha256": "190396751252c318e46428c5eaf10e364ce9606449456ba958fc2db99b926f92"
+    },
+    {
+      "file": "content/deferredPower.ts",
+      "sha256": "224244f6f92bc0f95ea858a213ae62ba4650c17af07a36c5e208428034a2ddba",
+      "normalizedSha256": "224244f6f92bc0f95ea858a213ae62ba4650c17af07a36c5e208428034a2ddba"
+    },
+    {
+      "file": "content/displayNameChanges.ts",
+      "sha256": "4cfea1eaf3f749ded749403f95110c435c2143fdeb6a8ebe4962e2590a8f5d1b",
+      "normalizedSha256": "4cfea1eaf3f749ded749403f95110c435c2143fdeb6a8ebe4962e2590a8f5d1b"
+    },
+    {
+      "file": "content/efficiency.ts",
+      "sha256": "f1fb442b156ebae7d09cf9c84a41881486d7729733b1673c79627bcf015c4993",
+      "normalizedSha256": "f1fb442b156ebae7d09cf9c84a41881486d7729733b1673c79627bcf015c4993"
+    },
+    {
+      "file": "content/endgame.ts",
+      "sha256": "0ca1e981ff7008ae742087727d7b3cd70d9d9b54db7cf35389dc2d2a31d856c6",
+      "normalizedSha256": "0ca1e981ff7008ae742087727d7b3cd70d9d9b54db7cf35389dc2d2a31d856c6"
+    },
+    {
+      "file": "content/flavor.ts",
+      "sha256": "feaac7a9f91e265fcaf52e4f392835232fcb2605bd342b59fc9abee25cba569e",
+      "normalizedSha256": "feaac7a9f91e265fcaf52e4f392835232fcb2605bd342b59fc9abee25cba569e"
+    },
+    {
+      "file": "content/forestry.ts",
+      "sha256": "8387e068ec8f403b5ed7f9c0bc3eaee2191e985ae407b2edad544b3663e3a61a",
+      "normalizedSha256": "8387e068ec8f403b5ed7f9c0bc3eaee2191e985ae407b2edad544b3663e3a61a"
+    },
+    {
+      "file": "content/goblinSettlements.ts",
+      "sha256": "ec71bb2937a905ff1c0ed24b115ece75dd8792ead7977378cb27a4f26fde96f5",
+      "normalizedSha256": "ec71bb2937a905ff1c0ed24b115ece75dd8792ead7977378cb27a4f26fde96f5"
+    },
+    {
+      "file": "content/items.ts",
+      "sha256": "5262d8f7aa0dc3187b2c7b68377528b71dd133a4e18acbec76919c26d5aa28c3",
+      "normalizedSha256": "5262d8f7aa0dc3187b2c7b68377528b71dd133a4e18acbec76919c26d5aa28c3"
+    },
+    {
+      "file": "content/lizardSettlements.ts",
+      "sha256": "c02c99ae0687b432255bf636cf473adcd1a15151112ef415c8ae4b8f44511d69",
+      "normalizedSha256": "c02c99ae0687b432255bf636cf473adcd1a15151112ef415c8ae4b8f44511d69"
+    },
+    {
+      "file": "content/machineEfficiency.test.ts",
+      "sha256": "d614901e16d8ee494e9539f91d994c632aacc1a90e97b8dcc03bede9abf9706e",
+      "normalizedSha256": "d614901e16d8ee494e9539f91d994c632aacc1a90e97b8dcc03bede9abf9706e"
+    },
+    {
+      "file": "content/machineEfficiency.ts",
+      "sha256": "41d70d7a79416feb7f3c301559cfb27d95e67f0ac06de330adaefdc47c872fa9",
+      "normalizedSha256": "41d70d7a79416feb7f3c301559cfb27d95e67f0ac06de330adaefdc47c872fa9"
+    },
+    {
+      "file": "content/nodeCapabilities.ts",
+      "sha256": "f7dd4597fcf0a3929fff3f3634e35981156b29fa3d8873ce038269881c2399e1",
+      "normalizedSha256": "6f8993653fac029ac330e00e83f56495abb81732cfac12b781596a80229432c0"
+    },
+    {
+      "file": "content/nodeModules.ts",
+      "sha256": "3f76ab08887d0ef62cb80143a854ffe4ecacd1428c13c4eeb4d389c42068424d",
+      "normalizedSha256": "3f76ab08887d0ef62cb80143a854ffe4ecacd1428c13c4eeb4d389c42068424d"
+    },
+    {
+      "file": "content/nodes.ts",
+      "sha256": "188a27fd28f7394713be7f96458bb08211f1c4fb60cc3e34d3b986e29039bb93",
+      "normalizedSha256": "af1deccc38c15d6b7633bcb9f1e9b7963e6db638dbd4f41e9aaf6974ea044bfe"
+    },
+    {
+      "file": "content/productionNodes.ts",
+      "sha256": "ab3b1eee9069269a9015bdf36011e514c72ba18b17cc273672f7a93ae781131e",
+      "normalizedSha256": "ab3b1eee9069269a9015bdf36011e514c72ba18b17cc273672f7a93ae781131e"
+    },
+    {
+      "file": "content/progression.ts",
+      "sha256": "ed59205b0424d222509aee40e5fb0c367782dab4187f474e0c03301d46209710",
+      "normalizedSha256": "89b7163405886d6b04a20102ad3214a6399947f1d2aabd1695fa9e044aaabd4f"
+    },
+    {
+      "file": "content/recipeAvailability.test.ts",
+      "sha256": "3f3bf1c4b498d212c72896264ea73be5b4a55a0eb7e30ed66fb61ca6cb6e1ced",
+      "normalizedSha256": "fc2be975b703a91dd442def335ddc4d242029ef7d5337ef2dcdb811a767a2012"
+    },
+    {
+      "file": "content/recipeAvailability.ts",
+      "sha256": "5455915489826c828f46bb77f58c40a4adc19c18b517b18a1e4d213d76329c87",
+      "normalizedSha256": "5455915489826c828f46bb77f58c40a4adc19c18b517b18a1e4d213d76329c87"
+    },
+    {
+      "file": "content/recipes.ts",
+      "sha256": "2198d51fd974a336cf7cba978908c88c912aa503ff87c49801e5d8b3d84bff94",
+      "normalizedSha256": "5aa9eb96ef4f7a96be3617d61f6c279dab1490714085c0deb6fd42f0a3b6e14f"
+    },
+    {
+      "file": "content/recycling.ts",
+      "sha256": "4458c540387c980615d7487a13ede54b005f8af6399a97e73055f7a9541f82e9",
+      "normalizedSha256": "4458c540387c980615d7487a13ede54b005f8af6399a97e73055f7a9541f82e9"
+    },
+    {
+      "file": "content/research.ts",
+      "sha256": "b00344632ab92f0bca63018d802e8601a31c41c41bbcea1345e3aa0e6c28670d",
+      "normalizedSha256": "b00344632ab92f0bca63018d802e8601a31c41c41bbcea1345e3aa0e6c28670d"
+    },
+    {
+      "file": "content/researchQueue.ts",
+      "sha256": "f83019dd103477581b3206586031f359817a0522e5babf84260a836fce9b80b0",
+      "normalizedSha256": "f83019dd103477581b3206586031f359817a0522e5babf84260a836fce9b80b0"
+    },
+    {
+      "file": "content/researchTiming.ts",
+      "sha256": "8f528b6f32a50a285f1251d660b3c828d2060fbd2b8ba53ac5b019cdabbbe753",
+      "normalizedSha256": "8f528b6f32a50a285f1251d660b3c828d2060fbd2b8ba53ac5b019cdabbbe753"
+    },
+    {
+      "file": "content/resourceGolems.ts",
+      "sha256": "f2a06cee56a134b38b1ae0e9443f0e348ae8c64bfdb37b198de470c070b17728",
+      "normalizedSha256": "f2a06cee56a134b38b1ae0e9443f0e348ae8c64bfdb37b198de470c070b17728"
+    },
+    {
+      "file": "content/retiredNodes.ts",
+      "sha256": "bd0d132260fe90f174ccceeddd49656b8ad1e7e86eeccb5f4cc15a175b460b90",
+      "normalizedSha256": "bd0d132260fe90f174ccceeddd49656b8ad1e7e86eeccb5f4cc15a175b460b90"
+    },
+    {
+      "file": "content/retiredResearch.ts",
+      "sha256": "4a7733d842a30739e6c1d9ff416d44dc9de68f6700ad45424190256bc8699d76",
+      "normalizedSha256": "4a7733d842a30739e6c1d9ff416d44dc9de68f6700ad45424190256bc8699d76"
+    },
+    {
+      "file": "domain/borderObstructionLayout.test.ts",
+      "sha256": "59a07ecc7cc71ca920fd88da580ebe54e37d0b7c0b38aec1e5b90de0ba997d80",
+      "normalizedSha256": "59a07ecc7cc71ca920fd88da580ebe54e37d0b7c0b38aec1e5b90de0ba997d80"
+    },
+    {
+      "file": "domain/borderObstructionLayout.ts",
+      "sha256": "51d8b6cf864c4dd30bb1437b07e34c84cf29c5f93073e5ed669ddf19c92cc7e5",
+      "normalizedSha256": "51d8b6cf864c4dd30bb1437b07e34c84cf29c5f93073e5ed669ddf19c92cc7e5"
+    },
+    {
+      "file": "domain/borderTerrainGeometry.ts",
+      "sha256": "32bf0455ea6439fabe2c57269afaabc00cc43ac4f003462baa70aec1f0b7e414",
+      "normalizedSha256": "32bf0455ea6439fabe2c57269afaabc00cc43ac4f003462baa70aec1f0b7e414"
+    },
+    {
+      "file": "domain/camera.ts",
+      "sha256": "e71db3360bdd2ea7b6cde0ec9e8ba9e449920b8fd4255018e833a1482991c434",
+      "normalizedSha256": "e71db3360bdd2ea7b6cde0ec9e8ba9e449920b8fd4255018e833a1482991c434"
+    },
+    {
+      "file": "domain/controlGroups.test.ts",
+      "sha256": "24e0a7d53c8740696c3be3a54ae6ced5ad165ba9739fc4396eb7be80bff3539e",
+      "normalizedSha256": "24e0a7d53c8740696c3be3a54ae6ced5ad165ba9739fc4396eb7be80bff3539e"
+    },
+    {
+      "file": "domain/controlGroups.ts",
+      "sha256": "7cc47feacac0c23fcd11710d65d28ddb0ba6e4127cfb6bb7381077b8dd66b8ea",
+      "normalizedSha256": "7cc47feacac0c23fcd11710d65d28ddb0ba6e4127cfb6bb7381077b8dd66b8ea"
+    },
+    {
+      "file": "domain/dragScroll.test.ts",
+      "sha256": "7b8d412cd5b64ad1779f4677a839fbd830f475c9cd6ea8eaaa32dc75a1ef4495",
+      "normalizedSha256": "7b8d412cd5b64ad1779f4677a839fbd830f475c9cd6ea8eaaa32dc75a1ef4495"
+    },
+    {
+      "file": "domain/filterRouting.ts",
+      "sha256": "e0d522ff039afa4989de1e45f1c64c06b618225e387bb0c67f22ee8c7f72c99f",
+      "normalizedSha256": "e0d522ff039afa4989de1e45f1c64c06b618225e387bb0c67f22ee8c7f72c99f"
+    },
+    {
+      "file": "domain/mapTerrain.ts",
+      "sha256": "6cc096dea20777ff8c9a80ee57396634c8d0cc20f51b8def83cfb780e421cbe8",
+      "normalizedSha256": "6cc096dea20777ff8c9a80ee57396634c8d0cc20f51b8def83cfb780e421cbe8"
+    },
+    {
+      "file": "domain/nodeGeometry.ts",
+      "sha256": "879af533e8552070e896f83267b42cb18ff242f23787e0824e666fea7a5be952",
+      "normalizedSha256": "879af533e8552070e896f83267b42cb18ff242f23787e0824e666fea7a5be952"
+    },
+    {
+      "file": "domain/nodeGrid.test.ts",
+      "sha256": "512b1c5409d08fcb3284c34a4e8827c15eada76cc93b5f0ae047421ede9ee421",
+      "normalizedSha256": "512b1c5409d08fcb3284c34a4e8827c15eada76cc93b5f0ae047421ede9ee421"
+    },
+    {
+      "file": "domain/nodeGrid.ts",
+      "sha256": "f88990de2a1b990aa01ae26eb02d56b60a54f8369d156ee372f19e4a3807dbe3",
+      "normalizedSha256": "f88990de2a1b990aa01ae26eb02d56b60a54f8369d156ee372f19e4a3807dbe3"
+    },
+    {
+      "file": "domain/obstructionGeometry.ts",
+      "sha256": "a811421f52e780ebd4b0d6188ae21879f99a97165c91356853b03970c0b6e675",
+      "normalizedSha256": "a811421f52e780ebd4b0d6188ae21879f99a97165c91356853b03970c0b6e675"
+    },
+    {
+      "file": "domain/researchHintHistory.ts",
+      "sha256": "68fe64459a39eeeef7af16d7e8810a95429ef0b6bec24d09bead766c78d289fc",
+      "normalizedSha256": "68fe64459a39eeeef7af16d7e8810a95429ef0b6bec24d09bead766c78d289fc"
+    },
+    {
+      "file": "domain/roadNavigation.ts",
+      "sha256": "b32489484cec2187bb61e5d0b85c9544276effed596ce81245f47f9b19242ee1",
+      "normalizedSha256": "b32489484cec2187bb61e5d0b85c9544276effed596ce81245f47f9b19242ee1"
+    },
+    {
+      "file": "domain/types.ts",
+      "sha256": "0c0fffc9a8fe4d64cb36253b3f4d790680894eb002bea43f561c9d86741e8346",
+      "normalizedSha256": "0c0fffc9a8fe4d64cb36253b3f4d790680894eb002bea43f561c9d86741e8346"
+    },
+    {
+      "file": "domain/worldGrid.ts",
+      "sha256": "1b7dd353298a8d532145aa9190008c6f969c7f0e5841c408dae6f7231689d477",
+      "normalizedSha256": "1b7dd353298a8d532145aa9190008c6f969c7f0e5841c408dae6f7231689d477"
+    },
+    {
+      "file": "main.tsx",
+      "sha256": "ea5f51a8420c6cad1d76de21f82a3fabff5d0c5686bc05c382fcf239a5006b5d",
+      "normalizedSha256": "ea5f51a8420c6cad1d76de21f82a3fabff5d0c5686bc05c382fcf239a5006b5d"
+    },
+    {
+      "file": "mods/modCatalog.ts",
+      "sha256": "10e33a9d437c3ceced2370c92cc15e36cc16628eca8a716cf8a99a7756ef3105",
+      "normalizedSha256": "10e33a9d437c3ceced2370c92cc15e36cc16628eca8a716cf8a99a7756ef3105"
+    },
+    {
+      "file": "mods/modContent.ts",
+      "sha256": "050620597190052efea02fdb76f3af145210801c74c35891bd6100b75d2eca65",
+      "normalizedSha256": "050620597190052efea02fdb76f3af145210801c74c35891bd6100b75d2eca65"
+    },
+    {
+      "file": "mods/modRules.ts",
+      "sha256": "c4c96f31dc5d3fa23d5cb84e084e1144c3b599a7a3c0444753f4604263775c1a",
+      "normalizedSha256": "c4c96f31dc5d3fa23d5cb84e084e1144c3b599a7a3c0444753f4604263775c1a"
+    },
+    {
+      "file": "mods/modRuntime.ts",
+      "sha256": "191b8094d56471db2f21e79ac79d258cb2132b62b5dae82430b0f6e1e3998d89",
+      "normalizedSha256": "191b8094d56471db2f21e79ac79d258cb2132b62b5dae82430b0f6e1e3998d89"
+    },
+    {
+      "file": "mods/mods.test.ts",
+      "sha256": "9e7a3803fcf7e2fd2fc2ed99bf95ffdc81f6af7c753b5fd66049b868f02b0f99",
+      "normalizedSha256": "9e7a3803fcf7e2fd2fc2ed99bf95ffdc81f6af7c753b5fd66049b868f02b0f99"
+    },
+    {
+      "file": "mods/modSharing.ts",
+      "sha256": "89405833e61cb02a1a1a2df2687db1fdf7649add32f16a18db1280377afe16f0",
+      "normalizedSha256": "89405833e61cb02a1a1a2df2687db1fdf7649add32f16a18db1280377afe16f0"
+    },
+    {
+      "file": "mods/modTextFiles.test.ts",
+      "sha256": "5fe1b1f5bc83bab616073392b2a835d3aeee41c92923e278b05dc6beef9722f1",
+      "normalizedSha256": "5fe1b1f5bc83bab616073392b2a835d3aeee41c92923e278b05dc6beef9722f1"
+    },
+    {
+      "file": "mods/modTypes.ts",
+      "sha256": "96aef16a986482792ad588a38281b33532ff7b355bfcf3ab247b21adc01be775",
+      "normalizedSha256": "96aef16a986482792ad588a38281b33532ff7b355bfcf3ab247b21adc01be775"
+    },
+    {
+      "file": "mods/modValidation.ts",
+      "sha256": "bc905d1baed9619b592a66b26b34989183ce563748dde8811fea0ce75f083662",
+      "normalizedSha256": "bc905d1baed9619b592a66b26b34989183ce563748dde8811fea0ce75f083662"
+    },
+    {
+      "file": "mods/worldGrid.test.ts",
+      "sha256": "a6f1c6d18eafd099c45025cf98ee2500a12a3e3bd595196e166dd8f337cde5cd",
+      "normalizedSha256": "a6f1c6d18eafd099c45025cf98ee2500a12a3e3bd595196e166dd8f337cde5cd"
+    },
+    {
+      "file": "persistence/discoveryJournal.test.ts",
+      "sha256": "acb7876e9b192663d21bcf4ca59b6b645001e62c766cd3e76843f57e723fde8c",
+      "normalizedSha256": "acb7876e9b192663d21bcf4ca59b6b645001e62c766cd3e76843f57e723fde8c"
+    },
+    {
+      "file": "persistence/gridPreference.test.ts",
+      "sha256": "7d4315d6be77ced7a96e663dbd7db889cc83d262e29b094dcbb4c70d12997432",
+      "normalizedSha256": "7d4315d6be77ced7a96e663dbd7db889cc83d262e29b094dcbb4c70d12997432"
+    },
+    {
+      "file": "persistence/legacyMigration.ts",
+      "sha256": "76b688e3ee48c4af15493aec09cedb864056de64326d097a174603f068364b39",
+      "normalizedSha256": "ff46d542116274f72e9a8a52f71e4b8e2fdf7e74f29a2a1ab62e18abad86173f"
+    },
+    {
+      "file": "persistence/retiredNodes.test.ts",
+      "sha256": "428f06902365ad5c7bb417a364fd25f92e586b90fb87e92e2077b0e179f64de4",
+      "normalizedSha256": "428f06902365ad5c7bb417a364fd25f92e586b90fb87e92e2077b0e179f64de4"
+    },
+    {
+      "file": "persistence/saves.ts",
+      "sha256": "0f08ba93f20d6dc0084d8eb4607de9821d4c0cfc806402f508cfcf7644934da5",
+      "normalizedSha256": "0f08ba93f20d6dc0084d8eb4607de9821d4c0cfc806402f508cfcf7644934da5"
+    },
+    {
+      "file": "persistence/saveTypes.ts",
+      "sha256": "ad3c2c70db037c25e65d2f6f6e8648cdeb5ab6fbcab3f3bf62d5ded957d90392",
+      "normalizedSha256": "ad3c2c70db037c25e65d2f6f6e8648cdeb5ab6fbcab3f3bf62d5ded957d90392"
+    },
+    {
+      "file": "persistence/saveValidation.ts",
+      "sha256": "123ebc9cf739519a960eb77368c1a6154668a92dee2a1fe0b753b6a352edc9f9",
+      "normalizedSha256": "123ebc9cf739519a960eb77368c1a6154668a92dee2a1fe0b753b6a352edc9f9"
+    },
+    {
+      "file": "persistence/storageKeys.ts",
+      "sha256": "ba42ef370cfec11d6686f843d2b7f06dc7b64c00736d55daae489ae08c6e9cf6",
+      "normalizedSha256": "ba42ef370cfec11d6686f843d2b7f06dc7b64c00736d55daae489ae08c6e9cf6"
+    },
+    {
+      "file": "preview/itemArt.ts",
+      "sha256": "55395e1905681e1a12f5d3546a0d843156f95f84a5519a1b8d5b7c0c13de6421",
+      "normalizedSha256": "55395e1905681e1a12f5d3546a0d843156f95f84a5519a1b8d5b7c0c13de6421"
+    },
+    {
+      "file": "preview/milestoneModals.tsx",
+      "sha256": "79d7e27b7bf178c4d1c678964fd1395792296b5f5ae67ac00dfaa14ec602db7a",
+      "normalizedSha256": "79d7e27b7bf178c4d1c678964fd1395792296b5f5ae67ac00dfaa14ec602db7a"
+    },
+    {
+      "file": "renderer/borderTerrain.test.ts",
+      "sha256": "66428bf41bb20aeef6582cd31b862dfd0fa93835a0741f8c04554f96a2e19cae",
+      "normalizedSha256": "66428bf41bb20aeef6582cd31b862dfd0fa93835a0741f8c04554f96a2e19cae"
+    },
+    {
+      "file": "renderer/borderTerrain.ts",
+      "sha256": "a3d968d2a71a6a3d097eaf4b8b97c40268dd8f5678f947f81a1d73f883d331f7",
+      "normalizedSha256": "a3d968d2a71a6a3d097eaf4b8b97c40268dd8f5678f947f81a1d73f883d331f7"
+    },
+    {
+      "file": "renderer/bufferSlots.test.ts",
+      "sha256": "d1bbc153bc32950b7c132d73480877dd69d786ebe5b49b1bf1e497cea28295e8",
+      "normalizedSha256": "d1bbc153bc32950b7c132d73480877dd69d786ebe5b49b1bf1e497cea28295e8"
+    },
+    {
+      "file": "renderer/bufferSlots.ts",
+      "sha256": "a0d28ece9b25fb8ed3f7556da83d1589207fc8fb90f4d09f9daf4b598a67e5be",
+      "normalizedSha256": "a0d28ece9b25fb8ed3f7556da83d1589207fc8fb90f4d09f9daf4b598a67e5be"
+    },
+    {
+      "file": "renderer/cableGeometry.ts",
+      "sha256": "b16f353bdcffb51fe4e40639c6b1b7d4359cc8263e95ee17d949b8d7178a0a7e",
+      "normalizedSha256": "b16f353bdcffb51fe4e40639c6b1b7d4359cc8263e95ee17d949b8d7178a0a7e"
+    },
+    {
+      "file": "renderer/cableLayers.ts",
+      "sha256": "2a8b0edf838ed1d3e7ff98d01576f2051ede6a35e636a7585ae8666fdcc4edd1",
+      "normalizedSha256": "2a8b0edf838ed1d3e7ff98d01576f2051ede6a35e636a7585ae8666fdcc4edd1"
+    },
+    {
+      "file": "renderer/campNodeStatus.test.ts",
+      "sha256": "570d9d408baa88e4d3acb27e179eb7b7bfc5e6d856793c93781fac9c8fb45e85",
+      "normalizedSha256": "570d9d408baa88e4d3acb27e179eb7b7bfc5e6d856793c93781fac9c8fb45e85"
+    },
+    {
+      "file": "renderer/campNodeStatus.ts",
+      "sha256": "82fb5e143f495eac12b61ea5ef2b6ed337ca92d33cbff4ea19c15c214e9a9c71",
+      "normalizedSha256": "82fb5e143f495eac12b61ea5ef2b6ed337ca92d33cbff4ea19c15c214e9a9c71"
+    },
+    {
+      "file": "renderer/campPresentation.test.ts",
+      "sha256": "6511a5d4adaf62089f348bba76c3545b7113f72230ec9aec9deeb58d7fc9cfd1",
+      "normalizedSha256": "6511a5d4adaf62089f348bba76c3545b7113f72230ec9aec9deeb58d7fc9cfd1"
+    },
+    {
+      "file": "renderer/campPresentation.ts",
+      "sha256": "7b6dd89626b40b941e3ad9750100d2e7f460932f0eba3b7cb6c5a9ea42d4383a",
+      "normalizedSha256": "7b6dd89626b40b941e3ad9750100d2e7f460932f0eba3b7cb6c5a9ea42d4383a"
+    },
+    {
+      "file": "renderer/cornerCampView.ts",
+      "sha256": "9ffebbc5a11af0b5b138be2135e84003777aaa42c418a926f37806bce359ff85",
+      "normalizedSha256": "9ffebbc5a11af0b5b138be2135e84003777aaa42c418a926f37806bce359ff85"
+    },
+    {
+      "file": "renderer/drawNodeIcon.ts",
+      "sha256": "2355514bfc91e151ce547d6e99adf56c30fd79f4ad6860aee438d372c07387d7",
+      "normalizedSha256": "2355514bfc91e151ce547d6e99adf56c30fd79f4ad6860aee438d372c07387d7"
+    },
+    {
+      "file": "renderer/encounterArt.ts",
+      "sha256": "65ed2998026b0b920f7607992a43375cc4d3e1636a8c6ceb18b537ee05104080",
+      "normalizedSha256": "65ed2998026b0b920f7607992a43375cc4d3e1636a8c6ceb18b537ee05104080"
+    },
+    {
+      "file": "renderer/groveProgress.test.ts",
+      "sha256": "d3b8a6fdd70c73489bffa0f74971b9f8eb95a7b8b17626e6502a41000b68ee6e",
+      "normalizedSha256": "d3b8a6fdd70c73489bffa0f74971b9f8eb95a7b8b17626e6502a41000b68ee6e"
+    },
+    {
+      "file": "renderer/groveProgress.ts",
+      "sha256": "ea7481017e2aff28f0b8c37d27cef7355510cd3e3ff7975783d6e4743384ecf0",
+      "normalizedSha256": "ea7481017e2aff28f0b8c37d27cef7355510cd3e3ff7975783d6e4743384ecf0"
+    },
+    {
+      "file": "renderer/guardedRefillLinks.test.ts",
+      "sha256": "c2d0120036dffbfb63fa4e61311e4b9a2fa8b656ec70e045f34dcf05f098ae13",
+      "normalizedSha256": "c2d0120036dffbfb63fa4e61311e4b9a2fa8b656ec70e045f34dcf05f098ae13"
+    },
+    {
+      "file": "renderer/guardedRefillLinks.ts",
+      "sha256": "5bd178faa8ca97eadec853eace8ddfd9d1ee21ab8482dd90a4270062ec350ef2",
+      "normalizedSha256": "5bd178faa8ca97eadec853eace8ddfd9d1ee21ab8482dd90a4270062ec350ef2"
+    },
+    {
+      "file": "renderer/inputBufferRows.test.ts",
+      "sha256": "bd4f7ccf1287e5613b7044849af6a32ac6f885e5b0494d016b14e56ec0293134",
+      "normalizedSha256": "bd4f7ccf1287e5613b7044849af6a32ac6f885e5b0494d016b14e56ec0293134"
+    },
+    {
+      "file": "renderer/inputBufferRows.ts",
+      "sha256": "964338ea1bd2f3464b9e23851d65cb7da2c5ec8317b5d357e8265e4059f27672",
+      "normalizedSha256": "f522e48a78d0f33720a9e85d4cfd9d620944a06d36ffcb0ed169666c6dd41e08"
+    },
+    {
+      "file": "renderer/mapTerrain.ts",
+      "sha256": "c98ff9026ba2f5fda72a17c0ed0207d5653cfd117d10f2d102b8d1e11f55d72e",
+      "normalizedSha256": "c98ff9026ba2f5fda72a17c0ed0207d5653cfd117d10f2d102b8d1e11f55d72e"
+    },
+    {
+      "file": "renderer/nodeBuffers.ts",
+      "sha256": "583ca67015b310969f483c1bd9b7b7ef4b54e3cd1064cd88f69c53d9c910658d",
+      "normalizedSha256": "583ca67015b310969f483c1bd9b7b7ef4b54e3cd1064cd88f69c53d9c910658d"
+    },
+    {
+      "file": "renderer/nodeControlHover.test.ts",
+      "sha256": "15557c110c9bbfb2cb4ec97515dfd58c89493f330fd4d73b66b6a7179164c463",
+      "normalizedSha256": "15557c110c9bbfb2cb4ec97515dfd58c89493f330fd4d73b66b6a7179164c463"
+    },
+    {
+      "file": "renderer/nodeControlHover.ts",
+      "sha256": "191404177b263197d84b6f84b5e3eed5f5c86a81e2e4a10e3ace3e200b813459",
+      "normalizedSha256": "191404177b263197d84b6f84b5e3eed5f5c86a81e2e4a10e3ace3e200b813459"
+    },
+    {
+      "file": "renderer/nodeLayout.ts",
+      "sha256": "fd73c0fd8597d833e3847e6acfa07894b98a17ddb0e5d0074313dc2fab7792f9",
+      "normalizedSha256": "fd73c0fd8597d833e3847e6acfa07894b98a17ddb0e5d0074313dc2fab7792f9"
+    },
+    {
+      "file": "renderer/overviewTextures.test.ts",
+      "sha256": "f42b919aec092f555566af225f2b027aca9b2f1ad4083794f7dfc197ca093184",
+      "normalizedSha256": "f42b919aec092f555566af225f2b027aca9b2f1ad4083794f7dfc197ca093184"
+    },
+    {
+      "file": "renderer/overviewTextures.ts",
+      "sha256": "1363aa37cac2f37a6f786fcb596df135404df8e97fd9604b18ac999bbc76a0d7",
+      "normalizedSha256": "1363aa37cac2f37a6f786fcb596df135404df8e97fd9604b18ac999bbc76a0d7"
+    },
+    {
+      "file": "renderer/PixiPlayfield.tsx",
+      "sha256": "452c9ad6c0bf250955c3c80a77c0f82069ad402ff6a1e34331582e8c640875f5",
+      "normalizedSha256": "452c9ad6c0bf250955c3c80a77c0f82069ad402ff6a1e34331582e8c640875f5"
+    },
+    {
+      "file": "renderer/playfieldDrawing.ts",
+      "sha256": "980d0b8a0bcd2ce06a98689a52bf954ba3dc4d8dd3f7b65604127032bb309857",
+      "normalizedSha256": "980d0b8a0bcd2ce06a98689a52bf954ba3dc4d8dd3f7b65604127032bb309857"
+    },
+    {
+      "file": "renderer/playfieldNodeState.ts",
+      "sha256": "20b3d3cb47e32e07afc9aa6d8a3738a001bbf076e38793fadd5dd002d6958ec8",
+      "normalizedSha256": "20b3d3cb47e32e07afc9aa6d8a3738a001bbf076e38793fadd5dd002d6958ec8"
+    },
+    {
+      "file": "renderer/playfieldTheme.ts",
+      "sha256": "ade0558ccb97d4ae4b0d7b8ecbadc8b665005211e3086dd6a5e9625f3dd33016",
+      "normalizedSha256": "ade0558ccb97d4ae4b0d7b8ecbadc8b665005211e3086dd6a5e9625f3dd33016"
+    },
+    {
+      "file": "renderer/playfieldTypes.ts",
+      "sha256": "9933740611114a55fe4bc84e8f0b72f333d39254fc728d86b53e9d747138503d",
+      "normalizedSha256": "c56ea338bfcfdbc58d13f62da76b5208c9c5275f36c3abce45820807db5cbc59"
+    },
+    {
+      "file": "renderer/productionPortRows.test.ts",
+      "sha256": "d51d6f801e571604c7c80efa146abb09308dc2383ffa19f8aacf56a75e95a6ad",
+      "normalizedSha256": "29bec499ce0d3e683c42f13fe621d2aabf32d5dc83f1e95186ef332614f95710"
+    },
+    {
+      "file": "renderer/productionPortRows.ts",
+      "sha256": "71284ec8151118fd0cb4599e8e00f9ea842923eaa12547de12773a0ac110e4ed",
+      "normalizedSha256": "ca2ab1c0e8e16933ad18050091d9e0640e88c7c30734c4936ce041da67ea43bf"
+    },
+    {
+      "file": "renderer/productionRecipeIcon.ts",
+      "sha256": "1f64a4b3aab8a910af0486041b5dd93b2621c5b157193faa2db19c8f50652108",
+      "normalizedSha256": "1f64a4b3aab8a910af0486041b5dd93b2621c5b157193faa2db19c8f50652108"
+    },
+    {
+      "file": "renderer/productionVisuals.test.ts",
+      "sha256": "71ee1c16f94d69dec1ae681394a396fe9753699993fdb2c64634f37c66a85d03",
+      "normalizedSha256": "15819e41d6b0e2d9c0dbd18e8053a03478d8aded9ea68916cdace595885fc0fc"
+    },
+    {
+      "file": "renderer/productionVisuals.ts",
+      "sha256": "69fe178ec402089f6c2c11fd9573166c9c8efd5fa45359f3f6208ab487166507",
+      "normalizedSha256": "fe857830a0573e0d3464605472ea809bc6c24ee9e542b26924ae23928b8a7802"
+    },
+    {
+      "file": "renderer/researchCenterView.test.ts",
+      "sha256": "7399dbc4f90da9f4b4d08b9d66ff9f79af75d0102580274fe70d0e808e7bd3ce",
+      "normalizedSha256": "86e2f52fde1f231f1aadcfa7a3f3b9a5a7f06d52c5ce2c22af8ab07d09d5c3d8"
+    },
+    {
+      "file": "renderer/researchCenterView.ts",
+      "sha256": "597edcbe559e06713dc054bc4aca4b544b402d834193eb3ef23a595373b1717a",
+      "normalizedSha256": "597edcbe559e06713dc054bc4aca4b544b402d834193eb3ef23a595373b1717a"
+    },
+    {
+      "file": "renderer/researchConsumptionGlow.test.ts",
+      "sha256": "62762c2dc34a3fd974b3914658c63fc46fa4fb4551038c7334f8316b1fc5c058",
+      "normalizedSha256": "b3fd1c485c96cb5da54a81a1b40541e46a9afcf9250e9475580e2356e9cfd94e"
+    },
+    {
+      "file": "renderer/researchConsumptionGlow.ts",
+      "sha256": "158bc7d662d0bdc0094071abede326925b03ae471b204d0edea60afd75076b07",
+      "normalizedSha256": "158bc7d662d0bdc0094071abede326925b03ae471b204d0edea60afd75076b07"
+    },
+    {
+      "file": "renderer/researchNodeStatus.ts",
+      "sha256": "e8f8b1777e2c3448e395423574878493b85ac2556398f2e1361d77d25869bdcb",
+      "normalizedSha256": "e8f8b1777e2c3448e395423574878493b85ac2556398f2e1361d77d25869bdcb"
+    },
+    {
+      "file": "renderer/resourceReserve.test.ts",
+      "sha256": "0350978630b25ad594ed8d14cf8a40e45b2a01bcc609162934cfb6b20c3c7a93",
+      "normalizedSha256": "0350978630b25ad594ed8d14cf8a40e45b2a01bcc609162934cfb6b20c3c7a93"
+    },
+    {
+      "file": "renderer/roadNodeTravel.test.ts",
+      "sha256": "5de0ace38a437f823ba48a8ce13d2e4702ee7ddf2eded700b93ef338fca24084",
+      "normalizedSha256": "5de0ace38a437f823ba48a8ce13d2e4702ee7ddf2eded700b93ef338fca24084"
+    },
+    {
+      "file": "renderer/roadNodeTravel.ts",
+      "sha256": "e4dc6a9268f0dd38b5f28a59706b45def2365d4bd9e5e8660b5ddf9b6a620f5a",
+      "normalizedSha256": "e4dc6a9268f0dd38b5f28a59706b45def2365d4bd9e5e8660b5ddf9b6a620f5a"
+    },
+    {
+      "file": "renderer/roadPreviewCrop.test.ts",
+      "sha256": "43d4d93a3b26a1d93ca3d553b4bc4dd046fe7810275991f24681db9900ab65d6",
+      "normalizedSha256": "43d4d93a3b26a1d93ca3d553b4bc4dd046fe7810275991f24681db9900ab65d6"
+    },
+    {
+      "file": "renderer/roadPreviewCrop.ts",
+      "sha256": "012fdfa56a0f7fd5cdf867891332814b8a8ad03619c98ab0ced67594b7fbc209",
+      "normalizedSha256": "012fdfa56a0f7fd5cdf867891332814b8a8ad03619c98ab0ced67594b7fbc209"
+    },
+    {
+      "file": "renderer/roadTravelControl.ts",
+      "sha256": "5cd60a1b1394e9317915ee8cb9048c8abe8fbedf3b19b5d764a72f9fb17ce0e2",
+      "normalizedSha256": "5cd60a1b1394e9317915ee8cb9048c8abe8fbedf3b19b5d764a72f9fb17ce0e2"
+    },
+    {
+      "file": "renderer/sceneUpdates.test.ts",
+      "sha256": "87965d6a70fff0b01fd3ab3d90d54152fae1529118ffed6542695a2cedda78b2",
+      "normalizedSha256": "87965d6a70fff0b01fd3ab3d90d54152fae1529118ffed6542695a2cedda78b2"
+    },
+    {
+      "file": "renderer/sceneUpdates.ts",
+      "sha256": "a993e214e8fc69b75763ec0a767813463999e4a1d3dde2a53c34893708f3789f",
+      "normalizedSha256": "a993e214e8fc69b75763ec0a767813463999e4a1d3dde2a53c34893708f3789f"
+    },
+    {
+      "file": "renderer/socketTargeting.test.ts",
+      "sha256": "d7e2ea8f9fee746983d2d77bea07f1cdd6d1d056fefea13c6910936046a29292",
+      "normalizedSha256": "d7e2ea8f9fee746983d2d77bea07f1cdd6d1d056fefea13c6910936046a29292"
+    },
+    {
+      "file": "renderer/socketTargeting.ts",
+      "sha256": "7e620963c793a90b75b8a32378ac7b769d15025d193834577af48d23695362cc",
+      "normalizedSha256": "7e620963c793a90b75b8a32378ac7b769d15025d193834577af48d23695362cc"
+    },
+    {
+      "file": "simulation/batchDeletion.test.ts",
+      "sha256": "4b341e54320a561ed0b9ab9cb912f49f042bfc225c49f9b66c68695176b3f56d",
+      "normalizedSha256": "4b341e54320a561ed0b9ab9cb912f49f042bfc225c49f9b66c68695176b3f56d"
+    },
+    {
+      "file": "simulation/borderObstructions.test.ts",
+      "sha256": "0214a3afb82ad47ad373d194df1253f6c58bfbd99c152afac6013e1301d13f96",
+      "normalizedSha256": "0214a3afb82ad47ad373d194df1253f6c58bfbd99c152afac6013e1301d13f96"
+    },
+    {
+      "file": "simulation/borderObstructions.ts",
+      "sha256": "39e44dbd58dfc79ebb3a5424311d52fe03d1e2c4df948348f610096126ba7f73",
+      "normalizedSha256": "39e44dbd58dfc79ebb3a5424311d52fe03d1e2c4df948348f610096126ba7f73"
+    },
+    {
+      "file": "simulation/borderTerrainClearance.test.ts",
+      "sha256": "5ca79d57aefa6f0f3b576face3b56a24f90447656ae551028c4bf5b67376c746",
+      "normalizedSha256": "5ca79d57aefa6f0f3b576face3b56a24f90447656ae551028c4bf5b67376c746"
+    },
+    {
+      "file": "simulation/borderTerrainClearance.ts",
+      "sha256": "57e6e482b68694666e9732bac3fc3af1fb31f3fa434c36109f841344e2f6743f",
+      "normalizedSha256": "57e6e482b68694666e9732bac3fc3af1fb31f3fa434c36109f841344e2f6743f"
+    },
+    {
+      "file": "simulation/cableInsertion.ts",
+      "sha256": "9a3cc58de052f8bfa2eebe44cc7047129483f5f3fb34905fd6d83c23dc4bcb02",
+      "normalizedSha256": "9a3cc58de052f8bfa2eebe44cc7047129483f5f3fb34905fd6d83c23dc4bcb02"
+    },
+    {
+      "file": "simulation/campBotPayment.test.ts",
+      "sha256": "662005f34d6a3aff3cf7b06b40d00ee86b0eb924f4e4887921a4172db2a4607e",
+      "normalizedSha256": "662005f34d6a3aff3cf7b06b40d00ee86b0eb924f4e4887921a4172db2a4607e"
+    },
+    {
+      "file": "simulation/campEffects.ts",
+      "sha256": "6faba7a70a55e7278e983d88f3d64396ad2800765ae67f9f644157a8f476f1f3",
+      "normalizedSha256": "6faba7a70a55e7278e983d88f3d64396ad2800765ae67f9f644157a8f476f1f3"
+    },
+    {
+      "file": "simulation/campStatus.test.ts",
+      "sha256": "0a8a99b030ae13e803586376342f037be21248d4036030aab1619ee18fe97c7b",
+      "normalizedSha256": "0a8a99b030ae13e803586376342f037be21248d4036030aab1619ee18fe97c7b"
+    },
+    {
+      "file": "simulation/campStatus.ts",
+      "sha256": "f31e4d9f85145ac2a040f1fd32cbbfb0cc8dadf5fe5127ec67d22656ad65cfa6",
+      "normalizedSha256": "f31e4d9f85145ac2a040f1fd32cbbfb0cc8dadf5fe5127ec67d22656ad65cfa6"
+    },
+    {
+      "file": "simulation/cartUpgrades.test.ts",
+      "sha256": "30ce27c0ed0432de99816636d74be0b87ce02ba6f739fa1111ce9df2da25421c",
+      "normalizedSha256": "2af479e025e223bcbc51f8dc75bbee2407ae39c3bb5b6895b89faa738ce7e4c4"
+    },
+    {
+      "file": "simulation/collisions.test.ts",
+      "sha256": "b2395a4d6c1864b48cf342ce0ce246744cc89141edc70a5ceb1dc9ff9e594b45",
+      "normalizedSha256": "b2395a4d6c1864b48cf342ce0ce246744cc89141edc70a5ceb1dc9ff9e594b45"
+    },
+    {
+      "file": "simulation/collisions.ts",
+      "sha256": "79a58814e76344fd9f8044bafeb967f18391473e641c37b846cd366425bcd4e2",
+      "normalizedSha256": "79a58814e76344fd9f8044bafeb967f18391473e641c37b846cd366425bcd4e2"
+    },
+    {
+      "file": "simulation/connectionMaterials.test.ts",
+      "sha256": "02cfb0ec5868b593b3ebfc464a828c5efaf84ac3fdc08ed85090483208c092c7",
+      "normalizedSha256": "02cfb0ec5868b593b3ebfc464a828c5efaf84ac3fdc08ed85090483208c092c7"
+    },
+    {
+      "file": "simulation/connectionMaterials.ts",
+      "sha256": "23e9096b06b9da4fee3ac80ff3e714f1bd648279c3578538fd3916b5893276ee",
+      "normalizedSha256": "23e9096b06b9da4fee3ac80ff3e714f1bd648279c3578538fd3916b5893276ee"
+    },
+    {
+      "file": "simulation/connectionRules.ts",
+      "sha256": "a23876fc8def9e57f13df9baaf374b0011b739a766301d11358d5a7a141d72fc",
+      "normalizedSha256": "a23876fc8def9e57f13df9baaf374b0011b739a766301d11358d5a7a141d72fc"
+    },
+    {
+      "file": "simulation/controlGroups.test.ts",
+      "sha256": "1c5131f4d91d95f3ba8025c077767c51eb9ab479a2e1bcb1e5dc9e697c00586b",
+      "normalizedSha256": "1c5131f4d91d95f3ba8025c077767c51eb9ab479a2e1bcb1e5dc9e697c00586b"
+    },
+    {
+      "file": "simulation/cornerDiscovery.test.ts",
+      "sha256": "9c67440c1efe47814247ad470f07b145614b7a734cdf0b391b859e4cc04ef963",
+      "normalizedSha256": "9c67440c1efe47814247ad470f07b145614b7a734cdf0b391b859e4cc04ef963"
+    },
+    {
+      "file": "simulation/cornerLayout.test.ts",
+      "sha256": "4fcf10e905f27678671e6871bed7ec2f2188d301d2774c9784da0a2abde6309b",
+      "normalizedSha256": "4fcf10e905f27678671e6871bed7ec2f2188d301d2774c9784da0a2abde6309b"
+    },
+    {
+      "file": "simulation/cornerPacing.test.ts",
+      "sha256": "8f1e6f2eca2584dbfab58f1850971eb5ec21ab272da28274e1c18ecad12ec787",
+      "normalizedSha256": "8f1e6f2eca2584dbfab58f1850971eb5ec21ab272da28274e1c18ecad12ec787"
+    },
+    {
+      "file": "simulation/createInitialState.ts",
+      "sha256": "c4868d15287e11036cbea1025c7f8877488513995aebbf3250acddc2945dc2ce",
+      "normalizedSha256": "dd1c4fe5224c16d4333244a13604f0d81e931d304d3992d4351a0edbb3b0cb04"
+    },
+    {
+      "file": "simulation/devSource.test.ts",
+      "sha256": "081927e55976814b29ae759cb6e21eee4a07ba78f13b3325ec326916e962aaf3",
+      "normalizedSha256": "081927e55976814b29ae759cb6e21eee4a07ba78f13b3325ec326916e962aaf3"
+    },
+    {
+      "file": "simulation/devSource.ts",
+      "sha256": "c5b8657e56ba544981556588d741f7c8b722457b29024231d41268cb7c4fe0be",
+      "normalizedSha256": "c5b8657e56ba544981556588d741f7c8b722457b29024231d41268cb7c4fe0be"
+    },
+    {
+      "file": "simulation/displayNames.test.ts",
+      "sha256": "8619df123d234d2f2a91daa1e408cb12c9c20ed8656e67afd1f75627a8c0a8af",
+      "normalizedSha256": "8619df123d234d2f2a91daa1e408cb12c9c20ed8656e67afd1f75627a8c0a8af"
+    },
+    {
+      "file": "simulation/endgame.test.ts",
+      "sha256": "d2f7c3092794833ee95f3e33f96b356caa8aae0eb6f882a3106ba4a42c21e380",
+      "normalizedSha256": "d2f7c3092794833ee95f3e33f96b356caa8aae0eb6f882a3106ba4a42c21e380"
+    },
+    {
+      "file": "simulation/endgameRuntime.ts",
+      "sha256": "0ceb98273b8b091e345997cc3d8209229d38d3582d0a0d34619aedf4973b87ed",
+      "normalizedSha256": "0ceb98273b8b091e345997cc3d8209229d38d3582d0a0d34619aedf4973b87ed"
+    },
+    {
+      "file": "simulation/engine.connectorMirroring.test.ts",
+      "sha256": "1f2298eafbc4fb8338e503f076c692eaaf672f9bd98b671e0406a12217e84cb5",
+      "normalizedSha256": "1f2298eafbc4fb8338e503f076c692eaaf672f9bd98b671e0406a12217e84cb5"
+    },
+    {
+      "file": "simulation/engine.efficiency.test.ts",
+      "sha256": "420285b160f519a520e76d07ef9bca44213101a4f2b56a89a24c147331917929",
+      "normalizedSha256": "c726a139259bb7917b43a85782aacab5aa796f7cce5971e47ca2429fb79554ce"
+    },
+    {
+      "file": "simulation/engine.extractorStorage.test.ts",
+      "sha256": "83c25849f10df13d6b19eb417bfb81ed2038c5a41d2c717cd813c08aa446c6c0",
+      "normalizedSha256": "83c25849f10df13d6b19eb417bfb81ed2038c5a41d2c717cd813c08aa446c6c0"
+    },
+    {
+      "file": "simulation/engine.progression.test.ts",
+      "sha256": "3682f67c2921173c0b69d68301fe132c0bcff852858763117fd54a116d5abd8c",
+      "normalizedSha256": "dd8736764c8cac56d16bc30e34f54fd3714d6b21d61784dd9b0e96fc31ba3115"
+    },
+    {
+      "file": "simulation/engine.research.test.ts",
+      "sha256": "cc1988d6d17a093b4fc2e346827af9623e8729c42109de6d4666443ac5233f0e",
+      "normalizedSha256": "31c8d680b090e09347033ec835b7a29a7cd4252b41da3f79867864f758742fca"
+    },
+    {
+      "file": "simulation/engine.routing.test.ts",
+      "sha256": "e4ca73f5b4acfba81d1070cef6d0ec19355c734819fe89096eb4aa6edbfe9d49",
+      "normalizedSha256": "0fe2fe1e09e7d811a1cbccae17f017355c58b72f22b7b09f3059cf1f8501dac2"
+    },
+    {
+      "file": "simulation/engine.test.ts",
+      "sha256": "891f1edef1a4e639be49379dbac015a60f0a30bda5d5c3d2b25f4e901bf96529",
+      "normalizedSha256": "45f153be5e6ea2eea59051dc6613616694bc1e6eb729457ce8fe93c30f265786"
+    },
+    {
+      "file": "simulation/engine.ts",
+      "sha256": "3adc6d6285558fc8721cc91482fda86289d0ac8fd5490548bdaf5a12539d2c5c",
+      "normalizedSha256": "e68256066e189675b147786a445206d17b3684d4cb24cecf66c1d1b9a5c4c24e"
+    },
+    {
+      "file": "simulation/expansionRescue.ts",
+      "sha256": "dc1c290a21605756cbb6130f1c5fcb3361575ad59d97b1c8cc2d8f5d86846b61",
+      "normalizedSha256": "dc1c290a21605756cbb6130f1c5fcb3361575ad59d97b1c8cc2d8f5d86846b61"
+    },
+    {
+      "file": "simulation/factoryTemplateRuntime.ts",
+      "sha256": "5222c89ea4d6354428172b54f72db2b7bb2428e63fce6361ca6e10e7ddbcdb48",
+      "normalizedSha256": "7fcbaa10b9084f011ad07fb0b245edeca2146dc704e59d280d18d7e9db2673cd"
+    },
+    {
+      "file": "simulation/goblinSettlements.test.ts",
+      "sha256": "cc02e59bbff671576e77db4fcb3b1bf9689d399ef08a08e0e1423acc626197da",
+      "normalizedSha256": "cc02e59bbff671576e77db4fcb3b1bf9689d399ef08a08e0e1423acc626197da"
+    },
+    {
+      "file": "simulation/goblinTribute.test.ts",
+      "sha256": "27541e6b2256e8e6de86be0f847893628f7e809d33d60a8f8f3bb5a73b7931c8",
+      "normalizedSha256": "c5e05ddad97411f56520704930483078a677285a30111401f91ee3fc0a54b82e"
+    },
+    {
+      "file": "simulation/goblinTribute.ts",
+      "sha256": "66817e567f43237da5a0657efc4869a537b430e3ee395578155532f2264bd129",
+      "normalizedSha256": "66817e567f43237da5a0657efc4869a537b430e3ee395578155532f2264bd129"
+    },
+    {
+      "file": "simulation/guardedResources.ts",
+      "sha256": "23c63bc7bc6daf428e75d302580af64e01e085041dd6cbf5d64334f79073113b",
+      "normalizedSha256": "23c63bc7bc6daf428e75d302580af64e01e085041dd6cbf5d64334f79073113b"
+    },
+    {
+      "file": "simulation/interactionFeedback.test.ts",
+      "sha256": "bac34500806eda7509a6859ada852616de00d80fa0b6679c545364dd1b14d8eb",
+      "normalizedSha256": "bac34500806eda7509a6859ada852616de00d80fa0b6679c545364dd1b14d8eb"
+    },
+    {
+      "file": "simulation/lizardSettlements.test.ts",
+      "sha256": "e74dc06baca14380184ad4ad674c0b78f317ec8b96f4513780a8681c46023e71",
+      "normalizedSha256": "0d5bba883f2d6bcc22c5c63af6d5e412d55217b6e9752f0bbd931719ee81a093"
+    },
+    {
+      "file": "simulation/logisticsRoutes.ts",
+      "sha256": "2b12c25959218310b0964350220392616e6c4410e1a9eacd25ba48bb34d33d3e",
+      "normalizedSha256": "2b12c25959218310b0964350220392616e6c4410e1a9eacd25ba48bb34d33d3e"
+    },
+    {
+      "file": "simulation/logisticsRouting.test.ts",
+      "sha256": "2bb4b9254eb0787342d2ee8a56bd799964beb5853ea8c27064642f84982b6ddd",
+      "normalizedSha256": "c3347a35766a5dd672c7754dff1f932205f95c5ffc53564ed4c650c02a478b4d"
+    },
+    {
+      "file": "simulation/machineEfficiencyMigration.test.ts",
+      "sha256": "7ae8ebe62f2a2a76172f204c9371e3d7d6dae845b18a9314194ef79e0d79ce6f",
+      "normalizedSha256": "7ae8ebe62f2a2a76172f204c9371e3d7d6dae845b18a9314194ef79e0d79ce6f"
+    },
+    {
+      "file": "simulation/machineEfficiencyMigration.ts",
+      "sha256": "32ab87a028186cf6b5fa223f3a28bef5d4fe1b0025ebcfd814007632d970800c",
+      "normalizedSha256": "32ab87a028186cf6b5fa223f3a28bef5d4fe1b0025ebcfd814007632d970800c"
+    },
+    {
+      "file": "simulation/mapExpansion.ts",
+      "sha256": "f15f5eb2ba84aa50267ff6bd87d777d25f4195acedfd1423e4704eb6d5baa6ff",
+      "normalizedSha256": "f15f5eb2ba84aa50267ff6bd87d777d25f4195acedfd1423e4704eb6d5baa6ff"
+    },
+    {
+      "file": "simulation/mapResearch.test.ts",
+      "sha256": "a75456dd3ec6d572b8583af0f81d453869ddaffbfaead560a1b8972a5d980565",
+      "normalizedSha256": "7a5f9fcc192874fb8523dcf446d70f5ec6111a84bc8726171e76f91997f5e493"
+    },
+    {
+      "file": "simulation/mapTerrain.test.ts",
+      "sha256": "657cf0dcf96a911f9b0378a0f21146f93116ad55e9b7dfd70235a1d08a1c662b",
+      "normalizedSha256": "657cf0dcf96a911f9b0378a0f21146f93116ad55e9b7dfd70235a1d08a1c662b"
+    },
+    {
+      "file": "simulation/mapTerrain.ts",
+      "sha256": "23ed98bdaed9cf004bdc3e6208dfb1c88a7cee435f020b5ea825bc66e05c3d5d",
+      "normalizedSha256": "23ed98bdaed9cf004bdc3e6208dfb1c88a7cee435f020b5ea825bc66e05c3d5d"
+    },
+    {
+      "file": "simulation/mixedOutput.ts",
+      "sha256": "79f015e24d1ef5ca1efbe39642e6325391fcdc1c826b5d30937ea4507b79cbf7",
+      "normalizedSha256": "79f015e24d1ef5ca1efbe39642e6325391fcdc1c826b5d30937ea4507b79cbf7"
+    },
+    {
+      "file": "simulation/newWorldObstructions.test.ts",
+      "sha256": "d9025aa33f24863c43e95f40ca635829484620037dca2417c48be52f4ed61fd4",
+      "normalizedSha256": "03337f9bb64b13797a7d02b658e55bca6779edd1ff1d53be836890a049c7681e"
+    },
+    {
+      "file": "simulation/obstructedConnections.ts",
+      "sha256": "0616a829077e91612e917220427c035ac5ee1d9c04ba27e11a21e7544d25d018",
+      "normalizedSha256": "0616a829077e91612e917220427c035ac5ee1d9c04ba27e11a21e7544d25d018"
+    },
+    {
+      "file": "simulation/obstructionBorders.test.ts",
+      "sha256": "872b68bae64deb30e292a0ae0260c9b2f825f9983beac2768bc41c4b133a098f",
+      "normalizedSha256": "872b68bae64deb30e292a0ae0260c9b2f825f9983beac2768bc41c4b133a098f"
+    },
+    {
+      "file": "simulation/playtest.regressions.test.ts",
+      "sha256": "4995485c65d71587a314e595a24db144d4dd2d6a33a39ced449367b3848251ae",
+      "normalizedSha256": "e504261f96f368e547c40e57742f168559246e710e25b2cd4a4d6d6ee4d24e15"
+    },
+    {
+      "file": "simulation/powerRetirement.test.ts",
+      "sha256": "e6c04f386a0ee0ca77f35a37b01aecbb26bc263ca23e4ff14416cb33e1acb7cf",
+      "normalizedSha256": "6c071cce10b053d2a606e2ac321633bf035bec8e3d50452d4149a62027765ef1"
+    },
+    {
+      "file": "simulation/progression.ts",
+      "sha256": "e7a29883c1e38ace55fd7eed4960abff6459ae3581ab9c9d25746a873d43b1bd",
+      "normalizedSha256": "5befee4ff20cca670d5bec19e973c7bfcc85abc81e5781e0d610a7cb5d13ff96"
+    },
+    {
+      "file": "simulation/progressionRecovery.test.ts",
+      "sha256": "ec926557a8e06850f1c2a491c568fe38aacda301ac15f2752dc731b1086b0802",
+      "normalizedSha256": "00923e037ef77177f9f218328e49697226d2ba7566e9658592309ae44c48c0ca"
+    },
+    {
+      "file": "simulation/progressionRecovery.ts",
+      "sha256": "3c4c648a30f04ddcc8e8ce88f77f9f695549c9a5d62cc563e9adc9581f322d37",
+      "normalizedSha256": "3c4c648a30f04ddcc8e8ce88f77f9f695549c9a5d62cc563e9adc9581f322d37"
+    },
+    {
+      "file": "simulation/recipeCopyAndResources.test.ts",
+      "sha256": "f36f1e8437aa22c9d829eda9d7d2c0edae42eedb6216657628a4e05be468ab8b",
+      "normalizedSha256": "f36f1e8437aa22c9d829eda9d7d2c0edae42eedb6216657628a4e05be468ab8b"
+    },
+    {
+      "file": "simulation/recipeSelection.test.ts",
+      "sha256": "85e1ba524659971d12f890f63f13894752781391ae6129a9b44b17cb3ebc22e6",
+      "normalizedSha256": "85e1ba524659971d12f890f63f13894752781391ae6129a9b44b17cb3ebc22e6"
+    },
+    {
+      "file": "simulation/refinerMaterials.test.ts",
+      "sha256": "713e1871438a9175b0c1560fc44de9083b8688d5da64b7a9903af2791ab94bb2",
+      "normalizedSha256": "10f049354c3dc922087f89d98233e607878705bf812996c357653048d76aaac5"
+    },
+    {
+      "file": "simulation/researchQueue.test.ts",
+      "sha256": "203d52eacb7a5c8dfd95e2b3ae10860c8d78cadcaec9d530023e3674e9dcfd85",
+      "normalizedSha256": "b4b3839f85c68f4a7268f304e0a37d338f53c5452e448dd5bb95466660f58b5d"
+    },
+    {
+      "file": "simulation/researchRuntime.ts",
+      "sha256": "54e8e17b8a004498a4193b759aac6fe0b544d2df4f15330878ce8c273e0e5e58",
+      "normalizedSha256": "54e8e17b8a004498a4193b759aac6fe0b544d2df4f15330878ce8c273e0e5e58"
+    },
+    {
+      "file": "simulation/researchSelection.test.ts",
+      "sha256": "dec120445262516c7495267167315732de4bb29024d73aa549f034d37130f651",
+      "normalizedSha256": "89a67a34de3df900207ff625c500192abca108907140a4c831c97962488ec18e"
+    },
+    {
+      "file": "simulation/researchStatus.ts",
+      "sha256": "9470ff8f7fcf62cc72889374404f473c7be904cbbd7416620d33580aafe27eef",
+      "normalizedSha256": "9470ff8f7fcf62cc72889374404f473c7be904cbbd7416620d33580aafe27eef"
+    },
+    {
+      "file": "simulation/researchTiming.test.ts",
+      "sha256": "0ab3030ca6b579871d1e1f3140d21916f4feec5e848ce1be2cbb0285ab6a8d7b",
+      "normalizedSha256": "21e3d930d302b84e559c407afb583204dcc1b81fb1874688baf71c9acb4f62e2"
+    },
+    {
+      "file": "simulation/resourceGolems.test.ts",
+      "sha256": "69f1db7b50f7b0f0e5fbd8a56f1e662af2b2bfddde104cabf9eb628cfc651654",
+      "normalizedSha256": "47a8ea6107e47dd11cd4721dd3ef170d55aa7fd4719d2e39cc7962ecaed28064"
+    },
+    {
+      "file": "simulation/reviewedProduction.test.ts",
+      "sha256": "5819d8ad0820a786542fd328b77dc52ed6855b65e85c172edfa75f04f46cb549",
+      "normalizedSha256": "67c2a129eea290e03a06577880819bfa42a1684405b417aee00088575e4114e3"
+    },
+    {
+      "file": "simulation/reviewedProductionMigration.ts",
+      "sha256": "f4f6694bd6ebd229a0b5bf0748d6618d16dcf83989bcfd0f2c7bde13ba493982",
+      "normalizedSha256": "f4f6694bd6ebd229a0b5bf0748d6618d16dcf83989bcfd0f2c7bde13ba493982"
+    },
+    {
+      "file": "simulation/roadCapacity.test.ts",
+      "sha256": "0de1cbdbd8aa78b11dd08844cf62cc3c4b314723ca8356ec8727d54d647419b7",
+      "normalizedSha256": "0de1cbdbd8aa78b11dd08844cf62cc3c4b314723ca8356ec8727d54d647419b7"
+    },
+    {
+      "file": "simulation/roadFlow.test.ts",
+      "sha256": "b915793661bcec1e6a67a898aaf26cc6b96c23639f318d47eab044cbc3aefd93",
+      "normalizedSha256": "b915793661bcec1e6a67a898aaf26cc6b96c23639f318d47eab044cbc3aefd93"
+    },
+    {
+      "file": "simulation/roadMaterials.test.ts",
+      "sha256": "f19d5029d7964aae0179e96f48050336db501e7339e935bdf65d4dfd4a412a02",
+      "normalizedSha256": "3a6a39dc1afdf3e4be8b5d3049fd7259375c80454635aeebf8bd76ec6edd198a"
+    },
+    {
+      "file": "simulation/roadMaterials.ts",
+      "sha256": "8304e32b7e3b224f50df9965a6b7d15b26f4b6e53f6152b9b6007a27ceabf3cb",
+      "normalizedSha256": "8304e32b7e3b224f50df9965a6b7d15b26f4b6e53f6152b9b6007a27ceabf3cb"
+    },
+    {
+      "file": "simulation/roadPlacement.ts",
+      "sha256": "fa0d14ba9fca84b8b6b9fe91625988c5143851bbd27ab5e00d69d400f6870091",
+      "normalizedSha256": "fa0d14ba9fca84b8b6b9fe91625988c5143851bbd27ab5e00d69d400f6870091"
+    },
+    {
+      "file": "simulation/roadStorage.test.ts",
+      "sha256": "412c22c3ba9decc3dfe4b6a43dd553cf08a327c5a5f6bb70f03e7ac2689063d6",
+      "normalizedSha256": "412c22c3ba9decc3dfe4b6a43dd553cf08a327c5a5f6bb70f03e7ac2689063d6"
+    },
+    {
+      "file": "simulation/roadTransport.ts",
+      "sha256": "c2445577dba8d14f794e2fcd60677f886d28a203528167aeed9191c49d533caf",
+      "normalizedSha256": "c2445577dba8d14f794e2fcd60677f886d28a203528167aeed9191c49d533caf"
+    },
+    {
+      "file": "simulation/roadTravel.test.ts",
+      "sha256": "52a0efb23257eaebe720dadbb58774a8db66e7b0202e422754befb1c9d3561d8",
+      "normalizedSha256": "52a0efb23257eaebe720dadbb58774a8db66e7b0202e422754befb1c9d3561d8"
+    },
+    {
+      "file": "simulation/sectorTravel.test.ts",
+      "sha256": "69e1cd7629ddf2dd73e03617ca91dd3027059fcc3fc430126ee6ae1243d2df82",
+      "normalizedSha256": "69e1cd7629ddf2dd73e03617ca91dd3027059fcc3fc430126ee6ae1243d2df82"
+    },
+    {
+      "file": "simulation/settlementPopulation.test.ts",
+      "sha256": "a830857b82fa288f269c8d833a4e4d448374ab35f599e19f0a703c334e61c652",
+      "normalizedSha256": "a830857b82fa288f269c8d833a4e4d448374ab35f599e19f0a703c334e61c652"
+    },
+    {
+      "file": "simulation/simulationLookups.ts",
+      "sha256": "fdf03778ea13baf58b6cb3507892ce38a85534b4af39ea32b1379de4eb91595e",
+      "normalizedSha256": "9213b60f6114c747d3c6e1114ff8faa1a5bf72c1a789794816655c3a1d9dc046"
+    },
+    {
+      "file": "simulation/transfers.ts",
+      "sha256": "c6a61a9312026f3cd20b0f6d68b8ac698461a850df9ef8d5350b2fe7dec5e25b",
+      "normalizedSha256": "c6a61a9312026f3cd20b0f6d68b8ac698461a850df9ef8d5350b2fe7dec5e25b"
+    },
+    {
+      "file": "simulation/upgradesMigration.ts",
+      "sha256": "fa9c50c1f65fb342a4fb028b1fb5721a889ade6cb7e4d75df9f4e3910e0664c1",
+      "normalizedSha256": "fa9c50c1f65fb342a4fb028b1fb5721a889ade6cb7e4d75df9f4e3910e0664c1"
+    },
+    {
+      "file": "simulation/worldGeneration.ts",
+      "sha256": "99df9dbdce8342fee289fd755971b7b2e17c11a173754dd9f2aaafd80a157d04",
+      "normalizedSha256": "1cdc3dc48282991e012ba88f0c24e6b7bd29a5f41baa4ecacab478a0d0c7b44d"
+    },
+    {
+      "file": "simulation/worldRules.ts",
+      "sha256": "7a30eec573bb890369c58d09ad70c1d187f2488fb9d99ae47f9fb9b415ef0a75",
+      "normalizedSha256": "7a30eec573bb890369c58d09ad70c1d187f2488fb9d99ae47f9fb9b415ef0a75"
+    },
+    {
+      "file": "styles/base.css",
+      "sha256": "f7f06f3be95c95cb8ad3b12e0b22b32e9e354446e7da41173740cf18f0118a65",
+      "normalizedSha256": "7a5de088173e6f66620bd4def358e66e8b266f3653d8e3390ef133e7fc890f85"
+    },
+    {
+      "file": "styles/cards.css",
+      "sha256": "cbed61bf84f39513098e759450e2ee5278bd043fb4230bfce81664297185fc63",
+      "normalizedSha256": "c6a716bfe19710231d9fcff8ad5a8d66978eef86ba69dc593a84ff0847cfdb77"
+    },
+    {
+      "file": "styles/dialogs.css",
+      "sha256": "c89380beec9c29d1e827d264acf137497cd853b8b2c9ae0e5d59e3eff8f7bb59",
+      "normalizedSha256": "f80ab3dd03b37e03d639dd0dbc8181714a0878ed4d5aa2dc71abf08057916a58"
+    },
+    {
+      "file": "styles/endgame.css",
+      "sha256": "4b2241014dbb0174ec88b2e56830dd2256922b5d5028d756cbfece0556ec3792",
+      "normalizedSha256": "4b2241014dbb0174ec88b2e56830dd2256922b5d5028d756cbfece0556ec3792"
+    },
+    {
+      "file": "styles/interaction.css",
+      "sha256": "1ae09ed78e767979faf4b54f937222016280f4c54a1f6cc130542957e189b4e7",
+      "normalizedSha256": "0fb7b7ae3025a319b30e3883409700350d304331b458ec9850a91d4e1f4f144c"
+    },
+    {
+      "file": "styles/mods.css",
+      "sha256": "f96e35992d39d1e677e10fe527c25368bed183503137fb84430303b8445fcfbe",
+      "normalizedSha256": "f96e35992d39d1e677e10fe527c25368bed183503137fb84430303b8445fcfbe"
+    },
+    {
+      "file": "styles/node-controls.css",
+      "sha256": "34355e86611360984e3f848b09779328fcb241a8535df54e5a6995d84e9f6746",
+      "normalizedSha256": "e5be2eeb2c0159ffdaf108cbf76cfb1498899e229b921a7c1dc102b775ace451"
+    },
+    {
+      "file": "styles/node-map.css",
+      "sha256": "5e9d04515f12972a6f34e318c8f029ce8c99636a14f7adb17bdbc288ce9215a1",
+      "normalizedSha256": "28a45ed73adc50b66d1d54f4f067ee21764eca991f023fc0fe943343bf5b6576"
+    },
+    {
+      "file": "styles/notifications.css",
+      "sha256": "44b31323d87689ac69322acbcb502fa7dff04285555acfdf8a838d383292f2d1",
+      "normalizedSha256": "e5bf0fda6d4e31fdb9d87146a0bb13023681112a21784f34175173e954986ea7"
+    },
+    {
+      "file": "styles/readability.css",
+      "sha256": "8a40d66aaa1efef644cd73931a61bc453efc1d99fac844078849956f39ab980f",
+      "normalizedSha256": "4369445851c0d4d5ba0841bc2796b7a278d1f15702de478c6e69bd77aa697bcb"
+    },
+    {
+      "file": "styles/recipe-panel.css",
+      "sha256": "bbd417e302618a76467f0fe8e1261e35172263eff764325a25c9fdfb77b95bc8",
+      "normalizedSha256": "51509254249293b1bb871d20c41b41696fedbf815d88f35768c0fc38517b930e"
+    },
+    {
+      "file": "styles/recipe-picker.css",
+      "sha256": "eb3b73d23201f533ee89fdf323f3a708a75aa5973fe9486e1f7f2fad39687bed",
+      "normalizedSha256": "6d93e038645b1d4d7becdc912e9b7ae5f2f51509f19cc50f1e17ce1e534d63e4"
+    },
+    {
+      "file": "styles/recipes.css",
+      "sha256": "82736329bed65c0c912aa3b5ea1ba6c95833b37ca8bf3271da1ed994c52a1952",
+      "normalizedSha256": "cd8f1ad642ebbc21860696ff7cad0bd5073fc324100a8c01793987ddd9f24bb6"
+    },
+    {
+      "file": "styles/research-details.css",
+      "sha256": "51ebb3f8a05dae7c798b079a2fae186ed198548af58671331127bc60c4fd6866",
+      "normalizedSha256": "51ebb3f8a05dae7c798b079a2fae186ed198548af58671331127bc60c4fd6866"
+    },
+    {
+      "file": "styles/research-tree.css",
+      "sha256": "fd32aa690927e0ec32e0e369e6148bd62f6d644993663bd9502c1aabf8649e94",
+      "normalizedSha256": "c79824fff8ef0d6e4473703ba314efd43c864f62cc4a37f3fae79d44e8d1012d"
+    },
+    {
+      "file": "styles/responsive.css",
+      "sha256": "99e8595506dbaaf9f848093433a875c0cb7032df605468af4244ad641ded0abb",
+      "normalizedSha256": "18dad8c67e92c7fefedf7c9c22e232f45828a1bbf161296c1811f5962b5c2fcc"
+    },
+    {
+      "file": "styles/saves.css",
+      "sha256": "874cf73582cd149b2df05668814c5204e5720518db6c304aafc1f95ae82bd642",
+      "normalizedSha256": "46796c8107e0c83eecaafc727cfe489094581cf3a66f4e9c64c94f7d38cdfd83"
+    },
+    {
+      "file": "styles/theme.css",
+      "sha256": "9cd32012c2d5dc75a89bc1f8333ca4113b607277d05cf05767a47871c8d955db",
+      "normalizedSha256": "cc234eadea931fc923a26373bb74fb6b53812047f7ebb850cdee8fc2b3c8453f"
+    },
+    {
+      "file": "styles/upgrades.css",
+      "sha256": "467c8caf57830c5cb77afbfbdfbab1c12aeb7790b438bb1e9e6eb9bc7732aa6f",
+      "normalizedSha256": "16fc26c60d2c87d3f0afb838f6cc1f80b9e5204c450ec3b4bfb0d8a057208d89"
+    },
+    {
+      "file": "styles.css",
+      "sha256": "a60cc2b221d5e33c6343f67f449fb5378e6eb53aff050fa0bca0fdc2c4b0a7b8",
+      "normalizedSha256": "2e35e7849d49b4ee5d1a95c8a8926e6ad67aa346d917697f8846171cca61abc9"
+    },
+    {
+      "file": "tutorials/controlGroupLesson.test.ts",
+      "sha256": "f6d47c8acee22996adaa4cda73035a98f8f72ad9be96dbd590dd05e59a198001",
+      "normalizedSha256": "f6d47c8acee22996adaa4cda73035a98f8f72ad9be96dbd590dd05e59a198001"
+    },
+    {
+      "file": "tutorials/dwarvenDiscovery.test.ts",
+      "sha256": "7c2c14e8e4ac507847cb321238baab226c7e012613e1d3ca7aa93aed0fd9b8fe",
+      "normalizedSha256": "7c2c14e8e4ac507847cb321238baab226c7e012613e1d3ca7aa93aed0fd9b8fe"
+    },
+    {
+      "file": "tutorials/dwarvenDiscovery.ts",
+      "sha256": "d6ffe3712beae2e6c61f9c0f7496833a896b3d0d307c44e42d6a77d44072ac43",
+      "normalizedSha256": "d6ffe3712beae2e6c61f9c0f7496833a896b3d0d307c44e42d6a77d44072ac43"
+    },
+    {
+      "file": "tutorials/originalTutorials.ts",
+      "sha256": "8d3fd6b8b8444311db2fe3fad5dac4f7116972878380da3882bb4304d4da1e62",
+      "normalizedSha256": "bb75923738cd802f8c7b76f32dbdae9ac3fd97bb2645e5c7a5d95333b90c0a5d"
+    },
+    {
+      "file": "tutorials/tutorialChoices.test.ts",
+      "sha256": "c9e35e42c534b9d1ff6631be6d5946859484e27705df132781116a584272c3ab",
+      "normalizedSha256": "1dbf11173220ca644f4b5f837f80d901ecd73e27aa52885ac7b2fb50dd3469bb"
+    },
+    {
+      "file": "tutorials/tutorialChoices.ts",
+      "sha256": "551f457821fbe7e489dc312ea3606886b0bc8efe1d30f7fb871d2516c9365aef",
+      "normalizedSha256": "f5e7b1ca1b5a3065d7e5fec6c825345bdca82af738aadaa28c65d011a4ea0583"
+    },
+    {
+      "file": "tutorials/tutorialDefinitions.ts",
+      "sha256": "28fbb0b5685de6939e41487c3d73cdecc53cdd81f5433402b2f80db6d05f9241",
+      "normalizedSha256": "28fbb0b5685de6939e41487c3d73cdecc53cdd81f5433402b2f80db6d05f9241"
+    },
+    {
+      "file": "tutorials/tutorialDialogue.ts",
+      "sha256": "a26af4069d873a1b55dad98906ea251547e14a46bfadaa788f49f9c8eff84431",
+      "normalizedSha256": "4e75e730f39f893d90966ea453f73a52a1286f66723b6a2a564c5c3fd9909d70"
+    },
+    {
+      "file": "tutorials/tutorialPlacement.ts",
+      "sha256": "0eda7cc6cbf7477437161989110ee44fcca05329e6619e29101f872dae67c1e1",
+      "normalizedSha256": "0eda7cc6cbf7477437161989110ee44fcca05329e6619e29101f872dae67c1e1"
+    },
+    {
+      "file": "tutorials/tutorialProgress.ts",
+      "sha256": "953c3e0e74f184305718f9c188cb4bc68fd0ba6c536d1d009f888cd21ee4796e",
+      "normalizedSha256": "953c3e0e74f184305718f9c188cb4bc68fd0ba6c536d1d009f888cd21ee4796e"
+    },
+    {
+      "file": "tutorials/tutorialRuntime.test.ts",
+      "sha256": "13c24676dc6d63399fd1dee2f64dfdc62dfa65767a32cdfa8700a0e80be24a00",
+      "normalizedSha256": "13c24676dc6d63399fd1dee2f64dfdc62dfa65767a32cdfa8700a0e80be24a00"
+    },
+    {
+      "file": "tutorials/tutorialRuntime.ts",
+      "sha256": "aeceaa3eb5dfc7e88a26b7f4997fada8fe0e26aabce360a3707b5eafe793d1c1",
+      "normalizedSha256": "aeceaa3eb5dfc7e88a26b7f4997fada8fe0e26aabce360a3707b5eafe793d1c1"
+    },
+    {
+      "file": "tutorials/tutorialState.ts",
+      "sha256": "93d0730e8f0eb79daa8e82d53b4e8bd21927cffbaf49db5336506005d2422312",
+      "normalizedSha256": "93d0730e8f0eb79daa8e82d53b4e8bd21927cffbaf49db5336506005d2422312"
+    },
+    {
+      "file": "tutorials/tutorialUnlocks.test.ts",
+      "sha256": "e45a37a849058fdbf89b696c2d824b0fa19fabc5af896ab9b767223494c885e4",
+      "normalizedSha256": "e45a37a849058fdbf89b696c2d824b0fa19fabc5af896ab9b767223494c885e4"
+    },
+    {
+      "file": "tutorials/tutorialUnlocks.ts",
+      "sha256": "5b7b5df2c7225b9352a11e13690069771d906eab01316477d7c2e8645346ff61",
+      "normalizedSha256": "5b7b5df2c7225b9352a11e13690069771d906eab01316477d7c2e8645346ff61"
+    },
+    {
+      "file": "ui/App.tsx",
+      "sha256": "404e4a5728cf617b6745821712365318101cbc5b1f7d91fb65da5f23179ff15f",
+      "normalizedSha256": "8b35168bd8496a603b6d9a2b94d05dcd871016a07e03bfec9b886c6369833d02"
+    },
+    {
+      "file": "ui/BotPlantPanel.tsx",
+      "sha256": "15469da3a0fc098cf6334bf1e82763c5805afb09bed5e6a5c560de5f34f43fcb",
+      "normalizedSha256": "15469da3a0fc098cf6334bf1e82763c5805afb09bed5e6a5c560de5f34f43fcb"
+    },
+    {
+      "file": "ui/components/ConfirmModal.tsx",
+      "sha256": "07a3e0280f60f9f61a68ddcfc3fdfcb5fd4aa1e67d4a61b85b9211a2efa6e2bc",
+      "normalizedSha256": "07a3e0280f60f9f61a68ddcfc3fdfcb5fd4aa1e67d4a61b85b9211a2efa6e2bc"
+    },
+    {
+      "file": "ui/components/DwarvenDiscoveryNotice.tsx",
+      "sha256": "31d1cc525196e0eb16bcfadf74cac938b247cd7216c3b0b3dea95a1e8c46971f",
+      "normalizedSha256": "31d1cc525196e0eb16bcfadf74cac938b247cd7216c3b0b3dea95a1e8c46971f"
+    },
+    {
+      "file": "ui/components/EndgameNotice.tsx",
+      "sha256": "1fcfbe804298338d914b27c6a31b6218bdcd5d8d0326f88b78ba7e01f520025f",
+      "normalizedSha256": "1fcfbe804298338d914b27c6a31b6218bdcd5d8d0326f88b78ba7e01f520025f"
+    },
+    {
+      "file": "ui/components/RailButton.tsx",
+      "sha256": "92d7cccfd6d6c86f12edd63bdae5bdc737f2a80f2cddce676d9f2de50c8e5c72",
+      "normalizedSha256": "92d7cccfd6d6c86f12edd63bdae5bdc737f2a80f2cddce676d9f2de50c8e5c72"
+    },
+    {
+      "file": "ui/components/Stat.tsx",
+      "sha256": "f2d5746351d651c71c6587b40f12eb96b8d537cd4fe678a4c08ee3768d4a83ad",
+      "normalizedSha256": "f2d5746351d651c71c6587b40f12eb96b8d537cd4fe678a4c08ee3768d4a83ad"
+    },
+    {
+      "file": "ui/components/UiTooltipLayer.tsx",
+      "sha256": "56bb811b3b0216b601b6d5f7782c4c1c0e15f5bc0a4d4a5086b63289be4c7f55",
+      "normalizedSha256": "56bb811b3b0216b601b6d5f7782c4c1c0e15f5bc0a4d4a5086b63289be4c7f55"
+    },
+    {
+      "file": "ui/components/WelcomeModal.tsx",
+      "sha256": "ea492972ad7d39dee5bc788e4bf768896b8cb82d12cf944373b0efe270564618",
+      "normalizedSha256": "148c3cfdfc6d930683f7f95b582f5691bb33614d2420896989e7313462f4c954"
+    },
+    {
+      "file": "ui/DiscoveryJournal.test.tsx",
+      "sha256": "6edc52e1f7bb8e8724e6c5990c5beeca026fafd3626a60879f40746b5b5259e4",
+      "normalizedSha256": "6edc52e1f7bb8e8724e6c5990c5beeca026fafd3626a60879f40746b5b5259e4"
+    },
+    {
+      "file": "ui/DiscoveryJournal.tsx",
+      "sha256": "211efc55b65409dbccbb892aeec07114a44031d80dece4e3bb899d646400125a",
+      "normalizedSha256": "211efc55b65409dbccbb892aeec07114a44031d80dece4e3bb899d646400125a"
+    },
+    {
+      "file": "ui/FactoryTemplates.tsx",
+      "sha256": "415654f3c0d2e69132487056583e4ebf752c0073eb83bd017829477da0fe703a",
+      "normalizedSha256": "415654f3c0d2e69132487056583e4ebf752c0073eb83bd017829477da0fe703a"
+    },
+    {
+      "file": "ui/FilterPicker.tsx",
+      "sha256": "644401303a82818cbb61e32eebb7905a8aca87621a388b9089d8c28730f1dff5",
+      "normalizedSha256": "644401303a82818cbb61e32eebb7905a8aca87621a388b9089d8c28730f1dff5"
+    },
+    {
+      "file": "ui/formatters.ts",
+      "sha256": "04c6e345198d6f2a8d52d0e09ebec2c08b028a7b4d9e876234da2e458a6ca3a4",
+      "normalizedSha256": "04c6e345198d6f2a8d52d0e09ebec2c08b028a7b4d9e876234da2e458a6ca3a4"
+    },
+    {
+      "file": "ui/InteractionNotice.tsx",
+      "sha256": "4f1f98729b674ab348f8dfb77ec3f81d0ace245551442b42a5a71c7bc7d6eb73",
+      "normalizedSha256": "4f1f98729b674ab348f8dfb77ec3f81d0ace245551442b42a5a71c7bc7d6eb73"
+    },
+    {
+      "file": "ui/LegacyResearchPanel.tsx",
+      "sha256": "ca204eb89ca6534676a16c0c1f82aa84523364a5c8556120970bb23090a8eba6",
+      "normalizedSha256": "a1bc1893125879f1cd12a26080dc74a76ccd068949b1284e95ebe964c7bb0abf"
+    },
+    {
+      "file": "ui/mapBorderObstructions.css",
+      "sha256": "267ef2af49c6905e24dcb293fe26bb9f01bc60eb890bd8854c11ab9cacc81ffb",
+      "normalizedSha256": "267ef2af49c6905e24dcb293fe26bb9f01bc60eb890bd8854c11ab9cacc81ffb"
+    },
+    {
+      "file": "ui/MapBorderObstructions.test.tsx",
+      "sha256": "c81f66f3eadd298730c4196705110c4aa02b0becbbd17a94bc04ddb798eacc44",
+      "normalizedSha256": "c81f66f3eadd298730c4196705110c4aa02b0becbbd17a94bc04ddb798eacc44"
+    },
+    {
+      "file": "ui/MapBorderObstructions.tsx",
+      "sha256": "ae5a59f4b8d9841ab0bf868af6d0b5de9f4a3a08c6c2ced9c29122b4e301b141",
+      "normalizedSha256": "ae5a59f4b8d9841ab0bf868af6d0b5de9f4a3a08c6c2ced9c29122b4e301b141"
+    },
+    {
+      "file": "ui/MapNodeDetails.tsx",
+      "sha256": "33d1c76eb0b8bce749ce150a3050b4a19c78d21d27005cccf0150818d491d3e9",
+      "normalizedSha256": "33d1c76eb0b8bce749ce150a3050b4a19c78d21d27005cccf0150818d491d3e9"
+    },
+    {
+      "file": "ui/mapNodePresentation.test.ts",
+      "sha256": "8734574cdb5db55683f4d21b4443fc795a40754c5b9c2f7a5190e92dc0a9e8be",
+      "normalizedSha256": "8734574cdb5db55683f4d21b4443fc795a40754c5b9c2f7a5190e92dc0a9e8be"
+    },
+    {
+      "file": "ui/mapNodePresentation.ts",
+      "sha256": "ea8c4f4e01a2742b8bc93923b8bf6bef79e3b0fbc4641e3c5de389376483c9a0",
+      "normalizedSha256": "ea8c4f4e01a2742b8bc93923b8bf6bef79e3b0fbc4641e3c5de389376483c9a0"
+    },
+    {
+      "file": "ui/mapTerrain.test.tsx",
+      "sha256": "0aac1382d734dd0d101237e86cc88d4020d38f2dc93e69b17a8bac775516a187",
+      "normalizedSha256": "0aac1382d734dd0d101237e86cc88d4020d38f2dc93e69b17a8bac775516a187"
+    },
+    {
+      "file": "ui/MaterialIcon.tsx",
+      "sha256": "b131bfdc321e552ac45bd7f89c82f3beb79ac50100e90d0b5d019d94b01a1dd2",
+      "normalizedSha256": "b131bfdc321e552ac45bd7f89c82f3beb79ac50100e90d0b5d019d94b01a1dd2"
+    },
+    {
+      "file": "ui/ModEntryEditor.tsx",
+      "sha256": "0a489c35017cdba317135f1bb1ec531989e3ca9b24fce1fa7d0b79b25f0d9a4d",
+      "normalizedSha256": "0a489c35017cdba317135f1bb1ec531989e3ca9b24fce1fa7d0b79b25f0d9a4d"
+    },
+    {
+      "file": "ui/ModsModal.tsx",
+      "sha256": "bfe6ac2c9c85429f4306a2dad9d43bf41a5f4af5abca6b4682d4c8da53c0501e",
+      "normalizedSha256": "bfe6ac2c9c85429f4306a2dad9d43bf41a5f4af5abca6b4682d4c8da53c0501e"
+    },
+    {
+      "file": "ui/NodeIcon.tsx",
+      "sha256": "3cb5b40122bf698338e8df8b5cd808441f943d095a95cdafe5e252b1ddd56a23",
+      "normalizedSha256": "3cb5b40122bf698338e8df8b5cd808441f943d095a95cdafe5e252b1ddd56a23"
+    },
+    {
+      "file": "ui/NodeInspector.tsx",
+      "sha256": "208529c3a2d458414ef845b7b9340b1ef686f1ab88577444a7a2365e72cc1023",
+      "normalizedSha256": "cc38dd584d43078c04dd2612c77ee3a1e1d0d2b3a2a4c24ad6fb99148d65ea37"
+    },
+    {
+      "file": "ui/NodeMinimap.tsx",
+      "sha256": "a40558449989cae4d0f74c253357d87d80c6e9e8cddc15e665f874ae6f9c6b86",
+      "normalizedSha256": "a40558449989cae4d0f74c253357d87d80c6e9e8cddc15e665f874ae6f9c6b86"
+    },
+    {
+      "file": "ui/NodeRecipePicker.tsx",
+      "sha256": "ba97563d3b1c7758cc59240b72392d0b35d9ac5599d63f9c005056c6ada3abc1",
+      "normalizedSha256": "ba97563d3b1c7758cc59240b72392d0b35d9ac5599d63f9c005056c6ada3abc1"
+    },
+    {
+      "file": "ui/PanelHeader.tsx",
+      "sha256": "8d5731f05687529ca636f465c9299941937679980e45ba389101ea2f193f7ed2",
+      "normalizedSha256": "19f05148570f3bddb882f0b46d23026585192ff9f6873ca8fef2687342cd3fd4"
+    },
+    {
+      "file": "ui/panels/BuildPanel.test.tsx",
+      "sha256": "44bd0fed393eb335742433da5366efaf2f8b8e98a3be425449b92699758d3452",
+      "normalizedSha256": "44bd0fed393eb335742433da5366efaf2f8b8e98a3be425449b92699758d3452"
+    },
+    {
+      "file": "ui/panels/BuildPanel.tsx",
+      "sha256": "5f57bcd91b44d07ef9b620ee6a2c8743cd3b6eaa421151e312d184e03d091aa1",
+      "normalizedSha256": "5f57bcd91b44d07ef9b620ee6a2c8743cd3b6eaa421151e312d184e03d091aa1"
+    },
+    {
+      "file": "ui/panels/CommandsPanel.tsx",
+      "sha256": "4e98733e0fdbcd0f4dd2ab38fe65a48530a10ff042d7b0fa73123c99adaa1c09",
+      "normalizedSha256": "1d5efb923f6b14bbf4ddbe8eb9264de789a21e9ac901fa9fa791f67d46580fe5"
+    },
+    {
+      "file": "ui/panels/DevPanel.tsx",
+      "sha256": "21e4a91869adaadb0207cdac7fc9a471be107ae160350586ef0ef5febcf0d9f9",
+      "normalizedSha256": "21e4a91869adaadb0207cdac7fc9a471be107ae160350586ef0ef5febcf0d9f9"
+    },
+    {
+      "file": "ui/panels/InventoryPanel.tsx",
+      "sha256": "01c8dceb95f53399cc4d4dce8db54c63c947a3f2a185d094a38f8fa1cb251655",
+      "normalizedSha256": "01c8dceb95f53399cc4d4dce8db54c63c947a3f2a185d094a38f8fa1cb251655"
+    },
+    {
+      "file": "ui/panels/OptionsPanel.tsx",
+      "sha256": "5369bb4d85e9d96d3743499f30a89e3ee5b48bee4fa94dcd3b036c7632e0bfe3",
+      "normalizedSha256": "5369bb4d85e9d96d3743499f30a89e3ee5b48bee4fa94dcd3b036c7632e0bfe3"
+    },
+    {
+      "file": "ui/panels/SavePanel.tsx",
+      "sha256": "bf7361c3af615416a25dbdc08cb710d5259e5d23a768e33933a0a7664986f1bc",
+      "normalizedSha256": "bf7361c3af615416a25dbdc08cb710d5259e5d23a768e33933a0a7664986f1bc"
+    },
+    {
+      "file": "ui/recipeGuide.test.ts",
+      "sha256": "e188d9f445b6bd8552015aae225a88d92bf53cf7fb89308592b0e54c0002cbc5",
+      "normalizedSha256": "78091a9d23b4b6a65e33c775ad2942cb99c98b055b06881c6e3fb541db93e91b"
+    },
+    {
+      "file": "ui/recipeGuide.ts",
+      "sha256": "ce6f477c52243f8b8ebff317bfacbca541fb88978917cce33fafe5a12e9b9f88",
+      "normalizedSha256": "ce6f477c52243f8b8ebff317bfacbca541fb88978917cce33fafe5a12e9b9f88"
+    },
+    {
+      "file": "ui/RecipeIcon.test.tsx",
+      "sha256": "c3d567cb0e1168905d6b12890aaa25da445ac456de7c15a404b25902f3eb8c41",
+      "normalizedSha256": "c3d567cb0e1168905d6b12890aaa25da445ac456de7c15a404b25902f3eb8c41"
+    },
+    {
+      "file": "ui/RecipeIcon.tsx",
+      "sha256": "2c17fc933a006656bae9ee1fb7b24e677815919c9c3d0079d9b0e7df3a4cec3d",
+      "normalizedSha256": "2c17fc933a006656bae9ee1fb7b24e677815919c9c3d0079d9b0e7df3a4cec3d"
+    },
+    {
+      "file": "ui/recipePresentation.ts",
+      "sha256": "5c128523af35470f55028123b7a00662b4c4e0d21c32355cb2bb7a0e766aa7cd",
+      "normalizedSha256": "5c128523af35470f55028123b7a00662b4c4e0d21c32355cb2bb7a0e766aa7cd"
+    },
+    {
+      "file": "ui/RecipesPanel.tsx",
+      "sha256": "d2cfde4b52633a060558615ae36e407f4437640cb7dce886a0f4af98ca4f4844",
+      "normalizedSha256": "909e8fc0efc3e20b7e503d2c281dc0095fc7d31bacb45ca5adebf90003d2df57"
+    },
+    {
+      "file": "ui/RecipeViewToggle.tsx",
+      "sha256": "d3d55fea02cdb3063af8a31fe511cd21a4953f595d08df909a51c48f0f3e12ce",
+      "normalizedSha256": "d3d55fea02cdb3063af8a31fe511cd21a4953f595d08df909a51c48f0f3e12ce"
+    },
+    {
+      "file": "ui/ResearchCard.tsx",
+      "sha256": "af7454789875d5d83dab3a586def4af287c5ec00b915cdff108434e696126718",
+      "normalizedSha256": "af7454789875d5d83dab3a586def4af287c5ec00b915cdff108434e696126718"
+    },
+    {
+      "file": "ui/researchCatalog.ts",
+      "sha256": "672e741b5eda0b99467eea9a233d1066186d80c922a37972a6323fc4658785fa",
+      "normalizedSha256": "672e741b5eda0b99467eea9a233d1066186d80c922a37972a6323fc4658785fa"
+    },
+    {
+      "file": "ui/ResearchHintCard.tsx",
+      "sha256": "3ef36e227c96c182deab3432f3b8b2bc2d82a850b2ae33a3de21aa8b7a2a69ba",
+      "normalizedSha256": "3ef36e227c96c182deab3432f3b8b2bc2d82a850b2ae33a3de21aa8b7a2a69ba"
+    },
+    {
+      "file": "ui/researchMilestones.test.ts",
+      "sha256": "cc8a5990c95f1269668aeda08a082b77873850a1a8014ba1fed63fbcfe56965a",
+      "normalizedSha256": "ba9bcfeca9329a2d22240298ddf759825ce5f2a50a15d2bc20107cf09c2f8106"
+    },
+    {
+      "file": "ui/researchMilestones.ts",
+      "sha256": "3fbf0d7fdaecab13e25d888b5cc93605006a74d678eacd1cbcdcaa6701eca86d",
+      "normalizedSha256": "3fbf0d7fdaecab13e25d888b5cc93605006a74d678eacd1cbcdcaa6701eca86d"
+    },
+    {
+      "file": "ui/ResearchPanel.test.tsx",
+      "sha256": "dde8b4a65c4b3d16adf267c0ac928131aa49e000af1e1e7c8eba2a637950cea6",
+      "normalizedSha256": "e56e433d7777c45e55fe723468f78cea7ecced1e4b587ba73ff3acaa246b2513"
+    },
+    {
+      "file": "ui/ResearchPanel.tsx",
+      "sha256": "7cacfc3d8d2228015b70e1529afc7ce2ce4dafb4b247efb908677667c6b64dd1",
+      "normalizedSha256": "8dfe3f135adf1ed7fe2e9dbbfbd2296555e99fc042ba322c3d69d72972404bd8"
+    },
+    {
+      "file": "ui/researchPresentation.test.ts",
+      "sha256": "bd8a0372cfa037aa7cb56ff30b126ee76acef93166a502c16d62c60f14ce12f7",
+      "normalizedSha256": "28be8be1b4d3ae9deb3bcb4ca729c01f84971c9e0361e488a78fbf9c3ecfde66"
+    },
+    {
+      "file": "ui/researchPresentation.ts",
+      "sha256": "bf60916c0512c4f4b335944bfc50f749bee8a3d36a6d7595e13149489919c8d8",
+      "normalizedSha256": "bf60916c0512c4f4b335944bfc50f749bee8a3d36a6d7595e13149489919c8d8"
+    },
+    {
+      "file": "ui/researchProgress.test.ts",
+      "sha256": "b6a9acc8697761668c216365ab5a775f1528ab467382089e40574c11ce3e8c4a",
+      "normalizedSha256": "b6a9acc8697761668c216365ab5a775f1528ab467382089e40574c11ce3e8c4a"
+    },
+    {
+      "file": "ui/researchProgress.ts",
+      "sha256": "8fa81814168f2333578b23eebe754e20d35a0ef093ff35bfea1512855e7129b0",
+      "normalizedSha256": "8fa81814168f2333578b23eebe754e20d35a0ef093ff35bfea1512855e7129b0"
+    },
+    {
+      "file": "ui/ResearchProjectDetail.tsx",
+      "sha256": "b7e12c5ecd49f5b407cbac63dbd7faa1932a91e9b80f504b25e7bb8e352952b7",
+      "normalizedSha256": "b7e12c5ecd49f5b407cbac63dbd7faa1932a91e9b80f504b25e7bb8e352952b7"
+    },
+    {
+      "file": "ui/researchTree.test.ts",
+      "sha256": "dee984daea1768e430389656d397db0dd53ead0ad8b5fdea3a3806c038ab6ebe",
+      "normalizedSha256": "f1300338bd0050caeccc465e1af587d00de41e7d965b8236f8a98d649104b87d"
+    },
+    {
+      "file": "ui/researchTree.ts",
+      "sha256": "3adb99c36cada4fb29e81ec3447b1ca3e70ee3e748170c84aab7868a40e27ec7",
+      "normalizedSha256": "3adb99c36cada4fb29e81ec3447b1ca3e70ee3e748170c84aab7868a40e27ec7"
+    },
+    {
+      "file": "ui/ResearchTreeModal.tsx",
+      "sha256": "4e0655ac53f42e06cb3a5553f91c5023cb76e3f6f5486a7bd0e8abcfcf1c4a7d",
+      "normalizedSha256": "4e0655ac53f42e06cb3a5553f91c5023cb76e3f6f5486a7bd0e8abcfcf1c4a7d"
+    },
+    {
+      "file": "ui/researchUiConfig.ts",
+      "sha256": "2a6c4de00cd626d3613c3ccbcb25d2657cd5183d162c734df7bb9c70c6eabef0",
+      "normalizedSha256": "2a6c4de00cd626d3613c3ccbcb25d2657cd5183d162c734df7bb9c70c6eabef0"
+    },
+    {
+      "file": "ui/responsiveLayout.test.ts",
+      "sha256": "9d4de959fbc7efc11384ab335f8aa138a67e6810c9ae78cc606db1fdb96ed273",
+      "normalizedSha256": "9d4de959fbc7efc11384ab335f8aa138a67e6810c9ae78cc606db1fdb96ed273"
+    },
+    {
+      "file": "ui/responsiveLayout.ts",
+      "sha256": "0908bb28102308457c736a7ed28c04a7075dd38e3b08674a8113f77ef671a89f",
+      "normalizedSha256": "0908bb28102308457c736a7ed28c04a7075dd38e3b08674a8113f77ef671a89f"
+    },
+    {
+      "file": "ui/RoadFlowPanel.tsx",
+      "sha256": "d0cfe7a920d68e169c8f311135a27bbb7bb9cf2dafaa6251f87d64089b83fd90",
+      "normalizedSha256": "1dcbd4ca36e757cc6bc74a1ae2b921b3dac528be1935de7ac43024119f5cd4d8"
+    },
+    {
+      "file": "ui/SelectionActions.test.ts",
+      "sha256": "9d7e6453f7fe06207fb019e6a1e5a0848f714bd2f683f818443269f6e0c2a252",
+      "normalizedSha256": "9d7e6453f7fe06207fb019e6a1e5a0848f714bd2f683f818443269f6e0c2a252"
+    },
+    {
+      "file": "ui/SelectionActions.tsx",
+      "sha256": "f2899f0970ff52de24e79534667c2c2de51fdd711bcd37acf90b81888be7616b",
+      "normalizedSha256": "f2899f0970ff52de24e79534667c2c2de51fdd711bcd37acf90b81888be7616b"
+    },
+    {
+      "file": "ui/shortcutBarGroups.test.ts",
+      "sha256": "a4e95e868858a74728e16550c78aa1b11048f89afe749d3d181528b97e207b6f",
+      "normalizedSha256": "a4e95e868858a74728e16550c78aa1b11048f89afe749d3d181528b97e207b6f"
+    },
+    {
+      "file": "ui/shortcutBarGroups.ts",
+      "sha256": "3ee07e2b4bd81f637584d3ff892616eb1637b1f09c9d6b8732bfcd5a01d6a7eb",
+      "normalizedSha256": "3ee07e2b4bd81f637584d3ff892616eb1637b1f09c9d6b8732bfcd5a01d6a7eb"
+    },
+    {
+      "file": "ui/ShortcutBars.test.ts",
+      "sha256": "1c0e9b9c83575d134cc8cfe535ef33bad0c113acd11e9024d275474a3449b349",
+      "normalizedSha256": "1c0e9b9c83575d134cc8cfe535ef33bad0c113acd11e9024d275474a3449b349"
+    },
+    {
+      "file": "ui/ShortcutBars.tsx",
+      "sha256": "93e40b694990847a44f54771271f04579c284afd7d326b6e66dc110a785353d2",
+      "normalizedSha256": "93e40b694990847a44f54771271f04579c284afd7d326b6e66dc110a785353d2"
+    },
+    {
+      "file": "ui/shortcutPreferences.test.ts",
+      "sha256": "06bcfca142e411455402749e5ebd7c10f7ed5ed0321dbd387128183ce21a6b0b",
+      "normalizedSha256": "06bcfca142e411455402749e5ebd7c10f7ed5ed0321dbd387128183ce21a6b0b"
+    },
+    {
+      "file": "ui/shortcutPreferences.ts",
+      "sha256": "3709a80034c0d158ae00c81049c8fd4ff324f269b144b2e401b203522b577095",
+      "normalizedSha256": "3709a80034c0d158ae00c81049c8fd4ff324f269b144b2e401b203522b577095"
+    },
+    {
+      "file": "ui/startingCamera.test.ts",
+      "sha256": "d76971faab484d4251fc6ef346690c6054701bc3f648a0cc4d720b1a8915b31f",
+      "normalizedSha256": "d76971faab484d4251fc6ef346690c6054701bc3f648a0cc4d720b1a8915b31f"
+    },
+    {
+      "file": "ui/startingCamera.ts",
+      "sha256": "5e27516b24032f3df54cc59ac573786f448ca8e50a61e5899777169113da7245",
+      "normalizedSha256": "5e27516b24032f3df54cc59ac573786f448ca8e50a61e5899777169113da7245"
+    },
+    {
+      "file": "ui/TributeResourcePicker.tsx",
+      "sha256": "11f0379a7331a598a3b2eb7350874bc0be6cc1efaf8091948a77695ab8097a6c",
+      "normalizedSha256": "e44e57cdf933da60115056a10ee6e0ee4eac22b3b4d2291aea98d16e48b47449"
+    },
+    {
+      "file": "ui/Tutorials.tsx",
+      "sha256": "724ed9764f8ed2a66797cc1e794196f0cf735c019da235dba8ca22dac4bfc08f",
+      "normalizedSha256": "724ed9764f8ed2a66797cc1e794196f0cf735c019da235dba8ca22dac4bfc08f"
+    },
+    {
+      "file": "ui/TutorialUnlockInvitation.tsx",
+      "sha256": "ddd8fabe95527cb0a5bd5ab72a5142169197b9b0273a13e57b90502f45bf4e00",
+      "normalizedSha256": "ddd8fabe95527cb0a5bd5ab72a5142169197b9b0273a13e57b90502f45bf4e00"
+    },
+    {
+      "file": "ui/unlockNavigation.test.ts",
+      "sha256": "3e97406dae639db1ecfddde9f52739926e3477ed13476d5ddfce4a78598bdd24",
+      "normalizedSha256": "3e97406dae639db1ecfddde9f52739926e3477ed13476d5ddfce4a78598bdd24"
+    },
+    {
+      "file": "ui/unlockNavigation.ts",
+      "sha256": "6e855f59bf557a8b49c1e0bb303eaf79ce878aeea3ea988ca64c625b6682f4ec",
+      "normalizedSha256": "6e855f59bf557a8b49c1e0bb303eaf79ce878aeea3ea988ca64c625b6682f4ec"
+    },
+    {
+      "file": "ui/upgrades/BotUpgrade.tsx",
+      "sha256": "f3893ddb92558349f104f063d8e3ab1c4d800e63d09567fbf595af5f87f4cc0c",
+      "normalizedSha256": "2d5a2db5924e82a80f899dd68828a329f6b954d60c0317275027947ed0c44038"
+    },
+    {
+      "file": "ui/upgrades/HintBrowser.tsx",
+      "sha256": "3c6e78d05c53574f6e1c5869e2f9be0a21703131488eb4c0fa9d4f6a54c8da40",
+      "normalizedSha256": "ad17038f959f2170043bbbb7b0fbc952f39c04d7c66c039509fd104b26150993"
+    },
+    {
+      "file": "ui/upgrades/researchList.ts",
+      "sha256": "5cfad8dfd521a185500662f802b27a9d32086cf4b117eb50077ed23d7959272d",
+      "normalizedSha256": "ecca2d23bfc4bd6995cf521465d46df9d0b605cf12ffa472275e64f195814ec2"
+    },
+    {
+      "file": "ui/upgrades/ResearchListRow.tsx",
+      "sha256": "c63d050fed0a046a75d0a393155646bc3338fc9b7dfc9dacf8742bb98632abd9",
+      "normalizedSha256": "65cd0b6d76a4916e49641b97d8b0bcc0fc5817eeeefe7f62cf5251a9f3ae6276"
+    },
+    {
+      "file": "ui/upgrades/ResearchQueue.tsx",
+      "sha256": "47c3cfa1a76d8d8ce7d57dea9e561e8ef8fc16dcdab300ecfc8ace82def2dfa4",
+      "normalizedSha256": "13ce2f614bb52bee8f981da631bcb71e5397d8bc0e37795f98ba57fe80ac5bf4"
+    },
+    {
+      "file": "ui/upgrades/robotArt.ts",
+      "sha256": "3d9d1ce0deda7bbe45b9dcc8befd03f59b63a0d78025ccf769926ca1b3849a32",
+      "normalizedSha256": "6f7f53994be331f414737d8214ea0240ad6e1fe40848c4c8bcf2b66d7567afd2"
+    },
+    {
+      "file": "ui/upgrades/statusHints.ts",
+      "sha256": "daba81e0c3bf0de88d4beaad0d49033a1d1ea59d26f7c8e9d64d5fb0c8391d7b",
+      "normalizedSha256": "2296a402fec87960c15e260b3ae487498818aa2f20fd34071ecc507da58e4a77"
+    },
+    {
+      "file": "ui/upgrades/UpgradeCompletionNotice.tsx",
+      "sha256": "ceaa5c5d3819cfa1b6d2464f8fdae7a3a29afeaae68ea3df83d568792fbee771",
+      "normalizedSha256": "79abc42315c9ff5bde29f8193bc5ffb43021f731a1cbb5f670b6a6dbd59ecd6d"
+    },
+    {
+      "file": "ui/UpgradesIntegration.test.tsx",
+      "sha256": "64ddfc13958d1874a501b3fd14d910feda4607fdc6ef741dd02ff69828691275",
+      "normalizedSha256": "93f0b5d69adb069cf522efad2d37401dbe9f0fd03fc379ff348303d05029f976"
+    },
+    {
+      "file": "ui/useGridSnapKey.ts",
+      "sha256": "ac618c9f3bc8c4fa09afd32fe10729875130110d1e3d0839e65665804fd46338",
+      "normalizedSha256": "ac618c9f3bc8c4fa09afd32fe10729875130110d1e3d0839e65665804fd46338"
+    },
+    {
+      "file": "ui/useRecipeIconToggle.ts",
+      "sha256": "b2d961e33eb36c577a0f24d67b3d703b89d2d68c0e115c5c687c0c210b80e49a",
+      "normalizedSha256": "b2d961e33eb36c577a0f24d67b3d703b89d2d68c0e115c5c687c0c210b80e49a"
+    },
+    {
+      "file": "ui/useViewport.ts",
+      "sha256": "8530df71f1726c85b1c61e3a70441364dd1880b857acc51b15ae2c849acdbd87",
+      "normalizedSha256": "8530df71f1726c85b1c61e3a70441364dd1880b857acc51b15ae2c849acdbd87"
+    },
+    {
+      "file": "vite-env.d.ts",
+      "sha256": "65996936fbb042915f7b74a200fcdde7e410f32a669b1ab9597cfaa4b0faddb5",
+      "normalizedSha256": "65996936fbb042915f7b74a200fcdde7e410f32a669b1ab9597cfaa4b0faddb5"
+    }
+  ],
+  "newImplemented": [
+    {
+      "id": "NODE-0324",
+      "title": "Record the normal-UI fuel repair and sustained Medium Bot verification",
+      "evidence": [
+        "docs/playtest-build-guide.md",
+        "outputs/live-ui-playtest-2026-11-05-replacement/verified-medium-bots-2026-11-06.txt",
+        "outputs/live-ui-playtest-2026-11-05-replacement/medium-bots-sustained-verified.jpg"
+      ]
+    },
+    {
+      "id": "NODE-0085",
+      "title": "Clear mismatched Extractor stock when its input changes",
+      "evidence": []
+    },
+    {
+      "id": "NODE-0086",
+      "title": "Show remaining resource reserves in the progress bar",
+      "evidence": [
+        "src/renderer/resourceReserve.test.ts"
+      ]
+    },
+    {
+      "id": "NODE-0087",
+      "title": "Require an explicit Smelter recipe",
+      "evidence": []
+    },
+    {
+      "id": "NODE-0088",
+      "title": "Reject connections until a production recipe is chosen",
+      "evidence": []
+    },
+    {
+      "id": "NODE-0089",
+      "title": "Simplify the Research Center's visible labels",
+      "evidence": []
+    },
+    {
+      "id": "NODE-0090",
+      "title": "Shorten names that overflow node cards",
+      "evidence": []
+    },
+    {
+      "id": "NODE-0091",
+      "title": "Scroll the map while dragging nodes or cables near an edge",
+      "evidence": []
+    },
+    {
+      "id": "NODE-0092",
+      "title": "Keep shortcut positions stable when the map is revealed",
+      "evidence": []
+    },
+    {
+      "id": "NODE-0093",
+      "title": "Expand the existing minimap instead of opening another modal",
+      "evidence": [
+        "src/ui/NodeMinimap.tsx",
+        "src/ui/MapNodeDetails.tsx"
+      ]
+    },
+    {
+      "id": "NODE-0095",
+      "title": "Give attached shortcut bars a shared grip and individual unlock",
+      "evidence": [
+        "src/ui/shortcutBarGroups.ts",
+        "src/ui/ShortcutBars.tsx"
+      ]
+    },
+    {
+      "id": "NODE-0097",
+      "title": "Remove the small blue recipe button",
+      "evidence": []
+    },
+    {
+      "id": "NODE-0098",
+      "title": "Restore the inactive/current-project control and paid-Core progress",
+      "evidence": [
+        "src/renderer/researchCenterView.ts",
+        "src/renderer/researchNodeStatus.ts"
+      ]
+    },
+    {
+      "id": "NODE-0100",
+      "title": "Place the recipe time beside its title",
+      "evidence": []
+    },
+    {
+      "id": "NODE-0101",
+      "title": "Restore batch deletion of selected nodes",
+      "evidence": [
+        "src/ui/SelectionActions.tsx"
+      ]
+    },
+    {
+      "id": "NODE-0102",
+      "title": "Condense selected research details",
+      "evidence": [
+        "src/ui/ResearchProjectDetail.tsx"
+      ]
+    },
+    {
+      "id": "NODE-0103",
+      "title": "Move Advanced Fabrication to Automata-tier research",
+      "evidence": []
+    },
+    {
+      "id": "NODE-0104",
+      "title": "Validate materials through logistics networks",
+      "evidence": [
+        "src/simulation/connectionMaterials.ts",
+        "src/simulation/connectionRules.ts"
+      ]
+    },
+    {
+      "id": "NODE-0105",
+      "title": "Rebind hold-to-snap from Z to A",
+      "evidence": [
+        "src/ui/useGridSnapKey.ts",
+        "src/domain/nodeGrid.ts"
+      ]
+    },
+    {
+      "id": "NODE-0107",
+      "title": "Create a searchable changelog and backfill earlier work",
+      "evidence": []
+    },
+    {
+      "id": "NODE-0109",
+      "title": "Prevent Ctrl+A from selecting the game page",
+      "evidence": [
+        "src/ui/App.tsx"
+      ]
+    },
+    {
+      "id": "NODE-0110",
+      "title": "Tidy recipe cards and ungroup compact icons",
+      "evidence": [
+        "src/ui/NodeRecipePicker.tsx",
+        "src/ui/RecipesPanel.tsx",
+        "src/styles/recipe-panel.css"
+      ]
+    },
+    {
+      "id": "NODE-0111",
+      "title": "Keep locked connector mirroring quiet",
+      "evidence": [
+        "src/ui/App.tsx"
+      ]
+    },
+    {
+      "id": "NODE-0112",
+      "title": "Hide node hover text except the multi-connection hint",
+      "evidence": [
+        "src/ui/App.tsx",
+        "src/renderer/PixiPlayfield.tsx"
+      ]
+    },
+    {
+      "id": "NODE-0113",
+      "title": "Remove resource output socket labels",
+      "evidence": [
+        "src/renderer/PixiPlayfield.tsx"
+      ]
+    },
+    {
+      "id": "NODE-0114",
+      "title": "Copy recipes with a held-Shift gesture",
+      "evidence": [
+        "src/simulation/engine.ts",
+        "src/renderer/PixiPlayfield.tsx",
+        "src/ui/App.tsx",
+        "src/simulation/recipeCopyAndResources.test.ts"
+      ]
+    },
+    {
+      "id": "NODE-0115",
+      "title": "Require extraction before resource delivery",
+      "evidence": [
+        "src/simulation/connectionRules.ts",
+        "src/simulation/connectionMaterials.ts",
+        "src/simulation/recipeCopyAndResources.test.ts"
+      ]
+    },
+    {
+      "id": "NODE-0116",
+      "title": "Remove the fixed command strip and Running badge",
+      "evidence": [
+        "src/ui/App.tsx"
+      ]
+    },
+    {
+      "id": "NODE-0118",
+      "title": "Use 64-unit multiples for node bodies",
+      "evidence": [
+        "src/domain/nodeGeometry.ts",
+        "src/domain/nodeGrid.test.ts"
+      ]
+    },
+    {
+      "id": "NODE-0119",
+      "title": "Realign Research Center status and Core buffers",
+      "evidence": [
+        "src/renderer/researchNodeStatus.ts",
+        "src/renderer/PixiPlayfield.tsx"
+      ]
+    },
+    {
+      "id": "NODE-0120",
+      "title": "Create a local master development plan and sequential review queue",
+      "evidence": [
+        "docs/master-plan/README.md",
+        "docs/master-plan/10-decisions-and-review-queue.md",
+        "docs/master-plan/11-sources-and-reconciliation.md",
+        "README.md"
+      ]
+    },
+    {
+      "id": "NODE-0127",
+      "title": "Use visible obstruction borders and reserve maximum camp growth on spawn",
+      "evidence": [
+        "src/domain/obstructionGeometry.ts",
+        "src/simulation/worldGeneration.ts",
+        "src/simulation/collisions.ts",
+        "src/simulation/connectionRules.ts",
+        "src/simulation/campEffects.ts",
+        "src/simulation/obstructedConnections.ts",
+        "src/simulation/simulationLookups.ts",
+        "src/simulation/obstructionBorders.test.ts",
+        "docs/obstruction-types-and-behavior.md"
+      ]
+    },
+    {
+      "id": "NODE-0128",
+      "title": "Camp checks consume only the bots needed and display their AP requirement",
+      "evidence": [
+        "src/simulation/progression.ts",
+        "src/simulation/engine.ts",
+        "src/renderer/playfieldNodeState.ts",
+        "src/simulation/campBotPayment.test.ts"
+      ]
+    },
+    {
+      "id": "NODE-0129",
+      "title": "Unlock Tribute at minimum camp size and allow material changes with stock sacrifice",
+      "evidence": [
+        "src/simulation/goblinTribute.ts",
+        "src/simulation/engine.ts",
+        "src/ui/TributeResourcePicker.tsx",
+        "src/ui/App.tsx",
+        "src/renderer/PixiPlayfield.tsx",
+        "src/simulation/goblinTribute.test.ts",
+        "outputs/tribute-selection-stock-sacrifice.png",
+        "outputs/dwarven-tribute-changed-to-copper.png"
+      ]
+    },
+    {
+      "id": "NODE-0195",
+      "title": "Keep history date-filter checks valid as new entries are added",
+      "evidence": [
+        "scripts/check-changelog.mjs"
+      ]
+    },
+    {
+      "id": "NODE-0207",
+      "title": "Pulse Research Centers between successful Core payments",
+      "evidence": [
+        "src/domain/types.ts",
+        "src/simulation/researchRuntime.ts",
+        "src/renderer/researchConsumptionGlow.ts",
+        "src/renderer/researchConsumptionGlow.test.ts",
+        "src/renderer/PixiPlayfield.tsx",
+        "README.md",
+        "outputs/research-center-consumption-glow.png"
+      ]
+    },
+    {
+      "id": "NODE-0217",
+      "title": "Keep H for Home and separate compass coordinates with a dot",
+      "evidence": [
+        "src/ui/mapNodePresentation.ts",
+        "src/ui/mapNodePresentation.test.ts",
+        "README.md"
+      ]
+    },
+    {
+      "id": "NODE-0218",
+      "title": "Remove map-node hover tooltips from the expanded map",
+      "evidence": [
+        "src/ui/NodeMinimap.tsx"
+      ]
+    },
+    {
+      "id": "NODE-0225",
+      "title": "Add Road-unlocked Carts, global Truck and Train upgrades, and shared face slots",
+      "evidence": [
+        "src/content/cartUpgrades.ts",
+        "src/content/nodes.ts",
+        "src/content/items.ts",
+        "src/content/research.ts",
+        "src/content/progression.ts",
+        "src/simulation/engine.ts",
+        "src/simulation/researchRuntime.ts",
+        "src/simulation/connectionRules.ts",
+        "src/simulation/devSource.ts",
+        "src/simulation/cartUpgrades.test.ts",
+        "src/simulation/roadCapacity.test.ts",
+        "src/tutorials/tutorialDialogue.ts",
+        "src/tutorials/tutorialState.ts",
+        "src/tutorials/originalTutorials.ts",
+        "src/ui/Tutorials.tsx",
+        "src/ui/ShortcutBars.tsx",
+        "src/ui/panels/BuildPanel.tsx",
+        "src/ui/App.tsx",
+        "README.md",
+        "docs/research-catalog.md",
+        "outputs/progression/analysis.json",
+        "outputs/cart-road-sending.png",
+        "outputs/cart-road-received.png"
+      ]
+    },
+    {
+      "id": "NODE-0229",
+      "title": "Show Road transfer rate in items per minute",
+      "evidence": [
+        "src/ui/RoadFlowPanel.tsx",
+        "README.md"
+      ]
+    },
+    {
+      "id": "NODE-0234",
+      "title": "Condense Options and shortcut node selection",
+      "evidence": [
+        "src/ui/panels/OptionsPanel.tsx",
+        "src/ui/ShortcutBars.tsx",
+        "src/ui/responsiveLayout.ts",
+        "src/styles/cards.css",
+        "src/styles/node-controls.css",
+        "src/styles/theme.css",
+        "README.md",
+        "outputs/options-two-columns.png",
+        "outputs/options-hover-flavor.png",
+        "outputs/options-two-columns-narrow.png",
+        "outputs/node-picker-right.png",
+        "outputs/node-picker-left.png",
+        "outputs/node-picker-narrow.png"
+      ]
+    },
+    {
+      "id": "NODE-0241",
+      "title": "Apply normal Cart shortcut rules and hide the empty third bar at startup",
+      "evidence": [
+        "src/ui/ShortcutBars.tsx",
+        "src/ui/shortcutPreferences.ts",
+        "src/ui/App.tsx",
+        "src/ui/ShortcutBars.test.ts",
+        "src/ui/shortcutPreferences.test.ts",
+        "src/ui/responsiveLayout.test.ts",
+        "src/ui/shortcutBarGroups.test.ts",
+        "README.md",
+        "outputs/shortcut-start-two-bars.png"
+      ]
+    },
+    {
+      "id": "NODE-0242",
+      "title": "Show recipes on one line with equal larger bubbles and flavor-only hover",
+      "evidence": [
+        "src/ui/RecipesPanel.tsx",
+        "src/ui/components/UiTooltipLayer.tsx",
+        "src/styles/recipe-panel.css",
+        "src/styles/cards.css",
+        "README.md",
+        "outputs/recipes-single-line.png",
+        "outputs/recipes-flavor-only-hover.png",
+        "outputs/recipes-single-line-narrow.png"
+      ]
+    },
+    {
+      "id": "NODE-0325",
+      "title": "Record verified Hydro delivery and Tree Planter recovery through the normal UI",
+      "evidence": [
+        "docs/playtest-build-guide.md",
+        "outputs/live-ui-playtest-2026-11-05-replacement/run-log.txt",
+        "outputs/live-ui-playtest-2026-11-05-replacement/hydro-repair-home-five.jpg",
+        "outputs/live-ui-playtest-2026-11-05-replacement/tree-planter-forest-34.jpg"
+      ]
+    },
+    {
+      "id": "NODE-0338",
+      "title": "Verify Monster Camp AP delivery for all four bot tiers",
+      "evidence": [
+        "src/simulation/campStatus.test.ts",
+        "src/simulation/goblinSettlements.test.ts",
+        "src/simulation/reviewedProduction.test.ts",
+        "docs/obstruction-types-and-behavior.md"
+      ]
+    },
+    {
+      "id": "NODE-0425",
+      "title": "Model a route from Home to one Final Core",
+      "evidence": [
+        "docs/final-core-dry-run.md",
+        "scripts/final-core-dry-run.mjs",
+        "outputs/node-source-release-2026-11-09/publication-receipt.json"
+      ]
+    },
+    {
+      "id": "NODE-0426",
+      "title": "Verify the first Final Core route with the offline engine",
+      "evidence": [
+        "docs/final-core-dry-run.md",
+        "scripts/final-core-engine-run.mjs",
+        "outputs/final-core-engine-run/verified.json"
+      ]
+    },
+    {
+      "id": "NODE-0427",
+      "title": "Save the surveyed route and simulate blind map discovery",
+      "evidence": [
+        "docs/final-core-blind-run.md",
+        "scripts/final-core-blind-run.mjs",
+        "outputs/final-core-engine-run/seed-10-checkpoint.json",
+        "outputs/final-core-blind-run/unreserved-lakes.log",
+        "outputs/final-core-blind-run/verified.json",
+        "outputs/final-core-blind-run/checkpoint.json"
+      ]
+    },
+    {
+      "id": "NODE-0492",
+      "title": "Measure blind headless research through victory",
+      "evidence": [
+        "docs/blind-research-playtest-2026-11-11.md",
+        "docs/playtest-build-guide.md",
+        "scripts/final-core-engine-run.mjs",
+        "scripts/final-core-blind-run.mjs",
+        "scripts/final-core-dry-run.mjs",
+        "outputs/blind-research-playtest-2026-11-11/final-audit.json",
+        "outputs/blind-research-playtest-2026-11-11/victory-milestone.json"
+      ]
+    },
+    {
+      "id": "NODE-0493",
+      "title": "Test lower survey prices and later Core demand",
+      "evidence": [
+        "docs/core-consumption-balance-proposal.md",
+        "docs/playtest-build-guide.md",
+        "scripts/core-consumption-pilot.json",
+        "scripts/final-core-blind-run.mjs",
+        "scripts/final-core-engine-run.mjs",
+        "outputs/core-consumption-pilot-2026-11-12/measured-audit.json",
+        "outputs/core-consumption-pilot-2026-11-12/NODE Core Consumption Playtest.docx"
+      ]
+    },
+    {
+      "id": "NODE-0500",
+      "title": "Compare optional Road Channels 2 through first victory",
+      "evidence": [
+        "outputs/road-channels-payback-2026-11-12/README.md",
+        "scripts/final-core-engine-run.mjs",
+        "scripts/final-core-blind-run.mjs",
+        "docs/playtest-build-guide.md"
+      ]
+    },
+    {
+      "id": "NODE-0507",
+      "title": "Test Dwarven Tribute before surveying the corners",
+      "evidence": [
+        "outputs/tribute-first-playtest-2026-11-12/README.md",
+        "scripts/final-core-blind-run.mjs",
+        "scripts/final-core-engine-run.mjs",
+        "docs/core-consumption-balance-proposal.md"
+      ]
+    },
+    {
+      "id": "NODE-0508",
+      "title": "Test starting Medium Bot production during the Shiny survey",
+      "evidence": [
+        "outputs/bots-during-survey-playtest-2026-11-12/README.md",
+        "scripts/final-core-blind-run.mjs",
+        "scripts/final-core-engine-run.mjs",
+        "docs/core-consumption-balance-proposal.md"
+      ]
+    },
+    {
+      "id": "NODE-0509",
+      "title": "Compare Shiny-only Lake sites and track factory build counts",
+      "evidence": [
+        "outputs/shiny-with-imports-playtest-2026-11-12/README.md",
+        "scripts/final-core-blind-run.mjs",
+        "scripts/final-core-engine-run.mjs",
+        "docs/progression-and-scaling.md"
+      ]
+    },
+    {
+      "id": "NODE-0510",
+      "title": "Compare the distributed layout through first victory",
+      "evidence": [
+        "outputs/distributed-victory-playtest-2026-11-12/README.md",
+        "docs/core-consumption-balance-proposal.md",
+        "scripts/final-core-blind-run.mjs",
+        "scripts/final-core-engine-run.mjs"
+      ]
+    },
+    {
+      "id": "NODE-0514",
+      "title": "Measure Core Assembly Efficiency through first victory",
+      "evidence": [
+        "outputs/core-efficiency-payback-2026-11-12/README.md",
+        "docs/core-consumption-balance-proposal.md",
+        "docs/playtest-build-guide.md",
+        "scripts/core-efficiency-pilot.json"
+      ]
+    },
+    {
+      "id": "NODE-0515",
+      "title": "Measure peripheral intermediate supply through first victory",
+      "evidence": [
+        "outputs/peripheral-supply-playtest-2026-11-12/README.md",
+        "docs/core-consumption-balance-proposal.md",
+        "docs/playtest-build-guide.md",
+        "scripts/final-core-blind-run.mjs"
+      ]
+    },
+    {
+      "id": "NODE-0528",
+      "title": "Create the current Bot Plant production reference",
+      "evidence": [
+        "README.md",
+        "docs/research-catalog.md",
+        "docs/playtest-build-guide.md",
+        "docs/archive/bot-production/README.md",
+        "src/content/botAssembly.ts",
+        "outputs/node-tier-map-prices-release-2026-11-15/publication-receipt.json"
+      ]
+    },
+    {
+      "id": "NODE-0534",
+      "title": "Add a Bot Plant input card test page",
+      "evidence": [
+        "previews/bot-plant/index.html",
+        "previews/bot-plant/main.tsx",
+        "docs/archive/style-reference-docx/node-ui-style-guide.docx",
+        "docs/archive/style-reference-docx/typography-style-review.docx"
+      ]
+    },
+    {
+      "id": "NODE-0536",
+      "title": "Use whole-number AP ratings in the Bot Plant preview",
+      "evidence": [
+        "previews/bot-plant/main.tsx"
+      ]
+    },
+    {
+      "id": "NODE-0542",
+      "title": "Compare touching nodes and closer grid snapping in a test page",
+      "evidence": [
+        "previews/grid-contact/index.html",
+        "previews/grid-contact/main.tsx",
+        "previews/grid-contact/model.ts",
+        "previews/grid-contact/model.test.ts",
+        "previews/grid-contact/README.md",
+        "src/domain/nodeGrid.ts",
+        "src/simulation/collisions.ts",
+        "docs/archive/style-reference-docx/node-ui-style-guide.docx",
+        "docs/archive/style-reference-docx/typography-style-review.docx"
+      ]
+    },
+    {
+      "id": "NODE-0543",
+      "title": "Add 32-unit snapping with touching bodies to the grid test page",
+      "evidence": [
+        "previews/grid-contact/model.ts",
+        "previews/grid-contact/model.test.ts",
+        "previews/grid-contact/main.tsx",
+        "previews/grid-contact/preview.css",
+        "previews/grid-contact/README.md",
+        "docs/archive/style-reference-docx/node-ui-style-guide.docx",
+        "docs/archive/style-reference-docx/typography-style-review.docx"
+      ]
+    },
+    {
+      "id": "NODE-0548",
+      "title": "Preview compact research upgrades and first Refiner routing unlocks",
+      "evidence": [
+        "previews/research-proposal/index.html",
+        "previews/research-proposal/model.ts",
+        "previews/research-proposal/main.tsx",
+        "previews/research-proposal/model.test.ts",
+        "src/domain/types.ts",
+        "src/ui/researchPresentation.ts",
+        "outputs/research-proposal-preview-checks.json",
+        "docs/archive/style-reference-docx/node-ui-style-guide.docx",
+        "docs/archive/style-reference-docx/typography-style-review.docx"
+      ]
+    },
+    {
+      "id": "NODE-0549",
+      "title": "Move Road and Exploration to Simple Cores in the research proposal",
+      "evidence": [
+        "previews/research-proposal/model.ts",
+        "previews/research-proposal/model.test.ts",
+        "previews/research-proposal/README.md",
+        "outputs/research-proposal-simple-exploration.jpg"
+      ]
+    },
+    {
+      "id": "NODE-0594",
+      "title": "Organize current systems into linked references and generated catalogs",
+      "evidence": [
+        "docs/README.md",
+        "docs/systems/README.md",
+        "docs/systems/resource-use.md",
+        "docs/systems/catalogs/recipes.md",
+        "docs/systems/catalogs/research.md",
+        "scripts/system-docs.mjs",
+        "package.json",
+        "AGENTS.md"
+      ]
+    },
+    {
+      "id": "NODE-0596",
+      "title": "Retire duplicate references and remove unused workspace artifacts",
+      "evidence": [
+        "README.md",
+        "docs/README.md",
+        "docs/archive/README.md",
+        "docs/archive/reference-snapshots/project-readme-2026-11-18.md",
+        "docs/archive/reference-snapshots/research-catalog-2026-11-18.md",
+        "docs/research-catalog.md",
+        "outputs/workspace-cleanup-2026-11-18/manifest.json",
+        "scripts/system-docs.mjs",
+        "tsconfig.app.json",
+        "tsconfig.node.json"
+      ]
+    },
+    {
+      "id": "NODE-0610",
+      "title": "Add dense factory tests with live progress bars and Splitter/Merger routing",
+      "evidence": [
+        "previews/active-factory/model.ts",
+        "previews/active-factory/dense.test.ts",
+        "previews/active-factory/main.tsx",
+        "previews/active-factory/README.md",
+        "src/renderer/PixiPlayfield.tsx",
+        "src/renderer/playfieldTypes.ts",
+        "src/renderer/sceneUpdates.ts",
+        "src/renderer/sceneUpdates.test.ts",
+        "docs/systems/testing-and-publishing.md",
+        "docs/archive/style-reference-docx/node-ui-style-guide.docx",
+        "docs/archive/style-reference-docx/typography-style-review.docx",
+        "outputs/dense-factory-test/verification.json"
+      ]
+    },
+    {
+      "id": "NODE-0613",
+      "title": "Create junior AI narrative framework and adjustable Status page prototype",
+      "evidence": [
+        "previews/status-page/README.md",
+        "previews/status-page/model.ts",
+        "previews/status-page/model.test.ts",
+        "previews/status-page/main.tsx",
+        "previews/status-page/robotArt.ts",
+        "previews/status-page/preview.css",
+        "scripts/build-status-preview.mjs",
+        "docs/master-plan/06-art-audio-and-writing.md",
+        "docs/systems/research.md",
+        "docs/systems/tutorials-and-discovery.md",
+        "docs/systems/interface-and-assets.md",
+        "docs/archive/style-reference-docx/node-ui-style-guide.docx",
+        "docs/archive/style-reference-docx/typography-style-review.docx",
+        "outputs/status-page/verification.json"
+      ]
+    },
+    {
+      "id": "NODE-0614",
+      "title": "Give the Status prototype robot more space",
+      "evidence": [
+        "previews/status-page/preview.css",
+        "previews/status-page/README.md",
+        "docs/master-plan/06-art-audio-and-writing.md",
+        "docs/systems/interface-and-assets.md",
+        "docs/archive/style-reference-docx/node-ui-style-guide.docx",
+        "docs/archive/style-reference-docx/typography-style-review.docx",
+        "outputs/status-page/layout-review.json"
+      ]
+    },
+    {
+      "id": "NODE-0615",
+      "title": "Give each AI upgrade a distinct robot silhouette",
+      "evidence": [
+        "previews/status-page/robotArt.ts",
+        "previews/status-page/model.ts",
+        "previews/status-page/main.tsx",
+        "previews/status-page/README.md",
+        "docs/master-plan/06-art-audio-and-writing.md",
+        "docs/systems/interface-and-assets.md",
+        "docs/archive/style-reference-docx/node-ui-style-guide.docx",
+        "docs/archive/style-reference-docx/typography-style-review.docx",
+        "outputs/status-page/silhouette-review.json"
+      ]
+    },
+    {
+      "id": "NODE-0616",
+      "title": "Move the assignment into the first robot thought and expose all hint triggers",
+      "evidence": [
+        "src/ui/ResearchHintCard.tsx",
+        "previews/status-page/main.tsx",
+        "previews/status-page/model.ts",
+        "previews/status-page/statusHints.ts",
+        "previews/status-page/statusHints.test.ts",
+        "previews/status-page/hintReview.ts",
+        "previews/status-page/HintReviewPage.tsx",
+        "previews/status-page/preview.css",
+        "previews/status-page/README.md",
+        "scripts/build-status-preview.mjs",
+        "docs/systems/tutorials-and-discovery.md",
+        "docs/systems/interface-and-assets.md",
+        "docs/master-plan/06-art-audio-and-writing.md",
+        "docs/archive/style-reference-docx/node-ui-style-guide.docx",
+        "docs/archive/style-reference-docx/typography-style-review.docx",
+        "outputs/status-page/hints-review.json"
+      ]
+    },
+    {
+      "id": "NODE-0617",
+      "title": "Show the primary progression hint in the AI Status prototype",
+      "evidence": [
+        "previews/status-page/statusHints.ts",
+        "previews/status-page/statusHints.test.ts",
+        "previews/status-page/hintReview.ts",
+        "previews/status-page/HintReviewPage.tsx",
+        "previews/status-page/README.md",
+        "previews/status-page/preview.css",
+        "docs/systems/tutorials-and-discovery.md",
+        "docs/systems/interface-and-assets.md",
+        "docs/master-plan/06-art-audio-and-writing.md",
+        "docs/archive/style-reference-docx/node-ui-style-guide.docx",
+        "docs/archive/style-reference-docx/typography-style-review.docx",
+        "outputs/status-page/primary-hint-review.json"
+      ]
+    },
+    {
+      "id": "NODE-0620",
+      "title": "Place Iron prospects after Simple Core in the hint review",
+      "evidence": [
+        "previews/status-page/hintReview.ts",
+        "previews/status-page/README.md",
+        "docs/systems/tutorials-and-discovery.md",
+        "outputs/status-page/iron-after-simple.jpg"
+      ]
+    },
+    {
+      "id": "NODE-0621",
+      "title": "Add sequential paid bot upgrades that unlock the next Core in the Status prototype",
+      "evidence": [
+        "previews/status-page/model.ts",
+        "previews/status-page/model.test.ts",
+        "previews/status-page/BotUpgrade.tsx",
+        "previews/status-page/upgradeExamples.ts",
+        "previews/status-page/main.tsx",
+        "previews/status-page/preview.css",
+        "previews/status-page/hintReview.ts",
+        "previews/status-page/README.md",
+        "docs/systems/research.md",
+        "docs/systems/progression-tiers.md",
+        "docs/systems/interface-and-assets.md",
+        "docs/systems/tutorials-and-discovery.md",
+        "docs/master-plan/06-art-audio-and-writing.md",
+        "docs/archive/style-reference-docx/node-ui-style-guide.docx",
+        "docs/archive/style-reference-docx/typography-style-review.docx",
+        "outputs/status-page/bot-upgrade-review.json"
+      ]
+    },
+    {
+      "id": "NODE-0622",
+      "title": "Revise the Iron prospects hint",
+      "evidence": [
+        "src/ui/researchMilestones.ts",
+        "previews/status-page/hintReview.ts",
+        "previews/status-page/README.md",
+        "docs/systems/tutorials-and-discovery.md",
+        "docs/archive/style-reference-docx/node-ui-style-guide.docx",
+        "docs/archive/style-reference-docx/typography-style-review.docx",
+        "outputs/status-page/iron-hint-revised.jpg"
+      ]
+    },
+    {
+      "id": "NODE-0623",
+      "title": "Make bot upgrade collection explicitly enabled and remove the badge underline",
+      "evidence": [
+        "previews/status-page/BotUpgrade.tsx",
+        "previews/status-page/model.test.ts",
+        "previews/status-page/README.md",
+        "docs/systems/research.md",
+        "docs/systems/interface-and-assets.md",
+        "docs/archive/style-reference-docx/node-ui-style-guide.docx",
+        "docs/archive/style-reference-docx/typography-style-review.docx",
+        "outputs/status-page/bot-upgrade-enabled-review.json"
+      ]
+    },
+    {
+      "id": "NODE-0624",
+      "title": "Revise the Road progression hint",
+      "evidence": [
+        "src/ui/researchMilestones.ts",
+        "previews/status-page/hintReview.ts",
+        "previews/status-page/README.md",
+        "docs/systems/tutorials-and-discovery.md",
+        "docs/archive/style-reference-docx/node-ui-style-guide.docx",
+        "docs/archive/style-reference-docx/typography-style-review.docx",
+        "outputs/status-page/road-hint-revised.jpg"
+      ]
+    },
+    {
+      "id": "NODE-0625",
+      "title": "Browse unlocked robot thoughts with compact corner arrows",
+      "evidence": [
+        "previews/status-page/HintBrowser.tsx",
+        "previews/status-page/statusHints.ts",
+        "previews/status-page/statusHints.test.ts",
+        "src/ui/researchMilestones.ts",
+        "previews/status-page/README.md",
+        "docs/systems/tutorials-and-discovery.md",
+        "docs/systems/interface-and-assets.md",
+        "docs/master-plan/06-art-audio-and-writing.md",
+        "docs/archive/style-reference-docx/node-ui-style-guide.docx",
+        "docs/archive/style-reference-docx/typography-style-review.docx",
+        "outputs/status-page/hint-navigation-review.json"
+      ]
+    },
+    {
+      "id": "NODE-0626",
+      "title": "Revise the Exploration progression hint",
+      "evidence": [
+        "src/ui/researchMilestones.ts",
+        "previews/status-page/hintReview.ts",
+        "previews/status-page/README.md",
+        "docs/systems/tutorials-and-discovery.md",
+        "docs/archive/style-reference-docx/node-ui-style-guide.docx",
+        "docs/archive/style-reference-docx/typography-style-review.docx",
+        "outputs/status-page/exploration-hint-revised.jpg"
+      ]
+    },
+    {
+      "id": "NODE-0627",
+      "title": "Unlock character upgrades in sequence and center the Upgrade button label",
+      "evidence": [
+        "src/domain/types.ts",
+        "src/ui/researchPresentation.ts",
+        "previews/status-page/model.ts",
+        "previews/status-page/model.test.ts",
+        "previews/status-page/BotUpgrade.tsx",
+        "previews/status-page/preview.css",
+        "previews/status-page/README.md",
+        "docs/systems/research.md",
+        "docs/systems/interface-and-assets.md",
+        "docs/master-plan/06-art-audio-and-writing.md",
+        "docs/archive/style-reference-docx/node-ui-style-guide.docx",
+        "docs/archive/style-reference-docx/typography-style-review.docx",
+        "outputs/status-page/sequential-bot-upgrade-review.json"
+      ]
+    },
+    {
+      "id": "NODE-0628",
+      "title": "Rename the prototype modal to Upgrades and remove its eyebrow",
+      "evidence": [
+        "previews/status-page/main.tsx",
+        "previews/status-page/README.md",
+        "docs/systems/interface-and-assets.md",
+        "docs/master-plan/06-art-audio-and-writing.md",
+        "docs/archive/style-reference-docx/node-ui-style-guide.docx",
+        "docs/archive/style-reference-docx/typography-style-review.docx",
+        "outputs/status-page/upgrades-heading.jpg"
+      ]
+    },
+    {
+      "id": "NODE-0629",
+      "title": "Display and charge every Core through the character upgrade tier",
+      "evidence": [
+        "previews/status-page/model.ts",
+        "previews/status-page/model.test.ts",
+        "previews/status-page/upgradeExamples.ts",
+        "previews/status-page/preview.css",
+        "previews/status-page/hintReview.ts",
+        "previews/status-page/README.md",
+        "docs/systems/research.md",
+        "docs/systems/interface-and-assets.md",
+        "docs/master-plan/06-art-audio-and-writing.md",
+        "docs/archive/style-reference-docx/node-ui-style-guide.docx",
+        "docs/archive/style-reference-docx/typography-style-review.docx",
+        "outputs/status-page/cumulative-upgrade-review.json"
+      ]
+    },
+    {
+      "id": "NODE-0630",
+      "title": "Revise the Lake progression clue",
+      "evidence": [
+        "src/ui/researchMilestones.ts",
+        "src/ui/researchMilestones.test.ts",
+        "previews/status-page/hintReview.ts",
+        "previews/status-page/README.md",
+        "docs/systems/tutorials-and-discovery.md",
+        "docs/archive/style-reference-docx/node-ui-style-guide.docx",
+        "docs/archive/style-reference-docx/typography-style-review.docx",
+        "outputs/status-page/lake-hint-revised.jpg"
+      ]
+    },
+    {
+      "id": "NODE-0631",
+      "title": "Keep the scroll wheel from changing the robot hint",
+      "evidence": [
+        "previews/status-page/HintBrowser.tsx",
+        "previews/status-page/HintReviewPage.tsx",
+        "previews/status-page/README.md",
+        "docs/systems/tutorials-and-discovery.md",
+        "docs/systems/interface-and-assets.md",
+        "docs/master-plan/06-art-audio-and-writing.md",
+        "docs/archive/style-reference-docx/node-ui-style-guide.docx",
+        "docs/archive/style-reference-docx/typography-style-review.docx",
+        "outputs/status-page/hint-wheel-review.json"
+      ]
+    },
+    {
+      "id": "NODE-0641",
+      "title": "Create a border terrain art study with rivers, mountains and chasms",
+      "evidence": [
+        "src/art/borderObstructionArt.ts",
+        "previews/border-obstructions/index.html",
+        "previews/border-obstructions/main.ts",
+        "previews/border-obstructions/preview.css",
+        "previews/border-obstructions/README.md",
+        "scripts/build-border-art.mjs",
+        "package.json",
+        "docs/master-plan/21-border-obstructions.md",
+        "docs/systems/interface-and-assets.md",
+        "docs/README.md",
+        "docs/archive/style-reference-docx/node-ui-style-guide.docx",
+        "docs/archive/style-reference-docx/typography-style-review.docx",
+        "outputs/border-obstructions-page/border-obstructions.html",
+        "outputs/border-obstructions-qa/art-page.jpg",
+        "outputs/border-obstructions-qa/browser-review.json",
+        "outputs/border-obstructions-qa/verification.json",
+        "outputs/border-obstructions-qa/word-structure.json",
+        "outputs/border-obstructions-qa/style-guide-render.log",
+        "outputs/border-obstructions-qa/style-notes-render.log"
+      ]
+    },
+    {
+      "id": "NODE-0642",
+      "title": "Simulate opposite-side obstructions with terrain shared across map boundaries",
+      "evidence": [
+        "src/domain/borderObstructionLayout.ts",
+        "src/domain/borderObstructionLayout.test.ts",
+        "src/art/borderObstructionArt.ts",
+        "previews/border-obstructions/main.ts",
+        "previews/border-obstructions/preview.css",
+        "docs/master-plan/21-border-obstructions.md",
+        "docs/master-plan/10-decisions-and-review-queue.md",
+        "docs/systems/interface-and-assets.md",
+        "previews/border-obstructions/README.md",
+        "docs/archive/style-reference-docx/node-ui-style-guide.docx",
+        "docs/archive/style-reference-docx/typography-style-review.docx",
+        "outputs/border-obstructions-page/border-obstructions.html",
+        "outputs/border-obstructions-qa/map-node-simulation.jpg",
+        "outputs/border-obstructions-qa/simulation-browser-review.json",
+        "outputs/border-obstructions-qa/simulation-geometry.json",
+        "outputs/border-obstructions-qa/simulation-word-structure.json",
+        "outputs/border-obstructions-qa/simulation-style-guide-render.log",
+        "outputs/border-obstructions-qa/simulation-style-notes-render.log"
+      ]
+    },
+    {
+      "id": "NODE-0643",
+      "title": "Keep the hint box at its assignment dimensions while browsing",
+      "evidence": [
+        "previews/status-page/HintBrowser.tsx",
+        "previews/status-page/preview.css",
+        "previews/status-page/statusHints.test.ts",
+        "previews/status-page/HintReviewPage.tsx",
+        "previews/status-page/README.md",
+        "docs/systems/interface-and-assets.md",
+        "docs/systems/tutorials-and-discovery.md",
+        "docs/master-plan/06-art-audio-and-writing.md",
+        "docs/archive/style-reference-docx/node-ui-style-guide.docx",
+        "docs/archive/style-reference-docx/typography-style-review.docx",
+        "outputs/status-page/assignment-size-review.json"
+      ]
+    },
+    {
+      "id": "NODE-0644",
+      "title": "Clip the obstruction specimen to its field and show terrain in Road ghosts",
+      "evidence": [
+        "src/art/borderObstructionArt.ts",
+        "previews/border-obstructions/mapNodeSimulation.ts",
+        "previews/border-obstructions/main.ts",
+        "previews/border-obstructions/preview.css",
+        "docs/master-plan/21-border-obstructions.md",
+        "docs/master-plan/10-decisions-and-review-queue.md",
+        "docs/systems/interface-and-assets.md",
+        "docs/systems/roads-and-vehicles.md",
+        "previews/border-obstructions/README.md",
+        "docs/archive/style-reference-docx/node-ui-style-guide.docx",
+        "docs/archive/style-reference-docx/typography-style-review.docx",
+        "outputs/border-obstructions-page/border-obstructions.html",
+        "outputs/border-obstructions-qa/current-field-clipped.jpg",
+        "outputs/border-obstructions-qa/road-placement-ghost.jpg",
+        "outputs/border-obstructions-qa/clipping-browser-review.json",
+        "outputs/border-obstructions-qa/clipping-word-structure.json",
+        "outputs/border-obstructions-qa/clipping-style-guide-render.log",
+        "outputs/border-obstructions-qa/clipping-style-notes-render.log"
+      ]
+    },
+    {
+      "id": "NODE-0647",
+      "title": "Create a Map terrain proposal with four field tests and sixteen quiet vector tiles",
+      "evidence": [
+        "docs/master-plan/22-map-terrain-tiles.md",
+        "previews/terrain-tiles/README.md",
+        "previews/terrain-tiles/main.ts",
+        "previews/terrain-tiles/art.ts",
+        "previews/terrain-tiles/model.ts",
+        "previews/terrain-tiles/model.test.ts",
+        "scripts/build-terrain-preview.mjs",
+        "package.json",
+        "docs/README.md",
+        "docs/master-plan/README.md",
+        "docs/systems/map-nodes-and-exploration.md",
+        "docs/systems/sustainability-and-recovery.md",
+        "docs/systems/interface-and-assets.md",
+        "docs/archive/style-reference-docx/node-ui-style-guide.docx",
+        "docs/archive/style-reference-docx/typography-style-review.docx",
+        "outputs/terrain-tiles-page/terrain-proposal.html",
+        "outputs/terrain-tiles-qa/terrain-comparison.jpg",
+        "outputs/terrain-tiles-qa/browser-review.json",
+        "outputs/terrain-tiles-qa/downloaded-rule-snapshot.json",
+        "outputs/terrain-tiles-qa/verification.json",
+        "outputs/terrain-tiles-qa/word-structure.json",
+        "outputs/terrain-tiles-qa/style-guide-render.log",
+        "outputs/terrain-tiles-qa/style-notes-render.log"
+      ]
+    },
+    {
+      "id": "NODE-0649",
+      "title": "Preview border obstructions in the actual Node Map modal",
+      "evidence": [
+        "src/ui/NodeMinimap.tsx",
+        "src/ui/MapNodeDetails.tsx",
+        "previews/border-obstructions/map-modal.html",
+        "previews/border-obstructions/mapModal.tsx",
+        "previews/border-obstructions/mapModal.css",
+        "previews/border-obstructions/mapModalModel.ts",
+        "previews/border-obstructions/mapModalModel.test.ts",
+        "scripts/build-border-art.mjs",
+        "docs/master-plan/21-border-obstructions.md",
+        "docs/systems/interface-and-assets.md",
+        "docs/systems/map-nodes-and-exploration.md",
+        "docs/README.md",
+        "previews/border-obstructions/README.md",
+        "docs/archive/style-reference-docx/node-ui-style-guide.docx",
+        "docs/archive/style-reference-docx/typography-style-review.docx",
+        "outputs/border-obstructions-page/map-modal.html",
+        "outputs/border-obstructions-qa/map-modal-desktop.jpg",
+        "outputs/border-obstructions-qa/map-modal-mobile.jpg",
+        "outputs/border-obstructions-qa/map-modal-browser-review.json",
+        "outputs/border-obstructions-qa/map-modal-word-structure.json",
+        "outputs/border-obstructions-qa/map-modal-style-guide-render.log",
+        "outputs/border-obstructions-qa/map-modal-style-notes-render.log"
+      ]
+    },
+    {
+      "id": "NODE-0651",
+      "title": "Replace Core filters with exclusive node views and quantity-first research rows",
+      "evidence": [
+        "previews/status-page/main.tsx",
+        "previews/status-page/researchList.ts",
+        "previews/status-page/researchList.test.ts",
+        "previews/status-page/ResearchListRow.tsx",
+        "previews/status-page/model.ts",
+        "previews/status-page/preview.css",
+        "previews/status-page/README.md",
+        "docs/systems/interface-and-assets.md",
+        "docs/systems/research.md",
+        "docs/systems/efficiency.md",
+        "docs/master-plan/06-art-audio-and-writing.md",
+        "docs/archive/style-reference-docx/node-ui-style-guide.docx",
+        "docs/archive/style-reference-docx/typography-style-review.docx",
+        "outputs/status-page/research-rows-review.json"
+      ]
+    },
+    {
+      "id": "NODE-0652",
+      "title": "Move research filters above search and release the fixed Map Point row",
+      "evidence": [
+        "previews/status-page/main.tsx",
+        "previews/status-page/preview.css",
+        "previews/status-page/researchList.ts",
+        "previews/status-page/researchList.test.ts",
+        "previews/status-page/ResearchListRow.tsx",
+        "previews/status-page/README.md",
+        "docs/systems/interface-and-assets.md",
+        "docs/systems/research.md",
+        "docs/master-plan/06-art-audio-and-writing.md",
+        "docs/archive/style-reference-docx/node-ui-style-guide.docx",
+        "docs/archive/style-reference-docx/typography-style-review.docx",
+        "outputs/status-page/research-order-review.json"
+      ]
+    },
+    {
+      "id": "NODE-0653",
+      "title": "Temporarily hide the Selected project preview for layout review",
+      "evidence": [
+        "previews/status-page/main.tsx",
+        "previews/status-page/README.md",
+        "docs/systems/interface-and-assets.md",
+        "docs/systems/research.md",
+        "docs/master-plan/06-art-audio-and-writing.md",
+        "docs/archive/style-reference-docx/node-ui-style-guide.docx",
+        "docs/archive/style-reference-docx/typography-style-review.docx",
+        "outputs/status-page/hidden-selected-project-review.json"
+      ]
+    },
+    {
+      "id": "NODE-0654",
+      "title": "Remove research requirement text from map border summaries and tooltips",
+      "evidence": [
+        "previews/border-obstructions/mapModal.tsx",
+        "previews/border-obstructions/README.md",
+        "docs/master-plan/21-border-obstructions.md",
+        "docs/systems/interface-and-assets.md",
+        "docs/archive/style-reference-docx/node-ui-style-guide.docx",
+        "docs/archive/style-reference-docx/typography-style-review.docx",
+        "outputs/border-obstructions-page/map-modal.html",
+        "outputs/border-obstructions-qa/map-modal-clean-text.jpg",
+        "outputs/border-obstructions-qa/map-modal-text-review.json",
+        "outputs/border-obstructions-qa/map-modal-text-word-structure.json",
+        "outputs/border-obstructions-qa/map-text-style-guide-render.log",
+        "outputs/border-obstructions-qa/map-text-style-notes-render.log"
+      ]
+    },
+    {
+      "id": "NODE-0655",
+      "title": "Make the terrain shapes less regular and retain both earlier comparison drafts",
+      "evidence": [
+        "previews/terrain-tiles/art.ts",
+        "previews/terrain-tiles/regularArt.ts",
+        "previews/terrain-tiles/initialArt.ts",
+        "previews/terrain-tiles/main.ts",
+        "previews/terrain-tiles/README.md",
+        "scripts/build-terrain-preview.mjs",
+        "docs/master-plan/22-map-terrain-tiles.md",
+        "docs/master-plan/10-decisions-and-review-queue.md",
+        "docs/systems/interface-and-assets.md",
+        "docs/archive/style-reference-docx/node-ui-style-guide.docx",
+        "docs/archive/style-reference-docx/typography-style-review.docx",
+        "outputs/terrain-tiles-page/terrain-proposal.html",
+        "outputs/terrain-tiles-broad/terrain-proposal.html",
+        "outputs/terrain-tiles-initial/terrain-proposal.html",
+        "outputs/terrain-tiles-qa/irregular-terrain-comparison.jpg",
+        "outputs/terrain-tiles-qa/irregular-browser-review.json",
+        "outputs/terrain-tiles-qa/irregular-verification.json",
+        "outputs/terrain-tiles-qa/irregular-word-structure.json",
+        "outputs/terrain-tiles-qa/irregular-style-guide-render.log",
+        "outputs/terrain-tiles-qa/irregular-style-notes-render.log"
+      ]
+    },
+    {
+      "id": "NODE-0657",
+      "title": "Show unlock requirements instead of zero-Core research prices",
+      "evidence": [
+        "previews/status-page/ResearchListRow.tsx",
+        "previews/status-page/preview.css",
+        "previews/status-page/researchList.test.ts",
+        "previews/status-page/README.md",
+        "docs/systems/interface-and-assets.md",
+        "docs/systems/research.md",
+        "docs/master-plan/06-art-audio-and-writing.md",
+        "docs/archive/style-reference-docx/node-ui-style-guide.docx",
+        "docs/archive/style-reference-docx/typography-style-review.docx",
+        "outputs/status-page/unlock-requirements-review.json"
+      ]
+    },
+    {
+      "id": "NODE-0662",
+      "title": "Apply the accepted AI character promotion titles",
+      "evidence": [
+        "previews/status-page/model.ts",
+        "previews/status-page/main.tsx",
+        "previews/status-page/robotArt.ts",
+        "previews/status-page/README.md",
+        "docs/master-plan/06-art-audio-and-writing.md",
+        "docs/systems/interface-and-assets.md",
+        "docs/archive/style-reference-docx/node-ui-style-guide.docx",
+        "docs/archive/style-reference-docx/typography-style-review.docx",
+        "outputs/status-page/promotion-titles-review.json",
+        "outputs/status-page/robot-tier-art.html"
+      ]
+    },
+    {
+      "id": "NODE-0663",
+      "title": "Add a progression-ordered research cost review chart",
+      "evidence": [
+        "scripts/system-docs.mjs",
+        "docs/systems/catalogs/research.md",
+        "docs/systems/research.md",
+        "src/ui/researchTree.ts",
+        "src/ui/researchPresentation.ts"
+      ]
+    },
+    {
+      "id": "NODE-0666",
+      "title": "Add corner-linked terrain weighting and guaranteed first-diagonal proposal sites",
+      "evidence": [
+        "previews/terrain-tiles/model.ts",
+        "previews/terrain-tiles/model.test.ts",
+        "previews/terrain-tiles/main.ts",
+        "previews/terrain-tiles/preview.css",
+        "previews/terrain-tiles/README.md",
+        "src/content/endgame.ts",
+        "src/simulation/endgameRuntime.ts",
+        "docs/master-plan/22-map-terrain-tiles.md",
+        "docs/master-plan/10-decisions-and-review-queue.md",
+        "docs/master-plan/README.md",
+        "docs/systems/map-nodes-and-exploration.md",
+        "docs/systems/endgame-and-victory.md",
+        "docs/systems/interface-and-assets.md",
+        "docs/archive/style-reference-docx/node-ui-style-guide.docx",
+        "docs/archive/style-reference-docx/typography-style-review.docx",
+        "outputs/terrain-tiles-page/terrain-proposal.html",
+        "outputs/terrain-tiles-qa/quadrant-tests.log",
+        "outputs/terrain-tiles-qa/quadrant-audit.json",
+        "outputs/terrain-tiles-qa/quadrant-audit-1.2.json",
+        "outputs/terrain-tiles-qa/quadrant-one-third-audit.json",
+        "outputs/terrain-tiles-qa/quadrant-verification.json",
+        "outputs/terrain-tiles-qa/quadrant-browser-review.json",
+        "outputs/terrain-tiles-qa/quadrant-preferred-entries.jpg",
+        "outputs/terrain-tiles-qa/quadrant-mobile.jpg",
+        "outputs/terrain-tiles-qa/quadrant-11x11-snapshot.json",
+        "outputs/terrain-tiles-qa/quadrant-21x21-snapshot.json",
+        "outputs/terrain-tiles-qa/quadrant-word-structure.json",
+        "outputs/terrain-tiles-qa/quadrant-final-word-structure.json",
+        "outputs/terrain-tiles-qa/quadrant-guide-render.log",
+        "outputs/terrain-tiles-qa/quadrant-notes-render.log"
+      ]
+    },
+    {
+      "id": "NODE-0667",
+      "title": "Queue four research projects and toggle research with pause/play icons",
+      "evidence": [
+        "previews/status-page/main.tsx",
+        "previews/status-page/ResearchQueue.tsx",
+        "previews/status-page/queueExamples.ts",
+        "previews/status-page/README.md",
+        "src/simulation/researchRuntime.ts",
+        "src/simulation/researchQueue.test.ts",
+        "src/domain/types.ts",
+        "docs/systems/research.md",
+        "docs/archive/style-reference-docx/node-ui-style-guide.docx",
+        "docs/archive/style-reference-docx/typography-style-review.docx",
+        "outputs/status-page/queue-verification.json",
+        "outputs/status-page/queue-paused-review.jpg",
+        "outputs/status-page/queue-running-review.jpg"
+      ]
+    },
+    {
+      "id": "NODE-0668",
+      "title": "Fold End of the World into Complex Core and highlight newly revealed corners",
+      "evidence": [
+        "src/content/coreResearch.ts",
+        "src/content/endgame.ts",
+        "src/content/retiredResearch.ts",
+        "src/domain/types.ts",
+        "src/simulation/researchRuntime.ts",
+        "src/simulation/engine.ts",
+        "src/simulation/cornerDiscovery.test.ts",
+        "src/simulation/endgame.test.ts",
+        "src/ui/researchMilestones.ts",
+        "src/ui/NodeMinimap.tsx",
+        "src/ui/App.tsx",
+        "src/ui/components/RailButton.tsx",
+        "src/styles/node-map.css",
+        "src/ui/mapNodePresentation.test.ts",
+        "previews/status-page/hintReview.ts",
+        "previews/status-page/README.md",
+        "docs/systems/research.md",
+        "docs/systems/endgame-and-victory.md",
+        "docs/systems/map-nodes-and-exploration.md",
+        "docs/systems/saves-and-compatibility.md",
+        "docs/systems/interface-and-assets.md",
+        "docs/systems/progression-tiers.md",
+        "docs/systems/tutorials-and-discovery.md",
+        "docs/systems/catalogs/research.md",
+        "docs/systems/catalogs/recipes.md",
+        "docs/master-plan/06-art-audio-and-writing.md",
+        "docs/archive/style-reference-docx/node-ui-style-guide.docx",
+        "docs/archive/style-reference-docx/typography-style-review.docx",
+        "outputs/research-review/corner-discovery-preview.tsx",
+        "outputs/research-review/corner-discovery-preview.html",
+        "outputs/research-review/corner-discovery-verification.json",
+        "outputs/research-review/corner-guide-render.log",
+        "outputs/research-review/corner-notes-render.log"
+      ]
+    },
+    {
+      "id": "NODE-0669",
+      "title": "Frame the bot assignment around upgrading itself with world resources",
+      "evidence": [
+        "previews/status-page/model.ts",
+        "previews/status-page/README.md",
+        "docs/master-plan/06-art-audio-and-writing.md",
+        "docs/systems/tutorials-and-discovery.md",
+        "docs/systems/interface-and-assets.md",
+        "docs/archive/style-reference-docx/node-ui-style-guide.docx",
+        "docs/archive/style-reference-docx/typography-style-review.docx",
+        "outputs/status-page/self-upgrade-assignment-verification.json"
+      ]
+    },
+    {
+      "id": "NODE-0670",
+      "title": "Name the Final bot stage Self-Optimizing Intelligence",
+      "evidence": [
+        "previews/status-page/model.ts",
+        "previews/status-page/README.md",
+        "docs/master-plan/06-art-audio-and-writing.md",
+        "docs/systems/interface-and-assets.md",
+        "docs/archive/style-reference-docx/node-ui-style-guide.docx",
+        "docs/archive/style-reference-docx/typography-style-review.docx",
+        "outputs/status-page/art/node-bot-final.svg",
+        "outputs/status-page/final-title-verification.json"
+      ]
+    },
+    {
+      "id": "NODE-0671",
+      "title": "Move Connector Mirroring to Complex-tier research",
+      "evidence": [
+        "src/content/research.ts",
+        "src/simulation/researchRuntime.ts",
+        "src/simulation/engine.connectorMirroring.test.ts",
+        "src/simulation/devSource.test.ts",
+        "src/ui/researchPresentation.test.ts",
+        "src/ui/researchTree.test.ts",
+        "scripts/progression.test.ts",
+        "scripts/run-progression.mjs",
+        "scripts/summarize-progression.mjs",
+        "docs/systems/research.md",
+        "docs/systems/connections-and-routing.md",
+        "docs/systems/controls-and-factory-layouts.md",
+        "docs/systems/saves-and-compatibility.md",
+        "docs/systems/testing-and-publishing.md",
+        "docs/systems/catalogs/research.md",
+        "outputs/progression/analysis.json",
+        "outputs/progression/review.html",
+        "outputs/research-review/connector-mirroring-progression.log",
+        "outputs/research-review/connector-mirroring-complex-verification.json"
+      ]
+    },
+    {
+      "id": "NODE-0672",
+      "title": "Implement saved Map Node terrain for new factories",
+      "evidence": [
+        "src/domain/mapTerrain.ts",
+        "src/simulation/mapTerrain.ts",
+        "src/simulation/createInitialState.ts",
+        "src/simulation/worldGeneration.ts",
+        "src/simulation/engine.ts",
+        "src/simulation/expansionRescue.ts",
+        "src/persistence/legacyMigration.ts",
+        "src/tutorials/tutorialState.ts",
+        "src/art/mapTerrainArt.ts",
+        "src/renderer/mapTerrain.ts",
+        "src/renderer/PixiPlayfield.tsx",
+        "src/ui/MapNodeDetails.tsx",
+        "src/simulation/mapTerrain.test.ts",
+        "src/ui/mapTerrain.test.tsx",
+        "previews/terrain-tiles/README.md",
+        "previews/terrain-tiles/runtime.html",
+        "docs/master-plan/22-map-terrain-tiles.md",
+        "docs/systems/map-nodes-and-exploration.md",
+        "docs/systems/sustainability-and-recovery.md",
+        "docs/systems/saves-and-compatibility.md",
+        "docs/systems/mods.md",
+        "docs/mods.md",
+        "docs/systems/interface-and-assets.md",
+        "docs/archive/style-reference-docx/node-ui-style-guide.docx",
+        "docs/archive/style-reference-docx/typography-style-review.docx",
+        "outputs/terrain-tiles-qa/runtime-verification.json",
+        "outputs/terrain-tiles-qa/runtime-focused-tests.log",
+        "outputs/terrain-tiles-qa/runtime-full-tests.log",
+        "outputs/terrain-tiles-qa/runtime-browser-review.json",
+        "outputs/terrain-tiles-qa/runtime-art-preservation.json",
+        "outputs/terrain-tiles-qa/runtime-word-structure.json",
+        "outputs/terrain-tiles-qa/runtime-guide-render.log",
+        "outputs/terrain-tiles-qa/runtime-notes-render.log"
+      ]
+    },
+    {
+      "id": "NODE-0674",
+      "title": "Maintain style references in Markdown instead of Word",
+      "evidence": [
+        "AGENTS.md",
+        "docs/node-ui-style-guide.md",
+        "docs/typography-style-review.md",
+        "docs/archive/style-reference-docx/README.md",
+        "docs/archive/style-reference-docx/node-ui-style-guide.docx",
+        "docs/archive/style-reference-docx/typography-style-review.docx",
+        "docs/systems/interface-and-assets.md",
+        "docs/reviews/system-review-temporary.md",
+        "outputs/style-markdown-conversion/convert-style-references.py",
+        "outputs/style-markdown-conversion/verify-conversion.py",
+        "outputs/style-markdown-conversion/verification.json"
+      ]
+    },
+    {
+      "id": "NODE-0675",
+      "title": "Queue research by double-click or the selected-card action by default",
+      "evidence": [
+        "previews/status-page/main.tsx",
+        "previews/status-page/ResearchListRow.tsx",
+        "previews/status-page/ResearchQueue.tsx",
+        "previews/status-page/preview.css",
+        "src/ui/ResearchCard.tsx",
+        "previews/status-page/README.md",
+        "docs/systems/research.md",
+        "docs/systems/interface-and-assets.md",
+        "docs/node-ui-style-guide.md",
+        "docs/typography-style-review.md",
+        "outputs/status-page/card-queue-action-verification.json",
+        "outputs/status-page/card-queue-action-review.jpg"
+      ]
+    },
+    {
+      "id": "NODE-0676",
+      "title": "Lightly color explored terrain on the expanded Node Map",
+      "evidence": [
+        "src/ui/NodeMinimap.tsx",
+        "src/ui/MapNodeDetails.tsx",
+        "src/styles/node-map.css",
+        "src/ui/mapTerrain.test.tsx",
+        "previews/terrain-tiles/runtime.tsx",
+        "previews/terrain-tiles/README.md",
+        "docs/node-ui-style-guide.md",
+        "docs/typography-style-review.md",
+        "docs/systems/interface-and-assets.md",
+        "docs/systems/map-nodes-and-exploration.md",
+        "outputs/terrain-tiles-qa/map-tint-verification.json",
+        "outputs/terrain-tiles-qa/map-tint-tests.log",
+        "outputs/terrain-tiles-qa/map-tint-build.log",
+        "outputs/terrain-tiles-qa/map-tint-typescript.log",
+        "outputs/terrain-tiles-qa/map-tint-browser.json",
+        "outputs/terrain-tiles-qa/map-tint-desktop.jpg",
+        "outputs/terrain-tiles-qa/map-tint-mobile.jpg"
+      ]
+    },
+    {
+      "id": "NODE-0677",
+      "title": "Return from priority bot upgrades to queued research and remove list-card progress bars",
+      "evidence": [
+        "src/content/researchQueue.ts",
+        "src/simulation/researchRuntime.ts",
+        "src/simulation/engine.ts",
+        "src/simulation/researchQueue.test.ts",
+        "src/ui/ResearchCard.tsx",
+        "previews/status-page/BotUpgrade.tsx",
+        "previews/status-page/ResearchListRow.tsx",
+        "previews/status-page/main.tsx",
+        "docs/systems/research.md",
+        "docs/systems/saves-and-compatibility.md",
+        "docs/node-ui-style-guide.md",
+        "docs/typography-style-review.md",
+        "outputs/status-page/priority-return-verification.json",
+        "outputs/status-page/priority-return-review.jpg"
+      ]
+    },
+    {
+      "id": "NODE-0678",
+      "title": "Bank researched Map Points before choosing a map to unlock",
+      "evidence": [
+        "previews/status-page/main.tsx",
+        "previews/status-page/model.ts",
+        "previews/status-page/queueExamples.ts",
+        "previews/status-page/mapPoints.test.ts",
+        "src/domain/types.ts",
+        "src/simulation/mapExpansion.ts",
+        "src/simulation/researchRuntime.ts",
+        "src/persistence/legacyMigration.ts",
+        "docs/systems/map-nodes-and-exploration.md",
+        "docs/systems/research.md",
+        "docs/systems/saves-and-compatibility.md",
+        "docs/node-ui-style-guide.md",
+        "docs/typography-style-review.md",
+        "outputs/status-page/map-point-verification.json",
+        "outputs/status-page/map-point-before-unlock.jpg",
+        "outputs/status-page/map-point-ready-review.jpg"
+      ]
+    },
+    {
+      "id": "NODE-0682",
+      "title": "Explain bot upgrade benefits in tooltips and completion notices",
+      "evidence": [
+        "previews/status-page/BotUpgrade.tsx",
+        "previews/status-page/UpgradeCompletionNotice.tsx",
+        "previews/status-page/main.tsx",
+        "previews/status-page/preview.css",
+        "previews/status-page/README.md",
+        "docs/systems/interface-and-assets.md",
+        "docs/systems/research.md",
+        "docs/node-ui-style-guide.md",
+        "docs/typography-style-review.md",
+        "outputs/status-page/upgrade-benefits-verification.json",
+        "outputs/status-page/upgrade-benefit-tooltip.jpg",
+        "outputs/status-page/upgrade-completion-notice.jpg",
+        "outputs/status-page/final-upgrade-completion-notice.jpg"
+      ]
+    },
+    {
+      "id": "NODE-0683",
+      "title": "Save learned research hints and assignment acknowledgement with each factory",
+      "evidence": [
+        "src/domain/researchHintHistory.ts",
+        "src/domain/types.ts",
+        "src/persistence/legacyMigration.ts",
+        "src/simulation/engine.ts",
+        "previews/status-page/statusHints.ts",
+        "previews/status-page/HintBrowser.tsx",
+        "previews/status-page/HintReviewPage.tsx",
+        "previews/status-page/hintReview.ts",
+        "previews/status-page/main.tsx",
+        "previews/status-page/hintHistory.test.ts",
+        "docs/systems/tutorials-and-discovery.md",
+        "docs/systems/saves-and-compatibility.md",
+        "docs/node-ui-style-guide.md",
+        "docs/typography-style-review.md",
+        "outputs/status-page/saved-hint-history-verification.json",
+        "outputs/status-page/saved-hint-history-review.jpg"
+      ]
+    },
+    {
+      "id": "NODE-0685",
+      "title": "Remove Deep Hole exploration gating and simplify map details",
+      "evidence": [
+        "src/simulation/mapExpansion.ts",
+        "src/simulation/expansionRescue.ts",
+        "src/simulation/newWorldObstructions.test.ts",
+        "src/ui/NodeMinimap.tsx",
+        "src/ui/MapNodeDetails.tsx",
+        "src/ui/mapNodePresentation.ts",
+        "src/ui/MapBorderObstructions.tsx",
+        "src/ui/MapBorderObstructions.test.tsx",
+        "src/ui/mapTerrain.test.tsx",
+        "src/ui/mapBorderObstructions.css",
+        "src/styles/readability.css",
+        "src/art/borderObstructionArt.ts",
+        "previews/status-page/mapPoints.test.ts",
+        "previews/border-obstructions/mapModal.tsx",
+        "previews/terrain-tiles/runtime.tsx",
+        "docs/systems/map-nodes-and-exploration.md",
+        "docs/systems/encounters-and-obstructions.md",
+        "docs/systems/interface-and-assets.md",
+        "docs/systems/saves-and-compatibility.md",
+        "docs/node-ui-style-guide.md",
+        "docs/typography-style-review.md",
+        "docs/deep-hole-exploration-simulation.md",
+        "outputs/terrain-tiles-qa/map-exploration-cleanup-verification.json",
+        "outputs/terrain-tiles-qa/map-exploration-cleanup-browser.json",
+        "outputs/terrain-tiles-qa/remove-hole-gate-focused-tests.log",
+        "outputs/terrain-tiles-qa/map-exploration-cleanup-full-tests.log",
+        "outputs/terrain-tiles-qa/map-exploration-cleanup-build.log",
+        "outputs/terrain-tiles-qa/map-details-cleanup-desktop.jpg",
+        "outputs/terrain-tiles-qa/map-details-cleanup-mobile.jpg",
+        "outputs/terrain-tiles-qa/holes-exploration-enabled.jpg"
+      ]
+    },
+    {
+      "id": "NODE-0687",
+      "title": "Adapt Basics research practice to the Upgrades queue",
+      "evidence": [
+        "src/tutorials/tutorialDialogue.ts",
+        "src/tutorials/tutorialChoices.ts",
+        "src/tutorials/tutorialProgress.ts",
+        "src/ui/Tutorials.tsx",
+        "previews/status-page/researchPractice.ts",
+        "previews/status-page/researchPractice.test.ts",
+        "previews/status-page/main.tsx",
+        "previews/status-page/ResearchQueue.tsx",
+        "previews/status-page/README.md",
+        "docs/master-plan/06-art-audio-and-writing.md",
+        "docs/systems/tutorials-and-discovery.md",
+        "docs/node-ui-style-guide.md",
+        "docs/typography-style-review.md",
+        "outputs/status-page/basics-research-transition-verification.json",
+        "outputs/status-page/basics-queue-practice.jpg",
+        "outputs/status-page/basics-research-complete.jpg"
+      ]
+    },
+    {
+      "id": "NODE-0689",
+      "title": "Fix Dev Source input supply and fully explore developer-unlocked maps",
+      "evidence": [
+        "src/simulation/devSource.ts",
+        "src/simulation/devSource.test.ts",
+        "src/simulation/engine.ts",
+        "src/ui/panels/DevPanel.tsx",
+        "src/ui/mapNodePresentation.test.ts",
+        "src/ui/mapTerrain.test.tsx",
+        "src/mods/worldGrid.test.ts",
+        "previews/terrain-tiles/runtime.tsx",
+        "previews/terrain-tiles/README.md",
+        "docs/systems/development-tools.md",
+        "docs/systems/map-nodes-and-exploration.md",
+        "docs/systems/saves-and-compatibility.md",
+        "docs/systems/production-nodes.md",
+        "docs/node-ui-style-guide.md",
+        "docs/typography-style-review.md",
+        "outputs/terrain-tiles-qa/dev-tools-verification.json",
+        "outputs/terrain-tiles-qa/dev-tools-focused.log",
+        "outputs/terrain-tiles-qa/dev-tools-full-tests.log",
+        "outputs/terrain-tiles-qa/dev-tools-build.log",
+        "outputs/terrain-tiles-qa/dev-tools-browser.json",
+        "outputs/terrain-tiles-qa/dev-map-reveal.jpg"
+      ]
+    },
+    {
+      "id": "NODE-0690",
+      "title": "Preserve earned research in the prototype character transition",
+      "evidence": [
+        "previews/status-page/savedProgress.ts",
+        "previews/status-page/savedProgress.test.ts",
+        "previews/status-page/main.tsx",
+        "previews/status-page/README.md",
+        "docs/systems/saves-and-compatibility.md",
+        "docs/systems/research.md",
+        "docs/systems/testing-and-publishing.md",
+        "docs/master-plan/06-art-audio-and-writing.md",
+        "docs/node-ui-style-guide.md",
+        "docs/typography-style-review.md",
+        "outputs/status-page/saved-progress-transition-verification.json",
+        "outputs/status-page/saved-progress-transition.jpg"
+      ]
+    },
+    {
+      "id": "NODE-0692",
+      "title": "Convert existing map purchases to banked points in the Upgrades transition",
+      "evidence": [
+        "previews/status-page/savedProgress.ts",
+        "previews/status-page/savedProgress.test.ts",
+        "previews/status-page/mapPoints.test.ts",
+        "previews/status-page/main.tsx",
+        "previews/status-page/README.md",
+        "docs/systems/saves-and-compatibility.md",
+        "docs/systems/map-nodes-and-exploration.md",
+        "docs/systems/research.md",
+        "docs/systems/testing-and-publishing.md",
+        "docs/master-plan/06-art-audio-and-writing.md",
+        "docs/node-ui-style-guide.md",
+        "docs/typography-style-review.md",
+        "outputs/status-page/map-purchase-transition-verification.json",
+        "outputs/status-page/map-purchase-converted-bill.jpg",
+        "outputs/status-page/map-purchase-banked-point.jpg",
+        "outputs/status-page/map-purchase-chosen-destination.jpg"
+      ]
+    },
+    {
+      "id": "NODE-0693",
+      "title": "Keep automatic tutorial modals quiet after developer actions",
+      "evidence": [
+        "src/domain/types.ts",
+        "src/tutorials/tutorialUnlocks.ts",
+        "src/tutorials/dwarvenDiscovery.ts",
+        "src/tutorials/tutorialUnlocks.test.ts",
+        "src/tutorials/dwarvenDiscovery.test.ts",
+        "src/simulation/engine.ts",
+        "src/ui/panels/DevPanel.tsx",
+        "docs/systems/development-tools.md",
+        "docs/systems/tutorials-and-discovery.md",
+        "docs/systems/saves-and-compatibility.md",
+        "docs/node-ui-style-guide.md",
+        "docs/typography-style-review.md",
+        "outputs/terrain-tiles-qa/dev-tutorials-verification.json",
+        "outputs/terrain-tiles-qa/dev-tutorials-tests.log",
+        "outputs/terrain-tiles-qa/dev-tutorials-full-tests.log",
+        "outputs/terrain-tiles-qa/dev-tutorials-build.log",
+        "outputs/terrain-tiles-qa/dev-tutorials-system-docs-check.log"
+      ]
+    },
+    {
+      "id": "NODE-0694",
+      "title": "List every Shiny character-upgrade benefit",
+      "evidence": [
+        "previews/status-page/model.ts",
+        "previews/status-page/UpgradeCompletionNotice.tsx",
+        "previews/status-page/README.md",
+        "docs/systems/research.md",
+        "docs/systems/interface-and-assets.md",
+        "docs/master-plan/06-art-audio-and-writing.md",
+        "docs/node-ui-style-guide.md",
+        "docs/typography-style-review.md",
+        "outputs/status-page/shiny-upgrade-benefits-verification.json",
+        "outputs/status-page/shiny-upgrade-benefits-tooltip.jpg",
+        "outputs/status-page/shiny-upgrade-benefits-notice.jpg"
+      ]
+    },
+    {
+      "id": "NODE-0695",
+      "title": "Double-click Roads to visit their connected Map Nodes",
+      "evidence": [
+        "src/renderer/roadNodeTravel.ts",
+        "src/renderer/roadNodeTravel.test.ts",
+        "src/renderer/PixiPlayfield.tsx",
+        "src/ui/App.tsx",
+        "src/ui/panels/CommandsPanel.tsx",
+        "docs/systems/roads-and-vehicles.md",
+        "docs/systems/controls-and-factory-layouts.md",
+        "docs/systems/map-nodes-and-exploration.md",
+        "docs/node-ui-style-guide.md",
+        "docs/typography-style-review.md",
+        "previews/border-obstructions/runtime.tsx",
+        "outputs/terrain-tiles-qa/road-double-click-travel.jpg",
+        "outputs/terrain-tiles-qa/road-travel-tests.log",
+        "outputs/terrain-tiles-qa/road-travel-build.log"
+      ]
+    },
+    {
+      "id": "NODE-0697",
+      "title": "Carry field zoom when traveling between Map Nodes",
+      "evidence": [
+        "src/domain/camera.ts",
+        "src/simulation/engine.ts",
+        "src/ui/App.tsx",
+        "src/simulation/sectorTravel.test.ts",
+        "docs/systems/map-nodes-and-exploration.md",
+        "docs/systems/roads-and-vehicles.md",
+        "docs/systems/controls-and-factory-layouts.md",
+        "docs/node-ui-style-guide.md",
+        "docs/typography-style-review.md",
+        "outputs/terrain-tiles-qa/travel-zoom-tests.log",
+        "outputs/terrain-tiles-qa/travel-zoom-build.log"
+      ]
+    },
+    {
+      "id": "NODE-0698",
+      "title": "Keep guarded camp reserves visible with a centered AP input",
+      "evidence": [
+        "src/renderer/campPresentation.ts",
+        "src/renderer/campPresentation.test.ts",
+        "src/renderer/PixiPlayfield.tsx",
+        "src/renderer/encounterArt.ts",
+        "src/renderer/playfieldTypes.ts",
+        "src/domain/nodeGeometry.ts",
+        "src/simulation/newWorldObstructions.test.ts",
+        "previews/obstructions/model.ts",
+        "docs/node-ui-style-guide.md",
+        "docs/typography-style-review.md",
+        "docs/systems/encounters-and-obstructions.md",
+        "docs/systems/interface-and-assets.md",
+        "outputs/camp-centered-connection-2026-11-20/verification.json",
+        "outputs/camp-centered-connection-2026-11-20/final-locked-camp.jpg"
+      ]
+    },
+    {
+      "id": "NODE-0700",
+      "title": "Open a separate nine-map Road control workshop",
+      "evidence": [
+        "previews/road-workshop/README.md",
+        "previews/road-workshop/main.tsx",
+        "previews/road-workshop/fixture.ts",
+        "previews/road-workshop/fixture.test.ts",
+        "src/renderer/roadTravelControl.ts",
+        "src/renderer/PixiPlayfield.tsx",
+        "src/renderer/playfieldTypes.ts",
+        "docs/systems/roads-and-vehicles.md",
+        "docs/systems/interface-and-assets.md",
+        "docs/node-ui-style-guide.md",
+        "docs/typography-style-review.md",
+        "outputs/road-workshop/tests.log",
+        "outputs/road-workshop/build.log",
+        "outputs/road-workshop/overview.jpg",
+        "outputs/road-workshop/road-controls-focused.jpg"
+      ]
+    },
+    {
+      "id": "NODE-0701",
+      "title": "Compare distant node text and live boxes without disabling overview caches",
+      "evidence": [
+        "src/renderer/PixiPlayfield.tsx",
+        "src/renderer/playfieldTypes.ts",
+        "src/renderer/overviewTextures.ts",
+        "src/renderer/overviewTextures.test.ts",
+        "previews/active-factory/main.tsx",
+        "previews/active-factory/benchmark.ts",
+        "previews/active-factory/benchmark.test.ts",
+        "previews/active-factory/README.md",
+        "docs/node-ui-style-guide.md",
+        "docs/typography-style-review.md",
+        "docs/systems/architecture-and-simulation.md",
+        "docs/systems/interface-and-assets.md",
+        "docs/systems/testing-and-publishing.md",
+        "outputs/distant-node-details/verification.json",
+        "outputs/distant-node-details/fixed-samples.json",
+        "outputs/distant-node-details/restored-overview.jpg"
+      ]
+    },
+    {
+      "id": "NODE-0702",
+      "title": "Place guarded reserves beside camp sockets and simplify inaccessible cards",
+      "evidence": [
+        "src/domain/nodeGeometry.ts",
+        "src/simulation/worldGeneration.ts",
+        "src/renderer/PixiPlayfield.tsx",
+        "src/renderer/campNodeStatus.ts",
+        "src/renderer/campNodeStatus.test.ts",
+        "src/renderer/campPresentation.test.ts",
+        "src/simulation/newWorldObstructions.test.ts",
+        "src/simulation/settlementPopulation.test.ts",
+        "src/simulation/borderTerrainClearance.test.ts",
+        "previews/obstructions/model.ts",
+        "docs/node-ui-style-guide.md",
+        "docs/typography-style-review.md",
+        "docs/systems/encounters-and-obstructions.md",
+        "docs/systems/interface-and-assets.md",
+        "docs/obstruction-types-and-behavior.md",
+        "outputs/camp-adjacent-resource-2026-11-20/verification.json",
+        "outputs/camp-adjacent-resource-2026-11-20/final-layout.jpg"
+      ]
+    },
+    {
+      "id": "NODE-0703",
+      "title": "Move workshop Travel controls outside the field and match arrow sizes",
+      "evidence": [
+        "src/renderer/roadTravelControl.ts",
+        "src/renderer/PixiPlayfield.tsx",
+        "src/domain/camera.ts",
+        "src/simulation/engine.ts",
+        "src/simulation/sectorTravel.test.ts",
+        "previews/road-workshop/main.tsx",
+        "previews/road-workshop/README.md",
+        "docs/systems/roads-and-vehicles.md",
+        "docs/systems/interface-and-assets.md",
+        "docs/node-ui-style-guide.md",
+        "docs/typography-style-review.md",
+        "outputs/road-workshop/exterior-travel-tests.log",
+        "outputs/road-workshop/exterior-travel-build.log",
+        "outputs/road-workshop/exterior-equal-arrows.jpg",
+        "docs/systems/research.md"
+      ]
+    },
+    {
+      "id": "NODE-0705",
+      "title": "Enlarge camp artwork and place guarded deposits across suppression boundaries",
+      "evidence": [
+        "src/domain/nodeGeometry.ts",
+        "src/renderer/campPresentation.ts",
+        "src/renderer/campPresentation.test.ts",
+        "src/simulation/newWorldObstructions.test.ts",
+        "src/simulation/settlementPopulation.test.ts",
+        "src/simulation/borderTerrainClearance.test.ts",
+        "docs/node-ui-style-guide.md",
+        "docs/typography-style-review.md",
+        "docs/systems/encounters-and-obstructions.md",
+        "docs/systems/interface-and-assets.md",
+        "docs/obstruction-types-and-behavior.md",
+        "outputs/camp-boundary-art-2026-11-20/verification.json",
+        "outputs/camp-boundary-art-2026-11-20/final-layout.jpg",
+        "docs/systems/testing-and-publishing.md"
+      ]
+    },
+    {
+      "id": "NODE-0706",
+      "title": "Focus the paired Road after travel while retaining zoom",
+      "evidence": [
+        "src/domain/roadNavigation.ts",
+        "src/domain/camera.ts",
+        "src/simulation/engine.ts",
+        "src/simulation/roadTravel.test.ts",
+        "src/renderer/roadNodeTravel.ts",
+        "src/renderer/PixiPlayfield.tsx",
+        "src/renderer/playfieldTypes.ts",
+        "src/ui/App.tsx",
+        "src/ui/panels/CommandsPanel.tsx",
+        "previews/road-workshop/main.tsx",
+        "previews/road-workshop/README.md",
+        "docs/systems/roads-and-vehicles.md",
+        "docs/systems/map-nodes-and-exploration.md",
+        "docs/systems/controls-and-factory-layouts.md",
+        "docs/node-ui-style-guide.md",
+        "docs/typography-style-review.md",
+        "outputs/road-workshop/arrival-focus-tests.log",
+        "outputs/road-workshop/arrival-focus-build.log",
+        "outputs/road-workshop/travel-button-arrival-focus.jpg",
+        "outputs/road-workshop/double-click-arrival-focus.jpg"
+      ]
+    },
+    {
+      "id": "NODE-0708",
+      "title": "Measure a practical 30 FPS zoom with restored node details",
+      "evidence": [
+        "previews/active-factory/main.tsx",
+        "previews/active-factory/README.md",
+        "docs/systems/testing-and-publishing.md",
+        "outputs/node-zoom-threshold/verification.json",
+        "outputs/node-zoom-threshold/samples.json",
+        "outputs/node-zoom-threshold/zoom35.jpg"
+      ]
+    },
+    {
+      "id": "NODE-0710",
+      "title": "Adopt the reviewed Road controls in the main game",
+      "evidence": [
+        "src/renderer/PixiPlayfield.tsx",
+        "src/renderer/playfieldTypes.ts",
+        "src/domain/camera.ts",
+        "src/ui/App.tsx",
+        "src/ui/panels/CommandsPanel.tsx",
+        "previews/road-workshop/main.tsx",
+        "previews/road-workshop/README.md",
+        "docs/systems/roads-and-vehicles.md",
+        "docs/systems/controls-and-factory-layouts.md",
+        "docs/systems/map-nodes-and-exploration.md",
+        "docs/systems/interface-and-assets.md",
+        "docs/node-ui-style-guide.md",
+        "docs/typography-style-review.md",
+        "outputs/road-workshop/main-adoption-tests.log",
+        "outputs/road-workshop/main-adoption-build.log",
+        "outputs/road-workshop/main-adoption-controls.jpg"
+      ]
+    },
+    {
+      "id": "NODE-0712",
+      "title": "Integrate the reviewed Upgrades modal into unmodded gameplay",
+      "evidence": [
+        "src/ui/ResearchPanel.tsx",
+        "src/ui/LegacyResearchPanel.tsx",
+        "src/ui/App.tsx",
+        "src/ui/RecipesPanel.tsx",
+        "src/ui/upgrades/HintBrowser.tsx",
+        "src/ui/upgrades/ResearchQueue.tsx",
+        "src/ui/upgrades/robotArt.ts",
+        "src/content/botUpgrades.ts",
+        "src/simulation/upgradesMigration.ts",
+        "src/simulation/engine.ts",
+        "src/simulation/createInitialState.ts",
+        "src/persistence/legacyMigration.ts",
+        "src/mods/modContent.ts",
+        "src/tutorials/tutorialDialogue.ts",
+        "src/tutorials/tutorialChoices.ts",
+        "src/ui/UpgradesIntegration.test.tsx",
+        "src/styles/upgrades.css",
+        "previews/status-page/README.md",
+        "docs/systems/research.md",
+        "docs/systems/saves-and-compatibility.md",
+        "docs/systems/tutorials-and-discovery.md",
+        "docs/systems/interface-and-assets.md",
+        "docs/systems/map-nodes-and-exploration.md",
+        "docs/systems/progression-tiers.md",
+        "docs/systems/mods.md",
+        "docs/systems/testing-and-publishing.md",
+        "docs/node-ui-style-guide.md",
+        "docs/typography-style-review.md",
+        "docs/master-plan/06-art-audio-and-writing.md",
+        "scripts/system-docs.mjs",
+        "outputs/upgrades-integration/verification.json",
+        "outputs/upgrades-integration/integrated-upgrades.jpg",
+        "outputs/upgrades-integration/basics-research-complete.jpg",
+        "outputs/upgrades-integration/basics-final-step.jpg",
+        "outputs/upgrades-integration/saved-factory-restored.jpg",
+        "outputs/upgrades-integration/mobile-controls.jpg",
+        "outputs/upgrades-integration/short-window.jpg",
+        "outputs/upgrades-integration/compact-tutorial.jpg",
+        "outputs/upgrades-integration/mobile-tutorial.jpg"
+      ]
+    },
+    {
+      "id": "NODE-0715",
+      "title": "Show automatic animated camp-to-deposit refill connections",
+      "evidence": [
+        "src/simulation/guardedResources.ts",
+        "src/renderer/guardedRefillLinks.ts",
+        "src/renderer/guardedRefillLinks.test.ts",
+        "src/renderer/PixiPlayfield.tsx",
+        "previews/obstructions/main.tsx",
+        "docs/node-ui-style-guide.md",
+        "docs/typography-style-review.md",
+        "docs/systems/encounters-and-obstructions.md",
+        "docs/systems/connections-and-routing.md",
+        "docs/systems/resource-use.md",
+        "docs/systems/interface-and-assets.md",
+        "outputs/camp-refill-link-2026-11-20/verification.json",
+        "outputs/camp-refill-link-2026-11-20/goblin-refill-animation.jpg"
+      ]
+    },
+    {
+      "id": "NODE-0716",
+      "title": "Show and select the actual zoom in the active-factory test",
+      "evidence": [
+        "previews/active-factory/main.tsx",
+        "previews/active-factory/preview.css",
+        "previews/active-factory/README.md",
+        "docs/node-ui-style-guide.md",
+        "docs/typography-style-review.md",
+        "docs/systems/testing-and-publishing.md",
+        "outputs/node-zoom-control/verification.json",
+        "outputs/node-zoom-control/browser-verification.json",
+        "outputs/node-zoom-control/zoom35-control.jpg"
+      ]
+    }
+  ]
+}

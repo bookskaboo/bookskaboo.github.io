@@ -1,0 +1,42 @@
+[
+  {
+    "side": "north",
+    "center": [
+      560,
+      99.99999999999997
+    ],
+    "widthScale": 0.7,
+    "halfDistance": 34.99999999999997,
+    "equalHalves": true
+  },
+  {
+    "side": "east",
+    "center": [
+      980,
+      380
+    ],
+    "widthScale": 0.7,
+    "halfDistance": 35,
+    "equalHalves": true
+  },
+  {
+    "side": "south",
+    "center": [
+      560,
+      660
+    ],
+    "widthScale": 0.7,
+    "halfDistance": 35,
+    "equalHalves": true
+  },
+  {
+    "side": "west",
+    "center": [
+      139.99999999999997,
+      380
+    ],
+    "widthScale": 0.7,
+    "halfDistance": 34.99999999999997,
+    "equalHalves": true
+  }
+]

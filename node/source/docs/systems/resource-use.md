@@ -39,6 +39,8 @@ Expand a recipe bill recursively as `required output / output per batch × input
 
 For a fully supplied recipe, ideal output per minute is `60,000 / (base cycle ms × efficiency multiplier) × output per batch`. This excludes startup, delivery, output blockage and tick rounding. A 12/minute Road stream can constrain a faster factory; larger vehicle payloads raise that ceiling.
 
+Guarded camp refill is shown by a system-owned connection while fully suppressed. Its packets represent the existing reserve award, including upgrades and capacity clamping; they are not additional inventory or spendable cargo and must not be counted twice.
+
 Guarded camp extraction/refill and legacy Mythril Tribute require continuing suppression support. Include that acquisition support when comparing regional factories. Include paid forestry inputs if passive regeneration is insufficient. Count input bags, output bags, committed batches, shared stock and non-cosmetic cargo once each. Do not count already-delivered research Cores again as spendable inventory.
 
 ## Implementation and related systems

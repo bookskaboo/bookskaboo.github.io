@@ -1,0 +1,50 @@
+{
+  "date": "2026-11-19",
+  "scope": "Local Status prototype; no publication or main-game adoption",
+  "rules": {
+    "Simple": "Available at the start",
+    "laterUpgrades": "Only the preceding character upgrade must be complete",
+    "payment": "Five of the upgrade’s named Core; collect only while selected",
+    "visibleButtonLabel": "Upgrade",
+    "alignment": "Centered"
+  },
+  "browser": {
+    "freshJuniorEnableDisable": true,
+    "partialPaymentCount": "2/5",
+    "nextAvailableAfterEachCompletion": [
+      "Basic",
+      "Automata",
+      "Hydro",
+      "Shiny",
+      "Complex",
+      "Final"
+    ],
+    "nextAutomaticallySelected": false,
+    "allSevenCompleted": true,
+    "desktopCenterErrorPx": 6e-06,
+    "mobileCenterErrorPx": -0.006,
+    "mobileWidth": 390,
+    "mobileHorizontalOverflow": false,
+    "warningsAndErrors": []
+  },
+  "verification": {
+    "focusedTestsPassed": 66,
+    "workspaceTestsPassed": 1866,
+    "workspaceSkipped": 2,
+    "previewTypeScript": "passed",
+    "standaloneBuild": "passed",
+    "mainBuild": "passed with existing large-chunk warning",
+    "systemCatalogsAndLocalLinks": "passed",
+    "wordStructuralReopen": "passed",
+    "wordRender": "Unavailable: LibreOffice soffice.exe missing"
+  },
+  "screenshots": [
+    "sequential-upgrade-desktop.jpg",
+    "sequential-upgrade-390.jpg"
+  ],
+  "limits": [
+    "Browser payment examples use synthetic fixture supply and ordinary engine cycles, not a balance run",
+    "Main-game catalogs and saves are unchanged",
+    "Word visual layout could not be verified"
+  ]
+}

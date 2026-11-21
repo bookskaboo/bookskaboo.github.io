@@ -1,0 +1,16 @@
+{
+  "node-ui-style-guide.docx": {
+    "reopened": true,
+    "beforeParagraphs": 96,
+    "afterParagraphs": 99,
+    "preservedTables": 1,
+    "scope": "append-only current rule"
+  },
+  "typography-style-review.docx": {
+    "reopened": true,
+    "beforeParagraphs": 157,
+    "afterParagraphs": 160,
+    "preservedTables": 5,
+    "scope": "append-only review evidence"
+  }
+}

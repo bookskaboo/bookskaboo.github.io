@@ -8,6 +8,7 @@ import { createInitialState, GameEngine } from './engine';
 import { generateSector, getEncounterLayoutVersion, sectorDistance, sectorForState } from './worldGeneration';
 import { generateBorderObstructions } from './borderObstructions';
 import { borderTerrainInsets } from './borderTerrainClearance';
+import { footprintsOverlap } from '../domain/obstructionGeometry';
 
 type LayoutVersion = NonNullable<GameState['encounterLayoutVersion']>;
 const bands: Record<string, number[]> = {
@@ -18,7 +19,7 @@ const world = (seed: number, version: LayoutVersion, size = 11) => {
   const sectors: SectorState[] = [], { min, max } = worldGridBounds(size);
   const borders = { seed, borderObstructionVersion: 1 as const, borderObstructions: generateBorderObstructions(seed, size) };
   for (let y = min; y <= max; y++) for (let x = min; x <= max; x++) {
-    sectors.push(generateSector(x, y, seed, 0, [], 5, version, size, 1, 2, borderTerrainInsets(borders, `${x},${y}`, { width: 5400, height: 3600 })));
+    sectors.push(generateSector(x, y, seed, 0, [], 5, version, size, 1, 2, undefined, borderTerrainInsets(borders, `${x},${y}`, { width: 5400, height: 3600 })));
   }
   return sectors;
 };
@@ -45,7 +46,9 @@ describe('retained thirty-settlement layout', () => {
     }
     for (const { node, sector } of camps) {
       const deposit = sector.nodes.find(n => n.guardedCampId === node.id)!;
-      expect(deposit).toMatchObject({ x: node.x, y: node.y, guardedLocked: true });
+      expect(deposit).toMatchObject({ y: node.y, guardedLocked: true });
+      expect(footprintsOverlap(deposit,{...node,campStrength:10})).toBe(false);
+      expect(footprintsOverlap(deposit,{...node,campStrength:20})).toBe(true);
       expect(sector.nodes.some(n => ['lake', 'resourceGolem', 'big-hole', 'cornerChallenge'].includes(n.kind))).toBe(false);
     }
     expect(sectors.filter(s => s.nodes.some(n => n.kind === 'resourceGolem'))).toHaveLength(4);

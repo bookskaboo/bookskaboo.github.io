@@ -1,0 +1,27 @@
+{
+  "date": "2026-11-20",
+  "scope": "Local Upgrades prototype",
+  "change": "Remove wheel listener and throttling; retain triangle and keyboard navigation, eligibility and automatic primary selection",
+  "browser": {
+    "wheelDownOverForest": "Forest unchanged",
+    "wheelUpOverForest": "Forest unchanged",
+    "ArrowRight": "Copper prospects",
+    "wheelOverCopperAt390px": "Copper prospects unchanged",
+    "PreviousTriangle": "Forest",
+    "warningsAndErrors": []
+  },
+  "verification": {
+    "focusedPassed": 47,
+    "previewTypeScript": "passed",
+    "standaloneBuild": "passed",
+    "systemCatalogsAndLocalLinks": "passed",
+    "wordStructuralReopen": "passed",
+    "wordRender": "Unavailable: LibreOffice soffice.exe missing"
+  },
+  "limits": [
+    "Full workspace suite not repeated for this isolated input-handler removal; NODE-0629 retains prior full-suite evidence",
+    "Normal wheel-event propagation follows browser defaults; scroll distance is not asserted",
+    "No gameplay, save or publication change"
+  ],
+  "screenshot": "hint-wheel-unchanged.jpg"
+}

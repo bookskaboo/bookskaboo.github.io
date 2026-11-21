@@ -7,6 +7,22 @@ import { normalizeLegacy } from '../persistence/saves';
 import { lessonCopy } from './tutorialDialogue';
 
 describe('Dwarven discovery and Tribute teaching', () => {
+  it.each(['developerUnlockAllNodes','developerUnlockAllResearch','developerUnlockAllSectors','developerSuppressTutorialPrompts'] as const)('does not open discovery notices after %s, including after reload',action=>{
+    const engine=new GameEngine(createInitialState(8),{autosave:false});engine[action]();
+    engine.getSector().nodes.push(tutorialNode('monster-camp','quiet-dwarf',1500,1000,{lizardSettlement:'camp',settlementMapTier:4}));
+    expect(firstSpottedDwarvenCamp(engine.getState())).toBeUndefined();
+    const restored=normalizeLegacy(JSON.parse(JSON.stringify(engine.getState())))!;
+    expect(firstSpottedDwarvenCamp(restored)).toBeUndefined();expect(restored.tutorialPromptsSeen??[]).not.toContain(DWARVEN_DISCOVERY_PROMPT);
+  });
+  it('keeps older dev-granted or Dev Source factories quiet without acknowledging discovery',()=>{
+    for(const marker of ['devResearchUnlocked','devMapSurveysRevealed'] as const){
+      const game=createInitialState(8);game[marker]=true;game.sectors['5,5'].visited=true;
+      game.sectors['5,5'].nodes.push(tutorialNode('monster-camp','legacy-dwarf',1500,1000,{lizardSettlement:'camp'}));
+      expect(firstSpottedDwarvenCamp(game)).toBeUndefined();expect(game.tutorialPromptsSeen??[]).toEqual([]);
+    }
+    const game=createInitialState(8);game.sectors['5,5'].visited=true;game.sectors['5,5'].nodes.push(tutorialNode('monster-camp','dwarf',1500,1000,{lizardSettlement:'camp'}));
+    expect(firstSpottedDwarvenCamp(game)?.camp.id).toBe('dwarf');game.sectors['5,5'].nodes.push(tutorialNode('devSource','old-source',2000,1700));expect(firstSpottedDwarvenCamp(game)).toBeUndefined();
+  });
   it('requires a spotted settlement rather than generated or merely unlocked maps', () => {
     const state = createInitialState(8), sector = generateSector(5, 1, state.seed);
     sector.nodes = [tutorialNode('monster-camp', 'dwarf', 1500, 1000, { lizardSettlement: 'camp', settlementMapTier: 4 })];

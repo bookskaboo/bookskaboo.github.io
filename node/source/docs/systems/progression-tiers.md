@@ -20,16 +20,20 @@ These are base cycles. Exact inputs, alternatives and unlocks remain in the [rec
 
 ## Access and geography
 
-Simple Core is a free discovery with Refiner access. Each later Core project costs five of every earlier Core. Its explicit prerequisite includes the previous Core project and a technology milestone, so researching Assembler, Fabricator or Precision Control alone does not grant every later Core.
+Simple Core has no research gate and is selectable in an accessible Refiner. In unmodded factories, Simple character upgrade is available immediately and costs five Simple Cores to unlock the Basic Core recipe. Later upgrades require only their predecessor and five of each Core through the named tier, unlocking the next Core. Machine/technology access is still needed to build the producer and make its ingredients. Splitter and Merger unlock together on first Simple Core production. Applied-mod factories retain their existing Core research gates until support is revisited.
 
-Exploration opens adjacent Map Nodes; Roads carry solids between them. Hydro introduces local Water-dependent processing because Roads exclude fluids. Shiny adds Mythril acquisition and refining. Complex depends on advanced parts and makes Metallic Fines through Controllers. Producing the first Complex Core opens End of the World and the half recipes.
+Exploration opens adjacent Map Nodes; Roads carry solids between them. Hydro introduces local Water-dependent processing because Roads exclude fluids. Shiny adds Mythril acquisition and refining. Complex depends on advanced parts and makes Metallic Fines through Controllers. Complex Core research directly opens the half recipes and reveals all four corner locations, with no separate End of the World research entry. Their maps still require ordinary exploration purchases and travel.
 
 The corner challenges can be supplied repeatedly. Yin and Yang each combine two pieces determined by the world's pairing index. Producing a Final Core makes the victory project available; victory requires manually researching A Remarkably Indirect Conclusion with one of all seven Cores.
 
 ## Scaling and balance scope
 
-Keep earlier lines productive while introducing new bottlenecks. Core research bills, destination map prices, optional upgrades, encounter supply and corner deliveries all compete for resources. A factory's rate is bounded by its slowest sustained production or delivery stage.
+Keep earlier lines productive while introducing new bottlenecks. Character/research bills, Map Point prices, machine upgrades, encounter supply and corner deliveries all compete for resources. A factory's rate is bounded by its slowest sustained production or delivery stage.
 
 Pacing targets and strategies are recorded in [progression and scaling](../progression-and-scaling.md) and the [master economy plan](../master-plan/03-progression-and-economy.md). Their older numeric examples can predate the current recipes. Validate elapsed game time, setup overhead, resource use and delivered output together before treating an analytical rate as playthrough evidence.
 
 Sources: [Core projects](../../src/content/coreResearch.ts), [recipes](../../src/content/recipes.ts), [later recipes](../../src/content/progression.ts), [endgame](../../src/content/endgame.ts). See [resource use](resource-use.md), [map nodes](map-nodes-and-exploration.md) and [endgame](endgame-and-victory.md).
+
+## Character progression
+
+The adopted unmodded [Upgrades screen](research.md#character-progression) maps stable next-Core recipe IDs onto their preceding character upgrade. Final character upgrade spends five of all seven Core types and remains separate from victory. The [migration](saves-and-compatibility.md#migration-policy) preserves recipe access and payments, fills implied earlier milestones and derives the robot stage from completions. Character bills and exact current prerequisites are in the generated research catalog.

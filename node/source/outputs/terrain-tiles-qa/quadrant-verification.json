@@ -1,0 +1,58 @@
+{
+  "adoptedWeight": 1.5,
+  "otherWeights": 1,
+  "guaranteedFirstDiagonals": {
+    "nw": [
+      4,
+      4,
+      "N1.W1"
+    ],
+    "ne": [
+      6,
+      4,
+      "N1.E1"
+    ],
+    "se": [
+      6,
+      6,
+      "S1.E1"
+    ],
+    "sw": [
+      4,
+      6,
+      "S1.W1"
+    ]
+  },
+  "fixedSites": 9,
+  "fixedGrassland": 6,
+  "invariantSweep": "1000 seeds at all six sizes (6000 assignments)",
+  "focusedTests": 17,
+  "snapshotsVerified": [
+    11,
+    21
+  ],
+  "earlierUniformLayoutsPreserved": true,
+  "actualSeededCornerMappingVerified": true,
+  "fullAndWeightedCountsVerified": true,
+  "currentAuditWeight": 1.5,
+  "weightedSharePercentRange": [
+    32.92,
+    33.37
+  ],
+  "fullQuadrantSharePercentRange": [
+    33.73,
+    35.56
+  ],
+  "all48ArtHashesUnchanged": true,
+  "proposalLinksChecked": 24,
+  "previewTypeScript": "passed",
+  "previewBuild": "passed",
+  "browser": "All sizes, entry gold borders/names, seed-dependent identity changes, earlier comparison, snapshots and 390px layout checked; viewport reset; no warnings/errors",
+  "limits": [
+    "Isolated proposal/assignment fixture; no game/save integration",
+    "Random placements are soft weights, not exact local thirds",
+    "No normal-play balance run or full gameplay-suite repeat",
+    "Word renderer unavailable: LibreOffice missing; structural preservation checks passed",
+    "No publication"
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "date": "2026-11-20",
+  "scope": "Automatic managed camp-to-deposit refill ports, connection and animations; local only",
+  "url": "http://127.0.0.1:4197/previews/obstructions/",
+  "behavior": [
+    "While fully suppressed, show a dedicated camp output 64 world units right of the centered AP socket and a linked inlet at the deposit left-center",
+    "Refill ports are noninteractive and never registered as player sockets or ordinary cargo connections; normal AP supply and Extractor wiring remain available",
+    "Transient simulation receipts report actual reserve awards at the existing five-second interval, including multipliers, fractional carry and capacity clamping",
+    "Render one blue batch packet per observed award, with actual quantity for batches above one and an arrival pulse; a full reserve remains idle",
+    "Hide the link and active effects on suppression loss, preserving stock and ordinary extraction routes",
+    "Game pause freezes packets; reduced-motion and particles-off retain only the static link; load, travel and restored suppression do not replay old awards",
+    "The automatic connection follows paired positions without changing saved layouts or save schema"
+  ],
+  "automated": {
+    "focused": "31 checks passed in managed-refill and existing new-world mechanics tests; all 5 renderer tests passed again after strengthening normal-AP and forbidden-port assertions",
+    "workspace": "2129 passed, 2 skipped across 209 files with maxWorkers=4",
+    "builds": "npm run build and npm run build:site passed; existing large-chunk warning",
+    "previewTypes": "npx tsc -p previews/obstructions/tsconfig.json --pretty false passed"
+  },
+  "browser": [
+    "Suppression created both managed ports and the link with zero player cable connections",
+    "Dragging a player cable to the automatic inlet created no connection; attempting to start a cable at the automatic output also created none",
+    "Dwarven reserve preset 2980 became 2981 after five seconds with a visible one-item blue refill packet",
+    "Goblin reserve preset 2980 became 2986 after five seconds with a visible ×6 packet",
+    "Ordinary-speed Run clock advanced the Goblin reserve to 3000 and then left the full link idle; Stop clock restored manual advancement",
+    "Suppression loss hid ports/link and preserved stock 2981 after another five seconds",
+    "390 by 844 low-zoom managed-port layout checked; temporary viewport override restored"
+  ],
+  "screenshots": [
+    "dwarven-refill-animation.jpg",
+    "goblin-refill-animation.jpg",
+    "suppression-lost.jpg",
+    "full-reserve-idle.jpg",
+    "narrow-refill-link.jpg",
+    "final-refill.jpg"
+  ],
+  "limits": [
+    "Synthetic manually advanced and ordinary-clock fixtures with autosave disabled; not a normal-play balance run and campaign saves untouched",
+    "Packets depict existing reserve regeneration rather than adding transport delay, another inventory or duplicate materials",
+    "Only the latest observed award is animated after a large manual/offline jump; historical batches are not replayed",
+    "No publication"
+  ]
+}

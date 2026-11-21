@@ -1,0 +1,54 @@
+{
+  "date": "2026-11-20",
+  "scope": "Per-factory hint eligibility history and assignment acknowledgement for the Upgrades prototype, with shared save normalization and undo support",
+  "behavior": [
+    "Optional researchHintHistory stores assignmentAcknowledged and ordered title/detail copies with GameState",
+    "Engine publications collect eligible hints even while the modal is closed; visible clues are saved before paint",
+    "Close/reopen, recipe/map transitions and normalized saved-factory reload preserve retired clues; live progression still selects the primary",
+    "Saved assignment can be reread without replaying the introduction on reopen/load; existing Wood/Kiln progress also acknowledges the intro",
+    "Fresh factories seed only current candidates; unreached author-review entries are not bulk unlocked",
+    "Manual slots, copied slots, autosaves and JSON round trips preserve isolated records; no global browser hint-history key",
+    "Undo retains learned knowledge and acknowledgement; replacement with another factory does not merge history",
+    "Malformed optional metadata is cleaned without rejecting the factory; duplicate titles update in place and loaded history is bounded to 256 copies",
+    "Reload factory snapshot is an external isolated serialization/normalization control; whole author-page reload still starts its initial fixture"
+  ],
+  "checks": {
+    "focused": {
+      "command": "npx vitest run previews/status-page/ src/persistence/ src/ui/researchMilestones.test.ts",
+      "testsPassed": 98,
+      "filesPassed": 14
+    },
+    "fullSuite": {
+      "command": "npm test -- --testTimeout=15000",
+      "testsPassed": 2027,
+      "testsSkipped": 2,
+      "filesPassed": 197,
+      "filesSkipped": 2,
+      "note": "A preceding run overlapped a concurrent map-rule/test update and had one newWorldObstructions failure. That file passed when rerun, then the current full suite passed. No unrelated map changes were reverted."
+    },
+    "previewTypeScript": "passed",
+    "standaloneBuild": "passed",
+    "mainBuild": "passed; existing chunk-size advisory",
+    "systemDocs": "6 catalogs and local links across 39 documents passed"
+  },
+  "browser": {
+    "url": "http://127.0.0.1:4194/outputs/status-page/status-modal.html",
+    "viewport": [
+      1280,
+      720
+    ],
+    "observed": [
+      "Fresh Junior shows Your assignment; Next shows A promising Forest",
+      "Closing/reopening retains acknowledgement and recommends Forest",
+      "Reload factory snapshot still recommends Forest; Previous rereads saved Your assignment",
+      "Reset example starts a fresh Junior with Your assignment again",
+      "Live Simple lab initially shows Assembler; queue Assembler and complete it with the external synthetic control while modal is closed",
+      "Reopen recommends Road; reload snapshot preserves retired Assembler in backwards history",
+      "Full history navigation shows Assembler, The factory is thirsty, The neighbours and Road; The four corners stays absent and the final Next arrow is disabled",
+      "Completed Assembler card and saved Assembler hint shown together after reload; final fixture left paused",
+      "No captured browser warnings/errors"
+    ],
+    "screenshot": "outputs/status-page/saved-hint-history-review.jpg"
+  },
+  "limits": "Browser uses synthetic paused/live fixtures and an explicit ordinary-cycle completion control, not normal-play balance. Slot/autosave checks use in-memory storage; browser campaign saves are untouched. Main-game held guidance remains until actual modal adoption. No new selected-browsing-position field, commit or publication."
+}

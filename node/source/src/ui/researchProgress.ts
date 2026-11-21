@@ -14,6 +14,7 @@ export function researchProgress(project: ResearchProject, game: GameState, now 
   });
   const requirement = rows.length > 1 ? 'Each listed Core is required.' : '';
   if (!active) return { active, rows, requirement, status: '' };
+  if (game.research.paused) return { active, rows, requirement, status: 'Research paused.' };
   if (game.paused) return { active, rows, requirement, status: 'Simulation paused. Resume to continue research.' };
   const centers = Object.values(game.sectors).filter(sector => sector.unlocked).flatMap(sector => sector.nodes).filter(node => node.kind === 'researchCenter');
   if (!centers.length) return { active, rows, requirement, status: 'Build a Research Center and deliver the required Cores to it.' };

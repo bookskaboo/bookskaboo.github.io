@@ -1,0 +1,34 @@
+{
+  "date": "2026-11-19",
+  "decision": "Show the primary progression hint",
+  "selection": "Existing getResearchMilestones(game)[0] after the unchanged assignment gate",
+  "hintEntries": 46,
+  "supportingOnly": 9,
+  "automated": [
+    "30 focused checks passed",
+    "Copper -> Charcoal -> First Plate regression with competing alternatives",
+    "primary selection across later stage examples and terminal victory",
+    "assignment gate and source-copy coverage",
+    "preview TypeScript check",
+    "standalone build"
+  ],
+  "browser": [
+    "Basic fixture reveals Research Center: Home could use a lab",
+    "release conceals the hint",
+    "all 46 review rows retained",
+    "nine Supporting reference only labels",
+    "existing open review page has updated primary-selection explanation",
+    "390 px review fits without horizontal overflow",
+    "isolated test tab has no warning/error logs"
+  ],
+  "screenshots": [
+    "outputs/status-page/primary-progression-hint.jpg",
+    "outputs/status-page/primary-hint-review.jpg"
+  ],
+  "limits": [
+    "Prototype adapter only; actual game selector still displays last of first three candidates",
+    "No new world/progression conditions or fixed sequence",
+    "Full workspace suite not repeated; prior full-suite result is in NODE-0616",
+    "Word files reopened structurally; visual rendering unavailable because LibreOffice is missing"
+  ]
+}

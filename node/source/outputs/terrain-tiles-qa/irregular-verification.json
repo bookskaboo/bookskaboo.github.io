@@ -1,0 +1,56 @@
+{
+  "svgFilesParsed": 48,
+  "variantsPerTerrainPerDraft": 4,
+  "currentDownloadsMatch": 4,
+  "previousBroadDownloadsStillMatch": 4,
+  "newEarlierBroadDownloadMatches": true,
+  "rockyCellEdgeCountsByVariant": [
+    [
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    [
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    [
+      5,
+      6,
+      7
+    ],
+    [
+      5,
+      6,
+      7,
+      8
+    ]
+  ],
+  "rockyCellsPerVariant": 11,
+  "standaloneInlineScriptAndStyle": true,
+  "bothEarlierStandalonePagesPreserved": true,
+  "noRuntimePreviewImport": true,
+  "proposalLocalLinksChecked": 16,
+  "checks": [
+    "Preview TypeScript",
+    "Preview standalone export",
+    "Three draft choices in browser",
+    "All current variants in browser",
+    "Low zoom and dense stress view",
+    "Default-detail readability",
+    "390px layout and downloads"
+  ],
+  "limits": [
+    "Repeated tile pattern remains; mixed-variant rendering is future integration work",
+    "Artwork awaits review",
+    "No game rules/save changes",
+    "Word render unavailable: LibreOffice missing; structural checks passed",
+    "No gameplay suite/main-game build repeated for isolated art",
+    "No publication"
+  ]
+}

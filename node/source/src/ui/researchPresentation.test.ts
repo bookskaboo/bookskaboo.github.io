@@ -50,7 +50,8 @@ describe('research browsing', () => {
     expect(projects[0].name).toBe('Extra Map Point');
     expect(projects.slice(firstLocked).every(p => researchSection(p, state) === 'future')).toBe(true);
     expect(locked.indexOf('hydraulicAssembly')).toBeLessThan(locked.indexOf('precisionControl'));
-    expect(locked.indexOf('cornerComponents')).toBeLessThan(locked.indexOf('victory'));
+    expect(locked).not.toContain('cornerComponents');
+    expect(locked.indexOf('complexCore')).toBeLessThan(locked.indexOf('victory'));
     expect(projects.some(p => p.id === active?.id)).toBe(false);
     state.research.selected = 'mapNode';
     expect(researchCatalog(state).active?.id).toBe('mapNode');
@@ -68,8 +69,8 @@ describe('research browsing', () => {
   it('shows independent blockers and omits the research they already require', () => {
     const state = createInitialState(1);
     const mirroring = project('connectorMirroring');
-    expect(visibleResearchRequirements(mirroring, state)).toEqual(['hydroCore']);
-    expect(researchCardDetails(mirroring, state).status).toBe('Requires Hydro Core');
+    expect(visibleResearchRequirements(mirroring, state)).toEqual(['complexCore', 'refiner']);
+    expect(researchCardDetails(mirroring, state).status).toBe('Requires Shiny upgrade, Refiner');
 
     const finalRobotics = project('finalRobotics');
     expect(visibleResearchRequirements(finalRobotics, state)).toEqual(['finalCoreProduction', 'commandRobotics']);
@@ -83,7 +84,7 @@ describe('research browsing', () => {
     const state = createInitialState(1);
     const exploration = project('exploration');
     expect(researchCardDetails(exploration, state).tooltip).toBe(
-      `Requires Basic Core\nSimple Core + Basic Core · 0/10\n\n${exploration.description}`,
+      `Requires Refiner, Simple upgrade\nSimple Core + Basic Core · 0/10\n\n${exploration.description}`,
     );
 
     state.research.completed.push('refiner', 'assembler');
@@ -118,7 +119,7 @@ describe('research browsing', () => {
 
   it('searches prerequisite display names and Core costs as related matches', () => {
     const state = createInitialState(1);
-    expect(searchResearch(state, 'Exploration').map(p => p.id)).toContain('automataCore');
+    expect(searchResearch(state, 'Simple upgrade').map(p => p.id)).toContain('automataCore');
     expect(searchResearch(state, 'Simple Core').map(p => p.id)).toContain('assembler');
   });
 

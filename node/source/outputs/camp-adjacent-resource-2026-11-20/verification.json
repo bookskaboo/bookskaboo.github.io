@@ -1,0 +1,32 @@
+{
+  "date": "2026-11-20",
+  "scope": "Adjacent guarded-resource spawn and simplified monster-camp cards; local only",
+  "url": "http://127.0.0.1:4197/previews/obstructions/",
+  "rules": [
+    "Newly generated guarded deposit left edge is 24 world units right of its camp's centered AP input; vertical centers align",
+    "AP input badge sits to the left of the socket; saved map positions remain unchanged",
+    "Locked reserve body, header, accent and opacity match camp-covered factory nodes; no padlock or Locked/Accessible label on the card",
+    "All Goblin/Dwarven settlement AP cards omit the countdown/result text below their bar and use a shorter plate; inspector details remain",
+    "Original 30-settlement distribution, paired relocation and all suppression/extraction/regeneration mechanics remain"
+  ],
+  "verification": {
+    "workspace": "npm test -- --reporter=dot --maxWorkers=4: 2117 passed, 2 skipped across 207 files",
+    "focused": "34 initial camp/guarded mechanics checks passed; 8 renderer checks passed after AP-card simplification",
+    "builds": "npm run build and npm run build:site passed with the existing large-chunk warning",
+    "previewTypes": "npx tsc -p previews/obstructions/tsconfig.json --pretty false passed",
+    "browser": [
+      "Dwarven and Goblin camp selection retained the visible red guarded resource and a clear centered AP socket beside its left edge",
+      "Bot-supply connection delivered 6 AP to the Dwarven Camp after five manually advanced seconds",
+      "Extraction connection rejected while locked; full suppression restored normal card colors and extraction reduced stock from 3000 to 2999",
+      "Suppression loss restored red styling while retaining both cables and stock 2999 after five seconds",
+      "Both new-world and legacy Goblin AP cards showed the amount/bar without the lower text row",
+      "390 by 844 viewport and low-zoom Fit field checked with inspector open and closed; viewport override restored"
+    ]
+  },
+  "screenshots": ["final-layout.jpg", "dwarven-red-selected.jpg", "dwarven-accessible.jpg", "dwarven-red-suppression-lost.jpg", "goblin-red-selected.jpg", "legacy-goblin-ap-card.jpg", "narrow-goblin.jpg"],
+  "limits": [
+    "Synthetic manually advanced fixture with autosave disabled, not a normal-play balance run; campaign saves untouched",
+    "Existing saved map coordinates are preserved; adjacent placement applies to newly generated maps",
+    "No live publication"
+  ]
+}

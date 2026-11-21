@@ -1,0 +1,18 @@
+{
+  "date": "2026-11-20",
+  "assignment": "You are a junior AI bot assigned to this world. Use its resources to build production systems, manufacture Cores, and upgrade yourself.",
+  "scope": "Local Upgrades prototype, Final-stage supporting copy and current narrative/style references",
+  "checks": {
+    "existingPrototypeTests": "37 passed across 4 files",
+    "previewTypeScript": "passed",
+    "standaloneBuild": "passed",
+    "standaloneCopy": [
+      "status-modal.html",
+      "hint-texts.html",
+      "robot-tier-art.html"
+    ],
+    "wordStructuralReopen": "both guides passed; previous paragraphs preserved",
+    "wordRendering": "Attempted; LibreOffice soffice.exe missing from PATH, visual layout unverified"
+  },
+  "limits": "Copy change only. No fresh browser/layout or balance run, main-game integration, commit or publication."
+}

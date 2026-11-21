@@ -13,12 +13,14 @@
     "balance:audit": "node scripts/balance-audit.mjs",
     "preview": "vite preview --host 127.0.0.1",
     "preview:milestones": "node scripts/build-milestone-preview.mjs",
+    "preview:status": "node scripts/build-status-preview.mjs",
     "preview:item-art": "node scripts/build-item-art.mjs",
+    "preview:border-art": "node scripts/build-border-art.mjs",
+    "preview:terrain": "node scripts/build-terrain-preview.mjs",
     "docs:systems": "node scripts/system-docs.mjs",
     "docs:systems:check": "node scripts/system-docs.mjs --check",
     "changelog": "node scripts/changelog.mjs",
-    "changelog:check": "node scripts/changelog.mjs --check && node --test scripts/check-changelog.mjs",
-    "preview:border-art": "node scripts/build-border-art.mjs"
+    "changelog:check": "node scripts/changelog.mjs --check && node --test scripts/check-changelog.mjs"
   },
   "dependencies": {
     "@vitejs/plugin-react": "latest",

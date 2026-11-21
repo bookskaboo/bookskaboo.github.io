@@ -38,9 +38,9 @@ function Preview() {
       data-tooltip={description}>{icons(border.kind, horizontal)}</span>;
   });
   return <main ref={hostRef} className="border-map-test"><header ref={toolbarRef} className="border-map-test-toolbar"><div><h1>Border obstructions in the Node Map</h1><p>Display samples · presentation reference · browser saves untouched</p></div><div className="border-map-test-controls"><label>Crossing research<select value={tier} onChange={event => setTier(Number(event.target.value))}><option value={0}>None</option><option value={1}>Hydro</option><option value={2}>Shiny</option><option value={3}>Complex</option></select></label><label><input type="checkbox" checked={surveyed} onChange={event => reveal(event.target.checked)} /> Surveyed map</label><button onClick={() => setOpen(true)}>Open Node Map</button><a href="./index.html">Play area study</a></div><div className="border-map-legend">{BORDER_ART.map(art => <span key={art.id} style={{ color: art.color }}>{icons(art.id)}{art.name} · {art.tier}</span>)}<span>3 examples of each type</span></div></header>
-  {open && <NodeMinimap expanded game={game} engine={engine} persistLayout={false} mapOverlay={overlay} onHoverChange={() => {}} onTravel={id => engine.switchSector(id)} onOpenMap={() => setOpen(true)} onClose={() => setOpen(false)} sectorSummary={id => {
+  {open && <NodeMinimap expanded game={game} engine={engine} persistLayout={false} mapOverlay={overlay} onHoverChange={() => {}} onTravel={id => engine.switchSector(id)} onOpenMap={() => setOpen(true)} onClose={() => setOpen(false)} sectorPointsOfInterest={id => {
     const edges = borders.filter(edge => edge.from === id || edge.to === id);
-    return <section className="map-survey-list border-map-details" aria-label="Border obstructions"><h3>Border obstructions</h3>{edges.length ? <ul>{edges.map(edge => <li key={`${edge.from}:${edge.to}`}>{icons(edge.kind)}<span>{SIDE_LABELS[sideOfBorder(edge, id)]} · {edge.kind === 'river' ? 'River' : edge.kind === 'mountain' ? 'Mountain' : 'Chasm'}</span></li>)}</ul> : <p>No discovered border obstructions.</p>}</section>;
+    return edges.map(edge => ({ name: `${SIDE_LABELS[sideOfBorder(edge, id)]} · ${edge.kind === 'river' ? 'River' : edge.kind === 'mountain' ? 'Mountain' : 'Chasm'}` }));
   }} />}
   <UiTooltipLayer /></main>;
 }

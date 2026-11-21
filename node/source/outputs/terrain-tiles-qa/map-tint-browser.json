@@ -1,0 +1,44 @@
+{
+  "url": "http://127.0.0.1:4196/previews/terrain-tiles/runtime.html",
+  "scope": "Synthetic explored upper seven rows with purchased-but-unvisited S2; no campaign saves or map-layout storage writes.",
+  "desktop": {
+    "detailOrder": [
+      "N3.E5",
+      "Border obstructionsNo border obstructions.",
+      "",
+      "Terrain: Badlands",
+      "ResourcesIron2,500Copper2,500Stone2,500",
+      "Points of InterestNone. A rare lack of complications."
+    ],
+    "tints": {
+      "badlands": {
+        "background": "color(srgb 0.22549 0.201647 0.195765)",
+        "count": 20
+      },
+      "desert": {
+        "background": "color(srgb 0.228314 0.224941 0.2)",
+        "count": 22
+      },
+      "grassland": {
+        "background": "color(srgb 0.19302 0.229882 0.210588)",
+        "count": 16
+      },
+      "rocky": {
+        "background": "color(srgb 0.200078 0.222118 0.245882)",
+        "count": 19
+      }
+    },
+    "unvisitedTerrain": null
+  },
+  "unvisitedTerrainLabelCount": 0,
+  "legacy": {
+    "tintCount": 0,
+    "terrainLabelCount": 0
+  },
+  "mobile": {
+    "scrollWidth": 390,
+    "terrain": "Terrain: Badlands",
+    "width": 390
+  },
+  "warningsAndErrors": []
+}

@@ -15,7 +15,7 @@ export function outstandingResearchCores(research: ResearchState): ItemId[] {
 }
 
 export function isResearchCycleActive(node: MachineNode, research: ResearchState) {
-  if (node.disabled || node.processingPaused) return false;
+  if (node.disabled || node.processingPaused || research.paused) return false;
   const required = outstandingResearchCores(research);
   return required.length > 0 && required.every((item) => (node.input[item] ?? 0) >= 1);
 }

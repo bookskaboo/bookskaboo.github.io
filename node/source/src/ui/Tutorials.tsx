@@ -9,6 +9,7 @@ import { campStatus } from '../simulation/campStatus';
 import { availableTutorials } from '../tutorials/tutorialUnlocks';
 import { BASIC_STAGES, createTutorialState, expansionCable, type TutorialKind, lessonCopy, lessonSatisfied, MANUAL_STAGES, TUTORIAL_NAMES } from '../tutorials/tutorialRuntime';
 import { PanelHeader } from './PanelHeader';
+import type { ResearchLessonLayout } from '../tutorials/tutorialDialogue';
 
 export interface TrainingSession { id: string; kind: TutorialKind; engine: GameEngine }
 
@@ -39,14 +40,17 @@ export function TutorialMenu({ game, onStart, onClose }: { game: GameState; onSt
   </div>;
 }
 
-export function TutorialGuide({ session, game, camera, nodePositions, panel, placing, selectedIds = [], selectionInfo, onPlacementTarget, onStageChange, placementCorrection, onPanel, onExit, onFinish }: { session: TrainingSession; game: GameState; camera: CameraState; nodePositions?: Record<string, { x: number; y: number }>; panel: string | null; placing?: NodeKind; selectedIds?: string[]; selectionInfo?: SelectionInfo; onPlacementTarget(target?: TutorialPlacementTarget): void; onStageChange(stage: typeof BASIC_STAGES[number]): void; placementCorrection?: string; onPanel(value: 'research' | 'map' | 'options' | null): void; onExit(): void; onFinish(): void }) {
+export function TutorialGuide({ session, game, camera, nodePositions, panel, placing, selectedIds = [], selectionInfo, onPlacementTarget, onStageChange, placementCorrection, onPanel, onExit, onFinish, researchLayout = 'current', stageRange, onRestart }: { session: TrainingSession; game: GameState; camera: CameraState; nodePositions?: Record<string, { x: number; y: number }>; panel: string | null; placing?: NodeKind; selectedIds?: string[]; selectionInfo?: SelectionInfo; onPlacementTarget(target?: TutorialPlacementTarget): void; onStageChange(stage: typeof BASIC_STAGES[number]): void; placementCorrection?: string; onPanel(value: 'research' | 'map' | 'options' | null): void; onExit(): void; onFinish(): void; researchLayout?: ResearchLessonLayout; stageRange?: { first: typeof BASIC_STAGES[number]; last: typeof BASIC_STAGES[number] }; onRestart?(): void }) {
   const { kind, engine } = session;
-  const stages = tutorialStages(kind);
+  const allStages = tutorialStages(kind);
+  const first = stageRange ? allStages.indexOf(stageRange.first) : -1;
+  const last = stageRange ? allStages.indexOf(stageRange.last) : -1;
+  const stages = first >= 0 && last >= first ? allStages.slice(first, last + 1) : allStages;
   const groupMoveOrigins = useRef<Record<string, { x: number; y: number }>>({});
   const [index, setIndex] = useState(0);
   const [detailsExpanded, setDetailsExpanded] = useState(false);
   const stage = stages[index];
-  const copy = lessonCopy(stage);
+  const copy = lessonCopy(stage, researchLayout);
   const stepComplete = lessonSatisfied(stage, game, panel, placing, { selectedIds, selectionInfo, moveOrigins: groupMoveOrigins.current });
   useEffect(() => { onStageChange(stage); }, [stage, onStageChange]);
   const expectedPlacement = tutorialPlacementTarget(stage, game);
@@ -65,7 +69,7 @@ export function TutorialGuide({ session, game, camera, nodePositions, panel, pla
     else if (next === 'cores-open') onPanel('research');
     else if (next === 'logistics-splitter-connect') { engine.replaceState(createTutorialState('logistics', 'splitter')); onPanel(null); }
     else if (next === 'logistics-merger-connect') { engine.replaceState(createTutorialState('logistics', 'merger')); onPanel(null); }
-    else if (next === 'cores-explain' || next === 'shortcuts') onPanel(null);
+    else if ((next === 'cores-explain' && researchLayout === 'current') || next === 'shortcuts') onPanel(null);
     setIndex(index + 1);
   };
   useEffect(() => {
@@ -113,7 +117,7 @@ export function TutorialGuide({ session, game, camera, nodePositions, panel, pla
     ports = [{ node: roadCable.from, direction: 'output', port: 0, label: sending ? 'CART OUTPUT' : 'ROAD OUTPUT' },
       { node: roadCable.to, direction: 'input', port: 0, label: sending ? 'ROAD INPUT' : 'CART INPUT' }];
   }
-  const instruction = stage === 'expansion-deliver' && roadCable?.connected
+  const instruction = stageRange && index === stages.length - 1 ? 'Finish tutorial to return to your factory.' : stage === 'expansion-deliver' && roadCable?.connected
     ? game.paused ? 'Resume the factory to let Wood reach the Home Cart.' : 'Wait for Wood to reach the Home Cart.'
     : copy.instruction;
   const camp = kind === 'monster-camps' ? nodes.find(n => n.id === 'tutorial-camp') : undefined;
@@ -143,7 +147,7 @@ export function TutorialGuide({ session, game, camera, nodePositions, panel, pla
         {campProgress && <p className="tutorial-status">{campProgress.suppliedAp} / {campProgress.requiredAp} AP · {campProgress.secondsRemaining}s to check{camp.suppressed ? ' · Suppressed' : ''}</p>}
       </div>
       <footer className="tutorial-actions tutorial-footer">
-        <button className="tutorial-button" onClick={() => { engine.replaceState(createTutorialState(kind)); onPanel(null); setDetailsExpanded(false); setIndex(0); }}>Restart</button>
+        <button className="tutorial-button" onClick={() => { if (onRestart) { onRestart(); return; } engine.replaceState(createTutorialState(kind)); onPanel(null); setDetailsExpanded(false); setIndex(0); }}>Restart</button>
         {!finish && <button className="tutorial-button" onClick={onExit}>Exit practice</button>}
         {finish ? <button className="tutorial-button tutorial-primary" onClick={onFinish}>Finish tutorial</button>
           : MANUAL_STAGES.has(stage) && <button className="tutorial-button tutorial-primary" onClick={advance}>{stage === 'options-open' ? 'Open Options' : 'Continue'}</button>}

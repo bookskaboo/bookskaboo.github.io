@@ -1,0 +1,20 @@
+{
+  "all48SvgHashesUnchanged": true,
+  "previewTypeScript": "passed",
+  "previewExport": "passed",
+  "snapshotDiscovery": "hidden-until-first-visit",
+  "authorPreview": "full-assignment-visible",
+  "largerQuotaCandidate": {
+    "11x11": {
+      "grassland": 31,
+      "eachOther": 30
+    },
+    "21x21": {
+      "grassland": 111,
+      "eachOther": 110
+    }
+  },
+  "candidateStatus": "not adopted",
+  "scope": "planning and preview metadata only; no runtime discovery changes",
+  "browser": "not repeated for unchanged artwork and static metadata"
+}

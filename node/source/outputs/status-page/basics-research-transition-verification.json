@@ -1,0 +1,32 @@
+{
+  "scope": "Isolated prototype adaptation of the three existing Basics research stages, not adoption of the screen or a normal-play balance run.",
+  "browser": "http://127.0.0.1:4194/outputs/status-page/status-modal.html",
+  "checks": [
+    "Only Assembler and one queue slot; unrelated controls disabled",
+    "Selecting alone leaves step 1 waiting; action and double-click advance to step 2",
+    "Pause retains queued unpaid project; ordinary clock processed all five actual Core payments before completion copy",
+    "No Continue bypass during payment",
+    "Completion introduces four-card queue and Simple upgrade unlocking Basic Core",
+    "Restart resets practice; Exit and Finish both restore original 2/5 paid upgrade and four-slot queue",
+    "Shift+Tab from Close reaches Finish tutorial; Enter finishes",
+    "No captured browser warnings or errors"
+  ],
+  "screenshots": [
+    "basics-queue-practice.jpg",
+    "basics-research-complete.jpg"
+  ],
+  "verification": {
+    "targetedTests": "44 passed",
+    "workspaceTests": "2036 passed, 2 skipped (201 files)",
+    "previewTypeScript": "passed",
+    "previewBuild": "passed",
+    "mainBuild": "passed; existing chunk-size warning",
+    "systemCatalogsAndLinks": "passed: six catalogs, 39 documents",
+    "changelog": "passed: 687 entries, five generated files, six tests"
+  },
+  "limits": [
+    "Synthetic stocked lab and explicit author fast-complete actions are separate from ordinary-clock observation",
+    "Full Basics placement/production lesson on adopted screen and existing-campaign migration remain pending",
+    "No campaign browser saves, commit or publication"
+  ]
+}

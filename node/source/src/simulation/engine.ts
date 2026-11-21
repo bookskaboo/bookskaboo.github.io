@@ -1,8 +1,11 @@
 import { applyExpansionRescue } from './expansionRescue';
+import { focusedFieldCamera, sectorTravelCamera, type FieldViewport } from '../domain/camera';
+import { roadTravelPair } from '../domain/roadNavigation';
 import { borderCrossingFailure } from '../domain/borderObstructionLayout';
+import { forestTerrainRate, generateMapTerrains, normalizeMapTerrains } from './mapTerrain';
 import { borderRoadPermissionsValid, generateBorderObstructions, normalizeBorderLayout } from './borderObstructions';
 import { firstSpottedDwarvenCamp, DWARVEN_DISCOVERY_PROMPT } from '../tutorials/dwarvenDiscovery';
-import { endgameRank, reconcileHole, worldRecipeAllowed, FOUNDRY_INPUTS, SEVEN_CORES } from '../content/endgame';
+import { cornerDiscoveryPending, endgameRank, reconcileHole, worldRecipeAllowed, FOUNDRY_INPUTS, SEVEN_CORES } from '../content/endgame';
 import { initializeEndgame, simulateCorner, cornerInputAllowed, syncCornerLayout } from './endgameRuntime';
 import { simulatePlanter } from '../content/forestry';
 import { activateMod, BASE_MOD_CONTENT } from '../mods/modContent';
@@ -16,6 +19,8 @@ import { regenerateGuardedResources, isDwarvenGuardedDeposit } from './guardedRe
 import type { GameMod } from '../mods/modTypes';
 import { FactoryTemplateRuntime } from './factoryTemplateRuntime';
 import { ResearchRuntime } from './researchRuntime';
+import type { QueueResearchOptions } from '../content/researchQueue';
+import { mergeResearchHintHistory } from '../domain/researchHintHistory';
 import { getEffectiveNodeInputFamilies, getEffectiveNodeOutputFamilies, isNodeUnlocked, NODE_DEFINITIONS } from '../content/nodes';
 import { getNodeCapabilities, hasNodeBehavior, isResourceBehavior, needsRecipeSelection } from '../content/nodeCapabilities';
 import { isRecipeUnlocked, RECIPES, RECIPE_GROUPS, recyclerRecipeForMaterial } from '../content/recipes';
@@ -24,6 +29,7 @@ import { RESEARCH_PROJECTS } from '../content/research';
 import { getRecipeEfficiencyMultiplier } from '../content/efficiency';
 import { hasForestryCapacity } from '../content/machineEfficiency';
 import { migrateMachineEfficiency } from './machineEfficiencyMigration';
+import { migrateUpgrades } from './upgradesMigration';
 import { migrateRetiredNodes } from '../content/retiredNodes';
 import { canonicalNodeName } from '../content/displayNameChanges';
 import { CONTROL_GROUP_COLORS, copyControlGroups, normalizeControlGroups, regroupControlNodes } from '../domain/controlGroups';
@@ -96,6 +102,7 @@ export class GameEngine {
   private state: GameState;
   private listeners = new Set<() => void>();
   private history: GameState[] = [];
+  private developerMapRevealUndo = new WeakSet<GameState>();
   private copiedLayout?: NodeLayoutCopy;
   private readonly lastExtractorDispatch = new WeakMap<Connection, number>();
   private transferAccumulator = 0;
@@ -119,6 +126,7 @@ export class GameEngine {
     this.state.research.completed ??= [];
     this.state.research.repeatableCompletions ??= {};
     this.state.research.projectContributions ??= {};
+    migrateUpgrades(this.state);
     this.state.inFlightTransfers ??= [];
     this.normalizeExtractorCycles();
     applyModNames(this.state);
@@ -143,8 +151,10 @@ export class GameEngine {
       const changed = gridSize !== worldGridSize(this.state);
       this.state.worldGridSize = gridSize;
       if (changed && this.state.borderObstructionVersion === 1) this.state.borderObstructions = generateBorderObstructions(this.state.seed, gridSize);
+      if (changed && this.state.mapTerrainVersion === 1) this.state.mapTerrains = generateMapTerrains(this.state.seed, gridSize, this.state.endgame?.cornerOrder);
     }
     activateMod(candidate);
+    migrateUpgrades(this.state);
     this.syncFieldLayouts();
     applyModNames(this.state);
     applyCartUpgrades(this.state);
@@ -156,6 +166,7 @@ export class GameEngine {
   }
   private normalizeExtractorCycles() {
     this.state.worldRulesVersion ??= 1;
+    normalizeMapTerrains(this.state);
     Object.assign(this.state, normalizeBorderLayout(this.state.borderObstructionVersion, this.state.borderObstructions, worldGridSize(this.state)));
     if (!borderRoadPermissionsValid(this.state)) throw new Error('A saved Road crosses terrain without its crossing research.');
     normalizeWorldFieldSize(this.state);
@@ -325,7 +336,10 @@ export class GameEngine {
     const baseDt = dt;
     syncGuardedResources(sector);
     updateCampEncroachment(sector.nodes);
-    for (const supply of supplyDevInputs(this.state, sector, lookups, (target, item) => this.inputCapacity(target, item))) {
+    for (const supply of supplyDevInputs(this.state, sector, lookups, (target, item) => this.inputCapacity(target, item), {
+      perItemCapacity: target => this.inputUsesPerItemCapacity(target),
+      onSupply: (target,item) => this.selectRecyclerRecipeFromMaterial(target,item),
+    })) {
       (this.state.inFlightTransfers ??= []).push({ ...supply, id: makeId('dev-pulse'), sectorId: sector.id, launchedAtMs: this.state.playTimeMs, arrivesAtMs: this.state.playTimeMs + modRule('cableTravelMs'), cosmeticOnly: true });
     }
     const depleted: string[] = [];
@@ -451,7 +465,7 @@ export class GameEngine {
           if ((node.resourceRemaining ?? 0) >= (node.resourceCapacity ?? 0)) node.regenMs = 0;
           else {
             node.regenMs = (node.regenMs ?? 0) + dt;
-            const period=modRule('forestRegenMs')/(1+endgameRank(this.state,'resourceRegeneration'));
+            const period=modRule('forestRegenMs')/(1+endgameRank(this.state,'resourceRegeneration'))/forestTerrainRate(this.state, sector.id);
             if (node.regenMs >= period) { const q=Math.floor(node.regenMs/period);node.regenMs %= period; node.resourceRemaining = Math.min(node.resourceCapacity ?? 0, (node.resourceRemaining ?? 0) + q); }
           }
         }
@@ -533,6 +547,7 @@ export class GameEngine {
         Object.entries(recipe.inputs).forEach(([item, count]) => { node.input[item as ItemId] = (node.input[item as ItemId] ?? 0) - (count ?? 0); });
         Object.entries(recipe.outputs).forEach(([item, count]) => { node.output[item as ItemId] = (node.output[item as ItemId] ?? 0) + (count ?? 0); });
         Object.entries(recipe.outputs).forEach(([item, count]) => this.recordProduced(item as ItemId, count ?? 0));
+        if (modNodeTemplate(node.kind) === 'refiner' && sum(recipe.outputs) > 0) this.state.hasProducedWithRefiner = true;
         this.event('ItemProduced', `${node.name} completed ${recipe.name}.`);
       }
     }
@@ -1132,6 +1147,7 @@ export class GameEngine {
     if (plan.roadPair && plan.pairedNode) plan.roadPair.sector.nodes.push(plan.pairedNode);
     const node = plan.node;
     this.getSector().nodes.push(node);
+    if (kind === 'devSource') this.state.devTutorialPromptsSuppressed = true;
     this.insertNodeOnCable(node);
     this.evaluateMilestones();
     this.event('NodePlaced', `${node.name} placed. Construction started.`);
@@ -1684,8 +1700,19 @@ export class GameEngine {
   getTemplatePreview(index: number, x: number, y: number) { return this.templates.getTemplatePreview(index, x, y); }
   placeFactoryTemplate(index: number, x: number, y: number) { return this.templates.placeFactoryTemplate(index, x, y); }
   acknowledgeRescue() { if(this.state.rescue?.pending){delete this.state.rescue.pending;this.rescueAccumulator=1000;this.publish();} }
+  acknowledgeCornerDiscovery(cornerId?: string) {
+    if (!cornerDiscoveryPending(this.state, cornerId)) return;
+    const endgame = this.state.endgame!;
+    if (cornerId === undefined) endgame.cornerMapAcknowledged = true;
+    else (endgame.acknowledgedCorners ??= []).push(cornerId);
+    this.publish();
+  }
   acknowledgeVictory() { if(this.state.endgame&&this.state.research.completed.includes('victory')) {this.state.endgame.victoryAcknowledged=true;this.publish();} }
   selectResearch(id?: string) { this.research.selectResearch(id); }
+  queueResearch(id: string, options?: QueueResearchOptions) { return this.research.queueResearch(id, options); }
+  removeQueuedResearch(id: string) { this.research.removeQueuedResearch(id); }
+  releasePriorityResearch(id: string) { this.research.releasePriorityResearch(id); }
+  setResearchPaused(paused: boolean) { this.research.setResearchPaused(paused); }
   startMapResearch(x: number, y: number) { return this.research.startMapResearch(x, y); }
 
   setFilterItem(nodeId: string, filterItem: ItemId, outputPort?: FilterPort) {
@@ -1787,14 +1814,21 @@ export class GameEngine {
     return true;
   }
   updatePreferences(patch: Partial<GameState['preferences']>) { Object.assign(this.state.preferences, patch); this.publish(); }
+  developerSuppressTutorialPrompts() {
+    if (this.state.devTutorialPromptsSuppressed) return;
+    this.state.devTutorialPromptsSuppressed = true;
+    this.publish();
+  }
   developerUnlockAllNodes() {
     this.checkpoint();
+    this.state.devTutorialPromptsSuppressed = true;
     const requirements = Object.values(NODE_DEFINITIONS).map((definition) => definition.unlockResearch).filter((id): id is string => Boolean(id));
     this.state.research.unlocked = [...new Set([...this.state.research.unlocked, ...requirements])];
     this.publish();
   }
   developerUnlockAllResearch() {
     this.checkpoint();
+    this.state.devTutorialPromptsSuppressed = true;
     this.state.devResearchUnlocked = true;
     const permanent = RESEARCH_PROJECTS.filter((project) => !project.repeatable).map((project) => project.id);
     this.state.research.unlocked = [...new Set([...this.state.research.unlocked, ...RESEARCH_PROJECTS.map((project) => project.id)])];
@@ -1809,14 +1843,18 @@ export class GameEngine {
   }
   developerUnlockAllSectors() {
     this.checkpoint();
+    this.state.devTutorialPromptsSuppressed = true;
+    this.developerMapRevealUndo.add(this.history[this.history.length-1]);
     const size = worldGridSize(this.state);
     const { min, max } = worldGridBounds(size);
     for (let y = min; y <= max; y++) for (let x = min; x <= max; x++) {
       const sector = this.ensureSector(x, y);
       sector.unlocked = true;
+      sector.visited = true;
       this.state.sectors[sector.id] = sector;
     }
     this.state.devMapSurveysRevealed = true;
+    discoverActiveSector(this.state);
     this.state.research.mapPoints = Math.max(this.state.research.mapPoints, size ** 2);
     this.publish();
   }
@@ -1824,20 +1862,22 @@ export class GameEngine {
   setCamera(camera: SectorState['camera']) { this.getSector().camera = camera; }
   renameSector(name: string, label: string, sectorId = this.state.activeSectorId) { const s = this.state.sectors[sectorId]; if (!s?.unlocked) return; s.name = name.trim().slice(0, 30) || (s.id === '5,5' ? 'Home Sector' : `Sector ${s.x}.${s.y}`); s.label = label.trim().slice(0, 3).toUpperCase() || (s.id === '5,5' ? 'HME' : `S${sectorDistance(s.x, s.y)}`.slice(0, 3)); this.publish(); }
   undo() { const previous = this.history.pop(); if (previous) {
-    previous.encounters = [...new Set([...(previous.encounters ?? []), ...(this.state.encounters ?? [])])];
+    if (this.state.devTutorialPromptsSuppressed) previous.devTutorialPromptsSuppressed = true;
+    if (previous.researchHintHistory || this.state.researchHintHistory) previous.researchHintHistory = mergeResearchHintHistory(previous.researchHintHistory, this.state.researchHintHistory);
+    if (!this.developerMapRevealUndo.has(previous)) previous.encounters = [...new Set([...(previous.encounters ?? []), ...(this.state.encounters ?? [])])];
     previous.tutorialPromptsSeen = [...new Set([...(previous.tutorialPromptsSeen ?? []), ...(this.state.tutorialPromptsSeen ?? [])])];
     previous.resourceDepletionLog = this.state.resourceDepletionLog;
     for (const [id, sector] of Object.entries(this.state.sectors)) {
       const previousSector = previous.sectors[id];
       if (!previousSector) continue;
-      if (sector.visited) previousSector.visited = true;
+      if (sector.visited && !this.developerMapRevealUndo.has(previous)) previousSector.visited = true;
       previousSector.resourceDepletionPending = sector.resourceDepletionPending;
     }
     this.state = previous;
     if (this.realtimeTickAt !== undefined) this.startRealtimeClock();
     activateMod(this.state.mod); initializeProgression(this.state); applyCartUpgrades(this.state); applyModNames(this.state); this.evaluateMilestones(); this.publish();
   } }
-  replaceState(state: GameState) { const next = clone(state); if (next.mod) next.mod = validateMod(next.mod); this.state = next; if (this.realtimeTickAt !== undefined) this.startRealtimeClock(); activateMod(this.state.mod); applyModNames(this.state); this.state.produced ??= {}; this.state.extracted ??= {}; this.state.hasCreatedConnection ??= false; this.state.research.completed ??= []; this.state.research.repeatableCompletions ??= {}; this.state.research.projectContributions ??= {}; this.state.inFlightTransfers ??= []; this.normalizeExtractorCycles(); applyModNames(this.state); this.research.reconcileResearchSelection(); this.pruneLockedForestInputs(); this.history = []; this.publish(); }
+  replaceState(state: GameState) { const next = clone(state); if (next.mod) next.mod = validateMod(next.mod); this.state = next; if (this.realtimeTickAt !== undefined) this.startRealtimeClock(); activateMod(this.state.mod); applyModNames(this.state); this.state.produced ??= {}; this.state.extracted ??= {}; this.state.hasCreatedConnection ??= false; this.state.research.completed ??= []; this.state.research.repeatableCompletions ??= {}; this.state.research.projectContributions ??= {}; migrateUpgrades(this.state); this.state.inFlightTransfers ??= []; this.normalizeExtractorCycles(); applyModNames(this.state); this.research.reconcileResearchSelection(); this.pruneLockedForestInputs(); this.history = []; this.publish(); }
   unlockSector(x: number, y: number) {
     if (usesNewWorldRules(this.state) && mapPurchaseProtected(this.state,sectorId(x,y))) return false;
     if (this.state.research.mapPoints < 1 || !canPurchaseMap(this.state, x, y)) return false;
@@ -1854,6 +1894,21 @@ export class GameEngine {
     sector.unlocked = true;
     this.state.sectors[destination] = sector;
     return true;
+  }
+  /** Road travel focuses its reciprocal endpoint instead of the map's saved center. */
+  travelThroughRoad(nodeId: string, viewport: FieldViewport, overviewSize?: {width:number;height:number}) {
+    const pair=roadTravelPair(this.state,nodeId);
+    if(!pair) return;
+    pair.sector.camera=focusedFieldCamera(this.getSector().camera.zoom,pair.road,getWorldFieldSize(this.state),viewport,overviewSize);
+    this.switchSector(pair.sector.id);
+    return pair.road.id;
+  }
+  /** Player navigation carries zoom; scripted switches retain their authored views. */
+  travelToSector(id: string, viewport: FieldViewport, overviewSize?: { width: number; height: number }) {
+    const sector = this.state.sectors[id];
+    if (!sector?.unlocked || id === this.state.activeSectorId) return;
+    sector.camera = sectorTravelCamera(this.getSector().camera.zoom, getWorldFieldSize(this.state), viewport, sector.visited ? sector.camera : undefined, overviewSize);
+    this.switchSector(id);
   }
   switchSector(id: string, firstVisitCamera?: SectorState['camera']) {
     const sector = this.state.sectors[id]; if (!sector?.unlocked) return;

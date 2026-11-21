@@ -42,7 +42,7 @@ describe('tutorial choices', () => {
     expect(tutorialChoices('basic', 'build-open', game).panel).toBe('build');
     expect(tutorialChoices('basic', 'connect-resource', game).panel).toBeUndefined();
     expect(tutorialChoices('basic', 'research-explain', game).panel).toBe('research');
-    expect(tutorialChoices('basic', 'cores-explain', game).panel).toBeUndefined();
+    expect(tutorialChoices('basic', 'cores-explain', game).panel).toBe('research');
     expect(tutorialChoices('basic', 'options-explain', game).panel).toBe('options');
     for (const stage of BASIC_STAGES) expect(tutorialChoices('basic', stage, game).buildKind).not.toBe('woodenChest');
   });

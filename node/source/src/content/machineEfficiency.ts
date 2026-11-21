@@ -1,6 +1,6 @@
 /** Numeric research suffixes retain their Core tier, so existing purchases keep their identity. */
 export const EFFICIENCY_CORES = ['simple-core', 'basic-core', 'automata-core', 'hydro-core', 'shiny-core', 'command-core', 'final-core'] as const;
-export const EFFICIENCY_ACCESS = ['simpleCore', 'basicCore', 'automataCore', 'hydroCore', 'shinyCore', 'complexCore', 'finalCore'] as const;
+export const EFFICIENCY_ACCESS = ['refiner', 'basicCore', 'automataCore', 'hydroCore', 'shinyCore', 'complexCore', 'finalCore'] as const;
 export const MACHINE_EFFICIENCY = [
   { family: 'extractor', name: 'Extractor', start: 2, access: undefined },
   { family: 'kiln', name: 'Kiln', start: 2, access: 'kiln' },

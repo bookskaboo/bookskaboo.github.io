@@ -1,0 +1,184 @@
+{
+  "date": "2026-11-20",
+  "scope": "Local comparison only; main-game default and live deployment unchanged",
+  "url": "http://127.0.0.1:54122/previews/active-factory/?layout=dense&nodes=2400&sampleSeconds=25",
+  "viewport": {
+    "width": 1210,
+    "height": 923
+  },
+  "fixture": {
+    "nodes": 2400,
+    "producers": 360,
+    "splitters": 840,
+    "mergers": 840,
+    "connections": 3330,
+    "progressMinimumPixels": 3
+  },
+  "method": "Serial hidden/restored/hidden/restored runs, five-second warmup and fixed 25-second sample; each switch resets the same deterministic factory and camera. Both conditions retain static artwork and cable caches. FPS is derived from sampled frame intervals; boundary intervals are clipped to exclude warmup overlap.",
+  "samples": [
+    {
+      "mode": "hidden",
+      "benchmark": {
+        "frameP95": 58.399999999999636,
+        "frameP99": 83.39999999999964,
+        "tickP95": 22.600000023841858,
+        "slowFrames": 252,
+        "count": 746,
+        "seconds": 25,
+        "meanFrameMs": 33.51206434316354,
+        "averageFps": 29.84,
+        "complete": true
+      },
+      "renderer": {
+        "nodesCreated": 2400,
+        "nodesDestroyed": 0,
+        "particleObjectsCreated": 64,
+        "visibleNodes": 2400,
+        "totalNodes": 2400,
+        "activeParticles": 64,
+        "pooledParticles": 0,
+        "overviewTextures": 13,
+        "cableChunks": 77,
+        "cachedCables": true
+      },
+      "activity": "2400 nodes\n360 producers\n3330 connections\n840 Splitters\n840 Mergers\n255 cycling\n52 materials in transit\n1,237 produced\n279 delivered\n42 s elapsed\n27 page FPS\n4.0 ms last tick\n58.4 ms p95 frame"
+    },
+    {
+      "mode": "restored",
+      "benchmark": {
+        "frameP95": 108.40000000000873,
+        "frameP99": 133.1999999999971,
+        "tickP95": 23,
+        "slowFrames": 320,
+        "count": 320,
+        "seconds": 25,
+        "meanFrameMs": 78.125,
+        "averageFps": 12.8,
+        "complete": true
+      },
+      "renderer": {
+        "nodesCreated": 7200,
+        "nodesDestroyed": 4800,
+        "particleObjectsCreated": 128,
+        "visibleNodes": 2400,
+        "totalNodes": 2400,
+        "activeParticles": 63,
+        "pooledParticles": 1,
+        "overviewTextures": 17,
+        "cableChunks": 77,
+        "cachedCables": true
+      },
+      "activity": "2400 nodes\n360 producers\n3330 connections\n840 Splitters\n840 Mergers\n254 cycling\n48 materials in transit\n1,386 produced\n323 delivered\n47 s elapsed\n15 page FPS\n22.0 ms last tick\n108.4 ms p95 frame"
+    },
+    {
+      "mode": "hidden",
+      "benchmark": {
+        "frameP95": 41.69999999999709,
+        "frameP99": 66.69999999999709,
+        "tickP95": 18.5,
+        "slowFrames": 95,
+        "count": 1108,
+        "seconds": 25,
+        "meanFrameMs": 22.56317689530686,
+        "averageFps": 44.32,
+        "complete": true
+      },
+      "renderer": {
+        "nodesCreated": 12000,
+        "nodesDestroyed": 9600,
+        "particleObjectsCreated": 192,
+        "visibleNodes": 2400,
+        "totalNodes": 2400,
+        "activeParticles": 64,
+        "pooledParticles": 0,
+        "overviewTextures": 17,
+        "cableChunks": 77,
+        "cachedCables": true
+      },
+      "activity": "2400 nodes\n360 producers\n3330 connections\n840 Splitters\n840 Mergers\n251 cycling\n61 materials in transit\n1,487 produced\n343 delivered\n50 s elapsed\n42 page FPS\n2.9 ms last tick\n41.7 ms p95 frame"
+    },
+    {
+      "mode": "restored",
+      "benchmark": {
+        "frameP95": 116.5,
+        "frameP99": 133.39999999999418,
+        "tickP95": 20.100000023841858,
+        "slowFrames": 318,
+        "count": 318,
+        "seconds": 25,
+        "meanFrameMs": 78.61635220125787,
+        "averageFps": 12.719999999999999,
+        "complete": true
+      },
+      "renderer": {
+        "nodesCreated": 16800,
+        "nodesDestroyed": 14400,
+        "particleObjectsCreated": 256,
+        "visibleNodes": 2400,
+        "totalNodes": 2400,
+        "activeParticles": 64,
+        "pooledParticles": 0,
+        "overviewTextures": 17,
+        "cableChunks": 77,
+        "cachedCables": true
+      },
+      "activity": "2400 nodes\n360 producers\n3330 connections\n840 Splitters\n840 Mergers\n268 cycling\n82 materials in transit\n1,973 produced\n454 delivered\n66 s elapsed\n8 page FPS\n21.8 ms last tick\n116.5 ms p95 frame"
+    }
+  ],
+  "pairs": [
+    {
+      "hiddenFps": 29.84,
+      "restoredFps": 12.8,
+      "lossPercent": 57.10455764075066,
+      "hiddenP95": 58.399999999999636,
+      "restoredP95": 108.40000000000873
+    },
+    {
+      "hiddenFps": 44.32,
+      "restoredFps": 12.719999999999999,
+      "lossPercent": 71.29963898916968,
+      "hiddenP95": 41.69999999999709,
+      "restoredP95": 116.5
+    }
+  ],
+  "build": {
+    "entry": "index-B8qX_jTd.js",
+    "sha256": "e5ee86a063a0cdf8f201245c1a07330522bc39e54dcb03218dfc43d4b8db8ca7"
+  },
+  "browserChecks": [
+    "Restored titles, socket labels and live stock boxes visible in overview",
+    "All 2,400 nodes remain visible and 77 cable neighborhoods stay cached in all four samples",
+    "Production, cycling, physical transfers and final Warehouse delivery continue",
+    "Zoom to a cell and back; movement updates Smelter x from 384 to 328.4444424066788 at y 640, preserving 3,330 connections",
+    "At 390 CSS pixels, document client width and scroll width are both 390; desktop viewport restored",
+    "No warning/error logs at checked points"
+  ],
+  "limits": [
+    "Baseline host performance varied substantially between runs; comparisons are local observations, not universal FPS promises or a normal-play balance run.",
+    "The older 600-node test tab stayed paused. Other user applications were preserved. No heavy build/test commands ran during corrected timing windows.",
+    "Activity totals were captured when samples were collected, sometimes after the fixed window ended. They demonstrate ongoing work and are not matched throughput measurements.",
+    "Preliminary samples were excluded after fixing warmup boundary overlap; fixed-samples.json contains the corrected four comparisons.",
+    "Restored labels retain their normal small zoom scale and remain difficult to read at fit-all zoom.",
+    "No publication, player save or game timing changes."
+  ],
+  "record": "NODE-0701",
+  "validation": {
+    "focused": "133 renderer and active-factory tests passed in 31 files",
+    "previewTypes": "passed",
+    "standaloneBuild": "passed",
+    "mainBuild": "passed",
+    "systems": "six catalogs and 39 documentation files passed freshness/link checks",
+    "workspace": {
+      "passed": 2109,
+      "failed": 8,
+      "skipped": 2,
+      "atCheckTime": "2026-11-20 21:12 America/Los_Angeles",
+      "failures": [
+        "six settlement population assertions expected deposits to share camp x coordinates",
+        "one border terrain-clearance assertion expected matching camp/deposit x coordinates",
+        "one border-generation seed sweep timed out at five seconds"
+      ],
+      "scope": "These checks exercise generation code outside this change. Other shared-workspace generation edits were in progress; these are the observed results, not a claim about later edits."
+    }
+  }
+}

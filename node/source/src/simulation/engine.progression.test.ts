@@ -106,19 +106,19 @@ describe('six-tier gameplay progression',()=>{
   lab.input['command-core']=1;tick(e,5);expect(Object.values(e.getState().research.contributed)).toEqual([1,1,1,1,1,1]);expect(lab.input['command-core']).toBe(0);
  });
  it('completes saved contributions that already cover the price without more inputs',()=>{
-  const e=setup([machine('researchCenter')],['researchCenter','simpleCore']);e.selectResearch('assembler');e.getState().research.contributed={'simple-core':6};tick(e,.1);expect(e.getState().research.completed).toContain('assembler');
+  const e=setup([machine('researchCenter')],['researchCenter','refiner']);e.selectResearch('assembler');e.getState().research.contributed={'simple-core':6};tick(e,.1);expect(e.getState().research.completed).toContain('assembler');
  });
  it('does not grant a discovery merely by generating or activating a map',()=>{
   const e=setup([]);const map=generateSector(7,5,204,0);map.unlocked=true;e.getState().sectors[map.id]=map;tick(e,.1);
   expect(e.getState().research.completed).not.toContain('lakeTools');e.switchSector(map.id);expect(e.getState().research.completed).toContain('lakeTools');expect(e.getState().research.completed).not.toContain('mithrilTools');
  });
  it('does not interrupt a selected paid project on discovery',()=>{
-  const e=setup([machine('researchCenter')],['researchCenter','simpleCore']);e.selectResearch('researchCenter1');e.getState().research.contributed={'simple-core':3,'basic-core':3};
+  const e=setup([machine('researchCenter')],['researchCenter','refiner']);e.selectResearch('researchCenter1');e.getState().research.contributed={'simple-core':3,'basic-core':3};
   const map=generateSector(6,5,204,0);map.unlocked=true;e.getState().sectors[map.id]=map;e.switchSector(map.id);
   expect(e.getState().research.completed).not.toContain('fabricatorTools');expect(e.getState().research.selected).toBe('researchCenter1');expect(e.getState().research.contributed['simple-core']).toBe(3);
  });
  it('does not grant Mythril processing or waste handling for merely visiting a deposit',()=>{
-  const e=setup([machine('researchCenter')],['researchCenter','simpleCore']);e.selectResearch('researchCenter1');e.getState().research.contributed={'simple-core':3};
+  const e=setup([machine('researchCenter')],['researchCenter','refiner']);e.selectResearch('researchCenter1');e.getState().research.contributed={'simple-core':3};
   const map=generateSector(9,5,204);map.unlocked=true;map.nodes=[machine('mythril','deposit')];e.getState().sectors[map.id]=map;e.switchSector(map.id);
   expect(e.getState().research.completed).not.toContain('mithrilTools');
   expect(e.getState().research.completed).not.toContain('sortingTools');

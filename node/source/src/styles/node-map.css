@@ -69,6 +69,10 @@ button.node-map-sector:hover { z-index:4; transform:scale(1.08); filter:brightne
 .node-map-sector.selected { outline:1px solid #eef4f7; outline-offset:1px; z-index:3; }
 .node-map-sector.current { border-color:#f1dda2; color:#fff0bd; background:#594a26; box-shadow:0 0 9px #d5b66666; }
 .node-map-sector.resource-depleted { border-color:#e9827b; background:#532a2b; box-shadow:0 0 5px #e9827b80; animation:map-depletion-pulse 1.8s ease-in-out infinite; }
+/* The expanded map alone shows visited terrain; status outlines and warnings stay distinct. */
+.world-node-minimap.expanded .node-map-sector[data-map-terrain]:not(.resource-depleted) {
+  background:color-mix(in srgb,var(--map-terrain-color) 18%,#1a1e21);
+}
 @keyframes map-depletion-pulse { 50% { border-color:#ffc0b9; box-shadow:0 0 10px #e9827b; } }
 @media (prefers-reduced-motion:reduce) { .node-map-sector.resource-depleted { animation:none; } }
 .node-map-sector.has-landmarks { display:grid; place-content:center; gap:1px; }
@@ -164,3 +168,12 @@ button.node-map-sector:hover { z-index:4; transform:scale(1.08); filter:brightne
   .shortcut-slots .shortcut-slot > button.new-auto-assignment::after { animation:none; opacity:1; transform:none; }
 }
 
+
+/* One-time discovery emphasis, acknowledged by hover, focus or selection. */
+.rail-button.discovery-attention,.world-node-minimap.discovery-attention,.node-map-sector.corner-discovery-pending {
+  outline:2px solid #e2c17b; outline-offset:2px; animation:map-discovery-flash 1.8s ease-in-out infinite;
+}
+@keyframes map-discovery-flash { 50% { outline-color:#fff0ba; box-shadow:0 0 14px #e2c17b99; } }
+@media (prefers-reduced-motion:reduce) {
+  .rail-button.discovery-attention,.world-node-minimap.discovery-attention,.node-map-sector.corner-discovery-pending { animation:none; }
+}

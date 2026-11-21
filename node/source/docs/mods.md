@@ -35,6 +35,8 @@ In **Mods → Map nodes**, set **World map size** in the draft’s defaults or i
 
 The factory save keeps its grid size. A pack with no explicit size uses the factory’s current grid. The four unique camps occupy the outer corners of that grid, and normal Map Point research can fund every map. Extra purchases beyond the standard grid use the existing maximum price for the current research tier. In a mod text file, set `"worldGridSize": 21` under `rules` or a map preset’s `rules`.
 
+New factories also save their ground terrain. An allowed early size change rebuilds its proportional terrain totals and corner-linked preferences from the same seed, keeping Home and all corners Grassland. The four first diagonals retain their quadrant's preferred terrain. Removing a mod preserves the saved world size and assignment. Existing saves without terrain opt-in retain their previous generation and plain ground, including maps explored later. See [current terrain rules](systems/map-nodes-and-exploration.md#ground-terrain-for-new-games).
+
 ### Spawning and placement
 
 Open **Obstructions & world nodes**, choose an entry, and select **Add spawn rule**. Lakes, Deep Holes, Goblin camps, Forests, and natural reserves support rules. Choose a tier range, a percentage chance per map, a count of 1–8, and where to place the center of each obstruction. The standard world has eligible tiers 1–9. A 21×21 world reaches tier 19 before its corner maps. Placement uses the world seed and checks available space, so a crowded map may place fewer than the requested count.
@@ -42,6 +44,8 @@ Open **Obstructions & world nodes**, choose an entry, and select **Add spawn rul
 **Add to normal spawns** keeps the usual generation and adds this rule’s spawns. **Replace normal spawns** removes the selected entry’s usual spawns across new maps, including outside the rule’s tier range. Set the chance to 0% in replace mode to disable those spawns. Dwarven settlements, progression Golems, Home, and the four corner maps retain their normal generation. Generated maps retain their existing nodes when a rule changes.
 
 Custom reserves use their own spawns while a rule is present. Removing the rule restores their template replacement chance. Mod packs store rules under each entry’s `worldSpawn` field. For example, this `nodes` section places up to two Lakes with centers in the northwest on 60% of new tier 3–5 maps and replaces the usual Lake schedule.
+
+In new terrain worlds, generated Forests and finite Stone, Copper, Iron and Mythril reserves apply terrain factors after mod baseline capacities, including explicit spawns and matching templates. Badlands removes generated Forests. Terrain never adds an absent resource. Other custom materials, Lakes, infinite Golem reserves and later Drill deposits keep their current rules. The natural Forest rate composes with `forestRegenMs` and research; paid Tree Planter costs/output remain unchanged. Already generated reserves keep their saved stock and cap when you apply or remove a mod.
 
 ```json
 {

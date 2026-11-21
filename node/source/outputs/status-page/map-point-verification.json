@@ -1,0 +1,56 @@
+{
+  "date": "2026-11-20",
+  "scope": "Banked Map Point flow in the local Upgrades prototype; current main-game destination-priced worlds remain unchanged pending adoption",
+  "behavior": [
+    "Extra Map Point queues without a destination and each completion banks exactly one point",
+    "Use existing destination-free completion-count/Core-access price progression; first bill five Simple Cores",
+    "Research does not open a map; player later spends a point on an eligible frontier map through the shared Map modal",
+    "Unlocking costs one point and does not visit or travel; Travel to node remains separate",
+    "Zero points disables activation and offers no destination research action in point mode",
+    "Active bills and paid Cores persist across switching, Core unlocks and normalized reload",
+    "Explicitly opting an existing destination quote into point mode frees its destination while preserving its exact bill and payments; no campaign opts in automatically",
+    "Existing adjacency, bounds, Deep Hole blockers and remaining-world coverage rules remain",
+    "Home-lab test controls continue working after travel; browser autosave and map layout writes disabled"
+  ],
+  "checks": {
+    "focused": {
+      "testsPassed": 146,
+      "filesPassed": 10,
+      "command": "npx vitest run previews/status-page/ src/simulation/mapResearch.test.ts src/simulation/researchQueue.test.ts src/ui/ResearchPanel.test.tsx"
+    },
+    "fullSuite": {
+      "command": "npm test -- --testTimeout=15000",
+      "testsPassed": 2019,
+      "testsSkipped": 2,
+      "filesPassed": 196,
+      "filesSkipped": 2
+    },
+    "previewTypeScript": "passed",
+    "standaloneBuild": "passed, three offline HTML exports",
+    "mainBuild": "passed, existing large-chunk advisory",
+    "systemDocs": "6 catalogs and local links across 39 documents passed"
+  },
+  "browser": {
+    "url": "http://127.0.0.1:4194/outputs/status-page/status-modal.html",
+    "viewport": [
+      1280,
+      720
+    ],
+    "observed": [
+      "Double-click Extra Map Point queues normally with bill 0/5 Simple and no destination picker",
+      "Explicit synthetic completion fixture raises Node Map count to 1 without opening any Map Node",
+      "Open Node Map shows only Home unlocked and one point; select E1 exposes Activate node · 1 point, with no Core-cost section",
+      "Activate E1 consumes point to zero, keeps E1 unexplored, and changes action to Travel to node",
+      "Select still-locked N1 with zero points shows disabled Need 1 Map Point and no Start research action",
+      "Travel to E1 returns to Upgrades; queue and complete a second Map Point with Home-lab controls, then open Map and choose N1 with one banked point",
+      "Shift+Tab from map Close wraps to Activate; Escape returns to Upgrades; reopen retains saved point and unlocked/traveled E1",
+      "Final review left map open with one point and N1 selected, ready to unlock",
+      "No captured browser warnings/errors"
+    ],
+    "screenshots": [
+      "outputs/status-page/map-point-before-unlock.jpg",
+      "outputs/status-page/map-point-ready-review.jpg"
+    ]
+  },
+  "limits": "Synthetic review controls supply Cores and step ordinary research intervals. Not normal-play balance or automatic campaign migration. Shared mode support is opt-in; main worlds without the marker retain current destination pricing. No campaign saves, commit or publication."
+}

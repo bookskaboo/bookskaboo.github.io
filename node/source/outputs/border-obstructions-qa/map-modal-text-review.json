@@ -1,0 +1,30 @@
+{
+  "normal": {
+    "markerLabels": [
+      "River · N1.W1 / N1",
+      "River · E1 / E2",
+      "River · S2.W2 / S3.W2",
+      "Mountain · N2.E2 / N2.E3",
+      "Mountain · W3 / S1.W3",
+      "Mountain · S2.E2 / S2.E3",
+      "Chasm · N3.W3 / N3.W2",
+      "Chasm · S3.E3 / S4.E3",
+      "Chasm · S2 / S3"
+    ],
+    "requirementTextPresent": false,
+    "summary": "Border obstructionsEast · River",
+    "tooltipDetails": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  "completedResearchSummary": "Border obstructions\nEast · River",
+  "logs": []
+}

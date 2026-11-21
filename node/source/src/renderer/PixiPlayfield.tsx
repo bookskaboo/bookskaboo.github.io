@@ -1,6 +1,11 @@
 import { CableLayers } from './cableLayers';
+import { GuardedRefillLinks } from './guardedRefillLinks';
+import { RoadTravelClicks, roadTravelDestination } from './roadNodeTravel';
+import { createRoadTravelControl, positionRoadTravelControl } from './roadTravelControl';
 import { createBorderTerrain } from './borderTerrain';
-import { OverviewTextures } from './overviewTextures';
+import { MapTerrainTextures } from './mapTerrain';
+import { revealedMapTerrain } from '../simulation/mapTerrain';
+import { OverviewTextures, setOverviewArtworkVisibility } from './overviewTextures';
 import { createCampNodeStatus, updateCampNodeStatus } from './campNodeStatus';
 import { createCornerCampStatus, drawCornerCamp, updateCornerCampStatus } from './cornerCampView';
 import { campStatus } from '../simulation/campStatus';
@@ -34,7 +39,7 @@ import { RECIPES } from '../content/recipes';
 import type { Connection, InFlightTransfer, ItemId, MachineNode, SectorState } from '../domain/types';
 import type { RoadPlacementTarget } from '../simulation/engine';
 import { getWorldFieldSize } from '../simulation/worldGeneration';
-import { clampFieldCamera, scrollCameraForDrag } from '../domain/camera';
+import { clampFieldCamera, exteriorFieldOverviewSize, scrollCameraForDrag } from '../domain/camera';
 import { WORLD_GRID_SIZE, draggedNodePositions, snapNodePosition } from '../domain/nodeGrid';
 import { boxControlSelection, ControlGroupSelection } from '../domain/controlGroups';
 import { getConnectionControlPoints, getPortSide, isMultiConnectionPort } from '../simulation/connectionRules';
@@ -43,6 +48,7 @@ import { blockedFilterPort, filterOutlet } from '../domain/filterRouting';
 import { obstructionOutline } from '../domain/obstructionGeometry';
 import { drawNodeIcon } from './drawNodeIcon';
 import { drawEncounterArt } from './encounterArt';
+import { campArtworkLayout, guardedResourceLocked, nodeStackOrder } from './campPresentation';
 import { getNodeArt } from '../art/nodeArt';
 import { MAX_VISIBLE_TRANSFERS, transferProgress } from '../simulation/transfers';
 import { RESEARCH_CORE_TYPES } from '../simulation/researchStatus';
@@ -62,11 +68,13 @@ export function PixiPlayfield(props: Props) {
     const viewportElement = props.viewportRef.current!;
     let viewport = measureFieldViewport(viewportElement);
     let insertionPreviewLayer: Graphics; let insertionPreviewSignature = ''; let insertionPreviewCableId: string | undefined;
-    let world: Container; let surfaceLayer: Container; let cableLayer: Container; let particleLayer: Container; let nodeLayer: Container; let placementLayer: Container; let overlayLayer: Container;
+    let world: Container; let surfaceLayer: Container; let cableLayer: Container; let particleLayer: Container; let nodeLayer: Container; let campPortLayer: Container; let placementLayer: Container; let overlayLayer: Container;
     let camera = { ...props.engine.getSector().camera }; let worldSize = getWorldFieldSize(props.engine.getState());
     let renderedState = props.engine.getState(); let renderedSectorId = props.engine.getSector().id; let appliedCameraNonce = props.cameraFocus?.nonce ?? -1;
     let drag: DragState | undefined; let connectionDrag: ConnectionDragState | undefined; let snappedPortKey: string | undefined; let panning: { x: number; y: number; cameraX: number; cameraY: number } | undefined;
     const groupSelection = new ControlGroupSelection();
+    const roadTravelClicks = new RoadTravelClicks();
+    let roadBodyPress: { nodeId: string; sectorId: string; x: number; y: number } | undefined;
     let rightPress: { id: string; x: number; y: number; moved: boolean } | undefined;
     let marquee: { startX: number; startY: number; graphic: Graphics; baseSelection: string[]; previewIds: Set<string> } | undefined; let spaceHeld = false; let previewCable: Graphics | undefined; let previewPoint = { x: 0, y: 0 };
     let placementView: PlacementView | undefined; let placementPointerInside = false; let placementCursor = { x: 0, y: 0 };
@@ -95,6 +103,7 @@ export function PixiPlayfield(props: Props) {
     const overviewTextures = new OverviewTextures();
     let overviewContext = '';
     let cachedCables = false; let cableLayers: CableLayers;
+    let guardedRefills: GuardedRefillLinks;
     let cableVisibilitySignature = '';
     const diagnostics = { nodesCreated: 0, nodesDestroyed: 0, particleObjectsCreated: 0 };
     let diagnosticsAt = 0;
@@ -174,6 +183,7 @@ export function PixiPlayfield(props: Props) {
       rejectionGraphic = new Graphics(); rejectionGraphic.eventMode = 'none'; overlayLayer.addChild(rejectionGraphic);
     };
     const beginPortDrag = (handle: PortHandle, event: FederatedPointerEvent) => {
+      roadBodyPress=undefined; roadTravelClicks.clear();
       clearConnectionRejection();
       event.preventDefault(); event.stopPropagation(); clearTooltip();
       const node = propsRef.current.engine.getSector().nodes.find(candidate => candidate.id === handle.nodeId);
@@ -217,7 +227,9 @@ export function PixiPlayfield(props: Props) {
       });
     };
     const roadInHand = () => propsRef.current.placing === 'road' || Boolean(drag?.road);
-    const cameraOverviewSize = () => roadInHand()
+    const cameraOverviewSize = () => !propsRef.current.training
+      ? exteriorFieldOverviewSize(worldSize)
+      : roadInHand()
       ? { width: worldSize.width * 1.5 + ROAD_PREVIEW_GAP, height: worldSize.height * 1.5 + ROAD_PREVIEW_GAP }
       : worldSize;
     const clampCamera = () => { camera = clampFieldCamera(camera, worldSize, viewport, cameraOverviewSize()); };
@@ -252,9 +264,14 @@ export function PixiPlayfield(props: Props) {
       propsRef.current.onTooltip?.(next);
     };
 
-    const fieldSurface = ({ width, height }: typeof worldSize, showGrid: boolean) => {
+    const terrainTextures = new MapTerrainTextures(() => { if (!destroyed) { drawnTerrain=''; clearRoadPreview(); renderScene(); } });
+    const fieldSurface = ({ width, height }: typeof worldSize, showGrid: boolean, sectorId: string) => {
+      const root = new Container(); root.eventMode = 'none';
+      const floor = terrainTextures.create(propsRef.current.engine.getState(), sectorId, { width, height });
+      if (floor) root.addChild(floor);
       const surface = new Graphics();
-      surface.rect(0, 0, width, height).fill({ color: THEME.surface }).stroke({ color: THEME.surfaceEdge, width: 4, alpha: .9 });
+      if (!floor) surface.rect(0, 0, width, height).fill({ color: THEME.surface });
+      surface.rect(0, 0, width, height).stroke({ color: THEME.surfaceEdge, width: 4, alpha: .9 });
       if (showGrid) {
         for (let x = WORLD_GRID_SIZE; x < width; x += WORLD_GRID_SIZE) surface.moveTo(x, 0).lineTo(x, height);
         for (let y = WORLD_GRID_SIZE; y < height; y += WORLD_GRID_SIZE) surface.moveTo(0, y).lineTo(width, y);
@@ -263,16 +280,17 @@ export function PixiPlayfield(props: Props) {
         for (let y = WORLD_GRID_SIZE * 5; y < height; y += WORLD_GRID_SIZE * 5) surface.moveTo(0, y).lineTo(width, y);
         surface.stroke({ color: THEME.coarseGrid, width: 2, alpha: .16 });
       }
-      return surface;
+      root.addChild(surface);
+      return root;
     };
 
     const drawWorldSurface = () => {
       drawnGridEnabled = propsRef.current.engine.getState().preferences.showGrid;
       surfaceLayer.removeChildren().forEach(child => child.destroy({ children: true }));
-      surfaceLayer.addChild(fieldSurface(worldSize, drawnGridEnabled));
       const sector = propsRef.current.engine.getSector();
+      surfaceLayer.addChild(fieldSurface(worldSize, drawnGridEnabled, sector.id));
       surfaceLayer.addChild(createBorderTerrain(propsRef.current.engine.getState(), sector.id, worldSize));
-      drawnTerrain = sector.id + JSON.stringify(sector.filledHoles ?? []) + JSON.stringify(propsRef.current.engine.getState().borderObstructions);
+      drawnTerrain = sector.id + JSON.stringify(sector.filledHoles ?? []) + JSON.stringify(propsRef.current.engine.getState().borderObstructions) + revealedMapTerrain(propsRef.current.engine.getState(), sector.id);
       for (const patch of sector.filledHoles ?? []) {
         const hole: MachineNode = { id:patch.id, kind:'big-hole', name:'Filled ground', x:patch.x,y:patch.y,rotation:patch.rotation,
           obstructionRadius:patch.radius, input:{},output:{},cycleMs:0,progressMs:0,constructedAt:0,constructionMs:0 };
@@ -297,11 +315,12 @@ export function PixiPlayfield(props: Props) {
       if (node.kind === 'joint') { body.circle(0, 0, size.w / 2).fill({ color: THEME.body }).stroke({ color: selected ? THEME.selected : definition.accent, width: selected ? 3 : 1.5 }); body.circle(0, 0, 5).fill({ color: 0x202226 }).stroke({ color: definition.accent, width: 1.2 }); return; }
       const radius = isCompactNode(node) || node.kind === 'woodenChest' || node.kind === 'chest' ? 9 : 12;
       body.roundRect(-size.w / 2 + 1, -size.h / 2 + 8, size.w, size.h, radius).fill({ color: 0x000000, alpha: .42 });
-      body.roundRect(-size.w / 2, -size.h / 2, size.w, size.h, radius).fill({ color: node.disabled ? 0x351d21 : THEME.body }).stroke({ color: selected ? THEME.selected : THEME.border, width: selected ? 3 : 1.25 });
+      const inaccessible = node.disabled || guardedResourceLocked(node);
+      body.roundRect(-size.w / 2, -size.h / 2, size.w, size.h, radius).fill({ color: inaccessible ? 0x351d21 : THEME.body }).stroke({ color: selected ? THEME.selected : THEME.border, width: selected ? 3 : 1.25 });
       const headerHeight = nodeHeaderHeight(node);
-      header.roundRect(-size.w / 2 + 1, -size.h / 2 + 1, size.w - 2, headerHeight, Math.max(2, radius - 1)).fill({ color: node.disabled ? 0x542a2f : THEME.header });
+      header.roundRect(-size.w / 2 + 1, -size.h / 2 + 1, size.w - 2, headerHeight, Math.max(2, radius - 1)).fill({ color: inaccessible ? 0x542a2f : THEME.header });
       header.rect(-size.w / 2 + 1, -size.h / 2 + headerHeight - 1, size.w - 2, 1).fill({ color: 0xffffff, alpha: .06 });
-      header.roundRect(-size.w / 2 + 10, -size.h / 2 - .5, size.w - 20, 2.5, 2).fill({ color: node.disabled ? THEME.danger : definition.accent });
+      header.roundRect(-size.w / 2 + 10, -size.h / 2 - .5, size.w - 20, 2.5, 2).fill({ color: inaccessible ? THEME.danger : definition.accent });
     };
 
     const addAction = (node: MachineNode, root: Container, x: number, key: string, glyph: string, color: number, action: () => void) => {
@@ -334,7 +353,7 @@ export function PixiPlayfield(props: Props) {
 
     const addPort = (node: MachineNode, root: Container, direction: 'input' | 'output', index: number, family: string, interactive: boolean, sector: SectorState) => {
       const anchor = getPortAnchor(node, direction, index); const definition = getNodeDisplayDefinition(node); const portRoot = new Container();
-      portRoot.position.set(anchor.x, anchor.y); portRoot.eventMode = 'static'; portRoot.cursor = 'grab';
+      portRoot.position.set(anchor.x, anchor.y); portRoot.eventMode = 'static'; portRoot.cursor = guardedResourceLocked(node) ? 'not-allowed' : 'grab';
       const corner = node.kind === 'cornerChallenge' || node.kind === 'cornerTribute';
       let cornerScaleLimit: number | undefined;
       if (corner) {
@@ -380,7 +399,8 @@ export function PixiPlayfield(props: Props) {
         const offset = corner ? 17 : 12;
         const badge = new Container(); badge.eventMode = 'none'; badge.label = 'port-label';
         badge.addChild(new Graphics().roundRect(-width / 2, -height / 2, width, height, 4).fill({ color: 0x111419, alpha: .96 }).stroke({ color: portColor, width: 1, alpha: .78 }), text);
-        if (node.kind === 'cornerTribute') badge.position.set(offset + width / 2, height + 1);
+        if (node.kind === 'monster-camp' && node.guardedDepositId) badge.position.set(-offset - width / 2, 0);
+        else if (node.kind === 'cornerTribute') badge.position.set(offset + width / 2, height + 1);
         else if (side === 'east') badge.position.set(-offset - width / 2, 0);
         else if (side === 'west') badge.position.set(offset + width / 2, 0);
         else if (side === 'north') badge.position.set(0, 18);
@@ -432,6 +452,9 @@ export function PixiPlayfield(props: Props) {
 
     const createNodeView = (node: MachineNode, placementPreview = false, sector = propsRef.current.engine.getSector()): NodeView => {
       const definition = getNodeDisplayDefinition(node); const size = getNodeSize(node); const compact = isCompactNode(node); const root = new Container();
+      root.zIndex = nodeStackOrder(node);
+      const campPortOverlay = !placementPreview && node.kind === 'monster-camp' && node.guardedDepositId ? new Container() : undefined;
+      if (campPortOverlay) { campPortOverlay.position.set(node.x, node.y); campPortOverlay.label = `camp-input:${node.id}`; }
       const isCornerTribute = node.kind === 'cornerTribute';
       const readabilityLabels: Text[] = [];
       const movable = isPlayerMovableNode(node.kind, propsRef.current.engine.getState(), node);
@@ -457,16 +480,12 @@ export function PixiPlayfield(props: Props) {
         }
       }
       if (isOrganicNode(node) && node.kind !== 'cornerChallenge') {
-        const title = label(node.name, 16, 0xf3f5f7, '600'); title.anchor.set(.5); title.position.set(0, node.kind === 'resourceGolem' || node.kind === 'monster-camp' ? -size.h / 2 - 30 : node.kind === 'lake' ? 0 : -72); root.addChild(title); readabilityLabels.push(title);
+        const title = label(node.name, 16, 0xf3f5f7, '600'); title.anchor.set(.5); title.position.set(0, node.kind === 'monster-camp' ? campArtworkLayout(node).titleY : node.kind === 'resourceGolem' ? -size.h / 2 - 30 : node.kind === 'lake' ? 0 : -72); root.addChild(title); readabilityLabels.push(title);
       }
       if (getNodeModule(node.kind).appearance.shape === 'road') drawRoadFlowArrow(root, node);
       else if (isCartKind(node.kind)) drawFreightVehicleFlowArrow(root, node);
       if (node.kind === 'devSource') {
         const status = label('Auto supply', 15, definition.accent, '500'); status.anchor.set(.5); status.position.set(0, 24); root.addChild(status); readabilityLabels.push(status);
-      }
-      if (node.guardedCampId) {
-        const status = label(node.guardedLocked ? 'Locked' : 'Accessible',14,node.guardedLocked?0xeac56d:0x8fe5b0,'500');
-        status.anchor.set(.5);status.position.set(0,-getNodeSize(node).h/2+70);root.addChild(status);readabilityLabels.push(status);
       }
       const grove = groveProgress(node); const initialProgress = grove ? grove.fraction : isResourceNode(node) ? resourceReserveFraction(node) : getNodeCapabilities(node.kind).behavior === 'research' ? researchCenterView(node, propsRef.current.engine.getState()).progress : 0;
       const campView = node.kind === 'monster-camp' ? createCampNodeStatus() : undefined;
@@ -530,7 +549,7 @@ export function PixiPlayfield(props: Props) {
       if (!compact && !isOrganicNode(node) && !isStorageNode(node.kind) && !isProductionMachine(node) && getNodeCapabilities(node.kind).behavior !== 'research') {
         inputSquares = new Graphics(); inputSquares.eventMode = 'none'; root.addChild(inputSquares);
       }
-      getEffectiveNodeInputFamilies(node, propsRef.current.engine.getState().research.completed).forEach((family, index) => addPort(node, root, 'input', index, family, !placementPreview, sector)); getEffectiveNodeOutputFamilies(node).forEach((family, index) => addPort(node, root, 'output', index, family, !placementPreview, sector));
+      getEffectiveNodeInputFamilies(node, propsRef.current.engine.getState().research.completed).forEach((family, index) => addPort(node, campPortOverlay ?? root, 'input', index, family, !placementPreview, sector)); getEffectiveNodeOutputFamilies(node).forEach((family, index) => addPort(node, root, 'output', index, family, !placementPreview, sector));
       if (!placementPreview && !propsRef.current.training) {
         const chest = getNodeModule(node.kind).appearance.shape === 'chest';
         let actionX = size.w / 2 - (compact ? 9 : chest ? 25 : 32);
@@ -541,7 +560,7 @@ export function PixiPlayfield(props: Props) {
           addAction(node, root, actionX, 'recipes', '≡', 0x8ec9ff, () => propsRef.current.onConfigure(node.id));
         } else if (controls.rotatable && definition.category !== 'Logistics') {
           addAction(node, root, actionX, 'rotate', '↻', 0x8ec9ff, () => propsRef.current.onRotate(node.id));
-        } else if (controls.configuration === 'mining-target' || controls.configuration === 'road') {
+        } else if (controls.configuration === 'mining-target') {
           addAction(node, root, actionX, 'configure', '⚙', 0x8ec9ff, () => propsRef.current.onConfigure(node.id));
         }
       }
@@ -578,6 +597,8 @@ export function PixiPlayfield(props: Props) {
         root.on('pointerenter', () => { if (!propsRef.current.placing) enterNodeHover(node.id); }); root.on('pointermove', (event) => { if (!drag && !propsRef.current.placing && event.target === root) nodeTooltip(event); });
         root.on('pointerleave', () => { controlHover.leave(node.id, performance.now(), node.kind === 'joint' ? JOINT_CONTROL_GRACE_MS : 0); if (hoveredNodeId === node.id) { hoveredNodeId = undefined; propsRef.current.onHoverNode?.(); } clearTooltip(); });
         root.on('pointerdown', (event: FederatedPointerEvent) => {
+          roadBodyPress=undefined;
+          if (event.button!==0 || event.shiftKey || event.ctrlKey || event.metaKey || event.altKey || spaceHeld || propsRef.current.placing) roadTravelClicks.clear();
           if (!canSelectNode(node.id)) { event.stopPropagation(); return; }
           if (event.button === 2 && !propsRef.current.placing) { rightPress = { id: node.id, x: event.global.x, y: event.global.y, moved: false }; return; }
           if (event.button !== 0 || spaceHeld) return; event.stopPropagation();
@@ -588,6 +609,8 @@ export function PixiPlayfield(props: Props) {
           if (event.target === jointMoveHandle) controlHover.press(node.id);
           const nearby = event.target === jointMoveHandle ? undefined : socketAt(event.global.x, event.global.y);
           if (nearby) { beginPortDrag(nearby, event); return; }
+          if (!event.shiftKey && !event.ctrlKey && !event.metaKey && !event.altKey && roadTravelDestination(propsRef.current.engine.getState(),node.id)) roadBodyPress={nodeId:node.id,sectorId:propsRef.current.engine.getSector().id,x:event.global.x,y:event.global.y};
+          else roadTravelClicks.clear();
           const sector = propsRef.current.engine.getSector();
           const existing = propsRef.current.selectedIds;
           const selectedIds = !movable || node.kind === 'road' || node.kind === 'fluidRoad' ? [node.id] : groupSelection.press(node.id, existing, sector.controlGroups ?? [], event.global, performance.now(), event.shiftKey, event.detail);
@@ -610,13 +633,18 @@ export function PixiPlayfield(props: Props) {
           }
         });
       }
+      const travelDestination = !placementPreview && !propsRef.current.training && propsRef.current.onTravelToSector ? roadTravelDestination(propsRef.current.engine.getState(), node.id) : undefined;
+      const travelTarget = travelDestination ? propsRef.current.engine.getState().sectors[travelDestination] : undefined;
+      const travelControl = travelTarget ? createRoadTravelControl(travelTarget.x-sector.x, travelTarget.y-sector.y, () => tryRoadTravel(node.id, sector.id)) : undefined;
+      if (travelControl) root.addChild(travelControl);
       const detailChildren = [...readabilityLabels.filter(text => text !== golemApLabel && !(node.infiniteResource && text === bufferLabel)), ...[bufferSquares, inputSquares].filter((child): child is Graphics => Boolean(child))];
       const overviewArtwork = !placementPreview && !isOrganicNode(node) && !isResourceNode(node) && !node.infiniteResource && !['joint', 'cornerTribute', 'extractor'].includes(node.kind) && getNodeCapabilities(node.kind).behavior !== 'research'
-        ? root.children.filter(child => ![progress, progressTrack, productionCue, overviewWarning, flash, marqueeHighlight, invalidOverlay, ...detailChildren].includes(child as Graphics) && child.label !== 'node-control' && child !== jointMoveHandle && child !== researchStatus?.root)
+        ? root.children.filter(child => ![progress, progressTrack, productionCue, overviewWarning, flash, marqueeHighlight, invalidOverlay, ...detailChildren].includes(child as Graphics) && child.label !== 'node-control' && child !== travelControl && child !== jointMoveHandle && child !== researchStatus?.root)
         : undefined;
       if (overviewArtwork) root.hitArea = new Rectangle(-size.w / 2, -size.h / 2, size.w, size.h);
+      if (travelControl && travelTarget) root.hitArea = positionRoadTravelControl(travelControl, size, travelTarget.x-sector.x, travelTarget.y-sector.y, camera.zoom);
       const overviewKey = overviewArtwork ? [nodeDrawingKey({ ...node, name: '' }), controlGroup && controlGroup.color, ...root.children.filter(child => child.label?.startsWith('socket:')).map(child => child.label)].join('|') : '';
-      return { root, overviewArtwork, overviewKey, detailChildren, overviewWarning, campStatus: campView, golemApLabel, cornerCampStatus, cornerTributeLabel, jointMoveHandle, researchStatus, productionRecipeIcon, productionCue, progress, progressTrack, progressLabel, bufferLabel, bufferSquares, inputSquares, coreStorageLabels, coreStorageSquares, readabilityLabels, flash, marqueeHighlight, invalidOverlay, invalidVisible: false, displayedProgress: initialProgress };
+      return { root, campPortOverlay, overviewArtwork, overviewKey, detailChildren, overviewWarning, campStatus: campView, golemApLabel, cornerCampStatus, cornerTributeLabel, jointMoveHandle, researchStatus, productionRecipeIcon, productionCue, progress, progressTrack, progressLabel, bufferLabel, bufferSquares, inputSquares, coreStorageLabels, coreStorageSquares, readabilityLabels, flash, marqueeHighlight, invalidOverlay, invalidVisible: false, displayedProgress: initialProgress };
     };
 
     const drawInsertionPreview = (node?: MachineNode, valid = true) => {
@@ -657,7 +685,7 @@ export function PixiPlayfield(props: Props) {
       terrain.scale.set(scale);
       terrain.position.set(-crop.x * scale, -crop.y * scale);
       scene.addChild(terrain);
-      terrain.addChild(fieldSurface(field, showGrid));
+      terrain.addChild(fieldSurface(field, showGrid, sector.id));
       terrain.addChild(createBorderTerrain(propsRef.current.engine.getState(), sector.id, field));
 
       const nodes = new Map(sector.nodes.map(node => [node.id, node]));
@@ -710,6 +738,15 @@ export function PixiPlayfield(props: Props) {
       roadPreview = undefined;
     };
 
+    const tryRoadTravel = (nodeId: string, sourceSectorId: string) => {
+      const props = propsRef.current;
+      if (props.training || props.placing || !props.onTravelToSector || props.engine.getSector().id !== sourceSectorId) return;
+      const destination = roadTravelDestination(props.engine.getState(), nodeId);
+      if (!destination) return;
+      roadBodyPress = undefined; roadTravelClicks.clear(); clearTooltip(); clearRoadPreview();
+      props.onTravelToSector(destination, nodeId);
+    };
+
     const syncRoadPreview = (target?: RoadPlacementTarget, valid = false) => {
       if (!target) { if (roadPreview) roadPreview.root.visible = false; return; }
       const game = propsRef.current.engine.getState();
@@ -750,7 +787,7 @@ export function PixiPlayfield(props: Props) {
 
     const syncPastePreview = () => {
       const { engine, onPaste } = propsRef.current;
-      nodeLayer.interactiveChildren = cableLayer.interactiveChildren = !onPaste;
+      nodeLayer.interactiveChildren = campPortLayer.interactiveChildren = cableLayer.interactiveChildren = !onPaste;
       if (!onPaste) {
         pasteView?.root.destroy({ children: true });
         pasteView = undefined;
@@ -966,15 +1003,16 @@ export function PixiPlayfield(props: Props) {
       sceneMod = game.mod;
       const worldSizeChanged = worldSize.width !== nextWorldSize.width || worldSize.height !== nextWorldSize.height;
       worldSize = nextWorldSize;
-      if (renderedSectorId !== sector.id || renderedState !== propsRef.current.engine.getState()) { drag = undefined; propsRef.current.onDragPreview?.(undefined); groupSelection.clear(); controlHover.clear(); renderedState = propsRef.current.engine.getState(); renderedSectorId = sector.id; camera = { ...sector.camera }; clearConnectionRejection(); trackedTransfers.clear(); seenTransferIds.clear(); lastInputTotals.clear(); flashStartedAt.clear(); updateCamera(); }
+      if (renderedSectorId !== sector.id || renderedState !== propsRef.current.engine.getState()) { roadBodyPress=undefined; roadTravelClicks.clear(); drag = undefined; propsRef.current.onDragPreview?.(undefined); groupSelection.clear(); controlHover.clear(); renderedState = propsRef.current.engine.getState(); renderedSectorId = sector.id; camera = { ...sector.camera }; clearConnectionRejection(); trackedTransfers.clear(); seenTransferIds.clear(); lastInputTotals.clear(); flashStartedAt.clear(); updateCamera(); }
       if (worldSizeChanged || !surfaceLayer.children.length) { drawWorldSurface(); updateCamera(); }
-      else if (preferences.showGrid !== drawnGridEnabled || drawnTerrain !== sector.id + JSON.stringify(sector.filledHoles ?? []) + JSON.stringify(propsRef.current.engine.getState().borderObstructions)) drawWorldSurface();
+      else if (preferences.showGrid !== drawnGridEnabled || drawnTerrain !== sector.id + JSON.stringify(sector.filledHoles ?? []) + JSON.stringify(propsRef.current.engine.getState().borderObstructions) + revealedMapTerrain(propsRef.current.engine.getState(), sector.id)) drawWorldSurface();
       if (reset) {
         nodeIdentities.clear(); cableIdentities.clear(); cableInputs.clear(); pathCache.clear();
         particleLayer.removeChildren().forEach(child => child.destroy({ children: true }));
         particlePool.forEach(particle => particle.root.destroy({ children: true })); particlePool.length = 0; particles.length = 0;
       }
       const nodes = new Map(sector.nodes.map((node) => [node.id, node]));
+      guardedRefills.sync(sector);
       const groupKeys = new Map<string, string>();
       for (const group of sector.controlGroups ?? []) for (const id of group.nodeIds) groupKeys.set(id, `${group.id}:${group.color}`);
       const next = new Map(sector.nodes.map(node => [node.id, { source: node, key: `${common}|${nodeDrawingKey(node)}|${getEffectiveNodeOutputFamilies(node).join(',')}|${propsRef.current.selectedIds.includes(node.id)}|${groupKeys.get(node.id) ?? ''}` }]));
@@ -982,11 +1020,12 @@ export function PixiPlayfield(props: Props) {
         const node = nodes.get(id)!;
         diagnostics.nodesCreated++;
         lastInputTotals.set(id, inputTotal(node));
-        const view = createNodeView(node); nodeLayer.addChild(view.root); return view;
+        const view = createNodeView(node); nodeLayer.addChild(view.root); if (view.campPortOverlay) campPortLayer.addChild(view.campPortOverlay); return view;
       }, (view, id) => {
         diagnostics.nodesDestroyed++;
         for (const port of portsByNode.get(id) ?? []) portViews.delete(portKey(port));
         portsByNode.delete(id);
+        view.campPortOverlay?.destroy({ children: true });
         view.root.destroy({ children: true });
         lastInputTotals.delete(id); flashStartedAt.delete(id);
       });
@@ -1004,7 +1043,7 @@ export function PixiPlayfield(props: Props) {
       viewport = measureFieldViewport(viewportElement);
       viewportObserver.observe(viewportElement);
       viewportObserver.observe(host);
-      world = new Container(); surfaceLayer = new Container(); cableLayer = new Container(); cableLayers = new CableLayers(cableLayer); particleLayer = new Container(); nodeLayer = new Container(); placementLayer = new Container(); placementLayer.eventMode = 'none'; overlayLayer = new Container(); insertionPreviewLayer = new Graphics(); insertionPreviewLayer.eventMode = 'none'; world.addChild(surfaceLayer, cableLayer, insertionPreviewLayer, particleLayer, nodeLayer, placementLayer); app.stage.addChild(world, overlayLayer); drawWorldSurface(); updateCamera(); renderScene();
+      world = new Container(); surfaceLayer = new Container(); cableLayer = new Container(); cableLayers = new CableLayers(cableLayer); particleLayer = new Container(); nodeLayer = new Container(); nodeLayer.sortableChildren = true; campPortLayer = new Container(); const refillLayer = new Container(); guardedRefills = new GuardedRefillLinks(refillLayer); placementLayer = new Container(); placementLayer.eventMode = 'none'; overlayLayer = new Container(); insertionPreviewLayer = new Graphics(); insertionPreviewLayer.eventMode = 'none'; world.addChild(surfaceLayer, cableLayer, insertionPreviewLayer, particleLayer, nodeLayer, refillLayer, campPortLayer, placementLayer); app.stage.addChild(world, overlayLayer); drawWorldSurface(); updateCamera(); renderScene();
       const placePaste = (event: FederatedPointerEvent) => {
         const { onPaste } = propsRef.current;
         if (!onPaste || event.button !== 0 || spaceHeld) return false;
@@ -1028,6 +1067,7 @@ export function PixiPlayfield(props: Props) {
         propsRef.current.onPlace(active, point.x, point.y, event.ctrlKey || event.metaKey || event.shiftKey);
       });
       app.stage.on('pointerdown', (event: FederatedPointerEvent) => {
+        roadBodyPress=undefined; roadTravelClicks.clear();
         if (event.defaultPrevented || placePaste(event)) return; clearTooltip(); if (event.button === 1 || event.button === 2 || (event.button === 0 && spaceHeld)) { panning = { x: event.global.x, y: event.global.y, cameraX: camera.x, cameraY: camera.y }; return; } if (event.button !== 0) return;
         const active = propsRef.current.placing; const point = toWorld(event.global.x, event.global.y); if (active) { propsRef.current.onPlace(active, point.x, point.y, event.ctrlKey || event.metaKey || event.shiftKey); return; }
         const baseSelection = event.shiftKey ? [...propsRef.current.selectedIds] : [];
@@ -1069,7 +1109,9 @@ export function PixiPlayfield(props: Props) {
         updateDragAt(dragPointer);
         if (marquee) { const x = Math.min(marquee.startX, event.global.x); const y = Math.min(marquee.startY, event.global.y); const width = Math.abs(event.global.x - marquee.startX); const height = Math.abs(event.global.y - marquee.startY); marquee.graphic.clear().rect(x, y, width, height).fill({ color: THEME.selected, alpha: .1 }).stroke({ color: THEME.selected, width: 1, alpha: .92 }); marquee.previewIds = new Set(nodesInMarquee(marquee.startX, marquee.startY, event.global.x, event.global.y)); drawMarqueeHighlights(marquee.previewIds); }
       });
-      const pointerUp = (event: { global: { x: number; y: number }; shiftKey: boolean }, commitInteraction = true) => {
+      const pointerUp = (event: { global: { x: number; y: number }; shiftKey: boolean; ctrlKey?: boolean; metaKey?: boolean; altKey?: boolean; button?: number }, commitInteraction = true) => {
+        const roadPress=roadBodyPress; roadBodyPress=undefined;
+        const roadTap=Boolean(roadPress && commitInteraction && (event.button??0)===0 && !event.shiftKey && !event.ctrlKey && !event.metaKey && !event.altKey && !spaceHeld && !drag?.moved && !connectionDrag && !panning && Math.hypot(event.global.x-roadPress.x,event.global.y-roadPress.y)<=4);
         controlHover.release();
         if (drag?.moved && commitInteraction) updateDragAt(event.global);
         if (connectionDrag) {
@@ -1095,12 +1137,18 @@ export function PixiPlayfield(props: Props) {
         }
         if (panning) { panning = undefined; updateCamera(); } if (drag) { const finished = drag; drag = undefined; if (commitInteraction && finished.moved && finished.valid && finished.desired) { propsRef.current.engine.beginMove(); if (propsRef.current.engine.tryMoveNodesTo(finished.desired)) propsRef.current.engine.commitMove(); } propsRef.current.onDragPreview?.(undefined); renderScene(); }
         if (marquee) { const finished = marquee; if (commitInteraction) { const hits = nodesInMarquee(finished.startX, finished.startY, event.global.x, event.global.y); const ids = Array.from(new Set([...finished.baseSelection, ...hits])); const priority = event.global.x < finished.startX && event.global.y < finished.startY; groupSelection.box(ids, priority); propsRef.current.onSelect(ids, { source: 'box', priority, forward: event.global.x >= finished.startX && event.global.y >= finished.startY }); } drawMarqueeHighlights(new Set()); finished.graphic.destroy(); marquee = undefined; }
+        if (roadPress) {
+          const game=propsRef.current.engine.getState(), destination=roadTravelDestination(game,roadPress.nodeId);
+          if (!roadTap || propsRef.current.training || propsRef.current.placing || !propsRef.current.onTravelToSector || game.activeSectorId!==roadPress.sectorId || !destination) roadTravelClicks.clear();
+          else if (roadTravelClicks.tap(`${game.activeSectorId}:${roadPress.nodeId}`,event.global,performance.now())) tryRoadTravel(roadPress.nodeId, roadPress.sectorId);
+        }
       };
       app.stage.on('pointerup', (event) => pointerUp(event, event.global.y >= viewport.top)); app.stage.on('pointerupoutside', (event) => pointerUp(event, event.global.y >= viewport.top)); app.stage.on('pointercancel', (event) => pointerUp(event, false));
       const wheel = (event: WheelEvent) => { event.preventDefault(); const rect = app.canvas.getBoundingClientRect(); const mx = event.clientX - rect.left; const my = event.clientY - rect.top; const trackpadPan = !event.ctrlKey && event.deltaMode === 0 && (Math.abs(event.deltaX) > 0 || Math.abs(event.deltaY) < 50); if (trackpadPan) { camera.x -= event.deltaX; camera.y -= event.deltaY; updateCamera(); return; } const before = toWorld(mx, my); camera.zoom *= event.deltaY < 0 ? 1.1 : .9; clampCamera(); camera.x = mx - before.x * camera.zoom; camera.y = my - before.y * camera.zoom; updateCamera(); };
       const blockContextMenu = (event: MouseEvent) => event.preventDefault();
       app.canvas.addEventListener('wheel', wheel, { passive: false }); app.canvas.addEventListener('contextmenu', blockContextMenu); const keyDown = (event: KeyboardEvent) => { if (event.code === 'Space' && !(event.target instanceof HTMLInputElement || event.target instanceof HTMLTextAreaElement || (event.target instanceof HTMLElement && event.target.isContentEditable))) { spaceHeld = true; event.preventDefault(); } if (event.code === 'Escape' && connectionDrag) cancelConnectionDrag(); }; const keyUp = (event: KeyboardEvent) => { if (event.code === 'Space') spaceHeld = false; };
       const cancelLostInteractions = () => {
+        roadBodyPress=undefined; roadTravelClicks.clear();
         placementPointerInside = false;
         syncPlacementPreview();
         controlHover.clear();
@@ -1116,7 +1164,7 @@ export function PixiPlayfield(props: Props) {
         if (!connectionDrag && !panning && !drag && !marquee) return;
         const rect = app.canvas.getBoundingClientRect(); const x = event.clientX - rect.left; const y = event.clientY - rect.top;
         const insideCanvas = x >= 0 && y >= viewport.top && x <= rect.width && y <= rect.height;
-        pointerUp({ global: { x, y }, shiftKey: event.shiftKey }, insideCanvas);
+        pointerUp({ global: { x, y }, shiftKey: event.shiftKey, ctrlKey: event.ctrlKey, metaKey: event.metaKey, altKey: event.altKey, button: event.button }, insideCanvas);
       };
       window.addEventListener('keydown', keyDown); window.addEventListener('keyup', keyUp); window.addEventListener('pointerup', releaseGlobalInteractions); window.addEventListener('pointercancel', cancelLostInteractions); window.addEventListener('blur', cancelLostInteractions);
       const pointerEnter = (event: PointerEvent) => {
@@ -1164,6 +1212,8 @@ export function PixiPlayfield(props: Props) {
         cableLayers.update(cachedCables, camera, viewport);
         const sector = propsRef.current.engine.getSector(); const nodeMap = sceneNodes; const frameNow = performance.now();
         const gameState = propsRef.current.engine.getState();
+        guardedRefills.update(frameNow, { paused: gameState.paused, particles: gameState.preferences.particles,
+          reducedMotion: reducedMotion.matches, positions: drag?.desired });
         if (gameState.playTimeMs !== observedPlayTimeMs) { observedPlayTimeMs = gameState.playTimeMs; observedPlayTimeAt = frameNow; }
         const animationPlayTimeMs = gameState.paused ? gameState.playTimeMs : gameState.playTimeMs + Math.min(120, Math.max(0, frameNow - observedPlayTimeAt));
         if (cueRevision !== gameState.revision || cueTime !== gameState.playTimeMs) {
@@ -1181,17 +1231,29 @@ export function PixiPlayfield(props: Props) {
           const node = nodeMap.get(id); if (!node) return;
           const dragPosition = drag?.desired?.[id];
           view.root.visible = nodeOnScreen(node, camera, viewport, dragPosition ?? node);
+          if (view.campPortOverlay) {
+            view.campPortOverlay.visible = view.root.visible;
+            view.campPortOverlay.position.set(dragPosition?.x ?? node.x, dragPosition?.y ?? node.y);
+          }
           if (!view.root.visible) return;
           const important = propsRef.current.selectedIds.includes(id) || hoveredNodeId === id || Boolean(drag?.ids.includes(id)) || connectionDrag?.active.nodeId === id || connectionDrag?.snapped?.nodeId === id;
-          const details = showNodeDetails(camera.zoom, important);
+          const fullArtwork = showNodeDetails(camera.zoom, important);
+          const details = fullArtwork || Boolean(propsRef.current.showDistantNodeDetails);
           const dataChanged = view.dataRevision !== gameState.revision || view.dataTime !== gameState.playTimeMs || view.detailVisible !== details || view.dataZoom !== camera.zoom;
           view.detailVisible = details;
           view.detailChildren?.forEach(child => { child.visible = details; });
           const selectable = canSelectNode(id);
           view.root.eventMode = node.disabled || !selectable ? 'none' : 'static';
-          view.root.alpha = node.disabled ? .68 : selectable ? 1 : .45;
+          view.root.alpha = node.disabled || guardedResourceLocked(node) ? .68 : !selectable ? .45 : 1;
+          if (view.campPortOverlay) { view.campPortOverlay.alpha = view.root.alpha; view.campPortOverlay.interactiveChildren = selectable; }
           const controlsVisible = selectable && !propsRef.current.placing && controlHover.visible(id, frameNow);
           view.root.children.forEach(child => { if (child.label === 'node-control') child.visible = controlsVisible; });
+          const travelControl = view.root.children.find(child => child.label === 'road-travel-control');
+          if (travelControl) {
+            const destination = roadTravelDestination(gameState, id), target = destination ? gameState.sectors[destination] : undefined;
+            travelControl.visible = selectable && !propsRef.current.placing && !propsRef.current.training && Boolean(target);
+            if (target) view.root.hitArea = positionRoadTravelControl(travelControl, getNodeSize(node), target.x-sector.x, target.y-sector.y, camera.zoom);
+          }
           if (view.jointMoveHandle) {
             view.jointMoveHandle.visible = !propsRef.current.placing && (controlsVisible || Boolean(propsRef.current.jointMoveHint));
             view.jointMoveHandle.cursor = drag?.ids.includes(id) ? 'grabbing' : 'grab';
@@ -1219,17 +1281,17 @@ export function PixiPlayfield(props: Props) {
           view.productionRecipeIcon?.update(node, propsRef.current.showRecipeIcons);
           if (view.overviewArtwork) {
             const key = view.overviewKey + '|' + (propsRef.current.showRecipeIcons ? node.batch?.recipeId ?? node.recipeId ?? node.lastRecipeId : 'no-recipe-icons');
-            if (!details && view.overviewSpriteKey !== key) {
-              view.overviewArtwork.forEach(child => { child.renderable = true; });
+            if (!fullArtwork && view.overviewSpriteKey !== key) {
+              setOverviewArtworkVisibility(view.overviewArtwork, false, true);
               if (view.overviewSprite) { view.overviewSprite.destroy(); view.overviewSprite = undefined; }
               view.overviewSprite = overviewTextures.sprite(key, view.root, view.overviewArtwork, app.renderer);
               view.overviewSpriteKey = key;
               if (view.overviewSprite) view.root.addChildAt(view.overviewSprite, 0);
             }
-            const overview = !details && Boolean(view.overviewSprite);
+            const overview = !fullArtwork && Boolean(view.overviewSprite);
             if (view.overviewSprite) view.overviewSprite.visible = overview;
-            view.overviewArtwork.forEach(child => { child.renderable = !overview; });
-            view.productionCue.visible = !overview;
+            setOverviewArtworkVisibility(view.overviewArtwork, overview, details);
+            view.productionCue.visible = !overview || details;
           }
           const grove = groveProgress(node);
           const target = grove ? grove.fraction : isResourceNode(node) ? resourceReserveFraction(node) : getNodeCapabilities(node.kind).behavior === 'research' ? researchCenterView(node, gameState).progress : cue?.working ? cycleProgress : 0;
@@ -1305,7 +1367,7 @@ export function PixiPlayfield(props: Props) {
         portViews.forEach((port) => {
           const live = nodeMap.get(port.nodeId);
           const owner = nodeViews.get(port.nodeId);
-          if (!live || !owner?.root.visible || (owner.overviewSprite?.visible && !port.hovered && !connectionDrag)) return;
+          if (!live || !owner?.root.visible || (owner.overviewSprite?.visible && !propsRef.current.showDistantNodeDetails && !port.hovered && !connectionDrag)) return;
           const details = owner.detailVisible || port.hovered || Boolean(connectionDrag);
           port.root.children.forEach(child => { if (child.label === 'port-label') child.visible = Boolean(details); });
           if (port.materialLabel) port.materialLabel.visible = Boolean(details);
@@ -1410,7 +1472,7 @@ export function PixiPlayfield(props: Props) {
       const unsubscribe = props.engine.subscribe(renderScene); (host as HTMLDivElement & { cleanup?: () => void }).cleanup = () => { unsubscribe(); app.canvas.removeEventListener('wheel', wheel); app.canvas.removeEventListener('contextmenu', blockContextMenu); app.canvas.removeEventListener('pointerenter', pointerEnter); app.canvas.removeEventListener('pointerleave', pointerLeave); window.removeEventListener('keydown', keyDown); window.removeEventListener('keyup', keyUp); window.removeEventListener('pointerup', releaseGlobalInteractions); window.removeEventListener('pointercancel', cancelLostInteractions); window.removeEventListener('blur', cancelLostInteractions); };
     };
     void init().catch((error: unknown) => { console.error('Pixi playfield failed to initialize', error); if (!destroyed) { const message = error instanceof Error ? error.message : String(error); host.innerHTML = `<div class="pixi-boot-error"><b>PLAYFIELD BOOT INTERRUPTED</b><span>${escapeHtml(message)}</span><small>Reload the local page. If this persists, verify that WebGL is enabled.</small></div>`; } });
-    return () => { particlePool.forEach(particle => particle.root.destroy({ children: true })); particlePool.length = 0; viewportObserver.disconnect(); propsRef.current.onDragPreview?.(undefined); destroyed = true; clearRoadPreview(); clearConnectionRejection(); clearTooltip(); (host as HTMLDivElement & { cleanup?: () => void }).cleanup?.(); if (initialized && app) app.destroy(true, { children: true }); overviewTextures.destroy(); };
+    return () => { particlePool.forEach(particle => particle.root.destroy({ children: true })); particlePool.length = 0; viewportObserver.disconnect(); propsRef.current.onDragPreview?.(undefined); destroyed = true; clearRoadPreview(); clearConnectionRejection(); clearTooltip(); (host as HTMLDivElement & { cleanup?: () => void }).cleanup?.(); if (initialized && app) app.destroy(true, { children: true }); overviewTextures.destroy(); terrainTextures.destroy(); };
   }, [props.engine, props.viewportRef]);
 
   return <div ref={props.viewportRef} className="playfield-viewport">

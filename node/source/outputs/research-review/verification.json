@@ -1,0 +1,31 @@
+{
+  "changeId": "NODE-0665",
+  "date": "2026-11-20",
+  "researchProjects": 130,
+  "outcomes": {
+    "simpleCoreResearchGate": false,
+    "routingTrigger": "simple-core-produced",
+    "endOfWorldTrigger": "complex-core-unlocked",
+    "cornerReveal": "locations only; no sector purchase, visit, survey or identity reveal for locked maps"
+  },
+  "checks": {
+    "workspaceTests": {
+      "passed": 1954,
+      "skipped": 2,
+      "failed": 0
+    },
+    "mainBuild": "passed",
+    "statusPreviewTypecheck": "passed",
+    "statusPreviewBuild": "passed",
+    "catalogGeneration": "passed",
+    "catalogFreshnessAndLinks": "passed",
+    "changelog": "checked after entry generation",
+    "wordStructure": "both reopened with accepted labels",
+    "wordRendering": "both failed: LibreOffice soffice.exe not found on PATH"
+  },
+  "limits": [
+    "No browser playtest or normal-play balance run in this change.",
+    "No publication requested or performed.",
+    "Word page layout remains visually unverified."
+  ]
+}

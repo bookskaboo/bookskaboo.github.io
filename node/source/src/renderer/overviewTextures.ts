@@ -1,5 +1,16 @@
 import { Container, Rectangle, Sprite, Text, type Texture, type Renderer } from 'pixi.js';
 
+/** Overlay live socket text/buffers without drawing a second copy of cached sockets. */
+export function setOverviewArtworkVisibility(artwork: Container[], overview: boolean, details: boolean) {
+  for (const child of artwork) {
+    const socket = child.label?.startsWith('socket:');
+    child.renderable = !overview || Boolean(socket && details);
+    if (socket && (!overview || details)) for (const part of child.children) {
+      part.renderable = !overview || part instanceof Text || part.label === 'port-label' || part.label === 'live-overlay';
+    }
+  }
+}
+
 /** Bounded, shared snapshots of existing artwork. Dynamic overlays stay live. */
 export class OverviewTextures {
   private textures = new Map<string, { texture: Texture; x: number; y: number }>();

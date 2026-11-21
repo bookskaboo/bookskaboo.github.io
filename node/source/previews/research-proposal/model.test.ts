@@ -18,7 +18,7 @@ describe('research proposal', () => {
     for (const id of ['exploration', 'road']) {
       expect(proposed.find(project => project.id === id)?.costs).toEqual({ 'simple-core': 5 });
       const ancestors = researchAncestors(tree, id);
-      expect(ancestors.has('simpleCore')).toBe(true);
+      expect(ancestors.has('refiner')).toBe(true);
       expect(ancestors.has('basicCore')).toBe(false);
       expect(ancestors.has('assembler')).toBe(false);
     }

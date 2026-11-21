@@ -1,6 +1,79 @@
 # NODE Typography Style Review
 
+## Visible factory zoom control
+
+November 20, 2026. Added a labeled **Zoom** dropdown to the active-factory test
+toolbar after the user could not identify the 35 percent view. It shows the
+actual clamped camera percentage, rounded to one decimal when needed, and offers
+35% alongside the other presets. Wheel zoom, Fit all and Inspect a cell update
+the readout. Presets keep the current field center subject to camera bounds;
+production and deliveries continue. Actual zoom changes restart only the frame
+measurements and warmup, avoiding stale results from another zoom.
+
+The control reuses the shared regular UI control role, native select styling and
+tabular digits, with an 80 CSS pixel minimum width. Browser checks verified 35%
+and 50% presets, a wheel update to 55%, Fit all at 10.3%, Inspect a cell at 90%,
+and final agreement between the displayed 35% and camera zoom 0.35. The factory
+continued to 3,652 produced and 1,039 delivered during the checks. At 390 CSS
+pixels, the toolbar wrapped without horizontal page overflow; desktop size was
+restored. No new warnings or errors were captured. Evidence and completed checks
+are retained in `outputs/node-zoom-control/`. This changes the local preview;
+the live game and earlier timing measurements are unchanged. Markdown references
+were updated and archived Word files were left untouched.
+
+## Distant node detail comparison
+
+November 20, 2026. Added **Show distant text and boxes** to the isolated active
+factory toolbar using the shared control role and native checkbox style. It
+restores ordinary node titles, socket labels and live buffer boxes at overview
+zoom while keeping static artwork and cable caches. Existing type sizes, zoom
+scale, colors, progress bars and interaction behavior are retained. The checkbox
+defaults off; changing it resets this synthetic factory and its measurements.
+The main game does not enable the preview override.
+
+Two serial off/on pairs used the same 2,400-node fixture, 1,210 by 923 CSS pixel
+viewport, camera and emphasized progress bars, with five seconds of warmup and
+25 seconds measured per run. Hidden details averaged 29.84 and 44.32 FPS;
+restored details averaged 12.80 and 12.72 FPS. Frame p95 changed from 58.4/41.7 ms
+to 108.4/116.5 ms. This is a 57–71 percent FPS reduction on this host, with
+substantial baseline variation. All 2,400 nodes were visible, cable caching stayed
+active, and production and physical cargo continued. At this zoom the extra text
+is still very small; restoring it is not a readability guarantee.
+
+Browser checks covered the restored overview, changing live buffers, cell/overview
+zoom transitions, node movement with current coordinates, repeated switching and
+390 CSS pixel toolbar wrapping without horizontal page overflow. No warnings or
+errors were captured. Regression checks cover cached socket/body visibility and
+restoration, rolling FPS arithmetic and exact sample-boundary clipping. Primary
+timing samples, screenshots, completed checks and limits are retained in
+`outputs/distant-node-details/`. This remains a local comparison; no live default
+or simulation rules were changed. Markdown references are current; archived Word
+files were not edited or rendered.
+
 IMPLEMENTATION RECORD  •  NOVEMBER 9 2026
+
+## Upgrades game integration review
+
+November 20, 2026. Adopted the reviewed robot/Upgrades layout for unmodded factories using shared sans-serif roles and regular Core/action/count weights. The toolbar, welcome framing and recipe return action name Upgrades. Existing modded factories retain Research and its selected-detail layout; applied-mod character pricing remains deferred.
+
+Moved shared portraits, hint browser, Upgrade control, list and queue into production source. The actual modal fits below the game toolbar, has a sticky mobile header and no author toolbar/gallery/global document-overflow rules. Corrected initial viewport overflow, reduced empty-slot height in short desktop windows and hid the disabled character column during compact guided practice. Hint size remains anchored to assignment text, with small corner triangles and unchanged wheel behavior. No active progress bar returns to research-list cards.
+
+Browser review completed all 19 Basics stages through ordinary practice production/delivery/payment and returned to the original paused factory. Save / Load restored the selected upgrade, research pause and hint archive in a separate local test slot. Checked Q/Escape, Tab/Shift+Tab wrapping, recipe-return badge focus/scroll, arrows/wheel, 1280×720, 960×720, 960×540 and 390×844 layouts, plus compact/mobile guided panels without overlap. The mobile override reported 845 CSS px height. Screenshots and exact checks are in [integration evidence](../outputs/upgrades-integration/verification.json). These are functional UI checks, not a full campaign balance run. Earlier prototype-specific notes remain historical evidence.
+
+
+### Road navigation control review
+
+Adopted the reviewed Road controls in the main game: removed the gear, added equal-size external red Travel arrows with the established 12 CSS px label, and made stationary right-click reverse flow. Travel and double-click retain zoom and focus/highlight the paired Road. The renderer no longer needs a workshop opt-in flag. Commands and current Road/interface/control references now describe the adopted behavior; earlier preview records below remain historical review evidence. Ordinary unmodded and modded factories use these controls without save migration; guided practice retains scripted travel. The full workspace suite passed 2,124 tests with two existing skips, and the production build passed. Browser review using the standard renderer without a preview flag verified no gear, right-click reversal, exterior Travel arrival and double-click return retaining 75% zoom and paired-endpoint focus. Evidence: [adopted controls](../outputs/road-workshop/main-adoption-controls.jpg).
+
+Road arrival now carries the current zoom and focuses and highlights the reciprocal endpoint in the destination play area, for the workshop Travel arrow and Road double-click. This replaces saved-center arrival specifically for Road navigation; ordinary Node Map travel retains its current view policy. The command description states the retained zoom and endpoint focus using the existing command typography. First visits, revisits, all four borders, a wider workshop overview and invalid pairs are covered by automated checks. Browser review verified Travel-button arrival and double-click return at 75% zoom with the paired endpoint highlighted; see [focused arrival](../outputs/road-workshop/travel-button-arrival-focus.jpg).
+
+The workshop placement review moved Travel into the unplayable area outside the field boundary. All four arrows now share one 32 × 32 CSS pixel square shape, rotated by direction, with a consistent label gap. Fit field reserves exterior margins so the full action stays visible above, below and beside the field. This supersedes the inward placement described in the earlier workshop draft below. Browser review verified all four equal-size controls outside the field and travel/return at the retained fitted zoom; see [the revised overview](../outputs/road-workshop/exterior-equal-arrows.jpg). Preview TypeScript, the production build and 29 focused camera/navigation/fixture checks passed.
+
+The separate Road workshop previews a red Travel arrow and a 12 CSS px / 500 UI sans label above it, sized independently of field zoom and placed inward from the boundary. Red travel direction remains distinct from gold material flow. The Road gear is omitted in this preview; right-click uses ordinary flow reversal. The nine-map sandbox has no campaign storage and includes full-field and focused Road views for review. Current campaign controls remain separate pending adoption. Browser evidence: `outputs/road-workshop/`.
+
+Map travel now carries the previous field's zoom on first visits and revisits. New destinations start centered; revisits retain their saved world-space center within camera bounds. Road and Node Map travel share this camera policy. Tutorial practice retains authored views. This camera interaction changes no text roles or typography. Automated travel and camera checks cover first entry, return travel, save/reload, bounds and invalid destinations.
+
+Commands → Nodes and shortcut bars now includes “Double-click a Road” with plain instructions for visiting the connected adjacent Map Node by clicking its body away from sockets. The row reuses the existing command typography. No new font, weight or panel style was introduced. Synthetic browser review verified single-click selection, travel in both directions, paired dragging without travel and Shift-double-click without travel. The fixture does not write campaign saves. Evidence: [destination screenshot](../outputs/terrain-tiles-qa/road-double-click-travel.jpg) and [navigation checks](../src/renderer/roadNodeTravel.test.ts).
 
 NODE now uses shared sans-serif styles for interface text and a named monospace stack for technical notation. The Selected project card uses a fixed 12 px description and regular weight for its actions, Core badges, and progress count. This review records the previous styles and the changes applied in the local game. The Selected project Core badges now match the filter buttons’ 12 px UI sans, rounded border, and initial capitals. The badges use regular weight. Checked Simple and Basic in the local game.
 
@@ -33,6 +106,12 @@ This editable sample uses Word equivalents of the CSS sizes. The game supplies t
 Source locations   src/ui/ResearchProjectDetail.tsx · src/styles/research-details.css · src/styles/responsive.css
 
 ### Card review cases
+
+Shiny upgrade now lists the Complex Core recipe, Yin and Yang recipes and all four revealed corner locations in its tooltip/accessibility description and completion notice. Both use shared benefit copy from the prototype model. Browser review at 1280 × 720 checked keyboard-focus tooltip text and the full three-line notice without clipping. Existing typography, 4.5-second lifecycle, button label and shared styles remain intact. The explicit Test completion fixture previews the notice; this copy change does not alter unlock timing or research rules.
+
+Converted destination purchases reuse the existing Core badges, queue count and Node Map controls. The author-only Test saved map purchase uses a retained 9 Simple/4 Basic bill with 11/13 paid. Browser review verified those values after snapshot reload, normal-clock completion to one banked point, later N1 activation instead of E1, and separate Travel with Home still current. No font/weight or research-list progress bar was added. [Fixture rules](../previews/status-page/README.md#converted-destination-purchases) distinguish the isolated example from campaign adoption.
+
+Saved research in the Upgrades study keeps the existing portrait, Upgrade label, filter-style paid/required badges and queue typography. Test saved progress is an author-only Payment tests action. Browser review checked the Basic portrait, three 2/5 upgrade badges, parked 3/30 queued total, snapshot reload, priority release/resume and no historical notice replay. No new permanent character copy or text role was added. See the [migration fixture](../previews/status-page/README.md#preserving-saved-research).
 
 The Upgrades study adapts Basics to selection and Queue research. Its shared bottom-left tutorial card retains the reading-body instruction, step count and Restart/Exit/Finish controls. One 190 px queue slot and an Assembler-only row precede the full queue explanation. Shared text roles and hidden project details are retained; keyboard focus traversal includes lesson controls. Checked selection versus queueing, paused payment, ordinary-cycle completion, restart, return to the original paid factory and default main-game copy with functional tests and the isolated browser fixture. Scope is the three-stage research segment, pending full screen adoption. See the [fixture guide](../previews/status-page/README.md#basics-research-transition).
 
@@ -484,5 +563,43 @@ November 20, 2026. Repair Dev Source input grouping so Ancient Foundry ingredien
 
 Unlock all map nodes now sets visited flags and encounter discovery, with full explored terrain/survey/border/landmark/corner presentation and saved persistence. Keep the active map/cameras and paid research. Older survey-only dev saves can reapply the action; its specific undo checkpoint restores prior visits/discovery while ordinary exploration keeps its existing undo behavior. Update the existing control’s explanation and only mark it REVEALED when all cells are unlocked and visited. Typography and layout remain unchanged. The isolated terrain review exposes the actual developer map command without campaign saves. Checks and limits are retained in the matching primary changelog record and outputs/terrain-tiles-qa/dev-tools-verification.json.
 
+### Quiet tutorials in developer factories
+
+November 20, 2026. The user requested no tutorial modals from Dev tool buttons. Enabled Dev controls now set a per-factory automatic-prompt suppression flag before their action. Engine unlock methods and successful Dev Source placement also mark developer use. Expansion, Monster Camps and Dwarven discovery selectors share the same guard, including existing explicit dev-granted/revealed and Dev Source saves. Keep this quiet setting through undo and save/load; new factories start fresh. Manual Tutorials remain available with ordinary unlock conditions, and suppressed lessons are not marked seen or complete. Report export remains read-only.
+
+No visible copy, control layout or typography changes are introduced. Regression checks cover all grant paths, placement, old dev markers, reload/undo, new factories, normal invitations and manual availability. Verification and limits are retained in the matching primary changelog entry and outputs/terrain-tiles-qa/dev-tutorials-verification.json.
+
 
 Publication confirmation: the border art, south bases, preview repairs and new-sector clearance above were verified live in [48f50fd](https://github.com/bookskaboo/bookskaboo.github.io/commit/48f50fda634343154e4adb67a9953b065d137299). NODE-0691 retains the exact release checks and scope; earlier local review notes remain historical.
+
+### Centered camp socket and persistent guarded reserve
+
+November 20, 2026. Restore the guarded camp AP input to the camp center at the user's request, replacing only the left-border socket arrangement from NODE-0632/NODE-0645. Keep the interior reserve placement, Stone naming and original 30-settlement distribution. Render the center socket above the resource card in a dedicated input overlay; keep the image/title above the reserve and AP/check card below it. Give camp backgrounds a stable lower layer so selection and growth redraws cannot hide the resource.
+
+Locked reserves remain inspectable with a dim card, grey accent/output, padlock and explicit Locked until suppressed label. Accessible restores the normal card appearance. Reuse shared sans-serif status text and existing technical readout roles; retain the lock label at distant detail levels. Browser checks on isolated Dwarven and Goblin fixtures verified camp selection, visible resource/image/AP separation, a real bot-supply cable to the centered socket and delivered AP, rejected locked extraction, successful suppressed extraction, and paused extraction with retained stock/cables after suppression loss. Synthetic fixture stock is not a normal-play balance measurement and campaign saves were untouched. [Screenshot evidence](../outputs/camp-centered-connection-2026-11-20/final-locked-camp.jpg) and [verification details](../outputs/camp-centered-connection-2026-11-20/verification.json) retain the checks and limits. Both production builds and preview TypeScript passed. The suite passed 2,114 tests with two skipped and one unrelated border-generation timeout; all 23 tests in that file passed on isolated rerun. This is a local correction, not a new publication. Maintained Markdown references are updated; archived Word snapshots remain unchanged.
+
+### Adjacent reserve and simplified camp cards
+
+November 20, 2026. The user refined the preceding layout: keep the camp AP socket centered, but put the resource's left border beside it instead of covering it. Newly generated guarded reserves now align vertically with the socket and start 24 world units to its right; their center remains inside the initial camp area, while the card may extend beyond the outline. Put the AP badge to the left of the socket. Preserve saved coordinates and paired movement.
+
+At the user's follow-up requests, remove both the padlock and status line from the resource card. A locked reserve uses the exact red body/header, danger accent and opacity of nodes covered by a camp, while remaining inspectable; full suppression restores normal colors. Keep explanatory text in the inspector. Remove the countdown/result line beneath the AP bar for every Goblin/Dwarven Camp, Village and Kingdom in new and legacy worlds, and shorten the card from 71 to 48 world units. Keep AP typography, amount, bar, result colors, halo and inspector details.
+
+Browser checks covered both factions, legacy AP cards, camp selection, delivered AP, blocked extraction, suppression/unlock and loss with stock/wires retained, plus a 390 × 844 viewport and low zoom. [Current screenshot](../outputs/camp-adjacent-resource-2026-11-20/final-layout.jpg) and [verification](../outputs/camp-adjacent-resource-2026-11-20/verification.json) retain evidence. Full suite: 2,117 passed and two skipped with four workers. Both production builds and preview TypeScript passed. These are synthetic fixtures without campaign save writes, not a balance run. This local update replaces only the preceding centered-reserve and lock-badge presentation; the centered socket, stable resource visibility and 30-settlement distribution remain. No publication; archived Word files stay unchanged.
+
+
+### Larger camp art and suppression-boundary placement
+
+November 20, 2026. At the user's request, move new guarded deposits farther right and enlarge camp artwork from 144 to 256 world units. Determine the deposit position from the exact visible camp outline at the fully suppressed 10% footprint: put the resource's left edge 12 world units beyond the outline's rightmost point, sharing the camp vertical center. The entire resource card clears that footprint and intersects the camp again at 20%. This replaces the preceding socket-adjacent spacing; the card need not fit wholly inside the camp or keep its center inside the initial outline.
+
+Place the larger art above the centered socket and left of the resource; its lower edge is 20 world units above the socket. Keep the title above the art and AP card below the resource. Retain red inaccessible cards, no padlock/status line, stable selection layering and compact AP-only cards. No typography, suppression, output, reserve or population changes. Legacy art sizing and saved positions stay intact.
+
+Browser checks on both factions verified full-card clearance at 10%, left-side overlap/red appearance at 20%, enlarged art without card/socket/AP overlap, camp selection, extraction and retained stock/wiring after suppression loss. Checked a 390 × 844 low-zoom layout and restored the viewport. See [current preview](../outputs/camp-boundary-art-2026-11-20/final-layout.jpg) and [verification](../outputs/camp-boundary-art-2026-11-20/verification.json). Focused checks: 52 passed. Full workspace: 2,118 passed and two skipped. Main/site builds and preview TypeScript passed. These are isolated fixtures without campaign save writes, not a balance run. No publication; archived Word files remain unchanged.
+
+
+### Automatic guarded-camp refill connection
+
+November 20, 2026. Add the requested system-owned camp output, deposit inlet and automatic connection while fully suppressed. Keep the existing AP input centered; place the new output 64 world units to its right and the inlet at the resource's left-center. Use the resource color for cable/ports and the existing blue packet and arrival style. Show regular technical batch quantity text only when more than one unit is awarded. These controls cannot accept player wiring, cable selection or deletion.
+
+Animate actual regeneration awards at the unchanged five-second interval, including upgrades, fractional carry and capacity clamping. A full reserve remains idle. Suppression loss hides the link and its active effect without touching stock or player routes. Game pause freezes packets; reduced-motion and disabled-particle preferences keep only the static connection. Loading/revisiting/restoring suppression does not replay historical refills. Keep larger artwork, red inaccessible cards, no padlock/status text and compact AP cards.
+
+Add external Run clock/Stop clock controls to the existing isolated obstruction preview; reset stops that ordinary-speed clock and manual advancement is disabled while it runs. Remove the former manual-only header qualifier. Browser checks verified one-unit Mythril and six-unit Goblin packet quantities, rejected player wiring to/from managed ports, suppression loss, normal-clock filling to the cap, and a 390 × 844 layout. [Animation evidence](../outputs/camp-refill-link-2026-11-20/goblin-refill-animation.jpg) and [verification](../outputs/camp-refill-link-2026-11-20/verification.json) retain the observations. Full suite: 2,129 passed, two skipped; both builds and preview TypeScript passed. Synthetic fixtures do not measure normal-play balance or write campaign saves. No publication; maintained Markdown references updated and archived Word files unchanged.

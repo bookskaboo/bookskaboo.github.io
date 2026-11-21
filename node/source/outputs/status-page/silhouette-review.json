@@ -1,0 +1,38 @@
+{
+  "date": "2026-11-19",
+  "decision": "Distinct tier silhouettes",
+  "art": [
+    "narrow Junior",
+    "rounded Simple",
+    "square Basic",
+    "spread-arm Automata",
+    "tank-equipped Hydro",
+    "angular Mythril Shiny",
+    "tall-finned Complex",
+    "orbital-framed Final"
+  ],
+  "sharedIdentity": "Same geometric visor, face and central Core identity",
+  "automated": [
+    "preview TypeScript check",
+    "standalone build",
+    "four existing adapter tests",
+    "eight SVGs parsed with matching artboards and accessible titles"
+  ],
+  "browser": [
+    "eight portraits loaded",
+    "both rows visually inspected",
+    "Final gallery-to-modal navigation and portrait",
+    "no horizontal overflow in gallery or modal at desktop and 390 CSS px",
+    "isolated preview has no warning/error logs"
+  ],
+  "screenshots": [
+    "outputs/status-page/robot-tier-silhouettes.jpg",
+    "outputs/status-page/robot-tier-silhouettes-390.jpg",
+    "outputs/status-page/final-silhouette-modal.jpg"
+  ],
+  "limits": [
+    "Prototype illustrations only; no game adoption or simulation change",
+    "Word files reopened but visual rendering is unavailable because LibreOffice is missing",
+    "Full workspace suite was not repeated for this artwork change; earlier result is in NODE-0613"
+  ]
+}

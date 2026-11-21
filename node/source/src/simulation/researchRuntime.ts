@@ -5,6 +5,7 @@ import { hasNodeBehavior } from '../content/nodeCapabilities';
 import type { GameEvent, GameState, ItemId, MachineNode, NodeKind } from '../domain/types';
 import { isResearchCycleActive } from './researchStatus';
 import { RESEARCH_CENTER_BASE_CYCLE_MS } from '../content/researchTiming';
+import { RESEARCH_QUEUE_LIMIT, type QueueResearchOptions, type QueueResearchResult } from '../content/researchQueue';
 import { applyCartUpgrades } from '../content/cartUpgrades';
 import { destinationMapCosts, pendingMapPayment, usesDestinationMapPricing, canPurchaseMap } from './mapExpansion';
 
@@ -24,17 +25,83 @@ export class ResearchRuntime {
 
   reconcileResearchSelection() {
     const research = this.state.research;
+    // Opting into banked points retains a saved bill and payments, but frees its target.
+    if (this.state.mapResearchMode === 'points' && research.mapNodeQuote) delete research.mapNodeQuote.destination;
+    if (research.queue !== undefined) research.queue = Array.isArray(research.queue)
+      ? [...new Set(research.queue)].filter(id => typeof id === 'string' && this.queueProjectValid(id)).slice(0, RESEARCH_QUEUE_LIMIT) : [];
+    if (typeof research.paused !== 'boolean') delete research.paused;
     if (!research.mapNodeQuote?.destination) research.mapNodePricingPhase ??= mapNodePricingPhaseForState(research);
     const selectedId = this.state.research.selected;
-    if (!selectedId) return;
+    if (!selectedId) { this.advanceQueue(); return; }
     const project = getResearchProject(selectedId);
     const invalid = !project || atResearchCap(project, this.state.research) || project.trigger || !isResearchAvailable(project, this.state.research.completed)
       || (!project.repeatable && this.state.research.completed.includes(selectedId))
       || (selectedId === 'mapNode' && !research.mapNodeQuote?.destination && remainingMapNodePurchases(this.state) === 0);
     if (!invalid) { if (selectedId === 'mapNode') this.quoteMapNodeResearch(); return; }
+    // Catalog changes may add prerequisites to a project that already has payments.
+    if (project && !isResearchAvailable(project, research.completed) && Object.values(research.contributed).some(amount => (amount ?? 0) > 0)) {
+      (research.projectContributions ??= {})[selectedId] = { ...research.contributed };
+    }
     this.state.research.selected = undefined;
     this.state.research.contributed = {};
     if (selectedId === 'mapNode') delete research.mapNodeQuote;
+    this.advanceQueue();
+  }
+
+  private queueProjectValid(id: string) {
+    const project = getResearchProject(id);
+    return Boolean(project && !project.trigger && !atResearchCap(project, this.state.research)
+      && (project.repeatable || !this.state.research.completed.includes(id))
+      && (id !== 'mapNode' || remainingMapNodePurchases(this.state) > 0 || this.state.research.mapNodeQuote?.destination));
+  }
+
+  private advanceQueue() {
+    const research = this.state.research;
+    if (!research.queue) return;
+    research.queue = research.queue.filter(id => this.queueProjectValid(id));
+    if (research.paused || research.selected || !research.queue.length) return;
+    this.selectResearch(research.queue[0], true);
+  }
+
+  queueResearch(id: string, { adoptSelected = true }: QueueResearchOptions = {}): QueueResearchResult {
+    const research = this.state.research;
+    const project = getResearchProject(id);
+    if (!this.queueProjectValid(id) || !project || !isResearchAvailable(project, research.completed)) return 'unavailable';
+    if (id === 'mapNode' && usesDestinationMapPricing(this.state) && !pendingMapPayment(this.state)) return 'map-destination';
+    if (adoptSelected && !research.queue && research.selected === id) { research.queue = [id]; this.publish(); return 'added'; }
+    const queue = research.queue ?? (adoptSelected && research.selected ? [research.selected] : []);
+    if (queue.includes(id)) return 'duplicate';
+    if (queue.length >= RESEARCH_QUEUE_LIMIT) return 'full';
+    research.queue = [...queue, id];
+    this.advanceQueue();
+    this.publish();
+    return 'added';
+  }
+
+  removeQueuedResearch(id: string) {
+    const research = this.state.research;
+    if (!research.queue?.includes(id)) return;
+    research.queue = research.queue.filter(queued => queued !== id);
+    if (research.selected === id) this.selectResearch(undefined, true);
+    this.advanceQueue();
+    this.publish();
+  }
+
+  /** Return from a priority task without changing the player's explicit pause. */
+  releasePriorityResearch(id: string) {
+    const research = this.state.research;
+    if (research.selected !== id) return;
+    // Earlier queues may have adopted the priority task as their first card.
+    if (research.queue) research.queue = research.queue.filter(queued => queued !== id);
+    this.selectResearch(undefined, true);
+    this.advanceQueue();
+    this.publish();
+  }
+
+  setResearchPaused(paused: boolean) {
+    this.state.research.paused = paused;
+    if (!paused) this.advanceQueue();
+    this.publish();
   }
 
 
@@ -72,6 +139,8 @@ export class ResearchRuntime {
       if (!definition.hidden && definition.unlockResearch === projectId) (this.state.discoveryTimes ??= {})[definition.kind] ??= elapsedMs;
     }
     this.event('ResearchCompleted', `${project.name} research complete. ${opened ? 'Map node unlocked.' : project.unlock}`, projectId, elapsedMs);
+    if (this.state.research.queue) this.state.research.queue = this.state.research.queue.filter(id => id !== projectId);
+    this.advanceQueue();
   }
 
 
@@ -87,26 +156,31 @@ export class ResearchRuntime {
     const nodes = Object.values(this.state.sectors).flatMap((sector) => sector.nodes);
     for (const project of RESEARCH_PROJECTS) {
       if (!project.trigger || this.state.research.completed.includes(project.id)) continue;
-      const complete = project.trigger.id === 'complex-core-produced' ? (produced['command-core'] ?? 0) > 0
+      const complete = project.trigger.id === 'complex-core-unlocked' ? this.state.research.completed.includes('complexCore')
+        : project.trigger.id === 'complex-core-produced' ? (produced['command-core'] ?? 0) > 0
         : project.trigger.id === 'encounter' ? (project.trigger.kinds??[]).some(kind=>this.state.encounters?.includes(kind))
         : project.trigger.id === 'dwarven-mythril-produced' ? Boolean(this.state.dwarvenMythrilProduced)
         : project.trigger.id === 'precision-control' ? this.state.research.completed.includes('precisionControl')
         : project.trigger.id === 'connection' ? Boolean(this.state.hasCreatedConnection)
         : project.trigger.id === 'assembler-built' ? nodes.some((node) => node.kind === 'assembler')
+        : project.trigger.id === 'simple-core-produced' ? (produced['simple-core'] ?? 0) > 0
         : project.trigger.id === 'basic-core-produced' ? (produced['basic-core'] ?? 0) > 0
         : project.trigger.id === 'wood-extracted' ? (extracted.wood ?? 0) > 0
         : project.trigger.id === 'motor-produced' ? (produced.motor ?? 0) > 0
         : project.trigger.id === 'metal-extracted' ? (extracted.iron ?? 0) + (extracted.copper ?? 0) + (extracted.mythril ?? 0) > 0
         : project.trigger.id === 'plate-produced' ? (produced['iron-plate'] ?? 0) + (produced['copper-plate'] ?? 0) + (produced['mythril-plate'] ?? 0) > 0
         : project.trigger.id === 'refiner-unlocked' ? this.state.research.completed.includes('refiner')
+        : project.trigger.id === 'refiner-produced' ? Boolean(this.state.hasProducedWithRefiner)
         : project.trigger.id === 'monster-camp' ? nodes.some((node) => node.kind === 'monster-camp')
         : false;
       if (complete) this.completeResearch(project.id, elapsedMs);
     }
+    this.advanceQueue();
   }
 
 
   simulateResearch(node: MachineNode, dt: number) {
+    if (this.state.research.paused) return;
     const selected = getResearchProject(this.state.research.selected);
     if (!selected || atResearchCap(selected, this.state.research) || selected.trigger || !isResearchAvailable(selected, this.state.research.completed) || (!selected.repeatable && this.state.research.completed.includes(selected.id))) { node.progressMs = 0; return; }
     if (selected.id === 'mapNode') {
@@ -159,7 +233,7 @@ export class ResearchRuntime {
     return true;
   }
 
-  selectResearch(id?: string) {
+  selectResearch(id?: string, fromQueue = false) {
     const research = this.state.research;
     const current = research.selected;
     const project = getResearchProject(id);
@@ -169,9 +243,10 @@ export class ResearchRuntime {
       (!remainingMapNodePurchases(this.state) || (usesDestinationMapPricing(this.state) && !pendingMapPayment(this.state)))) return;
     const contributions = research.projectContributions ??= {};
     if (current) contributions[current] = { ...research.contributed };
-    if (current === 'mapNode' && !research.mapNodeQuote?.destination &&
+    if (current === 'mapNode' && this.state.mapResearchMode !== 'points' && !research.mapNodeQuote?.destination &&
       (!usesDestinationMapPricing(this.state) || !pendingMapPayment(this.state))) delete research.mapNodeQuote;
     research.selected = id;
+    if (!fromQueue && id === undefined && research.queue?.length) research.paused = true;
     if (id === 'mapNode') this.quoteMapNodeResearch();
     research.contributed = { ...(id ? contributions[id] : {}) };
     this.resetResearchCycles(true);

@@ -6,8 +6,8 @@ import { buildResearchTree } from './researchTree';
 
 const researchDepth = new Map(buildResearchTree().nodes.map(({ project, depth }) => [project.id, depth]));
 const discoveryTier: Record<string, number> = {
-  splitter: 1, merger: 2, suppressionBot: 2, lakeTools: 3, mithrilTools: 4,
-  mineralRecovery: 6, sortingTools: 6, cornerComponents: 7,
+  splitter: 1, merger: 1, suppressionBot: 2, lakeTools: 3, mithrilTools: 4,
+  mineralRecovery: 6, sortingTools: 6,
 };
 const efficiencyUnlocks = new Set(['connectorMirroring', 'efficientIntermediates', 'efficientHigherIntermediates']);
 

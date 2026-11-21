@@ -1,0 +1,34 @@
+{
+  "date": "2026-11-20",
+  "scope": "Local guarded-camp presentation correction; no publication or save-position migration",
+  "url": "http://127.0.0.1:4197/previews/obstructions/",
+  "automated": {
+    "focused": "40 passed across 5 test files, including retained layering after selection/growth, art/AP spacing, centered geometry and guarded extraction mechanics",
+    "workspace": "2114 passed, 2 skipped, 1 border-generation test timed out at 5000ms",
+    "timeoutRerun": "All 23 tests in src/simulation/borderObstructions.test.ts passed in isolation",
+    "build": "npm run build passed; existing large-chunk warning",
+    "siteBuild": "npm run build:site passed; existing large-chunk warning",
+    "previewTypes": "npx tsc -p previews/obstructions/tsconfig.json --pretty false passed"
+  },
+  "browser": [
+    "Dwarven and Goblin camp selection retained a visible locked reserve while showing the camp inspector",
+    "Camp image/title, reserve and AP/check card stayed visually separate before and after suppression",
+    "Normal bot-supply cable drag targeted the centered AP socket; advancing five seconds delivered 6 AP to the Dwarven Camp",
+    "Locked extraction was rejected by the fixture button and by a normal output-to-Extractor cable drag with the guarded explanation",
+    "Two funded checks unlocked the Dwarven reserve; a connected Extractor reduced stock from 3000 to 2999",
+    "Suppression loss restored dim/locked presentation, retaining both cables and reserve 2999 after advancing five seconds"
+  ],
+  "screenshots": [
+    "dwarven-locked-selected.jpg",
+    "dwarven-accessible-selected.jpg",
+    "dwarven-suppression-lost.jpg",
+    "goblin-locked-selected.jpg",
+    "final-locked-camp.jpg"
+  ],
+  "limits": [
+    "Synthetic manually advanced engine fixture with autosave disabled; no normal-play balance or endgame measurement",
+    "Existing guarded camp/resource positions remain saved; no population, reserve, regeneration or suppression-rule changes",
+    "Default desktop viewport inspected; no separate narrow-screen browser run",
+    "No live publication was requested for this correction"
+  ]
+}

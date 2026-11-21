@@ -1,0 +1,43 @@
+{
+  "date": "2026-11-20",
+  "scope": "Local Upgrades prototype",
+  "order": [
+    "Filters with completed-project checkbox alongside",
+    "Search",
+    "Selected project",
+    "Scrolling project list"
+  ],
+  "mapPoint": "First ordinary row; no sticky positioning or banner",
+  "browser": {
+    "desktopFilterTop": 170.25,
+    "desktopCompletedTop": 175.25,
+    "desktopSearchTop": 207.24,
+    "desktopSelectedTop": 256,
+    "completedToggleShowsAndHidesKiln": true,
+    "mapPosition": "static",
+    "listScrollTop": 287.69,
+    "scrolledMapTop": 153.77,
+    "listTop": 439.47,
+    "mobileWidth": 390,
+    "mobileHorizontalOverflow": false,
+    "mobileOrderRetained": true,
+    "warningsAndErrors": []
+  },
+  "verification": {
+    "focusedPassed": 51,
+    "previewTypeScript": "passed",
+    "standaloneBuild": "passed",
+    "systemCatalogsAndLinks": "passed",
+    "wordStructuralReopen": "passed",
+    "wordRender": "Unavailable: LibreOffice soffice.exe missing"
+  },
+  "screenshots": [
+    "research-order-desktop.jpg",
+    "research-order-390.jpg"
+  ],
+  "limits": [
+    "Completed-project scope remains the Production nodes view",
+    "Full suite not repeated for this presentation-only change; NODE-0651 retains prior full-suite evidence",
+    "No gameplay, save or publication change"
+  ]
+}

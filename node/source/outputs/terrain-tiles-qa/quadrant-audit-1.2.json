@@ -1,0 +1,259 @@
+{
+  "scope": "Isolated assignment arithmetic, not actual sector generation or gameplay balance",
+  "weight": 1.2,
+  "otherWeight": 1,
+  "seedRange": [
+    0,
+    999
+  ],
+  "fixedCornersExcluded": true,
+  "centerAxesExcluded": true,
+  "sizes": [
+    {
+      "size": 11,
+      "seedCount": 1000,
+      "eligible": 96000,
+      "unbiasedShare": 0.2531979166666667,
+      "biasedShare": 0.28263541666666664,
+      "byTerrain": [
+        {
+          "terrain": "badlands",
+          "eligible": 24000,
+          "unbiasedMatched": 6194,
+          "biasedMatched": 6977,
+          "unbiasedShare": 0.25808333333333333,
+          "biasedShare": 0.29070833333333335
+        },
+        {
+          "terrain": "grassland",
+          "eligible": 24000,
+          "unbiasedMatched": 5505,
+          "biasedMatched": 6142,
+          "unbiasedShare": 0.229375,
+          "biasedShare": 0.2559166666666667
+        },
+        {
+          "terrain": "desert",
+          "eligible": 24000,
+          "unbiasedMatched": 6294,
+          "biasedMatched": 7008,
+          "unbiasedShare": 0.26225,
+          "biasedShare": 0.292
+        },
+        {
+          "terrain": "rocky",
+          "eligible": 24000,
+          "unbiasedMatched": 6314,
+          "biasedMatched": 7006,
+          "unbiasedShare": 0.26308333333333334,
+          "biasedShare": 0.29191666666666666
+        }
+      ]
+    },
+    {
+      "size": 13,
+      "seedCount": 1000,
+      "eligible": 140000,
+      "unbiasedShare": 0.24857142857142858,
+      "biasedShare": 0.2859357142857143,
+      "byTerrain": [
+        {
+          "terrain": "badlands",
+          "eligible": 35000,
+          "unbiasedMatched": 8934,
+          "biasedMatched": 10166,
+          "unbiasedShare": 0.25525714285714285,
+          "biasedShare": 0.29045714285714286
+        },
+        {
+          "terrain": "grassland",
+          "eligible": 35000,
+          "unbiasedMatched": 8041,
+          "biasedMatched": 9316,
+          "unbiasedShare": 0.22974285714285714,
+          "biasedShare": 0.26617142857142856
+        },
+        {
+          "terrain": "desert",
+          "eligible": 35000,
+          "unbiasedMatched": 8892,
+          "biasedMatched": 10267,
+          "unbiasedShare": 0.25405714285714287,
+          "biasedShare": 0.2933428571428571
+        },
+        {
+          "terrain": "rocky",
+          "eligible": 35000,
+          "unbiasedMatched": 8933,
+          "biasedMatched": 10282,
+          "unbiasedShare": 0.2552285714285714,
+          "biasedShare": 0.29377142857142857
+        }
+      ]
+    },
+    {
+      "size": 15,
+      "seedCount": 1000,
+      "eligible": 192000,
+      "unbiasedShare": 0.25031770833333333,
+      "biasedShare": 0.28351041666666665,
+      "byTerrain": [
+        {
+          "terrain": "badlands",
+          "eligible": 48000,
+          "unbiasedMatched": 12220,
+          "biasedMatched": 13929,
+          "unbiasedShare": 0.25458333333333333,
+          "biasedShare": 0.2901875
+        },
+        {
+          "terrain": "grassland",
+          "eligible": 48000,
+          "unbiasedMatched": 11360,
+          "biasedMatched": 12812,
+          "unbiasedShare": 0.23666666666666666,
+          "biasedShare": 0.2669166666666667
+        },
+        {
+          "terrain": "desert",
+          "eligible": 48000,
+          "unbiasedMatched": 12258,
+          "biasedMatched": 13860,
+          "unbiasedShare": 0.255375,
+          "biasedShare": 0.28875
+        },
+        {
+          "terrain": "rocky",
+          "eligible": 48000,
+          "unbiasedMatched": 12223,
+          "biasedMatched": 13833,
+          "unbiasedShare": 0.25464583333333335,
+          "biasedShare": 0.2881875
+        }
+      ]
+    },
+    {
+      "size": 17,
+      "seedCount": 1000,
+      "eligible": 252000,
+      "unbiasedShare": 0.2500079365079365,
+      "biasedShare": 0.2845714285714286,
+      "byTerrain": [
+        {
+          "terrain": "badlands",
+          "eligible": 63000,
+          "unbiasedMatched": 15835,
+          "biasedMatched": 18299,
+          "unbiasedShare": 0.2513492063492063,
+          "biasedShare": 0.2904603174603175
+        },
+        {
+          "terrain": "grassland",
+          "eligible": 63000,
+          "unbiasedMatched": 15221,
+          "biasedMatched": 17097,
+          "unbiasedShare": 0.2416031746031746,
+          "biasedShare": 0.2713809523809524
+        },
+        {
+          "terrain": "desert",
+          "eligible": 63000,
+          "unbiasedMatched": 15953,
+          "biasedMatched": 18183,
+          "unbiasedShare": 0.25322222222222224,
+          "biasedShare": 0.2886190476190476
+        },
+        {
+          "terrain": "rocky",
+          "eligible": 63000,
+          "unbiasedMatched": 15993,
+          "biasedMatched": 18133,
+          "unbiasedShare": 0.25385714285714284,
+          "biasedShare": 0.2878253968253968
+        }
+      ]
+    },
+    {
+      "size": 19,
+      "seedCount": 1000,
+      "eligible": 320000,
+      "unbiasedShare": 0.24975625,
+      "biasedShare": 0.28601875,
+      "byTerrain": [
+        {
+          "terrain": "badlands",
+          "eligible": 80000,
+          "unbiasedMatched": 20238,
+          "biasedMatched": 23100,
+          "unbiasedShare": 0.252975,
+          "biasedShare": 0.28875
+        },
+        {
+          "terrain": "grassland",
+          "eligible": 80000,
+          "unbiasedMatched": 19206,
+          "biasedMatched": 22209,
+          "unbiasedShare": 0.240075,
+          "biasedShare": 0.2776125
+        },
+        {
+          "terrain": "desert",
+          "eligible": 80000,
+          "unbiasedMatched": 20292,
+          "biasedMatched": 23208,
+          "unbiasedShare": 0.25365,
+          "biasedShare": 0.2901
+        },
+        {
+          "terrain": "rocky",
+          "eligible": 80000,
+          "unbiasedMatched": 20186,
+          "biasedMatched": 23009,
+          "unbiasedShare": 0.252325,
+          "biasedShare": 0.2876125
+        }
+      ]
+    },
+    {
+      "size": 21,
+      "seedCount": 1000,
+      "eligible": 396000,
+      "unbiasedShare": 0.2504217171717172,
+      "biasedShare": 0.28473737373737373,
+      "byTerrain": [
+        {
+          "terrain": "badlands",
+          "eligible": 99000,
+          "unbiasedMatched": 25259,
+          "biasedMatched": 28446,
+          "unbiasedShare": 0.25514141414141417,
+          "biasedShare": 0.28733333333333333
+        },
+        {
+          "terrain": "grassland",
+          "eligible": 99000,
+          "unbiasedMatched": 24011,
+          "biasedMatched": 27497,
+          "unbiasedShare": 0.24253535353535355,
+          "biasedShare": 0.27774747474747474
+        },
+        {
+          "terrain": "desert",
+          "eligible": 99000,
+          "unbiasedMatched": 24832,
+          "biasedMatched": 28443,
+          "unbiasedShare": 0.25082828282828284,
+          "biasedShare": 0.2873030303030303
+        },
+        {
+          "terrain": "rocky",
+          "eligible": 99000,
+          "unbiasedMatched": 25065,
+          "biasedMatched": 28370,
+          "unbiasedShare": 0.2531818181818182,
+          "biasedShare": 0.2865656565656566
+        }
+      ]
+    }
+  ]
+}

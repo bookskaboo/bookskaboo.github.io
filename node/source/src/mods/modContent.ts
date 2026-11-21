@@ -6,6 +6,7 @@ import { RESEARCH_PROJECTS, BASE_RESEARCH_PROJECTS, refreshResearchLookup } from
 import type { ItemId, NodeKind, Recipe } from '../domain/types';
 import { isCustomContentId, type GameMod } from './modTypes';
 import { setActiveModRules } from './modRules';
+import { applyBotUpgradeCatalog } from '../content/botUpgrades';
 
 function freezeCatalog<T extends object>(value: T): T {
   for (const entry of Object.values(value)) {
@@ -78,6 +79,7 @@ export function activateMod(mod?: GameMod) {
       else RESEARCH_PROJECTS.push({ id, name: id, category: 'Mod research', description: '', unlock: '', costs: {}, ...structuredClone(patch) });
     }
   }
+  if (!mod) applyBotUpgradeCatalog(RESEARCH_PROJECTS);
   refreshResearchLookup();
   FILTERABLE_ITEMS.splice(0, FILTERABLE_ITEMS.length, ...(Object.keys(ITEM_NAMES) as ItemId[]).filter(item => item !== 'power' && item !== 'forest-growth'));
   BUILDABLE_NODES.splice(0, BUILDABLE_NODES.length, ...Object.values(NODE_DEFINITIONS).filter(node => !node.hidden));

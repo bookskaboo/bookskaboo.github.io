@@ -1,0 +1,66 @@
+{
+  "date": "2026-11-20",
+  "scope": "Local Upgrades prototype; main Research screen unchanged",
+  "filters": [
+    "Production nodes",
+    "Node upgrades"
+  ],
+  "rules": [
+    "Exactly one filter selected",
+    "Other progression research stays in Production nodes per user reply",
+    "Extra Map Point remains a separate sticky first row across both filters and search",
+    "One lowest available/active rank per machine family, selected before search",
+    "Completed-project toggle applies to ordinary research only",
+    "Existing actual node categories are unchanged"
+  ],
+  "rows": {
+    "desktopCardCssPx": [
+      190,
+      59
+    ],
+    "mobileCardMeasuredPx": [
+      154.11,
+      58.99
+    ],
+    "costs": "Quantity before Core name, in compact filter-style badges to the card’s right",
+    "zeroPrice": "0 Cores"
+  },
+  "browser": {
+    "mutuallyExclusivePressedStates": true,
+    "firstRow": "mapNode",
+    "stageSimpleNextRanks": [
+      "researchCenter1",
+      "extractor2",
+      "kiln2",
+      "smelter2"
+    ],
+    "searchLaterExtractorRank": "Only pinned map row remains",
+    "searchNextExtractorRank": "Pinned map plus next eligible Extractor",
+    "previewStartCancel": "passed",
+    "CoreRecipeLinkAndReturn": "passed",
+    "mapStickyAfterListScrollPx": 287.69,
+    "mobileWidth": 390,
+    "mobileHorizontalOverflow": false,
+    "warningsAndErrors": []
+  },
+  "verification": {
+    "focusedPassed": 51,
+    "workspacePassed": 1900,
+    "workspaceSkipped": 2,
+    "previewTypeScript": "passed",
+    "standaloneBuild": "passed",
+    "systemCatalogsAndLocalLinks": "passed",
+    "wordStructuralReopen": "passed",
+    "wordRender": "Unavailable: LibreOffice soffice.exe missing"
+  },
+  "screenshots": [
+    "research-rows-nodes.jpg",
+    "research-rows-upgrades.jpg",
+    "research-rows-390.jpg"
+  ],
+  "limits": [
+    "Advanced stage fixtures seed opening discoveries for coherent inspection, not earned campaign progress",
+    "No balance run, main-game integration, save migration or publication",
+    "Word visual layout remains unverified"
+  ]
+}

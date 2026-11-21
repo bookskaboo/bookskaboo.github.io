@@ -1,8 +1,10 @@
 import { validateMod } from '../mods/modValidation';
 import { isWorldGridSize, worldGridSize } from '../domain/worldGrid';
 import { borderRoadPermissionsValid, normalizeBorderLayout } from '../simulation/borderObstructions';
+import { normalizeMapTerrains } from '../simulation/mapTerrain';
 import { NODE_DEFINITIONS } from '../content/nodes';
 import { migrateCoreResearch } from '../content/coreResearch';
+import { migrateUpgrades } from '../simulation/upgradesMigration';
 import { RECIPES } from '../content/recipes';
 import { getResearchProject, getResearchCosts, RESEARCH_PROJECTS } from '../content/research';
 import { isRetiredWasteNode, migratedWasteNodeName, migrateRetiredNodes } from '../content/retiredNodes';
@@ -11,6 +13,7 @@ import { RETIRED_RESEARCH } from '../content/retiredResearch';
 import { LATE_RESEARCH } from '../content/progression';
 import { RESEARCH_CENTER_BASE_CYCLE_MS } from '../content/researchTiming';
 import { normalizeControlGroups } from '../domain/controlGroups';
+import { normalizeResearchHintHistory } from '../domain/researchHintHistory';
 import type { GameState, ItemId, MachineNode, NodeKind, SectorState } from '../domain/types';
 
 import { record, number, entries, type UnknownRecord } from './saveValidation';
@@ -167,9 +170,16 @@ function migrateOriginalPayload(payloadValue: unknown): GameState | null {
 }
 
 function normalizeGameState(value: GameState) {
+  if (value.mapResearchMode !== undefined && value.mapResearchMode !== 'points') return null;
   if (value.worldGridSize !== undefined && !isWorldGridSize(value.worldGridSize)) return null;
   if (value.worldRulesVersion !== undefined && value.worldRulesVersion !== 1 && value.worldRulesVersion !== 2) return null;
   const state = structuredClone(value);
+  if (state.researchHintHistory !== undefined) {
+    const history = normalizeResearchHintHistory(state.researchHintHistory);
+    if (history) state.researchHintHistory = history;
+    else delete state.researchHintHistory;
+  }
+  try { normalizeMapTerrains(state); } catch { return null; }
   try { Object.assign(state, normalizeBorderLayout(state.borderObstructionVersion, state.borderObstructions, worldGridSize(state))); } catch { return null; }
   state.worldRulesVersion ??= 1;
   if (state.mod) {
@@ -179,6 +189,7 @@ function normalizeGameState(value: GameState) {
   for (const sector of Object.values(state.sectors)) if (sector.controlGroups !== undefined) sector.controlGroups = normalizeControlGroups(sector.controlGroups, sector.nodes);
   state.produced ??= {}; state.extracted ??= {}; state.hasCreatedConnection ??= false; state.research.completed ??= []; state.research.repeatableCompletions ??= {};
   migrateCoreResearch(state);
+  migrateUpgrades(state);
   if (!borderRoadPermissionsValid(state)) return null;
   state.preferences ??= { autosaveMinutes: 5, confirmDelete: true, particles: true, showGrid: true, snapToGrid: false, sound: false };
   state.preferences.snapToGrid ??= false;

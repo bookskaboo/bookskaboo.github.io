@@ -1,0 +1,9 @@
+.terrain-engine-review { --hud-clear:0px; height:100dvh; display:flex; flex-direction:column; background:#11171f; }
+.terrain-engine-review header { padding:12px 20px; flex:none; }
+.terrain-engine-review h1 { font-size:20px; margin:0 0 6px; }
+.terrain-engine-review p { margin:6px 0; font-size:12px; }
+.terrain-engine-controls { display:flex; gap:12px; flex-wrap:wrap; align-items:center; }
+.terrain-engine-controls label { display:flex; gap:6px; align-items:center; font-size:13px; }
+.terrain-engine-controls button,.terrain-engine-controls select { font:inherit; padding:6px 10px; }
+.terrain-engine-review .playfield-viewport { position:relative; flex:1; min-height:0; width:100%; }
+@media(max-width:600px){.terrain-engine-review header{padding:8px 12px;}.terrain-engine-controls{gap:6px;}}

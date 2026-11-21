@@ -36,7 +36,7 @@ describe('production-only depletion recovery',()=>{
     expect(applyExpansionRescue(createInitialState(1))).toBe(false);
     const s=stranded();copper(s).resourceRemaining=36;
     expect(applyExpansionRescue(s)).toBe(false);
-    copper(s).resourceRemaining=0;s.research.selected='assembler';s.research.contributed={'simple-core':4};s.research.projectContributions={assembler:{'simple-core':4}};
+    copper(s).resourceRemaining=0;s.research.selected='assembler';s.research.contributed={'simple-core':4};s.research.projectContributions={assembler:{'simple-core':4},basicCore:{'simple-core':4}};
     expect(progressionDeficits(s,'exploration')).toEqual({copper:4});
     s.sectors['5,5'].nodes.find(n=>n.kind==='extractor')!.output['simple-core']=1;
     expect(applyExpansionRescue(s)).toBe(false);

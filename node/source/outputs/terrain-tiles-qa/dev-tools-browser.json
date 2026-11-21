@@ -1,0 +1,24 @@
+{
+  "url": "http://127.0.0.1:4196/previews/terrain-tiles/runtime.html",
+  "scope": "Real developer engine action in a paused synthetic fixture; no campaign or map-layout storage writes.",
+  "initial": {
+    "adjacentUnvisitedCells": 0,
+    "cornerMarkers": 4,
+    "mapCells": 121,
+    "points": "Map Points121",
+    "terrain": [
+      "Terrain: Badlands"
+    ],
+    "tintedExploredCells": 121
+  },
+  "farMap": {
+    "terrainVisible": true,
+    "resourceSurveyVisible": true
+  },
+  "snapshotReload": {
+    "cornerMarkers": 4,
+    "points": "Map Points121",
+    "visitedTerrainCells": 121
+  },
+  "warningsAndErrors": []
+}

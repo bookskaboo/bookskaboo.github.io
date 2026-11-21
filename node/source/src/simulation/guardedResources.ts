@@ -3,6 +3,11 @@ import { endgameRank } from '../content/endgame';
 import { tributeAmount } from './goblinTribute';
 import { guardedResourceAccessible } from './worldRules';
 
+/** Transient refill evidence for animation; never saved or replayed on load. */
+export interface GuardedRefillReceipt { amount: number; atMs: number }
+const refillReceipts = new WeakMap<MachineNode, GuardedRefillReceipt>();
+export const guardedRefillReceipt = (deposit: MachineNode) => refillReceipts.get(deposit);
+
 export function regenerateGuardedResources(state: GameState, sector: SectorState, dt: number) {
   const multiplier = (state.research.completed.includes('mineralRegeneration2') ? 2 : 1)
     * (1 + .2 * (state.research.repeatableCompletions?.mineralRegenerationRate ?? 0))
@@ -18,6 +23,7 @@ export function regenerateGuardedResources(state: GameState, sector: SectorState
     const credit = (deposit.guardedRegenCarry ?? 0) + cycles * tributeAmount(camp) * multiplier;
     const restored = Math.min(room, Math.floor(credit + 1e-9));
     deposit.resourceRemaining = (deposit.resourceRemaining ?? 0) + restored;
+    if (restored > 0) refillReceipts.set(deposit, { amount: restored, atMs: state.playTimeMs });
     deposit.guardedRegenCarry = restored === room ? 0 : credit - restored;
     if (restored === room) deposit.regenMs = 0;
   }

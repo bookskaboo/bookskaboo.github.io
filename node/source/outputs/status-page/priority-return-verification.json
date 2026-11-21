@@ -1,0 +1,52 @@
+{
+  "date": "2026-11-20",
+  "scope": "Local Upgrades prototype priority return and removal of active progress bars from research-list cards",
+  "behavior": [
+    "Enabling Upgrade selects it ahead of existing queued research",
+    "Disabling or completing Upgrade returns to the preserved queue unless explicitly paused",
+    "Interrupted project and bot upgrade retain paid Cores; switching restarts the current cycle under existing rules",
+    "Starting a queue behind an enabled upgrade keeps the priority task outside the four ordinary queue slots",
+    "Releasing a priority task adopted by earlier queues removes it before advancing, including after normalized save/load",
+    "Explicit pause survives disabling Upgrade; normal main-game manual cancellation keeps its existing semantics",
+    "Research-list cards omit the progress element even when active; active styling, queue payment fill and Upgrade payment fill remain"
+  ],
+  "checks": {
+    "focused": {
+      "testsPassed": 101,
+      "filesPassed": 11,
+      "command": "npx vitest run src/simulation/researchQueue.test.ts src/simulation/researchSelection.test.ts src/simulation/engine.research.test.ts src/ui/ResearchPanel.test.tsx previews/status-page/"
+    },
+    "fullSuite": {
+      "command": "npm test -- --testTimeout=15000",
+      "testsPassed": 2012,
+      "testsSkipped": 2,
+      "filesPassed": 195,
+      "filesSkipped": 2,
+      "note": "Extended timeout accommodates the existing seeded border audit; no simulation timing changed."
+    },
+    "previewTypeScript": "passed",
+    "standaloneBuild": "passed",
+    "mainBuild": "passed; existing chunk-size advisory",
+    "systems": "6 catalogs and local links across 39 documents passed"
+  },
+  "browser": {
+    "url": "http://127.0.0.1:4194/outputs/status-page/status-modal.html",
+    "viewport": [
+      1280,
+      720
+    ],
+    "observed": [
+      "Queue Extractor and Kiln, process first ordinary complete Core set to Extractor 2/30, then enable Basic upgrade; both queue entries remain in order and wait",
+      "Basic upgrade processes 2/10 paid Cores; disabling returns to active Extractor with 2/30 retained and keeps upgrade 2/10",
+      "Explicit pause, enable and disable Upgrade leaves research paused and queued work waiting; play resumes the head",
+      "Fresh fixture: enable Basic upgrade before any queue, add Extractor and Kiln; only those two ordinary cards occupy queue slots, upgrade remains selected",
+      "Disable returns to Extractor; reenable then explicit synthetic Complete current test project finishes Basic upgrade and returns to the original queue",
+      "Automata portrait/next upgrade shown; next upgrade remains unselected",
+      "Resumed Extractor processes ordinary Core sets; final observation 6/30 and research left explicitly paused",
+      "Active research-list card contains zero progress elements; queue card still shows real payment fill",
+      "No captured browser warning/error logs"
+    ],
+    "screenshot": "outputs/status-page/priority-return-review.jpg"
+  },
+  "limits": "Browser review uses explicit synthetic stock and a completion-step fixture, not normal-play balance. Main ResearchPanel does not use the prototype priority control and keeps its original progress display. No new save field, campaign save writes, commit or publication."
+}

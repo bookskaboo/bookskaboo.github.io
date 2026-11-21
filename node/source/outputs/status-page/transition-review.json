@@ -1,0 +1,84 @@
+{
+  "date": "2026-11-20",
+  "scope": "Read-only source review of migration from the actual ResearchPanel to the local Upgrades prototype",
+  "issues": [
+    {
+      "id": "card-action",
+      "status": "confirmed current behavior",
+      "finding": "With SHOW_SELECTED_PROJECT false, ordinary clicks outside queue-picking mode update hidden inspection state and expose no Start/Cancel action.",
+      "source": [
+        "previews/status-page/main.tsx",
+        "src/ui/ResearchProjectDetail.tsx"
+      ],
+      "recommendation": "Choose a visible, usable default card action without restoring the removed detail panel."
+    },
+    {
+      "id": "queue-priority",
+      "status": "confirmed current behavior",
+      "finding": "Manually enabling a bot upgrade switches away from the active queue; disabling a selected project pauses queued work until explicit resume. This interaction has no visible explanation in the compact upgrade control.",
+      "source": [
+        "previews/status-page/BotUpgrade.tsx",
+        "src/simulation/researchRuntime.ts"
+      ],
+      "recommendation": "Make the interruption/resume policy legible and review how the Upgrade toggle cooperates with the queue."
+    },
+    {
+      "id": "map-purchase",
+      "status": "confirmed prototype gap",
+      "finding": "Extra Map Point is listed, but the specimen cannot choose a destination. Queue attempts require an existing destination quote in destination-priced worlds; the hidden detail panel contains the ordinary map-navigation action.",
+      "source": [
+        "previews/status-page/main.tsx",
+        "previews/status-page/researchList.ts",
+        "src/ui/ResearchProjectDetail.tsx"
+      ],
+      "recommendation": "Connect the card to Node Map destination selection and retain exact target/price across queueing, switching and loading."
+    },
+    {
+      "id": "benefit-access",
+      "status": "confirmed presentation gap",
+      "finding": "The compact Upgrade control describes enabling collection and shows Core payments, while the next-recipe benefit is in the hidden project description. Other project benefits/prerequisites rely largely on hover tooltips while details are hidden.",
+      "source": [
+        "previews/status-page/BotUpgrade.tsx",
+        "src/ui/ResearchCard.tsx",
+        "previews/status-page/model.ts"
+      ],
+      "recommendation": "Expose effects and requirements through keyboard/touch-accessible inspection and completion feedback while preserving the reviewed compact layout."
+    },
+    {
+      "id": "hint-history-and-progression",
+      "status": "confirmed prototype gap",
+      "finding": "Hint eligibility history and assignment acknowledgement live in component state and reset with remount/reload. The shared selector still follows the old research progression and has no finalBotUpgrade branch; after Final Core production it prioritizes victory. Existing Dwarven Tribute guidance remains documented as inconsistent with new-world guarded deposits.",
+      "source": [
+        "previews/status-page/HintBrowser.tsx",
+        "previews/status-page/main.tsx",
+        "src/ui/researchMilestones.ts",
+        "docs/master-plan/06-art-audio-and-writing.md"
+      ],
+      "recommendation": "Persist eligible/read history per campaign and review guidance against the shifted character-upgrade meanings, including Final upgrade and versioned world rules."
+    },
+    {
+      "id": "tutorial-and-navigation",
+      "status": "confirmed missing integration",
+      "finding": "The actual app still mounts ResearchPanel with allowedProjectId, focusProjectId and map/recipe callbacks. The standalone prototype does not accept those interfaces. Tutorial copy directs users to Start Assembler research, Completed Research and Basic Core research.",
+      "source": [
+        "src/ui/App.tsx",
+        "src/ui/ResearchPanel.tsx",
+        "src/tutorials/tutorialChoices.ts",
+        "src/tutorials/tutorialDialogue.ts"
+      ],
+      "recommendation": "Carry guided restrictions, highlighting, focus, recipe returns and map callbacks into the integrated modal and rewrite affected tutorial steps."
+    },
+    {
+      "id": "save-and-production-integration",
+      "status": "unverified transition coverage, not a proven save-loss bug",
+      "finding": "The preview overlays the global catalog locally, reuses next-Core project IDs and adds finalBotUpgrade. Queue/pause save round trips are covered, but adoption of character tiers across real old campaigns is still pending.",
+      "source": [
+        "previews/status-page/model.ts",
+        "src/content/coreResearch.ts",
+        "docs/systems/saves-and-compatibility.md"
+      ],
+      "recommendation": "Move proposal rules into supported game content and verify existing completions, paid/active projects, tier inference, quotes, load/undo/mod catalog changes and the agreed separation of Final character upgrade from victory."
+    }
+  ],
+  "limits": "No gameplay/source changes applied. No fresh browser, test suite or normal-play run; source-confirmed behavior and unverified integration checks are labeled separately. Recommendations remain proposals."
+}

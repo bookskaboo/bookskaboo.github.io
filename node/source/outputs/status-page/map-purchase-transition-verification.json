@@ -1,0 +1,33 @@
+{
+  "change": "NODE-0692",
+  "policy": "Explicit Upgrades transition converts existing destination quotes to banked Map Points while preserving their exact bill, completion index and active/parked Core payments.",
+  "checks": {
+    "focusedTests": "163 passed across eleven files; active and parked quote migration, remaining-only payment, pause/reload, idempotence, preserved prior points/maps, queue continuity and unchanged ordinary loader",
+    "previewTypeScript": "passed",
+    "previewBuild": "passed",
+    "systemCatalogsAndLinks": "six catalogs, 39 documents passed",
+    "changelog": "passed: 692 entries, five generated files, six tests"
+  },
+  "browser": {
+    "url": "http://127.0.0.1:4194/outputs/status-page/status-modal.html",
+    "fixture": "Test saved map purchase",
+    "observed": [
+      "9 Simple + 4 Basic quote, paid 7 Simple + 4 Basic (11/13 total)",
+      "Snapshot reload retains quoted amounts and paid total",
+      "Normal-speed research resumed from a partial cycle and banked one point; queue returned to Extractor 1 with 3/30 paid",
+      "Node Map initially keeps E1, N1, W1 and S1 as locked frontiers; no map activated on research completion",
+      "Player selected N1 and spent the point through Activate node; Map Points became zero, N1 remained unexplored with separate Travel action and Home remained current",
+      "No captured warning/error logs"
+    ],
+    "screenshots": [
+      "map-purchase-converted-bill.jpg",
+      "map-purchase-banked-point.jpg",
+      "map-purchase-chosen-destination.jpg"
+    ]
+  },
+  "limits": [
+    "Synthetic legacy-shaped stock-catalog factory, autosave disabled; no campaign slots read or written",
+    "Actual modal adoption and full campaign/mod-package validation remain pending",
+    "No commit or publication"
+  ]
+}

@@ -1,12 +1,13 @@
 import { createCornerNodes, syncCornerLayout } from './endgameRuntime';
 import type { GameState, ItemId, MachineNode, SectorState } from '../domain/types';
+import { applyMapTerrain, mapTerrain } from './mapTerrain';
 import { borderTerrainInsets, clearsBorderTerrain, type BorderTerrainInsets } from './borderTerrainClearance';
 import { DEFAULT_WORLD_GRID_SIZE, HOME_COORDINATE as HOME, worldCornerIds, worldGridBounds, worldGridSize } from '../domain/worldGrid';
 import { modNode, modRule, modWorldSpawns, modWorldVariants } from '../mods/modRules';
 import { WORLD_SPAWN_MAX_TIER, type ModNode, type ModWorldSpawn } from '../mods/modTypes';
 import { canPlaceNode, nodesOverlap, NODE_CLEARANCE } from './collisions';
 import { overlapsMaximumCampRadius } from '../domain/obstructionGeometry';
-import { getNodeSize } from '../domain/nodeGeometry';
+import { getNodeSize, guardedDepositPosition } from '../domain/nodeGeometry';
 import { getGoblinSettlementForMapTier, GOBLIN_CHECK_INTERVAL_MS } from '../content/goblinSettlements';
 import { GOLEM_COST_VERSION, GOLEM_MINERALS, GOLEM_NAMES, GOLEM_PLACEMENT_TIER, LEGACY_GOLEM_PLACEMENT_TIER, golemApCost, type GolemPlacementTier } from '../content/resourceGolems';
 import { getLizardSettlementForMapTier } from '../content/lizardSettlements';
@@ -439,14 +440,14 @@ export function getEncounterLayoutVersion(state: GameState): 1 | 2 {
 }
 
 export function sectorForState(state: GameState, x: number, y: number): SectorState {
-  return state.sectors[sectorId(x, y)] ?? generateSector(x, y, state.seed, Date.now(), state.research.completed, getGolemPlacementTier(state), getEncounterLayoutVersion(state), worldGridSize(state), state.fieldSizeScale, state.worldRulesVersion ?? 1, borderTerrainInsets(state, sectorId(x,y), fieldSizeForResearch(['areaExpansion2'], state.fieldSizeScale)));
+  return state.sectors[sectorId(x, y)] ?? generateSector(x, y, state.seed, Date.now(), state.research.completed, getGolemPlacementTier(state), getEncounterLayoutVersion(state), worldGridSize(state), state.fieldSizeScale, state.worldRulesVersion ?? 1, mapTerrain(state, sectorId(x,y)), borderTerrainInsets(state, sectorId(x,y), fieldSizeForResearch(['areaExpansion2'], state.fieldSizeScale)));
 }
 
-export function generateSector(x: number, y: number, seed: number, now = Date.now(), completedResearch: readonly string[] = [], golemTier: GolemPlacementTier = GOLEM_PLACEMENT_TIER, encounterLayoutVersion: 1 | 2 = golemTier === LEGACY_GOLEM_PLACEMENT_TIER ? 1 : 2, gridSize = DEFAULT_WORLD_GRID_SIZE, fieldSizeScale = 1, rules: 1 | 2 = 1, insets?: BorderTerrainInsets): SectorState {
+export function generateSector(x: number, y: number, seed: number, now = Date.now(), completedResearch: readonly string[] = [], golemTier: GolemPlacementTier = GOLEM_PLACEMENT_TIER, encounterLayoutVersion: 1 | 2 = golemTier === LEGACY_GOLEM_PLACEMENT_TIER ? 1 : 2, gridSize = DEFAULT_WORLD_GRID_SIZE, fieldSizeScale = 1, rules: 1 | 2 = 1, terrain?: import('../domain/mapTerrain').Terrain, insets?: BorderTerrainInsets): SectorState {
   const field = fieldSizeForResearch(completedResearch, fieldSizeScale);
   for (let attempt = 0; attempt < 64; attempt++) {
     const sector = tryGenerateSector(x, y, seed, now, golemTier, encounterLayoutVersion, gridSize, field, attempt, rules, insets);
-    if (sector) return sector;
+    if (sector) { sector.nodes = applyMapTerrain(sector.nodes, terrain); return sector; }
   }
   throw new Error(`No clear terrain layout on map ${x},${y}`);
 }
@@ -540,7 +541,7 @@ function tryGenerateSector(x: number, y: number, seed: number, now: number, gole
       const owner = placed.find(other => other.id === entry.guardedCampId && other.kind === 'monster-camp');
       if (!owner) return;
       // This reserve is part of its settlement, not an ordinary scattered deposit.
-      entry.x = owner.x; entry.y = owner.y;
+      Object.assign(entry, guardedDepositPosition(owner, entry));
       if (!clearsBorderTerrain(entry, field, insets) || !canPlaceNode(entry, placed, field)) return;
       placed.push(entry); continue;
     }

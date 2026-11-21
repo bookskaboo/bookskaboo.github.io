@@ -6,7 +6,6 @@ import { isPlayerMovableNode } from '../content/nodeModules';
 import { RECYCLER_BREAKDOWN_RECIPES, RECYCLER_RETURNS } from '../content/recycling';
 import { getResearchCosts, getResearchProject } from '../content/research';
 import { isRecipeAvailable } from '../content/recipeAvailability';
-import { RECIPES } from '../content/recipes';
 import { createInitialState, GameEngine } from './engine';
 import { createCornerNodes, initializeEndgame, simulateCorner } from './endgameRuntime';
 import { applyExpansionRescue, nextExpansionShortages, shortestRescuePath } from './expansionRescue';
@@ -78,33 +77,55 @@ describe('repeatable corner production and seeded assembly',()=>{
     box.output['reclamation-component']=10;node.input.slag=5;simulateCorner(state,sector,node);expect(node.input.slag).toBe(5);
   });
   it.each([0,1,2])('offers only the saved pair recipes for partition %i',pairIndex=>{
-    const state=createInitialState();initializeEndgame(state);state.endgame!.pairIndex=pairIndex;state.research.completed=['assembler','cornerComponents'];state.research.unlocked=[...state.research.completed];
+    const state=createInitialState();initializeEndgame(state);state.endgame!.pairIndex=pairIndex;state.research.completed=['assembler','complexCore'];state.research.unlocked=[...state.research.completed];
     expect(new Set(PAIRS[pairIndex].flat()).size).toBe(4);
     for(let p=0;p<3;p++)for(const half of ['a','b'])expect(isRecipeAvailable(`core-half-${half}-${p}`,state,'assembler')).toBe(p===pairIndex);
     expect(isRecipeAvailable('final-core',state,'assembler')).toBe(false);
     state.research.completed.push('finalCore');
     expect(isRecipeAvailable('final-core',state,'assembler')).toBe(true);
   });
-  it('completes End of the World on first Complex Core production even without a corner piece',()=>{
+  it('unlocks the halves directly from Complex Core with no separate End of the World entry',()=>{
     const state = createInitialState(20);
     state.research.completed.push('assembler', 'precisionControl', 'complexCore');
     state.research.unlocked.push('assembler');
-    const assembler = machine('advancedAssembler', 'complex');
-    const recipe = RECIPES['command-core'];
-    assembler.recipeId = recipe.id;
-    assembler.input = { ...recipe.inputs };
-    state.sectors['5,5'].nodes = [assembler];
+    state.sectors['5,5'].nodes = [];
     const engine = new GameEngine(state, { autosave: false });
-    const project = getResearchProject('cornerComponents')!;
-    expect(researchCardDetails(project, engine.getState()).complete).toBe(false);
-    ticks(engine, Math.ceil(recipe.cycleMs / 1000) + 1);
-    expect(engine.getState().produced?.['command-core']).toBe(1);
-    expect(researchCardDetails(project, engine.getState()).complete).toBe(true);
+    expect(getResearchProject('cornerComponents')).toBeUndefined();
+    expect(engine.getState().research.completed).not.toContain('cornerComponents');
+    ticks(engine, 1);
+    expect(engine.getState().produced?.['command-core'] ?? 0).toBe(0);
+    expect(engine.getState().research.completed).not.toContain('cornerComponents');
     expect(isRecipeAvailable(`core-half-a-${engine.getState().endgame!.pairIndex}`, engine.getState(), 'assembler')).toBe(true);
     expect(isRecipeAvailable('final-core', engine.getState(), 'assembler')).toBe(false);
   });
+  it('applies both half recipe effects in the payment cycle that unlocks Complex Core', () => {
+    const state = createInitialState(20);
+    state.research.completed = ['assembler', 'precisionControl', 'shinyCore'];
+    state.research.unlocked.push('assembler');
+    const lab = machine('researchCenter', 'lab');
+    lab.input = Object.fromEntries(SEVEN_CORES.slice(0, 5).map(core => [core, 5]));
+    state.sectors['5,5'].nodes = [lab];
+    const engine = new GameEngine(state, { autosave: false });
+    engine.selectResearch('complexCore');
+    ticks(engine, 24);
+    expect(engine.getState().research.completed).not.toContain('cornerComponents');
+    ticks(engine, 1);
+    expect(engine.getState().research.completed).toContain('complexCore');
+    expect(engine.getState().research.completed).not.toContain('cornerComponents');
+    expect(engine.getState().produced?.['command-core'] ?? 0).toBe(0);
+    expect(isRecipeAvailable(`core-half-a-${engine.getState().endgame!.pairIndex}`, engine.getState(), 'assembler')).toBe(true);
+    expect(isRecipeAvailable(`core-half-b-${engine.getState().endgame!.pairIndex}`, engine.getState(), 'assembler')).toBe(true);
+  });
+  it('does not substitute Complex Core stock or production for its research unlock', () => {
+    const state = createInitialState(20);
+    state.produced = { 'command-core': 1 };
+    state.globalPool = { 'command-core': 1 };
+    const engine = new GameEngine(state, { autosave: false });
+    ticks(engine, 1);
+    expect(engine.getState().research.completed).not.toContain('cornerComponents');
+  });
   it('produces both seeded halves and a Final Core through wired ordinary Assemblers',()=>{
-    const s=createInitialState(28);initializeEndgame(s);s.research.completed=['assembler','finalCore'];s.research.unlocked=['assembler','finalCore'];
+    const s=createInitialState(28);initializeEndgame(s);s.research.completed=['assembler','complexCore','finalCore'];s.research.unlocked=['assembler','complexCore','finalCore'];
     s.produced!['command-core'] = 1;
     const a=machine('assembler','a',600,500),b=machine('assembler','b',600,1100),final=machine('assembler','final',1700,800);
     a.recipeId=`core-half-a-${s.endgame!.pairIndex}`;b.recipeId=`core-half-b-${s.endgame!.pairIndex}`;final.recipeId='final-core';

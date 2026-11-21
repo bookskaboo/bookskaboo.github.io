@@ -1,0 +1,37 @@
+{
+  "focusedTests": 12,
+  "assignmentSweep": {
+    "seedsPerSize": 1000,
+    "supportedSizes": [
+      11,
+      13,
+      15,
+      17,
+      19,
+      21
+    ],
+    "totalAssignments": 6000
+  },
+  "previousFullStandardAssignmentUnchanged": true,
+  "downloadedSnapshotsVerified": [
+    11,
+    21
+  ],
+  "serializedHome": "5,5",
+  "largeBounds": [
+    -5,
+    15
+  ],
+  "all48ArtExportsUnchanged": true,
+  "previewTypeScript": "passed",
+  "previewBuild": "passed",
+  "browser": "All sizes, fixed Grasslands, JSON downloads, 390px layout and desktop 21x21 map verified; no warnings/errors; viewport reset",
+  "limits": [
+    "Proposal and isolated assignment fixture only",
+    "No actual sector generation, gameplay/save changes or balance run",
+    "Word rendering unavailable: bundled LibreOffice missing; structural preservation checks passed",
+    "No main-game build/full-suite repeat for isolated preview",
+    "No commit or publication"
+  ],
+  "reviewStatus": "Current art, resource, discovery and distribution review complete; runtime integration and validation pending"
+}

@@ -1,0 +1,28 @@
+{
+  "id": "NODE-0685",
+  "delivery": "local",
+  "changes": {
+    "adjacentHoleExplorationGate": false,
+    "appliesToExistingAndNewGames": true,
+    "physicalHolesAndFillingPreserved": true,
+    "savedQuotesAndPaidContributionsPreserved": true,
+    "terrainHeading": "Matches Resources heading font and size; uses the approved terrain accent.",
+    "borderRows": "Merged into Points of Interest with ordinary row subtext; no separate border heading."
+  },
+  "verification": {
+    "focusedTests": 151,
+    "fullWorkspace": {
+      "passed": 2027,
+      "skipped": 2,
+      "command": "npm test -- --testTimeout=15000"
+    },
+    "productionBuild": true,
+    "terrainAndBorderPreviewTypeScript": true,
+    "browser": "map-exploration-cleanup-browser.json",
+    "systemDocs": "map-exploration-cleanup-system-docs-check.log"
+  },
+  "limits": [
+    "Paused synthetic UI fixtures, not normal-play balance evidence.",
+    "No publication."
+  ]
+}

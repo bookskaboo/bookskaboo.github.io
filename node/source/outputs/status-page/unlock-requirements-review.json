@@ -1,0 +1,41 @@
+{
+  "date": "2026-11-20",
+  "scope": "Local Upgrades prototype",
+  "change": "Replace 0 Cores with actual discovery or prerequisite requirements; retain paid Core badges",
+  "examples": {
+    "Joint": "Connect two nodes",
+    "Kiln": "Extract 1 Wood with an Extractor",
+    "Smelter": "Extract 1 metal with an Extractor",
+    "Refiner": "Produce at least 1 metal Plate",
+    "Simple Core": "Unlock the Refiner",
+    "Research Center": "Unlock the Refiner",
+    "End of the World": "Produce 1 Complex Core"
+  },
+  "browser": {
+    "zeroCorePlaceholderCount": 0,
+    "paidMapCost": "5 Simple",
+    "paidAssemblerCost": "5 Simple",
+    "unlockGroupAccessibleName": "Kiln unlock requirement",
+    "mobileWidth": 390,
+    "mobileHorizontalOverflow": false,
+    "warningsAndErrors": []
+  },
+  "verification": {
+    "focusedPassed": 52,
+    "previewTypeScript": "passed",
+    "standaloneBuild": "passed",
+    "systemCatalogsAndLinks": "passed",
+    "wordStructuralReopen": "passed",
+    "wordRender": "Unavailable: LibreOffice soffice.exe missing"
+  },
+  "screenshots": [
+    "unlock-requirements-desktop.jpg",
+    "unlock-requirements-390.jpg"
+  ],
+  "limits": [
+    "Presentation-only; no unlock conditions or prices changed",
+    "Full suite not repeated for this isolated preview label change",
+    "Word visual layout remains unverified",
+    "No save, main-game adoption or publication change"
+  ]
+}

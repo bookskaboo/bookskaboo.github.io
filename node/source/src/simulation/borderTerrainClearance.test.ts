@@ -4,6 +4,7 @@ import { sectorForState, getWorldFieldSize } from './worldGeneration';
 import { borderTerrainInsets, clearsBorderTerrain } from './borderTerrainClearance';
 import { setActiveModRules } from '../mods/modRules';
 import { emptyMod } from '../mods/modTypes';
+import { footprintsOverlap } from '../domain/obstructionGeometry';
 
 afterEach(() => setActiveModRules());
 
@@ -21,7 +22,9 @@ it('keeps generated bodies clear of border artwork, including full camps and fut
         expect(clearsBorderTerrain(node,field,insets), `seed ${seed}, ${id}, ${node.kind}`).toBe(true);
         if (node.guardedCampId) {
           const camp = sector.nodes.find(n => n.id === node.guardedCampId)!;
-          expect([node.x,node.y]).toEqual([camp.x,camp.y]);
+          expect(node.y).toBe(camp.y);
+          expect(footprintsOverlap(node,{...camp,campStrength:10})).toBe(false);
+          expect(footprintsOverlap(node,{...camp,campStrength:20})).toBe(true);
         }
       }
       maps++;
@@ -43,7 +46,7 @@ it('preserves saved sectors and leaves legacy borders unreserved', () => {
 
 it('fails closed when a full-sized generated layout cannot fit a reservation', async () => {
   const { generateSector } = await import('./worldGeneration');
-  expect(() => generateSector(7,5,37,0,[],5,2,11,1,2,{north:2400,east:0,south:0,west:0})).toThrow('No clear terrain layout');
+  expect(() => generateSector(7,5,37,0,[],5,2,11,1,2,undefined,{north:2400,east:0,south:0,west:0})).toThrow('No clear terrain layout');
 });
 
 it.each([[0,9,4,4,1],[2,6,2,1,4]])('fits a border-adjacent Lake without reducing its area on asymmetric fields (%i,%i,%i)', (seed,x,y,width,height) => {

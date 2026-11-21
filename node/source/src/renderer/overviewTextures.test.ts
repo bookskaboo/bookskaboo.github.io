@@ -1,9 +1,21 @@
 import { Container, Graphics, Texture, type Renderer } from 'pixi.js';
 import { describe, expect, it, vi } from 'vitest';
-import { OverviewTextures } from './overviewTextures';
+import { OverviewTextures, setOverviewArtworkVisibility } from './overviewTextures';
 import { CableLayers } from './cableLayers';
 
 describe('overview artwork and live overlays', () => {
+  it('restores live socket details over shared artwork and returns cleanly to either zoom mode', () => {
+    const body = new Graphics(), socket = new Container(), shape = new Graphics(), boxes = new Graphics(), badge = new Container();
+    socket.label = 'socket:input:0'; boxes.label = 'live-overlay'; badge.label = 'port-label';
+    socket.addChild(shape, boxes, badge);
+    setOverviewArtworkVisibility([body, socket], true, true);
+    expect(body.renderable).toBe(false); expect(socket.renderable).toBe(true);
+    expect(shape.renderable).toBe(false); expect(boxes.renderable).toBe(true); expect(badge.renderable).toBe(true);
+    setOverviewArtworkVisibility([body, socket], true, false); expect(socket.renderable).toBe(false);
+    setOverviewArtworkVisibility([body, socket], false, true);
+    expect(body.renderable).toBe(true); expect(shape.renderable).toBe(true); expect(boxes.renderable).toBe(true);
+    body.destroy(); socket.destroy({ children: true });
+  });
   it('shares artwork across nodes while keeping progress, stock and arrival effects out of the image', () => {
     const cache = new OverviewTextures(), root = new Container(); root.position.set(900, 500);
     const body = new Graphics().rect(-100, -60, 200, 120).fill(0xffffff);

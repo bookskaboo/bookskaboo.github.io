@@ -75,7 +75,7 @@ describe('Research milestones', () => {
     const [automataResearch] = expectPrimary(game, { kind: 'research', id: 'automataCore' });
     game.research.completed.push('automataCore');
     const [automataProduction] = expectPrimary(game, { kind: 'recipe', id: 'automata-core' });
-    expect(automataProduction).toMatchObject({ title: automataResearch.title, detail: automataResearch.detail });
+    expect(automataProduction).toMatchObject({ title: 'Automata Core', detail: automataResearch.detail });
     game.produced!['automata-core'] = 1;
     expectPrimary(game, { kind: 'research', id: 'fabricatorTools' });
   });
@@ -83,7 +83,7 @@ describe('Research milestones', () => {
   it('switches from a thirst clue to Water production, with a separate Golem clue and Survey', () => {
     const game = campaign(throughAutomata);
     const [hint] = expectPrimary(game, { kind: 'research', id: 'mapNode' }, 'The factory is thirsty');
-    expect(hint.detail).toMatch(/very large puddle/);
+    expect(hint.detail).toMatch(/Dry land has its limits/);
     expect(hint.detail).not.toMatch(/lake/i);
     game.research.mapPoints = 1;
     expect(expectPrimary(game, { kind: 'map' })[0].detail).toBe(hint.detail);
@@ -135,7 +135,7 @@ describe('Research milestones', () => {
     game.research.completed.push('precisionControl');
     expectPrimary(game, { kind: 'research', id: 'complexCore' });
     game.research.completed.push('complexCore');
-    expectPrimary(game, { kind: 'recipe', id: 'command-core' });
+    expectPrimary(game, { kind: 'research', id: 'mapNode' });
   });
 
   it('keeps the milestone choices focused on progression when a reserve runs out', () => {
@@ -163,7 +163,7 @@ describe('Research milestones', () => {
   });
 
   it.each([0, 1, 2])('uses the world’s pairings (%s) and then points to the actual victory research', pairIndex => {
-    const game = campaign([...throughComplex, 'treePlanter', 'cornerComponents'], { 'command-core': 1 });
+    const game = campaign([...throughComplex, 'treePlanter'], { 'command-core': 1 });
     const cornerOrder: CornerType[] = ['alpha', 'foundry', 'reclamation', 'grove'];
     game.endgame = { version: 1, pairIndex, cornerOrder };
     CORNER_MAPS.forEach(id => addSector(game, id, true));

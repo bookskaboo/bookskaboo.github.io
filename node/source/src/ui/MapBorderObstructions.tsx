@@ -27,9 +27,8 @@ export function MapBorderMarkers({ game }: { game: GameState }) {
       style={{ gridColumn: `${Math.min(x, ox) - min + 1} / ${Math.max(x, ox) - min + 2}`, gridRow: `${Math.min(y, oy) - min + 1} / ${Math.max(y, oy) - min + 2}`, '--border-color': BORDER_ART.find(art => art.id === edge.kind)!.color } as CSSProperties}><BorderSymbol kind={edge.kind} horizontal={horizontal} /></span>;
   });
 }
-export function MapBorderSummary({ game, id }: { game: GameState; id: string }) {
-  if (game.borderObstructionVersion !== 1) return null;
+export function mapBorderPointsOfInterest(game: GameState, id: string) {
+  if (game.borderObstructionVersion !== 1) return [];
   const edges = sectorBorderObstructions(game, id).filter(edge => game.sectors[edge.from]?.visited || game.sectors[edge.to]?.visited);
-  if (!edges.length && !game.sectors[id]?.visited) return null;
-  return <section className="map-survey-list border-map-details" aria-label="Border obstructions"><h3>Border obstructions</h3>{edges.length ? <ul>{edges.map(edge => <li key={`${edge.from}:${edge.to}`}><BorderSymbol kind={edge.kind} /><span>{SIDE_LABELS[borderSide(id, edge.from === id ? edge.to : edge.from)]} · {BORDER_NAMES[edge.kind]}</span></li>)}</ul> : <p>No border obstructions.</p>}</section>;
+  return edges.map(edge => ({ name: `${SIDE_LABELS[borderSide(id, edge.from === id ? edge.to : edge.from)]} · ${BORDER_NAMES[edge.kind]}` }));
 }

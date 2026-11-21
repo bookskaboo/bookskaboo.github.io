@@ -1,0 +1,25 @@
+{
+  "svgTilesParsed": 16,
+  "distinctVariantsPerTerrain": 4,
+  "downloadedSvgsParsed": 4,
+  "downloadedRuleSnapshotVerified": true,
+  "standaloneInlineScriptAndStyle": true,
+  "proposalLocalLinksChecked": 14,
+  "focusedTests": "4 passed, including 1000 seeded worlds",
+  "checks": [
+    "Preview TypeScript",
+    "Preview build",
+    "Main game production build",
+    "Six catalog generation and freshness",
+    "System documentation local links",
+    "Desktop and 390px browser review"
+  ],
+  "word": "Previous paragraphs/tables preserved; both reopen. Render failed: bundled LibreOffice soffice.exe unavailable.",
+  "limits": [
+    "No runtime integration",
+    "No combined game-generator or progression sweep",
+    "No normal-play balance run",
+    "Full gameplay suite not repeated for isolated unused preview",
+    "No commit or publication"
+  ]
+}

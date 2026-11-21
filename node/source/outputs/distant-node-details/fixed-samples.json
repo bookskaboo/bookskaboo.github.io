@@ -1,0 +1,110 @@
+[
+  {
+    "mode": "hidden",
+    "benchmark": {
+      "frameP95": 58.399999999999636,
+      "frameP99": 83.39999999999964,
+      "tickP95": 22.600000023841858,
+      "slowFrames": 252,
+      "count": 746,
+      "seconds": 25,
+      "meanFrameMs": 33.51206434316354,
+      "averageFps": 29.84,
+      "complete": true
+    },
+    "renderer": {
+      "nodesCreated": 2400,
+      "nodesDestroyed": 0,
+      "particleObjectsCreated": 64,
+      "visibleNodes": 2400,
+      "totalNodes": 2400,
+      "activeParticles": 64,
+      "pooledParticles": 0,
+      "overviewTextures": 13,
+      "cableChunks": 77,
+      "cachedCables": true
+    },
+    "activity": "2400 nodes\n360 producers\n3330 connections\n840 Splitters\n840 Mergers\n255 cycling\n52 materials in transit\n1,237 produced\n279 delivered\n42 s elapsed\n27 page FPS\n4.0 ms last tick\n58.4 ms p95 frame"
+  },
+  {
+    "mode": "restored",
+    "benchmark": {
+      "frameP95": 108.40000000000873,
+      "frameP99": 133.1999999999971,
+      "tickP95": 23,
+      "slowFrames": 320,
+      "count": 320,
+      "seconds": 25,
+      "meanFrameMs": 78.125,
+      "averageFps": 12.8,
+      "complete": true
+    },
+    "renderer": {
+      "nodesCreated": 7200,
+      "nodesDestroyed": 4800,
+      "particleObjectsCreated": 128,
+      "visibleNodes": 2400,
+      "totalNodes": 2400,
+      "activeParticles": 63,
+      "pooledParticles": 1,
+      "overviewTextures": 17,
+      "cableChunks": 77,
+      "cachedCables": true
+    },
+    "activity": "2400 nodes\n360 producers\n3330 connections\n840 Splitters\n840 Mergers\n254 cycling\n48 materials in transit\n1,386 produced\n323 delivered\n47 s elapsed\n15 page FPS\n22.0 ms last tick\n108.4 ms p95 frame"
+  },
+  {
+    "mode": "hidden",
+    "benchmark": {
+      "frameP95": 41.69999999999709,
+      "frameP99": 66.69999999999709,
+      "tickP95": 18.5,
+      "slowFrames": 95,
+      "count": 1108,
+      "seconds": 25,
+      "meanFrameMs": 22.56317689530686,
+      "averageFps": 44.32,
+      "complete": true
+    },
+    "renderer": {
+      "nodesCreated": 12000,
+      "nodesDestroyed": 9600,
+      "particleObjectsCreated": 192,
+      "visibleNodes": 2400,
+      "totalNodes": 2400,
+      "activeParticles": 64,
+      "pooledParticles": 0,
+      "overviewTextures": 17,
+      "cableChunks": 77,
+      "cachedCables": true
+    },
+    "activity": "2400 nodes\n360 producers\n3330 connections\n840 Splitters\n840 Mergers\n251 cycling\n61 materials in transit\n1,487 produced\n343 delivered\n50 s elapsed\n42 page FPS\n2.9 ms last tick\n41.7 ms p95 frame"
+  },
+  {
+    "mode": "restored",
+    "benchmark": {
+      "frameP95": 116.5,
+      "frameP99": 133.39999999999418,
+      "tickP95": 20.100000023841858,
+      "slowFrames": 318,
+      "count": 318,
+      "seconds": 25,
+      "meanFrameMs": 78.61635220125787,
+      "averageFps": 12.719999999999999,
+      "complete": true
+    },
+    "renderer": {
+      "nodesCreated": 16800,
+      "nodesDestroyed": 14400,
+      "particleObjectsCreated": 256,
+      "visibleNodes": 2400,
+      "totalNodes": 2400,
+      "activeParticles": 64,
+      "pooledParticles": 0,
+      "overviewTextures": 17,
+      "cableChunks": 77,
+      "cachedCables": true
+    },
+    "activity": "2400 nodes\n360 producers\n3330 connections\n840 Splitters\n840 Mergers\n268 cycling\n82 materials in transit\n1,973 produced\n454 delivered\n66 s elapsed\n8 page FPS\n21.8 ms last tick\n116.5 ms p95 frame"
+  }
+]

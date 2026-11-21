@@ -1,0 +1,42 @@
+{
+  "date": "2026-11-19",
+  "scope": "Local Status prototype, no live adoption or publication",
+  "behavior": [
+    "Always-visible hint; no hold control",
+    "Previous/Next triangles only; disabled at history limits",
+    "Existing eligibility gates admit hints before they enter local history",
+    "Primary hint automatically selected when world progress changes it",
+    "Keyboard arrows and wheel browsing verified",
+    "Assignment -> Forest -> Copper -> Charcoal, backwards to assignment verified",
+    "Author review retains 46 rows, nine supporting eligible labels"
+  ],
+  "finalLayout": {
+    "height": "Fits complete hint text",
+    "padding": "12px 14px 10px",
+    "navigationGap": "2px",
+    "desktopAssignmentHeight": 120.601,
+    "desktopForestHeight": 85.8173,
+    "copyScrollHeightEqualsClientHeight": true,
+    "mobileWidth": 390,
+    "mobileHorizontalOverflow": false
+  },
+  "screenshots": [
+    "hint-triangles-desktop.jpg",
+    "hint-triangles-390.jpg"
+  ],
+  "checks": {
+    "focusedTests": 43,
+    "workspacePassed": 1864,
+    "workspaceSkipped": 2,
+    "previewTypeScript": "passed",
+    "standaloneBuild": "passed",
+    "mainBuild": "passed with existing large-chunk warning",
+    "systemCatalogsAndLinks": "passed",
+    "browserWarningsAndErrors": []
+  },
+  "limits": [
+    "Fixtures are paused local examples, not a normal-play balance run",
+    "Hint browsing history is local to the mounted example, not saved campaign history",
+    "Word references structurally reopen; visual rendering unavailable because LibreOffice soffice.exe is missing"
+  ]
+}

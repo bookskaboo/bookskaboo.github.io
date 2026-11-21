@@ -1,4 +1,4 @@
-/* Shared UI type roles. See docs/node-ui-style-guide.docx. */
+/* Shared UI type roles. See docs/node-ui-style-guide.md. */
 :root {
   --ui-font-family: "Segoe UI Variable Text", "Segoe UI", Inter, Arial, sans-serif;
   --ui-mono-family: "Cascadia Mono", Consolas, ui-monospace, monospace;
@@ -290,4 +290,3 @@ kbd, .modal-trigger-strip .rail-button kbd, .command-row kbd { font:400 12px/1.2
 
 
 /* Locked map cells remain inspectable; details explain the blocking terrain. */
-.node-map-sector.exploration-blocked { filter:grayscale(1); opacity:.65; background:#34363a; border-color:#737780; }

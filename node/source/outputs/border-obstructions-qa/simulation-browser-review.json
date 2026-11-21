@@ -1,0 +1,53 @@
+{
+  "rejectedNorthWithEastAndWest": {
+    "edges": [
+      {
+        "side": "east",
+        "transform": "matrix(.7 0 0 1.12 735 100)"
+      },
+      {
+        "side": "west",
+        "transform": "matrix(.7 0 0 1.12 -105 100)"
+      }
+    ],
+    "message": "North and East would form a right angle. Clear the adjacent obstruction first.",
+    "values": [
+      {
+        "side": "north",
+        "value": ""
+      },
+      {
+        "side": "east",
+        "value": "river"
+      },
+      {
+        "side": "south",
+        "value": ""
+      },
+      {
+        "side": "west",
+        "value": "mountain"
+      }
+    ]
+  },
+  "mobile": {
+    "contentWidth": 375,
+    "controlWidths": [
+      163.3052978515625,
+      163.3173065185547,
+      163.3052978515625,
+      163.3173065185547
+    ],
+    "width": 390
+  },
+  "checked": [
+    "whole current Map Node and adjacent fields",
+    "unchanged terrain width centered on boundary",
+    "east/west river and mountain halves",
+    "north/south chasm and river halves",
+    "adjacent additions rejected without changing occupied sides",
+    "clear before changing orientation",
+    "desktop and narrow selectors"
+  ],
+  "logs": []
+}

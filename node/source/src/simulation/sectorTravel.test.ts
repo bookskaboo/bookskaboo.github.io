@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { cameraViewport, clampFieldCamera, DEFAULT_MIN_CAMERA_ZOOM, sectorOverviewCamera } from '../domain/camera';
+import { cameraViewport, clampFieldCamera, DEFAULT_MIN_CAMERA_ZOOM, sectorOverviewCamera, sectorTravelCamera } from '../domain/camera';
 import { createInitialState, GameEngine } from './engine';
 import { generateSector, getSectorWorldSize, getWorldFieldSize } from './worldGeneration';
 
@@ -29,7 +29,7 @@ it('keeps the largest old field as a shared baseline after loading and discoveri
   expect(getWorldFieldSize(restored.getState())).toEqual({ width: 7200, height: 4800 });
 });
 
-describe('first-entry sector overview', () => {
+describe('field overview and scripted sector switches', () => {
   it('fits the whole field below navigation at the furthest zoom across viewport and expanded field sizes', () => {
     for (const [x, y] of [[6, 5], [8, 5], [0, 0]]) {
       for (const [width, height, top] of [[640, 720, 110], [800, 600, 132], [1280, 720, 95], [1920, 1080, 111]]) {
@@ -120,5 +120,67 @@ describe('first-entry sector overview', () => {
     const engine = new GameEngine(state, { autosave: false });
     engine.switchSector(outpost.id, { x: 0, y: 0, zoom: DEFAULT_MIN_CAMERA_ZOOM });
     expect(engine.getSector().camera).toEqual({ x: -123, y: -456, zoom: .72 });
+  });
+});
+
+describe('player travel carries the current zoom', () => {
+  const viewport = { width: 1280, height: 720, top: 95 };
+
+  it('retains zoom on first entry, revisits and travel after reloading', () => {
+    const engine = new GameEngine(createInitialState(204), { autosave: false });
+    engine.getState().research.mapPoints = 1;
+    expect(engine.unlockSector(6, 5)).toBe(true);
+    engine.setCamera({ x: -100, y: -200, zoom: .8 });
+    engine.travelToSector('6,5', viewport);
+    expect(engine.getSector().visited).toBe(true);
+    expect(engine.getSector().camera.zoom).toBe(.8);
+    const usable = cameraViewport(viewport), camera = engine.getSector().camera;
+    expect((usable.x + usable.width / 2 - camera.x) / camera.zoom).toBeCloseTo(1800);
+    expect((usable.y + usable.height / 2 - camera.y) / camera.zoom).toBeCloseTo(1200);
+    engine.setCamera({ ...camera, zoom: 1.2 });
+    engine.travelToSector('5,5', viewport);
+    expect(engine.getSector().camera.zoom).toBe(1.2);
+    const restored = new GameEngine(structuredClone(engine.getState()), { autosave: false });
+    restored.setCamera({ ...restored.getSector().camera, zoom: .6 });
+    restored.travelToSector('6,5', viewport);
+    expect(restored.getSector().camera.zoom).toBe(.6);
+  });
+
+  it('retains the destination world-space center while adopting a different zoom', () => {
+    const world = { width: 3600, height: 2400 }, usable = cameraViewport(viewport);
+    const saved = { x: -300, y: -400, zoom: .8 };
+    const next = sectorTravelCamera(1.2, world, viewport, saved);
+    expect(next.zoom).toBe(1.2);
+    expect((usable.x + usable.width / 2 - next.x) / next.zoom).toBeCloseTo((usable.x + usable.width / 2 - saved.x) / saved.zoom);
+    expect((usable.y + usable.height / 2 - next.y) / next.zoom).toBeCloseTo((usable.y + usable.height / 2 - saved.y) / saved.zoom);
+  });
+
+  it('leaves locked, missing and current map views unchanged', () => {
+    const engine = new GameEngine(createInitialState(204), { autosave: false });
+    engine.getState().sectors['6,5'] = generateSector(6, 5, 204, 0);
+    const before = structuredClone(engine.getState());
+    for (const id of ['6,5', 'absent', '5,5']) engine.travelToSector(id, viewport);
+    expect(engine.getState()).toEqual(before);
+  });
+
+  it('can retain a wider review overview without changing ordinary campaign bounds', () => {
+    const engine = new GameEngine(createInitialState(204), { autosave: false });
+    engine.getState().research.mapPoints = 1;
+    expect(engine.unlockSector(6, 5)).toBe(true);
+    const field = getWorldFieldSize(engine.getState());
+    engine.setCamera({ x: 60, y: 150, zoom: .18 });
+    engine.travelToSector('6,5', viewport, { width: field.width*2, height: field.height*2 });
+    expect(engine.getSector().camera.zoom).toBe(.18);
+    engine.travelToSector('5,5', viewport);
+    expect(engine.getSector().camera.zoom).toBe(sectorOverviewCamera(field, viewport).zoom);
+  });
+
+  it.each([[640, 720, 110], [1920, 1080, 111]])('keeps zoom within field bounds at %i × %i', (width, height, top) => {
+    const world = { width: 5400, height: 3600 }, viewport = { width, height, top };
+    for (const zoom of [.25, .8, 2.2]) {
+      const next = sectorTravelCamera(zoom, world, viewport, { x: 10000, y: -10000, zoom: .5 });
+      expect(next.zoom).toBe(zoom);
+      expect(clampFieldCamera(next, world, viewport)).toEqual(next);
+    }
   });
 });

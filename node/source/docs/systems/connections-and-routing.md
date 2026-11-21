@@ -6,13 +6,17 @@ Connections join compatible output and input sockets within a Map Node. Socket f
 
 ## Socket rules
 
-Configure recipe machines before wiring. Their effective sockets come from the selected ingredients and products. Visual input/output order, rotation and Connector Mirroring preserve semantic port indexes, so rearranging a bank does not change which ingredient a cable supplies.
+Configure recipe machines before wiring. Their effective sockets come from the selected ingredients and products. Connector Mirroring is a Complex-tier utility project: it requires Complex Core research and costs 10 each of Simple, Basic, Automata, Hydro, Shiny and Complex Cores. Visual input/output order, rotation and Connector Mirroring preserve semantic port indexes, so rearranging a bank does not change which ingredient a cable supplies.
 
 Generic families include ANY, RESOURCE, METAL, PLATE, CORE, WASTE, ROBOT_FRAME, ROBOT_WEAPON and ATTACK_POWER. ANY excludes deferred Power and Forest Growth. The general fluid classifier includes Water, Coolant and Copper Slurry, while the FLUID socket family currently accepts Water and Coolant. A generic socket does not override Road, vehicle, Recycler or natural-resource restrictions.
 
 Natural reserves feed Extractors directly or through permitted pass-through routing. Inventory outputs feed Filters. Both ends of a Road require a directly connected freight vehicle. Forest Growth uses a dedicated matching socket. A Stone reserve cannot fill a Deep Hole without extraction. New-world guarded reserves reject new extraction connections until fully suppressed; retained connections pause during suppression loss. Once unlocked, the interior deposit’s outgoing cable may cross its own camp border, while other obstructions and unrelated cables remain blocked. New-world Lakes connect directly only to Lake Intakes, with a research-based limit of two/three/four distinct Intakes.
 
+Guarded camps also have a system-owned refill connection, visible only while fully suppressed. Its dedicated camp output and deposit inlet cannot be used by player wiring, routing or cable deletion. It depicts the existing reserve regeneration with actual awarded quantities; it is not an ordinary cargo connection, consumes no player socket capacity and adds no second stockpile. The centered AP input and resource-to-Extractor route remain ordinary player connections. See [guarded refill behavior](encounters-and-obstructions.md#automatic-reserve-refill-connection).
+
 ## Routing nodes
+
+Splitter and Merger unlock together automatically when the factory produces its first Simple Core. Their shared requirement is Produce 1 Simple Core. Stock alone, other Refiner output, Assembler construction and Basic Core production do not count. Previously completed routing research remains completed.
 
 | Node | Rule |
 | --- | --- |

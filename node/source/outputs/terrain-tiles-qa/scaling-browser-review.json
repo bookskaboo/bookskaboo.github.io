@@ -1,0 +1,88 @@
+{
+  "sizes": [
+    {
+      "cells": 121,
+      "fixed": [
+        "0,0 Grassland Corner",
+        "10,0 Grassland Corner",
+        "5,5 Grassland Home",
+        "0,10 Grassland Corner",
+        "10,10 Grassland Corner"
+      ],
+      "size": 11,
+      "summary": "Seed 2718. 11 × 11 · 121 maps: 30 Badlands, 31 Grassland, 30 Desert, 30 Rocky. Home and four corners: Grassland."
+    },
+    {
+      "cells": 169,
+      "fixed": [
+        "-1,-1 Grassland Corner",
+        "11,-1 Grassland Corner",
+        "5,5 Grassland Home",
+        "-1,11 Grassland Corner",
+        "11,11 Grassland Corner"
+      ],
+      "size": 13,
+      "summary": "Seed 2718. 13 × 13 · 169 maps: 42 Badlands, 43 Grassland, 42 Desert, 42 Rocky. Home and four corners: Grassland."
+    },
+    {
+      "cells": 225,
+      "fixed": [
+        "-2,-2 Grassland Corner",
+        "12,-2 Grassland Corner",
+        "5,5 Grassland Home",
+        "-2,12 Grassland Corner",
+        "12,12 Grassland Corner"
+      ],
+      "size": 15,
+      "summary": "Seed 2718. 15 × 15 · 225 maps: 56 Badlands, 57 Grassland, 56 Desert, 56 Rocky. Home and four corners: Grassland."
+    },
+    {
+      "cells": 289,
+      "fixed": [
+        "-3,-3 Grassland Corner",
+        "13,-3 Grassland Corner",
+        "5,5 Grassland Home",
+        "-3,13 Grassland Corner",
+        "13,13 Grassland Corner"
+      ],
+      "size": 17,
+      "summary": "Seed 2718. 17 × 17 · 289 maps: 72 Badlands, 73 Grassland, 72 Desert, 72 Rocky. Home and four corners: Grassland."
+    },
+    {
+      "cells": 361,
+      "fixed": [
+        "-4,-4 Grassland Corner",
+        "14,-4 Grassland Corner",
+        "5,5 Grassland Home",
+        "-4,14 Grassland Corner",
+        "14,14 Grassland Corner"
+      ],
+      "size": 19,
+      "summary": "Seed 2718. 19 × 19 · 361 maps: 90 Badlands, 91 Grassland, 90 Desert, 90 Rocky. Home and four corners: Grassland."
+    },
+    {
+      "cells": 441,
+      "fixed": [
+        "-5,-5 Grassland Corner",
+        "15,-5 Grassland Corner",
+        "5,5 Grassland Home",
+        "-5,15 Grassland Corner",
+        "15,15 Grassland Corner"
+      ],
+      "size": 21,
+      "summary": "Seed 2718. 21 × 21 · 441 maps: 110 Badlands, 111 Grassland, 110 Desert, 110 Rocky. Home and four corners: Grassland."
+    }
+  ],
+  "logs": [],
+  "checks": [
+    "All six sizes update automatically with exact counts",
+    "Five fixed Grassland maps and serialized Home 5,5 at all sizes",
+    "Matching 11x11 and 21x21 JSON downloads",
+    "21-column 441-cell grid",
+    "390px layout without horizontal overflow",
+    "Mobile world controls/map visually checked",
+    "Viewport reset"
+  ],
+  "selectedSummary": "Seed 2718. 21 × 21 · 441 maps: 110 Badlands, 111 Grassland, 110 Desert, 110 Rocky. Home and four corners: Grassland.",
+  "url": "http://127.0.0.1:4186/outputs/terrain-tiles-page/terrain-proposal.html#spawning"
+}

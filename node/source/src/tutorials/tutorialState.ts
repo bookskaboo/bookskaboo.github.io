@@ -10,6 +10,8 @@ export function tutorialNode(kind: NodeKind, id: string, x: number, y: number, e
 export function createTutorialState(kind: TutorialKind, board = ''): GameState {
   const state = createInitialState(1);
   state.isTraining=true;
+  state.mapTerrainVersion = 0;
+  delete state.mapTerrains;
   state.events = [];
   const sector = state.sectors[state.activeSectorId];
   sector.name = `${TUTORIAL_NAMES[kind]} practice`;

@@ -1,0 +1,47 @@
+{
+  "date": "2026-11-20",
+  "scope": "Local Upgrades prototype default research-card queue interaction",
+  "behavior": [
+    "Queue slots visible from initial open; no picking mode",
+    "Single-click selects with visible outline/pressed state without queueing or starting research",
+    "Double-click appends exactly once",
+    "Green Queue research action appends the selected card, including keyboard activation",
+    "Research enabled by default; explicit pause retained",
+    "No selection, locked/automatic/completed, duplicate and full-queue attempts retain the existing queue and explain the issue",
+    "Bot upgrade manual priority and disabling behavior not changed; next sequential review item"
+  ],
+  "checks": {
+    "previewTypeScript": "passed",
+    "targetedVitest": {
+      "passedTests": 72,
+      "passedFiles": 9,
+      "command": "npx vitest run previews/status-page/ src/ui/ResearchPanel.test.tsx src/ui/researchPresentation.test.ts src/simulation/researchQueue.test.ts"
+    },
+    "standaloneBuild": "passed",
+    "mainBuild": "passed; existing chunk-size warning",
+    "systemCatalogGenerationAndCheck": "6 catalogs and 39 local documentation files passed"
+  },
+  "browser": {
+    "url": "http://127.0.0.1:4194/outputs/status-page/status-modal.html",
+    "viewport": [
+      1280,
+      720
+    ],
+    "observed": [
+      "Four empty slots visible on initial open; green Queue research is an action with no pressed toggle state; Pause research is initially available",
+      "No selection prompts Select a research card from the list first",
+      "Single-click Assembler selects it but queues nothing; unavailable initial Assembler rejects with Requires Refiner",
+      "In live synthetic lab, single-click Extractor 1 leaves queue empty; double-click adds exactly one active Extractor card",
+      "Queue research on same selection shows duplicate explanation and keeps one card",
+      "Single-click Kiln then button appends it; Enter selects Research Center then Enter on Queue research appends it",
+      "Smelter double-click fills fourth slot; fifth Assembler attempt reports Queue full",
+      "Pause, remove Smelter, then queue Assembler works while paused and retains Extractor paid 10/30",
+      "Supply while paused retains 10/30; resume processes one ordinary complete Core set after a normal interval to 12/30",
+      "Selected card remains outlined while details remain hidden; final example left paused",
+      "No captured browser warnings or errors"
+    ],
+    "screenshot": "outputs/status-page/card-queue-action-review.jpg"
+  },
+  "documentation": "Current Markdown style guide/review notes updated under NODE-0674. Original Word snapshots were preserved.",
+  "limits": "Synthetic lab, not normal-play balance. No fresh full-suite or narrow-viewport run. Shared ResearchCard adds optional selection/double-click props; main ResearchPanel does not opt into new interaction. No campaign save writes, commit or publication."
+}

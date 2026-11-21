@@ -9,7 +9,7 @@ import { getPortAnchor } from '../renderer/nodeLayout';
 import { getPortSide } from './connectionRules';
 import { createInitialState, GameEngine } from './engine';
 
-const cores: ItemId[] = ['simple-core', 'basic-core', 'automata-core', 'hydro-core'];
+const cores: ItemId[] = ['simple-core', 'basic-core', 'automata-core', 'hydro-core', 'shiny-core', 'command-core'];
 const machine = (kind: NodeKind, id = kind): MachineNode => ({
   id, kind, name: kind, x: 1000, y: 1000, rotation: 0,
   input: {}, output: {}, progressMs: 0, cycleMs: 1000, constructedAt: 0, constructionMs: 0,
@@ -19,19 +19,42 @@ const machine = (kind: NodeKind, id = kind): MachineNode => ({
 function setup(nodes: MachineNode[], researched = false) {
   const state = createInitialState(700);
   state.sectors['5,5'].nodes = nodes;
-  state.research.completed = ['hydraulicAssembly', ...(researched ? [CONNECTOR_MIRRORING_RESEARCH] : [])];
+  state.research.completed = [researched ? 'hydraulicAssembly' : 'complexCore', ...(researched ? [CONNECTOR_MIRRORING_RESEARCH] : [])];
   return new GameEngine(state, { autosave: false });
 }
 
 describe('Connector Mirroring', () => {
-  it('requires Hydraulic Assembly and 10 of every core through tier 4', () => {
+  it('retains an old active Hydro bill until Complex access and then only charges outstanding Cores', () => {
+    const initial = createInitialState(700);
+    initial.research.completed = ['hydraulicAssembly'];
+    initial.research.selected = CONNECTOR_MIRRORING_RESEARCH;
+    const paid = Object.fromEntries(cores.slice(0, 4).map(core => [core, 10]));
+    initial.research.contributed = paid;
+    initial.sectors['5,5'].nodes = [machine('researchCenter')];
+    const engine = new GameEngine(normalizeLegacy(JSON.parse(JSON.stringify(initial)))!, { autosave: false });
+    const state = engine.getState();
+    expect(state.research.selected).toBeUndefined();
+    expect(state.research.projectContributions?.[CONNECTOR_MIRRORING_RESEARCH]).toEqual(paid);
+    state.research.completed.push('complexCore');
+    engine.selectResearch(CONNECTOR_MIRRORING_RESEARCH);
+    expect(state.research.contributed).toEqual(paid);
+    const lab = engine.getSector().nodes.find(node => node.kind === 'researchCenter')!;
+    lab.input = { 'shiny-core': 10, 'command-core': 10 };
+    for (let step = 0; step < 50; step++) engine.tick(1000);
+    expect(state.research.completed).toContain(CONNECTOR_MIRRORING_RESEARCH);
+    expect(lab.input['shiny-core']).toBe(0);
+    expect(lab.input['command-core']).toBe(0);
+  });
+
+  it('requires Complex Core research and 10 of every Core through Complex', () => {
     const project = RESEARCH_PROJECTS.find(project => project.id === CONNECTOR_MIRRORING_RESEARCH)!;
     expect(project.costs).toEqual(Object.fromEntries(cores.map(core => [core, 10])));
     expect(isResearchAvailable(project, ['automataCore'])).toBe(false);
-    expect(isResearchAvailable(project, ['hydraulicAssembly'])).toBe(true);
+    expect(isResearchAvailable(project, ['hydraulicAssembly', 'hydroCore', 'shinyCore'])).toBe(false);
+    expect(isResearchAvailable(project, ['complexCore'])).toBe(true);
   });
 
-  it('stays locked until all 10 four-core sets are paid', () => {
+  it('stays locked until all 10 six-Core sets are paid', () => {
     const engine = setup([machine('researchCenter'), machine('extractor')]);
     const state = engine.getState();
     const lab = engine.getSector().nodes.find(node => node.kind === 'researchCenter')!;
@@ -47,6 +70,12 @@ describe('Connector Mirroring', () => {
     expect(lab.input['simple-core']).toBe(1);
     expect(engine.mirrorProductionConnectors('extractor')).toBe(false);
     lab.input['hydro-core'] = 1;
+    lab.input['shiny-core'] = 1;
+    for (let cycleStep = 0; cycleStep < 5; cycleStep++) engine.tick(1000);
+    expect(state.research.contributed['command-core']).toBe(9);
+    expect(lab.input['shiny-core']).toBe(1);
+    expect(engine.mirrorProductionConnectors('extractor')).toBe(false);
+    lab.input['command-core'] = 1;
     for (let cycleStep = 0; cycleStep < 5; cycleStep++) engine.tick(1000);
     expect(cores.every(core => lab.input[core] === 0)).toBe(true);
     expect(state.research.completed).toContain(CONNECTOR_MIRRORING_RESEARCH);

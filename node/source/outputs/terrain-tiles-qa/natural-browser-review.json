@@ -1,0 +1,32 @@
+{
+  "state": {
+    "draft": "natural",
+    "overflow": false,
+    "terrains": [
+      "Badlands",
+      "Grassland",
+      "Desert",
+      "Rocky"
+    ],
+    "tileSize": [
+      "768",
+      "768",
+      "768",
+      "768"
+    ],
+    "world": "Seed 2718. 121 maps: 30 Badlands, 31 Grassland, 30 Desert, 30 Rocky. Home and four corners: Grassland."
+  },
+  "logs": [],
+  "checks": [
+    "Natural default and initial comparison switch",
+    "All four terrain views",
+    "Sixteen natural variant SVGs at 768 units",
+    "Initial 256-unit patterns restored",
+    "Natural and initial downloads",
+    "Dense thirty-node layouts at 50% zoom and stress contrast",
+    "Periodic ground inspected on repeated low-zoom field",
+    "390px single-column view without horizontal overflow",
+    "Viewport restored"
+  ],
+  "url": "http://127.0.0.1:4186/outputs/terrain-tiles-page/terrain-proposal.html#art"
+}

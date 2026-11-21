@@ -78,7 +78,7 @@ export function RecipesPanel({ game, onClose, initialRecipeId, initialNode, back
     <header className="recipes-dialog-header">
       <div className="recipes-title-mark"><NodeIcon kind="researchCenter" /></div>
       <div><h2 id="recipes-title">Recipes</h2><p>Exact ingredients. Optimism is not a substitute.</p></div>
-      <button className={`recipes-close ${backToResearch ? 'recipes-back' : ''}`} onClick={onClose} aria-label={backToResearch ? 'Back to research' : 'Close Recipes'} data-tooltip={backToResearch ? 'Back to research' : 'Close Recipes'} data-tooltip-detail={backToResearch ? 'Return to the same research project.' : 'Close the recipe guide.'}>{backToResearch ? '← Research' : '×'}</button>
+      <button className={`recipes-close ${backToResearch ? 'recipes-back' : ''}`} onClick={onClose} aria-label={backToResearch ? (game.mod ? 'Back to research' : 'Back to Upgrades') : 'Close Recipes'} data-tooltip={backToResearch ? (game.mod ? 'Back to research' : 'Back to Upgrades') : 'Close Recipes'} data-tooltip-detail={backToResearch ? 'Return to the same project card.' : 'Close the recipe guide.'}>{backToResearch ? (game.mod ? '← Research' : '← Upgrades') : '×'}</button>
     </header>
     <div className="recipe-view-toolbar"><RecipeViewToggle compact={compact} onToggle={toggle} /></div>
     <div className="recipe-node-filters" role="group" aria-label="Filter recipes by production node. Drag filters to reorder them.">

@@ -1,0 +1,42 @@
+{
+  "date": "2026-11-19",
+  "decision": "Give the robot more space",
+  "desktop": {
+    "columnPx": 380,
+    "portraitHeightPx": 330,
+    "largeViewportPortraitHeightPx": 360
+  },
+  "medium": {
+    "viewportWidthPx": 1050,
+    "columnPx": 320,
+    "portraitHeightPx": 300,
+    "coreBadges": 7,
+    "horizontalOverflow": false
+  },
+  "mobile": {
+    "viewportWidthPx": 390,
+    "portraitHeightPx": 280,
+    "stacked": true,
+    "horizontalOverflow": false
+  },
+  "checks": [
+    "standalone build",
+    "preview TypeScript check",
+    "four adapter tests",
+    "desktop visual inspection",
+    "start and cancel Automata upgrade",
+    "seven-Core details at 1050px",
+    "390px stacked layout",
+    "12px selected-project description",
+    "isolated preview console has no warnings/errors"
+  ],
+  "screenshots": [
+    "outputs/status-page/status-modal-robot-space.jpg",
+    "outputs/status-page/status-modal-robot-space-390.jpg"
+  ],
+  "limits": [
+    "Prototype styling only; no actual game adoption",
+    "Word structural checks passed; packaged rendering unavailable because LibreOffice is missing",
+    "Earlier full-suite results remain in NODE-0613; full suite not repeated for this CSS adjustment"
+  ]
+}

@@ -1,5 +1,8 @@
 # Deep Hole exploration restriction: design estimate
 
+This document preserves historical analysis of the former Deep Hole adjacency gate. The user subsequently removed that mechanic: unfinished holes no longer prevent exploration of neighboring maps in new or existing factories. Generation, physical obstructions and filling remain. Use the [current map rules](systems/map-nodes-and-exploration.md#deep-hole-exploration); the gate-dependent results below are historical evidence.
+
+
 November 18–19, 2026 offline design estimate. The reviewed rules were subsequently implemented locally for new worlds (NODE-0608); see [current mechanics](systems/encounters-and-obstructions.md). The numerical results below retain their original simulation scope and are not a normal-gameplay completion or balance test.
 
 The [distribution calibration](#distribution-calibration-for-10515-targets) supports the **adopted 28-hole-map distribution** with tier-3/4 selection weight four (NODE-0606). It is now part of the new-world-only implementation. Its balance targets are median maps filled of 10 / 5 / 15; the earlier results below retain their original 49–50-hole-map distribution as comparison evidence.

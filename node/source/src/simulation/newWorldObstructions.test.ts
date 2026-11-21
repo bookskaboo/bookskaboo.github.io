@@ -4,7 +4,7 @@ import { normalizeLegacy, saveSlot, readSlots, copySaveToSlot, readAutosave, AUT
 import { createInitialState, GameEngine } from './engine';
 import { generateSector, sectorForState, sectorDistance } from './worldGeneration';
 import { canPlaceNode } from './collisions';
-import { canPurchaseMap, mapExplorationBlockers, destinationMapCosts } from './mapExpansion';
+import { canPurchaseMap, destinationMapCosts } from './mapExpansion';
 import { mapNodeHoverDetails } from '../ui/mapNodePresentation';
 import { connectionBlockedByWorld } from './connectionRules';
 import { tributeAmount } from './goblinTribute';
@@ -12,8 +12,8 @@ import { progressionDeficits } from './progressionRecovery';
 import { emptyMod } from '../mods/modTypes';
 import { shortestRescuePath } from './expansionRescue';
 import { reconcileHole } from '../content/endgame';
-import { getNodeSize, getPortAnchor } from '../domain/nodeGeometry';
-import { obstructionOutline, pointInPolygon, overlapsMaximumCampRadius } from '../domain/obstructionGeometry';
+import { getPortAnchor } from '../domain/nodeGeometry';
+import { footprintsOverlap, overlapsMaximumCampRadius } from '../domain/obstructionGeometry';
 import { obstructedConnections } from './obstructedConnections';
 
 const makeNode = (kind: NodeKind, id: string, x=600,y=500, extra: Partial<MachineNode> = {}): MachineNode => ({
@@ -68,10 +68,9 @@ describe('new-world rules and saved legacy worlds',()=>{
       }
       const camp=sector.nodes.find(n=>n.kind==='monster-camp');
       if(camp){const deposit=sector.nodes.find(n=>n.guardedCampId===camp.id)!;expect(deposit).toBeDefined();expect(deposit.guardedLocked).toBe(true);
-        expect(deposit.x).toBe(camp.x);expect(deposit.y).toBe(camp.y);expect(camp.guardedDepositId).toBe(deposit.id);
-        const outline=obstructionOutline(camp),polygon=Array.from({length:outline.length/2},(_,i)=>({x:outline[i*2],y:outline[i*2+1]}));
-        const size=getNodeSize(deposit);
-        for(const dx of [-size.w/2,size.w/2])for(const dy of [-size.h/2,size.h/2])expect(pointInPolygon({x:dx,y:dy},polygon)).toBe(true);
+        expect(deposit.y).toBe(camp.y);expect(camp.guardedDepositId).toBe(deposit.id);
+        expect(footprintsOverlap(deposit,{...camp,campStrength:10})).toBe(false);
+        expect(footprintsOverlap(deposit,{...camp,campStrength:20})).toBe(true);
         for(const other of sector.nodes.filter(n=>n.resourceItem&&n.id!==deposit.id))expect(overlapsMaximumCampRadius(other,camp,12)).toBe(false);
         expect(deposit.resourceRemaining).toBe(1000+500*sectorDistance(x,y));
         expect(sector.nodes.some(n=>n.kind==='goblinTribute')).toBe(false);
@@ -96,14 +95,15 @@ describe('guarded deposits',()=>{
       .find(s=>s.nodes.some(n=>n.kind==='monster-camp'&&Boolean(n.lizardSettlement)===dwarven))!;
     const originalCamp=generated.nodes.find(n=>n.kind==='monster-camp')!,originalDeposit=generated.nodes.find(n=>n.guardedCampId===originalCamp.id)!;
     const startingPosition={x:originalDeposit.x,y:originalDeposit.y};
-    const extractor=makeNode('extractor','interior-worker',originalCamp.x+450,originalCamp.y);
+    const startingOffset=originalDeposit.x-originalCamp.x;
+    const extractor=makeNode('extractor','interior-worker',originalCamp.x+800,originalCamp.y);
     const engine=new GameEngine(fixture([...generated.nodes,extractor]));
     const camp=engine.getSector().nodes.find(n=>n.id===originalCamp.id)!,deposit=engine.getSector().nodes.find(n=>n.id===originalDeposit.id)!;
     expect(canPlaceNode(deposit,engine.getSector().nodes,{width:3600,height:2400})).toBe(true);
     expect(canPlaceNode(makeNode('extractor','intruder',camp.x,camp.y),engine.getSector().nodes,{width:3600,height:2400})).toBe(false);
     expect(engine.connect(deposit.id,extractor.id)).toBe(false);
     camp.suppressed=true;camp.campStrength=10;engine.tick(100);
-    expect(getPortAnchor(camp,'input',0).x).toBeLessThanOrEqual(-getNodeSize(deposit).w/2-24);
+    expect(getPortAnchor(camp,'input',0)).toEqual({x:0,y:0});
     expect(engine.connect(deposit.id,extractor.id)).toBe(true);
     advance(engine,5000);expect(engine.getSector().nodes.find(n=>n.id===extractor.id)!.output[deposit.resourceItem!]).toBe(1);
     const cable=engine.getSector().connections[0];expect(obstructedConnections(engine.getSector()).has(cable.id)).toBe(false);
@@ -115,11 +115,11 @@ describe('guarded deposits',()=>{
     const stock=deposit.resourceRemaining;advance(engine,5000);
     expect(deposit.resourceRemaining).toBe(stock);expect(engine.getSector().connections).toHaveLength(1);
     camp.campStrength=10;camp.suppressed=true;engine.tick(100);
-    const unrelated=makeNode('monster-camp','other-camp',camp.x+300,camp.y,{campStrength:100,obstructionMaxRadius:100});
+    const unrelated=makeNode('monster-camp','other-camp',camp.x+600,camp.y,{campStrength:100,obstructionMaxRadius:100});
     expect(connectionBlockedByWorld(deposit,extractor,{fromPort:0,toPort:0},[...engine.getSector().nodes,unrelated])).toBe(true);
     engine.getState().research.completed.push('campRelocation');
     expect(engine.tryMoveNodesTo({[camp.id]:{x:camp.x+32,y:camp.y+32}})).toBe(true);
-    expect(deposit.x).toBe(camp.x);expect(deposit.y).toBe(camp.y);
+    expect(deposit.x-camp.x).toBeCloseTo(startingOffset);expect(deposit.y).toBe(camp.y);
     const reloaded=new GameEngine(normalizeLegacy(JSON.parse(JSON.stringify(engine.getState())))!);
     expect(reloaded.getSector().nodes.find(n=>n.id===deposit.id)).toMatchObject({x:deposit.x,y:deposit.y,guardedCampId:camp.id});
     engine.undo();expect(engine.getSector().nodes.find(n=>n.id===deposit.id)).toMatchObject(startingPosition);
@@ -182,18 +182,21 @@ describe('filled holes and exploration',()=>{
     const engine=new GameEngine(state);expect(engine.getState().globalPool?.stone).toBe(5);expect(engine.getSector().filledHoles).toHaveLength(1);
     engine.replaceState(normalizeLegacy(JSON.parse(JSON.stringify(engine.getState())))!);engine.tick(100);expect(engine.getState().globalPool?.stone).toBe(5);expect(engine.getSector().filledHoles).toHaveLength(1);
   });
-  it('requires every neighboring generated-hole map to clear and excludes depletion holes',()=>{
-    const state=fixture([]);for(const[x,y]of[[6,5],[7,4]])state.sectors[`${x},${y}`]={...blank(x,y),visited:true,nodes:[makeNode('big-hole',`${x},${y}`,800,500,{holeOrigin:'generated',resourceRemaining:1})]};
-    expect(mapExplorationBlockers(state,7,5)).toHaveLength(2);expect(shortestRescuePath(state,'7,5')).toEqual([]);
-    state.sectors['6,5'].nodes[0].resourceRemaining=0;expect(mapExplorationBlockers(state,7,5)).toHaveLength(1);
-    state.sectors['7,4'].nodes[0].holeOrigin='depletion';expect(canPurchaseMap(state,7,5)).toBe(true);
+  it.each([1,2] as const)('allows exploration and recovery routes beside unfinished generated holes for rules %i',rules=>{
+    const state=fixture([],rules);for(const[x,y]of[[6,5],[7,4]])state.sectors[`${x},${y}`]={...blank(x,y),visited:true,nodes:[makeNode('big-hole',`${x},${y}`,800,500,{holeOrigin:'generated',resourceRemaining:1})]};
+    expect(canPurchaseMap(state,7,5)).toBe(true);expect(shortestRescuePath(state,'7,5')).toEqual(['7,5']);
+    expect(canPurchaseMap(state,10,9)).toBe(false);expect(canPurchaseMap(state,11,5)).toBe(false);
+    expect(state.sectors['6,5'].nodes[0].resourceRemaining).toBe(1);
   });
-  it('keeps unfunded quotes paused by a new blocker without consuming Cores',()=>{
+  it('funds an unfunded destination beside an unfinished generated hole',()=>{
     const state=fixture([makeNode('researchCenter','lab',600,500,{input:{'simple-core':5}})]);
     state.research.completed.push('exploration');state.research.selected='mapNode';state.research.mapNodeQuote={destination:'7,5',completion:0,costs:{'simple-core':5}};
     state.sectors['6,5']={...blank(6,5),visited:true,nodes:[makeNode('big-hole','hole',1400,500,{holeOrigin:'generated',resourceRemaining:300})]};
+    state.mod=emptyMod();delete state.mapResearchMode;
     const engine=new GameEngine(state);advance(engine,10000);
-    expect(engine.getSector().nodes[0].input['simple-core']).toBe(5);expect(engine.getState().research.contributed).toEqual({});expect(engine.getState().research.mapNodeQuote?.destination).toBe('7,5');
+    expect(engine.getSector().nodes[0].input['simple-core']).toBeLessThan(5);expect(engine.getState().research.contributed['simple-core']).toBeGreaterThan(0);
+    const resumed=new GameEngine(normalizeLegacy(engine.getState())!);advance(resumed,30000);
+    expect(resumed.getSector().nodes[0].input['simple-core']).toBe(0);expect(resumed.getState().sectors['7,5'].unlocked).toBe(true);expect(resumed.getState().sectors['6,5'].nodes[0].resourceRemaining).toBe(300);
   });
   it.each([1,2] as const)('conserves the selected refund behavior and persists completed terrain for rules %i',rules=>{
     const source=makeNode('woodenChest','source',400,500),hole=makeNode('big-hole','hole',1400,500,{holeOrigin:'generated',resourceRemaining:1,holeBaseStone:1,holeStoneConsumed:0,input:{stone:4},obstructionRadius:200});
@@ -209,15 +212,17 @@ describe('filled holes and exploration',()=>{
     expect(restored.getSector().filledHoles).toEqual(engine.getSector().filledHoles);
     expect(restored.getSector().nodes[0].output.stone).toBe(rules===2?5:2);
   });
-  it('blocks from every approach using only discovered generated holes, honoring paid and started purchases',()=>{
-    const state=fixture([]);state.research.completed.push('exploration');state.research.mapPoints=1;
+  it('opens maps beside discovered holes while retaining paid-project point protection',()=>{
+    const state=fixture([]);state.mod=emptyMod();delete state.mapResearchMode;state.research.completed.push('exploration');state.research.mapPoints=1;
     state.sectors['6,5']={...blank(6,5),visited:true,nodes:[makeNode('big-hole','generated',600,500,{holeOrigin:'generated',resourceRemaining:300})]};
     state.sectors['7,4']={...blank(7,4),visited:true};
-    expect(canPurchaseMap(state,7,5)).toBe(false);expect(destinationMapCosts(state,7,5)).toBeUndefined();
-    expect(mapNodeHoverDetails(state,'7,5').join(' ')).toContain('E1');
-    const engine=new GameEngine(state);expect(engine.unlockSector(7,5)).toBe(false);expect(engine.getState().research.mapPoints).toBe(1);
+    expect(canPurchaseMap(state,7,5)).toBe(true);expect(destinationMapCosts(state,7,5)).toBeDefined();
+    expect(mapNodeHoverDetails(state,'7,5')).toEqual(['Map Node Unexplored']);
+    const engine=new GameEngine(state);expect(engine.unlockSector(7,5)).toBe(true);expect(engine.getState().research.mapPoints).toBe(0);
+    expect(engine.getState().sectors['6,5'].nodes[0].resourceRemaining).toBe(300);
+    const loaded=new GameEngine(normalizeLegacy(engine.getState())!);expect(loaded.getState().sectors['7,5'].unlocked).toBe(true);
     state.research.mapNodeQuote={destination:'7,5',completion:0,costs:{'simple-core':5}};
-    expect(canPurchaseMap(state,7,5)).toBe(false);
+    expect(canPurchaseMap(state,7,5)).toBe(true);
     state.research.projectContributions={mapNode:{'simple-core':1}};expect(canPurchaseMap(state,7,5)).toBe(true);
     const reservedPoint=new GameEngine(state);expect(reservedPoint.unlockSector(7,5)).toBe(false);expect(reservedPoint.getState().research.mapPoints).toBe(1);
     state.research.selected='mapNode';state.research.contributed={'simple-core':1};state.research.mapPoints=0;
@@ -225,7 +230,7 @@ describe('filled holes and exploration',()=>{
     const funded=new GameEngine(state);advance(funded,20000);
     expect(funded.getState().sectors['7,5'].unlocked).toBe(true);funded.switchSector('7,5');expect(funded.getState().activeSectorId).toBe('7,5');
     state.research.projectContributions={};state.research.contributed={};delete state.research.mapNodeQuote;
-    state.sectors['6,5'].nodes[0].holeOrigin='depletion';expect(mapExplorationBlockers(state,7,5)).toHaveLength(0);
+    state.sectors['6,5'].nodes[0].holeOrigin='depletion';expect(canPurchaseMap(state,7,5)).toBe(true);
     state.sectors['6,5'].nodes[0].holeOrigin='generated';state.sectors['6,5'].visited=false;
     expect(canPurchaseMap(state,7,5)).toBe(true);
     state.sectors['6,5'].visited=true;state.worldRulesVersion=1;expect(canPurchaseMap(state,7,5)).toBe(true);

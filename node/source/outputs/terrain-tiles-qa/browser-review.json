@@ -1,0 +1,35 @@
+{
+  "finalState": {
+    "badlandsRule": "BadlandsNo Forest spawnNot applicable50% stock and cap50% stock and cap",
+    "bodyFont": "\"Segoe UI Variable Text\", \"Segoe UI\", Inter, Arial, sans-serif",
+    "example": "TerrainForestStoneCopperIronMythrilNatural Forest refillBadlandsNo spawn1,5001,5001,5001,500No ForestGrassland3,0003,0003,0003,0003,0001 Wood / 30 secondsDesert3001,5001,5001,5001,5001 Wood / 300 secondsRocky1,5006,0006,0006,0006,0001 Wood / 30 seconds",
+    "overflow": false,
+    "summary": "Seed 2718. 121 maps: 30 Badlands, 31 Grassland, 30 Desert, 30 Rocky. Home and four corners: Grassland.",
+    "terrains": [
+      "Badlands",
+      "Grassland",
+      "Desert",
+      "Rocky"
+    ],
+    "title": "NODE Map terrain proposal",
+    "worldCells": 121
+  },
+  "logs": [],
+  "completed": [
+    "Four individual terrain views",
+    "Four-way comparison",
+    "Dense thirty-node layouts",
+    "50% zoom",
+    "Default, half and stress detail",
+    "Home resource exclusions",
+    "Tier-four capacity matrix",
+    "Mythril absence without Dwarven settlement",
+    "Different seed retains quotas and fixed Grasslands",
+    "Invalid seed preserves prior preview with explanation",
+    "Four completed SVG downloads",
+    "Completed JSON snapshot download",
+    "390px mobile single column without horizontal overflow",
+    "Viewport reset"
+  ],
+  "url": "http://127.0.0.1:4186/outputs/terrain-tiles-page/terrain-proposal.html#art"
+}

@@ -1,0 +1,38 @@
+{
+  "url": "http://127.0.0.1:4196/previews/terrain-tiles/runtime.html",
+  "scope": "Paused synthetic fixtures using the real engine and shared Node Map; campaign saves untouched.",
+  "exploration": {
+    "unfinishedHoleOn": "E1",
+    "destination": "E2",
+    "pointPurchaseEnabled": true,
+    "blockedMessages": 0,
+    "purchaseSucceeded": true,
+    "pointsBefore": 1,
+    "pointsAfter": 0,
+    "travelEnabled": true,
+    "holeStillListedAfterPurchase": true
+  },
+  "details": {
+    "borderRowStyle": {
+      "color": "rgb(181, 193, 202)",
+      "font": "500 13px / 16.9px \"Segoe UI Variable Text\", \"Segoe UI\", Inter, Arial, sans-serif"
+    },
+    "pointsOfInterest": "Points of InterestEast · Mountain",
+    "resourcesStyle": {
+      "color": "rgb(135, 152, 165)",
+      "font": "600 15px / 18.75px \"Segoe UI Variable Text\", \"Segoe UI\", Inter, Arial, sans-serif"
+    },
+    "separateBorderHeading": false,
+    "terrain": "Terrain: Rocky",
+    "terrainStyle": {
+      "color": "rgb(165, 178, 198)",
+      "font": "600 15px / 18.75px \"Segoe UI Variable Text\", \"Segoe UI\", Inter, Arial, sans-serif"
+    }
+  },
+  "mobile": {
+    "width": 390,
+    "scrollWidth": 390,
+    "pointsOfInterestVisibleAfterScrolling": true
+  },
+  "warningsAndErrors": []
+}

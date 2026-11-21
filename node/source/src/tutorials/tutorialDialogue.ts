@@ -190,8 +190,28 @@ const adaptations: Partial<Record<TutorialStage, Partial<{ title: string; body: 
   },
 };
 
-export function lessonCopy(stage: TutorialStage) {
+export type ResearchLessonLayout = 'current' | 'upgrades';
+const upgradeResearchCopy: Partial<Record<TutorialStage, Partial<{ title: string; body: string; instruction: string }>>> = {
+  'research-open': { title: 'Open Upgrades', body: 'Inspect the projects available to your bot.', instruction: 'Open Upgrades or press Q.' },
+  'research-explain': { title: 'Completed projects', body: 'Joint unlocked when you connected two nodes. Completed projects remain available for inspection.', instruction: 'Enable Show completed projects and inspect Joint.' },
+  'cores-open': {
+    title: 'Queue Assembler research',
+    body: `Assembler costs ${corePayment}. Only this project is available during this practice step.`,
+    instruction: 'Select Assembler, then press Queue research.',
+  },
+  'cores-explain': {
+    title: 'Process the research Cores',
+    body: `The Research Center processes ${corePayment} one at a time. Selecting a card alone does not pay for it.`,
+    instruction: 'Wait for research to complete. Resume research or the simulation if paused.',
+  },
+  'cores-complete': {
+    title: 'Research complete',
+    body: 'In your factory, queue up to four projects with Queue research or by double-clicking cards. Enable Simple upgrade to unlock the Basic Core recipe; Exploration needs Simple and Basic Cores.',
+  },
+};
+
+export function lessonCopy(stage: TutorialStage, researchLayout: ResearchLessonLayout = 'current') {
   const original = GUIDED_TUTORIAL_COPY[stage as GuidedTutorialStage] ?? { step: 1, title: '', body: '', instruction: '' };
-  return { ...original, ...adaptations[stage] };
+  return { ...original, ...adaptations[stage], ...(researchLayout === 'upgrades' ? upgradeResearchCopy[stage] : {}) };
 }
 

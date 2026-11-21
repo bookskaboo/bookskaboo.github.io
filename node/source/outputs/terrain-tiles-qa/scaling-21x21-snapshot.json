@@ -1,0 +1,2267 @@
+{
+  "status": "Agreed design; runtime integration pending",
+  "version": "proposal-2",
+  "worldGridSize": 21,
+  "home": "5,5",
+  "artSelection": {
+    "draft": "irregular-natural",
+    "scope": "Selected proposal artwork; game integration pending",
+    "detail": "quiet-default"
+  },
+  "seed": 2718,
+  "capacityMultipliers": {
+    "badlands": {
+      "forest": 0,
+      "mineral": 0.5
+    },
+    "grassland": {
+      "forest": 1,
+      "mineral": 1
+    },
+    "desert": {
+      "forest": 0.1,
+      "mineral": 0.5
+    },
+    "rocky": {
+      "forest": 0.5,
+      "mineral": 2
+    }
+  },
+  "forestRateMultipliers": {
+    "badlands": 0,
+    "grassland": 1,
+    "desert": 0.1,
+    "rocky": 1
+  },
+  "counts": {
+    "badlands": 110,
+    "grassland": 111,
+    "desert": 110,
+    "rocky": 110
+  },
+  "fixedGrassland": [
+    "-5,-5",
+    "15,-5",
+    "5,5",
+    "-5,15",
+    "15,15"
+  ],
+  "assignment": [
+    {
+      "x": -5,
+      "y": -5,
+      "terrain": "grassland"
+    },
+    {
+      "x": -4,
+      "y": -5,
+      "terrain": "badlands"
+    },
+    {
+      "x": -3,
+      "y": -5,
+      "terrain": "desert"
+    },
+    {
+      "x": -2,
+      "y": -5,
+      "terrain": "desert"
+    },
+    {
+      "x": -1,
+      "y": -5,
+      "terrain": "desert"
+    },
+    {
+      "x": 0,
+      "y": -5,
+      "terrain": "badlands"
+    },
+    {
+      "x": 1,
+      "y": -5,
+      "terrain": "desert"
+    },
+    {
+      "x": 2,
+      "y": -5,
+      "terrain": "desert"
+    },
+    {
+      "x": 3,
+      "y": -5,
+      "terrain": "badlands"
+    },
+    {
+      "x": 4,
+      "y": -5,
+      "terrain": "rocky"
+    },
+    {
+      "x": 5,
+      "y": -5,
+      "terrain": "rocky"
+    },
+    {
+      "x": 6,
+      "y": -5,
+      "terrain": "rocky"
+    },
+    {
+      "x": 7,
+      "y": -5,
+      "terrain": "desert"
+    },
+    {
+      "x": 8,
+      "y": -5,
+      "terrain": "grassland"
+    },
+    {
+      "x": 9,
+      "y": -5,
+      "terrain": "grassland"
+    },
+    {
+      "x": 10,
+      "y": -5,
+      "terrain": "badlands"
+    },
+    {
+      "x": 11,
+      "y": -5,
+      "terrain": "rocky"
+    },
+    {
+      "x": 12,
+      "y": -5,
+      "terrain": "badlands"
+    },
+    {
+      "x": 13,
+      "y": -5,
+      "terrain": "desert"
+    },
+    {
+      "x": 14,
+      "y": -5,
+      "terrain": "badlands"
+    },
+    {
+      "x": 15,
+      "y": -5,
+      "terrain": "grassland"
+    },
+    {
+      "x": -5,
+      "y": -4,
+      "terrain": "grassland"
+    },
+    {
+      "x": -4,
+      "y": -4,
+      "terrain": "grassland"
+    },
+    {
+      "x": -3,
+      "y": -4,
+      "terrain": "grassland"
+    },
+    {
+      "x": -2,
+      "y": -4,
+      "terrain": "rocky"
+    },
+    {
+      "x": -1,
+      "y": -4,
+      "terrain": "grassland"
+    },
+    {
+      "x": 0,
+      "y": -4,
+      "terrain": "rocky"
+    },
+    {
+      "x": 1,
+      "y": -4,
+      "terrain": "desert"
+    },
+    {
+      "x": 2,
+      "y": -4,
+      "terrain": "grassland"
+    },
+    {
+      "x": 3,
+      "y": -4,
+      "terrain": "badlands"
+    },
+    {
+      "x": 4,
+      "y": -4,
+      "terrain": "desert"
+    },
+    {
+      "x": 5,
+      "y": -4,
+      "terrain": "desert"
+    },
+    {
+      "x": 6,
+      "y": -4,
+      "terrain": "desert"
+    },
+    {
+      "x": 7,
+      "y": -4,
+      "terrain": "rocky"
+    },
+    {
+      "x": 8,
+      "y": -4,
+      "terrain": "badlands"
+    },
+    {
+      "x": 9,
+      "y": -4,
+      "terrain": "rocky"
+    },
+    {
+      "x": 10,
+      "y": -4,
+      "terrain": "badlands"
+    },
+    {
+      "x": 11,
+      "y": -4,
+      "terrain": "rocky"
+    },
+    {
+      "x": 12,
+      "y": -4,
+      "terrain": "rocky"
+    },
+    {
+      "x": 13,
+      "y": -4,
+      "terrain": "desert"
+    },
+    {
+      "x": 14,
+      "y": -4,
+      "terrain": "rocky"
+    },
+    {
+      "x": 15,
+      "y": -4,
+      "terrain": "grassland"
+    },
+    {
+      "x": -5,
+      "y": -3,
+      "terrain": "desert"
+    },
+    {
+      "x": -4,
+      "y": -3,
+      "terrain": "rocky"
+    },
+    {
+      "x": -3,
+      "y": -3,
+      "terrain": "badlands"
+    },
+    {
+      "x": -2,
+      "y": -3,
+      "terrain": "grassland"
+    },
+    {
+      "x": -1,
+      "y": -3,
+      "terrain": "badlands"
+    },
+    {
+      "x": 0,
+      "y": -3,
+      "terrain": "badlands"
+    },
+    {
+      "x": 1,
+      "y": -3,
+      "terrain": "badlands"
+    },
+    {
+      "x": 2,
+      "y": -3,
+      "terrain": "grassland"
+    },
+    {
+      "x": 3,
+      "y": -3,
+      "terrain": "badlands"
+    },
+    {
+      "x": 4,
+      "y": -3,
+      "terrain": "grassland"
+    },
+    {
+      "x": 5,
+      "y": -3,
+      "terrain": "rocky"
+    },
+    {
+      "x": 6,
+      "y": -3,
+      "terrain": "rocky"
+    },
+    {
+      "x": 7,
+      "y": -3,
+      "terrain": "rocky"
+    },
+    {
+      "x": 8,
+      "y": -3,
+      "terrain": "desert"
+    },
+    {
+      "x": 9,
+      "y": -3,
+      "terrain": "rocky"
+    },
+    {
+      "x": 10,
+      "y": -3,
+      "terrain": "grassland"
+    },
+    {
+      "x": 11,
+      "y": -3,
+      "terrain": "grassland"
+    },
+    {
+      "x": 12,
+      "y": -3,
+      "terrain": "rocky"
+    },
+    {
+      "x": 13,
+      "y": -3,
+      "terrain": "grassland"
+    },
+    {
+      "x": 14,
+      "y": -3,
+      "terrain": "badlands"
+    },
+    {
+      "x": 15,
+      "y": -3,
+      "terrain": "desert"
+    },
+    {
+      "x": -5,
+      "y": -2,
+      "terrain": "badlands"
+    },
+    {
+      "x": -4,
+      "y": -2,
+      "terrain": "badlands"
+    },
+    {
+      "x": -3,
+      "y": -2,
+      "terrain": "grassland"
+    },
+    {
+      "x": -2,
+      "y": -2,
+      "terrain": "rocky"
+    },
+    {
+      "x": -1,
+      "y": -2,
+      "terrain": "grassland"
+    },
+    {
+      "x": 0,
+      "y": -2,
+      "terrain": "grassland"
+    },
+    {
+      "x": 1,
+      "y": -2,
+      "terrain": "badlands"
+    },
+    {
+      "x": 2,
+      "y": -2,
+      "terrain": "desert"
+    },
+    {
+      "x": 3,
+      "y": -2,
+      "terrain": "rocky"
+    },
+    {
+      "x": 4,
+      "y": -2,
+      "terrain": "rocky"
+    },
+    {
+      "x": 5,
+      "y": -2,
+      "terrain": "grassland"
+    },
+    {
+      "x": 6,
+      "y": -2,
+      "terrain": "rocky"
+    },
+    {
+      "x": 7,
+      "y": -2,
+      "terrain": "desert"
+    },
+    {
+      "x": 8,
+      "y": -2,
+      "terrain": "rocky"
+    },
+    {
+      "x": 9,
+      "y": -2,
+      "terrain": "grassland"
+    },
+    {
+      "x": 10,
+      "y": -2,
+      "terrain": "desert"
+    },
+    {
+      "x": 11,
+      "y": -2,
+      "terrain": "grassland"
+    },
+    {
+      "x": 12,
+      "y": -2,
+      "terrain": "badlands"
+    },
+    {
+      "x": 13,
+      "y": -2,
+      "terrain": "grassland"
+    },
+    {
+      "x": 14,
+      "y": -2,
+      "terrain": "badlands"
+    },
+    {
+      "x": 15,
+      "y": -2,
+      "terrain": "badlands"
+    },
+    {
+      "x": -5,
+      "y": -1,
+      "terrain": "desert"
+    },
+    {
+      "x": -4,
+      "y": -1,
+      "terrain": "rocky"
+    },
+    {
+      "x": -3,
+      "y": -1,
+      "terrain": "grassland"
+    },
+    {
+      "x": -2,
+      "y": -1,
+      "terrain": "rocky"
+    },
+    {
+      "x": -1,
+      "y": -1,
+      "terrain": "rocky"
+    },
+    {
+      "x": 0,
+      "y": -1,
+      "terrain": "desert"
+    },
+    {
+      "x": 1,
+      "y": -1,
+      "terrain": "grassland"
+    },
+    {
+      "x": 2,
+      "y": -1,
+      "terrain": "rocky"
+    },
+    {
+      "x": 3,
+      "y": -1,
+      "terrain": "desert"
+    },
+    {
+      "x": 4,
+      "y": -1,
+      "terrain": "grassland"
+    },
+    {
+      "x": 5,
+      "y": -1,
+      "terrain": "desert"
+    },
+    {
+      "x": 6,
+      "y": -1,
+      "terrain": "grassland"
+    },
+    {
+      "x": 7,
+      "y": -1,
+      "terrain": "badlands"
+    },
+    {
+      "x": 8,
+      "y": -1,
+      "terrain": "badlands"
+    },
+    {
+      "x": 9,
+      "y": -1,
+      "terrain": "desert"
+    },
+    {
+      "x": 10,
+      "y": -1,
+      "terrain": "rocky"
+    },
+    {
+      "x": 11,
+      "y": -1,
+      "terrain": "rocky"
+    },
+    {
+      "x": 12,
+      "y": -1,
+      "terrain": "badlands"
+    },
+    {
+      "x": 13,
+      "y": -1,
+      "terrain": "badlands"
+    },
+    {
+      "x": 14,
+      "y": -1,
+      "terrain": "rocky"
+    },
+    {
+      "x": 15,
+      "y": -1,
+      "terrain": "grassland"
+    },
+    {
+      "x": -5,
+      "y": 0,
+      "terrain": "grassland"
+    },
+    {
+      "x": -4,
+      "y": 0,
+      "terrain": "desert"
+    },
+    {
+      "x": -3,
+      "y": 0,
+      "terrain": "grassland"
+    },
+    {
+      "x": -2,
+      "y": 0,
+      "terrain": "grassland"
+    },
+    {
+      "x": -1,
+      "y": 0,
+      "terrain": "badlands"
+    },
+    {
+      "x": 0,
+      "y": 0,
+      "terrain": "rocky"
+    },
+    {
+      "x": 1,
+      "y": 0,
+      "terrain": "desert"
+    },
+    {
+      "x": 2,
+      "y": 0,
+      "terrain": "badlands"
+    },
+    {
+      "x": 3,
+      "y": 0,
+      "terrain": "rocky"
+    },
+    {
+      "x": 4,
+      "y": 0,
+      "terrain": "desert"
+    },
+    {
+      "x": 5,
+      "y": 0,
+      "terrain": "desert"
+    },
+    {
+      "x": 6,
+      "y": 0,
+      "terrain": "badlands"
+    },
+    {
+      "x": 7,
+      "y": 0,
+      "terrain": "badlands"
+    },
+    {
+      "x": 8,
+      "y": 0,
+      "terrain": "rocky"
+    },
+    {
+      "x": 9,
+      "y": 0,
+      "terrain": "grassland"
+    },
+    {
+      "x": 10,
+      "y": 0,
+      "terrain": "rocky"
+    },
+    {
+      "x": 11,
+      "y": 0,
+      "terrain": "badlands"
+    },
+    {
+      "x": 12,
+      "y": 0,
+      "terrain": "grassland"
+    },
+    {
+      "x": 13,
+      "y": 0,
+      "terrain": "grassland"
+    },
+    {
+      "x": 14,
+      "y": 0,
+      "terrain": "grassland"
+    },
+    {
+      "x": 15,
+      "y": 0,
+      "terrain": "desert"
+    },
+    {
+      "x": -5,
+      "y": 1,
+      "terrain": "badlands"
+    },
+    {
+      "x": -4,
+      "y": 1,
+      "terrain": "rocky"
+    },
+    {
+      "x": -3,
+      "y": 1,
+      "terrain": "rocky"
+    },
+    {
+      "x": -2,
+      "y": 1,
+      "terrain": "badlands"
+    },
+    {
+      "x": -1,
+      "y": 1,
+      "terrain": "desert"
+    },
+    {
+      "x": 0,
+      "y": 1,
+      "terrain": "grassland"
+    },
+    {
+      "x": 1,
+      "y": 1,
+      "terrain": "desert"
+    },
+    {
+      "x": 2,
+      "y": 1,
+      "terrain": "rocky"
+    },
+    {
+      "x": 3,
+      "y": 1,
+      "terrain": "desert"
+    },
+    {
+      "x": 4,
+      "y": 1,
+      "terrain": "badlands"
+    },
+    {
+      "x": 5,
+      "y": 1,
+      "terrain": "rocky"
+    },
+    {
+      "x": 6,
+      "y": 1,
+      "terrain": "rocky"
+    },
+    {
+      "x": 7,
+      "y": 1,
+      "terrain": "rocky"
+    },
+    {
+      "x": 8,
+      "y": 1,
+      "terrain": "grassland"
+    },
+    {
+      "x": 9,
+      "y": 1,
+      "terrain": "grassland"
+    },
+    {
+      "x": 10,
+      "y": 1,
+      "terrain": "desert"
+    },
+    {
+      "x": 11,
+      "y": 1,
+      "terrain": "desert"
+    },
+    {
+      "x": 12,
+      "y": 1,
+      "terrain": "grassland"
+    },
+    {
+      "x": 13,
+      "y": 1,
+      "terrain": "badlands"
+    },
+    {
+      "x": 14,
+      "y": 1,
+      "terrain": "desert"
+    },
+    {
+      "x": 15,
+      "y": 1,
+      "terrain": "desert"
+    },
+    {
+      "x": -5,
+      "y": 2,
+      "terrain": "rocky"
+    },
+    {
+      "x": -4,
+      "y": 2,
+      "terrain": "rocky"
+    },
+    {
+      "x": -3,
+      "y": 2,
+      "terrain": "badlands"
+    },
+    {
+      "x": -2,
+      "y": 2,
+      "terrain": "rocky"
+    },
+    {
+      "x": -1,
+      "y": 2,
+      "terrain": "badlands"
+    },
+    {
+      "x": 0,
+      "y": 2,
+      "terrain": "badlands"
+    },
+    {
+      "x": 1,
+      "y": 2,
+      "terrain": "badlands"
+    },
+    {
+      "x": 2,
+      "y": 2,
+      "terrain": "rocky"
+    },
+    {
+      "x": 3,
+      "y": 2,
+      "terrain": "badlands"
+    },
+    {
+      "x": 4,
+      "y": 2,
+      "terrain": "grassland"
+    },
+    {
+      "x": 5,
+      "y": 2,
+      "terrain": "rocky"
+    },
+    {
+      "x": 6,
+      "y": 2,
+      "terrain": "rocky"
+    },
+    {
+      "x": 7,
+      "y": 2,
+      "terrain": "desert"
+    },
+    {
+      "x": 8,
+      "y": 2,
+      "terrain": "badlands"
+    },
+    {
+      "x": 9,
+      "y": 2,
+      "terrain": "badlands"
+    },
+    {
+      "x": 10,
+      "y": 2,
+      "terrain": "badlands"
+    },
+    {
+      "x": 11,
+      "y": 2,
+      "terrain": "grassland"
+    },
+    {
+      "x": 12,
+      "y": 2,
+      "terrain": "grassland"
+    },
+    {
+      "x": 13,
+      "y": 2,
+      "terrain": "rocky"
+    },
+    {
+      "x": 14,
+      "y": 2,
+      "terrain": "desert"
+    },
+    {
+      "x": 15,
+      "y": 2,
+      "terrain": "grassland"
+    },
+    {
+      "x": -5,
+      "y": 3,
+      "terrain": "desert"
+    },
+    {
+      "x": -4,
+      "y": 3,
+      "terrain": "grassland"
+    },
+    {
+      "x": -3,
+      "y": 3,
+      "terrain": "grassland"
+    },
+    {
+      "x": -2,
+      "y": 3,
+      "terrain": "grassland"
+    },
+    {
+      "x": -1,
+      "y": 3,
+      "terrain": "desert"
+    },
+    {
+      "x": 0,
+      "y": 3,
+      "terrain": "rocky"
+    },
+    {
+      "x": 1,
+      "y": 3,
+      "terrain": "rocky"
+    },
+    {
+      "x": 2,
+      "y": 3,
+      "terrain": "badlands"
+    },
+    {
+      "x": 3,
+      "y": 3,
+      "terrain": "rocky"
+    },
+    {
+      "x": 4,
+      "y": 3,
+      "terrain": "grassland"
+    },
+    {
+      "x": 5,
+      "y": 3,
+      "terrain": "desert"
+    },
+    {
+      "x": 6,
+      "y": 3,
+      "terrain": "grassland"
+    },
+    {
+      "x": 7,
+      "y": 3,
+      "terrain": "badlands"
+    },
+    {
+      "x": 8,
+      "y": 3,
+      "terrain": "desert"
+    },
+    {
+      "x": 9,
+      "y": 3,
+      "terrain": "rocky"
+    },
+    {
+      "x": 10,
+      "y": 3,
+      "terrain": "desert"
+    },
+    {
+      "x": 11,
+      "y": 3,
+      "terrain": "desert"
+    },
+    {
+      "x": 12,
+      "y": 3,
+      "terrain": "badlands"
+    },
+    {
+      "x": 13,
+      "y": 3,
+      "terrain": "badlands"
+    },
+    {
+      "x": 14,
+      "y": 3,
+      "terrain": "rocky"
+    },
+    {
+      "x": 15,
+      "y": 3,
+      "terrain": "desert"
+    },
+    {
+      "x": -5,
+      "y": 4,
+      "terrain": "grassland"
+    },
+    {
+      "x": -4,
+      "y": 4,
+      "terrain": "badlands"
+    },
+    {
+      "x": -3,
+      "y": 4,
+      "terrain": "badlands"
+    },
+    {
+      "x": -2,
+      "y": 4,
+      "terrain": "grassland"
+    },
+    {
+      "x": -1,
+      "y": 4,
+      "terrain": "rocky"
+    },
+    {
+      "x": 0,
+      "y": 4,
+      "terrain": "rocky"
+    },
+    {
+      "x": 1,
+      "y": 4,
+      "terrain": "badlands"
+    },
+    {
+      "x": 2,
+      "y": 4,
+      "terrain": "desert"
+    },
+    {
+      "x": 3,
+      "y": 4,
+      "terrain": "badlands"
+    },
+    {
+      "x": 4,
+      "y": 4,
+      "terrain": "grassland"
+    },
+    {
+      "x": 5,
+      "y": 4,
+      "terrain": "desert"
+    },
+    {
+      "x": 6,
+      "y": 4,
+      "terrain": "grassland"
+    },
+    {
+      "x": 7,
+      "y": 4,
+      "terrain": "desert"
+    },
+    {
+      "x": 8,
+      "y": 4,
+      "terrain": "rocky"
+    },
+    {
+      "x": 9,
+      "y": 4,
+      "terrain": "grassland"
+    },
+    {
+      "x": 10,
+      "y": 4,
+      "terrain": "rocky"
+    },
+    {
+      "x": 11,
+      "y": 4,
+      "terrain": "badlands"
+    },
+    {
+      "x": 12,
+      "y": 4,
+      "terrain": "desert"
+    },
+    {
+      "x": 13,
+      "y": 4,
+      "terrain": "grassland"
+    },
+    {
+      "x": 14,
+      "y": 4,
+      "terrain": "badlands"
+    },
+    {
+      "x": 15,
+      "y": 4,
+      "terrain": "grassland"
+    },
+    {
+      "x": -5,
+      "y": 5,
+      "terrain": "desert"
+    },
+    {
+      "x": -4,
+      "y": 5,
+      "terrain": "grassland"
+    },
+    {
+      "x": -3,
+      "y": 5,
+      "terrain": "grassland"
+    },
+    {
+      "x": -2,
+      "y": 5,
+      "terrain": "badlands"
+    },
+    {
+      "x": -1,
+      "y": 5,
+      "terrain": "grassland"
+    },
+    {
+      "x": 0,
+      "y": 5,
+      "terrain": "badlands"
+    },
+    {
+      "x": 1,
+      "y": 5,
+      "terrain": "desert"
+    },
+    {
+      "x": 2,
+      "y": 5,
+      "terrain": "rocky"
+    },
+    {
+      "x": 3,
+      "y": 5,
+      "terrain": "grassland"
+    },
+    {
+      "x": 4,
+      "y": 5,
+      "terrain": "rocky"
+    },
+    {
+      "x": 5,
+      "y": 5,
+      "terrain": "grassland"
+    },
+    {
+      "x": 6,
+      "y": 5,
+      "terrain": "desert"
+    },
+    {
+      "x": 7,
+      "y": 5,
+      "terrain": "rocky"
+    },
+    {
+      "x": 8,
+      "y": 5,
+      "terrain": "badlands"
+    },
+    {
+      "x": 9,
+      "y": 5,
+      "terrain": "desert"
+    },
+    {
+      "x": 10,
+      "y": 5,
+      "terrain": "desert"
+    },
+    {
+      "x": 11,
+      "y": 5,
+      "terrain": "rocky"
+    },
+    {
+      "x": 12,
+      "y": 5,
+      "terrain": "grassland"
+    },
+    {
+      "x": 13,
+      "y": 5,
+      "terrain": "badlands"
+    },
+    {
+      "x": 14,
+      "y": 5,
+      "terrain": "badlands"
+    },
+    {
+      "x": 15,
+      "y": 5,
+      "terrain": "grassland"
+    },
+    {
+      "x": -5,
+      "y": 6,
+      "terrain": "desert"
+    },
+    {
+      "x": -4,
+      "y": 6,
+      "terrain": "grassland"
+    },
+    {
+      "x": -3,
+      "y": 6,
+      "terrain": "rocky"
+    },
+    {
+      "x": -2,
+      "y": 6,
+      "terrain": "desert"
+    },
+    {
+      "x": -1,
+      "y": 6,
+      "terrain": "badlands"
+    },
+    {
+      "x": 0,
+      "y": 6,
+      "terrain": "grassland"
+    },
+    {
+      "x": 1,
+      "y": 6,
+      "terrain": "badlands"
+    },
+    {
+      "x": 2,
+      "y": 6,
+      "terrain": "desert"
+    },
+    {
+      "x": 3,
+      "y": 6,
+      "terrain": "rocky"
+    },
+    {
+      "x": 4,
+      "y": 6,
+      "terrain": "badlands"
+    },
+    {
+      "x": 5,
+      "y": 6,
+      "terrain": "desert"
+    },
+    {
+      "x": 6,
+      "y": 6,
+      "terrain": "grassland"
+    },
+    {
+      "x": 7,
+      "y": 6,
+      "terrain": "rocky"
+    },
+    {
+      "x": 8,
+      "y": 6,
+      "terrain": "desert"
+    },
+    {
+      "x": 9,
+      "y": 6,
+      "terrain": "desert"
+    },
+    {
+      "x": 10,
+      "y": 6,
+      "terrain": "badlands"
+    },
+    {
+      "x": 11,
+      "y": 6,
+      "terrain": "rocky"
+    },
+    {
+      "x": 12,
+      "y": 6,
+      "terrain": "grassland"
+    },
+    {
+      "x": 13,
+      "y": 6,
+      "terrain": "grassland"
+    },
+    {
+      "x": 14,
+      "y": 6,
+      "terrain": "grassland"
+    },
+    {
+      "x": 15,
+      "y": 6,
+      "terrain": "desert"
+    },
+    {
+      "x": -5,
+      "y": 7,
+      "terrain": "rocky"
+    },
+    {
+      "x": -4,
+      "y": 7,
+      "terrain": "desert"
+    },
+    {
+      "x": -3,
+      "y": 7,
+      "terrain": "desert"
+    },
+    {
+      "x": -2,
+      "y": 7,
+      "terrain": "desert"
+    },
+    {
+      "x": -1,
+      "y": 7,
+      "terrain": "rocky"
+    },
+    {
+      "x": 0,
+      "y": 7,
+      "terrain": "rocky"
+    },
+    {
+      "x": 1,
+      "y": 7,
+      "terrain": "rocky"
+    },
+    {
+      "x": 2,
+      "y": 7,
+      "terrain": "badlands"
+    },
+    {
+      "x": 3,
+      "y": 7,
+      "terrain": "desert"
+    },
+    {
+      "x": 4,
+      "y": 7,
+      "terrain": "desert"
+    },
+    {
+      "x": 5,
+      "y": 7,
+      "terrain": "desert"
+    },
+    {
+      "x": 6,
+      "y": 7,
+      "terrain": "desert"
+    },
+    {
+      "x": 7,
+      "y": 7,
+      "terrain": "desert"
+    },
+    {
+      "x": 8,
+      "y": 7,
+      "terrain": "grassland"
+    },
+    {
+      "x": 9,
+      "y": 7,
+      "terrain": "badlands"
+    },
+    {
+      "x": 10,
+      "y": 7,
+      "terrain": "badlands"
+    },
+    {
+      "x": 11,
+      "y": 7,
+      "terrain": "rocky"
+    },
+    {
+      "x": 12,
+      "y": 7,
+      "terrain": "rocky"
+    },
+    {
+      "x": 13,
+      "y": 7,
+      "terrain": "badlands"
+    },
+    {
+      "x": 14,
+      "y": 7,
+      "terrain": "badlands"
+    },
+    {
+      "x": 15,
+      "y": 7,
+      "terrain": "badlands"
+    },
+    {
+      "x": -5,
+      "y": 8,
+      "terrain": "desert"
+    },
+    {
+      "x": -4,
+      "y": 8,
+      "terrain": "badlands"
+    },
+    {
+      "x": -3,
+      "y": 8,
+      "terrain": "rocky"
+    },
+    {
+      "x": -2,
+      "y": 8,
+      "terrain": "badlands"
+    },
+    {
+      "x": -1,
+      "y": 8,
+      "terrain": "badlands"
+    },
+    {
+      "x": 0,
+      "y": 8,
+      "terrain": "rocky"
+    },
+    {
+      "x": 1,
+      "y": 8,
+      "terrain": "rocky"
+    },
+    {
+      "x": 2,
+      "y": 8,
+      "terrain": "grassland"
+    },
+    {
+      "x": 3,
+      "y": 8,
+      "terrain": "rocky"
+    },
+    {
+      "x": 4,
+      "y": 8,
+      "terrain": "desert"
+    },
+    {
+      "x": 5,
+      "y": 8,
+      "terrain": "badlands"
+    },
+    {
+      "x": 6,
+      "y": 8,
+      "terrain": "grassland"
+    },
+    {
+      "x": 7,
+      "y": 8,
+      "terrain": "rocky"
+    },
+    {
+      "x": 8,
+      "y": 8,
+      "terrain": "grassland"
+    },
+    {
+      "x": 9,
+      "y": 8,
+      "terrain": "desert"
+    },
+    {
+      "x": 10,
+      "y": 8,
+      "terrain": "grassland"
+    },
+    {
+      "x": 11,
+      "y": 8,
+      "terrain": "desert"
+    },
+    {
+      "x": 12,
+      "y": 8,
+      "terrain": "grassland"
+    },
+    {
+      "x": 13,
+      "y": 8,
+      "terrain": "desert"
+    },
+    {
+      "x": 14,
+      "y": 8,
+      "terrain": "grassland"
+    },
+    {
+      "x": 15,
+      "y": 8,
+      "terrain": "desert"
+    },
+    {
+      "x": -5,
+      "y": 9,
+      "terrain": "desert"
+    },
+    {
+      "x": -4,
+      "y": 9,
+      "terrain": "badlands"
+    },
+    {
+      "x": -3,
+      "y": 9,
+      "terrain": "badlands"
+    },
+    {
+      "x": -2,
+      "y": 9,
+      "terrain": "desert"
+    },
+    {
+      "x": -1,
+      "y": 9,
+      "terrain": "badlands"
+    },
+    {
+      "x": 0,
+      "y": 9,
+      "terrain": "desert"
+    },
+    {
+      "x": 1,
+      "y": 9,
+      "terrain": "badlands"
+    },
+    {
+      "x": 2,
+      "y": 9,
+      "terrain": "grassland"
+    },
+    {
+      "x": 3,
+      "y": 9,
+      "terrain": "grassland"
+    },
+    {
+      "x": 4,
+      "y": 9,
+      "terrain": "grassland"
+    },
+    {
+      "x": 5,
+      "y": 9,
+      "terrain": "badlands"
+    },
+    {
+      "x": 6,
+      "y": 9,
+      "terrain": "grassland"
+    },
+    {
+      "x": 7,
+      "y": 9,
+      "terrain": "badlands"
+    },
+    {
+      "x": 8,
+      "y": 9,
+      "terrain": "rocky"
+    },
+    {
+      "x": 9,
+      "y": 9,
+      "terrain": "desert"
+    },
+    {
+      "x": 10,
+      "y": 9,
+      "terrain": "rocky"
+    },
+    {
+      "x": 11,
+      "y": 9,
+      "terrain": "desert"
+    },
+    {
+      "x": 12,
+      "y": 9,
+      "terrain": "rocky"
+    },
+    {
+      "x": 13,
+      "y": 9,
+      "terrain": "rocky"
+    },
+    {
+      "x": 14,
+      "y": 9,
+      "terrain": "badlands"
+    },
+    {
+      "x": 15,
+      "y": 9,
+      "terrain": "grassland"
+    },
+    {
+      "x": -5,
+      "y": 10,
+      "terrain": "badlands"
+    },
+    {
+      "x": -4,
+      "y": 10,
+      "terrain": "badlands"
+    },
+    {
+      "x": -3,
+      "y": 10,
+      "terrain": "badlands"
+    },
+    {
+      "x": -2,
+      "y": 10,
+      "terrain": "rocky"
+    },
+    {
+      "x": -1,
+      "y": 10,
+      "terrain": "grassland"
+    },
+    {
+      "x": 0,
+      "y": 10,
+      "terrain": "desert"
+    },
+    {
+      "x": 1,
+      "y": 10,
+      "terrain": "desert"
+    },
+    {
+      "x": 2,
+      "y": 10,
+      "terrain": "rocky"
+    },
+    {
+      "x": 3,
+      "y": 10,
+      "terrain": "badlands"
+    },
+    {
+      "x": 4,
+      "y": 10,
+      "terrain": "grassland"
+    },
+    {
+      "x": 5,
+      "y": 10,
+      "terrain": "desert"
+    },
+    {
+      "x": 6,
+      "y": 10,
+      "terrain": "grassland"
+    },
+    {
+      "x": 7,
+      "y": 10,
+      "terrain": "grassland"
+    },
+    {
+      "x": 8,
+      "y": 10,
+      "terrain": "badlands"
+    },
+    {
+      "x": 9,
+      "y": 10,
+      "terrain": "desert"
+    },
+    {
+      "x": 10,
+      "y": 10,
+      "terrain": "badlands"
+    },
+    {
+      "x": 11,
+      "y": 10,
+      "terrain": "rocky"
+    },
+    {
+      "x": 12,
+      "y": 10,
+      "terrain": "grassland"
+    },
+    {
+      "x": 13,
+      "y": 10,
+      "terrain": "rocky"
+    },
+    {
+      "x": 14,
+      "y": 10,
+      "terrain": "rocky"
+    },
+    {
+      "x": 15,
+      "y": 10,
+      "terrain": "badlands"
+    },
+    {
+      "x": -5,
+      "y": 11,
+      "terrain": "rocky"
+    },
+    {
+      "x": -4,
+      "y": 11,
+      "terrain": "grassland"
+    },
+    {
+      "x": -3,
+      "y": 11,
+      "terrain": "desert"
+    },
+    {
+      "x": -2,
+      "y": 11,
+      "terrain": "rocky"
+    },
+    {
+      "x": -1,
+      "y": 11,
+      "terrain": "rocky"
+    },
+    {
+      "x": 0,
+      "y": 11,
+      "terrain": "badlands"
+    },
+    {
+      "x": 1,
+      "y": 11,
+      "terrain": "badlands"
+    },
+    {
+      "x": 2,
+      "y": 11,
+      "terrain": "desert"
+    },
+    {
+      "x": 3,
+      "y": 11,
+      "terrain": "desert"
+    },
+    {
+      "x": 4,
+      "y": 11,
+      "terrain": "rocky"
+    },
+    {
+      "x": 5,
+      "y": 11,
+      "terrain": "rocky"
+    },
+    {
+      "x": 6,
+      "y": 11,
+      "terrain": "grassland"
+    },
+    {
+      "x": 7,
+      "y": 11,
+      "terrain": "rocky"
+    },
+    {
+      "x": 8,
+      "y": 11,
+      "terrain": "badlands"
+    },
+    {
+      "x": 9,
+      "y": 11,
+      "terrain": "badlands"
+    },
+    {
+      "x": 10,
+      "y": 11,
+      "terrain": "grassland"
+    },
+    {
+      "x": 11,
+      "y": 11,
+      "terrain": "rocky"
+    },
+    {
+      "x": 12,
+      "y": 11,
+      "terrain": "desert"
+    },
+    {
+      "x": 13,
+      "y": 11,
+      "terrain": "rocky"
+    },
+    {
+      "x": 14,
+      "y": 11,
+      "terrain": "desert"
+    },
+    {
+      "x": 15,
+      "y": 11,
+      "terrain": "desert"
+    },
+    {
+      "x": -5,
+      "y": 12,
+      "terrain": "rocky"
+    },
+    {
+      "x": -4,
+      "y": 12,
+      "terrain": "badlands"
+    },
+    {
+      "x": -3,
+      "y": 12,
+      "terrain": "rocky"
+    },
+    {
+      "x": -2,
+      "y": 12,
+      "terrain": "grassland"
+    },
+    {
+      "x": -1,
+      "y": 12,
+      "terrain": "desert"
+    },
+    {
+      "x": 0,
+      "y": 12,
+      "terrain": "grassland"
+    },
+    {
+      "x": 1,
+      "y": 12,
+      "terrain": "rocky"
+    },
+    {
+      "x": 2,
+      "y": 12,
+      "terrain": "grassland"
+    },
+    {
+      "x": 3,
+      "y": 12,
+      "terrain": "badlands"
+    },
+    {
+      "x": 4,
+      "y": 12,
+      "terrain": "desert"
+    },
+    {
+      "x": 5,
+      "y": 12,
+      "terrain": "rocky"
+    },
+    {
+      "x": 6,
+      "y": 12,
+      "terrain": "rocky"
+    },
+    {
+      "x": 7,
+      "y": 12,
+      "terrain": "badlands"
+    },
+    {
+      "x": 8,
+      "y": 12,
+      "terrain": "grassland"
+    },
+    {
+      "x": 9,
+      "y": 12,
+      "terrain": "grassland"
+    },
+    {
+      "x": 10,
+      "y": 12,
+      "terrain": "rocky"
+    },
+    {
+      "x": 11,
+      "y": 12,
+      "terrain": "rocky"
+    },
+    {
+      "x": 12,
+      "y": 12,
+      "terrain": "desert"
+    },
+    {
+      "x": 13,
+      "y": 12,
+      "terrain": "desert"
+    },
+    {
+      "x": 14,
+      "y": 12,
+      "terrain": "rocky"
+    },
+    {
+      "x": 15,
+      "y": 12,
+      "terrain": "grassland"
+    },
+    {
+      "x": -5,
+      "y": 13,
+      "terrain": "grassland"
+    },
+    {
+      "x": -4,
+      "y": 13,
+      "terrain": "rocky"
+    },
+    {
+      "x": -3,
+      "y": 13,
+      "terrain": "grassland"
+    },
+    {
+      "x": -2,
+      "y": 13,
+      "terrain": "badlands"
+    },
+    {
+      "x": -1,
+      "y": 13,
+      "terrain": "rocky"
+    },
+    {
+      "x": 0,
+      "y": 13,
+      "terrain": "rocky"
+    },
+    {
+      "x": 1,
+      "y": 13,
+      "terrain": "grassland"
+    },
+    {
+      "x": 2,
+      "y": 13,
+      "terrain": "badlands"
+    },
+    {
+      "x": 3,
+      "y": 13,
+      "terrain": "badlands"
+    },
+    {
+      "x": 4,
+      "y": 13,
+      "terrain": "badlands"
+    },
+    {
+      "x": 5,
+      "y": 13,
+      "terrain": "badlands"
+    },
+    {
+      "x": 6,
+      "y": 13,
+      "terrain": "desert"
+    },
+    {
+      "x": 7,
+      "y": 13,
+      "terrain": "grassland"
+    },
+    {
+      "x": 8,
+      "y": 13,
+      "terrain": "badlands"
+    },
+    {
+      "x": 9,
+      "y": 13,
+      "terrain": "desert"
+    },
+    {
+      "x": 10,
+      "y": 13,
+      "terrain": "badlands"
+    },
+    {
+      "x": 11,
+      "y": 13,
+      "terrain": "badlands"
+    },
+    {
+      "x": 12,
+      "y": 13,
+      "terrain": "desert"
+    },
+    {
+      "x": 13,
+      "y": 13,
+      "terrain": "desert"
+    },
+    {
+      "x": 14,
+      "y": 13,
+      "terrain": "desert"
+    },
+    {
+      "x": 15,
+      "y": 13,
+      "terrain": "grassland"
+    },
+    {
+      "x": -5,
+      "y": 14,
+      "terrain": "desert"
+    },
+    {
+      "x": -4,
+      "y": 14,
+      "terrain": "grassland"
+    },
+    {
+      "x": -3,
+      "y": 14,
+      "terrain": "badlands"
+    },
+    {
+      "x": -2,
+      "y": 14,
+      "terrain": "badlands"
+    },
+    {
+      "x": -1,
+      "y": 14,
+      "terrain": "grassland"
+    },
+    {
+      "x": 0,
+      "y": 14,
+      "terrain": "rocky"
+    },
+    {
+      "x": 1,
+      "y": 14,
+      "terrain": "grassland"
+    },
+    {
+      "x": 2,
+      "y": 14,
+      "terrain": "badlands"
+    },
+    {
+      "x": 3,
+      "y": 14,
+      "terrain": "badlands"
+    },
+    {
+      "x": 4,
+      "y": 14,
+      "terrain": "badlands"
+    },
+    {
+      "x": 5,
+      "y": 14,
+      "terrain": "rocky"
+    },
+    {
+      "x": 6,
+      "y": 14,
+      "terrain": "rocky"
+    },
+    {
+      "x": 7,
+      "y": 14,
+      "terrain": "grassland"
+    },
+    {
+      "x": 8,
+      "y": 14,
+      "terrain": "desert"
+    },
+    {
+      "x": 9,
+      "y": 14,
+      "terrain": "badlands"
+    },
+    {
+      "x": 10,
+      "y": 14,
+      "terrain": "rocky"
+    },
+    {
+      "x": 11,
+      "y": 14,
+      "terrain": "rocky"
+    },
+    {
+      "x": 12,
+      "y": 14,
+      "terrain": "rocky"
+    },
+    {
+      "x": 13,
+      "y": 14,
+      "terrain": "desert"
+    },
+    {
+      "x": 14,
+      "y": 14,
+      "terrain": "badlands"
+    },
+    {
+      "x": 15,
+      "y": 14,
+      "terrain": "badlands"
+    },
+    {
+      "x": -5,
+      "y": 15,
+      "terrain": "grassland"
+    },
+    {
+      "x": -4,
+      "y": 15,
+      "terrain": "grassland"
+    },
+    {
+      "x": -3,
+      "y": 15,
+      "terrain": "desert"
+    },
+    {
+      "x": -2,
+      "y": 15,
+      "terrain": "grassland"
+    },
+    {
+      "x": -1,
+      "y": 15,
+      "terrain": "desert"
+    },
+    {
+      "x": 0,
+      "y": 15,
+      "terrain": "grassland"
+    },
+    {
+      "x": 1,
+      "y": 15,
+      "terrain": "grassland"
+    },
+    {
+      "x": 2,
+      "y": 15,
+      "terrain": "badlands"
+    },
+    {
+      "x": 3,
+      "y": 15,
+      "terrain": "desert"
+    },
+    {
+      "x": 4,
+      "y": 15,
+      "terrain": "rocky"
+    },
+    {
+      "x": 5,
+      "y": 15,
+      "terrain": "desert"
+    },
+    {
+      "x": 6,
+      "y": 15,
+      "terrain": "badlands"
+    },
+    {
+      "x": 7,
+      "y": 15,
+      "terrain": "desert"
+    },
+    {
+      "x": 8,
+      "y": 15,
+      "terrain": "grassland"
+    },
+    {
+      "x": 9,
+      "y": 15,
+      "terrain": "desert"
+    },
+    {
+      "x": 10,
+      "y": 15,
+      "terrain": "rocky"
+    },
+    {
+      "x": 11,
+      "y": 15,
+      "terrain": "desert"
+    },
+    {
+      "x": 12,
+      "y": 15,
+      "terrain": "desert"
+    },
+    {
+      "x": 13,
+      "y": 15,
+      "terrain": "grassland"
+    },
+    {
+      "x": 14,
+      "y": 15,
+      "terrain": "desert"
+    },
+    {
+      "x": 15,
+      "y": 15,
+      "terrain": "grassland"
+    }
+  ],
+  "scope": "New games only; existing saves preserved",
+  "terrainDiscovery": "hidden-until-first-visit",
+  "authorPreview": "full-assignment-visible",
+  "exclusions": [
+    "Lakes",
+    "Infinite Golem reserves",
+    "Player-created Drill deposits"
+  ],
+  "mythril": "Existing eligible sources only; linked Dwarven settlement required for guarded Mythril",
+  "mineralRegeneration": "Unchanged",
+  "note": "Terrain/resource analytical specimen; not game generation or balance evidence"
+}

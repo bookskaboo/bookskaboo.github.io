@@ -26,11 +26,15 @@ The [recipe catalog](catalogs/recipes.md) lists actual machine assignments. Name
 
 ## Operation
 
+The separate [power-up proposal](../master-plan/23-map-power-ups.md) selects a Three-output Extractor landmark with explicit relocation grouping: moving the Extractor alone leaves its reserve in place, while selecting both permits a valid group move. It may reconnect to another ordinary Wood, Stone, Copper or Iron reserve within the same Map Node; guarded and Golem reserves are excluded from the initial version. Its stock treatment when switching resource type remains under review. This landmark behavior is planned, not implemented; ordinary Production nodes retain the rules below.
+
 Select a recipe before connecting a configurable machine. Availability follows research and machine access, so a factory can be configured before its first ingredients arrive. Recipe sockets use ingredient identities rather than the generic sockets in the node definition.
 
 Production needs complete inputs and output space. Advanced batches reserve inputs and determine chance outputs when committed. Pausing a production node stops processing; completed stock can still route. Construction and global pause also affect when work occurs.
 
 Extractor rewiring keeps matching stock and discards stock of a different resource. In new worlds, guarded camp reserves accept new extraction connections only while fully suppressed. Suppression loss pauses extraction while preserving progress and existing connections; empty guarded reserves refill instead of collapsing. Lake Intakes are the sole source of new-world Lake Water, with the upgraded two/three/four connection cap.
+
+Actual positive Refiner output sets the optional saved hasProducedWithRefiner production milestone. Both ordinary and extended/chance recipe paths set it only when a completed batch creates an item; access, placement, partial cycles, blocked output and stock do not count. The refiner-produced research trigger consumes that milestone when a catalog opts into it.
 
 A depleted reserve cannot be replaced by feeding ordinary manufactured stock into the resource socket. Forest Growth is a dedicated material connection, rather than ordinary Wood cargo.
 
@@ -41,3 +45,5 @@ Node definitions own names, categories and base sockets; capabilities own behavi
 Sources: [definitions](../../src/content/nodes.ts), [capabilities](../../src/content/nodeCapabilities.ts), [modules](../../src/content/nodeModules.ts), [simulation](../../src/simulation/engine.ts), [extended processing](../../src/simulation/progression.ts).
 
 Relevant regression coverage: [recipe selection](../../src/simulation/recipeSelection.test.ts), [Extractor storage](../../src/simulation/engine.extractorStorage.test.ts), [reviewed production](../../src/simulation/reviewedProduction.test.ts), [efficiency](../../src/simulation/engine.efficiency.test.ts). See [recipes](recipes.md), [fluids](fluids.md) and [efficiency](efficiency.md).
+
+Dev Source debugging uses each node’s real input grouping, including independent Foundry quotas and Recycler material/Water buffers. A directly supplied Recycler uses the same automatic recipe selection as ordinary material delivery. This does not change normal recipe inputs, cycle timing or ordinary routing. See [development tools](development-tools.md).

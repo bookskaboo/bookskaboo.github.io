@@ -1,0 +1,35 @@
+{
+  "id": "NODE-0693",
+  "delivery": "local",
+  "behavior": {
+    "automaticExpansionInvitation": false,
+    "automaticMonsterCampInvitation": false,
+    "automaticDwarvenNotice": false,
+    "when": "After an enabled Dev control, direct developer unlock or Dev Source placement.",
+    "savedPerFactory": true,
+    "survivesUndo": true,
+    "legacyDevFactoriesRecognized": true,
+    "manualTutorialAvailabilityUnchanged": true,
+    "unseenLessonsMarkedSeen": false,
+    "newFactoriesStartFresh": true,
+    "readOnlyReportExportUnchanged": true
+  },
+  "verification": {
+    "focused": {
+      "passed": 107,
+      "files": 8
+    },
+    "full": {
+      "passed": 2091,
+      "skipped": 2,
+      "command": "npm test -- --testTimeout=15000"
+    },
+    "productionBuild": true,
+    "systemCatalogs": 6,
+    "documentationFilesChecked": 39
+  },
+  "limits": [
+    "No fresh browser interaction run; behavior verified through engine, selector, save/reload, undo and ordinary-factory regressions.",
+    "No campaign save writes or publication."
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "parsedSVGs": [
+    "outputs\\border-obstructions-page\\art\\chasm.svg",
+    "outputs\\border-obstructions-page\\art\\mountain.svg",
+    "outputs\\border-obstructions-page\\art\\river.svg",
+    "D:\\Downloads\\node-river-border.svg",
+    "D:\\Downloads\\node-mountain-border.svg",
+    "D:\\Downloads\\node-chasm-border.svg"
+  ],
+  "standaloneInlineScriptAndStyle": true,
+  "previewTypecheck": "passed",
+  "previewBuild": "passed",
+  "mainBuild": "passed",
+  "systemCatalogsAndLinks": "passed",
+  "wordReopen": "passed",
+  "wordRendering": "unavailable: packaged LibreOffice soffice.exe missing"
+}

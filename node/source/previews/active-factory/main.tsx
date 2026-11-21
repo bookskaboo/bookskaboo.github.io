@@ -7,6 +7,7 @@ import { PixiPlayfield } from '../../src/renderer/PixiPlayfield';
 import { MAX_VISIBLE_TRANSFERS } from '../../src/simulation/transfers';
 import { GameEngine } from '../../src/simulation/engine';
 import { createFactoryFixture, factoryActivity, factoryLoads, DENSE_CELL_NODES, type FactoryLoad, type FactoryLayout } from './model';
+import { benchmarkStats, emptyBenchmark, sampledFrameInterval } from './benchmark';
 import type { RendererDiagnostics } from '../../src/renderer/sceneUpdates';
 import '../../src/styles.css';
 import './preview.css';
@@ -14,18 +15,25 @@ import './preview.css';
 function ActiveFactory() {
   const params = new URLSearchParams(location.search);
   const queryLoad = Number(params.get('nodes'));
+  const requestedZoom = Number(params.get('zoom'));
+  const initialZoom = Number.isFinite(requestedZoom) && requestedZoom >= .05 && requestedZoom <= 2 ? requestedZoom : undefined;
+  const sampleSeconds = Math.min(120, Math.max(10, Number(params.get('sampleSeconds')) || 0));
+  const sampleWindowMs = params.has('sampleSeconds') ? sampleSeconds * 1000 : 0;
   const initialLayout: FactoryLayout = params.get('layout') === 'dense' ? 'dense' : params.get('layout') === 'lines' || params.has('nodes') ? 'lines' : 'dense';
   const [layout, setLayout] = useState<FactoryLayout>(initialLayout);
   const [load, setLoad] = useState<FactoryLoad>(factoryLoads(initialLayout).find(value => value === queryLoad) ?? (initialLayout === 'dense' ? 1200 : 300));
   const [engine] = useState(() => new GameEngine(createFactoryFixture(layout, load), { autosave: false }));
   const [emphasizeProgress, setEmphasizeProgress] = useState(initialLayout === 'dense');
+  const [showDistantDetails, setShowDistantDetails] = useState(params.get('details') === '1');
   const [revision, setRevision] = useState(0);
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const [selectedConnection, setSelectedConnection] = useState<string>();
   const [cameraFocus, setCameraFocus] = useState<{ camera: CameraState; nonce: number }>();
+  const [viewZoom, setViewZoom] = useState(engine.getSector().camera.zoom);
+  const viewZoomRef = useRef(viewZoom);
   const [performanceStats, setPerformanceStats] = useState({ fps: 0, tickMs: 0 });
   const samples = useRef({ start: performance.now(), frames: [] as number[], ticks: [] as number[], lastFrame: 0 });
-  const [benchmark, setBenchmark] = useState({ frameP95: 0, frameP99: 0, tickP95: 0, slowFrames: 0, count: 0, seconds: 0 });
+  const [benchmark, setBenchmark] = useState(emptyBenchmark);
   const [message, setMessage] = useState('');
   const [rendererStats, setRendererStats] = useState<RendererDiagnostics>();
   const viewportRef = useRef<HTMLDivElement>(null);
@@ -35,8 +43,27 @@ function ActiveFactory() {
   const sector = engine.getSector();
   const activity = factoryActivity(state);
   const selected = sector.nodes.find(node => selectedIds.includes(node.id));
+  const zoomPercent = Math.round(viewZoom * 1000) / 10;
+  const zoomOptions = [...new Set([5, 10, 15, 20, 25, 30, 35, 40, 50, 75, 100, 150, 200, zoomPercent])].sort((a, b) => a - b);
 
-  const focus = (detail = false) => {
+  const restartMeasurements = () => {
+    samples.current = { start: performance.now(), frames: [], ticks: [], lastFrame: 0 };
+    setBenchmark(emptyBenchmark());
+    setPerformanceStats({ fps: 0, tickMs: 0 });
+  };
+
+  const setZoom = (zoom: number) => {
+    const box = viewportRef.current?.getBoundingClientRect();
+    if (!box) return;
+    const current = engine.getSector().camera;
+    const center = { x: box.width / 2, y: box.top + box.height / 2 };
+    const ratio = zoom / current.zoom;
+    const camera = { zoom, x: center.x - (center.x - current.x) * ratio, y: center.y - (center.y - current.y) * ratio };
+    engine.setCamera(camera);
+    setCameraFocus(previous => ({ camera, nonce: (previous?.nonce ?? 0) + 1 }));
+  };
+
+  const focus = (detail = false, zoomOverride?: number) => {
     const viewport = viewportRef.current;
     if (!viewport) return;
     const box = viewport.getBoundingClientRect();
@@ -48,7 +75,7 @@ function ActiveFactory() {
     const top = Math.min(...nodes.map(node => node.y - getNodeSize(node).h / 2));
     const bottom = Math.max(...nodes.map(node => node.y + getNodeSize(node).h / 2));
     const availableHeight = Math.max(80, box.height - (helpRef.current?.getBoundingClientRect().height ?? 48) - 32);
-    const zoom = Math.min(detail ? .9 : .5, (box.width - 48) / (right - left), availableHeight / (bottom - top));
+    const zoom = zoomOverride ?? Math.min(detail ? .9 : .5, (box.width - 48) / (right - left), availableHeight / (bottom - top));
     const camera = { x: (box.width - (left + right) * zoom) / 2, y: box.top + 16 + (availableHeight - (top + bottom) * zoom) / 2, zoom };
     engine.setCamera(camera);
     setCameraFocus(previous => ({ camera, nonce: (previous?.nonce ?? 0) + 1 }));
@@ -71,19 +98,21 @@ function ActiveFactory() {
       const start = performance.now();
       engine.tickRealtime();
       lastTickMs = performance.now() - start;
-      if (performance.now() - samples.current.start >= 5000) samples.current.ticks.push(lastTickMs);
+      const elapsed = performance.now() - samples.current.start - 5000;
+      if (elapsed >= 0 && (!sampleWindowMs || elapsed <= sampleWindowMs)) samples.current.ticks.push(lastTickMs);
     }, 100);
     let frame = 0, frames = 0, measuredAt = performance.now();
     const measure = (now: number) => {
       frames++;
       const sample = samples.current;
-      if (now - sample.start >= 5000 && sample.lastFrame) sample.frames.push(now - sample.lastFrame);
+      const measuredInterval = sampledFrameInterval(sample.lastFrame, now, sample.start + 5000, sampleWindowMs);
+      if (measuredInterval) sample.frames.push(measuredInterval);
       sample.lastFrame = now;
       if (now - measuredAt >= 1000) {
         setPerformanceStats({ fps: Math.round(frames * 1000 / (now - measuredAt)), tickMs: lastTickMs });
         measuredAt = now; frames = 0;
-        const percentile = (values: number[], fraction: number) => [...values].sort((a, b) => a - b)[Math.max(0, Math.ceil(values.length * fraction) - 1)] ?? 0;
-        setBenchmark({ frameP95: percentile(sample.frames, .95), frameP99: percentile(sample.frames, .99), tickP95: percentile(sample.ticks, .95), slowFrames: sample.frames.filter(ms => ms > 33.4).length, count: sample.frames.length, seconds: Math.max(0, (now - sample.start) / 1000 - 5) });
+        const elapsed = Math.max(0, now - sample.start - 5000);
+        setBenchmark(benchmarkStats(sample.frames, sample.ticks, Math.min(elapsed, sampleWindowMs || Infinity) / 1000, Boolean(sampleWindowMs && elapsed >= sampleWindowMs)));
         // Bound profiling memory during long manual sessions.
         if (sample.frames.length > 3600) sample.frames.splice(0, sample.frames.length - 3600);
         if (sample.ticks.length > 600) sample.ticks.splice(0, sample.ticks.length - 600);
@@ -91,7 +120,7 @@ function ActiveFactory() {
       frame = requestAnimationFrame(measure);
     };
     frame = requestAnimationFrame(measure);
-    const fitFrame = requestAnimationFrame(() => focus());
+    const fitFrame = requestAnimationFrame(() => focus(false, initialZoom));
     return () => {
       unsubscribe(); engine.stopRealtimeClock();
       clearInterval(interval); cancelAnimationFrame(frame); cancelAnimationFrame(fitFrame);
@@ -101,13 +130,11 @@ function ActiveFactory() {
   const reset = (nextLoad = load, nextLayout = layout) => {
     setLoad(nextLoad); setLayout(nextLayout);
     if (nextLayout !== layout) setEmphasizeProgress(nextLayout === 'dense');
-    samples.current = { start: performance.now(), frames: [], ticks: [], lastFrame: 0 };
-    setBenchmark({ frameP95: 0, frameP99: 0, tickP95: 0, slowFrames: 0, count: 0, seconds: 0 });
-    setPerformanceStats({ fps: 0, tickMs: 0 });
+    restartMeasurements();
     setSelectedIds([]); setSelectedConnection(undefined); setMessage('');
     // Reuse the current WebGL renderer, as the main game does when loading a save.
     engine.replaceState(createFactoryFixture(nextLayout, nextLoad));
-    requestAnimationFrame(() => focus());
+    requestAnimationFrame(() => focus(false, initialZoom));
     const url = new URL(location.href);
     url.searchParams.set('nodes', String(nextLoad));
     url.searchParams.set('layout', nextLayout);
@@ -120,13 +147,15 @@ function ActiveFactory() {
       <div className="factory-test-controls">
         <label>Layout <select value={layout} onChange={event => { const next = event.target.value as FactoryLayout; reset(next === 'dense' ? 1200 : 300, next); }}><option value="dense">Dense routing</option><option value="lines">Production lines</option></select></label>
         <label>Load <select value={load} onChange={event => reset(Number(event.target.value) as FactoryLoad)}>{factoryLoads(layout).map(value => <option key={value} value={value}>{value.toLocaleString()} nodes</option>)}</select></label>
+        <label className="factory-test-zoom" title="Changing zoom restarts measurements without resetting the factory.">Zoom <select value={zoomPercent} onChange={event => setZoom(Number(event.target.value) / 100)}>{zoomOptions.map(percent => <option key={percent} value={percent}>{percent}%</option>)}</select></label>
         <button onClick={() => engine.togglePause()}>{state.paused ? 'Resume' : 'Pause'}</button>
         <button onClick={() => focus()}>Fit all</button>
         <button onClick={() => focus(true)}>{layout === 'dense' ? 'Inspect a cell' : 'Inspect a line'}</button>
         <button onClick={() => reset()}>Reset test</button>
         <label><input type="checkbox" checked={emphasizeProgress} onChange={event => setEmphasizeProgress(event.target.checked)} />Emphasize progress bars</label>
+        <label><input type="checkbox" checked={showDistantDetails} onChange={event => { setShowDistantDetails(event.target.checked); reset(); }} />Show distant text and boxes</label>
       </div>
-      <div className="factory-test-stats" aria-label="Live factory activity" data-benchmark={JSON.stringify(benchmark)} data-renderer={JSON.stringify(rendererStats)} data-layout={layout} data-progress-emphasis={emphasizeProgress}>
+      <div className="factory-test-stats" aria-label="Live factory activity" data-benchmark={JSON.stringify(benchmark)} data-renderer={JSON.stringify(rendererStats)} data-camera={JSON.stringify(sector.camera)} data-layout={layout} data-progress-emphasis={emphasizeProgress} data-distant-details={showDistantDetails}>
         <span>{activity.nodes} nodes</span><span>{activity.producers} producers</span><span>{activity.connections} connections</span>
         {layout === 'dense' && <><span>{activity.splitters} Splitters</span><span>{activity.mergers} Mergers</span></>}
         <span>{state.paused ? 0 : activity.cycling} cycling</span>
@@ -139,6 +168,7 @@ function ActiveFactory() {
     <PixiPlayfield viewportRef={viewportRef} engine={engine} revision={revision} selectedIds={selectedIds} selectedConnection={selectedConnection}
       onDiagnostics={setRendererStats}
       minimumProgressBarPixels={emphasizeProgress ? 3 : 0}
+      showDistantNodeDetails={showDistantDetails}
       snapToGrid={false} showRecipeIcons={true} cameraFocus={cameraFocus}
       onSelect={setSelectedIds} onNodeContextMenu={id => setSelectedIds([id])} onCopyRecipe={() => false} onPlace={() => {}}
       onConnect={(from, to, fromPort, toPort, replace) => engine.connectPorts(from, fromPort, to, toPort, replace)}
@@ -146,7 +176,12 @@ function ActiveFactory() {
       onDeleteConnection={id => engine.deleteConnection(id)} onDeleteNode={id => engine.deleteNodes([id])}
       onCycleInputPorts={id => engine.cycleNodeInputOrder(id)} onCycleOutputPorts={id => engine.cycleNodeOutputPosition(id)}
       onRotate={id => engine.rotateNode(id)} onConfigure={id => setSelectedIds([id])} onClonePlacement={() => {}}
-      onCamera={camera => engine.setCamera(camera)} />
+      onCamera={camera => {
+        engine.setCamera(camera);
+        if (Math.abs(viewZoomRef.current - camera.zoom) > .000001) {
+          viewZoomRef.current = camera.zoom; setViewZoom(camera.zoom); restartMeasurements();
+        }
+      }} />
     <aside ref={helpRef} className="factory-test-help">
       <p>Scroll to zoom · Space + drag to pan · Click a node to inspect</p>
       <p>The current renderer shows up to {MAX_VISIBLE_TRANSFERS} transfer animations; the counter includes all physical cargo.</p>

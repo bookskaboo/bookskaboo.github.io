@@ -20,13 +20,15 @@ describe('research dependency tree', () => {
   });
 
   it('routes each Core through its own project before showing the first Final Core as a victory requirement', () => {
-    const chain = ['simpleCore', 'basicCore', 'automataCore', 'hydroCore', 'shinyCore', 'complexCore', 'finalCore'];
+    const chain = ['basicCore', 'automataCore', 'hydroCore', 'shinyCore', 'complexCore', 'finalCore'];
+    expect(tree.nodes.some(node => node.project.id === 'simpleCore')).toBe(false);
+    for (const id of ['splitter', 'merger']) expect(researchAncestors(tree, id).has('refiner')).toBe(true);
     chain.forEach((id, index) => {
       const ancestors = researchAncestors(tree, id);
       for (const previous of chain.slice(0, index)) expect(ancestors.has(previous)).toBe(true);
     });
-    expect(tree.edges).toContainEqual({ from: 'complexCore', to: 'cornerComponents' });
-    expect(tree.edges).toContainEqual({ from: 'cornerComponents', to: 'finalCore' });
+    expect(tree.nodes.some(node => node.project.id === 'cornerComponents')).toBe(false);
+    expect(tree.edges).toContainEqual({ from: 'complexCore', to: 'finalCore' });
     expect(tree.edges).toContainEqual({ from: 'finalCore', to: 'victory' });
   });
 
@@ -41,7 +43,7 @@ describe('research dependency tree', () => {
 
   it('removes redundant lines while preserving indirect dependencies', () => {
     const node = tree.nodes.find(node => node.project.id === 'connectorMirroring')!;
-    expect(node.dependencies).toEqual(['hydroCore']);
+    expect(node.dependencies).toEqual(['complexCore']);
     expect(researchAncestors(tree, node.project.id).has('automataCore')).toBe(true);
   });
 
@@ -74,7 +76,7 @@ describe('research dependency tree', () => {
   it('marks the reachable prerequisite frontier and recognizes the first Final Core gate', () => {
     const game = createInitialState(1);
     const lineage = researchAncestors(tree, 'victory');
-    expect(researchPathSteps(tree, lineage, game)).toEqual({ ids: new Set(['smelter']), needsFinalCore: false });
+    expect(researchPathSteps(tree, lineage, game)).toEqual({ ids: new Set(['smelter', 'basicCore']), needsFinalCore: false });
 
     game.research.completed = [...lineage].filter(id => id !== 'victory');
     expect(researchPathSteps(tree, lineage, game)).toEqual({ ids: new Set(), needsFinalCore: true });

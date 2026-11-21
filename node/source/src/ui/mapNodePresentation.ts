@@ -3,7 +3,6 @@ import { isWorldObstacle } from '../content/nodeCapabilities';
 import type { LineArtId } from '../art/lineArt';
 import type { GameState, ItemId, SectorState } from '../domain/types';
 import { mapNodePosition, worldCornerIds, worldGridSize } from '../domain/worldGrid';
-import { mapExplorationBlockers, mapPurchaseProtected } from '../simulation/mapExpansion';
 
 export { mapNodePosition } from '../domain/worldGrid';
 
@@ -43,7 +42,7 @@ export function mapLandmarkSurvey(game: GameState) {
   return { discovered, bySector };
 }
 
-/** One visit reveals the other locations while their challenges stay anonymous until unlocked. */
+/** Complex Core research reveals locations; one corner visit also preserves legacy discovery. */
 export function mapCornerMarkers(game: GameState) {
   const corners = worldCornerIds(worldGridSize(game));
   const visitedCorner = corners.some(id => {
@@ -52,7 +51,8 @@ export function mapCornerMarkers(game: GameState) {
       && sector.nodes.some(node => node.kind === 'cornerChallenge');
   });
   const markers = new Map<string, string>();
-  if (visitedCorner) for (const id of corners) {
+  const revealed = game.research.completed.includes('complexCore') || game.research.completed.includes('cornerComponents');
+  if (revealed || visitedCorner) for (const id of corners) {
     const sector = game.sectors[id];
     const challenge = sector?.unlocked ? sector.nodes.find(node => node.kind === 'cornerChallenge') : undefined;
     markers.set(id, challenge?.name ?? '???');
@@ -80,9 +80,6 @@ export function mapNodeSurvey(game: GameState, id: string) {
 }
 
 export function mapNodeHoverDetails(game: GameState, id: string) {
-  const [x,y]=id.split(',').map(Number);
-  const blockers=mapExplorationBlockers(game,x,y);
-  if (blockers.length && !mapPurchaseProtected(game,id)) return [`Nearby Deep Holes on ${blockers.map(s=>mapNodePosition(s.x,s.y)).join(', ')} prevent exploration. Fill all generated holes there.`];
   const survey = mapNodeSurvey(game, id);
   if (!survey.explored) return ['Map Node Unexplored'];
   const resources = survey.resources.map(({ item, remaining }) => `${ITEM_NAMES[item]} ${Math.floor(remaining).toLocaleString()}`);

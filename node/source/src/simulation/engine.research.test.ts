@@ -23,8 +23,7 @@ function setup(project = 'extractor2') {
   // is available to projects such as repeatable Map Node research.
   if (project === 'exploration') state.research.completed = [];
   const engine = new GameEngine(state);
-  if (project === 'mapNode') engine.startMapResearch(4, 5);
-  else engine.selectResearch(project);
+  engine.selectResearch(project);
   return { engine, center: engine.getSector().nodes[0], state: engine.getState() };
 }
 
@@ -125,13 +124,13 @@ describe('synchronized Research Center cycles', () => {
     center.input = { 'simple-core': 6, 'basic-core': 6, 'automata-core': 2 };
     for (let i = 0; i < 5; i++) advance(engine, 5000);
     expect(state.research.repeatableCompletions?.mapNode).toBe(1);
-    expect(state.sectors['4,5'].unlocked).toBe(true);
-    expect(state.research.mapPoints).toBe(0);
+    expect(state.sectors['4,5']?.unlocked).not.toBe(true);
+    expect(state.research.mapPoints).toBe(1);
     expect(state.research.selected).toBeUndefined();
     expect(center.input).toEqual({ 'simple-core': 1, 'basic-core': 6, 'automata-core': 2 });
     advance(engine, 5000);
     expect(center.input['simple-core']).toBe(1);
-    expect(engine.startMapResearch(6, 5)).toBe(true);
+    engine.selectResearch('mapNode');
     advance(engine, 5000);
     expect(state.research.contributed).toEqual({ 'simple-core': 1 });
     expect(state.research.repeatableCompletions?.mapNode).toBe(1);
@@ -169,12 +168,17 @@ describe('standalone Core research', () => {
   it('charges five of every earlier Core and lets only its own project unlock each recipe', () => {
     const earlier = ['simple-core', 'basic-core', 'automata-core', 'hydro-core', 'shiny-core', 'command-core'];
     CORE_RESEARCH.forEach(({ id, item, prerequisite }, index) => {
+      if (index === 0) {
+        expect(getResearchProject(id)).toBeUndefined();
+        expect(isRecipeUnlocked(item, [])).toBe(true);
+        return;
+      }
       const project = getResearchProject(id)!;
       expect(project.costs).toEqual(Object.fromEntries(earlier.slice(0, index).map(core => [core, 5])));
       expect(isRecipeUnlocked(item, [prerequisite])).toBe(false);
       expect(isRecipeUnlocked(item, [prerequisite, id])).toBe(true);
     });
-    expect(getResearchProject('simpleCore')?.trigger?.id).toBe('refiner-unlocked');
+    expect(getResearchProject('basicCore')?.prerequisites ?? []).not.toContain('simpleCore');
   });
 
   it('requires all earlier Core types in a synchronized payment before unlocking Hydro Core', () => {

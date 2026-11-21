@@ -1,0 +1,35 @@
+{
+  "change": "NODE-0690",
+  "scope": "Explicit isolated prototype transition; ordinary campaign loading remains unchanged.",
+  "policy": [
+    "Keep earned Core recipes and active/parked Core payments",
+    "Derive bot tier from stable completed recipe-project IDs and fill missing earlier character milestones implied by earned higher recipes",
+    "Do not infer Final character completion from Final Core or victory; retain an explicitly saved finalBotUpgrade",
+    "Retain selected project, queue, pauses, stock and partial Research Center cycles",
+    "Leave map-rule/quote conversion to its separate review"
+  ],
+  "verification": {
+    "functionalTests": "82 passed across nine files, including eleven migration checks",
+    "previewTypeScript": "passed",
+    "standalonePreviewBuild": "passed",
+    "systemCatalogsAndLinks": "six catalogs and 39 documents passed",
+    "changelog": "passed: 690 entries, five generated files, six tests"
+  },
+  "browser": {
+    "url": "http://127.0.0.1:4194/outputs/status-page/status-modal.html",
+    "observations": [
+      "Basic/Fabrication Specialist portrait with Automata upgrade 2/5 of Simple, Basic, Automata",
+      "Two queued projects; Extractor 1 retains three paid Simple Cores (3/30 total)",
+      "Snapshot reload retains all visible progression/payments",
+      "Disabling priority retains explicit pause; resuming selects first queued project with its paid amount",
+      "Re-enabling priority restores all three 2/5 badges",
+      "No historical completion notice replay and no captured warning/error logs"
+    ],
+    "screenshot": "saved-progress-transition.jpg"
+  },
+  "limits": [
+    "File-shaped synthetic stock-catalog fixture; no real campaign slot read/write",
+    "Actual modal adoption, campaign/mod-package integration and destination-map quote policy remain pending",
+    "No commit or publication"
+  ]
+}

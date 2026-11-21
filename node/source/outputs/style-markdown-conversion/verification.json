@@ -1,0 +1,36 @@
+{
+  "documents": [
+    {
+      "source": "docs\\node-ui-style-guide.docx",
+      "markdown": "docs\\node-ui-style-guide.md",
+      "archive": "docs\\archive\\style-reference-docx\\node-ui-style-guide.docx",
+      "sourceAndArchiveSha256": "d75392fe79c598bec3fae571fec99527f632d7f81af4e1e7052ac812818506fa",
+      "paragraphsPreserved": 111,
+      "tablesPreserved": 1,
+      "tableRowsPreserved": 8,
+      "tableCellsPreserved": 24,
+      "allTextVerified": true,
+      "blockOrderVerified": true,
+      "independentReadbackVerified": true,
+      "paragraphsAndCellsChecked": 135
+    },
+    {
+      "source": "docs\\typography-style-review.docx",
+      "markdown": "docs\\typography-style-review.md",
+      "archive": "docs\\archive\\style-reference-docx\\typography-style-review.docx",
+      "sourceAndArchiveSha256": "c441fa6f599ff602202fdac4f84e434661829dedba8de1a1885824e2f1bbc3f2",
+      "paragraphsPreserved": 179,
+      "tablesPreserved": 5,
+      "tableRowsPreserved": 42,
+      "tableCellsPreserved": 126,
+      "allTextVerified": true,
+      "blockOrderVerified": true,
+      "independentReadbackVerified": true,
+      "paragraphsAndCellsChecked": 305
+    }
+  ],
+  "activeFormat": "Markdown",
+  "wordRenderingRequired": false,
+  "historyId": "NODE-0674",
+  "historicalEvidencePathsRelocated": 173
+}

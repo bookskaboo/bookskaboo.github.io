@@ -24,6 +24,7 @@ try {
       mod.rules = { worldGridSize:config.size, mapWidthMultiplier:config.width, mapHeightMultiplier:config.height };
       setActiveModRules(mod); state.worldGridSize = config.size;
       state.fieldSizeScale = config.scale;
+      state.mapTerrainVersion = 0; delete state.mapTerrains;
       state.research.completed = config.expansion ? ['areaExpansion2'] : [];
       state.borderObstructions = generateBorderObstructions(seed,config.size);
       const field = getWorldFieldSize(state), largest = { width:5400*config.scale*config.width, height:3600*config.scale*config.height };

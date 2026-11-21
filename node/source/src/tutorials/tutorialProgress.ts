@@ -48,7 +48,7 @@ export function lessonSatisfied(stage: TutorialStage, state: GameState, panel: s
     case 'make-core': return (state.produced?.['simple-core'] ?? 0) > 0;
     case 'build-lab': return has('researchCenter');
     case 'deliver-core': return nodes.some(n => n.kind === 'researchCenter' && (n.input['simple-core'] ?? 0) > 0);
-    case 'cores-open': return state.research.selected === 'assembler' || state.research.completed.includes('assembler');
+    case 'cores-open': return state.research.queue?.includes('assembler') === true || state.research.selected === 'assembler' || state.research.completed.includes('assembler');
     case 'cores-explain': return state.research.completed.includes('assembler');
     case 'options-open': return panel === 'options';
     case 'logistics-joint-connect': return link('tutorial-forest', 'tutorial-joint') && link('tutorial-joint', 'tutorial-extractor-a');

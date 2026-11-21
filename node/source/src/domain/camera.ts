@@ -4,13 +4,18 @@ export const DEFAULT_MIN_CAMERA_ZOOM = .25;
 
 export interface FieldViewport { width: number; height: number; top: number }
 
+/** Zoom-out room for exterior controls; the playable field remains unchanged. */
+export function exteriorFieldOverviewSize(worldSize: {width:number;height:number}) {
+  return {width:worldSize.width*2,height:worldSize.height*2};
+}
+
 /** The drawable field starts below the toolbar, with room for the map border. */
 export function cameraViewport(viewport: FieldViewport) {
   const top = viewport.top + 6;
   return { x: 18, y: top, width: Math.max(1, viewport.width - 36), height: Math.max(1, viewport.height - top - 18) };
 }
 
-/** First-entry overview; later travel restores the sector's saved camera. */
+/** Fit the entire field; also supplies the initial center for a newly visited map. */
 export function sectorOverviewCamera(worldSize: { width: number; height: number }, viewport: FieldViewport): CameraState {
   const usable = cameraViewport(viewport);
   const zoom = Math.min(DEFAULT_MIN_CAMERA_ZOOM, usable.width / worldSize.width, usable.height / worldSize.height);
@@ -35,6 +40,24 @@ export function clampFieldCamera(camera: CameraState, worldSize: { width: number
     x: clampAxis(camera.x, usable.x, usable.width, worldSize.width * zoom, 360),
     y: clampAxis(camera.y, usable.y, usable.height, worldSize.height * zoom, 300),
   };
+}
+
+/** Carry zoom between maps, retaining a visited destination's world-space center. */
+export function sectorTravelCamera(zoom: number, worldSize: { width: number; height: number }, viewport: FieldViewport, savedCamera?: CameraState, overviewSize = worldSize): CameraState {
+  const usable = cameraViewport(viewport);
+  const base = savedCamera ?? sectorOverviewCamera(worldSize, viewport);
+  const centerX = usable.x + usable.width / 2, centerY = usable.y + usable.height / 2;
+  return clampFieldCamera({
+    zoom,
+    x: centerX - (centerX - base.x) / base.zoom * zoom,
+    y: centerY - (centerY - base.y) / base.zoom * zoom,
+  }, worldSize, viewport, overviewSize);
+}
+
+/** Bring a specific world point into focus at the existing zoom, within field bounds. */
+export function focusedFieldCamera(zoom: number, point: {x:number;y:number}, worldSize: {width:number;height:number}, viewport: FieldViewport, overviewSize=worldSize): CameraState {
+  const usable=cameraViewport(viewport);
+  return clampFieldCamera({zoom,x:usable.x+usable.width/2-point.x*zoom,y:usable.y+usable.height/2-point.y*zoom},worldSize,viewport,overviewSize);
 }
 
 /** Reveal more of a zoomed map while a dragged node or cable nears an edge. */

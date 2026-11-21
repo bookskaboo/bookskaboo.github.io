@@ -1,0 +1,103 @@
+{
+  "research": [
+    {
+      "crossable": 0,
+      "detail": "Border obstructionsEast · RiverHydro research required",
+      "markers": 9,
+      "stage": "0"
+    },
+    {
+      "crossable": 3,
+      "detail": "Border obstructionsEast · RiverRoad placement permitted",
+      "markers": 9,
+      "stage": "1"
+    },
+    {
+      "crossable": 6,
+      "detail": "Border obstructionsEast · RiverRoad placement permitted",
+      "markers": 9,
+      "stage": "2"
+    },
+    {
+      "crossable": 9,
+      "detail": "Border obstructionsEast · RiverRoad placement permitted",
+      "markers": 9,
+      "stage": "3"
+    }
+  ],
+  "partialSurvey": {
+    "labels": [
+      "River · N1.W1 / N1. Road placement permitted",
+      "River · E1 / E2. Road placement permitted",
+      "River · S2.W2 / S3.W2. Road placement permitted",
+      "Mountain · N2.E2 / N2.E3. Road placement permitted",
+      "Mountain · S2.E2 / S2.E3. Road placement permitted",
+      "Chasm · S2 / S3. Road placement permitted"
+    ],
+    "visible": 6
+  },
+  "alignment": [
+    {
+      "label": "River · N1.W1 / N1. Hydro research required",
+      "offset": 0.00600433349609375
+    },
+    {
+      "label": "River · E1 / E2. Hydro research required",
+      "offset": 0.00598907470703125
+    },
+    {
+      "label": "River · S2.W2 / S3.W2. Hydro research required",
+      "offset": 0.0060482025146484375
+    },
+    {
+      "label": "Mountain · N2.E2 / N2.E3. Shiny research required",
+      "offset": 0.0060482025146484375
+    },
+    {
+      "label": "Mountain · W3 / S1.W3. Shiny research required",
+      "offset": 0.6930313110351562
+    },
+    {
+      "label": "Mountain · S2.E2 / S2.E3. Shiny research required",
+      "offset": 0.0060482025146484375
+    },
+    {
+      "label": "Chasm · N3.W3 / N3.W2. Complex research required",
+      "offset": 0.00600433349609375
+    },
+    {
+      "label": "Chasm · S3.E3 / S4.E3. Complex research required",
+      "offset": 0.00597381591796875
+    },
+    {
+      "label": "Chasm · S2 / S3. Complex research required",
+      "offset": 0.0060482025146484375
+    }
+  ],
+  "mobile": {
+    "contentWidth": 390,
+    "detail": "Border obstructionsEast · RiverHydro research required",
+    "detailBottom": 727.5060272216797,
+    "modalTop": 242.15362548828125,
+    "scrollBottom": 768.9925689697266,
+    "toolbarBottom": 230.2043304443359,
+    "width": 390
+  },
+  "mobileSelectedBorder": {
+    "bottom": 727.5961532592773,
+    "scrollBottom": 769.0865478515625,
+    "text": "Border obstructionsWest · RiverHydro research required"
+  },
+  "checked": [
+    "actual Node Map modal and details",
+    "three distinct border symbols in both orientations",
+    "reciprocal selected-map directions",
+    "terrain retained after research",
+    "discovery from either adjacent map",
+    "tooltip with adjacent positions and required tier",
+    "Escape and reopen",
+    "wrapping toolbar clears modal",
+    "narrow border details visible before editor"
+  ],
+  "logs": []
+}

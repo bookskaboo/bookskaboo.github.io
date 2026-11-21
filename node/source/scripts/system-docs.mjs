@@ -15,9 +15,12 @@ try {
   const { NODE_DEFINITIONS } = await load('nodes');
   const { NODE_CAPABILITIES } = await load('nodeCapabilities');
   const { RESEARCH_PROJECTS, getResearchCosts } = await load('research');
+  const { activateMod } = await server.ssrLoadModule('/src/mods/modContent.ts');
+  activateMod();
   const { MACHINE_EFFICIENCY, efficiencyFactors } = await load('machineEfficiency');
   const { DEFERRED_POWER_NODES } = await load('deferredPower');
   const { CORE_RESEARCH } = await load('coreResearch');
+  const { buildResearchTree } = await server.ssrLoadModule('/src/ui/researchTree.ts');
   const { BOT_BUILDS, BOT_FRAMES, BOT_GUNS, BOT_FRAME_AP, BOT_GUN_MULTIPLIERS } = await load('botAssembly');
   const researchNames = Object.fromEntries(RESEARCH_PROJECTS.map(p => [p.id, p.name]));
   const name = id => ITEM_NAMES[id] ?? id;
@@ -50,8 +53,50 @@ try {
     `${liveRecipes.length} selectable or automatic recipes. Base cycles exclude upgrades, starvation, construction, travel and blocked output. The six Yin and Yang definitions are world-specific alternatives; only the pair matching the world's pairing index is available. Retired recipes and legacy bot recipe aliases are excluded. Empty outputs mean disposal.\n\n` +
     liveRecipes.map(r => `<a id="recipe-${r.id}"></a>\n\n## ${r.name}\n\n` + table(['ID', 'Machine', 'Inputs', 'Guaranteed outputs', 'Chance outputs', 'Base seconds', 'Recipe gate'], [[`\`${r.id}\``, groupKinds(r.id).map(k => NODE_DEFINITIONS[k].name).join(', '), bag(r.inputs), bag(r.outputs), (r.chanceOutputs ?? []).map(o => `${o.amount} ${name(o.item)} at ${o.probability * 100}%`).join('; ') || 'None', r.cycleMs / 1000, r.unlockResearch ? projectLink(r.unlockResearch) : ['robot-frame', 'robot-gun'].includes(r.id) ? projectLink('suppressionBot') : 'Machine access']])).join('\n\n'));
 
+  // Use the game's tree, including inferred Core access and milestone parents.
+  // A branch may require a later tier than the highest Core in its own bill.
+  const researchTree = buildResearchTree();
+  const treeNodes = new Map(researchTree.nodes.map(node => [node.project.id, node]));
+  const coreTier = project => CORE_RESEARCH.reduce((tier, core, i) => getResearchCosts(project)[core.item] > 0 ? i + 1 : tier, 0);
+  const producedCoreTier = project => CORE_RESEARCH.findIndex(core =>
+    project.trigger?.id === `${core.name.toLowerCase().replaceAll(' ', '-')}-produced`) + 1;
+  const stages = new Map();
+  function progressionStage(id) {
+    if (stages.has(id)) return stages.get(id);
+    const node = treeNodes.get(id);
+    const stage = Math.max(coreTier(node.project), producedCoreTier(node.project), ...node.dependencies.map(progressionStage));
+    stages.set(id, stage);
+    return stage;
+  }
+  const reviewNodes = researchTree.nodes.map((node, index) => ({ ...node, index, stage: progressionStage(node.project.id) }))
+    .sort((a, b) => a.stage - b.stage || a.depth - b.depth || a.index - b.index);
+  const reviewPosition = new Map(reviewNodes.map((node, i) => [node.project.id, i]));
+  if (reviewNodes.length !== RESEARCH_PROJECTS.length || reviewPosition.size !== RESEARCH_PROJECTS.length
+      || reviewNodes.some(node => node.dependencies.some(id => reviewPosition.get(id) >= reviewPosition.get(node.project.id)))) {
+    throw new Error('Research review must contain every project once, after its dependencies.');
+  }
+  const reviewChart = '## Progression review chart\n\n' +
+    'All live projects in Core-stage order, with prerequisites before dependent projects using the game\'s research tree. Independent branches within a stage have no mandatory order; ties retain catalog order. A stage includes any later Core access required by prerequisites or a Core-production trigger. Automatic discoveries can occur at different times during play.\n\n' +
+    '**Highest Core** is the highest-tier Core in the project\'s bill. **Number cost** is the quantity of that Core on the first purchase, not the total bill. All current paid opening bills require the same quantity of every lower Core too. Simple Core is a starting Refiner recipe with no research gate or research row. Automatic discoveries cost 0. Repeatables are marked ↻; later prices can grow. Extra Map Point shows its fallback opening price; ordinary play uses the selected destination\'s quote. These are current base-game values, separate from the Status prototype proposals.\n\n' +
+    Array.from({ length: CORE_RESEARCH.length + 1 }, (_, stage) => {
+      const nodes = reviewNodes.filter(node => node.stage === stage);
+      if (!nodes.length) return '';
+      return `### ${stage ? CORE_RESEARCH[stage - 1].name.replace(' Core', '') + ' stage' : 'Before paid research'}\n\n` +
+        table(['Name', 'Highest Core', 'Number cost', 'Effect'], nodes.map(({ project }) => {
+          const tier = coreTier(project);
+          const core = CORE_RESEARCH[tier - 1];
+          const costs = getResearchCosts(project);
+          if (core && CORE_RESEARCH.slice(0, tier).some(({ item }) => costs[item] !== costs[core.item])) {
+            throw new Error(`Research review needs a nonuniform-bill explanation: ${project.id}`);
+          }
+          return [projectLink(project.id) + (project.repeatable ? ' ↻' : ''), core?.name ?? 'None (automatic)', core ? costs[core.item] : 0,
+            project.unlock.replace(/[.!?]?$/, '.') + (project.trigger ? ` Automatic: ${project.trigger.pending.replace(/[.!?]?$/, '.')}` : '')];
+        }));
+    }).filter(Boolean).join('\n\n') + '\n\n## Full project details\n\n';
+
   emit('research.md', header('Research catalog', ['research', 'coreResearch', 'machineEfficiency', 'endgame']) +
-    `${RESEARCH_PROJECTS.length} live projects, including automatic discoveries and repeatables. Costs are the assembled first-purchase prices after minimum-price rules. Extra Map Point uses destination pricing in ordinary play; its row is the fallback opening price. Repeatable costs can grow. Prerequisites include both prerequisite fields; an internal production milestone has no research card.\n\n` +
+    `${RESEARCH_PROJECTS.length} live unmodded projects, including character upgrades, automatic discoveries and repeatables. Costs are the assembled first-purchase prices after minimum-price rules. Extra Map Point awards a banked point; its row is the opening price and repeatable costs can grow. Prerequisites include both prerequisite fields; an internal production milestone has no research card. Applied-mod factories retain their existing catalog pending Upgrades support.\n\n` +
+    reviewChart +
     RESEARCH_PROJECTS.map(p => `<a id="research-${p.id}"></a>\n\n## ${p.name}\n\n` + table(['ID', 'Category', 'Price or discovery', 'Prerequisites', 'Effect'], [[`\`${p.id}\`${p.repeatable ? ' (repeatable)' : ''}`, p.category, p.trigger ? `Automatic: ${p.trigger.pending}` : bag(getResearchCosts(p)), [...new Set([p.prerequisite, ...(p.prerequisites ?? [])].filter(Boolean))].map(projectLink).join(', ') || 'None', p.unlock]]) + (p.costGrowth ? `\n\nCost growth per completion: ×${p.costGrowth}, rounded up with the applicable Core minimum.` : '')).join('\n\n'));
 
   emit('items.md', header('Materials and resource use catalog', ['items', 'recipes', 'botAssembly']) +

@@ -22,12 +22,16 @@ The factory field supports direct placement, socket wiring, selection groups and
 | Recipe icons | Alt |
 | Research / Build / Journal / Options | Q / B / J / O |
 | Field minimap / full Node Map | M / Shift + M after Exploration |
+| Visit a Road's connected Map Node | Click the exterior Travel arrow or double-click the Road body away from sockets |
+| Reverse Road flow | Stationary right-click on either Road body; disconnects endpoint cables for rewiring |
 
 ## Placement and socket arrangement
 
+Travel through the Node Map or a Road retains the previous field’s zoom. Road double-click and the Travel button focus and highlight the paired Road on arrival, within camera bounds. Ordinary Node Map travel centers a new field and retains a revisited destination’s saved center. Tutorial practice keeps its authored camera.
+
 Grid snapping aligns top-left corners to a 32-unit world grid. Selected groups preserve internal spacing. Player-built bodies may touch but cannot overlap; natural resources, obstructions and field edges retain clearance. Dragging near a zoomed field edge scrolls the field while preserving the drag.
 
-Connector Mirroring research makes production-node right-click swap input/output banks while preserving semantic ports and cables. Supported logistics nodes rotate their connectors. Recipe-machine order controls cycle input order or output position separately. These right-click actions can take priority over group dialogs.
+Connector Mirroring is Complex-tier research requiring Complex Core research and 10 of each Core from Simple through Complex (60 total). Previously completed mirroring stays completed. It makes production-node right-click swap input/output banks while preserving semantic ports and cables. A Road right-click reverses shipment direction; other supported logistics nodes rotate their connectors. Recipe-machine order controls cycle input order or output position separately. These right-click actions can take priority over group dialogs.
 
 Node and group dragging retain their drawing objects while updating affected
 cables and cargo paths against preview positions. Zooming and panning recalculate
@@ -49,4 +53,4 @@ Production uses 1–5, Logistics Shift + 1–5 and Storage Ctrl + 1–5. F1/F2/F
 
 Sources: [Commands panel](../../src/ui/panels/CommandsPanel.tsx), [grid](../../src/domain/nodeGrid.ts), [groups](../../src/domain/controlGroups.ts), [template runtime](../../src/simulation/factoryTemplateRuntime.ts), [shortcuts](../../src/ui/ShortcutBars.tsx), [engine commands](../../src/simulation/engine.ts).
 
-Coverage: [groups](../../src/simulation/controlGroups.test.ts), [mirroring](../../src/simulation/engine.connectorMirroring.test.ts), [grid](../../src/domain/nodeGrid.test.ts), [shortcut preferences](../../src/ui/shortcutPreferences.test.ts). For changes to player-facing style or copy, follow the [style guide](../node-ui-style-guide.docx) and update the [review notes](../typography-style-review.docx) in the same change.
+Coverage: [groups](../../src/simulation/controlGroups.test.ts), [mirroring](../../src/simulation/engine.connectorMirroring.test.ts), [grid](../../src/domain/nodeGrid.test.ts), [shortcut preferences](../../src/ui/shortcutPreferences.test.ts). For changes to player-facing style or copy, follow the [style guide](../node-ui-style-guide.md) and update the [review notes](../typography-style-review.md) in the same change.

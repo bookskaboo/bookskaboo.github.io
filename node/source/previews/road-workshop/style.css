@@ -1,0 +1,10 @@
+.road-workshop { --hud-clear:130px; color:#dce5eb; font:var(--modal-copy-font); }
+.road-workshop-toolbar { position:fixed;z-index:60;inset:0 0 auto;padding:14px 20px 10px;background:#17232d;border-bottom:1px solid #46525b;display:flex;align-items:center;gap:12px 28px;flex-wrap:wrap; }
+.road-workshop h1 {margin:0;font:var(--ui-title-font);}.road-workshop h2 {margin:12px 0 8px;font:var(--ui-section-font);}
+.road-workshop p {margin:5px 0;font:var(--modal-copy-font);color:#bdcbd3;}.road-workshop-toolbar [role=status]{flex-basis:100%;}
+.road-workshop-actions{display:flex;gap:8px;flex-wrap:wrap;}.road-workshop button{font:var(--ui-control-font);padding:8px 11px;color:#dce5eb;background:#263743;border:1px solid #536776;border-radius:6px;cursor:pointer;}
+.road-workshop button:hover{background:#344c5d;border-color:#91b0c4;}.road-workshop button:focus-visible{outline:2px solid #ff8992;outline-offset:2px;}
+.road-workshop-sidebar{position:fixed;z-index:55;top:calc(var(--hud-clear) + 12px);right:14px;bottom:14px;width:232px;padding:0 14px 14px;background:#17232df5;border:1px solid #46525b;border-radius:10px;overflow:auto;}
+.road-workshop-maps{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;}.road-workshop-maps button{padding:9px 2px;}.road-workshop-maps [aria-current]{border-color:#e7b354;background:#4a3e28;color:#ffda91;}
+.road-workshop-route{display:grid;gap:4px;width:100%;margin:6px 0;text-align:left;}.road-workshop-route small{font:var(--ui-meta-font);color:#b7c8d1;}.road-workshop .road-workshop-note{margin-top:16px;color:#9faeb8;}
+@media(max-width:700px){.road-workshop-sidebar{width:174px;padding:0 10px 10px;}.road-workshop-toolbar{padding:10px;gap:8px;}}

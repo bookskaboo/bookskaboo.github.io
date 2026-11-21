@@ -1,7 +1,7 @@
 import { renderToStaticMarkup } from 'react-dom/server';
 import { expect, it } from 'vitest';
 import { createInitialState, GameEngine } from '../simulation/engine';
-import { ResearchPanel } from './ResearchPanel';
+import { LegacyResearchPanel as ResearchPanel } from './LegacyResearchPanel';
 
 it.each([
   ['researchCenter1', 'Start research'],

@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { createInitialState } from '../simulation/createInitialState';
-import { MapBorderMarkers, MapBorderSummary, discoveredBorderObstructions } from './MapBorderObstructions';
+import { MapBorderMarkers, mapBorderPointsOfInterest, discoveredBorderObstructions } from './MapBorderObstructions';
 import { borderSide, SIDE_LABELS } from '../domain/borderObstructionLayout';
 
 describe('map border discovery and summary', () => {
@@ -16,12 +16,12 @@ describe('map border discovery and summary', () => {
     state.research.completed.push('riverBridges', 'mountainTunnels', 'chasmSpans');
     expect(renderToStaticMarkup(<MapBorderMarkers game={state} />)).toContain('crossable');
     for (const id of [edge.from, edge.to]) {
-      const text = renderToStaticMarkup(<MapBorderSummary game={state} id={id} />);
+      const text = mapBorderPointsOfInterest(state,id).map(row=>row.name).join(' ');
       expect(text).toContain(SIDE_LABELS[borderSide(id, id === edge.from ? edge.to : edge.from)]);
       expect(text).not.toMatch(/requires|research|permission|Complex|Hydro|Shiny/);
     }
     state.sectors[edge.from].visited = false;
     expect(discoveredBorderObstructions(state)).toEqual([]);
-    expect(renderToStaticMarkup(<MapBorderSummary game={state} id={edge.to} />)).toBe('');
+    expect(mapBorderPointsOfInterest(state,edge.to)).toEqual([]);
   });
 });

@@ -1,0 +1,30 @@
+{
+  "desktop": {
+    "artworks": 3,
+    "contentWidth": 1265,
+    "heading": "The landscape has objections",
+    "width": 1280
+  },
+  "mobile": {
+    "width": 390,
+    "contentWidth": 375,
+    "horizontalOverflow": false,
+    "badgeSize": "12px",
+    "badgeWeight": "400"
+  },
+  "downloads": [
+    "D:\\Downloads\\node-river-border.svg",
+    "D:\\Downloads\\node-mountain-border.svg",
+    "D:\\Downloads\\node-chasm-border.svg"
+  ],
+  "checked": [
+    "three distinct terrain illustrations",
+    "field grid toggle",
+    "nearby node toggle",
+    "three enlargement dialogs",
+    "Close and Escape",
+    "three SVG downloads",
+    "self-contained build"
+  ],
+  "logs": []
+}

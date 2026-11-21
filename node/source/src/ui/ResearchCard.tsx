@@ -7,12 +7,15 @@ interface ResearchCardProps {
   game: GameState;
   disabled: boolean;
   expanded: boolean;
+  selected?: boolean;
+  showProgress?: boolean;
   tutorialChoice: boolean;
   filters: RequirementFilter[];
   onToggle(id: string, keyboard: boolean): void;
+  onDoubleClick?(id: string): void;
 }
 
-export function ResearchCard({ project, game, disabled, expanded, tutorialChoice, filters, onToggle }: ResearchCardProps) {
+export function ResearchCard({ project, game, disabled, expanded, selected, showProgress = true, tutorialChoice, filters, onToggle, onDoubleClick }: ResearchCardProps) {
   const view = researchCardDetails(project, game);
   const matchesRequirement = filters.length === 0 || filters.includes(view.requirement);
   const className = [
@@ -32,16 +35,18 @@ export function ResearchCard({ project, game, disabled, expanded, tutorialChoice
       data-unavailable={!view.selectable}
       aria-current={view.active ? 'true' : undefined}
       aria-expanded={expanded}
+      aria-pressed={selected}
       className={className}
       data-tooltip={project.name}
       data-tooltip-detail={view.tooltip}
       data-tooltip-flavor={project.flavorText}
       data-tooltip-tone={view.tooltipTone}
       onClick={event => onToggle(project.id, event.detail === 0)}
+      onDoubleClick={onDoubleClick ? () => onDoubleClick(project.id) : undefined}
     >
       <span className="research-card-icon" aria-hidden="true">{view.complete ? '✓' : RESEARCH_GLYPHS[project.id] ?? '◇'}</span>
       <small className="research-card-name">{project.name}</small>
-      {view.active && (
+      {view.active && showProgress && (
         <progress className="research-active-progress" aria-label="Core payments completed" value={view.totalPaid} max={view.totalRequired} />
       )}
     </button>

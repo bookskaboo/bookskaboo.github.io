@@ -1,0 +1,19 @@
+
+> factorinode-reconstruction@0.1.0 changelog:check
+> node scripts/changelog.mjs --check && node --test scripts/check-changelog.mjs
+
+Checked 5 files from 717 changelog entries.
+✔ records resolve source, publication, evidence, and supersession references (5066.4851ms)
+✔ search finds current and superseded grid controls (9.0176ms)
+✔ topic, publication, state, type, and date filters combine (7.889ms)
+✔ old spelling and source identifiers remain searchable (21.6302ms)
+✔ generated viewer embeds the current records and valid offline JavaScript (24.3856ms)
+✔ changelog documentation links and explicit history anchors resolve (3330.1095ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 6
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 8722.4616

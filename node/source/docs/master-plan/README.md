@@ -39,8 +39,11 @@ The [current implementation report](20-endgame-implementation.md) is the startin
 | [Endgame research and world reshaping](17-endgame-research-and-world-reshaping.md) | Resource/Lake/camp movement, Deep Hole efficiency and Forest-inclusive regeneration; other QoL candidates | Implemented locally; geometry, migration and normal-play validation |
 | [Endgame transport research](18-endgame-transport-research.md) | Road channels up to five per face; coordinated Train capacity and transfer research | Ranks, prices and transfer gains implemented; sustained delivered-rate validation |
 | [Map border obstructions](21-border-obstructions.md) | Visible rivers, chasms and mountains, crossing research and whole-map density | Published November 20; 1,100-world graph audit passed; normal-play tuning pending |
+| [Map terrain tiles](22-map-terrain-tiles.md) | Badlands, Grassland, Desert and Rocky field art and seeded resource rules | Artwork, caps, discovery, proportional quotas and corner-linked quadrant bias and guaranteed first diagonals selected; implement and validate integration |
 
 ## How to read status
+
+The [map power-up proposal](23-map-power-ups.md) covers sixteen permanent landmarks: six accelerated machines, six triple-yield Extractors, three Material Savers and one water-free Recovery Works. Accelerated types are fixed at two Refiners, two Smelters, one Assembler and one Fabricator; all landmarks are non-deletable and movable through relocation research. Keep the randomized early discovery and selected 2/5/5/4 progression spread. Remaining operating details and individual type placements are proposals; runtime implementation and balance validation are pending. The changelog records the original proposal under NODE-0699 and selected revisions under NODE-0704.
 
 - **Implemented:** present in the inspected source or maintained implementation record. This alone does not mean balanced or fully browser-tested.
 - **Agreed:** existing recorded direction that remains in force; implementation may be partial.

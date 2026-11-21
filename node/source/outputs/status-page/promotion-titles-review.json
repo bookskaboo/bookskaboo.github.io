@@ -1,0 +1,48 @@
+{
+  "date": "2026-11-20",
+  "scope": "Approved titles in local Upgrades prototype",
+  "acceptedTitles": {
+    "Junior": "Probationary Unit",
+    "Simple": "Resource Technician",
+    "Basic": "Fabrication Specialist",
+    "Automata": "Systems Coordinator",
+    "Hydro": "Operations Supervisor",
+    "Shiny": "Development Director",
+    "Complex": "Planetary Administrator",
+    "Final": "Planetary Steward"
+  },
+  "surfaces": [
+    "Gallery title headings",
+    "Portrait accessibility labels",
+    "SVG titles in all eight exports",
+    "Derived character-upgrade descriptions"
+  ],
+  "browser": {
+    "allEightTitlesMatch": true,
+    "allEightImagesLoaded": true,
+    "HydroPortraitAlt": "Operations Supervisor (Hydro AI bot)",
+    "SelectedProjectStillHidden": true,
+    "mobileWidth": 390,
+    "mobileHorizontalOverflow": false,
+    "warningsAndErrors": []
+  },
+  "verification": {
+    "focusedPassed": 57,
+    "previewTypeScript": "passed",
+    "standaloneBuild": "passed",
+    "svgXmlAndTitleChecks": "All eight passed",
+    "systemCatalogsAndLinks": "passed",
+    "wordStructuralReopenAndTitles": "passed",
+    "wordRender": "Unavailable: LibreOffice soffice.exe missing"
+  },
+  "screenshots": [
+    "promotion-titles-art.jpg",
+    "promotion-titles-390.jpg"
+  ],
+  "limits": [
+    "Core-tier labels, IDs, art geometry, costs and progression rules unchanged",
+    "Full suite not repeated for approved text/accessibility changes",
+    "No main-game adoption or publication",
+    "Word visual layout remains unverified"
+  ]
+}

@@ -1,0 +1,47 @@
+{
+  "date": "2026-11-19",
+  "outcome": "Paid next-upgrade control below thought bubble, own-Core bills and next-Core unlocks",
+  "draftBill": "five of the named Core per upgrade",
+  "unlocks": [
+    "Simple -> Basic",
+    "Basic -> Automata",
+    "Automata -> Hydro",
+    "Hydro -> Shiny",
+    "Shiny -> Complex",
+    "Complex -> Final",
+    "Final -> character tiers complete, separate from victory"
+  ],
+  "mechanics": "Reuse six next-Core recipe-project IDs and technology prerequisites; add finalBotUpgrade. Initial Simple Core recipe remains a Refiner discovery. Use normal engine payment cycles and saved contributions.",
+  "browser": [
+    "Simple 2/5 with button fill",
+    "cancel retains 2/5; reselection restores payments",
+    "completion changes to Basic 0/5 and Simple portrait",
+    "Final completion shows all seven complete",
+    "no duplicated upgrade project in right grid",
+    "no tier/count/role above image or explanatory copy below either upgrade control",
+    "390 px fit without horizontal overflow and badge weight 400",
+    "assignment first hold -> Forest second hold",
+    "isolated preview no warnings/errors"
+  ],
+  "automated": {
+    "focusedChecks": 38,
+    "fullSuitePassed": 1859,
+    "skipped": 2,
+    "previewTypecheck": "passed",
+    "standaloneBuild": "passed",
+    "mainBuild": "passed",
+    "engineCoverage": "all seven own-Core bills, 2/5 payments, completion and next recipe access; saved contributions; global stock does not count as paid"
+  },
+  "screenshots": [
+    "outputs/status-page/bot-upgrade-partial.jpg",
+    "outputs/status-page/bot-upgrade-next.jpg",
+    "outputs/status-page/bot-upgrade-390.jpg"
+  ],
+  "limits": [
+    "Isolated prototype catalog only; main game bills, files and browser saves unchanged",
+    "Five-per-tier is the current draft quantity",
+    "Payment tests use synthetic prerequisites/Core stock and manual time steps, not normal gameplay",
+    "Save/payment migration and whole-progression balance are not verified",
+    "Word structure verified but rendering unavailable because LibreOffice is missing"
+  ]
+}

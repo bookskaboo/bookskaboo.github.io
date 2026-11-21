@@ -30,6 +30,8 @@ On the next continuation, a retained tab binding also returned `browser.user is 
 
 ## Continuing a gameplay checkpoint
 
+For a user-facing local preview, confirm that the browser's selected tab is the current preview URL. Binding a tab for automation does not bring it to the foreground. Frozen release-checkout copies do not receive local edits. After retiring obsolete synthetic preview tabs, open the current preview with visibility enabled, verify the selected tab again, and mark it as a deliverable. Preserve real game tabs and their saves. Save screenshot evidence using its actual encoding; the current browser screenshot output is JPEG, so use .jpg files and image/jpeg for explicit image emission.
+
 Read the latest run log and exported report before acting. Verify the visible map and controls, then resume the preserved game through its normal UI. Recheck coordinates after travel, zoom changes and road placement; the camera view can change. A completed cable drag is not proof of a working supply chain: verify the recipient buffer, production or research completion. The visible Dev controls → Export playtest report is useful for recording actual totals and diagnosing missing links.
 
 Keep gameplay rules intact during balance measurements. Record ordinary interface bugs for later, and record any authorized progression-blocker fix explicitly. Save a report and pause at a discussion checkpoint so planning time does not silently continue accumulating production. Report partial milestones as partial milestones; a working Shiny chain is not a completed Complex or endgame test.

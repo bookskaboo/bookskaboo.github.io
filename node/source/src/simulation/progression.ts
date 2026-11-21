@@ -135,6 +135,7 @@ export function simulateExtendedRecipe(state:GameState,node:MachineNode,dt:numbe
  if(node.progressMs>=recipe.cycleMs*multiplier*recovery){
   queueOutputs(node,node.batch.outputs);
   for(const [i,n]of Object.entries(node.batch.outputs))state.produced![i as ItemId]=(state.produced![i as ItemId]??0)+(n??0);
+  if(modNodeTemplate(node.kind)==='refiner'&&total(node.batch.outputs)>0)state.hasProducedWithRefiner=true;
   if (automatic || recycler) node.lastRecipeId = recipe.id;
   delete node.batch;node.progressMs=0;
   if(RETIRED_RECIPES.has(recipe.id))delete node.recipeId;

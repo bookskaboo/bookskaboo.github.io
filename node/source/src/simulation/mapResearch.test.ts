@@ -1,3 +1,4 @@
+import { emptyMod } from '../mods/modTypes';
 import { describe, expect, it } from 'vitest';
 import { getResearchCosts, getResearchCostsForState, remainingMapNodePurchases, RESEARCH_PROJECTS } from '../content/research';
 import type { MachineNode } from '../domain/types';
@@ -12,6 +13,7 @@ const access = ['simpleCore', 'basicCore', 'automataCore', 'hydroCore', 'shinyCo
 function setup(completions = 0, unlocked = access, legacyPricing = true) {
   const state = createInitialState(301);
   if (legacyPricing) state.isTraining = true;
+  else { state.mod = emptyMod(); delete state.mapResearchMode; }
   state.research.completed = ['exploration', ...unlocked];
   state.research.repeatableCompletions = { mapNode: completions };
   const lab: MachineNode = { id: 'lab', kind: 'researchCenter', name: 'Research Center', x: 1000, y: 1000, rotation: 0, input: {}, output: {}, cycleMs: 1000, progressMs: 0, constructedAt: 0, constructionMs: 0 };
@@ -68,7 +70,7 @@ describe('legacy Map Point research', () => {
     expect(getResearchCostsForState(project, engine.getState().research)['shiny-core']).toBe(5);
   });
 
-  it('reprices after changing projects without losing delivered progress', () => {
+  it('retains a paid quote after changing projects without losing delivered progress', () => {
     const engine = setup(39, access.slice(0, 4));
     engine.selectResearch('mapNode');
     engine.getState().research.contributed = { 'simple-core': 3 };
@@ -76,7 +78,7 @@ describe('legacy Map Point research', () => {
     engine.selectResearch('assembler');
     engine.selectResearch('mapNode');
     expect(engine.getState().research.contributed).toEqual({ 'simple-core': 3 });
-    expect(getResearchCostsForState(project, engine.getState().research)['shiny-core']).toBe(5);
+    expect(getResearchCostsForState(project, engine.getState().research)['shiny-core']).toBeUndefined();
   });
 
   it('honors a saved quote at the former Shiny price and uses the new price for the following purchase', () => {

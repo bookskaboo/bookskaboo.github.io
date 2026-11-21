@@ -1,0 +1,31 @@
+{
+  "state": {
+    "draft": "natural",
+    "fields": 4,
+    "labels": [
+      "Badlands irregular natural forms playfield with 9 illustrative Production nodes",
+      "Grassland irregular natural forms playfield with 9 illustrative Production nodes",
+      "Desert irregular natural forms playfield with 9 illustrative Production nodes",
+      "Rocky irregular natural forms playfield with 9 illustrative Production nodes"
+    ],
+    "options": [
+      "Irregular natural forms",
+      "Earlier broad forms",
+      "Initial small marks"
+    ],
+    "overflow": false,
+    "summary": "Seed 2718. 121 maps: 30 Badlands, 31 Grassland, 30 Desert, 30 Rocky. Home and four corners: Grassland."
+  },
+  "logs": [],
+  "checks": [
+    "All three draft choices and appropriate 768/256 dimensions",
+    "All four current variants for each terrain via seed fixtures",
+    "Dense thirty-node layouts at 50% zoom and stress detail",
+    "Repeated tile edges inspected; no visible edge breaks in checked view",
+    "Four current SVG downloads and one earlier broad SVG download",
+    "390px single-column view without horizontal overflow",
+    "Default density/zoom/detail restored",
+    "Viewport reset"
+  ],
+  "url": "http://127.0.0.1:4186/outputs/terrain-tiles-page/terrain-proposal.html#art"
+}

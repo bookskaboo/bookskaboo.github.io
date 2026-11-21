@@ -1,0 +1,41 @@
+{
+  "id": "NODE-0672",
+  "delivery": "local",
+  "rulesVersion": 1,
+  "legacyBoundary": "Missing or zero opt-in keeps legacy generation and plain art, including future maps.",
+  "focusedTests": {
+    "passed": 149,
+    "log": "runtime-focused-tests.log"
+  },
+  "fullSuite": {
+    "passed": 2005,
+    "skipped": 2,
+    "command": "npm test -- --testTimeout=15000",
+    "log": "runtime-full-tests.log"
+  },
+  "builds": [
+    "npm run build",
+    "npm run build:site",
+    "npx tsc -p previews/terrain-tiles/tsconfig.json",
+    "npm run preview:terrain"
+  ],
+  "systemDocs": {
+    "catalogs": 6,
+    "filesWithLinks": 38
+  },
+  "art": {
+    "tilesChecked": 48,
+    "approvedTilesUnchanged": true,
+    "mismatches": []
+  },
+  "browser": "runtime-browser-review.json",
+  "word": {
+    "structuralPreservation": true,
+    "visualLayoutVerified": false,
+    "reason": "Packaged LibreOffice soffice.exe is unavailable."
+  },
+  "limits": [
+    "No normal-play terrain balance run.",
+    "No publication."
+  ]
+}

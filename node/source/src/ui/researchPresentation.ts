@@ -11,12 +11,12 @@ export const researchPrerequisiteName = (id: string) =>
   id === FINAL_CORE_PRODUCTION ? 'first Final Core' : getResearchProject(id)?.name ?? id;
 
 const CORE_ACCESS: Partial<Record<ItemId, string>> = Object.fromEntries(CORE_RESEARCH.map(({ item, id }) =>
-  [item, item === 'final-core' ? FINAL_CORE_PRODUCTION : id]));
+  [item, item === 'simple-core' ? 'refiner' : item === 'final-core' ? FINAL_CORE_PRODUCTION : id]));
 const milestoneAccess: Partial<Record<NonNullable<ResearchProject['trigger']>['id'], string>> = {
   'plate-produced': 'smelter', 'refiner-unlocked': 'refiner', 'refiner-produced': 'refiner', 'assembler-built': 'assembler',
-  'basic-core-produced': 'basicCore', 'motor-produced': 'assembler', 'monster-camp': 'exploration',
+  'simple-core-produced': 'refiner', 'basic-core-produced': 'basicCore', 'motor-produced': 'assembler', 'monster-camp': 'exploration',
   encounter: 'exploration', 'dwarven-mythril-produced': 'exploration',
-  'precision-control': 'precisionControl', 'complex-core-produced': 'complexCore',
+  'precision-control': 'precisionControl', 'complex-core-produced': 'complexCore', 'complex-core-unlocked': 'complexCore',
 };
 
 export function researchDependencies(project: ResearchProject, costs = project.costs) {
@@ -24,7 +24,7 @@ export function researchDependencies(project: ResearchProject, costs = project.c
   if (project.trigger) {
     const access = milestoneAccess[project.trigger.id];
     if (access) ids.push(access);
-  } else {
+  } else if (project.coreAccessPrerequisites !== false) {
     for (const item of Object.keys(costs) as ItemId[]) {
       const access = CORE_ACCESS[item];
       if (access) ids.push(access);

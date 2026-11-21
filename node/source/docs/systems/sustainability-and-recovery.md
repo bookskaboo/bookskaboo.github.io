@@ -6,11 +6,13 @@ Expansion exposes finite mineral reserves and renewable Wood. Regeneration, Tree
 
 ## Forests and growth
 
-A Forest naturally restores one Wood reserve unit every 30 seconds while below its capacity. Extractors remove stock from that reserve. Tree Planter research adds the Forest Growth inlet.
+New-game [ground terrain](map-nodes-and-exploration.md#ground-terrain-for-new-games) adjusts starting stock and lasting reserve maximum: Grassland Forest 100%, Desert 10%, Rocky 50%; Badlands has no Forest spawn. Desert natural regeneration is 10% of normal (one Wood per 300 seconds before research/mods); Grassland and Rocky use the normal rate. Existing worlds keep previous stock, caps and rates, including future exploration.
 
-A Tree Planter consumes ten Wood, one Iron Plate and one Stone to fund 100 growth units. It emits four units per second before efficiency upgrades. The base growth output buffer is five; the designated forestry capacity rank raises it to twenty. Connected growth restores Forest stock up to its capacity. The same dedicated material can supply Elder Grove directly.
+At the normal terrain rate, a Forest naturally restores one Wood reserve unit every 30 seconds while below its capacity. Extractors remove stock from that reserve. Tree Planter research adds the Forest Growth inlet.
 
-Post-victory Resource Regeneration adds the original regeneration rate again per completion, so Forest period becomes `30,000 / (1 + rank)` ms before mod overrides. Growth restores reserves; it does not bypass Extractors to create ordinary Wood in a factory buffer.
+A Tree Planter consumes ten Wood, one Iron Plate and one Stone to fund 100 growth units. It emits four units per second before efficiency upgrades. The base growth output buffer is five; the designated forestry capacity rank raises it to twenty. Connected growth restores Forest stock up to its terrain-adjusted capacity; terrain does not change paid growth costs or output. The same dedicated material can supply Elder Grove directly.
+
+Post-victory Resource Regeneration adds the original regeneration rate again per completion, so Forest period becomes `forestRegenMs / ((1 + rank) × terrainRate)` ms; the default mod baseline is 30,000 ms and the legacy terrain rate is one. Growth restores reserves; it does not bypass Extractors to create ordinary Wood in a factory buffer.
 
 ## Minerals
 
@@ -20,9 +22,9 @@ A Mining Drill consumes one Motor per base second until twenty have been consume
 
 ## Progression recovery
 
-Recovery calculations compare available stocks, reserves, recipe alternatives, research access and relevant acquisition options. Ordinary slow or disconnected production is not enough to establish a shortage. Locked guarded reserves are excluded from collectable stock; automatic expansion recovery does not route through a known generated-hole exploration block. Checks exclude training, modded games and worlds using Dev Sources.
+Recovery calculations compare available stocks, reserves, recipe alternatives, research access and relevant acquisition options. Ordinary slow or disconnected production is not enough to establish a shortage. Locked guarded reserves are excluded from collectable stock; automatic expansion recovery follows grid routes without treating neighboring Deep Holes as exploration barriers. Checks exclude training, modded games and worlds using Dev Sources.
 
-Starting recovery can restore local mineral capacity when the next required early progression step has a demonstrated deficit, including a later recurrence before Exploration. Expansion recovery evaluates the next map bill, preserves already-paid quotes and can open a route to a relevant Golem reserve and defeat that target. Each expansion-rescued mineral is tracked to prevent repeating that rescue. The three-mineral expansion rescue sequence can award Destructive Testing.
+In terrain-version-one worlds, starting recovery refills only available room and never increases the saved lasting cap; legacy recovery behavior remains intact. Starting recovery can restore local mineral capacity when the next required early progression step has a demonstrated deficit, including a later recurrence before Exploration. Expansion recovery evaluates the next map bill, preserves already-paid quotes and can open a route to a relevant Golem reserve and defeat that target. Each expansion-rescued mineral is tracked to prevent repeating that rescue. The three-mineral expansion rescue sequence can award Destructive Testing.
 
 These checks use conservative budgets and relaxed alternatives to avoid treating uncertain production as proof of a softlock. They are implementation recovery behavior, not tools for a normal-play balance run. Do not inject saves or grants to claim progression has been validated.
 

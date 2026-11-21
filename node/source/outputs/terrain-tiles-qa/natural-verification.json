@@ -1,0 +1,29 @@
+{
+  "naturalSvgTiles": 16,
+  "initialComparisonSvgTiles": 16,
+  "dimensions": {
+    "natural": 768,
+    "initial": 256
+  },
+  "distinctNaturalVariantsPerTerrain": 4,
+  "downloadedNaturalSvgsMatchExports": 4,
+  "downloadedInitialSvgMatchesExport": true,
+  "standaloneInlineScriptAndStyle": true,
+  "initialSourceAndStandalonePreserved": true,
+  "runtimeDoesNotImportPreview": true,
+  "localProposalLinksChecked": 15,
+  "validation": [
+    "Preview TypeScript passed",
+    "Preview build passed",
+    "Desktop/mobile browser review passed",
+    "Six system catalogs generated and freshness/links checked"
+  ],
+  "limits": [
+    "Illustrations await user review",
+    "No game or save changes",
+    "No normal-play balance run",
+    "Word rendering unavailable: LibreOffice soffice.exe missing; structural preservation/reopen checks passed",
+    "No main-game build/full-suite repeat for isolated unused art revision",
+    "No commit or publication"
+  ]
+}

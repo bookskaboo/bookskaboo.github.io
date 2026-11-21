@@ -1,0 +1,21 @@
+{
+  "change": "NODE-0694",
+  "scope": "Prototype benefit copy only; prices, IDs, unlock effects/timing and notice lifecycle unchanged.",
+  "tooltip": "Upgrade to Development Director. Unlock the Complex Core recipe. Unlock the Yin and Yang recipes. Reveal all four corner locations.",
+  "completion": "Development Director. Complex Core recipe unlocked. Yin and Yang recipes unlocked. All four corner locations revealed.",
+  "verification": {
+    "prototypeTests": "67 passed across eight files",
+    "previewTypeScript": "passed",
+    "previewBuild": "passed",
+    "systems": "six catalogs and local links across 39 documents passed",
+    "browser": "Keyboard Tab focused Upgrade and displayed full tooltip; explicit Test completion displayed all benefits in a three-line notice without clipping at 1280 by 720."
+  },
+  "evidence": [
+    "shiny-upgrade-benefits-tooltip.jpg",
+    "shiny-upgrade-benefits-notice.jpg"
+  ],
+  "limits": [
+    "Completion notice checked with existing synthetic author fixture, not a new normal-play campaign",
+    "Main Research UI remains unchanged pending adoption; no campaign save edits, commit or publication"
+  ]
+}

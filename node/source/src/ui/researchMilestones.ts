@@ -26,9 +26,9 @@ const scout = (title: string, detail: string) => goal(title, detail, { kind: 'ma
 
 const wood = build('extractor', 'A promising Forest', 'The trees look employable.');
 const copper = build('extractor', 'Copper prospects', 'The orange stuff has potential.');
-const iron = build('extractor', 'Iron prospects', 'Less decorative. Still useful.');
+const iron = build('extractor', 'Iron prospects', 'Copper can’t do everything.');
 const fuel = recipe('charcoal', 'Charcoal', 'Wood has a warmer calling.');
-const lake = scout('The factory is thirsty', 'A very large puddle would help.');
+const lake = scout('The factory is thirsty', 'Dry land has its limits.');
 const camp = scout('The neighbours', 'Somebody else got here first.');
 const dwarves = scout('A metallic glint', 'The neighbours farther out seem well supplied.');
 const golems = scout('Some rocks have opinions', 'The outer sectors have standing rocks.');
@@ -45,7 +45,7 @@ const cornerClues: Record<CornerType, string> = {
   reclamation: 'Someone finally wants the waste.',
 };
 
-export function getResearchMilestones(game: GameState): ResearchMilestone[] {
+export function getResearchMilestones(game: GameState, options: { allCandidates?: boolean } = {}): ResearchMilestone[] {
   const done = (id: string) => game.research.completed.includes(id);
   if (done('victory')) return [goal('You’ve got this', 'Maybe a speed run next?', { kind: 'factory' })];
 
@@ -97,7 +97,7 @@ export function getResearchMilestones(game: GameState): ResearchMilestone[] {
   const cornerWork = cornerPriority.filter(type => needed.has(CORNER_ITEMS[type]) && !(stock[CORNER_ITEMS[type]] ?? 0))
     .map(cornerGoal);
   const knownCornerWork = cornerWork.filter(entry => entry.action.kind === 'sector');
-  const halfWork = done('cornerComponents') ? missingHalves.filter(half => Object.keys(half.inputs).every(item => (stock[item as ItemId] ?? 0) > 0))
+  const halfWork = done('complexCore') ? missingHalves.filter(half => Object.keys(half.inputs).every(item => (stock[item as ItemId] ?? 0) > 0))
     .map(half => recipe(half.id, half.name, 'Two pieces seem to agree.')) : [];
   const core = (projectId: string, recipeId: string, name: string, detail: string) =>
     done(projectId) ? recipe(recipeId, name, detail) : research(projectId, detail);
@@ -120,8 +120,8 @@ export function getResearchMilestones(game: GameState): ResearchMilestone[] {
   else if (!made('simple-core') && !done('assembler')) primary = simple;
   else if (!done('assembler')) primary = research('assembler', 'Simple Cores can open doors.');
   else if (!made('basic-core') && !done('exploration')) primary = basic;
-  else if (!done('exploration')) primary = research('exploration', 'There appears to be an outside.');
-  else if (!done('road')) primary = research('road', 'Good neighbours exchange freight.');
+  else if (!done('exploration')) primary = research('exploration', 'We should probably look around.');
+  else if (!done('road')) primary = research('road', 'Resources don’t cross borders on their own.');
   else if (!done('automataCore')) primary = research('automataCore', automataHint);
   else if (!made('automata-core') && !done('fabricatorTools')) primary = recipe('automata-core', 'Automata Core', automataHint);
   else if (!done('fabricatorTools')) primary = research('fabricatorTools', 'A bigger machine seems inevitable.');
@@ -138,7 +138,7 @@ export function getResearchMilestones(game: GameState): ResearchMilestone[] {
   else if (!done('oreSeparation')) primary = research('oreSeparation', 'There’s something shiny in there.');
   else if (!made('shiny-core') && !done('precisionControl')) primary = core('shinyCore', 'shiny-core', 'Shiny Core', 'Mythril looks promising in Mesh.');
   else if (!done('precisionControl')) primary = research('precisionControl', 'Complications are now a feature.');
-  else if (!made('command-core') && !done('cornerComponents')) primary = complex;
+  else if (!made('command-core') && !done('complexCore')) primary = complex;
   else if (!done('treePlanter') && isCorner(knownCornerWork[0], 'grove') && !halfWork.length) primary = research('treePlanter', treePlanterHint);
   else primary = halfWork[0] ?? knownCornerWork[0] ?? cornerWork[0] ?? finalAssembly;
 
@@ -162,13 +162,13 @@ export function getResearchMilestones(game: GameState): ResearchMilestone[] {
       const paid = game.research.selected === 'victory' ? game.research.contributed : game.research.projectContributions?.victory;
       const needFinal = !((stock['final-core'] ?? 0) || (paid?.['final-core'] ?? 0));
       if (needFinal) candidates.push(...halfWork, ...knownCornerWork, ...cornerWork,
-        ...(done('cornerComponents') && (!done('finalCore') || !missingHalves.length) ? [finalAssembly] : []));
-      if (!done('cornerComponents')) candidates.push(expansion(corners));
+        ...(done('complexCore') && (!done('finalCore') || !missingHalves.length) ? [finalAssembly] : []));
+      if (!done('complexCore')) candidates.push(expansion(corners));
       candidates.push(golemHint);
     }
   }
   for (const [id, detail] of [
-    ['road', 'Good neighbours exchange freight.'],
+    ['road', 'Resources don’t cross borders on their own.'],
     ['sealedRobotics', 'One AP only gets you so far.'],
     ['fluidRouting', 'Fluids have places to be.'],
     ['oreSeparation', 'There’s something shiny in there.'],
@@ -184,9 +184,10 @@ export function getResearchMilestones(game: GameState): ResearchMilestone[] {
   if (done('refiner') && !made('simple-core')) candidates.push(simple);
   if (done('assembler') && !made('basic-core')) candidates.push(basic);
   if (ready('assembler')) candidates.push(research('assembler', 'Simple Cores can open doors.'));
-  if (ready('exploration')) candidates.push(research('exploration', 'There appears to be an outside.'));
+  if (ready('exploration')) candidates.push(research('exploration', 'We should probably look around.'));
   if (!done('exploration')) candidates.push(wood, copper);
   if (!done('refiner') && !made('charcoal')) candidates.push(fuel);
   const seen = new Set<string>();
-  return candidates.filter(entry => !seen.has(entry.title) && seen.add(entry.title)).slice(0, 3);
+  const unique = candidates.filter(entry => !seen.has(entry.title) && seen.add(entry.title));
+  return options.allCandidates ? unique : unique.slice(0, 3);
 }

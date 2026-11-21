@@ -16,7 +16,14 @@ export function availableTutorials(game: GameState) {
 }
 
 export function nextTutorialInvitation(game: GameState): ProgressiveTutorialKind | undefined {
+  if (automaticTutorialPromptsSuppressed(game)) return;
   return (['expansion', 'monster-camps'] as const).find(kind =>
-    (kind !== 'expansion' || !game.devResearchUnlocked) && isTutorialUnlocked(kind, game) && !game.tutorialPromptsSeen?.includes(kind),
+    isTutorialUnlocked(kind, game) && !game.tutorialPromptsSeen?.includes(kind),
   );
+}
+
+/** Legacy dev grants/sources also identify debug factories without marking lessons seen. */
+export function automaticTutorialPromptsSuppressed(game: GameState) {
+  return game.devTutorialPromptsSuppressed === true || game.devResearchUnlocked === true || game.devMapSurveysRevealed === true
+    || Object.values(game.sectors).some(sector => sector.nodes.some(node => node.kind === 'devSource'));
 }

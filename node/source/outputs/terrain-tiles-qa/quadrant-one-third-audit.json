@@ -1,0 +1,204 @@
+{
+  "weight": 1.5,
+  "otherWeights": 1,
+  "seedRange": [
+    0,
+    999
+  ],
+  "scope": "Exploratory calculation; current adopted proposal weight remains 1.2 until changed",
+  "sizes": [
+    {
+      "size": 11,
+      "overallShare": 0.32858333333333334,
+      "byTerrain": {
+        "badlands": {
+          "eligible": 24000,
+          "matched": 8112,
+          "share": 0.338
+        },
+        "grassland": {
+          "eligible": 24000,
+          "matched": 7167,
+          "share": 0.298625
+        },
+        "desert": {
+          "eligible": 24000,
+          "matched": 8117,
+          "share": 0.33820833333333333
+        },
+        "rocky": {
+          "eligible": 24000,
+          "matched": 8148,
+          "share": 0.3395
+        }
+      },
+      "fullQuadrantShares": {
+        "badlands": 0.32448,
+        "grassland": 0.32668,
+        "desert": 0.32468,
+        "rocky": 0.32592
+      }
+    },
+    {
+      "size": 13,
+      "overallShare": 0.33182142857142854,
+      "byTerrain": {
+        "badlands": {
+          "eligible": 35000,
+          "matched": 11819,
+          "share": 0.3376857142857143
+        },
+        "grassland": {
+          "eligible": 35000,
+          "matched": 10847,
+          "share": 0.3099142857142857
+        },
+        "desert": {
+          "eligible": 35000,
+          "matched": 11902,
+          "share": 0.34005714285714284
+        },
+        "rocky": {
+          "eligible": 35000,
+          "matched": 11887,
+          "share": 0.33962857142857145
+        }
+      },
+      "fullQuadrantShares": {
+        "badlands": 0.3283055555555556,
+        "grassland": 0.32908333333333334,
+        "desert": 0.33061111111111113,
+        "rocky": 0.33019444444444446
+      }
+    },
+    {
+      "size": 15,
+      "overallShare": 0.33083854166666665,
+      "byTerrain": {
+        "badlands": {
+          "eligible": 48000,
+          "matched": 16168,
+          "share": 0.3368333333333333
+        },
+        "grassland": {
+          "eligible": 48000,
+          "matched": 14955,
+          "share": 0.3115625
+        },
+        "desert": {
+          "eligible": 48000,
+          "matched": 16191,
+          "share": 0.3373125
+        },
+        "rocky": {
+          "eligible": 48000,
+          "matched": 16207,
+          "share": 0.3376458333333333
+        }
+      },
+      "fullQuadrantShares": {
+        "badlands": 0.3299591836734694,
+        "grassland": 0.3256122448979592,
+        "desert": 0.3304285714285714,
+        "rocky": 0.3307551020408163
+      }
+    },
+    {
+      "size": 17,
+      "overallShare": 0.3312103174603175,
+      "byTerrain": {
+        "badlands": {
+          "eligible": 63000,
+          "matched": 21265,
+          "share": 0.33753968253968253
+        },
+        "grassland": {
+          "eligible": 63000,
+          "matched": 19911,
+          "share": 0.316047619047619
+        },
+        "desert": {
+          "eligible": 63000,
+          "matched": 21177,
+          "share": 0.33614285714285713
+        },
+        "rocky": {
+          "eligible": 63000,
+          "matched": 21112,
+          "share": 0.33511111111111114
+        }
+      },
+      "fullQuadrantShares": {
+        "badlands": 0.332265625,
+        "grassland": 0.326734375,
+        "desert": 0.330890625,
+        "rocky": 0.329875
+      }
+    },
+    {
+      "size": 19,
+      "overallShare": 0.332346875,
+      "byTerrain": {
+        "badlands": {
+          "eligible": 80000,
+          "matched": 26804,
+          "share": 0.33505
+        },
+        "grassland": {
+          "eligible": 80000,
+          "matched": 25795,
+          "share": 0.3224375
+        },
+        "desert": {
+          "eligible": 80000,
+          "matched": 27010,
+          "share": 0.337625
+        },
+        "rocky": {
+          "eligible": 80000,
+          "matched": 26742,
+          "share": 0.334275
+        }
+      },
+      "fullQuadrantShares": {
+        "badlands": 0.3309135802469136,
+        "grassland": 0.33080246913580247,
+        "desert": 0.3334567901234568,
+        "rocky": 0.33014814814814814
+      }
+    },
+    {
+      "size": 21,
+      "overallShare": 0.3319848484848485,
+      "byTerrain": {
+        "badlands": {
+          "eligible": 99000,
+          "matched": 33144,
+          "share": 0.3347878787878788
+        },
+        "grassland": {
+          "eligible": 99000,
+          "matched": 32121,
+          "share": 0.32445454545454544
+        },
+        "desert": {
+          "eligible": 99000,
+          "matched": 33164,
+          "share": 0.334989898989899
+        },
+        "rocky": {
+          "eligible": 99000,
+          "matched": 33037,
+          "share": 0.33370707070707073
+        }
+      },
+      "fullQuadrantShares": {
+        "badlands": 0.33144,
+        "grassland": 0.33121,
+        "desert": 0.33164,
+        "rocky": 0.33037
+      }
+    }
+  ],
+  "historicalContext": "Exploratory 1.5x weight only, before four first-diagonal guarantees were adopted. Final rule and shares are in quadrant-audit.json and quadrant-verification.json; original raw results and scope are preserved."
+}

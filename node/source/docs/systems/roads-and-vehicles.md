@@ -10,7 +10,17 @@ New-world river, mountain and chasm borders block Road placement across their en
 
 Build production or routing → sending vehicle → exporting Road, then importing Road → receiving vehicle → local consumers or routing. Filters, Joints and Splitters belong before the sending vehicle or after the receiving vehicle. Fluids cannot use this route.
 
-Placement creates both facing endpoints together only if both positions and face slots are legal. The chosen face must lead to an unlocked neighbor. Reversing direction swaps the endpoint roles and disconnects endpoint cables for rewiring. Selecting the existing direction through the engine is a no-op. The direction panel describes flow relative to the current map.
+Placement creates both facing endpoints together only if both positions and face slots are legal. The chosen face must lead to an unlocked neighbor. A stationary plain right-click on either Road body reverses direction, swaps endpoint roles and disconnects endpoint cables for rewiring. Right-drag still pans; modifier-clicks retain their existing controls. Selecting the existing direction through the engine is a no-op. The direction panel describes flow relative to the current map.
+
+## Traveling through a Road
+
+Click the red Travel arrow outside the playable field, or double-click the body of either Road endpoint, to visit its connected adjacent Map Node, regardless of shipment direction. Navigation requires an unlocked destination and a reciprocal endpoint pair. It carries the previous map’s zoom and focuses and highlights the paired Road on arrival, on both first visits and revisits. Camera bounds keep that endpoint visible; its old saved center does not override Road arrival. Ordinary Node Map travel keeps its separate saved-center behavior. It does not alter the Road, its cables, or cargo. Single-click still selects and configures the Road. Dragging, socket wiring and modifier-clicks retain their existing controls; tutorial practice keeps its scripted travel.
+
+Implementation: [validated Road pairs](../../src/domain/roadNavigation.ts), [click tracking](../../src/renderer/roadNodeTravel.ts), [field input](../../src/renderer/PixiPlayfield.tsx), [travel callback](../../src/ui/App.tsx). Coverage: [focused Road arrival](../../src/simulation/roadTravel.test.ts), [Road navigation](../../src/renderer/roadNodeTravel.test.ts), [sector travel](../../src/simulation/sectorTravel.test.ts).
+
+## Road control test sandbox
+
+The isolated [Road workshop](../../previews/road-workshop/README.md) contains nine connected test maps with twelve ordinary Road pairs and uses the main game’s adopted Road controls. Roads have no gear. Their external Travel arrows use one 32 × 32 CSS pixel shape in every direction, with Travel above in 12 CSS px UI sans. Stationary right-click reverses flow. Both Travel and double-click retain zoom and focus the paired endpoint. Zoom-out and panning leave room around the unchanged playable field for these controls. The workshop remains available for further review without campaign save storage. Tutorial practice keeps its authored views and scripted travel.
 
 ## Border crossing research
 

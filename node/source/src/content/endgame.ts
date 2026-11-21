@@ -1,5 +1,5 @@
 import type { GameState, ItemId, MachineNode, Recipe, ResearchProject } from '../domain/types';
-import { DEFAULT_WORLD_GRID_SIZE, worldCornerIds } from '../domain/worldGrid';
+import { DEFAULT_WORLD_GRID_SIZE, worldCornerIds, worldGridSize } from '../domain/worldGrid';
 import { FINAL_BOT_AP } from './botAssembly';
 export { FINAL_BOT_AP } from './botAssembly';
 
@@ -53,7 +53,7 @@ export const ENDGAME_RECIPES: Record<string, Recipe> = Object.fromEntries(PAIRS.
     inputs: Object.fromEntries(pair.map(c => [CORNER_ITEMS[c], 1])),
     outputs: { [output]: 1 },
     cycleMs: 20000,
-    unlockResearch: 'cornerComponents',
+    unlockResearch: 'complexCore',
   }];
 })));
 ENDGAME_RECIPES['final-core'] = { id: 'final-core', name: 'Final Core', inputs: { 'core-half-a': 1, 'core-half-b': 1 }, outputs: { 'final-core': 1 }, cycleMs: 60000, unlockResearch: 'finalCore' };
@@ -64,7 +64,6 @@ export function atResearchCap(project: ResearchProject, research: GameState['res
 const bill = () => Object.fromEntries(SEVEN_CORES.map(i => [i, 1]));
 const project = (id: string, name: string, unlock: string, prerequisites: string[], repeatable = false): ResearchProject => ({ id, name, category: 'Endgame', description: unlock, unlock, costs: bill(), prerequisites, ...(repeatable ? { repeatable: true, costGrowth: 1.5 } : {}) });
 export const ENDGAME_RESEARCH: ResearchProject[] = [
-  { id: 'cornerComponents', name: 'End of the World', category: 'Milestone', description: 'There may be more to the map than the middle.', unlock: 'Unlocks the Yin and Yang recipes.', costs: {}, trigger: { id: 'complex-core-produced', pending: 'Take the next step in Core production', complete: 'First Complex Core produced' } },
   {
     id: 'finalRobotics', name: 'Final Robotics', category: 'Endgame',
     description: `Make the Final Frame and Final Cannon in the Fabricator. Together they make a Suppression Bot ${FINAL_BOT_AP} AP in the Bot Plant.`,
@@ -83,6 +82,13 @@ export const ENDGAME_RESEARCH: ResearchProject[] = [
   project('resourceRegeneration', 'Resource Regeneration', 'Each completion adds the pre-upgrade regeneration rate again to Forests and mineral deposits.', ['victory', 'mineralRegeneration2'], true),
   { id: 'recycler', name: 'Intermediate Recycling', category: 'Ecology', description: 'Supply Water to break down items and run unlocked waste recovery recipes in the Recycler. Use Filters to sort the output.', unlock: 'Unlocks the Recycler.', costs: { 'simple-core': 10, 'basic-core': 10, 'automata-core': 10, 'hydro-core': 10 }, prerequisites: ['hydraulicAssembly'] },
 ];
+
+/** Discovery emphasis is dismissed independently for the map control and each corner. */
+export function cornerDiscoveryPending(state: GameState, cornerId?: string) {
+  if (!state.research.completed.includes('complexCore')) return false;
+  return cornerId === undefined ? !state.endgame?.cornerMapAcknowledged
+    : worldCornerIds(worldGridSize(state)).includes(cornerId) && !state.endgame?.acknowledgedCorners?.includes(cornerId);
+}
 
 export function landfillTotal(base: number, rank: number) {
   const b = BigInt(Math.max(1, Math.ceil(base))), r = BigInt(Math.max(0, Math.min(45, rank)));

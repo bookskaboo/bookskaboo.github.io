@@ -1,0 +1,59 @@
+{
+  "normal": {
+    "clip": "url(#sim-current-clip)",
+    "ghosts": 0,
+    "roads": 0
+  },
+  "blockedGhost": {
+    "ghosts": 1,
+    "message": "East Road preview: Hydro crossing research required. The ghost shows the other half of the obstruction.",
+    "stroke": "#f0a4a4"
+  },
+  "directions": [
+    {
+      "currentClip": "url(#sim-current-clip)",
+      "ghosts": 1,
+      "message": "North Road preview: placement permitted. The adjacent map ghost is visible.",
+      "roads": 2,
+      "side": "north",
+      "stroke": "#e8ce83"
+    },
+    {
+      "currentClip": "url(#sim-current-clip)",
+      "ghosts": 1,
+      "message": "East Road preview: placement permitted. The adjacent map ghost is visible.",
+      "roads": 2,
+      "side": "east",
+      "stroke": "#e8ce83"
+    },
+    {
+      "currentClip": "url(#sim-current-clip)",
+      "ghosts": 1,
+      "message": "South Road preview: placement permitted. The adjacent map ghost is visible.",
+      "roads": 2,
+      "side": "south",
+      "stroke": "#e8ce83"
+    },
+    {
+      "currentClip": "url(#sim-current-clip)",
+      "ghosts": 1,
+      "message": "West Road preview: placement permitted. The adjacent map ghost is visible.",
+      "roads": 2,
+      "side": "west",
+      "stroke": "#e8ce83"
+    }
+  ],
+  "mobile": {
+    "normal": {
+      "contentWidth": 375,
+      "ghosts": 0,
+      "width": 390
+    },
+    "placing": {
+      "contentWidth": 375,
+      "ghosts": 1,
+      "width": 390
+    }
+  },
+  "logs": []
+}
