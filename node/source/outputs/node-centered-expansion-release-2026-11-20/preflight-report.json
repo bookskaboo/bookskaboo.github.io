@@ -1,0 +1,32 @@
+{
+  "commit": "ed6bef16986ba9050513de06196ca69262458c66",
+  "base": "df7ec85b00be8f74465b88aefb1c1c5b65bd30ef",
+  "destination": "https://github.com/bookskaboo/bookskaboo.github.io.git refs/heads/main",
+  "onlyNodeChanged": true,
+  "canFastForward": true,
+  "cleanWorktree": true,
+  "changedFiles": 80,
+  "sourceOverlay": [
+    "src/renderer/PixiPlayfield.tsx",
+    "src/simulation/borderTerrainClearance.test.ts",
+    "src/simulation/borderTerrainClearance.ts",
+    "src/simulation/cornerLayout.test.ts",
+    "src/simulation/endgameRuntime.ts",
+    "src/simulation/engine.ts",
+    "src/simulation/researchRuntime.ts",
+    "src/simulation/roadExpansion.test.ts",
+    "src/simulation/roadPlacement.ts",
+    "src/simulation/unvisitedMapExpansion.test.ts",
+    "src/simulation/unvisitedMapExpansion.ts",
+    "src/simulation/worldGeneration.ts"
+  ],
+  "toolingOverlay": [
+    "scripts/check-changelog.mjs"
+  ],
+  "matchedRuntimeFiles": 11,
+  "priorAssetsRetained": 169,
+  "candidateTests": 1362,
+  "candidateSkips": 1,
+  "workspaceContext": "The approved spawn snapshot passed 2158 tests with two skips before unrelated landmark work began. A fresh shared-workspace run during that work had 16 unrelated/in-progress failures; its code is excluded from this frozen candidate.",
+  "checkedAt": "2026-11-21T07:31:52.577Z"
+}
