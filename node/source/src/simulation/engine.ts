@@ -28,6 +28,9 @@ import { isRecipeUnlocked, RECIPES, RECIPE_GROUPS, recyclerRecipeForMaterial } f
 import { BOT_BUILD_BY_ID, cargoMaterial, MATCHED_BOTS } from '../content/botAssembly';
 import { RESEARCH_PROJECTS } from '../content/research';
 import { getRecipeEfficiencyMultiplier } from '../content/efficiency';
+import { landmarkMultiplier, landmarkRecipeAllowed } from '../content/landmarks';
+import { simulateUnknownDevice } from './landmarkRuntime';
+import { initializeLandmarks } from './landmarkGeneration';
 import { hasForestryCapacity } from '../content/machineEfficiency';
 import { migrateMachineEfficiency } from './machineEfficiencyMigration';
 import { migrateUpgrades } from './upgradesMigration';
@@ -151,10 +154,12 @@ export class GameEngine {
     if (gridSize !== undefined) {
       const changed = gridSize !== worldGridSize(this.state);
       this.state.worldGridSize = gridSize;
+      if (gridSize !== 11) { this.state.landmarkVersion = 0; delete this.state.landmarkLayout; }
       if (changed && this.state.borderObstructionVersion === 1) this.state.borderObstructions = generateBorderObstructions(this.state.seed, gridSize);
       if (changed && this.state.mapTerrainVersion === 1) this.state.mapTerrains = generateMapTerrains(this.state.seed, gridSize, this.state.endgame?.cornerOrder);
     }
     activateMod(candidate);
+    if (this.state.landmarkEligible && worldGridSize(this.state) === 11 && this.state.landmarkVersion === 0 && Object.keys(this.state.sectors).every(id => id === HOME_SECTOR_ID)) initializeLandmarks(this.state);
     migrateUpgrades(this.state);
     this.syncFieldLayouts();
     applyModNames(this.state);
@@ -167,6 +172,7 @@ export class GameEngine {
   }
   private normalizeExtractorCycles() {
     this.state.worldRulesVersion ??= 1;
+    if (this.state.isTraining || worldGridSize(this.state) !== 11) { this.state.landmarkVersion = 0; delete this.state.landmarkLayout; if(this.state.isTraining)delete this.state.landmarkEligible; }
     normalizeMapTerrains(this.state);
     Object.assign(this.state, normalizeBorderLayout(this.state.borderObstructionVersion, this.state.borderObstructions, worldGridSize(this.state)));
     if (!borderRoadPermissionsValid(this.state)) throw new Error('A saved Road crosses terrain without its crossing research.');
@@ -352,6 +358,8 @@ export class GameEngine {
       if (node.disabled || Date.now() - node.constructedAt < node.constructionMs) continue;
       if (NODE_DEFINITIONS[node.kind].category === 'Logistics') node.processingPaused = false;
       if (node.processingPaused) continue;
+      if (node.landmark === 'unknown') { simulateUnknownDevice(this.state, node, baseDt); continue; }
+      if (node.landmark && !isNodeUnlocked(node.kind, this.state.research.unlocked)) continue;
       if(node.kind==='cornerChallenge'){simulateCorner(this.state,sector,node);continue;}
       if(node.kind==='cornerTribute')continue;
       if (node.kind === 'goblinTribute') {
@@ -493,7 +501,10 @@ export class GameEngine {
         const item = source?.resourceItem;
         this.reconcileExtractorStorage(node, item);
         if (source?.guardedCampId && !guardedResourceAccessible(source, sector.nodes)) continue;
-        if (!resourceEdge || !source || !item || (!source.infiniteResource && (source.resourceRemaining ?? 0) <= 0) || sum(node.output) >= 5) { node.progressMs = 0; continue; }
+        const tri = node.landmark === 'tri';
+        if (tri) node.triOutput ??= [0,0,0];
+        if (tri && node.triOutput!.some(count => count >= 5)) continue;
+        if (!resourceEdge || !source || !item || (!source.infiniteResource && (source.resourceRemaining ?? 0) <= 0) || (!tri && sum(node.output) >= 5)) { node.progressMs = 0; continue; }
         node.progressMs += dt;
         const duration = node.cycleMs * this.efficiencyMultiplier('extractor');
         if (node.progressMs >= duration) {
@@ -506,12 +517,13 @@ export class GameEngine {
               this.event('DepositDepleted', `${ITEM_NAMES[item]} reserve depleted at ${mapNodePosition(sector.x, sector.y)}.`);
             }
           }
-          node.output[item] = (node.output[item] ?? 0) + 1;
+          node.output[item] = (node.output[item] ?? 0) + (tri ? 3 : 1);
+          if (tri) node.triOutput = node.triOutput!.map(count => count + 1) as [number,number,number];
           if (isDwarvenGuardedDeposit(source, sector)) this.state.dwarvenMythrilProduced = true;
           const route = [...resourceRoute!.connections, resourceEdge];
           route.forEach(cable => { cable.item = item; });
           (this.state.inFlightTransfers ??= []).push({ id: makeId('pulse'), sectorId: sector.id, connectionId: route[0].id, routeConnectionIds: route.length > 1 ? route.map(cable => cable.id) : undefined, from: source.id, to: node.id, item, launchedAtMs: this.state.playTimeMs, arrivesAtMs: this.state.playTimeMs + modRule('cableTravelMs'), cosmeticOnly: true });
-          this.recordProduced(item, 1, true);
+          this.recordProduced(item, tri ? 3 : 1, true);
           this.event('ItemProduced', `${node.name} extracted 1 ${item}.`);
         }
         continue;
@@ -524,7 +536,7 @@ export class GameEngine {
           if (node.recipeId) break;
         }
       }
-      const multiplier = this.efficiencyMultiplier(node.kind, node.batch?.recipeId ?? node.recipeId);
+      const multiplier = landmarkMultiplier(node, this.state, this.efficiencyMultiplier(node.kind, node.batch?.recipeId ?? node.recipeId));
       if (simulateExtendedRecipe(this.state, node, dt, multiplier)) {
         if (node.kind === 'recycler' && node.recipeId && !node.batch) {
           const recipe = RECIPES[node.recipeId];
@@ -601,6 +613,10 @@ export class GameEngine {
 
   private reconcileExtractorStorage(node: MachineNode, item: ItemId | undefined) {
     if (!item) return;
+    if (node.landmark === 'tri') {
+      if (node.resourceItem && node.resourceItem !== item) { node.triOutput = [0,0,0]; node.output = {}; node.progressMs = 0; }
+      node.resourceItem = item;
+    }
     for (const storedItem of Object.keys(node.output) as ItemId[]) {
       if (storedItem === item) continue;
       if ((node.output[storedItem] ?? 0) > 0) node.progressMs = 0;
@@ -628,6 +644,7 @@ export class GameEngine {
       if (accepts(resourceItem)) return { source: { ...node, resourceItem, infiniteResource: true }, connections: [] };
       return;
     }
+    if (extractor.landmark === 'tri' && (node.guardedCampId || node.infiniteResource || !['wood','stone','copper','iron'].includes(node.resourceItem ?? ''))) return;
     if (node.resourceItem && node.kind !== 'lake') return accepts(node.resourceItem) ? { source: node, connections: [] } : undefined;
     if (!getNodeCapabilities(node.kind).passThrough) return;
     const path = new Set(visited).add(node.id);
@@ -698,6 +715,7 @@ export class GameEngine {
 
   /** Original processors reserve a full ingredient buffer for every recipe input. */
   private inputUsesPerItemCapacity(node: MachineNode) {
+    if (node.landmark === 'unknown') return false;
     return Boolean((node.kind==='cornerChallenge'&&node.cornerType==='foundry') || getNodeCapabilities(node.kind).perItemInputCapacity || (node.recipeId && RECIPES[node.recipeId]));
   }
 
@@ -808,7 +826,7 @@ export class GameEngine {
     const lookups = new SimulationLookups(this.state);
     const pending = this.state.inFlightTransfers ??= [];
     const remaining = [] as typeof pending;
-    const refunds: Array<{ source: MachineNode; item: ItemId; amount: number }> = [];
+    const refunds: Array<{ source: MachineNode; item: ItemId; amount: number; port?: number }> = [];
     for (const transfer of pending) {
       if ((sectorId && transfer.sectorId !== sectorId) || transfer.arrivesAtMs > nowMs) { remaining.push(transfer); continue; }
       if (transfer.cosmeticOnly) continue;
@@ -830,13 +848,13 @@ export class GameEngine {
       if (target && connection && validSocket && occupied + (transfer.amount ?? 1) <= this.inputCapacity(target, transfer.item)) {
         this.selectRecyclerRecipeFromMaterial(target, transfer.item);
         target.input[transfer.item] = (target.input[transfer.item] ?? 0) + (transfer.amount ?? 1);
-        if (getNodeCapabilities(target.kind).behavior === 'buffer') (target.inputQueue ??= []).push(...Array<ItemId>(transfer.amount ?? 1).fill(transfer.item));
+        if ((getNodeCapabilities(target.kind).behavior === 'buffer' || target.landmark === 'unknown')) (target.inputQueue ??= []).push(...Array<ItemId>(transfer.amount ?? 1).fill(transfer.item));
       } else if (source) {
-        refunds.push({ source, item: transfer.item, amount: transfer.amount ?? 1 });
+        refunds.push({ source, item: transfer.item, amount: transfer.amount ?? 1, port: transfer.sourcePort });
       }
     }
     // Prepending in reverse restores the original dispatch order ahead of newer stock.
-    for (const { source, item, amount } of refunds.reverse()) returnOutput(source, item, amount);
+    for (const { source, item, amount, port } of refunds.reverse()) returnOutput(source, item, amount, port);
     this.state.inFlightTransfers = remaining;
   }
 
@@ -928,7 +946,7 @@ export class GameEngine {
       if (!(transfer.routeConnectionIds ?? [transfer.connectionId]).some(id => connectionIds.has(id))) { retained.push(transfer); continue; }
       if (transfer.cosmeticOnly) continue;
       const source = this.state.sectors[transfer.sectorId]?.nodes.find((node) => node.id === transfer.from);
-      if (source) returnOutput(source, transfer.item, transfer.amount ?? 1);
+      if (source) returnOutput(source, transfer.item, transfer.amount ?? 1, transfer.sourcePort);
       else if (usesNewWorldRules(this.state)) {
         this.state.globalPool ??= {};
         this.state.globalPool[transfer.item] = (this.state.globalPool[transfer.item] ?? 0) + (transfer.amount ?? 1);
@@ -988,7 +1006,7 @@ export class GameEngine {
       const resolveRoute = (key: ItemId) => this.resolveDeliveryRoute(connection, key, sector, lookups);
       const head = outputHead(source);
       const item = (head ? [head] : Object.keys(source.output) as ItemId[]).find((key) =>
-        (source.output[key] ?? 0) > 0 && Boolean(resolveRoute(key)) && portFamilyAcceptsItem(getEffectiveNodeOutputFamilies(source)[connection.fromPort??0]??'ANY',key) && this.canAcceptAtInputPort(target!, connection.toPort ?? 0, key, sector, lookups)
+        (source.output[key] ?? 0) > 0 && (source.landmark !== 'tri' || (source.triOutput?.[connection.fromPort ?? 0] ?? 0) > 0) && Boolean(resolveRoute(key)) && portFamilyAcceptsItem(getEffectiveNodeOutputFamilies(source)[connection.fromPort??0]??'ANY',key) && this.canAcceptAtInputPort(target!, connection.toPort ?? 0, key, sector, lookups)
       );
       if (!item) continue;
       if (!portFamiliesCompatible(source,connection.fromPort??0,target,connection.toPort??0,this.state.research.completed) || !getEffectiveNodeOutputFamilies(source)[connection.fromPort??0] || !inputPortAcceptsItem(target,connection.toPort??0,item,this.state.research.completed))continue;
@@ -1011,9 +1029,9 @@ export class GameEngine {
         const amount = Math.min(Math.floor(connection.batchCredit), source.output[item] ?? 0, queuedAmount, cap - occupied - pendingForTarget);
         if (amount > 0) {
           this.selectRecyclerRecipeFromMaterial(target, item);
-          takeOutput(source, item, amount);
+          takeOutput(source, item, amount, connection.fromPort ?? 0);
           target.input[item] = (target.input[item] ?? 0) + amount;
-          if (getNodeCapabilities(target.kind).behavior === 'buffer') (target.inputQueue ??= []).push(...Array<ItemId>(amount).fill(item));
+          if ((getNodeCapabilities(target.kind).behavior === 'buffer' || target.landmark === 'unknown')) (target.inputQueue ??= []).push(...Array<ItemId>(amount).fill(item));
           connection.batchCredit -= amount;
           connection.item = item;
           launched = true;
@@ -1023,13 +1041,13 @@ export class GameEngine {
       }
       const payload = item === 'forest-growth' && hasForestryCapacity(this.state.research.completed) ? 10 : isCartKind(source.kind) || isCartKind(target.kind) ? vehiclePayload(this.state.research.completed) : 1;
       const runLength = source.outputQueue ? source.outputQueue.findIndex(key => key !== item) : -1;
-      const amount = Math.min(payload, source.output[item] ?? 0, cap - occupied - pendingForTarget, source.outputQueue ? runLength < 0 ? source.outputQueue.length : runLength : Infinity);
+      const amount = Math.min(payload, source.output[item] ?? 0, source.landmark === 'tri' ? source.triOutput?.[connection.fromPort ?? 0] ?? 0 : Infinity, cap - occupied - pendingForTarget, source.outputQueue ? runLength < 0 ? source.outputQueue.length : runLength : Infinity);
       if (amount <= 0) continue;
       this.selectRecyclerRecipeFromMaterial(target, item);
-      takeOutput(source, item, amount);
+      takeOutput(source, item, amount, connection.fromPort ?? 0);
       route.connections.forEach(cable => { cable.item = item; });
       route.routers.forEach(({ node, outputIndex }) => { if (getNodeCapabilities(node.kind).alternatingOutputs) node.alternator = outputIndex + 1; });
-      const transfer = { id: makeId('transfer'), sectorId: sector.id, connectionId: connection.id, routeConnectionIds: route.connections.length > 1 ? route.connections.map(cable => cable.id) : undefined, from: source.id, to: target.id, item, amount, launchedAtMs: nowMs, arrivesAtMs: nowMs + modRule('cableTravelMs') };
+      const transfer = { id: makeId('transfer'), sourcePort: connection.fromPort ?? 0, sectorId: sector.id, connectionId: connection.id, routeConnectionIds: route.connections.length > 1 ? route.connections.map(cable => cable.id) : undefined, from: source.id, to: target.id, item, amount, launchedAtMs: nowMs, arrivesAtMs: nowMs + modRule('cableTravelMs') };
       (this.state.inFlightTransfers ??= []).push(transfer);
       lookups.launched(transfer);
       if (source.kind === 'extractor') this.lastExtractorDispatch.set(connection, nowMs);
@@ -1474,7 +1492,7 @@ export class GameEngine {
   }
   deleteNodes(ids: string[]) {
     const sector = this.getSector();
-    const deletable = sector.nodes.filter((n) => ids.includes(n.id) && !n.protected && getNodeModule(n.kind).controls.deletable).map((n) => n.id);
+    const deletable = sector.nodes.filter((n) => !n.landmark && ids.includes(n.id) && !n.protected && getNodeModule(n.kind).controls.deletable).map((n) => n.id);
     if (!deletable.length) return;
     this.checkpoint();
     const removedConnectionIds = new Set(sector.connections.filter((connection) => deletable.includes(connection.from) || deletable.includes(connection.to)).map((connection) => connection.id));
@@ -1585,7 +1603,7 @@ export class GameEngine {
   private captureNodeLayout(ids: readonly string[]): NodeLayoutCopy | undefined {
     const sector = this.getSector();
     const selected = new Set(ids);
-    const nodes = sector.nodes.filter((n) => selected.has(n.id) && !n.protected && isPlayerMovableNode(n.kind) &&
+    const nodes = sector.nodes.filter((n) => selected.has(n.id) && !n.landmark && !n.protected && isPlayerMovableNode(n.kind) &&
       getNodeCapabilities(n.kind).duplicateAllowed !== false && (!n.recipeId || RECIPE_GROUPS[n.kind]?.includes(n.recipeId)) &&
       ((NODE_DEFINITIONS[n.kind].category !== 'Storage' && !isCartKind(n.kind)) || isNodeUnlocked(n.kind, this.state.research.unlocked)));
     if (!nodes.length) return;
@@ -1680,7 +1698,7 @@ export class GameEngine {
   setRecipe(nodeId: string, recipeId: string) {
     const sector = this.getSector();
     const node = sector.nodes.find((n) => n.id === nodeId);
-    if (!node || getNodeCapabilities(node.kind).behavior === 'bot-assembly' || node.batch || !RECIPES[recipeId] || !RECIPE_GROUPS[node.kind]?.includes(recipeId) || !isRecipeUnlocked(recipeId,this.state.research.completed) || !worldRecipeAllowed(recipeId,this.state)) return false;
+    if (!node || (node.landmark && (!isNodeUnlocked(node.kind, this.state.research.unlocked) || !RECIPES[recipeId] || !landmarkRecipeAllowed(node, RECIPES[recipeId]))) || getNodeCapabilities(node.kind).behavior === 'bot-assembly' || node.batch || !RECIPES[recipeId] || !RECIPE_GROUPS[node.kind]?.includes(recipeId) || !isRecipeUnlocked(recipeId,this.state.research.completed) || !worldRecipeAllowed(recipeId,this.state)) return false;
     if (['robot-frame', 'robot-gun', 'suppression-bot'].includes(recipeId) && !this.state.research.completed.includes('suppressionBot')) return false;
     if (node.recipeId === recipeId) return true;
     this.checkpoint();

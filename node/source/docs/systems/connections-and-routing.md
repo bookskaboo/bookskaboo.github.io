@@ -14,6 +14,8 @@ Natural reserves feed Extractors directly or through permitted pass-through rout
 
 Guarded camps also have a system-owned refill connection, visible only while fully suppressed. Its dedicated camp output and deposit inlet cannot be used by player wiring, routing or cable deletion. It depicts the existing reserve regeneration with actual awarded quantities; it is not an ordinary cargo connection, consumes no player socket capacity and adds no second stockpile. The centered AP input and resource-to-Extractor route remain ordinary player connections. See [guarded refill behavior](encounters-and-obstructions.md#automatic-reserve-refill-connection).
 
+[Landmark](landmarks.md) sockets retain ordinary transport rates. Tri Extractors have three independent five-item output buffers; a shipment removes stock only from its source outlet, and refunds retain that outlet. Unknown Device accepts any Core on one shared input and dispatches a FIFO mixed output; in-flight reservations count against its shared five-Core waiting limit. Reclaimer has no Water inlet.
+
 ## Routing nodes
 
 Splitter and Merger unlock together automatically when the factory produces its first Simple Core. Their shared requirement is Produce 1 Simple Core. Stock alone, other Refiner output, Assembler construction and Basic Core production do not count. Previously completed routing research remains completed.
@@ -30,6 +32,8 @@ A Filter retains cables and stock when its assignment changes. If the outlet req
 Validation checks the proposed graph, including generic chains wired before their source. For example, Charcoal cannot reach an ore socket by passing through a Splitter. Mixed-product branches remain valid when the route can deliver an accepted product; wrong materials still cannot be inserted into a specific socket at runtime.
 
 ## Transfers and capacity
+
+The separate [landmark proposal](../master-plan/23-map-power-ups.md) selects ordinary cable, vehicle and Road rates and their normal upgrades for Landmarks. Processing and yield bonuses do not add a connection transfer-rate bonus, so delivered throughput still depends on supply and routing. Landmark behavior is not implemented; current transfer rules remain unchanged.
 
 The base cable launch interval is 400 ms and base travel time is 1,000 ms. Reservations include cargo already in flight so multiple sources cannot overfill the same target. Transparent routes retain their complete cable path for animation and delivery validation. Certain fluid, tribute and waste routes use batch rates rather than the ordinary one-item launch behavior.
 

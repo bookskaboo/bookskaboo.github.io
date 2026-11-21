@@ -1,0 +1,147 @@
+[
+  {
+    "family": "refiner",
+    "recipe": "iron-gear",
+    "maximumOutput": 2
+  },
+  {
+    "family": "refiner",
+    "recipe": "copper-gear",
+    "maximumOutput": 2
+  },
+  {
+    "family": "refiner",
+    "recipe": "mythril-gear",
+    "maximumOutput": 2
+  },
+  {
+    "family": "refiner",
+    "recipe": "iron-wire",
+    "maximumOutput": 2
+  },
+  {
+    "family": "refiner",
+    "recipe": "copper-wire",
+    "maximumOutput": 2
+  },
+  {
+    "family": "refiner",
+    "recipe": "mythril-wire",
+    "maximumOutput": 2
+  },
+  {
+    "family": "refiner",
+    "recipe": "brick",
+    "maximumOutput": 2
+  },
+  {
+    "family": "assembler",
+    "recipe": "motor",
+    "maximumOutput": 2
+  },
+  {
+    "family": "assembler",
+    "recipe": "circuit-a",
+    "maximumOutput": 2
+  },
+  {
+    "family": "assembler",
+    "recipe": "robot-frame",
+    "maximumOutput": 2
+  },
+  {
+    "family": "assembler",
+    "recipe": "robot-gun",
+    "maximumOutput": 2
+  },
+  {
+    "family": "advancedAssembler",
+    "recipe": "hydraulic-actuator",
+    "maximumOutput": 2
+  },
+  {
+    "family": "advancedAssembler",
+    "recipe": "precision-controller",
+    "maximumOutput": 4
+  },
+  {
+    "family": "advancedAssembler",
+    "recipe": "advanced-actuator",
+    "maximumOutput": 2
+  },
+  {
+    "family": "advancedAssembler",
+    "recipe": "ceramic-electrode",
+    "maximumOutput": 2
+  },
+  {
+    "family": "advancedAssembler",
+    "recipe": "logic-substrate",
+    "maximumOutput": 2
+  },
+  {
+    "family": "advancedAssembler",
+    "recipe": "sealed-frame",
+    "maximumOutput": 2
+  },
+  {
+    "family": "advancedAssembler",
+    "recipe": "cooled-gun",
+    "maximumOutput": 2
+  },
+  {
+    "family": "advancedAssembler",
+    "recipe": "mithril-frame",
+    "maximumOutput": 2
+  },
+  {
+    "family": "advancedAssembler",
+    "recipe": "focused-gun",
+    "maximumOutput": 2
+  },
+  {
+    "family": "advancedAssembler",
+    "recipe": "servo-frame",
+    "maximumOutput": 2
+  },
+  {
+    "family": "advancedAssembler",
+    "recipe": "pulse-cannon",
+    "maximumOutput": 2
+  },
+  {
+    "family": "advancedAssembler",
+    "recipe": "efficient-circuit-a",
+    "maximumOutput": 4
+  },
+  {
+    "family": "advancedAssembler",
+    "recipe": "efficient-motor",
+    "maximumOutput": 4
+  },
+  {
+    "family": "advancedAssembler",
+    "recipe": "efficient-bot-frame",
+    "maximumOutput": 4
+  },
+  {
+    "family": "advancedAssembler",
+    "recipe": "efficient-hydro-piston",
+    "maximumOutput": 8
+  },
+  {
+    "family": "advancedAssembler",
+    "recipe": "efficient-circuit-c",
+    "maximumOutput": 8
+  },
+  {
+    "family": "advancedAssembler",
+    "recipe": "final-frame",
+    "maximumOutput": 2
+  },
+  {
+    "family": "advancedAssembler",
+    "recipe": "final-cannon",
+    "maximumOutput": 2
+  }
+]

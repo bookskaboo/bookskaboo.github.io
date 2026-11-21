@@ -27,7 +27,7 @@ Stable recipe project IDs represent their preceding character upgrade: basicCore
 
 ## Discoveries and ordinary projects
 
-The separate [power-up proposal](../master-plan/23-map-power-ups.md) selects extending Resource Relocation to all four landmark types while retaining its post-victory-research gate and one-time price of one of each of the seven Core types. Landmark movement stays within the current Map Node, with no transfer between Map Nodes and no additional material fee after research. Landmark support is not implemented; the current project still covers its existing natural-resource targets.
+[Landmarks](landmarks.md) extend Resource Relocation to every landmark type. Its post-victory-research gate and one-time price of one of each of the seven Core types are unchanged. Moves remain within the current Map Node and have no additional material fee; no separate landmark project is added.
 
 Automatic discoveries include extraction, Plate production, Lake/camp encounters and first Simple Core production. They are not manual lab projects. Splitter and Merger unlock together when one Simple Core is actually produced; stock, Refiner access and other outputs do not satisfy that trigger. Historical simpleCore and cornerComponents IDs remain readable, without live cards.
 

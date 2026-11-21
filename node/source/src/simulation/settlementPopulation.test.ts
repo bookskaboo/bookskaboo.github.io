@@ -34,7 +34,7 @@ afterEach(() => { activateMod(); vi.unstubAllGlobals(); });
 
 describe('retained thirty-settlement layout', () => {
   it.each([1, 7, 37, 99, 98765, 2147483647])('retains five of every faction/level and guarded reserves for seed %i', seed => {
-    const fresh = createInitialState(seed);
+    const fresh = createLayoutFixture(seed);
     expect(fresh.encounterLayoutVersion).toBe(2);
     const sectors = world(seed, 2).map(s => s.id === '5,5' ? s : sectorForState(fresh, s.x, s.y)), camps = settlements(sectors);
     expect(camps).toHaveLength(30);
@@ -68,7 +68,7 @@ describe('retained thirty-settlement layout', () => {
   });
 
   it.each([1, 2] as const)('retains the thirty-settlement distribution for saved layout %i', version => {
-    const state = createInitialState(37); state.encounterLayoutVersion = version;
+    const state = createLayoutFixture(37); state.encounterLayoutVersion = version;
     const expected = world(state.seed, version);
     const campCounts = settlements(expected);
     expect(campCounts).toHaveLength(30);
@@ -82,7 +82,7 @@ describe('retained thirty-settlement layout', () => {
   });
 
   it('keeps new games and unmarked imports on the original layout versions', () => {
-    const fresh = createInitialState(37); expect(fresh.encounterLayoutVersion).toBe(2);
+    const fresh = createLayoutFixture(37); expect(fresh.encounterLayoutVersion).toBe(2);
     const homeOnly = structuredClone(fresh); delete homeOnly.encounterLayoutVersion;
     expect(getEncounterLayoutVersion(homeOnly)).toBe(2);
     expect(new GameEngine(normalizeLegacy(homeOnly)!).getState().encounterLayoutVersion).toBe(2);
@@ -94,7 +94,7 @@ describe('retained thirty-settlement layout', () => {
   it.each([1, 2] as const)('persists layout %i through slots, copies, autosave, mods, undo and later exploration', version => {
     const storage = new Map<string, string>();
     vi.stubGlobal('localStorage', { getItem: (key: string) => storage.get(key) ?? null, setItem: (key: string, value: string) => storage.set(key, value) });
-    const state = createInitialState(37); state.encounterLayoutVersion = version;
+    const state = createLayoutFixture(37); state.encounterLayoutVersion = version;
     saveSlot(0, state); copySaveToSlot(1, readSlots()[0]!);
     const saved = readSlots()[1]!.state; expect(saved.encounterLayoutVersion).toBe(version);
     localStorage.setItem(AUTOSAVE_KEY, JSON.stringify(saved)); expect(readAutosave()!.state.encounterLayoutVersion).toBe(version);
@@ -107,3 +107,6 @@ describe('retained thirty-settlement layout', () => {
     expect(layout(world(37, version))).toEqual(layout(world(37, version).map(s => sectorForState(loaded, s.x, s.y))));
   });
 });
+
+/** Isolate pre-landmark terrain/encounter fixtures; combined worlds are covered in landmarks.test.ts. */
+function createLayoutFixture(seed?:number){const state=createInitialState(seed);state.landmarkVersion=0;delete state.landmarkLayout;delete state.landmarkEligible;return state;}

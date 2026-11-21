@@ -9,6 +9,7 @@ import { getGolemMineral } from './resourceGolems';
 import { cartUpgrade, isCartKind } from './cartUpgrades';
 import type { ItemId, MachineNode, NodeDefinition, NodeKind, PortFamily } from '../domain/types';
 import { selectedFilterPort } from '../domain/filterRouting';
+import { landmarkName, landmarkDescription, LANDMARK_COLORS } from './landmarks';
 import { modNode, modNodeTemplate } from '../mods/modRules';
 
 const NODE_PALETTE = {
@@ -135,6 +136,8 @@ export function getBuildNodeDefinition(kind: NodeKind, completedResearch: readon
 }
 
 export const getNodeDisplayDefinition = (node: MachineNode): NodeDefinition => {
+  if (node.landmark) return { ...NODE_DEFINITIONS[node.kind], name: landmarkName(node), description: landmarkDescription(node),
+    ...accentFields(node.landmark === 'unknown' ? LANDMARK_COLORS.unknown : LANDMARK_COLORS.ordinary) };
   if (modNode(node.kind)?.accentCss) return NODE_DEFINITIONS[node.kind];
   const accent = node.kind === 'resourceGolem' ? ITEM_COLORS[getGolemMineral(node)] : node.lizardSettlement ? 0x71c99a : undefined;
   return accent === undefined ? NODE_DEFINITIONS[node.kind] : { ...NODE_DEFINITIONS[node.kind], ...accentFields(accent) };
@@ -158,6 +161,11 @@ export const getNodeInputFamilies = (kind: NodeKind, completedResearch: readonly
 
 /** Runtime socket types keep semantic port indexes stable while recipes and visual rows change. */
 export const getEffectiveNodeInputFamilies = (node: MachineNode, completedResearch: readonly string[]): readonly PortFamily[] => {
+  if (node.landmark === 'unknown') return ['CORE'];
+  if (node.landmark === 'reclaimer') {
+    const material = Object.keys(RECIPES[node.recipeId ?? '']?.inputs ?? {}).find(item => item !== 'water');
+    return [material === SUPPRESSION_BOT ? 'ATTACK_POWER' : (material as PortFamily | undefined) ?? 'ANY'];
+  }
   if (modNode(node.kind)?.customSockets && modNode(node.kind)?.input) return modNode(node.kind)!.input!;
   if (node.kind==='cornerChallenge') return node.cornerType==='alpha'?['ATTACK_POWER']:node.cornerType==='foundry'?Object.keys(FOUNDRY_INPUTS) as PortFamily[]:node.cornerType==='grove'?['forest-growth']:['WASTE'];
   if (node.infiniteResource) return [];
@@ -176,6 +184,8 @@ export const getEffectiveNodeInputFamilies = (node: MachineNode, completedResear
 };
 
 export const getEffectiveNodeOutputFamilies = (node: MachineNode): readonly PortFamily[] => {
+  if (node.landmark === 'unknown') return ['CORE'];
+  if (node.landmark === 'tri') return Array<PortFamily>(3).fill(node.resourceItem ?? 'RESOURCE');
   if (modNode(node.kind)?.customSockets && modNode(node.kind)?.output) return modNode(node.kind)!.output!;
   if (node.kind==='cornerTribute'&&node.cornerType) return [CORNER_ITEMS[node.cornerType]];
   if (node.kind === 'resourceGolem') return [];

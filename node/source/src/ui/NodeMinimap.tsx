@@ -170,7 +170,7 @@ export function NodeMinimap({ game, engine, allowedSectorId, dockHeight = 0, exp
             {corner && <IconGlyph icon="final-core" className="map-landmark-corner" />}
             {camps.some(camp => !camp.lizardSettlement) && <IconGlyph icon={MAP_LANDMARKS.camps.icon} className="map-landmark-camps" />}
             {camps.some(camp => camp.lizardSettlement) && <IconGlyph icon={MAP_LANDMARKS.camps.icon} className="map-landmark-camps map-landmark-dwarven" />}
-            {markers.filter(landmark => landmark !== 'camps').map(landmark => <IconGlyph key={landmark} icon={MAP_LANDMARKS[landmark].icon} className={`map-landmark-${landmark}`} />)}
+            {markers.filter(landmark => landmark !== 'camps').map(landmark => <IconGlyph key={landmark} icon={MAP_LANDMARKS[landmark].icon} className={`map-landmark-${landmark}${landmark === 'landmarks' && known.nodes.some(node=>node.landmark==='unknown') ? ' map-landmark-unknown' : ''}`} />)}
           </span>;
           const markerClass = (icons ? ' has-landmarks' : '') + (cornerPending ? ' corner-discovery-pending' : '');
           const tooltipDetails = !expanded && corner !== '???' && (isUnlocked || isAvailable) ? [

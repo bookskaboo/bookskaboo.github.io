@@ -6,7 +6,7 @@ A recipe defines inputs, guaranteed outputs, optional chance outputs, a base cyc
 
 ## Availability and configuration
 
-The separate [power-up proposal](../master-plan/23-map-power-ups.md) selects broader deterministic, single-product manufacturing for Doubler landmarks, including advanced components. The three Doublers are one Refiner, one Assembler and one Fabricator, each offering only eligible unlocked recipes from its fixed family and following that family's ordinary speed upgrades while producing twice the usual output per batch. Exclude Cores, bots and bot parts, corner pieces, recycling, chance outputs and material recovery loops. The exact eligible recipe list still needs specification. This proposal does not change current recipes or their availability.
+[Normal Doubler landmarks](landmarks.md) accept every unlocked recipe in their fixed Refiner, Assembler or Fabricator family except Core, Yin and Yang production. Their ordinary ingredients, time and speed upgrades produce twice every resolved output, including waste; each chance roll occurs once and failures stay zero. Oversized completed batches drain in saved order through the unchanged ordinary output capacity before another batch starts. Unknown Device instead duplicates an existing Core in a fixed five seconds, with no manufacturing recipe entry or original ingredient bill.
 
 A recipe must be live, research-unlocked, assigned to an available machine and allowed in the current world. Ingredient ownership is not an availability requirement. Simple Core has no recipe research gate: an accessible Refiner can select it immediately, including before producing or owning any Cores. Its serialized simple-core recipe/item IDs and recipe bill remain unchanged. Retired recipe definitions remain loadable for already-paid batches without returning to the live picker.
 
@@ -15,6 +15,8 @@ Smelters, Refiners, Assemblers and advanced processors use explicit selection. T
 Recipe changes can alter socket identities and legal connections. Copying a recipe between machines requires the same node type and follows the same availability checks as ordinary selection. Committed batches cannot be replaced by selecting a new recipe.
 
 ## Work and output
+
+The intentional Doubler Brick/recycling loop turns one Stone into two Bricks and recovers two Stone. Material recovery loops are permitted. Ordinary Brick and Recycler recipes keep their catalog bills.
 
 Simple recipe processing and advanced committed batches have separate runtime paths. Advanced processing checks complete ingredients and room for the maximum possible output before taking inputs. It records the paid batch and its resolved chance results, then emits that batch on completion. Saved committed batches retain what was already paid.
 

@@ -36,6 +36,7 @@ export const portFamilyAcceptsItem = (family: PortFamily, item: ItemId) => expan
 
 /** Checks the concrete item against the exact semantic input socket, independent of its visual row. */
 export function inputPortAcceptsItem(target: MachineNode, toPort: number, item: ItemId, completedResearch: readonly string[] = []) {
+  if (target.landmark === 'reclaimer' && item === 'water') return false;
   if (target.kind === 'recycler') {
     if (toPort === 1) return item === 'water';
     return toPort === 0 && recyclerRecipeForMaterial(item, completedResearch) !== undefined;
@@ -52,6 +53,7 @@ export function roadVehicleError(source: MachineNode, target: MachineNode) {
 }
 
 export function portFamiliesCompatible(source: MachineNode, fromPort: number, target: MachineNode, toPort: number, completedResearch: readonly string[] = []) {
+  if(target.landmark==='tri'&&(source.guardedCampId||source.infiniteResource||source.resourceItem&&!['wood','stone','iron','copper'].includes(source.resourceItem)))return false;
   if (source.guardedCampId && source.guardedLocked !== false) return false;
   if (source.kind === 'lake' && source.lakeIntakeOnly && target.kind !== 'fluidLink') return false;
   if (roadVehicleError(source, target)) return false;

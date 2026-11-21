@@ -14,7 +14,7 @@ The Research Center's seven multipliers are 0.90, 0.80, 0.70, 0.65, 0.55, 0.45 a
 
 ## Throughput and exceptions
 
-The separate [map power-up proposal](../master-plan/23-map-power-ups.md) selects fixed base-speed bonuses for Rapid machines (0.10 base cycle time, 10× speed) and Reclaimer (0.25 base Recycler cycle time, 4× speed), without stacking ordinary family speed research. Tri Extractors instead use ordinary Extractor speed upgrades on their shared five-second base cycle, retaining three items from one reserve unit per completed cycle. Each Doubler uses its fixed Refiner, Assembler or Fabricator family's ordinary speed upgrades while retaining twice the ordinary output per batch. These landmark rules are planned, not implemented; current family upgrade rules remain unchanged.
+[Landmarks](landmarks.md) provide per-instance exceptions: Rapid machines always use 0.10 base recipe time and Reclaimer 0.25 base Recycler time, without ordinary speed-research stacking. Tri Extractors use ordinary Extractor upgrades on their shared five-second base cycle. Normal Doublers use their fixed family's ordinary upgrades. Unknown Device always processes for five seconds, without speed modifiers. Renderer progress and recipe-picker timings use these same instance rules.
 
 Ideal throughput scales by `1 / multiplier` only while fully supplied and unblocked. Additional machine capacity can expose an upstream shortage, output congestion or Road limit. Pump Water draw uses `round(4 / multiplier)` per second. New-world Lake Intake limits also rise from two to three with fluidLink5 and four with fluidLink6 (or its later rank); legacy Lakes retain two. Tree Planter upgrades speed credit emission, and the designated capacity rank also raises its output buffer.
 

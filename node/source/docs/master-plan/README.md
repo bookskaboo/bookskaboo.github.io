@@ -43,7 +43,7 @@ The [current implementation report](20-endgame-implementation.md) is the startin
 
 ## How to read status
 
-The [map power-up proposal](23-map-power-ups.md) covers sixteen permanent landmarks: six Rapid machines, six Tri Extractors, three Doublers and one water-free Reclaimer. Rapid machine types are fixed at two Refiners, two Smelters, one Assembler and one Fabricator; all landmarks are non-deletable and movable through relocation research. Keep the randomized early discovery and selected 2/5/5/4 progression spread. Remaining operating details and individual type placements are proposals; runtime implementation and balance validation are pending. The changelog records the original proposal under NODE-0699 and selected revisions under NODE-0704.
+The [landmark design](23-map-power-ups.md) is implemented locally; the [current system reference](../systems/landmarks.md) owns runtime rules. New standard worlds contain seventeen permanent discoveries: six Rapid machines, six Tri Extractors, three fixed-family Doublers, Reclaimer and Unknown Device. Keep the randomized early discovery and 2/5/5/5 progression spread, with Unknown Device at tier 8 only. Unknown Device is pink, unexplained and has no recipes; the other sixteen are purple. Headless mechanics, generation and compatibility checks are in src/simulation/landmarks.test.ts. Normal-play balance and exact browser visual review remain pending.
 
 - **Implemented:** present in the inspected source or maintained implementation record. This alone does not mean balanced or fully browser-tested.
 - **Agreed:** existing recorded direction that remains in force; implementation may be partial.

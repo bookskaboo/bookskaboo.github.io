@@ -12,7 +12,7 @@ import { generateSector, getSectorWorldSize, sectorDistance } from './worldGener
 
 const advance = (engine: GameEngine, seconds: number) => { for (let i = 0; i < seconds * 10; i++) engine.tick(100); };
 function setup(item: GolemMineral = 'iron') {
-  const state = createInitialState(37);
+  const state = createLayoutFixture(37);
   const golem: MachineNode = { id: 'golem', kind: 'resourceGolem', name: 'Golem', golemMineral: item,
     health: golemApCost({ golemMineral: item }), golemCostVersion: GOLEM_COST_VERSION,
     x: 1800, y: 1200, rotation: 0, input: {}, output: {}, progressMs: 0,
@@ -53,7 +53,7 @@ describe('resource Golems', () => {
   });
 
   it.each([5, 6] as const)('keeps a legacy tier-%i layout with an already generated Golem sector', tier => {
-    const state = createInitialState(37);
+    const state = createLayoutFixture(37);
     if (tier === 6) delete state.golemPlacementTier;
     delete state.encounterLayoutVersion;
     const oldGolemSectors = Array.from({ length: 121 }, (_, index) => ({ x: index % 11, y: Math.floor(index / 11) }))
@@ -173,3 +173,6 @@ describe('resource Golems', () => {
     expect(loaded.getSector().connections).toHaveLength(4);
   });
 });
+
+/** Isolate pre-landmark terrain/encounter fixtures; combined worlds are covered in landmarks.test.ts. */
+function createLayoutFixture(seed?:number){const state=createInitialState(seed);state.landmarkVersion=0;delete state.landmarkLayout;delete state.landmarkEligible;return state;}

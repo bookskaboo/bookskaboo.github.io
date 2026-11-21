@@ -324,7 +324,7 @@ export function PixiPlayfield(props: Props) {
     };
 
     const addAction = (node: MachineNode, root: Container, x: number, key: string, glyph: string, color: number, action: () => void) => {
-      const compact = isCompactNode(node); const chest = getNodeModule(node.kind).appearance.shape === 'chest'; const actionSize = compact || chest ? 18 : 25; const button = new Container(); button.label = 'node-control'; button.visible = controlHover.visible(node.id, performance.now()); const plate = new Graphics();
+      const compact = isCompactNode(node); const chest = getNodeModule(node.kind, node).appearance.shape === 'chest'; const actionSize = compact || chest ? 18 : 25; const button = new Container(); button.label = 'node-control'; button.visible = controlHover.visible(node.id, performance.now()); const plate = new Graphics();
       button.position.set(x, -getNodeSize(node).h / 2 + (compact ? -7 : chest ? 12 : 18)); button.eventMode = 'static'; button.cursor = 'pointer'; button.hitArea = new Rectangle(0, 0, actionSize, actionSize);
       const drawPlate = (hovered = false, pressed = false) => { const base = key === 'delete' ? 0x241b1d : key === 'pause' ? 0x252117 : 0x1d2328; const hover = key === 'delete' ? 0x5e292b : key === 'pause' ? 0x50401f : 0x293b47; plate.clear().roundRect(0, pressed ? 1 : 0, actionSize, actionSize, compact ? actionSize / 2 : 6).fill({ color: hovered ? hover : base, alpha: .98 }).stroke({ color, width: 1, alpha: hovered ? .82 : .34 }); };
       drawPlate(); button.addChild(plate);
@@ -465,13 +465,13 @@ export function PixiPlayfield(props: Props) {
       if (controlGroup) {
         const marker = new Graphics(); marker.eventMode = 'none';
         marker.roundRect(-size.w / 2 - 2, -size.h / 2 - 2, size.w + 4, size.h + 4, 10).stroke({ color: controlGroup.color, width: 2, alpha: .75 });
-        const badge = node.kind === 'joint' ? { x: 0, y: -12, r: 4 } : compact ? { x: size.w / 2 - 8, y: size.h / 2 - 8, r: 4 } : getNodeModule(node.kind).appearance.shape === 'chest' ? { x: -size.w / 2 + 13, y: -size.h / 2 + 20, r: 4 } : { x: -size.w / 2 + (isResourceNode(node) ? 64 : 56), y: -size.h / 2 + (isResourceNode(node) ? 36 : 30), r: 5 };
+        const badge = node.kind === 'joint' ? { x: 0, y: -12, r: 4 } : compact ? { x: size.w / 2 - 8, y: size.h / 2 - 8, r: 4 } : getNodeModule(node.kind, node).appearance.shape === 'chest' ? { x: -size.w / 2 + 13, y: -size.h / 2 + 20, r: 4 } : { x: -size.w / 2 + (isResourceNode(node) ? 64 : 56), y: -size.h / 2 + (isResourceNode(node) ? 36 : 30), r: 5 };
         marker.circle(badge.x, badge.y, badge.r).fill(controlGroup.color).stroke({ color: 0xffffff, width: 1, alpha: .7 });
         root.addChild(marker);
       }
       if (!isOrganicNode(node) && node.kind !== 'joint') {
-        const road = getNodeModule(node.kind).appearance.shape === 'road';
-        const chest = getNodeModule(node.kind).appearance.shape === 'chest';
+        const road = getNodeModule(node.kind, node).appearance.shape === 'road';
+        const chest = getNodeModule(node.kind, node).appearance.shape === 'chest';
         const iconSize = road || chest ? 33 : compact ? 24 : isResourceNode(node) ? 40 : 33; const iconX = compact || chest ? 0 : -size.w / 2 + (isResourceNode(node) ? 34 : 29); const iconY = -size.h / 2 + (road || chest ? 21 : compact ? 15 : isResourceNode(node) ? 36 : 30);
         root.addChild(new Graphics().roundRect(iconX - iconSize / 2, iconY - iconSize / 2, iconSize, iconSize, 7).fill({ color: definition.accent, alpha: .1 }).stroke({ color: definition.accent, width: 1, alpha: .42 }));
         drawNodeIcon(root, getNodeArt(node.kind, node, propsRef.current.engine.getState().research.completed), iconX, iconY, road || chest ? 21 : compact ? 16 : isResourceNode(node) ? 25 : 21, definition.accent, modNode(node.kind)?.icon);
@@ -482,7 +482,7 @@ export function PixiPlayfield(props: Props) {
       if (isOrganicNode(node) && node.kind !== 'cornerChallenge') {
         const title = label(node.name, 16, 0xf3f5f7, '600'); title.anchor.set(.5); title.position.set(0, node.kind === 'monster-camp' ? campArtworkLayout(node).titleY : node.kind === 'resourceGolem' ? -size.h / 2 - 30 : node.kind === 'lake' ? 0 : -72); root.addChild(title); readabilityLabels.push(title);
       }
-      if (getNodeModule(node.kind).appearance.shape === 'road') drawRoadFlowArrow(root, node);
+      if (getNodeModule(node.kind, node).appearance.shape === 'road') drawRoadFlowArrow(root, node);
       else if (isCartKind(node.kind)) drawFreightVehicleFlowArrow(root, node);
       if (node.kind === 'devSource') {
         const status = label('Auto supply', 15, definition.accent, '500'); status.anchor.set(.5); status.position.set(0, 24); root.addChild(status); readabilityLabels.push(status);
@@ -551,11 +551,11 @@ export function PixiPlayfield(props: Props) {
       }
       getEffectiveNodeInputFamilies(node, propsRef.current.engine.getState().research.completed).forEach((family, index) => addPort(node, campPortOverlay ?? root, 'input', index, family, !placementPreview, sector)); getEffectiveNodeOutputFamilies(node).forEach((family, index) => addPort(node, root, 'output', index, family, !placementPreview, sector));
       if (!placementPreview && !propsRef.current.training) {
-        const chest = getNodeModule(node.kind).appearance.shape === 'chest';
+        const chest = getNodeModule(node.kind, node).appearance.shape === 'chest';
         let actionX = size.w / 2 - (compact ? 9 : chest ? 25 : 32);
         if (canDeleteNode(node)) { addAction(node, root, actionX, 'delete', '×', 0xff8d93, () => propsRef.current.onDeleteNode(node.id)); actionX -= compact || chest ? 22 : 30; }
         if (!compact && canCyclePortPositions(node)) { addPortOrderAction(node, root, actionX); actionX -= 30; }
-        const controls = getNodeModule(node.kind).controls;
+        const controls = getNodeModule(node.kind, node).controls;
         if (node.kind === 'recycler') {
           addAction(node, root, actionX, 'recipes', '≡', 0x8ec9ff, () => propsRef.current.onConfigure(node.id));
         } else if (controls.rotatable && definition.category !== 'Logistics') {
@@ -620,7 +620,7 @@ export function PixiPlayfield(props: Props) {
         });
         // A stationary right-click invokes the node action; dragging still pans.
         root.on('pointerup', (event: FederatedPointerEvent) => {
-          if (event.button === 0 && drag?.ids.includes(node.id) && !drag.moved && getNodeModule(node.kind).controls.configuration === 'research') {
+          if (event.button === 0 && drag?.ids.includes(node.id) && !drag.moved && getNodeModule(node.kind, node).controls.configuration === 'research') {
             propsRef.current.onConfigure(node.id);
           }
           if (event.button === 2) {

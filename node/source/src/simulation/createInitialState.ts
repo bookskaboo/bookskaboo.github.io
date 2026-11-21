@@ -4,13 +4,15 @@ import { createHomeSector } from './worldGeneration';
 import { activateMod } from '../mods/modContent';
 import { generateBorderObstructions } from './borderObstructions';
 import { generateMapTerrains } from './mapTerrain';
+import { initializeLandmarks } from './landmarkGeneration';
 
 export function createInitialState(seed = Math.floor(Math.random() * 2 ** 31)): GameState {
   activateMod();
   const now = Date.now();
-  return {
+  const state: GameState = {
     version: 1, seed, activeSectorId: '5,5', sectors: { '5,5': createHomeSector(now) },
     fieldSizeScale: 1,
+    landmarkEligible: true,
     coreResearchVersion: 1,
     mapResearchMode: 'points',
     basicGunRecipeVersion: 1,
@@ -27,5 +29,7 @@ export function createInitialState(seed = Math.floor(Math.random() * 2 ** 31)): 
     preferences: { autosaveMinutes: 5, confirmDelete: true, particles: true, showGrid: true, snapToGrid: false, sound: false },
     tutorialStep: 0, events: [], revision: 1, produced: {}, extracted: {}, hasCreatedConnection: false, inFlightTransfers: [],
   };
+  initializeLandmarks(state);
+  return state;
 }
 

@@ -1,0 +1,466 @@
+{
+  "date": "2026-11-20",
+  "purpose": "Read-only catalog inspection for the landmark proposal; not a gameplay or complete conservation proof.",
+  "families": {
+    "Refiner": [
+      {
+        "id": "iron-gear",
+        "name": "Iron Gear",
+        "inputs": {
+          "iron-plate": 2
+        },
+        "ordinaryOutputs": {
+          "iron-gear": 1
+        },
+        "doubledOutputs": {
+          "iron-gear": 2
+        },
+        "recoveryPerProduct": {
+          "iron": 1,
+          "wood": 1
+        },
+        "cycleMs": 3000,
+        "unlockResearch": null
+      },
+      {
+        "id": "copper-gear",
+        "name": "Copper Gear",
+        "inputs": {
+          "copper-plate": 2
+        },
+        "ordinaryOutputs": {
+          "copper-gear": 1
+        },
+        "doubledOutputs": {
+          "copper-gear": 2
+        },
+        "recoveryPerProduct": {
+          "copper": 1,
+          "wood": 1
+        },
+        "cycleMs": 3000,
+        "unlockResearch": null
+      },
+      {
+        "id": "mythril-gear",
+        "name": "Mythril Gear",
+        "inputs": {
+          "mythril-plate": 2
+        },
+        "ordinaryOutputs": {
+          "mythril-gear": 1
+        },
+        "doubledOutputs": {
+          "mythril-gear": 2
+        },
+        "recoveryPerProduct": {
+          "wood": 1,
+          "mythril": 1
+        },
+        "cycleMs": 3000,
+        "unlockResearch": "mithrilTools"
+      },
+      {
+        "id": "iron-wire",
+        "name": "Iron Wire",
+        "inputs": {
+          "iron-plate": 3
+        },
+        "ordinaryOutputs": {
+          "iron-wire": 1
+        },
+        "doubledOutputs": {
+          "iron-wire": 2
+        },
+        "recoveryPerProduct": {
+          "iron": 1,
+          "wood": 1
+        },
+        "cycleMs": 3000,
+        "unlockResearch": null
+      },
+      {
+        "id": "copper-wire",
+        "name": "Copper Wire",
+        "inputs": {
+          "copper-plate": 3
+        },
+        "ordinaryOutputs": {
+          "copper-wire": 1
+        },
+        "doubledOutputs": {
+          "copper-wire": 2
+        },
+        "recoveryPerProduct": {
+          "copper": 1,
+          "wood": 1
+        },
+        "cycleMs": 3000,
+        "unlockResearch": null
+      },
+      {
+        "id": "mythril-wire",
+        "name": "Mythril Wire",
+        "inputs": {
+          "mythril-plate": 3
+        },
+        "ordinaryOutputs": {
+          "mythril-wire": 1
+        },
+        "doubledOutputs": {
+          "mythril-wire": 2
+        },
+        "recoveryPerProduct": {
+          "wood": 1,
+          "mythril": 1
+        },
+        "cycleMs": 3000,
+        "unlockResearch": "mithrilTools"
+      }
+    ],
+    "Assembler": [
+      {
+        "id": "motor",
+        "name": "Motor",
+        "inputs": {
+          "iron-gear": 1,
+          "copper-wire": 1
+        },
+        "ordinaryOutputs": {
+          "motor": 1
+        },
+        "doubledOutputs": {
+          "motor": 2
+        },
+        "recoveryPerProduct": {
+          "iron": 1,
+          "copper": 1,
+          "wood": 1
+        },
+        "cycleMs": 6500,
+        "unlockResearch": null
+      },
+      {
+        "id": "circuit-a",
+        "name": "Circuit A",
+        "inputs": {
+          "copper-wire": 1,
+          "iron-plate": 1
+        },
+        "ordinaryOutputs": {
+          "circuit-a": 1
+        },
+        "doubledOutputs": {
+          "circuit-a": 2
+        },
+        "recoveryPerProduct": {
+          "iron": 1,
+          "copper": 1,
+          "wood": 1
+        },
+        "cycleMs": 5000,
+        "unlockResearch": null
+      }
+    ],
+    "Fabricator": [
+      {
+        "id": "hydraulic-actuator",
+        "name": "Hydro Piston",
+        "inputs": {
+          "iron-gear": 1,
+          "motor": 1,
+          "coolant": 2
+        },
+        "ordinaryOutputs": {
+          "hydraulic-actuator": 1
+        },
+        "doubledOutputs": {
+          "hydraulic-actuator": 2
+        },
+        "recoveryPerProduct": {
+          "iron": 1,
+          "copper": 1,
+          "wood": 1
+        },
+        "cycleMs": 10000,
+        "unlockResearch": "hydraulicAssembly"
+      },
+      {
+        "id": "advanced-actuator",
+        "name": "Servo Piston",
+        "inputs": {
+          "hydraulic-actuator": 1,
+          "mithril-mesh": 1,
+          "coolant": 3
+        },
+        "ordinaryOutputs": {
+          "advanced-actuator": 1
+        },
+        "doubledOutputs": {
+          "advanced-actuator": 2
+        },
+        "recoveryPerProduct": {
+          "iron": 1,
+          "copper": 1,
+          "wood": 1,
+          "mythril": 1
+        },
+        "cycleMs": 36000,
+        "unlockResearch": "precisionControl"
+      },
+      {
+        "id": "ceramic-electrode",
+        "name": "Circuit B",
+        "inputs": {
+          "brick": 1,
+          "copper-wire": 1,
+          "conductive-slurry": 1
+        },
+        "ordinaryOutputs": {
+          "ceramic-electrode": 1
+        },
+        "doubledOutputs": {
+          "ceramic-electrode": 2
+        },
+        "recoveryPerProduct": {
+          "copper": 1,
+          "wood": 1,
+          "stone": 1
+        },
+        "cycleMs": 10000,
+        "unlockResearch": "hydraulicAssembly"
+      },
+      {
+        "id": "logic-substrate",
+        "name": "Circuit C",
+        "inputs": {
+          "circuit-a": 2,
+          "ceramic-electrode": 1,
+          "mythril-wire": 1
+        },
+        "ordinaryOutputs": {
+          "logic-substrate": 1
+        },
+        "doubledOutputs": {
+          "logic-substrate": 2
+        },
+        "recoveryPerProduct": {
+          "iron": 1,
+          "copper": 1,
+          "wood": 1,
+          "stone": 1,
+          "mythril": 1
+        },
+        "cycleMs": 36000,
+        "unlockResearch": "precisionControl"
+      }
+    ]
+  },
+  "exclusions": [
+    {
+      "family": "Refiner",
+      "id": "brick",
+      "name": "Brick",
+      "reason": "Confirmed Stone multiplication through recycling"
+    },
+    {
+      "family": "Refiner",
+      "id": "simple-core",
+      "name": "Simple Core",
+      "reason": "Core"
+    },
+    {
+      "family": "Assembler",
+      "id": "final-core",
+      "name": "Final Core",
+      "reason": "Core"
+    },
+    {
+      "family": "Assembler",
+      "id": "basic-core",
+      "name": "Basic Core",
+      "reason": "Core"
+    },
+    {
+      "family": "Assembler",
+      "id": "automata-core",
+      "name": "Automata Core",
+      "reason": "Core"
+    },
+    {
+      "family": "Assembler",
+      "id": "robot-frame",
+      "name": "Basic Frame",
+      "reason": "Bot, bot part or corner component"
+    },
+    {
+      "family": "Assembler",
+      "id": "robot-gun",
+      "name": "Basic Gun",
+      "reason": "Bot, bot part or corner component"
+    },
+    {
+      "family": "Fabricator",
+      "id": "hydro-core",
+      "name": "Hydro Core",
+      "reason": "Core"
+    },
+    {
+      "family": "Fabricator",
+      "id": "shiny-core",
+      "name": "Shiny Core",
+      "reason": "Core"
+    },
+    {
+      "family": "Fabricator",
+      "id": "precision-controller",
+      "name": "Controller",
+      "reason": "Not single-product"
+    },
+    {
+      "family": "Fabricator",
+      "id": "command-core",
+      "name": "Complex Core",
+      "reason": "Core"
+    },
+    {
+      "family": "Fabricator",
+      "id": "sealed-frame",
+      "name": "Sealed Frame",
+      "reason": "Bot, bot part or corner component"
+    },
+    {
+      "family": "Fabricator",
+      "id": "cooled-gun",
+      "name": "Cooled Gun",
+      "reason": "Bot, bot part or corner component"
+    },
+    {
+      "family": "Fabricator",
+      "id": "mithril-frame",
+      "name": "Mythril Frame",
+      "reason": "Bot, bot part or corner component"
+    },
+    {
+      "family": "Fabricator",
+      "id": "focused-gun",
+      "name": "Focused Gun",
+      "reason": "Bot, bot part or corner component"
+    },
+    {
+      "family": "Fabricator",
+      "id": "servo-frame",
+      "name": "Servo Frame",
+      "reason": "Bot, bot part or corner component"
+    },
+    {
+      "family": "Fabricator",
+      "id": "pulse-cannon",
+      "name": "Pulse Cannon",
+      "reason": "Bot, bot part or corner component"
+    },
+    {
+      "family": "Fabricator",
+      "id": "efficient-circuit-a",
+      "name": "Efficient Circuit A",
+      "reason": "Not single-product"
+    },
+    {
+      "family": "Fabricator",
+      "id": "efficient-motor",
+      "name": "Efficient Motor",
+      "reason": "Not single-product"
+    },
+    {
+      "family": "Fabricator",
+      "id": "efficient-bot-frame",
+      "name": "Efficient Basic Frame",
+      "reason": "Not single-product"
+    },
+    {
+      "family": "Fabricator",
+      "id": "efficient-hydro-piston",
+      "name": "Efficient Hydro Piston",
+      "reason": "Not single-product"
+    },
+    {
+      "family": "Fabricator",
+      "id": "efficient-circuit-c",
+      "name": "Efficient Circuit C",
+      "reason": "Not single-product"
+    },
+    {
+      "family": "Fabricator",
+      "id": "final-frame",
+      "name": "Final Frame",
+      "reason": "Bot, bot part or corner component"
+    },
+    {
+      "family": "Fabricator",
+      "id": "final-cannon",
+      "name": "Final Cannon",
+      "reason": "Bot, bot part or corner component"
+    },
+    {
+      "family": "Assembler",
+      "id": "core-half-a-0",
+      "name": "Yin",
+      "reason": "Endgame component (Yin or Yang); omitted from the candidate whitelist"
+    },
+    {
+      "family": "Assembler",
+      "id": "core-half-b-0",
+      "name": "Yang",
+      "reason": "Endgame component (Yin or Yang); omitted from the candidate whitelist"
+    },
+    {
+      "family": "Assembler",
+      "id": "core-half-a-1",
+      "name": "Yin",
+      "reason": "Endgame component (Yin or Yang); omitted from the candidate whitelist"
+    },
+    {
+      "family": "Assembler",
+      "id": "core-half-b-1",
+      "name": "Yang",
+      "reason": "Endgame component (Yin or Yang); omitted from the candidate whitelist"
+    },
+    {
+      "family": "Assembler",
+      "id": "core-half-a-2",
+      "name": "Yin",
+      "reason": "Endgame component (Yin or Yang); omitted from the candidate whitelist"
+    },
+    {
+      "family": "Assembler",
+      "id": "core-half-b-2",
+      "name": "Yang",
+      "reason": "Endgame component (Yin or Yang); omitted from the candidate whitelist"
+    }
+  ],
+  "confirmedLoop": {
+    "recipe": "brick",
+    "inputs": {
+      "stone": 1
+    },
+    "doubledOutputs": {
+      "brick": 2
+    },
+    "recoveredOutputs": {
+      "stone": 2
+    },
+    "explanation": "Two Bricks each return one Stone. Water-free Reclaimer removes the Water cost; normal Recycler also creates net Stone while consuming renewable Water."
+  },
+  "sourceHashes": {
+    "src/content/recipes.ts": "2198d51fd974a336cf7cba978908c88c912aa503ff87c49801e5d8b3d84bff94",
+    "src/content/progression.ts": "ed59205b0424d222509aee40e5fb0c367782dab4187f474e0c03301d46209710",
+    "src/content/recycling.ts": "4458c540387c980615d7487a13ede54b005f8af6399a97e73055f7a9541f82e9",
+    "src/content/endgame.ts": "0ca1e981ff7008ae742087727d7b3cd70d9d9b54db7cf35389dc2d2a31d856c6"
+  },
+  "candidateCount": 12,
+  "limits": [
+    "Whitelist candidates are not yet selected.",
+    "Checks classify the live catalogue and demonstrate the Brick loop; they do not prove absence of all multi-recipe conservation loops.",
+    "No game engine, saved factory, grants or accelerated simulation were used."
+  ]
+}

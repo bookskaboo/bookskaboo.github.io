@@ -9,7 +9,7 @@ import { mapCornerMarkers, mapLandmarkSurvey, mapNodeHoverDetails, mapNodeName, 
 
 describe('Home-relative map positions', () => {
   it.each([11, 13, 15, 17, 19, 21])('reveals four locked corner locations after Complex Core research on a %s grid', gridSize => {
-    const game = createInitialState(41);
+    const game = createLayoutFixture(41);
     game.worldGridSize = gridSize;
     game.mapTerrains = generateMapTerrains(game.seed, gridSize);
     expect(mapCornerMarkers(game).size).toBe(0);
@@ -40,7 +40,7 @@ describe('Home-relative map positions', () => {
 
 describe('map exploration surveys', () => {
   it('marks every map explored with the dev tool, retaining field/camera and reversible discovery', () => {
-    const engine = new GameEngine(createInitialState(301), { autosave: false });
+    const engine = new GameEngine(createLayoutFixture(301), { autosave: false });
     const game = engine.getState();
     const outpost = generateSector(7, 5, game.seed, 0);
     outpost.unlocked = true;
@@ -74,7 +74,7 @@ describe('map exploration surveys', () => {
   });
 
   it('reveals each filter and its locations only after those maps are visited', () => {
-    const game = createInitialState(301);
+    const game = createLayoutFixture(301);
     const base = game.sectors['5,5'].nodes[0];
     const camp = generateSector(5, 4, game.seed, 0);
     const lake = generateSector(6, 5, game.seed, 0);
@@ -106,7 +106,7 @@ describe('map exploration surveys', () => {
   });
 
   it.each([11, 21])('reveals persistent corner markers on a %i-wide grid and hides locked names', gridSize => {
-    const game = createInitialState(301);
+    const game = createLayoutFixture(301);
     game.worldGridSize = gridSize;
     game.mapTerrains = generateMapTerrains(game.seed, gridSize);
     const ids = worldCornerIds(gridSize);
@@ -140,7 +140,7 @@ describe('map exploration surveys', () => {
   });
 
   it('keeps a Golem marker after it becomes a reserve', () => {
-    const game = createInitialState(301);
+    const game = createLayoutFixture(301);
     const home = game.sectors[game.activeSectorId];
     const golem = { ...home.nodes[0], id: 'golem', kind: 'resourceGolem' as const, golemMineral: 'iron' as const };
     home.nodes = [golem];
@@ -154,7 +154,7 @@ describe('map exploration surveys', () => {
   });
 
   it('hides generated resources and obstructions until an unlocked map is visited', () => {
-    const game = createInitialState(301);
+    const game = createLayoutFixture(301);
     const outpost = generateSector(6, 5, game.seed, 0);
     game.sectors[outpost.id] = outpost;
     expect(outpost.nodes.some(node => node.resourceItem)).toBe(true);
@@ -171,7 +171,7 @@ describe('map exploration surveys', () => {
   });
 
   it('totals repeated deposits and lists the current world obstructions separately from player machines', () => {
-    const game = createInitialState(301);
+    const game = createLayoutFixture(301);
     const home = game.sectors['5,5'];
     const base = home.nodes[0];
     home.nodes = [
@@ -189,3 +189,6 @@ describe('map exploration surveys', () => {
     expect(mapNodeHoverDetails(game, home.id)).toEqual(['Iron 499', 'Water ∞', 'Dwarven Camp']);
   });
 });
+
+/** Isolate pre-landmark terrain/encounter fixtures; combined worlds are covered in landmarks.test.ts. */
+function createLayoutFixture(seed?:number){const state=createInitialState(seed);state.landmarkVersion=0;delete state.landmarkLayout;delete state.landmarkEligible;return state;}

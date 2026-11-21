@@ -1,4 +1,5 @@
 import { getEfficiencyMultiplier } from '../content/efficiency';
+import { landmarkRecipeAllowed, landmarkYield } from '../content/landmarks';
 import { modNode, modNodeTemplate } from '../mods/modRules';
 import { isCustomContentId } from '../mods/modTypes';
 import { migrateCoreResearch } from '../content/coreResearch';
@@ -106,15 +107,17 @@ export function simulateExtendedRecipe(state:GameState,node:MachineNode,dt:numbe
  const automatic = getNodeCapabilities(node.kind).behavior === 'bot-assembly';
  const recycler = node.kind === 'recycler';
  const activeId = node.batch?.recipeId ?? node.recipeId;
- const recipe = automatic && !node.batch
+ const selectedRecipe = automatic && !node.batch
   ? getBotPlantBuild(node, state.research.completed)?.recipe
   : activeId ? RECIPES[activeId] : undefined;
+ const recipe = selectedRecipe && node.landmark === 'reclaimer' ? {...selectedRecipe, inputs:Object.fromEntries(Object.entries(selectedRecipe.inputs).filter(([item])=>item!=='water'))} : selectedRecipe;
+ if (recipe && !node.batch && !landmarkRecipeAllowed(node, recipe)) return true;
  if (!recipe) {
   if (recycler) node.progressMs = 0;
   return automatic || recycler;
  }
  if(RETIRED_RECIPES.has(recipe.id)&&!node.batch){delete node.recipeId;node.progressMs=0;return true;}
- if(!automatic&&!recycler&&!node.batch&&!isCustomContentId(recipe.id)&&!recipe.chanceOutputs?.length&&!Object.hasOwn(LATE_RECIPES,recipe.id)&&!['advancedAssembler','hydroProcessor','separationFurnace'].includes(modNodeTemplate(node.kind)))return false;
+ if(node.landmark!=='doubler'&&!automatic&&!recycler&&!node.batch&&!isCustomContentId(recipe.id)&&!recipe.chanceOutputs?.length&&!Object.hasOwn(LATE_RECIPES,recipe.id)&&!['advancedAssembler','hydroProcessor','separationFurnace'].includes(modNodeTemplate(node.kind)))return false;
  if(recipe.unlockResearch&&!state.research.completed.includes(recipe.unlockResearch)&&!node.batch)return true;
  if(!node.batch){
   const inputs = (Object.entries(recipe.inputs) as [ItemId, number][]).map(([item, count]) => {
@@ -123,16 +126,21 @@ export function simulateExtendedRecipe(state:GameState,node:MachineNode,dt:numbe
   });
   if (!inputs.every(([item, count]) => (node.input[item] ?? 0) >= count)) { node.progressMs = 0; return true; }
   const max={...recipe.outputs};for(const o of recipe.chanceOutputs??[])max[o.item]=(max[o.item]??0)+o.amount;
-  const outputSpace = total(max);
-  if(outputSpace>0&&total(node.output)+outputSpace>(modNode(node.kind)?.capacity??node.capacity??getNodeCapabilities(node.kind).defaultCapacity??5)){node.progressMs=0;return true;}
+  const outputSpace = total(max) * landmarkYield(node);
+  const capacity=modNode(node.kind)?.capacity??node.capacity??getNodeCapabilities(node.kind).defaultCapacity??5;
+  const reservedSpace=node.landmark==='doubler'?Math.min(outputSpace,capacity):outputSpace;
+  if(outputSpace>0&&total(node.output)+reservedSpace>capacity){node.progressMs=0;return true;}
   const outputs={...recipe.outputs};
   for(const o of recipe.chanceOutputs??[])if(random(state)<o.probability)outputs[o.item]=(outputs[o.item]??0)+o.amount;
+  for (const item of Object.keys(outputs) as ItemId[]) outputs[item]! *= landmarkYield(node);
   for (const [item, count] of inputs) node.input[item] = (node.input[item] ?? 0) - count;
   node.batch={recipeId:recipe.id,outputs};node.progressMs=0;
  }
+ if(node.batch?.finished&&node.landmark==='doubler'){releaseDoublerBatch(state,node);return true;}
  node.progressMs+=dt;
  const recovery = getRecoveryMultiplier(recipe, state.research.completed);
  if(node.progressMs>=recipe.cycleMs*multiplier*recovery){
+  if(node.landmark==='doubler'){node.batch!.finished=true;node.progressMs=recipe.cycleMs*multiplier*recovery;releaseDoublerBatch(state,node);return true;}
   queueOutputs(node,node.batch.outputs);
   for(const [i,n]of Object.entries(node.batch.outputs))state.produced![i as ItemId]=(state.produced![i as ItemId]??0)+(n??0);
   if(modNodeTemplate(node.kind)==='refiner'&&total(node.batch.outputs)>0)state.hasProducedWithRefiner=true;
@@ -141,6 +149,18 @@ export function simulateExtendedRecipe(state:GameState,node:MachineNode,dt:numbe
   if(RETIRED_RECIPES.has(recipe.id))delete node.recipeId;
  }
  return true;
+}
+/** Completed oversized batches drain in saved order without enlarging ordinary buffers. */
+function releaseDoublerBatch(state:GameState,node:MachineNode){
+ const capacity=modNode(node.kind)?.capacity??node.capacity??getNodeCapabilities(node.kind).defaultCapacity??5;
+ let room=Math.max(0,capacity-total(node.output));
+ for(const [item,count]of Object.entries(node.batch!.outputs) as [ItemId,number][]){
+  const emitted=Math.min(room,count);if(!emitted)continue;
+  queueOutputs(node,{[item]:emitted});node.batch!.outputs[item]! -= emitted;
+  state.produced![item]=(state.produced![item]??0)+emitted;room-=emitted;
+  if(modNodeTemplate(node.kind)==='refiner')state.hasProducedWithRefiner=true;
+ }
+ if(total(node.batch!.outputs)===0){delete node.batch;node.progressMs=0;}
 }
 export function simulateProgressionNode(state:GameState,sector:SectorState,node:MachineNode,dt:number,lookups:SimulationLookups,canReceive?: (node:MachineNode,item:ItemId)=>boolean):boolean{
  if(node.kind==='abandonedFabricator'||node.kind==='sortingStation')return true;

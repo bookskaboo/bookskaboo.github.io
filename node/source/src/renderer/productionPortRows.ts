@@ -42,6 +42,10 @@ function extractorSource(node: MachineNode, sector?: ResourceSector): MachineNod
 
 /** Each visual row belongs to a semantic port, even when its position is swapped. */
 export function productionPortRow(node: MachineNode, direction: 'input' | 'output', index: number, sector?: ResourceSector): MaterialRow {
+  if (node.landmark === 'unknown') {
+    const bag = direction === 'input' ? node.input : node.output;
+    return {name:'Cores',amount:Object.values(bag).reduce<number>((n,q)=>n+(q??0),0),capacity:5,color:0xf29ac2};
+  }
   const capabilities = getNodeCapabilities(node.kind);
   if (capabilities.behavior === 'bot-assembly') {
     const bag = direction === 'input' ? node.input : node.output;
@@ -82,7 +86,7 @@ export function productionPortRow(node: MachineNode, direction: 'input' | 'outpu
       const detail = !source ? 'Connect a resource source.' : source.infiniteResource ? `Infinite ${name} reserve at ${source.name}.` : `${amount}/${capacity} remaining at ${source.name}.`;
       return { name, amount, capacity, color: item ? ITEM_COLORS[item] : NODE_DEFINITIONS[node.kind].accent, detail };
     }
-    const amount = contents.reduce((sum, item) => sum + (node.output[item] ?? 0), 0), capacity = node.capacity ?? 5;
+    const amount = node.landmark === 'tri' ? node.triOutput?.[index] ?? 0 : contents.reduce((sum, item) => sum + (node.output[item] ?? 0), 0), capacity = node.capacity ?? 5;
     return { name, amount, capacity, color: item ? ITEM_COLORS[item] : NODE_DEFINITIONS[node.kind].accent,
       detail: `${amount}/${capacity} stored${contents.length > 1 ? ` · ${contents.map(item => `${ITEM_NAMES[item]} ${node.output[item]}`).join(' · ')}` : ''}.` };
   }

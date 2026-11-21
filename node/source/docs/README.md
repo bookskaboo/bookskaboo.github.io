@@ -10,7 +10,7 @@ Start with the [system reference library](systems/README.md) for the current gam
 | Work through the current document review | [Temporary system review register](reviews/system-review-temporary.md) |
 | Find ingredients, costs, names, capacities or unlocks | [Reference catalogs](systems/README.md#reference-catalogs) |
 | Review intended direction and unresolved design work | [Master development plan](master-plan/README.md) |
-| Review permanent map power-ups and their frequency | [Power-up proposal](master-plan/23-map-power-ups.md) |
+| Understand permanent map landmarks and their frequency | [Current Landmarks system](systems/landmarks.md), [design decisions](master-plan/23-map-power-ups.md) |
 | Find when or why something changed | [Change history](changelog/README.md), [searchable history](changelog/index.html) |
 | Find superseded reference material | [Documentation archive](archive/README.md) |
 | Run a browser playtest or recover its browser session | [Browser playtests](browser-playtest.md) |

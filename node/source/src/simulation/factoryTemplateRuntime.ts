@@ -25,7 +25,7 @@ export class FactoryTemplateRuntime {
 
   saveFactoryTemplate(name:string,ids:string[]){
     if(!this.state.research.completed.includes('factoryTemplates'))return false;
-    const nodes=this.getSector().nodes.filter(n=>ids.includes(n.id)&&isPlayerMovableNode(n.kind)&&!getNodeCapabilities(n.kind).globallyUnique&&!getNodeCapabilities(n.kind).pairedSectorPlacement&&!['storage','inventory'].includes(n.kind));
+    const nodes=this.getSector().nodes.filter(n=>ids.includes(n.id)&&!n.landmark&&isPlayerMovableNode(n.kind)&&!getNodeCapabilities(n.kind).globallyUnique&&!getNodeCapabilities(n.kind).pairedSectorPlacement&&!['storage','inventory'].includes(n.kind));
     if(!nodes.length||!name.trim())return false;
     const minX=Math.min(...nodes.map(n=>n.x)),minY=Math.min(...nodes.map(n=>n.y)),selected=new Set(nodes.map(n=>n.id));
     const template={name:name.trim().slice(0,40),nodes:nodes.map(n=>({...clone(n),x:n.x-minX,y:n.y-minY,input:{},output:{},batch:undefined,growthCredit:0,outputQueue:[],inputQueue:[],filterBlocked:undefined,progressMs:0,disabled:false,protected:false})),connections:clone(this.getSector().connections.filter(c=>selected.has(c.from)&&selected.has(c.to)))};
@@ -43,7 +43,7 @@ export class FactoryTemplateRuntime {
       const recipeId = node.recipeId;
       const recipeUnavailable = recipeId && (!RECIPE_GROUPS[node.kind]?.includes(recipeId) ||
         !isRecipeUnlocked(recipeId, this.state.research.completed) || !worldRecipeAllowed(recipeId, this.state));
-      if (!isPlayerMovableNode(node.kind) || getNodeCapabilities(node.kind).pairedSectorPlacement || (unlock && !this.state.research.unlocked.includes(unlock)) ||
+      if (node.landmark || !isPlayerMovableNode(node.kind) || getNodeCapabilities(node.kind).pairedSectorPlacement || (unlock && !this.state.research.unlocked.includes(unlock)) ||
         recipeUnavailable || !canPlaceNode(node, placed, field)) valid = false;
       placed.push(node);
     }

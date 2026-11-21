@@ -13,6 +13,8 @@ import { GOLEM_COST_VERSION, GOLEM_MINERALS, GOLEM_NAMES, GOLEM_PLACEMENT_TIER, 
 import { getLizardSettlementForMapTier } from '../content/lizardSettlements';
 import { ITEM_NAMES } from '../content/items';
 import { CORNER_ITEMS } from '../content/endgame';
+import { expandMapsAroundCenter } from './unvisitedMapExpansion';
+import { addLandmarkToModSector } from './modLandmarkPlacement';
 
 const BASE_MAX_RESOURCE_TIER = DEFAULT_WORLD_GRID_SIZE - 1;
 const BASE_RESOURCE_CAPACITY = 1000;
@@ -440,6 +442,18 @@ export function getEncounterLayoutVersion(state: GameState): 1 | 2 {
 }
 
 export function sectorForState(state: GameState, x: number, y: number): SectorState {
+  const saved = !state.isTraining && worldGridSize(state) === 11 && state.landmarkVersion === 1
+    ? state.landmarkLayout?.find(entry => entry.sector.id === sectorId(x,y)) : undefined;
+  if (!state.sectors[sectorId(x,y)] && saved) {
+    if(state.mod){
+      const sector=generateSector(x,y,state.seed,Date.now(),state.research.completed,getGolemPlacementTier(state),getEncounterLayoutVersion(state),worldGridSize(state),state.fieldSizeScale,state.worldRulesVersion??1,mapTerrain(state,sectorId(x,y)),borderTerrainInsets(state,sectorId(x,y),fieldSizeForResearch(['areaExpansion2'],state.fieldSizeScale)));
+      addLandmarkToModSector(state,sector,saved.sector.nodes.find(n=>n.id===saved.nodeId)!,getWorldFieldSize(state));
+      return sector;
+    }
+    const sector = structuredClone(saved.sector);
+    expandMapsAroundCenter({...state,sectors:{[sector.id]:sector}}, BASE_WORLD_SIZE, getWorldFieldSize(state));
+    return sector;
+  }
   return state.sectors[sectorId(x, y)] ?? generateSector(x, y, state.seed, Date.now(), state.research.completed, getGolemPlacementTier(state), getEncounterLayoutVersion(state), worldGridSize(state), state.fieldSizeScale, state.worldRulesVersion ?? 1, mapTerrain(state, sectorId(x,y)), borderTerrainInsets(state, sectorId(x,y), fieldSizeForResearch(['areaExpansion2'], state.fieldSizeScale)));
 }
 

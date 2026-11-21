@@ -1,0 +1,453 @@
+{
+  "numTotalTestSuites": 2,
+  "numPassedTestSuites": 2,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 31,
+  "numPassedTests": 31,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1795247605494,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [
+            "seeded landmark generation"
+          ],
+          "fullName": "seeded landmark generation validates exact allocations, early access and collision-free footprints for 1,000 seeds",
+          "status": "passed",
+          "title": "validates exact allocations, early access and collision-free footprints for 1,000 seeds",
+          "duration": 29281.5927,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": [
+            "seeded landmark generation"
+          ],
+          "fullName": "seeded landmark generation keeps saved discovery order authoritative and old worlds free of landmarks",
+          "status": "passed",
+          "title": "keeps saved discovery order authoritative and old worlds free of landmarks",
+          "duration": 332.86149999999907,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": [
+            "seeded landmark generation"
+          ],
+          "fullName": "seeded landmark generation keeps generated natural contents intact and centers dormant landmarks after expansion",
+          "status": "passed",
+          "title": "keeps generated natural contents intact and centers dormant landmarks after expansion",
+          "duration": 23.00829999999769,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": [
+            "seeded landmark generation"
+          ],
+          "fullName": "seeded landmark generation rejects malformed layout versions, allocations, tiers and active Cores on import",
+          "status": "passed",
+          "title": "rejects malformed layout versions, allocations, tiers and active Cores on import",
+          "duration": 15.00930000000153,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": [
+            "landmark processing through the real headless engine"
+          ],
+          "fullName": "landmark processing through the real headless engine retains the post-victory seven-Core Resource Relocation bill",
+          "status": "passed",
+          "title": "retains the post-victory seven-Core Resource Relocation bill",
+          "duration": 0.5193999999974039,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": [
+            "landmark processing through the real headless engine"
+          ],
+          "fullName": "landmark processing through the real headless engine retains completed oversized output in its paid batch through save/load without enlarging the output buffer",
+          "status": "passed",
+          "title": "retains completed oversized output in its paid batch through save/load without enlarging the output buffer",
+          "duration": 186.28969999999754,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": [
+            "landmark processing through the real headless engine"
+          ],
+          "fullName": "landmark processing through the real headless engine keeps ordinary Recycler Water requirements while Reclaimer runs without Water",
+          "status": "passed",
+          "title": "keeps ordinary Recycler Water requirements while Reclaimer runs without Water",
+          "duration": 39.73879999999917,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": [
+            "landmark processing through the real headless engine"
+          ],
+          "fullName": "landmark processing through the real headless engine executes every eligible fixed-family Doubler recipe with unchanged ingredients and doubled outputs",
+          "status": "passed",
+          "title": "executes every eligible fixed-family Doubler recipe with unchanged ingredients and doubled outputs",
+          "duration": 4390.035300000003,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": [
+            "landmark processing through the real headless engine"
+          ],
+          "fullName": "landmark processing through the real headless engine rolls chance outputs once, doubles the resolved result and retains it across loading",
+          "status": "passed",
+          "title": "rolls chance outputs once, doubles the resolved result and retains it across loading",
+          "duration": 120.90249999999651,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": [
+            "landmark processing through the real headless engine"
+          ],
+          "fullName": "landmark processing through the real headless engine runs Rapid refiner at 10% base time with Dev Sources, without upgrade stacking",
+          "status": "passed",
+          "title": "runs Rapid refiner at 10% base time with Dev Sources, without upgrade stacking",
+          "duration": 6.698599999996077,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": [
+            "landmark processing through the real headless engine"
+          ],
+          "fullName": "landmark processing through the real headless engine runs Rapid smelter at 10% base time with Dev Sources, without upgrade stacking",
+          "status": "passed",
+          "title": "runs Rapid smelter at 10% base time with Dev Sources, without upgrade stacking",
+          "duration": 3.8106000000043423,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": [
+            "landmark processing through the real headless engine"
+          ],
+          "fullName": "landmark processing through the real headless engine runs Rapid assembler at 10% base time with Dev Sources, without upgrade stacking",
+          "status": "passed",
+          "title": "runs Rapid assembler at 10% base time with Dev Sources, without upgrade stacking",
+          "duration": 3.405399999996007,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": [
+            "landmark processing through the real headless engine"
+          ],
+          "fullName": "landmark processing through the real headless engine runs Rapid advancedAssembler at 10% base time with Dev Sources, without upgrade stacking",
+          "status": "passed",
+          "title": "runs Rapid advancedAssembler at 10% base time with Dev Sources, without upgrade stacking",
+          "duration": 4.31760000000213,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": [
+            "landmark processing through the real headless engine"
+          ],
+          "fullName": "landmark processing through the real headless engine keeps unreached machine and recipe unlocks gated",
+          "status": "passed",
+          "title": "keeps unreached machine and recipe unlocks gated",
+          "duration": 27.980600000002596,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": [
+            "landmark processing through the real headless engine"
+          ],
+          "fullName": "landmark processing through the real headless engine gives three independent outputs from one reserve unit and pauses the shared cycle behind any full branch",
+          "status": "passed",
+          "title": "gives three independent outputs from one reserve unit and pauses the shared cycle behind any full branch",
+          "duration": 43.28110000000015,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": [
+            "landmark processing through the real headless engine"
+          ],
+          "fullName": "landmark processing through the real headless engine applies ordinary Extractor research to Tri Extractors and clears stock on a different source",
+          "status": "passed",
+          "title": "applies ordinary Extractor research to Tri Extractors and clears stock on a different source",
+          "duration": 25.536599999999453,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": [
+            "landmark processing through the real headless engine"
+          ],
+          "fullName": "landmark processing through the real headless engine routes exactly one branch per output cable with ordinary transport rates",
+          "status": "passed",
+          "title": "routes exactly one branch per output cable with ordinary transport rates",
+          "duration": 5.720100000005914,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": [
+            "landmark processing through the real headless engine"
+          ],
+          "fullName": "landmark processing through the real headless engine doubles all resolved products and waste, uses ordinary research and allows the Brick recovery loop",
+          "status": "passed",
+          "title": "doubles all resolved products and waste, uses ordinary research and allows the Brick recovery loop",
+          "duration": 34.84739999999874,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": [
+            "landmark processing through the real headless engine"
+          ],
+          "fullName": "landmark processing through the real headless engine duplicates simple-core in an unchangeable five seconds with an explicit reservation",
+          "status": "passed",
+          "title": "duplicates simple-core in an unchangeable five seconds with an explicit reservation",
+          "duration": 33.766999999999825,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": [
+            "landmark processing through the real headless engine"
+          ],
+          "fullName": "landmark processing through the real headless engine duplicates basic-core in an unchangeable five seconds with an explicit reservation",
+          "status": "passed",
+          "title": "duplicates basic-core in an unchangeable five seconds with an explicit reservation",
+          "duration": 29.059000000001106,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": [
+            "landmark processing through the real headless engine"
+          ],
+          "fullName": "landmark processing through the real headless engine duplicates automata-core in an unchangeable five seconds with an explicit reservation",
+          "status": "passed",
+          "title": "duplicates automata-core in an unchangeable five seconds with an explicit reservation",
+          "duration": 26.916299999997136,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": [
+            "landmark processing through the real headless engine"
+          ],
+          "fullName": "landmark processing through the real headless engine duplicates hydro-core in an unchangeable five seconds with an explicit reservation",
+          "status": "passed",
+          "title": "duplicates hydro-core in an unchangeable five seconds with an explicit reservation",
+          "duration": 168.60519999999815,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": [
+            "landmark processing through the real headless engine"
+          ],
+          "fullName": "landmark processing through the real headless engine duplicates shiny-core in an unchangeable five seconds with an explicit reservation",
+          "status": "passed",
+          "title": "duplicates shiny-core in an unchangeable five seconds with an explicit reservation",
+          "duration": 160.15510000000359,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": [
+            "landmark processing through the real headless engine"
+          ],
+          "fullName": "landmark processing through the real headless engine duplicates command-core in an unchangeable five seconds with an explicit reservation",
+          "status": "passed",
+          "title": "duplicates command-core in an unchangeable five seconds with an explicit reservation",
+          "duration": 168.8272999999972,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": [
+            "landmark processing through the real headless engine"
+          ],
+          "fullName": "landmark processing through the real headless engine duplicates final-core in an unchangeable five seconds with an explicit reservation",
+          "status": "passed",
+          "title": "duplicates final-core in an unchangeable five seconds with an explicit reservation",
+          "duration": 28.48490000000311,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": [
+            "landmark processing through the real headless engine"
+          ],
+          "fullName": "landmark processing through the real headless engine preserves mixed arrival order and an active paid Core through save/load, pause and relocation",
+          "status": "passed",
+          "title": "preserves mixed arrival order and an active paid Core through save/load, pause and relocation",
+          "duration": 32.89899999999761,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": [
+            "landmark processing through the real headless engine"
+          ],
+          "fullName": "landmark processing through the real headless engine keeps all landmarks non-deletable and uncopyable, and gates moves on existing relocation research",
+          "status": "passed",
+          "title": "keeps all landmarks non-deletable and uncopyable, and gates moves on existing relocation research",
+          "duration": 21.438600000001315,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": [
+            "landmark processing through the real headless engine"
+          ],
+          "fullName": "landmark processing through the real headless engine reveals one combined Landmarks filter only after a visit and keeps Unknown Device unidentified beyond its name",
+          "status": "passed",
+          "title": "reveals one combined Landmarks filter only after a visit and keeps Unknown Device unidentified beyond its name",
+          "duration": 4.5318999999944936,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        }
+      ],
+      "startTime": 1795247606711,
+      "endTime": 1795247641934.532,
+      "status": "passed",
+      "message": "",
+      "name": "D:/node factory v2/src/simulation/landmarks.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [
+            "landmark interface contracts"
+          ],
+          "fullName": "landmark interface contracts keeps Unknown Device pink, unexplained and without recipe controls or formulas",
+          "status": "passed",
+          "title": "keeps Unknown Device pink, unexplained and without recipe controls or formulas",
+          "duration": 129.6789000000001,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": [
+            "landmark interface contracts"
+          ],
+          "fullName": "landmark interface contracts keeps Tri Extractor sockets inside the existing body and distinguishes cached landmark colors",
+          "status": "passed",
+          "title": "keeps Tri Extractor sockets inside the existing body and distinguishes cached landmark colors",
+          "duration": 22.52509999999984,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": [
+            "landmark interface contracts"
+          ],
+          "fullName": "landmark interface contracts points the early hint toward the actual random spawn and retires it once visited",
+          "status": "passed",
+          "title": "points the early hint toward the actual random spawn and retires it once visited",
+          "duration": 1198.521,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        }
+      ],
+      "startTime": 1795247610016,
+      "endTime": 1795247611367.521,
+      "status": "passed",
+      "message": "",
+      "name": "D:/node factory v2/src/ui/Landmarks.test.tsx"
+    }
+  ],
+  "note": "Extracted from the final passing complete workspace run; full report retained."
+}

@@ -2,7 +2,7 @@
 
 A searchable record of completed changes, design decisions, and relevant review findings. Stable NODE IDs can be cited in chats and searched in the repository.
 
-**745 records · 2026-10-12–2026-11-20 · America/Los_Angeles**
+**762 records · 2026-10-12–2026-11-20 · America/Los_Angeles**
 
 [Open searchable history](<docs/changelog/index.html>) · [How to review and maintain it](<docs/changelog/README.md>) · [Sources and coverage gaps](<docs/changelog/sources.md>)
 
@@ -12,6 +12,7 @@ Latest confirmed game publication: [ed6bef1](https://github.com/bookskaboo/books
 
 | ID | Change | Topics |
 | --- | --- | --- |
+| [NODE-0762](<docs/changelog/2026-11.md#node-0762>) | Implement seventeen seeded Landmarks with headless production and generation verification | Landmarks, Production, Exploration, Recipes, Interface, Saves, Testing |
 | [NODE-0716](<docs/changelog/2026-11.md#node-0716>) | Show and select the actual zoom in the active-factory test | Controls, Interface, Tooling, Performance, Documentation |
 | [NODE-0708](<docs/changelog/2026-11.md#node-0708>) | Measure a practical 30 FPS zoom with restored node details | Performance, Controls, Tooling, Documentation |
 | [NODE-0703](<docs/changelog/2026-11.md#node-0703>) | Move workshop Travel controls outside the field and match arrow sizes | Controls, Logistics, Interface, Camera, Documentation |
@@ -123,7 +124,7 @@ Latest confirmed game publication: [ed6bef1](https://github.com/bookskaboo/books
 
 ## Dated history
 
-- [2026-11](<docs/changelog/2026-11.md>) — 727 records
+- [2026-11](<docs/changelog/2026-11.md>) — 744 records
 - [2026-10](<docs/changelog/2026-10.md>) — 18 records
 
 “Known by” dates are implementation/publication bounds, not exact change dates. “Backfilled” dates mark records with uncertain original dates. Supersession links explain reversals. Original-game records do not certify current rebuild behavior.
@@ -186,16 +187,18 @@ A record marked “Published by” was known in that snapshot and may have appea
 - [Design](<docs/changelog/index.html?topic=Design>) (7)
 - [Developer tools](<docs/changelog/index.html?topic=Developer%20tools>) (1)
 - [Discovery](<docs/changelog/index.html?topic=Discovery>) (5)
-- [Documentation](<docs/changelog/index.html?topic=Documentation>) (347)
+- [Documentation](<docs/changelog/index.html?topic=Documentation>) (355)
+- [Efficiency](<docs/changelog/index.html?topic=Efficiency>) (1)
 - [Encounters](<docs/changelog/index.html?topic=Encounters>) (148)
 - [Endgame](<docs/changelog/index.html?topic=Endgame>) (5)
-- [Exploration](<docs/changelog/index.html?topic=Exploration>) (37)
+- [Exploration](<docs/changelog/index.html?topic=Exploration>) (44)
 - [Extraction](<docs/changelog/index.html?topic=Extraction>) (1)
-- [Interface](<docs/changelog/index.html?topic=Interface>) (304)
-- [Logistics](<docs/changelog/index.html?topic=Logistics>) (112)
+- [Interface](<docs/changelog/index.html?topic=Interface>) (309)
+- [Landmarks](<docs/changelog/index.html?topic=Landmarks>) (9)
+- [Logistics](<docs/changelog/index.html?topic=Logistics>) (113)
 - [Map](<docs/changelog/index.html?topic=Map>) (8)
 - [Map exploration](<docs/changelog/index.html?topic=Map%20exploration>) (1)
-- [Mods](<docs/changelog/index.html?topic=Mods>) (11)
+- [Mods](<docs/changelog/index.html?topic=Mods>) (12)
 - [Monster camps](<docs/changelog/index.html?topic=Monster%20camps>) (4)
 - [Mythril](<docs/changelog/index.html?topic=Mythril>) (14)
 - [Naming](<docs/changelog/index.html?topic=Naming>) (7)
@@ -209,36 +212,36 @@ A record marked “Published by” was known in that snapshot and may have appea
 - [Planning](<docs/changelog/index.html?topic=Planning>) (239)
 - [Playtesting](<docs/changelog/index.html?topic=Playtesting>) (49)
 - [Power](<docs/changelog/index.html?topic=Power>) (2)
-- [Production](<docs/changelog/index.html?topic=Production>) (127)
+- [Production](<docs/changelog/index.html?topic=Production>) (138)
 - [Progression](<docs/changelog/index.html?topic=Progression>) (216)
 - [Prototypes](<docs/changelog/index.html?topic=Prototypes>) (20)
 - [Publication](<docs/changelog/index.html?topic=Publication>) (2)
 - [Publishing](<docs/changelog/index.html?topic=Publishing>) (19)
-- [Recipes](<docs/changelog/index.html?topic=Recipes>) (115)
-- [Recycling](<docs/changelog/index.html?topic=Recycling>) (2)
+- [Recipes](<docs/changelog/index.html?topic=Recipes>) (122)
+- [Recycling](<docs/changelog/index.html?topic=Recycling>) (3)
 - [Research](<docs/changelog/index.html?topic=Research>) (297)
 - [Resources](<docs/changelog/index.html?topic=Resources>) (120)
 - [Responsive](<docs/changelog/index.html?topic=Responsive>) (2)
 - [Roads](<docs/changelog/index.html?topic=Roads>) (22)
 - [Save compatibility](<docs/changelog/index.html?topic=Save%20compatibility>) (3)
-- [Saves](<docs/changelog/index.html?topic=Saves>) (36)
+- [Saves](<docs/changelog/index.html?topic=Saves>) (39)
 - [Search](<docs/changelog/index.html?topic=Search>) (2)
 - [Shortcuts](<docs/changelog/index.html?topic=Shortcuts>) (12)
 - [Simulation](<docs/changelog/index.html?topic=Simulation>) (8)
-- [Storage](<docs/changelog/index.html?topic=Storage>) (7)
+- [Storage](<docs/changelog/index.html?topic=Storage>) (10)
 - [Sustainability](<docs/changelog/index.html?topic=Sustainability>) (1)
-- [Testing](<docs/changelog/index.html?topic=Testing>) (25)
+- [Testing](<docs/changelog/index.html?topic=Testing>) (26)
 - [Text](<docs/changelog/index.html?topic=Text>) (6)
 - [Tooling](<docs/changelog/index.html?topic=Tooling>) (32)
 - [Tutorials](<docs/changelog/index.html?topic=Tutorials>) (58)
-- [Typography](<docs/changelog/index.html?topic=Typography>) (2)
+- [Typography](<docs/changelog/index.html?topic=Typography>) (3)
 - [UI](<docs/changelog/index.html?topic=UI>) (4)
 - [Undo](<docs/changelog/index.html?topic=Undo>) (4)
 - [Waste](<docs/changelog/index.html?topic=Waste>) (21)
 - [Workflow](<docs/changelog/index.html?topic=Workflow>) (1)
 - [World](<docs/changelog/index.html?topic=World>) (126)
-- [World generation](<docs/changelog/index.html?topic=World%20generation>) (22)
-- [World map](<docs/changelog/index.html?topic=World%20map>) (47)
+- [World generation](<docs/changelog/index.html?topic=World%20generation>) (23)
+- [World map](<docs/changelog/index.html?topic=World%20map>) (53)
 - [Writing](<docs/changelog/index.html?topic=Writing>) (1)
 
 ## Search from the repository

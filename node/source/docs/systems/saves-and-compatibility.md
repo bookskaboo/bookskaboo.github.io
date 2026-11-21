@@ -30,11 +30,19 @@ The optional devTutorialPromptsSuppressed marker keeps automatic tutorial invita
 
 ## Saved world rules
 
+The separate [landmark proposal](../master-plan/23-map-power-ups.md) selects new standard 11×11 campaigns only for its first layout version. Larger worlds do not opt in; larger-map landmark support and count scaling are deferred. Existing saves remain unchanged, including later-generated unexplored sectors; load, import and re-save must not opt them in. Training retains authored layouts, and existing-save conversion is outside the first version. This compatibility boundary is selected design; landmark save fields and generation are not implemented.
+
 Only new-game creation selects worldRulesVersion 2. Imports and loads without a marker normalize to version 1; explicit versions survive slot saves, copied slots, autosaves, exports, re-saves, undo and mod activation/removal. Unsupported world-rule versions are rejected rather than silently converted. Never infer a ruleset from the load date or explored-map count.
 
 Version 2 enables guarded camp deposits, revised Deep Hole generation/completion and Lake access/capacity/relocation. Version 1 keeps Tribute and legacy obstruction behavior, including on unexplored maps generated later. New fields preserve guarded owner/lock and regeneration credit, generated/depletion hole origin, and completed grey terrain outside the active node graph. World generation selects the versioned algorithm from the saved marker and seed. Guarded-camp placement corrections apply to newly generated maps; loading a saved map preserves its node positions and cables. The camp’s reverse reserve link is rebuilt from guardedCampId. Default Stone Deposit titles become Stone on load and in templates without changing IDs, quantities or custom names.
 
 The developer full-map reveal stores normal visited flags on every map, alongside its existing dev survey marker. Save/load preserves the explored appearance. Older dev saves with only the survey marker are not silently migrated; the enabled developer action can mark their maps visited on demand. Undo metadata for that command is transient and not serialized; it restores the earlier visit/discovery snapshot.
+
+## Saved landmarks
+
+New standard 11×11 campaigns save landmarkVersion 1 and seventeen initial landmark-sector snapshots in landmarkLayout. Missing/zero versions never opt in, including future unexplored sectors. Loading preserves assigned type, family, source, position and stocks. Instantiated sectors, later player moves and ordinary expansion remain authoritative. Training and larger-world selection omit this layout; custom world-spawn mods retain normal natural generation and place the assigned device among those contents.
+
+Landmark node properties retain three independent Tri Extractor buffers, mixed Core input/output queues, the Unknown Device active Core and progress, and any finished Doubler batch awaiting output space. Cable cargo retains its source outlet for refunds. Normalization rejects unsupported versions and malformed allocations, families, Core identities or branch-buffer data. It does not generate replacement landmarks or reroll chance results. See [Landmarks](landmarks.md) and [headless coverage](../../src/simulation/landmarks.test.ts).
 
 ## Saved ground terrain
 

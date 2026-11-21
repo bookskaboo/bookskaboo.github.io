@@ -25,7 +25,7 @@ export function reconcileViews<T>(views: Map<string, T>, identities: Map<string,
 
 /** Mutable stock and progress do not change a node's static drawing. */
 export function nodeDrawingKey(node: MachineNode) {
-  return [node.kind, node.name, node.recipeId, node.rotation, node.tributeItem, node.tributeCampId, node.golemMineral,
+  return [node.kind, node.landmark, node.name, node.recipeId, node.rotation, node.tributeItem, node.tributeCampId, node.golemMineral,
     node.filterItem, node.filterOutputPort, node.roadMode, node.roadFacing, node.inputPortOrder?.join('.'),
     node.outputPortOrder?.join('.'), node.outputRowOffset, node.connectorsMirrored, node.disabled, node.protected,
     node.campStrength, node.obstructionRadius, node.obstructionMaxRadius, node.obstructionWidth, node.obstructionHeight,

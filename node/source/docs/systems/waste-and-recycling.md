@@ -12,7 +12,7 @@ Machines producing mixed output use a shared output stream and queue. Filters se
 
 ## Recycler behavior
 
-The separate [map power-up proposal](../master-plan/23-map-power-ups.md) selects one permanent Reclaimer landmark that requires no Water while retaining ordinary non-Water ingredients, recovery quantities and research gates. It uses 25% of base Recycler cycle time for 4× base processing speed, without stacking normal speed research. This landmark exception is not implemented; ordinary Recycler Water and efficiency rules below remain current.
+The [Reclaimer landmark](landmarks.md) requires no Water and retains ordinary non-Water ingredients, returns and research gates. It uses 25% base Recycler cycle time without stacking speed research. Normal Doublers double waste alongside products after one ordinary chance resolution. Ordinary Recyclers retain their Water bill and family speed research.
 
 Intermediate Recycling unlocks the Recycler. Incoming material selects its matching live breakdown or unlocked waste recovery recipe. Water enters through the dedicated second inlet. Mixed recovery output uses the normal queue and should be sorted with Filters.
 

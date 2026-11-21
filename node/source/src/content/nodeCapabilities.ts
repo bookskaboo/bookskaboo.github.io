@@ -99,8 +99,8 @@ export const NODE_CAPABILITIES: Record<NodeKind, NodeCapabilities> = {
 
 export const getNodeCapabilities = (kind: NodeKind) => NODE_CAPABILITIES[kind];
 export const hasNodeBehavior = (kind: NodeKind, behavior: NodeBehavior) => getNodeCapabilities(kind).behavior === behavior;
-export const needsRecipeSelection = (node: Pick<MachineNode, 'kind' | 'recipeId'>) =>
-  node.kind !== 'recycler' && hasNodeBehavior(node.kind, 'recipe') && !node.recipeId;
+export const needsRecipeSelection = (node: Pick<MachineNode, 'kind' | 'recipeId' | 'landmark'>) =>
+  node.landmark !== 'unknown' && node.kind !== 'recycler' && hasNodeBehavior(node.kind, 'recipe') && !node.recipeId;
 export const isResourceBehavior = (kind: NodeKind) => ['resource', 'lake'].includes(getNodeCapabilities(kind).behavior);
 export const isWorldObstacle = (kind: NodeKind) => Boolean(getNodeCapabilities(kind).worldObstacle);
 

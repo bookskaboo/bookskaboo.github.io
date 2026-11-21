@@ -16,7 +16,7 @@ const contents=(node:MachineNode)=>{const {x:_,y:__,...data}=node;return data;};
 
 describe('unvisited fields spread after expansion',()=>{
   it.each([1,37,301])('spreads generated contents without rerolling them, preserving clear terrain for seed %i',seed=>{
-    const engine=new GameEngine(createInitialState(seed),{autosave:false}),game=engine.getState();
+    const engine=new GameEngine(createLayoutFixture(seed),{autosave:false}),game=engine.getState();
     const visited=engine.ensureSector(6,5);visited.visited=true;game.sectors[visited.id]=visited;
     for(let y=0;y<11;y++)for(let x=0;x<11;x++){const sector=engine.ensureSector(x,y);game.sectors[sector.id]=sector;}
     const before=structuredClone(game), first={width:4500,height:3000};
@@ -45,7 +45,7 @@ describe('unvisited fields spread after expansion',()=>{
   });
 
   it('preserves unusual unvisited factories and connected maps',()=>{
-    const engine=new GameEngine(createInitialState(37),{autosave:false}),game=engine.getState();
+    const engine=new GameEngine(createLayoutFixture(37),{autosave:false}),game=engine.getState();
     for(const [x,y]of [[6,5],[5,6],[4,5]]){const sector=engine.ensureSector(x,y);sector.unlocked=true;game.sectors[sector.id]=sector;}
     game.activeSectorId='4,5';
     game.sectors['6,5'].nodes.push(tutorialNode('woodenChest','existing-cart',800,600,{output:{wood:7}}));
@@ -56,7 +56,7 @@ describe('unvisited fields spread after expansion',()=>{
   });
 
   it('runs on actual research completion, keeps the incoming Road and is stable through reload',()=>{
-    const engine=new GameEngine(createInitialState(37),{autosave:false}),game=engine.getState();
+    const engine=new GameEngine(createLayoutFixture(37),{autosave:false}),game=engine.getState();
     const unseen=engine.ensureSector(6,5);unseen.unlocked=true;game.sectors[unseen.id]=unseen;
     const seen=engine.ensureSector(5,6);seen.unlocked=true;seen.visited=true;game.sectors[seen.id]=seen;
     game.research.completed=['road','basicCore','automataCore','hydroCore','shinyCore','complexCore','precisionControl'];
@@ -90,7 +90,7 @@ describe('unvisited fields spread after expansion',()=>{
   });
 
   it('supports legacy worlds and wider modded fields without changing resource data',()=>{
-    const engine=new GameEngine(createInitialState(37),{autosave:false});
+    const engine=new GameEngine(createLayoutFixture(37),{autosave:false});
     engine.applyMod({...emptyMod(),rules:{worldGridSize:21,mapWidthMultiplier:1.4,mapHeightMultiplier:1.1}});
     const game=engine.getState();delete game.mapTerrainVersion;delete game.mapTerrains;
     const {min,max}=worldGridBounds(21);expect(max-min+1).toBe(21);
@@ -102,7 +102,7 @@ describe('unvisited fields spread after expansion',()=>{
   });
 
   it('adds equal space on all sides without changing built layouts, views, stock or cable records',()=>{
-    const engine=new GameEngine(createInitialState(37),{autosave:false}),game=engine.getState();
+    const engine=new GameEngine(createLayoutFixture(37),{autosave:false}),game=engine.getState();
     const home=engine.getSector(),sector=engine.ensureSector(6,5);sector.unlocked=true;sector.visited=true;game.sectors[sector.id]=sector;
     const a=tutorialNode('woodenChest','built-cart',600,400,{output:{wood:7}}),b=tutorialNode('kiln','built-kiln',1100,400);
     sector.nodes.push(a,b);sector.connections.push({id:'built-cable',from:a.id,to:b.id,createdAt:0});
@@ -130,7 +130,7 @@ describe('unvisited fields spread after expansion',()=>{
   });
 
   it('keeps a built corner challenge and its cables unchanged through expansion, travel and reload',()=>{
-    const engine=new GameEngine(createInitialState(37),{autosave:false}),game=engine.getState();
+    const engine=new GameEngine(createLayoutFixture(37),{autosave:false}),game=engine.getState();
     const corner=engine.ensureSector(0,0);corner.unlocked=true;corner.visited=true;game.sectors[corner.id]=corner;
     const cart=tutorialNode('woodenChest','corner-supply',3100,2100);
     corner.nodes.push(cart);corner.connections.push({id:'corner-cable',from:cart.id,to:corner.nodes[1].id,createdAt:0});
@@ -148,7 +148,7 @@ describe('unvisited fields spread after expansion',()=>{
   });
 
   it('does not redistribute an unvisited reserve onto the final incoming Road footprint',()=>{
-    const engine=new GameEngine(createInitialState(37),{autosave:false}),game=engine.getState();
+    const engine=new GameEngine(createLayoutFixture(37),{autosave:false}),game=engine.getState();
     const unseen=engine.ensureSector(6,5);unseen.unlocked=true;unseen.visited=false;game.sectors[unseen.id]=unseen;
     const reserve=tutorialNode('stoneDeposit','road-clear-stone',210,360,{resourceItem:'stone',resourceRemaining:300,resourceCapacity:300});
     unseen.nodes=[reserve];game.research.completed.push('road');game.research.unlocked.push('road');
@@ -165,3 +165,6 @@ describe('unvisited fields spread after expansion',()=>{
     expect(canPlaceNode(current.nodes.find(n=>n.id===reserve.id)!,current.nodes,getWorldFieldSize(restored.getState()))).toBe(true);
   });
 });
+
+/** Isolate pre-landmark terrain/encounter fixtures; combined worlds are covered in landmarks.test.ts. */
+function createLayoutFixture(seed?:number){const state=createInitialState(seed);state.landmarkVersion=0;delete state.landmarkLayout;delete state.landmarkEligible;return state;}

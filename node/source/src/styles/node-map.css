@@ -177,3 +177,6 @@ button.node-map-sector:hover { z-index:4; transform:scale(1.08); filter:brightne
 @media (prefers-reduced-motion:reduce) {
   .rail-button.discovery-attention,.world-node-minimap.discovery-attention,.node-map-sector.corner-discovery-pending { animation:none; }
 }
+
+.map-landmark-landmarks { --landmark-color:#b584ef; }
+.map-landmark-unknown { --landmark-color:#f29ac2; }

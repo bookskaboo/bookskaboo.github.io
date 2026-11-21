@@ -26,9 +26,9 @@ The [recipe catalog](catalogs/recipes.md) lists actual machine assignments. Name
 
 ## Operation
 
-The [power-up proposal](../master-plan/23-map-power-ups.md) selects no activation or repair fee for discovered landmarks. Their normal machine and recipe unlocks and ordinary production ingredients still apply. This is proposed landmark behavior, not a change to current Production nodes.
+[Landmarks](landmarks.md) are permanent seeded Production nodes in new standard worlds: Rapid machines, Tri Extractors, fixed-family Doublers, water-free Reclaimer and Unknown Device. Recipe landmarks use their ordinary unlocks without activation or repair fees. Unknown Device accepts any supplied Core, keeps a fixed five-second cycle, has shared five/five buffers and reserves two output spaces before consuming the oldest input. Its effect and recipes remain hidden in the interface.
 
-The separate [power-up proposal](../master-plan/23-map-power-ups.md) selects a Tri Extractor landmark with explicit relocation grouping: moving the Extractor alone leaves its reserve in place, while selecting both permits a valid group move. It may reconnect to another ordinary Wood, Stone, Copper or Iron reserve within the same Map Node; guarded and Golem reserves are excluded from the initial version. Switching resource type discards old stock in all three output buffers, while matching stock survives same-resource rewiring. There is no empty-buffer prerequisite. Ordinary Extractor speed research shortens its shared five-second base cycle, retaining triple yield and shared output blocking. This landmark behavior is planned, not implemented; ordinary Production nodes retain the rules below.
+[Tri Extractors](landmarks.md) have three independent five-item outlets and consume one ordinary reserve unit per three-item shared cycle. A full branch pauses the cycle. They use ordinary Extractor speed research, reject guarded/Golem sources and discard old branch stock when rewired to a different resource. Moving one leaves its reserve in place unless both are selected.
 
 Select a recipe before connecting a configurable machine. Availability follows research and machine access, so a factory can be configured before its first ingredients arrive. Recipe sockets use ingredient identities rather than the generic sockets in the node definition.
 

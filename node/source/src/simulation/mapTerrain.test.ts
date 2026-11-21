@@ -13,7 +13,7 @@ import { regenerateGuardedResources } from './guardedResources';
 const advance = (engine: GameEngine, ms: number) => { for (let t=0;t<ms;t+=100) engine.tick(Math.min(100,ms-t)); };
 describe('new-game terrain integration', () => {
   it.each([11,13,15,17,19,21])('saves exact quotas and fixed sites at world size %i', size => {
-    const engine = new GameEngine(createInitialState(37), { autosave:false });
+    const engine = new GameEngine(createLayoutFixture(37), { autosave:false });
     const home = structuredClone(engine.getSector().nodes);
     engine.applyMod({ ...emptyMod(), rules:{ worldGridSize:size } });
     const state = engine.getState(), layout = state.mapTerrains!;
@@ -29,7 +29,7 @@ describe('new-game terrain integration', () => {
     activateMod();
   });
   it('follows the saved encounter identities when an allowed size change rebuilds assignments', () => {
-    const engine=new GameEngine(createInitialState(37),{autosave:false});
+    const engine=new GameEngine(createLayoutFixture(37),{autosave:false});
     engine.getState().endgame!.cornerOrder=['grove','reclamation','foundry','alpha'];
     engine.applyMod({...emptyMod(),rules:{worldGridSize:21}});
     for (const [i,id] of ['4,4','6,4','6,6','4,6'].entries()) expect(engine.getState().mapTerrains![id]).toBe(CORNER_TERRAIN[engine.getState().endgame!.cornerOrder[i]]);
@@ -37,7 +37,7 @@ describe('new-game terrain integration', () => {
   });
   it.each([1,37,2718])('applies the matrix once to actual generated reserves and retains encounter contents for seed %i', seed => {
     activateMod();
-    const fresh=createInitialState(seed), legacy=structuredClone(fresh);
+    const fresh=createLayoutFixture(seed), legacy=structuredClone(fresh);
     delete legacy.mapTerrainVersion; delete legacy.mapTerrains;
     let guarded=0, forests=0, minerals=0;
     for(let y=0;y<11;y++)for(let x=0;x<11;x++) {
@@ -62,7 +62,7 @@ describe('new-game terrain integration', () => {
   it.each([undefined,0] as const)('keeps legacy version %s unchanged through slots, copy, autosave, engine and future generation', version => {
     const data=new Map<string,string>();vi.stubGlobal('localStorage',{getItem:(k:string)=>data.get(k)??null,setItem:(k:string,v:string)=>data.set(k,v)});
     try {
-      const state=createInitialState(37); state.mapTerrainVersion=version;
+      const state=createLayoutFixture(37); state.mapTerrainVersion=version;
       // Even a saved new obstruction/world-rules version must not imply terrain opt-in.
       const before=structuredClone(state.sectors['5,5'].nodes);
       saveSlot(0,state);copySaveToSlot(1,readSlots()[0]!);
@@ -76,7 +76,7 @@ describe('new-game terrain integration', () => {
     } finally { vi.unstubAllGlobals();activateMod(); }
   });
   it('round-trips saved assignments without rerolling and rejects partial, unknown or unsupported layouts', () => {
-    const state=createInitialState(37), saved=structuredClone(state.mapTerrains);
+    const state=createLayoutFixture(37), saved=structuredClone(state.mapTerrains);
     expect(normalizeLegacy(state)!.mapTerrains).toEqual(saved);
     const partial=structuredClone(state);delete partial.mapTerrains!['0,0'];expect(normalizeLegacy(partial)).toBeNull();
     expect(normalizeLegacy({...state,mapTerrainVersion:2})).toBeNull();
@@ -90,7 +90,7 @@ describe('new-game terrain integration', () => {
   it('preserves a partially mined new-world reserve through real save channels and early-size undo',()=>{
     const data=new Map<string,string>();vi.stubGlobal('localStorage',{getItem:(k:string)=>data.get(k)??null,setItem:(k:string,v:string)=>data.set(k,v)});
     try {
-      const engine=new GameEngine(createInitialState(37),{autosave:false}),initial=structuredClone(engine.getState().mapTerrains);
+      const engine=new GameEngine(createLayoutFixture(37),{autosave:false}),initial=structuredClone(engine.getState().mapTerrains);
       engine.applyMod({...emptyMod(),rules:{worldGridSize:21}});expect(Object.keys(engine.getState().mapTerrains!)).toHaveLength(441);
       engine.undo();expect(engine.getState().mapTerrains).toEqual(initial);
       const state=engine.getState(),id=Object.keys(state.mapTerrains!).find(id=>state.mapTerrains![id]==='rocky')!;
@@ -103,7 +103,7 @@ describe('new-game terrain integration', () => {
     }finally{vi.unstubAllGlobals();activateMod();}
   });
   it('reveals terrain only after visiting, even when a map is purchased or developer surveys are revealed', () => {
-    const state=createInitialState(37);state.devMapSurveysRevealed=true;
+    const state=createLayoutFixture(37);state.devMapSurveysRevealed=true;
     const sector=sectorForState(state,4,5);state.sectors[sector.id]=sector;sector.unlocked=true;
     expect(mapTerrain(state,sector.id)).toBeDefined();expect(revealedMapTerrain(state,sector.id)).toBeUndefined();
     sector.visited=true;expect(revealedMapTerrain(state,sector.id)).toBe(state.mapTerrains![sector.id]);
@@ -111,7 +111,7 @@ describe('new-game terrain integration', () => {
   });
   it.each(TERRAINS.filter(t=>t!=='badlands'))('%s natural refill composes with research while paid growth keeps its amount and cap', terrain => {
     activateMod();
-    const state=createInitialState(37), id=Object.keys(state.mapTerrains!).find(id=>state.mapTerrains![id]===terrain && id!=='5,5' && sectorForState(state,...id.split(',').map(Number) as [number,number]).nodes.some(n=>n.kind==='forest'))!;
+    const state=createLayoutFixture(37), id=Object.keys(state.mapTerrains!).find(id=>state.mapTerrains![id]===terrain && id!=='5,5' && sectorForState(state,...id.split(',').map(Number) as [number,number]).nodes.some(n=>n.kind==='forest'))!;
     const [x,y]=id.split(',').map(Number), sector=sectorForState(state,x,y);state.sectors[id]=sector;sector.unlocked=true;state.activeSectorId=id;
     const forest=sector.nodes.find(n=>n.kind==='forest')!;forest.resourceRemaining=0;sector.nodes=[forest];
     state.research.completed=['exploration','treePlanter','resourceRegeneration'];state.research.repeatableCompletions={resourceRegeneration:1};
@@ -123,7 +123,7 @@ describe('new-game terrain integration', () => {
   });
   it('keeps tutorial ground and rates legacy',()=>expect(createTutorialState('basic').mapTerrainVersion).toBe(0));
   it.each([11,13,15,17,19,21])('materializes every map alongside the existing encounter/border generator on a %i grid',size=>{
-    const engine=new GameEngine(createInitialState(37),{autosave:false});
+    const engine=new GameEngine(createLayoutFixture(37),{autosave:false});
     engine.applyMod({...emptyMod(),rules:{worldGridSize:size}});
     const state=engine.getState(), legacy=structuredClone(state);delete legacy.mapTerrainVersion;delete legacy.mapTerrains;
     for(const [id,terrain] of Object.entries(state.mapTerrains!)) {
@@ -140,7 +140,7 @@ describe('new-game terrain integration', () => {
     activateMod();
   });
   it.each(TERRAINS)('%s guarded minerals retain refill rates, suppression credit and adjusted hard caps',terrain=>{
-    const state=createInitialState(37), legacy=structuredClone(state);delete legacy.mapTerrainVersion;
+    const state=createLayoutFixture(37), legacy=structuredClone(state);delete legacy.mapTerrainVersion;
     let base:ReturnType<typeof sectorForState>|undefined;
     for(let y=0;y<11&&!base;y++)for(let x=0;x<11&&!base;x++){const sector=sectorForState(legacy,x,y);if(sector.nodes.some(n=>n.guardedCampId))base=sector;}
     const old=structuredClone(base!), next=structuredClone(base!);next.nodes=applyMapTerrain(next.nodes,terrain);
@@ -154,7 +154,7 @@ describe('new-game terrain integration', () => {
     camp.suppressed=true;b.resourceRemaining=b.resourceCapacity!-1;regenerateGuardedResources(state,next,20000);expect(b.resourceRemaining).toBe(b.resourceCapacity);
   });
   it('does not multiply a Drill-created reserve on a Rocky map or on snapshot reload',()=>{
-    const state=createInitialState(37),id=Object.keys(state.mapTerrains!).find(id=>state.mapTerrains![id]==='rocky')!;
+    const state=createLayoutFixture(37),id=Object.keys(state.mapTerrains!).find(id=>state.mapTerrains![id]==='rocky')!;
     const [x,y]=id.split(',').map(Number),sector=sectorForState(state,x,y);state.sectors[id]=sector;state.activeSectorId=id;sector.unlocked=true;
     const template=state.sectors['5,5'].nodes.find(n=>n.kind==='extractor')!;
     sector.nodes=[{...structuredClone(template),id:'test-drill',kind:'miningDrill',miningProgress:19,miningTarget:'iron',input:{motor:1}}];
@@ -163,14 +163,14 @@ describe('new-game terrain integration', () => {
     const loaded=new GameEngine(normalizeLegacy(engine.getState())!,{autosave:false});expect(loaded.getSector().nodes[0].resourceCapacity).toBe(1000);
   });
   it('keeps legacy Forest refill at its normal period on a coordinate assigned Desert in a new game',()=>{
-    const state=createInitialState(37),id=Object.keys(state.mapTerrains!).find(id=>state.mapTerrains![id]==='desert')!;
+    const state=createLayoutFixture(37),id=Object.keys(state.mapTerrains!).find(id=>state.mapTerrains![id]==='desert')!;
     delete state.mapTerrainVersion;delete state.mapTerrains;
     const [x,y]=id.split(',').map(Number),sector=sectorForState(state,x,y);state.sectors[id]=sector;state.activeSectorId=id;sector.unlocked=true;
     const forest=sector.nodes.find(n=>n.kind==='forest')!;forest.resourceRemaining=0;sector.nodes=[forest];
     const engine=new GameEngine(state,{autosave:false});advance(engine,30000);expect(engine.getSector().nodes[0].resourceRemaining).toBe(1);
   });
   it('preserves mod resource baselines, lakes and infinite reserves', () => {
-    const state=createInitialState(37), nodes=state.sectors['5,5'].nodes;
+    const state=createLayoutFixture(37), nodes=state.sectors['5,5'].nodes;
     const iron=nodes.find(n=>n.resourceItem==='iron')!;
     const custom={...iron,resourceCapacity:1234,resourceRemaining:1234,guardedCampId:'camp'};
     for(const terrain of TERRAINS)expect(applyMapTerrain([custom],terrain)[0].resourceCapacity).toBe(Math.round(1234*CAP[terrain].mineral));
@@ -185,3 +185,6 @@ describe('new-game terrain integration', () => {
     } finally { activateMod(); }
   });
 });
+
+/** Isolate pre-landmark terrain/encounter fixtures; combined worlds are covered in landmarks.test.ts. */
+function createLayoutFixture(seed?:number){const state=createInitialState(seed);state.landmarkVersion=0;delete state.landmarkLayout;delete state.landmarkEligible;return state;}

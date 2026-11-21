@@ -160,7 +160,7 @@ All live projects in Core-stage order, with prerequisites before dependent proje
 | [Synthesizer 3](research.md#research-separationFurnace7) | Final Core | 40 | Synthesizer cycles take 65% less time than the base cycle. |
 | [Tree Planter 4](research.md#research-treePlanter7) | Final Core | 40 | Tree Planter cycles take 65% less time than the base cycle. |
 | [Final upgrade](research.md#research-finalBotUpgrade) | Final Core | 5 | All character upgrades complete. |
-| [Resource Relocation](research.md#research-resourceRelocation) | Final Core | 1 | Move Forests, mineral deposits, and defeated Golem reserves within their map. They keep their stock. |
+| [Resource Relocation](research.md#research-resourceRelocation) | Final Core | 1 | Move Forests, mineral deposits, defeated Golem reserves and Landmarks within their map. Stock and production progress are retained. |
 | [Lake Relocation](research.md#research-lakeRelocation) | Final Core | 1 | Move Lakes within their map. Pumps stay connected. Select a Pump with the Lake to move them together. |
 | [Monster Camp Relocation](research.md#research-campRelocation) | Final Core | 1 | Move a Monster Camp and its linked Tribute boxes together within their map. |
 | [Efficient Landfill](research.md#research-efficientLandfill) ↻ | Final Core | 1 | Reduces the Deep Hole Stone requirement by 20% each time, compounded before rounding up. Stone already delivered still counts. The minimum is 1 Stone, with up to 45 completions. |
@@ -208,7 +208,7 @@ All live projects in Core-stage order, with prerequisites before dependent proje
 
 | ID | Category | Price or discovery | Prerequisites | Effect |
 | --- | --- | --- | --- | --- |
-| `resourceRelocation` | Endgame | 1 Simple Core + 1 Basic Core + 1 Automata Core + 1 Hydro Core + 1 Shiny Core + 1 Complex Core + 1 Final Core | [A Remarkably Indirect Conclusion](research.md#research-victory) | Move Forests, mineral deposits, and defeated Golem reserves within their map. They keep their stock. |
+| `resourceRelocation` | Endgame | 1 Simple Core + 1 Basic Core + 1 Automata Core + 1 Hydro Core + 1 Shiny Core + 1 Complex Core + 1 Final Core | [A Remarkably Indirect Conclusion](research.md#research-victory) | Move Forests, mineral deposits, defeated Golem reserves and Landmarks within their map. Stock and production progress are retained. |
 
 <a id="research-lakeRelocation"></a>
 

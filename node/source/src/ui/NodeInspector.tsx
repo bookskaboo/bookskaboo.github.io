@@ -19,8 +19,9 @@ import { isResearchCycleActive, researchCoreStorage } from '../simulation/resear
 import { productionExplanation } from '../renderer/productionVisuals';
 import { isStorageNode } from '../renderer/bufferSlots';
 import type { InteractionFailure } from './InteractionNotice';
+import { nodeCycleDuration } from '../renderer/playfieldNodeState';
+import { landmarkRecipe } from '../content/landmarks';
 const MINING_TARGETS: Array<NonNullable<MachineNode['miningTarget']>> = ['iron', 'copper', 'stone'];
-const progressPercent = (node: MachineNode) => node.cycleMs > 0 ? Math.max(0, Math.min(100, node.progressMs / node.cycleMs * 100)) : 0;
 function Buffer({ title, values }: { title: string; values: Partial<Record<ItemId, number>> }) {
   const entries = (Object.entries(values) as Array<[ItemId, number]>).filter(([, amount]) => amount > 0);
   return <div className="buffer"><span>{title}</span><div>{entries.length ? entries.map(([item, amount]) => <b key={item} style={{ borderColor: `${itemColorCss(item)}55` }}><MaterialIcon item={cargoMaterial(item)} />{ITEM_NAMES[item]} <em>{Math.floor(amount)}</em></b>) : <small>Empty</small>}</div></div>;
@@ -36,14 +37,15 @@ export function NodeInspector({ node, game, engine, onClose, onConfigureRecipe, 
   onFailure?(failure: InteractionFailure): void;
 }) {
   const definition = getNodeDisplayDefinition(node);
-  const module = getNodeModule(node.kind);
+  const module = getNodeModule(node.kind, node);
   const configuration = module.controls.configuration;
-  const recipe = node.recipeId ? RECIPES[node.recipeId] : undefined;
+  const baseRecipe = node.landmark !== 'unknown' && node.recipeId ? RECIPES[node.recipeId] : undefined;
+  const recipe = baseRecipe ? landmarkRecipe(node, baseRecipe) : undefined;
   const research = getResearchProject(game.research.selected);
   const researchCosts = research ? getResearchCostsForState(research, game.research) : undefined;
   const constructing = Date.now() - node.constructedAt < node.constructionMs;
   const coreStorage = configuration === 'research' ? researchCoreStorage(node, game.research) : [];
-  const progress = node.kind === 'monster-camp' ? campStatus(node).fraction * 100 : configuration === 'research' && !isResearchCycleActive(node, game.research) ? 0 : progressPercent(node);
+  const progress = node.kind === 'monster-camp' ? campStatus(node).fraction * 100 : configuration === 'research' && !isResearchCycleActive(node, game.research) ? 0 : Math.min(100, node.progressMs / (nodeCycleDuration(node, game.research.completed) || 1) * 100);
   const roadMaterial = engine.getRoadTransportStatus(node.id);
   const sector = game.sectors[game.activeSectorId];
   const production = productionExplanation(node, game, sector);
@@ -55,13 +57,14 @@ export function NodeInspector({ node, game, engine, onClose, onConfigureRecipe, 
   return <aside className="inspector glass" style={{ '--node-color': definition.accentCss } as React.CSSProperties}>
     <div className="panel-header"><div><small>{definition.category}</small><h2>{getNodeDisplayName(node)}</h2></div><button onClick={onClose} aria-label="Close inspector">×</button></div>
     <div className="node-hero"><i><NodeIcon kind={node.kind} node={node} completedResearch={game.research.completed} /></i><span>{node.infiniteResource ? 'An inexhaustible mineral reserve. Connect Extractors to the star output on any face.' : definition.description}{status && <b>{status}</b>}</span></div>
+    {node.landmark === 'unknown' && <p className="field-help">{node.activeCore ? `Active: ${ITEM_NAMES[node.activeCore]}` : Object.values(node.output).reduce<number>((n,q)=>n+(q??0),0)>3 ? 'Output blocked' : 'Waiting'} · Waiting {Object.values(node.input).reduce<number>((n,q)=>n+(q??0),0)}/5 · Finished {Object.values(node.output).reduce<number>((n,q)=>n+(q??0),0)}/5</p>}
     <div className="inspector-body">
       {(guardedCamp || guardedDeposit) && <p className="field-help" role="status">{guardedDeposit ? `${ITEM_NAMES[guardedDeposit.resourceItem!]} deposit` : `Guarded by ${guardedCamp!.name}`} · {isCampFullySuppressed(guardedCamp ?? node) ? 'Accessible' : 'Locked — fully suppress the settlement to extract resources'}. Stock, extraction progress and connections are retained when suppression lapses. The deposit refills while fully suppressed.</p>}
       {node.kind === 'lake' && game.worldRulesVersion === 2 && <p className="field-help">Connect Production Lake Intakes for Water. Intake limit: {game.research.completed.some(r=>['fluidLink6','fluidLink7'].includes(r))?4:game.research.completed.includes('fluidLink5')?3:2}. Moving this Lake also moves every directly connected Intake.</p>}
       {configuration === 'recipe' && <button className="inspector-configure" onClick={onConfigureRecipe}><span>Production recipe</span><b>{recipe?.name ?? 'Choose recipe'}</b></button>}
       {configuration === 'recipe-preview' && <button className="inspector-configure" onClick={onConfigureRecipe}>View build</button>}
       {production.summary && <p className="production-status" role="status">{production.summary}</p>}
-      {recipe && <section className="ingredient-status" aria-label="Production requirements"><span className="field-label">Ingredients · Available / required</span>{production.ingredients.map(input => <p key={input.item}><span>{ITEM_NAMES[input.item]}</span><b>{input.available}/{input.required}</b><small>stored {input.available}/{input.capacity}</small></p>)}<p className="field-help">Output and waste share {production.capacity} spaces: {production.used} used. {production.committed ? 'Current batch has reserved its output room.' : `Next batch needs ${production.requiredRoom} spaces for all outputs.`}</p></section>}
+      {recipe && <section className="ingredient-status" aria-label="Production requirements"><span className="field-label">Ingredients · Available / required</span>{production.ingredients.map(input => <p key={input.item}><span>{ITEM_NAMES[input.item]}</span><b>{input.available}/{input.required}</b><small>stored {input.available}/{input.capacity}</small></p>)}<p className="field-help">Output and waste share {production.capacity} spaces: {production.used} used. {production.committed ? node.landmark === 'doubler' ? 'Batch paid; completed outputs enter the shared buffer as space opens.' : 'Current batch has reserved its output room.' : `Next batch needs ${production.requiredRoom} spaces for all outputs.`}</p></section>}
       {configuration === 'mining-target' && <label className="field-label">Deposit material<select value={node.miningTarget ?? 'iron'} disabled={(node.miningProgress ?? 0) > 0} onChange={(event) => engine.setMiningTarget(node.id, event.target.value as NonNullable<MachineNode['miningTarget']>)}>{MINING_TARGETS.map((item) => <option value={item} key={item}>{ITEM_NAMES[item]}</option>)}</select><small className="field-help">The target locks after the first Motor is consumed.</small></label>}
       {configuration === 'research' && <div className="research-center-controls"><button className="inspector-configure" onClick={onOpenResearch}><span>Active research</span><b>{research?.name ?? 'Choose project'}</b></button><p className="field-help">Each cycle consumes one of every required Core together.</p>{research && researchCosts && <><div className="research-core-grid">{(Object.entries(researchCosts) as Array<[ItemId, number]>).map(([item, cost]) => <div className="required" key={item}><span>{ITEM_NAMES[item]}</span><b>{game.research.contributed[item] ?? 0}/{cost}</b><small>researched</small></div>)}</div></>}</div>}
       {roadMaterial && <div className="research-center-controls">

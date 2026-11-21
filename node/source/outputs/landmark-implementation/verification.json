@@ -1,0 +1,109 @@
+{
+  "date": "2026-11-20",
+  "status": "implemented-local",
+  "scope": "New standard 11x11 campaigns; existing saves unchanged; no live publication performed.",
+  "landmarks": {
+    "total": 17,
+    "rapid": 6,
+    "triExtractors": 6,
+    "doublers": 3,
+    "reclaimer": 1,
+    "unknownDevice": 1,
+    "bands": [
+      2,
+      5,
+      5,
+      5
+    ],
+    "unknownDeviceTier": 8,
+    "colors": {
+      "unknownDevice": "#f29ac2",
+      "otherLandmarks": "#b584ef"
+    }
+  },
+  "verification": {
+    "workspace": {
+      "passed": 2189,
+      "failed": 0,
+      "skipped": 2
+    },
+    "landmarkSpecific": {
+      "passed": 31,
+      "failed": 0,
+      "files": [
+        "simulation/landmarks.test.ts",
+        "ui/Landmarks.test.tsx"
+      ]
+    },
+    "generation": {
+      "seeds": 1000,
+      "totalPerWorld": 17,
+      "bandCounts": [
+        2,
+        5,
+        5,
+        5
+      ],
+      "unknownDeviceTier": 8,
+      "quadrantDistributions": {
+        "5/4/4/4": 225,
+        "4/4/5/4": 265,
+        "4/4/4/5": 254,
+        "4/5/4/4": 256
+      },
+      "adjacentPairs": 2
+    },
+    "eligibleDoublerRecipes": 29,
+    "oversizedBatches": [
+      {
+        "family": "advancedAssembler",
+        "recipe": "efficient-hydro-piston",
+        "maximumOutput": 8
+      },
+      {
+        "family": "advancedAssembler",
+        "recipe": "efficient-circuit-c",
+        "maximumOutput": 8
+      }
+    ],
+    "checks": [
+      "npm test -- --reporter=json --outputFile=outputs/landmark-implementation/full-tests.json",
+      "npm run build",
+      "npm run docs:systems",
+      "npm run docs:systems:check"
+    ],
+    "methods": "Actual GameEngine ticks in controlled synthetic factories, using Dev Sources where useful and finite ordinary reserves for consumption checks. Server-rendered UI contracts and renderer geometry/cache identity checks; no browser session or normal-play balance run.",
+    "covered": [
+      "Seeded exact counts, bands, fixed family mix, early clear cardinal neighbor, tier-8 Unknown Device, quadrant balance, footprint validity and repeatability over 1000 seeds",
+      "All 29 eligible Doubler recipes with unchanged ingredient debit and twice every resolved product/waste quantity; saved staged release for oversized batches through five-item buffers",
+      "Chance outcomes match ordinary single rolls, double only the resolved result, and survive save/load without rerolling",
+      "Rapid 10x and Reclaimer 4x fixed base rates; ordinary Tri Extractor/Doubler research; unchanged ordinary Recycler Water requirement",
+      "Tri Extractor one-reserve-to-three-items cycles, per-port stock/routing, correct outlet refunds, full-branch blocking and resource switches",
+      "All seven Core tiers, fixed five-second duplication, mixed Core FIFO, shared five/five buffers, separate active Core, two-space reservation, pause/save/load/relocation",
+      "Non-deletion, copying/template restrictions, post-victory existing relocation research, one-of-each-Core bill and valid same-map moves",
+      "Old-save/larger-world opt-out, custom spawn compatibility and preserved existing terrain/encounter fixture rules",
+      "Pink Unknown Device, purple other landmarks, hidden recipe controls/effect, port geometry and seed-aware hint retirement"
+    ],
+    "pageReadback": "All five changed Page blocks matched; complete Page body equals the repository proposal.",
+    "compatibilityNote": "New campaigns carry landmarkEligible; switching larger then back to standard before leaving Home restores the layout. Older saves never gain eligibility."
+  },
+  "limits": [
+    "No normal-play pacing or long campaign balance validation",
+    "No actual Pixi/browser font-fit or color-contrast review; geometry and static markup were tested",
+    "Larger maps do not receive this first landmark layout; selection of a larger map disables its unopened layout",
+    "Custom world-spawn mods may require adjusted valid placement, or leave a Tri Extractor disconnected if no eligible reserve survives"
+  ],
+  "buildAssetSha256": {
+    "dist/index.html": "d3667765dfedcfd3f1756735e4a8fce6304105b70d4a62fa4598af62cb135b9d",
+    "dist/assets/browserAll-o94KD-1b.js": "1ecfbbe25f07b5dc7013408d837433fbe99c011ee822bb11c6e62b19de6a8432",
+    "dist/assets/CanvasPool-O_8k9jVW.js": "9cf12a9f53a878bb8f9f46337b799031a6986b5f87dd775ef57b2902ae0dc9cd",
+    "dist/assets/canvasUtils-DHiBpmSz.js": "8843c3459529c72ffb9a82655454eff39f3458448dd2ae362764f3be4933288f",
+    "dist/assets/getTexelRangeRects-BhRlOlmi.js": "ca0b3e94399ce67c9dca1ec3021473e2542251d523bc93bd04a9b149070dd130",
+    "dist/assets/getTextureBatchBindGroup-CDnZS9mH.js": "2b2eff79ef557432774e0acd98963de65847a16840f0b738b07556ea37e21caa",
+    "dist/assets/index-BNAbFvvE.js": "b1192b92b9c62cea135e3e96b7ecdc87ae94976d672a0a6cd8d6067a7a65e612",
+    "dist/assets/index-CAz0gFy_.css": "06c8543818a7387c86be5022667b250d8cbcae3e97355b6431e46ef839608fde",
+    "dist/assets/init-me5CJ89M.js": "39a6c9da95ae3b22a71292adb2f148ff03f1f26db6e566569c9ca6f802dc506d",
+    "dist/assets/RenderTargetSystem-D85YXrAp.js": "20605afc2541d39cab4bebe036e73f8de687ac78d22cd48b5485993be0c8604f",
+    "dist/assets/webworkerAll-CRvkS50N.js": "47dde5d694d0f15b7860e358412c6571735fb16955bed9638c62a0b38146a600"
+  }
+}

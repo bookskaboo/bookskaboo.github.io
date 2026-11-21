@@ -11,6 +11,7 @@ import { RecipeIcon } from './RecipeIcon';
 import { RecipeViewToggle, useRecipeIconView } from './RecipeViewToggle';
 import { recipeIngredientName, recipeTooltip } from './recipePresentation';
 import { recipeGuideCycle } from './recipeGuide';
+import { landmarkMultiplier, landmarkRecipe, landmarkRecipeAllowed } from '../content/landmarks';
 
 export function NodeRecipePicker({ game, engine, node, requiredRecipeId, skipWarnings, onSkipWarnings, onClose }: {
   game: GameState;
@@ -24,13 +25,14 @@ export function NodeRecipePicker({ game, engine, node, requiredRecipeId, skipWar
   const [pending, setPending] = useState<string>();
   const { compact: iconsOnly, toggle } = useRecipeIconView();
   const compact = requiredRecipeId === undefined && iconsOnly;
-  const choices = (RECIPE_GROUPS[node.kind] ?? []).filter(id => isRecipeAvailable(id, game, node.kind));
+  if (node.landmark === 'unknown') return null;
+  const choices = (RECIPE_GROUPS[node.kind] ?? []).filter(id => isRecipeAvailable(id, game, node.kind) && landmarkRecipeAllowed(node, RECIPES[id]));
   const recycler = node.kind === 'recycler';
   const activeId = node.batch?.recipeId ?? node.recipeId;
   const activeRecipe = recycler && activeId ? RECIPES[activeId] : undefined;
-  const waitingForWater = activeRecipe && !node.batch && (node.input.water ?? 0) < (activeRecipe.inputs.water ?? 0);
+  const waitingForWater = node.landmark !== 'reclaimer' && activeRecipe && !node.batch && (node.input.water ?? 0) < (activeRecipe.inputs.water ?? 0);
   const Card = recycler ? 'div' : 'button';
-  const machineName = NODE_DEFINITIONS[node.kind].name;
+  const machineName = node.landmark ? node.name : NODE_DEFINITIONS[node.kind].name;
   const groups = !compact && node.kind === 'refiner' ? [
     { title: 'Gear', choices: choices.filter(id => id.endsWith('-gear')) },
     { title: 'Wire', choices: choices.filter(id => id.endsWith('-wire')) },
@@ -69,13 +71,14 @@ export function NodeRecipePicker({ game, engine, node, requiredRecipeId, skipWar
           {groups.filter(group => group.choices.length).map(group => <div key={group.title} role={compact ? undefined : 'group'} aria-label={compact ? undefined : group.title || `${machineName} recipes`} className={`recipe-picker-group ${group.title === 'Gear' || group.title === 'Wire' ? 'material-variants' : ''} ${group.featured ? 'featured-recipe' : ''}`}>
           {group.title && <h3>{group.title}</h3>}
           <div className="recipe-picker-group-choices">{group.choices.map((recipeId) => {
-            const recipe = RECIPES[recipeId];
+            const baseRecipe = RECIPES[recipeId];
+            const recipe = landmarkRecipe(node,baseRecipe);
             const selected = (recycler ? activeId : node.recipeId) === recipeId;
             const inputs = (Object.entries(recipe.inputs) as Array<[ItemId, number]>).map(([item, amount]) => `${amount} ${recipeIngredientName(recipe, item)}`);
             const formula = `${inputs.join(' + ')} → ${Object.entries(recipe.outputs).map(([item, amount]) => `${amount} ${ITEM_NAMES[item as ItemId]}`).join(' + ') || 'No output'}`;
             const displayItem = (Object.keys(recipe.outputs)[0] ?? Object.keys(recipe.inputs)[0]) as ItemId | undefined;
             const color = displayItem ? itemColorCss(displayItem) : NODE_DEFINITIONS[node.kind].accentCss;
-            const cycleMs = recipeGuideCycle(recipe, node.kind, game);
+            const cycleMs = node.landmark === 'rapid' || node.landmark === 'reclaimer' ? recipe.cycleMs * landmarkMultiplier(node,game,1) : recipeGuideCycle(recipe, node.kind, game);
             return <Card
               {...(recycler ? { tabIndex: 0 } : { type: 'button' as const, disabled: !permitsTutorialChoice(requiredRecipeId, recipeId), onClick: () => choose(recipeId) })}
               role="option"

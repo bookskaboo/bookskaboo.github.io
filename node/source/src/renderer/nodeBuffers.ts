@@ -30,7 +30,7 @@ export function updateProductionPort(view: PortView, node: MachineNode, sector: 
   const { size: iconSize, centerY, widthScale } = productionRecipeIconLayout(node);
   const iconRadius = iconSize / 2;
   const labelTouchesCenter = Math.abs(view.root.y + text.y - centerY) < iconRadius + 8;
-  const canShowRecipeIcon = behavior === 'recipe' || behavior === 'bot-assembly';
+  const canShowRecipeIcon = node.landmark !== 'unknown' && (behavior === 'recipe' || behavior === 'bot-assembly');
   const reserveIconSpace = labelTouchesCenter && canShowRecipeIcon;
   const available = getNodeSize(node).w / 2 - 26 - (reserveIconSpace ? iconRadius : 0);
   while (text.width > available && text.text.length > 4) text.text = text.text.replace(/…$/, '').slice(0, -1) + '…';

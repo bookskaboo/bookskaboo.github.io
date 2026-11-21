@@ -23697,7 +23697,7 @@
       "date": "2026-11-20",
       "dateBasis": "chat",
       "kind": "decision",
-      "state": "recorded",
+      "state": "superseded",
       "delivery": "not-applicable",
       "title": "Broaden Material Saver scope and propose compact landmark names",
       "summary": "Select broader deterministic manufacturing for Material Savers and add compact landmark naming candidates sized against current node headers.",
@@ -24235,6 +24235,115 @@
       "validation": "Updated and read back the five affected Page blocks, with an explicit follow-up clarification that the early family is fixed while its location remains randomized. Checked five remaining Rapid slots match the five-family multiset and three Doubler slots match the three selected families. Regenerated six system catalogs and passed freshness and local-link checks across 39 documents before the wording clarification. No seed-generation, placement-feasibility, gameplay, visual renderer or balance test; this is a proposal decision."
     },
     {
+      "id": "NODE-0737",
+      "date": "2026-11-20",
+      "dateBasis": "chat",
+      "kind": "decision",
+      "state": "recorded",
+      "delivery": "not-applicable",
+      "title": "Name the feature Landmarks and use one combined map filter",
+      "summary": "Call the feature Landmarks and use a single Landmarks Node Map filter for all four discovered types.",
+      "details": [
+        "The user selected a combined map filter rather than separate Rapid/Tri Extractor/Doubler/Reclaimer filters, then specified Landmarks as the feature name. Identify each discovered landmark in the selected sector Points of Interest.",
+        "Rename the editable Page to NODE map landmark proposal and use landmark proposal labels in current indexes and system references. Keep existing source filenames and past changelog records intact. Discovery visibility before a first visit remains the next review detail.",
+        "Update the matching repository proposal, map reference, UI style guide and style review notes. No runtime filter, marker art, save migration or publication change."
+      ],
+      "topics": [
+        "World map",
+        "Exploration",
+        "Interface",
+        "Typography",
+        "Documentation"
+      ],
+      "sources": [
+        "local-code"
+      ],
+      "evidence": [
+        "docs/master-plan/23-map-power-ups.md",
+        "docs/README.md",
+        "docs/master-plan/README.md",
+        "docs/master-plan/17-endgame-research-and-world-reshaping.md",
+        "docs/systems/map-nodes-and-exploration.md",
+        "docs/systems/production-nodes.md",
+        "docs/systems/recipes.md",
+        "docs/systems/research.md",
+        "docs/systems/efficiency.md",
+        "docs/systems/waste-and-recycling.md",
+        "docs/node-ui-style-guide.md",
+        "docs/typography-style-review.md"
+      ],
+      "validation": "Verified the Page title and all four applied operations by readback; the 39-block Page body matches the repository proposal exactly. Regenerated six system catalogs and passed freshness and local-link checks across 39 documents. No rendered Page/map-control, gameplay, marker-art or balance test; this is a proposal decision."
+    },
+    {
+      "id": "NODE-0738",
+      "date": "2026-11-20",
+      "dateBasis": "chat",
+      "kind": "decision",
+      "state": "recorded",
+      "delivery": "not-applicable",
+      "title": "Reveal landmarks only after their Map Node is first visited",
+      "summary": "Hide landmark presence, type, exact position and bonus until the first sector visit, retaining the early direction hint.",
+      "details": [
+        "The user selected first-visit-only reveal instead of anonymous signals on adjacent unexplored frontier sectors. Purchasing or activating a sector does not reveal its landmark.",
+        "The selected combined Landmarks filter and selected-sector Points of Interest identify discoveries after visiting. Keep the early direction hint without revealing the introductory machine or bonus beforehand.",
+        "Update the editable Page, repository proposal, map reference, UI style guide and existing style review notes. No runtime filter, marker art, discovery state, save migration or publication change."
+      ],
+      "topics": [
+        "World map",
+        "Exploration",
+        "Interface",
+        "Documentation"
+      ],
+      "sources": [
+        "local-code"
+      ],
+      "evidence": [
+        "docs/master-plan/23-map-power-ups.md",
+        "docs/systems/map-nodes-and-exploration.md",
+        "docs/node-ui-style-guide.md",
+        "docs/typography-style-review.md"
+      ],
+      "validation": "Both affected Page edits applied and matched their readback across the 39-block proposal. Regenerated six system catalogs and passed freshness and local-link checks across 39 documents. No runtime discovery, map-control, marker-art, rendered Page or balance test; this is a proposal decision."
+    },
+    {
+      "id": "NODE-0739",
+      "date": "2026-11-20",
+      "dateBasis": "chat",
+      "kind": "fixed",
+      "state": "implemented",
+      "delivery": "published",
+      "title": "Always reanchor Road pairs when Area Expansion resizes fields",
+      "summary": "Area Expansion now moves both endpoints of every valid Road pair to the new borders while preserving pairing, direction and attached cable records.",
+      "details": [
+        "Separate reciprocal-pair geometry from manual Road movement validation. Automatic field synchronization applies the new border coordinates without requiring new-placement clearance, crossing permission or an unobstructed stretched cable path, and processes each pair once independently of flow direction.",
+        "Keep node IDs, reciprocal references, port indexes, shipment direction, cable IDs/endpoints and existing stock. Inactive/unvisited maps synchronize too. Loading an expanded save repairs valid pairs stranded at old borders without a new save marker. Missing or conflicting endpoint references are not fabricated or reassigned.",
+        "Manual Road placement and dragging retain their normal permission, collision and cable-path checks. Automatic alignment does not move/delete other nodes or bypass ordinary transfer obstruction rules; retained cables may still be obstructed. Update Roads, maps, controls and save-compatibility references."
+      ],
+      "topics": [
+        "Logistics",
+        "World map",
+        "Research",
+        "Saves",
+        "Documentation"
+      ],
+      "sources": [
+        "local-code"
+      ],
+      "evidence": [
+        "src/simulation/engine.ts",
+        "src/simulation/roadExpansion.test.ts",
+        "docs/systems/roads-and-vehicles.md",
+        "docs/systems/map-nodes-and-exploration.md",
+        "docs/systems/controls-and-factory-layouts.md",
+        "docs/systems/saves-and-compatibility.md",
+        "outputs/road-expansion/focused-tests.log",
+        "outputs/road-expansion/workspace-tests.log",
+        "outputs/road-expansion/build.log"
+      ],
+      "validation": "Implementation-stage checks before publication: 56 focused tests passed across six files. Four new expansion regressions cover normal research completion for both Area Expansion levels, all four borders, reversed flow, unvisited neighbors, blocked destination/cable geometry, unchanged connection records, expanded-save repair and retained vehicle stock. Full workspace suite passed 2,145 tests with two existing skips across 211 files at a 15-second timeout. Production TypeScript/Vite build passed; six system catalogs and local links across 39 documents passed. Simulation fixtures only; no fresh browser or normal-play balance run. Local change, not published. Publication verified by ed6bef1; see NODE-0761.",
+      "publishedBy": "ed6bef1"
+    },
+    {
       "id": "NODE-0740",
       "date": "2026-11-20",
       "dateBasis": "chat",
@@ -24317,6 +24426,127 @@
       ],
       "validation": "Eleven fixture tests across three files passed, including ordinary field margins, body nonoverlap, exact node/connection counts, all valid connections, every router carrying physical cargo and sustained delivery over three simulated minutes. Preview TypeScript, standalone production build, six catalog freshness checks and local links across 39 system documents passed. Browser verified dimensions, controls, normal 35 percent text, restored text at full overview and lower zoom, all 600 nodes visible with shared artwork and 24 cached cable chunks, and continuing production/cargo/delivery. Final browser warnings/errors empty. No full workspace suite, mobile layout check, ordinary-play balance claim, universal 30 FPS floor, simulation/save change or live publication.",
       "publishedBy": "377ae6a"
+    },
+    {
+      "id": "NODE-0742",
+      "date": "2026-11-20",
+      "dateBasis": "chat",
+      "kind": "decision",
+      "state": "recorded",
+      "delivery": "not-applicable",
+      "title": "Limit the first landmark version to new campaigns",
+      "summary": "Create landmark layouts only for new campaigns and leave all existing saves unchanged, including their unexplored sectors.",
+      "details": [
+        "The user selected new campaigns only instead of including optional existing-save conversion. Loading, importing and re-saving old worlds must not opt them into landmark generation.",
+        "Training maps retain authored layouts. Existing-save conversion is outside the first version; any later migration needs a separate design rather than an implicit conversion.",
+        "Update the editable Page, repository proposal and current save/map references. No runtime save fields, generator, migration, player saves or publication changed."
+      ],
+      "topics": [
+        "Saves",
+        "World map",
+        "Exploration",
+        "Documentation"
+      ],
+      "sources": [
+        "local-code"
+      ],
+      "evidence": [
+        "docs/master-plan/23-map-power-ups.md",
+        "docs/systems/saves-and-compatibility.md",
+        "docs/systems/map-nodes-and-exploration.md"
+      ],
+      "validation": "Read current saved-world and terrain-version boundaries. Both affected Page edits applied and matched their readback across the 39-block proposal. Regenerated six system catalogs and passed freshness and local-link checks across 39 documents. No save migration, round-trip, generation, gameplay or rendered Page test; this is a proposal decision."
+    },
+    {
+      "id": "NODE-0743",
+      "date": "2026-11-20",
+      "dateBasis": "chat",
+      "kind": "decision",
+      "state": "deferred",
+      "delivery": "not-applicable",
+      "title": "Defer larger-map Landmarks beyond the first version",
+      "summary": "Limit the first landmark layout version to new standard 11-by-11 campaigns and defer larger-map landmark support and count scaling.",
+      "details": [
+        "The user selected standard-world-only support rather than proportional landmark counts or a fixed 16 across all sizes. Remove the candidate larger-world scaling formula from the first-version proposal; prior draft evidence remains in the earlier history.",
+        "Existing larger-world gameplay and mod world-size support remain unchanged; larger worlds simply do not receive the first landmark layout version. Preserve the selected no-conversion boundary for all existing saves.",
+        "Update the editable Page, repository proposal and map/save/mod references. Scope planned generator verification to standard seeds plus checks that larger worlds and existing saves do not opt in. No runtime generator, mod support, saves or publication changed."
+      ],
+      "topics": [
+        "World map",
+        "Mods",
+        "Saves",
+        "Documentation"
+      ],
+      "sources": [
+        "local-code"
+      ],
+      "evidence": [
+        "docs/master-plan/23-map-power-ups.md",
+        "docs/systems/map-nodes-and-exploration.md",
+        "docs/systems/saves-and-compatibility.md",
+        "docs/systems/mods.md"
+      ],
+      "validation": "Read existing mod world-size and saved-layout boundaries. All five affected Page edits applied and matched their readback across the 39-block proposal. Regenerated six system catalogs and passed freshness and local-link checks across 39 documents. No generator, mod compatibility, save round-trip, gameplay or rendered Page test; this is a deliberate scope deferral."
+    },
+    {
+      "id": "NODE-0744",
+      "date": "2026-11-20",
+      "dateBasis": "chat",
+      "kind": "decision",
+      "state": "recorded",
+      "delivery": "not-applicable",
+      "title": "Keep ordinary cable vehicle and Road rates for Landmarks",
+      "summary": "Landmarks receive no connection transfer-rate bonus; ordinary cable, vehicle and Road rates and upgrades still apply.",
+      "details": [
+        "The user selected ordinary logistics rates instead of adding a landmark connection bonus. Retain the agreed processing speeds and yields while allowing supply, output space and routing to limit delivered production.",
+        "Keep recipe-landmark buffer capacity as a separate pending review detail rather than treating the logistics decision as approval of larger buffers.",
+        "Update the editable Page, repository proposal and current connections/routing reference. No runtime transfer interval, cargo, capacity, research price, save or publication change."
+      ],
+      "topics": [
+        "Production",
+        "Logistics",
+        "Documentation"
+      ],
+      "sources": [
+        "local-code"
+      ],
+      "evidence": [
+        "docs/master-plan/23-map-power-ups.md",
+        "docs/systems/connections-and-routing.md"
+      ],
+      "validation": "Read current transfer and buffer references. Both affected Page edits applied and matched their readback across the 39-block proposal. Regenerated six system catalogs and passed freshness and local-link checks across 39 documents. No throughput simulation, gameplay, visual renderer or balance test; this is a proposal decision."
+    },
+    {
+      "id": "NODE-0745",
+      "date": "2026-11-20",
+      "dateBasis": "chat",
+      "kind": "decision",
+      "state": "recorded",
+      "delivery": "not-applicable",
+      "title": "Keep ordinary landmark buffers and draft Doubler recipe eligibility",
+      "summary": "Keep Rapid, Doubler and Reclaimer buffer capacities unchanged and prepare a twelve-recipe Doubler whitelist for review.",
+      "details": [
+        "The user selected ordinary machine buffer capacities rather than the proposed two-batch minimum. Doubler output doubling does not grant doubled output capacity; Reclaimer retains its agreed no-Water inlet/buffer exception.",
+        "Inspect the assembled live catalog in a separate process and save a hashed source snapshot. Confirm Brick would create a Stone recovery loop: one Stone to two Bricks to two Stone. Exclude Brick under the previously selected loop policy without changing ordinary recipes.",
+        "Draft, but do not yet select, six Refiner recipes, two Assembler recipes and four Fabricator recipes. Omit Controller and Efficient waste-producing alternatives under the single-product rule, and omit Yin/Yang as endgame components. The twelve-item whitelist remains the next user review.",
+        "Update the editable Page, repository proposal, current storage/recipe references and audit evidence. No runtime capacities, production, recipe availability, game saves or publication changed."
+      ],
+      "topics": [
+        "Production",
+        "Recipes",
+        "Storage",
+        "Documentation"
+      ],
+      "sources": [
+        "local-code"
+      ],
+      "evidence": [
+        "docs/master-plan/23-map-power-ups.md",
+        "docs/systems/storage-and-inventory.md",
+        "docs/systems/recipes.md",
+        "outputs/landmark-proposal/doubler-recipe-audit.json"
+      ],
+      "validation": "The two buffer edits and candidate-list insertion applied. Read back 42 Page blocks and verified the repository proposal body matches exactly. Catalog inspection used runtime recipe groups, retired flags, output shapes, bot parts and fixed Recycler returns; it confirms the Brick cycle but does not prove absence of all multi-recipe conservation loops. Regenerated six system catalogs and passed freshness/local-link checks across 39 documents. No game engine, save injection, simulation acceleration, gameplay, visual renderer or balance run."
     },
     {
       "id": "NODE-0746",
@@ -24403,44 +24633,6 @@
       "validation": "All 2,145 workspace tests passed with two skips and all 1,345 isolated release-candidate tests passed with one opt-in skip. Site and standalone preview builds, preview TypeScript, camera/cache boundaries, six catalog freshness checks, links across 39 documents and changelog checks passed. Browser confirmed normal readouts at 15% with the override false, 13 shared artwork textures and 24 cached cable chunks for 600 visible nodes/831 active connections, real production and deliveries, exact 15% clamping after a 5% request, closer 40% vector drawing, and 390px layout without horizontal overflow. Preflight confirmed node-only scope, five source/test changes, fast-forward ancestry, clean checkout, exact tested runtime/source build hashes and all 164 old assets unchanged. Pages run 44877139423 succeeded; the normal live HTML and all ten new assets matched SHA-256, plus all ten prior-build asset URLs. Performance samples are host-specific and synthetic supply/storage is not ordinary-play balance evidence."
     },
     {
-      "id": "NODE-0739",
-      "date": "2026-11-20",
-      "dateBasis": "chat",
-      "kind": "fixed",
-      "state": "implemented",
-      "delivery": "published",
-      "title": "Always reanchor Road pairs when Area Expansion resizes fields",
-      "summary": "Area Expansion now moves both endpoints of every valid Road pair to the new borders while preserving pairing, direction and attached cable records.",
-      "details": [
-        "Separate reciprocal-pair geometry from manual Road movement validation. Automatic field synchronization applies the new border coordinates without requiring new-placement clearance, crossing permission or an unobstructed stretched cable path, and processes each pair once independently of flow direction.",
-        "Keep node IDs, reciprocal references, port indexes, shipment direction, cable IDs/endpoints and existing stock. Inactive/unvisited maps synchronize too. Loading an expanded save repairs valid pairs stranded at old borders without a new save marker. Missing or conflicting endpoint references are not fabricated or reassigned.",
-        "Manual Road placement and dragging retain their normal permission, collision and cable-path checks. Automatic alignment does not move/delete other nodes or bypass ordinary transfer obstruction rules; retained cables may still be obstructed. Update Roads, maps, controls and save-compatibility references."
-      ],
-      "topics": [
-        "Logistics",
-        "World map",
-        "Research",
-        "Saves",
-        "Documentation"
-      ],
-      "sources": [
-        "local-code"
-      ],
-      "evidence": [
-        "src/simulation/engine.ts",
-        "src/simulation/roadExpansion.test.ts",
-        "docs/systems/roads-and-vehicles.md",
-        "docs/systems/map-nodes-and-exploration.md",
-        "docs/systems/controls-and-factory-layouts.md",
-        "docs/systems/saves-and-compatibility.md",
-        "outputs/road-expansion/focused-tests.log",
-        "outputs/road-expansion/workspace-tests.log",
-        "outputs/road-expansion/build.log"
-      ],
-      "validation": "Implementation-stage checks before publication: 56 focused tests passed across six files. Four new expansion regressions cover normal research completion for both Area Expansion levels, all four borders, reversed flow, unvisited neighbors, blocked destination/cable geometry, unchanged connection records, expanded-save repair and retained vehicle stock. Full workspace suite passed 2,145 tests with two existing skips across 211 files at a 15-second timeout. Production TypeScript/Vite build passed; six system catalogs and local links across 39 documents passed. Simulation fixtures only; no fresh browser or normal-play balance run. Local change, not published. Publication verified by ed6bef1; see NODE-0761.",
-      "publishedBy": "ed6bef1"
-    },
-    {
       "id": "NODE-0748",
       "date": "2026-11-20",
       "dateBasis": "chat",
@@ -24483,6 +24675,146 @@
         "outputs/unvisited-map-expansion/diagram-validation.json"
       ],
       "validation": "Full workspace suite passed 2,152 tests with two existing skips using a 15-second timeout; production TypeScript/Vite build passed with the existing chunk-size warning. After adding the review fixture, all 12 focused expansion/comparison tests and the terrain preview TypeScript check passed. System catalog/link checks passed across six catalogs and 39 documents. Diagram data and finite SVG geometry checked at three panel widths; browser rendering was not inspected. No ordinary-play balance run or publication."
+    },
+    {
+      "id": "NODE-0749",
+      "date": "2026-11-20",
+      "dateBasis": "chat",
+      "kind": "decision",
+      "state": "recorded",
+      "delivery": "not-applicable",
+      "title": "Allow normal Doubler recipes except Cores Yin and Yang",
+      "summary": "Allow all normally unlocked recipes in each fixed Doubler family except Core production, Yin and Yang, intentionally permitting Brick recycling loops.",
+      "details": [
+        "The user rejected the proposed twelve-recipe whitelist and earlier recipe restrictions: non-Core recipes are fair game, including Brick, bot parts, mixed products and chance outputs where the fixed family normally offers them. The follow-up explicitly excludes Yin and Yang as well as Cores.",
+        "Permit the Stone-to-two-Bricks-to-two-Stone recycling loop as an intentional clever use. Retire the conservation-based exclusion and do not add item-provenance rules that would prevent reusing outputs in production/recycling chains. Keep fixed Refiner/Assembler/Fabricator families, normal unlocks, inputs, speed research, buffers and transfer rules.",
+        "Add a special Core-only Doubler proposal, using Core Doubler as a working name. Its count allocation, Core coverage, detailed output/speed behavior and placement remain unselected. The existing 16-landmark baseline stays until allocation is decided. Secondary/chance-output doubling also remains a review detail.",
+        "Supersede the recipe restrictions in NODE-0721; its compact naming candidates were separately adopted by NODE-0723 and those names remain. Retire the unselected candidate whitelist from NODE-0745 while retaining that record, its audit evidence and its still-selected ordinary-buffer decision.",
+        "Update the editable Page, repository proposal, current recipe/map/research references, UI guide and style notes. Preserve the historical audit. No runtime recipes, production, recycling returns, source catalog, saves or publication changed."
+      ],
+      "supersedes": [
+        "NODE-0721"
+      ],
+      "topics": [
+        "Production",
+        "Recipes",
+        "Recycling",
+        "World map",
+        "Documentation"
+      ],
+      "sources": [
+        "local-code"
+      ],
+      "evidence": [
+        "docs/master-plan/23-map-power-ups.md",
+        "docs/systems/recipes.md",
+        "docs/systems/map-nodes-and-exploration.md",
+        "docs/systems/research.md",
+        "docs/node-ui-style-guide.md",
+        "docs/typography-style-review.md",
+        "outputs/landmark-proposal/doubler-recipe-audit.json"
+      ],
+      "validation": "Applied and read back the proposal edits, removed all three obsolete whitelist blocks, and verified the 42-block Page body matches the repository proposal exactly. Regenerated six system catalogs and passed freshness and local-link checks across 39 documents. Core Doubler measured approximately 106.2 px at 17 px Segoe UI Bold; this is not a rendered fit check. No engine, gameplay, output/chance-resolution, conservation-gate or balance test; the user intentionally accepts material recovery loops."
+    },
+    {
+      "id": "NODE-0750",
+      "date": "2026-11-20",
+      "dateBasis": "chat",
+      "kind": "decision",
+      "state": "recorded",
+      "delivery": "not-applicable",
+      "title": "Add one Core-only Doubler as the seventeenth landmark",
+      "summary": "Increase the standard-world landmark total to seventeen by adding one Core-only Doubler without replacing an existing type.",
+      "details": [
+        "The user selected an additional seventeenth landmark instead of replacing one of the original sixteen. Retain six Rapid machines, six Tri Extractors, three normal Doublers and one Reclaimer, plus the new Core-only landmark.",
+        "This supersedes only the earlier total of sixteen; preserve all other still-selected baseline mechanics. Keep the original sixteen at the 2/5/5/4 progression-band allocation and leave the new Core-only landmark band for a later placement decision.",
+        "Update the standard-world density to 17 of 116 non-Home/non-corner sectors, 14.7%, and retain the roughly three-to-five-per-quadrant preference. Core coverage, detailed output/speed behavior and placement remain unselected; Core Doubler is still a working name.",
+        "Update the editable Page, matching repository proposal, master-plan index, map/recipe references, UI guide and style notes. No runtime generator, recipe, production, save or publication change."
+      ],
+      "topics": [
+        "World map",
+        "Exploration",
+        "Production",
+        "Documentation"
+      ],
+      "sources": [
+        "local-code"
+      ],
+      "evidence": [
+        "docs/master-plan/23-map-power-ups.md",
+        "docs/master-plan/README.md",
+        "docs/systems/map-nodes-and-exploration.md",
+        "docs/systems/recipes.md",
+        "docs/node-ui-style-guide.md",
+        "docs/typography-style-review.md"
+      ],
+      "validation": "All ten affected Page edits applied and matched their readback across the 42-block proposal. Verified 6+6+3+1+1 equals 17 and 17/116 rounds to 14.7%. Regenerated six system catalogs and passed freshness and local-link checks across 39 documents. No seed generation, gameplay, rendered Page or balance test; this is a proposal decision with placement still pending."
+    },
+    {
+      "id": "NODE-0751",
+      "date": "2026-11-20",
+      "dateBasis": "chat",
+      "kind": "decision",
+      "state": "recorded",
+      "delivery": "not-applicable",
+      "title": "Select literal five-second Core duplication for the Core Doubler",
+      "summary": "The seventeenth landmark accepts an existing Core of any tier, consumes one, and produces two of that same Core after an unchangeable five-second cycle.",
+      "details": [
+        "Accept Simple, Basic, Automata, Hydro, Shiny, Complex and Final Cores through the input. This is literal item duplication rather than a doubled Core manufacturing recipe.",
+        "Do not require the original Core manufacturing ingredients, recipe unlock or machine-family unlock. Research and other speed bonuses do not change the five-second cycle.",
+        "Keep all seventeen landmark counts and existing decisions. Core Doubler remains a working name; its placement and remaining operating details are still under review. This records a proposal decision, not implemented gameplay."
+      ],
+      "topics": [
+        "Landmarks",
+        "Production",
+        "Recipes",
+        "Efficiency"
+      ],
+      "sources": [
+        "local-code"
+      ],
+      "evidence": [
+        "docs/master-plan/23-map-power-ups.md",
+        "docs/systems/recipes.md",
+        "docs/systems/production-nodes.md",
+        "docs/systems/efficiency.md",
+        "docs/systems/map-nodes-and-exploration.md",
+        "docs/node-ui-style-guide.md",
+        "docs/typography-style-review.md"
+      ],
+      "validation": "Read back all seven edited Page blocks and verified the complete Page body matches the repository proposal. npm run docs:systems and npm run docs:systems:check passed. No runtime, simulation, build or rendered-interface change or validation."
+    },
+    {
+      "id": "NODE-0752",
+      "date": "2026-11-20",
+      "dateBasis": "chat",
+      "kind": "decision",
+      "state": "recorded",
+      "delivery": "not-applicable",
+      "title": "Restrict the Core Doubler landmark to Manhattan tier eight",
+      "summary": "Place the unique Core Doubler in a seeded random eligible Manhattan tier-8 sector only, giving seventeen landmarks a 2/5/5/5 band distribution.",
+      "details": [
+        "Preserve every other landmark allocation and the existing placement, collision, discovery and relocation rules. Tier 8 restricts initial generation; it is not a new relocation rule.",
+        "Update the Page, matching repository proposal, master-plan index, affected system references and existing guide/review wording. Align the use-cost table with the previously selected literal Core duplication mechanic.",
+        "This is a selected proposal decision. Landmark generation and runtime behavior are not implemented."
+      ],
+      "topics": [
+        "Landmarks",
+        "Exploration",
+        "World generation"
+      ],
+      "sources": [
+        "local-code"
+      ],
+      "evidence": [
+        "docs/master-plan/23-map-power-ups.md",
+        "docs/master-plan/README.md",
+        "docs/systems/map-nodes-and-exploration.md",
+        "docs/systems/recipes.md",
+        "docs/node-ui-style-guide.md",
+        "docs/typography-style-review.md"
+      ],
+      "validation": "Read back all six edited Page blocks and verified the complete Page body matches the repository proposal. npm run docs:systems and npm run docs:systems:check passed. No generation, simulation, gameplay or rendered-interface validation was performed."
     },
     {
       "id": "NODE-0753",
@@ -24546,6 +24878,164 @@
       "publishedBy": "ed6bef1"
     },
     {
+      "id": "NODE-0754",
+      "date": "2026-11-20",
+      "dateBasis": "chat",
+      "kind": "decision",
+      "state": "recorded",
+      "delivery": "not-applicable",
+      "title": "Double every resolved normal Doubler output including waste and chance results",
+      "summary": "Normal Doublers double the complete resolved output batch, including byproducts and waste; ordinary chance rolls happen once, successful quantities double and failures remain zero.",
+      "details": [
+        "Do not add chance rolls or alter probabilities. Preserve ordinary recipe inputs, family speed upgrades, buffer capacities and transfer rates.",
+        "Update the Page, matching repository proposal, recipe reference and inspector-copy guidance. Record output and save/load verification requirements for later implementation.",
+        "This settles the previously open mixed/chance-output treatment in the proposal; it does not change current game recipes or runtime output behavior."
+      ],
+      "topics": [
+        "Landmarks",
+        "Production",
+        "Recipes"
+      ],
+      "sources": [
+        "local-code"
+      ],
+      "evidence": [
+        "docs/master-plan/23-map-power-ups.md",
+        "docs/systems/recipes.md",
+        "docs/node-ui-style-guide.md",
+        "docs/typography-style-review.md"
+      ],
+      "validation": "Read back all six edited Page blocks and verified the complete Page body matches the repository proposal. npm run docs:systems and npm run docs:systems:check passed. No simulation, gameplay or rendered-interface validation was performed."
+    },
+    {
+      "id": "NODE-0755",
+      "date": "2026-11-20",
+      "dateBasis": "chat",
+      "kind": "decision",
+      "state": "recorded",
+      "delivery": "not-applicable",
+      "title": "Process mixed Core Doubler inputs in arrival order",
+      "summary": "The proposed Core Doubler processes mixed Core inputs in arrival order, consuming the oldest waiting Core and producing two of that same tier after five seconds.",
+      "details": [
+        "Use automatic arrival-order processing without a recipe selector or player-selected tier priority. Preserve acceptance of all seven Core tiers, fixed cycle time and tier-8 initial placement.",
+        "Update the Page, matching repository proposal, production and recipe references and inspector-copy guidance. Later implementation must retain input order and the active Core identity across save/load, pause and relocation.",
+        "Core Doubler buffer capacities and blocking rules remain under review. No runtime behavior is implemented by this documentation decision."
+      ],
+      "topics": [
+        "Landmarks",
+        "Production",
+        "Recipes"
+      ],
+      "sources": [
+        "local-code"
+      ],
+      "evidence": [
+        "docs/master-plan/23-map-power-ups.md",
+        "docs/systems/production-nodes.md",
+        "docs/systems/recipes.md",
+        "docs/node-ui-style-guide.md",
+        "docs/typography-style-review.md"
+      ],
+      "validation": "Read back all four edited Page blocks and verified the complete Page body matches the repository proposal. npm run docs:systems and npm run docs:systems:check passed. No runtime, gameplay or rendered-interface validation was performed."
+    },
+    {
+      "id": "NODE-0756",
+      "date": "2026-11-20",
+      "dateBasis": "chat",
+      "kind": "decision",
+      "state": "recorded",
+      "delivery": "not-applicable",
+      "title": "Give the Core Doubler shared five-Core input and output buffers",
+      "summary": "The proposed Core Doubler holds five waiting Cores and five finished Cores, with each capacity shared across all tiers and the active consumed Core held separately.",
+      "details": [
+        "Keep arrival-order processing, all seven accepted Core tiers and the fixed five-second duplication cycle. The buffer limits are totals, not five slots per tier.",
+        "Clarify that ordinary buffer capacities apply to normal recipe Doublers; the literal Core Doubler has its own selected five/five capacities. Output blocking timing remains under review.",
+        "Update the Page, matching repository proposal, production reference and inspector-copy guidance. This records design only; current game buffers and runtime behavior are unchanged."
+      ],
+      "topics": [
+        "Landmarks",
+        "Production",
+        "Storage"
+      ],
+      "sources": [
+        "local-code"
+      ],
+      "evidence": [
+        "docs/master-plan/23-map-power-ups.md",
+        "docs/systems/production-nodes.md",
+        "docs/node-ui-style-guide.md",
+        "docs/typography-style-review.md"
+      ],
+      "validation": "Read back all five edited Page blocks and verified the complete Page body matches the repository proposal. npm run docs:systems and npm run docs:systems:check passed. No runtime, gameplay or rendered-interface validation was performed."
+    },
+    {
+      "id": "NODE-0757",
+      "date": "2026-11-20",
+      "dateBasis": "chat",
+      "kind": "decision",
+      "state": "recorded",
+      "delivery": "not-applicable",
+      "title": "Wait for two output spaces before starting Core duplication",
+      "summary": "The proposed Core Doubler leaves the next Core queued until two finished-output spaces are free, then consumes it and starts its fixed five-second cycle.",
+      "details": [
+        "Reserve two output spaces before consuming the oldest waiting Core. Emit both identical Cores together on completion; do not add a separate holding buffer for a completed pair.",
+        "Preserve the selected five waiting/five finished shared capacities, mixed-input arrival order and all other landmark rules. Final Core Doubler naming remains under review.",
+        "Update the Page, repository proposal, production reference, pending-review wording and inspector-copy guidance. Record checks for blocked input retention, pair emission and reservation preservation; no runtime behavior is implemented."
+      ],
+      "topics": [
+        "Landmarks",
+        "Production",
+        "Storage"
+      ],
+      "sources": [
+        "local-code"
+      ],
+      "evidence": [
+        "docs/master-plan/23-map-power-ups.md",
+        "docs/systems/production-nodes.md",
+        "docs/systems/recipes.md",
+        "docs/systems/map-nodes-and-exploration.md",
+        "docs/node-ui-style-guide.md",
+        "docs/typography-style-review.md"
+      ],
+      "validation": "Read back all five edited Page blocks and verified the complete Page body matches the repository proposal. npm run docs:systems and npm run docs:systems:check passed. No runtime, gameplay or rendered-interface validation was performed."
+    },
+    {
+      "id": "NODE-0758",
+      "date": "2026-11-20",
+      "dateBasis": "chat",
+      "kind": "decision",
+      "state": "recorded",
+      "delivery": "not-applicable",
+      "title": "Name the Core duplication landmark Unknown Device and hide its recipes",
+      "summary": "Use Unknown Device as the seventeenth landmark title and show no recipe entries or recipe displays for it.",
+      "details": [
+        "Replace the working title Core Doubler in current proposal references. Hide recipe entries, selectors, ingredient bills and input/output recipe formulas; whether its inspector explains the effect in plain text remains under review.",
+        "Preserve the selected literal Core duplication behavior, fixed five-second cycle, mixed-input arrival order, shared five/five buffers, separate active Core, two-space output reservation and tier-8 initial placement.",
+        "Update the Page, repository proposal and index, relevant system references and both style references. No runtime interface, recipe catalog or game behavior is changed."
+      ],
+      "topics": [
+        "Landmarks",
+        "Production",
+        "Interface",
+        "Recipes"
+      ],
+      "sources": [
+        "local-code"
+      ],
+      "evidence": [
+        "docs/master-plan/23-map-power-ups.md",
+        "docs/master-plan/README.md",
+        "docs/systems/production-nodes.md",
+        "docs/systems/recipes.md",
+        "docs/systems/map-nodes-and-exploration.md",
+        "docs/systems/efficiency.md",
+        "docs/node-ui-style-guide.md",
+        "docs/typography-style-review.md"
+      ],
+      "validation": "Read back all fourteen edited Page blocks and verified the complete Page body matches the repository proposal. npm run docs:systems and npm run docs:systems:check passed. System.Drawing GenericTypographic measured Unknown Device at 134.4 px using 17 px Segoe UI Bold, a proxy only. No exact Pixi rendering, gameplay or runtime validation was performed."
+    },
+    {
       "id": "NODE-0759",
       "date": "2026-11-20",
       "dateBasis": "chat",
@@ -24599,6 +25089,39 @@
       "publishedBy": "ed6bef1"
     },
     {
+      "id": "NODE-0760",
+      "date": "2026-11-20",
+      "dateBasis": "chat",
+      "kind": "decision",
+      "state": "recorded",
+      "delivery": "not-applicable",
+      "title": "Keep Unknown Device unexplained and select pink and purple landmark colors",
+      "summary": "Unknown Device stays unexplained and uses pink; the other sixteen proposed landmarks use purple.",
+      "details": [
+        "Show only stored Cores, the active Core, progress and blocked status for Unknown Device. Keep recipes hidden and avoid explaining its purpose in inspector, tooltip or map text; leave discovery to experimentation.",
+        "Use pink for Unknown Device and purple for the other landmark nodes and discovered markers. Pair colors with names or icons and retain ordinary item, socket and status color meanings.",
+        "Preserve all selected mechanics and the seventeen-landmark allocation. The sequential design review is complete; implementation, exact rendering, generator feasibility and normal-play balance validation remain. Update the Page, matching proposal and index, relevant system references and both style references without changing runtime behavior."
+      ],
+      "topics": [
+        "Landmarks",
+        "Interface",
+        "Exploration"
+      ],
+      "sources": [
+        "local-code"
+      ],
+      "evidence": [
+        "docs/master-plan/23-map-power-ups.md",
+        "docs/master-plan/README.md",
+        "docs/systems/production-nodes.md",
+        "docs/systems/map-nodes-and-exploration.md",
+        "docs/systems/interface-and-assets.md",
+        "docs/node-ui-style-guide.md",
+        "docs/typography-style-review.md"
+      ],
+      "validation": "Read back all eight edited Page blocks and verified the complete Page body matches the repository proposal. Checked for remaining unresolved design wording; remaining work is implementation and verification. npm run docs:systems and npm run docs:systems:check passed. No runtime, gameplay, color/contrast or rendered-interface validation was performed."
+    },
+    {
       "id": "NODE-0761",
       "date": "2026-11-20",
       "dateBasis": "chat",
@@ -24643,6 +25166,55 @@
         "docs/systems/testing-and-publishing.md"
       ],
       "validation": "All 1,362 isolated candidate tests passed with one existing skip. Production build:site, terrain preview TypeScript, six system-catalog freshness checks, links across 39 documents and all six changelog checks passed. Before unrelated landmark work, the approved snapshot passed 2,158 workspace tests with two existing skips and the 71,728-map/380,672-body spawn audit had no clearance failures; a later shared-workspace run had sixteen failures in that excluded/in-progress code. Preflight verified clean worktree, twelve-file runtime scope, node-only changes, fast-forward ancestry, frozen source, matching committed runtime/source-dist SHA-256 and all 169 prior runtime assets unchanged. Pages run 44880699385 succeeded; normal live HTML plus all ten new assets matched SHA-256, and all ten preceding build asset URLs matched. The author review is synthetic engine-snapshot evidence, not a normal-play balance run or universal arbitrary-mod feasibility guarantee."
+    },
+    {
+      "id": "NODE-0762",
+      "date": "2026-11-20",
+      "dateBasis": "chat",
+      "kind": "added",
+      "state": "implemented",
+      "delivery": "local",
+      "title": "Implement seventeen seeded Landmarks with headless production and generation verification",
+      "summary": "New standard 11x11 campaigns now contain six Rapid machines, six Tri Extractors, three fixed-family Doublers, Reclaimer and a pink, unexplained tier-8 Unknown Device. Other landmarks are purple.",
+      "details": [
+        "Generate seventeen permanent landmarks with an independent seeded stream, exact 2/5/5/5 band totals, fixed family counts, a clear randomized introductory Refiner and valid footprints. Save unopened layouts before exploration and reveal one combined Landmarks filter only after visiting.",
+        "Implement fixed 10x Rapid and 4x water-free Reclaimer speed, ordinary research on Tri Extractors and Doublers, three independent Extractor outlets with one reserve consumed per triplet, and twice all resolved Doubler outputs including waste without extra chance rolls. Exclude Core/Yin/Yang recipes from normal Doublers and preserve intentional material recovery loops.",
+        "Keep ordinary buffer and transport capacities. Oversized eight-item Doubler batches retain completed paid output and drain in order through five output spaces before another batch starts. Unknown Device accepts mixed Cores in arrival order, consumes one and emits two identical Cores in five fixed seconds, with shared five/five buffers, separate active Core and two-space output reservation. Its recipes and effect explanation remain hidden.",
+        "Keep all landmarks non-deletable and uncopyable. Extend existing post-victory Resource Relocation with its seven-Core research bill, free valid same-map moves, preserved stock/progress and explicit Extractor/reserve grouping. Keep old saves, training and larger maps free of newly generated landmarks; preserve custom world spawns and early size-configuration compatibility.",
+        "Update current system references, indexes, style guide/review notes, generated catalogs and the separate proposal Page. Isolate pre-landmark terrain/encounter regression fixtures while covering combined worlds in the new suite. Headless tests use controlled synthetic factories and Dev Sources as authorized; no normal-play balance or live publication is claimed."
+      ],
+      "topics": [
+        "Landmarks",
+        "Production",
+        "Exploration",
+        "Recipes",
+        "Interface",
+        "Saves",
+        "Testing"
+      ],
+      "sources": [
+        "local-code"
+      ],
+      "evidence": [
+        "src/content/landmarks.ts",
+        "src/simulation/landmarkGeneration.ts",
+        "src/simulation/landmarkRuntime.ts",
+        "src/simulation/landmarkValidation.ts",
+        "src/simulation/engine.ts",
+        "src/simulation/progression.ts",
+        "src/simulation/landmarks.test.ts",
+        "src/ui/Landmarks.test.tsx",
+        "docs/systems/landmarks.md",
+        "docs/master-plan/23-map-power-ups.md",
+        "docs/node-ui-style-guide.md",
+        "docs/typography-style-review.md",
+        "outputs/landmark-implementation/verification.json",
+        "outputs/landmark-implementation/full-tests.json",
+        "outputs/landmark-implementation/headless-tests.json",
+        "outputs/landmark-implementation/generation-audit.json",
+        "outputs/landmark-implementation/recipe-audit.json"
+      ],
+      "validation": "Final full workspace regression: 2189 passed, zero failed, 2 existing skips, including 31 landmark-specific checks. The 1000-seed audit passed exact counts, tier/family allocation, early access and footprint checks; each quadrant held four or five landmarks, with two permitted adjacent pairs across all worlds. All 29 eligible Doubler recipes passed, including both oversized batches. npm run build, npm run docs:systems and npm run docs:systems:check passed. All five edited Page blocks and full repository mirror matched on readback. No browser/Pixi font-fit or color-contrast review and no normal campaign balance run; local build only."
     }
   ]
 }

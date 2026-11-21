@@ -187,6 +187,11 @@ export function getResearchMilestones(game: GameState, options: { allCandidates?
   if (ready('exploration')) candidates.push(research('exploration', 'We should probably look around.'));
   if (!done('exploration')) candidates.push(wood, copper);
   if (!done('refiner') && !made('charcoal')) candidates.push(fuel);
+  const earlyLandmark = game.landmarkVersion === 1 && !game.isTraining && game.landmarkLayout?.find(entry=>entry.sector.nodes.some(node=>node.landmark==='rapid'&&node.kind==='refiner') && Math.abs(entry.sector.x-5)+Math.abs(entry.sector.y-5)===1);
+  if (done('exploration') && !done('hydraulicAssembly') && earlyLandmark && !game.sectors[earlyLandmark.sector.id]?.visited) {
+    const direction = earlyLandmark.sector.x>5?'east':earlyLandmark.sector.x<5?'west':earlyLandmark.sector.y>5?'south':'north';
+    candidates.splice(1,0,expansion(visit(earlyLandmark.sector.id,'A useful detour',`Something unusual lies to the ${direction}. The map has declined to elaborate.`)));
+  }
   const seen = new Set<string>();
   const unique = candidates.filter(entry => !seen.has(entry.title) && seen.add(entry.title));
   return options.allCandidates ? unique : unique.slice(0, 3);

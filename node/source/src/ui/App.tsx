@@ -144,7 +144,7 @@ function FactoryApp({ engine, training, welcome, onShowWelcome, onCloseWelcome, 
   const selectNodes = (ids: string[], info?: SelectionInfo) => {
     setSelectedIds(ids); setSelectionInfo(info); setInspectingNodeId(undefined);
     const node = ids.length === 1 ? engine.getSector().nodes.find(node => node.id === ids[0]) : undefined;
-    setConfiguringNodeId(node && (!training || choices?.recipeKind === node.kind) && ['recipe', 'recipe-preview', 'filter', 'tribute', 'road'].includes(getNodeModule(node.kind).controls.configuration ?? '') ? node.id : undefined);
+    setConfiguringNodeId(node && (!training || choices?.recipeKind === node.kind) && ['recipe', 'recipe-preview', 'filter', 'tribute', 'road'].includes(getNodeModule(node.kind, node).controls.configuration ?? '') ? node.id : undefined);
   };
   const [selectedConnection, setSelectedConnection] = useState<string>();
   const [hoveredNodeId, setHoveredNodeId] = useState<string>();
@@ -408,7 +408,7 @@ function FactoryApp({ engine, training, welcome, onShowWelcome, onCloseWelcome, 
       if (!event.repeat && !commandModifier && !event.altKey && event.shiftKey && key === 'm') { event.preventDefault(); if (mapAvailable) togglePanel('map'); return; }
       if (!event.repeat && plainKey && key === 'm') { event.preventDefault(); if (!training && mapAvailable) { if (panel === 'map') { dismissPanel(); setMinimapVisible(false); } else setMinimapVisible((visible) => !visible); } return; }
       if (!event.repeat && !commandModifier && !event.altKey && (key === '?' || (key === '/' && event.shiftKey))) { event.preventDefault(); togglePanel('commands'); return; }
-      if (!event.repeat && plainKey && key === 'r') { const node = sector.nodes.find((candidate) => candidate.id === hoveredNodeId) ?? selectedNode; if (node && (!training || choices?.rotationKind === node.kind) && getNodeModule(node.kind).controls.rotatable) { event.preventDefault(); engine.rotateNode(node.id); } return; }
+      if (!event.repeat && plainKey && key === 'r') { const node = sector.nodes.find((candidate) => candidate.id === hoveredNodeId) ?? selectedNode; if (node && (!training || choices?.rotationKind === node.kind) && getNodeModule(node.kind, node).controls.rotatable) { event.preventDefault(); engine.rotateNode(node.id); } return; }
       const functionBarShortcut = /^F([1-3])$/.exec(event.code);
       if (!event.repeat && plainKey && functionBarShortcut) { event.preventDefault(); if (!training) { const id = SHORTCUT_BAR_IDS[Number(functionBarShortcut[1]) - 1]; changeShortcutBars({ ...shortcutBars, [id]: { ...shortcutBars[id], visible: !shortcutBars[id].visible } }); } return; }
       const digitShortcut = /^Digit([1-5])$/.exec(event.code);
@@ -486,7 +486,7 @@ function FactoryApp({ engine, training, welcome, onShowWelcome, onCloseWelcome, 
   const configureNode = (id: string) => {
     const node = sector.nodes.find((candidate) => candidate.id === id);
     if (!node) return;
-    const configuration = getNodeModule(node.kind).controls.configuration;
+    const configuration = getNodeModule(node.kind, node).controls.configuration;
     if (training && choices?.recipeKind !== node.kind && !(configuration === 'research' && allowedPanel === 'research')) return;
     setSelectedIds([id]);
     if (configuration === 'recipe' || configuration === 'recipe-preview' || configuration === 'filter' || configuration === 'tribute' || configuration === 'road') { closePanels(); setConfiguringNodeId(id); }
@@ -520,13 +520,13 @@ function FactoryApp({ engine, training, welcome, onShowWelcome, onCloseWelcome, 
           if (!node || welcome || panel || placing) return;
           setTooltip(undefined);
           if (shiftKey) { if (!training) recipeCopySource.current = node.recipeId ? node.id : ''; return; }
-          if (!training && getNodeModule(node.kind).controls.configuration === 'road') {
+          if (!training && getNodeModule(node.kind, node).controls.configuration === 'road') {
             const error=engine.getRoadReversalError(id);
             if (error) setInteractionFailure({title:'Cannot reverse Road',detail:error,x:node.x*camera.zoom+camera.x,y:node.y*camera.zoom+camera.y});
             else engine.reverseRoad(id);
             return;
           }
-          if ((!training || choices?.rotationKind === node.kind) && getNodeModule(node.kind).controls.rotatable && NODE_DEFINITIONS[node.kind].category === 'Logistics') { engine.rotateNode(node.id); return; }
+          if ((!training || choices?.rotationKind === node.kind) && getNodeModule(node.kind, node).controls.rotatable && NODE_DEFINITIONS[node.kind].category === 'Logistics') { engine.rotateNode(node.id); return; }
           if (!training && isProductionMachine(node) && game.research.completed.includes(CONNECTOR_MIRRORING_RESEARCH)) { engine.mirrorProductionConnectors(id); return; }
           const group = sector.controlGroups?.find(group => group.nodeIds.includes(id));
           if (group && !priority && (!training || tutorialStage === 'control-group-disband')) { setPendingDisbandGroup(group.id); return; }
@@ -606,7 +606,7 @@ function FactoryApp({ engine, training, welcome, onShowWelcome, onCloseWelcome, 
       {pendingDisbandGroup && <ConfirmModal title="Disband this control group?" body={`The ${sector.controlGroups?.find(group => group.id === pendingDisbandGroup)?.colorName ?? 'selected'} group will be removed. Its nodes, cables, and positions stay unchanged. An administrative separation.`} confirm="DISBAND" onCancel={() => setPendingDisbandGroup(undefined)} onConfirm={() => { engine.disbandControlGroup(pendingDisbandGroup); setPendingDisbandGroup(undefined); }} />}
       {training && <TutorialGuide researchLayout={game.mod ? "current" : "upgrades"} session={training} game={game} camera={camera} nodePositions={tutorialNodePositions} onStageChange={setTutorialStage} onPlacementTarget={setTutorialTarget} placementCorrection={placementCorrection?.text} panel={panel} placing={placing} selectedIds={selectedIds} selectionInfo={selectionInfo} onPanel={value => { setPanel(value); setReturnPanel(null); setSelectedIds([]); setPlacement(undefined); }} onExit={onExitTutorial} onFinish={onFinishTutorial} />}
       {configuringNode?.kind === 'botPlant' && <BotPlantInspector node={configuringNode} completed={game.research.completed} onClose={() => setConfiguringNodeId(undefined)} />}
-      {configuringNode && getNodeModule(configuringNode.kind).controls.configuration === 'recipe' && <NodeRecipePicker key={configuringNode.id} requiredRecipeId={training ? tutorialRecipeChoice(training.kind, configuringNode, sector.nodes) : undefined} game={game} engine={engine} node={configuringNode} skipWarnings={skipRecipeWarnings} onSkipWarnings={setSkipRecipeWarnings} onClose={() => setConfiguringNodeId(undefined)} />}
+      {configuringNode && getNodeModule(configuringNode.kind, configuringNode).controls.configuration === 'recipe' && <NodeRecipePicker key={configuringNode.id} requiredRecipeId={training ? tutorialRecipeChoice(training.kind, configuringNode, sector.nodes) : undefined} game={game} engine={engine} node={configuringNode} skipWarnings={skipRecipeWarnings} onSkipWarnings={setSkipRecipeWarnings} onClose={() => setConfiguringNodeId(undefined)} />}
       {configuringNode?.kind === 'filter' && !panel && !welcome && <FilterPicker key={configuringNode.id} engine={engine} node={configuringNode} onClose={() => setConfiguringNodeId(undefined)} />}
       {configuringNode?.kind === 'goblinTribute' && <TributeResourcePicker key={configuringNode.id} game={game} engine={engine} node={configuringNode} onClose={() => setConfiguringNodeId(undefined)} />}
       {confirmDelete && <ConfirmModal title="Decommission selection?" body={`${selectedIds.length} node${selectedIds.length === 1 ? '' : 's'} will be dismantled. Attached cables will also be removed.`} confirm="DECOMMISSION" onCancel={() => setConfirmDelete(false)} onConfirm={doDelete} />}

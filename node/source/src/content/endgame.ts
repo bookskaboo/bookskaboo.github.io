@@ -73,7 +73,7 @@ export const ENDGAME_RESEARCH: ResearchProject[] = [
     prerequisites: [FINAL_CORE_PRODUCTION, 'commandRobotics'],
   },
   { id: 'victory', name: 'A Remarkably Indirect Conclusion', category: 'Endgame', description: 'Complete this project to achieve victory and keep playing in this world.', unlock: 'Victory achieved.', flavorText: 'The factory may continue after its point has been made.', costs: bill(), prerequisites: [FINAL_CORE_PRODUCTION] },
-  project('resourceRelocation', 'Resource Relocation', 'Move Forests, mineral deposits, and defeated Golem reserves within their map. They keep their stock.', ['victory']),
+  project('resourceRelocation', 'Resource Relocation', 'Move Forests, mineral deposits, defeated Golem reserves and Landmarks within their map. Stock and production progress are retained.', ['victory']),
   project('lakeRelocation', 'Lake Relocation', 'Move Lakes within their map. Pumps stay connected. Select a Pump with the Lake to move them together.', ['victory']),
   project('campRelocation', 'Monster Camp Relocation', 'Move a Monster Camp and its linked Tribute boxes together within their map.', ['victory']),
   project('efficientLandfill', 'Efficient Landfill', 'Reduces the Deep Hole Stone requirement by 20% each time, compounded before rounding up. Stone already delivered still counts. The minimum is 1 Stone, with up to 45 completions.', ['victory'], true),

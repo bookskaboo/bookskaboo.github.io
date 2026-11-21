@@ -34,6 +34,10 @@ export type PortFamily = 'FLUID' | 'WASTE' | 'ANY' | 'RESOURCE' | 'METAL' | 'PLA
 
 export interface Recipe { id: string; name: string; inputs: Partial<Record<ItemId, number>>; outputs: Partial<Record<ItemId, number>>; cycleMs: number; unlockResearch?: string; recovery?: boolean; chanceOutputs?: Array<{item: ItemId; amount: number; probability: number}>; }
 export interface MachineNode {
+  /** Seeded, non-buildable production variants. The ordinary kind fixes the family. */
+  landmark?: 'rapid' | 'tri' | 'doubler' | 'reclaimer' | 'unknown';
+  triOutput?: [number, number, number];
+  activeCore?: ItemId;
   /** Original label retained while a data mod supplies a replacement. */
   modBaseName?: string;
   id: string;
@@ -124,7 +128,7 @@ export interface MachineNode {
   miningTarget?: 'iron' | 'copper' | 'mythril' | 'stone';
   miningProgress?: number;
   transferProgressMs?: number;
-  batch?: { recipeId: string; outputs: Partial<Record<ItemId, number>> };
+  batch?: { recipeId: string; outputs: Partial<Record<ItemId, number>>; finished?: boolean };
   health?: number;
   defeated?: boolean;
   golemOutputs?: ItemId[];
@@ -141,6 +145,7 @@ export interface MachineNode {
 
 export interface Connection { id: string; from: string; to: string; fromPort?: number; toPort?: number; item?: ItemId; createdAt: number; batchCredit?: number; }
 export interface InFlightTransfer {
+  sourcePort?: number;
   id: string;
   sectorId: string;
   connectionId: string;
@@ -232,6 +237,11 @@ export interface ResearchState {
 export interface GameEvent { id: string; type: 'ItemProduced' | 'TransferStarted' | 'ResearchCompleted' | 'DepositDepleted' | 'NodePlaced'; message: string; at: number; projectId?: string; elapsedMs?: number; }
 export interface GamePreferences { autosaveMinutes: number; confirmDelete: boolean; particles: boolean; showGrid: boolean; snapToGrid: boolean; sound: boolean; skipMultiConnectionTooltip?: boolean; }
 export interface GameState {
+  landmarkVersion?: 0 | 1;
+  /** Only newly created campaigns may regenerate a layout during pre-exploration setup. */
+  landmarkEligible?: true;
+  /** Authoritative initial sectors; instantiated on first access, never rerolled. */
+  landmarkLayout?: Array<{ sector: SectorState; nodeId: string }>;
   researchHintHistory?: import('./researchHintHistory').ResearchHintHistory;
   /** Destination-free Map Point research; currently selected by the Upgrades prototype. */
   mapResearchMode?: 'points';

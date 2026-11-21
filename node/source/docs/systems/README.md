@@ -24,6 +24,7 @@ Current local implementation reference, established November 18, 2026. Use these
 | System | Covers |
 | --- | --- |
 | [Map nodes and exploration](map-nodes-and-exploration.md) | Grid, Home, destination prices, discovery, generation and field expansion |
+| [Landmarks](landmarks.md) | Seventeen seeded Production discoveries, bonuses, buffers, discovery and relocation |
 | [Encounters and obstructions](encounters-and-obstructions.md) | Settlements, tribute, Golems, Deep Holes and ruins |
 | [Bots and attack power](bots-and-attack-power.md) | Part tiers, automatic assembly, AP buckets and encounter payments |
 | [Endgame and victory](endgame-and-victory.md) | Four corners, pieces, world pairings, Final Core and post-victory research |

@@ -6,6 +6,8 @@ The interface uses React panels alongside the Pixi factory field. Shared content
 
 ## Typography and copy
 
+[Landmarks](landmarks.md) use pink for Unknown Device and purple for the other sixteen nodes and discovered map markers. Names or icons accompany color; item/socket/status meanings are retained. Unknown Device has no recipe entry or recipe display and leaves its effect unexplained; its inspector shows stored Cores, the active Core, progress and blocked status. Node titles, colors, hidden recipe controls, geometry and hints have headless presentation coverage; exact browser rendering remains a separate check.
+
 Roads use the adopted controls in the main game: no gear, stationary right-click flow reversal, and a red Travel arrow outside the playable field with its label above it. Every direction uses the same 32 × 32 CSS pixel arrow footprint. Travel and double-click retain zoom and focus and highlight the paired endpoint. The isolated [Road workshop](../../previews/road-workshop/README.md) retains nine connected maps for review without campaign storage and uses the standard renderer.
 
 The [UI style guide](../node-ui-style-guide.md) owns current style rules and examples. The [style review notes](../typography-style-review.md) record changes, applicability and checks. Read both before changing player-facing style or copy, and update both in the same change. Markdown is the maintained format; Word copies and LibreOffice page rendering are not required. Original DOCX snapshots are retained only in the [archive](../archive/style-reference-docx/README.md).

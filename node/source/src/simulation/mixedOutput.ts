@@ -25,7 +25,8 @@ export function outputHead(node: MachineNode): ItemId | undefined {
   return node.outputQueue[0];
 }
 
-export function takeOutput(node: MachineNode, item: ItemId, amount = 1) {
+export function takeOutput(node: MachineNode, item: ItemId, amount = 1, port = 0) {
+  if (node.landmark === 'tri' && node.triOutput) node.triOutput[port] -= amount;
   node.output[item] = (node.output[item] ?? 0) - amount;
   if (node.outputQueue) {
     for (let i = 0; i < amount; i++) {
@@ -35,7 +36,8 @@ export function takeOutput(node: MachineNode, item: ItemId, amount = 1) {
   }
 }
 
-export function returnOutput(node: MachineNode, item: ItemId, amount = 1) {
+export function returnOutput(node: MachineNode, item: ItemId, amount = 1, port = 0) {
+  if (node.landmark === 'tri' && node.triOutput) node.triOutput[port] += amount;
   node.output[item] = (node.output[item] ?? 0) + amount;
   if (node.outputQueue) node.outputQueue.unshift(...Array<ItemId>(amount).fill(item));
 }

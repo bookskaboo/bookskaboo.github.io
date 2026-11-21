@@ -7,6 +7,7 @@ import { mapNodePosition, worldCornerIds, worldGridSize } from '../domain/worldG
 export { mapNodePosition } from '../domain/worldGrid';
 
 export const MAP_LANDMARKS = {
+  landmarks: { label: 'Landmarks', icon: 'cog' },
   camps: { label: 'Monster camps', icon: 'goblin-camp' },
   lakes: { label: 'Lakes', icon: 'lake' },
   golems: { label: 'Golem camps', icon: 'golem' },
@@ -32,6 +33,7 @@ export function mapLandmarkSurvey(game: GameState) {
     if (!isSurveyed(game, sector)) continue;
     const landmarks = new Set<MapLandmark>();
     for (const node of sector.nodes) {
+      if (node.landmark && (sector.visited || sector.id===game.activeSectorId)) landmarks.add('landmarks');
       if (node.kind === 'monster-camp') landmarks.add('camps');
       if (node.kind === 'lake') landmarks.add('lakes');
       if (node.kind === 'resourceGolem' || (node.defeated && node.infiniteResource)) landmarks.add('golems');
@@ -70,7 +72,7 @@ export function mapNodeSurvey(game: GameState, id: string) {
       const remaining = node.infiniteResource || node.kind === 'lake' ? Infinity : node.resourceRemaining ?? 0;
       resources.set(node.resourceItem, (resources.get(node.resourceItem) ?? 0) + remaining);
     }
-    if (isWorldObstacle(node.kind)) obstructions.set(node.name, (obstructions.get(node.name) ?? 0) + 1);
+    if (isWorldObstacle(node.kind) || (node.landmark && (sector.visited || sector.id===game.activeSectorId))) obstructions.set(node.name, (obstructions.get(node.name) ?? 0) + 1);
   }
   return {
     explored,

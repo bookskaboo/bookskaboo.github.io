@@ -6,6 +6,8 @@ Local storage buffers material inside a Map Node. Storage and Inventory also pro
 
 ## Local buffers
 
+The separate [landmark proposal](../master-plan/23-map-power-ups.md) selects unchanged ordinary machine buffer capacities for Rapid machines, Doublers and Reclaimer, without the draft two-batch minimum or a capacity bonus. Doubled output does not double a Doubler's buffer. Reclaimer retains its separately agreed no-Water inlet/buffer exception. These landmark rules are planned, not implemented; current capacities remain unchanged.
+
 | Node | Base capacity | Material policy |
 | --- | --- | --- |
 | Cart / Truck / Train | 20 / 40 / 80 | Solids of every Core tier; fluids excluded; Logistics category |
@@ -14,6 +16,8 @@ Local storage buffers material inside a Map Node. Storage and Inventory also pro
 | Fluid Tank | 256 | FLUID family, currently Water and Coolant |
 | Settlement Tribute | Goblins 100; Dwarven variants 100 / 120 / 288 | Encounter reward stock |
 | Corner Tribute | 10 | Its corner piece |
+
+[Landmarks](landmarks.md) retain ordinary recipe-machine capacities. Oversized completed Doubler batches wait in saved paid-batch state and enter the ordinary output buffer in order as space opens. Unknown Device instead has shared five-Core waiting and finished limits, with its consumed active Core held separately; it reserves two output spaces before starting.
 
 Machine input and output buffers have their own rules and should not be inferred from these storage capacities. Per-item capacity, total capacity and in-flight reservation checks differ. FIFO queues preserve mixed-material order in buffers and production output.
 

@@ -45,6 +45,7 @@ export const familyLabel = (family: string) => ({
   ROBOT_FRAME: 'Robot Frame', ROBOT_WEAPON: 'Robot Weapon', ATTACK_POWER: 'Attack Power', POWER: 'Power',
 }[family] ?? (isItemId(family) ? ITEM_NAMES[family] : family));
 export const portRoleLabel = (node: MachineNode, direction: 'input' | 'output', index: number, family: string, routedItem?: ItemId) => {
+  if (node.landmark === 'unknown') return 'Cores';
   if (node.kind === 'devSource') return 'Auto';
   if (node.kind === 'monster-camp' && direction === 'input') return `${getGoblinAttackRequirement(node)} AP / 60s`;
   if (getNodeCapabilities(node.kind).behavior === 'recipe' && !node.recipeId) return 'Choose recipe';
@@ -59,16 +60,17 @@ export const portRoleLabel = (node: MachineNode, direction: 'input' | 'output', 
   if (node.kind === 'smelter' && !routedItem) return direction === 'input' ? (index === 0 ? 'Metal' : 'Charcoal') : 'Plate';
   return routedItem ? ITEM_NAMES[routedItem] : familyLabel(family);
 };
-export const canDeleteNode = (node: MachineNode) => !node.protected && getNodeModule(node.kind).controls.deletable;
+export const canDeleteNode = (node: MachineNode) => !node.landmark && !node.protected && getNodeModule(node.kind).controls.deletable;
 export const canCyclePortPositions = (node: MachineNode) => {
   const inputs = NODE_DEFINITIONS[node.kind].input;
   return inputs.length > 1 && (getNodeCapabilities(node.kind).behavior === 'recipe' || new Set(inputs).size > 1);
 };
 export const nodeCycleDuration = (node: MachineNode, unlocked: readonly string[]) => {
+  if (node.landmark === 'unknown') return 5000;
   if (node.kind === 'fluidLink') return 1000;
   const prefix = getNodeCapabilities(node.kind).efficiencyFamily;
   const recipe = RECIPES[node.batch?.recipeId ?? node.recipeId ?? ''];
-  const multiplier = getRecipeEfficiencyMultiplier(recipe?.id, prefix, unlocked);
+  const multiplier = node.landmark === 'rapid' ? .1 : node.landmark === 'reclaimer' ? .25 : getRecipeEfficiencyMultiplier(recipe?.id, prefix, unlocked);
   return (recipe?.cycleMs ?? node.cycleMs) * multiplier * getRecoveryMultiplier(recipe, unlocked);
 };
 

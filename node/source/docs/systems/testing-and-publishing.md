@@ -16,6 +16,12 @@ Checked Q/Escape, Tab/Shift+Tab wrap, recipe return focus/scroll and the assignm
 
 Use a separate local origin and an isolated output directory for production-build browser checks when other work also builds the workspace. The reviewed fixed build is outputs/upgrades-integration/game; the author study still exports its independent fixtures. Functional practice and synthetic save regression evidence do not establish full campaign pacing or modded-factory support.
 
+## Landmark headless checks
+
+The [landmark engine suite](../../src/simulation/landmarks.test.ts) audits 1,000 seeds for exact counts, bands, early access, family allocations, quadrant distribution and valid footprints. It exercises all 29 eligible Doubler recipes, fixed speeds, chance outcomes and save/load, branch stock/refunds, shared Core buffers, relocation restrictions and old-save/larger-map compatibility. Controlled synthetic factories use Dev Sources where useful; reserve-consumption cases use real finite reserves. The [presentation suite](../../src/ui/Landmarks.test.tsx) checks hidden Unknown Device recipes/effect, palette, socket geometry and the location-aware hint.
+
+Reports live in outputs/landmark-implementation/. These headless checks verify implementation and regression behavior, not normal campaign pacing or actual Pixi color/contrast. The completed verification record states actual suite/build results.
+
 ## Workspace commands
 
 | Command | Purpose |

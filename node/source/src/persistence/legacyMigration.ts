@@ -15,6 +15,7 @@ import { RESEARCH_CENTER_BASE_CYCLE_MS } from '../content/researchTiming';
 import { normalizeControlGroups } from '../domain/controlGroups';
 import { normalizeResearchHintHistory } from '../domain/researchHintHistory';
 import type { GameState, ItemId, MachineNode, NodeKind, SectorState } from '../domain/types';
+import { validateLandmarks } from '../simulation/landmarkValidation';
 
 import { record, number, entries, type UnknownRecord } from './saveValidation';
 
@@ -174,6 +175,7 @@ function normalizeGameState(value: GameState) {
   if (value.worldGridSize !== undefined && !isWorldGridSize(value.worldGridSize)) return null;
   if (value.worldRulesVersion !== undefined && value.worldRulesVersion !== 1 && value.worldRulesVersion !== 2) return null;
   const state = structuredClone(value);
+  try { validateLandmarks(state); } catch { return null; }
   if (state.researchHintHistory !== undefined) {
     const history = normalizeResearchHintHistory(state.researchHintHistory);
     if (history) state.researchHintHistory = history;

@@ -1,6 +1,7 @@
 import { groveProgress } from './groveProgress';
 import { BOT_FRAMES, BOT_GUNS } from '../content/botAssembly';
 import { ALPHA_AP, CORNER_ITEMS, FOUNDRY_INPUTS, GROVE_GROWTH, RECLAMATION_QUOTAS } from '../content/endgame';
+import { landmarkYield } from '../content/landmarks';
 import { modNode } from '../mods/modRules';
 import { getNodeCapabilities, isResourceBehavior } from '../content/nodeCapabilities';
 import { getEffectiveNodeOutputFamilies, NODE_DEFINITIONS } from '../content/nodes';
@@ -19,13 +20,14 @@ const total = (bag: MachineNode['output']) => Object.values(bag).reduce<number>(
 const inputStock = (node: MachineNode, item: ItemId) => node.kind === 'recycler' ? recyclerMaterialStock(node.input, item) : node.input[item] ?? 0;
 
 export function productionExplanation(node: MachineNode, game: GameState, sector: SectorState) {
+  if (node.landmark === 'unknown') return {summary:node.processingPaused ? 'Processing paused.' : node.activeCore ? 'Working.' : total(node.output)>3 ? 'Output blocked.' : 'Waiting.',ingredients:[],capacity:5,used:total(node.output),requiredRoom:0,committed:Boolean(node.activeCore),recipe:undefined};
   const botBuild = getNodeCapabilities(node.kind).behavior === 'bot-assembly' ? getBotPlantBuild(node, game.research.completed) : undefined;
   const recipe = botBuild?.recipe ?? RECIPES[node.batch?.recipeId ?? node.recipeId ?? ''];
-  const capacity = modNode(node.kind)?.capacity ?? node.capacity ?? getNodeCapabilities(node.kind).defaultCapacity ?? 5;
-  const ingredients = recipe ? Object.entries(recipe.inputs).map(([item, required]) => ({ item: item as ItemId, available: inputStock(node, item as ItemId), required: required ?? 0, capacity: getNodeCapabilities(node.kind).inputCapacity ?? 5 })) : [];
+  const capacity = node.landmark === 'tri' ? 15 : modNode(node.kind)?.capacity ?? node.capacity ?? getNodeCapabilities(node.kind).defaultCapacity ?? 5;
+  const ingredients = recipe ? Object.entries(recipe.inputs).filter(([item])=>node.landmark !== 'reclaimer' || item !== 'water').map(([item, required]) => ({ item: item as ItemId, available: inputStock(node, item as ItemId), required: required ?? 0, capacity: getNodeCapabilities(node.kind).inputCapacity ?? 5 })) : [];
   const possible = { ...recipe?.outputs };
   for (const output of recipe?.chanceOutputs ?? []) possible[output.item] = (possible[output.item] ?? 0) + output.amount;
-  const requiredRoom = total(possible);
+  const requiredRoom = total(possible) * landmarkYield(node);
   const used = total(node.output);
   const missing = ingredients.filter(input => input.available < input.required);
   const cue = productionVisual(node, game, sector);
@@ -49,15 +51,18 @@ export function productionExplanation(node: MachineNode, game: GameState, sector
   else if (node.disabled) summary = 'Node disabled.';
   else if (Date.now() - node.constructedAt < node.constructionMs) summary = 'Under construction.';
   else if (node.processingPaused && NODE_DEFINITIONS[node.kind].category !== 'Logistics') summary = botBuild ? `Production paused. ${botBuild.recipe.name}.` : 'Production paused.';
-  else if (node.batch) summary = `Producing ${recipe?.name ?? 'a committed batch'}. Batch ingredients already consumed; output room reserved.`;
+  else if (node.batch?.finished) summary = 'Completed batch waiting for output space.';
+  else if (node.batch) summary = node.landmark==='doubler' ? `Producing ${recipe?.name}. Batch ingredients already consumed; outputs enter the shared buffer as space opens.` : `Producing ${recipe?.name ?? 'a committed batch'}. Batch ingredients already consumed; output room reserved.`;
   else if (recipe?.unlockResearch && !game.research.completed.includes(recipe.unlockResearch)) summary = 'Required recipe research is incomplete.';
   else if (recipe && requiredRoom > 0 && used + requiredRoom > capacity) summary = `Output/waste buffer full: ${used}/${capacity} stored; next batch needs ${requiredRoom} free spaces. Drain the output or waste route.${botBuild ? ` Next build: ${botBuild.recipe.name}.` : ''}`;
   else if (missing.length) summary = `Waiting for ${missing.map(input => `${node.kind === 'recycler' ? materialTypeName(input.item) : ITEM_NAMES[input.item]} (${input.available}/${input.required})`).join(', ')}.`;
   else if (getNodeCapabilities(node.kind).behavior === 'research') summary = researchCenterView(node, game).summary;
   else if (recipe) summary = `${node.progressMs > 0 ? 'Producing' : 'Ready to produce'} ${recipe.name}.`;
+  else if (node.landmark === 'tri' && cue.blockedOutputs.length) summary = 'Output branch full. Each outlet holds up to 5 items; the shared cycle waits for all three.';
   else if (cue.blockedOutputs.length) summary = `Output buffer full: ${used}/${capacity}. Check the downstream route.`;
   else if (node.kind === 'extractor' && cue.missingInputs.length) summary = 'Waiting for an available resource source. Check its connection and remaining reserve.';
   else if (getNodeCapabilities(node.kind).behavior === 'bot-assembly') summary = 'Feed a frame and a gun into their matching sockets. The Bot Plant assembles them automatically.';
+  else if (node.landmark === 'reclaimer') summary = 'Connect a recyclable material. No Water required.';
   else if (node.kind === 'recycler') summary = 'Connect a recyclable material to select its recipe. Supply Water through the dedicated inlet.';
   else if (getNodeCapabilities(node.kind).behavior === 'recipe') summary = 'Choose a production recipe.';
   if (isStorageNode(node.kind)) {
@@ -82,9 +87,11 @@ export function productionVisualContext(sector: SectorState) {
 /** Visuals follow simulation readiness; no inferred production or throughput. */
 export function productionVisual(node: MachineNode, game: GameState, sector: SectorState, context = productionVisualContext(sector)): ProductionVisual {
   if (node.kind === 'devSource') return { working: false, missingInputs: [], blockedOutputs: [], fill: 0 };
-  const capacity = modNode(node.kind)?.capacity ?? node.capacity ?? getNodeCapabilities(node.kind).defaultCapacity ?? 5;
+  const capacity = node.landmark === 'tri' ? 15 : modNode(node.kind)?.capacity ?? node.capacity ?? getNodeCapabilities(node.kind).defaultCapacity ?? 5;
   const visual: ProductionVisual = { working: false, missingInputs: [], blockedOutputs: [], fill: Math.min(1, total(node.output) / capacity) };
   if (node.disabled || (node.processingPaused && NODE_DEFINITIONS[node.kind].category !== 'Logistics') || Date.now() - node.constructedAt < node.constructionMs) return visual;
+  if (node.landmark === 'unknown') {visual.missingInputs = !node.activeCore && !total(node.input) ? [0] : [];visual.blockedOutputs = !node.activeCore && total(node.output)>3 ? [0] : [];visual.working = Boolean(node.activeCore);return visual;}
+  if (node.batch?.finished) {visual.blockedOutputs=[0];return visual;}
   const behavior = getNodeCapabilities(node.kind).behavior;
   if (isResourceBehavior(node.kind) && node.kind !== 'lake') return visual;
   let demands: Array<[ItemId, number]> = [];
@@ -100,7 +107,8 @@ export function productionVisual(node: MachineNode, game: GameState, sector: Sec
       if (!sourceId || seen.has(sourceId)) source = undefined;
     }
     if (!source || source.disabled || (source.kind !== 'devSource' && (!source.resourceItem || (!source.infiniteResource && (source.resourceRemaining ?? 0) <= 0)))) visual.missingInputs = [0];
-    if (total(node.output) >= (modNode(node.kind)?.capacity ?? 5)) visual.blockedOutputs = [0];
+    if (node.landmark === 'tri') visual.blockedOutputs = (node.triOutput??[0,0,0]).flatMap((count,index)=>count>=5?[index]:[]);
+    else if (total(node.output) >= (modNode(node.kind)?.capacity ?? 5)) visual.blockedOutputs = [0];
   } else if (behavior === 'research') {
     const required = outstandingResearchCores(game.research);
     if (!required.length) return visual;
@@ -130,6 +138,8 @@ export function productionVisual(node: MachineNode, game: GameState, sector: Sec
   } else if (getEffectiveNodeOutputFamilies(node).length && total(node.output) >= capacity) {
     visual.blockedOutputs = getEffectiveNodeOutputFamilies(node).map((_, index) => index);
   }
+  if (node.landmark === 'reclaimer') demands = demands.filter(([item])=>item !== 'water');
+  for (const item of Object.keys(products) as ItemId[]) products[item]! *= landmarkYield(node);
   demands.forEach(([item, amount], index) => { if (inputStock(node, item) < amount) visual.missingInputs.push(index); });
   if (total(node.output) + total(products) > capacity && total(products) > 0) {
     // Show the bank holding the stock that must drain, including waste sockets.

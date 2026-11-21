@@ -6,6 +6,8 @@ Options → Mods edits a data package for the current factory. Supported fields 
 
 ## Content and rules
 
+The first [landmark layout](landmarks.md) applies to new standard 11×11 campaigns. Larger-map support and count scaling remain deferred; supported larger-world gameplay is unchanged. New-game eligibility permits restoring the standard layout if setup switches to a larger grid and back before generating beyond Home. Old saves never gain eligibility. World-spawn mods still generate natural contents normally, with valid placement for the selected landmark.
+
 Applied-mod factories keep the existing Research screen and their base/mod research catalog. The new [Upgrades screen](research.md) is adopted only for unmodded factories; applied-mod pricing and character-progression support remain deliberately deferred. Existing packages, validation and loading remain supported. Removing a package adopts ordinary unmodded progression with earned IDs/payments preserved. No mod-price replacement policy is implied by that fallback.
 
 Packages can override resource names/colors, nodes, recipes, research, world spawns, map dimensions and connection/construction timing. Custom IDs begin with `mod-`. Custom nodes inherit an available production, router, buffer or world template; a data package does not add arbitrary executable simulation behavior.
