@@ -2,7 +2,7 @@
 
 Chasms, rivers and mountains add visible geography to shared Map Node borders. They prevent Road placement across the affected border until the matching research is complete. Clear routes should remain practical; crossing research should reward shorter supply networks and better layouts.
 
-Status: implemented locally, November 20, 2026. The agreed BO01–BO07 rules, crossing projects and standard 16/12/8 layout are integrated into new games. Publication and normal-play balance tuning remain separate. The design sections retain their original starting recommendations; the implementation section records which are now enforced and where measured coverage differs.
+Status: published November 20, 2026, in [7c4abe4](https://github.com/bookskaboo/bookskaboo.github.io/commit/7c4abe4d8d1162e544f23d143f19576db860d015). BO01–BO07, the crossing projects and the standard 16/12/8 layout are live for new games. Normal-play balance tuning remains pending. The design sections retain original starting recommendations; the implementation section records enforced safeguards and measured coverage.
 
 ## Local implementation
 

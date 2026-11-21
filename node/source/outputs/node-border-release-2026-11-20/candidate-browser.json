@@ -1,0 +1,22 @@
+{
+  "crossings": [
+    {
+      "terrain": "river",
+      "blocked": "N3.E2 · south river · Crossing blocked · 36 generated borders. River crossing requires Hydro research: River Bridges.",
+      "permitted": "N3.E2 · south river · Crossing permitted · 36 generated borders. Road pair placed with the normal channel limit."
+    },
+    {
+      "terrain": "mountain",
+      "blocked": "N2.E4 · south mountain · Crossing blocked · 36 generated borders. Mountain crossing requires Shiny research: Mountain Tunnels.",
+      "permitted": "N2.E4 · south mountain · Crossing permitted · 36 generated borders. Road pair placed with the normal channel limit."
+    },
+    {
+      "terrain": "chasm",
+      "blocked": "S3.E2 · south chasm · Crossing blocked · 36 generated borders. Chasm crossing requires Complex research: Chasm Spans.",
+      "permitted": "S3.E2 · south chasm · Crossing permitted · 36 generated borders. Road pair placed with the normal channel limit."
+    }
+  ],
+  "markers": 36,
+  "logs": [],
+  "source": "Isolated release fixture; synthetic fields and research grants; browser saves untouched"
+}

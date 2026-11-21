@@ -16,6 +16,14 @@
   },
   "releases": [
     {
+      "id": "7c4abe4",
+      "date": "2026-11-20",
+      "title": "Shared-border terrain and tiered Road crossing research",
+      "commit": "7c4abe4d8d1162e544f23d143f19576db860d015",
+      "url": "https://github.com/bookskaboo/bookskaboo.github.io/commit/7c4abe4d8d1162e544f23d143f19576db860d015",
+      "notes": "Fast-forwarded main with changes confined to node/. GitHub Pages succeeded; normal live HTML and all ten current assets matched SHA-256. All 122 prior assets retained and ten preceding assets verified live. New games receive terrain; legacy worlds remain clear. Unrelated prototypes excluded from runtime."
+    },
+    {
       "id": "fa7aa81",
       "date": "2026-11-20",
       "title": "Interior camp reserves and Stone naming with original thirty settlements",
@@ -19341,7 +19349,7 @@
       "dateBasis": "chat",
       "kind": "added",
       "state": "implemented",
-      "delivery": "local",
+      "delivery": "published",
       "title": "Add shared-border terrain and permanent Road crossing research to new worlds",
       "summary": "Implement rivers, mountains and chasms using the approved field artwork and Node Map presentation, with tiered worldwide crossing permission and clear-route safeguards.",
       "details": [
@@ -19410,7 +19418,57 @@
         "outputs/border-obstructions-implementation/preview-feedback-word-structure.json",
         "outputs/border-obstructions-implementation/preview-warning-mobile.png"
       ],
-      "validation": "Current src/scripts/previews suite passes 1,143 tests across 108 files, with one optional test/file skipped; archived release copies are excluded. Final save/mod/Road/terrain regression passes 173 tests after cleanup; renderer/Road/permission feedback checks pass 167 tests. Normal Research Center payment, independent projects, both-side atomic rejection, ghosts, reversal, extra channels, movement, copy/templates, undo, reload/imports, legacy worlds and grid resizing are covered. Audit checks 1,000 standard seeds and twenty for each of five larger grids: exact quotas, no fallback, all graph/corner safeguards pass. Browser verifies all terrain types blocked and researched, matching halves in all four directions, 36 map markers, side-only summaries, no research text in marker labels, desktop and 390 px layout without overflow, and no error logs. Repeated preview resets emitted four Pixi texture-source/sampler binding disposal warnings; rendering continued and the library nulls the destroyed bindings. Main and /node/ builds, preview types/build, six catalog generation/freshness/link checks and history checks pass. Both Word files preserve tables/unrelated text and reopen; packaged rendering fails because LibreOffice soffice.exe is absent, leaving Word page layout unverified. No normal-play balance run, player-save edit, commit or publication."
+      "validation": "Current src/scripts/previews suite passes 1,143 tests across 108 files, with one optional test/file skipped; archived release copies are excluded. Final save/mod/Road/terrain regression passes 173 tests after cleanup; renderer/Road/permission feedback checks pass 167 tests. Normal Research Center payment, independent projects, both-side atomic rejection, ghosts, reversal, extra channels, movement, copy/templates, undo, reload/imports, legacy worlds and grid resizing are covered. Audit checks 1,000 standard seeds and twenty for each of five larger grids: exact quotas, no fallback, all graph/corner safeguards pass. Browser verifies all terrain types blocked and researched, matching halves in all four directions, 36 map markers, side-only summaries, no research text in marker labels, desktop and 390 px layout without overflow, and no error logs. Repeated preview resets emitted four Pixi texture-source/sampler binding disposal warnings; rendering continued and the library nulls the destroyed bindings. Main and /node/ builds, preview types/build, six catalog generation/freshness/link checks and history checks pass. Both Word files preserve tables/unrelated text and reopen; packaged rendering fails because LibreOffice soffice.exe is absent, leaving Word page layout unverified. No normal-play balance run, player-save edit, commit or publication.",
+      "publishedBy": "7c4abe4"
+    },
+    {
+      "id": "NODE-0664",
+      "date": "2026-11-20",
+      "dateBasis": "chat",
+      "kind": "added",
+      "state": "implemented",
+      "delivery": "published",
+      "publishedBy": "7c4abe4",
+      "title": "Publish shared-border terrain and tiered Road crossing research",
+      "summary": "Publish rivers, mountains and chasms for new worlds with worldwide crossing research at Hydro, Shiny and Complex, preserving legacy worlds and existing open-game assets.",
+      "details": [
+        "Fast-forward live main from 38759a9fa481795b617398dea782123a475f35b0 to 7c4abe4d8d1162e544f23d143f19576db860d015; changes are confined to node/. Publish matching tested runtime and source, retaining all 122 prior runtime assets.",
+        "Standard new worlds have sixteen rivers, twelve mountains and eight chasms. Keep whole-border blocking, mixed-type no-right-angle generation, clear shortest Home routes and three-hop bypasses. Separate projects permanently permit ordinary Road placement worldwide without new transport penalties or after-research art. Legacy worlds stay clear, including future discoveries.",
+        "Publish the approved clipped shared halves, selected adjacent-map Road ghost, readable missing-research preview feedback and discovered Node Map symbols with side/terrain-only summaries. Include the master plan, current system references, both style documents, generated catalogs and isolated engine test source/export.",
+        "Build on the latest verified live source and isolate twenty-one runtime/test files. Exclude unrelated character-upgrade flags, first-Refiner hint tracking, unpublished corner marker changes and proposed field-terrain gameplay. Keep the original sector-generation and thirty-settlement algorithm byte-for-byte unchanged.",
+        "The 1,100-world release audit reaches exact scaled quotas with no fallbacks and passes all static safeguards. Standard worlds touch 59–70 maps. Normal-play purchase timing, crossing frequency and progression-time balance remain pending."
+      ],
+      "topics": [
+        "World",
+        "Logistics",
+        "Research",
+        "Interface",
+        "Saves",
+        "Publishing",
+        "Documentation"
+      ],
+      "sources": [
+        "local-code"
+      ],
+      "evidence": [
+        "src/simulation/borderObstructions.ts",
+        "src/simulation/borderObstructions.test.ts",
+        "src/renderer/borderTerrain.ts",
+        "src/ui/MapBorderObstructions.tsx",
+        "docs/master-plan/21-border-obstructions.md",
+        "docs/systems/roads-and-vehicles.md",
+        "outputs/node-border-release-2026-11-20/publication-receipt.json",
+        "outputs/node-border-release-2026-11-20/preflight-report.json",
+        "outputs/node-border-release-2026-11-20/build-manifest.json",
+        "outputs/node-border-release-2026-11-20/source-manifest.json",
+        "outputs/node-border-release-2026-11-20/workspace-tests.log",
+        "outputs/node-border-release-2026-11-20/candidate-tests.log",
+        "outputs/node-border-release-2026-11-20/candidate-build.log",
+        "outputs/node-border-release-2026-11-20/candidate-browser.json",
+        "outputs/node-border-release-2026-11-20/candidate-node-map.png",
+        "outputs/node-border-release-2026-11-20/candidate-seed-audit.log"
+      ],
+      "validation": "Workspace passed 1147 tests with one optional skip and its /node/ build. Isolated release passed 1096 tests with one optional skip, site build, border-preview types/build, six catalog/link checks and six history checks. Audit verified 1,000 standard seeds plus twenty per larger grid. Release browser fixtures confirmed blocked and researched pairs for every terrain and all 36 map markers without errors. Preflight confirmed a clean fast-forward, only node/ changes, exact source scope, tested build/source hashes, unchanged original sector generation and all 122 prior assets retained. GitHub Pages run 44847552568 succeeded; normal live HTML and all ten new assets matched SHA-256, plus ten preceding-build assets. No player-save edit or normal-play balance claim. Prior repeated-preview Pixi disposal warnings remain recorded in NODE-0659; Word page layout remains unverified because LibreOffice is missing."
     }
   ]
 }

@@ -1,0 +1,13 @@
+
+ RUN  v5.0.5 D:/node factory v2/outputs/node-border-release-2026-11-20/repo/node/source
+
+
+ Test Files  103 passed | 1 skipped (104)
+      Tests  1096 passed | 1 skipped (1097)
+   Start at  16:56:54
+   Duration  35.36s (tests 64%, import 26%, transform 8%, worker 1%)
+
+     Import  255 modules were evaluated 494 times · 14.11s total, 26% of tracked time
+             ~1.99s faster with isolate: false — shared modules are evaluated once per worker instead of once per file
+             learn more: https://vitest.dev/guide/improving-performance#test-isolation
+

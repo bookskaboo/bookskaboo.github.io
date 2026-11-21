@@ -1,0 +1,41 @@
+{
+  "commit": "7c4abe4d8d1162e544f23d143f19576db860d015",
+  "base": "38759a9fa481795b617398dea782123a475f35b0",
+  "destination": "https://github.com/bookskaboo/bookskaboo.github.io.git refs/heads/main",
+  "onlyNodeChanged": true,
+  "canFastForward": true,
+  "worktreeClean": true,
+  "originalSectorGenerationUnchanged": true,
+  "previousRuntimeAssetsRetained": 122,
+  "runtimeFiles": 11,
+  "changedFiles": 91,
+  "runtimeSourceOverlay": [
+    "src/art/borderObstructionArt.ts",
+    "src/content/research.ts",
+    "src/domain/borderObstructionLayout.test.ts",
+    "src/domain/borderObstructionLayout.ts",
+    "src/domain/types.ts",
+    "src/persistence/legacyMigration.ts",
+    "src/renderer/PixiPlayfield.tsx",
+    "src/renderer/borderTerrain.test.ts",
+    "src/renderer/borderTerrain.ts",
+    "src/renderer/playfieldTypes.ts",
+    "src/simulation/borderObstructions.test.ts",
+    "src/simulation/borderObstructions.ts",
+    "src/simulation/createInitialState.ts",
+    "src/simulation/engine.ts",
+    "src/simulation/factoryTemplateRuntime.ts",
+    "src/ui/MapBorderObstructions.test.tsx",
+    "src/ui/MapBorderObstructions.tsx",
+    "src/ui/MapNodeDetails.tsx",
+    "src/ui/NodeMinimap.tsx",
+    "src/ui/mapBorderObstructions.css",
+    "src/ui/researchUiConfig.ts"
+  ],
+  "tests": {
+    "workspace": 1147,
+    "candidate": 1096
+  },
+  "auditedWorlds": 1100,
+  "checkedAt": "2026-11-21T01:00:43.224Z"
+}

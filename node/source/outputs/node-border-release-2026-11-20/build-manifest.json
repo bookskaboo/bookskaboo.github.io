@@ -1,0 +1,54 @@
+{
+  "base": "38759a9fa481795b617398dea782123a475f35b0",
+  "files": [
+    {
+      "file": "assets/browserAll-BLxqzKpU.js",
+      "sha256": "bbb8fbf75cbe4cfb3afa3f25f2ad961810e7bc5e0f0240d4e09f4c14588645f1"
+    },
+    {
+      "file": "assets/CanvasPool-O_8k9jVW.js",
+      "sha256": "9cf12a9f53a878bb8f9f46337b799031a6986b5f87dd775ef57b2902ae0dc9cd"
+    },
+    {
+      "file": "assets/canvasUtils-DHiBpmSz.js",
+      "sha256": "8843c3459529c72ffb9a82655454eff39f3458448dd2ae362764f3be4933288f"
+    },
+    {
+      "file": "assets/getTexelRangeRects-5CG6mIA2.js",
+      "sha256": "aea8c02569d6923eec2b28e6973b032101297b4fc9acc85b573146bd074d4974"
+    },
+    {
+      "file": "assets/getTextureBatchBindGroup-CDnZS9mH.js",
+      "sha256": "2b2eff79ef557432774e0acd98963de65847a16840f0b738b07556ea37e21caa"
+    },
+    {
+      "file": "assets/index-Vtbsvka9.js",
+      "sha256": "edd6310c8a0c3fe6147d449909aefae83237e441098cb61c2c2a58723013c079"
+    },
+    {
+      "file": "assets/index-vtyXR-db.css",
+      "sha256": "350672e6e5728e277e7733e10195b30fcc48298e600dcd9fe3c5a59b0ccd1667"
+    },
+    {
+      "file": "assets/init-GkcCSrtx.js",
+      "sha256": "dd53431e20b312d44a1a80a194af1e0252492ebb1894a09a3007febccffcff8f"
+    },
+    {
+      "file": "assets/RenderTargetSystem-CHWUCnC7.js",
+      "sha256": "39880073141b4419980d7b5baf22961675d208105c37f87c54a099e6433ad70f"
+    },
+    {
+      "file": "assets/webworkerAll-DQX3DvdQ.js",
+      "sha256": "b557e456cdb98f452b8ba11afdb51da2aa286ee06c3a123a4a96e04a24977973"
+    },
+    {
+      "file": "index.html",
+      "sha256": "9388e49a57ce12eceabe8770ed09b414bd18e925b0f16610a785dd58b75cadd0"
+    }
+  ],
+  "tests": {
+    "workspace": 1147,
+    "candidate": 1096
+  },
+  "auditedWorlds": 1100
+}
