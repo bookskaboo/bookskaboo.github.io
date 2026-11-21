@@ -1,0 +1,13 @@
+
+> factorinode-reconstruction@0.1.0 progression
+> node scripts/run-progression.mjs
+
+
+ RUN  v5.0.5 D:/node factory v2
+
+
+ Test Files  1 passed (1)
+      Tests  1 passed (1)
+   Start at  17:42:39
+   Duration  275ms (transform 45%, import 34%, tests 17%, worker 5%)
+

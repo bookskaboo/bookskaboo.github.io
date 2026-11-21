@@ -1,0 +1,496 @@
+
+> factorinode-reconstruction@0.1.0 test
+> vitest run --testTimeout=15000
+
+
+ RUN  v5.0.5 D:/node factory v2
+
+ ❯ src/ui/researchMilestones.test.ts (8 tests | 1 failed) 61ms
+   ❯ Research milestones (8)
+     × leads from extraction and fuel to the lab and the first paid projects 46ms
+ ❯ src/ui/researchPresentation.test.ts (10 tests | 3 failed) 109ms
+   ❯ research browsing (10)
+     × shows independent blockers and omits the research they already require 11ms
+     × separates the description and shows one progress count after the Core list 4ms
+     × searches prerequisite display names and Core costs as related matches 2ms
+ ❯ src/simulation/progressionRecovery.test.ts (11 tests | 1 failed) 212ms
+   ❯ production-only depletion recovery (11)
+     × does not refill intact, slow or disconnected reserves and handles paid research 58ms
+ ❯ previews/status-page/savedProgress.test.ts (11 tests | 2 failed) 160ms
+   ❯ explicit transition of saved research to character upgrades (11)
+     × uses existing pre-project migration, while ordinary loading does not adopt character milestones 22ms
+     × converts map quotes to banked-point bills while preserving their price and saved points 4ms
+ ❯ src/ui/researchTree.test.ts (13 tests | 1 failed) 630ms
+   ❯ research dependency tree (13)
+     × marks the reachable prerequisite frontier and recognizes the first Final Core gate 159ms
+ ❯ src/simulation/mapResearch.test.ts (41 tests | 4 failed) 979ms
+   ❯ legacy Map Point research (38)
+     × reprices after changing projects without losing delivered progress 50ms
+   ❯ destination map pricing (3)
+     × starts each band at five of each Core and counts only opened maps in that band 7ms
+     × keeps a partially paid destination through switching and reload and opens only that map 5ms
+     × charges the approved 12,539 Cores to open the standard board 72ms
+ ❯ src/simulation/engine.research.test.ts (13 tests | 1 failed) 1129ms
+   ❯ synchronized Research Center cycles (10)
+     × completes a repeatable project in five sets and uses its next cost after reselection 223ms
+ ❯ src/simulation/researchQueue.test.ts (17 tests | 3 failed) 1546ms
+   ❯ research queue and pause (17)
+     × ignores stale priority releases and can disable priority work with an empty queue 66ms
+     × reconciles old or invalid queues without introducing a queue to older saves 3ms
+     × rejects locked, completed, automatic and unquoted destination projects 14ms
+ ❯ previews/status-page/mapPoints.test.ts (9 tests | 2 failed) 1555ms
+   ❯ Upgrades banked Map Points (9)
+     × converts parked quotes without changing paid bags, queue, saved points or opened maps 118ms
+     × opens beside Deep Holes and rejects unsupported rule modes without changing ordinary worlds 36ms
+ ❯ src/simulation/newWorldObstructions.test.ts (26 tests | 2 failed) 1807ms
+   ❯ filled holes and exploration (8)
+     × funds an unfunded destination beside an unfinished generated hole 110ms
+     × opens maps beside discovered holes while retaining paid-project point protection 2ms
+ ❯ src/simulation/engine.test.ts (58 tests | 3 failed) 2857ms
+   ❯ simulation architecture (58)
+     × uses the current research core requirements and prerequisites 13ms
+     × does not treat a revealed node schematic as completed research 40ms
+     × resets and requires reselection after each repeatable research completion 40ms
+
+⎯⎯⎯⎯⎯⎯ Failed Tests 23 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  previews/status-page/mapPoints.test.ts > Upgrades banked Map Points > converts parked quotes without changing paid bags, queue, saved points or opened maps
+AssertionError: expected undefined to be '6,5' // Object.is equality
+
+- Expected:
+"6,5"
+
++ Received:
+undefined
+
+ ❯ previews/status-page/mapPoints.test.ts:69:70
+     67|     expect(engine.getState().research.selected).toBe('mapNode');
+     68|     expect(engine.getState().research.contributed).toEqual({ 'simple-c…
+     69|     expect(normalizeLegacy(old)!.research.mapNodeQuote?.destination).t…
+       |                                                                      ^
+     70|     expect(normalizeLegacy(old)!.mapResearchMode).toBeUndefined();
+     71|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/23]⎯
+
+ FAIL  previews/status-page/mapPoints.test.ts > Upgrades banked Map Points > opens beside Deep Holes and rejects unsupported rule modes without changing ordinary worlds
+AssertionError: expected 'points' to be undefined
+
+- Expected:
+undefined
+
++ Received:
+"points"
+
+ ❯ previews/status-page/mapPoints.test.ts:169:38
+    167|     expect(normalizeLegacy({ ...engine.getState(), mapResearchMode: 'u…
+    168|     const ordinary = createInitialState(204);
+    169|     expect(ordinary.mapResearchMode).toBeUndefined();
+       |                                      ^
+    170|     expect(usesDestinationMapPricing(ordinary)).toBe(true);
+    171|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/23]⎯
+
+ FAIL  previews/status-page/savedProgress.test.ts > explicit transition of saved research to character upgrades > uses existing pre-project migration, while ordinary loading does not adopt character milestones
+AssertionError: expected [ 'refiner', 'assembler', …(8) ] to not include 'automataCore'
+ ❯ previews/status-page/savedProgress.test.ts:55:43
+     53|     const normal = normalizeLegacy(old)!;
+     54|     expect(normal.research.completed).toContain('finalCore');
+     55|     expect(normal.research.completed).not.toContain('automataCore');
+       |                                           ^
+     56|     const migrated = restoreStatusFactory(old)!;
+     57|     expect(characterStage(migrated)).toBe(6);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/23]⎯
+
+ FAIL  previews/status-page/savedProgress.test.ts > explicit transition of saved research to character upgrades > converts map quotes to banked-point bills while preserving their price and saved points
+AssertionError: expected 'points' to be undefined
+
+- Expected:
+undefined
+
++ Received:
+"points"
+
+ ❯ previews/status-page/savedProgress.test.ts:95:33
+     93|     expect(migrated.mapResearchMode).toBe('points');
+     94|     expect(migrated.research.mapNodeQuote).toEqual({ completion: 2, co…
+     95|     expect(old.mapResearchMode).toBeUndefined();
+       |                                 ^
+     96|     expect(old.research.mapNodeQuote.destination).toBe('4,5');
+     97|     expect(migrated.research.mapPoints).toBe(2);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/23]⎯
+
+ FAIL  src/simulation/engine.research.test.ts > synchronized Research Center cycles > completes a repeatable project in five sets and uses its next cost after reselection
+AssertionError: expected undefined to be 1 // Object.is equality
+
+- Expected:
+1
+
++ Received:
+undefined
+
+ ❯ src/simulation/engine.research.test.ts:127:59
+    125|     center.input = { 'simple-core': 6, 'basic-core': 6, 'automata-core…
+    126|     for (let i = 0; i < 5; i++) advance(engine, 5000);
+    127|     expect(state.research.repeatableCompletions?.mapNode).toBe(1);
+       |                                                           ^
+    128|     expect(state.sectors['4,5'].unlocked).toBe(true);
+    129|     expect(state.research.mapPoints).toBe(0);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/23]⎯
+
+ FAIL  src/simulation/engine.test.ts > simulation architecture > uses the current research core requirements and prerequisites
+AssertionError: finalBotUpgrade: expected [ 5, 5, 5, 5, 5, 5, 5 ] to deeply equal [ 1, 1, 1, 1, 1, 1, 1 ]
+
+- Expected
++ Received
+
+  [
+-   1,
+-   1,
+-   1,
+-   1,
+-   1,
+-   1,
+-   1,
++   5,
++   5,
++   5,
++   5,
++   5,
++   5,
++   5,
+  ]
+
+ ❯ src/simulation/engine.test.ts:804:102
+    802|       const costs = Object.values(getResearchCosts(entry));
+    803|       if (entry.trigger) expect(costs, entry.id).toEqual([]);
+    804|       else if (entry.costs['final-core'] && entry.category !== 'Effici…
+       |                                                                                                      ^
+    805|       else for (const amount of costs) expect(amount, entry.id).toBeGr…
+    806|     }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/23]⎯
+
+ FAIL  src/simulation/engine.test.ts > simulation architecture > does not treat a revealed node schematic as completed research
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ src/simulation/engine.test.ts:827:43
+    825|
+    826|     state.research.completed.push('exploration', 'extractor1', 'areaEx…
+    827|     expect(engine.startMapResearch(4, 5)).toBe(true);
+       |                                           ^
+    828|     expect(state.research.selected).toBe('mapNode');
+    829|     expect(getSectorWorldSize(engine.getSector(), state.research.compl…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/23]⎯
+
+ FAIL  src/simulation/engine.test.ts > simulation architecture > resets and requires reselection after each repeatable research completion
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ src/simulation/engine.test.ts:910:43
+    908|     expect(state.research.unlocked).not.toContain('mapNode');
+    909|     expect(engine.unlockSector(4, 5)).toBe(true);
+    910|     expect(engine.startMapResearch(6, 5)).toBe(true);
+       |                                           ^
+    911|     expect(state.research.selected).toBe('mapNode');
+    912|     expect(state.research.mapNodeQuote?.costs).toEqual({ 'simple-core'…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/23]⎯
+
+ FAIL  src/simulation/mapResearch.test.ts > legacy Map Point research > reprices after changing projects without losing delivered progress
+AssertionError: expected undefined to be 5 // Object.is equality
+
+- Expected:
+5
+
++ Received:
+undefined
+
+ ❯ src/simulation/mapResearch.test.ts:79:89
+     77|     engine.selectResearch('mapNode');
+     78|     expect(engine.getState().research.contributed).toEqual({ 'simple-c…
+     79|     expect(getResearchCostsForState(project, engine.getState().researc…
+       |                                                                                         ^
+     80|   });
+     81|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/23]⎯
+
+ FAIL  src/simulation/mapResearch.test.ts > destination map pricing > starts each band at five of each Core and counts only opened maps in that band
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ src/simulation/mapResearch.test.ts:163:43
+    161|     const engine = setup(0, access, false);
+    162|     const game = engine.getState();
+    163|     expect(engine.startMapResearch(6, 5)).toBe(true);
+       |                                           ^
+    164|     expect(game.research.mapNodeQuote?.costs).toEqual({ 'simple-core':…
+    165|     game.research.mapPoints = 6;
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[10/23]⎯
+
+ FAIL  src/simulation/mapResearch.test.ts > destination map pricing > keeps a partially paid destination through switching and reload and opens only that map
+AssertionError: expected 'mapNode' to be undefined
+
+- Expected:
+undefined
+
++ Received:
+"mapNode"
+
+ ❯ src/simulation/mapResearch.test.ts:197:37
+    195|     expect(engine.startMapResearch(3, 3)).toBe(false);
+    196|     engine.selectResearch('mapNode');
+    197|     expect(state.research.selected).toBeUndefined();
+       |                                     ^
+    198|     expect(engine.startMapResearch(5, 4)).toBe(true);
+    199|     engine.getSector().nodes[0].input = { 'simple-core': 1 };
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[11/23]⎯
+
+ FAIL  src/simulation/mapResearch.test.ts > destination map pricing > charges the approved 12,539 Cores to open the standard board
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ src/simulation/mapResearch.test.ts:230:45
+    228|     let total = 0;
+    229|     for (const [x, y] of cells) {
+    230|       expect(engine.startMapResearch(x, y)).toBe(true);
+       |                                             ^
+    231|       const costs = game.research.mapNodeQuote!.costs;
+    232|       for (const amount of Object.values(costs)) total += amount ?? 0;
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[12/23]⎯
+
+ FAIL  src/simulation/newWorldObstructions.test.ts > filled holes and exploration > funds an unfunded destination beside an unfinished generated hole
+TypeError: Cannot read properties of undefined (reading 'unlocked')
+ ❯ src/simulation/newWorldObstructions.test.ts:198:111
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[13/23]⎯
+
+ FAIL  src/simulation/newWorldObstructions.test.ts > filled holes and exploration > opens maps beside discovered holes while retaining paid-project point protection
+AssertionError: expected undefined to be defined
+ ❯ src/simulation/newWorldObstructions.test.ts:218:89
+    216|     state.sectors['6,5']={...blank(6,5),visited:true,nodes:[makeNode('…
+    217|     state.sectors['7,4']={...blank(7,4),visited:true};
+    218|     expect(canPurchaseMap(state,7,5)).toBe(true);expect(destinationMap…
+       |                                                                                         ^
+    219|     expect(mapNodeHoverDetails(state,'7,5')).toEqual(['Map Node Unexpl…
+    220|     const engine=new GameEngine(state);expect(engine.unlockSector(7,5)…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[14/23]⎯
+
+ FAIL  src/simulation/progressionRecovery.test.ts > production-only depletion recovery > does not refill intact, slow or disconnected reserves and handles paid research
+AssertionError: expected { copper: 36 } to deeply equal { copper: 4 }
+
+- Expected
++ Received
+
+  {
+-   "copper": 4,
++   "copper": 36,
+  }
+
+ ❯ src/simulation/progressionRecovery.test.ts:40:50
+     38|     expect(applyExpansionRescue(s)).toBe(false);
+     39|     copper(s).resourceRemaining=0;s.research.selected='assembler';s.re…
+     40|     expect(progressionDeficits(s,'exploration')).toEqual({copper:4});
+       |                                                  ^
+     41|     s.sectors['5,5'].nodes.find(n=>n.kind==='extractor')!.output['simp…
+     42|     expect(applyExpansionRescue(s)).toBe(false);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[15/23]⎯
+
+ FAIL  src/simulation/researchQueue.test.ts > research queue and pause > ignores stale priority releases and can disable priority work with an empty queue
+AssertionError: expected [] to be undefined
+
+- Expected:
+undefined
+
++ Received:
+[]
+
+ ❯ src/simulation/researchQueue.test.ts:195:34
+    193|     engine.releasePriorityResearch('road');
+    194|     expect(state.research.selected).toBeUndefined();
+    195|     expect(state.research.queue).toBeUndefined();
+       |                                  ^
+    196|     expect(state.research.paused).not.toBe(true);
+    197|     expect(state.research.projectContributions?.road?.['simple-core'])…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[16/23]⎯
+
+ FAIL  src/simulation/researchQueue.test.ts > research queue and pause > reconciles old or invalid queues without introducing a queue to older saves
+AssertionError: expected [] to be undefined
+
+- Expected:
+undefined
+
++ Received:
+[]
+
+ ❯ src/simulation/researchQueue.test.ts:215:34
+    213|   it('reconciles old or invalid queues without introducing a queue to …
+    214|     const { engine, state } = setup();
+    215|     expect(state.research.queue).toBeUndefined(); expect(state.researc…
+       |                                  ^
+    216|     state.research.completed.push('road');
+    217|     state.research.queue = ['unknown', 'road', 'kiln', 'extractor2', '…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[17/23]⎯
+
+ FAIL  src/simulation/researchQueue.test.ts > research queue and pause > rejects locked, completed, automatic and unquoted destination projects
+AssertionError: expected 'added' to be 'map-destination' // Object.is equality
+
+Expected: "map-destination"
+Received: "added"
+
+ ❯ src/simulation/researchQueue.test.ts:228:45
+    226|     expect(engine.queueResearch('basicCore')).toBe('unavailable');
+    227|     expect(engine.queueResearch('kiln')).toBe('unavailable');
+    228|     expect(engine.queueResearch('mapNode')).toBe('map-destination');
+       |                                             ^
+    229|     expect(state.research.queue).toBeUndefined();
+    230|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[18/23]⎯
+
+ FAIL  src/ui/researchMilestones.test.ts > Research milestones > leads from extraction and fuel to the lab and the first paid projects
+AssertionError: expected { title: 'Automata Core', …(2) } to match object { title: 'Basic upgrade', …(1) }
+(3 matching properties omitted from actual)
+
+- Expected
++ Received
+
+  {
+    "detail": "Even circuits need a little masonry.",
+-   "title": "Basic upgrade",
++   "title": "Automata Core",
+  }
+
+ ❯ src/ui/researchMilestones.test.ts:78:32
+     76|     game.research.completed.push('automataCore');
+     77|     const [automataProduction] = expectPrimary(game, { kind: 'recipe',…
+     78|     expect(automataProduction).toMatchObject({ title: automataResearch…
+       |                                ^
+     79|     game.produced!['automata-core'] = 1;
+     80|     expectPrimary(game, { kind: 'research', id: 'fabricatorTools' });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[19/23]⎯
+
+ FAIL  src/ui/researchPresentation.test.ts > research browsing > shows independent blockers and omits the research they already require
+AssertionError: expected [ 'complexCore', 'refiner' ] to deeply equal [ 'complexCore' ]
+
+- Expected
++ Received
+
+  [
+    "complexCore",
++   "refiner",
+  ]
+
+ ❯ src/ui/researchPresentation.test.ts:72:59
+     70|     const state = createInitialState(1);
+     71|     const mirroring = project('connectorMirroring');
+     72|     expect(visibleResearchRequirements(mirroring, state)).toEqual(['co…
+       |                                                           ^
+     73|     expect(researchCardDetails(mirroring, state).status).toBe('Require…
+     74|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[20/23]⎯
+
+ FAIL  src/ui/researchPresentation.test.ts > research browsing > separates the description and shows one progress count after the Core list
+AssertionError: expected 'Requires Refiner, Simple upgrade\nSim…' to be 'Requires Basic Core\nSimple Core + Ba…' // Object.is equality
+
+- Expected
++ Received
+
+- Requires Basic Core
++ Requires Refiner, Simple upgrade
+  Simple Core + Basic Core · 0/10
+
+  Open the world map and gain 1 Map Point to unlock a neighboring map.
+
+ ❯ src/ui/researchPresentation.test.ts:86:61
+     84|     const state = createInitialState(1);
+     85|     const exploration = project('exploration');
+     86|     expect(researchCardDetails(exploration, state).tooltip).toBe(
+       |                                                             ^
+     87|       `Requires Basic Core\nSimple Core + Basic Core · 0/10\n\n${explo…
+     88|     );
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[21/23]⎯
+
+ FAIL  src/ui/researchPresentation.test.ts > research browsing > searches prerequisite display names and Core costs as related matches
+AssertionError: expected [ 'exploration', 'mapNode' ] to include 'automataCore'
+ ❯ src/ui/researchPresentation.test.ts:122:65
+    120|   it('searches prerequisite display names and Core costs as related ma…
+    121|     const state = createInitialState(1);
+    122|     expect(searchResearch(state, 'Exploration').map(p => p.id)).toCont…
+       |                                                                 ^
+    123|     expect(searchResearch(state, 'Simple Core').map(p => p.id)).toCont…
+    124|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[22/23]⎯
+
+ FAIL  src/ui/researchTree.test.ts > research dependency tree > marks the reachable prerequisite frontier and recognizes the first Final Core gate
+AssertionError: expected { …(2) } to deeply equal { ids: Set{ 'smelter' }, …(1) }
+
+- Expected
++ Received
+
+  {
+    "ids": Set {
+      "smelter",
++     "basicCore",
+    },
+    "needsFinalCore": false,
+  }
+
+ ❯ src/ui/researchTree.test.ts:79:52
+     77|     const game = createInitialState(1);
+     78|     const lineage = researchAncestors(tree, 'victory');
+     79|     expect(researchPathSteps(tree, lineage, game)).toEqual({ ids: new …
+       |                                                    ^
+     80|
+     81|     game.research.completed = [...lineage].filter(id => id !== 'victor…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[23/23]⎯
+
+
+ Test Files  11 failed | 190 passed | 2 skipped (203)
+      Tests  23 failed | 2081 passed | 2 skipped (2106)
+   Start at  20:56:11
+   Duration  26.72s (tests 55%, import 35%, transform 8%, worker 1%)
+
+    Isolate  203 workers spawned · ~498ms startup each (spawn + environment, per file)
+             at least ~3.90s faster with isolate: false — reuses workers across files instead of one per file
+

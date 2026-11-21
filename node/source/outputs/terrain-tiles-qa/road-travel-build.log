@@ -1,0 +1,27 @@
+
+> factorinode-reconstruction@0.1.0 build
+> tsc -b && vite build
+
+vite v8.3.4 building client environment for production...
+transforming...
+✓ 920 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                                       2.41 kB │ gzip:   1.19 kB
+dist/assets/index-DJzZk1WR.css                      168.55 kB │ gzip:  35.02 kB
+dist/assets/webworkerAll-lGmx_cIY.js                  0.05 kB │ gzip:   0.06 kB
+dist/assets/getTextureBatchBindGroup-CDnZS9mH.js      0.34 kB │ gzip:   0.27 kB
+dist/assets/canvasUtils-DHiBpmSz.js                   6.01 kB │ gzip:   2.05 kB
+dist/assets/getTexelRangeRects-BhRlOlmi.js           11.31 kB │ gzip:   2.98 kB
+dist/assets/init-dHLCvpLK.js                         14.19 kB │ gzip:   4.51 kB
+dist/assets/browserAll-D_iO-FsB.js                   43.48 kB │ gzip:  11.29 kB
+dist/assets/RenderTargetSystem-D85YXrAp.js           78.11 kB │ gzip:  22.08 kB
+dist/assets/CanvasPool-O_8k9jVW.js                  113.03 kB │ gzip:  34.47 kB
+dist/assets/index-DfdF-2X1.js                     1,171.70 kB │ gzip: 364.72 kB
+
+✓ built in 617ms
+[plugin builtin:vite-reporter] 
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.

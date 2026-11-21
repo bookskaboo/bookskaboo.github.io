@@ -1,0 +1,62 @@
+{
+  "date": "2026-11-20",
+  "scope": "Normal game readout threshold at35%; static artwork/cable cache cutoff unchanged at40%",
+  "browser": {
+    "below": {
+      "camera": {
+        "zoom": 0.3,
+        "x": -998.2,
+        "y": -476.7533592224121
+      },
+      "forcedDetails": "false",
+      "renderer": {
+        "nodesCreated": 2400,
+        "nodesDestroyed": 0,
+        "particleObjectsCreated": 64,
+        "visibleNodes": 578,
+        "totalNodes": 2400,
+        "activeParticles": 64,
+        "pooledParticles": 0,
+        "overviewTextures": 13,
+        "cableChunks": 77,
+        "cachedCables": true
+      }
+    },
+    "atThreshold": {
+      "camera": {
+        "zoom": 0.35,
+        "x": -1265.4,
+        "y": -649.7589265187582
+      },
+      "forcedDetails": "false",
+      "renderer": {
+        "nodesCreated": 2400,
+        "nodesDestroyed": 0,
+        "particleObjectsCreated": 64,
+        "visibleNodes": 428,
+        "totalNodes": 2400,
+        "activeParticles": 64,
+        "pooledParticles": 0,
+        "overviewTextures": 13,
+        "cableChunks": 77,
+        "cachedCables": true
+      },
+      "activity": "2400 nodes\n360 producers\n3330 connections\n840 Splitters\n840 Mergers\n257 cycling\n69 materials in transit\n929 produced\n138 delivered\n34 s elapsed\n57 page FPS\n14.5 ms last tick\n25.0 ms p95 frame"
+    }
+  },
+  "checks": {
+    "workspaceTests": {
+      "passed": 2130,
+      "skipped": 2
+    },
+    "targetedTests": 11,
+    "siteBuild": "passed",
+    "previewTypes": "passed",
+    "standalonePreviewBuild": "passed"
+  },
+  "limits": [
+    "Browser fixture is synthetic and does not establish normal-play balance or a universal FPS guarantee.",
+    "The preview distant-detail override was false during normal35% verification.",
+    "Publication and candidate checks are recorded separately after deployment verification."
+  ]
+}

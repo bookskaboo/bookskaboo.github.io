@@ -41,10 +41,15 @@ are cached by route and invalidated when any cable in the route changes.
 Offscreen node visual updates and cable drawing are skipped; simulation still
 runs all unlocked maps. The camera and drag-preview positions determine current
 visibility, so zooming, panning and group dragging reveal current state again.
-Secondary labels and buffers use zoom-dependent detail, with selected, hovered
+Secondary labels and buffers appear from 35 percent zoom, with selected, hovered
 and actively wired nodes retaining detail. Readouts follow simulation revisions
 and time; progress and cargo motion interpolate between ticks. Renderer and text
 resolution follow display density with a maximum of two.
+
+From 35 percent up to the 40 percent full-artwork transition, labels and live
+buffer boxes update over the shared node image. Revealing readouts does not
+invalidate that image or the cable caches. Socket overlays refresh using the
+owner's readout visibility, including when its static body stays cached.
 
 Below 40 percent zoom, ordinary rectangular player nodes share bounded snapshots
 of their existing static artwork. Progress fills/tracks, waiting markers and
@@ -56,7 +61,7 @@ appearances are retained, each at most 256 pixels on its longer edge. Further
 appearances fall back to vectors. Render targets are released on teardown.
 
 The optional `showDistantNodeDetails` renderer input supports a local performance
-comparison. It restores live text and buffer overlays at overview zoom while
+comparison. It restores live text and buffer overlays below the normal 35 percent cutoff while
 keeping the shared static artwork and cable caches enabled. Socket graphics
 already present in the shared image stay hidden beneath these overlays; their
 interactive roots remain available. The normal game does not enable this input.

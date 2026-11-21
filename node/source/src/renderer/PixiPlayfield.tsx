@@ -55,7 +55,7 @@ import { RESEARCH_CORE_TYPES } from '../simulation/researchStatus';
 import { modNode } from '../mods/modRules';
 import { mapNodePosition } from '../ui/mapNodePresentation';
 import { measureFieldViewport } from '../ui/responsiveLayout';
-import { boundsOnScreen, nodeDrawingKey, nodeOnScreen, playfieldResolution, progressBarTransform, reconcileViews, showNodeDetails, type CableBounds, type ViewIdentity } from './sceneUpdates';
+import { boundsOnScreen, nodeDrawingKey, nodeOnScreen, playfieldResolution, progressBarTransform, reconcileViews, showNodeDetails, showNodeReadouts, type CableBounds, type ViewIdentity } from './sceneUpdates';
 
 const CORNER_SOCKET_RADIUS = 13;
 const cornerSocketScale = (zoom: number, limit: number) => Math.min(Math.max(2, 1 / zoom), limit);
@@ -1238,7 +1238,7 @@ export function PixiPlayfield(props: Props) {
           if (!view.root.visible) return;
           const important = propsRef.current.selectedIds.includes(id) || hoveredNodeId === id || Boolean(drag?.ids.includes(id)) || connectionDrag?.active.nodeId === id || connectionDrag?.snapped?.nodeId === id;
           const fullArtwork = showNodeDetails(camera.zoom, important);
-          const details = fullArtwork || Boolean(propsRef.current.showDistantNodeDetails);
+          const details = showNodeReadouts(camera.zoom, important, propsRef.current.showDistantNodeDetails);
           const dataChanged = view.dataRevision !== gameState.revision || view.dataTime !== gameState.playTimeMs || view.detailVisible !== details || view.dataZoom !== camera.zoom;
           view.detailVisible = details;
           view.detailChildren?.forEach(child => { child.visible = details; });
@@ -1367,7 +1367,7 @@ export function PixiPlayfield(props: Props) {
         portViews.forEach((port) => {
           const live = nodeMap.get(port.nodeId);
           const owner = nodeViews.get(port.nodeId);
-          if (!live || !owner?.root.visible || (owner.overviewSprite?.visible && !propsRef.current.showDistantNodeDetails && !port.hovered && !connectionDrag)) return;
+          if (!live || !owner?.root.visible || (owner.overviewSprite?.visible && !owner.detailVisible && !port.hovered && !connectionDrag)) return;
           const details = owner.detailVisible || port.hovered || Boolean(connectionDrag);
           port.root.children.forEach(child => { if (child.label === 'port-label') child.visible = Boolean(details); });
           if (port.materialLabel) port.materialLabel.visible = Boolean(details);

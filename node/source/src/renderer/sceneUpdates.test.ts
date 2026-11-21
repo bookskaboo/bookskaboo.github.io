@@ -1,12 +1,22 @@
 import { describe, expect, it, vi } from 'vitest';
 import { createInitialState } from '../simulation/engine';
 import type { MachineNode } from '../domain/types';
-import { boundsOnScreen, nodeDrawingKey, nodeOnScreen, playfieldResolution, progressBarTransform, reconcileViews, showNodeDetails, type ViewIdentity } from './sceneUpdates';
+import { boundsOnScreen, nodeDrawingKey, nodeOnScreen, playfieldResolution, progressBarTransform, reconcileViews, showNodeDetails, showNodeReadouts, type ViewIdentity } from './sceneUpdates';
 import { buildCurveMotionPath, curvePoint, buildTransferMotionPath } from './cableGeometry';
 
 const node = (id = 'a', x = 500): MachineNode => ({ id, kind: 'smelter', name: 'Smelter', x, y: 500, rotation: 0, recipeId: 'smelt-iron', input: {}, output: {}, progressMs: 0, cycleMs: 6000, constructedAt: 0, constructionMs: 0 });
 
 describe('retained factory drawing', () => {
+  it('reveals live text and buffers at 35% without replacing cached artwork before 40%', () => {
+    expect(showNodeReadouts(.3499, false)).toBe(false);
+    for (const zoom of [.35, .37, .3999]) {
+      expect(showNodeReadouts(zoom, false)).toBe(true);
+      expect(showNodeDetails(zoom, false)).toBe(false);
+    }
+    expect(showNodeReadouts(.4, false)).toBe(true); expect(showNodeDetails(.4, false)).toBe(true);
+    expect(showNodeReadouts(.1, true)).toBe(true); expect(showNodeDetails(.1, true)).toBe(true);
+    expect(showNodeReadouts(.1, false, true)).toBe(true); expect(showNodeDetails(.1, false)).toBe(false);
+  });
   it('retains unrelated objects through selection, movement, deletion and load replacement', () => {
     const sources = [node('a'), node('b', 900)];
     const views = new Map<string, object>(), identities = new Map<string, ViewIdentity>();

@@ -1,0 +1,9 @@
+
+ RUN  v5.0.5 D:/node factory v2
+
+
+ Test Files  6 passed (6)
+      Tests  54 passed (54)
+   Start at  21:13:40
+   Duration  701ms (transform 46%, import 36%, tests 16%, worker 2%)
+

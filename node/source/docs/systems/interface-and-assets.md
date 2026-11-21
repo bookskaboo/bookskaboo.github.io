@@ -43,7 +43,7 @@ Build, Research, Recipes, Inventory, Journal, Options, Saves and Mods provide di
 
 Changes should preserve keyboard dismissal, tooltip access, narrow-window scrolling, recipe links and existing tutorial restrictions. Source modules and automated tests can check behavior; browser inspection is still needed for clipping, contrast, focus and pointer interaction.
 
-On the factory field, secondary labels and buffer details appear at 40 percent
+On the factory field, secondary labels and buffer details appear at 35 percent
 zoom and above. Selection, hover, dragging or a cable endpoint restores detail
 for the affected node at smaller zoom. Recipe icons, node bodies, sockets,
 progress and low-zoom waiting/blockage indicators remain available. Deep Hole
@@ -51,8 +51,8 @@ and Golem readouts keep their existing special treatment. Culling is visual
 only: offscreen machines continue producing. Native display density is capped
 at two for the playfield and canvas labels to bound pixel and texture costs.
 
-Low-zoom ordinary node artwork is shared as small cached images of the existing
-vectors. Progress bars and waiting/arrival overlays stay dynamic. Generic socket
+Below 40 percent zoom, ordinary node artwork is shared as small cached images of the existing
+vectors. From 35 percent up to that transition, text and live buffer boxes overlay the cached artwork. Progress bars and waiting/arrival overlays stay dynamic. Generic socket
 labels follow the same detail threshold as Production labels; full text and
 buffers return on inspection. Natural resources, Extractors and Research Centers
 retain specialized live views. Cable neighborhoods cache their existing colors
@@ -60,7 +60,7 @@ and curves at overview scale, and refresh locally when an endpoint moves or a
 route changes. Zooming in returns to vector drawing and the original controls.
 
 The isolated active-factory preview can restore distant text and live buffer
-boxes over those cached bodies. Its comparison checkbox uses the existing
+boxes below 35 percent over those cached bodies. Its comparison checkbox uses the existing
 toolbar styles and leaves ordinary game defaults unchanged. Small labels retain
 their usual zoom scale, so visibility alone does not guarantee readability at
 the full-factory overview.

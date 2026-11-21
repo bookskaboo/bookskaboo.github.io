@@ -1,5 +1,30 @@
 # NODE Typography Style Review
 
+## Game readouts at 35 percent zoom
+
+November 20, 2026. Adopted the measured 35 percent threshold for node titles,
+socket labels and live buffer boxes in the game. Static node artwork and cable
+neighborhoods keep their existing cached rendering below 40 percent; revealing
+readouts no longer requests the full vector node. Preserve existing fonts, zoom
+scaling, colors, progress tracks, warnings and specialized resource readouts.
+Selection, hover, dragging and wiring retain their existing detail behavior.
+
+Boundary checks cover hidden readouts below 35 percent, visible live readouts
+from 35 percent, cached artwork through 39.99 percent and the unchanged full
+artwork transition at 40 percent. Browser checks use the 2,400-node fixture with
+the distant-detail override off: text and boxes appear at 35 percent while
+overview textures and cable caches remain active, and production, physical cargo
+and Warehouse deliveries continue. The workspace suite passed 2,130 tests with
+two existing skips and the site build passed. Exact candidate/release checks,
+screenshots and publication confirmation are recorded with the change history
+and `outputs/node-readouts-35/`. No font, simulation or save-format change.
+
+## Power up landmark naming proposal
+
+November 20, 2026. The user requested names that fit current node sizes. The [proposal](master-plan/23-map-power-ups.md) now offers Rapid Refiner, Rapid Smelter, Rapid Assembler, Rapid Fabricator, Tri Extractor, Doubler and Reclaimer as candidates, with full bonus descriptions in the inspector or tooltip. Names are not yet selected and no game labels or layout changed.
+
+Checked the 256-world-unit standard width in src/domain/nodeGeometry.ts and 17-unit, weight-600 titles, 55-unit left inset, additional 16-unit group marker inset and hover-control positions in src/renderer/PixiPlayfield.tsx. With the planned non-deletable behavior and one right-side control, the grouped title has approximately 145 units available allowing an 8-unit gap; the two-control Recycler case has approximately 115. Measured with System.Drawing at 17 px Segoe UI Bold as an approximate conservative proxy for weight 600: Rapid Refiner 108.7, Rapid Smelter 112.5, Rapid Assembler 133.9, Rapid Fabricator 132.0, Tri Extractor 99.1, Doubler 64.5 and Reclaimer 78.8 px. For comparison, Three-output Extractor measured 184.6 px. Font fallback, exact Pixi measurements, hover state and normal/low-zoom rendering remain unverified. Retain current typography and geometry; do not claim these measurements establish final rendered fit.
+
 ## Visible factory zoom control
 
 November 20, 2026. Added a labeled **Zoom** dropdown to the active-factory test

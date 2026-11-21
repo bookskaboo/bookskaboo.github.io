@@ -23603,6 +23603,44 @@
         "outputs/node-upgrades-release-2026-11-20/candidate-build.log"
       ],
       "validation": "Workspace: 2129 tests passed, two existing skips; site build passed. Frozen release: 1333 tests passed, one existing skip; site build, six current catalogs, links across 39 system documents and all six history checks passed. Corrected one missing exported hint-review link in the source snapshot and reran the documentation check successfully. Preflight verified all 340 source files against the frozen manifest, matching committed build/source assets, only node/ changes, clean fast-forward and all 137 previous runtime asset blobs unchanged. Pages run 44872588913 succeeded; SHA-256 matched normal live HTML, all ten new assets and ten preceding-build assets. Live Upgrades UI rendered correctly and was paused. Earlier integration evidence covers all 19 normal-UI Basics stages, save/load, responsive layouts and keyboard navigation. No new sustained balance run, grants, save injection or reload of an existing player factory. Existing bundle-size warning remains."
+    },
+    {
+      "id": "NODE-0722",
+      "date": "2026-11-20",
+      "dateBasis": "chat",
+      "kind": "changed",
+      "state": "implemented",
+      "delivery": "local",
+      "title": "Show node text and buffer boxes from 35% zoom while retaining cached artwork",
+      "summary": "Reveal normal-game readouts at 35 percent without leaving efficient overview rendering before 40 percent.",
+      "details": [
+        "Separate readout visibility from full static-artwork detail: text and buffer boxes appear from 35 percent, while shared node snapshots and cable caches remain active below 40 percent. Preserve selected, hovered, dragged and wired-node detail and the existing preview override.",
+        "Refresh socket text and live buffer overlays according to the owning node readout state, so cached bodies cannot suppress newly visible data. Preserve typography, shapes, progress, material colors, simulation cadence, transfer timing and save format.",
+        "Update the Markdown UI guide, review notes and system references. Prepare the release from current published main plus exactly three renderer source/test changes, preserving all other published gameplay."
+      ],
+      "topics": [
+        "Performance",
+        "Controls",
+        "Production",
+        "Documentation"
+      ],
+      "sources": [
+        "local-code"
+      ],
+      "evidence": [
+        "src/renderer/PixiPlayfield.tsx",
+        "src/renderer/sceneUpdates.ts",
+        "src/renderer/sceneUpdates.test.ts",
+        "src/renderer/overviewTextures.ts",
+        "docs/node-ui-style-guide.md",
+        "docs/typography-style-review.md",
+        "docs/systems/architecture-and-simulation.md",
+        "docs/systems/interface-and-assets.md",
+        "outputs/node-readouts-35/verification.json",
+        "outputs/node-readouts-35/browser-verification.json",
+        "outputs/node-readouts-35/default35.jpg"
+      ],
+      "validation": "All 2,130 workspace tests passed with two existing skips using two workers. The isolated source passed 1,334 tests with one opt-in skip. Eleven targeted renderer checks, preview TypeScript, the standalone preview and site builds passed. All eleven runtime files match the tested workspace build byte-for-byte. Boundary coverage includes 34.99/35/37/39.99/40 percent and important/forced readouts. Browser verified default 35 percent readouts with the preview override false, cachedCables true and 13 shared overview textures; all 2,400 nodes and 3,330 connections keep simulating, with production and physical cargo active. This is functional synthetic evidence, not a universal FPS or balance claim. System/catalog and changelog checks passed after preserving referenced archival logs and normalizing the candidate viewer template line endings. Publication is recorded only after live verification."
     }
   ]
 }

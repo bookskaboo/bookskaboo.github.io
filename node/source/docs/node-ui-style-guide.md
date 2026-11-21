@@ -56,6 +56,8 @@ Use the approved item art in recipes, the Filter and tribute pickers, stock, buf
 
 ### Map and factory view
 
+For proposed power-up landmarks, keep short functional node titles within the existing 256-world-unit standard body and 17-unit sans-serif title role. Reserve room for the icon, selected-group marker and hover controls; do not shrink the title or widen the body to fit a long variant name. Put bonus quantities and conditions in the inspector or tooltip. Current candidates are Rapid Refiner/Smelter/Assembler/Fabricator, Tri Extractor, Doubler and Reclaimer; naming selection and renderer validation are pending. The [proposal](master-plan/23-map-power-ups.md) owns their rules.
+
 Show sector IDs at readable sizes where cells have room. Scale minimap icons with their tiles. Show full IDs in the selected sector summary. On the playfield, use semibold sans-serif for node names and regular mono for changing counts. At low zoom, prefer icons or pips for secondary detail. Keep warnings, the reserve symbol, and the full inspector readout available. Match the width and height of the top toolbar actions, including Pause and Resume when they share the row. On narrow screens, keep the panel buttons equally sized and put Pause or Resume beside the wordmark.
 
 Place the Research Center’s Final Core label and storage boxes in a centered row below the other Cores. Fill the boxes from stored Core quantities.
@@ -142,12 +144,12 @@ Use the shared UI sans roles for the active factory test page, with regular tabu
 
 The active-factory performance preview has a **Show distant text and boxes**
 comparison checkbox, off by default. It restores node titles, socket labels and
-live buffer boxes below 40 percent zoom while retaining cached bodies and cables.
+live buffer boxes below the normal 35 percent cutoff while retaining cached bodies and cables.
 Keep the existing font sizes, zoom scaling and buffer colors; do not enlarge all
 labels across the overview. Switching this comparison resets the synthetic test
-and its measurements. The ordinary game's detail threshold remains unchanged.
+and its measurements. The preview override is separate from the normal game cutoff.
 
-At less than 40 percent zoom, keep node bodies, recipe icons, sockets and progress visible while hiding secondary labels and buffer detail. Restore that detail for selected, hovered, dragged and actively wired nodes. Use a small exclamation marker for a waiting or blocked node at overview zoom; selection reveals the full labels and buffers. Preserve essential Golem and Deep Hole readouts and the existing interaction feedback. Recalculate visibility when the camera or a dragged group moves. Render canvas text with the established UI sans and named monospace families at native display density, capped at two. The active factory test uses regular tabular counts for its p95 frame interval in milliseconds; keep test measurements outside the game field.
+At less than 35 percent zoom, keep node bodies, recipe icons, sockets and progress visible while hiding secondary labels and buffer detail. At 35 percent and above, show live node text and buffer boxes. Keep shared artwork and cable caches active until the existing 40 percent full-artwork transition. Restore that detail for selected, hovered, dragged and actively wired nodes. Use a small exclamation marker for a waiting or blocked node at overview zoom; selection reveals the full labels and buffers. Preserve essential Golem and Deep Hole readouts and the existing interaction feedback. Recalculate visibility when the camera or a dragged group moves. Render canvas text with the established UI sans and named monospace families at native display density, capped at two. The active factory test uses regular tabular counts for its p95 frame interval in milliseconds; keep test measurements outside the game field.
 
 ## New world camps and obstructions
 
