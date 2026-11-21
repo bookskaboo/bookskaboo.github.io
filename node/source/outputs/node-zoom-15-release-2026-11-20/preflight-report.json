@@ -1,0 +1,21 @@
+{
+  "commit": "377ae6aee0d927f49b7f2db93c3a860d0ed4d6ec",
+  "base": "8b80b46725a294a63a7db2b7eb0fa7dbb0eec992",
+  "destination": "https://github.com/bookskaboo/bookskaboo.github.io.git refs/heads/main",
+  "changedFiles": 45,
+  "runtimeFiles": 11,
+  "previousRuntimeAssetsRetained": 164,
+  "onlyNodeChanged": true,
+  "canFastForward": true,
+  "worktreeClean": true,
+  "exactTestedCandidateBuild": true,
+  "runtimeSourceOverlay": [
+    "src/domain/camera.ts",
+    "src/domain/dragScroll.test.ts",
+    "src/renderer/sceneUpdates.test.ts",
+    "src/renderer/sceneUpdates.ts",
+    "src/simulation/sectorTravel.test.ts"
+  ],
+  "isolatedCandidateTests": 1345,
+  "checkedAt": "2026-11-21T06:46:02.913Z"
+}
