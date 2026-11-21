@@ -41,6 +41,8 @@ Control Groups persist membership and color. Clicking or dragging a member selec
 
 Copy/paste retains eligible selected nodes and their internal cables; world obstacles and disallowed nodes cannot be duplicated freely. Saved factory templates reuse layouts subject to current unlocks, world recipe pairing, placement and connection rules. Copies do not provide free stock or committed production batches.
 
+Paired-sector nodes such as Roads are excluded from factory templates, including imported template entries. Construct Road pairs through ordinary border placement so both endpoints share the crossing permission, clearance and channel checks. Border terrain is fixed world geography and cannot be copied or relocated.
+
 ## Shortcut bars
 
 Production uses 1–5, Logistics Shift + 1–5 and Storage Ctrl + 1–5. F1/F2/F3 toggle the bars. Slots can be assigned or cleared. Attached bars share a drag handle; detaching one preserves the remaining attachment. Preferred positions are saved separately from temporary viewport fitting.

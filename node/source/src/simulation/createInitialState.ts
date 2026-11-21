@@ -2,6 +2,7 @@ import type { GameState } from '../domain/types';
 import { GOLEM_PLACEMENT_TIER } from '../content/resourceGolems';
 import { createHomeSector } from './worldGeneration';
 import { activateMod } from '../mods/modContent';
+import { generateBorderObstructions } from './borderObstructions';
 
 export function createInitialState(seed = Math.floor(Math.random() * 2 ** 31)): GameState {
   activateMod();
@@ -15,6 +16,8 @@ export function createInitialState(seed = Math.floor(Math.random() * 2 ** 31)): 
     golemPlacementTier: GOLEM_PLACEMENT_TIER,
     encounterLayoutVersion: 2,
     worldRulesVersion: 2,
+    borderObstructionVersion: 1,
+    borderObstructions: generateBorderObstructions(seed),
     research: { unlocked: ['extractor'], contributed: {}, completed: [], mapPoints: 0, repeatableCompletions: {} },
     paused: false, playTimeMs: 0, achievements: [],
     preferences: { autosaveMinutes: 5, confirmDelete: true, particles: true, showGrid: true, snapToGrid: false, sound: false },

@@ -15,6 +15,7 @@ export const RESEARCH_GLYPHS: Record<string, string> = {
   researchCenter: '⌬', assembler: '⌑', splitter: '⑂', merger: '⋈', suppressionBot: '♟',
   exploration: '◎', mapNode: '◇', road: '⇥', automataCore: '◉', areaExpansion1: '⌗',
   basicElectricity: 'ϟ', treePlanter: '♧', miningDrill: '⇣',
+  riverBridges: '≈', mountainTunnels: '△', chasmSpans: '⋈',
 };
 
 const filterCores = ['simple-core', 'basic-core', 'automata-core', 'hydro-core', 'shiny-core', 'command-core', 'final-core'] as const;

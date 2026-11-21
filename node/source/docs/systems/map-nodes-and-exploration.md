@@ -37,7 +37,17 @@ Standard new worlds use the [28-hole-map distribution](../deep-hole-exploration-
 
 ## Fields and generation
 
-Visible river, chasm and mountain borders are [planned separately](../master-plan/21-border-obstructions.md); they are not current map-generation or exploration rules.
+### Shared border obstructions
+
+New standard worlds have sixteen river, twelve mountain and eight chasm borders, counted once per shared edge. Assignment uses the saved seed and independent border layout version, before discovery. The nearer endpoint tiers are 1–6 for rivers, 3–8 for mountains and 5–9 for chasms. Larger grids round each quota after multiplying by `2 × n × (n - 1) / 220`; ranges scale with the grid radius. A bounded deterministic generator retains a valid subset if exact quotas cannot fit.
+
+No two obstructed sides on a sector may meet at a right angle, including mixed types. Two opposite sides are allowed. Every map retains at least two clear in-world neighbors, all Home edges and Home–E1–E2 remain clear, and every blocked edge has a clear bypass of at most three hops. The clear graph preserves a Manhattan shortest route from Home to every destination. These are static graph safeguards: bypass sectors may still need purchase or Deep Hole completion. Border terrain does not block exploration or reserve an interior factory footprint.
+
+The field shows its clipped half of the shared terrain band. Only the selected Road placement/move ghost reveals the adjacent half. Node Map waves, peaks and paired fractures become visible after either neighboring map is visited. Selected-map rows list the side and terrain; rows, hover help and accessible labels omit research requirements. Research retains the terrain and allows ordinary Road placement worldwide: [crossing projects](roads-and-vehicles.md#border-crossing-research).
+
+Existing worlds with an absent or zero `borderObstructionVersion` keep clear borders forever, including subsequently generated sectors. Version one saves store and validate the authoritative shared-edge list. The [design and validation record](../master-plan/21-border-obstructions.md#local-implementation) distinguishes implemented safeguards from pending normal-play tuning. The [engine test screen](../../previews/border-obstructions/runtime.html) uses actual generation, renderer, map and placement code with synthetic empty fields and no browser-save writes.
+
+### Field layout and resources
 
 New fields begin at 3,600 × 2,400 world units. Area Expansion grows field dimensions across the world; older saves preserve their largest prior field as the shared baseline. Corner layouts follow expansion only when the move fits existing factories and cable boundaries.
 

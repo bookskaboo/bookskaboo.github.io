@@ -2,6 +2,10 @@
 
 ## Review state
 
+The border obstruction follow-up BO05 requires opposite sides for any pair of obstructions on one Map Node, across terrain types. BO06 centers each terrain band on its shared boundary at unchanged total width, with half belonging to each adjacent map. BO07 clips ordinary play to the current field and reveals the selected neighbor's matching terrain half only in the Road placement ghost. The [plan and simulation](21-border-obstructions.md#placement-and-crossing-rules) record these rules; whole-world generation and crossing gates are now implemented locally, with a 1,100-world static graph audit passing and normal-play tuning still pending. These supplement the completed BO01–BO04 review.
+
+The separate [border obstruction review](21-border-obstructions.md#design-decisions) is complete for BO01–BO04. BO01 adopts whole-border blocking. BO02 adopts rivers at Hydro, mountains at Shiny and chasms at Complex. BO03 adopts sixteen river, twelve mountain and eight chasm borders as the starting distribution for validation, with practical clear bypasses. BO04 adopts permanent worldwide crossing permission for ordinary Roads, using normal channels with no extra crossing fee or upkeep. The implementation adopts five of every Core through the named tier, the proposed placement ranges and static route safeguards. See the plan’s Local implementation section for measured coverage and pending normal-play tuning. These decisions do not reopen the completed Q01–Q144 interview.
+
 The initial Q01–Q24 review is complete. The milestone remains stabilization through Complex, with tier-7 design on paper. Approved requirements and historical proposals are recorded in the ledger and detail logs below; the system documents summarize current intended behavior separately from live implementation.
 
 Current focus: Q144 closes the design interview and defers the six extra QoL candidates. Authorized local implementation is delivered; document 20 records verification and limits. Reclamation uses a subsequently authorized temporary reference pending measurements. No interview questions remain in this pass.

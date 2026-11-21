@@ -1,4 +1,5 @@
 import { CableLayers } from './cableLayers';
+import { createBorderTerrain } from './borderTerrain';
 import { OverviewTextures } from './overviewTextures';
 import { createCampNodeStatus, updateCampNodeStatus } from './campNodeStatus';
 import { createCornerCampStatus, drawCornerCamp, updateCornerCampStatus } from './cornerCampView';
@@ -267,10 +268,11 @@ export function PixiPlayfield(props: Props) {
 
     const drawWorldSurface = () => {
       drawnGridEnabled = propsRef.current.engine.getState().preferences.showGrid;
-      surfaceLayer.removeChildren().forEach(child => child.destroy());
+      surfaceLayer.removeChildren().forEach(child => child.destroy({ children: true }));
       surfaceLayer.addChild(fieldSurface(worldSize, drawnGridEnabled));
       const sector = propsRef.current.engine.getSector();
-      drawnTerrain = sector.id + JSON.stringify(sector.filledHoles ?? []);
+      surfaceLayer.addChild(createBorderTerrain(propsRef.current.engine.getState(), sector.id, worldSize));
+      drawnTerrain = sector.id + JSON.stringify(sector.filledHoles ?? []) + JSON.stringify(propsRef.current.engine.getState().borderObstructions);
       for (const patch of sector.filledHoles ?? []) {
         const hole: MachineNode = { id:patch.id, kind:'big-hole', name:'Filled ground', x:patch.x,y:patch.y,rotation:patch.rotation,
           obstructionRadius:patch.radius, input:{},output:{},cycleMs:0,progressMs:0,constructedAt:0,constructionMs:0 };
@@ -656,6 +658,7 @@ export function PixiPlayfield(props: Props) {
       terrain.position.set(-crop.x * scale, -crop.y * scale);
       scene.addChild(terrain);
       terrain.addChild(fieldSurface(field, showGrid));
+      terrain.addChild(createBorderTerrain(propsRef.current.engine.getState(), sector.id, field));
 
       const nodes = new Map(sector.nodes.map(node => [node.id, node]));
       const cables = new Graphics();
@@ -827,7 +830,25 @@ export function PixiPlayfield(props: Props) {
       const { view, status } = placementView; const size = getNodeSize(preview.node); const color = preview.valid ? 0x72dca1 : THEME.danger;
       view.root.visible = true; view.root.alpha = preview.valid ? .8 : .66; view.root.position.set(preview.node.x, preview.node.y); view.invalidOverlay.clear().roundRect(-size.w / 2 - 6, -size.h / 2 - 6, size.w + 12, size.h + 12, 15).fill({ color, alpha: preview.valid ? .055 : .16 }).stroke({ color, width: 4, alpha: .98 });
       const inserts = drawInsertionPreview(preview.node, preview.valid);
-      status.text = preview.valid ? inserts ? 'Click to insert' : 'Click to place' : 'Blocked'; status.style.fill = color; status.position.set(0, size.h / 2 + 18); status.scale.set(nodeTextScale(camera.zoom));
+      status.text = preview.valid ? inserts ? 'Click to insert' : 'Click to place' : preview.crossingRequirement ?? 'Blocked';
+      status.style.wordWrap = Boolean(preview.crossingRequirement);
+      status.style.wordWrapWidth = Math.min(240, Math.max(100, worldSize.width * camera.zoom - 16));
+      status.style.fill = color;
+      status.style.fontSize = preview.crossingRequirement ? 12 : 11;
+      if (placementView.crossingFeedback !== Boolean(preview.crossingRequirement)) {
+        placementView.crossingFeedback = Boolean(preview.crossingRequirement);
+        status.style.stroke = { color: THEME.surface, width: preview.crossingRequirement ? 3 : 0 };
+      }
+      if (preview.crossingRequirement) {
+        // A required action must remain readable at overview zoom and inside this field.
+        status.anchor.set(.5, 0); status.scale.set(1 / camera.zoom);
+        const margin = 8 / camera.zoom, halfWidth = status.width / 2;
+        const x = Math.max(margin + halfWidth - preview.node.x, Math.min(0, worldSize.width - margin - halfWidth - preview.node.x));
+        const y = Math.max(margin - preview.node.y, Math.min(size.h / 2 + margin, worldSize.height - margin - status.height - preview.node.y));
+        status.position.set(x, y);
+      } else {
+        status.anchor.set(.5); status.position.set(0, size.h / 2 + 18); status.scale.set(nodeTextScale(camera.zoom));
+      }
     };
 
     const createCableView = (connection: Connection, nodes: Map<string, MachineNode>, connections: Connection[]) => {
@@ -947,7 +968,7 @@ export function PixiPlayfield(props: Props) {
       worldSize = nextWorldSize;
       if (renderedSectorId !== sector.id || renderedState !== propsRef.current.engine.getState()) { drag = undefined; propsRef.current.onDragPreview?.(undefined); groupSelection.clear(); controlHover.clear(); renderedState = propsRef.current.engine.getState(); renderedSectorId = sector.id; camera = { ...sector.camera }; clearConnectionRejection(); trackedTransfers.clear(); seenTransferIds.clear(); lastInputTotals.clear(); flashStartedAt.clear(); updateCamera(); }
       if (worldSizeChanged || !surfaceLayer.children.length) { drawWorldSurface(); updateCamera(); }
-      else if (preferences.showGrid !== drawnGridEnabled || drawnTerrain !== sector.id + JSON.stringify(sector.filledHoles ?? [])) drawWorldSurface();
+      else if (preferences.showGrid !== drawnGridEnabled || drawnTerrain !== sector.id + JSON.stringify(sector.filledHoles ?? []) + JSON.stringify(propsRef.current.engine.getState().borderObstructions)) drawWorldSurface();
       if (reset) {
         nodeIdentities.clear(); cableIdentities.clear(); cableInputs.clear(); pathCache.clear();
         particleLayer.removeChildren().forEach(child => child.destroy({ children: true }));

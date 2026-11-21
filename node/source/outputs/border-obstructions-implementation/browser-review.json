@@ -1,0 +1,74 @@
+{
+  "terrainChecks": [
+    {
+      "terrain": "mountain",
+      "blocked": "N2.E4 · south mountain · Crossing blocked · 36 generated borders. Mountain crossing requires Shiny research: Mountain Tunnels."
+    },
+    {
+      "terrain": "mountain",
+      "allowed": "N2.E4 · south mountain · Crossing permitted · 36 generated borders. Road pair placed with the normal channel limit."
+    },
+    {
+      "terrain": "chasm",
+      "blocked": "S3.E2 · south chasm · Crossing blocked · 36 generated borders. Chasm crossing requires Complex research: Chasm Spans."
+    },
+    {
+      "terrain": "chasm",
+      "allowed": "S3.E2 · south chasm · Crossing permitted · 36 generated borders. Road pair placed with the normal channel limit."
+    }
+  ],
+  "modal": {
+    "markerRequirementText": false,
+    "markers": 36,
+    "overflow": false,
+    "summary": "Border obstructionsSouth · River"
+  },
+  "mobile": {
+    "width": 390,
+    "height": 844,
+    "overflow": false,
+    "markers": 36,
+    "summaryVisible": true
+  },
+  "directions": [
+    "north",
+    "east",
+    "south",
+    "west"
+  ],
+  "logs": [
+    {
+      "level": "warn",
+      "message": "PixiJS Warning:  [BindGroup] a 'textureSource' was destroyed while still bound to a shader. Remove it from the shader before destroying it.",
+      "timestamp": "2026-11-21T00:40:26.857Z",
+      "url": "http://127.0.0.1:4185/@vite/client"
+    },
+    {
+      "level": "warn",
+      "message": "PixiJS Warning:  [BindGroup] a 'textureSampler' was destroyed while still bound to a shader. Remove it from the shader before destroying it.",
+      "timestamp": "2026-11-21T00:40:26.857Z",
+      "url": "http://127.0.0.1:4185/@vite/client"
+    },
+    {
+      "level": "warn",
+      "message": "PixiJS Warning:  [BindGroup] a 'textureSource' was destroyed while still bound to a shader. Remove it from the shader before destroying it.",
+      "timestamp": "2026-11-21T00:40:40.800Z",
+      "url": "http://127.0.0.1:4185/@vite/client"
+    },
+    {
+      "level": "warn",
+      "message": "PixiJS Warning:  [BindGroup] a 'textureSampler' was destroyed while still bound to a shader. Remove it from the shader before destroying it.",
+      "timestamp": "2026-11-21T00:40:40.801Z",
+      "url": "http://127.0.0.1:4185/@vite/client"
+    }
+  ],
+  "limits": [
+    "Synthetic empty fields and explicit fixture grants; no normal-play balance claim",
+    "Browser saves and minimap layout storage untouched"
+  ],
+  "previewFeedback": {
+    "desktop": "Missing project and Core tier visible in held Road preview; warning disappears after permission",
+    "mobile": "Wrapped warning stays within current field at 390 px; no horizontal overflow",
+    "screenshot": "preview-warning-mobile.png"
+  }
+}

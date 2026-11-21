@@ -240,6 +240,9 @@ export interface GameState {
   encounterLayoutVersion?: 1 | 2;
   /** Absent on old saves means legacy rules. Only newly created worlds select 2. */
   worldRulesVersion?: 1 | 2;
+  /** Absent or zero preserves a world without border terrain, including future discoveries. */
+  borderObstructionVersion?: 0 | 1;
+  borderObstructions?: import('./borderObstructionLayout').SharedBorderObstruction[];
   research: ResearchState;
   isTraining?: boolean;
   paused: boolean;

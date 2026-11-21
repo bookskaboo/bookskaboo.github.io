@@ -1,0 +1,5 @@
+{
+  "extends": "../../tsconfig.app.json",
+  "compilerOptions": { "tsBuildInfoFile": "../../node_modules/.cache/node/border-obstructions.tsbuildinfo" },
+  "include": ["./*.ts", "./*.tsx", "../../src/vite-env.d.ts"]
+}

@@ -1,0 +1,101 @@
+{
+  "generatedAt": "2026-11-21T00:57:41.828Z",
+  "milliseconds": 23818,
+  "groups": [
+    {
+      "size": 11,
+      "seeds": 1000,
+      "targets": {
+        "river": 16,
+        "mountain": 12,
+        "chasm": 8
+      },
+      "failures": [],
+      "fallbackSeeds": [],
+      "minMaps": 59,
+      "maxMaps": 70,
+      "minQuadrants": 3
+    },
+    {
+      "size": 13,
+      "seeds": 20,
+      "targets": {
+        "river": 23,
+        "mountain": 17,
+        "chasm": 11
+      },
+      "failures": [],
+      "fallbackSeeds": [],
+      "minMaps": 88,
+      "maxMaps": 97,
+      "minQuadrants": 3
+    },
+    {
+      "size": 15,
+      "seeds": 20,
+      "targets": {
+        "river": 31,
+        "mountain": 23,
+        "chasm": 15
+      },
+      "failures": [],
+      "fallbackSeeds": [],
+      "minMaps": 117,
+      "maxMaps": 129,
+      "minQuadrants": 4
+    },
+    {
+      "size": 17,
+      "seeds": 20,
+      "targets": {
+        "river": 40,
+        "mountain": 30,
+        "chasm": 20
+      },
+      "failures": [],
+      "fallbackSeeds": [],
+      "minMaps": 157,
+      "maxMaps": 169,
+      "minQuadrants": 4
+    },
+    {
+      "size": 19,
+      "seeds": 20,
+      "targets": {
+        "river": 50,
+        "mountain": 37,
+        "chasm": 25
+      },
+      "failures": [],
+      "fallbackSeeds": [],
+      "minMaps": 198,
+      "maxMaps": 208,
+      "minQuadrants": 4
+    },
+    {
+      "size": 21,
+      "seeds": 20,
+      "targets": {
+        "river": 61,
+        "mountain": 46,
+        "chasm": 31
+      },
+      "failures": [],
+      "fallbackSeeds": [],
+      "minMaps": 237,
+      "maxMaps": 250,
+      "minQuadrants": 4
+    }
+  ],
+  "safeguards": [
+    "Unique orthogonal shared borders; no adjacent occupied sides on either endpoint",
+    "At least two clear neighbors per sector; all Home borders and E1–E2 clear",
+    "Connected clear graph; clear Home-to-every-sector Manhattan shortest route",
+    "Every obstructed border has a clear bypass of at most three hops"
+  ],
+  "limits": [
+    "Static graph audit; bypass sectors may still need purchase or Deep Hole completion",
+    "No normal-play routing, shipment-rate or progression-time balance claim",
+    "45–60 maps touched was a recommendation; actual coverage is reported without reducing agreed quotas"
+  ]
+}

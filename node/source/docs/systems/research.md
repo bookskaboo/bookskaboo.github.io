@@ -6,6 +6,8 @@ Research combines free discoveries with paid projects. The single Research Cente
 
 ## Discoveries and projects
 
+Three independent Logistics projects grant permanent worldwide Road crossing permission: River Bridges at Hydro, Mountain Tunnels at Shiny and Chasm Spans at Complex. Each requires Road and the corresponding Core project, and costs five of every Core from Simple through that tier. Research Centers process these ordinary paid projects through the existing selection and synchronized payment rules. They place no Roads automatically and add no transport penalty. See [crossing rules](roads-and-vehicles.md#border-crossing-research).
+
 Automatic milestones complete when their trigger occurs, such as extracting Wood, producing a Plate, encountering a Lake or producing the first Complex Core. They are not paid projects to start in the lab. Ordinary projects require all named prerequisites, including both the singular and plural prerequisite fields.
 
 Each Core has its own recipe project. Simple Core unlocks automatically with the Refiner. Every later Core project costs five of each earlier Core and also requires the prior Core project and its machine/technology prerequisite. Unlocking a machine alone does not unlock all its recipes.

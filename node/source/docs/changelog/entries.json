@@ -19334,6 +19334,83 @@
         "outputs/guarded-camp-placement-2026-11-20/inside-camp.jpg"
       ],
       "validation": "Workspace passed 1,889 tests with two existing skips and its site build. The isolated release passed 1,064 tests with one existing skip, site build, obstruction preview TypeScript and system/history checks. Corrected candidate history-template line endings after its viewer check failed; all six history checks then passed. Preflight confirmed a clean fast-forward, only node/ changes, exact seventeen-file source scope, committed build/source matching the tested files, all prior assets unchanged and the complete original layout algorithm identical to the published base. GitHub Pages run 44835599086 succeeded. Normal live HTML and all ten current assets matched SHA-256; all ten preceding-build assets also matched. Desktop/390-pixel interior-camp fixture evidence remains in NODE-0632. No player game tab was reloaded, saved map position migrated or normal-play balance run performed. Word structural checks passed earlier; visual render QA remains unavailable because LibreOffice is missing."
+    },
+    {
+      "id": "NODE-0659",
+      "date": "2026-11-20",
+      "dateBasis": "chat",
+      "kind": "added",
+      "state": "implemented",
+      "delivery": "local",
+      "title": "Add shared-border terrain and permanent Road crossing research to new worlds",
+      "summary": "Implement rivers, mountains and chasms using the approved field artwork and Node Map presentation, with tiered worldwide crossing permission and clear-route safeguards.",
+      "details": [
+        "New standard worlds save sixteen river, twelve mountain and eight chasm shared edges under independent border layout version one. Whole-border placement blocks apply from either side; mixed terrain cannot form an adjacent-side right angle. Existing worlds normalize to clear version zero, including future discoveries.",
+        "River Bridges at Hydro, Mountain Tunnels at Shiny and Chasm Spans at Complex each cost five of every Core through their tier and require Road plus the corresponding Core project. Normal Research Center payment grants independent worldwide permission. Players still build ordinary Road pairs with normal channels, clearance and shipment behavior; terrain remains with no separate after-research artwork.",
+        "Seeded bounded generation preserves all Home edges, the E1–E2 lake corridor, two clear neighbors per map, a clear Manhattan shortest route from Home to every destination and a three-hop local bypass for every blocked edge. Larger grids scale quotas/ranges before first non-Home generation; existing layout versions and undo are preserved. Invalid layouts and unresearched saved paired crossings are rejected; factory templates exclude paired-sector nodes.",
+        "Pixi reuses the approved vectors with matching clipped halves, canonical orientation and fixed width during field expansion. Only the selected Road placement/move ghost reveals the adjacent half. The main Node Map shows discovered waves, peaks and fracture marks and side/terrain rows without research requirement text, retaining symbols after research. Invalid held Road previews name the required project and highest Core tier, with a wrapped 12 CSS px warning kept inside the current field at overview zoom.",
+        "Add a self-contained actual-engine test screen with synthetic empty fields and explicit research grants, keeping browser saves and minimap layout preferences untouched. Retain the art gallery and nine-sample modal reference. Update current map, Road, research, save, mod, interface, controls and testing references, the existing plan, generated catalogs and both Word references.",
+        "The 1,100-world static audit reaches exact quotas with no fallback and at least three quadrants per type. Standard layouts touch 59–70 maps, exceeding the proposed 45–60 estimate while retaining agreed density and safeguards. Normal-play purchase timing, useful crossing frequency and progression-time balance remain pending; this is not a balance run."
+      ],
+      "topics": [
+        "World",
+        "Logistics",
+        "Research",
+        "Interface",
+        "Art",
+        "Saves",
+        "Documentation",
+        "Testing"
+      ],
+      "sources": [
+        "local-code"
+      ],
+      "evidence": [
+        "src/domain/borderObstructionLayout.ts",
+        "src/domain/types.ts",
+        "src/simulation/borderObstructions.ts",
+        "src/simulation/borderObstructions.test.ts",
+        "src/simulation/createInitialState.ts",
+        "src/simulation/engine.ts",
+        "src/simulation/factoryTemplateRuntime.ts",
+        "src/content/research.ts",
+        "src/persistence/legacyMigration.ts",
+        "src/renderer/borderTerrain.ts",
+        "src/renderer/borderTerrain.test.ts",
+        "src/renderer/PixiPlayfield.tsx",
+        "src/ui/MapBorderObstructions.tsx",
+        "src/ui/MapBorderObstructions.test.tsx",
+        "src/ui/mapBorderObstructions.css",
+        "src/ui/NodeMinimap.tsx",
+        "src/ui/researchUiConfig.ts",
+        "src/art/borderObstructionArt.ts",
+        "scripts/progression.test.ts",
+        "scripts/audit-border-obstructions.mjs",
+        "scripts/build-border-art.mjs",
+        "previews/border-obstructions/runtime.tsx",
+        "previews/border-obstructions/README.md",
+        "docs/master-plan/21-border-obstructions.md",
+        "docs/systems/map-nodes-and-exploration.md",
+        "docs/systems/roads-and-vehicles.md",
+        "docs/node-ui-style-guide.docx",
+        "docs/typography-style-review.docx",
+        "outputs/border-obstructions-page/runtime.html",
+        "outputs/border-obstructions-implementation/seed-audit.json",
+        "outputs/border-obstructions-implementation/browser-review.json",
+        "outputs/border-obstructions-implementation/generated-node-map.png",
+        "outputs/border-obstructions-implementation/generated-node-map-mobile.png",
+        "outputs/border-obstructions-implementation/tests.log",
+        "outputs/border-obstructions-implementation/final-regression.log",
+        "outputs/border-obstructions-implementation/word-structure.json",
+        "outputs/border-obstructions-implementation/style-guide-render.log",
+        "outputs/border-obstructions-implementation/style-notes-render.log",
+        "outputs/border-obstructions-implementation/verification.json",
+        "src/renderer/playfieldTypes.ts",
+        "outputs/border-obstructions-implementation/preview-feedback-tests.log",
+        "outputs/border-obstructions-implementation/preview-feedback-word-structure.json",
+        "outputs/border-obstructions-implementation/preview-warning-mobile.png"
+      ],
+      "validation": "Current src/scripts/previews suite passes 1,143 tests across 108 files, with one optional test/file skipped; archived release copies are excluded. Final save/mod/Road/terrain regression passes 173 tests after cleanup; renderer/Road/permission feedback checks pass 167 tests. Normal Research Center payment, independent projects, both-side atomic rejection, ghosts, reversal, extra channels, movement, copy/templates, undo, reload/imports, legacy worlds and grid resizing are covered. Audit checks 1,000 standard seeds and twenty for each of five larger grids: exact quotas, no fallback, all graph/corner safeguards pass. Browser verifies all terrain types blocked and researched, matching halves in all four directions, 36 map markers, side-only summaries, no research text in marker labels, desktop and 390 px layout without overflow, and no error logs. Repeated preview resets emitted four Pixi texture-source/sampler binding disposal warnings; rendering continued and the library nulls the destroyed bindings. Main and /node/ builds, preview types/build, six catalog generation/freshness/link checks and history checks pass. Both Word files preserve tables/unrelated text and reopen; packaged rendering fails because LibreOffice soffice.exe is absent, leaving Word page layout unverified. No normal-play balance run, player-save edit, commit or publication."
     }
   ]
 }

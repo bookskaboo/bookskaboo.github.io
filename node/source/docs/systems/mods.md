@@ -18,6 +18,8 @@ Changes affect the appropriate boundary: future construction and shipments use n
 
 Grid size can change before generating another map beyond Home. Larger worlds preserve Home's coordinate and move the four corner destinations to the new boundaries. Existing factories retain generated maps and progress when returning to base rules.
 
+Changing grid size at that early boundary regenerates version-one border terrain from the same seed with scaled quotas and ranges. Existing version-zero worlds remain clear. Border assignments persist when removing a mod without changing the retained world size. Crossing projects use the normal research override system; there is no separate border-count or terrain-layout mod override in this version.
+
 ## Sharing and saves
 
 The editor draft is browser-local. Text export produces editable JSON; share codes provide another validated exchange format. Imports replace the draft after validation. Apply to factory activates the package. Saves embed the entire applied package, so loading restores it independently of the latest draft or external file.

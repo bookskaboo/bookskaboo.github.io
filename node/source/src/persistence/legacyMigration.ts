@@ -1,5 +1,6 @@
 import { validateMod } from '../mods/modValidation';
-import { isWorldGridSize } from '../domain/worldGrid';
+import { isWorldGridSize, worldGridSize } from '../domain/worldGrid';
+import { borderRoadPermissionsValid, normalizeBorderLayout } from '../simulation/borderObstructions';
 import { NODE_DEFINITIONS } from '../content/nodes';
 import { migrateCoreResearch } from '../content/coreResearch';
 import { RECIPES } from '../content/recipes';
@@ -169,6 +170,7 @@ function normalizeGameState(value: GameState) {
   if (value.worldGridSize !== undefined && !isWorldGridSize(value.worldGridSize)) return null;
   if (value.worldRulesVersion !== undefined && value.worldRulesVersion !== 1 && value.worldRulesVersion !== 2) return null;
   const state = structuredClone(value);
+  try { Object.assign(state, normalizeBorderLayout(state.borderObstructionVersion, state.borderObstructions, worldGridSize(state))); } catch { return null; }
   state.worldRulesVersion ??= 1;
   if (state.mod) {
     try { state.mod = validateMod(state.mod); } catch { return null; }
@@ -177,6 +179,7 @@ function normalizeGameState(value: GameState) {
   for (const sector of Object.values(state.sectors)) if (sector.controlGroups !== undefined) sector.controlGroups = normalizeControlGroups(sector.controlGroups, sector.nodes);
   state.produced ??= {}; state.extracted ??= {}; state.hasCreatedConnection ??= false; state.research.completed ??= []; state.research.repeatableCompletions ??= {};
   migrateCoreResearch(state);
+  if (!borderRoadPermissionsValid(state)) return null;
   state.preferences ??= { autosaveMinutes: 5, confirmDelete: true, particles: true, showGrid: true, snapToGrid: false, sound: false };
   state.preferences.snapToGrid ??= false;
   state.events ??= []; state.achievements ??= [];

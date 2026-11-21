@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, type ReactNode } from 'react';
 import { ITEM_NAMES } from '../content/items';
 import type { GameState, ItemId } from '../domain/types';
 import type { GameEngine } from '../simulation/engine';
@@ -8,9 +8,10 @@ import { MaterialIcon } from './MaterialIcon';
 import { destinationMapCosts, isMapFrontier, pendingMapPayment, mapExplorationBlockers, mapPurchaseProtected } from '../simulation/mapExpansion';
 
 /** Inspection and actions for the expanded state of the minimap. */
-export function MapNodeDetails({ game, engine, selectedId, cornerName, allowedSectorId, onActivate }: {
+export function MapNodeDetails({ game, engine, selectedId, cornerName, allowedSectorId, onActivate, extraSummary }: {
   game: GameState; engine: GameEngine; selectedId: string | null;
   cornerName?: string; allowedSectorId?: TutorialChoice; onActivate(): void;
+  extraSummary?: ReactNode;
 }) {
   const displayId = selectedId ?? game.activeSectorId;
   const selected = game.sectors[displayId];
@@ -37,6 +38,7 @@ export function MapNodeDetails({ game, engine, selectedId, cornerName, allowedSe
   return <div className="map-info">
     <div className="map-info-scroll">
       <div className="map-coordinates"><b>{mapNodePosition(selectedX, selectedY)}</b></div>
+      {extraSummary}
       {selectedId && explored && <div className="map-node-editor">
         <label>Node name<input disabled={allowedSectorId !== undefined} value={draftName} maxLength={30} onChange={(event) => setDraftName(event.target.value)} /></label>
         <label>Map label<input disabled={allowedSectorId !== undefined} value={draftLabel} maxLength={3} onChange={(event) => setDraftLabel(event.target.value.toUpperCase())} /></label>

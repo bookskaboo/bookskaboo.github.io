@@ -1,5 +1,5 @@
 import { NODE_MAP_LAYOUT_KEY as LAYOUT_KEY } from '../persistence/storageKeys';
-import { useEffect, useRef, useState, type CSSProperties, type PointerEvent as ReactPointerEvent } from 'react';
+import { useEffect, useRef, useState, type CSSProperties, type ReactNode, type PointerEvent as ReactPointerEvent } from 'react';
 import { cargoMaterial } from '../content/botAssembly';
 import { ITEM_COLORS, ITEM_NAMES, materialTypeName } from '../content/items';
 import type { GameState, ItemId, SectorState } from '../domain/types';
@@ -9,6 +9,7 @@ import { permitsTutorialChoice, type TutorialChoice } from '../tutorials/tutoria
 import { fitMinimap } from './responsiveLayout';
 import { useViewport } from './useViewport';
 import { MapNodeDetails } from './MapNodeDetails';
+import { MapBorderMarkers, MapBorderSummary } from './MapBorderObstructions';
 import { IconGlyph } from './NodeIcon';
 import { sectorId } from '../simulation/worldGeneration';
 import { roadMaterialState } from '../simulation/roadMaterials';
@@ -18,6 +19,9 @@ import { MAP_LANDMARKS, mapCornerMarkers, mapLandmarkSurvey, mapNodeHoverDetails
 const landmarkOrder = Object.keys(MAP_LANDMARKS) as MapLandmark[];
 
 interface Props {
+  persistLayout?: boolean;
+  mapOverlay?: ReactNode;
+  sectorSummary?(id: string): ReactNode;
   expanded?: boolean;
   dockHeight?: number;
   allowedSectorId?: TutorialChoice;
@@ -38,7 +42,7 @@ function readLayout(): { position?: Point; size: number } {
   } catch { return { size: 276 }; }
 }
 
-export function NodeMinimap({ game, engine, allowedSectorId, dockHeight = 0, expanded = false, onTravel, onOpenMap, onClose, onHoverChange }: Props) {
+export function NodeMinimap({ game, engine, allowedSectorId, dockHeight = 0, expanded = false, persistLayout = true, mapOverlay, sectorSummary, onTravel, onOpenMap, onClose, onHoverChange }: Props) {
   useEffect(() => () => onHoverChange(false), [onHoverChange]);
   const [selected, setSelected] = useState<string | null>(null);
   const [filters, setFilters] = useState<ReadonlySet<MapLandmark>>(() => new Set());
@@ -46,8 +50,8 @@ export function NodeMinimap({ game, engine, allowedSectorId, dockHeight = 0, exp
   const [expandedZoom, setExpandedZoom] = useState(1);
   const zoom = expanded ? expandedZoom : compactZoom;
   const setZoom = expanded ? setExpandedZoom : setCompactZoom;
-  const [position, setPosition] = useState<Point | undefined>(() => readLayout().position);
-  const [size, setSize] = useState(() => readLayout().size);
+  const [position, setPosition] = useState<Point | undefined>(() => persistLayout ? readLayout().position : undefined);
+  const [size, setSize] = useState(() => persistLayout ? readLayout().size : 276);
   const viewport = useViewport();
   const fitted = fitMinimap(viewport, size, position, dockHeight);
   const mapViewportRef = useRef<HTMLDivElement>(null);
@@ -110,7 +114,7 @@ export function NodeMinimap({ game, engine, allowedSectorId, dockHeight = 0, exp
     }
   };
   const clampPanel = (next: Point, panelSize = size) => ({ x: Math.min(Math.max(8, window.innerWidth - panelSize - 8), Math.max(8, next.x)), y: Math.min(Math.max(82, window.innerHeight - panelSize - 82), Math.max(82, next.y)) });
-  useEffect(() => { try { localStorage.setItem(LAYOUT_KEY, JSON.stringify({ position, size })); } catch { /* Keep dragging available when browser storage is full. */ } }, [position, size]);
+  useEffect(() => { if (!persistLayout) return; try { localStorage.setItem(LAYOUT_KEY, JSON.stringify({ position, size })); } catch { /* Keep dragging available when browser storage is full. */ } }, [position, size, persistLayout]);
   const beginDrag = (event: ReactPointerEvent<HTMLElement>) => { if (expanded || event.button !== 0 || (event.target as HTMLElement).closest('button')) return; event.preventDefault(); const bounds = event.currentTarget.parentElement!.getBoundingClientRect(); event.currentTarget.setPointerCapture(event.pointerId); dragRef.current = { pointerId: event.pointerId, start: { x: event.clientX, y: event.clientY }, origin: { x: bounds.left, y: bounds.top } }; };
   const moveDrag = (event: ReactPointerEvent<HTMLElement>) => { const drag = dragRef.current; if (!drag || drag.pointerId !== event.pointerId) return; setPosition(clampPanel({ x: drag.origin.x + event.clientX - drag.start.x, y: drag.origin.y + event.clientY - drag.start.y })); };
   const endDrag = (event: ReactPointerEvent<HTMLElement>) => { if (dragRef.current?.pointerId === event.pointerId) dragRef.current = undefined; };
@@ -201,8 +205,9 @@ export function NodeMinimap({ game, engine, allowedSectorId, dockHeight = 0, exp
             data-tooltip={`${mapNodePosition(source.x, source.y)} ${bidirectional ? '↔' : '→'} ${mapNodePosition(target.x, target.y)}`}
             data-tooltip-detail={itemLabel} />;
         })}
+        {mapOverlay ?? <MapBorderMarkers game={game} />}
       </div>
-    </div>{expanded && <MapNodeDetails game={game} engine={engine} selectedId={selected} cornerName={cornerMarkers.get(selectedKey)} allowedSectorId={allowedSectorId} onActivate={activate} />}</div>
+    </div>{expanded && <MapNodeDetails game={game} engine={engine} selectedId={selected} cornerName={cornerMarkers.get(selectedKey)} allowedSectorId={allowedSectorId} onActivate={activate} extraSummary={sectorSummary ? sectorSummary(selectedKey) : <MapBorderSummary game={game} id={selectedKey} />} />}</div>
     {!expanded && <footer><span>{!selected ? 'Select a Map Node' : active ? 'Current node' : sector ? mapNodeName(sector) : mapNodePosition(x, y)}</span><button className={selected && !selectedBlocked && ((!active && unlocked) || (available && hasPoint) || price) ? 'ready' : ''} disabled={!selected || selectedBlocked || !permitsTutorialChoice(allowedSectorId, selected) || active || (!unlocked && (!available || (!hasPoint && !price)))} onClick={price ? onOpenMap : activate}>{!selected ? 'Select a Node' : active ? 'Current Node' : unlocked ? 'Travel' : selectedBlocked ? 'Exploration blocked' : available && hasPoint ? 'Activate · 1' : price ? 'View price' : 'Select a Node'}</button></footer>}
     {!expanded && <button className="node-map-resize" aria-label="Resize Node Map" onPointerDown={beginResize} onPointerMove={moveResize} onPointerUp={endResize} onPointerCancel={endResize} />}
   </aside></div>;

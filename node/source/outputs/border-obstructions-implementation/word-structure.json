@@ -1,0 +1,22 @@
+[
+  {
+    "file": "docs\\node-ui-style-guide.docx",
+    "priorParagraphs": 92,
+    "changedParagraphs": [
+      80
+    ],
+    "appendedParagraphs": 4,
+    "tablesPreserved": 1,
+    "unrelatedTextPreserved": true,
+    "reopened": true
+  },
+  {
+    "file": "docs\\typography-style-review.docx",
+    "priorParagraphs": 149,
+    "changedParagraphs": [],
+    "appendedParagraphs": 3,
+    "tablesPreserved": 5,
+    "unrelatedTextPreserved": true,
+    "reopened": true
+  }
+]

@@ -57,5 +57,5 @@ export interface ConnectionDragState { originNodeId: string; active: PortHandle;
 export interface ConnectionRejection { origin: PortHandle; target?: PortHandle; point: { x: number; y: number }; startedAt: number }
 export interface CurveMotionSample { x: number; y: number; distance: number }
 export interface FlowParticle { root: Container; quantity?: Text; connectionId: string; transfer: InFlightTransfer; path: CurveMotionSample[]; passages: Array<{ nodeId: string; phase: number }>; passed: Set<string> }
-export interface PlacementView { kind: NodeKind; roadFacing?: MachineNode['roadFacing']; view: NodeView; status: Text }
+export interface PlacementView { kind: NodeKind; roadFacing?: MachineNode['roadFacing']; view: NodeView; status: Text; crossingFeedback?: boolean }
 

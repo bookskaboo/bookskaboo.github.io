@@ -38,6 +38,7 @@ The [current implementation report](20-endgame-implementation.md) is the startin
 | [Victory modal](16-victory-modal.md) | Glowing ending presentation, finished draft copy and local preview | Runtime integrated; rendered/interactivity verification remains |
 | [Endgame research and world reshaping](17-endgame-research-and-world-reshaping.md) | Resource/Lake/camp movement, Deep Hole efficiency and Forest-inclusive regeneration; other QoL candidates | Implemented locally; geometry, migration and normal-play validation |
 | [Endgame transport research](18-endgame-transport-research.md) | Road channels up to five per face; coordinated Train capacity and transfer research | Ranks, prices and transfer gains implemented; sustained delivered-rate validation |
+| [Map border obstructions](21-border-obstructions.md) | Visible rivers, chasms and mountains, crossing research and whole-map density | Implemented locally in new games; 1,100-world graph audit passed; normal-play tuning pending |
 
 ## How to read status
 

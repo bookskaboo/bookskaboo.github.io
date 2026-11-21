@@ -6,7 +6,7 @@ Generated base-game reference. Run `npm run docs:systems` after catalog changes;
 
 Sources: [research](../../../src/content/research.ts), [coreResearch](../../../src/content/coreResearch.ts), [machineEfficiency](../../../src/content/machineEfficiency.ts), [endgame](../../../src/content/endgame.ts).
 
-128 live projects, including automatic discoveries and repeatables. Costs are the assembled first-purchase prices after minimum-price rules. Extra Map Point uses destination pricing in ordinary play; its row is the fallback opening price. Repeatable costs can grow. Prerequisites include both prerequisite fields; an internal production milestone has no research card.
+131 live projects, including automatic discoveries and repeatables. Costs are the assembled first-purchase prices after minimum-price rules. Extra Map Point uses destination pricing in ordinary play; its row is the fallback opening price. Repeatable costs can grow. Prerequisites include both prerequisite fields; an internal production milestone has no research card.
 
 <a id="research-cornerComponents"></a>
 
@@ -1009,6 +1009,30 @@ Cost growth per completion: ×1.5, rounded up with the applicable Core minimum.
 | ID | Category | Price or discovery | Prerequisites | Effect |
 | --- | --- | --- | --- | --- |
 | `road` | World | 5 Simple Core + 5 Basic Core | None | Unlocks Roads and Carts. |
+
+<a id="research-riverBridges"></a>
+
+## River Bridges
+
+| ID | Category | Price or discovery | Prerequisites | Effect |
+| --- | --- | --- | --- | --- |
+| `riverBridges` | Logistics | 5 Simple Core + 5 Basic Core + 5 Automata Core + 5 Hydro Core | [Road](research.md#research-road), [Hydro Core](research.md#research-hydroCore) | Roads can cross rivers worldwide. |
+
+<a id="research-mountainTunnels"></a>
+
+## Mountain Tunnels
+
+| ID | Category | Price or discovery | Prerequisites | Effect |
+| --- | --- | --- | --- | --- |
+| `mountainTunnels` | Logistics | 5 Simple Core + 5 Basic Core + 5 Automata Core + 5 Hydro Core + 5 Shiny Core | [Road](research.md#research-road), [Shiny Core](research.md#research-shinyCore) | Roads can cross mountains worldwide. |
+
+<a id="research-chasmSpans"></a>
+
+## Chasm Spans
+
+| ID | Category | Price or discovery | Prerequisites | Effect |
+| --- | --- | --- | --- | --- |
+| `chasmSpans` | Logistics | 5 Simple Core + 5 Basic Core + 5 Automata Core + 5 Hydro Core + 5 Shiny Core + 5 Complex Core | [Road](research.md#research-road), [Complex Core](research.md#research-complexCore) | Roads can cross chasms worldwide. |
 
 <a id="research-trucks"></a>
 

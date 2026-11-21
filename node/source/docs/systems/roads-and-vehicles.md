@@ -6,11 +6,23 @@ Roads carry one solid material stream between adjacent unlocked Map Nodes. The s
 
 ## Route construction
 
+New-world river, mountain and chasm borders block Road placement across their entire shared edge until the matching project is complete. Preview and paired placement use the same permission query from either side; both endpoints are rejected together. Extra channels and moving along the wall do not bypass the restriction. Paired dragging also checks permission. Factory templates exclude paired-sector nodes, including imported template payloads.
+
 Build production or routing → sending vehicle → exporting Road, then importing Road → receiving vehicle → local consumers or routing. Filters, Joints and Splitters belong before the sending vehicle or after the receiving vehicle. Fluids cannot use this route.
 
 Placement creates both facing endpoints together only if both positions and face slots are legal. The chosen face must lead to an unlocked neighbor. Reversing direction swaps the endpoint roles and disconnects endpoint cables for rewiring. Selecting the existing direction through the engine is a no-op. The direction panel describes flow relative to the current map.
 
-## Capacity and rate
+## Border crossing research
+
+| Project | Highest Core tier | Bill | Prerequisites |
+| --- | --- | --- | --- |
+| River Bridges | Hydro | Five each, Simple through Hydro | Road, Hydro Core |
+| Mountain Tunnels | Shiny | Five each, Simple through Shiny | Road, Shiny Core |
+| Chasm Spans | Complex | Five each, Simple through Complex | Road, Complex Core |
+
+Each independent project permanently permits ordinary Roads across every matching border worldwide. Players still place Road pairs and need an unlocked neighbor, clearance and a free channel on both sides. There is no crossing fee, upkeep, shipment delay, cargo loss or capacity penalty. Terrain remains after research and Road removal; no separate bridge or tunnel artwork is added. The normal field clips to its boundary; Road placement or movement shows the selected neighbor's matching terrain half in the existing cropped ghost. Legacy worlds keep clear borders and their existing Roads.
+
+## Vehicle capacity and rate
 
 | Global vehicle stage | Solid capacity per vehicle | Items per Road shipment | Ideal Road rate |
 | --- | --- | --- | --- |

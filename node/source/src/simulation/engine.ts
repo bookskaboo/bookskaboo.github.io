@@ -1,4 +1,6 @@
 import { applyExpansionRescue } from './expansionRescue';
+import { borderCrossingFailure } from '../domain/borderObstructionLayout';
+import { borderRoadPermissionsValid, generateBorderObstructions, normalizeBorderLayout } from './borderObstructions';
 import { firstSpottedDwarvenCamp, DWARVEN_DISCOVERY_PROMPT } from '../tutorials/dwarvenDiscovery';
 import { endgameRank, reconcileHole, worldRecipeAllowed, FOUNDRY_INPUTS, SEVEN_CORES } from '../content/endgame';
 import { initializeEndgame, simulateCorner, cornerInputAllowed, syncCornerLayout } from './endgameRuntime';
@@ -137,7 +139,11 @@ export class GameEngine {
     if (error) throw new Error(error);
     this.checkpoint();
     this.state.mod = candidate;
-    if (gridSize !== undefined) this.state.worldGridSize = gridSize;
+    if (gridSize !== undefined) {
+      const changed = gridSize !== worldGridSize(this.state);
+      this.state.worldGridSize = gridSize;
+      if (changed && this.state.borderObstructionVersion === 1) this.state.borderObstructions = generateBorderObstructions(this.state.seed, gridSize);
+    }
     activateMod(candidate);
     this.syncFieldLayouts();
     applyModNames(this.state);
@@ -150,6 +156,8 @@ export class GameEngine {
   }
   private normalizeExtractorCycles() {
     this.state.worldRulesVersion ??= 1;
+    Object.assign(this.state, normalizeBorderLayout(this.state.borderObstructionVersion, this.state.borderObstructions, worldGridSize(this.state)));
+    if (!borderRoadPermissionsValid(this.state)) throw new Error('A saved Road crosses terrain without its crossing research.');
     normalizeWorldFieldSize(this.state);
     this.state.golemPlacementTier ??= getGolemPlacementTier(this.state);
     this.state.encounterLayoutVersion ??= getEncounterLayoutVersion(this.state);
@@ -1064,6 +1072,7 @@ export class GameEngine {
     const uniqueNodeBlocked = capabilities.globallyUnique && Object.values(this.state.sectors).some((sector) => sector.nodes.some((node) => getNodeCapabilities(node.kind).globallyUnique));
     if (uniqueNodeBlocked && !preview) return;
     const roadPair = capabilities.pairedSectorPlacement ? this.findRoadPair(x, y) : undefined;
+    const crossingRequirement = roadPair ? borderCrossingFailure(this.state, this.getSector().id, roadPair.sector.id) : undefined;
     const faceRoads = (sector: SectorState, neighbor: string) => sector.nodes.filter(n => hasNodeBehavior(n.kind, 'road') && n.pairedSectorId === neighbor).length;
     const channelsFull = Boolean(roadPair && (faceRoads(this.getSector(), roadPair.sector.id) >= roadChannels(this.state) || faceRoads(roadPair.sector, this.getSector().id) >= roadChannels(this.state)));
     if (capabilities.pairedSectorPlacement && !roadPair && !preview) return;
@@ -1094,10 +1103,11 @@ export class GameEngine {
     const error = lockedBotPlant ? 'Complete Suppression Bot research to build a Bot Plant.'
       : lockedStorage ? ['woodenChest', 'chest'].includes(kind) ? 'Complete Road research to build a Cart.' : 'Research this storage node before building it.' : uniqueNodeBlocked ? 'This unique node already exists.'
       : capabilities.pairedSectorPlacement && !roadPair ? 'Unlock an adjacent map before placing a road to it.'
+      : crossingRequirement ? crossingRequirement
       : channelsFull ? `This boundary allows ${roadChannels(this.state)} Roads per map face, counting sending and receiving endpoints together. Use another face or remove a Road${roadChannels(this.state) < 3 ? ', or research Road Channels' : ''}.`
       : !localClear ? `The endpoint on map ${this.getSector().id} needs clearance from the field boundary, other nodes and obstructions. Choose another position.`
       : !pairClear ? `The paired endpoint on adjacent map ${roadPair!.sector.id} is blocked. Move this road along the boundary, or clear room on that map.` : undefined;
-    return { node, pairedNode, roadPair, valid: !error, error };
+    return { node, pairedNode, roadPair, valid: !error, error, crossingRequirement };
   }
 
   /** Returns the held node, placement validity, and the destination for a Road near its wall. */
@@ -1108,7 +1118,7 @@ export class GameEngine {
     const road: RoadPlacementTarget | undefined = roadPair && pairedNode && Math.abs(roadPair.score) <= getNodeSize(node).w
       ? { sector: roadPair.sector, endpoint: pairedNode, localFacing: roadPair.side }
       : undefined;
-    return { node, valid, road };
+    return { node, valid, road, crossingRequirement: plan.crossingRequirement };
   }
 
   getNodePlacementError(kind: NodeKind, x: number, y: number) {
@@ -1185,7 +1195,7 @@ export class GameEngine {
     const proposed = { ...node, ...local };
     const endpoint = { ...pair, ...remote };
     const road: RoadPlacementTarget = { sector: neighbor, endpoint, localFacing };
-    const valid = canPlaceNode(proposed, sector.nodes, field) && canPlaceNode(endpoint, neighbor.nodes, field)
+    const valid = !borderCrossingFailure(this.state, sector.id, neighbor.id) && canPlaceNode(proposed, sector.nodes, field) && canPlaceNode(endpoint, neighbor.nodes, field)
       && !this.movedCablesBlocked(sector, new Map([[node.id, proposed]]))
       && !this.movedCablesBlocked(neighbor, new Map([[pair.id, endpoint]]));
     return { node: proposed, road, pair, valid };

@@ -29,6 +29,8 @@ Balance runs use ordinary play without grants, save injection, accelerated simul
 
 Synthetic stress scenarios bypass ordinary placement and use prepared buffers; they measure the engine in Node. They do not certify browser performance, learning or normal-play completion time. Analytical recipe bills likewise cannot establish delivery feasibility alone.
 
+The [border engine fixture](../../previews/border-obstructions/README.md#real-engine-test) uses actual generation, Road placement, Pixi art and Node Map presentation with synthetic empty fields and explicit research grants. It disables browser-save writes. Run `node scripts/audit-border-obstructions.mjs` to reproduce the 1,100-world static route/quota audit. Functional fixtures and graph safeguards do not certify normal-play purchase timing or routing balance.
+
 ### Active factory browser test
 
 With the local Vite server running, open `/previews/active-factory/`. This isolated

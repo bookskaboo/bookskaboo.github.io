@@ -43,7 +43,7 @@ export class FactoryTemplateRuntime {
       const recipeId = node.recipeId;
       const recipeUnavailable = recipeId && (!RECIPE_GROUPS[node.kind]?.includes(recipeId) ||
         !isRecipeUnlocked(recipeId, this.state.research.completed) || !worldRecipeAllowed(recipeId, this.state));
-      if (!isPlayerMovableNode(node.kind) || (unlock && !this.state.research.unlocked.includes(unlock)) ||
+      if (!isPlayerMovableNode(node.kind) || getNodeCapabilities(node.kind).pairedSectorPlacement || (unlock && !this.state.research.unlocked.includes(unlock)) ||
         recipeUnavailable || !canPlaceNode(node, placed, field)) valid = false;
       placed.push(node);
     }

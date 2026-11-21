@@ -17,7 +17,8 @@
     "docs:systems": "node scripts/system-docs.mjs",
     "docs:systems:check": "node scripts/system-docs.mjs --check",
     "changelog": "node scripts/changelog.mjs",
-    "changelog:check": "node scripts/changelog.mjs --check && node --test scripts/check-changelog.mjs"
+    "changelog:check": "node scripts/changelog.mjs --check && node --test scripts/check-changelog.mjs",
+    "preview:border-art": "node scripts/build-border-art.mjs"
   },
   "dependencies": {
     "@vitejs/plugin-react": "latest",
