@@ -20,6 +20,12 @@ Single-click selects a card. Double-click or green Queue research appends it, in
 
 ## Character upgrades
 
+### Gradual robot assembly
+
+Use **Upgrade animations**, `?view=animations` or the standalone `outputs/status-page/robot-upgrade-animations.html` for all seven transformations. Play each or all of them, pause playback, reset or scrub zero to five paid Core sets. Preview playback flashes the next step for 2.4 seconds before consuming each example set and spends no factory Cores. Simple through Final have distinct hardware assembly orders and finish on the existing portraits. The eight downloadable static SVGs remain unchanged.
+
+The game and test modal use the same `RobotPortrait`: actual processed contributions drive permanent hardware. While the selected upgrade has an active, ready Research Center cycle with all required Cores, its next synchronized-set changes flash on/off once per 1.2 seconds. The set being fully consumed commits those parts immediately, without the earlier 620 ms slide/fade. Only the affected parts alternate; the rest of the paid robot stays still. Waiting, disabled labs, pause or unrelated research stop the preview. Disabling/reopening and save/load retain paid hardware. No extra save state or processing timer is introduced; reduced motion hides unpaid flashes. Coverage is in [robotAssembly.test.tsx](robotAssembly.test.tsx).
+
 The approved titles are Probationary Unit, Resource Technician, Fabrication Specialist, Systems Coordinator, Operations Supervisor, Development Director, Planetary Administrator and Self-Optimizing Intelligence. Simple upgrade is selectable immediately; each later upgrade requires only its predecessor. Every bill costs five of every Core through its named tier. Simple unlocks Basic Core, through Complex unlocking Final Core; Final spends all seven types and completes the character tiers. Victory is separate. Simple Core itself is an ungated Refiner recipe.
 
 Stable next-Core research IDs implement their preceding upgrades: basicCore is Simple upgrade, through finalCore as Complex upgrade, plus finalBotUpgrade. Core badges show filled/needed quantities with colored dots and no underlines. The button reads only Upgrade and collects Core payments only while selected. Its next tier remains unselected after completion.

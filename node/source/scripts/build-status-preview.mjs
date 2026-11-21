@@ -17,11 +17,11 @@ const template = await readFile('previews/status-page/index.html', 'utf8');
 const html = template.replace('</head>', () => `<style>${styles.source}</style></head>`)
   .replace('<script type="module" src="./main.tsx"></script>', () => `<script>${script.code.replace(/<\/script/gi, '<\\/script')}</script>`);
 await mkdir('outputs/status-page/art', { recursive: true });
-await Promise.all(['status-modal.html', 'robot-tier-art.html', 'hint-texts.html'].map(file => writeFile(`outputs/status-page/${file}`, html)));
+await Promise.all(['status-modal.html', 'robot-tier-art.html', 'robot-upgrade-animations.html', 'hint-texts.html'].map(file => writeFile(`outputs/status-page/${file}`, html)));
 const server = await createServer({ configFile: false, server: { middlewareMode: true, watch: null } });
 try {
   const { robotSvg } = await server.ssrLoadModule('/previews/status-page/robotArt.ts');
   const { STAGES } = await server.ssrLoadModule('/previews/status-page/model.ts');
   await Promise.all(STAGES.map((stage, index) => writeFile(`outputs/status-page/art/node-bot-${stage.label.toLowerCase()}.svg`, robotSvg(index))));
 } finally { await server.close(); }
-console.log('Wrote standalone status modal, robot art, hints review and eight editable SVGs in outputs/status-page/');
+console.log('Wrote standalone status modal, robot art, seven upgrade animations, hints review and eight editable SVGs in outputs/status-page/');

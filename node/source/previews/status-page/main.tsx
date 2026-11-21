@@ -9,6 +9,8 @@ import { PanelHeader } from '../../src/ui/PanelHeader';
 import { UiTooltipLayer } from '../../src/ui/components/UiTooltipLayer';
 import { ASSIGNMENT, BOT_UPGRADES, STAGES, characterStage, presentProject, previewState, installBotUpgradeProposal } from './model';
 import { robotSvg } from './robotArt';
+import { RobotPortrait } from '../../src/ui/upgrades/RobotPortrait';
+import { RobotAnimationGallery } from './RobotAnimationGallery';
 import { HintReviewPage } from './HintReviewPage';
 import { BotUpgrade } from './BotUpgrade';
 import { ResearchListRow } from './ResearchListRow';
@@ -36,6 +38,7 @@ const requestedTier = STAGES.findIndex(stage => stage.label.toLowerCase() === ne
 const initialTier = requestedTier < 0 ? 0 : requestedTier;
 const requestedView = new URLSearchParams(location.search).get('view');
 const initialView = requestedView === 'hints' || location.pathname.endsWith('/hint-texts.html') ? 'hints'
+  : requestedView === 'animations' || location.pathname.endsWith('/robot-upgrade-animations.html') ? 'animations'
   : requestedView === 'art' || location.pathname.endsWith('/robot-tier-art.html') ? 'art' : 'status';
 
 function Preview() {
@@ -185,7 +188,7 @@ function Preview() {
   return <main className="status-study"><UiTooltipLayer /><UpgradeCompletionNotice engine={engine} previewCompletion={noticeExample} />
     <header className="study-toolbar">
       <div><strong>NODE</strong><span>Status page study</span><small>Local prototype</small></div>
-      <nav aria-label="Preview views"><button disabled={Boolean(practice)} aria-pressed={view === 'status'} onClick={() => { setView('status'); setOpen(true); setMapOpen(false); }}>Test modal</button><button disabled={Boolean(practice)} aria-pressed={view === 'art'} onClick={() => setView('art')}>Robot tier art</button><button disabled={Boolean(practice)} aria-pressed={view === 'hints'} onClick={() => setView('hints')}>Hints and triggers</button></nav>
+      <nav aria-label="Preview views"><button disabled={Boolean(practice)} aria-pressed={view === 'status'} onClick={() => { setView('status'); setOpen(true); setMapOpen(false); }}>Test modal</button><button disabled={Boolean(practice)} aria-pressed={view === 'art'} onClick={() => setView('art')}>Robot tier art</button><button disabled={Boolean(practice)} aria-pressed={view === 'animations'} onClick={() => setView('animations')}>Upgrade animations</button><button disabled={Boolean(practice)} aria-pressed={view === 'hints'} onClick={() => setView('hints')}>Hints and triggers</button></nav>
       <label>Stage example <select disabled={Boolean(practice)} aria-label="Stage example" value={tier} onChange={event => resetStage(Number(event.target.value))}>{STAGES.map((entry, index) => <option key={entry.label} value={index}>{entry.label}</option>)}</select></label>
       <button disabled={Boolean(practice)} aria-expanded={editor} onClick={() => setEditor(!editor)}>Adjust wording</button>
       <button disabled={Boolean(practice)} onClick={() => resetStage(tier)}>Reset example</button>
@@ -194,13 +197,13 @@ function Preview() {
     </header>
     <p className="study-note">Local proposal. Stage examples are paused; the supplied queue lab runs at normal speed. Browser saves are untouched.</p>
     {editor && <section className="copy-editor" aria-label="Wording editor"><label>Assignment<textarea value={assignment} onChange={event => setAssignment(event.target.value)} /></label><label>Art sheet role<input value={stage.role} onChange={event => updateCopy('role', event.target.value)} /></label><p>Edits stay in this tab. Reload restores the draft. Assignment edits change the first hint. Later hints retain the current game guidance.</p></section>}
-    {view === 'hints' ? <HintReviewPage game={game} assignment={assignment} /> : view === 'art' ? <section className="tier-art-page" aria-labelledby="art-title"><header><small>Character development</small><h1 id="art-title">One bot. Increasing responsibility.</h1><p>The same face through seven Core upgrades. Each stage develops a distinct chassis, stance and outline.</p><p>Existing NODE line art, charcoal panels and material accents. Character titles follow the approved promotion ladder; hardware remains draft fiction.</p></header><div className="tier-art-grid">{STAGES.map((entry, index) => <article key={entry.label}><div className="tier-art-heading"><span>{index === 0 ? 'Arrival' : `Upgrade ${index}`}</span><h2>{entry.label}</h2></div><img src={portraits[index]} alt={`${stageCopy[index].role} (${entry.label}): ${entry.hardware}`} /><h3>{stageCopy[index].role}</h3><p>{entry.hardware}</p><p className="robot-aside">{entry.thought}</p><button onClick={() => { resetStage(index); setView('status'); }}>Try {entry.label} stage</button><a href={portraits[index]} download={`node-bot-${entry.label.toLowerCase()}.svg`}>Download SVG</a></article>)}</div></section>
+    {view === 'animations' ? <RobotAnimationGallery /> : view === 'hints' ? <HintReviewPage game={game} assignment={assignment} /> : view === 'art' ? <section className="tier-art-page" aria-labelledby="art-title"><header><small>Character development</small><h1 id="art-title">One bot. Increasing responsibility.</h1><p>The same face through seven Core upgrades. Each stage develops a distinct chassis, stance and outline.</p><p>Existing NODE line art, charcoal panels and material accents. Character titles follow the approved promotion ladder; hardware remains draft fiction.</p></header><div className="tier-art-grid">{STAGES.map((entry, index) => <article key={entry.label}><div className="tier-art-heading"><span>{index === 0 ? 'Arrival' : `Upgrade ${index}`}</span><h2>{entry.label}</h2></div><img src={portraits[index]} alt={`${stageCopy[index].role} (${entry.label}): ${entry.hardware}`} /><h3>{stageCopy[index].role}</h3><p>{entry.hardware}</p><p className="robot-aside">{entry.thought}</p><button onClick={() => { resetStage(index); setView('status'); }}>Try {entry.label} stage</button><a href={portraits[index]} download={`node-bot-${entry.label.toLowerCase()}.svg`}>Download SVG</a></article>)}</div></section>
       : <><button className="reopen-status" ref={reopenRef} onClick={() => setOpen(true)}>Open upgrades modal</button>{open && (mapOpen ? <NodeMinimap expanded persistLayout={false} game={game} engine={engine} onTravel={id => { engine.switchSector(id); setMapOpen(false); }} onOpenMap={() => setMapOpen(true)} onClose={() => setMapOpen(false)} onHoverChange={() => {}} /> : recipe ? <RecipesPanel game={game} initialRecipeId={recipe} backToResearch onClose={() => setRecipe(undefined)} /> : <div className="status-preview-backdrop"><section ref={dialogRef} className="modal research-modal status-modal glass" role="dialog" aria-modal="true" aria-labelledby="status-title">
         <PanelHeader title="Upgrades" onClose={() => { setOpen(false); requestAnimationFrame(() => reopenRef.current?.focus()); }} />
         <h1 className="sr-only" id="status-title">Upgrades</h1>
         <div className="status-layout">
           <aside className="character-column" aria-label="Your AI bot">
-            <div className="robot-portrait"><img src={portraits[currentTier]} alt={`${stage.role} (${STAGES[currentTier].label} AI bot)`} /></div>
+            <RobotPortrait game={game} />
             <div className="robot-thought"><HintBrowser key={hintExample} game={game} assignment={assignment} onAssignmentRead={() => { acknowledgeStatusAssignment(game, assignment); render(value => value + 1); }} /></div>
             <BotUpgrade disabled={Boolean(practice)} game={game} engine={engine} onInspect={inspect} onOpenRecipe={setRecipe} />
           </aside>

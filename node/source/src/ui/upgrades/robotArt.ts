@@ -3,7 +3,7 @@ import { CORE_RESEARCH } from '../../content/coreResearch';
 import { STAGES } from '../../content/botUpgrades';
 
 /** Distinct chassis contours; the shared visor keeps the same character recognizable. */
-export function robotSvg(tier: number): string {
+export function robotArtParts(tier: number) {
   const accent = tier ? itemColorCss(CORE_RESEARCH[tier - 1].item) : '#a0b3bf';
   const line = '#8c9da7';
   const stroke = (d: string, color = line, width = 2) => `<path d="${d}" fill="none" stroke="${color}" stroke-width="${width}"/>`;
@@ -74,5 +74,11 @@ export function robotSvg(tier: number): string {
     + stroke('M144 99H152 M168 99H176', accent, 3.5) + stroke('M149 120H171', '#b6c3c9', 1.5)
     + stroke('M145 64V48L136 40') + circle(135, 38, 3, accent)
     + circle(130, 77, 2) + circle(190, 77, 2);
-  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 350" role="img" aria-labelledby="title"><title id="title">${STAGES[tier].role} (${STAGES[tier].label} AI bot)</title><g stroke-linejoin="round" stroke-linecap="round">${stroke('M62 326H258 M78 332H242', '#46535c', 1)}${back[tier]}${auxiliary}${legs[tier]}${arms[tier]}${torso}${core}${details}${face}</g></svg>`;
+  return { floor: stroke('M62 326H258 M78 332H242', '#46535c', 1), back: back[tier], auxiliary,
+    legs: legs[tier], arms: arms[tier], torso, core, details, face };
+}
+
+export function robotSvg(tier: number): string {
+  const parts = robotArtParts(tier);
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 350" role="img" aria-labelledby="title"><title id="title">${STAGES[tier].role} (${STAGES[tier].label} AI bot)</title><g stroke-linejoin="round" stroke-linecap="round">${Object.values(parts).join('')}</g></svg>`;
 }

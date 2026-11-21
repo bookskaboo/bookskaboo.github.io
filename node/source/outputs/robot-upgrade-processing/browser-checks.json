@@ -1,0 +1,22 @@
+{
+  "flashOff": {
+    "affected": "legs",
+    "paid": "0",
+    "pendingOpacity": "0",
+    "processing": "true"
+  },
+  "flashOn": {
+    "committedOpacity": "0",
+    "paid": "0.6",
+    "pendingOpacity": "1",
+    "processing": true
+  },
+  "running": {
+    "flashing": "true",
+    "paid": "0.6"
+  },
+  "paused": {
+    "flashing": null,
+    "paid": "0.6"
+  }
+}

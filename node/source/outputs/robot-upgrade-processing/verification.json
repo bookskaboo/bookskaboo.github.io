@@ -1,0 +1,35 @@
+{
+  "date": "2026-11-20",
+  "scope": "Local game and standalone author gallery; not published",
+  "behavior": "Flash upcoming hardware while the selected character upgrade processes a synchronized Core set; commit immediately at consumption.",
+  "checks": {
+    "focusedTests": 81,
+    "testFiles": 10,
+    "mainTypeScript": true,
+    "previewTypeScript": true,
+    "mainBuild": true,
+    "standaloneBuild": true,
+    "systemCatalogs": 6,
+    "systemDocuments": 39,
+    "flashOnOff": true,
+    "pausedPaidProgress": 0.6,
+    "completedTiers": 7,
+    "pendingPreviewsAfterCompletion": 0,
+    "paidTransitionSeconds": 0,
+    "browserWarnings": 0,
+    "browserErrors": 0
+  },
+  "limits": [
+    "Synthetic preview/lab checks do not establish campaign balance.",
+    "Reduced-motion suppression is implemented in CSS; no operating-system preference toggle.",
+    "Existing bundle-size warning remains."
+  ],
+  "evidence": [
+    "tests.log",
+    "build.log",
+    "browser-checks.json",
+    "completion-check.json",
+    "flash-on.jpg",
+    "consumed-solid.jpg"
+  ]
+}

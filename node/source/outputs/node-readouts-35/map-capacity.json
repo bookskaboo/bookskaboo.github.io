@@ -1,0 +1,23 @@
+[
+  {
+    "rows": 6,
+    "field": {
+      "width": 5400,
+      "height": 3600
+    },
+    "outside": [],
+    "overlaps": 0,
+    "invalidConnections": 0,
+    "nodes": 600,
+    "producers": 90,
+    "cycling": 53,
+    "splitters": 210,
+    "mergers": 210,
+    "connections": 831,
+    "transfers": 7,
+    "produced": 914,
+    "delivered": 259,
+    "syntheticSupply": true,
+    "fpsMeasured": false
+  }
+]

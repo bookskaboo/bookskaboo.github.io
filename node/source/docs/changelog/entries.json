@@ -23568,6 +23568,62 @@
       "validation": "All three affected Page blocks applied and matched their readback. Regenerated six system catalogs and passed freshness and local-link checks across 39 documents. Group movement, gameplay and visual Page layout are not tested; this is a proposal decision."
     },
     {
+      "id": "NODE-0718",
+      "date": "2026-11-20",
+      "dateBasis": "chat",
+      "kind": "decision",
+      "state": "recorded",
+      "delivery": "not-applicable",
+      "title": "Allow landmark Extractors to reconnect to ordinary local reserves",
+      "summary": "Let a Three-output Extractor reconnect to another eligible ordinary Wood, Stone, Copper or Iron reserve within its current Map Node.",
+      "details": [
+        "The user selected reconnection rather than permanently tying the landmark to its original reserve. This lets the landmark remain useful after depletion. Guarded and Golem reserves remain outside the initial version for both placement and reconnection.",
+        "Reconnection does not bypass the researched movement gate or grant transfer between Map Nodes. Treatment of buffered output when switching resource type remains the next review detail.",
+        "Update the editable Page, matching repository proposal and current Production reference. No gameplay implementation, save migration or publication."
+      ],
+      "topics": [
+        "World map",
+        "Production",
+        "Documentation"
+      ],
+      "sources": [
+        "local-code"
+      ],
+      "evidence": [
+        "docs/master-plan/23-map-power-ups.md",
+        "docs/systems/production-nodes.md"
+      ],
+      "validation": "Read current ordinary Extractor rewiring rules. All three affected Page blocks applied and matched their readback. Regenerated six system catalogs and passed freshness and local-link checks across 39 documents. Source switching, buffer behavior, gameplay and visual Page layout are not tested; this is a proposal decision."
+    },
+    {
+      "id": "NODE-0719",
+      "date": "2026-11-20",
+      "dateBasis": "chat",
+      "kind": "decision",
+      "state": "recorded",
+      "delivery": "not-applicable",
+      "title": "Match ordinary Extractor stock handling when landmarks switch resources",
+      "summary": "Changing a Three-output Extractor to a different resource type discards its old buffered stock, following ordinary Extractor rewiring.",
+      "details": [
+        "The user selected discarding old buffered stock instead of requiring all three output buffers to empty before switching. Apply the rule to all three landmark output buffers; preserve matching stock on same-resource reconnection.",
+        "Retain same-Map-Node reconnection to eligible ordinary Wood, Stone, Copper or Iron reserves. No new empty-buffer prerequisite, grant, refund or conversion of buffered stock is introduced.",
+        "Update the editable Page, matching repository proposal and current Production reference. Material Saver recipe eligibility is the next review topic. No gameplay implementation, migration or publication."
+      ],
+      "topics": [
+        "Production",
+        "World map",
+        "Documentation"
+      ],
+      "sources": [
+        "local-code"
+      ],
+      "evidence": [
+        "docs/master-plan/23-map-power-ups.md",
+        "docs/systems/production-nodes.md"
+      ],
+      "validation": "Read current ordinary Extractor matching/mismatched-stock rules. All three affected Page blocks applied and matched their readback. Regenerated six system catalogs and passed freshness and local-link checks across 39 documents. Stock switching, gameplay and visual Page layout are not tested; this is a proposal decision."
+    },
+    {
       "id": "NODE-0720",
       "date": "2026-11-20",
       "dateBasis": "chat",
@@ -23613,6 +23669,41 @@
       "validation": "Workspace: 2129 tests passed, two existing skips; site build passed. Frozen release: 1333 tests passed, one existing skip; site build, six current catalogs, links across 39 system documents and all six history checks passed. Corrected one missing exported hint-review link in the source snapshot and reran the documentation check successfully. Preflight verified all 340 source files against the frozen manifest, matching committed build/source assets, only node/ changes, clean fast-forward and all 137 previous runtime asset blobs unchanged. Pages run 44872588913 succeeded; SHA-256 matched normal live HTML, all ten new assets and ten preceding-build assets. Live Upgrades UI rendered correctly and was paused. Earlier integration evidence covers all 19 normal-UI Basics stages, save/load, responsive layouts and keyboard navigation. No new sustained balance run, grants, save injection or reload of an existing player factory. Existing bundle-size warning remains."
     },
     {
+      "id": "NODE-0721",
+      "date": "2026-11-20",
+      "dateBasis": "chat",
+      "kind": "decision",
+      "state": "recorded",
+      "delivery": "not-applicable",
+      "title": "Broaden Material Saver scope and propose compact landmark names",
+      "summary": "Select broader deterministic manufacturing for Material Savers and add compact landmark naming candidates sized against current node headers.",
+      "details": [
+        "The user selected broader manufacturing instead of a Charcoal/Iron Plate/Copper Plate-only restriction, retaining exclusions for Cores, bots and bot parts, corner pieces, recycling, chance outputs and material recovery loops. Exact recipe eligibility and machine-family assignments remain to specify.",
+        "In response to the request for names that fit current node sizes, propose Rapid Refiner/Smelter/Assembler/Fabricator, Tri Extractor, Doubler and Reclaimer. These are naming candidates, not selected replacements. Keep full bonus conditions in the inspector or tooltip and retain current body sizes and typography.",
+        "Update the editable Page, matching repository proposal, current recipe reference, UI style guide and style review notes. No runtime names, recipes, geometry, player saves or publication changed."
+      ],
+      "topics": [
+        "Production",
+        "Recipes",
+        "Interface",
+        "Typography",
+        "Documentation"
+      ],
+      "sources": [
+        "local-code"
+      ],
+      "evidence": [
+        "docs/master-plan/23-map-power-ups.md",
+        "docs/systems/recipes.md",
+        "docs/node-ui-style-guide.md",
+        "docs/typography-style-review.md",
+        "src/domain/nodeGeometry.ts",
+        "src/renderer/PixiPlayfield.tsx",
+        "src/renderer/playfieldDrawing.ts"
+      ],
+      "validation": "Read back 39 Page blocks and verified the repository proposal body matches exactly. Inspected current 256-unit standard width, 17-unit weight-600 titles, icon/group insets and hover controls. Approximate System.Drawing measurements at 17 px Segoe UI Bold range from 64.5 to 133.9 px for proposed names; this is a conservative proxy, not an exact Pixi or fallback-font fit test. Regenerated six system catalogs and passed freshness and local-link checks across 39 documents. No visual renderer, gameplay or balance test; no naming selection is implied."
+    },
+    {
       "id": "NODE-0722",
       "date": "2026-11-20",
       "dateBasis": "chat",
@@ -23650,6 +23741,134 @@
       ],
       "validation": "All 2,130 workspace tests passed with two existing skips using two workers. The isolated source passed 1,334 tests with one opt-in skip. Eleven targeted renderer checks, preview TypeScript, the standalone preview and site builds passed. All eleven runtime files match the tested workspace build byte-for-byte. Boundary coverage includes 34.99/35/37/39.99/40 percent and important/forced readouts. Browser verified default 35 percent readouts with the preview override false, cachedCables true and 13 shared overview textures; all 2,400 nodes and 3,330 connections keep simulating, with production and physical cargo active. This is functional synthetic evidence, not a universal FPS or balance claim. System/catalog and changelog checks passed after preserving referenced archival logs and normalizing the candidate viewer template line endings. Publication is recorded only after live verification.",
       "publishedBy": "82d968e"
+    },
+    {
+      "id": "NODE-0723",
+      "date": "2026-11-20",
+      "dateBasis": "chat",
+      "kind": "decision",
+      "state": "recorded",
+      "delivery": "not-applicable",
+      "title": "Adopt compact names for the power-up landmarks",
+      "summary": "Select Rapid Refiner, Rapid Smelter, Rapid Assembler, Rapid Fabricator, Tri Extractor, Doubler and Reclaimer as the power-up node names.",
+      "details": [
+        "The user clarified that Modify specific names was selected accidentally and accepted the full compact naming set. Replace current working terms throughout the proposal and its current references; keep earlier proposal records intact.",
+        "Rapid machines retain their fixed family mix and 10-times base speed; Tri Extractor retains its shared triple-yield cycle; Doubler retains broader manufacturing with the agreed exclusions; Reclaimer retains water-free recycling. Naming changes none of these selected mechanics.",
+        "Update the editable Page, matching repository proposal, system and plan references, UI style guide and style review notes. Keep existing node widths and typography; exact renderer fit remains unverified. No runtime labels, geometry, recipes, saves or publication changed."
+      ],
+      "topics": [
+        "Interface",
+        "Typography",
+        "Production",
+        "Documentation"
+      ],
+      "sources": [
+        "local-code"
+      ],
+      "evidence": [
+        "docs/master-plan/23-map-power-ups.md",
+        "docs/master-plan/README.md",
+        "docs/master-plan/17-endgame-research-and-world-reshaping.md",
+        "docs/systems/map-nodes-and-exploration.md",
+        "docs/systems/production-nodes.md",
+        "docs/systems/recipes.md",
+        "docs/systems/waste-and-recycling.md",
+        "docs/node-ui-style-guide.md",
+        "docs/typography-style-review.md"
+      ],
+      "validation": "All 17 Page edits applied. Read back 39 blocks and verified the repository proposal body matches exactly. Regenerated six system catalogs and passed freshness and local-link checks across 39 documents. Existing approximate name-width measurements remain supporting evidence only; no fresh visual renderer, gameplay or balance test."
+    },
+    {
+      "id": "NODE-0724",
+      "date": "2026-11-20",
+      "dateBasis": "chat",
+      "kind": "decision",
+      "state": "recorded",
+      "delivery": "not-applicable",
+      "title": "Give each Doubler a fixed machine family",
+      "summary": "Restrict each Doubler to one fixed normal machine family and its eligible unlocked recipes, with family identification in the icon and inspector.",
+      "details": [
+        "The user selected fixed families instead of universal access to every eligible manufacturing recipe. Preserve the broader deterministic manufacturing scope and agreed exclusions; the mix across the three Doublers remains to choose.",
+        "Keep the selected node title Doubler. Identify its fixed family through the icon and inspector rather than lengthening the node name.",
+        "Update the editable Page, matching repository proposal, current recipe reference, UI style guide and style review notes. No runtime recipe availability, copy, icons, geometry, saves or publication changed."
+      ],
+      "topics": [
+        "Production",
+        "Recipes",
+        "Interface",
+        "Documentation"
+      ],
+      "sources": [
+        "local-code"
+      ],
+      "evidence": [
+        "docs/master-plan/23-map-power-ups.md",
+        "docs/systems/recipes.md",
+        "docs/node-ui-style-guide.md",
+        "docs/typography-style-review.md"
+      ],
+      "validation": "All three Page edits applied. Read back 39 blocks and verified the repository proposal body matches exactly. Regenerated six system catalogs and passed freshness and local-link checks across 39 documents. No visual renderer, gameplay, conservation or balance test; this is a proposal decision."
+    },
+    {
+      "id": "NODE-0725",
+      "date": "2026-11-20",
+      "dateBasis": "chat",
+      "kind": "decision",
+      "state": "recorded",
+      "delivery": "not-applicable",
+      "title": "Select Refiner Assembler and Fabricator Doubler families",
+      "summary": "Set the three fixed-family Doublers to one Refiner, one Assembler and one Fabricator.",
+      "details": [
+        "The user selected the Refiner/Assembler/Fabricator mix rather than substituting a Smelter or choosing families by seed. Keep the short title Doubler and identify the family through its icon and inspector.",
+        "Retain broader deterministic single-product manufacturing within each fixed family and the agreed exclusions. Exact eligible recipes and conservation checks remain implementation specification work.",
+        "Update the editable Page, matching repository proposal, current recipe reference, UI style guide and style review notes. No runtime recipe, copy, icon, geometry, save or publication change."
+      ],
+      "topics": [
+        "Production",
+        "Recipes",
+        "Interface",
+        "Documentation"
+      ],
+      "sources": [
+        "local-code"
+      ],
+      "evidence": [
+        "docs/master-plan/23-map-power-ups.md",
+        "docs/systems/recipes.md",
+        "docs/node-ui-style-guide.md",
+        "docs/typography-style-review.md"
+      ],
+      "validation": "All four affected Page edits applied and matched their readback across the 39-block proposal. Regenerated six system catalogs and passed freshness and local-link checks across 39 documents. No visual renderer, gameplay, conservation or balance test; this is a proposal decision."
+    },
+    {
+      "id": "NODE-0726",
+      "date": "2026-11-20",
+      "dateBasis": "chat",
+      "kind": "decision",
+      "state": "recorded",
+      "delivery": "not-applicable",
+      "title": "Set Reclaimer speed to four times base without research stacking",
+      "summary": "Use 25% of ordinary base Recycler cycle time for the water-free Reclaimer, without stacking normal speed research.",
+      "details": [
+        "The user selected 4-times base processing speed rather than ordinary Recycler speed and upgrades. Retain the previously agreed no-Water operation, normal non-Water ingredients, recovery quantities and recipe gates.",
+        "Replace the draft faster-of-landmark-and-family research formula with a fixed 0.25 base cycle multiplier and no normal Recycler speed-research stacking. Ordinary Recycler behavior remains unchanged.",
+        "Update the editable Page, repository proposal and current recycling/efficiency references. No runtime implementation, save migration or publication."
+      ],
+      "topics": [
+        "Production",
+        "Recycling",
+        "Research",
+        "Documentation"
+      ],
+      "sources": [
+        "local-code"
+      ],
+      "evidence": [
+        "docs/master-plan/23-map-power-ups.md",
+        "docs/systems/waste-and-recycling.md",
+        "docs/systems/efficiency.md"
+      ],
+      "validation": "Read current Recycler and machine-efficiency references. All three affected Page edits applied and matched their readback across the 39-block proposal. Regenerated six system catalogs and passed freshness and local-link checks across 39 documents. No speed simulation, gameplay, visual renderer or balance test; this is a proposal decision."
     },
     {
       "id": "NODE-0727",
@@ -23690,6 +23909,305 @@
         "src/renderer/PixiPlayfield.tsx"
       ],
       "validation": "All 2,130 workspace tests passed with two skips and 1,334 isolated candidate tests passed with one opt-in skip. Site/preview builds, TypeScript, threshold checks, catalog/local-link and changelog checks passed. All eleven committed runtime files match the tested workspace build. Preflight confirms only node/ changes, exactly three renderer source/test changes, fast-forward ancestry, a clean checkout and 147 old assets unchanged. Default-mode candidate browser verification at zoom 0.35 showed readouts with the override false, 13 shared overview textures, 77 cached cable neighborhoods and active production/cargo/delivery, with no new warnings/errors. GitHub Pages run 44873737001 succeeded. The normal live HTML and every one of the ten new assets matched SHA-256; all ten assets from the preceding live build also matched. No player game tab was reloaded or campaign save changed."
+    },
+    {
+      "id": "NODE-0728",
+      "date": "2026-11-20",
+      "dateBasis": "chat",
+      "kind": "decision",
+      "state": "recorded",
+      "delivery": "not-applicable",
+      "title": "Apply ordinary Extractor speed upgrades to Tri Extractors",
+      "summary": "Let ordinary Extractor speed research shorten the Tri Extractor shared five-second base cycle while preserving its triple yield.",
+      "details": [
+        "The user selected ordinary Extractor speed upgrades instead of a fixed five-second cycle. Each completed cycle still consumes one reserve unit and produces one item at each of three outputs; a full output still pauses the shared cycle.",
+        "Keep Rapid machines and Reclaimer on their already selected fixed base-speed bonuses without research stacking. Doubler speed-upgrade behavior is the next review detail.",
+        "Update the editable Page, repository proposal and current Production/efficiency references. No runtime simulation, upgrade price, save migration or publication change."
+      ],
+      "topics": [
+        "Production",
+        "Research",
+        "Documentation"
+      ],
+      "sources": [
+        "local-code"
+      ],
+      "evidence": [
+        "docs/master-plan/23-map-power-ups.md",
+        "docs/systems/production-nodes.md",
+        "docs/systems/efficiency.md"
+      ],
+      "validation": "Read the current Extractor cycle and family-efficiency references. All three affected Page edits applied and matched their readback across the 39-block proposal. Regenerated six system catalogs and passed freshness and local-link checks across 39 documents. No speed simulation, gameplay, visual renderer or balance test; this is a proposal decision."
+    },
+    {
+      "id": "NODE-0729",
+      "date": "2026-11-20",
+      "dateBasis": "chat",
+      "kind": "added",
+      "state": "superseded",
+      "delivery": "local",
+      "title": "Assemble the AI robot gradually from paid upgrade Cores",
+      "summary": "Each of the seven character upgrades progressively builds the next existing robot model as processed Cores are paid, with a shared game portrait and an interactive animation review page.",
+      "details": [
+        "The user chose gradual Core-funded transformation over a completion-only animation. Derive progress from active or parked processed contributions, matching the Upgrade button; exclude buffered stock and unfinished Research Center cycles. Retain the assembled state through disable, research pause, modal reopening and normalized save/load. Add no save fields, costs, processing rules or unlock effects.",
+        "Give Simple through Final distinct assembly schedules for legs, chest, arms, auxiliary tools, tanks, processor fins and orbital frame. Reuse the current vector parts and keep all eight static SVGs byte-identical to the published portraits. Stable part keys and retained outgoing groups let the final payment settle cleanly into the completed model. Interpolate changes for 620 ms and honor reduced motion. Keep portrait dimensions, hints and controls unchanged.",
+        "Add Upgrade animations to the author study, a standalone robot-upgrade-animations.html export and seven accessible zero-to-five Core-set scrubbers with per-card play/pause/reset and play-all controls. Synthetic one-second preview payments spend no campaign resources. Keep author controls out of the game.",
+        "Update the current research/interface/testing references, both Markdown style references and study guide. This is a local implementation following the earlier Upgrades release; no new live publication."
+      ],
+      "topics": [
+        "Research",
+        "Interface",
+        "Art",
+        "Saves",
+        "Prototypes",
+        "Documentation"
+      ],
+      "sources": [
+        "local-code"
+      ],
+      "evidence": [
+        "src/ui/upgrades/RobotPortrait.tsx",
+        "src/ui/upgrades/robotArt.ts",
+        "src/ui/upgrades/robotAssembly.ts",
+        "src/ui/ResearchPanel.tsx",
+        "src/styles/upgrades.css",
+        "previews/status-page/RobotAnimationGallery.tsx",
+        "previews/status-page/robotAssembly.test.tsx",
+        "scripts/build-status-preview.mjs",
+        "docs/node-ui-style-guide.md",
+        "docs/typography-style-review.md",
+        "outputs/robot-upgrade-animations/verification.json",
+        "outputs/robot-upgrade-animations/art-comparison.json",
+        "outputs/robot-upgrade-animations/tests.log",
+        "outputs/robot-upgrade-animations/build.log",
+        "outputs/robot-upgrade-animations/review-page.jpg"
+      ],
+      "validation": "Passed 80 focused tests across ten status-preview/integration files, including real synthetic lab payments for all seven upgrades, missing-Core blocking, pause/disable and normalized save reload. Both TypeScript projects, main build and standalone preview export passed. Compared all eight exported static SVGs byte for byte with the published source. Browser checks verified play-all, manual scrubbing, keyboard Home/ArrowRight/End, 0/5 through 5/5 states, completed layers for all seven tiers, 1280-pixel desktop and 390-pixel single-column mobile without horizontal overflow, plus a 40-percent paid portrait retained after disabling/reopening. No browser warnings or errors. Regenerated six system catalogs and passed local links across 39 documents. Existing bundle warning remains; no fresh sustained campaign run or operating-system reduced-motion toggle."
+    },
+    {
+      "id": "NODE-0730",
+      "date": "2026-11-20",
+      "dateBasis": "chat",
+      "kind": "decision",
+      "state": "recorded",
+      "delivery": "not-applicable",
+      "title": "Apply ordinary family speed upgrades to Doublers",
+      "summary": "Let each fixed-family Doubler use ordinary recipe cycle times and family speed research while retaining double output per batch.",
+      "details": [
+        "The user selected normal family speed upgrades instead of fixed unupgraded cycle times. The Refiner Doubler follows Refiner research, the Assembler Doubler follows Assembler research, and the Fabricator Doubler follows Fabricator research.",
+        "Keep the selected fixed families, ordinary ingredient quantities, double output and recipe exclusions. Rapid and Reclaimer fixed-speed bonuses and Tri Extractor upgrade behavior remain unchanged.",
+        "Update the editable Page, repository proposal and current recipe/efficiency references. No runtime simulation, recipe, research price, save migration or publication change."
+      ],
+      "topics": [
+        "Production",
+        "Recipes",
+        "Research",
+        "Documentation"
+      ],
+      "sources": [
+        "local-code"
+      ],
+      "evidence": [
+        "docs/master-plan/23-map-power-ups.md",
+        "docs/systems/recipes.md",
+        "docs/systems/efficiency.md"
+      ],
+      "validation": "Read the current family-efficiency and recipe rules. All three affected Page edits applied and matched their readback across the 39-block proposal. Regenerated six system catalogs and passed freshness and local-link checks across 39 documents. No speed simulation, gameplay, visual renderer or balance test; this is a proposal decision."
+    },
+    {
+      "id": "NODE-0731",
+      "date": "2026-11-20",
+      "dateBasis": "chat",
+      "kind": "decision",
+      "state": "recorded",
+      "delivery": "not-applicable",
+      "title": "Make discovered landmarks free to use after normal unlocks",
+      "summary": "Require no activation or repair payment for discovered power-up landmarks once their normal machine and recipe unlocks are satisfied.",
+      "details": [
+        "The user selected free landmark use instead of a one-time material repair cost. Ordinary recipe ingredients remain required; discovery grants neither research unlocks nor production materials.",
+        "Retain the separately agreed post-victory Resource Relocation project and seven-Core research price. This free-use decision does not grant early movement or bypass production, encounter or Inventory gates.",
+        "Update the editable Page, repository proposal and current map/Production references. No runtime implementation, grant, save migration or publication."
+      ],
+      "topics": [
+        "Exploration",
+        "World map",
+        "Production",
+        "Documentation"
+      ],
+      "sources": [
+        "local-code"
+      ],
+      "evidence": [
+        "docs/master-plan/23-map-power-ups.md",
+        "docs/systems/map-nodes-and-exploration.md",
+        "docs/systems/production-nodes.md"
+      ],
+      "validation": "All two affected Page edits applied and matched their readback across the 39-block proposal. Regenerated six system catalogs and passed freshness and local-link checks across 39 documents. No activation flow, gameplay, visual renderer or balance test; this is a proposal decision."
+    },
+    {
+      "id": "NODE-0732",
+      "date": "2026-11-20",
+      "dateBasis": "chat",
+      "kind": "decision",
+      "state": "recorded",
+      "delivery": "not-applicable",
+      "title": "Aim for a balanced quadrant spread of power-up landmarks",
+      "summary": "Target roughly three to five landmarks per standard-world quadrant, with valid sources and placement taking priority.",
+      "details": [
+        "The user selected a reasonably balanced spread rather than fully random quadrant totals. Keep 16 landmarks, the 2/5/5/4 progression-band quotas, randomized exact positions and the early-discovery guarantee.",
+        "Minimize quadrant-count differences; count center-axis sectors within an assigned quadrant for allocation only. The three-to-five target is a placement preference rather than permission to violate resource eligibility or valid geometry.",
+        "Update the editable Page, repository proposal and current map-system pointer. Adjacent-sector spacing remains the next separate review detail. No generator, gameplay, save migration or publication change."
+      ],
+      "topics": [
+        "World map",
+        "Exploration",
+        "Production",
+        "Documentation"
+      ],
+      "sources": [
+        "local-code"
+      ],
+      "evidence": [
+        "docs/master-plan/23-map-power-ups.md",
+        "docs/systems/map-nodes-and-exploration.md"
+      ],
+      "validation": "Both affected Page edits applied and matched their readback across the 39-block proposal. Regenerated six system catalogs and passed freshness and local-link checks across 39 documents. No seed-generation, placement-feasibility, gameplay, visual renderer or balance test; this is a proposal decision."
+    },
+    {
+      "id": "NODE-0733",
+      "date": "2026-11-20",
+      "dateBasis": "chat",
+      "kind": "changed",
+      "state": "implemented",
+      "delivery": "local",
+      "title": "Flash pending robot parts until a Core set is consumed",
+      "summary": "Upcoming character hardware flashes while its actual Research Center cycle processes, then becomes solid immediately when the synchronized Core set is consumed.",
+      "details": [
+        "Refine the earlier gradual assembly: retain the seven hardware schedules and finished art while replacing the post-payment 620 ms slide/fade with a processing preview and immediate paid-state handoff. Only affected parts alternate against the stable paid chassis once per 1.2 seconds.",
+        "Require the selected character upgrade and a ready/enabled Research Center with nonzero cycle progress and every outstanding Core input. Game/research pause, disabled/paused labs, missing inputs and unrelated research suppress the flash. Parked payments keep their existing solid hardware. The next fraction includes one of every still-required Core type; no payment or recipe gate is granted by its preview.",
+        "Reduced motion hides unpaid flashes and retains immediate paid updates. Add no save fields or research-cycle changes. Change author playback to explicit 2.4-second example processing intervals so the same pending flash can be reviewed; manual payment scrubbers and pause/reset remain.",
+        "Maintain current system references, both Markdown style references and the author study. Prior assembly evidence remains historical. This is local work after the earlier modal publication, not a new live release."
+      ],
+      "topics": [
+        "Research",
+        "Interface",
+        "Art",
+        "Saves",
+        "Prototypes",
+        "Documentation"
+      ],
+      "sources": [
+        "local-code"
+      ],
+      "supersedes": [
+        "NODE-0729"
+      ],
+      "evidence": [
+        "src/ui/upgrades/robotAssembly.ts",
+        "src/ui/upgrades/RobotPortrait.tsx",
+        "src/styles/upgrades.css",
+        "previews/status-page/RobotAnimationGallery.tsx",
+        "previews/status-page/robotAssembly.test.tsx",
+        "docs/node-ui-style-guide.md",
+        "docs/typography-style-review.md",
+        "outputs/robot-upgrade-processing/verification.json",
+        "outputs/robot-upgrade-processing/tests.log",
+        "outputs/robot-upgrade-processing/build.log",
+        "outputs/robot-upgrade-processing/browser-checks.json",
+        "outputs/robot-upgrade-processing/completion-check.json",
+        "outputs/robot-upgrade-processing/flash-on.jpg",
+        "outputs/robot-upgrade-processing/consumed-solid.jpg"
+      ],
+      "validation": "Passed 81 focused tests across ten preview/integration files, including all seven real synthetic lab payment cycles, pending preview before consumption, exact completion handoff, missing-Core blocking, disabled/paused labs, game/research pause, unrelated selection and normalized reload. Main/preview TypeScript, main build and standalone preview export passed. Regenerated six catalogs and passed links/freshness across 39 system documents. Browser observed complementary pending opacity 0/1, unchanged 60% paid hardware after pausing, all seven completed frames with zero pending previews, no paid-state transition delay, no horizontal overflow and no warning/error logs. Existing bundle-size warning remains. No normal campaign balance run, operating-system reduced-motion toggle or live publication."
+    },
+    {
+      "id": "NODE-0734",
+      "date": "2026-11-20",
+      "dateBasis": "chat",
+      "kind": "decision",
+      "state": "recorded",
+      "delivery": "not-applicable",
+      "title": "Prefer non-adjacent landmark sectors with needed exceptions",
+      "summary": "Prefer landmark sectors that do not share an edge, allowing exceptions for early discovery, eligible sources and valid placement.",
+      "details": [
+        "The user selected a non-adjacency preference rather than unrestricted neighboring landmark placements. This is not a hard generation prohibition and does not change the total, type counts, band quotas or selected quadrant target.",
+        "Add a concrete family-to-band allocation for the next review: retain the early Rapid Refiner, propose later Refiner/Smelter then Assembler then Smelter/Fabricator Rapid machines, and Refiner/Assembler/Fabricator Doublers across tiers 3-4/5-6/7-9. This family allocation is not yet selected.",
+        "Update the editable Page, repository proposal and current map-system pointer. No generator, gameplay, save migration or publication change."
+      ],
+      "topics": [
+        "World map",
+        "Exploration",
+        "Production",
+        "Documentation"
+      ],
+      "sources": [
+        "local-code"
+      ],
+      "evidence": [
+        "docs/master-plan/23-map-power-ups.md",
+        "docs/systems/map-nodes-and-exploration.md"
+      ],
+      "validation": "All three affected Page edits applied and matched their readback across the 39-block proposal. Checked that the proposed family allocation retains Rapid counts 2/2/1/1 and one Doubler per selected family. Regenerated six system catalogs and passed freshness and local-link checks across 39 documents. No seed-generation, placement-feasibility, gameplay, visual renderer or balance test; this is a proposal decision with an additional unselected allocation draft."
+    },
+    {
+      "id": "NODE-0735",
+      "date": "2026-11-20",
+      "dateBasis": "chat",
+      "kind": "changed",
+      "state": "recorded",
+      "delivery": "not-applicable",
+      "title": "Measure a dense layout on the standard fully expanded field",
+      "summary": "Verify that a 5,400 by 3,600 field accommodates a synthetic 600-node, 831-connection active layout; this is a feasible example rather than a maximum.",
+      "details": [
+        "New unmodded fields expand from 3,600 by 2,400 through 4,500 by 3,000 to 5,400 by 3,600. The existing stress fixture uses fieldSizeScale 2 and therefore 10,800 by 7,200; its 1,200 and 2,400 loads are not normal-field capacity claims.",
+        "Arrange thirty existing twenty-node dense cells in five columns and six rows. Include 90 Production nodes, 210 Splitters, 210 Mergers and 90 synthetic supply/storage nodes. Real resources and obstructions would consume additional space."
+      ],
+      "topics": [
+        "Performance",
+        "Production",
+        "Testing"
+      ],
+      "sources": [
+        "local-code"
+      ],
+      "evidence": [
+        "outputs/node-readouts-35/map-capacity.ts",
+        "outputs/node-readouts-35/map-capacity.json",
+        "previews/active-factory/model.ts",
+        "src/simulation/worldGeneration.ts",
+        "src/simulation/collisions.ts"
+      ],
+      "validation": "Built the read-only capacity analysis with Vite and ran the real engine at normal 100 ms steps for 120 simulated seconds. All 600 nodes fit the field with ordinary margins; no bodies overlap and all 831 connections pass validation. Recorded 914 produced and 259 delivered, with live cargo remaining. Uses Dev Sources and enlarged sink capacity from the existing synthetic fixture. No FPS measurement, ordinary-play supply proof, exhaustive packing maximum, gameplay change or live publication."
+    },
+    {
+      "id": "NODE-0736",
+      "date": "2026-11-20",
+      "dateBasis": "chat",
+      "kind": "decision",
+      "state": "recorded",
+      "delivery": "not-applicable",
+      "title": "Shuffle remaining landmark machine families across bands by seed",
+      "summary": "Keep the randomized introductory Rapid Refiner and seed-shuffle the remaining Rapid and Doubler families across their agreed band slots.",
+      "details": [
+        "The user selected shuffled remaining families rather than the proposed increasing-complexity-by-distance allocation. Preserve the early landmark family as Refiner while retaining its random location.",
+        "Shuffle the remaining Rapid multiset of one Refiner, two Smelters, one Assembler and one Fabricator into two slots at tiers 3-4, one at 5-6 and two at 7-9. Shuffle Refiner, Assembler and Fabricator Doubler families across one slot in each later band. Preserve overall type/family counts, the early pair, Tri Extractor counts and Reclaimer at tiers 5-6.",
+        "Assign families before final footprint validation and save the resulting seeded layout so exploration and reloads do not reroll it. Advanced families may be discovered before their ordinary unlocks.",
+        "Update the editable Page, repository proposal and current map reference. No runtime generator, gameplay, save migration or publication change."
+      ],
+      "topics": [
+        "World map",
+        "Exploration",
+        "Production",
+        "Documentation"
+      ],
+      "sources": [
+        "local-code"
+      ],
+      "evidence": [
+        "docs/master-plan/23-map-power-ups.md",
+        "docs/systems/map-nodes-and-exploration.md"
+      ],
+      "validation": "Updated and read back the five affected Page blocks, with an explicit follow-up clarification that the early family is fixed while its location remains randomized. Checked five remaining Rapid slots match the five-family multiset and three Doubler slots match the three selected families. Regenerated six system catalogs and passed freshness and local-link checks across 39 documents before the wording clarification. No seed-generation, placement-feasibility, gameplay, visual renderer or balance test; this is a proposal decision."
     }
   ]
 }

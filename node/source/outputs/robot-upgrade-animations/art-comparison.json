@@ -1,0 +1,42 @@
+[
+  {
+    "tier": "junior",
+    "sha256": "b9ea6e6b7153f3d23f9f192d7dcbd22544592000129c8150216693442917802b",
+    "unchanged": true
+  },
+  {
+    "tier": "simple",
+    "sha256": "4477d36998d03b6f015b1872bb52c3bf644f4d72f5e6e016b28661485f22d69e",
+    "unchanged": true
+  },
+  {
+    "tier": "basic",
+    "sha256": "bb4a21e295acfbd404a281fa121bd18c1583d719cafb287760c568e499612c6c",
+    "unchanged": true
+  },
+  {
+    "tier": "automata",
+    "sha256": "8fff6cc83e93904c9178114b222b3dfd3599d885c6e0754f0ca43643a8b20fc7",
+    "unchanged": true
+  },
+  {
+    "tier": "hydro",
+    "sha256": "0dc57b128e2ca897b59c565d277cfe2133e5aab22e008ed82bc143a263fdcbb8",
+    "unchanged": true
+  },
+  {
+    "tier": "shiny",
+    "sha256": "45ac079ce739add6f03fa517bc1a3850f072b5226b9f08ff41a3182541883e27",
+    "unchanged": true
+  },
+  {
+    "tier": "complex",
+    "sha256": "c6c3d215792b212006c5356a1a2cded210cc906d20a80d2c0265d662be0c6c00",
+    "unchanged": true
+  },
+  {
+    "tier": "final",
+    "sha256": "71150c2bf0f46f6114e789ced06eb76ff53e108a66dd19839103734ef863c4d0",
+    "unchanged": true
+  }
+]

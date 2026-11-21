@@ -6,9 +6,9 @@ import { createInitialState } from '../../src/simulation/engine';
 export const LOADS = [150, 300, 600] as const;
 export const DENSE_LOADS = [600, 1200, 2400] as const;
 export type FactoryLoad = typeof LOADS[number] | typeof DENSE_LOADS[number];
-export type FactoryLayout = 'lines' | 'dense';
+export type FactoryLayout = 'lines' | 'dense' | 'standard';
 export const DENSE_CELL_NODES = 20;
-export const factoryLoads = (layout: FactoryLayout): readonly FactoryLoad[] => layout === 'dense' ? DENSE_LOADS : LOADS;
+export const factoryLoads = (layout: FactoryLayout): readonly FactoryLoad[] => layout === 'standard' ? [600] : layout === 'dense' ? DENSE_LOADS : LOADS;
 export const SINK_CAPACITY = 1_000_000;
 
 // All recipes and cycles come from the current game. Only supply and final
@@ -134,7 +134,20 @@ export function createDenseFactory(load: typeof DENSE_LOADS[number] = 1200): Gam
   return state;
 }
 
+/** Thirty routed cells on the ordinary field with both Area Expansion upgrades. */
+export function createStandardFactory(): GameState {
+  const state = createDenseFactory(600);
+  state.fieldSizeScale = 1;
+  for (const node of state.sectors[state.activeSectorId].nodes) {
+    const cell = Number(node.id.split('-')[1]);
+    node.x += (cell % 5 - cell % 6) * 1024;
+    node.y += (Math.floor(cell / 5) - Math.floor(cell / 6)) * 512;
+  }
+  return state;
+}
+
 export function createFactoryFixture(layout: FactoryLayout, load: FactoryLoad) {
+  if (layout === 'standard') return createStandardFactory();
   if (layout === 'dense') return createDenseFactory(DENSE_LOADS.find(value => value === load) ?? 1200);
   return createActiveFactory(LOADS.find(value => value === load) ?? 300);
 }

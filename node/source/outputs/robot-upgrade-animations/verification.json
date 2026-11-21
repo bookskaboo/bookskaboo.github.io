@@ -1,0 +1,39 @@
+{
+  "date": "2026-11-20",
+  "scope": "Local game and isolated author preview; not published",
+  "request": "Gradually assemble the next robot tier as actual Cores are paid.",
+  "checks": {
+    "focusedTests": 80,
+    "testFiles": 10,
+    "mainTypeScript": true,
+    "previewTypeScript": true,
+    "mainBuild": true,
+    "standalonePreviewBuild": true,
+    "staticSvgByteMatches": 8,
+    "desktopWidth": 1280,
+    "mobileWidth": 390,
+    "mobileSingleColumn": true,
+    "horizontalOverflow": false,
+    "allSevenCompletedLayers": true,
+    "keyboardHomeArrowEnd": true,
+    "syntheticPaidModalFraction": 0.4,
+    "retainedAfterDisableAndReopen": true,
+    "browserWarnings": 0,
+    "browserErrors": 0
+  },
+  "limits": [
+    "Synthetic lab/payment previews do not establish campaign balance.",
+    "Reduced-motion CSS removes interpolation; no operating-system preference was changed.",
+    "Existing main bundle-size warning remains."
+  ],
+  "evidence": [
+    "tests.log",
+    "build.log",
+    "art-comparison.json",
+    "three-paid-sets.jpg",
+    "completed-tiers.jpg",
+    "paid-modal.jpg",
+    "mobile.jpg",
+    "review-page.jpg"
+  ]
+}

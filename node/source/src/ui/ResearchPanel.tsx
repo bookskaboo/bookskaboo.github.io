@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { getResearchProject } from '../content/research';
-import { ASSIGNMENT, BOT_UPGRADES, STAGES, characterStage } from '../content/botUpgrades';
+import { ASSIGNMENT, BOT_UPGRADES } from '../content/botUpgrades';
 import type { GameState } from '../domain/types';
 import type { GameEngine } from '../simulation/engine';
 import { permitsTutorialChoice, type TutorialChoice } from '../tutorials/tutorialChoices';
@@ -12,7 +12,7 @@ import { BotUpgrade } from './upgrades/BotUpgrade';
 import { ResearchListRow } from './upgrades/ResearchListRow';
 import { ResearchQueue } from './upgrades/ResearchQueue';
 import { statusResearchList, type ResearchListFilter } from './upgrades/researchList';
-import { robotSvg } from './upgrades/robotArt';
+import { RobotPortrait } from './upgrades/RobotPortrait';
 import { researchCardDetails } from './researchPresentation';
 
 interface ResearchPanelProps {
@@ -20,7 +20,6 @@ interface ResearchPanelProps {
   game: GameState; engine: GameEngine; onClose(): void;
   onOpenRecipe(recipeId: string): void; onOpenMap?(): void;
 }
-const portraits = STAGES.map((_, tier) => `data:image/svg+xml;charset=utf-8,${encodeURIComponent(robotSvg(tier))}`);
 
 export function ResearchPanel(props: ResearchPanelProps) {
   return props.game.mod ? <LegacyResearchPanel {...props} /> : <UpgradesPanel {...props} />;
@@ -35,7 +34,6 @@ function UpgradesPanel({ game, engine, focusProjectId, allowedProjectId, showMil
   const [, refreshHints] = useState(0);
   const dialog = useRef<HTMLElement>(null);
   const guided = allowedProjectId !== undefined;
-  const tier = characterStage(game);
   const { projects, mapProject } = statusResearchList(game, filter, query, showCompleted);
   const guidedProject = allowedProjectId ? getResearchProject(allowedProjectId) : undefined;
   const listed = guided ? guidedProject && (!game.research.completed.includes(guidedProject.id) || showCompleted) ? [guidedProject] : [] : projects;
@@ -88,7 +86,7 @@ function UpgradesPanel({ game, engine, focusProjectId, allowedProjectId, showMil
       <PanelHeader title="Upgrades" onClose={onClose} />
       <div className="status-layout">
         <aside className="character-column" aria-label="Your AI bot">
-          <div className="robot-portrait"><img src={portraits[tier]} alt={`${STAGES[tier].role} (${STAGES[tier].label} AI bot)`} /></div>
+          <RobotPortrait game={game} />
           {showMilestones && <div className="robot-thought"><HintBrowser game={game} assignment={ASSIGNMENT} onAssignmentRead={() => { acknowledgeStatusAssignment(game); refreshHints(value => value + 1); }} /></div>}
           <BotUpgrade disabled={guided} game={game} engine={engine} onInspect={inspect} onOpenRecipe={onOpenRecipe} />
         </aside>

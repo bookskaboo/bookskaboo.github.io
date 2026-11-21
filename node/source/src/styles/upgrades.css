@@ -16,6 +16,17 @@
 .character-column h2 { font:var(--ui-panel-title-font); margin:12px 0 0; color:#edf0eb; }
 .robot-portrait { position:relative; margin:8px -8px 0; height:330px; background:radial-gradient(ellipse at 50% 62%,#47657326,transparent 67%); }
 .robot-portrait img { width:100%; height:100%; object-fit:contain; }
+.robot-assembly > svg { display:block; width:100%; height:100%; overflow:hidden; }
+.robot-assembly-part { transform-origin:160px 183px; }
+.robot-processing-committed { animation:robot-processing-off 1.2s step-end infinite; }
+.robot-processing-preview { animation:robot-processing-on 1.2s step-end infinite; }
+@keyframes robot-processing-on { 0%,100% { opacity:0; } 50% { opacity:1; } }
+@keyframes robot-processing-off { 0%,100% { opacity:1; } 50% { opacity:0; } }
+@media (prefers-reduced-motion:reduce) {
+  .robot-assembly-part { transition:none; }
+  .robot-processing-committed { animation:none; }
+  .robot-processing-preview { animation:none; display:none; }
+}
 .robot-thought { position:relative; margin-top:23px; }
 .robot-thought::before { content:''; position:absolute; left:28px; top:-9px; width:13px; height:13px; background:#27333b; border-left:1px solid #7b98a7; border-top:1px solid #7b98a7; transform:rotate(45deg); z-index:1; }
 .robot-thought .research-next-slot { margin:0; padding:0; }

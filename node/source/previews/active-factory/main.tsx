@@ -6,6 +6,7 @@ import { getNodeSize } from '../../src/domain/nodeGeometry';
 import { PixiPlayfield } from '../../src/renderer/PixiPlayfield';
 import { MAX_VISIBLE_TRANSFERS } from '../../src/simulation/transfers';
 import { GameEngine } from '../../src/simulation/engine';
+import { getWorldFieldSize } from '../../src/simulation/worldGeneration';
 import { createFactoryFixture, factoryActivity, factoryLoads, DENSE_CELL_NODES, type FactoryLoad, type FactoryLayout } from './model';
 import { benchmarkStats, emptyBenchmark, sampledFrameInterval } from './benchmark';
 import type { RendererDiagnostics } from '../../src/renderer/sceneUpdates';
@@ -16,14 +17,14 @@ function ActiveFactory() {
   const params = new URLSearchParams(location.search);
   const queryLoad = Number(params.get('nodes'));
   const requestedZoom = Number(params.get('zoom'));
-  const initialZoom = Number.isFinite(requestedZoom) && requestedZoom >= .05 && requestedZoom <= 2 ? requestedZoom : undefined;
+  const initialLayout: FactoryLayout = params.get('layout') === 'standard' ? 'standard' : params.get('layout') === 'dense' ? 'dense' : params.get('layout') === 'lines' || params.has('nodes') ? 'lines' : 'standard';
+  const initialZoom = Number.isFinite(requestedZoom) && requestedZoom >= .05 && requestedZoom <= 2 ? requestedZoom : initialLayout === 'standard' ? .35 : undefined;
   const sampleSeconds = Math.min(120, Math.max(10, Number(params.get('sampleSeconds')) || 0));
   const sampleWindowMs = params.has('sampleSeconds') ? sampleSeconds * 1000 : 0;
-  const initialLayout: FactoryLayout = params.get('layout') === 'dense' ? 'dense' : params.get('layout') === 'lines' || params.has('nodes') ? 'lines' : 'dense';
   const [layout, setLayout] = useState<FactoryLayout>(initialLayout);
-  const [load, setLoad] = useState<FactoryLoad>(factoryLoads(initialLayout).find(value => value === queryLoad) ?? (initialLayout === 'dense' ? 1200 : 300));
+  const [load, setLoad] = useState<FactoryLoad>(factoryLoads(initialLayout).find(value => value === queryLoad) ?? (initialLayout === 'standard' ? 600 : initialLayout === 'dense' ? 1200 : 300));
   const [engine] = useState(() => new GameEngine(createFactoryFixture(layout, load), { autosave: false }));
-  const [emphasizeProgress, setEmphasizeProgress] = useState(initialLayout === 'dense');
+  const [emphasizeProgress, setEmphasizeProgress] = useState(initialLayout !== 'lines');
   const [showDistantDetails, setShowDistantDetails] = useState(params.get('details') === '1');
   const [revision, setRevision] = useState(0);
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
@@ -42,6 +43,7 @@ function ActiveFactory() {
   const state = engine.getState();
   const sector = engine.getSector();
   const activity = factoryActivity(state);
+  const field = getWorldFieldSize(state);
   const selected = sector.nodes.find(node => selectedIds.includes(node.id));
   const zoomPercent = Math.round(viewZoom * 1000) / 10;
   const zoomOptions = [...new Set([5, 10, 15, 20, 25, 30, 35, 40, 50, 75, 100, 150, 200, zoomPercent])].sort((a, b) => a - b);
@@ -69,7 +71,7 @@ function ActiveFactory() {
     const box = viewport.getBoundingClientRect();
     const currentNodes = engine.getSector().nodes;
     if (!currentNodes.length) return;
-    const nodes = detail ? currentNodes.slice(0, layout === 'dense' ? DENSE_CELL_NODES : 5) : currentNodes;
+    const nodes = detail ? currentNodes.slice(0, layout !== 'lines' ? DENSE_CELL_NODES : 5) : currentNodes;
     const left = Math.min(...nodes.map(node => node.x - getNodeSize(node).w / 2));
     const right = Math.max(...nodes.map(node => node.x + getNodeSize(node).w / 2));
     const top = Math.min(...nodes.map(node => node.y - getNodeSize(node).h / 2));
@@ -129,7 +131,7 @@ function ActiveFactory() {
 
   const reset = (nextLoad = load, nextLayout = layout) => {
     setLoad(nextLoad); setLayout(nextLayout);
-    if (nextLayout !== layout) setEmphasizeProgress(nextLayout === 'dense');
+    if (nextLayout !== layout) setEmphasizeProgress(nextLayout !== 'lines');
     restartMeasurements();
     setSelectedIds([]); setSelectedConnection(undefined); setMessage('');
     // Reuse the current WebGL renderer, as the main game does when loading a save.
@@ -145,19 +147,20 @@ function ActiveFactory() {
     <header ref={headerRef} className="factory-test-header">
       <div className="factory-test-title"><h1>Active factory test</h1><span>One Map Node. Several questionable staffing decisions.</span></div>
       <div className="factory-test-controls">
-        <label>Layout <select value={layout} onChange={event => { const next = event.target.value as FactoryLayout; reset(next === 'dense' ? 1200 : 300, next); }}><option value="dense">Dense routing</option><option value="lines">Production lines</option></select></label>
+        <label>Layout <select value={layout} onChange={event => { const next = event.target.value as FactoryLayout; reset(next === 'standard' ? 600 : next === 'dense' ? 1200 : 300, next); }}><option value="standard">Standard expanded map</option><option value="dense">Dense routing stress test</option><option value="lines">Production lines</option></select></label>
         <label>Load <select value={load} onChange={event => reset(Number(event.target.value) as FactoryLoad)}>{factoryLoads(layout).map(value => <option key={value} value={value}>{value.toLocaleString()} nodes</option>)}</select></label>
         <label className="factory-test-zoom" title="Changing zoom restarts measurements without resetting the factory.">Zoom <select value={zoomPercent} onChange={event => setZoom(Number(event.target.value) / 100)}>{zoomOptions.map(percent => <option key={percent} value={percent}>{percent}%</option>)}</select></label>
         <button onClick={() => engine.togglePause()}>{state.paused ? 'Resume' : 'Pause'}</button>
         <button onClick={() => focus()}>Fit all</button>
-        <button onClick={() => focus(true)}>{layout === 'dense' ? 'Inspect a cell' : 'Inspect a line'}</button>
+        <button onClick={() => focus(true)}>{layout !== 'lines' ? 'Inspect a cell' : 'Inspect a line'}</button>
         <button onClick={() => reset()}>Reset test</button>
         <label><input type="checkbox" checked={emphasizeProgress} onChange={event => setEmphasizeProgress(event.target.checked)} />Emphasize progress bars</label>
         <label><input type="checkbox" checked={showDistantDetails} onChange={event => { setShowDistantDetails(event.target.checked); reset(); }} />Show distant text and boxes</label>
       </div>
-      <div className="factory-test-stats" aria-label="Live factory activity" data-benchmark={JSON.stringify(benchmark)} data-renderer={JSON.stringify(rendererStats)} data-camera={JSON.stringify(sector.camera)} data-layout={layout} data-progress-emphasis={emphasizeProgress} data-distant-details={showDistantDetails}>
+      <div className="factory-test-stats" aria-label="Live factory activity" data-benchmark={JSON.stringify(benchmark)} data-renderer={JSON.stringify(rendererStats)} data-camera={JSON.stringify(sector.camera)} data-field={JSON.stringify(field)} data-layout={layout} data-progress-emphasis={emphasizeProgress} data-distant-details={showDistantDetails}>
+        <span>{field.width.toLocaleString()} × {field.height.toLocaleString()} field</span>
         <span>{activity.nodes} nodes</span><span>{activity.producers} producers</span><span>{activity.connections} connections</span>
-        {layout === 'dense' && <><span>{activity.splitters} Splitters</span><span>{activity.mergers} Mergers</span></>}
+        {layout !== 'lines' && <><span>{activity.splitters} Splitters</span><span>{activity.mergers} Mergers</span></>}
         <span>{state.paused ? 0 : activity.cycling} cycling</span>
         <span>{activity.transfers} materials in transit</span><span>{activity.produced.toLocaleString()} produced</span><span>{activity.delivered.toLocaleString()} delivered</span>
         <span>{Math.floor(state.playTimeMs / 1000)} s elapsed</span><span>{performanceStats.fps} page FPS</span><span>{performanceStats.tickMs.toFixed(1)} ms last tick</span>

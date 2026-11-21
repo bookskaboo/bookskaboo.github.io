@@ -18,6 +18,8 @@ Fully suppressed guarded camps display a system-owned refill output and deposit 
 
 ## Asset ownership
 
+The Upgrades robot uses [shared vector parts](../../src/ui/upgrades/robotArt.ts), [seven assembly schedules](../../src/ui/upgrades/robotAssembly.ts) and [the portrait component](../../src/ui/upgrades/RobotPortrait.tsx). Each payment advances actual hardware toward the next existing model. During an active character-upgrade lab cycle, only affected upcoming parts flash against the paid chassis once per 1.2 seconds. They become solid immediately when the synchronized Core set is consumed. Pause, disabled/waiting labs and unrelated research stop the preview. Reduced motion suppresses the unpaid flash. Finished vectors, portrait bounds, hint dimensions and controls stay fixed. The [animation gallery](../../previews/status-page/RobotAnimationGallery.tsx) offers isolated playback and payment scrubbing, with 2.4-second example processing intervals that do not alter game research timing.
+
 | Module | Role |
 | --- | --- |
 | [Line art](../../src/art/lineArt.ts) | Shared vector icon family |

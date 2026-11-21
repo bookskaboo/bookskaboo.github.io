@@ -26,7 +26,9 @@ The [recipe catalog](catalogs/recipes.md) lists actual machine assignments. Name
 
 ## Operation
 
-The separate [power-up proposal](../master-plan/23-map-power-ups.md) selects a Three-output Extractor landmark with explicit relocation grouping: moving the Extractor alone leaves its reserve in place, while selecting both permits a valid group move. It may reconnect to another ordinary Wood, Stone, Copper or Iron reserve within the same Map Node; guarded and Golem reserves are excluded from the initial version. Its stock treatment when switching resource type remains under review. This landmark behavior is planned, not implemented; ordinary Production nodes retain the rules below.
+The [power-up proposal](../master-plan/23-map-power-ups.md) selects no activation or repair fee for discovered landmarks. Their normal machine and recipe unlocks and ordinary production ingredients still apply. This is proposed landmark behavior, not a change to current Production nodes.
+
+The separate [power-up proposal](../master-plan/23-map-power-ups.md) selects a Tri Extractor landmark with explicit relocation grouping: moving the Extractor alone leaves its reserve in place, while selecting both permits a valid group move. It may reconnect to another ordinary Wood, Stone, Copper or Iron reserve within the same Map Node; guarded and Golem reserves are excluded from the initial version. Switching resource type discards old stock in all three output buffers, while matching stock survives same-resource rewiring. There is no empty-buffer prerequisite. Ordinary Extractor speed research shortens its shared five-second base cycle, retaining triple yield and shared output blocking. This landmark behavior is planned, not implemented; ordinary Production nodes retain the rules below.
 
 Select a recipe before connecting a configurable machine. Availability follows research and machine access, so a factory can be configured before its first ingredients arrive. Recipe sockets use ingredient identities rather than the generic sockets in the node definition.
 

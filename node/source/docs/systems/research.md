@@ -6,6 +6,8 @@ Unmodded factories use **Upgrades** (Q) for character progression and ordinary r
 
 ## Character progression
 
+The portrait gradually assembles the next tier as actual upgrade contributions are paid. Its permanent fraction is the sum of researched Core quantities divided by the full required bill, matching the Upgrade button. While the selected character upgrade has a ready, enabled Research Center with an active nonzero cycle and every outstanding Core type, flash a preview of its next synchronized payment. The preview alternates affected parts once per 1.2 seconds; it is not paid progress. Consuming the full set commits the hardware immediately. Stock waiting in a lab, unfinished cycles, disabled labs, game/research pause and unrelated projects cannot commit hardware. Parked payments preserve the same hybrid chassis on disable, reopen and reload. The final payment becomes the existing next-tier artwork. Presentation uses existing paid amounts and lab state, with no new save fields, processing rules or unlock effects. Reduced motion hides the unpaid flash and keeps immediate paid updates.
+
 Simple Core is a starting Refiner recipe with no research gate or card. Each character upgrade unlocks the next Core recipe. Machine access and ingredients still determine whether that recipe can actually be produced.
 
 | Upgrade | Promotion | Bill | Unlock |

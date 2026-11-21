@@ -2,7 +2,8 @@ import { describe, expect, it } from 'vitest';
 import { getNodeSize } from '../../src/domain/nodeGeometry';
 import { GameEngine } from '../../src/simulation/engine';
 import { getWorldFieldSize } from '../../src/simulation/worldGeneration';
-import { createDenseFactory, DENSE_LOADS, factoryActivity } from './model';
+import { createDenseFactory, createStandardFactory, DENSE_LOADS, factoryActivity } from './model';
+import { nodeInsideField } from '../../src/simulation/collisions';
 
 describe('dense routed factory', () => {
   it('uses valid ports and material routes for each production recipe', () => {
@@ -16,13 +17,20 @@ describe('dense routed factory', () => {
     }
   });
 
-  it.each(DENSE_LOADS)('fits %i nodes without overlap and uses every routing outlet', load => {
-    const engine = new GameEngine(createDenseFactory(load), { autosave: false });
+  it.each([...DENSE_LOADS.map(load => ({ label: `${load} stress`, load, create: () => createDenseFactory(load) })),
+    { label: '600 standard', load: 600, create: createStandardFactory }])('fits $label nodes without overlap and uses every routing outlet', ({ load, create, label }) => {
+    const engine = new GameEngine(create(), { autosave: false });
     const sector = engine.getSector(), field = getWorldFieldSize(engine.getState());
     expect(Object.keys(engine.getState().sectors)).toHaveLength(1);
     expect(sector.nodes).toHaveLength(load);
     expect(new Set(sector.nodes.map(node => node.id)).size).toBe(load);
     const activity = factoryActivity(engine.getState());
+    if (label === '600 standard') {
+      expect(field).toEqual({ width: 5400, height: 3600 });
+      expect(activity.connections).toBe(831);
+      expect(sector.nodes.every(node => nodeInsideField(node, field))).toBe(true);
+      for (const edge of sector.connections) expect(engine.getConnectionFailure(edge.from, edge.fromPort ?? 0, edge.to, edge.toPort ?? 0, edge.id), edge.id).toBeUndefined();
+    }
     expect(activity.producers).toBe(load * 3 / 20);
     expect(activity.splitters).toBe(load * 7 / 20);
     expect(activity.mergers).toBe(load * 7 / 20);
