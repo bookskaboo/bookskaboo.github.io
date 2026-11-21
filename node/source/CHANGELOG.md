@@ -2,17 +2,16 @@
 
 A searchable record of completed changes, design decisions, and relevant review findings. Stable NODE IDs can be cited in chats and searched in the repository.
 
-**736 records · 2026-10-12–2026-11-20 · America/Los_Angeles**
+**737 records · 2026-10-12–2026-11-20 · America/Los_Angeles**
 
 [Open searchable history](<docs/changelog/index.html>) · [How to review and maintain it](<docs/changelog/README.md>) · [Sources and coverage gaps](<docs/changelog/sources.md>)
 
 ## Local changes awaiting publication
 
-Latest confirmed game publication: [82d968e](https://github.com/bookskaboo/bookskaboo.github.io/commit/82d968e3d3b9f7ae9dbcdac6be65cc534de37f8a).
+Latest confirmed game publication: [6c45916](https://github.com/bookskaboo/bookskaboo.github.io/commit/6c459161d2a7bef7d36224afae9ef658d2b8c9b3).
 
 | ID | Change | Topics |
 | --- | --- | --- |
-| [NODE-0733](<docs/changelog/2026-11.md#node-0733>) | Flash pending robot parts until a Core set is consumed | Research, Interface, Art, Saves, Prototypes, Documentation |
 | [NODE-0716](<docs/changelog/2026-11.md#node-0716>) | Show and select the actual zoom in the active-factory test | Controls, Interface, Tooling, Performance, Documentation |
 | [NODE-0708](<docs/changelog/2026-11.md#node-0708>) | Measure a practical 30 FPS zoom with restored node details | Performance, Controls, Tooling, Documentation |
 | [NODE-0703](<docs/changelog/2026-11.md#node-0703>) | Move workshop Travel controls outside the field and match arrow sizes | Controls, Logistics, Interface, Camera, Documentation |
@@ -124,13 +123,14 @@ Latest confirmed game publication: [82d968e](https://github.com/bookskaboo/books
 
 ## Dated history
 
-- [2026-11](<docs/changelog/2026-11.md>) — 718 records
+- [2026-11](<docs/changelog/2026-11.md>) — 719 records
 - [2026-10](<docs/changelog/2026-10.md>) — 18 records
 
 “Known by” dates are implementation/publication bounds, not exact change dates. “Backfilled” dates mark records with uncertain original dates. Supersession links explain reversals. Original-game records do not certify current rebuild behavior.
 
 ## Published releases
 
+- 2026-11-20 — [6c45916: Core-funded robot assembly and processing flashes](https://github.com/bookskaboo/bookskaboo.github.io/commit/6c459161d2a7bef7d36224afae9ef658d2b8c9b3) — Only node/ changed. Five runtime files add robot assembly and pending Core-processing flashes; retain latest live renderer/Road behavior and all 154 previous assets. Pages succeeded; normal live HTML and all ten new assets matched SHA-256, plus ten preceding assets. No save fields or research timing changes.
 - 2026-11-20 — [82d968e: 35% node readouts with active overview caches](https://github.com/bookskaboo/bookskaboo.github.io/commit/82d968e3d3b9f7ae9dbcdac6be65cc534de37f8a) — Only node/ changed. Pages succeeded; live HTML and all ten new build assets matched SHA-256. All 147 prior assets retained; prior-build URLs verified. Newer Upgrades and gameplay preserved.
 - 2026-11-20 — [52f2b05: Upgrades character progression and queued research](https://github.com/bookskaboo/bookskaboo.github.io/commit/52f2b05de75f4af1c475714714c0e922636cf229) — Current tested game snapshot, changes only node/. Pages succeeded; normal HTML and all ten new assets verified by SHA-256, plus ten preceding assets. Retain all 137 older runtime assets. Earned unmodded research migrates; applied-mod factories retain their Research screen. Author proposals remain separate.
 - 2026-11-20 — [48f50fd: Refined border art and generation clearance](https://github.com/bookskaboo/bookskaboo.github.io/commit/48f50fda634343154e4adb67a9953b065d137299) — Only node/ changed. Pages succeeded; normal live HTML and all ten new assets verified by SHA-256, plus ten preceding assets. Retain all 127 older runtime assets. Saved layouts are preserved; clearance applies to new sectors in border worlds. Unrelated pending gameplay/prototypes excluded.
@@ -168,7 +168,7 @@ A record marked “Published by” was known in that snapshot and may have appea
 - [Accessibility](<docs/changelog/index.html?topic=Accessibility>) (6)
 - [Animation](<docs/changelog/index.html?topic=Animation>) (6)
 - [Architecture](<docs/changelog/index.html?topic=Architecture>) (5)
-- [Art](<docs/changelog/index.html?topic=Art>) (27)
+- [Art](<docs/changelog/index.html?topic=Art>) (28)
 - [Audio](<docs/changelog/index.html?topic=Audio>) (1)
 - [Balance](<docs/changelog/index.html?topic=Balance>) (127)
 - [Bots](<docs/changelog/index.html?topic=Bots>) (1)
@@ -184,12 +184,12 @@ A record marked “Published by” was known in that snapshot and may have appea
 - [Design](<docs/changelog/index.html?topic=Design>) (7)
 - [Developer tools](<docs/changelog/index.html?topic=Developer%20tools>) (1)
 - [Discovery](<docs/changelog/index.html?topic=Discovery>) (5)
-- [Documentation](<docs/changelog/index.html?topic=Documentation>) (341)
+- [Documentation](<docs/changelog/index.html?topic=Documentation>) (342)
 - [Encounters](<docs/changelog/index.html?topic=Encounters>) (147)
 - [Endgame](<docs/changelog/index.html?topic=Endgame>) (5)
 - [Exploration](<docs/changelog/index.html?topic=Exploration>) (33)
 - [Extraction](<docs/changelog/index.html?topic=Extraction>) (1)
-- [Interface](<docs/changelog/index.html?topic=Interface>) (303)
+- [Interface](<docs/changelog/index.html?topic=Interface>) (304)
 - [Logistics](<docs/changelog/index.html?topic=Logistics>) (107)
 - [Map](<docs/changelog/index.html?topic=Map>) (8)
 - [Map exploration](<docs/changelog/index.html?topic=Map%20exploration>) (1)
@@ -211,10 +211,10 @@ A record marked “Published by” was known in that snapshot and may have appea
 - [Progression](<docs/changelog/index.html?topic=Progression>) (216)
 - [Prototypes](<docs/changelog/index.html?topic=Prototypes>) (20)
 - [Publication](<docs/changelog/index.html?topic=Publication>) (2)
-- [Publishing](<docs/changelog/index.html?topic=Publishing>) (16)
+- [Publishing](<docs/changelog/index.html?topic=Publishing>) (17)
 - [Recipes](<docs/changelog/index.html?topic=Recipes>) (115)
 - [Recycling](<docs/changelog/index.html?topic=Recycling>) (2)
-- [Research](<docs/changelog/index.html?topic=Research>) (292)
+- [Research](<docs/changelog/index.html?topic=Research>) (293)
 - [Resources](<docs/changelog/index.html?topic=Resources>) (120)
 - [Responsive](<docs/changelog/index.html?topic=Responsive>) (2)
 - [Roads](<docs/changelog/index.html?topic=Roads>) (22)

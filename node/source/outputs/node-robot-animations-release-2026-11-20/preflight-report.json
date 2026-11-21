@@ -1,0 +1,17 @@
+{
+  "commit": "6c459161d2a7bef7d36224afae9ef658d2b8c9b3",
+  "base": "e3b9dd1b3d429624cd134a97701b8b55860f1bcb",
+  "destination": "https://github.com/bookskaboo/bookskaboo.github.io.git refs/heads/main",
+  "onlyNodeChanged": true,
+  "canFastForward": true,
+  "worktreeClean": true,
+  "previousRuntimeAssetsRetained": 154,
+  "runtimeFiles": 11,
+  "sourceFiles": 342,
+  "changedFiles": 72,
+  "tests": {
+    "workspace": 2141,
+    "candidate": 1345
+  },
+  "checkedAt": "2026-11-21T06:27:59.276Z"
+}

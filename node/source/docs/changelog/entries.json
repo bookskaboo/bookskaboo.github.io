@@ -16,6 +16,14 @@
   },
   "releases": [
     {
+      "id": "6c45916",
+      "date": "2026-11-20",
+      "title": "Core-funded robot assembly and processing flashes",
+      "commit": "6c459161d2a7bef7d36224afae9ef658d2b8c9b3",
+      "url": "https://github.com/bookskaboo/bookskaboo.github.io/commit/6c459161d2a7bef7d36224afae9ef658d2b8c9b3",
+      "notes": "Only node/ changed. Five runtime files add robot assembly and pending Core-processing flashes; retain latest live renderer/Road behavior and all 154 previous assets. Pages succeeded; normal live HTML and all ten new assets matched SHA-256, plus ten preceding assets. No save fields or research timing changes."
+    },
+    {
       "id": "82d968e",
       "date": "2026-11-20",
       "title": "35% node readouts with active overview caches",
@@ -24079,7 +24087,7 @@
       "dateBasis": "chat",
       "kind": "changed",
       "state": "implemented",
-      "delivery": "local",
+      "delivery": "published",
       "title": "Flash pending robot parts until a Core set is consumed",
       "summary": "Upcoming character hardware flashes while its actual Research Center cycle processes, then becomes solid immediately when the synchronized Core set is consumed.",
       "details": [
@@ -24118,7 +24126,8 @@
         "outputs/robot-upgrade-processing/flash-on.jpg",
         "outputs/robot-upgrade-processing/consumed-solid.jpg"
       ],
-      "validation": "Passed 81 focused tests across ten preview/integration files, including all seven real synthetic lab payment cycles, pending preview before consumption, exact completion handoff, missing-Core blocking, disabled/paused labs, game/research pause, unrelated selection and normalized reload. Main/preview TypeScript, main build and standalone preview export passed. Regenerated six catalogs and passed links/freshness across 39 system documents. Browser observed complementary pending opacity 0/1, unchanged 60% paid hardware after pausing, all seven completed frames with zero pending previews, no paid-state transition delay, no horizontal overflow and no warning/error logs. Existing bundle-size warning remains. No normal campaign balance run, operating-system reduced-motion toggle or live publication."
+      "validation": "Passed 81 focused tests across ten preview/integration files, including all seven real synthetic lab payment cycles, pending preview before consumption, exact completion handoff, missing-Core blocking, disabled/paused labs, game/research pause, unrelated selection and normalized reload. Main/preview TypeScript, main build and standalone preview export passed. Regenerated six catalogs and passed links/freshness across 39 system documents. Browser observed complementary pending opacity 0/1, unchanged 60% paid hardware after pausing, all seven completed frames with zero pending previews, no paid-state transition delay, no horizontal overflow and no warning/error logs. Existing bundle-size warning remains. No normal campaign balance run, operating-system reduced-motion toggle or live publication.",
+      "publishedBy": "6c45916"
     },
     {
       "id": "NODE-0734",
@@ -24208,6 +24217,52 @@
         "docs/systems/map-nodes-and-exploration.md"
       ],
       "validation": "Updated and read back the five affected Page blocks, with an explicit follow-up clarification that the early family is fixed while its location remains randomized. Checked five remaining Rapid slots match the five-family multiset and three Doubler slots match the three selected families. Regenerated six system catalogs and passed freshness and local-link checks across 39 documents before the wording clarification. No seed-generation, placement-feasibility, gameplay, visual renderer or balance test; this is a proposal decision."
+    },
+    {
+      "id": "NODE-0740",
+      "date": "2026-11-20",
+      "dateBasis": "chat",
+      "kind": "added",
+      "state": "implemented",
+      "delivery": "published",
+      "publishedBy": "6c45916",
+      "title": "Publish robot upgrade assembly and Core-processing flashes",
+      "summary": "Release all seven gradual robot transformations. Upcoming parts flash during actual Core-set processing and become solid immediately when consumed.",
+      "details": [
+        "Fast-forward live main from e3b9dd1b3d429624cd134a97701b8b55860f1bcb to 6c459161d2a7bef7d36224afae9ef658d2b8c9b3, changing only node/. Publish five runtime source changes and matching /node/ build. Preserve all 154 previous runtime assets and place the ten new assets in assets/robot-upgrades-20261120.",
+        "Permanent assembly follows paid character-upgrade contributions, including parked payments. Active, ready Research Center cycles preview the next synchronized set by alternating only affected sections once per 1.2 seconds. Consuming that set commits its hardware immediately. Disabled/paused/waiting labs, game/research pause and unrelated projects suppress the unpaid preview. Reduced motion hides the unpaid flash. Keep existing finished artwork, portrait bounds, saved progress, research bills and simulation rules.",
+        "Keep the latest published 35% readouts/overview renderer and existing Road behavior. A concurrent unfinished Road reanchoring edit was detected during the snapshot; restore only the release copy of engine.ts from the current live base, then rebuild and rerun the isolated suite. Preserve the workspace Road work untouched. Author controls and proposal documents remain separate from main gameplay.",
+        "Publish the matching author animation gallery and current system/style references as source, with prior 81-check processing-preview evidence. Only the final processing-flash version is released; the superseded local 620 ms post-payment animation remains a historical record."
+      ],
+      "topics": [
+        "Research",
+        "Interface",
+        "Art",
+        "Publishing",
+        "Documentation"
+      ],
+      "sources": [
+        "local-code"
+      ],
+      "evidence": [
+        "src/ui/upgrades/RobotPortrait.tsx",
+        "src/ui/upgrades/robotAssembly.ts",
+        "src/ui/upgrades/robotArt.ts",
+        "src/ui/ResearchPanel.tsx",
+        "src/styles/upgrades.css",
+        "previews/status-page/robotAssembly.test.tsx",
+        "docs/systems/research.md",
+        "outputs/robot-upgrade-processing/verification.json",
+        "outputs/robot-upgrade-animations/art-comparison.json",
+        "outputs/node-robot-animations-release-2026-11-20/publication-receipt.json",
+        "outputs/node-robot-animations-release-2026-11-20/preflight-report.json",
+        "outputs/node-robot-animations-release-2026-11-20/build-manifest.json",
+        "outputs/node-robot-animations-release-2026-11-20/source-manifest.json",
+        "outputs/node-robot-animations-release-2026-11-20/workspace-tests.log",
+        "outputs/node-robot-animations-release-2026-11-20/candidate-tests.log",
+        "outputs/node-robot-animations-release-2026-11-20/candidate-build.log"
+      ],
+      "validation": "Workspace passed 2141 tests with two existing skips and its site build. The final frozen release passed 1345 tests with one existing skip, site build, six system catalogs, links across 39 system documents and all six history checks. Repeated isolated tests/build after excluding the concurrent Road edit. Preflight verified exactly five runtime source changes, all 342 source hashes, committed runtime/source build bytes, a clean fast-forward, only node/ changes and every old runtime asset blob unchanged. GitHub Pages run 44875730491 succeeded; normal live HTML and all ten new runtime assets matched SHA-256, plus ten preceding-build assets. Earlier browser evidence covers all seven preview transforms, complementary flash states, paused retained hardware, immediate solid completion, desktop/mobile and keyboard controls; all eight static SVGs match the previously published art. No new sustained campaign run, grants, save injection, existing player-tab reload or operating-system reduced-motion toggle. Existing large-bundle warning remains."
     }
   ]
 }

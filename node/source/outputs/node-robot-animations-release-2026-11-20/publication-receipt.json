@@ -1,0 +1,61 @@
+{
+  "commit": "6c459161d2a7bef7d36224afae9ef658d2b8c9b3",
+  "deploymentCommit": "6c459161d2a7bef7d36224afae9ef658d2b8c9b3",
+  "base": "e3b9dd1b3d429624cd134a97701b8b55860f1bcb",
+  "url": "https://bookskaboo.github.io/node/",
+  "verifiedAt": "2026-11-21T06:30:00.284Z",
+  "pagesRun": {
+    "id": 44875730491,
+    "url": "https://github.com/bookskaboo/bookskaboo.github.io/actions/runs/44875730491",
+    "status": "completed",
+    "conclusion": "success"
+  },
+  "matchedRuntimeFiles": 11,
+  "previousAssetsVerified": 10,
+  "files": [
+    {
+      "file": "assets/robot-upgrades-20261120/browserAll--IMy8viD.js",
+      "sha256": "25b73894cafff9795c7e66343516b2999ff73c16da33aa10f3386624fb3eafd7"
+    },
+    {
+      "file": "assets/robot-upgrades-20261120/CanvasPool-O_8k9jVW.js",
+      "sha256": "9cf12a9f53a878bb8f9f46337b799031a6986b5f87dd775ef57b2902ae0dc9cd"
+    },
+    {
+      "file": "assets/robot-upgrades-20261120/canvasUtils-DHiBpmSz.js",
+      "sha256": "8843c3459529c72ffb9a82655454eff39f3458448dd2ae362764f3be4933288f"
+    },
+    {
+      "file": "assets/robot-upgrades-20261120/getTexelRangeRects-BhRlOlmi.js",
+      "sha256": "ca0b3e94399ce67c9dca1ec3021473e2542251d523bc93bd04a9b149070dd130"
+    },
+    {
+      "file": "assets/robot-upgrades-20261120/getTextureBatchBindGroup-CDnZS9mH.js",
+      "sha256": "2b2eff79ef557432774e0acd98963de65847a16840f0b738b07556ea37e21caa"
+    },
+    {
+      "file": "assets/robot-upgrades-20261120/index-Ck9RMgdj.css",
+      "sha256": "3b91800bf03ff76634d3e1e748b474319c2443a0391a4bc2c883ad52b7682ea1"
+    },
+    {
+      "file": "assets/robot-upgrades-20261120/index-Da83LGAN.js",
+      "sha256": "237533e97e7b5d71e9bc687675b4929b7bd29d25d04b51ab70e6d55d9b4dc3e5"
+    },
+    {
+      "file": "assets/robot-upgrades-20261120/init-CeZd1gfK.js",
+      "sha256": "1eeef013826815394312b7e512679213e5c28e809c42168651e6fb1d9840183a"
+    },
+    {
+      "file": "assets/robot-upgrades-20261120/RenderTargetSystem-D85YXrAp.js",
+      "sha256": "20605afc2541d39cab4bebe036e73f8de687ac78d22cd48b5485993be0c8604f"
+    },
+    {
+      "file": "assets/robot-upgrades-20261120/webworkerAll-1pzMH1w2.js",
+      "sha256": "37be9c0ce483dd3cfbabd7c0f7e69f58f03110c11d3dd9171f28a2882aaa9677"
+    },
+    {
+      "file": "index.html",
+      "sha256": "df25261e4d6b43e2a16d4cc6cd06d194b523c4933040634801ffb27c2b452004"
+    }
+  ]
+}
