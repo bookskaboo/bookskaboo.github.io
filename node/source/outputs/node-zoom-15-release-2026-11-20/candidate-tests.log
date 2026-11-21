@@ -1,0 +1,17 @@
+
+> factorinode-reconstruction@0.1.0 test
+> vitest run --maxWorkers=2
+
+
+ RUN  v5.0.5 D:/node factory v2/outputs/node-zoom-15-release-2026-11-20/repo/node/source
+
+
+ Test Files  125 passed | 1 skipped (126)
+      Tests  1345 passed | 1 skipped (1346)
+   Start at  22:39:05
+   Duration  48.58s (tests 64%, import 28%, transform 7%, worker 1%)
+
+     Import  319 modules were evaluated 661 times · 21.34s total, 28% of tracked time
+             ~3.58s faster with isolate: false — shared modules are evaluated once per worker instead of once per file
+             learn more: https://vitest.dev/guide/improving-performance#test-isolation
+

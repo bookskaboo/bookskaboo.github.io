@@ -18,7 +18,7 @@ function ActiveFactory() {
   const queryLoad = Number(params.get('nodes'));
   const requestedZoom = Number(params.get('zoom'));
   const initialLayout: FactoryLayout = params.get('layout') === 'standard' ? 'standard' : params.get('layout') === 'dense' ? 'dense' : params.get('layout') === 'lines' || params.has('nodes') ? 'lines' : 'standard';
-  const initialZoom = Number.isFinite(requestedZoom) && requestedZoom >= .05 && requestedZoom <= 2 ? requestedZoom : initialLayout === 'standard' ? .35 : undefined;
+  const initialZoom = Number.isFinite(requestedZoom) && requestedZoom >= .05 && requestedZoom <= 2.2 ? requestedZoom : initialLayout === 'standard' ? .15 : undefined;
   const sampleSeconds = Math.min(120, Math.max(10, Number(params.get('sampleSeconds')) || 0));
   const sampleWindowMs = params.has('sampleSeconds') ? sampleSeconds * 1000 : 0;
   const [layout, setLayout] = useState<FactoryLayout>(initialLayout);
@@ -46,7 +46,7 @@ function ActiveFactory() {
   const field = getWorldFieldSize(state);
   const selected = sector.nodes.find(node => selectedIds.includes(node.id));
   const zoomPercent = Math.round(viewZoom * 1000) / 10;
-  const zoomOptions = [...new Set([5, 10, 15, 20, 25, 30, 35, 40, 50, 75, 100, 150, 200, zoomPercent])].sort((a, b) => a - b);
+  const zoomOptions = [...new Set([15, 20, 25, 30, 35, 40, 50, 75, 100, 150, 200, 220, zoomPercent])].sort((a, b) => a - b);
 
   const restartMeasurements = () => {
     samples.current = { start: performance.now(), frames: [], ticks: [], lastFrame: 0 };

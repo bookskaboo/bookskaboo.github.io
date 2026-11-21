@@ -65,14 +65,16 @@ describe('drag edge scrolling', () => {
     expect(lower.y + field.height * zoom).toBeGreaterThan(usable.y);
   });
 
-  it('can zoom out to fit the field and its Road preview when given a larger overview', () => {
+  it('keeps the 15% limit even when exterior Road previews or small screens need more room', () => {
     const field = { width: 3600, height: 2600 };
     const overview = { width: 5448, height: 3948 };
     const requested = { ...camera, zoom: .001 };
     const normal = clampFieldCamera(requested, field, viewport);
     const withPreview = clampFieldCamera(requested, field, viewport, overview);
-    expect(withPreview.zoom).toBeLessThan(normal.zoom);
-    expect(overview.width * withPreview.zoom).toBeLessThanOrEqual(usable.width);
-    expect(overview.height * withPreview.zoom).toBeLessThanOrEqual(usable.height);
+    expect(normal.zoom).toBe(.15);
+    expect(withPreview.zoom).toBe(.15);
+    expect(clampFieldCamera(requested, field, { width: 390, height: 720, top: 132 }, overview).zoom).toBe(.15);
+    expect(clampFieldCamera({ ...camera, zoom: .15 }, { width: 1200, height: 960 }, viewport).zoom).toBe(.15);
+    expect(clampFieldCamera({ ...camera, zoom: 3 }, field, viewport).zoom).toBe(2.2);
   });
 });

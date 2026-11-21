@@ -1,0 +1,177 @@
+{
+  "viewport": {
+    "height": 923,
+    "width": 1210
+  },
+  "checks": [
+    {
+      "label": "normal15",
+      "activity": "5,400 × 3,600 field\n600 nodes\n90 producers\n831 connections\n210 Splitters\n210 Mergers\n63 cycling\n17 materials in transit\n246 produced\n41 delivered\n35 s elapsed\n55 page FPS\n3.5 ms last tick\n16.8 ms p95 frame",
+      "benchmark": {
+        "frameP95": 16.80000000000109,
+        "frameP99": 25.099999999998545,
+        "tickP95": 5,
+        "slowFrames": 2,
+        "count": 1785,
+        "seconds": 25,
+        "meanFrameMs": 14.005602240896359,
+        "averageFps": 71.4,
+        "complete": true
+      },
+      "camera": {
+        "zoom": 0.15,
+        "x": 187.40000000000003,
+        "y": 263.63989944458007
+      },
+      "renderer": {
+        "nodesCreated": 600,
+        "nodesDestroyed": 0,
+        "particleObjectsCreated": 64,
+        "visibleNodes": 600,
+        "totalNodes": 600,
+        "activeParticles": 29,
+        "pooledParticles": 35,
+        "overviewTextures": 13,
+        "cableChunks": 24,
+        "cachedCables": true
+      },
+      "distantDetails": "false"
+    },
+    {
+      "label": "requested5-clamped15",
+      "activity": "5,400 × 3,600 field\n600 nodes\n90 producers\n831 connections\n210 Splitters\n210 Mergers\n63 cycling\n15 materials in transit\n250 produced\n44 delivered\n36 s elapsed\n55 page FPS\n3.5 ms last tick\n16.8 ms p95 frame",
+      "benchmark": {
+        "frameP95": 16.80000000000109,
+        "frameP99": 25.099999999998545,
+        "tickP95": 5,
+        "slowFrames": 2,
+        "count": 1785,
+        "seconds": 25,
+        "meanFrameMs": 14.005602240896359,
+        "averageFps": 71.4,
+        "complete": true
+      },
+      "camera": {
+        "zoom": 0.15,
+        "x": 465.79999999999995,
+        "y": 462.0666628519694
+      },
+      "renderer": {
+        "nodesCreated": 600,
+        "nodesDestroyed": 0,
+        "particleObjectsCreated": 64,
+        "visibleNodes": 600,
+        "totalNodes": 600,
+        "activeParticles": 26,
+        "pooledParticles": 38,
+        "overviewTextures": 13,
+        "cableChunks": 24,
+        "cachedCables": true
+      },
+      "distantDetails": "false"
+    },
+    {
+      "label": "40-vector",
+      "activity": "5,400 × 3,600 field\n600 nodes\n90 producers\n831 connections\n210 Splitters\n210 Mergers\n63 cycling\n12 materials in transit\n361 produced\n85 delivered\n49 s elapsed\n92 page FPS\n4.1 ms last tick\n16.7 ms p95 frame",
+      "benchmark": {
+        "frameP95": 16.700000000004366,
+        "frameP99": 16.80000000000291,
+        "tickP95": 4.299999952316284,
+        "slowFrames": 0,
+        "count": 816,
+        "seconds": 8.08959999995232,
+        "meanFrameMs": 9.913725490137645,
+        "averageFps": 100.87025316515151,
+        "complete": false
+      },
+      "camera": {
+        "zoom": 0.4,
+        "x": 233.79999999999984,
+        "y": 296.71102667914494
+      },
+      "renderer": {
+        "nodesCreated": 600,
+        "nodesDestroyed": 0,
+        "particleObjectsCreated": 64,
+        "visibleNodes": 133,
+        "totalNodes": 600,
+        "activeParticles": 25,
+        "pooledParticles": 39,
+        "overviewTextures": 13,
+        "cableChunks": 24,
+        "cachedCables": false
+      },
+      "distantDetails": "false"
+    },
+    {
+      "label": "narrow15",
+      "activity": "5,400 × 3,600 field\n600 nodes\n90 producers\n831 connections\n210 Splitters\n210 Mergers\n60 cycling\n5 materials in transit\n660 produced\n178 delivered\n87 s elapsed\n69 page FPS\n0.6 ms last tick\n25.0 ms p95 frame",
+      "benchmark": {
+        "frameP95": 25,
+        "frameP99": 25.19999999999709,
+        "tickP95": 4.400000035762787,
+        "slowFrames": 1,
+        "count": 1543,
+        "seconds": 25,
+        "meanFrameMs": 16.202203499675957,
+        "averageFps": 61.72,
+        "complete": true
+      },
+      "camera": {
+        "zoom": 0.15,
+        "x": 195,
+        "y": 462.0666628519694
+      },
+      "renderer": {
+        "nodesCreated": 600,
+        "nodesDestroyed": 0,
+        "particleObjectsCreated": 64,
+        "visibleNodes": 600,
+        "totalNodes": 600,
+        "activeParticles": 13,
+        "pooledParticles": 51,
+        "overviewTextures": 13,
+        "cableChunks": 24,
+        "cachedCables": true
+      },
+      "distantDetails": "false"
+    },
+    {
+      "label": "final15",
+      "activity": "5,400 × 3,600 field\n600 nodes\n90 producers\n831 connections\n210 Splitters\n210 Mergers\n67 cycling\n19 materials in transit\n500 produced\n117 delivered\n67 s elapsed\n49 page FPS\n0.8 ms last tick\n25.0 ms p95 frame",
+      "benchmark": {
+        "frameP95": 25,
+        "frameP99": 25.299999999999272,
+        "tickP95": 5.199999988079071,
+        "slowFrames": 2,
+        "count": 1603,
+        "seconds": 25,
+        "meanFrameMs": 15.595757953836557,
+        "averageFps": 64.11999999999999,
+        "complete": true
+      },
+      "camera": {
+        "zoom": 0.15,
+        "x": 187.40000000000003,
+        "y": 263.63989944458007
+      },
+      "renderer": {
+        "nodesCreated": 600,
+        "nodesDestroyed": 0,
+        "particleObjectsCreated": 64,
+        "visibleNodes": 600,
+        "totalNodes": 600,
+        "activeParticles": 28,
+        "pooledParticles": 36,
+        "overviewTextures": 13,
+        "cableChunks": 24,
+        "cachedCables": true
+      },
+      "distantDetails": "false"
+    }
+  ],
+  "logs": [],
+  "normalReadoutOverride": false,
+  "narrowClientWidth": 390,
+  "narrowScrollWidth": 390
+}

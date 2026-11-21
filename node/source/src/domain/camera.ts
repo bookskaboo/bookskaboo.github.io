@@ -1,6 +1,6 @@
 import type { CameraState } from './types';
 
-export const DEFAULT_MIN_CAMERA_ZOOM = .25;
+export const DEFAULT_MIN_CAMERA_ZOOM = .15;
 
 export interface FieldViewport { width: number; height: number; top: number }
 
@@ -15,10 +15,10 @@ export function cameraViewport(viewport: FieldViewport) {
   return { x: 18, y: top, width: Math.max(1, viewport.width - 36), height: Math.max(1, viewport.height - top - 18) };
 }
 
-/** Fit the entire field; also supplies the initial center for a newly visited map. */
+/** Fit the field where possible, respecting the fixed 15% zoom-out limit. */
 export function sectorOverviewCamera(worldSize: { width: number; height: number }, viewport: FieldViewport): CameraState {
   const usable = cameraViewport(viewport);
-  const zoom = Math.min(DEFAULT_MIN_CAMERA_ZOOM, usable.width / worldSize.width, usable.height / worldSize.height);
+  const zoom = Math.max(DEFAULT_MIN_CAMERA_ZOOM, Math.min(.25, usable.width / worldSize.width, usable.height / worldSize.height));
   return {
     x: usable.x + (usable.width - worldSize.width * zoom) / 2,
     y: usable.y + (usable.height - worldSize.height * zoom) / 2,
@@ -26,10 +26,10 @@ export function sectorOverviewCamera(worldSize: { width: number; height: number 
   };
 }
 
-/** Keep the overview reachable without recentering an already valid saved view. */
-export function clampFieldCamera(camera: CameraState, worldSize: { width: number; height: number }, viewport: FieldViewport, overviewSize = worldSize): CameraState {
+/** Keep saved, wheel and travel views within 15–220%, including exterior previews. */
+export function clampFieldCamera(camera: CameraState, worldSize: { width: number; height: number }, viewport: FieldViewport, _overviewSize = worldSize): CameraState {
   const usable = cameraViewport(viewport);
-  const zoom = Math.max(sectorOverviewCamera(overviewSize, viewport).zoom, Math.min(2.2, camera.zoom));
+  const zoom = Math.max(DEFAULT_MIN_CAMERA_ZOOM, Math.min(2.2, camera.zoom));
   const clampAxis = (value: number, start: number, visible: number, field: number, maxGutter: number) => {
     const opposite = start + visible - field;
     const gutter = Math.min(maxGutter, visible / 2, field / 2);

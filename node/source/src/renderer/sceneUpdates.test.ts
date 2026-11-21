@@ -7,9 +7,9 @@ import { buildCurveMotionPath, curvePoint, buildTransferMotionPath } from './cab
 const node = (id = 'a', x = 500): MachineNode => ({ id, kind: 'smelter', name: 'Smelter', x, y: 500, rotation: 0, recipeId: 'smelt-iron', input: {}, output: {}, progressMs: 0, cycleMs: 6000, constructedAt: 0, constructionMs: 0 });
 
 describe('retained factory drawing', () => {
-  it('reveals live text and buffers at 35% without replacing cached artwork before 40%', () => {
-    expect(showNodeReadouts(.3499, false)).toBe(false);
-    for (const zoom of [.35, .37, .3999]) {
+  it('reveals live text and buffers at 15% without replacing cached artwork before 40%', () => {
+    expect(showNodeReadouts(.1499, false)).toBe(false);
+    for (const zoom of [.15, .2, .35, .3999]) {
       expect(showNodeReadouts(zoom, false)).toBe(true);
       expect(showNodeDetails(zoom, false)).toBe(false);
     }

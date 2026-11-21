@@ -1,10 +1,18 @@
 # Active factory test
 
 Run `npm run dev` and open `/previews/active-factory/` on its local URL.
-The default is Dense routing with 1,200 nodes on one Map Node. Choose 600, 1,200
-or 2,400 nodes; use `?layout=dense&nodes=2400` for the largest fixture. Each
+The default is **Standard expanded map**: 600 nodes and 831 connections on one
+5,400 × 3,600 Map Node, matching a new unmodded field with both Area Expansion
+upgrades. Thirty routed cells occupy five columns and six rows, containing 90
+Production nodes, 210 Splitters, 210 Mergers and 90 supply/storage nodes. It starts
+at 15% zoom with ordinary game readout visibility; the distant-text override
+remains off. Use `?layout=standard&nodes=600` for this fixture.
+
+**Dense routing stress test** retains 600, 1,200 and 2,400 nodes on a synthetic
+10,800 × 7,200 field (four times the ordinary fully upgraded area). Use
+`?layout=dense&nodes=2400` for the largest fixture. Each
 20-node cell contains one Dev Source, three Production nodes, seven Splitters,
-seven Mergers, one Cart and one Warehouse. At 2,400 nodes this means 360
+seven Mergers, one Wooden Chest and one Warehouse. At 2,400 nodes this means 360
 Production nodes and 840 of each router. The cells occupy a 1,024 by 512 world-unit
 pitch, with up to ten columns on the same expanded field.
 
@@ -19,7 +27,9 @@ real production stages followed by Cart-to-Warehouse delivery. The four chains
 produce Iron Gear, Copper Wire, Automata Core and Basic Frame. Dev Sources fill
 missing ingredients. Recipe durations and cable rules are unchanged; initial
 progress is staggered to spread activity across the map. The test uses an empty,
-fully expanded field and one-million-item final storage per branch. It does not
+field and one-million-item final storage per branch. Standard expanded map uses
+ordinary upgraded dimensions; the two comparison layouts use the larger stress
+field. The displayed field dimensions make that distinction visible. It does not
 measure ordinary progression, resource depletion, balance or finite storage.
 
 Dense cells split the first producer's output across two downstream machines,
@@ -74,6 +84,9 @@ windows. Repeat off/on runs at the same viewport and camera; verify live text,
 stock and movement outside timed windows. Comparative evidence is retained in
 `outputs/distant-node-details/`.
 
+The current game clamps field zoom to 15%–220%, including the preview. Older
+sub-15% samples below predate this limit.
+
 For centered zoom comparisons, `details=1` starts with distant text/boxes enabled
 and `zoom=0.25` starts at 25 percent zoom (accepted range: 0.05–2). Reset test
 reuses that zoom; Fit all and Inspect a cell still use their normal framing.
@@ -91,3 +104,21 @@ without resetting the factory.
 
 Verify with `npx tsc -p previews/active-factory/tsconfig.json --noEmit` and
 `npx vitest run previews/active-factory/`.
+
+### Historical standard-map zoom evidence
+
+At 1,280 × 720 CSS pixels, the standard layout's Fit all view is about 14.9%.
+With Show distant text and boxes enabled, three complete 25-second samples after
+five-second warmup averaged 51.6, 52.36 and 55.28 FPS, with frame p95 25.1 ms. At 10%,
+one complete sample averaged 51.8 FPS with p95 25.1 ms. Requesting 5% clamps to
+the actual camera minimum of about 7.26%; two samples averaged 36.44 and 55.16
+FPS, with p95 41.9 and 25.1 ms. Background documentation checks overlapped the
+weaker minimum-zoom run, so retain it as host-load variation rather than a clean
+zoom-only comparison. Text is rendered but extremely small at that minimum.
+
+Use Fit all for a useful complete overview with restored text. The then-current game
+cutoff was 35%; its default-mode sample averaged 72.88 FPS with p95 25.1 ms.
+All 600 nodes and 831 connections kept simulating; readout override runs retained
+all 600 visible nodes and cached artwork/cables. These observations do not promise
+every frame stays above 30 FPS. Raw results and images live in
+`outputs/standard-map-zoom/`; the changelog records verification and limits.

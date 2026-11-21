@@ -50,7 +50,7 @@ export function nodeOnScreen(node: MachineNode, camera: CameraState, viewport: F
 export function showNodeDetails(zoom: number, important: boolean) { return important || zoom >= .4; }
 
 /** Readouts appear before the more expensive full-artwork transition. */
-export function showNodeReadouts(zoom: number, important: boolean, force = false) { return force || important || zoom >= .35; }
+export function showNodeReadouts(zoom: number, important: boolean, force = false) { return force || important || zoom >= .15; }
 
 /** Honor display density without forcing a 4x pixel workload on 1x displays. */
 export function playfieldResolution(pixelRatio: number) { return Math.min(2, Math.max(1, pixelRatio || 1)); }

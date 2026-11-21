@@ -1,0 +1,16 @@
+
+> factorinode-reconstruction@0.1.0 test
+> vitest run --maxWorkers=2
+
+
+ RUN  v5.0.5 D:/node factory v2
+
+
+ Test Files  209 passed | 2 skipped (211)
+      Tests  2145 passed | 2 skipped (2147)
+   Start at  22:37:38
+   Duration  57.49s (tests 61%, import 35%, transform 3%, worker 2%)
+
+    Isolate  211 workers spawned · ~152ms startup each (spawn + environment, per file)
+             at least ~15.90s faster with isolate: false — reuses workers across files instead of one per file
+

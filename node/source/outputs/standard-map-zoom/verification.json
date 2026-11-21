@@ -1,0 +1,91 @@
+{
+  "id": "NODE-0741",
+  "date": "2026-11-20",
+  "scope": "Local active-factory fixture; no live publication",
+  "tests": {
+    "command": "npx vitest run previews/active-factory/ --maxWorkers=2",
+    "passed": 11,
+    "files": 3
+  },
+  "previewTypeScript": true,
+  "standaloneProductionBuild": true,
+  "systemCatalogs": 6,
+  "localLinkDocuments": 39,
+  "browserWarningsAndErrors": [],
+  "viewport": {
+    "width": 1280,
+    "height": 720
+  },
+  "buildHtmlSha256": "3a405aa73bf9283cefe0441f53db9ea083e69e08879d35284f754aaa6948e7b7",
+  "samples": [
+    {
+      "label": "35-normal",
+      "zoom": 0.35,
+      "fps": 72.88,
+      "p95": 25.099999999998545,
+      "p99": 33.29999999999927,
+      "visibleNodes": 349,
+      "cachedCables": true
+    },
+    {
+      "label": "fit-all-text-complete",
+      "zoom": 0.1487090215086937,
+      "fps": 51.6,
+      "p95": 25.10000000000582,
+      "p99": 33.30000000000291,
+      "visibleNodes": 600,
+      "cachedCables": true
+    },
+    {
+      "label": "minimum-text",
+      "zoom": 0.07257144504123264,
+      "fps": 36.44,
+      "p95": 41.90000000000873,
+      "p99": 50.10000000000582,
+      "visibleNodes": 600,
+      "cachedCables": true
+    },
+    {
+      "label": "fit-all-repeat",
+      "zoom": 0.1487090215086937,
+      "fps": 52.36000000000001,
+      "p95": 25.10000000000582,
+      "p99": 33.30000000000291,
+      "visibleNodes": 600,
+      "cachedCables": true
+    },
+    {
+      "label": "10-text",
+      "zoom": 0.1,
+      "fps": 51.800000000000004,
+      "p95": 25.10000000000582,
+      "p99": 33.39999999999418,
+      "visibleNodes": 600,
+      "cachedCables": true
+    },
+    {
+      "label": "minimum-repeat",
+      "zoom": 0.07257144504123264,
+      "fps": 55.16,
+      "p95": 25.10000000000582,
+      "p99": 33.29999999998836,
+      "visibleNodes": 600,
+      "cachedCables": true
+    },
+    {
+      "label": "fit-all-final-complete",
+      "zoom": 0.1487090215086937,
+      "fps": 55.28000000000001,
+      "p95": 25.100000000000364,
+      "p99": 33.29999999999927,
+      "visibleNodes": 600,
+      "cachedCables": true
+    }
+  ],
+  "recommendation": "Fit all, approximately 14.9%, shows all 600 nodes and retains text/boxes using the preview override. Three complete samples averaged 51.6–55.28 FPS with p95 25.1 ms. The 7.26% camera minimum averaged 36.44–55.16 FPS and had p95 up to 41.9 ms; documentation checks overlapped the weaker run. No universal per-frame 30 FPS floor.",
+  "limitations": [
+    "Synthetic Dev Source supply and enlarged final storage; not normal-play capacity/balance evidence.",
+    "Game readout cutoff remains 35%; lower zoom text uses the existing preview-only override.",
+    "No full workspace suite, mobile layout check or live publication for this preview-only change."
+  ]
+}

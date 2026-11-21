@@ -41,12 +41,12 @@ are cached by route and invalidated when any cable in the route changes.
 Offscreen node visual updates and cable drawing are skipped; simulation still
 runs all unlocked maps. The camera and drag-preview positions determine current
 visibility, so zooming, panning and group dragging reveal current state again.
-Secondary labels and buffers appear from 35 percent zoom, with selected, hovered
+Secondary labels and buffers appear from 15 percent zoom, with selected, hovered
 and actively wired nodes retaining detail. Readouts follow simulation revisions
 and time; progress and cargo motion interpolate between ticks. Renderer and text
 resolution follow display density with a maximum of two.
 
-From 35 percent up to the 40 percent full-artwork transition, labels and live
+From 15 percent up to the 40 percent full-artwork transition, labels and live
 buffer boxes update over the shared node image. Revealing readouts does not
 invalidate that image or the cable caches. Socket overlays refresh using the
 owner's readout visibility, including when its static body stays cached.
@@ -61,10 +61,12 @@ appearances are retained, each at most 256 pixels on its longer edge. Further
 appearances fall back to vectors. Render targets are released on teardown.
 
 The optional `showDistantNodeDetails` renderer input supports a local performance
-comparison. It restores live text and buffer overlays below the normal 35 percent cutoff while
+comparison. It can restore live text and buffer overlays below the 15 percent cutoff while
 keeping the shared static artwork and cable caches enabled. Socket graphics
 already present in the shared image stay hidden beneath these overlays; their
-interactive roots remain available. The normal game does not enable this input.
+interactive roots remain available. The normal game does not enable this input; its fixed 15 percent camera floor
+already keeps ordinary readouts visible. Historical lower-zoom samples predate
+that floor.
 
 Cables use independently cached neighborhoods grouped by source position on a
 1,024-unit grid. Each target is bounded to 2,048 pixels on its longer edge and

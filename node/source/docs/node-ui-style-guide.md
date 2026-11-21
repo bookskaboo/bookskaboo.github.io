@@ -58,7 +58,9 @@ Use the approved item art in recipes, the Filter and tribute pickers, stock, buf
 
 ### Map and factory view
 
-For proposed power-up landmarks, keep short functional node titles within the existing 256-world-unit standard body and 17-unit sans-serif title role. Reserve room for the icon, selected-group marker and hover controls; do not shrink the title or widen the body to fit a long variant name. Put bonus quantities and conditions in the inspector or tooltip. Selected proposal names are Rapid Refiner, Rapid Smelter, Rapid Assembler, Rapid Fabricator, Tri Extractor, Doubler and Reclaimer; renderer validation is pending. Keep Doubler as the title and use its icon and inspector to identify its fixed machine family: the three Doublers are one Refiner, one Assembler and one Fabricator. The [proposal](master-plan/23-map-power-ups.md) owns their rules.
+Use Landmarks as the feature name and the label of one combined Node Map filter for all four landmark types in the proposal. Identify discovered landmarks in the selected sector's Points of Interest only after the first visit. Do not show anonymous frontier signals or reveal a landmark through activation alone; retain the early direction hint. Reuse the existing filter-control and subtext roles; do not add separate type filters. Marker art and rendered interface verification remain pending.
+
+For proposed landmark nodes, keep short functional node titles within the existing 256-world-unit standard body and 17-unit sans-serif title role. Reserve room for the icon, selected-group marker and hover controls; do not shrink the title or widen the body to fit a long variant name. Put bonus quantities and conditions in the inspector or tooltip. Selected proposal names are Rapid Refiner, Rapid Smelter, Rapid Assembler, Rapid Fabricator, Tri Extractor, Doubler and Reclaimer; renderer validation is pending. Keep Doubler as the title and use its icon and inspector to identify its fixed machine family: the three Doublers are one Refiner, one Assembler and one Fabricator. The [proposal](master-plan/23-map-power-ups.md) owns their rules.
 
 Show sector IDs at readable sizes where cells have room. Scale minimap icons with their tiles. Show full IDs in the selected sector summary. On the playfield, use semibold sans-serif for node names and regular mono for changing counts. At low zoom, prefer icons or pips for secondary detail. Keep warnings, the reserve symbol, and the full inspector readout available. Match the width and height of the top toolbar actions, including Pause and Resume when they share the row. On narrow screens, keep the panel buttons equally sized and put Pause or Resume beside the wordmark.
 
@@ -135,7 +137,7 @@ The early resource recovery notice uses the existing emergency dialog and focus 
 ## Active factory test page
 
 Show the actual camera percentage in a labeled **Zoom** dropdown in the test
-toolbar. Include a 35% preset and retain a custom current percentage after wheel
+toolbar. Start presets at the 15% zoom-out limit, include 35% and retain 220% for close inspection and retain a custom current percentage after wheel
 zooming; use regular shared control text and tabular digits. The value follows
 camera clamping, Fit all and Inspect a cell. Choosing a preset keeps the current
 view center and running factory, and restarts only the frame measurements.
@@ -146,12 +148,12 @@ Use the shared UI sans roles for the active factory test page, with regular tabu
 
 The active-factory performance preview has a **Show distant text and boxes**
 comparison checkbox, off by default. It restores node titles, socket labels and
-live buffer boxes below the normal 35 percent cutoff while retaining cached bodies and cables.
+live buffer boxes below the normal 15 percent cutoff while retaining cached bodies and cables.
 Keep the existing font sizes, zoom scaling and buffer colors; do not enlarge all
 labels across the overview. Switching this comparison resets the synthetic test
 and its measurements. The preview override is separate from the normal game cutoff.
 
-At less than 35 percent zoom, keep node bodies, recipe icons, sockets and progress visible while hiding secondary labels and buffer detail. At 35 percent and above, show live node text and buffer boxes. Keep shared artwork and cable caches active until the existing 40 percent full-artwork transition. Restore that detail for selected, hovered, dragged and actively wired nodes. Use a small exclamation marker for a waiting or blocked node at overview zoom; selection reveals the full labels and buffers. Preserve essential Golem and Deep Hole readouts and the existing interaction feedback. Recalculate visibility when the camera or a dragged group moves. Render canvas text with the established UI sans and named monospace families at native display density, capped at two. The active factory test uses regular tabular counts for its p95 frame interval in milliseconds; keep test measurements outside the game field.
+Keep the field camera at or above 15 percent zoom and show live node text and buffer boxes throughout that range. Saved views, wheel input, travel and exterior Road previews use the same 15%–220% limits. Center an overview at 15% when a complete fit would need a smaller scale; narrow screens retain panning. Keep shared artwork and cable caches active until the existing 40 percent full-artwork transition. Restore that detail for selected, hovered, dragged and actively wired nodes. Use a small exclamation marker for a waiting or blocked node at overview zoom; selection reveals the full labels and buffers. Preserve essential Golem and Deep Hole readouts and the existing interaction feedback. Recalculate visibility when the camera or a dragged group moves. Render canvas text with the established UI sans and named monospace families at native display density, capped at two. The active factory test uses regular tabular counts for its p95 frame interval in milliseconds; keep test measurements outside the game field.
 
 ## New world camps and obstructions
 
@@ -167,7 +169,7 @@ The engine obstruction test page keeps reset, time advance, upgrade and suppress
 
 ## Dense routing test page
 
-Keep the Layout and Load selectors, Pause or Resume, Fit all, Inspect a cell or Inspect a line, Reset test and Emphasize progress bars control in the test toolbar. Use the shared UI sans roles and regular tabular counts. Dense routing shows Production, Splitter, Merger and cycling counts beside physical transfers and deliveries. Default to 1,200 nodes, with 600 and 2,400 available, while retaining the original production-line comparison. Emphasized progress fills and tracks have a minimum three CSS pixels of height, anchored to their existing bottom edge. They show actual production progress. Keep that test-only option separate from normal game styling and retain ordinary bar sizing when disabled.
+Keep the Layout and Load selectors, Pause or Resume, Fit all, Inspect a cell or Inspect a line, Reset test and Emphasize progress bars control in the test toolbar. Use the shared UI sans roles and regular tabular counts. Routed layouts show Production, Splitter, Merger and cycling counts beside physical transfers and deliveries. Default to Standard expanded map with 600 nodes, 831 connections and a visible 5,400 × 3,600 field count, starting at 15% zoom. Label the larger 600/1,200/2,400-node comparison Dense routing stress test and show its 10,800 × 7,200 dimensions; retain the original production-line comparison. Emphasized progress fills and tracks have a minimum three CSS pixels of height, anchored to their existing bottom edge. They show actual production progress. Keep that test-only option separate from normal game styling and retain ordinary bar sizing when disabled.
 
 ### Dense factory overview drawing
 

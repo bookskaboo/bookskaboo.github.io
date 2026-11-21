@@ -30,7 +30,7 @@ it('keeps the largest old field as a shared baseline after loading and discoveri
 });
 
 describe('field overview and scripted sector switches', () => {
-  it('fits the whole field below navigation at the furthest zoom across viewport and expanded field sizes', () => {
+  it('centers the overview without zooming below 15% across viewport and expanded field sizes', () => {
     for (const [x, y] of [[6, 5], [8, 5], [0, 0]]) {
       for (const [width, height, top] of [[640, 720, 110], [800, 600, 132], [1280, 720, 95], [1920, 1080, 111]]) {
         for (const research of [[], ['areaExpansion2']]) {
@@ -38,11 +38,14 @@ describe('field overview and scripted sector switches', () => {
           const viewport = { width, height, top };
           const usable = cameraViewport(viewport);
           const camera = clampFieldCamera(sectorOverviewCamera(world, viewport), world, viewport);
-          expect(camera.zoom).toBeLessThanOrEqual(DEFAULT_MIN_CAMERA_ZOOM);
-          expect(camera.x).toBeGreaterThanOrEqual(usable.x - 1e-6);
-          expect(camera.y).toBeGreaterThanOrEqual(usable.y - 1e-6);
-          expect(camera.x + world.width * camera.zoom).toBeLessThanOrEqual(width - 18 + 1e-6);
-          expect(camera.y + world.height * camera.zoom).toBeLessThanOrEqual(height - 18 + 1e-6);
+          expect(camera.zoom).toBeGreaterThanOrEqual(DEFAULT_MIN_CAMERA_ZOOM);
+          expect(camera.zoom).toBeLessThanOrEqual(.25);
+          if (world.width * .15 <= usable.width && world.height * .15 <= usable.height) {
+            expect(camera.x).toBeGreaterThanOrEqual(usable.x - 1e-6);
+            expect(camera.y).toBeGreaterThanOrEqual(usable.y - 1e-6);
+            expect(camera.x + world.width * camera.zoom).toBeLessThanOrEqual(width - 18 + 1e-6);
+            expect(camera.y + world.height * camera.zoom).toBeLessThanOrEqual(height - 18 + 1e-6);
+          }
           expect(camera.x + world.width / 2 * camera.zoom).toBeCloseTo(usable.x + usable.width / 2);
           expect(camera.y + world.height / 2 * camera.zoom).toBeCloseTo(usable.y + usable.height / 2);
         }
@@ -54,10 +57,10 @@ describe('field overview and scripted sector switches', () => {
     const world = getSectorWorldSize({ x: 6, y: 5 }, ['areaExpansion2']);
     const viewport = { width: 1280, height: 720, top: 95 };
     const overview = sectorOverviewCamera(world, viewport);
-    expect(overview.zoom).toBeLessThan(DEFAULT_MIN_CAMERA_ZOOM);
+    expect(overview.zoom).toBeGreaterThanOrEqual(DEFAULT_MIN_CAMERA_ZOOM);
     const zoomedOut = clampFieldCamera({ ...overview, zoom: .001 }, world, viewport);
-    expect(zoomedOut.zoom).toBe(overview.zoom);
-    expect(zoomedOut.y).toBeCloseTo(overview.y);
+    expect(zoomedOut.zoom).toBe(.15);
+    expect(clampFieldCamera(zoomedOut, world, viewport)).toEqual(zoomedOut);
     const chosen = { x: 95.5, y: -7, zoom: .275 };
     expect(clampFieldCamera(chosen, world, viewport)).toEqual(chosen);
     const wideView = { x: 500, y: 200, zoom: .25 };
@@ -163,7 +166,7 @@ describe('player travel carries the current zoom', () => {
     expect(engine.getState()).toEqual(before);
   });
 
-  it('can retain a wider review overview without changing ordinary campaign bounds', () => {
+  it('retains a valid wide view through travel with or without an exterior overview', () => {
     const engine = new GameEngine(createInitialState(204), { autosave: false });
     engine.getState().research.mapPoints = 1;
     expect(engine.unlockSector(6, 5)).toBe(true);
@@ -172,7 +175,7 @@ describe('player travel carries the current zoom', () => {
     engine.travelToSector('6,5', viewport, { width: field.width*2, height: field.height*2 });
     expect(engine.getSector().camera.zoom).toBe(.18);
     engine.travelToSector('5,5', viewport);
-    expect(engine.getSector().camera.zoom).toBe(sectorOverviewCamera(field, viewport).zoom);
+    expect(engine.getSector().camera.zoom).toBe(.18);
   });
 
   it.each([[640, 720, 110], [1920, 1080, 111]])('keeps zoom within field bounds at %i × %i', (width, height, top) => {

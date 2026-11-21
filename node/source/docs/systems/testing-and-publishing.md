@@ -50,10 +50,14 @@ The [Upgrades queue lab](../../previews/status-page/README.md#reviewed-presentat
 ### Active factory browser test
 
 With the local Vite server running, open `/previews/active-factory/`. This isolated
-page imports the current engine and Pixi renderer. Dense routing defaults to
-1,200 nodes and offers 600 and 2,400 on the same Map Node. Each compact cell has
+page imports the current engine and Pixi renderer. Standard expanded map is the
+default: 600 nodes and 831 connections in thirty cells on a 5,400 × 3,600 field,
+with 90 Production nodes and 210 of each router. It starts at 15 percent zoom
+using normal readout visibility. Dense routing stress test retains 600, 1,200
+and 2,400 on a synthetic 10,800 × 7,200 field. Display actual field dimensions
+beside the counts; stress loads are not ordinary-map capacity claims. Each compact cell has
 three Production nodes, seven Splitters and seven Mergers, plus a Dev Source,
-Cart and Warehouse. Real material routes fan out through two downstream recipe
+Wooden Chest and Warehouse. Real material routes fan out through two downstream recipe
 machines and rejoin through routing blocks. At 2,400 nodes, 360 Production nodes
 and 840 of each router fit within the expanded field without overlapping bodies.
 Production lines retains the previous 150/300/600-node layouts and old URL query

@@ -1,5 +1,42 @@
 # NODE Typography Style Review
 
+## Readouts and maximum zoom-out at 15 percent
+
+November 20, 2026. Node text and live buffer boxes now appear from 15% zoom,
+replacing the earlier 35% cutoff. Field cameras stop zooming out at 15%, including
+wheel input, saved views, travel and exterior Road previews. Closer zoom retains
+the existing 220% maximum. Overview framing fits where possible and centers the
+field at no less than 15%; narrow screens may need panning to see the whole field.
+The maximum zoom-out request is interpreted as the farthest view, not a ban on
+closer inspection. Shared node artwork and cable caches remain active below 40%.
+Keep existing fonts, readout scale, live progress and buffer colors unchanged.
+
+The standard-map test defaults to 15% with the distant-text override off. Camera,
+travel and renderer tests cover the boundary, larger exterior previews, narrow
+viewports and retained closer zoom. Browser/release checks and their actual
+outcomes are recorded with the changelog and `outputs/node-zoom-15/`. Earlier
+35% and sub-15% measurements below describe their original builds; they are
+historical evidence, not the current camera rules. Archived Word files remain
+untouched.
+
+## Standard expanded map performance fixture
+
+November 20, 2026. The active-factory test now defaults to Standard expanded map:
+600 nodes and 831 connections on a 5,400 × 3,600 field, with thirty routed cells
+in five columns and six rows. Display the actual field dimensions beside live
+counts using the existing regular tabular metadata role. Label the retained
+larger comparison Dense routing stress test. Keep native controls, typography,
+emphasized progress bars and the optional distant-text checkbox unchanged. The
+default standard view starts at 35% with normal game readout visibility.
+
+Fixture checks verify ordinary field margins, nonoverlap, all connection ports,
+every router carrying cargo and continuing Warehouse delivery. TypeScript and
+the standalone production build pass. Timed browser measurements, screenshots,
+viewport and actual camera/cache state are retained in
+`outputs/standard-map-zoom/`; the change history records the completed results
+and their limits. This is a synthetic performance fixture, not a normal-play
+capacity or universal frame-rate guarantee. No live game publication.
+
 ## Flash the pending robot assembly step
 
 November 20, 2026. Revised the gradual assembly motion so the upcoming hardware alternates on/off while its Core set is processing, then becomes solid immediately on consumption. This replaces the earlier 620 ms post-payment slide/fade described in the Core-funded robot assembly review below. Keep the paid chassis and unrelated parts steady; only the next affected sections alternate once per 1.2 seconds. The shared face remains aligned. Do not add a caption, bar, extra color, font or weight.
@@ -35,7 +72,11 @@ two existing skips and the site build passed. Exact candidate/release checks,
 screenshots and publication confirmation are recorded with the change history
 and `outputs/node-readouts-35/`. No font, simulation or save-format change.
 
-## Power up landmark naming proposal
+## Landmark names and map discovery
+
+The user selected first-visit-only landmark discovery, keeping the early direction hint. The proposed Landmarks filter and Points of Interest reveal no landmark presence, type, exact position or bonus before the first visit, including on activated-but-unvisited sectors; frontier sectors show no anonymous signals. Updated the Page, repository proposal, map reference and guide. Checked wording against the selected discovery rule; no runtime filter, marker art or rendered UI change.
+
+The user named the feature Landmarks and selected one combined Landmarks map filter for all four types, with each discovered landmark identified in the selected sector's Points of Interest. Updated the editable proposal title, current reference labels and style guide; kept source filenames and historical changelog records intact. This is selected proposal terminology and filter scope, without runtime map controls, marker art or a rendered UI check.
 
 The selected fixed-family Doubler design keeps Doubler as the short node title and identifies the family through its icon and inspector. The user selected one Refiner, one Assembler and one Fabricator across the three landmarks. This proposal clarification changes no runtime copy, icons, typography or node geometry; checked against the proposal and guide, with visual renderer validation still pending.
 
