@@ -2,49 +2,29 @@
 
 A searchable record of completed changes, design decisions, and relevant review findings. Stable NODE IDs can be cited in chats and searched in the repository.
 
-**717 records · 2026-10-12–2026-11-20 · America/Los_Angeles**
+**718 records · 2026-10-12–2026-11-20 · America/Los_Angeles**
 
 [Open searchable history](<docs/changelog/index.html>) · [How to review and maintain it](<docs/changelog/README.md>) · [Sources and coverage gaps](<docs/changelog/sources.md>)
 
 ## Local changes awaiting publication
 
-Latest confirmed game publication: [48f50fd](https://github.com/bookskaboo/bookskaboo.github.io/commit/48f50fda634343154e4adb67a9953b065d137299).
+Latest confirmed game publication: [52f2b05](https://github.com/bookskaboo/bookskaboo.github.io/commit/52f2b05de75f4af1c475714714c0e922636cf229).
 
 | ID | Change | Topics |
 | --- | --- | --- |
 | [NODE-0716](<docs/changelog/2026-11.md#node-0716>) | Show and select the actual zoom in the active-factory test | Controls, Interface, Tooling, Performance, Documentation |
-| [NODE-0715](<docs/changelog/2026-11.md#node-0715>) | Show automatic animated camp-to-deposit refill connections | Monster camps, Resources, Connections, Interface, Prototypes, Documentation |
-| [NODE-0712](<docs/changelog/2026-11.md#node-0712>) | Integrate the reviewed Upgrades modal into unmodded gameplay | Research, Interface, Tutorials, Saves, Map, Mods, Art, Documentation |
-| [NODE-0710](<docs/changelog/2026-11.md#node-0710>) | Adopt the reviewed Road controls in the main game | Controls, Logistics, Interface, Camera, World map, Documentation |
 | [NODE-0708](<docs/changelog/2026-11.md#node-0708>) | Measure a practical 30 FPS zoom with restored node details | Performance, Controls, Tooling, Documentation |
-| [NODE-0706](<docs/changelog/2026-11.md#node-0706>) | Focus the paired Road after travel while retaining zoom | Controls, Logistics, Camera, World map, Interface, Documentation |
-| [NODE-0705](<docs/changelog/2026-11.md#node-0705>) | Enlarge camp artwork and place guarded deposits across suppression boundaries | Monster camps, Resources, World generation, Interface, Documentation |
 | [NODE-0703](<docs/changelog/2026-11.md#node-0703>) | Move workshop Travel controls outside the field and match arrow sizes | Controls, Logistics, Interface, Camera, Documentation |
-| [NODE-0702](<docs/changelog/2026-11.md#node-0702>) | Place guarded reserves beside camp sockets and simplify inaccessible cards | Monster camps, Resources, Connections, Interface, World generation, Documentation |
 | [NODE-0701](<docs/changelog/2026-11.md#node-0701>) | Compare distant node text and live boxes without disabling overview caches | Performance, Production, Controls, Tooling, Documentation |
 | [NODE-0700](<docs/changelog/2026-11.md#node-0700>) | Open a separate nine-map Road control workshop | Controls, Logistics, Interface, Camera, Documentation |
-| [NODE-0698](<docs/changelog/2026-11.md#node-0698>) | Keep guarded camp reserves visible with a centered AP input | Monster camps, Resources, Connections, Interface, Documentation |
-| [NODE-0697](<docs/changelog/2026-11.md#node-0697>) | Carry field zoom when traveling between Map Nodes | Camera, World map, Controls, Interface, Documentation |
-| [NODE-0695](<docs/changelog/2026-11.md#node-0695>) | Double-click Roads to visit their connected Map Nodes | Controls, Logistics, Exploration, Interface, Documentation |
 | [NODE-0694](<docs/changelog/2026-11.md#node-0694>) | List every Shiny character-upgrade benefit | Research, Interface, Prototypes, Documentation |
-| [NODE-0693](<docs/changelog/2026-11.md#node-0693>) | Keep automatic tutorial modals quiet after developer actions | Tooling, Tutorials, Interface, Persistence, Documentation |
 | [NODE-0692](<docs/changelog/2026-11.md#node-0692>) | Convert existing map purchases to banked points in the Upgrades transition | Research, Map, Saves, Interface, Prototypes, Documentation |
 | [NODE-0690](<docs/changelog/2026-11.md#node-0690>) | Preserve earned research in the prototype character transition | Research, Saves, Interface, Prototypes, Documentation |
-| [NODE-0689](<docs/changelog/2026-11.md#node-0689>) | Fix Dev Source input supply and fully explore developer-unlocked maps | Tooling, Production, Exploration, Interface, Persistence, Documentation |
-| [NODE-0687](<docs/changelog/2026-11.md#node-0687>) | Adapt Basics research practice to the Upgrades queue | Tutorials, Research, Interface, Prototypes, Documentation |
-| [NODE-0685](<docs/changelog/2026-11.md#node-0685>) | Remove Deep Hole exploration gating and simplify map details | World, Exploration, Interface, Persistence, Documentation |
-| [NODE-0683](<docs/changelog/2026-11.md#node-0683>) | Save learned research hints and assignment acknowledgement with each factory | Research, Tutorials, Saves, Interface, Prototypes, Documentation |
 | [NODE-0682](<docs/changelog/2026-11.md#node-0682>) | Explain bot upgrade benefits in tooltips and completion notices | Research, Interface, Narrative, Prototypes, Documentation |
-| [NODE-0678](<docs/changelog/2026-11.md#node-0678>) | Bank researched Map Points before choosing a map to unlock | Research, Map exploration, Interface, Prototypes, Saves, Documentation |
 | [NODE-0677](<docs/changelog/2026-11.md#node-0677>) | Return from priority bot upgrades to queued research and remove list-card progress bars | Research, Interface, Prototypes, Saves, Documentation |
-| [NODE-0676](<docs/changelog/2026-11.md#node-0676>) | Lightly color explored terrain on the expanded Node Map | World, Interface, Documentation |
 | [NODE-0675](<docs/changelog/2026-11.md#node-0675>) | Queue research by double-click or the selected-card action by default | Research, Interface, Prototypes, Documentation |
-| [NODE-0674](<docs/changelog/2026-11.md#node-0674>) | Maintain style references in Markdown instead of Word | Documentation, Interface, Tooling |
-| [NODE-0672](<docs/changelog/2026-11.md#node-0672>) | Implement saved Map Node terrain for new factories | World, Resources, Interface, Saves, Mods, Documentation |
-| [NODE-0671](<docs/changelog/2026-11.md#node-0671>) | Move Connector Mirroring to Complex-tier research | Research, Connections, Progression, Saves, Documentation, Tooling |
 | [NODE-0670](<docs/changelog/2026-11.md#node-0670>) | Name the Final bot stage Self-Optimizing Intelligence | Narrative, Interface, Prototypes, Documentation |
 | [NODE-0669](<docs/changelog/2026-11.md#node-0669>) | Frame the bot assignment around upgrading itself with world resources | Narrative, Research, Interface, Prototypes, Documentation |
-| [NODE-0668](<docs/changelog/2026-11.md#node-0668>) | Fold End of the World into Complex Core and highlight newly revealed corners | Research, Progression, World, Saves, Interface, Documentation |
 | [NODE-0667](<docs/changelog/2026-11.md#node-0667>) | Queue four research projects and toggle research with pause/play icons | Research, Interface, Prototypes, Saves, Documentation |
 | [NODE-0666](<docs/changelog/2026-11.md#node-0666>) | Add corner-linked terrain weighting and guaranteed first-diagonal proposal sites | World, Encounters, Mods, Planning, Interface, Documentation, Tooling |
 | [NODE-0663](<docs/changelog/2026-11.md#node-0663>) | Add a progression-ordered research cost review chart | Research, Documentation, Tooling |
@@ -62,17 +42,12 @@ Latest confirmed game publication: [48f50fd](https://github.com/bookskaboo/books
 | [NODE-0642](<docs/changelog/2026-11.md#node-0642>) | Simulate opposite-side obstructions with terrain shared across map boundaries | World, Roads, Interface, Art, Planning, Documentation |
 | [NODE-0641](<docs/changelog/2026-11.md#node-0641>) | Create a border terrain art study with rivers, mountains and chasms | World, Roads, Interface, Art, Planning, Documentation, Tooling |
 | [NODE-0631](<docs/changelog/2026-11.md#node-0631>) | Keep the scroll wheel from changing the robot hint | Interface, Tutorials, Documentation |
-| [NODE-0630](<docs/changelog/2026-11.md#node-0630>) | Revise the Lake progression clue | Tutorials, Interface, Research, Documentation |
 | [NODE-0629](<docs/changelog/2026-11.md#node-0629>) | Display and charge every Core through the character upgrade tier | Research, Interface, Documentation |
 | [NODE-0628](<docs/changelog/2026-11.md#node-0628>) | Rename the prototype modal to Upgrades and remove its eyebrow | Interface, Documentation |
 | [NODE-0627](<docs/changelog/2026-11.md#node-0627>) | Unlock character upgrades in sequence and center the Upgrade button label | Research, Interface, Documentation |
-| [NODE-0626](<docs/changelog/2026-11.md#node-0626>) | Revise the Exploration progression hint | Tutorials, Interface, Research, Documentation |
 | [NODE-0625](<docs/changelog/2026-11.md#node-0625>) | Browse unlocked robot thoughts with compact corner arrows | Tutorials, Interface, Research, Documentation |
-| [NODE-0624](<docs/changelog/2026-11.md#node-0624>) | Revise the Road progression hint | Tutorials, Interface, Research, Documentation |
 | [NODE-0623](<docs/changelog/2026-11.md#node-0623>) | Make bot upgrade collection explicitly enabled and remove the badge underline | Interface, Research, Documentation |
-| [NODE-0622](<docs/changelog/2026-11.md#node-0622>) | Revise the Iron prospects hint | Tutorials, Interface, Research, Documentation |
 | [NODE-0621](<docs/changelog/2026-11.md#node-0621>) | Add sequential paid bot upgrades that unlock the next Core in the Status prototype | Interface, Research, Tutorials, Art, Documentation, Tooling |
-| [NODE-0620](<docs/changelog/2026-11.md#node-0620>) | Place Iron prospects after Simple Core in the hint review | Tutorials, Interface, Research, Documentation |
 | [NODE-0617](<docs/changelog/2026-11.md#node-0617>) | Show the primary progression hint in the AI Status prototype | Interface, Research, Tutorials, Documentation |
 | [NODE-0616](<docs/changelog/2026-11.md#node-0616>) | Move the assignment into the first robot thought and expose all hint triggers | Interface, Research, Tutorials, Documentation, Tooling |
 | [NODE-0615](<docs/changelog/2026-11.md#node-0615>) | Give each AI upgrade a distinct robot silhouette | Art, Interface, Research, Documentation |
@@ -148,13 +123,14 @@ Latest confirmed game publication: [48f50fd](https://github.com/bookskaboo/books
 
 ## Dated history
 
-- [2026-11](<docs/changelog/2026-11.md>) — 699 records
+- [2026-11](<docs/changelog/2026-11.md>) — 700 records
 - [2026-10](<docs/changelog/2026-10.md>) — 18 records
 
 “Known by” dates are implementation/publication bounds, not exact change dates. “Backfilled” dates mark records with uncertain original dates. Supersession links explain reversals. Original-game records do not certify current rebuild behavior.
 
 ## Published releases
 
+- 2026-11-20 — [52f2b05: Upgrades character progression and queued research](https://github.com/bookskaboo/bookskaboo.github.io/commit/52f2b05de75f4af1c475714714c0e922636cf229) — Current tested game snapshot, changes only node/. Pages succeeded; normal HTML and all ten new assets verified by SHA-256, plus ten preceding assets. Retain all 137 older runtime assets. Earned unmodded research migrates; applied-mod factories retain their Research screen. Author proposals remain separate.
 - 2026-11-20 — [48f50fd: Refined border art and generation clearance](https://github.com/bookskaboo/bookskaboo.github.io/commit/48f50fda634343154e4adb67a9953b065d137299) — Only node/ changed. Pages succeeded; normal live HTML and all ten new assets verified by SHA-256, plus ten preceding assets. Retain all 127 older runtime assets. Saved layouts are preserved; clearance applies to new sectors in border worlds. Unrelated pending gameplay/prototypes excluded.
 - 2026-11-20 — [7c4abe4: Shared-border terrain and tiered Road crossing research](https://github.com/bookskaboo/bookskaboo.github.io/commit/7c4abe4d8d1162e544f23d143f19576db860d015) — Fast-forwarded main with changes confined to node/. GitHub Pages succeeded; normal live HTML and all ten current assets matched SHA-256. All 122 prior assets retained and ten preceding assets verified live. New games receive terrain; legacy worlds remain clear. Unrelated prototypes excluded from runtime.
 - 2026-11-20 — [fa7aa81: Interior camp reserves and Stone naming with original thirty settlements](https://github.com/bookskaboo/bookskaboo.github.io/commit/fa7aa81a10fa0273f0a3eba3fbe9b544f273d9ae) — Changes confined to node/. GitHub Pages succeeded; normal live HTML and every current build asset matched SHA-256. Original 30-settlement layout unchanged; prior assets retained. Placement correction applies to newly generated camp maps; saved layouts are preserved.
@@ -211,7 +187,7 @@ A record marked “Published by” was known in that snapshot and may have appea
 - [Endgame](<docs/changelog/index.html?topic=Endgame>) (5)
 - [Exploration](<docs/changelog/index.html?topic=Exploration>) (29)
 - [Extraction](<docs/changelog/index.html?topic=Extraction>) (1)
-- [Interface](<docs/changelog/index.html?topic=Interface>) (296)
+- [Interface](<docs/changelog/index.html?topic=Interface>) (297)
 - [Logistics](<docs/changelog/index.html?topic=Logistics>) (107)
 - [Map](<docs/changelog/index.html?topic=Map>) (8)
 - [Map exploration](<docs/changelog/index.html?topic=Map%20exploration>) (1)
@@ -233,15 +209,15 @@ A record marked “Published by” was known in that snapshot and may have appea
 - [Progression](<docs/changelog/index.html?topic=Progression>) (216)
 - [Prototypes](<docs/changelog/index.html?topic=Prototypes>) (18)
 - [Publication](<docs/changelog/index.html?topic=Publication>) (2)
-- [Publishing](<docs/changelog/index.html?topic=Publishing>) (14)
+- [Publishing](<docs/changelog/index.html?topic=Publishing>) (15)
 - [Recipes](<docs/changelog/index.html?topic=Recipes>) (111)
 - [Recycling](<docs/changelog/index.html?topic=Recycling>) (1)
-- [Research](<docs/changelog/index.html?topic=Research>) (286)
+- [Research](<docs/changelog/index.html?topic=Research>) (287)
 - [Resources](<docs/changelog/index.html?topic=Resources>) (120)
 - [Responsive](<docs/changelog/index.html?topic=Responsive>) (2)
 - [Roads](<docs/changelog/index.html?topic=Roads>) (22)
 - [Save compatibility](<docs/changelog/index.html?topic=Save%20compatibility>) (3)
-- [Saves](<docs/changelog/index.html?topic=Saves>) (29)
+- [Saves](<docs/changelog/index.html?topic=Saves>) (30)
 - [Search](<docs/changelog/index.html?topic=Search>) (2)
 - [Shortcuts](<docs/changelog/index.html?topic=Shortcuts>) (12)
 - [Simulation](<docs/changelog/index.html?topic=Simulation>) (8)
@@ -250,14 +226,14 @@ A record marked “Published by” was known in that snapshot and may have appea
 - [Testing](<docs/changelog/index.html?topic=Testing>) (19)
 - [Text](<docs/changelog/index.html?topic=Text>) (6)
 - [Tooling](<docs/changelog/index.html?topic=Tooling>) (31)
-- [Tutorials](<docs/changelog/index.html?topic=Tutorials>) (57)
+- [Tutorials](<docs/changelog/index.html?topic=Tutorials>) (58)
 - [UI](<docs/changelog/index.html?topic=UI>) (4)
 - [Undo](<docs/changelog/index.html?topic=Undo>) (4)
 - [Waste](<docs/changelog/index.html?topic=Waste>) (21)
 - [Workflow](<docs/changelog/index.html?topic=Workflow>) (1)
 - [World](<docs/changelog/index.html?topic=World>) (126)
 - [World generation](<docs/changelog/index.html?topic=World%20generation>) (20)
-- [World map](<docs/changelog/index.html?topic=World%20map>) (39)
+- [World map](<docs/changelog/index.html?topic=World%20map>) (40)
 - [Writing](<docs/changelog/index.html?topic=Writing>) (1)
 
 ## Search from the repository
