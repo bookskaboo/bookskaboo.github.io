@@ -1,0 +1,16 @@
+{
+  "failures": 0,
+  "passes": 6,
+  "scrollWidth": 1195,
+  "spawningVisible": true,
+  "summary": "Generation audit: 71,728 maps / 380,672 bodies; zero clearance failures · Regression checks: 22 passed · Workspace: 2,158 passed; 2 existing skips · Build: passed (existing chunk-size warning)",
+  "width": 1195,
+  "logs": [
+    {
+      "level": "error",
+      "message": "[vite] Failed to reload /previews/terrain-tiles/expansion.tsx. This could be due to syntax errors or importing non-existent modules. (see errors above)",
+      "timestamp": "2026-11-21T07:16:00.230Z",
+      "url": "http://127.0.0.1:4196/@vite/client"
+    }
+  ]
+}

@@ -1,4 +1,5 @@
 import { applyExpansionRescue } from './expansionRescue';
+import { expandMapsAroundCenter } from './unvisitedMapExpansion';
 import { focusedFieldCamera, sectorTravelCamera, type FieldViewport } from '../domain/camera';
 import { roadTravelPair } from '../domain/roadNavigation';
 import { borderCrossingFailure } from '../domain/borderObstructionLayout';
@@ -45,7 +46,7 @@ import { RESEARCH_CENTER_BASE_CYCLE_MS } from '../content/researchTiming';
 import { applyCartUpgrades, cartCapacity, cartUpgrade, isCartKind, vehiclePayload } from '../content/cartUpgrades';
 import { updateCampEncroachment } from './campEffects';
 import { obstructedConnections } from './obstructedConnections';
-import { facingAwayFromNeighbor, pairedRoadPositions } from './roadPlacement';
+import { pairedRoadPositions, roadPairLayoutForField } from './roadPlacement';
 import { devExtractorMaterial, supplyDevInputs } from './devSource';
 import { recoverRoadStock } from './roadTransport';
 import { connectionBlockedByWorld, connectionObstruction, inputPortAcceptsItem, portFamilyAcceptsItem, portFamiliesCompatible, resolveConnectionPlan, resolveExactConnectionPlan, roadVehicleError } from './connectionRules';
@@ -96,7 +97,7 @@ export class GameEngine {
     (type, message, projectId, elapsedMs) => this.event(type, message, projectId, elapsedMs),
     () => this.journalElapsedMs(),
     kind => this.efficiencyMultiplier(kind),
-    () => this.syncFieldLayouts(),
+    projectId => this.expandFieldLayouts(projectId),
     destination => this.openFundedSector(destination),
   );
   private state: GameState;
@@ -1199,22 +1200,19 @@ export class GameEngine {
     });
   }
 
+  private roadPairLayout(sector: SectorState, node: MachineNode, point: { x: number; y: number }) {
+    return roadPairLayoutForField(this.state,sector,node,point,getWorldFieldSize(this.state));
+  }
+
   private planRoadMove(sector: SectorState, node: MachineNode, point: { x: number; y: number }) {
-    const neighbor = node.pairedSectorId ? this.state.sectors[node.pairedSectorId] : undefined;
-    if (!neighbor?.unlocked) return;
-    const pair = neighbor.nodes.find(candidate => candidate.id === node.pairedRoadId && hasNodeBehavior(candidate.kind, 'road'));
-    const localFacing = facingAwayFromNeighbor(sector, neighbor);
-    if (!pair || !localFacing || (pair.pairedRoadId && pair.pairedRoadId !== node.id) ||
-      (pair.pairedSectorId && pair.pairedSectorId !== sector.id)) return;
-    const field = getWorldFieldSize(this.state);
-    const { local, remote } = pairedRoadPositions(point, localFacing, field);
-    const proposed = { ...node, ...local };
-    const endpoint = { ...pair, ...remote };
-    const road: RoadPlacementTarget = { sector: neighbor, endpoint, localFacing };
+    const layout = this.roadPairLayout(sector, node, point);
+    if (!layout) return;
+    const { node: proposed, road, pair } = layout;
+    const neighbor = road.sector, endpoint = road.endpoint, field = getWorldFieldSize(this.state);
     const valid = !borderCrossingFailure(this.state, sector.id, neighbor.id) && canPlaceNode(proposed, sector.nodes, field) && canPlaceNode(endpoint, neighbor.nodes, field)
       && !this.movedCablesBlocked(sector, new Map([[node.id, proposed]]))
       && !this.movedCablesBlocked(neighbor, new Map([[pair.id, endpoint]]));
-    return { node: proposed, road, pair, valid };
+    return { ...layout, valid };
   }
 
   getRoadMovePreview(id: string, point: { x: number; y: number }) {
@@ -1291,7 +1289,7 @@ export class GameEngine {
     return true;
   }
 
-  private applyRoadMove(sector: SectorState, node: MachineNode, plan: NonNullable<ReturnType<GameEngine['planRoadMove']>>) {
+  private applyRoadMove(sector: SectorState, node: MachineNode, plan: NonNullable<ReturnType<GameEngine['roadPairLayout']>>) {
     node.x = plan.node.x; node.y = plan.node.y; node.roadFacing = plan.node.roadFacing;
     const { sector: neighbor, endpoint } = plan.road;
     plan.pair.x = endpoint.x; plan.pair.y = endpoint.y; plan.pair.roadFacing = endpoint.roadFacing;
@@ -1299,13 +1297,25 @@ export class GameEngine {
     updateCampEncroachment(neighbor.nodes);
   }
 
+  private expandFieldLayouts(projectId: 'areaExpansion1'|'areaExpansion2') {
+    const previousResearch={...this.state.research,completed:this.state.research.completed.filter(id=>id!==projectId)};
+    const before=getWorldFieldSize({research:previousResearch,fieldSizeScale:this.state.fieldSizeScale});
+    expandMapsAroundCenter(this.state,before,getWorldFieldSize(this.state));
+    this.syncFieldLayouts();
+  }
+
   private syncFieldLayouts() {
     syncCornerLayouts(this.state);
+    const aligned = new Set<MachineNode>();
     for (const sector of Object.values(this.state.sectors)) {
       for (const node of sector.nodes) {
-        if (node.kind !== 'road' || node.roadMode !== 'export') continue;
-        const plan = this.planRoadMove(sector, node, node);
-        if (plan?.valid && [plan.node.x - node.x, plan.node.y - node.y,
+        if (!hasNodeBehavior(node.kind, 'road') || aligned.has(node)) continue;
+        // A world resize reanchors existing endpoints; it is not a new placement.
+        // Preserve their cables even when the stretched route crosses an obstruction.
+        const plan = this.roadPairLayout(sector, node, node);
+        if (!plan) continue;
+        aligned.add(node); aligned.add(plan.pair);
+        if ([plan.node.x - node.x, plan.node.y - node.y,
           plan.road.endpoint.x - plan.pair.x, plan.road.endpoint.y - plan.pair.y].some(delta => Math.abs(delta) > 1e-6)) {
           this.applyRoadMove(sector, node, plan);
         }
@@ -1828,6 +1838,7 @@ export class GameEngine {
   }
   developerUnlockAllResearch() {
     this.checkpoint();
+    const previousField=getWorldFieldSize(this.state);
     this.state.devTutorialPromptsSuppressed = true;
     this.state.devResearchUnlocked = true;
     const permanent = RESEARCH_PROJECTS.filter((project) => !project.repeatable).map((project) => project.id);
@@ -1838,6 +1849,7 @@ export class GameEngine {
     this.state.research.mapPoints = Math.max(this.state.research.mapPoints, worldGridSize(this.state) ** 2);
     this.research.resetResearchCycles();
     applyCartUpgrades(this.state);
+    expandMapsAroundCenter(this.state,previousField,getWorldFieldSize(this.state));
     this.syncFieldLayouts();
     this.publish();
   }

@@ -1,0 +1,52 @@
+{
+  "id": "NODE-0759",
+  "date": "2026-11-20",
+  "dateBasis": "chat",
+  "kind": "changed",
+  "state": "implemented",
+  "delivery": "local",
+  "title": "Account for updated obstruction bodies and final Roads in spawn placement",
+  "summary": "Share full-growth obstruction checks between natural generation and unexplored-map redistribution. Reserve incoming Roads at their final expanded-border positions so spreading resources cannot cover them. Add results to the separate expansion review page.",
+  "details": [
+    "Keep the existing artwork-derived River/Mountain/Chasm half-band reservations, 32-world-unit gap and future Golem reserve checks. Ordinary and mod-added spawn placement now share a full-growth body check with redistribution instead of relying on a camp's current suppressed size. Queries do not mutate saved camp strength, and owner/guarded-deposit overlap remains intentional.",
+    "Extract the reciprocal Road layout calculation into one shared function used by actual moves/expansion and natural placement reservations. Validate redistributed contents against final incoming endpoint positions. If an atomic proposal cannot fit, retain its centered arrangement; preserve all resources, caps, terrain and encounter state. Built maps keep every non-Road position and internal curve as established by NODE-0753.",
+    "Keep spawn families, population quotas, resource capacity/regeneration rules, seeded placement, separate hole-cluster rules, player building permissions and existing saves unchanged in scope. Placement retries may select different valid coordinates. No retrospective reshuffle, new save marker or crossing-research grant.",
+    "Extend previews/terrain-tiles/expansion.html with obstruction-aware spawn rules, recorded generation audit totals and linked regression/workspace logs. Retain both centered before/after comparisons, six runtime invariants, shared typography and normal page scrolling. Synthetic fixtures disable autosave and do not access campaign storage."
+  ],
+  "topics": [
+    "Exploration",
+    "World generation",
+    "Encounters",
+    "Logistics",
+    "Testing",
+    "Documentation"
+  ],
+  "sources": [
+    "local-code"
+  ],
+  "evidence": [
+    "src/simulation/borderTerrainClearance.ts",
+    "src/simulation/borderTerrainClearance.test.ts",
+    "src/simulation/worldGeneration.ts",
+    "src/simulation/unvisitedMapExpansion.ts",
+    "src/simulation/unvisitedMapExpansion.test.ts",
+    "src/simulation/roadPlacement.ts",
+    "src/simulation/engine.ts",
+    "previews/terrain-tiles/expansion.tsx",
+    "previews/terrain-tiles/README.md",
+    "docs/systems/map-nodes-and-exploration.md",
+    "docs/systems/encounters-and-obstructions.md",
+    "docs/systems/roads-and-vehicles.md",
+    "docs/node-ui-style-guide.md",
+    "docs/typography-style-review.md",
+    "scripts/audit-border-terrain-clearance.mjs",
+    "outputs/unvisited-map-expansion/spawn-clearance/generation-audit.json",
+    "outputs/unvisited-map-expansion/spawn-test-summary.json",
+    "outputs/unvisited-map-expansion/spawn-workspace-tests.log",
+    "outputs/unvisited-map-expansion/spawn-focused-tests.log",
+    "outputs/unvisited-map-expansion/spawn-build.log",
+    "outputs/unvisited-map-expansion/spawn-browser-verification.json",
+    "outputs/unvisited-map-expansion/spawn-review.jpg"
+  ],
+  "validation": "All 22 focused checks passed, including an initially clear reserve that would overlap the final incoming Road under proportional redistribution, maximum camp growth and the guarded overlap exception. Full workspace suite passed 2,158 tests with two existing skips, four workers and a 15-second timeout. Production TypeScript/Vite build and terrain preview TypeScript passed, retaining the existing chunk-size warning. Static generation audit checked 71,728 maps and 380,672 bodies across 1,000 standard seeds, larger grids, expanded double-scale fields and 4:1/1:4 mod fields with no clearance failures or generation rejections. Six catalog and 39-document link checks passed. Final browser reload showed the current audit totals, six passing snapshot invariants, accessible spawning results and no horizontal overflow at 1,195 CSS px; full-page evidence retained. The captured tab log retains one earlier transient Vite reload error from adding the new imported summary file; the final complete page rendered after reload. Static/synthetic evidence is not a normal-play balance run or universal arbitrary-mod feasibility guarantee. No publication."
+}

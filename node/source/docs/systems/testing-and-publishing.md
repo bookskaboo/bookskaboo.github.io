@@ -33,6 +33,8 @@ Use a separate local origin and an isolated output directory for production-buil
 
 The documentation check validates catalog freshness, local file targets and Markdown section anchors in the system library, archive and project entry documents. It accepts angle-bracket paths containing spaces and preserves checks on legacy section links. It does not prove prose matches gameplay or check external URLs. Read the source when reviewing a rule.
 
+The changelog viewer check normalizes CRLF before matching its embedded data, so Windows checkouts verify the same generated content as LF checkouts.
+
 The progression report runner excludes archived release source under `.artifact-work/` so historical copies cannot overwrite the current analysis. Its generated review covers fixed Simple-through-Complex research consumption; Final-Core projects and ordinary-play timing remain outside those totals. The report labels its retained planning context as historical.
 
 ## Browser playtests

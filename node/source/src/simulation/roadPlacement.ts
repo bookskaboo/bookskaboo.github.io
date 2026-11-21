@@ -1,5 +1,6 @@
-import type { MachineNode } from '../domain/types';
+import type { GameState, MachineNode, SectorState } from '../domain/types';
 import type { Point } from '../domain/nodeGeometry';
+import { hasNodeBehavior } from '../content/nodeCapabilities';
 
 export type RoadFacing = NonNullable<MachineNode['roadFacing']>;
 type Field = { width: number; height: number };
@@ -23,4 +24,15 @@ export function pairedRoadPositions(point: Point, facing: RoadFacing, field: Fie
     roadFacing,
   });
   return { local: endpoint(facing), remote: endpoint(oppositeFacing[facing]) };
+}
+
+/** Shared final pair geometry for moves, expansion and natural spawn reservations. */
+export function roadPairLayoutForField(state: GameState, sector: SectorState, node: MachineNode, point: Point, field: Field) {
+  const neighbor=node.pairedSectorId?state.sectors[node.pairedSectorId]:undefined;
+  if(!neighbor?.unlocked)return;
+  const pair=neighbor.nodes.find(candidate=>candidate.id===node.pairedRoadId&&hasNodeBehavior(candidate.kind,'road'));
+  const localFacing=facingAwayFromNeighbor(sector,neighbor);
+  if(!pair||!localFacing||(pair.pairedRoadId&&pair.pairedRoadId!==node.id)||(pair.pairedSectorId&&pair.pairedSectorId!==sector.id))return;
+  const {local,remote}=pairedRoadPositions(point,localFacing,field);
+  return {node:{...node,...local},road:{sector:neighbor,endpoint:{...pair,...remote},localFacing},pair};
 }

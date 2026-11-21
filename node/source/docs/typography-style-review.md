@@ -1,5 +1,13 @@
 # NODE Typography Style Review
 
+## Centered expansion and separate review page
+
+The follow-up spawning review adds an Obstruction-aware spawning section to that same page, with recorded audit totals and linked regression/workspace logs. Keep this separate from snapshot invariants and retain shared body/count roles. Generation already reserves the revised border artwork; the implementation additionally shares maximum-growth collision checks and reserves final incoming Road geometry during unvisited redistribution. The review page restores normal vertical scrolling so the lower comparison and all results remain accessible. No main-game typography changes.
+
+November 20, 2026. Area Expansion adds equal space on all four sides. On built maps preserve every non-Road node/resource size, relative position, internal cable curve and visible camera/zoom. Only Roads move relative to the factory and their vehicle cable curves change. A rigid coordinate-frame translation and inverse camera offset keep the visible layout steady; the renderer adopts that saved view before redrawing the larger field. Discovered/built modern corner footprints also remain fixed through travel/reload.
+
+The separate [expansion review](../previews/terrain-tiles/expansion.html) compares real engine snapshots before/after each normally completed expansion in synthetic fixtures. Center both fields at one scale, shade added area on every side and retain the former border on the after view. Include a built Cart–Kiln–Cart route and an unexplored Lake map, runtime PASS/FAIL invariants, automated results and linked logs. Use shared sans roles and regular counts. This changes layout presentation, not main-game typography or copy. Functional evidence and actual browser observations are recorded in the matching changelog entry; these fixtures do not write campaign saves or measure balance.
+
 ## Readouts and maximum zoom-out at 15 percent
 
 November 20, 2026. Node text and live buffer boxes now appear from 15% zoom,

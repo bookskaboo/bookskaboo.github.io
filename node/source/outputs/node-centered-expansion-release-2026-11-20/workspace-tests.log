@@ -1,0 +1,905 @@
+
+> factorinode-reconstruction@0.1.0 test
+> vitest run --testTimeout=15000 --maxWorkers=4
+
+
+ RUN  v5.0.5 D:/node factory v2
+
+ ❯ src/simulation/mapTerrain.test.ts (32 tests | 4 failed) 2506ms
+   ❯ new-game terrain integration (32)
+     × applies the matrix once to actual generated reserves and retains encounter contents for seed 1 40ms
+     × applies the matrix once to actual generated reserves and retains encounter contents for seed 37 11ms
+     × applies the matrix once to actual generated reserves and retains encounter contents for seed 2718 30ms
+     × materializes every map alongside the existing encounter/border generator on a 11 grid 16ms
+ ❯ src/simulation/settlementPopulation.test.ts (13 tests | 2 failed) 1606ms
+   ❯ retained thirty-settlement layout (13)
+     × retains the thirty-settlement distribution for saved layout 1 75ms
+     × persists layout 1 through slots, copies, autosave, mods, undo and later exploration 126ms
+ ❯ src/simulation/unvisitedMapExpansion.test.ts (10 tests | 4 failed) 730ms
+   ❯ unvisited fields spread after expansion (10)
+     × spreads generated contents without rerolling them, preserving clear terrain for seed 1 137ms
+     × spreads generated contents without rerolling them, preserving clear terrain for seed 37 55ms
+     × spreads generated contents without rerolling them, preserving clear terrain for seed 301 61ms
+     × runs on actual research completion, keeps the incoming Road and is stable through reload 33ms
+ ❯ src/mods/mods.test.ts (27 tests | 5 failed) 711ms
+   ❯ applied mod behavior (22)
+     × places seeded obstruction spawns on eligible new maps and restores their rules with the save 32ms
+     × generates a functional lake on a map where it does not usually spawn 22ms
+     × generates a functional big-hole on a map where it does not usually spawn 20ms
+     × generates a functional monster-camp on a map where it does not usually spawn 17ms
+     × gives modded Monster Camps priority over Deep Holes on the same map 19ms
+ ❯ src/simulation/resourceGolems.test.ts (14 tests | 1 failed) 593ms
+   ❯ resource Golems (14)
+     × keeps a legacy tier-6 layout with an already generated Golem sector 55ms
+
+⎯⎯⎯⎯⎯⎯ Failed Tests 16 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/mods/mods.test.ts > applied mod behavior > places seeded obstruction spawns on eligible new maps and restores their rules with the save
+AssertionError: expected [] to have a length of 2 but got +0
+
+- Expected
++ Received
+
+- 2
++ 0
+
+ ❯ src/mods/mods.test.ts:170:22
+    168|     const field = getSectorWorldSize(next, state.research.completed);
+    169|     const outcrops = next.nodes.filter(node => node.kind === reserve);
+    170|     expect(outcrops).toHaveLength(2);
+       |                      ^
+    171|     expect(next.nodes.some(node => node.kind === 'iron')).toBe(true);
+    172|     for (const node of outcrops) {
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/16]⎯
+
+ FAIL  src/mods/mods.test.ts > applied mod behavior > generates a functional lake on a map where it does not usually spawn
+AssertionError: expected undefined to match object { resourceItem: 'water', …(1) }
+
+- Expected:
+{
+  "obstructionWidth": Any<Number>,
+  "resourceItem": "water",
+}
+
++ Received:
+undefined
+
+ ❯ src/mods/mods.test.ts:200:21
+    198|     const field = getSectorWorldSize(sector, engine.getState().researc…
+    199|     const spawned = sector.nodes.find(node => node.kind === kind)!;
+    200|     expect(spawned).toMatchObject(fields);
+       |                     ^
+    201|     expect(spawned.x).toBeGreaterThanOrEqual(field.width / 2);
+    202|     expect(spawned.y).toBeLessThanOrEqual(field.height / 2);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/16]⎯
+
+ FAIL  src/mods/mods.test.ts > applied mod behavior > generates a functional big-hole on a map where it does not usually spawn
+AssertionError: expected undefined to match object { Object (resourceRemaining, obstructionRadius) }
+
+- Expected:
+{
+  "obstructionRadius": Any<Number>,
+  "resourceRemaining": Any<Number>,
+}
+
++ Received:
+undefined
+
+ ❯ src/mods/mods.test.ts:200:21
+    198|     const field = getSectorWorldSize(sector, engine.getState().researc…
+    199|     const spawned = sector.nodes.find(node => node.kind === kind)!;
+    200|     expect(spawned).toMatchObject(fields);
+       |                     ^
+    201|     expect(spawned.x).toBeGreaterThanOrEqual(field.width / 2);
+    202|     expect(spawned.y).toBeLessThanOrEqual(field.height / 2);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/16]⎯
+
+ FAIL  src/mods/mods.test.ts > applied mod behavior > generates a functional monster-camp on a map where it does not usually spawn
+AssertionError: expected undefined to match object { goblinSettlement: 'camp', …(1) }
+
+- Expected:
+{
+  "attackRequirement": 3,
+  "goblinSettlement": "camp",
+}
+
++ Received:
+undefined
+
+ ❯ src/mods/mods.test.ts:200:21
+    198|     const field = getSectorWorldSize(sector, engine.getState().researc…
+    199|     const spawned = sector.nodes.find(node => node.kind === kind)!;
+    200|     expect(spawned).toMatchObject(fields);
+       |                     ^
+    201|     expect(spawned.x).toBeGreaterThanOrEqual(field.width / 2);
+    202|     expect(spawned.y).toBeLessThanOrEqual(field.height / 2);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/16]⎯
+
+ FAIL  src/mods/mods.test.ts > applied mod behavior > gives modded Monster Camps priority over Deep Holes on the same map
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ src/mods/mods.test.ts:211:84
+    209|     mod.nodes['big-hole'] = { worldSpawn: { region: 'northwest' } };
+    210|     engine.applyMod(mod);
+    211|     expect(engine.ensureSector(6, 5).nodes.some(node => node.kind === …
+       |                                                                                    ^
+    212|
+    213|     mod.nodes['monster-camp'] = { worldSpawn: { region: 'northeast' } …
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/16]⎯
+
+ FAIL  src/simulation/mapTerrain.test.ts > new-game terrain integration > applies the matrix once to actual generated reserves and retains encounter contents for seed 1
+AssertionError: expected [ { id: '1-1-iron-0', …(15) }, …(4) ] to deeply equal [ { id: '1-1-iron-0', …(15) }, …(4) ]
+
+- Expected
++ Received
+
+@@ -8,13 +8,13 @@
+      "input": {},
+      "kind": "iron",
+      "name": "Iron",
+      "output": {},
+      "progressMs": 0,
+-     "resourceCapacity": 20000,
++     "resourceCapacity": 10000,
+      "resourceItem": "iron",
+-     "resourceRemaining": 20000,
++     "resourceRemaining": 10000,
+      "rotation": 0,
+      "x": 2164.268521081834,
+      "y": 1110.8309208700484,
+    },
+    {
+@@ -26,13 +26,13 @@
+      "input": {},
+      "kind": "copper",
+      "name": "Copper",
+      "output": {},
+      "progressMs": 0,
+-     "resourceCapacity": 20000,
++     "resourceCapacity": 10000,
+      "resourceItem": "copper",
+-     "resourceRemaining": 20000,
++     "resourceRemaining": 10000,
+      "rotation": 0,
+      "x": 931.3407932814218,
+      "y": 1313.0920256477368,
+    },
+    {
+@@ -44,13 +44,13 @@
+      "input": {},
+      "kind": "stoneDeposit",
+      "name": "Stone",
+      "output": {},
+      "progressMs": 0,
+-     "resourceCapacity": 20000,
++     "resourceCapacity": 10000,
+      "resourceItem": "stone",
+-     "resourceRemaining": 20000,
++     "resourceRemaining": 10000,
+      "rotation": 0,
+      "x": 897.0033471587772,
+      "y": 594.0313421040469,
+    },
+    {
+@@ -63,13 +63,13 @@
+      "kind": "forest",
+      "name": "Forest",
+      "output": {},
+      "progressMs": 0,
+      "regenMs": 0,
+-     "resourceCapacity": 1250,
++     "resourceCapacity": 2500,
+      "resourceItem": "wood",
+-     "resourceRemaining": 1250,
++     "resourceRemaining": 2500,
+      "rotation": 0,
+      "x": 1923.5131528594438,
+      "y": 484.0751530294236,
+    },
+    {
+
+ ❯ src/simulation/mapTerrain.test.ts:46:28
+     44|       const id=`${x},${y}`, terrain=fresh.mapTerrains![id];
+     45|       const baseline=sectorForState(legacy,x,y), sector=sectorForState…
+     46|       expect(sector.nodes).toEqual(applyMapTerrain(baseline.nodes,terr…
+       |                            ^
+     47|       for(const node of sector.nodes) {
+     48|         if(node.guardedCampId)guarded++;
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/16]⎯
+
+ FAIL  src/simulation/mapTerrain.test.ts > new-game terrain integration > applies the matrix once to actual generated reserves and retains encounter contents for seed 37
+AssertionError: expected [ …(9) ] to deeply equal [ …(9) ]
+
+- Expected
++ Received
+
+@@ -84,13 +84,13 @@
+      "input": {},
+      "kind": "iron",
+      "name": "Iron",
+      "output": {},
+      "progressMs": 0,
+-     "resourceCapacity": 1250,
++     "resourceCapacity": 2500,
+      "resourceItem": "iron",
+-     "resourceRemaining": 1250,
++     "resourceRemaining": 2500,
+      "rotation": 0,
+      "x": 2247.803699870753,
+      "y": 1101.8009487424108,
+    },
+    {
+@@ -102,13 +102,13 @@
+      "input": {},
+      "kind": "copper",
+      "name": "Copper",
+      "output": {},
+      "progressMs": 0,
+-     "resourceCapacity": 1250,
++     "resourceCapacity": 2500,
+      "resourceItem": "copper",
+-     "resourceRemaining": 1250,
++     "resourceRemaining": 2500,
+      "rotation": 0,
+      "x": 764.6216520996335,
+      "y": 1326.104747208548,
+    },
+    {
+@@ -120,13 +120,13 @@
+      "input": {},
+      "kind": "stoneDeposit",
+      "name": "Stone",
+      "output": {},
+      "progressMs": 0,
+-     "resourceCapacity": 1250,
++     "resourceCapacity": 2500,
+      "resourceItem": "stone",
+-     "resourceRemaining": 1250,
++     "resourceRemaining": 2500,
+      "rotation": 0,
+      "x": 322.6773485355079,
+      "y": 2175.197693039663,
+    },
+    {
+@@ -139,13 +139,13 @@
+      "kind": "forest",
+      "name": "Forest",
+      "output": {},
+      "progressMs": 0,
+      "regenMs": 0,
+-     "resourceCapacity": 50,
++     "resourceCapacity": 500,
+      "resourceItem": "wood",
+-     "resourceRemaining": 50,
++     "resourceRemaining": 500,
+      "rotation": 0,
+      "x": 257.8977072611451,
+      "y": 1318.5735939862207,
+    },
+    {
+
+ ❯ src/simulation/mapTerrain.test.ts:46:28
+     44|       const id=`${x},${y}`, terrain=fresh.mapTerrains![id];
+     45|       const baseline=sectorForState(legacy,x,y), sector=sectorForState…
+     46|       expect(sector.nodes).toEqual(applyMapTerrain(baseline.nodes,terr…
+       |                            ^
+     47|       for(const node of sector.nodes) {
+     48|         if(node.guardedCampId)guarded++;
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/16]⎯
+
+ FAIL  src/simulation/mapTerrain.test.ts > new-game terrain integration > applies the matrix once to actual generated reserves and retains encounter contents for seed 2718
+AssertionError: expected [ { id: '4-0-iron-0', …(15) }, …(3) ] to deeply equal [ { id: '4-0-iron-0', …(15) }, …(3) ]
+
+- Expected
++ Received
+
+@@ -8,13 +8,13 @@
+      "input": {},
+      "kind": "iron",
+      "name": "Iron",
+      "output": {},
+      "progressMs": 0,
+-     "resourceCapacity": 1000,
++     "resourceCapacity": 2000,
+      "resourceItem": "iron",
+-     "resourceRemaining": 1000,
++     "resourceRemaining": 2000,
+      "rotation": 0,
+      "x": 1884.2383841958865,
+      "y": 1392.7980191329536,
+    },
+    {
+@@ -26,13 +26,13 @@
+      "input": {},
+      "kind": "copper",
+      "name": "Copper",
+      "output": {},
+      "progressMs": 0,
+-     "resourceCapacity": 1000,
++     "resourceCapacity": 2000,
+      "resourceItem": "copper",
+-     "resourceRemaining": 1000,
++     "resourceRemaining": 2000,
+      "rotation": 0,
+      "x": 1119.9275446095191,
+      "y": 1401.2575369086258,
+    },
+    {
+@@ -44,13 +44,13 @@
+      "input": {},
+      "kind": "stoneDeposit",
+      "name": "Stone",
+      "output": {},
+      "progressMs": 0,
+-     "resourceCapacity": 1000,
++     "resourceCapacity": 2000,
+      "resourceItem": "stone",
+-     "resourceRemaining": 1000,
++     "resourceRemaining": 2000,
+      "rotation": 0,
+      "x": 997.3139461580881,
+      "y": 560.0064551938705,
+    },
+    {
+
+ ❯ src/simulation/mapTerrain.test.ts:46:28
+     44|       const id=`${x},${y}`, terrain=fresh.mapTerrains![id];
+     45|       const baseline=sectorForState(legacy,x,y), sector=sectorForState…
+     46|       expect(sector.nodes).toEqual(applyMapTerrain(baseline.nodes,terr…
+       |                            ^
+     47|       for(const node of sector.nodes) {
+     48|         if(node.guardedCampId)guarded++;
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/16]⎯
+
+ FAIL  src/simulation/mapTerrain.test.ts > new-game terrain integration > materializes every map alongside the existing encounter/border generator on a 11 grid
+AssertionError: expected 2500 to be 1250 // Object.is equality
+
+- Expected
++ Received
+
+- 1250
++ 2500
+
+ ❯ src/simulation/mapTerrain.test.ts:135:39
+    133|         const baseline=old.nodes.find(n=>n.id===node.id)!;
+    134|         const factor=CAP[terrain][node.kind==='forest'?'forest':'miner…
+    135|         expect(node.resourceCapacity).toBe(Math.round(baseline.resourc…
+       |                                       ^
+    136|         expect([node.x,node.y]).toEqual([baseline.x,baseline.y]);
+    137|       }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/16]⎯
+
+ FAIL  src/simulation/resourceGolems.test.ts > resource Golems > keeps a legacy tier-6 layout with an already generated Golem sector
+AssertionError: expected [ '3,9', '7,1', '9,7' ] to deeply equal [ '0,6', '3,9', '7,1', '9,7' ]
+
+- Expected
++ Received
+
+  [
+-   "0,6",
+    "3,9",
+    "7,1",
+    "9,7",
+  ]
+
+ ❯ src/simulation/resourceGolems.test.ts:79:58
+     77|     });
+     78|     const golemSectors = Object.values(restored.sectors).filter(sector…
+     79|     expect(golemSectors.map(sector => sector.id).sort()).toEqual(oldGo…
+       |                                                          ^
+     80|     const minerals = golemSectors.flatMap(sector => sector.nodes.filte…
+     81|     expect(minerals.sort()).toEqual([...GOLEM_MINERALS].sort());
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[10/16]⎯
+
+ FAIL  src/simulation/settlementPopulation.test.ts > retained thirty-settlement layout > retains the thirty-settlement distribution for saved layout 1
+AssertionError: expected [ [ '0,0', …(1) ], …(120) ] to deeply equal [ [ '0,0', …(1) ], …(120) ]
+
+- Expected
++ Received
+
+@@ -181,19 +181,11 @@
+      "3,1",
+      [],
+    ],
+    [
+      "4,1",
+-     [
+-       [
+-         "4-1-monster-camp-0",
+-         "monster-camp",
+-         undefined,
+-         "camp",
+-         undefined,
+-       ],
+-     ],
++     [],
+    ],
+    [
+      "5,1",
+      [
+        [
+@@ -346,11 +338,19 @@
+      "5,2",
+      [],
+    ],
+    [
+      "6,2",
+-     [],
++     [
++       [
++         "6-2-monster-camp-0",
++         "monster-camp",
++         undefined,
++         "camp",
++         undefined,
++       ],
++     ],
+    ],
+    [
+      "7,2",
+      [],
+    ],
+@@ -376,14 +376,14 @@
+    ],
+    [
+      "0,3",
+      [
+        [
+-         "0-3-big-hole-0",
+-         "big-hole",
+-         undefined,
++         "0-3-monster-camp-0",
++         "monster-camp",
+          undefined,
++         "village",
+          undefined,
+        ],
+      ],
+    ],
+    [
+@@ -546,13 +546,27 @@
+    ],
+    [
+      "3,4",
+      [
+        [
+-         "3-4-monster-camp-0",
+-         "monster-camp",
+-         "camp",
++         "3-4-big-hole-0",
++         "big-hole",
++         undefined,
++         undefined,
++         undefined,
++       ],
++       [
++         "3-4-big-hole-1",
++         "big-hole",
++         undefined,
++         undefined,
++         undefined,
++       ],
++       [
++         "3-4-big-hole-2",
++         "big-hole",
++         undefined,
+          undefined,
+          undefined,
+        ],
+      ],
+    ],
+@@ -813,15 +827,15 @@
+    ],
+    [
+      "10,5",
+      [
+        [
+-         "10-5-resourceGolem-0",
+-         "resourceGolem",
++         "10-5-monster-camp-0",
++         "monster-camp",
+          undefined,
++         "camp",
+          undefined,
+-         "mythril",
+        ],
+      ],
+    ],
+    [
+      "0,6",
+@@ -839,36 +853,15 @@
+      "1,6",
+      [],
+    ],
+    [
+      "2,6",
+-     [
+-       [
+-         "2-6-big-hole-0",
+-         "big-hole",
+-         undefined,
+-         undefined,
+-         undefined,
+-       ],
+      [
+-         "2-6-big-hole-1",
+-         "big-hole",
+-         undefined,
+-         undefined,
+-         undefined,
+-       ],
+        [
+-         "2-6-big-hole-2",
+-         "big-hole",
+-         undefined,
+-         undefined,
+-         undefined,
+-       ],
+-       [
+-         "2-6-big-hole-3",
+-         "big-hole",
+-         undefined,
++         "2-6-monster-camp-0",
++         "monster-camp",
++         "village",
+          undefined,
+          undefined,
+        ],
+      ],
+    ],
+@@ -970,11 +963,40 @@
+        ],
+      ],
+    ],
+    [
+      "3,7",
+-     [],
++     [
++       [
++         "3-7-big-hole-0",
++         "big-hole",
++         undefined,
++         undefined,
++         undefined,
++       ],
++       [
++         "3-7-big-hole-1",
++         "big-hole",
++         undefined,
++         undefined,
++         undefined,
++       ],
++       [
++         "3-7-big-hole-2",
++         "big-hole",
++         undefined,
++         undefined,
++         undefined,
++       ],
++       [
++         "3-7-big-hole-3",
++         "big-hole",
++         undefined,
++         undefined,
++         undefined,
++       ],
++     ],
+    ],
+    [
+      "4,7",
+      [],
+    ],
+
+ ❯ src/simulation/settlementPopulation.test.ts:81:27
+     79|     expect(restored.encounterLayoutVersion).toBe(version);
+     80|     const later = expected.map(s => sectorForState(restored, s.x, s.y)…
+     81|     expect(layout(later)).toEqual(layout(expected));
+       |                           ^
+     82|   });
+     83|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[11/16]⎯
+
+ FAIL  src/simulation/settlementPopulation.test.ts > retained thirty-settlement layout > persists layout 1 through slots, copies, autosave, mods, undo and later exploration
+AssertionError: expected [ [ '0,0', …(1) ], …(120) ] to deeply equal [ [ '0,0', …(1) ], …(120) ]
+
+- Expected
++ Received
+
+@@ -181,11 +181,19 @@
+      "3,1",
+      [],
+    ],
+    [
+      "4,1",
+-     [],
++     [
++       [
++         "4-1-monster-camp-0",
++         "monster-camp",
++         undefined,
++         "camp",
++         undefined,
++       ],
++     ],
+    ],
+    [
+      "5,1",
+      [
+        [
+@@ -338,19 +346,11 @@
+      "5,2",
+      [],
+    ],
+    [
+      "6,2",
+-     [
+-       [
+-         "6-2-monster-camp-0",
+-         "monster-camp",
+-         undefined,
+-         "camp",
+-         undefined,
+-       ],
+-     ],
++     [],
+    ],
+    [
+      "7,2",
+      [],
+    ],
+@@ -376,14 +376,14 @@
+    ],
+    [
+      "0,3",
+      [
+        [
+-         "0-3-monster-camp-0",
+-         "monster-camp",
++         "0-3-big-hole-0",
++         "big-hole",
++         undefined,
+          undefined,
+-         "village",
+          undefined,
+        ],
+      ],
+    ],
+    [
+@@ -546,27 +546,13 @@
+    ],
+    [
+      "3,4",
+      [
+        [
+-         "3-4-big-hole-0",
+-         "big-hole",
+-         undefined,
+-         undefined,
+-         undefined,
+-       ],
+-       [
+-         "3-4-big-hole-1",
+-         "big-hole",
+-         undefined,
+-         undefined,
+-         undefined,
+-       ],
+-       [
+-         "3-4-big-hole-2",
+-         "big-hole",
+-         undefined,
++         "3-4-monster-camp-0",
++         "monster-camp",
++         "camp",
+          undefined,
+          undefined,
+        ],
+      ],
+    ],
+@@ -827,15 +813,15 @@
+    ],
+    [
+      "10,5",
+      [
+        [
+-         "10-5-monster-camp-0",
+-         "monster-camp",
++         "10-5-resourceGolem-0",
++         "resourceGolem",
+          undefined,
+-         "camp",
+          undefined,
++         "mythril",
+        ],
+      ],
+    ],
+    [
+      "0,6",
+@@ -853,15 +839,36 @@
+      "1,6",
+      [],
+    ],
+    [
+      "2,6",
++     [
++       [
++         "2-6-big-hole-0",
++         "big-hole",
++         undefined,
++         undefined,
++         undefined,
++       ],
+        [
++         "2-6-big-hole-1",
++         "big-hole",
++         undefined,
++         undefined,
++         undefined,
++       ],
+        [
+-         "2-6-monster-camp-0",
+-         "monster-camp",
+-         "village",
++         "2-6-big-hole-2",
++         "big-hole",
++         undefined,
++         undefined,
++         undefined,
++       ],
++       [
++         "2-6-big-hole-3",
++         "big-hole",
++         undefined,
+          undefined,
+          undefined,
+        ],
+      ],
+    ],
+@@ -963,40 +970,11 @@
+        ],
+      ],
+    ],
+    [
+      "3,7",
+-     [
+-       [
+-         "3-7-big-hole-0",
+-         "big-hole",
+-         undefined,
+-         undefined,
+-         undefined,
+-       ],
+-       [
+-         "3-7-big-hole-1",
+-         "big-hole",
+-         undefined,
+-         undefined,
+-         undefined,
+-       ],
+-       [
+-         "3-7-big-hole-2",
+-         "big-hole",
+-         undefined,
+-         undefined,
+-         undefined,
+-       ],
+-       [
+-         "3-7-big-hole-3",
+-         "big-hole",
+-         undefined,
+-         undefined,
+-         undefined,
+-       ],
+-     ],
++     [],
+    ],
+    [
+      "4,7",
+      [],
+    ],
+
+ ❯ src/simulation/settlementPopulation.test.ts:107:40
+    105|     const loaded = new GameEngine(normalizeLegacy(JSON.parse(JSON.stri…
+    106|     expect(loaded.encounterLayoutVersion).toBe(version);
+    107|     expect(layout(world(37, version))).toEqual(layout(world(37, versio…
+       |                                        ^
+    108|   });
+    109| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[12/16]⎯
+
+ FAIL  src/simulation/unvisitedMapExpansion.test.ts > unvisited fields spread after expansion > spreads generated contents without rerolling them, preserving clear terrain for seed 1
+AssertionError: expected [ '1,0', '2,0', '3,0', '4,0', …(94) ] to have a length of 115 but got 98
+
+- Expected
++ Received
+
+- 115
++ 98
+
+ ❯ src/simulation/unvisitedMapExpansion.test.ts:24:21
+     22|     const before=structuredClone(game), first={width:4500,height:3000};
+     23|     const changed=redistributeUnvisitedMaps(game,{width:3600,height:24…
+     24|     expect(changed).toHaveLength(115);
+       |                     ^
+     25|     for(const id of changed){
+     26|       const old=before.sectors[id],sector=game.sectors[id];
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[13/16]⎯
+
+ FAIL  src/simulation/unvisitedMapExpansion.test.ts > unvisited fields spread after expansion > spreads generated contents without rerolling them, preserving clear terrain for seed 37
+AssertionError: expected [ '1,0', '3,0', '4,0', '5,0', …(95) ] to have a length of 115 but got 99
+
+- Expected
++ Received
+
+- 115
++ 99
+
+ ❯ src/simulation/unvisitedMapExpansion.test.ts:24:21
+     22|     const before=structuredClone(game), first={width:4500,height:3000};
+     23|     const changed=redistributeUnvisitedMaps(game,{width:3600,height:24…
+     24|     expect(changed).toHaveLength(115);
+       |                     ^
+     25|     for(const id of changed){
+     26|       const old=before.sectors[id],sector=game.sectors[id];
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[14/16]⎯
+
+ FAIL  src/simulation/unvisitedMapExpansion.test.ts > unvisited fields spread after expansion > spreads generated contents without rerolling them, preserving clear terrain for seed 301
+AssertionError: expected [ '1,0', '3,0', '4,0', '5,0', …(94) ] to have a length of 115 but got 98
+
+- Expected
++ Received
+
+- 115
++ 98
+
+ ❯ src/simulation/unvisitedMapExpansion.test.ts:24:21
+     22|     const before=structuredClone(game), first={width:4500,height:3000};
+     23|     const changed=redistributeUnvisitedMaps(game,{width:3600,height:24…
+     24|     expect(changed).toHaveLength(115);
+       |                     ^
+     25|     for(const id of changed){
+     26|       const old=before.sectors[id],sector=game.sectors[id];
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[15/16]⎯
+
+ FAIL  src/simulation/unvisitedMapExpansion.test.ts > unvisited fields spread after expansion > runs on actual research completion, keeps the incoming Road and is stable through reload
+AssertionError: expected 2513.167058892901 to be close to 2578.958823616126, received difference is 65.79176472322524, but expected 0.005
+ ❯ src/simulation/unvisitedMapExpansion.test.ts:73:22
+     71|     for(const node of unseen.nodes.filter(n=>n.kind!=='road')){
+     72|       const old=before.nodes.find(n=>n.id===node.id)!;
+     73|       expect(node.x).toBeCloseTo(old.x*1.25);expect(node.y).toBeCloseT…
+       |                      ^
+     74|       expect(node.resourceCapacity).toBe(old.resourceCapacity);
+     75|     }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[16/16]⎯
+
+
+ Test Files  5 failed | 206 passed | 2 skipped (213)
+      Tests  16 failed | 2142 passed | 2 skipped (2160)
+   Start at  23:25:43
+   Duration  39.12s (tests 68%, import 28%, transform 3%, worker 1%)
+
+    Isolate  213 workers spawned · ~177ms startup each (spawn + environment, per file)
+             at least ~9.23s faster with isolate: false — reuses workers across files instead of one per file
+

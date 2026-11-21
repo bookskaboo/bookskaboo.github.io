@@ -98,14 +98,18 @@ describe('outward corner camps', () => {
     expect(live.connections).toContainEqual(cable);
   });
 
-  it('recenters an unobstructed layout when area research expands the field', () => {
+  it('preserves a discovered layout relative to center when Dev grants both expansions', () => {
     const { state } = legacyCorner();
     const engine = new GameEngine(state, { autosave: false });
+    const before=structuredClone(engine.getSector().nodes);
     engine.developerUnlockAllResearch();
     const sector = engine.getSector();
     const field = getSectorWorldSize(sector, engine.getState().research.completed);
     const [camp, tribute] = sector.nodes;
-    expect(camp.x).toBe(field.width / 4);
+    expect(camp.x-field.width/2).toBe(before[0].x-1800);
+    expect(camp.y-field.height/2).toBe(before[0].y-1200);
+    expect(camp.obstructionWidth).toBe(before[0].obstructionWidth);
+    expect(camp.obstructionHeight).toBe(before[0].obstructionHeight);
     expect(tribute.x).toBe(field.width / 2);
     expect(tribute.y).toBe(field.height / 2);
   });

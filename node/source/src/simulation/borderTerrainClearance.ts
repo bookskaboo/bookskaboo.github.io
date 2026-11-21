@@ -3,8 +3,17 @@ import { BORDER_FIELD_CROSS_SCALE, BORDER_RESOURCE_GAP, borderTerrainArtSeed, bo
 import { getNodeSize } from '../domain/nodeGeometry';
 import { defeatResourceGolem } from '../content/resourceGolems';
 import type { GameState, MachineNode } from '../domain/types';
+import { canPlaceNode } from './collisions';
 
 export type BorderTerrainInsets = Record<BorderSide, number>;
+
+/** Generation and unvisited redistribution reserve future obstruction bodies too.
+ * Own guarded deposits retain the explicit settlement overlap exemption.
+ */
+export function canPlaceGeneratedNode(node: MachineNode, others: readonly MachineNode[], field: {width:number;height:number}, insets?: BorderTerrainInsets) {
+  const fullGrowth=(entry:MachineNode)=>entry.kind==='monster-camp'?{...entry,campStrength:100}:entry;
+  return clearsBorderTerrain(node,field,insets)&&canPlaceNode(fullGrowth(node),others.map(fullGrowth),field);
+}
 
 /** Reserve the visible half-band plus a gap. Future expansion can enlarge upright peaks. */
 export function borderTerrainInsets(state: Pick<GameState, 'seed' | 'borderObstructionVersion' | 'borderObstructions'>, sectorId: string, largestField: { width: number; height: number }): BorderTerrainInsets {

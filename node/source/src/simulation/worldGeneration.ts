@@ -1,11 +1,11 @@
 import { createCornerNodes, syncCornerLayout } from './endgameRuntime';
 import type { GameState, ItemId, MachineNode, SectorState } from '../domain/types';
 import { applyMapTerrain, mapTerrain } from './mapTerrain';
-import { borderTerrainInsets, clearsBorderTerrain, type BorderTerrainInsets } from './borderTerrainClearance';
+import { borderTerrainInsets, canPlaceGeneratedNode, clearsBorderTerrain, type BorderTerrainInsets } from './borderTerrainClearance';
 import { DEFAULT_WORLD_GRID_SIZE, HOME_COORDINATE as HOME, worldCornerIds, worldGridBounds, worldGridSize } from '../domain/worldGrid';
 import { modNode, modRule, modWorldSpawns, modWorldVariants } from '../mods/modRules';
 import { WORLD_SPAWN_MAX_TIER, type ModNode, type ModWorldSpawn } from '../mods/modTypes';
-import { canPlaceNode, nodesOverlap, NODE_CLEARANCE } from './collisions';
+import { nodesOverlap, NODE_CLEARANCE } from './collisions';
 import { overlapsMaximumCampRadius } from '../domain/obstructionGeometry';
 import { getNodeSize, guardedDepositPosition } from '../domain/nodeGeometry';
 import { getGoblinSettlementForMapTier, GOBLIN_CHECK_INTERVAL_MS } from '../content/goblinSettlements';
@@ -305,7 +305,7 @@ function addModSpawns(nodes: MachineNode[], x: number, y: number, sectorSeed: nu
       for (let attempt = 0; attempt < 128; attempt++) {
         entry.x = footprint.x = (left + random() * (right - left)) * field.width;
         entry.y = footprint.y = (top + random() * (bottom - top)) * field.height;
-        if (!clearsBorderTerrain(footprint, field, insets) || !canPlaceNode(footprint, placementNodes, field) || placementNodes.some(other =>
+        if (!canPlaceGeneratedNode(footprint, placementNodes, field, insets) || placementNodes.some(other =>
           (other.kind === 'monster-camp' && overlapsMaximumCampRadius(footprint, other, NODE_CLEARANCE)) ||
           (camp && overlapsMaximumCampRadius(other, camp, NODE_CLEARANCE)) ||
           (isReserve(entry) && isReserve(other) && nodesOverlap(entry, other, 160)))) continue;
@@ -495,8 +495,8 @@ function tryGenerateSector(x: number, y: number, seed: number, now: number, gole
   resources.forEach((item, index) => {
     if (reward === item && !dwarvenCamp) return;
     const angle = (index / Math.max(1, resources.length)) * Math.PI * 2 + random();
-    const px = 1450 + Math.cos(angle) * (720 + random() * 260);
-    const py = 950 + Math.sin(angle) * (440 + random() * 220);
+    const px = (1450 + Math.cos(angle) * (720 + random() * 260)) * field.width / BASE_WORLD_SIZE.width;
+    const py = (950 + Math.sin(angle) * (440 + random() * 220)) * field.height / BASE_WORLD_SIZE.height;
     if (item === 'wood') {
       if (!replaces('forest')) nodes.push(node('forest', 'Forest', px, py, { resourceItem: item, resourceRemaining: capacity, resourceCapacity: capacity, regenMs: 0, cycleMs: 5000, capacity: 5 }));
     } else {
@@ -542,13 +542,13 @@ function tryGenerateSector(x: number, y: number, seed: number, now: number, gole
       if (!owner) return;
       // This reserve is part of its settlement, not an ordinary scattered deposit.
       Object.assign(entry, guardedDepositPosition(owner, entry));
-      if (!clearsBorderTerrain(entry, field, insets) || !canPlaceNode(entry, placed, field)) return;
+      if (!canPlaceGeneratedNode(entry, placed, field, insets)) return;
       placed.push(entry); continue;
     }
     const campStrength = entry.kind === 'monster-camp' ? entry.campStrength : undefined;
     if (entry.kind === 'monster-camp') entry.campStrength = 100;
     const isResource = (candidate: MachineNode) => Boolean(candidate.resourceItem && candidate.kind !== 'lake');
-    const valid = () => clearsBorderTerrain(entry, field, insets) && canPlaceNode(entry, placed, field) && (!isResource(entry) || !placed.some((other) =>
+    const valid = () => canPlaceGeneratedNode(entry, placed, field, insets) && (!isResource(entry) || !placed.some((other) =>
       (isResource(other) && nodesOverlap(entry, other, 160)) || (other.kind === 'monster-camp' && overlapsMaximumCampRadius(entry, other, NODE_CLEARANCE))));
     for (let attempt = 0; attempt < 1000 && !valid(); attempt++) {
       entry.x = 220 + random() * (field.width - 440);

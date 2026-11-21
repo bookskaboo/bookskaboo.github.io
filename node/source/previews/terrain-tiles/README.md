@@ -22,6 +22,12 @@ The page shows preferred counts across each full quadrant and names its guarante
 
 ## Real engine review
 
+### Centered Area Expansion review
+
+Open [expansion.html](expansion.html) for a separate before/after review and test results. Select Area Expansion 1 or 2. The fixture completes ordinary paid research in an isolated engine, then compares an explored Cart–Kiln–Cart factory and its unexplored Lake neighbor. Both views use a common scale and centered bounds; the after view shades added area and shows the former border. Built node/resource geometry and internal curves remain fixed, while only Roads and vehicle cables move. Unexplored contents spread around the field center without changing stock/caps. The page includes live invariant results and recorded automated test/build logs. Autosave is disabled; there is no campaign storage access or gameplay balance claim.
+
+The Obstruction-aware spawning section records the current border-clearance audit, maximum-growth/guarded-overlap checks and the final incoming-Road regression. Audit details and logs open separately. Its recorded totals describe the cited run, while the six engine-snapshot invariants recompute for the selected expansion step. Keep the standalone page vertically scrollable; it does not use the game's locked full-screen viewport.
+
 Open [runtime.html](runtime.html) through the local Vite server for actual generated new-game reserves and field rendering. Terrain selects an existing assigned clear map from seed 37. Existing-save comparison uses the same coordinate without terrain opt-in. Production nodes and cables are synthetic review context; this is paused QA, not a gameplay or balance run. Fit field, Toggle grid, Reload snapshot and Open Node Map use the actual renderer, save normalizer and map UI. Autosave and minimap layout persistence are disabled. Main system rules live in [map nodes](../../docs/systems/map-nodes-and-exploration.md#ground-terrain-for-new-games).
 
 Review explored terrain map opens the expanded Node Map with the upper seven rows marked visited and a purchased-but-unvisited S2. This synthetic fixture shows all four subtle terrain fills, the hidden-terrain boundary, current/selected emphasis and the type label directly above Resources. The compact map and campaign saves are unchanged.

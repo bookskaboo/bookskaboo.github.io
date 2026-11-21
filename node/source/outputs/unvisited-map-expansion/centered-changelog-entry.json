@@ -1,0 +1,60 @@
+{
+  "id": "NODE-0753",
+  "date": "2026-11-20",
+  "dateBasis": "chat",
+  "kind": "changed",
+  "state": "implemented",
+  "delivery": "local",
+  "title": "Grow fields equally on every side while preserving built layouts",
+  "summary": "Center Area Expansion on each field. Built maps retain their exact factory/resource arrangement, node sizes, internal cable curves and camera view; only Roads and their vehicle connections change relative to the factory. Provide a separate before/after review and test-results page.",
+  "details": [
+    "Rebase preserved layouts by half the actual width/height increase and offset saved cameras oppositely, retaining all field-center and visible positions. Completed-hole ground and archived infrastructure follow the same frame. The renderer adopts the saved view and cancels stale drags before drawing the enlarged field. Standard expansion adds 450 world units west/east and 300 north/south per level.",
+    "Eligible unvisited contents spread proportionally around the field center with their IDs, types, reserves, caps, regeneration and encounter state retained. Linked camp/deposit and Tribute offsets remain intact. Discovered or built modern corner challenges retain their footprint and Tribute geometry through expansion, travel and reload. Keep the prior guarded legacy-corner migration. Dev grants of missing area research also use centered growth.",
+    "Keep Road pair references, directions, ports and cable identities while reanchoring both endpoints to the new borders. Preserve shared parallel position relative to the field center. Unvisited corner layouts and guarded incompatible natural layouts retain their separate rules. Loading does not repeat centering/redistribution or retrofit previously expanded saves; no save-version change or terrain conversion.",
+    "Add previews/terrain-tiles/expansion.html as a separate local review page. Both expansion steps show actual snapshots around paid research completion for an explored Cart–Kiln–Cart factory and an unexplored Lake neighbor. Center before/after bounds at a common scale, shade new area on all sides and show six runtime invariants plus recorded automated results/logs. Synthetic fixtures disable autosave and do not access campaign storage."
+  ],
+  "topics": [
+    "Exploration",
+    "Research",
+    "Logistics",
+    "Controls",
+    "Saves",
+    "Testing",
+    "Documentation"
+  ],
+  "sources": [
+    "local-code"
+  ],
+  "supersedes": [
+    "NODE-0748"
+  ],
+  "evidence": [
+    "src/simulation/unvisitedMapExpansion.ts",
+    "src/simulation/unvisitedMapExpansion.test.ts",
+    "src/simulation/engine.ts",
+    "src/simulation/endgameRuntime.ts",
+    "src/simulation/cornerLayout.test.ts",
+    "src/simulation/roadExpansion.test.ts",
+    "src/renderer/PixiPlayfield.tsx",
+    "previews/terrain-tiles/expansion.html",
+    "previews/terrain-tiles/expansion.tsx",
+    "previews/terrain-tiles/expansion.css",
+    "previews/terrain-tiles/expansionComparison.ts",
+    "previews/terrain-tiles/expansionComparison.test.ts",
+    "previews/terrain-tiles/README.md",
+    "docs/systems/map-nodes-and-exploration.md",
+    "docs/systems/roads-and-vehicles.md",
+    "docs/systems/saves-and-compatibility.md",
+    "docs/node-ui-style-guide.md",
+    "docs/typography-style-review.md",
+    "outputs/unvisited-map-expansion/centered-workspace-tests.log",
+    "outputs/unvisited-map-expansion/centered-focused-tests.log",
+    "outputs/unvisited-map-expansion/centered-build.log",
+    "outputs/unvisited-map-expansion/centered-test-summary.json",
+    "outputs/unvisited-map-expansion/centered-browser-verification.json",
+    "outputs/unvisited-map-expansion/centered-expansion-1.jpg",
+    "outputs/unvisited-map-expansion/centered-expansion-2.jpg",
+    "outputs/unvisited-map-expansion/centered-results.jpg"
+  ],
+  "validation": "Final full workspace suite passed 2,156 tests with two existing skips using a 15-second timeout. All 100 focused expansion/endgame checks passed. Production TypeScript/Vite build passed with the existing chunk-size warning; terrain preview TypeScript passed. Six generated system catalogs and local links across 39 documents passed. Browser review at 1,195 CSS px verified both research-step selections, four populated comparisons, six passing runtime invariants per level, scrollable access to all results, no horizontal overflow and no warning/error logs; saved full-page evidence for both steps and left the first step open. Desktop author diagrams are engine-snapshot evidence, not an in-game Pixi playtest, narrow-screen certification or normal-play balance run. This remains local, without publication."
+}

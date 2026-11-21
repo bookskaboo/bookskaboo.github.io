@@ -1,0 +1,35 @@
+{
+  "id": "NODE-0748",
+  "date": "2026-11-20",
+  "dateBasis": "chat",
+  "kind": "changed",
+  "state": "implemented",
+  "delivery": "local",
+  "title": "Spread unvisited map contents across expanded fields",
+  "summary": "Area Expansion redistributes existing natural contents on unvisited maps while retaining resources, encounters and linked deposit groups. Visited factories keep their positions and Road pairs still align to the new borders.",
+  "details": [
+    "Apply proportional positions once on actual expansion completion, preserving IDs, stock, caps, regeneration and encounter state. Keep linked camp/deposit and Tribute offsets. Preserve Home, active and visited maps, maps with infrastructure or cables, authored corner challenges and incompatible layouts.",
+    "Generate later resource layouts using the enlarged field dimensions. Loading an expanded save preserves its generated natural positions; no save version, terrain conversion or retroactive reshuffle is introduced.",
+    "Show actual engine snapshots around paid Area Expansion 1 completion for an explored Cart–Kiln–Cart factory and its unexplored Lake neighbor. The comparison keeps a common scale and illustrates unchanged factory coordinates, stretched Road cable and redistributed reserves. Synthetic review only; user campaign saves are untouched."
+  ],
+  "topics": ["Exploration", "Research", "Logistics", "Saves", "Testing", "Documentation"],
+  "sources": ["local-code"],
+  "evidence": [
+    "src/simulation/unvisitedMapExpansion.ts",
+    "src/simulation/unvisitedMapExpansion.test.ts",
+    "src/simulation/researchRuntime.ts",
+    "src/simulation/engine.ts",
+    "src/simulation/worldGeneration.ts",
+    "previews/terrain-tiles/expansionComparison.ts",
+    "previews/terrain-tiles/expansionComparison.test.ts",
+    "docs/systems/map-nodes-and-exploration.md",
+    "docs/systems/roads-and-vehicles.md",
+    "docs/systems/saves-and-compatibility.md",
+    "outputs/unvisited-map-expansion/workspace-tests.log",
+    "outputs/unvisited-map-expansion/build.log",
+    "outputs/unvisited-map-expansion/comparison-tests.log",
+    "outputs/unvisited-map-expansion/comparison.json",
+    "outputs/unvisited-map-expansion/diagram-validation.json"
+  ],
+  "validation": "Full workspace suite passed 2,152 tests with two existing skips using a 15-second timeout; production TypeScript/Vite build passed with the existing chunk-size warning. After adding the review fixture, all 12 focused expansion/comparison tests and the terrain preview TypeScript check passed. System catalog/link checks passed across six catalogs and 39 documents. Diagram data and finite SVG geometry checked at three panel widths; browser rendering was not inspected. No ordinary-play balance run or publication."
+}

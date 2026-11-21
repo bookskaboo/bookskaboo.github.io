@@ -1,0 +1,24 @@
+{
+  "level2": {
+    "failures": 0,
+    "pageHeight": 1480,
+    "passes": 6,
+    "plots": 4,
+    "scrollWidth": 1195,
+    "scrollable": true,
+    "viewportHeight": 923,
+    "width": 1195
+  },
+  "level1": {
+    "failures": 0,
+    "pageHeight": 1480,
+    "passes": 6,
+    "plots": 4,
+    "scrollWidth": 1195,
+    "scrollable": true,
+    "viewportHeight": 923,
+    "width": 1195
+  },
+  "logs": [],
+  "resultsVisible": true
+}

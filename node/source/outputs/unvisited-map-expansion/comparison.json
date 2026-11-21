@@ -1,0 +1,442 @@
+{
+  "seed": 37,
+  "project": "Area Expansion 1",
+  "before": {
+    "built": {
+      "id": "6,5",
+      "visited": true,
+      "field": {
+        "width": 3600,
+        "height": 2400
+      },
+      "nodes": [
+        {
+          "id": "6-5-iron-0",
+          "kind": "iron",
+          "name": "Iron",
+          "x": 2063.167058892901,
+          "y": 1351.9115147742234,
+          "w": 320,
+          "h": 256,
+          "stock": 750,
+          "cap": 750
+        },
+        {
+          "id": "6-5-copper-1",
+          "kind": "copper",
+          "name": "Copper",
+          "x": 719.6930553293674,
+          "y": 1279.1545009392685,
+          "w": 320,
+          "h": 256,
+          "stock": 750,
+          "cap": 750
+        },
+        {
+          "id": "6-5-stoneDeposit-2",
+          "kind": "stoneDeposit",
+          "name": "Stone",
+          "x": 679.8011139500416,
+          "y": 766.6613637325827,
+          "w": 320,
+          "h": 256,
+          "stock": 750,
+          "cap": 750
+        },
+        {
+          "id": "woodenChest-ff9c97e1-788f-45c5-b1bd-bc9285be2a2d",
+          "kind": "woodenChest",
+          "name": "Cart",
+          "x": 600,
+          "y": 350,
+          "w": 128,
+          "h": 128
+        },
+        {
+          "id": "kiln-51b3beca-3f1b-40b4-bfaa-1b36dd16e302",
+          "kind": "kiln",
+          "name": "Kiln",
+          "x": 1100,
+          "y": 350,
+          "w": 256,
+          "h": 192
+        },
+        {
+          "id": "woodenChest-0d26bad2-5b4c-4feb-856c-9350e037fc24",
+          "kind": "woodenChest",
+          "name": "Cart",
+          "x": 1600,
+          "y": 350,
+          "w": 128,
+          "h": 128
+        },
+        {
+          "id": "road-d548cce6-5fba-41c6-9bfb-98d5522ccb1c",
+          "kind": "road",
+          "name": "Road",
+          "x": 3532.5,
+          "y": 350,
+          "w": 128,
+          "h": 128
+        }
+      ],
+      "cables": [
+        {
+          "id": "cable-ea3a7f8b-10c4-4250-b216-2a7947d2b152",
+          "from": "woodenChest-ff9c97e1-788f-45c5-b1bd-bc9285be2a2d",
+          "to": "kiln-51b3beca-3f1b-40b4-bfaa-1b36dd16e302",
+          "start": {
+            "x": 664,
+            "y": 372
+          },
+          "end": {
+            "x": 972,
+            "y": 340
+          },
+          "first": {
+            "x": 803.3460440773257,
+            "y": 372
+          },
+          "second": {
+            "x": 832.6539559226743,
+            "y": 340
+          }
+        },
+        {
+          "id": "cable-68b6d076-133f-406a-a961-63e7e67e13ca",
+          "from": "kiln-51b3beca-3f1b-40b4-bfaa-1b36dd16e302",
+          "to": "woodenChest-0d26bad2-5b4c-4feb-856c-9350e037fc24",
+          "start": {
+            "x": 1228,
+            "y": 340
+          },
+          "end": {
+            "x": 1536,
+            "y": 372
+          },
+          "first": {
+            "x": 1367.3460440773256,
+            "y": 340
+          },
+          "second": {
+            "x": 1396.6539559226744,
+            "y": 372
+          }
+        },
+        {
+          "id": "cable-23721475-c4a5-4dc1-80e0-850665cd1936",
+          "from": "woodenChest-0d26bad2-5b4c-4feb-856c-9350e037fc24",
+          "to": "road-d548cce6-5fba-41c6-9bfb-98d5522ccb1c",
+          "start": {
+            "x": 1664,
+            "y": 372
+          },
+          "end": {
+            "x": 3468.5,
+            "y": 350
+          },
+          "first": {
+            "x": 1844,
+            "y": 372
+          },
+          "second": {
+            "x": 3288.5,
+            "y": 350
+          }
+        }
+      ]
+    },
+    "unexplored": {
+      "id": "7,5",
+      "visited": false,
+      "field": {
+        "width": 3600,
+        "height": 2400
+      },
+      "nodes": [
+        {
+          "id": "7-5-lake-0",
+          "kind": "lake",
+          "name": "Lake",
+          "x": 2060.814191138216,
+          "y": 1487.5241657622405,
+          "w": 1600,
+          "h": 1152
+        },
+        {
+          "id": "7-5-iron-1",
+          "kind": "iron",
+          "name": "Iron",
+          "x": 245.5128592904657,
+          "y": 1246.4812015509233,
+          "w": 320,
+          "h": 256,
+          "stock": 4000,
+          "cap": 4000
+        },
+        {
+          "id": "7-5-copper-2",
+          "kind": "copper",
+          "name": "Copper",
+          "x": 3307.7947767358273,
+          "y": 2190.8762082085013,
+          "w": 320,
+          "h": 256,
+          "stock": 4000,
+          "cap": 4000
+        },
+        {
+          "id": "7-5-stoneDeposit-3",
+          "kind": "stoneDeposit",
+          "name": "Stone",
+          "x": 856.0475713161806,
+          "y": 600.4823161883944,
+          "w": 320,
+          "h": 256,
+          "stock": 4000,
+          "cap": 4000
+        },
+        {
+          "id": "7-5-forest-4",
+          "kind": "forest",
+          "name": "Forest",
+          "x": 2201.9069303079796,
+          "y": 651.3741838519293,
+          "w": 320,
+          "h": 256,
+          "stock": 1000,
+          "cap": 1000
+        },
+        {
+          "id": "road-922d6cc1-d57f-4872-b30f-91094e48b3f9",
+          "kind": "road",
+          "name": "Road",
+          "x": 67.5,
+          "y": 350,
+          "w": 128,
+          "h": 128
+        }
+      ],
+      "cables": []
+    }
+  },
+  "after": {
+    "built": {
+      "id": "6,5",
+      "visited": true,
+      "field": {
+        "width": 4500,
+        "height": 3000
+      },
+      "nodes": [
+        {
+          "id": "6-5-iron-0",
+          "kind": "iron",
+          "name": "Iron",
+          "x": 2063.167058892901,
+          "y": 1351.9115147742234,
+          "w": 320,
+          "h": 256,
+          "stock": 750,
+          "cap": 750
+        },
+        {
+          "id": "6-5-copper-1",
+          "kind": "copper",
+          "name": "Copper",
+          "x": 719.6930553293674,
+          "y": 1279.1545009392685,
+          "w": 320,
+          "h": 256,
+          "stock": 750,
+          "cap": 750
+        },
+        {
+          "id": "6-5-stoneDeposit-2",
+          "kind": "stoneDeposit",
+          "name": "Stone",
+          "x": 679.8011139500416,
+          "y": 766.6613637325827,
+          "w": 320,
+          "h": 256,
+          "stock": 750,
+          "cap": 750
+        },
+        {
+          "id": "woodenChest-ff9c97e1-788f-45c5-b1bd-bc9285be2a2d",
+          "kind": "woodenChest",
+          "name": "Cart",
+          "x": 600,
+          "y": 350,
+          "w": 128,
+          "h": 128
+        },
+        {
+          "id": "kiln-51b3beca-3f1b-40b4-bfaa-1b36dd16e302",
+          "kind": "kiln",
+          "name": "Kiln",
+          "x": 1100,
+          "y": 350,
+          "w": 256,
+          "h": 192
+        },
+        {
+          "id": "woodenChest-0d26bad2-5b4c-4feb-856c-9350e037fc24",
+          "kind": "woodenChest",
+          "name": "Cart",
+          "x": 1600,
+          "y": 350,
+          "w": 128,
+          "h": 128
+        },
+        {
+          "id": "road-d548cce6-5fba-41c6-9bfb-98d5522ccb1c",
+          "kind": "road",
+          "name": "Road",
+          "x": 4432.5,
+          "y": 350,
+          "w": 128,
+          "h": 128
+        }
+      ],
+      "cables": [
+        {
+          "id": "cable-ea3a7f8b-10c4-4250-b216-2a7947d2b152",
+          "from": "woodenChest-ff9c97e1-788f-45c5-b1bd-bc9285be2a2d",
+          "to": "kiln-51b3beca-3f1b-40b4-bfaa-1b36dd16e302",
+          "start": {
+            "x": 664,
+            "y": 372
+          },
+          "end": {
+            "x": 972,
+            "y": 340
+          },
+          "first": {
+            "x": 803.3460440773257,
+            "y": 372
+          },
+          "second": {
+            "x": 832.6539559226743,
+            "y": 340
+          }
+        },
+        {
+          "id": "cable-68b6d076-133f-406a-a961-63e7e67e13ca",
+          "from": "kiln-51b3beca-3f1b-40b4-bfaa-1b36dd16e302",
+          "to": "woodenChest-0d26bad2-5b4c-4feb-856c-9350e037fc24",
+          "start": {
+            "x": 1228,
+            "y": 340
+          },
+          "end": {
+            "x": 1536,
+            "y": 372
+          },
+          "first": {
+            "x": 1367.3460440773256,
+            "y": 340
+          },
+          "second": {
+            "x": 1396.6539559226744,
+            "y": 372
+          }
+        },
+        {
+          "id": "cable-23721475-c4a5-4dc1-80e0-850665cd1936",
+          "from": "woodenChest-0d26bad2-5b4c-4feb-856c-9350e037fc24",
+          "to": "road-d548cce6-5fba-41c6-9bfb-98d5522ccb1c",
+          "start": {
+            "x": 1664,
+            "y": 372
+          },
+          "end": {
+            "x": 4368.5,
+            "y": 350
+          },
+          "first": {
+            "x": 1844,
+            "y": 372
+          },
+          "second": {
+            "x": 4188.5,
+            "y": 350
+          }
+        }
+      ]
+    },
+    "unexplored": {
+      "id": "7,5",
+      "visited": false,
+      "field": {
+        "width": 4500,
+        "height": 3000
+      },
+      "nodes": [
+        {
+          "id": "7-5-lake-0",
+          "kind": "lake",
+          "name": "Lake",
+          "x": 2576.0177389227697,
+          "y": 1859.4052072028007,
+          "w": 1600,
+          "h": 1152
+        },
+        {
+          "id": "7-5-iron-1",
+          "kind": "iron",
+          "name": "Iron",
+          "x": 306.89107411308214,
+          "y": 1558.101501938654,
+          "w": 320,
+          "h": 256,
+          "stock": 4000,
+          "cap": 4000
+        },
+        {
+          "id": "7-5-copper-2",
+          "kind": "copper",
+          "name": "Copper",
+          "x": 4134.743470919784,
+          "y": 2738.5952602606267,
+          "w": 320,
+          "h": 256,
+          "stock": 4000,
+          "cap": 4000
+        },
+        {
+          "id": "7-5-stoneDeposit-3",
+          "kind": "stoneDeposit",
+          "name": "Stone",
+          "x": 1070.0594641452258,
+          "y": 750.602895235493,
+          "w": 320,
+          "h": 256,
+          "stock": 4000,
+          "cap": 4000
+        },
+        {
+          "id": "7-5-forest-4",
+          "kind": "forest",
+          "name": "Forest",
+          "x": 2752.3836628849745,
+          "y": 814.2177298149115,
+          "w": 320,
+          "h": 256,
+          "stock": 1000,
+          "cap": 1000
+        },
+        {
+          "id": "road-922d6cc1-d57f-4872-b30f-91094e48b3f9",
+          "kind": "road",
+          "name": "Road",
+          "x": 67.5,
+          "y": 350,
+          "w": 128,
+          "h": 128
+        }
+      ],
+      "cables": []
+    }
+  }
+}

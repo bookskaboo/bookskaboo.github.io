@@ -1,12 +1,26 @@
 import { afterEach, expect, it } from 'vitest';
 import { createInitialState } from './engine';
 import { sectorForState, getWorldFieldSize } from './worldGeneration';
-import { borderTerrainInsets, clearsBorderTerrain } from './borderTerrainClearance';
+import { borderTerrainInsets, canPlaceGeneratedNode, clearsBorderTerrain } from './borderTerrainClearance';
+import { canPlaceNode } from './collisions';
+import { tutorialNode } from '../tutorials/tutorialRuntime';
 import { setActiveModRules } from '../mods/modRules';
 import { emptyMod } from '../mods/modTypes';
 import { footprintsOverlap } from '../domain/obstructionGeometry';
 
 afterEach(() => setActiveModRules());
+
+it('uses maximum camp footprints without forbidding the linked guarded deposit',()=>{
+  const field={width:3600,height:2400};
+  const camp=tutorialNode('monster-camp','spawn-camp',1800,1200,{campStrength:10,obstructionMaxRadius:600});
+  const ordinary=tutorialNode('iron','ordinary',2400,1200,{resourceItem:'iron',resourceCapacity:100,resourceRemaining:100});
+  expect(canPlaceNode(ordinary,[camp],field)).toBe(true);
+  expect(canPlaceGeneratedNode(ordinary,[camp],field)).toBe(false);
+  expect(canPlaceGeneratedNode(camp,[ordinary],field)).toBe(false);
+  expect(camp.campStrength).toBe(10);
+  const guarded={...ordinary,id:'guarded',guardedCampId:camp.id};
+  expect(canPlaceGeneratedNode(guarded,[camp],field)).toBe(true);
+});
 
 it('keeps generated bodies clear of border artwork, including full camps and future reserves', () => {
   const kinds = new Set<string>();

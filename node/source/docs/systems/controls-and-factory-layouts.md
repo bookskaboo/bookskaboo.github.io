@@ -43,6 +43,8 @@ visibility never pause production or alter delivery timing.
 
 Control Groups persist membership and color. Clicking or dragging a member selects or moves the group. Double-click selects one member independently; holding the second click permits an individual drag. A down-right selection box expands touched groups, while up-left selection selects only the touched nodes. Group copies receive independent group IDs.
 
+Area Expansion automatically moves existing Road pairs to the resized field borders and preserves their pairing and cables. This automatic alignment is separate from manual Road dragging, which still checks clearance and cable paths. See [Road borders after expansion](roads-and-vehicles.md#area-expansion-and-road-borders).
+
 Copy/paste retains eligible selected nodes and their internal cables; world obstacles and disallowed nodes cannot be duplicated freely. Saved factory templates reuse layouts subject to current unlocks, world recipe pairing, placement and connection rules. Copies do not provide free stock or committed production batches.
 
 Paired-sector nodes such as Roads are excluded from factory templates, including imported template entries. Construct Road pairs through ordinary border placement so both endpoints share the crossing permission, clearance and channel checks. Border terrain is fixed world geography and cannot be copied or relocated.

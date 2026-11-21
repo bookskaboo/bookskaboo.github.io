@@ -22,12 +22,17 @@ export function createCornerNodes(x: number, y: number, seed: number, field: { w
   return [challenge, tribute];
 }
 
-/** Upgrade old layouts and follow field expansion only when the entire move fits. */
+/** Unvisited, unbuilt corners can follow the authored field-relative layout. */
 export function syncCornerLayout(sector: SectorState, field: { width: number; height: number }, state: GameState) {
   const [campLayout, tributeLayout] = createCornerNodes(sector.x, sector.y, state.seed, field, state.endgame?.cornerOrder, worldGridSize(state));
   if (!campLayout || !tributeLayout) return;
   const oldCamp = sector.nodes.find(node => node.kind === 'cornerChallenge');
   const oldTribute = sector.nodes.find(node => node.kind === 'cornerTribute');
+  // Once discovered or wired, the challenge is part of a fixed factory layout.
+  // Do not resize it during expansion, travel or a later save/load repair.
+  if(oldCamp?.cornerCampQuadrant && oldCamp.obstructionWidth!==undefined && oldCamp.obstructionHeight!==undefined
+    && oldTribute && (sector.visited || sector.id===state.activeSectorId || sector.connections.length
+    || sector.nodes.some(node=>!['cornerChallenge','cornerTribute','road'].includes(node.kind))))return;
   const { x, y, cornerCampQuadrant, obstructionWidth, obstructionHeight } = campLayout;
   if (oldCamp?.x === x && oldCamp.y === y && oldCamp.cornerCampQuadrant === cornerCampQuadrant
     && oldCamp.obstructionWidth === obstructionWidth && oldCamp.obstructionHeight === obstructionHeight

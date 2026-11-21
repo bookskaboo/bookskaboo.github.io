@@ -48,6 +48,10 @@ For Roads in the main game and workshop, show a red directional arrow with Trave
 
 Keep field zoom consistent when traveling through the Node Map or a Road. Road arrival focuses and highlights the paired endpoint within camera bounds. Ordinary Node Map travel centers a new field and retains a revisited field’s saved center; tutorial practice retains authored views.
 
+Area Expansion reveals equal new space on every side. Keep the built factory, resources and internal cable shapes visually fixed at the current zoom; only Roads and their vehicle connections move relative to that layout. Adopt the engine's translated camera before rendering the larger field. The separate centered-expansion author page uses shared UI sans roles, regular counts, centered before/after layouts at one scale and a research-step selector for both levels. Identify it as synthetic engine evidence and keep test logs/results on that page.
+
+Keep the author page scrollable instead of inheriting the game's locked full-screen viewport. Its Obstruction-aware spawning section reports the static generation audit and regression logs separately from the six snapshot invariants. Explain full-growth camps, future Golem reserves, artwork gaps and final incoming Road reservations in shared regular body text; do not present audit totals as normal-play balance evidence.
+
 Describe Road navigation as “Travel arrow / double-click a Road” in Commands and explain retained zoom and paired-endpoint focus. List “Right-click a Road” separately with the endpoint cable disconnection needed for rewiring. Keep the existing command-row typography. Single-click remains configuration.
 
 Use sentence case for labels, statuses, and actions. Let card titles and control rows wrap before reducing font size. Keep action labels and long text visible when a panel narrows. Preserve keyboard focus, meaningful accessible names, and the visible reason a player is blocked.

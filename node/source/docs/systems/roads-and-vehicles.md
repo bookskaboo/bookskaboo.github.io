@@ -12,6 +12,18 @@ Build production or routing → sending vehicle → exporting Road, then importi
 
 Placement creates both facing endpoints together only if both positions and face slots are legal. The chosen face must lead to an unlocked neighbor. A stationary plain right-click on either Road body reverses direction, swaps endpoint roles and disconnects endpoint cables for rewiring. Right-drag still pans; modifier-clicks retain their existing controls. Selecting the existing direction through the engine is a no-op. The direction panel describes flow relative to the current map.
 
+## Area Expansion and Road borders
+
+Completing either Area Expansion level grows every field equally on all four sides and automatically reanchors every valid existing Road pair to the new borders, including inactive and unvisited maps. Both endpoints keep their IDs, reciprocal map/Road references, shipment direction, port assignments and attached cable records. The pair keeps its shared position along the border relative to the field center. The engine rebases positive coordinates and saved cameras together; on a built map, only the Roads and their vehicle cable curves change relative to the factory. All other node/resource geometry and internal cable shapes stay fixed.
+
+Automatic border alignment does not use new-placement or manual-drag validation. An occupied destination or obstructed stretched cable cannot leave the endpoints behind at an old border. It does not delete or move other nodes, remove cables or grant crossing research. Ordinary cable obstruction rules still determine whether a retained cable can transfer. Manual placement and paired dragging retain their permission, collision and cable-path checks.
+
+The same alignment runs when loading an expanded save or synchronizing field size after a mod change, repairing previously stranded pairs without a new save-version marker. Unavailable or conflicting endpoint references are not fabricated or reassigned. Coverage: [expansion completion, reversal, blocked placement and save repair](../../src/simulation/roadExpansion.test.ts).
+
+Separately, completing Area Expansion redistributes the existing natural contents of eligible unvisited maps across the larger field before Road alignment. The incoming Road can remain on such a map while its unwired natural contents move. Maps with local cables or player-built infrastructure retain their natural layout. See [unvisited field layouts](map-nodes-and-exploration.md#field-layout-and-resources).
+
+Natural redistribution reserves each incoming endpoint at its final border position before accepting a layout. Spawn checks and actual moves use the shared pair-layout function, so they agree on the endpoint's field-center parallel coordinate and reciprocal references. An incompatible natural proposal keeps the map's centered arrangement instead; Roads still follow their unconditional alignment rule. Built maps retain every non-Road position and internal cable shape.
+
 ## Traveling through a Road
 
 Click the red Travel arrow outside the playable field, or double-click the body of either Road endpoint, to visit its connected adjacent Map Node, regardless of shipment direction. Navigation requires an unlocked destination and a reciprocal endpoint pair. It carries the previous map’s zoom and focuses and highlights the paired Road on arrival, on both first visits and revisits. Camera bounds keep that endpoint visible; its old saved center does not override Road arrival. Ordinary Node Map travel keeps its separate saved-center behavior. It does not alter the Road, its cables, or cargo. Single-click still selects and configures the Road. Dragging, socket wiring and modifier-clicks retain their existing controls; tutorial practice keeps its scripted travel.

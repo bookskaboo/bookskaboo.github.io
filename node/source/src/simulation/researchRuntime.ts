@@ -17,7 +17,7 @@ export class ResearchRuntime {
     private readonly event: (type: GameEvent['type'], message: string, projectId: string, elapsedMs: number) => void,
     private readonly journalElapsedMs: () => number,
     private readonly efficiencyMultiplier: (kind: NodeKind) => number,
-    private readonly onAreaExpanded: () => void,
+    private readonly onAreaExpanded: (projectId: 'areaExpansion1'|'areaExpansion2') => void,
     private readonly onMapFunded: (destination: string) => boolean,
   ) {}
 
@@ -126,7 +126,7 @@ export class ResearchRuntime {
       this.state.research.completed.push(projectId);
     }
     if (projectId === 'trucks' || projectId === 'trains' || projectId === 'trainFreightCapacity') applyCartUpgrades(this.state);
-    if (projectId === 'areaExpansion1' || projectId === 'areaExpansion2') this.onAreaExpanded();
+    if (projectId === 'areaExpansion1' || projectId === 'areaExpansion2') this.onAreaExpanded(projectId);
     if (projectId === 'efficientLandfill') for (const sector of Object.values(this.state.sectors)) for (const node of sector.nodes) if(node.kind==='big-hole') reconcileHole(node,this.state);
     const destination = projectId === 'mapNode' ? this.state.research.mapNodeQuote?.destination : undefined;
     const opened = destination !== undefined && this.onMapFunded(destination);

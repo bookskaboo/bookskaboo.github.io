@@ -1,0 +1,68 @@
+
+> factorinode-reconstruction@0.1.0 test
+> vitest run --testTimeout=15000
+
+
+ RUN  v5.0.5 D:/node factory v2
+
+ ❯ src/simulation/cornerLayout.test.ts (8 tests | 2 failed) 106ms
+   ❯ outward corner camps (8)
+     × moves a legacy camp and linked Tribute while preserving their identity, stock, progress and cables 78ms
+     × recenters an unobstructed layout when area research expands the field 5ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/simulation/cornerLayout.test.ts > outward corner camps > moves a legacy camp and linked Tribute while preserving their identity, stock, progress and cables
+AssertionError: expected { rotation: +0, input: {}, …(12) } to match object { x: 900, y: 600, …(2) }
+(10 matching properties omitted from actual)
+
+- Expected
++ Received
+
+  {
+    "cornerProgress": 5,
+    "cornerType": "foundry",
+-   "x": 900,
+-   "y": 600,
++   "x": 1800,
++   "y": 1200,
+  }
+
+ ❯ src/simulation/cornerLayout.test.ts:78:58
+     76|     sector.connections.push(cable);
+     77|     const live = new GameEngine(state, { autosave: false }).getSector(…
+     78|     expect(live.nodes.find(node => node.id === camp.id)).toMatchObject…
+       |                                                          ^
+     79|     expect(live.nodes.find(node => node.id === tribute.id)).toMatchObj…
+     80|     expect(live.connections).toContainEqual(cable);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  src/simulation/cornerLayout.test.ts > outward corner camps > recenters an unobstructed layout when area research expands the field
+AssertionError: expected 1800 to be 1350 // Object.is equality
+
+- Expected
++ Received
+
+- 1350
++ 1800
+
+ ❯ src/simulation/cornerLayout.test.ts:108:20
+    106|     const field = getSectorWorldSize(sector, engine.getState().researc…
+    107|     const [camp, tribute] = sector.nodes;
+    108|     expect(camp.x).toBe(field.width / 4);
+       |                    ^
+    109|     expect(tribute.x).toBe(field.width / 2);
+    110|     expect(tribute.y).toBe(field.height / 2);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed | 210 passed | 2 skipped (213)
+      Tests  2 failed | 2154 passed | 2 skipped (2158)
+   Start at  23:01:13
+   Duration  31.73s (tests 53%, import 37%, transform 9%, worker 1%)
+
+    Isolate  213 workers spawned · ~526ms startup each (spawn + environment, per file)
+             at least ~4.34s faster with isolate: false — reuses workers across files instead of one per file
+

@@ -1,0 +1,24 @@
+{
+  "bytes": 16886,
+  "results": [
+    {
+      "width": 288,
+      "plots": 4,
+      "marks": 96,
+      "finiteGeometry": true
+    },
+    {
+      "width": 352,
+      "plots": 4,
+      "marks": 96,
+      "finiteGeometry": true
+    },
+    {
+      "width": 480,
+      "plots": 4,
+      "marks": 96,
+      "finiteGeometry": true
+    }
+  ],
+  "renderInspected": false
+}

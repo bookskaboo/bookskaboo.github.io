@@ -2,7 +2,7 @@
 
 A searchable record of completed changes, design decisions, and relevant review findings. Stable NODE IDs can be cited in chats and searched in the repository.
 
-**740 records · 2026-10-12–2026-11-20 · America/Los_Angeles**
+**744 records · 2026-10-12–2026-11-20 · America/Los_Angeles**
 
 [Open searchable history](<docs/changelog/index.html>) · [How to review and maintain it](<docs/changelog/README.md>) · [Sources and coverage gaps](<docs/changelog/sources.md>)
 
@@ -12,6 +12,9 @@ Latest confirmed game publication: [377ae6a](https://github.com/bookskaboo/books
 
 | ID | Change | Topics |
 | --- | --- | --- |
+| [NODE-0759](<docs/changelog/2026-11.md#node-0759>) | Account for updated obstruction bodies and final Roads in spawn placement | Exploration, World generation, Encounters, Logistics, Testing, Documentation |
+| [NODE-0753](<docs/changelog/2026-11.md#node-0753>) | Grow fields equally on every side while preserving built layouts | Exploration, Research, Logistics, Controls, Saves, Testing, Documentation |
+| [NODE-0739](<docs/changelog/2026-11.md#node-0739>) | Always reanchor Road pairs when Area Expansion resizes fields | Logistics, World map, Research, Saves, Documentation |
 | [NODE-0716](<docs/changelog/2026-11.md#node-0716>) | Show and select the actual zoom in the active-factory test | Controls, Interface, Tooling, Performance, Documentation |
 | [NODE-0708](<docs/changelog/2026-11.md#node-0708>) | Measure a practical 30 FPS zoom with restored node details | Performance, Controls, Tooling, Documentation |
 | [NODE-0703](<docs/changelog/2026-11.md#node-0703>) | Move workshop Travel controls outside the field and match arrow sizes | Controls, Logistics, Interface, Camera, Documentation |
@@ -123,7 +126,7 @@ Latest confirmed game publication: [377ae6a](https://github.com/bookskaboo/books
 
 ## Dated history
 
-- [2026-11](<docs/changelog/2026-11.md>) — 722 records
+- [2026-11](<docs/changelog/2026-11.md>) — 726 records
 - [2026-10](<docs/changelog/2026-10.md>) — 18 records
 
 “Known by” dates are implementation/publication bounds, not exact change dates. “Backfilled” dates mark records with uncertain original dates. Supersession links explain reversals. Original-game records do not certify current rebuild behavior.
@@ -180,18 +183,18 @@ A record marked “Published by” was known in that snapshot and may have appea
 - [Connections](<docs/changelog/index.html?topic=Connections>) (51)
 - [Construction](<docs/changelog/index.html?topic=Construction>) (15)
 - [Control groups](<docs/changelog/index.html?topic=Control%20groups>) (3)
-- [Controls](<docs/changelog/index.html?topic=Controls>) (63)
+- [Controls](<docs/changelog/index.html?topic=Controls>) (64)
 - [Deployment](<docs/changelog/index.html?topic=Deployment>) (1)
 - [Design](<docs/changelog/index.html?topic=Design>) (7)
 - [Developer tools](<docs/changelog/index.html?topic=Developer%20tools>) (1)
 - [Discovery](<docs/changelog/index.html?topic=Discovery>) (5)
-- [Documentation](<docs/changelog/index.html?topic=Documentation>) (342)
-- [Encounters](<docs/changelog/index.html?topic=Encounters>) (147)
+- [Documentation](<docs/changelog/index.html?topic=Documentation>) (346)
+- [Encounters](<docs/changelog/index.html?topic=Encounters>) (148)
 - [Endgame](<docs/changelog/index.html?topic=Endgame>) (5)
-- [Exploration](<docs/changelog/index.html?topic=Exploration>) (33)
+- [Exploration](<docs/changelog/index.html?topic=Exploration>) (36)
 - [Extraction](<docs/changelog/index.html?topic=Extraction>) (1)
 - [Interface](<docs/changelog/index.html?topic=Interface>) (304)
-- [Logistics](<docs/changelog/index.html?topic=Logistics>) (107)
+- [Logistics](<docs/changelog/index.html?topic=Logistics>) (111)
 - [Map](<docs/changelog/index.html?topic=Map>) (8)
 - [Map exploration](<docs/changelog/index.html?topic=Map%20exploration>) (1)
 - [Mods](<docs/changelog/index.html?topic=Mods>) (11)
@@ -215,18 +218,18 @@ A record marked “Published by” was known in that snapshot and may have appea
 - [Publishing](<docs/changelog/index.html?topic=Publishing>) (18)
 - [Recipes](<docs/changelog/index.html?topic=Recipes>) (115)
 - [Recycling](<docs/changelog/index.html?topic=Recycling>) (2)
-- [Research](<docs/changelog/index.html?topic=Research>) (293)
+- [Research](<docs/changelog/index.html?topic=Research>) (296)
 - [Resources](<docs/changelog/index.html?topic=Resources>) (120)
 - [Responsive](<docs/changelog/index.html?topic=Responsive>) (2)
 - [Roads](<docs/changelog/index.html?topic=Roads>) (22)
 - [Save compatibility](<docs/changelog/index.html?topic=Save%20compatibility>) (3)
-- [Saves](<docs/changelog/index.html?topic=Saves>) (32)
+- [Saves](<docs/changelog/index.html?topic=Saves>) (35)
 - [Search](<docs/changelog/index.html?topic=Search>) (2)
 - [Shortcuts](<docs/changelog/index.html?topic=Shortcuts>) (12)
 - [Simulation](<docs/changelog/index.html?topic=Simulation>) (8)
 - [Storage](<docs/changelog/index.html?topic=Storage>) (7)
 - [Sustainability](<docs/changelog/index.html?topic=Sustainability>) (1)
-- [Testing](<docs/changelog/index.html?topic=Testing>) (22)
+- [Testing](<docs/changelog/index.html?topic=Testing>) (25)
 - [Text](<docs/changelog/index.html?topic=Text>) (6)
 - [Tooling](<docs/changelog/index.html?topic=Tooling>) (31)
 - [Tutorials](<docs/changelog/index.html?topic=Tutorials>) (58)
@@ -236,8 +239,8 @@ A record marked “Published by” was known in that snapshot and may have appea
 - [Waste](<docs/changelog/index.html?topic=Waste>) (21)
 - [Workflow](<docs/changelog/index.html?topic=Workflow>) (1)
 - [World](<docs/changelog/index.html?topic=World>) (126)
-- [World generation](<docs/changelog/index.html?topic=World%20generation>) (20)
-- [World map](<docs/changelog/index.html?topic=World%20map>) (46)
+- [World generation](<docs/changelog/index.html?topic=World%20generation>) (21)
+- [World map](<docs/changelog/index.html?topic=World%20map>) (47)
 - [Writing](<docs/changelog/index.html?topic=Writing>) (1)
 
 ## Search from the repository

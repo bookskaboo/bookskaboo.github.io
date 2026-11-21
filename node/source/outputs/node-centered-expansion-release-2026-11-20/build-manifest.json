@@ -1,0 +1,49 @@
+{
+  "base": "df7ec85b00be8f74465b88aefb1c1c5b65bd30ef",
+  "files": [
+    {
+      "file": "assets/browserAll-CimlI2pj.js",
+      "sha256": "e697bfa55c97c3c13e2c04a6f94c813daa06b5a43ac9643aeb6be552289684c1"
+    },
+    {
+      "file": "assets/CanvasPool-O_8k9jVW.js",
+      "sha256": "9cf12a9f53a878bb8f9f46337b799031a6986b5f87dd775ef57b2902ae0dc9cd"
+    },
+    {
+      "file": "assets/canvasUtils-DHiBpmSz.js",
+      "sha256": "8843c3459529c72ffb9a82655454eff39f3458448dd2ae362764f3be4933288f"
+    },
+    {
+      "file": "assets/getTexelRangeRects-BhRlOlmi.js",
+      "sha256": "ca0b3e94399ce67c9dca1ec3021473e2542251d523bc93bd04a9b149070dd130"
+    },
+    {
+      "file": "assets/getTextureBatchBindGroup-CDnZS9mH.js",
+      "sha256": "2b2eff79ef557432774e0acd98963de65847a16840f0b738b07556ea37e21caa"
+    },
+    {
+      "file": "assets/index-Ck9RMgdj.css",
+      "sha256": "3b91800bf03ff76634d3e1e748b474319c2443a0391a4bc2c883ad52b7682ea1"
+    },
+    {
+      "file": "assets/index-CSryFsRP.js",
+      "sha256": "bc6a22a2a0d16748d3d3ebda2515120a9120fc117e879be86a0ac9302510b49f"
+    },
+    {
+      "file": "assets/init-B1zbANPK.js",
+      "sha256": "6128ce3c695bab0200e823e675ef5679a61516bc33d0e6a816859e4424ba82bb"
+    },
+    {
+      "file": "assets/RenderTargetSystem-D85YXrAp.js",
+      "sha256": "20605afc2541d39cab4bebe036e73f8de687ac78d22cd48b5485993be0c8604f"
+    },
+    {
+      "file": "assets/webworkerAll-CL5-MyYj.js",
+      "sha256": "4887f637a988e206beef38526ecef91b9dec2e2af5810624e91f3bfd87544992"
+    },
+    {
+      "file": "index.html",
+      "sha256": "93913a270c2cdfd757cbdc4886867fb3ec808d729dd34fb33da3e9fffd0bc31c"
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+
+ RUN  v5.0.5 D:/node factory v2
+
+ ❯ src/simulation/unvisitedMapExpansion.test.ts (7 tests | 1 failed) 655ms
+   ❯ unvisited fields spread after expansion (7)
+     × runs on actual research completion, keeps the incoming Road and is stable through reload 32ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/simulation/unvisitedMapExpansion.test.ts > unvisited fields spread after expansion > runs on actual research completion, keeps the incoming Road and is stable through reload
+AssertionError: expected [ { id: '6-5-iron-0', …(15) }, …(3) ] to deeply equal [ { id: '6-5-iron-0', …(15) }, …(3) ]
+
+- Expected
++ Received
+
+@@ -63,10 +63,11 @@
+      "kind": "road",
+      "name": "Road",
+      "output": {},
+      "pairedRoadId": "road-1aedcf5d-883c-4ac5-b5a2-90dde6eb5a6b",
+      "pairedSectorId": "5,5",
++     "processingPaused": false,
+      "progressMs": 0,
+      "recipeId": undefined,
+      "roadFacing": "east",
+      "roadMode": "import",
+      "rotation": 0,
+
+ ❯ src/simulation/unvisitedMapExpansion.test.ts:77:58
+     75|     expect(road.x).toBe(4432.5);expect(unseen.nodes.find(n=>n.id===roa…
+     76|     const restored=new GameEngine(normalizeLegacy(structuredClone(game…
+     77|     expect(restored.getState().sectors[unseen.id].nodes).toEqual(unsee…
+       |                                                          ^
+     78|   });
+     79|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 1 passed (2)
+      Tests  1 failed | 10 passed (11)
+   Start at  22:37:55
+   Duration  1.35s (tests 48%, transform 29%, import 22%, worker 1%)
+

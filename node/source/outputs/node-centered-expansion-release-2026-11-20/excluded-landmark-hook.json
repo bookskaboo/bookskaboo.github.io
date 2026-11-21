@@ -1,0 +1,4 @@
+{
+  "hook": "  const saved = !state.isTraining && worldGridSize(state) === 11 && state.landmarkVersion === 1\n    ? state.landmarkLayout?.find(entry => entry.sector.id === sectorId(x,y)) : undefined;\n  if (!state.sectors[sectorId(x,y)] && saved) {\n    const sector = structuredClone(saved.sector);\n    expandMapsAroundCenter({...state,sectors:{[sector.id]:sector}}, BASE_WORLD_SIZE, getWorldFieldSize(state));\n    return sector;\n  }\n",
+  "import": "import { expandMapsAroundCenter } from './unvisitedMapExpansion';\n"
+}

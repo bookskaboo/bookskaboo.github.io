@@ -1004,7 +1004,17 @@ export function PixiPlayfield(props: Props) {
       const worldSizeChanged = worldSize.width !== nextWorldSize.width || worldSize.height !== nextWorldSize.height;
       worldSize = nextWorldSize;
       if (renderedSectorId !== sector.id || renderedState !== propsRef.current.engine.getState()) { roadBodyPress=undefined; roadTravelClicks.clear(); drag = undefined; propsRef.current.onDragPreview?.(undefined); groupSelection.clear(); controlHover.clear(); renderedState = propsRef.current.engine.getState(); renderedSectorId = sector.id; camera = { ...sector.camera }; clearConnectionRejection(); trackedTransfers.clear(); seenTransferIds.clear(); lastInputTotals.clear(); flashStartedAt.clear(); updateCamera(); }
-      if (worldSizeChanged || !surfaceLayer.children.length) { drawWorldSurface(); updateCamera(); }
+      if (worldSizeChanged || !surfaceLayer.children.length) {
+        // Expansion rebases all saved cameras with the factory's rigid layout.
+        // Adopt that view before publishing this renderer's local camera again.
+        if (worldSizeChanged) {
+          camera = { ...sector.camera };
+          drag = undefined; panning = undefined; dragPointer = undefined;
+          propsRef.current.onDragPreview?.(undefined); cancelConnectionDrag();
+          if (marquee) { drawMarqueeHighlights(new Set()); marquee.graphic.destroy(); marquee = undefined; }
+        }
+        drawWorldSurface(); updateCamera();
+      }
       else if (preferences.showGrid !== drawnGridEnabled || drawnTerrain !== sector.id + JSON.stringify(sector.filledHoles ?? []) + JSON.stringify(propsRef.current.engine.getState().borderObstructions) + revealedMapTerrain(propsRef.current.engine.getState(), sector.id)) drawWorldSurface();
       if (reset) {
         nodeIdentities.clear(); cableIdentities.clear(); cableInputs.clear(); pathCache.clear();

@@ -46,7 +46,7 @@ test('old spelling and source identifiers remain searchable', () => {
 });
 
 test('generated viewer embeds the current records and valid offline JavaScript', async () => {
-  const html = await readFile(new URL('../docs/changelog/index.html', import.meta.url), 'utf8');
+  const html = (await readFile(new URL('../docs/changelog/index.html', import.meta.url), 'utf8')).replace(/\r\n/g, '\n');
   assert.ok(!html.includes('/* HISTORY_DATA */'));
   assert.ok(!html.includes('/* SEARCH_FUNCTION */'));
   assert.ok(!/<script[^>]+src=|<link[^>]+href="https?:/i.test(html));
