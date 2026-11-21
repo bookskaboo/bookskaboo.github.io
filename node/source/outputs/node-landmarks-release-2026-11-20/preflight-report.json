@@ -1,0 +1,63 @@
+{
+  "commit": "c4284d4f2a93f83255c520ef0544694b0cd24ee9",
+  "base": "76d897099f97c799ff839f5ebd1cce2dca3cf34c",
+  "destination": "https://github.com/bookskaboo/bookskaboo.github.io.git refs/heads/main",
+  "onlyNodeChanged": true,
+  "canFastForward": true,
+  "cleanWorktree": true,
+  "changedFiles": 86,
+  "sourceOverlay": [
+    "src/content/endgame.ts",
+    "src/content/landmarks.ts",
+    "src/content/nodeCapabilities.ts",
+    "src/content/nodeModules.ts",
+    "src/content/nodes.ts",
+    "src/domain/types.ts",
+    "src/persistence/legacyMigration.ts",
+    "src/renderer/PixiPlayfield.tsx",
+    "src/renderer/nodeBuffers.ts",
+    "src/renderer/playfieldNodeState.ts",
+    "src/renderer/productionPortRows.ts",
+    "src/renderer/productionVisuals.ts",
+    "src/renderer/sceneUpdates.ts",
+    "src/simulation/connectionRules.ts",
+    "src/simulation/createInitialState.ts",
+    "src/simulation/engine.ts",
+    "src/simulation/factoryTemplateRuntime.ts",
+    "src/simulation/landmarkGeneration.ts",
+    "src/simulation/landmarkRuntime.ts",
+    "src/simulation/landmarkValidation.ts",
+    "src/simulation/landmarks.test.ts",
+    "src/simulation/mapTerrain.test.ts",
+    "src/simulation/mixedOutput.ts",
+    "src/simulation/modLandmarkPlacement.ts",
+    "src/simulation/progression.ts",
+    "src/simulation/resourceGolems.test.ts",
+    "src/simulation/settlementPopulation.test.ts",
+    "src/simulation/unvisitedMapExpansion.test.ts",
+    "src/simulation/worldGeneration.ts",
+    "src/styles/node-map.css",
+    "src/ui/App.tsx",
+    "src/ui/Landmarks.test.tsx",
+    "src/ui/NodeInspector.tsx",
+    "src/ui/NodeMinimap.tsx",
+    "src/ui/NodeRecipePicker.tsx",
+    "src/ui/mapNodePresentation.test.ts",
+    "src/ui/mapNodePresentation.ts",
+    "src/ui/researchMilestones.ts"
+  ],
+  "matchedRuntimeFiles": 11,
+  "workspaceAndCandidateMatch": true,
+  "priorAssetsRetained": 173,
+  "tests": {
+    "workspace-tests": {
+      "passed": 2189,
+      "skipped": 2
+    },
+    "candidate-tests": {
+      "passed": 1393,
+      "skipped": 1
+    }
+  },
+  "checkedAt": "2026-11-21T08:11:12.960Z"
+}

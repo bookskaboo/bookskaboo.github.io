@@ -1,7 +1,7 @@
 {
   "date": "2026-11-20",
-  "status": "implemented-local",
-  "scope": "New standard 11x11 campaigns; existing saves unchanged; no live publication performed.",
+  "status": "published",
+  "scope": "New standard 11x11 campaigns; existing saves unchanged. Live publication verified November 21, 2026.",
   "landmarks": {
     "total": 17,
     "rapid": 6,
@@ -105,5 +105,67 @@
     "dist/assets/init-me5CJ89M.js": "39a6c9da95ae3b22a71292adb2f148ff03f1f26db6e566569c9ca6f802dc506d",
     "dist/assets/RenderTargetSystem-D85YXrAp.js": "20605afc2541d39cab4bebe036e73f8de687ac78d22cd48b5485993be0c8604f",
     "dist/assets/webworkerAll-CRvkS50N.js": "47dde5d694d0f15b7860e358412c6571735fb16955bed9638c62a0b38146a600"
+  },
+  "publication": {
+    "commit": "c4284d4f2a93f83255c520ef0544694b0cd24ee9",
+    "deploymentCommit": "c4284d4f2a93f83255c520ef0544694b0cd24ee9",
+    "base": "76d897099f97c799ff839f5ebd1cce2dca3cf34c",
+    "url": "https://bookskaboo.github.io/node/",
+    "verifiedAt": "2026-11-21T08:13:45.419Z",
+    "pagesRun": {
+      "id": 44883754508,
+      "url": "https://github.com/bookskaboo/bookskaboo.github.io/actions/runs/44883754508",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    "matchedRuntimeFiles": 11,
+    "priorAssetsRetained": 173,
+    "previousAssetUrlsVerified": 10,
+    "files": [
+      {
+        "file": "assets/browserAll-CKByXHgu.js",
+        "sha256": "d80fd7467b0e0ee6f8c40db9849d85ea879e0180fcb741d2512a76e829168a69"
+      },
+      {
+        "file": "assets/CanvasPool-O_8k9jVW.js",
+        "sha256": "9cf12a9f53a878bb8f9f46337b799031a6986b5f87dd775ef57b2902ae0dc9cd"
+      },
+      {
+        "file": "assets/canvasUtils-DHiBpmSz.js",
+        "sha256": "8843c3459529c72ffb9a82655454eff39f3458448dd2ae362764f3be4933288f"
+      },
+      {
+        "file": "assets/getTexelRangeRects-BhRlOlmi.js",
+        "sha256": "ca0b3e94399ce67c9dca1ec3021473e2542251d523bc93bd04a9b149070dd130"
+      },
+      {
+        "file": "assets/getTextureBatchBindGroup-CDnZS9mH.js",
+        "sha256": "2b2eff79ef557432774e0acd98963de65847a16840f0b738b07556ea37e21caa"
+      },
+      {
+        "file": "assets/index-CAz0gFy_.css",
+        "sha256": "06c8543818a7387c86be5022667b250d8cbcae3e97355b6431e46ef839608fde"
+      },
+      {
+        "file": "assets/index-CD2K3jIg.js",
+        "sha256": "fb89993b7e78eb53483c7279de6c2bc9d246703fca2ee1426a330e83de5bed00"
+      },
+      {
+        "file": "assets/init-Bp3Xurjh.js",
+        "sha256": "0a4c60f9f50dde91c0e977a183ed67feec63d84601cca4331bb555386c27d4b0"
+      },
+      {
+        "file": "assets/RenderTargetSystem-D85YXrAp.js",
+        "sha256": "20605afc2541d39cab4bebe036e73f8de687ac78d22cd48b5485993be0c8604f"
+      },
+      {
+        "file": "assets/webworkerAll-DqRMvG0Z.js",
+        "sha256": "3399e952d450974128f33f69daf7259aa87b3248f77c38c025e37e33415eb10c"
+      },
+      {
+        "file": "index.html",
+        "sha256": "79aec1cd2a2b47a2e1e936d5a5ebbfdba6860ca4efc9f014c06e477d630ce7c1"
+      }
+    ]
   }
 }

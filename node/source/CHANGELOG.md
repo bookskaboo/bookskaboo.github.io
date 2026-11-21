@@ -2,17 +2,16 @@
 
 A searchable record of completed changes, design decisions, and relevant review findings. Stable NODE IDs can be cited in chats and searched in the repository.
 
-**762 records · 2026-10-12–2026-11-20 · America/Los_Angeles**
+**763 records · 2026-10-12–2026-11-21 · America/Los_Angeles**
 
 [Open searchable history](<docs/changelog/index.html>) · [How to review and maintain it](<docs/changelog/README.md>) · [Sources and coverage gaps](<docs/changelog/sources.md>)
 
 ## Local changes awaiting publication
 
-Latest confirmed game publication: [ed6bef1](https://github.com/bookskaboo/bookskaboo.github.io/commit/ed6bef16986ba9050513de06196ca69262458c66).
+Latest confirmed game publication: [c4284d4](https://github.com/bookskaboo/bookskaboo.github.io/commit/c4284d4f2a93f83255c520ef0544694b0cd24ee9).
 
 | ID | Change | Topics |
 | --- | --- | --- |
-| [NODE-0762](<docs/changelog/2026-11.md#node-0762>) | Implement seventeen seeded Landmarks with headless production and generation verification | Landmarks, Production, Exploration, Recipes, Interface, Saves, Testing |
 | [NODE-0716](<docs/changelog/2026-11.md#node-0716>) | Show and select the actual zoom in the active-factory test | Controls, Interface, Tooling, Performance, Documentation |
 | [NODE-0708](<docs/changelog/2026-11.md#node-0708>) | Measure a practical 30 FPS zoom with restored node details | Performance, Controls, Tooling, Documentation |
 | [NODE-0703](<docs/changelog/2026-11.md#node-0703>) | Move workshop Travel controls outside the field and match arrow sizes | Controls, Logistics, Interface, Camera, Documentation |
@@ -124,13 +123,14 @@ Latest confirmed game publication: [ed6bef1](https://github.com/bookskaboo/books
 
 ## Dated history
 
-- [2026-11](<docs/changelog/2026-11.md>) — 744 records
+- [2026-11](<docs/changelog/2026-11.md>) — 745 records
 - [2026-10](<docs/changelog/2026-10.md>) — 18 records
 
 “Known by” dates are implementation/publication bounds, not exact change dates. “Backfilled” dates mark records with uncertain original dates. Supersession links explain reversals. Original-game records do not certify current rebuild behavior.
 
 ## Published releases
 
+- 2026-11-21 — [c4284d4: Seeded Production Landmarks and Unknown Device](https://github.com/bookskaboo/bookskaboo.github.io/commit/c4284d4f2a93f83255c520ef0544694b0cd24ee9) — Seventeen permanent discoveries in new standard 11x11 campaigns. Pink Unknown Device; sixteen purple landmarks. Workspace 2189 passing tests/two existing skips; frozen release 1393 passing tests/one skip. Matching /node/ site and source builds. Pages succeeded and normal live HTML plus all ten new assets matched SHA-256; ten preceding asset URLs still match. Existing saves remain unchanged.
 - 2026-11-20 — [ed6bef1: Centered Area Expansion and obstruction-aware spawning](https://github.com/bookskaboo/bookskaboo.github.io/commit/ed6bef16986ba9050513de06196ca69262458c66) — Only node/ changed. All 1,362 isolated candidate tests passed, with one existing skip. Pages succeeded; normal live HTML and all ten new assets matched SHA-256, plus ten preceding asset URLs. Retain all 169 older runtime assets. Preserve built layouts and camera view; move paired Roads to equally expanded borders. Keep unrelated unfinished landmark code out of the release.
 - 2026-11-20 — [377ae6a: 15% field readouts and maximum zoom-out](https://github.com/bookskaboo/bookskaboo.github.io/commit/377ae6aee0d927f49b7f2db93c3a860d0ed4d6ec) — Only node/ changed. Pages and SHA-256 verification passed for normal HTML, all ten new assets and ten prior assets. Retain all 164 existing runtime assets and the published robot animations. Cached drawing remains below 40%; closer zoom remains available through 220%.
 - 2026-11-20 — [6c45916: Core-funded robot assembly and processing flashes](https://github.com/bookskaboo/bookskaboo.github.io/commit/6c459161d2a7bef7d36224afae9ef658d2b8c9b3) — Only node/ changed. Five runtime files add robot assembly and pending Core-processing flashes; retain latest live renderer/Road behavior and all 154 previous assets. Pages succeeded; normal live HTML and all ten new assets matched SHA-256, plus ten preceding assets. No save fields or research timing changes.
@@ -187,14 +187,14 @@ A record marked “Published by” was known in that snapshot and may have appea
 - [Design](<docs/changelog/index.html?topic=Design>) (7)
 - [Developer tools](<docs/changelog/index.html?topic=Developer%20tools>) (1)
 - [Discovery](<docs/changelog/index.html?topic=Discovery>) (5)
-- [Documentation](<docs/changelog/index.html?topic=Documentation>) (355)
+- [Documentation](<docs/changelog/index.html?topic=Documentation>) (356)
 - [Efficiency](<docs/changelog/index.html?topic=Efficiency>) (1)
 - [Encounters](<docs/changelog/index.html?topic=Encounters>) (148)
 - [Endgame](<docs/changelog/index.html?topic=Endgame>) (5)
-- [Exploration](<docs/changelog/index.html?topic=Exploration>) (44)
+- [Exploration](<docs/changelog/index.html?topic=Exploration>) (45)
 - [Extraction](<docs/changelog/index.html?topic=Extraction>) (1)
-- [Interface](<docs/changelog/index.html?topic=Interface>) (309)
-- [Landmarks](<docs/changelog/index.html?topic=Landmarks>) (9)
+- [Interface](<docs/changelog/index.html?topic=Interface>) (310)
+- [Landmarks](<docs/changelog/index.html?topic=Landmarks>) (10)
 - [Logistics](<docs/changelog/index.html?topic=Logistics>) (113)
 - [Map](<docs/changelog/index.html?topic=Map>) (8)
 - [Map exploration](<docs/changelog/index.html?topic=Map%20exploration>) (1)
@@ -212,11 +212,11 @@ A record marked “Published by” was known in that snapshot and may have appea
 - [Planning](<docs/changelog/index.html?topic=Planning>) (239)
 - [Playtesting](<docs/changelog/index.html?topic=Playtesting>) (49)
 - [Power](<docs/changelog/index.html?topic=Power>) (2)
-- [Production](<docs/changelog/index.html?topic=Production>) (138)
+- [Production](<docs/changelog/index.html?topic=Production>) (139)
 - [Progression](<docs/changelog/index.html?topic=Progression>) (216)
 - [Prototypes](<docs/changelog/index.html?topic=Prototypes>) (20)
 - [Publication](<docs/changelog/index.html?topic=Publication>) (2)
-- [Publishing](<docs/changelog/index.html?topic=Publishing>) (19)
+- [Publishing](<docs/changelog/index.html?topic=Publishing>) (20)
 - [Recipes](<docs/changelog/index.html?topic=Recipes>) (122)
 - [Recycling](<docs/changelog/index.html?topic=Recycling>) (3)
 - [Research](<docs/changelog/index.html?topic=Research>) (297)
@@ -224,13 +224,13 @@ A record marked “Published by” was known in that snapshot and may have appea
 - [Responsive](<docs/changelog/index.html?topic=Responsive>) (2)
 - [Roads](<docs/changelog/index.html?topic=Roads>) (22)
 - [Save compatibility](<docs/changelog/index.html?topic=Save%20compatibility>) (3)
-- [Saves](<docs/changelog/index.html?topic=Saves>) (39)
+- [Saves](<docs/changelog/index.html?topic=Saves>) (40)
 - [Search](<docs/changelog/index.html?topic=Search>) (2)
 - [Shortcuts](<docs/changelog/index.html?topic=Shortcuts>) (12)
 - [Simulation](<docs/changelog/index.html?topic=Simulation>) (8)
 - [Storage](<docs/changelog/index.html?topic=Storage>) (10)
 - [Sustainability](<docs/changelog/index.html?topic=Sustainability>) (1)
-- [Testing](<docs/changelog/index.html?topic=Testing>) (26)
+- [Testing](<docs/changelog/index.html?topic=Testing>) (27)
 - [Text](<docs/changelog/index.html?topic=Text>) (6)
 - [Tooling](<docs/changelog/index.html?topic=Tooling>) (32)
 - [Tutorials](<docs/changelog/index.html?topic=Tutorials>) (58)

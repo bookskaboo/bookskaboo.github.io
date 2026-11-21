@@ -16,6 +16,14 @@
   },
   "releases": [
     {
+      "id": "c4284d4",
+      "date": "2026-11-21",
+      "title": "Seeded Production Landmarks and Unknown Device",
+      "commit": "c4284d4f2a93f83255c520ef0544694b0cd24ee9",
+      "url": "https://github.com/bookskaboo/bookskaboo.github.io/commit/c4284d4f2a93f83255c520ef0544694b0cd24ee9",
+      "notes": "Seventeen permanent discoveries in new standard 11x11 campaigns. Pink Unknown Device; sixteen purple landmarks. Workspace 2189 passing tests/two existing skips; frozen release 1393 passing tests/one skip. Matching /node/ site and source builds. Pages succeeded and normal live HTML plus all ten new assets matched SHA-256; ten preceding asset URLs still match. Existing saves remain unchanged."
+    },
+    {
       "id": "ed6bef1",
       "date": "2026-11-20",
       "title": "Centered Area Expansion and obstruction-aware spawning",
@@ -25173,7 +25181,7 @@
       "dateBasis": "chat",
       "kind": "added",
       "state": "implemented",
-      "delivery": "local",
+      "delivery": "published",
       "title": "Implement seventeen seeded Landmarks with headless production and generation verification",
       "summary": "New standard 11x11 campaigns now contain six Rapid machines, six Tri Extractors, three fixed-family Doublers, Reclaimer and a pink, unexplained tier-8 Unknown Device. Other landmarks are purple.",
       "details": [
@@ -25214,7 +25222,53 @@
         "outputs/landmark-implementation/generation-audit.json",
         "outputs/landmark-implementation/recipe-audit.json"
       ],
-      "validation": "Final full workspace regression: 2189 passed, zero failed, 2 existing skips, including 31 landmark-specific checks. The 1000-seed audit passed exact counts, tier/family allocation, early access and footprint checks; each quadrant held four or five landmarks, with two permitted adjacent pairs across all worlds. All 29 eligible Doubler recipes passed, including both oversized batches. npm run build, npm run docs:systems and npm run docs:systems:check passed. All five edited Page blocks and full repository mirror matched on readback. No browser/Pixi font-fit or color-contrast review and no normal campaign balance run; local build only."
+      "validation": "Implementation-stage checks before publication: Final full workspace regression: 2189 passed, zero failed, 2 existing skips, including 31 landmark-specific checks. The 1000-seed audit passed exact counts, tier/family allocation, early access and footprint checks; each quadrant held four or five landmarks, with two permitted adjacent pairs across all worlds. All 29 eligible Doubler recipes passed, including both oversized batches. npm run build, npm run docs:systems and npm run docs:systems:check passed. All five edited Page blocks and full repository mirror matched on readback. No browser/Pixi font-fit or color-contrast review and no normal campaign balance run; local build only. Publication verified by c4284d4; see NODE-0763.",
+      "publishedBy": "c4284d4"
+    },
+    {
+      "id": "NODE-0763",
+      "date": "2026-11-21",
+      "dateBasis": "chat",
+      "kind": "changed",
+      "state": "implemented",
+      "delivery": "published",
+      "publishedBy": "c4284d4",
+      "title": "Publish verified seeded Landmarks to the live game",
+      "summary": "Publish all seventeen agreed Production landmarks with seeded distribution, permanent placement, recipe/yield bonuses, post-victory relocation and the unexplained pink Unknown Device.",
+      "details": [
+        "Fast-forward main from 76d897099f97c799ff839f5ebd1cce2dca3cf34c to c4284d4f2a93f83255c520ef0544694b0cd24ee9, changing only node/. Freeze the reviewed 38 source/test changes and matching source documentation, history and evidence. Retain all 173 older live assets.",
+        "Publish six Rapid machines, six Tri Extractors, three fixed-family Doublers, Reclaimer and Unknown Device. Preserve 2/5/5/5 distance bands, randomized clear early discovery and tier-8-only Unknown Device placement. Existing saves and training do not opt in; larger maps retain their existing behavior.",
+        "Confirm all 29 eligible Doubler recipes, both oversized batches, fixed speed bonuses, single chance resolution, real reserve consumption, per-outlet stock/refunds, all seven Core tiers, five/five Core buffers, FIFO/reservations, save/load, relocation and non-copy/deletion rules. Use Dev Sources only for controlled headless fixtures as authorized.",
+        "Correct remaining planned-only wording in research, mod, recycling and relocation references, and mark the editable proposal Page and repository design reference published. Keep exact browser/Pixi rendering and normal-play campaign balance as separate unperformed checks.",
+        "Verify Pages run 44883754508, the normal live HTML and every new build asset by SHA-256, plus ten prior asset URLs, before recording publication."
+      ],
+      "topics": [
+        "Landmarks",
+        "Production",
+        "Exploration",
+        "Interface",
+        "Saves",
+        "Publishing",
+        "Testing",
+        "Documentation"
+      ],
+      "sources": [
+        "local-code"
+      ],
+      "evidence": [
+        "outputs/node-landmarks-release-2026-11-20/publication-receipt.json",
+        "outputs/node-landmarks-release-2026-11-20/preflight-report.json",
+        "outputs/node-landmarks-release-2026-11-20/source-manifest.json",
+        "outputs/node-landmarks-release-2026-11-20/build-manifest.json",
+        "outputs/node-landmarks-release-2026-11-20/workspace-tests.json",
+        "outputs/node-landmarks-release-2026-11-20/candidate-tests.json",
+        "outputs/landmark-implementation/verification.json",
+        "src/simulation/landmarks.test.ts",
+        "src/ui/Landmarks.test.tsx",
+        "docs/systems/landmarks.md",
+        "docs/master-plan/23-map-power-ups.md"
+      ],
+      "validation": "All 2189 workspace tests passed with two existing skips; all 1393 isolated release tests passed with one existing skip. Both build:site outputs matched byte-for-byte, including the HTML and ten assets. The 1000-seed audit and all 29 eligible Doubler recipes passed. TypeScript, six system catalogs, local links across 40 documentation files and all six changelog checks passed. Preflight confirmed only node/ changes, 38 reviewed source/test files, clean checkout, fast-forward ancestry, exact committed runtime/source-dist hashes and all 173 prior assets unchanged. GitHub Pages run 44883754508 succeeded; normal live HTML and all ten new assets matched SHA-256, as did all ten preceding asset URLs. No normal-play balance run or rendered browser color/font-fit review."
     }
   ]
 }
