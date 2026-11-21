@@ -16,6 +16,14 @@
   },
   "releases": [
     {
+      "id": "82d968e",
+      "date": "2026-11-20",
+      "title": "35% node readouts with active overview caches",
+      "commit": "82d968e3d3b9f7ae9dbcdac6be65cc534de37f8a",
+      "url": "https://github.com/bookskaboo/bookskaboo.github.io/commit/82d968e3d3b9f7ae9dbcdac6be65cc534de37f8a",
+      "notes": "Only node/ changed. Pages succeeded; live HTML and all ten new build assets matched SHA-256. All 147 prior assets retained; prior-build URLs verified. Newer Upgrades and gameplay preserved."
+    },
+    {
       "id": "52f2b05",
       "date": "2026-11-20",
       "title": "Upgrades character progression and queued research",
@@ -23610,7 +23618,7 @@
       "dateBasis": "chat",
       "kind": "changed",
       "state": "implemented",
-      "delivery": "local",
+      "delivery": "published",
       "title": "Show node text and buffer boxes from 35% zoom while retaining cached artwork",
       "summary": "Reveal normal-game readouts at 35 percent without leaving efficient overview rendering before 40 percent.",
       "details": [
@@ -23640,7 +23648,48 @@
         "outputs/node-readouts-35/browser-verification.json",
         "outputs/node-readouts-35/default35.jpg"
       ],
-      "validation": "All 2,130 workspace tests passed with two existing skips using two workers. The isolated source passed 1,334 tests with one opt-in skip. Eleven targeted renderer checks, preview TypeScript, the standalone preview and site builds passed. All eleven runtime files match the tested workspace build byte-for-byte. Boundary coverage includes 34.99/35/37/39.99/40 percent and important/forced readouts. Browser verified default 35 percent readouts with the preview override false, cachedCables true and 13 shared overview textures; all 2,400 nodes and 3,330 connections keep simulating, with production and physical cargo active. This is functional synthetic evidence, not a universal FPS or balance claim. System/catalog and changelog checks passed after preserving referenced archival logs and normalizing the candidate viewer template line endings. Publication is recorded only after live verification."
+      "validation": "All 2,130 workspace tests passed with two existing skips using two workers. The isolated source passed 1,334 tests with one opt-in skip. Eleven targeted renderer checks, preview TypeScript, the standalone preview and site builds passed. All eleven runtime files match the tested workspace build byte-for-byte. Boundary coverage includes 34.99/35/37/39.99/40 percent and important/forced readouts. Browser verified default 35 percent readouts with the preview override false, cachedCables true and 13 shared overview textures; all 2,400 nodes and 3,330 connections keep simulating, with production and physical cargo active. This is functional synthetic evidence, not a universal FPS or balance claim. System/catalog and changelog checks passed after preserving referenced archival logs and normalizing the candidate viewer template line endings. Publication is recorded only after live verification.",
+      "publishedBy": "82d968e"
+    },
+    {
+      "id": "NODE-0727",
+      "date": "2026-11-20",
+      "dateBasis": "chat",
+      "kind": "changed",
+      "state": "implemented",
+      "delivery": "published",
+      "publishedBy": "82d968e",
+      "title": "Publish 35% node readouts with cached overview rendering",
+      "summary": "Publish normal-game text and live buffer boxes from 35 percent zoom while retaining cached node artwork and cables below 40 percent.",
+      "details": [
+        "Fast-forward main from 6378ee7a03af8c4c164f86d6d8fcf9748d3fd7c8 to 82d968e3d3b9f7ae9dbcdac6be65cc534de37f8a, changing only node/. Preserve all 147 earlier runtime assets and all newer published Upgrades/gameplay changes.",
+        "Change exactly three renderer source/test files. Separate the 35 percent readout cutoff from the existing 40 percent full-artwork/cable transition and refresh live socket overlays using owner readout visibility. Preserve simulation, cargo timing, typography, interactions and saves.",
+        "Restore 57 existing historical log files referenced by inherited changelog records, so the published source history checks work from a fresh checkout. Keep archived Word documents unchanged; no new Word rendering was performed."
+      ],
+      "topics": [
+        "Performance",
+        "Controls",
+        "Production",
+        "Publishing"
+      ],
+      "sources": [
+        "local-code"
+      ],
+      "evidence": [
+        "outputs/node-readouts-35-release-2026-11-20/publication-receipt.json",
+        "outputs/node-readouts-35-release-2026-11-20/preflight-report.json",
+        "outputs/node-readouts-35-release-2026-11-20/build-manifest.json",
+        "outputs/node-readouts-35-release-2026-11-20/source-manifest.json",
+        "outputs/node-readouts-35-release-2026-11-20/workspace-tests.log",
+        "outputs/node-readouts-35-release-2026-11-20/candidate-tests.log",
+        "outputs/node-readouts-35-release-2026-11-20/candidate-build.log",
+        "outputs/node-readouts-35-release-2026-11-20/restored-evidence.json",
+        "outputs/node-readouts-35-release-2026-11-20/candidate-browser.json",
+        "outputs/node-readouts-35-release-2026-11-20/candidate35.jpg",
+        "src/renderer/sceneUpdates.ts",
+        "src/renderer/PixiPlayfield.tsx"
+      ],
+      "validation": "All 2,130 workspace tests passed with two skips and 1,334 isolated candidate tests passed with one opt-in skip. Site/preview builds, TypeScript, threshold checks, catalog/local-link and changelog checks passed. All eleven committed runtime files match the tested workspace build. Preflight confirms only node/ changes, exactly three renderer source/test changes, fast-forward ancestry, a clean checkout and 147 old assets unchanged. Default-mode candidate browser verification at zoom 0.35 showed readouts with the override false, 13 shared overview textures, 77 cached cable neighborhoods and active production/cargo/delivery, with no new warnings/errors. GitHub Pages run 44873737001 succeeded. The normal live HTML and every one of the ten new assets matched SHA-256; all ten assets from the preceding live build also matched. No player game tab was reloaded or campaign save changed."
     }
   ]
 }

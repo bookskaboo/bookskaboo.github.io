@@ -1,0 +1,22 @@
+{
+  "camera": {
+    "zoom": 0.35,
+    "x": -1265.3999999999999,
+    "y": -643.1533592224121
+  },
+  "forcedDetails": "false",
+  "renderer": {
+    "nodesCreated": 2400,
+    "nodesDestroyed": 0,
+    "particleObjectsCreated": 64,
+    "visibleNodes": 420,
+    "totalNodes": 2400,
+    "activeParticles": 64,
+    "pooledParticles": 0,
+    "overviewTextures": 13,
+    "cableChunks": 77,
+    "cachedCables": true
+  },
+  "activity": "2400 nodes\n360 producers\n3330 connections\n840 Splitters\n840 Mergers\n203 cycling\n40 materials in transit\n6,600 produced\n2,160 delivered\n228 s elapsed\n77 page FPS\n2.2 ms last tick\n25.1 ms p95 frame",
+  "logs": []
+}

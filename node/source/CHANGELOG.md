@@ -2,17 +2,16 @@
 
 A searchable record of completed changes, design decisions, and relevant review findings. Stable NODE IDs can be cited in chats and searched in the repository.
 
-**719 records · 2026-10-12–2026-11-20 · America/Los_Angeles**
+**720 records · 2026-10-12–2026-11-20 · America/Los_Angeles**
 
 [Open searchable history](<docs/changelog/index.html>) · [How to review and maintain it](<docs/changelog/README.md>) · [Sources and coverage gaps](<docs/changelog/sources.md>)
 
 ## Local changes awaiting publication
 
-Latest confirmed game publication: [52f2b05](https://github.com/bookskaboo/bookskaboo.github.io/commit/52f2b05de75f4af1c475714714c0e922636cf229).
+Latest confirmed game publication: [82d968e](https://github.com/bookskaboo/bookskaboo.github.io/commit/82d968e3d3b9f7ae9dbcdac6be65cc534de37f8a).
 
 | ID | Change | Topics |
 | --- | --- | --- |
-| [NODE-0722](<docs/changelog/2026-11.md#node-0722>) | Show node text and buffer boxes from 35% zoom while retaining cached artwork | Performance, Controls, Production, Documentation |
 | [NODE-0716](<docs/changelog/2026-11.md#node-0716>) | Show and select the actual zoom in the active-factory test | Controls, Interface, Tooling, Performance, Documentation |
 | [NODE-0708](<docs/changelog/2026-11.md#node-0708>) | Measure a practical 30 FPS zoom with restored node details | Performance, Controls, Tooling, Documentation |
 | [NODE-0703](<docs/changelog/2026-11.md#node-0703>) | Move workshop Travel controls outside the field and match arrow sizes | Controls, Logistics, Interface, Camera, Documentation |
@@ -124,13 +123,14 @@ Latest confirmed game publication: [52f2b05](https://github.com/bookskaboo/books
 
 ## Dated history
 
-- [2026-11](<docs/changelog/2026-11.md>) — 701 records
+- [2026-11](<docs/changelog/2026-11.md>) — 702 records
 - [2026-10](<docs/changelog/2026-10.md>) — 18 records
 
 “Known by” dates are implementation/publication bounds, not exact change dates. “Backfilled” dates mark records with uncertain original dates. Supersession links explain reversals. Original-game records do not certify current rebuild behavior.
 
 ## Published releases
 
+- 2026-11-20 — [82d968e: 35% node readouts with active overview caches](https://github.com/bookskaboo/bookskaboo.github.io/commit/82d968e3d3b9f7ae9dbcdac6be65cc534de37f8a) — Only node/ changed. Pages succeeded; live HTML and all ten new build assets matched SHA-256. All 147 prior assets retained; prior-build URLs verified. Newer Upgrades and gameplay preserved.
 - 2026-11-20 — [52f2b05: Upgrades character progression and queued research](https://github.com/bookskaboo/bookskaboo.github.io/commit/52f2b05de75f4af1c475714714c0e922636cf229) — Current tested game snapshot, changes only node/. Pages succeeded; normal HTML and all ten new assets verified by SHA-256, plus ten preceding assets. Retain all 137 older runtime assets. Earned unmodded research migrates; applied-mod factories retain their Research screen. Author proposals remain separate.
 - 2026-11-20 — [48f50fd: Refined border art and generation clearance](https://github.com/bookskaboo/bookskaboo.github.io/commit/48f50fda634343154e4adb67a9953b065d137299) — Only node/ changed. Pages succeeded; normal live HTML and all ten new assets verified by SHA-256, plus ten preceding assets. Retain all 127 older runtime assets. Saved layouts are preserved; clearance applies to new sectors in border worlds. Unrelated pending gameplay/prototypes excluded.
 - 2026-11-20 — [7c4abe4: Shared-border terrain and tiered Road crossing research](https://github.com/bookskaboo/bookskaboo.github.io/commit/7c4abe4d8d1162e544f23d143f19576db860d015) — Fast-forwarded main with changes confined to node/. GitHub Pages succeeded; normal live HTML and all ten current assets matched SHA-256. All 122 prior assets retained and ten preceding assets verified live. New games receive terrain; legacy worlds remain clear. Unrelated prototypes excluded from runtime.
@@ -178,7 +178,7 @@ A record marked “Published by” was known in that snapshot and may have appea
 - [Connections](<docs/changelog/index.html?topic=Connections>) (51)
 - [Construction](<docs/changelog/index.html?topic=Construction>) (15)
 - [Control groups](<docs/changelog/index.html?topic=Control%20groups>) (3)
-- [Controls](<docs/changelog/index.html?topic=Controls>) (59)
+- [Controls](<docs/changelog/index.html?topic=Controls>) (60)
 - [Deployment](<docs/changelog/index.html?topic=Deployment>) (1)
 - [Design](<docs/changelog/index.html?topic=Design>) (7)
 - [Developer tools](<docs/changelog/index.html?topic=Developer%20tools>) (1)
@@ -200,17 +200,17 @@ A record marked “Published by” was known in that snapshot and may have appea
 - [Nodes](<docs/changelog/index.html?topic=Nodes>) (2)
 - [Obstructions](<docs/changelog/index.html?topic=Obstructions>) (3)
 - [Options](<docs/changelog/index.html?topic=Options>) (4)
-- [Performance](<docs/changelog/index.html?topic=Performance>) (10)
+- [Performance](<docs/changelog/index.html?topic=Performance>) (11)
 - [Persistence](<docs/changelog/index.html?topic=Persistence>) (47)
 - [Placement](<docs/changelog/index.html?topic=Placement>) (4)
 - [Planning](<docs/changelog/index.html?topic=Planning>) (239)
 - [Playtesting](<docs/changelog/index.html?topic=Playtesting>) (49)
 - [Power](<docs/changelog/index.html?topic=Power>) (2)
-- [Production](<docs/changelog/index.html?topic=Production>) (109)
+- [Production](<docs/changelog/index.html?topic=Production>) (110)
 - [Progression](<docs/changelog/index.html?topic=Progression>) (216)
 - [Prototypes](<docs/changelog/index.html?topic=Prototypes>) (18)
 - [Publication](<docs/changelog/index.html?topic=Publication>) (2)
-- [Publishing](<docs/changelog/index.html?topic=Publishing>) (15)
+- [Publishing](<docs/changelog/index.html?topic=Publishing>) (16)
 - [Recipes](<docs/changelog/index.html?topic=Recipes>) (111)
 - [Recycling](<docs/changelog/index.html?topic=Recycling>) (1)
 - [Research](<docs/changelog/index.html?topic=Research>) (287)
