@@ -1,0 +1,28 @@
+{
+  "commit": "48f50fda634343154e4adb67a9953b065d137299",
+  "base": "2f46d98354e8432124c2220533b2fbf6b6e492e9",
+  "destination": "https://github.com/bookskaboo/bookskaboo.github.io.git refs/heads/main",
+  "onlyNodeChanged": true,
+  "canFastForward": true,
+  "worktreeClean": true,
+  "previousRuntimeAssetsRetained": 127,
+  "runtimeFiles": 11,
+  "changedFiles": 103,
+  "runtimeSourceOverlay": [
+    "src/art/borderObstructionArt.ts",
+    "src/domain/borderTerrainGeometry.ts",
+    "src/renderer/borderTerrain.test.ts",
+    "src/renderer/borderTerrain.ts",
+    "src/simulation/borderTerrainClearance.test.ts",
+    "src/simulation/borderTerrainClearance.ts",
+    "src/simulation/settlementPopulation.test.ts",
+    "src/simulation/worldGeneration.ts"
+  ],
+  "tests": {
+    "workspace": 1270,
+    "candidate": 1102
+  },
+  "auditedMaps": 71728,
+  "auditedBodies": 380672,
+  "checkedAt": "2026-11-21T04:24:26.491Z"
+}

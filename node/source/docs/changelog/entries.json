@@ -16,6 +16,14 @@
   },
   "releases": [
     {
+      "id": "48f50fd",
+      "date": "2026-11-20",
+      "title": "Refined border art and generation clearance",
+      "commit": "48f50fda634343154e4adb67a9953b065d137299",
+      "url": "https://github.com/bookskaboo/bookskaboo.github.io/commit/48f50fda634343154e4adb67a9953b065d137299",
+      "notes": "Only node/ changed. Pages succeeded; normal live HTML and all ten new assets verified by SHA-256, plus ten preceding assets. Retain all 127 older runtime assets. Saved layouts are preserved; clearance applies to new sectors in border worlds. Unrelated pending gameplay/prototypes excluded."
+    },
+    {
       "id": "7c4abe4",
       "date": "2026-11-20",
       "title": "Shared-border terrain and tiered Road crossing research",
@@ -19476,7 +19484,7 @@
       "dateBasis": "chat",
       "kind": "changed",
       "state": "implemented",
-      "delivery": "local",
+      "delivery": "published",
       "title": "Widen border terrain bands while slimming individual mountain faces",
       "summary": "Apply the clarified art direction: make all three terrain strips wider and narrow the mountain shapes within their ridge, then show east and west field views.",
       "details": [
@@ -19514,7 +19522,8 @@
         "outputs/border-obstructions-narrow-mountains/east-mountains.png",
         "outputs/border-obstructions-narrow-mountains/west-mountains.png"
       ],
-      "validation": "Eight focused geometry/corner/modal checks passed. Preview TypeScript and standalone build and main TypeScript/Vite build passed. All three exported SVGs parse with finite geometry and the 1.25 centered band transform; River and Chasm raw path hashes are unchanged. Browser inspected actual east and west mountain borders, both current-map sides on the west example, matching ghost halves and clipped wider bands; no captured errors. System catalog/link and history checks run with this record. No gameplay rule, save, research or count change, normal-play balance run, commit or publication."
+      "validation": "Eight focused geometry/corner/modal checks passed. Preview TypeScript and standalone build and main TypeScript/Vite build passed. All three exported SVGs parse with finite geometry and the 1.25 centered band transform; River and Chasm raw path hashes are unchanged. Browser inspected actual east and west mountain borders, both current-map sides on the west example, matching ghost halves and clipped wider bands; no captured errors. System catalog/link and history checks run with this record. No gameplay rule, save, research or count change, normal-play balance run, commit or publication.",
+      "publishedBy": "48f50fd"
     },
     {
       "id": "NODE-0680",
@@ -19522,7 +19531,7 @@
       "dateBasis": "chat",
       "kind": "changed",
       "state": "implemented",
-      "delivery": "local",
+      "delivery": "published",
       "title": "Stagger and overlap mountains with stable per-border variation",
       "summary": "Replace alternating mountain rows with irregular clusters that vary spacing, lateral offset, size, lean and shade, allowing overlap inside the wider terrain band.",
       "details": [
@@ -19558,7 +19567,8 @@
         "outputs/border-obstructions-staggered-mountains/east-mountains.png",
         "outputs/border-obstructions-staggered-mountains/west-mountains.png"
       ],
-      "validation": "Eight focused geometry/corner/modal checks, preview TypeScript/standalone export and main build passed. Static art checks confirm stable opposite-side/repeated geometry, distinct border/world patterns and unchanged River/Chasm paths and 1.25 band multiplier. The inspected sample has fourteen faces, thirteen distinct bounds widths, fourteen distinct heights, three shades and twenty overlapping bounding-box pairs. All three exported SVGs parse with finite geometry. Browser inspected south, east and west views, visible overlap, distinct opposite-border clusters and matching ghost halves without captured errors. Catalog/link and history checks run with this record. No gameplay or save change, normal-play balance run, commit or publication."
+      "validation": "Eight focused geometry/corner/modal checks, preview TypeScript/standalone export and main build passed. Static art checks confirm stable opposite-side/repeated geometry, distinct border/world patterns and unchanged River/Chasm paths and 1.25 band multiplier. The inspected sample has fourteen faces, thirteen distinct bounds widths, fourteen distinct heights, three shades and twenty overlapping bounding-box pairs. All three exported SVGs parse with finite geometry. Browser inspected south, east and west views, visible overlap, distinct opposite-border clusters and matching ghost halves without captured errors. Catalog/link and history checks run with this record. No gameplay or save change, normal-play balance run, commit or publication.",
+      "publishedBy": "48f50fd"
     },
     {
       "id": "NODE-0681",
@@ -19566,7 +19576,7 @@
       "dateBasis": "chat",
       "kind": "fixed",
       "state": "implemented",
-      "delivery": "local",
+      "delivery": "published",
       "title": "Refresh paused border previews and show the current test tab",
       "summary": "Fix terrain controls that changed their labels while leaving the prior field rendered, and replace the visible old release copy with the current interactive preview.",
       "details": [
@@ -19600,7 +19610,8 @@
         "outputs/border-obstructions-preview-repair/normal-mountain.png",
         "outputs/border-obstructions-preview-repair/normal-chasm.png"
       ],
-      "validation": "Preview TypeScript and standalone build pass. Nine focused border geometry/corner/model/discovery tests pass. Browser verifies River/Mountain/Chasm field changes while paused without toggling Road placement, Next border, opposite-side navigation, clear Home travel with disabled tools, obstructed map travel, reselecting the same terrain after a clear map, research grant, actual Road placement and reset. Gallery selectors, Road ghost permission and artwork enlargement work; modal test retains nine markers and six crossable samples at Shiny. Current preview is confirmed as the actual selected tab and retained for the user; obsolete normal copies are closed. No captured current-preview errors. System catalog/link and history checks run with this record. Synthetic fixtures only; no campaign save, global renderer, live publication or balance change."
+      "validation": "Preview TypeScript and standalone build pass. Nine focused border geometry/corner/model/discovery tests pass. Browser verifies River/Mountain/Chasm field changes while paused without toggling Road placement, Next border, opposite-side navigation, clear Home travel with disabled tools, obstructed map travel, reselecting the same terrain after a clear map, research grant, actual Road placement and reset. Gallery selectors, Road ghost permission and artwork enlargement work; modal test retains nine markers and six crossable samples at Shiny. Current preview is confirmed as the actual selected tab and retained for the user; obsolete normal copies are closed. No captured current-preview errors. System catalog/link and history checks run with this record. Synthetic fixtures only; no campaign save, global renderer, live publication or balance change.",
+      "publishedBy": "48f50fd"
     },
     {
       "id": "NODE-0686",
@@ -19608,7 +19619,7 @@
       "dateBasis": "chat",
       "kind": "changed",
       "state": "implemented",
-      "delivery": "local",
+      "delivery": "published",
       "title": "Cluster upright border mountains and keep generated bodies clear of terrain art",
       "summary": "Mountains form denser overlapping pockets and point up on every border. Rivers and chasms lose exterior symbols. Newly generated resources and field obstructions leave a visible gap from the actual border artwork.",
       "details": [
@@ -19650,7 +19661,8 @@
         "outputs/border-obstructions-cluster-clearance/browser-review.json",
         "outputs/border-obstructions-cluster-clearance/final-generated-field.jpg"
       ],
-      "validation": "1,235 workspace tests passed with one skipped; final clearance/orientation checks passed all seven tests, including two later-added asymmetric-Lake regressions. Main and standalone border preview builds and preview TypeScript passed. Fixed-seed audit checked 71,728 generated maps and 380,671 bodies with zero rejections or clearance failures: 1,000 standard seeds, five seeds at each larger grid, expanded double-scale fields and 4:1/1:4 field multipliers. Browser inspected four mountain orientations, clean river/chasm edges, generated contents, paired Road ghost and blocked placement; no captured warning/error logs. Six generated catalogs and local links across 39 documents refreshed. Static generation and synthetic UI evidence only; no normal-play optimization/progression balance claim. Extreme arbitrary mod footprints can still exhaust bounded placement. Existing saved maps are not retrofitted. No commit or publication."
+      "validation": "1,235 workspace tests passed with one skipped; final clearance/orientation checks passed all seven tests, including two later-added asymmetric-Lake regressions. Main and standalone border preview builds and preview TypeScript passed. Fixed-seed audit checked 71,728 generated maps and 380,671 bodies with zero rejections or clearance failures: 1,000 standard seeds, five seeds at each larger grid, expanded double-scale fields and 4:1/1:4 field multipliers. Browser inspected four mountain orientations, clean river/chasm edges, generated contents, paired Road ghost and blocked placement; no captured warning/error logs. Six generated catalogs and local links across 39 documents refreshed. Static generation and synthetic UI evidence only; no normal-play optimization/progression balance claim. Extreme arbitrary mod footprints can still exhaust bounded placement. Existing saved maps are not retrofitted. No commit or publication.",
+      "publishedBy": "48f50fd"
     },
     {
       "id": "NODE-0688",
@@ -19658,7 +19670,7 @@
       "dateBasis": "chat",
       "kind": "changed",
       "state": "implemented",
-      "delivery": "local",
+      "delivery": "published",
       "title": "Expose more mountain bases along south borders",
       "summary": "Horizontal mountain faces sit higher in their shared ridge so south-facing fields retain more complete bases instead of clipping them at the seam.",
       "details": [
@@ -19693,7 +19705,58 @@
         "outputs/border-obstructions-south-bases/generation-audit.json",
         "outputs/border-obstructions-south-bases/verification.json"
       ],
-      "validation": "Twenty focused geometry, generation and settlement tests passed. Main/standalone preview builds and preview TypeScript passed. Static audit checked 71,728 fields and 380,672 bodies with no generation rejections or clearance failures, including 1,000 standard seeds, every supported grid size, expanded/double-scale fields and asymmetric mod dimensions. Browser verified the south bases, matching north remainder and automatic fit after Generated contents, with no captured warning/error logs. No fresh full-suite or normal-play balance run. Existing saved sectors are preserved. No commit or publication."
+      "validation": "Twenty focused geometry, generation and settlement tests passed. Main/standalone preview builds and preview TypeScript passed. Static audit checked 71,728 fields and 380,672 bodies with no generation rejections or clearance failures, including 1,000 standard seeds, every supported grid size, expanded/double-scale fields and asymmetric mod dimensions. Browser verified the south bases, matching north remainder and automatic fit after Generated contents, with no captured warning/error logs. No fresh full-suite or normal-play balance run. Existing saved sectors are preserved. No commit or publication.",
+      "publishedBy": "48f50fd"
+    },
+    {
+      "id": "NODE-0691",
+      "date": "2026-11-20",
+      "dateBasis": "chat",
+      "kind": "changed",
+      "state": "implemented",
+      "delivery": "published",
+      "publishedBy": "48f50fd",
+      "title": "Publish refined border art and generation clearance",
+      "summary": "Publish wider terrain bands, dense upright mountain clusters with visible south-border bases, cleaner river/chasm edges and a visible gap around newly generated resources and field obstructions.",
+      "details": [
+        "Fast-forward live main from 2f46d98354e8432124c2220533b2fbf6b6e492e9 to 48f50fda634343154e4adb67a9953b065d137299, confined to node/. Publish the matching tested runtime/source and preserve all 127 older runtime assets. New build assets use a distinct subdirectory so cached games keep their original chunks.",
+        "Publish the reviewed narrow irregular overlapping mountain faces, upright north/south geometry, higher horizontal placement exposing south bases, shared clipped halves and Road ghosts. Remove exterior river debris/carets and chasm diamonds/Y marks. Research remains permission for ordinary Roads with no after-research art.",
+        "New-sector generation leaves conservative visible art bounds plus 32 world units clear, including maximum settlement growth, future Golem reserve size and maximum Area Expansion. Reposition full-size Lakes/holes before bounded retries; Lake aspect may adapt without reducing sampled area. Preserve saved layouts and legacy clear worlds. Border counts, settlement/map quotas and crossing tiers remain unchanged.",
+        "Build from current live source with an eight-file runtime/test overlay. The live generateSector API receives clearance directly without the workspace’s unpublished ground-terrain argument; adapt only matching test/audit calls. Keep ground terrain gameplay, retired hole-exploration gate changes, Points of Interest modal revisions and character/tutorial prototypes outside this runtime release.",
+        "Publish the repaired paused author preview and Generated contents fit, maintained style guides, current scoped system/master-plan references, generated catalogs and five completed implementation records. Earlier local/static review evidence is retained rather than treated as normal-play balance evidence."
+      ],
+      "topics": [
+        "Map",
+        "Obstructions",
+        "Resources",
+        "Interface",
+        "Publishing",
+        "Documentation"
+      ],
+      "sources": [
+        "local-code"
+      ],
+      "evidence": [
+        "outputs/node-border-art-release-2026-11-20/publication-receipt.json",
+        "outputs/node-border-art-release-2026-11-20/preflight-report.json",
+        "outputs/node-border-art-release-2026-11-20/build-manifest.json",
+        "outputs/node-border-art-release-2026-11-20/source-manifest.json",
+        "outputs/node-border-art-release-2026-11-20/scope.json",
+        "outputs/node-border-art-release-2026-11-20/workspace-tests.log",
+        "outputs/node-border-art-release-2026-11-20/workspace-build.log",
+        "outputs/node-border-art-release-2026-11-20/candidate-tests.log",
+        "outputs/node-border-art-release-2026-11-20/candidate-build.log",
+        "outputs/node-border-art-release-2026-11-20/candidate-preview.log",
+        "outputs/node-border-art-release-2026-11-20/candidate-audit.log",
+        "outputs/node-border-art-release-2026-11-20/candidate-browser.json",
+        "outputs/node-border-art-release-2026-11-20/candidate-south.jpg",
+        "outputs/node-border-art-release-2026-11-20/candidate-ghost.jpg",
+        "src/domain/borderTerrainGeometry.ts",
+        "src/simulation/borderTerrainClearance.ts",
+        "src/simulation/worldGeneration.ts",
+        "docs/master-plan/21-border-obstructions.md"
+      ],
+      "validation": "Workspace passed 1270 tests; isolated release passed 1102, each with one optional skip. /node/ builds, preview TypeScript/build, six catalog checks and six changelog checks passed. The exact release audited 71,728 fields and 380,672 bodies with no generation/clearance failures. Browser verified released south bases, generated spacing, paired northern Road ghost and blocked unresearched placement with no captured warnings/errors. Preflight verified exact tested source/build hashes, clean fast-forward, only node/ changes and every prior asset retained. Pages run 44865979761 succeeded; normal live HTML and every new asset matched SHA-256, plus ten preceding assets. No campaign-save edits or fresh normal-play balance run. Existing saved sectors are not retrofitted."
     }
   ]
 }

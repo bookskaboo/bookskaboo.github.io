@@ -1,0 +1,15 @@
+{
+  "url": "http://127.0.0.1:4185/outputs/node-border-art-release-2026-11-20/repo/node/source/outputs/border-obstructions-page/runtime.html",
+  "checks": [
+    "Isolated release renderer shows dense upright south-border mountains with visible bases",
+    "Generated bodies leave space beside the terrain",
+    "North field and adjacent Road ghost show matching halves",
+    "Unresearched Mountain Road placement remains blocked",
+    "Generated contents refits the paused view"
+  ],
+  "logs": [],
+  "limits": [
+    "Synthetic release fixture; no campaign save reads or writes",
+    "Normal-play balance was not rerun"
+  ]
+}

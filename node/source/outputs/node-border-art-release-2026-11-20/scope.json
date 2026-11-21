@@ -1,0 +1,30 @@
+{
+  "base": "2f46d98354e8432124c2220533b2fbf6b6e492e9",
+  "runtimeOverlay": [
+    "src/art/borderObstructionArt.ts",
+    "src/domain/borderTerrainGeometry.ts",
+    "src/renderer/borderTerrain.test.ts",
+    "src/renderer/borderTerrain.ts",
+    "src/simulation/borderTerrainClearance.test.ts",
+    "src/simulation/borderTerrainClearance.ts",
+    "src/simulation/settlementPopulation.test.ts",
+    "src/simulation/worldGeneration.ts"
+  ],
+  "historyIds": [
+    "NODE-0679",
+    "NODE-0680",
+    "NODE-0681",
+    "NODE-0686",
+    "NODE-0688"
+  ],
+  "excluded": [
+    "Ground terrain gameplay and reserve multipliers",
+    "Retired Deep Hole exploration gate changes",
+    "Points of Interest modal layout revisions",
+    "Character upgrade/tutorial prototypes"
+  ],
+  "adaptations": [
+    "Border clearance is the eleventh generateSector argument on the live API; omit unpublished ground-terrain argument and application",
+    "Release test/audit fixtures use the live API and no ground-terrain metadata"
+  ]
+}

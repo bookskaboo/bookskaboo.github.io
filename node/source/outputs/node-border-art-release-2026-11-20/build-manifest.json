@@ -1,0 +1,55 @@
+{
+  "base": "2f46d98354e8432124c2220533b2fbf6b6e492e9",
+  "files": [
+    {
+      "file": "assets/border-art-20261120/browserAll-CUwAVoCt.js",
+      "sha256": "1c1b03c444aa32ddd218a5ab08b474e698aae6bb35bcdca030e35d4199c1ee75"
+    },
+    {
+      "file": "assets/border-art-20261120/CanvasPool-O_8k9jVW.js",
+      "sha256": "9cf12a9f53a878bb8f9f46337b799031a6986b5f87dd775ef57b2902ae0dc9cd"
+    },
+    {
+      "file": "assets/border-art-20261120/canvasUtils-DHiBpmSz.js",
+      "sha256": "8843c3459529c72ffb9a82655454eff39f3458448dd2ae362764f3be4933288f"
+    },
+    {
+      "file": "assets/border-art-20261120/getTexelRangeRects-5CG6mIA2.js",
+      "sha256": "aea8c02569d6923eec2b28e6973b032101297b4fc9acc85b573146bd074d4974"
+    },
+    {
+      "file": "assets/border-art-20261120/getTextureBatchBindGroup-CDnZS9mH.js",
+      "sha256": "2b2eff79ef557432774e0acd98963de65847a16840f0b738b07556ea37e21caa"
+    },
+    {
+      "file": "assets/border-art-20261120/index-Bw0l-Ea0.js",
+      "sha256": "3e75675075e2dc206119aba6276b0922c240d5a94d7b0acc976eb977facfa9e1"
+    },
+    {
+      "file": "assets/border-art-20261120/index-vtyXR-db.css",
+      "sha256": "350672e6e5728e277e7733e10195b30fcc48298e600dcd9fe3c5a59b0ccd1667"
+    },
+    {
+      "file": "assets/border-art-20261120/init-B1lcjyyE.js",
+      "sha256": "f47297d99f82ffa4b3cbb0d29306348faf2439ce3cb9f99fc293e22e8f909ae4"
+    },
+    {
+      "file": "assets/border-art-20261120/RenderTargetSystem-CHWUCnC7.js",
+      "sha256": "39880073141b4419980d7b5baf22961675d208105c37f87c54a099e6433ad70f"
+    },
+    {
+      "file": "assets/border-art-20261120/webworkerAll-BCcBAr7N.js",
+      "sha256": "5cb47b9bdf0e11daf65d85f80784cd5f740d84054a579dfd02108db0b8da998b"
+    },
+    {
+      "file": "index.html",
+      "sha256": "5ce89bbf9ce6aaeca780a8a18920b9862dcd52242e71eac00343f61515af3cd8"
+    }
+  ],
+  "tests": {
+    "workspace": 1270,
+    "candidate": 1102
+  },
+  "auditedMaps": 71728,
+  "auditedBodies": 380672
+}

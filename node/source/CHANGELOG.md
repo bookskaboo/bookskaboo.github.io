@@ -2,21 +2,16 @@
 
 A searchable record of completed changes, design decisions, and relevant review findings. Stable NODE IDs can be cited in chats and searched in the repository.
 
-**625 records · 2026-10-12–2026-11-20 · America/Los_Angeles**
+**626 records · 2026-10-12–2026-11-20 · America/Los_Angeles**
 
 [Open searchable history](<docs/changelog/index.html>) · [How to review and maintain it](<docs/changelog/README.md>) · [Sources and coverage gaps](<docs/changelog/sources.md>)
 
 ## Local changes awaiting publication
 
-Latest confirmed game publication: [7c4abe4](https://github.com/bookskaboo/bookskaboo.github.io/commit/7c4abe4d8d1162e544f23d143f19576db860d015).
+Latest confirmed game publication: [48f50fd](https://github.com/bookskaboo/bookskaboo.github.io/commit/48f50fda634343154e4adb67a9953b065d137299).
 
 | ID | Change | Topics |
 | --- | --- | --- |
-| [NODE-0688](<docs/changelog/2026-11.md#node-0688>) | Expose more mountain bases along south borders | Map, Obstructions, Interface, Prototypes, Documentation |
-| [NODE-0686](<docs/changelog/2026-11.md#node-0686>) | Cluster upright border mountains and keep generated bodies clear of terrain art | Map, Obstructions, Resources, Interface, Prototypes, Documentation |
-| [NODE-0681](<docs/changelog/2026-11.md#node-0681>) | Refresh paused border previews and show the current test tab | Testing, Interface, Documentation |
-| [NODE-0680](<docs/changelog/2026-11.md#node-0680>) | Stagger and overlap mountains with stable per-border variation | Art, Interface, World, Documentation |
-| [NODE-0679](<docs/changelog/2026-11.md#node-0679>) | Widen border terrain bands while slimming individual mountain faces | Art, Interface, World, Documentation |
 | [NODE-0610](<docs/changelog/2026-11.md#node-0610>) | Add dense factory tests with live progress bars and Splitter/Merger routing | Tooling, Performance, Production, Connections, Logistics, Controls, Documentation |
 | [NODE-0596](<docs/changelog/2026-11.md#node-0596>) | Retire duplicate references and remove unused workspace artifacts | Documentation, Tooling, Architecture, Saves |
 | [NODE-0594](<docs/changelog/2026-11.md#node-0594>) | Organize current systems into linked references and generated catalogs | Documentation, Resources, Production, Recipes, Research, World, Progression, Tooling |
@@ -87,13 +82,14 @@ Latest confirmed game publication: [7c4abe4](https://github.com/bookskaboo/books
 
 ## Dated history
 
-- [2026-11](<docs/changelog/2026-11.md>) — 607 records
+- [2026-11](<docs/changelog/2026-11.md>) — 608 records
 - [2026-10](<docs/changelog/2026-10.md>) — 18 records
 
 “Known by” dates are implementation/publication bounds, not exact change dates. “Backfilled” dates mark records with uncertain original dates. Supersession links explain reversals. Original-game records do not certify current rebuild behavior.
 
 ## Published releases
 
+- 2026-11-20 — [48f50fd: Refined border art and generation clearance](https://github.com/bookskaboo/bookskaboo.github.io/commit/48f50fda634343154e4adb67a9953b065d137299) — Only node/ changed. Pages succeeded; normal live HTML and all ten new assets verified by SHA-256, plus ten preceding assets. Retain all 127 older runtime assets. Saved layouts are preserved; clearance applies to new sectors in border worlds. Unrelated pending gameplay/prototypes excluded.
 - 2026-11-20 — [7c4abe4: Shared-border terrain and tiered Road crossing research](https://github.com/bookskaboo/bookskaboo.github.io/commit/7c4abe4d8d1162e544f23d143f19576db860d015) — Fast-forwarded main with changes confined to node/. GitHub Pages succeeded; normal live HTML and all ten current assets matched SHA-256. All 122 prior assets retained and ten preceding assets verified live. New games receive terrain; legacy worlds remain clear. Unrelated prototypes excluded from runtime.
 - 2026-11-20 — [fa7aa81: Interior camp reserves and Stone naming with original thirty settlements](https://github.com/bookskaboo/bookskaboo.github.io/commit/fa7aa81a10fa0273f0a3eba3fbe9b544f273d9ae) — Changes confined to node/. GitHub Pages succeeded; normal live HTML and every current build asset matched SHA-256. Original 30-settlement layout unchanged; prior assets retained. Placement correction applies to newly generated camp maps; saved layouts are preserved.
 - 2026-11-19 — [d9642dc: Active dense-factory rendering optimizations](https://github.com/bookskaboo/bookskaboo.github.io/commit/d9642dc0ab01e48031aae317887fd1777f571b93) — Changes confined to node/. GitHub Pages succeeded; normal live HTML and all ten build assets verified by SHA-256, plus ten prior-build assets. New-world camp/obstruction behavior and player saves are preserved.
@@ -144,19 +140,19 @@ A record marked “Published by” was known in that snapshot and may have appea
 - [Design](<docs/changelog/index.html?topic=Design>) (7)
 - [Developer tools](<docs/changelog/index.html?topic=Developer%20tools>) (1)
 - [Discovery](<docs/changelog/index.html?topic=Discovery>) (5)
-- [Documentation](<docs/changelog/index.html?topic=Documentation>) (236)
+- [Documentation](<docs/changelog/index.html?topic=Documentation>) (237)
 - [Encounters](<docs/changelog/index.html?topic=Encounters>) (145)
 - [Endgame](<docs/changelog/index.html?topic=Endgame>) (5)
 - [Exploration](<docs/changelog/index.html?topic=Exploration>) (23)
 - [Extraction](<docs/changelog/index.html?topic=Extraction>) (1)
-- [Interface](<docs/changelog/index.html?topic=Interface>) (225)
+- [Interface](<docs/changelog/index.html?topic=Interface>) (226)
 - [Logistics](<docs/changelog/index.html?topic=Logistics>) (101)
-- [Map](<docs/changelog/index.html?topic=Map>) (5)
+- [Map](<docs/changelog/index.html?topic=Map>) (6)
 - [Mods](<docs/changelog/index.html?topic=Mods>) (6)
 - [Mythril](<docs/changelog/index.html?topic=Mythril>) (14)
 - [Naming](<docs/changelog/index.html?topic=Naming>) (7)
 - [Nodes](<docs/changelog/index.html?topic=Nodes>) (2)
-- [Obstructions](<docs/changelog/index.html?topic=Obstructions>) (2)
+- [Obstructions](<docs/changelog/index.html?topic=Obstructions>) (3)
 - [Options](<docs/changelog/index.html?topic=Options>) (4)
 - [Performance](<docs/changelog/index.html?topic=Performance>) (6)
 - [Persistence](<docs/changelog/index.html?topic=Persistence>) (44)
@@ -168,10 +164,10 @@ A record marked “Published by” was known in that snapshot and may have appea
 - [Progression](<docs/changelog/index.html?topic=Progression>) (213)
 - [Prototypes](<docs/changelog/index.html?topic=Prototypes>) (2)
 - [Publication](<docs/changelog/index.html?topic=Publication>) (2)
-- [Publishing](<docs/changelog/index.html?topic=Publishing>) (13)
+- [Publishing](<docs/changelog/index.html?topic=Publishing>) (14)
 - [Recipes](<docs/changelog/index.html?topic=Recipes>) (111)
 - [Research](<docs/changelog/index.html?topic=Research>) (235)
-- [Resources](<docs/changelog/index.html?topic=Resources>) (113)
+- [Resources](<docs/changelog/index.html?topic=Resources>) (114)
 - [Responsive](<docs/changelog/index.html?topic=Responsive>) (2)
 - [Roads](<docs/changelog/index.html?topic=Roads>) (13)
 - [Save compatibility](<docs/changelog/index.html?topic=Save%20compatibility>) (3)

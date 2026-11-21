@@ -1,0 +1,12 @@
+
+ RUN  v5.0.5 D:/node factory v2
+
+
+ Test Files  116 passed | 1 skipped (117)
+      Tests  1270 passed | 1 skipped (1271)
+   Start at  20:16:33
+   Duration  43.60s (tests 72%, import 25%, transform 2%, worker 1%)
+
+    Isolate  117 workers spawned · ~156ms startup each (spawn + environment, per file)
+             at least ~8.99s faster with isolate: false — reuses workers across files instead of one per file
+
