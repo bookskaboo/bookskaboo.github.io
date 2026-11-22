@@ -2,7 +2,7 @@
 
 A searchable record of completed changes, design decisions, and relevant review findings. Stable NODE IDs can be cited in chats and searched in the repository.
 
-**834 records · 2026-10-12–2026-11-22 · America/Los_Angeles**
+**838 records · 2026-10-12–2026-11-22 · America/Los_Angeles**
 
 [Open searchable history](<docs/changelog/index.html>) · [How to review and maintain it](<docs/changelog/README.md>) · [Sources and coverage gaps](<docs/changelog/sources.md>)
 
@@ -12,6 +12,9 @@ Latest confirmed game publication: [a8a8d12](https://github.com/bookskaboo/books
 
 | ID | Change | Topics |
 | --- | --- | --- |
+| [NODE-0852](<docs/changelog/2026-11.md#node-0852>) | Require downstream Charcoal production in Logistics practice | Tutorials, Logistics, Interface, Documentation, Testing |
+| [NODE-0850](<docs/changelog/2026-11.md#node-0850>) | Require full suppression in Monster Camps practice | Tutorials, Interface, Documentation, Testing |
+| [NODE-0848](<docs/changelog/2026-11.md#node-0848>) | Correct Expansion Road reversal instructions and the tutorial audit | Tutorials, Interface, Logistics, Documentation, Testing |
 | [NODE-0832](<docs/changelog/2026-11.md#node-0832>) | Start ambient music and its loop preview at low volume | Audio, Interface, Testing, Documentation |
 | [NODE-0830](<docs/changelog/2026-11.md#node-0830>) | Keep ambient string transitions continuous across notes and the loop | Audio, Interface, Testing, Documentation |
 | [NODE-0828](<docs/changelog/2026-11.md#node-0828>) | Reset background music as a sparse string-only ambient draft | Audio, Interface, Testing, Documentation |
@@ -144,7 +147,7 @@ Latest confirmed game publication: [a8a8d12](https://github.com/bookskaboo/books
 
 ## Dated history
 
-- [2026-11](<docs/changelog/2026-11.md>) — 816 records
+- [2026-11](<docs/changelog/2026-11.md>) — 820 records
 - [2026-10](<docs/changelog/2026-10.md>) — 18 records
 
 “Known by” dates are implementation/publication bounds, not exact change dates. “Backfilled” dates mark records with uncertain original dates. Supersession links explain reversals. Original-game records do not certify current rebuild behavior.
@@ -209,15 +212,15 @@ A record marked “Published by” was known in that snapshot and may have appea
 - [Design](<docs/changelog/index.html?topic=Design>) (7)
 - [Developer tools](<docs/changelog/index.html?topic=Developer%20tools>) (1)
 - [Discovery](<docs/changelog/index.html?topic=Discovery>) (5)
-- [Documentation](<docs/changelog/index.html?topic=Documentation>) (426)
+- [Documentation](<docs/changelog/index.html?topic=Documentation>) (430)
 - [Efficiency](<docs/changelog/index.html?topic=Efficiency>) (1)
 - [Encounters](<docs/changelog/index.html?topic=Encounters>) (148)
 - [Endgame](<docs/changelog/index.html?topic=Endgame>) (5)
 - [Exploration](<docs/changelog/index.html?topic=Exploration>) (54)
 - [Extraction](<docs/changelog/index.html?topic=Extraction>) (1)
-- [Interface](<docs/changelog/index.html?topic=Interface>) (357)
+- [Interface](<docs/changelog/index.html?topic=Interface>) (361)
 - [Landmarks](<docs/changelog/index.html?topic=Landmarks>) (14)
-- [Logistics](<docs/changelog/index.html?topic=Logistics>) (119)
+- [Logistics](<docs/changelog/index.html?topic=Logistics>) (122)
 - [Map](<docs/changelog/index.html?topic=Map>) (8)
 - [Map exploration](<docs/changelog/index.html?topic=Map%20exploration>) (2)
 - [Mods](<docs/changelog/index.html?topic=Mods>) (15)
@@ -253,10 +256,10 @@ A record marked “Published by” was known in that snapshot and may have appea
 - [Simulation](<docs/changelog/index.html?topic=Simulation>) (8)
 - [Storage](<docs/changelog/index.html?topic=Storage>) (10)
 - [Sustainability](<docs/changelog/index.html?topic=Sustainability>) (1)
-- [Testing](<docs/changelog/index.html?topic=Testing>) (75)
+- [Testing](<docs/changelog/index.html?topic=Testing>) (79)
 - [Text](<docs/changelog/index.html?topic=Text>) (6)
 - [Tooling](<docs/changelog/index.html?topic=Tooling>) (41)
-- [Tutorials](<docs/changelog/index.html?topic=Tutorials>) (60)
+- [Tutorials](<docs/changelog/index.html?topic=Tutorials>) (64)
 - [Typography](<docs/changelog/index.html?topic=Typography>) (3)
 - [UI](<docs/changelog/index.html?topic=UI>) (4)
 - [Undo](<docs/changelog/index.html?topic=Undo>) (4)

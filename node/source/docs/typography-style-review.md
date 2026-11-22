@@ -1,5 +1,17 @@
 # NODE Typography Style Review
 
+## Verify Logistics production
+
+November 22, 2026 (NODE-0852). Applied the user's third tutorial review decision with two automatic observation steps after Splitter/Merger rotation. The instructions are “Wait for both Kilns to produce Charcoal.” and “Wait for the Kiln to produce Charcoal.” Titles identify both branches or the merged stream; short supporting copy explains the Wood supply. The existing shared reading-body role, practice card, Restart/Exit controls and later completion/insertion explanations remain. No Continue action bypasses these checks. The lesson now has sixteen stages. Engine checks verify that wiring, delivered Wood and a single productive Splitter branch are insufficient, normal production succeeds after rotation, removed wiring invalidates completion and fresh practice clears prior output evidence. No fresh browser layout or human learning assessment is claimed.
+
+## Full suppression in camp practice
+
+November 22, 2026 (NODE-0850). Applied the user's second tutorial review decision: “Connect the stocked Cart to the camp’s center input and keep it supplied until the camp is fully suppressed.” The three-stage lesson waits for the same full-suppression state as guarded resource access. Live feedback distinguishes Check passed from Fully suppressed, using the existing metadata role; the instruction retains the reading-body role. The normal sixty-second interval, practice fixture, Restart/Exit controls and final “Continued suppression may bring rewards.” hint remain. Engine regression checks cover the first success remaining incomplete, full suppression unlocking the deposit and lesson together, and restart clearing completion. No fresh browser layout or human learning assessment is claimed.
+
+## Expansion Road reversal wording
+
+November 22, 2026 (NODE-0848). Applied the user's first tutorial review decision to the Build a Road pair explanation: “Both endpoints need clear space. In your factory, right-click either Road to reverse the route. This disconnects both endpoints’ cables; reconnect them for the new direction.” The instruction still asks for Road placement. The existing shared reading-body role, layout and constrained practice controls are retained. The ordinary factory gesture and endpoint cable disconnection were checked against App and RoadCommandRuntime; existing tutorial and Road command/navigation tests provide functional verification. No new browser wrapping check or human learning assessment is claimed.
+
 ## Focused desktop control audit checklist
 
 November 21, 2026 (NODE-0814). Prepared E11/SR-21's [twelve-task checklist](master-plan/05-interface-and-learning.md#focused-desktop-control-audit-checklist) for precision, overview/inspection detail, layout tools, dialog focus, tooltips, clipping, contrast, non-color cues, motion, travel and participant effort. Existing shared text roles, 15%–220% game zoom and desktop mouse/keyboard scope remain unchanged. Viewport/zoom/role/color measurements and screenshots are required evidence for future findings; low-zoom visibility is distinct from exact-count legibility through inspection.

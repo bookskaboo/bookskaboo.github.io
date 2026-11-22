@@ -1,4 +1,5 @@
 import type { GameState, NodeKind } from '../domain/types';
+import { isCampFullySuppressed } from '../simulation/goblinTribute';
 import { type TutorialStage, EXPANSION_HOME, EXPANSION_OUTPOST, expansionCable, expansionDelivered, CONTROL_GROUP_NODE_IDS } from './tutorialDefinitions';
 
 export interface ControlGroupLessonContext {
@@ -11,6 +12,9 @@ export function lessonSatisfied(stage: TutorialStage, state: GameState, panel: s
   const nodes = sector.nodes;
   const has = (kind: NodeKind) => nodes.some(n => n.kind === kind);
   const link = (from: string, to: string) => sector.connections.some(c => c.from === from && c.to === to);
+  const splitterConnected = () => link('tutorial-extractor-a', 'tutorial-splitter') && link('tutorial-splitter', 'tutorial-kiln-a') && link('tutorial-splitter', 'tutorial-kiln-b') && new Set(sector.connections.filter(c => c.from === 'tutorial-splitter').map(c => c.fromPort)).size === 2;
+  const mergerConnected = () => link('tutorial-extractor-a', 'tutorial-merger') && link('tutorial-extractor-b', 'tutorial-merger') && link('tutorial-merger', 'tutorial-kiln-a');
+  const kilnProduced = (id: string) => nodes.some(n => n.id === id && n.kind === 'kiln' && n.recipeId === 'charcoal' && (n.output.charcoal ?? 0) > 0);
   const extractor = nodes.find(n => n.kind === 'extractor');
   switch (stage) {
     case 'control-group-select': return CONTROL_GROUP_NODE_IDS.every(id => control?.selectedIds.includes(id));
@@ -58,9 +62,11 @@ export function lessonSatisfied(stage: TutorialStage, state: GameState, panel: s
     case 'logistics-merger-insert': return link('tutorial-extractor-a', 'tutorial-merger') && link('tutorial-merger', 'tutorial-kiln-a');
     case 'logistics-splitter-rotate': return nodes.some(node => node.id === 'tutorial-splitter' && node.rotation % 360 !== 0);
     case 'logistics-merger-rotate': return nodes.some(node => node.id === 'tutorial-merger' && node.rotation % 360 !== 0);
-    case 'logistics-splitter-connect': return link('tutorial-extractor-a', 'tutorial-splitter') && link('tutorial-splitter', 'tutorial-kiln-a') && link('tutorial-splitter', 'tutorial-kiln-b') && new Set(sector.connections.filter(c => c.from === 'tutorial-splitter').map(c => c.fromPort)).size === 2;
-    case 'logistics-merger-connect': return link('tutorial-extractor-a', 'tutorial-merger') && link('tutorial-extractor-b', 'tutorial-merger') && link('tutorial-merger', 'tutorial-kiln-a');
-    case 'monster-camp-suppression': return nodes.some(n => n.id === 'tutorial-camp' && n.suppressed);
+    case 'logistics-splitter-connect': return splitterConnected();
+    case 'logistics-merger-connect': return mergerConnected();
+    case 'logistics-splitter-produce': return splitterConnected() && kilnProduced('tutorial-kiln-a') && kilnProduced('tutorial-kiln-b');
+    case 'logistics-merger-produce': return mergerConnected() && kilnProduced('tutorial-kiln-a');
+    case 'monster-camp-suppression': return isCampFullySuppressed(nodes.find(n => n.id === 'tutorial-camp'));
     default: return false;
   }
 }

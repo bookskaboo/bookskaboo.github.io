@@ -9,10 +9,10 @@ Tutorials teach controls in constrained practice states. The Discovery Journal a
 | Lesson | Main interactions |
 | --- | --- |
 | Basics | Placement, extraction, Charcoal, Plates, Gears, Simple Cores and lab delivery |
-| Logistics | Joint placement/insertion, Splitter routing and Merger behavior |
+| Logistics | Joint placement/insertion, Splitter routing, Merger behavior and actual downstream Charcoal production |
 | Expansion | Actual Wood production and Cart → Road pair → Cart delivery between practice sectors |
 | Control Groups | Selection, creation, movement, independent selection and disbanding |
-| Monster Camps | Obstruction boundaries, suppression and regrowth |
+| Monster Camps | Obstruction boundaries and supplying bots until full suppression |
 
 Definitions describe stages and target positions. Placement and choice guards restrict actions to the current lesson. Progress checks inspect actual state, so connecting a route without delivering its required output is insufficient where a lesson requires delivery. Dialogue and highlighting guide the same permitted action.
 
@@ -29,6 +29,15 @@ Research hints react to research completion, first production, visited sectors a
 Automatic Expansion/Monster Camps invitations and the Dwarven discovery notice share a developer-use suppression rule. Enabled Dev controls, direct unlock commands and Dev Source placement opt that factory into saved quiet prompts, preserved through undo/reload. Existing dev-revealed/research-granted or Dev Source saves are also quiet. Ordinary factories still receive their milestone prompts, and manual Tutorials availability is unchanged. Unseen lessons are not added to tutorialPromptsSeen merely because they were suppressed.
 
 ## Maintaining lessons and copy
+
+### Practice completion and scope
+
+- Basics requires actual production, delivery and research. Control Groups checks the actual selection and movement rules.
+- Expansion's `expansion-road-place` body explains right-clicking either Road in the player's factory to reverse it and reconnecting both endpoints' cables afterward (NODE-0848). Practice disables reversal and Road travel shortcuts, retaining its authored Map travel sequence.
+- Monster Camps advances only at full suppression, using the same `isCampFullySuppressed` predicate as guarded extraction (NODE-0850). Starting at 25%, the first success reaches 15% and does not advance; the next success reaches the 10% minimum. Checks remain sixty seconds apart, with the first fixture check near because its timer starts at 54 seconds. Live status distinguishes Check passed from Fully suppressed. The three stages and final understated reward hint (NODE-0539) remain. Neither extraction, reserve refill nor suppression loss is required. The active suppression explanation comes from `tutorialDialogue.ts`, overriding the obsolete original text.
+- Logistics has sixteen stages (NODE-0852). After each Splitter/Merger rotation, an automatic production step waits for Charcoal in both Splitter-fed Kilns or the Merger-fed Kiln, respectively. Empty initial buffers make this evidence of actual downstream production. Required wiring must still exist; aggregate production elsewhere, delivered Wood alone and a single productive Splitter branch do not satisfy the checks. There is no Continue bypass. Existing completion explanations and Joint/Splitter/Merger insertion practice remain. These checks do not prove each Merger input contributed, require a blocked-branch diagnosis or require production again in the later insertion fixtures.
+
+Source and automated functional checks are separate from a browser walkthrough or human learning assessment. The optional mixed-output lesson remains an unimplemented outline under NODE-0807. The [changelog](../changelog/README.md) retains the initial audit, its correction and the three reviewed changes.
 
 Basics now opts into Upgrades dialogue in the actual unmodded game: inspect completed Joint, later select Assembler and press Queue research. The same existing 19 stages, project guards, production/delivery conditions and actual Assembler completion check remain in use. Selection alone does not advance; queue membership advances the selection step even while research is paused. One Assembler slot and disabled unrelated controls constrain practice. The payment step has no Continue bypass. After five processed Simple Cores, the completion copy explains the normal four-card queue and Simple upgrade unlocking Basic Cores. Restart/Exit/Finish preserve the established isolated-practice lifecycle. The entire lesson passed normal UI placement, production, delivery and payment checks; [integrated contracts](../../src/ui/UpgradesIntegration.test.tsx) and the [focused author fixture](../../previews/status-page/README.md#basics-research-transition) provide additional regression coverage.
 

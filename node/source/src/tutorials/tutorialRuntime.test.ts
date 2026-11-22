@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { GameEngine, createInitialState } from '../simulation/engine';
-import { createTutorialState, lessonSatisfied, PRODUCTION_TARGETS, TARGETS, EXPANSION_HOME, EXPANSION_OUTPOST, tutorialNode, BASIC_STAGES, MANUAL_STAGES } from './tutorialRuntime';
+import { createTutorialState, lessonSatisfied, PRODUCTION_TARGETS, TARGETS, EXPANSION_HOME, EXPANSION_OUTPOST, tutorialNode, BASIC_STAGES, LOGISTICS_STAGES, MANUAL_STAGES } from './tutorialRuntime';
 import { correctTutorialPlacement, tutorialPlacementTarget, basicTutorialPlacementKind } from './tutorialRuntime';
 import { getNodeSize } from '../renderer/nodeLayout';
 import { getPortAnchor } from '../renderer/nodeLayout';
@@ -215,15 +215,74 @@ describe('imported tutorial practice', () => {
     expect(engine.connectPorts('tutorial-splitter', 0, 'tutorial-kiln-a', 0)).toBe(true);
     expect(engine.connectPorts('tutorial-splitter', 1, 'tutorial-kiln-b', 0)).toBe(true);
     expect(lessonSatisfied('logistics-splitter-connect', engine.getState(), null)).toBe(true);
+    engine.rotateNode('tutorial-splitter');
+    expect(lessonSatisfied('logistics-splitter-rotate', engine.getState(), null)).toBe(true);
+    expect(lessonSatisfied('logistics-splitter-produce', engine.getState(), null)).toBe(false);
+    engine.toggleNodeProcessingPause('tutorial-kiln-b');
     run(engine, 25);
-    expect(engine.getSector().nodes.filter(n => n.kind === 'kiln').every(n => (n.output.charcoal ?? 0) > 0)).toBe(true);
+    expect(engine.getSector().nodes.find(n => n.id === 'tutorial-kiln-a')!.output.charcoal).toBeGreaterThan(0);
+    expect(engine.getSector().nodes.find(n => n.id === 'tutorial-kiln-b')!.output.charcoal ?? 0).toBe(0);
+    expect(lessonSatisfied('logistics-splitter-produce', engine.getState(), null)).toBe(false);
+    engine.toggleNodeProcessingPause('tutorial-kiln-b');
+    run(engine, 10);
+    expect(lessonSatisfied('logistics-splitter-produce', engine.getState(), null)).toBe(true);
+    const branch = engine.getSector().connections.find(c => c.to === 'tutorial-kiln-b')!;
+    engine.deleteConnection(branch.id);
+    expect(lessonSatisfied('logistics-splitter-produce', engine.getState(), null)).toBe(false);
+    engine.replaceState(createTutorialState('logistics', 'splitter'));
+    expect(lessonSatisfied('logistics-splitter-produce', engine.getState(), null)).toBe(false);
   });
 
-  it('lets bot deliveries suppress the practice camp', () => {
+  it('waits for actual Merger-fed Charcoal rather than wiring or delivered Wood alone', () => {
+    const engine = new GameEngine(createTutorialState('logistics', 'merger'), { autosave: false });
+    expect(engine.connectPorts('tutorial-extractor-a', 0, 'tutorial-merger', 0)).toBe(true);
+    expect(engine.connectPorts('tutorial-extractor-b', 0, 'tutorial-merger', 1)).toBe(true);
+    expect(engine.connectPorts('tutorial-merger', 0, 'tutorial-kiln-a', 0)).toBe(true);
+    expect(lessonSatisfied('logistics-merger-connect', engine.getState(), null)).toBe(true);
+    engine.rotateNode('tutorial-merger');
+    expect(lessonSatisfied('logistics-merger-rotate', engine.getState(), null)).toBe(true);
+    expect(lessonSatisfied('logistics-merger-produce', engine.getState(), null)).toBe(false);
+    engine.toggleNodeProcessingPause('tutorial-kiln-a');
+    run(engine, 20);
+    const kiln = engine.getSector().nodes.find(n => n.id === 'tutorial-kiln-a')!;
+    expect(kiln.input.wood).toBeGreaterThan(0);
+    expect(lessonSatisfied('logistics-merger-produce', engine.getState(), null)).toBe(false);
+    engine.toggleNodeProcessingPause(kiln.id);
+    run(engine, 10);
+    expect(lessonSatisfied('logistics-merger-produce', engine.getState(), null)).toBe(true);
+    engine.replaceState(createTutorialState('logistics', 'merger'));
+    expect(lessonSatisfied('logistics-merger-produce', engine.getState(), null)).toBe(false);
+  });
+
+  it('keeps Logistics production checks between rotation and the manual completion cards without a Continue bypass', () => {
+    for (const family of ['splitter', 'merger'] as const) {
+      const produce = `logistics-${family}-produce` as const;
+      expect(LOGISTICS_STAGES.indexOf(produce)).toBe(LOGISTICS_STAGES.indexOf(`logistics-${family}-rotate`) + 1);
+      expect(LOGISTICS_STAGES.indexOf(`logistics-${family}-complete`)).toBe(LOGISTICS_STAGES.indexOf(produce) + 1);
+      expect(MANUAL_STAGES.has(produce)).toBe(false);
+      expect(MANUAL_STAGES.has(`logistics-${family}-complete`)).toBe(true);
+      expect(LOGISTICS_STAGES).toContain(`logistics-${family}-insert`);
+    }
+  });
+
+  it('requires full suppression rather than the first passed practice check', () => {
     const engine = new GameEngine(createTutorialState('monster-camps'), { autosave: false });
+    const camp = engine.getSector().nodes.find(node => node.id === 'tutorial-camp')!;
+    const deposit = engine.getSector().nodes.find(node => node.guardedCampId === camp.id)!;
+    expect(lessonSatisfied('monster-camp-suppression', engine.getState(), null)).toBe(false);
     expect(engine.connectPorts('tutorial-bots', 0, 'tutorial-camp', 0)).toBe(true);
     run(engine, 10);
+    expect(camp).toMatchObject({ suppressed: true, campStrength: 15 });
+    expect(deposit.guardedLocked).toBe(true);
+    expect(lessonSatisfied('monster-camp-suppression', engine.getState(), null)).toBe(false);
+    run(engine, 55);
+    expect(lessonSatisfied('monster-camp-suppression', engine.getState(), null)).toBe(false);
+    run(engine, 1);
+    expect(camp).toMatchObject({ suppressed: true, campStrength: 10 });
+    expect(deposit.guardedLocked).toBe(false);
     expect(lessonSatisfied('monster-camp-suppression', engine.getState(), null)).toBe(true);
+    engine.replaceState(createTutorialState('monster-camps'));
+    expect(lessonSatisfied('monster-camp-suppression', engine.getState(), null)).toBe(false);
   });
   it('supplies enough practice bots to unlock and refill the real guarded deposit', () => {
     const engine = new GameEngine(createTutorialState('monster-camps'), { autosave: false });

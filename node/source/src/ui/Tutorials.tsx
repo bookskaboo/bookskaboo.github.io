@@ -7,6 +7,7 @@ import type { GameEngine } from '../simulation/engine';
 import type { CameraState, GameState, MachineNode, NodeKind } from '../domain/types';
 import { getNodeSize, getPortAnchor } from '../domain/nodeGeometry';
 import { campStatus } from '../simulation/campStatus';
+import { isCampFullySuppressed } from '../simulation/goblinTribute';
 import { availableTutorials } from '../tutorials/tutorialUnlocks';
 import { BASIC_STAGES, createTutorialState, expansionCable, type TutorialKind, lessonCopy, lessonSatisfied, MANUAL_STAGES, TUTORIAL_NAMES } from '../tutorials/tutorialRuntime';
 import { PanelHeader } from './PanelHeader';
@@ -145,7 +146,7 @@ export function TutorialGuide({ session, game, camera, nodePositions, panel, pla
         {stage === 'expansion-intro' && <p className="tutorial-road-route" aria-label="Sending Cart to Road pair to receiving Cart">Cart → Road pair → Cart</p>}
         {placementCorrection && <p className="tutorial-correction" role="status">{placementCorrection}</p>}
         {stage === 'control-group-move' && <p className="tutorial-status" role="status">{movedMembers} / 3 moved{movedMembers === 3 ? ' · Release to confirm' : ''}</p>}
-        {campProgress && <p className="tutorial-status">{campProgress.suppliedAp} / {campProgress.requiredAp} AP · {campProgress.secondsRemaining}s to check{camp.suppressed ? ' · Suppressed' : ''}</p>}
+        {campProgress && <p className="tutorial-status">{campProgress.suppliedAp} / {campProgress.requiredAp} AP · {campProgress.secondsRemaining}s to check{isCampFullySuppressed(camp) ? ' · Fully suppressed' : camp.suppressed ? ' · Check passed' : ''}</p>}
       </div>
       <footer className="tutorial-actions tutorial-footer">
         <button className="tutorial-button" onClick={() => { if (onRestart) { onRestart(); return; } engine.replaceState(createTutorialState(kind)); onPanel(null); setDetailsExpanded(false); setIndex(0); }}>Restart</button>

@@ -36,7 +36,7 @@ const adaptations: Partial<Record<TutorialStage, Partial<{ title: string; body: 
   },
   'expansion-road-place': {
     title: 'Build a Road pair',
-    body: 'Both endpoints need clear space. In your factory, click either endpoint to reverse the route.',
+    body: 'Both endpoints need clear space. In your factory, right-click either Road to reverse the route. This disconnects both endpoints’ cables; reconnect them for the new direction.',
     instruction: 'Open Build, choose Road, and place it at the highlighted east edge.',
   },
   'expansion-road-feed': {
@@ -150,6 +150,16 @@ const adaptations: Partial<Record<TutorialStage, Partial<{ title: string; body: 
     body: 'Both inputs and the output rotate together.',
     instruction: 'Right-click the connected Merger once.',
   },
+  'logistics-splitter-produce': {
+    title: 'Check both branches',
+    body: 'Both routes need to deliver Wood before the Kilns can make Charcoal.',
+    instruction: 'Wait for both Kilns to produce Charcoal.',
+  },
+  'logistics-merger-produce': {
+    title: 'Check the merged stream',
+    body: 'The matching streams feed one Kiln. It still expects Wood.',
+    instruction: 'Wait for the Kiln to produce Charcoal.',
+  },
   'logistics-splitter-complete': { instruction: 'Continue to insert a Splitter.' },
   'logistics-merger-complete': { instruction: 'Continue to insert a Merger.' },
   'control-group-click': {
@@ -181,7 +191,7 @@ const adaptations: Partial<Record<TutorialStage, Partial<{ title: string; body: 
   'monster-camp-suppression': {
     title: 'Supply Attack Power',
     body: 'The camp keeps a schedule. Supplying enough attack power at a check pushes its border back.',
-    instruction: 'Connect the stocked Cart to the camp’s center input and wait for a passed check.',
+    instruction: 'Connect the stocked Cart to the camp’s center input and keep it supplied until the camp is fully suppressed.',
   },
   'monster-camp-growth': {
     title: 'Keep the bots coming',
