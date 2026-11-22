@@ -1,0 +1,110 @@
+{
+  "allMatch": true,
+  "results": [
+    {
+      "slice": "placement",
+      "cases": [
+        {
+          "scenario": "ordinary",
+          "states": 36,
+          "publications": 20
+        },
+        {
+          "scenario": "roads",
+          "states": 14,
+          "publications": 7
+        },
+        {
+          "scenario": "protected",
+          "states": 12,
+          "publications": 5
+        },
+        {
+          "scenario": "modded",
+          "states": 38,
+          "publications": 22
+        }
+      ],
+      "allMatch": true
+    },
+    {
+      "slice": "movement",
+      "cases": [
+        {
+          "scenario": "ordinary",
+          "states": 36,
+          "publications": 20
+        },
+        {
+          "scenario": "roads",
+          "states": 14,
+          "publications": 7
+        },
+        {
+          "scenario": "protected",
+          "states": 12,
+          "publications": 5
+        },
+        {
+          "scenario": "modded",
+          "states": 38,
+          "publications": 22
+        }
+      ],
+      "allMatch": true
+    },
+    {
+      "slice": "connections",
+      "cases": [
+        {
+          "scenario": "ordinary",
+          "states": 36,
+          "publications": 20
+        },
+        {
+          "scenario": "roads",
+          "states": 14,
+          "publications": 7
+        },
+        {
+          "scenario": "protected",
+          "states": 12,
+          "publications": 5
+        },
+        {
+          "scenario": "modded",
+          "states": 38,
+          "publications": 22
+        }
+      ],
+      "allMatch": true
+    },
+    {
+      "slice": "selection",
+      "cases": [
+        {
+          "scenario": "ordinary",
+          "states": 36,
+          "publications": 20
+        },
+        {
+          "scenario": "roads",
+          "states": 14,
+          "publications": 7
+        },
+        {
+          "scenario": "protected",
+          "states": 12,
+          "publications": 5
+        },
+        {
+          "scenario": "modded",
+          "states": 38,
+          "publications": 22
+        }
+      ],
+      "allMatch": true
+    }
+  ],
+  "scope": "Deterministic public command results, full state and publication comparisons for four frozen slices; not a performance or balance measurement."
+}

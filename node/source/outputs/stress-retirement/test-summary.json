@@ -1,0 +1,48 @@
+{
+  "passed": 2354,
+  "failed": 0,
+  "skipped": 1,
+  "current": 1558,
+  "archived": 796,
+  "skippedFiles": [
+    "D:/node factory v2/.artifact-work/node-release-2026-11-08/node/source/scripts/stress.test.ts"
+  ],
+  "retiredCurrentFixtureDiscovered": false,
+  "retainedCoverage": [
+    {
+      "file": "D:/node factory v2/src/simulation/roadCapacity.test.ts",
+      "passed": 5,
+      "status": "passed"
+    },
+    {
+      "file": "D:/node factory v2/src/simulation/roadFlow.test.ts",
+      "passed": 14,
+      "status": "passed"
+    },
+    {
+      "file": "D:/node factory v2/src/simulation/roadMaterials.test.ts",
+      "passed": 32,
+      "status": "passed"
+    },
+    {
+      "file": "D:/node factory v2/src/simulation/roadStorage.test.ts",
+      "passed": 9,
+      "status": "passed"
+    },
+    {
+      "file": "D:/node factory v2/previews/active-factory/benchmark.test.ts",
+      "passed": 2,
+      "status": "passed"
+    },
+    {
+      "file": "D:/node factory v2/previews/active-factory/dense.test.ts",
+      "passed": 5,
+      "status": "passed"
+    },
+    {
+      "file": "D:/node factory v2/previews/active-factory/model.test.ts",
+      "passed": 4,
+      "status": "passed"
+    }
+  ]
+}

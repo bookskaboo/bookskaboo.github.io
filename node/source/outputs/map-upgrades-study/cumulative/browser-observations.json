@@ -1,0 +1,76 @@
+{
+  "date": "2026-11-21",
+  "url": "http://127.0.0.1:4174/outputs/status-page/map-upgrades.html",
+  "desktop": {
+    "height": 923,
+    "lakeCosts": [
+      "5 Simple Cores; view recipe",
+      "5 Basic Cores; view recipe",
+      "5 Automata Cores; view recipe"
+    ],
+    "overflow": false,
+    "rows": [
+      "mapNode",
+      "exploration",
+      "surveyGoblinCamps",
+      "surveyLakes"
+    ],
+    "toolbar": {
+      "actions": {
+        "bottom": 252.62019157409668,
+        "left": 1011.4423217773438,
+        "right": 1147.860595703125,
+        "top": 223.6298065185547
+      },
+      "completed": {
+        "bottom": 247.6081714630127,
+        "left": 747.1033935546875,
+        "right": 861.7908935546875,
+        "top": 228.6298065185547
+      },
+      "mapTab": {
+        "bottom": 252.62019157409668,
+        "left": 647.7283935546875,
+        "right": 742.1033935546875,
+        "top": 223.6298065185547
+      },
+      "row": {
+        "bottom": 252.62019157409668,
+        "left": 426.7427978515625,
+        "right": 1147.860595703125,
+        "top": 223.6298065185547
+      }
+    },
+    "width": 1210
+  },
+  "mobile": {
+    "golemCosts": [
+      "5 Simple Cores; view recipe",
+      "5 Basic Cores; view recipe",
+      "5 Automata Cores; view recipe",
+      "5 Hydro Cores; view recipe",
+      "5 Shiny Cores; view recipe",
+      "5 Complex Cores; view recipe",
+      "5 Final Cores; view recipe"
+    ],
+    "height": 845,
+    "overflow": false,
+    "width": 390
+  },
+  "checks": [
+    "All survey bills include Simple and every Core through the survey tier",
+    "Lake survey shows 5 Simple, 5 Basic and 5 Automata; queue waits for all three and totals 15",
+    "Actual test-lab completion marks Lake survey complete",
+    "Changing Lake price to 2 applies to all three Core types; restore returns all to 5",
+    "Exploration combines the previous Exploration/Road benefit with the same 5 Simple + 5 Basic bill",
+    "Completing Exploration banks one Map Point and unlocks Road prerequisites; River Bridges becomes available",
+    "No separate Road card; first rows are Extra Map Point, Exploration, Goblin camp survey, Lake survey",
+    "Show completed is between the map tab and right-aligned queue/pause actions",
+    "Final Golem survey displays seven cumulative Core badges on mobile without horizontal overflow"
+  ],
+  "console": [],
+  "limits": [
+    "Isolated author catalog and fixture-only combined unlock adapter",
+    "No campaign storage, main-game adoption or global-survey wiring"
+  ]
+}

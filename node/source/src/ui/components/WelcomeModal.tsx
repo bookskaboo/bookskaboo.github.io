@@ -1,4 +1,5 @@
 import { LINE_ART } from '../../art/lineArt';
+import { Dialog } from './Dialog';
 
 const DIAGRAM_NODES = [
   { icon: 'tree', name: 'Harvest', x: 79, y: 106, color: '#92b991' },
@@ -8,7 +9,7 @@ const DIAGRAM_NODES = [
 
 export function WelcomeModal({ onClose, onTutorials }: { onClose(): void; onTutorials(): void }) {
   return <div className="modal-backdrop welcome-backdrop">
-    <section className="welcome-modal glass" role="dialog" aria-modal="true" aria-labelledby="welcome-title">
+    <Dialog className="welcome-modal glass" aria-labelledby="welcome-title" onDismiss={onClose}>
       <button className="close-welcome" aria-label="Close welcome" onClick={onClose}>×</button>
       <div className="welcome-art" aria-hidden="true">
         <svg viewBox="0 0 420 380" fill="none" strokeLinecap="round" strokeLinejoin="round">
@@ -39,6 +40,6 @@ export function WelcomeModal({ onClose, onTutorials }: { onClose(): void; onTuto
         </div>
         <small className="privacy-note">Progress stays in this browser. The cloud has enough on its plate.</small>
       </div>
-    </section>
+    </Dialog>
   </div>;
 }

@@ -15,6 +15,7 @@ try {
   const { NODE_DEFINITIONS } = await load('nodes');
   const { NODE_CAPABILITIES } = await load('nodeCapabilities');
   const { RESEARCH_PROJECTS, getResearchCosts } = await load('research');
+  const { researchTriggerCopy } = await load('researchGuidance');
   const { activateMod } = await server.ssrLoadModule('/src/mods/modContent.ts');
   activateMod();
   const { MACHINE_EFFICIENCY, efficiencyFactors } = await load('machineEfficiency');
@@ -23,6 +24,11 @@ try {
   const { buildResearchTree } = await server.ssrLoadModule('/src/ui/researchTree.ts');
   const { BOT_BUILDS, BOT_FRAMES, BOT_GUNS, BOT_FRAME_AP, BOT_GUN_MULTIPLIERS } = await load('botAssembly');
   const researchNames = Object.fromEntries(RESEARCH_PROJECTS.map(p => [p.id, p.name]));
+  const triggerRequirement = project => {
+    const current = researchTriggerCopy(project, { worldRulesVersion: 2 })?.pending;
+    const legacy = researchTriggerCopy(project, { worldRulesVersion: 1 })?.pending;
+    return current === legacy ? current : `New worlds: ${current} Legacy worlds: ${legacy}.`;
+  };
   const name = id => ITEM_NAMES[id] ?? id;
   const cell = value => String(value).replaceAll('|', '\\|').replaceAll('\n', ' ');
   const table = (head, rows) => [head, head.map(() => '---'), ...rows].map(row => `| ${row.map(cell).join(' | ')} |`).join('\n');
@@ -77,7 +83,7 @@ try {
   }
   const reviewChart = '## Progression review chart\n\n' +
     'All live projects in Core-stage order, with prerequisites before dependent projects using the game\'s research tree. Independent branches within a stage have no mandatory order; ties retain catalog order. A stage includes any later Core access required by prerequisites or a Core-production trigger. Automatic discoveries can occur at different times during play.\n\n' +
-    '**Highest Core** is the highest-tier Core in the project\'s bill. **Number cost** is the quantity of that Core on the first purchase, not the total bill. All current paid opening bills require the same quantity of every lower Core too. Simple Core is a starting Refiner recipe with no research gate or research row. Automatic discoveries cost 0. Repeatables are marked ↻; later prices can grow. Extra Map Point shows its fallback opening price; ordinary play uses the selected destination\'s quote. These are current base-game values, separate from the Status prototype proposals.\n\n' +
+    '**Highest Core** is the highest-tier Core in the project\'s bill. **Number cost** is the quantity of that Core on the first purchase, not the total bill. All current paid opening bills require the same quantity of every lower Core too. Simple Core is a starting Refiner recipe with no research gate or research row. Automatic discoveries cost 0. Repeatables are marked ↻; later prices can grow. Extra Map Point shows its opening point-purchase price. Unmodded new, loaded and replaced factories bank points; later bills depend on completion count and Core access, and existing quoted bills retain their amounts and paid contributions through conversion. Spending one saved point activates a frontier, with travel separate. Destination-priced quotes remain a compatibility path for applied-mod factories whose saved rules select it. See [Research](../research.md#payment-cycles-and-map-points) and [map rules](../map-nodes-and-exploration.md) for current pricing and compatibility. Author-only survey/tab proposals are outside this live catalog.\n\n' +
     Array.from({ length: CORE_RESEARCH.length + 1 }, (_, stage) => {
       const nodes = reviewNodes.filter(node => node.stage === stage);
       if (!nodes.length) return '';
@@ -90,14 +96,14 @@ try {
             throw new Error(`Research review needs a nonuniform-bill explanation: ${project.id}`);
           }
           return [projectLink(project.id) + (project.repeatable ? ' ↻' : ''), core?.name ?? 'None (automatic)', core ? costs[core.item] : 0,
-            project.unlock.replace(/[.!?]?$/, '.') + (project.trigger ? ` Automatic: ${project.trigger.pending.replace(/[.!?]?$/, '.')}` : '')];
+            project.unlock.replace(/[.!?]?$/, '.') + (project.trigger ? ` Automatic: ${triggerRequirement(project).replace(/[.!?]?$/, '.')}` : '')];
         }));
     }).filter(Boolean).join('\n\n') + '\n\n## Full project details\n\n';
 
-  emit('research.md', header('Research catalog', ['research', 'coreResearch', 'machineEfficiency', 'endgame']) +
+  emit('research.md', header('Research catalog', ['research', 'researchGuidance', 'coreResearch', 'machineEfficiency', 'endgame']) +
     `${RESEARCH_PROJECTS.length} live unmodded projects, including character upgrades, automatic discoveries and repeatables. Costs are the assembled first-purchase prices after minimum-price rules. Extra Map Point awards a banked point; its row is the opening price and repeatable costs can grow. Prerequisites include both prerequisite fields; an internal production milestone has no research card. Applied-mod factories retain their existing catalog pending Upgrades support.\n\n` +
     reviewChart +
-    RESEARCH_PROJECTS.map(p => `<a id="research-${p.id}"></a>\n\n## ${p.name}\n\n` + table(['ID', 'Category', 'Price or discovery', 'Prerequisites', 'Effect'], [[`\`${p.id}\`${p.repeatable ? ' (repeatable)' : ''}`, p.category, p.trigger ? `Automatic: ${p.trigger.pending}` : bag(getResearchCosts(p)), [...new Set([p.prerequisite, ...(p.prerequisites ?? [])].filter(Boolean))].map(projectLink).join(', ') || 'None', p.unlock]]) + (p.costGrowth ? `\n\nCost growth per completion: ×${p.costGrowth}, rounded up with the applicable Core minimum.` : '')).join('\n\n'));
+    RESEARCH_PROJECTS.map(p => `<a id="research-${p.id}"></a>\n\n## ${p.name}\n\n` + table(['ID', 'Category', 'Price or discovery', 'Prerequisites', 'Effect'], [[`\`${p.id}\`${p.repeatable ? ' (repeatable)' : ''}`, p.category, p.trigger ? `Automatic: ${triggerRequirement(p)}` : bag(getResearchCosts(p)), [...new Set([p.prerequisite, ...(p.prerequisites ?? [])].filter(Boolean))].map(projectLink).join(', ') || 'None', p.unlock]]) + (p.costGrowth ? `\n\nCost growth per completion: ×${p.costGrowth}, rounded up with the applicable Core minimum.` : '')).join('\n\n'));
 
   emit('items.md', header('Materials and resource use catalog', ['items', 'recipes', 'botAssembly']) +
     'Every material name and serialized ID is listed, including compatibility-only bot buckets and deferred Power. Recipe consumers below are direct inputs; recursive raw-resource bills also depend on recipe alternatives, waste recovery and acquisition support. Non-recipe sinks are covered in [resource use](../resource-use.md). Suppression Bot variants share one logistics material while retaining AP in stock.\n\n' +

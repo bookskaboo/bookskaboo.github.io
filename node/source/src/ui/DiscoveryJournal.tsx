@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Dialog } from './components/Dialog';
 import { BUILDABLE_NODES, isNodeUnlocked } from '../content/nodes';
 import { getResearchProject, RESEARCH_PROJECTS } from '../content/research';
 import type { GameState, NodeKind } from '../domain/types';
@@ -86,7 +87,7 @@ export function DiscoveryJournal({ game, onClose, onOpen }: { game: GameState; o
   ].filter(entry => category === 'All' || entry.category === category)
     .sort((a, b) => (recordedTime(b.elapsedMs) ?? -1) - (recordedTime(a.elapsedMs) ?? -1) || (b.at ?? 0) - (a.at ?? 0));
 
-  return <div className="modal-backdrop"><section className="modal journal-modal glass discovery-journal" aria-label="Discovery Journal">
+  return <div className="modal-backdrop"><Dialog panel className="modal journal-modal glass discovery-journal" aria-label="Discovery Journal" onDismiss={onClose}>
     <header className="panel-header"><div><h2>Discovery Journal</h2></div><button aria-label="Close journal" onClick={onClose}>×</button></header>
     <p className="discovery-intro">A record of discoveries. Memory has other commitments.</p>
     <div className="discovery-summary">Discovered nodes <b>{nodes.length} / {BUILDABLE_NODES.length}</b></div>
@@ -109,5 +110,5 @@ export function DiscoveryJournal({ game, onClose, onOpen }: { game: GameState; o
       ))}
       {!entries.length && <p className="empty-state">No discoveries here yet. A pristine record.</p>}
     </div>
-  </section></div>;
+  </Dialog></div>;
 }

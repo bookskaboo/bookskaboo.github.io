@@ -1,0 +1,84 @@
+{
+  "checkedAt": "2026-11-22T08:09:41.857Z",
+  "url": "http://127.0.0.1:4208/node/",
+  "allMatch": true,
+  "files": [
+    {
+      "file": "assets/browserAll-B_Fy-RLr.js",
+      "status": 200,
+      "bytes": 43485,
+      "sha256": "c188db5c06a86673fb89e3dbf3014824a51038084e5f5851d6b0665dca887f08",
+      "matches": true
+    },
+    {
+      "file": "assets/CanvasPool-O_8k9jVW.js",
+      "status": 200,
+      "bytes": 113033,
+      "sha256": "9cf12a9f53a878bb8f9f46337b799031a6986b5f87dd775ef57b2902ae0dc9cd",
+      "matches": true
+    },
+    {
+      "file": "assets/canvasUtils-DHiBpmSz.js",
+      "status": 200,
+      "bytes": 6013,
+      "sha256": "8843c3459529c72ffb9a82655454eff39f3458448dd2ae362764f3be4933288f",
+      "matches": true
+    },
+    {
+      "file": "assets/getTexelRangeRects-BhRlOlmi.js",
+      "status": 200,
+      "bytes": 11314,
+      "sha256": "ca0b3e94399ce67c9dca1ec3021473e2542251d523bc93bd04a9b149070dd130",
+      "matches": true
+    },
+    {
+      "file": "assets/getTextureBatchBindGroup-CDnZS9mH.js",
+      "status": 200,
+      "bytes": 344,
+      "sha256": "2b2eff79ef557432774e0acd98963de65847a16840f0b738b07556ea37e21caa",
+      "matches": true
+    },
+    {
+      "file": "assets/index-Ca6Nwvru.css",
+      "status": 200,
+      "bytes": 189499,
+      "sha256": "a38b49db80ae755f87b5f25f4e792f81aa48ab2874e3d5ad2eb94491c687a609",
+      "matches": true
+    },
+    {
+      "file": "assets/index-CwWJ5EJi.js",
+      "status": 200,
+      "bytes": 1242749,
+      "sha256": "1623bb5222e90844c3bdcb0b7abcd6b17cef0f60bcf42d0dd06dfc90ce1c8880",
+      "matches": true
+    },
+    {
+      "file": "assets/init-DZ7sSiO_.js",
+      "status": 200,
+      "bytes": 14190,
+      "sha256": "7f5958557e6841041e5c70c2a3f8d843702ae4d5ce80fa1e946f61a92cdcf3f0",
+      "matches": true
+    },
+    {
+      "file": "assets/RenderTargetSystem-D85YXrAp.js",
+      "status": 200,
+      "bytes": 78118,
+      "sha256": "20605afc2541d39cab4bebe036e73f8de687ac78d22cd48b5485993be0c8604f",
+      "matches": true
+    },
+    {
+      "file": "assets/webworkerAll-CY6p_HB-.js",
+      "status": 200,
+      "bytes": 55,
+      "sha256": "14e3006c21ae4999f6ce1760c6be02b68f068693bff703ac1415789682eb567b",
+      "matches": true
+    },
+    {
+      "file": "index.html",
+      "status": 200,
+      "bytes": 2445,
+      "sha256": "97fb0566b45343805ff52e94bc39615eea917a3f78f55a8ddee08e61ce51d626",
+      "matches": true
+    }
+  ]
+}

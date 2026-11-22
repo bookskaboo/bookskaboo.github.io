@@ -1,4 +1,5 @@
 import { FINAL_CORE_PRODUCTION } from '../content/endgame';
+import { researchTriggerCopy } from '../content/researchGuidance';
 import type { CSSProperties } from 'react';
 import { ITEM_NAMES } from '../content/items';
 import { getResearchProject, remainingMapNodePurchases } from '../content/research';
@@ -12,6 +13,7 @@ import { mapResearchNeedsDestination, canPurchaseMap } from '../simulation/mapEx
 import { mapNodePosition } from '../domain/worldGrid';
 
 export function ResearchProjectDetail({ project, game, engine, canInspect, guided, onPrerequisite, onOpenRecipe, onOpenMap }: { project: ResearchProject; game: GameState; engine: GameEngine; canInspect?(id: string): boolean; guided?: boolean; onPrerequisite(id: string): void; onOpenRecipe(recipeId: string): void; onOpenMap?(): void }) {
+  const trigger = researchTriggerCopy(project, game);
   const { active, rows, status } = researchProgress(project, game);
   const section = researchSection(project, game);
   const expansionFunded = project.id === 'mapNode' && remainingMapNodePurchases(game) === 0;
@@ -50,7 +52,7 @@ export function ResearchProjectDetail({ project, game, engine, canInspect, guide
         <strong className="research-detail-total" aria-label={`${paid} of ${total} Cores researched`}>{paid}/{total}</strong>
       </div>}
     </header>
-    {project.trigger && <p>{section === 'completed' ? project.trigger.complete : project.trigger.pending}</p>}
+    {trigger && <p>{section === 'completed' ? trigger.complete : trigger.pending}</p>}
     <div className="research-prerequisites">{visibleResearchRequirements(project, game).map(id => id === FINAL_CORE_PRODUCTION
       ? <button key={id} disabled={guided} onClick={() => onOpenRecipe('final-core')}>Produce a Final Core →</button>
       : <button key={id} disabled={Boolean(canInspect && !canInspect(id))} onClick={() => onPrerequisite(id)}>Requires {researchPrerequisiteName(id)} →</button>)}</div>

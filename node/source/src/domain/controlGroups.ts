@@ -65,3 +65,17 @@ export class ControlGroupSelection {
     return selected.includes(id) ? [...selected] : shift ? [...selected, id] : [id];
   }
 }
+
+/** Validate creation without changing membership, taking a checkpoint or allocating an ID. */
+export function planControlGroupCreation(nodes: readonly MachineNode[], ids: readonly string[], colorValue: string) {
+  const available = new Set(nodes.filter(node => isPlayerMovableNode(node.kind) && !node.disabled).map(node => node.id));
+  const nodeIds = [...new Set(ids)].filter(id => available.has(id));
+  const color = CONTROL_GROUP_COLORS.find(color => color.value === colorValue);
+  if (nodeIds.length < 2 || !color) return;
+  return { nodeIds, color };
+}
+
+export function planControlGroupDisband(groups: readonly ControlGroup[] | undefined, id: string) {
+  if (!groups?.some(group => group.id === id)) return;
+  return groups.filter(group => group.id !== id);
+}

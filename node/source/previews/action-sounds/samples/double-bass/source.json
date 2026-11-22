@@ -1,0 +1,75 @@
+{
+  "library": "VSCO 2 Community Edition — Solo Contrabass",
+  "author": "Versilian Studios / Sam Gossner",
+  "repository": "https://github.com/sgossner/VSCO-2-CE",
+  "commit": "440300901dfe9275fd84e0b7763af1f8443ae62e",
+  "license": "CC0-1.0",
+  "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "articulation": "Soft sustained bowed double bass, non-vibrato, v1 rr1",
+  "samples": [
+    {
+      "file": "c1.wav",
+      "sourceNote": "C1",
+      "original": "Strings/Solo Contrabass/SusNV/BKCtbss_SusNV_C1_v1_rr1.wav",
+      "url": "https://raw.githubusercontent.com/sgossner/VSCO-2-CE/440300901dfe9275fd84e0b7763af1f8443ae62e/Strings/Solo%20Contrabass/SusNV/BKCtbss_SusNV_C1_v1_rr1.wav",
+      "sha256": "c930941735e707b109878f4734110412ebe26b983c2b3e300510175aedf5e61c",
+      "bytes": 1458252
+    },
+    {
+      "file": "d1.wav",
+      "sourceNote": "D1",
+      "original": "Strings/Solo Contrabass/SusNV/BKCtbss_SusNV_D1_v1_rr1.wav",
+      "url": "https://raw.githubusercontent.com/sgossner/VSCO-2-CE/440300901dfe9275fd84e0b7763af1f8443ae62e/Strings/Solo%20Contrabass/SusNV/BKCtbss_SusNV_D1_v1_rr1.wav",
+      "sha256": "d07634bec7bb0d736375bfb0c514f3d7586d9a625c4f56f4936556e247b33812",
+      "bytes": 2548840
+    },
+    {
+      "file": "e1.wav",
+      "sourceNote": "E1",
+      "original": "Strings/Solo Contrabass/SusNV/BKCtbss_SusNV_E1_v1_rr1.wav",
+      "url": "https://raw.githubusercontent.com/sgossner/VSCO-2-CE/440300901dfe9275fd84e0b7763af1f8443ae62e/Strings/Solo%20Contrabass/SusNV/BKCtbss_SusNV_E1_v1_rr1.wav",
+      "sha256": "90428ce30d89c2eab94187a2d2c589758bc7027b8f0c8d3e2cce165972f60e21",
+      "bytes": 2824612
+    },
+    {
+      "file": "fs1.wav",
+      "sourceNote": "F#1",
+      "original": "Strings/Solo Contrabass/SusNV/BKCtbss_SusNV_F#1_v1_rr1.wav",
+      "url": "https://raw.githubusercontent.com/sgossner/VSCO-2-CE/440300901dfe9275fd84e0b7763af1f8443ae62e/Strings/Solo%20Contrabass/SusNV/BKCtbss_SusNV_F%231_v1_rr1.wav",
+      "sha256": "a678ba2e2399b7da502628962575e904127d5f5a2a68a6ab6c4237c7281dee4b",
+      "bytes": 1322048
+    },
+    {
+      "file": "gs1.wav",
+      "sourceNote": "G#1",
+      "original": "Strings/Solo Contrabass/SusNV/BKCtbss_SusNV_G#1_v1_rr1.wav",
+      "url": "https://raw.githubusercontent.com/sgossner/VSCO-2-CE/440300901dfe9275fd84e0b7763af1f8443ae62e/Strings/Solo%20Contrabass/SusNV/BKCtbss_SusNV_G%231_v1_rr1.wav",
+      "sha256": "c7adf9c807d5425e3ce88246a5ad716fdfa573b6b1185540052a5b5cf8118ac8",
+      "bytes": 1342128
+    },
+    {
+      "file": "a1.wav",
+      "sourceNote": "A1",
+      "original": "Strings/Solo Contrabass/SusNV/BKCtbss_SusNV_A1_v1_rr1.wav",
+      "url": "https://raw.githubusercontent.com/sgossner/VSCO-2-CE/440300901dfe9275fd84e0b7763af1f8443ae62e/Strings/Solo%20Contrabass/SusNV/BKCtbss_SusNV_A1_v1_rr1.wav",
+      "sha256": "06057880075d08c3f5a9df78bb7ec07f4cd41bd26e09a69f7a2e92cc66f308d9",
+      "bytes": 1249496
+    },
+    {
+      "file": "cs2.wav",
+      "sourceNote": "C#2",
+      "original": "Strings/Solo Contrabass/SusNV/BKCtbss_SusNV_C#2_v1_rr1.wav",
+      "url": "https://raw.githubusercontent.com/sgossner/VSCO-2-CE/440300901dfe9275fd84e0b7763af1f8443ae62e/Strings/Solo%20Contrabass/SusNV/BKCtbss_SusNV_C%232_v1_rr1.wav",
+      "sha256": "2bbc1f013bf4725dc45dde12d1a83c71bf6681920824932059799c1d4c7e1a4b",
+      "bytes": 1162724
+    },
+    {
+      "file": "e2.wav",
+      "sourceNote": "E2",
+      "original": "Strings/Solo Contrabass/SusNV/BKCtbss_SusNV_E2_v1_rr1.wav",
+      "url": "https://raw.githubusercontent.com/sgossner/VSCO-2-CE/440300901dfe9275fd84e0b7763af1f8443ae62e/Strings/Solo%20Contrabass/SusNV/BKCtbss_SusNV_E2_v1_rr1.wav",
+      "sha256": "1b9d36042135c2eda513881612fb550a1b2669caddf70a7a514caeb4725fbbf2",
+      "bytes": 1356572
+    }
+  ]
+}

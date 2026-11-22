@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react';
 import { PanelHeader } from '../PanelHeader';
+import { Dialog } from '../components/Dialog';
 
 const COMMAND_GROUPS = [
   {
@@ -102,7 +103,7 @@ export function CommandsPanel({ onClose }: { onClose(): void }) {
 
   return (
     <div className="modal-backdrop">
-      <section className="modal commands-modal glass" role="dialog" aria-label="Commands"
+      <Dialog panel className="modal commands-modal glass" aria-label="Commands" onDismiss={onClose}
         onKeyDown={event => { if (event.code === 'Space') event.stopPropagation(); }}>
         <PanelHeader title="Commands" onClose={onClose} />
         <div className="commands-toolbar">
@@ -141,7 +142,7 @@ export function CommandsPanel({ onClose }: { onClose(): void }) {
             <button type="button" onClick={() => { setFilter('all'); setQuery(''); scrollToTop(); }}>Clear search and filters</button>
           </div>}
         </div>
-      </section>
+      </Dialog>
     </div>
   );
 }

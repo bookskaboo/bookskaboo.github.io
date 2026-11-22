@@ -1,0 +1,53 @@
+{
+  "date": "2026-11-21",
+  "scope": "Draft proposal and author preview only",
+  "technical": {
+    "passed": true,
+    "cues": 19,
+    "actionMappings": 26,
+    "format": "44.1 kHz / 16-bit / mono PCM",
+    "minimumPeakHeadroomDb": 15.37216370842567,
+    "maximumAbsoluteDC": 0.00007460938015671193,
+    "checks": [
+      "WAV signatures and sizes",
+      "PCM encoding and duration",
+      "Zero first and last PCM samples",
+      "At least 12 dB headroom; DC under 0.001",
+      "SHA-256 for all individual assets",
+      "All action references resolve",
+      "19 cards and 26 table rows",
+      "Generated JavaScript syntax",
+      "Byte-identical regenerated outputs"
+    ]
+  },
+  "browser": {
+    "passed": true,
+    "url": "http://127.0.0.1:4174/outputs/action-sounds/proposal.html",
+    "checks": [
+      "Initial silence and 60% volume",
+      "Reel decodes and plays: 19.395011 seconds, readyState 4",
+      "Switching from reel to Place node decodes 0.23-second sample with no media error",
+      "Volume keyboard change updates label to 1%; Mute checkbox toggles",
+      "Reel completes with Finished status",
+      "Stop pauses and resets currentTime to zero with Stopped status",
+      "Tab from Play all focuses Stop with visible solid outline",
+      "19 sample cards and 26 proposal rows",
+      "Shared compact body and control fonts are 12 CSS px",
+      "Desktop 1280 wide: page scrollWidth 1265, no overflow",
+      "Narrow requested 390x844: page scrollWidth 375; single card column; 850px table scrolls inside 346.6px container",
+      "Viewport override reset; deliverable tab retained; warning/error logs empty"
+    ],
+    "screenshot": "outputs/action-sounds/proposal-desktop.jpg",
+    "notTested": [
+      "Subjective listening quality / physical audio output",
+      "Hidden-tab pause transition",
+      "Cross-browser behavior",
+      "Actual game event hooks and persistent preferences",
+      "Offline file-protocol interaction and print output"
+    ]
+  },
+  "limits": [
+    "Subjective audition and long-session comfort require user review",
+    "No game event integration, campaign access, balance run or publication"
+  ]
+}

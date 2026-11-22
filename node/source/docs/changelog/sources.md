@@ -143,11 +143,11 @@ File: [docs/obstruction-types-and-behavior.md](<../../docs/obstruction-types-and
 
 Source ID: `git-published` · Type: git
 
-File: [outputs/github-pages-deployment](<../../outputs/github-pages-deployment>)
+File: [outputs/node-landmarks-release-2026-11-20/repo](<../../outputs/node-landmarks-release-2026-11-20/repo>)
 
 [Open source](https://github.com/bookskaboo/bookskaboo.github.io/commits/main/node)
 
-Read-only inspection of the local deployment clone. Only game-specific publication commits are listed; unrelated site commits are excluded. This backfill did not push, fetch, or republish.
+Read-only inspection of the local deployment clone. Only game-specific publication commits are listed; unrelated site commits are excluded. This backfill did not push, fetch, or republish. Historical inspection used outputs/github-pages-deployment, retired by NODE-0796. The current path points to the self-contained retained history checkout; original refs and reflog commit tips are recorded in outputs/compiled-checkout-cleanup-2026-11-21/manifest.json.
 
 <a id="local-code"></a>
 ### Current local implementation

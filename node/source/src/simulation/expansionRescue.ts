@@ -1,4 +1,4 @@
-import type { GameState, ItemId, MachineNode } from '../domain/types';
+import type { GameState, ItemId, MachineNode, Recipe } from '../domain/types';
 import { getResearchCostsForState, getResearchProject, isResearchAvailable, remainingMapNodePurchases } from '../content/research';
 import { RECIPES } from '../content/recipes';
 import { RECYCLER_RETURNS } from '../content/recycling';
@@ -34,15 +34,29 @@ function minimumCosts(resource: Resource) {
   return cost;
 }
 
-/** Full standard constituent budgets overestimate actual capped Recycler returns.
- * Stocks are counted once as items, never also as their original ingredients. */
-function resourcePotential(item: ItemId, resource: Resource, seen = new Set<ItemId>()): number {
-  if (RAW.includes(item)) return item === resource ? 1 : 0;
-  if (seen.has(item)) return 0;
-  const next = new Set(seen).add(item);
-  const recipes = Object.values(RECIPES).filter(r => (r.outputs[item] ?? 0) > 0 && !/^(recycle|efficient|composite)-/.test(r.id) && !r.recovery);
-  // Take the most generous finite composition. Unknown stock disables proof below.
-  return Math.max(RECYCLER_RETURNS[item]?.[resource] ?? 0, ...recipes.map(r => Object.entries(r.inputs).reduce((n,[i,q]) => n + q! * resourcePotential(i as ItemId,resource,next),0)/(r.outputs[item] ?? 1)), 0);
+/** One evaluation's lazy producer index; never retain it across catalog/state changes.
+ * Full standard constituent budgets still overestimate actual capped Recycler returns. */
+export function createResourcePotential() {
+  let producers: Map<ItemId, Recipe[]> | undefined;
+  return function resourcePotential(item: ItemId, resource: Resource, seen = new Set<ItemId>()): number {
+    if (RAW.includes(item)) return item === resource ? 1 : 0;
+    if (seen.has(item)) return 0;
+    if (!producers) {
+      producers = new Map();
+      for (const recipe of Object.values(RECIPES)) {
+        if (/^(recycle|efficient|composite)-/.test(recipe.id) || recipe.recovery) continue;
+        for (const [product, amount] of Object.entries(recipe.outputs)) if (amount! > 0) {
+          const key = product as ItemId;
+          const list = producers.get(key);
+          if (list) list.push(recipe); else producers.set(key, [recipe]);
+        }
+      }
+    }
+    const next = new Set(seen).add(item);
+    const recipes = producers.get(item) ?? [];
+    // Values depend on the current recursion path, so only producer lookup is reused.
+    return Math.max(RECYCLER_RETURNS[item]?.[resource] ?? 0, ...recipes.map(r => Object.entries(r.inputs).reduce((n,[i,q]) => n + q! * resourcePotential(i as ItemId,resource,next),0)/(r.outputs[item] ?? 1)), 0);
+  };
 }
 
 export function nextExpansionShortages(state: GameState): Resource[] {
@@ -62,6 +76,7 @@ export function nextExpansionShortages(state: GameState): Resource[] {
   bags.push(state.globalPool ?? {});
   // Pending transfers have already left their sources. Cosmetic pulses contain no stock.
   for (const t of state.inFlightTransfers ?? []) if(!t.cosmeticOnly) bags.push({[t.item]:t.amount??1});
+  const resourcePotential = createResourcePotential();
   return RESCUE_RESOURCES.filter(resource => {
     if (state.rescue?.resources.includes(resource)) return false;
     if (nodes.some(n=>n.resourceItem===resource&&(n.infiniteResource || (state.research.completed.includes('mineralRegeneration')&&(n.resourceCapacity??0)>0)))) return false;

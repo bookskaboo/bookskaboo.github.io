@@ -1,0 +1,62 @@
+{
+  "date": "2026-11-21",
+  "status": "implemented-local",
+  "changelog": "NODE-0775",
+  "scope": "Approved Unknown Device recovery-budget correction; simulation, discovery and player-facing presentation unchanged",
+  "redRegression": {
+    "failed": 22,
+    "passed": 7,
+    "total": 29
+  },
+  "newRegressions": 30,
+  "focusedTests": {
+    "passed": 78,
+    "files": 3,
+    "archiveExcluded": true
+  },
+  "workspaceTests": {
+    "passed": 2298,
+    "failed": 0,
+    "skipped": 2,
+    "currentTreePassed": 1502,
+    "archivePassed": 796
+  },
+  "testScope": "The standard workspace suite includes a preserved .artifact-work release snapshot; the focused run explicitly excludes it",
+  "build": "TypeScript and local Vite production build passed; existing large-chunk warning; CSS asset unchanged",
+  "documentation": "Six catalogs regenerated; 40 documentation files checked",
+  "fixture": "Seed 81; actual unlocked eight-map path to device at 2,10; exhausted finite minerals; actual five-Simple-Core Map bill",
+  "modelChecks": [
+    "One owned seed suppresses the false Copper rescue without factory mutation",
+    "All seven Core tiers, including their paid active cycle, remain tier-specific",
+    "Real input/output/committed output/cargo/eligible pool seeds are recognized",
+    "Locked sectors, layout-only or absent devices, cosmetic cargo, inaccessible pools and paid research do not create seeds",
+    "First-seed manufacturing retains ordinary ingredient deficits; an unfunded seed still permits a real Copper rescue",
+    "Four ordinary five-second device cycles with explicit feedback handoffs yield five Cores from one"
+  ],
+  "limits": [
+    "Headless functional solver/runtime evidence, not campaign timing or a normal-play balance run",
+    "No browser review needed for this internal-only model change",
+    "No campaign storage access, commit or publication"
+  ],
+  "files": [
+    "src/simulation/progressionRecovery.ts",
+    "src/simulation/unknownDeviceRecovery.test.ts",
+    "docs/systems/sustainability-and-recovery.md",
+    "docs/systems/landmarks.md"
+  ],
+  "reviewPage": "https://chatgpt.com/space/page_e7453b10ac2c81919d88f5c40ab191c5",
+  "historyChecks": "All six checks passed; generated history fresh",
+  "pageReadback": {
+    "page": "https://chatgpt.com/space/page_e7453b10ac2c81919d88f5c40ab191c5",
+    "editedBlocksMatch": true,
+    "resolutionPresent": true,
+    "unrelatedBlocksPreserved": true,
+    "nextFindingOpen": true
+  },
+  "sha256": {
+    "src/simulation/progressionRecovery.ts": "e514e56c0d1cdc4c3a51296a4c697d25da9a8a7709f4c1b682e87f5b62be06f5",
+    "src/simulation/unknownDeviceRecovery.test.ts": "3c097eeb28c76d81c99c96f4495ba994096c6f91b8f22244b86960cc1759580f",
+    "docs/systems/sustainability-and-recovery.md": "8e9b41a7ce582b4f0cf9104b411c2fce1a7aa7b78328f0f25018ea8e6c8787c0",
+    "docs/systems/landmarks.md": "6d5bc67d1bebd8e241121f30e65b1d9c99df7a93f1b8d0901cd2fac804958713"
+  }
+}

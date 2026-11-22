@@ -1,0 +1,233 @@
+[
+  {
+    "id": "fresh",
+    "counts": {
+      "sectors": 1,
+      "unlocked": 1,
+      "nodes": 5,
+      "connections": 0
+    },
+    "bytes": {
+      "jsonUtf8": 37666,
+      "jsonCodeUnits": 37632,
+      "estimatedUtf16Value": 75264,
+      "threeSlotsPlusAutosaveCodeUnits": 150856
+    },
+    "heapMiB": 3.111541748046875,
+    "heap75MiB": 3.11163330078125,
+    "afterUndoMiB": 0.17218780517578125,
+    "browser": {
+      "clone": {
+        "medianRangeMs": [
+          0.19999998807907104,
+          0.19999998807907104
+        ],
+        "worstP95Ms": 0.30000001192092896
+      },
+      "stringify": {
+        "medianRangeMs": [
+          0,
+          0.09999996423721313
+        ],
+        "worstP95Ms": 0.19999998807907104
+      },
+      "export": {
+        "medianRangeMs": [
+          0,
+          0.09999996423721313
+        ],
+        "worstP95Ms": 0.19999998807907104
+      },
+      "import": {
+        "medianRangeMs": [
+          0.800000011920929,
+          1.100000023841858
+        ],
+        "worstP95Ms": 2
+      },
+      "checkpoint": {
+        "medianRangeMs": [
+          0.19999998807907104,
+          0.19999998807907104
+        ],
+        "worstP95Ms": 0.30000001192092896
+      },
+      "undo": {
+        "medianRangeMs": [
+          0,
+          0
+        ],
+        "worstP95Ms": 0.10000002384185791
+      },
+      "autosave": {
+        "medianRangeMs": [
+          0.10000002384185791,
+          0.19999998807907104
+        ],
+        "worstP95Ms": 0.3999999761581421
+      },
+      "manualSaveFullCollection": {
+        "medianRangeMs": [
+          2.899999976158142,
+          3.399999976158142
+        ],
+        "worstP95Ms": 4.300000011920929
+      }
+    },
+    "storedCodeUnits": 150820
+  },
+  {
+    "id": "shiny-playtest",
+    "counts": {
+      "sectors": 31,
+      "unlocked": 31,
+      "nodes": 469,
+      "connections": 333
+    },
+    "bytes": {
+      "jsonUtf8": 252998,
+      "jsonCodeUnits": 252938,
+      "estimatedUtf16Value": 505876,
+      "threeSlotsPlusAutosaveCodeUnits": 1012098
+    },
+    "heapMiB": 19.437767028808594,
+    "heap75MiB": 19.437904357910156,
+    "afterUndoMiB": 0.5307540893554688,
+    "browser": {
+      "clone": {
+        "medianRangeMs": [
+          1.100000023841858,
+          1.199999988079071
+        ],
+        "worstP95Ms": 1.5
+      },
+      "stringify": {
+        "medianRangeMs": [
+          0.19999998807907104,
+          0.30000001192092896
+        ],
+        "worstP95Ms": 0.5
+      },
+      "export": {
+        "medianRangeMs": [
+          0.19999998807907104,
+          0.30000001192092896
+        ],
+        "worstP95Ms": 0.5
+      },
+      "import": {
+        "medianRangeMs": [
+          2,
+          2.100000023841858
+        ],
+        "worstP95Ms": 2.600000023841858
+      },
+      "checkpoint": {
+        "medianRangeMs": [
+          1.100000023841858,
+          1.199999988079071
+        ],
+        "worstP95Ms": 1.699999988079071
+      },
+      "undo": {
+        "medianRangeMs": [
+          1.300000011920929,
+          1.5
+        ],
+        "worstP95Ms": 2.899999976158142
+      },
+      "autosave": {
+        "medianRangeMs": [
+          0.800000011920929,
+          1.199999988079071
+        ],
+        "worstP95Ms": 2
+      },
+      "manualSaveFullCollection": {
+        "medianRangeMs": [
+          11.699999988079071,
+          13.099999964237213
+        ],
+        "worstP95Ms": 18.099999964237213
+      }
+    },
+    "storedCodeUnits": 1012062
+  },
+  {
+    "id": "late-playtest",
+    "counts": {
+      "sectors": 64,
+      "unlocked": 64,
+      "nodes": 1159,
+      "connections": 1033
+    },
+    "bytes": {
+      "jsonUtf8": 599749,
+      "jsonCodeUnits": 599623,
+      "estimatedUtf16Value": 1199246,
+      "threeSlotsPlusAutosaveCodeUnits": 2398841
+    },
+    "heapMiB": 45.63622283935547,
+    "heap75MiB": 45.636314392089844,
+    "afterUndoMiB": 1.0388412475585938,
+    "browser": {
+      "clone": {
+        "medianRangeMs": [
+          2.5,
+          2.599999964237213
+        ],
+        "worstP95Ms": 3.099999964237213
+      },
+      "stringify": {
+        "medianRangeMs": [
+          0.5999999642372131,
+          0.699999988079071
+        ],
+        "worstP95Ms": 1.300000011920929
+      },
+      "export": {
+        "medianRangeMs": [
+          0.6000000238418579,
+          0.699999988079071
+        ],
+        "worstP95Ms": 1.199999988079071
+      },
+      "import": {
+        "medianRangeMs": [
+          4.900000035762787,
+          5.200000047683716
+        ],
+        "worstP95Ms": 11.300000011920929
+      },
+      "checkpoint": {
+        "medianRangeMs": [
+          2.600000023841858,
+          2.699999988079071
+        ],
+        "worstP95Ms": 6.699999988079071
+      },
+      "undo": {
+        "medianRangeMs": [
+          0.5999999642372131,
+          0.6000000238418579
+        ],
+        "worstP95Ms": 1.300000011920929
+      },
+      "autosave": {
+        "medianRangeMs": [
+          4.599999964237213,
+          4.899999976158142
+        ],
+        "worstP95Ms": 6
+      },
+      "manualSaveFullCollection": {
+        "medianRangeMs": [
+          26.200000047683716,
+          28.299999952316284
+        ],
+        "worstP95Ms": 43.09999996423721
+      }
+    },
+    "storedCodeUnits": 2398805
+  }
+]

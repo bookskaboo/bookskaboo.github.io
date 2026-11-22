@@ -6,7 +6,7 @@ Local storage buffers material inside a Map Node. Storage and Inventory also pro
 
 ## Local buffers
 
-The separate [landmark proposal](../master-plan/23-map-power-ups.md) selects unchanged ordinary machine buffer capacities for Rapid machines, Doublers and Reclaimer, without the draft two-batch minimum or a capacity bonus. Doubled output does not double a Doubler's buffer. Reclaimer retains its separately agreed no-Water inlet/buffer exception. These landmark rules are planned, not implemented; current capacities remain unchanged.
+Rapid machines, Doublers and Reclaimer retain ordinary machine input/output capacities. Doubled output does not double a Doubler's buffer; a finished oversized batch drains through the ordinary output buffer before another batch starts. Reclaimer has no Water inlet or Water buffer. [Landmark stock and batch rules](landmarks.md#stock-batches-and-routing) describe the implemented behavior.
 
 | Node | Base capacity | Material policy |
 | --- | --- | --- |

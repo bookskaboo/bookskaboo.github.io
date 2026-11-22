@@ -10,7 +10,7 @@
 | Presentation | React UI, PixiJS active-sector graph, 750 ms UI publication | Measure responsiveness as well as engine cost |
 | World | Inactive sectors continue simulating; only active sector renders | Large-world cost includes factories outside the viewport |
 | Persistence | Local save slots, autosave, migration and up to 50 undo checkpoints | Treat save size, migration and undo memory as budgets |
-| Tooling | TypeScript/Vite, Vitest, progression analyses and opt-in stress scenarios | Distinguish analytical assumptions from gameplay evidence |
+| Tooling | TypeScript/Vite, Vitest, progression analyses and active-factory browser measurements | Distinguish analytical assumptions from gameplay evidence; old whole-world stress tooling is retired |
 
 The permanent save keys include `factorinode.save-slots.v1` and `factorinode.temporary-save.v1`. Offline catch-up is disabled in the documented baseline to avoid duplicate production. Save and timing changes need an explicit compatibility design.
 
@@ -21,6 +21,8 @@ Q10 removes Power from the playable game. Load and state replacement archive Pow
 Browser frame rate, input latency, long-session memory, serialization time and undo costs remain unbudgeted for the intended world scale. Historical engine-only stress reports do not establish acceptable browser performance. The 6,540-node estimate comes from 109 maps at 60 nodes per map; both map coverage and readability remain design assumptions.
 
 **Agreed performance priority (Q20, November 2, 2026):** first measure a representative late-game factory in the actual browser on specified hardware, then run larger stress workloads for headroom. Include rendering, interaction/input latency, simulation, memory, saving and undo. Record browser/version, hardware, viewport, factory composition, active/unlocked maps and workload duration. The largest synthetic world is not the initial acceptance workload.
+
+The old whole-world stress benchmark is retired; its [source and reports](../../scripts/archive/engine-stress/README.md) remain historical evidence. The active-factory browser tool and focused Road tests retain their own scopes, leaving whole-world multi-map performance coverage open. A smaller representative benchmark is deferred until cross-map optimization requires it; Q20’s broader performance acceptance work remains unresolved.
 
 The reference factory, hardware/browser matrix and numerical budgets remain to be defined before testing. For stabilization through Complex, use representative implemented late production; extend the workload when tier-7 content exists. Do not turn the provisional 6,540-node estimate into a verified support claim. This is a future validation commitment, not a completed benchmark.
 
@@ -36,7 +38,122 @@ Fresh-game behavior and saving/loading within a supported version still need ver
 
 ## Content change workflow
 
-Exact higher-tier design data and generation instructions live in the existing progression tools. Before changing content, identify the authored input and generated outputs. Regenerate the live catalog and reports in the documented order, inspect the difference, check recursive Core independence, and run relevant checks. Editing a generated value alone can be lost on regeneration.
+Maintain gameplay definitions directly in the [owned content modules](../systems/recipes.md#maintaining-recipes), keeping recipe bills, gates, machine groups and relevant runtime tests aligned. The historical proposal compiler is retired (NODE-0786); its old analytical inputs must not regenerate the live catalog. Run `npm run docs:systems` to refresh documentation tables from the assembled runtime catalogs, then check freshness and local links. Analytical reports remain separate evidence; inspect their assumptions before using them for balance or progression decisions.
+
+## Standalone code organization refactor plan
+
+The targeted maintenance approach is adopted: extract a coherent responsibility when a concrete fix or measured bottleneck calls for it, keeping existing engine entry points and behavior tests stable. The standalone plan was prepared in NODE-0793. **Phases 0 and 1 are complete locally (NODE-0817), Phase 2 is complete locally (NODE-0819), and Phase 3 is complete locally (NODE-0823); Phases 4–5 remain pending.** The [pilot evidence and dependency map](../../outputs/road-command-refactor/README.md), [transport evidence](../../outputs/transport-refactor/README.md) and [factory command evidence](../../outputs/factory-command-refactor/README.md) retain their checkpoints, baselines and verification scope. The shared fresh-layout reset from NODE-0767 remains shared.
+
+This section is the authoritative execution plan. The [architecture reference](../systems/architecture-and-simulation.md#refactoring-guideline) owns the current maintenance guideline; the audit Page summarizes the decision. Record completed stages in the primary changelog rather than starting another chronological history.
+
+### Scope and preserved contracts
+
+The objective is clearer ownership in `GameEngine`, `PixiPlayfield` and `FactoryApp`, with smaller reviewable changes. File length is a symptom, not an acceptance metric or evidence of a speed improvement.
+
+Preserve public engine methods and their return values, validation messages, command/checkpoint/publication order, tick phase order, clocks, IDs, saved fields, migrations, item quantities, FIFO order and paid batches. Preserve current world-rule, terrain and Landmark markers; inactive maps still simulate. Keep the fifty-checkpoint history policy, autosave failure/recovery behavior and the separation between cosmetic and physical cargo.
+
+Keep selectors, subscription optimization, lazy loading, caches, workers, algorithms, balance, new features and dependency upgrades outside this refactor. Those need their own concrete changes and evidence. This plan does not reopen the retired compiler or whole-world benchmark.
+
+### Phase 0 — establish the baseline and ownership map
+
+**Complete locally.** The workspace has no root Git checkout. Stage-scoped file snapshots and SHA-256 fingerprints preserve its existing local contents. Baseline tests/build/documentation checks and an isolated production active-factory sample are retained with the dependency map in the pilot evidence.
+
+Read local instructions and the current architecture, routing, Road, save, control, research, Landmark and testing references. Inspect unfinished workspace changes and preserve other chats' work. Make a recoverable, stage-scoped checkpoint using the available project workflow; do not assume this folder is itself a Git checkout.
+
+Map the current caller/dependency boundaries before moving code. Reuse [ResearchRuntime](../../src/simulation/researchRuntime.ts), [FactoryTemplateRuntime](../../src/simulation/factoryTemplateRuntime.ts), [Road placement](../../src/simulation/roadPlacement.ts), [Road materials](../../src/simulation/roadMaterials.ts), [logistics routes](../../src/simulation/logisticsRoutes.ts), [Dialog](../../src/ui/components/Dialog.tsx) and existing renderer modules. A three-line delegate such as `getRoadTransportStatus` is already a useful facade; do not move it merely to reduce line count.
+
+Run the current workspace tests, local production build and documentation/history checks. Capture actual results and command scope, including preserved release test copies; do not reuse audit-era counts. Read the browser startup/build guides before UI work. For later renderer comparisons, capture a repeatable active-factory sample at the same build mode, viewport, camera and workload, using that fixture's documented warmup and sample window.
+
+**Exit:** a dependency map, clean relevant baseline, list of preserved contracts and a bounded first extraction. If the suggested pilot now duplicates an existing owner, choose an equivalent cohesive slice and record why.
+
+### Phase 1 — Road direction commands as a pilot
+
+**Complete locally.** [RoadCommandRuntime](../../src/simulation/roadCommandRuntime.ts) owns `getRoadReversalError`, `reverseRoad` and `setRoadDirection`; `GameEngine` retains compatible delegates. The three method bodies moved verbatim. Eleven [facade regressions](../../src/simulation/roadCommandRuntime.test.ts) passed against both the original engine and the extracted owner, covering validation, no-ops, refunds/FIFO, publication, undo and replacement.
+
+Use narrowly typed capabilities: a current-state getter, checkpoint, transfer cancellation and publication callbacks. Follow the existing runtime pattern instead of passing the entire engine, exposing private mutation methods or retaining a constructor-time state object. Keep material traversal, placement and dispatch in their existing owners during this pilot.
+
+Preserve validation of missing/mismatched pairs, same-direction no-ops, one checkpoint for a real reversal, transfer refunds, cable removal, inventory handling, progress reset and publication order. Do not silently substitute a stricter navigation validator for the current reversal compatibility rules.
+
+**Exit:** Road flow/capacity/travel tests and replacement/undo coverage pass; the public facade reads the current factory after replacement. Review whether the new boundary makes the code easier to follow. Adjust the boundary before expanding the pattern if callback plumbing outweighs the separation.
+
+### Phase 2 — transport and reservation ownership
+
+**Complete locally.** Road dispatch extends the existing [Road transport module](../../src/simulation/roadTransport.ts). [TransportRuntime](../../src/simulation/transportRuntime.ts) owns delivery/cancellation/refunds, shared input capacity/readiness/reservations and local launches/backpressure. The engine retains orchestration and compatible private delegates. Three independently frozen slices passed focused checks and deterministic original-engine state/publication comparisons. [Lifecycle regressions](../../src/simulation/transportRuntime.test.ts) cover replacement, Undo and mod timing; the existing Forest gate regression now exercises public routing rather than the moved private helper. The [verification report](../../outputs/transport-refactor/verification.json) records actual counts and limits.
+
+Extract transport in separately reviewable slices: Road dispatch, then delivery/cancellation/refunds, then local route launch/backpressure. Keep the main engine as the tick orchestrator and preserve the exact deliver/simulate/research/recovery/dispatch/publication order.
+
+Move mutually dependent capacity, occupancy and pending-reservation helpers together where they belong. Extend existing routing/material/output modules rather than creating competing rule definitions. Keep `SimulationLookups` scoped to the same phases and preserve when launches/deliveries update it. Any owner that survives load/undo must read current state and explicitly reset transient caches on the same paths as today.
+
+Check mixed queues, grouped growth quantities, bot AP buckets, in-flight source ports, Tri Extractor branch stock, Unknown Device active/queued Cores, paid Doubler output and mod timing. Do not combine this move with a routing rewrite or a new indexing scheme.
+
+**Exit per slice:** relevant routing, Road, mixed-output, extractor, Landmark and mod contracts pass with conserved physical material and unchanged delivery order. Document the new owner and its invalidation rules.
+
+### Phase 3 — placement and factory commands
+
+**Complete locally.** [NodePlacementPlanner](../../src/simulation/nodePlacementPlanner.ts), [NodeMovementPlanner](../../src/simulation/nodeMovementPlanner.ts) and [ConnectionPlanner](../../src/simulation/connectionPlanner.ts) perform read-only planning; deletion eligibility lives in [nodeDeletion](../../src/simulation/nodeDeletion.ts), and Control Group creation/disband planning extends the existing [group module](../../src/domain/controlGroups.ts). The engine retains checkpoint/commit/publication responsibility, public methods and the RoadPlacementTarget type re-export. Four frozen slices match original-engine command results, full state and publications. Seven [facade regressions](../../src/simulation/factoryCommandPlans.test.ts) pass against both implementations. The isolated production FactoryApp browser check verified placement, wiring, movement and decommission/Undo; [evidence and limits](../../outputs/factory-command-refactor/README.md) are retained.
+
+Existing drag history is intentionally preserved: `beginMove` and successful `tryMoveNodesTo` each retain their prior checkpoint calls, including successful no-op movement. This phase separates planning from mutation without consolidating the drag transaction or changing Undo policy. Clipboard copies, duplication and templates keep the existing shared fresh-work reset and their existing validation owners.
+
+Separate planning/validation from the mutation boundary for placement, movement, connections, deletion and Control Groups, one command family at a time. Reuse existing geometry, Road placement, cable insertion and template owners. Keep protected Landmarks, paired Roads, terrain clearance and source stock rules in their current shared validators.
+
+The engine facade must retain one supported checkpoint/commit/publication transaction and the existing no-op/failure behavior. Shared fresh-copy sanitization remains the single reset rule for clipboard copies, duplication and templates.
+
+**Exit:** placement/connection, mirrored ports, Control Groups, template, Road expansion/travel and undo contracts pass. Browser checks cover representative placement, wiring, movement and decommission/Undo without accessing campaign saves.
+
+### Phase 4 — UI coordination and renderer interactions
+
+**Complete locally (NODE-0829).** Panel/keyboard hooks and the playfield interaction/resource owners preserve their existing policies. The full suite passes (2,405 tests, one existing skip), the local build passes, and isolated browser checks cover nested recipe return/focus, hidden Upgrades state, shortcut guards, wiring/rerouting, movement/Undo, pan/zoom, Road travel, snapshot replacement and engine/mount disposal. Reverse-order serial samples do not establish a consistent performance regression; host variation and the whole-world gap remain explicit. [Evidence](../../outputs/ui-lifecycle-refactor/README.md).
+
+Treat these as two independent changes. First extract panel navigation/return state and factory keyboard coordination from `FactoryApp` into narrow hooks/controllers, reusing `Dialog`, `dialogFocus` and `factoryKeyboard`. Preserve hidden Upgrades mounting, recipe return paths, top-dialog ownership, focus restoration, text-field behavior and tutorial restrictions. Do not change subscription frequency or compute visibility in this stage.
+
+Then separate renderer pointer/keyboard/drag coordination from scene drawing and resource lifetime. Tentative interaction-owner names must be confirmed against existing modules before adding files. Keep `propsRef`/current engine access, semantic socket indexes, camera transforms, Road clicks, hover grace and pointer-capture ordering intact. Give each listener, subscription, observer, ticker and texture a clear disposer, including asynchronous initialization failure and teardown before initialization completes.
+
+**Exit:** dialog/keyboard and renderer contracts pass. Isolated browser checks cover nested panels, Escape/Tab, hidden shortcuts, drag/cancel, reconnect, pan/zoom, Road travel, load/undo and mount/unmount. Compare the active-factory sample with the Phase 0 baseline; keep interaction checks outside timed samples. These observations do not fill the open whole-world performance gap.
+
+### Phase 5 — state lifecycle and final integration
+
+**Complete locally (NODE-0831).** Stateless [stateLifecycle operations](../../src/simulation/stateLifecycle.ts) extract collection defaults and Undo knowledge retention; the engine keeps path-specific policy and full normalization. Five boundary regressions passed before and after extraction. Four deterministic original-source scenarios match all 148 states/results and 94 publications, plus autosave failure/retry storage. Final tests pass (2,411, one existing skip); build and final browser replacement/engine-swap/input/Undo/disposal checks pass. No snapshot/save-format, catalog, timing or gameplay-policy change. [Final ownership map, evidence and limits](../../outputs/ui-lifecycle-refactor/README.md).
+
+Leave lifecycle consolidation until the earlier owner boundaries are stable. Compare constructor, `replaceState`, undo, new/reset and mod application line by line before extracting shared work. Preserve intentional differences in normalization, retained discoveries, history, clock reset, active catalogs and transient invalidation; do not impose one generic reset sequence merely because paths look similar.
+
+Use current-state getters and small explicit lifecycle operations. Keep each public path recognizable, with the engine deciding policy. Do not change snapshot representation or introduce a new save format.
+
+**Exit:** fresh/legacy/modded state replacement, undo, autosave retry/export, research queues/payments, templates, map travel and Landmark/terrain persistence pass. Check UI owners subscribe to the replacement engine/state and dispose old resources. Review the final dependency map and current system references.
+
+### Verification, checkpoints and stopping rules
+
+Use existing functional coverage first; add a regression only for a real uncovered boundary. Useful starting suites:
+
+| Area | Existing coverage |
+| --- | --- |
+| Layer boundaries | [Architecture](../../scripts/architecture.test.ts) |
+| Roads and physical delivery | [Road flow](../../src/simulation/roadFlow.test.ts), [materials](../../src/simulation/roadMaterials.test.ts), [storage/refunds](../../src/simulation/roadStorage.test.ts), [routing](../../src/simulation/engine.routing.test.ts), [logistics](../../src/simulation/logisticsRouting.test.ts) |
+| Commands and saved layouts | [Engine commands](../../src/simulation/engine.test.ts), [Control Groups](../../src/simulation/controlGroups.test.ts), [templates](../../src/simulation/factoryTemplateRuntime.test.ts), [Road expansion](../../src/simulation/roadExpansion.test.ts) |
+| State replacement and special stock | [Autosave](../../src/simulation/engine.autosave.test.ts), [research queue](../../src/simulation/researchQueue.test.ts), [Landmarks](../../src/simulation/landmarks.test.ts), [terrain](../../src/simulation/mapTerrain.test.ts), [slots](../../src/persistence/saves.test.ts) |
+| UI and renderer | [Dialog focus](../../src/ui/dialogFocus.test.ts), [keyboard](../../src/ui/factoryKeyboard.test.ts), [scene updates](../../src/renderer/sceneUpdates.test.ts), [overview artwork](../../src/renderer/overviewTextures.test.ts), [socket targeting](../../src/renderer/socketTargeting.test.ts), [browser fixture guide](../../previews/active-factory/README.md) |
+
+Run relevant focused tests while changing a slice. At each completed phase, run the workspace suite and local build, update affected system references and this phase's status, regenerate/check catalogs and history, and record actual evidence/limits in the changelog. Keep pure moves separate from formatting and behavior changes. Avoid whole-file reformatting during extraction.
+
+Stop expanding a slice if observable behavior changes, a new dependency cycle appears, state survives replacement incorrectly or renderer resources leak. Isolate any newly discovered bug from the refactor; restore only the stage's own changed hunks from its checkpoint if needed. Preserve concurrent work. Publishing is outside this plan.
+
+### Starter for a later authorized continuation
+
+```text
+Read AGENTS.md, docs/systems/architecture-and-simulation.md and the
+Standalone code organization refactor plan in docs/master-plan/07-technical-design.md.
+Phases 0 and 1 are complete locally under NODE-0817, Phase 2 under NODE-0819,
+and Phase 3 under NODE-0823. Read their evidence in outputs/road-command-refactor/,
+outputs/transport-refactor/ and outputs/factory-command-refactor/.
+Phases 4 and 5 are also complete locally under NODE-0829 and NODE-0831.
+Read outputs/ui-lifecycle-refactor/ for UI/renderer/lifecycle ownership, original-source
+comparisons and browser/performance evidence. All six planned phases are complete;
+future work should follow the established boundaries and recorded verification limits.
+Recheck the current workspace,
+preserve concurrent work, public engine behavior and saved data, and use existing
+owners, small typed boundaries and current-state getters. Run the stated checks,
+update system references and the changelog, and report evidence and remaining
+phases. Do not publish the game.
+```
 
 ## Proposed delivery checklist
 

@@ -31,7 +31,9 @@ Legacy bags cannot reconstruct the original order of already-mixed stock; migrat
 - Isolated browser fixture at `http://127.0.0.1:4177/outputs/implementation/production-qa.html` showed a blocked remainder notification and zero deliveries; connecting the remainder delivered one Controller and one Fines and cleared the notice. Screenshots: [blocked](../../outputs/implementation/filter-blocked.png), [resumed](../../outputs/implementation/filter-resumed.png). The fixture uses no autosave or user save and is development QA, not a balance run. Earlier fixture HMR produced duplicate-root warnings; its root is now retained during HMR, and the final page was checked after reload.
 - Local source baseline is retained at `outputs/implementation/pre-plans-2026-11-03.zip`. Publication and a normal-play progression/balance run were not performed.
 
-Authoritative runtime entry points: [reviewed content generator](../../scripts/apply-reviewed-production.mjs), [migration](../../src/simulation/reviewedProductionMigration.ts), [simulation](../../src/simulation/engine.ts), [focused regression checks](../../src/simulation/reviewedProduction.test.ts), [change history](../changelog/index.html).
+Original implementation entry points (historical): [reviewed production transformation](../../scripts/apply-reviewed-production.mjs), [migration](../../src/simulation/reviewedProductionMigration.ts), [simulation](../../src/simulation/engine.ts), [focused regression checks](../../src/simulation/reviewedProduction.test.ts), [change history](../changelog/index.html).
+
+The proposal compiler and transformation above are historical evidence. The source-writing command is now retired; current content ownership and maintenance are documented in [Recipes](../systems/recipes.md#maintaining-recipes), with exact original compiler/input copies in the [archive](../../scripts/archive/progression-proposal/README.md).
 
 ## Subsequent delivery, November 4
 

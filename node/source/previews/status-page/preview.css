@@ -63,6 +63,24 @@
 .status-research-tools .research-search-field { margin:8px 0 0; }
 .status-filter-bar { display:flex; align-items:center; flex-wrap:wrap; gap:8px 12px; }
 .status-filters { display:flex; flex-wrap:wrap; gap:5px; }
+.status-view-tabs { display:flex; flex-wrap:wrap; gap:5px; }
+.status-research-actions { display:flex; gap:5px; }
+.map-upgrades-study .status-filters { flex:1; align-items:center; }
+.map-upgrades-study .status-research-actions { margin-left:auto; }
+.status-study [role="tab"][aria-selected="true"] { color:#f2d790; border-color:#ac955a; background:#3e3b2d; }
+.map-upgrades-study .research-queue-empty { min-height:60px; }
+@media(min-width:701px) { .map-upgrades-study .status-modal { height:calc(100dvh - 168px); min-height:440px; } }
+.map-survey-settings { max-width:1440px; margin:0 auto 12px; color:#c8d4dc; font:var(--modal-copy-font); }
+.map-survey-settings summary { width:fit-content; cursor:pointer; color:#dfc77f; padding:6px 0; }
+.map-survey-settings form { padding:14px; border:1px solid #617785; border-radius:8px; background:#26323a; }
+.map-survey-settings form > p { margin:0 0 12px; }
+.map-price-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; }
+.map-price-grid label { display:flex; gap:10px; justify-content:space-between; align-items:center; }
+.map-price-grid small { display:block; color:#aabfc9; font:var(--ui-meta-font); }
+.map-price-grid input { width:64px; flex:none; padding:7px; border:1px solid #617785; border-radius:5px; background:#18242d; color:#e5e9eb; }
+.map-price-actions { display:flex; flex-wrap:wrap; gap:8px; margin-top:14px; }
+@media(max-width:900px) { .map-price-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+@media(max-width:500px) { .map-price-grid { grid-template-columns:minmax(0,1fr); } }
 .status-study .status-filters .queue-research-button { border-color:#739d77; background:#294b37; color:#d5ead8; }
 .status-study .status-filters .queue-research-button:hover { border-color:#a6d2aa; background:#396447; color:#eef8ef; }
 .status-study .status-filters .pause-research-toggle { display:grid; place-items:center; width:31px; padding:5px; }

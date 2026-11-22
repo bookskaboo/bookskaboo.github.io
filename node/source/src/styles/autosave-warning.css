@@ -1,0 +1,30 @@
+.game-shell:has(.autosave-warning) {
+  --hud-clear: calc(var(--hud-height) + var(--hud-gap) + 20px + var(--autosave-warning-height, 0px));
+}
+.autosave-warning {
+  position: fixed; z-index: 55;
+  top: calc(var(--hud-height) + var(--hud-gap) + 8px);
+  left: var(--hud-gap); right: var(--hud-gap);
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  padding: 10px 14px; border: 1px solid #bc8c5c; border-radius: 8px;
+  color: #f0dfca; background: #30251e; box-shadow: 0 4px 16px #0006;
+  font: var(--modal-copy-font);
+}
+.autosave-warning > div { min-width: 0; }
+.autosave-warning strong { font: var(--modal-card-font); }
+.autosave-warning p { margin: 4px 0 0; overflow-wrap: anywhere; }
+.autosave-warning-actions { display: flex; flex-wrap: wrap; flex: 0 0 auto; gap: 8px; }
+.autosave-warning button, .save-import-control {
+  min-height: 36px; padding: 8px 12px; border: 1px solid #9c805f; border-radius: 6px;
+  color: #f0dfca; background: #443425; font: var(--ui-control-font); cursor: pointer;
+}
+.autosave-warning button:focus-visible, .save-import-control:focus-within { outline: 2px solid #f2cd8a; outline-offset: 3px; }
+.save-file-actions { flex-shrink: 0; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; padding: 12px 18px; border-bottom: 1px solid #4c5960; }
+.save-file-actions p { flex: 1 1 200px; margin: 0; font: var(--modal-copy-font); color: #b9c7ce; }
+.save-file-actions .save-import-error { flex-basis: 100%; color: #f0bf9b; }
+.save-import-control { position: relative; display: inline-flex; align-items: center; overflow: hidden; }
+.save-import-control input { position: absolute; inset: 0; opacity: 0; width: 100%; cursor: pointer; }
+@media (max-width: 600px) {
+  .autosave-warning { align-items: stretch; flex-direction: column; gap: 8px; padding: 10px 12px; }
+  .autosave-warning-actions button { flex: 1; }
+}

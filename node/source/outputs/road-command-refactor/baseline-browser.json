@@ -1,0 +1,14 @@
+{
+  "url": "http://127.0.0.1:4186/?layout=standard&nodes=600&sampleSeconds=25",
+  "build": "baseline-fixture (Vite production)",
+  "sampleProtocol": "Fit all, five-second warmup, uninterrupted fixed 25-second sample; no heavy checks overlapped",
+  "benchmark": "{\"frameP95\":16.799999999999272,\"frameP99\":25,\"tickP95\":4.400000035762787,\"slowFrames\":1,\"count\":1857,\"seconds\":25,\"meanFrameMs\":13.462574044157243,\"averageFps\":74.28,\"complete\":true}",
+  "camera": "{\"zoom\":0.15,\"x\":225.99408411979675,\"y\":151.41607093811035}",
+  "renderer": "{\"nodesCreated\":600,\"nodesDestroyed\":0,\"particleObjectsCreated\":64,\"visibleNodes\":600,\"totalNodes\":600,\"activeParticles\":22,\"pooledParticles\":42,\"overviewTextures\":13,\"cableChunks\":24,\"cachedCables\":true}",
+  "text": "5,400 × 3,600 field600 nodes90 producers831 connections210 Splitters210 Mergers63 cycling12 materials in transit310 produced70 delivered42 s elapsed66 page FPS0.5 ms last tick16.8 ms p95 frame",
+  "viewport": {
+    "devicePixelRatio": 1.2999999523162842,
+    "height": 720,
+    "width": 1280
+  }
+}

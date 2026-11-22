@@ -1,0 +1,17 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Quiet Workshop · Ambient Strings</title><style>:root {
+  --ui-font-family: "Segoe UI Variable Text", "Segoe UI", Inter, Arial, sans-serif;
+  --ui-mono-family: "Cascadia Mono", Consolas, ui-monospace, monospace;
+  --ui-title-font: 600 20px/1.2 var(--ui-font-family);
+  --ui-panel-title-font: 600 18px/1.2 var(--ui-font-family);
+  --ui-section-font: 600 15px/1.25 var(--ui-font-family);
+  --ui-control-font: 500 12px/1.3 var(--ui-font-family);
+  --ui-meta-font: 400 12px/1.3 var(--ui-font-family);
+  --modal-card-font: 500 13px/1.3 var(--ui-font-family);
+  --modal-copy-font: 400 12px/1.45 var(--ui-font-family);
+  --modal-reading-font: 400 14px/1.55 var(--ui-font-family);
+  --modal-label-gap: 4px;
+  --modal-paragraph-gap: 8px;
+  --modal-section-gap: 16px;
+  font-family: var(--ui-font-family);
+  font-synthesis: weight style;
+}body{margin:0;padding:32px;background:#151b20;color:#e3e6e2;font:var(--modal-reading-font)}main{max-width:780px;margin:auto}h1{font:var(--ui-title-font);color:#edd39b}.meta{font:var(--ui-meta-font)}audio{display:block;width:100%;margin:20px 0}p{line-height:1.55}a{color:#edd39b}label{font:var(--ui-control-font)}</style></head><body><main><h1>Quiet Workshop · Ambient Strings</h1><p class="meta">Bowed cello and double bass · F major · 64 BPM · 60 seconds</p><p>Continuously blended string tones, with space for the piano action cues. The factory can supply its own urgency.</p><audio id="music" controls loop preload="metadata" src="quiet-workshop-ambient-legato-60s.wav"></audio><label><input id="repeat" type="checkbox" checked> Repeat continuously</label><p class="meta">Starts at 15% volume. Adjust with the audio player’s volume control.</p><p><a href="quiet-workshop-ambient-legato-60s.wav" download>Download one-minute WAV</a> · <a href="score.json" download>Download editable score</a></p><p>Loop join: the last six seconds followed directly by the first six seconds.</p><audio controls preload="none" src="loop-boundary-preview.wav"></audio><p class="meta">Recorded cello section and solo contrabass: VSCO 2 Community Edition by Versilian Studios / Sam Gossner, CC0. <a href="CREDITS.txt">Source credits and modifications</a>. Listening draft; game integration remains pending.</p><script>document.getElementById('repeat').addEventListener('change',event=>{document.getElementById('music').loop=event.target.checked});for(const player of document.querySelectorAll('audio')){player.volume=.15;player.addEventListener('play',()=>{for(const other of document.querySelectorAll('audio'))if(other!==player)other.pause()});}</script></main></body></html>

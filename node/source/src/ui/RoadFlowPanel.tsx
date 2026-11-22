@@ -1,5 +1,7 @@
 import { vehiclePayload } from '../content/cartUpgrades';
+import { endgameRank } from '../content/endgame';
 import { materialTypeName } from '../content/items';
+import { modRule } from '../mods/modRules';
 import type { GameState, MachineNode } from '../domain/types';
 import type { GameEngine } from '../simulation/engine';
 import { mapNodePosition } from './mapNodePresentation';
@@ -18,7 +20,8 @@ export function RoadFlowPanel({ node, game, engine, training, onClose }: {
   const source = sending ? localPosition : remotePosition;
   const destination = sending ? remotePosition : localPosition;
   const materials = engine.getRoadTransportStatus(node.id)?.materials ?? [];
-  const rate = 12 * vehiclePayload(game.research.completed);
+  const payload = vehiclePayload(game.research.completed, endgameRank(game, 'trainFreightCapacity'));
+  const rate = Number((60000 * payload / modRule('roadTransferMs')).toFixed(2));
 
   return <aside className="inspector recipe-picker-panel road-flow-panel glass" aria-label="Road">
     <header className="recipe-picker-header">
@@ -34,7 +37,8 @@ export function RoadFlowPanel({ node, game, engine, training, onClose }: {
         <b>{source} → {destination}</b>
       </button>
       <p className="road-flow-material">{materials.length ? materials.map(materialTypeName).join(', ') : 'No material assigned'}</p>
-      <p className="road-flow-rate" aria-label={`Transfer rate: ${rate} items per minute`}>{rate} items / minute</p>
+      <p className="road-flow-rate" aria-label={`Maximum transfer rate: ${rate} items per minute`}>Maximum transfer rate: {rate} items / minute</p>
+      <p className="road-flow-help">Actual delivery depends on available stock and receiver space.</p>
     </div>
   </aside>;
 }

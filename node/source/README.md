@@ -37,7 +37,7 @@ See the [historical estimates](docs/archive/reference-snapshots/project-readme-2
 
 ## Adding or editing nodes
 
-Read [production nodes](docs/systems/production-nodes.md), [recipes](docs/systems/recipes.md) and [architecture](docs/systems/architecture-and-simulation.md). Keep definitions, capabilities, visual modules, recipe groups and connection validation aligned. Preserve saved IDs or provide a migration.
+Read [production nodes](docs/systems/production-nodes.md), [recipes](docs/systems/recipes.md) and [architecture](docs/systems/architecture-and-simulation.md). Keep definitions, capabilities, visual modules, recipe groups and connection validation aligned. Preserve saved IDs or provide a migration. Edit the owned content modules directly; the historical `scripts/sync-progression-content.mjs` source generator is retired and cannot regenerate the current catalog. Its [archive](scripts/archive/progression-proposal/README.md) preserves the original tool and inputs. `npm run docs:systems` refreshes documentation only.
 
 ## Verification
 
@@ -60,7 +60,7 @@ Current ranks and formulas live in the [efficiency reference](docs/systems/effic
 
 ### Extra Map Point research and full world access
 
-Current destination pricing and quote behavior live in [map exploration](docs/systems/map-nodes-and-exploration.md).
+Current banked Map Point purchases, retained destination-quote compatibility and activation/travel rules live in [map exploration](docs/systems/map-nodes-and-exploration.md).
 
 ## Publishing the live game
 

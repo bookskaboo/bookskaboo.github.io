@@ -112,8 +112,9 @@ describe('Research milestones', () => {
     expect(getResearchMilestones(game)).toContainEqual(expect.objectContaining({ action: { kind: 'sector', id: '10,5' }, title: 'Golem Camp' }));
   });
 
-  it('leads to a scouted Dwarven Camp, then Shiny and Complex production', () => {
+  it('leads a legacy world to a scouted Dwarven Camp, then Shiny and Complex production', () => {
     const game = campaign(throughHydro, { 'hydro-core': 1 });
+    game.worldRulesVersion = 1;
     addSector(game, '8,6', false, node('monster-camp', { lizardSettlement: 'camp' }));
     expectPrimary(game, { kind: 'map' }, 'A metallic glint');
     game.sectors['8,6'].visited = true;

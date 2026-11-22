@@ -43,6 +43,12 @@ Tri Extractor output stock is allocated to its actual outlet, so a blocked or di
 
 Unknown Device has five waiting and five finished Core spaces, each shared across tiers. The consumed active Core is separate. It reserves two free output spaces before consuming the oldest queued Core; with four or five finished Cores it waits without consuming input. Both products enter the output together. Its input/output queues, active Core and partial progress survive save/load, pause, relocation and undo.
 
+## Recovery planning
+
+The [progression budget](../../src/simulation/progressionRecovery.ts) recognizes repeatable Core supply from a device in a materialized, unlocked Map Node. Only a seeded tier is renewable: accessible stored stock, committed outputs, real cargo, an unlocked global pool and the device's paid active Core can supply the seed. If the first Core must be manufactured, its ordinary recipe cost remains in the budget; missing seed ingredients still establish a deficit. An unopened saved layout or a lower-tier seed alone cannot fund an unseeded higher tier. The existing optimistic production model permits resuming or rewiring a device rather than treating that delay as proof of a shortage.
+
+This is internal shortage planning, with no stock grants or changes to device cycles, capacity, discovery or hidden presentation. [Recovery regressions](../../src/simulation/unknownDeviceRecovery.test.ts) cover all seven owned/active Core tiers, funded first seeds, inaccessible supply, real rescues and the ordinary feedback cycle.
+
 ## Relocation and compatibility
 
 Landmarks cannot be deleted, sold, copied, duplicated into templates or transferred between Map Nodes. **Resource Relocation** covers every type after victory research. Its existing one-time price remains one of each of the seven Cores; later moves have no fee. Type, bonus, buffers and progress remain intact. Moving a Tri Extractor alone leaves its reserve fixed; explicitly selecting both permits a valid group move.

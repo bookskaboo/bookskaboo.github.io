@@ -18,6 +18,8 @@ Map and connection profiles are named presets, with one selected preset per cate
 
 Validation checks references, fields, recipes and the factory's active content. Applying a package that would invalidate attached sockets, cable sharing, connection limits or material compatibility fails before changing the factory. Removing a mod also validates the resulting graph.
 
+Lifecycle orchestration stays in GameEngine: constructor and replacement activate the saved catalog before normalization; Undo reactivates its restored catalog, while applyMod retains its separate validation/checkpoint, grid/layout, naming and transfer-timing sequence. The shared [stateLifecycle operations](../../src/simulation/stateLifecycle.ts) retain no catalog or factory reference. [Lifecycle sequence reference](architecture-and-simulation.md#state-and-mutation) and [comparison evidence](../../outputs/ui-lifecycle-refactor/README.md) cover replacement, package removal and Undo without changing mod compatibility rules.
+
 Changes affect the appropriate boundary: future construction and shipments use new timing; generated reserves and existing shipments retain prior state; committed batches retain paid output. Lower capacities retain stock and wait for space rather than deleting excess. Already generated maps are not recreated when spawn rules change.
 
 Grid size can change before generating another map beyond Home. Larger worlds preserve Home's coordinate and move the four corner destinations to the new boundaries. Existing factories retain generated maps and progress when returning to base rules.

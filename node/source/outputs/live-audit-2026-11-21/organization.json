@@ -1,0 +1,79 @@
+{
+  "runtimeFileCount": 242,
+  "largestModules": [
+    {
+      "file": "src/simulation/engine.ts",
+      "bytes": 129288,
+      "lines": 1956,
+      "longLines": 39
+    },
+    {
+      "file": "src/renderer/PixiPlayfield.tsx",
+      "bytes": 127617,
+      "lines": 1493,
+      "longLines": 98
+    },
+    {
+      "file": "src/ui/App.tsx",
+      "bytes": 54239,
+      "lines": 624,
+      "longLines": 44
+    },
+    {
+      "file": "src/content/progression.ts",
+      "bytes": 44839,
+      "lines": 1716,
+      "longLines": 2
+    },
+    {
+      "file": "src/simulation/worldGeneration.ts",
+      "bytes": 37296,
+      "lines": 587,
+      "longLines": 7
+    },
+    {
+      "file": "src/styles/base.css",
+      "bytes": 31821,
+      "lines": 88,
+      "longLines": 29
+    },
+    {
+      "file": "src/ui/ShortcutBars.tsx",
+      "bytes": 30887,
+      "lines": 275,
+      "longLines": 34
+    },
+    {
+      "file": "src/ui/ModsModal.tsx",
+      "bytes": 22136,
+      "lines": 250,
+      "longLines": 23
+    },
+    {
+      "file": "src/ui/ModEntryEditor.tsx",
+      "bytes": 20969,
+      "lines": 157,
+      "longLines": 32
+    },
+    {
+      "file": "src/styles/upgrades.css",
+      "bytes": 20240,
+      "lines": 177,
+      "longLines": 19
+    },
+    {
+      "file": "src/ui/NodeMinimap.tsx",
+      "bytes": 20077,
+      "lines": 219,
+      "longLines": 19
+    },
+    {
+      "file": "src/content/nodes.ts",
+      "bytes": 19192,
+      "lines": 217,
+      "longLines": 36
+    }
+  ],
+  "runtimeImportCycles": [],
+  "limits": "Static import scan excludes import type and tests. Cycles show coupling, not proven runtime defects."
+}

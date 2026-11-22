@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { Dialog } from './components/Dialog';
 import type { GameState, NodeKind } from '../domain/types';
 import { WORLD_GRID_SIZES, worldGridSize } from '../domain/worldGrid';
 import type { GameEngine } from '../simulation/engine';
@@ -71,11 +72,7 @@ export function ModsModal({ game, engine, onClose }: { game: GameState; engine: 
   const shareOutput = useRef<HTMLTextAreaElement>(null);
   const fileRequest = useRef(0);
   useEffect(() => { try { localStorage.setItem(DRAFT_KEY, JSON.stringify(draft)); setStorageError(false); } catch { setStorageError(true); } }, [draft]);
-  useEffect(() => {
-    const previous = document.activeElement as HTMLElement | null;
-    dialog.current?.focus();
-    return () => { fileRequest.current++; previous?.focus(); };
-  }, []);
+  useEffect(() => () => { fileRequest.current++; }, []);
   useEffect(() => { if (!creating) dialog.current?.focus(); dialog.current?.querySelector('.mods-body')?.scrollTo(0, 0); }, [view, selected, creating]);
   const update = (edit: (mod: GameMod) => void) => { setDraft(current => { const next = structuredClone(current); edit(next); return next; }); setError(''); setMessage(''); setCode(''); };
   const navigate = (next: typeof view) => {
@@ -119,16 +116,7 @@ export function ModsModal({ game, engine, onClose }: { game: GameState; engine: 
     setCode(''); setMessage('');
     setSelected(undefined);
   });
-  return <div className="modal-backdrop mods-backdrop"><section ref={dialog} tabIndex={-1} className="modal glass mods-modal" role="dialog" aria-modal="true" aria-labelledby="mods-title" onKeyDown={event => {
-    event.stopPropagation();
-    if (event.key === 'Escape') { event.preventDefault(); back(); }
-    if (event.key === 'Tab') {
-      const controls = [...(dialog.current?.querySelectorAll<HTMLElement>('button:not(:disabled), input:not(:disabled), select:not(:disabled), textarea:not(:disabled), [tabindex="0"]') ?? [])].filter(el => el.getClientRects().length);
-      const first = controls[0], last = controls.at(-1);
-      if (event.shiftKey && (document.activeElement === first || document.activeElement === dialog.current)) { event.preventDefault(); last?.focus(); }
-      else if (!event.shiftKey && (document.activeElement === last || document.activeElement === dialog.current)) { event.preventDefault(); first?.focus(); }
-    }
-  }}>
+  return <div className="modal-backdrop mods-backdrop"><Dialog panel ref={dialog} className="modal glass mods-modal" aria-labelledby="mods-title" onDismiss={back} onKeyDown={event => event.stopPropagation()}>
     <div id="mods-title"><PanelHeader title={title} onClose={onClose} /></div>
     <div className="mods-navigation"><button onClick={back}>{view === 'home' ? 'Close' : '← Back'}</button><span>{game.mod ? `Active: ${game.mod.name}` : 'Active: Base game'}</span><button onClick={() => navigate('review')}>{changeCount(draft)} edited entries</button></div>
     <div className="mods-body" key={`${view}:${selected ?? ''}`}>
@@ -185,7 +173,7 @@ export function ModsModal({ game, engine, onClose }: { game: GameState; engine: 
       </>)}
     </div>
     <footer className="mods-footer"><span>Draft: {draft.name || 'Untitled'}<small>Edits take effect when applied.</small></span><button onClick={() => navigate('review')}>Review</button><button className="mods-primary" disabled={readingFile} onClick={apply}>Apply to factory</button></footer>
-  </section></div>;
+  </Dialog></div>;
 }
 
 function isEdited(mod: GameMod, category: ModCategory, id: string) {

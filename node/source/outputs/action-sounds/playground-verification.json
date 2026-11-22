@@ -1,0 +1,7 @@
+{
+  "date": "2026-11-21",
+  "revision": "F major varied voicings 4",
+  "currentVerification": "outputs/action-sounds/piano-verification.json",
+  "priorControlVerification": "outputs/action-sounds/pre-piano-playground-verification.json",
+  "note": "Current audio uses varied F-major voicings and two-note movement. Earlier full controls/layout and workspace-suite evidence remains historical."
+}

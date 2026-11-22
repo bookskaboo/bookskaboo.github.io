@@ -1,0 +1,50 @@
+{
+  "library": "VSCO 2 Community Edition — Upright Nr. 1",
+  "author": "Versilian Studios; VSCO 2 CE recorded by Sam Gossner and Simon Dalzell",
+  "license": "CC0-1.0",
+  "homepage": "https://versilian-studios.com/vsco-community/",
+  "repository": "https://github.com/sgossner/VSCO-2-CE",
+  "commit": "440300901dfe9275fd84e0b7763af1f8443ae62e",
+  "samples": [
+    {
+      "file": "c2.wav",
+      "original": "Keys/Upright Nr1/UR1_C2_mf_RR1.wav",
+      "url": "https://raw.githubusercontent.com/sgossner/VSCO-2-CE/440300901dfe9275fd84e0b7763af1f8443ae62e/Keys/Upright%20Nr1/UR1_C2_mf_RR1.wav",
+      "nominalMidi": 36,
+      "bytes": 2384234,
+      "sha256": "2c865da6c7e27d5e8cbffcc1394ddaccf06f3c4513a184d65d08e33b72bdc160"
+    },
+    {
+      "file": "c3.wav",
+      "original": "Keys/Upright Nr1/UR1_C3_mf_RR1.wav",
+      "url": "https://raw.githubusercontent.com/sgossner/VSCO-2-CE/440300901dfe9275fd84e0b7763af1f8443ae62e/Keys/Upright%20Nr1/UR1_C3_mf_RR1.wav",
+      "nominalMidi": 48,
+      "bytes": 2150126,
+      "sha256": "4b14e4babc7acab16fb8cafe6c286e347a99437c217bed5e125fc56c316b1579"
+    },
+    {
+      "file": "c4.wav",
+      "original": "Keys/Upright Nr1/UR1_C4_mf_RR1.wav",
+      "url": "https://raw.githubusercontent.com/sgossner/VSCO-2-CE/440300901dfe9275fd84e0b7763af1f8443ae62e/Keys/Upright%20Nr1/UR1_C4_mf_RR1.wav",
+      "nominalMidi": 60,
+      "bytes": 2495426,
+      "sha256": "9f3a820c2ccbfb60209ff21ab8e80082d6bb7f09f7ff29027380d6cc43c69997"
+    },
+    {
+      "file": "c5.wav",
+      "original": "Keys/Upright Nr1/UR1_C5_mf_RR1.wav",
+      "url": "https://raw.githubusercontent.com/sgossner/VSCO-2-CE/440300901dfe9275fd84e0b7763af1f8443ae62e/Keys/Upright%20Nr1/UR1_C5_mf_RR1.wav",
+      "nominalMidi": 72,
+      "bytes": 1905930,
+      "sha256": "dacba2dd26c3fd581c093d8131321d2b46fb0f52d5031aad6f173aa7e357b0fb"
+    },
+    {
+      "file": "c6.wav",
+      "original": "Keys/Upright Nr1/UR1_C6_mf_RR1.wav",
+      "url": "https://raw.githubusercontent.com/sgossner/VSCO-2-CE/440300901dfe9275fd84e0b7763af1f8443ae62e/Keys/Upright%20Nr1/UR1_C6_mf_RR1.wav",
+      "nominalMidi": 84,
+      "bytes": 1018802,
+      "sha256": "425938849f04921dddc5251cfc74f7192d5f6b733ee51e58c4f8dd2cf2c3f547"
+    }
+  ]
+}

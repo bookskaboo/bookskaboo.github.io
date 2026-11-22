@@ -1,0 +1,656 @@
+{
+  "record": "NODE-0823",
+  "localDate": "2026-11-21",
+  "phase": 3,
+  "status": "complete locally",
+  "baseline": {
+    "passed": 2386,
+    "failed": 0,
+    "skipped": 1,
+    "files": 235,
+    "currentPassed": 1590,
+    "preservedPassed": 796
+  },
+  "contractsBefore": {
+    "passed": 7,
+    "failed": 0,
+    "skipped": 0,
+    "files": 1,
+    "currentPassed": 7,
+    "preservedPassed": 0
+  },
+  "originalContracts": {
+    "passed": 7,
+    "failed": 0,
+    "skipped": 0,
+    "files": 1,
+    "currentPassed": 7,
+    "preservedPassed": 0
+  },
+  "slices": {
+    "placement": {
+      "passed": 330,
+      "failed": 0,
+      "skipped": 0,
+      "files": 22,
+      "currentPassed": 198,
+      "preservedPassed": 132
+    },
+    "movement": {
+      "passed": 221,
+      "failed": 0,
+      "skipped": 0,
+      "files": 20,
+      "currentPassed": 161,
+      "preservedPassed": 60
+    },
+    "connections": {
+      "passed": 535,
+      "failed": 0,
+      "skipped": 0,
+      "files": 34,
+      "currentPassed": 318,
+      "preservedPassed": 217
+    },
+    "selection": {
+      "passed": 582,
+      "failed": 0,
+      "skipped": 0,
+      "files": 38,
+      "currentPassed": 359,
+      "preservedPassed": 223
+    }
+  },
+  "final": {
+    "passed": 2393,
+    "failed": 0,
+    "skipped": 1,
+    "files": 236,
+    "currentPassed": 1597,
+    "preservedPassed": 796
+  },
+  "comparison": {
+    "allMatch": true,
+    "results": [
+      {
+        "slice": "placement",
+        "cases": [
+          {
+            "scenario": "ordinary",
+            "states": 36,
+            "publications": 20
+          },
+          {
+            "scenario": "roads",
+            "states": 14,
+            "publications": 7
+          },
+          {
+            "scenario": "protected",
+            "states": 12,
+            "publications": 5
+          },
+          {
+            "scenario": "modded",
+            "states": 38,
+            "publications": 22
+          }
+        ],
+        "allMatch": true
+      },
+      {
+        "slice": "movement",
+        "cases": [
+          {
+            "scenario": "ordinary",
+            "states": 36,
+            "publications": 20
+          },
+          {
+            "scenario": "roads",
+            "states": 14,
+            "publications": 7
+          },
+          {
+            "scenario": "protected",
+            "states": 12,
+            "publications": 5
+          },
+          {
+            "scenario": "modded",
+            "states": 38,
+            "publications": 22
+          }
+        ],
+        "allMatch": true
+      },
+      {
+        "slice": "connections",
+        "cases": [
+          {
+            "scenario": "ordinary",
+            "states": 36,
+            "publications": 20
+          },
+          {
+            "scenario": "roads",
+            "states": 14,
+            "publications": 7
+          },
+          {
+            "scenario": "protected",
+            "states": 12,
+            "publications": 5
+          },
+          {
+            "scenario": "modded",
+            "states": 38,
+            "publications": 22
+          }
+        ],
+        "allMatch": true
+      },
+      {
+        "slice": "selection",
+        "cases": [
+          {
+            "scenario": "ordinary",
+            "states": 36,
+            "publications": 20
+          },
+          {
+            "scenario": "roads",
+            "states": 14,
+            "publications": 7
+          },
+          {
+            "scenario": "protected",
+            "states": 12,
+            "publications": 5
+          },
+          {
+            "scenario": "modded",
+            "states": 38,
+            "publications": 22
+          }
+        ],
+        "allMatch": true
+      }
+    ],
+    "scope": "Deterministic public command results, full state and publication comparisons for four frozen slices; not a performance or balance measurement."
+  },
+  "browser": {
+    "url": "http://127.0.0.1:4187/",
+    "viewport": {
+      "width": 1280,
+      "height": 720
+    },
+    "build": "Isolated Vite production build of FactoryApp with autosave disabled",
+    "checks": [
+      {
+        "step": "initial"
+      },
+      {
+        "step": "wired-source-to-warehouse",
+        "observation": {
+          "revision": 2,
+          "paused": true,
+          "camera": {
+            "zoom": 0.65,
+            "x": -365.40000000000003,
+            "y": -282.6
+          },
+          "nodes": [
+            {
+              "id": "qa-source",
+              "kind": "woodenChest",
+              "x": 700,
+              "y": 700,
+              "screen": {
+                "x": 89.59999999999997,
+                "y": 172.39999999999998
+              },
+              "input": [
+                {
+                  "x": 48,
+                  "y": 186.7
+                }
+              ],
+              "output": [
+                {
+                  "x": 131.2,
+                  "y": 186.7
+                }
+              ]
+            },
+            {
+              "id": "qa-target",
+              "kind": "warehouse",
+              "x": 1400,
+              "y": 700,
+              "screen": {
+                "x": 544.5999999999999,
+                "y": 172.39999999999998
+              },
+              "input": [
+                {
+                  "x": 461.40000000000003,
+                  "y": 165.89999999999998
+                }
+              ],
+              "output": [
+                {
+                  "x": 627.8,
+                  "y": 165.89999999999998
+                }
+              ]
+            }
+          ],
+          "connections": [
+            {
+              "id": "cable-a806b101-a4bf-45e6-a25c-63453f18396f",
+              "from": "qa-source",
+              "to": "qa-target",
+              "fromPort": 0,
+              "toPort": 0,
+              "createdAt": 1795330761081
+            }
+          ],
+          "groups": []
+        }
+      },
+      {
+        "step": "placed-joint",
+        "observation": {
+          "revision": 3,
+          "paused": true,
+          "camera": {
+            "zoom": 0.65,
+            "x": -365.40000000000003,
+            "y": -282.6
+          },
+          "nodes": [
+            {
+              "id": "qa-source",
+              "kind": "woodenChest",
+              "x": 700,
+              "y": 700,
+              "screen": {
+                "x": 89.59999999999997,
+                "y": 172.39999999999998
+              },
+              "input": [
+                {
+                  "x": 48,
+                  "y": 186.7
+                }
+              ],
+              "output": [
+                {
+                  "x": 131.2,
+                  "y": 186.7
+                }
+              ]
+            },
+            {
+              "id": "qa-target",
+              "kind": "warehouse",
+              "x": 1400,
+              "y": 700,
+              "screen": {
+                "x": 544.5999999999999,
+                "y": 172.39999999999998
+              },
+              "input": [
+                {
+                  "x": 461.40000000000003,
+                  "y": 165.89999999999998
+                }
+              ],
+              "output": [
+                {
+                  "x": 627.8,
+                  "y": 165.89999999999998
+                }
+              ]
+            },
+            {
+              "id": "joint-f2cbebdd-0ed0-4ca3-8363-286186292ba5",
+              "kind": "joint",
+              "x": 1869.8462018120238,
+              "y": 1080.9231006238597,
+              "screen": {
+                "x": 850.0000311778153,
+                "y": 420.00001540550875
+              },
+              "input": [
+                {
+                  "x": 850.0000311778153,
+                  "y": 420.00001540550875
+                }
+              ],
+              "output": [
+                {
+                  "x": 850.0000311778153,
+                  "y": 420.00001540550875
+                }
+              ]
+            }
+          ],
+          "connections": [
+            {
+              "id": "cable-a806b101-a4bf-45e6-a25c-63453f18396f",
+              "from": "qa-source",
+              "to": "qa-target",
+              "fromPort": 0,
+              "toPort": 0,
+              "createdAt": 1795330761081
+            }
+          ],
+          "groups": []
+        }
+      },
+      {
+        "step": "moved-warehouse",
+        "observation": {
+          "revision": 4,
+          "paused": true,
+          "camera": {
+            "zoom": 0.65,
+            "x": -365.40000000000003,
+            "y": -282.6
+          },
+          "nodes": [
+            {
+              "id": "qa-source",
+              "kind": "woodenChest",
+              "x": 700,
+              "y": 700,
+              "screen": {
+                "x": 89.59999999999997,
+                "y": 172.39999999999998
+              },
+              "input": [
+                {
+                  "x": 48,
+                  "y": 186.7
+                }
+              ],
+              "output": [
+                {
+                  "x": 131.2,
+                  "y": 186.7
+                }
+              ]
+            },
+            {
+              "id": "qa-target",
+              "kind": "warehouse",
+              "x": 1607.6922214101728,
+              "y": 876.9230834125771,
+              "screen": {
+                "x": 679.5999439166123,
+                "y": 287.4000042181751
+              },
+              "input": [
+                {
+                  "x": 596.3999439166123,
+                  "y": 280.9000042181751
+                }
+              ],
+              "output": [
+                {
+                  "x": 762.7999439166122,
+                  "y": 280.9000042181751
+                }
+              ]
+            },
+            {
+              "id": "joint-f2cbebdd-0ed0-4ca3-8363-286186292ba5",
+              "kind": "joint",
+              "x": 1869.8462018120238,
+              "y": 1080.9231006238597,
+              "screen": {
+                "x": 850.0000311778153,
+                "y": 420.00001540550875
+              },
+              "input": [
+                {
+                  "x": 850.0000311778153,
+                  "y": 420.00001540550875
+                }
+              ],
+              "output": [
+                {
+                  "x": 850.0000311778153,
+                  "y": 420.00001540550875
+                }
+              ]
+            }
+          ],
+          "connections": [
+            {
+              "id": "cable-a806b101-a4bf-45e6-a25c-63453f18396f",
+              "from": "qa-source",
+              "to": "qa-target",
+              "fromPort": 0,
+              "toPort": 0,
+              "createdAt": 1795330761081
+            }
+          ],
+          "groups": []
+        }
+      },
+      {
+        "step": "decommissioned-warehouse",
+        "observation": {
+          "revision": 5,
+          "paused": true,
+          "camera": {
+            "zoom": 0.65,
+            "x": -365.40000000000003,
+            "y": -282.6
+          },
+          "nodes": [
+            {
+              "id": "qa-source",
+              "kind": "woodenChest",
+              "x": 700,
+              "y": 700,
+              "screen": {
+                "x": 89.59999999999997,
+                "y": 172.39999999999998
+              },
+              "input": [
+                {
+                  "x": 48,
+                  "y": 186.7
+                }
+              ],
+              "output": [
+                {
+                  "x": 131.2,
+                  "y": 186.7
+                }
+              ]
+            },
+            {
+              "id": "joint-f2cbebdd-0ed0-4ca3-8363-286186292ba5",
+              "kind": "joint",
+              "x": 1869.8462018120238,
+              "y": 1080.9231006238597,
+              "screen": {
+                "x": 850.0000311778153,
+                "y": 420.00001540550875
+              },
+              "input": [
+                {
+                  "x": 850.0000311778153,
+                  "y": 420.00001540550875
+                }
+              ],
+              "output": [
+                {
+                  "x": 850.0000311778153,
+                  "y": 420.00001540550875
+                }
+              ]
+            }
+          ],
+          "connections": [],
+          "groups": []
+        }
+      },
+      {
+        "step": "undo-restored-warehouse-and-cable",
+        "observation": {
+          "revision": 5,
+          "paused": true,
+          "camera": {
+            "zoom": 0.65,
+            "x": -365.40000000000003,
+            "y": -282.6
+          },
+          "nodes": [
+            {
+              "id": "qa-source",
+              "kind": "woodenChest",
+              "x": 700,
+              "y": 700,
+              "screen": {
+                "x": 89.59999999999997,
+                "y": 172.39999999999998
+              },
+              "input": [
+                {
+                  "x": 48,
+                  "y": 186.7
+                }
+              ],
+              "output": [
+                {
+                  "x": 131.2,
+                  "y": 186.7
+                }
+              ]
+            },
+            {
+              "id": "qa-target",
+              "kind": "warehouse",
+              "x": 1607.6922214101728,
+              "y": 876.9230834125771,
+              "screen": {
+                "x": 679.5999439166123,
+                "y": 287.4000042181751
+              },
+              "input": [
+                {
+                  "x": 596.3999439166123,
+                  "y": 280.9000042181751
+                }
+              ],
+              "output": [
+                {
+                  "x": 762.7999439166122,
+                  "y": 280.9000042181751
+                }
+              ]
+            },
+            {
+              "id": "joint-f2cbebdd-0ed0-4ca3-8363-286186292ba5",
+              "kind": "joint",
+              "x": 1869.8462018120238,
+              "y": 1080.9231006238597,
+              "screen": {
+                "x": 850.0000311778153,
+                "y": 420.00001540550875
+              },
+              "input": [
+                {
+                  "x": 850.0000311778153,
+                  "y": 420.00001540550875
+                }
+              ],
+              "output": [
+                {
+                  "x": 850.0000311778153,
+                  "y": 420.00001540550875
+                }
+              ]
+            }
+          ],
+          "connections": [
+            {
+              "id": "cable-a806b101-a4bf-45e6-a25c-63453f18396f",
+              "from": "qa-source",
+              "to": "qa-target",
+              "fromPort": 0,
+              "toPort": 0,
+              "createdAt": 1795330761081
+            }
+          ],
+          "groups": []
+        }
+      }
+    ],
+    "campaignStorage": "Separate local origin; no campaign imports, slots or autosave writes",
+    "limits": "Synthetic functional interaction check; not balance or performance evidence"
+  },
+  "preservation": {
+    "capturedFiles": 617,
+    "snapshots": 390,
+    "changedExistingSource": [
+      "src/domain/controlGroups.ts",
+      "src/simulation/engine.ts"
+    ],
+    "addedSource": [
+      "src/simulation/connectionPlanner.ts",
+      "src/simulation/factoryCommandPlans.test.ts",
+      "src/simulation/nodeDeletion.ts",
+      "src/simulation/nodeMovementPlanner.ts",
+      "src/simulation/nodePlacementPlanner.ts"
+    ],
+    "twelveMovedBodiesVerbatimExceptIdBinding": true,
+    "movementAndConnectionValidationOrderPreserved": true,
+    "engineCommitTickLifecycleCopyResetAndTemplateBoundariesPreserved": true,
+    "priorGroupUtilitiesPreserved": true,
+    "noStaticImportCycleThroughNewPlanningModules": true,
+    "existingFilesChangedSinceCapture": [
+      "src/domain/controlGroups.ts",
+      "src/simulation/engine.ts",
+      "scripts/build-action-sounds.mjs",
+      "scripts/check-piano-sounds.mjs",
+      "docs/changelog/2026-11.md",
+      "docs/changelog/entries.json",
+      "docs/changelog/index.html",
+      "docs/master-plan/06-art-audio-and-writing.md",
+      "docs/master-plan/07-technical-design.md",
+      "docs/node-ui-style-guide.md",
+      "docs/reviews/system-review-temporary.md",
+      "docs/systems/architecture-and-simulation.md",
+      "docs/systems/connections-and-routing.md",
+      "docs/systems/controls-and-factory-layouts.md",
+      "docs/systems/interface-and-assets.md",
+      "docs/systems/roads-and-vehicles.md",
+      "docs/systems/testing-and-publishing.md",
+      "docs/typography-style-review.md",
+      "CHANGELOG.md"
+    ],
+    "concurrentFilesPreserved": [
+      "scripts/build-action-sounds.mjs",
+      "scripts/check-piano-sounds.mjs",
+      "docs/master-plan/06-art-audio-and-writing.md",
+      "docs/node-ui-style-guide.md",
+      "docs/systems/interface-and-assets.md",
+      "docs/typography-style-review.md"
+    ]
+  },
+  "builds": "Baseline and final TypeScript/Vite production builds and isolated browser fixture build passed. Existing large-chunk warning retained.",
+  "documentation": "Six catalogs regenerated and checked fresh; local links across forty documents and all six final history checks passed.",
+  "transactionNote": "Existing beginMove and successful tryMoveNodesTo checkpoints, including successful no-op moves, are preserved. This extraction does not consolidate drag history or change publication policy.",
+  "limits": [
+    "Headless command comparisons and a synthetic browser fixture are scoped regression evidence, not balance or performance certification.",
+    "No campaign import/save-slot/autosave writes, commit or publication. Browser used a separate local origin with autosave disabled.",
+    "Phases 4–5 remain pending."
+  ]
+}

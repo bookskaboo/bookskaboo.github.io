@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { hasOpenDialog } from './dialogFocus';
 
 export function useRecipeIconToggle(enabled: boolean) {
   const [visible, setVisible] = useState(true);
@@ -9,7 +10,7 @@ export function useRecipeIconToggle(enabled: boolean) {
     const keyDown = (event: KeyboardEvent) => {
       const target = event.target;
       const editing = target instanceof HTMLElement && (target.matches('input, select, textarea') || target.isContentEditable);
-      if (event.key !== 'Alt' || event.ctrlKey || event.metaKey || event.shiftKey || editing || event.defaultPrevented) {
+      if (event.key !== 'Alt' || event.ctrlKey || event.metaKey || event.shiftKey || editing || event.defaultPrevented || hasOpenDialog()) {
         clear();
         return;
       }

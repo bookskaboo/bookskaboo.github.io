@@ -3,10 +3,11 @@ import type { GameState } from '../../domain/types';
 import { GameEngine } from '../../simulation/engine';
 import { NodeIcon } from '../NodeIcon';
 import { PanelHeader } from '../PanelHeader';
+import { Dialog } from '../components/Dialog';
 import { SHORTCUT_BAR_IDS, type ShortcutBarsState } from '../ShortcutBars';
 
 export function OptionsPanel({ game, engine, shortcutBars, onShortcutBars, onResetShortcutBars, onJournal, onSaveLoad, onCommands, onRecipes, onMods, onTutorials, training, onClose }: { game: GameState; engine: GameEngine; shortcutBars: ShortcutBarsState; onShortcutBars(v: ShortcutBarsState): void; onResetShortcutBars(): void; onJournal(): void; onSaveLoad(): void; onCommands(): void; onRecipes(): void; onMods(): void; onTutorials(): void; training: boolean; onClose(): void }) {
-  return <div className="modal-backdrop"><section className="modal options-modal glass"><PanelHeader title="Options" onClose={onClose} /><div className="option-list">
+  return <div className="modal-backdrop"><Dialog panel className="modal options-modal glass" aria-label="Options" modal={!training} onDismiss={onClose}><PanelHeader title="Options" onClose={onClose} /><div className="option-list">
     <OptionAction icon="◇" label="Save / Load" description="Save your progress." flavor="Or revisit an earlier opinion." disabled={training} onClick={onSaveLoad} />
     <OptionAction icon="◈" label="Mods" description="Create, import and share factory rules." flavor="The handbook is now a suggestion." disabled={training} onClick={onMods} />
     <OptionAction icon="⌨" label="Commands" description="The controls, written down." flavor="A radical convenience." disabled={training} onClick={onCommands} />
@@ -21,7 +22,7 @@ export function OptionsPanel({ game, engine, shortcutBars, onShortcutBars, onRes
     </div>
     <div className="shortcut-visibility-options" role="group" aria-label="Shortcut bar visibility">{SHORTCUT_BAR_IDS.map((barId, index) => { const visible = shortcutBars[barId].visible; const category = ['Production', 'Logistics', 'Storage'][index]; return <button key={barId} disabled={training} className={visible ? 'active' : ''} aria-pressed={visible} aria-label={`Shortcut Bar ${index + 1}, ${visible ? 'visible' : 'hidden'}. Toggle visibility.`} onClick={() => onShortcutBars({ ...shortcutBars, [barId]: { ...shortcutBars[barId], visible: !visible } })}><i>☰</i><b>Shortcut Bar {index + 1}</b><small>{category}</small><strong><kbd>F{index + 1}</kbd>{visible ? 'Visible' : 'Hidden'}</strong></button>; })}</div>
     <OptionAction icon="↺" label="Reset shortcut bars" description="Reset positions, size, rotation, locks, and assignments." flavor="Tidiness by decree." className="subtle" action="RESET" disabled={training} onClick={onResetShortcutBars} />
-  </div><div className="panel-note secure-note"><span>⌂</span><p><b>Local-only mode</b>Saves and shortcut layouts stay in this browser profile. Filing is your department.</p></div></section></div>;
+  </div><div className="panel-note secure-note"><span>⌂</span><p><b>Local-only mode</b>Saves and shortcut layouts stay in this browser profile. Filing is your department.</p></div></Dialog></div>;
 }
 
 function OptionAction({ icon, label, description, flavor, onClick, disabled, className = '', action = 'OPEN' }: {

@@ -1,0 +1,48 @@
+{
+  "url": "http://127.0.0.1:4279/outputs/modal-keyboard-protection/browser/",
+  "fixture": "Real FactoryApp with in-memory storage installed before app imports; synthetic two-node factory and separate guided Basics engine",
+  "checks": [
+    "Initial Options focus inside named dialog",
+    "34 forward/reverse Tabs stay within Options and allowed Pause controls",
+    "Hidden Delete/Backspace/Undo/paste/rotation/quick placement/F1 are blocked with deletion confirmation disabled; node count stays two",
+    "After closing Options, Delete reduces node count to one and Undo restores two, proving selection and ordinary shortcuts remain functional",
+    "Native Space activates Save / Load and Pause; canvas does not consume dialog button activation",
+    "Escape from save-name input returns to Options and focuses its matching remounted Save / Load action",
+    "Nested load confirmation initially focuses Cancel; Tab stays in the top scope plus allowed external controls; Q does not switch background panels",
+    "Escape closes only the confirmation and returns to the exact slot Load control",
+    "Commands search Escape and Mods dismissal return focus to the matching Options actions",
+    "Upgrades recipe inspection returns to the originating Core badge",
+    "Empty dialog initially focuses itself",
+    "Recovery Retry/Export Save remain in the allowed Tab cycle",
+    "Guided Basics Build omits aria-modal and retains Details, Restart and Exit practice in Tab cycle",
+    "Collapsed interaction notice and expanded explanation retain Escape dismissal; expanded scope permits only its own and deliberately allowed controls"
+  ],
+  "viewports": [
+    {
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "width": 390,
+      "height": 845,
+      "requestedHeight": 844
+    }
+  ],
+  "horizontalOverflow": false,
+  "cleanFinalConsoleWarningsAndErrors": [],
+  "developmentNotes": [
+    "Three fixture createRoot hot-reload errors occurred during edits; fresh final reload had no warnings/errors",
+    "Corrected the author fixture from an invalid basics ID to the canonical basic ID before validating guided practice",
+    "Corrected diagnostics to observe every engine publication so Undo revision reuse cannot hide updated node counts",
+    "Browser virtual clipboard was initially empty; seeded and cleared a synthetic session clipboard value for paste-key testing"
+  ],
+  "screenshots": [
+    "options-desktop.jpg",
+    "nested-desktop.jpg",
+    "nested-mobile.jpg",
+    "guided-mobile.jpg"
+  ],
+  "limits": [
+    "Controlled functional/keyboard fixture; no campaign saves, balance run or publication"
+  ]
+}

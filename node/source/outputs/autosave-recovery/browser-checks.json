@@ -1,0 +1,38 @@
+{
+  "url": "http://127.0.0.1:4279/outputs/autosave-recovery/browser/",
+  "storage": "In-memory Map installed before engine/UI imports; no campaign storage access",
+  "checks": [
+    "Scheduled quota failure leaves stored play time at 0 ms while factory reaches 60000 ms",
+    "Failed Retry keeps the warning and stored payload",
+    "Actual 38891-byte JSON download contains the current unsaved name and 60000 ms; warning remains",
+    "Import cancellation retains the factory",
+    "Invalid JSON save content shows an alert and retains 120000 ms factory",
+    "Confirmed import restores the exported 60000 ms factory without overwriting storage",
+    "Successful Retry while paused writes 60000 ms and clears warning",
+    "A later scheduled failure retains the 60000 ms autosave, continues to 120000 ms, and has no stale export message"
+  ],
+  "viewports": [
+    {
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "width": 390,
+      "height": 845,
+      "requestedHeight": 844
+    }
+  ],
+  "layout": "No horizontal page overflow; banner reserves roughly 12 px before field/modal content; body 12 px regular and import control 12 px/500",
+  "consoleWarningsAndErrors": [],
+  "screenshots": [
+    "warning-desktop.jpg",
+    "warning-mobile.jpg",
+    "import-mobile.jpg",
+    "recovered-mobile.jpg"
+  ],
+  "limits": [
+    "Synthetic component/engine fixture, not a normal-play balance run",
+    "Initial sandboxed server was unreachable; restarted only this task server outside the sandbox",
+    "No real campaign storage or live release"
+  ]
+}

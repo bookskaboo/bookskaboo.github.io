@@ -1,0 +1,66 @@
+{
+  "date": "2026-11-21",
+  "status": "implemented-local",
+  "changelog": "NODE-0768",
+  "scope": "Approved automatic autosave recovery, with usable export/import flow",
+  "focusedTests": {
+    "passed": 40,
+    "files": 6,
+    "newTests": 17
+  },
+  "workspaceTests": {
+    "passed": 2236,
+    "failed": 0,
+    "skipped": 2
+  },
+  "build": "TypeScript and local Vite production build passed; existing large-chunk warning",
+  "documentation": "Six catalogs regenerated; 40 documents checked",
+  "browser": "browser-checks.json",
+  "reviewPage": "https://chatgpt.com/space/page_e7453b10ac2c81919d88f5c40ab191c5",
+  "files": [
+    "src/persistence/autosave.ts",
+    "src/persistence/saves.ts",
+    "src/persistence/saveFiles.test.ts",
+    "src/simulation/engine.ts",
+    "src/simulation/engine.autosave.test.ts",
+    "src/ui/components/AutosaveWarning.tsx",
+    "src/ui/components/AutosaveWarning.test.tsx",
+    "src/ui/saveFile.ts",
+    "src/ui/saveFile.test.ts",
+    "src/ui/panels/SavePanel.tsx",
+    "src/styles.css",
+    "src/styles/autosave-warning.css",
+    "docs/systems/saves-and-compatibility.md",
+    "docs/node-ui-style-guide.md",
+    "docs/typography-style-review.md"
+  ],
+  "limits": [
+    "No campaign storage access or publication",
+    "Shortcut, map-layout and mod-draft persistence remain outside this protection",
+    "General modal keyboard behavior remains a separate finding"
+  ],
+  "historyChecks": "All six checks passed; generated history fresh",
+  "pageReadback": {
+    "page": "https://chatgpt.com/space/page_e7453b10ac2c81919d88f5c40ab191c5",
+    "editedBlocksMatch": true,
+    "resolutionPresent": true,
+    "unrelatedBlocksPreserved": true
+  },
+  "sha256": {
+    "src/persistence/autosave.ts": "8b668e05fd15215a2539e3efe47064067606da2d90e9b1ad91015cc07ca7bc48",
+    "src/persistence/saves.ts": "4c23fa4f4239e4b068c30cbdc74622353f141479ec63beda235f30ca35e08fbc",
+    "src/persistence/saveFiles.test.ts": "6f508b6e107b1fd386c51a6ff7dd95a894e320c483035122b2025a3f0d76ca9e",
+    "src/simulation/engine.ts": "82dc489f1e8337e0279852caebe7d91ede257fb4622de5a2f7b826eddc09b954",
+    "src/simulation/engine.autosave.test.ts": "d22f8f5d82a020d085be1181cd8fe199494fcccc8da3ec18fd14593244495b14",
+    "src/ui/components/AutosaveWarning.tsx": "8a7335c1dd244e79ba453c8952ecc1c564f95e24cbf5b48e25ff6d1c6f9a7172",
+    "src/ui/components/AutosaveWarning.test.tsx": "9bc87bc60e3f1e9960ac338582008926fb74548424beac3753c466d1c6938608",
+    "src/ui/saveFile.ts": "0428dd4efb560445f312dc8e7f9d6725e5972e7abb1327b48c1394452e1cf0ed",
+    "src/ui/saveFile.test.ts": "e10971bbd1a3bb031393b2fb8fbd335bc786b26d65d6ac5d239a25d7b4ad673a",
+    "src/ui/panels/SavePanel.tsx": "bba7d223dc09657ed31ddb93cd31e22ed079ac8968f2e5ef94ed75a30326bf9d",
+    "src/styles.css": "32f27743e54562d98cf6035b13a5fdf86d4dd8baf1e7eaacc50ae3ab54f9f658",
+    "src/styles/autosave-warning.css": "4e89aa30a782664ae2d6e3879f1de088e833f4a0ae426c196645d3468d436c0f",
+    "docs/systems/saves-and-compatibility.md": "2db9dde82d2281361676542d9e4a8211d3d736a7ceba9b25e68d919637922de2",
+    "docs/node-ui-style-guide.md": "05a5b5a3398d0e23b0216988988c7ec10b1ae326fc31751144ac53ff030e8149",
+    "docs/typography-style-review.md": "44263062b891e13c8ce7a8323fb04cb31f4c8e8c982bdca49c7fb1235da12f25"
+  }
+}

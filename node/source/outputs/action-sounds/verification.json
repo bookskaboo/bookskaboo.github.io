@@ -1,0 +1,30 @@
+{
+  "date": "2026-11-21",
+  "scope": "Draft proposal and author preview only",
+  "technical": {
+    "passed": true,
+    "cues": 19,
+    "actionMappings": 26,
+    "format": "44.1 kHz / 16-bit / stereo PCM",
+    "minimumPeakHeadroomDb": 18.417703523776087,
+    "maximumAbsoluteDC": 0.00001567630553739323,
+    "checks": [
+      "WAV signatures and sizes",
+      "PCM encoding and duration",
+      "Zero first and last PCM samples",
+      "At least 12 dB headroom; DC under 0.001",
+      "SHA-256 for all individual assets",
+      "All action references resolve",
+      "19 cards and 26 table rows",
+      "Generated JavaScript syntax",
+      "Byte-identical regenerated outputs"
+    ]
+  },
+  "browser": {
+    "status": "Not rerun for these musical phrase refinements; user audition remains pending"
+  },
+  "limits": [
+    "Subjective audition and long-session comfort require user review",
+    "No game event integration, campaign access, balance run or publication"
+  ]
+}

@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
+import { hasOpenDialog } from './dialogFocus';
 
 export function useGridSnapKey() {
   const [held, setHeld] = useState(false);
   useEffect(() => {
     const editable = (target: EventTarget | null) => target instanceof HTMLElement && (target.matches('input, select, textarea') || target.isContentEditable);
     const keyDown = (event: KeyboardEvent) => {
-      if (event.ctrlKey || event.metaKey || event.altKey || editable(event.target)) { setHeld(false); return; }
+      if (event.defaultPrevented || hasOpenDialog() || event.ctrlKey || event.metaKey || event.altKey || editable(event.target)) { setHeld(false); return; }
       if (event.key.toLowerCase() === 'a') setHeld(true);
     };
     const keyUp = (event: KeyboardEvent) => { if (event.key.toLowerCase() === 'a') setHeld(false); };

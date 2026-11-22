@@ -26,6 +26,10 @@ The developer panel can preview locked nodes, unlock buildable nodes, complete p
 
 Export playtest report produces JSON containing simulation time, seed, extracted and produced totals, and the complete state. This export is observational and can support a normal-play report without changing the game. Keep setup/interaction overhead and production waiting separate in the accompanying run notes.
 
+The former proposal compiler `scripts/sync-progression-content.mjs` is retired and refuses all source-generation invocations. Maintain content through the [recipe ownership reference](recipes.md#maintaining-recipes), then regenerate documentation with `npm run docs:systems`. Its [checksummed archive](../../scripts/archive/progression-proposal/README.md) retains the original writer and analytical inputs as evidence, not a current maintenance workflow.
+
+The former whole-world stress command and fixture are retired. Their [source and reports](../../scripts/archive/engine-stress/README.md) remain historical evidence. Use the active-factory browser tool for its documented simulation/rendering scope; whole-world multi-map performance measurement remains deferred, not covered by that tool.
+
 Catalog previews and analytical scripts are useful for inspecting parts, milestones and costs without altering a player save. Their outputs establish only what the script checks. The [testing reference](testing-and-publishing.md) identifies standard commands and evidence boundaries.
 
 Sources: [developer panel](../../src/ui/panels/DevPanel.tsx), [demand inference and supply](../../src/simulation/devSource.ts), [engine actions](../../src/simulation/engine.ts), [Dev Source regression tests](../../src/simulation/devSource.test.ts).

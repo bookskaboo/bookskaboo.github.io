@@ -2,83 +2,77 @@ import { applyExpansionRescue } from './expansionRescue';
 import { expandMapsAroundCenter } from './unvisitedMapExpansion';
 import { focusedFieldCamera, sectorTravelCamera, type FieldViewport } from '../domain/camera';
 import { roadTravelPair } from '../domain/roadNavigation';
-import { borderCrossingFailure } from '../domain/borderObstructionLayout';
 import { forestTerrainRate, generateMapTerrains, normalizeMapTerrains } from './mapTerrain';
 import { borderRoadPermissionsValid, generateBorderObstructions, normalizeBorderLayout } from './borderObstructions';
 import { firstSpottedDwarvenCamp, DWARVEN_DISCOVERY_PROMPT } from '../tutorials/dwarvenDiscovery';
-import { cornerDiscoveryPending, endgameRank, reconcileHole, worldRecipeAllowed, FOUNDRY_INPUTS, SEVEN_CORES } from '../content/endgame';
-import { initializeEndgame, simulateCorner, cornerInputAllowed, syncCornerLayout } from './endgameRuntime';
+import { cornerDiscoveryPending, endgameRank, reconcileHole, worldRecipeAllowed, SEVEN_CORES } from '../content/endgame';
+import { initializeEndgame, simulateCorner, syncCornerLayout } from './endgameRuntime';
 import { simulatePlanter } from '../content/forestry';
-import { activateMod, BASE_MOD_CONTENT } from '../mods/modContent';
+import { activateMod } from '../mods/modContent';
 import { validateMod } from '../mods/modValidation';
 import { applyModNames, modCompatibilityError } from '../mods/modRuntime';
 import { modNode, modNodeTemplate, modRule, modWorldGridSize } from '../mods/modRules';
 import { HOME_SECTOR_ID, mapNodePosition, worldGridBounds, worldGridSize } from '../domain/worldGrid';
 import { canPurchaseMap, mapPurchaseProtected } from './mapExpansion';
-import { usesNewWorldRules, syncGuardedResources, guardedResourceAccessible, lakeIntakeLimit } from './worldRules';
+import { usesNewWorldRules, syncGuardedResources, guardedResourceAccessible } from './worldRules';
 import { regenerateGuardedResources, isDwarvenGuardedDeposit } from './guardedResources';
 import type { GameMod } from '../mods/modTypes';
 import { FactoryTemplateRuntime } from './factoryTemplateRuntime';
+import { RoadCommandRuntime } from './roadCommandRuntime';
+import { TransportRuntime } from './transportRuntime';
+import { planNodeDeletion } from './nodeDeletion';
+import { ConnectionPlanner } from './connectionPlanner';
+import { NodeMovementPlanner } from './nodeMovementPlanner';
+import { NodePlacementPlanner } from './nodePlacementPlanner';
+import { freshLayoutNode } from './nodeLayoutCopy';
+import { writeAutosave } from '../persistence/autosave';
 import { ResearchRuntime } from './researchRuntime';
 import type { QueueResearchOptions } from '../content/researchQueue';
-import { mergeResearchHintHistory } from '../domain/researchHintHistory';
-import { getEffectiveNodeInputFamilies, getEffectiveNodeOutputFamilies, isNodeUnlocked, NODE_DEFINITIONS } from '../content/nodes';
-import { getNodeCapabilities, hasNodeBehavior, isResourceBehavior, needsRecipeSelection } from '../content/nodeCapabilities';
-import { isRecipeUnlocked, RECIPES, RECIPE_GROUPS, recyclerRecipeForMaterial } from '../content/recipes';
-import { BOT_BUILD_BY_ID, cargoMaterial, MATCHED_BOTS } from '../content/botAssembly';
+import { initializeStateCollections, retainUndoKnowledge } from './stateLifecycle';
+import { getEffectiveNodeOutputFamilies, isNodeUnlocked, NODE_DEFINITIONS } from '../content/nodes';
+import { getNodeCapabilities, hasNodeBehavior, isResourceBehavior } from '../content/nodeCapabilities';
+import { isRecipeUnlocked, RECIPES, RECIPE_GROUPS } from '../content/recipes';
+import { BOT_BUILD_BY_ID, MATCHED_BOTS } from '../content/botAssembly';
 import { RESEARCH_PROJECTS } from '../content/research';
 import { getRecipeEfficiencyMultiplier } from '../content/efficiency';
 import { landmarkMultiplier, landmarkRecipeAllowed } from '../content/landmarks';
 import { simulateUnknownDevice } from './landmarkRuntime';
 import { initializeLandmarks } from './landmarkGeneration';
-import { hasForestryCapacity } from '../content/machineEfficiency';
 import { migrateMachineEfficiency } from './machineEfficiencyMigration';
 import { migrateUpgrades } from './upgradesMigration';
 import { migrateRetiredNodes } from '../content/retiredNodes';
 import { canonicalNodeName } from '../content/displayNameChanges';
-import { CONTROL_GROUP_COLORS, copyControlGroups, normalizeControlGroups, regroupControlNodes } from '../domain/controlGroups';
+import { planControlGroupCreation, planControlGroupDisband, copyControlGroups, normalizeControlGroups, regroupControlNodes } from '../domain/controlGroups';
 import type { Connection, GameEvent, GameState, InFlightTransfer, ItemId, MachineNode, NodeKind, SectorState } from '../domain/types';
 import { getEncounterLayoutVersion, getGolemPlacementTier, getWorldFieldSize, normalizeWorldFieldSize, sectorDistance, sectorForState, sectorId, syncCornerLayouts } from './worldGeneration';
-import { logisticsRoute } from './logisticsRoutes';
-import { routedConnectionFailure } from './connectionMaterials';
 import { isTutorialUnlocked, type ProgressiveTutorialKind } from '../tutorials/tutorialUnlocks';
-import { cablesUnderNode } from './cableInsertion';
-import { canPlaceNode, nodeInsideField, nodesOverlap } from './collisions';
-import { DEFERRED_POWER_NODES } from '../content/deferredPower';
-import { RESEARCH_CENTER_BASE_CYCLE_MS } from '../content/researchTiming';
-import { applyCartUpgrades, cartCapacity, cartUpgrade, isCartKind, vehiclePayload } from '../content/cartUpgrades';
+import { nodeInsideField, nodesOverlap } from './collisions';
+import { applyCartUpgrades, cartCapacity, isCartKind, vehiclePayload } from '../content/cartUpgrades';
 import { updateCampEncroachment } from './campEffects';
 import { obstructedConnections } from './obstructedConnections';
-import { pairedRoadPositions, roadPairLayoutForField } from './roadPlacement';
 import { devExtractorMaterial, supplyDevInputs } from './devSource';
-import { recoverRoadStock } from './roadTransport';
-import { connectionBlockedByWorld, connectionObstruction, inputPortAcceptsItem, portFamilyAcceptsItem, portFamiliesCompatible, resolveConnectionPlan, resolveExactConnectionPlan, roadVehicleError } from './connectionRules';
+import { dispatchRoadItem, recoverRoadStock } from './roadTransport';
+import { connectionBlockedByWorld, nonItemFamilies, inputPortAcceptsItem, portFamiliesCompatible } from './connectionRules';
 import { getNodeModule, isPlayerMovableNode } from '../content/nodeModules';
 import { CONNECTOR_MIRRORING_RESEARCH, isProductionMachine } from '../content/productionNodes';
 
 import { getNodeSize } from '../domain/nodeGeometry';
 import { FILTERABLE_ITEMS, ITEM_NAMES } from '../content/items';
 import { SimulationLookups } from './simulationLookups';
-import { WASTE_ITEMS } from '../content/progression';
 import { migrateReviewedProduction } from './reviewedProductionMigration';
 import { filterOutlet, selectedFilterPort, type FilterPort } from '../domain/filterRouting';
-import { outputHead, queueOutputs, reconcileQueue, returnOutput, takeOutput } from './mixedOutput';
+import { queueOutputs, reconcileQueue, returnOutput } from './mixedOutput';
 import { getGoblinAttackRequirement, getMonsterSettlementDefinition, GOBLIN_CHECK_INTERVAL_MS } from '../content/goblinSettlements';
 import { createGoblinTribute, getTributeItems, isCampFullySuppressed, produceGoblinTribute, tributeMaterial, type TributeItem } from './goblinTribute';
-import { isRoadFluid, roadConnectionError, roadInputAccepts, roadMaterialState } from './roadMaterials';
-import { initializeProgression, discoverActiveSector, simulateProgressionNode, simulateExtendedRecipe, attackPower, consumeCampBots, placementLimit, connectionLimit, roadChannels } from './progression';
+import { roadMaterialState } from './roadMaterials';
+import { initializeProgression, discoverActiveSector, simulateProgressionNode, simulateExtendedRecipe, attackPower, consumeCampBots } from './progression';
 
 const clone = <T,>(value: T): T => structuredClone(value);
 const makeId = (prefix: string) => `${prefix}-${crypto.randomUUID?.() ?? Math.random().toString(36).slice(2)}`;
 const sum = (bag: Partial<Record<ItemId, number>>) => Object.values(bag).reduce<number>((a, b) => a + (b ?? 0), 0);
 type NodeLayoutCopy = Pick<SectorState, 'nodes' | 'connections' | 'controlGroups'>;
-export interface RoadPlacementTarget {
-  sector: SectorState;
-  endpoint: MachineNode;
-  localFacing: NonNullable<MachineNode['roadFacing']>;
-}
+export type { RoadPlacementTarget } from './nodePlacementPlanner';
 
-const nonItemFamilies = new Set(['FLUID', 'WASTE','ANY', 'RESOURCE', 'METAL', 'PLATE', 'GEAR', 'CORE', 'ROBOT_FRAME', 'ROBOT_WEAPON', 'ATTACK_POWER', 'POWER']);
 const concreteOutputItem = (node: MachineNode, port: number) => {
   if (node.kind === 'refiner' && node.recipeId?.match(/-(gear|wire)$/) &&
     sum(node.input) === 0 && sum(node.output) === 0 && node.progressMs === 0) return undefined;
@@ -88,9 +82,17 @@ const concreteOutputItem = (node: MachineNode, port: number) => {
 
 export { createInitialState } from './createInitialState';
 import { createInitialState } from './createInitialState';
-import { AUTOSAVE_KEY } from '../persistence/storageKeys';
 
 export class GameEngine {
+  private readonly connectionPlanner = new ConnectionPlanner(() => this.state, () => this.getSector());
+  private readonly nodeMovementPlanner = new NodeMovementPlanner(() => this.state, () => this.getSector());
+  private readonly nodePlacementPlanner = new NodePlacementPlanner(() => this.state, () => this.getSector(), makeId);
+  private readonly transport = new TransportRuntime(
+    () => this.state, makeId, (type, message) => this.event(type, message),
+  );
+  private readonly roadCommands = new RoadCommandRuntime(
+    () => this.getState(), () => this.checkpoint(), ids => this.cancelTransfers(ids), () => this.publish(),
+  );
   private readonly templates = new FactoryTemplateRuntime(
     () => this.getState(), () => this.checkpoint(), () => this.publish(), makeId,
   );
@@ -108,10 +110,10 @@ export class GameEngine {
   private history: GameState[] = [];
   private developerMapRevealUndo = new WeakSet<GameState>();
   private copiedLayout?: NodeLayoutCopy;
-  private readonly lastExtractorDispatch = new WeakMap<Connection, number>();
   private transferAccumulator = 0;
   private publishAccumulator = 0;
   private autosaveAccumulator = 0;
+  private autosaveFailed = false;
   private rescueAccumulator = 0;
   private realtimeTickAt?: number;
   private realtimePendingMs = 0;
@@ -124,14 +126,7 @@ export class GameEngine {
     this.state = initial ? clone(initial) : createInitialState();
     if (this.state.mod) this.state.mod = validateMod(this.state.mod);
     activateMod(this.state.mod);
-    this.state.produced ??= {};
-    this.state.extracted ??= {};
-    this.state.hasCreatedConnection ??= false;
-    this.state.research.completed ??= [];
-    this.state.research.repeatableCompletions ??= {};
-    this.state.research.projectContributions ??= {};
-    migrateUpgrades(this.state);
-    this.state.inFlightTransfers ??= [];
+    initializeStateCollections(this.state);
     this.normalizeExtractorCycles();
     applyModNames(this.state);
     this.research.reconcileResearchSelection();
@@ -141,6 +136,18 @@ export class GameEngine {
   subscribe = (listener: () => void) => { this.listeners.add(listener); return () => { this.listeners.delete(listener); }; };
   getState = () => { activateMod(this.state.mod); return this.state; };
   getSector = () => { activateMod(this.state.mod); return this.state.sectors[this.state.activeSectorId]; };
+  hasAutosaveFailure = () => this.autosaveFailed;
+  /** Also works while paused. Keep failure status outside saved and undo state. */
+  retryAutosave = () => {
+    if (this.options.autosave === false) return false;
+    this.autosaveAccumulator = 0;
+    let failed = false;
+    try { writeAutosave(this.state); } catch { failed = true; }
+    const changed = this.autosaveFailed !== failed;
+    this.autosaveFailed = failed;
+    if (changed) this.publish();
+    return !failed;
+  };
   applyMod(mod?: GameMod) {
     const candidate = mod ? validateMod(mod) : undefined;
     const gridSize = modWorldGridSize(candidate);
@@ -334,8 +341,7 @@ export class GameEngine {
     }
     if (publishImmediately || this.publishAccumulator >= 750) { this.publishAccumulator %= 750; this.publish(); }
     if (this.options.autosave !== false && this.autosaveAccumulator >= this.state.preferences.autosaveMinutes * 60000) {
-      this.autosaveAccumulator = 0;
-      localStorage.setItem(AUTOSAVE_KEY, JSON.stringify(this.state));
+      this.retryAutosave();
     }
   }
 
@@ -663,199 +669,42 @@ export class GameEngine {
 
   /** Commit one item only when both local wiring and the remote destination are ready. */
   private dispatchRoadItem(sector: SectorState, road: MachineNode, lookups: SimulationLookups) {
-    const remote = road.pairedSectorId ? this.state.sectors[road.pairedSectorId] : undefined;
-    const pair = remote && road.pairedRoadId ? lookups.sector(remote).nodes.get(road.pairedRoadId) : undefined;
-    if (!remote?.unlocked || pair?.kind !== 'road' || pair.roadMode !== 'import' || pair.disabled
-      || Date.now() - pair.constructedAt < pair.constructionMs
-      || (pair.pairedRoadId && pair.pairedRoadId !== road.id) || (pair.pairedSectorId && pair.pairedSectorId !== sector.id)) return;
-    const material = roadMaterialState(this.state, sector, road);
-    if (material.mixed || material.fluid) return;
-    const localIndex = lookups.sector(sector), remoteIndex = lookups.sector(remote);
-    const exits = remoteIndex.outgoing.get(pair.id) ?? [];
-    if (!exits.length) return;
-    for (const feed of localIndex.incoming.get(road.id) ?? []) {
-      const source = localIndex.nodes.get(feed.from);
-      if (!source || roadVehicleError(source, road) || source.disabled || Date.now() - source.constructedAt < source.constructionMs) continue;
-      const family = getEffectiveNodeOutputFamilies(source)[feed.fromPort ?? 0];
-      if (!family) continue;
-      const bags = [source.input, source.output];
-      const items = [...new Set(bags.flatMap(bag => (Object.keys(bag) as ItemId[]).filter(item => (bag[item] ?? 0) >= 1)))];
-      for (const item of items) {
-        if (outputHead(source) && outputHead(source) !== item) continue;
-        if (isRoadFluid(item) || (material.materials.length && material.materials[0] !== cargoMaterial(item))) continue;
-        if (!portFamilyAcceptsItem(family, item) || !inputPortAcceptsItem(road, feed.toPort ?? 0, item, this.state.research.completed)) continue;
-        for (const exit of exits) {
-          const delivery = this.resolveDeliveryRoute(exit, item, remote, lookups);
-          if (!delivery) continue;
-          if ((source.input[item] ?? 0) >= 1) source.input[item]!--;
-          else takeOutput(source, item);
-          delivery.target.input[item] = (delivery.target.input[item] ?? 0) + 1;
-          feed.item = item;
-          exit.item = item;
-          // Visual cable motion carries no inventory or capacity reservation.
-          for (const [owner, cable] of [[sector, feed], [remote, exit]] as const) {
-            (this.state.inFlightTransfers ??= []).push({ id: makeId('road-pulse'), sectorId: owner.id, connectionId: cable.id,
-              from: cable.from, to: cable.to, item, launchedAtMs: this.state.playTimeMs, arrivesAtMs: this.state.playTimeMs + modRule('cableTravelMs'), cosmeticOnly: true });
-          }
-          return;
-        }
-      }
-    }
+    return dispatchRoadItem(this.state, sector, road, lookups,
+      (connection, item, owner, indexes) => this.resolveDeliveryRoute(connection, item, owner, indexes), makeId);
   }
 
   private inputCapacity(node: MachineNode, item: ItemId) {
-    if (isCartKind(node.kind)) return Math.max(0, Math.min(modNode(node.kind)?.inputCapacity ?? Infinity, cartCapacity(node) - sum(node.output)));
-    if(node.kind==='cornerChallenge')return node.cornerType==='foundry'?(FOUNDRY_INPUTS[item]??0):100;
-    if (node.kind === 'road') return 0;
-    if (modNode(node.kind)?.inputCapacity !== undefined) return modNode(node.kind)!.inputCapacity!;
-    if (node.kind === 'forest' && hasForestryCapacity(this.state.research.completed)) return 20;
-    if (node.kind === 'monster-camp') return Math.max(5, getGoblinAttackRequirement(node));
-    return getNodeCapabilities(node.kind).inputCapacity ?? 5;
+    return this.transport.inputCapacity(node, item);
   }
 
   /** Original processors reserve a full ingredient buffer for every recipe input. */
   private inputUsesPerItemCapacity(node: MachineNode) {
-    if (node.landmark === 'unknown') return false;
-    return Boolean((node.kind==='cornerChallenge'&&node.cornerType==='foundry') || getNodeCapabilities(node.kind).perItemInputCapacity || (node.recipeId && RECIPES[node.recipeId]));
+    return this.transport.inputUsesPerItemCapacity(node);
   }
 
   private inputOccupancy(node: MachineNode, item: ItemId) {
-    if (node.kind === 'recycler') return item === 'water' ? node.input.water ?? 0 : sum(node.input) - (node.input.water ?? 0);
-    return this.inputUsesPerItemCapacity(node) ? (node.input[item] ?? 0) : sum(node.input);
+    return this.transport.inputOccupancy(node, item);
   }
 
   private reservedInput(node: MachineNode, item: ItemId, pending: ReturnType<SimulationLookups['target']>) {
-    if (!pending) return 0;
-    if (node.kind === 'recycler') return item === 'water' ? pending.counts.water ?? 0
-      : pending.transfers.reduce((total, transfer) => total + (transfer.item !== 'water' ? transfer.amount ?? 1 : 0), 0);
-    if (this.inputUsesPerItemCapacity(node)) return pending.counts[item] ?? 0;
-    const reserved = pending.transfers.reduce((total, transfer) => total + (transfer.amount ?? 1), 0);
-    return reserved;
-  }
-
-  private mergerItem(node: MachineNode, sector: SectorState, lookups: SimulationLookups) {
-    const stored = (Object.keys({ ...node.input, ...node.output }) as ItemId[]).find((item) =>
-      (node.input[item] ?? 0) + (node.output[item] ?? 0) > 0
-    );
-    if (stored) return stored;
-    const pending = lookups.target(sector.id, node.id)?.transfers[0]?.item;
-    if (pending) return pending;
-    return lookups.sector(sector).incoming.get(node.id)?.find((connection) => connection.item)?.item;
+    return this.transport.reservedInput(node, item, pending);
   }
 
   private selectRecyclerRecipeFromMaterial(node: MachineNode, item: ItemId) {
-    if (node.kind !== 'recycler' || item === 'water') return;
-    const id = recyclerRecipeForMaterial(item, this.state.research.completed);
-    if (!id || id === node.recipeId) return;
-    node.recipeId = id;
-    node.cycleMs = RECIPES[id].cycleMs;
-    node.progressMs = 0;
+    return this.transport.selectRecyclerRecipeFromMaterial(node, item);
   }
 
   private canAcceptAtInputPort(node: MachineNode, port: number, item: ItemId, sector: SectorState, lookups: SimulationLookups, ignoredTransferId?: string, routingPath = new Set<string>()) {
-    if(node.kind==='cornerChallenge'&&!cornerInputAllowed(sector,node))return false;
-    if (!inputPortAcceptsItem(node, port, item, this.state.research.completed)) return false;
-    if (!roadInputAccepts(this.state, sector, node, item)) return false;
-    if (port === 0 && node.kind === 'recycler') {
-      if (node.recipeId === recyclerRecipeForMaterial(item, this.state.research.completed)) return true;
-      // Finish the active recipe and drain its stock before allowing another material.
-      return !node.batch && !this.inputOccupancy(node, item) && !sum(node.output) &&
-        !lookups.target(sector.id, node.id)?.transfers.some(transfer => transfer.id !== ignoredTransferId && transfer.item !== 'water');
-    }
-    if (node.kind === 'filter') {
-      if (routingPath.has(node.id)) return false;
-      return !this.filterBlockage(node, sector, lookups, new Set(routingPath).add(node.id), item);
-    }
-    if (modNodeTemplate(node.kind) === 'splitter') {
-      if (routingPath.has(node.id)) return false;
-      const path = new Set(routingPath).add(node.id);
-      const index = lookups.sector(sector);
-      const incoming = lookups.target(sector.id, node.id);
-      const delivering = incoming?.transfers.some(t => t.id === ignoredTransferId && t.item === item) ? 1 : 0;
-      const queued = (node.input[item] ?? 0) + (node.output[item] ?? 0) + (incoming?.counts[item] ?? 0) - delivering;
-      let space = 0;
-      const seen = new Set<string>();
-      for (const cable of index.outgoing.get(node.id) ?? []) {
-        const target = index.nodes.get(cable.to);
-        if (!target || target.disabled || seen.has(target.id) || !this.canAcceptAtInputPort(target, cable.toPort ?? 0, item, sector, lookups, ignoredTransferId, path)) continue;
-        seen.add(target.id);
-        const pending = lookups.target(sector.id, target.id);
-        space += Math.max(0, this.inputCapacity(target, item) - this.inputOccupancy(target, item) - (this.reservedInput(target, item, pending)));
-      }
-      return space > queued;
-    }
-    if (modNodeTemplate(node.kind) === 'merger') {
-      const retained = this.mergerItem(node, sector, lookups);
-      return !retained || cargoMaterial(retained) === cargoMaterial(item);
-    }
-    return this.accepts(node, item);
+    return this.transport.canAcceptAtInputPort(node, port, item, sector, lookups, ignoredTransferId, routingPath);
   }
 
   /** Classify immediately; any required blocked outlet stops this whole Filter. */
   private filterBlockage(node: MachineNode, sector: SectorState, lookups: SimulationLookups, path = new Set([node.id]), candidate?: ItemId): MachineNode['filterBlocked'] {
-    const index = lookups.sector(sector);
-    const waiting = new Set<ItemId>(candidate ? [candidate] : []);
-    for (const bag of [node.input, node.output]) for (const item of Object.keys(bag) as ItemId[]) if ((bag[item] ?? 0) > 0) waiting.add(item);
-    const collect = (id: string, seen: Set<string>, accepts: (item: ItemId) => boolean = () => true) => {
-      if (seen.has(id)) return;
-      const next = new Set(seen).add(id);
-      for (const edge of index.incoming.get(id) ?? []) {
-        const source = index.nodes.get(edge.from);
-        if (!source) continue;
-        const family = getEffectiveNodeOutputFamilies(source)[edge.fromPort ?? 0];
-        const throughThisOutlet = (item: ItemId): boolean => accepts(item) && Boolean(family && portFamilyAcceptsItem(family, item)) && (source.kind !== 'filter' || (edge.fromPort ?? 0) === filterOutlet(source, item));
-        for (const item of Object.keys(source.output) as ItemId[]) if ((source.output[item] ?? 0) > 0 && throughThisOutlet(item)) waiting.add(item);
-        if (getNodeCapabilities(source.kind).passThrough) collect(source.id, next, throughThisOutlet);
-      }
-    };
-    collect(node.id, new Set());
-    for (const item of waiting) {
-      const outlet = filterOutlet(node, item);
-      const ready = (index.outgoing.get(node.id) ?? []).filter(edge => (edge.fromPort ?? 0) === outlet).some(edge => logisticsRoute(edge, item, sector, this.state.research.completed, (target, port) => {
-        if (!this.canAcceptAtInputPort(target, port, item, sector, lookups, undefined, path)) return false;
-        const pending = lookups.target(sector.id, target.id);
-        const reserved = this.reservedInput(target, item, pending);
-        return this.inputOccupancy(target, item) + reserved < this.inputCapacity(target, item);
-      }, index));
-      if (!ready) return outlet === selectedFilterPort(node) ? 'selected' : 'remainder';
-    }
-    return undefined;
+    return this.transport.filterBlockage(node, sector, lookups, path, candidate);
   }
 
   private deliverTransfers(nowMs: number, sectorId?: string) {
-    const lookups = new SimulationLookups(this.state);
-    const pending = this.state.inFlightTransfers ??= [];
-    const remaining = [] as typeof pending;
-    const refunds: Array<{ source: MachineNode; item: ItemId; amount: number; port?: number }> = [];
-    for (const transfer of pending) {
-      if ((sectorId && transfer.sectorId !== sectorId) || transfer.arrivesAtMs > nowMs) { remaining.push(transfer); continue; }
-      if (transfer.cosmeticOnly) continue;
-      const sector = this.state.sectors[transfer.sectorId];
-      const index = sector ? lookups.sector(sector) : undefined;
-      const target = index?.nodes.get(transfer.to);
-      const source = index?.nodes.get(transfer.from);
-      const routeIds = transfer.routeConnectionIds ?? [transfer.connectionId];
-      const routeValid = routeIds.every((id, position) => {
-        const cable = index?.connections.get(id);
-        const previous = position ? index?.connections.get(routeIds[position - 1]) : undefined;
-        const routeNode = cable && index?.nodes.get(cable.from);
-        return Boolean(cable && routeNode && !routeNode.disabled && (!position || previous?.to === cable.from) &&
-          (routeNode.kind !== 'filter' || (cable.fromPort ?? 0) === filterOutlet(routeNode, transfer.item)));
-      });
-      const connection = routeValid ? index?.connections.get(routeIds.at(-1)!) : undefined;
-      const occupied = target ? this.inputOccupancy(target, transfer.item) : 0;
-      const validSocket = Boolean(target && connection && sector && this.canAcceptAtInputPort(target, connection.toPort ?? 0, transfer.item, sector, lookups, transfer.id));
-      if (target && connection && validSocket && occupied + (transfer.amount ?? 1) <= this.inputCapacity(target, transfer.item)) {
-        this.selectRecyclerRecipeFromMaterial(target, transfer.item);
-        target.input[transfer.item] = (target.input[transfer.item] ?? 0) + (transfer.amount ?? 1);
-        if ((getNodeCapabilities(target.kind).behavior === 'buffer' || target.landmark === 'unknown')) (target.inputQueue ??= []).push(...Array<ItemId>(transfer.amount ?? 1).fill(transfer.item));
-      } else if (source) {
-        refunds.push({ source, item: transfer.item, amount: transfer.amount ?? 1, port: transfer.sourcePort });
-      }
-    }
-    // Prepending in reverse restores the original dispatch order ahead of newer stock.
-    for (const { source, item, amount, port } of refunds.reverse()) returnOutput(source, item, amount, port);
-    this.state.inFlightTransfers = remaining;
+    return this.transport.deliverTransfers(nowMs, sectorId);
   }
 
   private migrateBotAssembly() {
@@ -941,222 +790,29 @@ export class GameEngine {
   }
 
   private cancelTransfers(connectionIds: Set<string>) {
-    const retained = [] as NonNullable<GameState['inFlightTransfers']>;
-    for (const transfer of [...this.state.inFlightTransfers ?? []].reverse()) {
-      if (!(transfer.routeConnectionIds ?? [transfer.connectionId]).some(id => connectionIds.has(id))) { retained.push(transfer); continue; }
-      if (transfer.cosmeticOnly) continue;
-      const source = this.state.sectors[transfer.sectorId]?.nodes.find((node) => node.id === transfer.from);
-      if (source) returnOutput(source, transfer.item, transfer.amount ?? 1, transfer.sourcePort);
-      else if (usesNewWorldRules(this.state)) {
-        this.state.globalPool ??= {};
-        this.state.globalPool[transfer.item] = (this.state.globalPool[transfer.item] ?? 0) + (transfer.amount ?? 1);
-      }
-    }
-    this.state.inFlightTransfers = retained.reverse();
+    return this.transport.cancelTransfers(connectionIds);
   }
 
   private resolveDeliveryRoute(connection: Connection, item: ItemId, sector: SectorState, lookups: SimulationLookups) {
-    return logisticsRoute(connection, item, sector, this.state.research.completed, (destination, port) => {
-      if (!this.canAcceptAtInputPort(destination, port, item, sector, lookups)) return false;
-      const pending = lookups.target(sector.id, destination.id);
-      const reserved = this.reservedInput(destination, item, pending);
-      return this.inputOccupancy(destination, item) + reserved < this.inputCapacity(destination, item);
-    }, lookups.sector(sector));
+    return this.transport.resolveDeliveryRoute(connection, item, sector, lookups);
   }
 
   private routeSector(sector: SectorState, nowMs = this.state.playTimeMs, lookups = new SimulationLookups(this.state)) {
-    let launched = false;
-    const index = lookups.sector(sector);
-    const isExtractorCable = (cable: Connection) => index.nodes.get(cable.from)?.kind === 'extractor';
-    // A shared destination can free only one space at a time. Give it to the
-    // longest-waiting eligible Extractor while keeping other cable priorities.
-    const extractors = sector.connections.filter(isExtractorCable).sort((a, b) =>
-      (this.lastExtractorDispatch.get(a) ?? -1) - (this.lastExtractorDispatch.get(b) ?? -1));
-    let nextExtractor = 0;
-    for (const node of sector.nodes) if (node.kind === 'filter') node.filterBlocked = this.filterBlockage(node, sector, lookups);
-    for (const cable of sector.connections) {
-      const connection = isExtractorCable(cable) ? extractors[nextExtractor++] : cable;
-      if (!index.connections.has(connection.id)) continue;
-      const source = index.nodes.get(connection.from);
-      let target = index.nodes.get(connection.to);
-      if (!source || !target || source.disabled || target.disabled) continue;
-      if (usesNewWorldRules(this.state) && source.kind === 'lake') continue;
-      if (source.kind === 'filter' && this.filterBlockage(source, sector, lookups)) continue;
-      if (source.kind === 'devSource') continue; // Inputs are supplied directly before simulation.
-      if (source.kind === 'lake' && target.kind === 'fluidLink') continue;
-      if (hasNodeBehavior(target.kind, 'road') && hasNodeBehavior(source.kind, 'buffer')) continue;
-      const sourceCapabilities = getNodeCapabilities(source.kind);
-      if (isResourceBehavior(source.kind) && !sourceCapabilities.routesOwnOutput) continue;
-      if (sourceCapabilities.alternatingOutputs) {
-        const outputs = index.outgoing.get(source.id)!;
-        // Prefer the next outlet, but do not stall every branch behind a full
-        // or incompatible destination. Reservations include this routing pass.
-        const chosen = Array.from({ length: outputs.length }, (_, offset) => outputs[((source.alternator ?? 0) + offset) % outputs.length]).find((candidate) => {
-          const destination = index.nodes.get(candidate.to);
-          if (!destination || destination.disabled || !portFamiliesCompatible(source, candidate.fromPort ?? 0, destination, candidate.toPort ?? 0, this.state.research.completed)) return false;
-          return (Object.keys(source.output) as ItemId[]).some((item) => {
-            if ((source.output[item] ?? 0) <= 0 || !this.resolveDeliveryRoute(candidate, item, sector, lookups) || !portFamilyAcceptsItem(getEffectiveNodeOutputFamilies(source)[candidate.fromPort ?? 0] ?? 'ANY', item) || !this.canAcceptAtInputPort(destination, candidate.toPort ?? 0, item, sector, lookups)) return false;
-            const pending = lookups.target(sector.id, destination.id);
-            const reserved = this.reservedInput(destination, item, pending);
-            return this.inputOccupancy(destination, item) + reserved < this.inputCapacity(destination, item);
-          });
-        });
-        if (chosen?.id !== connection.id) continue;
-      }
-      const resolveRoute = (key: ItemId) => this.resolveDeliveryRoute(connection, key, sector, lookups);
-      const head = outputHead(source);
-      const item = (head ? [head] : Object.keys(source.output) as ItemId[]).find((key) =>
-        (source.output[key] ?? 0) > 0 && (source.landmark !== 'tri' || (source.triOutput?.[connection.fromPort ?? 0] ?? 0) > 0) && Boolean(resolveRoute(key)) && portFamilyAcceptsItem(getEffectiveNodeOutputFamilies(source)[connection.fromPort??0]??'ANY',key) && this.canAcceptAtInputPort(target!, connection.toPort ?? 0, key, sector, lookups)
-      );
-      if (!item) continue;
-      if (!portFamiliesCompatible(source,connection.fromPort??0,target,connection.toPort??0,this.state.research.completed) || !getEffectiveNodeOutputFamilies(source)[connection.fromPort??0] || !inputPortAcceptsItem(target,connection.toPort??0,item,this.state.research.completed))continue;
-      const sourceFamily=getEffectiveNodeOutputFamilies(source)[connection.fromPort??0];
-      if(sourceFamily==='WASTE'&&!WASTE_ITEMS.includes(item))continue;
-      if(sourceFamily!=='ANY'&&sourceFamily!=='WASTE'&&!nonItemFamilies.has(sourceFamily!)&&sourceFamily!==item)continue;
-      const route = resolveRoute(item);
-      if (!route) continue;
-      target = route.target;
-      const cap = this.inputCapacity(target, item);
-      const pending = lookups.target(sector.id, target.id);
-      const pendingForTarget = this.reservedInput(target, item, pending);
-      const occupied = this.inputOccupancy(target, item);
-      if (occupied + pendingForTarget >= cap) continue;
-      const fastRate=source.kind==='goblinTribute'?10:(item==='water'||(item==='coolant'&&[source.kind,target.kind].includes('fluidLink')))&&(source.kind!=='lake')?16:(WASTE_ITEMS.includes(item)&&[source.kind,target.kind].includes('wasteHopper'))?40:item==='power'&&[source.kind,target.kind].includes('powerConduit')?25:0;
-      if (fastRate) {
-        connection.batchCredit = Math.min(fastRate, (connection.batchCredit ?? 0) + fastRate * .4);
-        const nextItemIndex = source.outputQueue?.findIndex(key => key !== item) ?? -1;
-        const queuedAmount = nextItemIndex >= 0 ? nextItemIndex : source.outputQueue?.length ?? Infinity;
-        const amount = Math.min(Math.floor(connection.batchCredit), source.output[item] ?? 0, queuedAmount, cap - occupied - pendingForTarget);
-        if (amount > 0) {
-          this.selectRecyclerRecipeFromMaterial(target, item);
-          takeOutput(source, item, amount, connection.fromPort ?? 0);
-          target.input[item] = (target.input[item] ?? 0) + amount;
-          if ((getNodeCapabilities(target.kind).behavior === 'buffer' || target.landmark === 'unknown')) (target.inputQueue ??= []).push(...Array<ItemId>(amount).fill(item));
-          connection.batchCredit -= amount;
-          connection.item = item;
-          launched = true;
-          if (sourceCapabilities.alternatingOutputs) source.alternator = index.outgoing.get(source.id)!.findIndex(candidate => candidate.id === connection.id) + 1;
-        }
-        continue;
-      }
-      const payload = item === 'forest-growth' && hasForestryCapacity(this.state.research.completed) ? 10 : isCartKind(source.kind) || isCartKind(target.kind) ? vehiclePayload(this.state.research.completed) : 1;
-      const runLength = source.outputQueue ? source.outputQueue.findIndex(key => key !== item) : -1;
-      const amount = Math.min(payload, source.output[item] ?? 0, source.landmark === 'tri' ? source.triOutput?.[connection.fromPort ?? 0] ?? 0 : Infinity, cap - occupied - pendingForTarget, source.outputQueue ? runLength < 0 ? source.outputQueue.length : runLength : Infinity);
-      if (amount <= 0) continue;
-      this.selectRecyclerRecipeFromMaterial(target, item);
-      takeOutput(source, item, amount, connection.fromPort ?? 0);
-      route.connections.forEach(cable => { cable.item = item; });
-      route.routers.forEach(({ node, outputIndex }) => { if (getNodeCapabilities(node.kind).alternatingOutputs) node.alternator = outputIndex + 1; });
-      const transfer = { id: makeId('transfer'), sourcePort: connection.fromPort ?? 0, sectorId: sector.id, connectionId: connection.id, routeConnectionIds: route.connections.length > 1 ? route.connections.map(cable => cable.id) : undefined, from: source.id, to: target.id, item, amount, launchedAtMs: nowMs, arrivesAtMs: nowMs + modRule('cableTravelMs') };
-      (this.state.inFlightTransfers ??= []).push(transfer);
-      lookups.launched(transfer);
-      if (source.kind === 'extractor') this.lastExtractorDispatch.set(connection, nowMs);
-      launched = true;
-      if (sourceCapabilities.alternatingOutputs) source.alternator = index.outgoing.get(source.id)!.findIndex(candidate => candidate.id === connection.id) + 1;
-      this.event('TransferStarted', `${ITEM_NAMES[item] ?? item} routed to ${target.name}.`);
-    }
-    for (const node of sector.nodes) {
-      if (node.disabled || node.processingPaused || !getNodeCapabilities(node.kind).passThrough) continue;
-      const inputs = (Object.keys(node.input) as ItemId[]).filter((key) => (node.input[key] ?? 0) > 0);
-      const canRoute = (item: ItemId) => (index.outgoing.get(node.id) ?? []).some(cable => {
-        const target = index.nodes.get(cable.to);
-        if (!target || target.disabled || !this.canAcceptAtInputPort(target, cable.toPort ?? 0, item, sector, lookups)) return false;
-        const pending = lookups.target(sector.id, target.id);
-        return this.inputOccupancy(target, item) + (this.reservedInput(target, item, pending)) < this.inputCapacity(target, item);
-      });
-      const preferred = modNodeTemplate(node.kind) === 'splitter' ? inputs.find(canRoute) : undefined;
-      const item = preferred ?? inputs[0];
-      if (preferred && sum(node.output) >= (modNode(node.kind)?.capacity ?? node.capacity ?? 5)) {
-        const blocked = (Object.keys(node.output) as ItemId[]).find(key => (node.output[key] ?? 0) > 0 && !canRoute(key));
-        if (blocked) {
-          // Exchange buffered items atomically; neither bag exceeds capacity.
-          node.input[preferred]!--; node.output[blocked]!--;
-          node.input[blocked] = (node.input[blocked] ?? 0) + 1;
-          node.output[preferred] = (node.output[preferred] ?? 0) + 1;
-          continue;
-        }
-      }
-      if (item && sum(node.output) < (modNode(node.kind)?.capacity ?? node.capacity ?? 5)) { const q=['fluidLink','powerConduit'].includes(node.kind)?Math.min(node.input[item]??0,(modNode(node.kind)?.capacity ?? node.capacity ?? 64)-sum(node.output)):1;node.input[item]!-=q; node.output[item] = (node.output[item] ?? 0) + q; }
-    }
-    return launched;
+    return this.transport.routeSector(sector, nowMs, lookups);
   }
 
-  private accepts(node: MachineNode, item: ItemId) {
-    if (needsRecipeSelection(node)) return false;
-
-    if (hasNodeBehavior(node.kind, 'big-hole')) return item === 'stone' && (node.resourceRemaining ?? 0) > 0;
-    if (node.kind === 'forest') return item === 'forest-growth' && this.state.research.completed.includes('treePlanter');
-    const inputs = getEffectiveNodeInputFamilies(node, this.state.research.completed);
-    if (inputs.some((_family, port) => inputPortAcceptsItem(node, port, item, this.state.research.completed))) return true;
-    const recipe = node.recipeId ? RECIPES[node.recipeId] : undefined;
-    return recipe ? item in recipe.inputs : false;
-  }
 
   private planNodePlacement(kind: NodeKind, x: number, y: number, preview = false) {
-    const def = NODE_DEFINITIONS[kind];
-    if (kind === 'fluidRoad' || DEFERRED_POWER_NODES.has(kind)) return;
-    if (!def || (def.hidden && !def.legacyAlias && kind !== 'devSource')) return;
-    if (modNode(kind)?.template && !isNodeUnlocked(kind, this.state.research.unlocked) && !preview) return;
-    const lockedStorage = (def.category === 'Storage' || isCartKind(kind)) && !isNodeUnlocked(kind, this.state.research.unlocked);
-    const lockedBotPlant = kind === 'botPlant' && !isNodeUnlocked(kind, this.state.research.unlocked);
-    if ((lockedStorage || lockedBotPlant) && !preview) return;
-    const capabilities = getNodeCapabilities(kind);
-    if(capabilities.globallyUnique&&this.state.activeSectorId!=='5,5')return;
-    if((kind==='storage'||kind==='inventory')&&Object.values(this.state.sectors).flatMap(s=>s.nodes).filter(n=>n.kind===kind).length>=placementLimit(this.state,kind))return;
-    const uniqueNodeBlocked = capabilities.globallyUnique && Object.values(this.state.sectors).some((sector) => sector.nodes.some((node) => getNodeCapabilities(node.kind).globallyUnique));
-    if (uniqueNodeBlocked && !preview) return;
-    const roadPair = capabilities.pairedSectorPlacement ? this.findRoadPair(x, y) : undefined;
-    const crossingRequirement = roadPair ? borderCrossingFailure(this.state, this.getSector().id, roadPair.sector.id) : undefined;
-    const faceRoads = (sector: SectorState, neighbor: string) => sector.nodes.filter(n => hasNodeBehavior(n.kind, 'road') && n.pairedSectorId === neighbor).length;
-    const channelsFull = Boolean(roadPair && (faceRoads(this.getSector(), roadPair.sector.id) >= roadChannels(this.state) || faceRoads(roadPair.sector, this.getSector().id) >= roadChannels(this.state)));
-    if (capabilities.pairedSectorPlacement && !roadPair && !preview) return;
-    // The original configurable machines are inert until the player chooses a recipe.
-    const configuredRecipes = modNode(kind)?.recipeIds;
-    const defaultRecipe = capabilities.defaultRecipeId;
-    const recipeId = defaultRecipe && (!configuredRecipes || configuredRecipes.includes(defaultRecipe)) ? defaultRecipe : undefined;
-    const node: MachineNode = {
-      id: preview ? '__placement-preview__' : makeId(kind), kind, name: def.name, x, y, rotation: 0, recipeId, input: {}, output: {}, progressMs: 0,
-      cycleMs: recipeId ? RECIPES[recipeId].cycleMs : capabilities.behavior === 'research' ? RESEARCH_CENTER_BASE_CYCLE_MS : kind === 'extractor' ? 5000 : capabilities.behavior === 'planter' ? 250 : capabilities.behavior === 'recipe' ? 0 : 1000, constructedAt: Date.now(), constructionMs: kind === 'devSource' ? 0 : 1500,
-      capacity: BASE_MOD_CONTENT.capabilities[modNodeTemplate(kind)].defaultCapacity,
-      ...(modNode(kind)?.name ? { modBaseName: BASE_MOD_CONTENT.nodes[modNodeTemplate(kind)].name } : {}),
-      ...(capabilities.defaultFilterItem ? { filterItem: capabilities.defaultFilterItem } : {}),
-      ...(capabilities.defaultMiningTarget ? { miningTarget: capabilities.defaultMiningTarget, miningProgress: 0 } : {}),
-    };
-    if (isCartKind(kind)) Object.assign(node, cartUpgrade(this.state.research.completed,endgameRank(this.state,'trainFreightCapacity')));
-    node.constructionMs = modNode(kind)?.constructionMs ?? node.constructionMs * modRule('constructionMultiplier');
-    if (modNode(kind)?.name) node.name = modNode(kind)!.name!;
-    let pairedNode: MachineNode | undefined;
-    if (roadPair) {
-      Object.assign(node, roadPair.local, { roadMode: 'export', pairedSectorId: roadPair.sector.id });
-      const pair: MachineNode = { ...clone(node), ...roadPair.remote, id: preview ? '__placement-preview-pair__' : makeId('road'), roadMode: 'import', pairedSectorId: this.getSector().id, input: {}, output: {}, progressMs: 0 };
-      node.pairedRoadId = pair.id; pair.pairedRoadId = node.id; pairedNode = pair;
-    }
-    const field = getWorldFieldSize(this.state);
-    const localClear = canPlaceNode(node, this.getSector().nodes, field);
-    const pairClear = !(pairedNode && roadPair && !canPlaceNode(pairedNode, roadPair.sector.nodes, field));
-    const error = lockedBotPlant ? 'Complete Suppression Bot research to build a Bot Plant.'
-      : lockedStorage ? ['woodenChest', 'chest'].includes(kind) ? 'Complete Road research to build a Cart.' : 'Research this storage node before building it.' : uniqueNodeBlocked ? 'This unique node already exists.'
-      : capabilities.pairedSectorPlacement && !roadPair ? 'Unlock an adjacent map before placing a road to it.'
-      : crossingRequirement ? crossingRequirement
-      : channelsFull ? `This boundary allows ${roadChannels(this.state)} Roads per map face, counting sending and receiving endpoints together. Use another face or remove a Road${roadChannels(this.state) < 3 ? ', or research Road Channels' : ''}.`
-      : !localClear ? `The endpoint on map ${this.getSector().id} needs clearance from the field boundary, other nodes and obstructions. Choose another position.`
-      : !pairClear ? `The paired endpoint on adjacent map ${roadPair!.sector.id} is blocked. Move this road along the boundary, or clear room on that map.` : undefined;
-    return { node, pairedNode, roadPair, valid: !error, error, crossingRequirement };
+    return this.nodePlacementPlanner.planNodePlacement(kind, x, y, preview);
   }
 
   /** Returns the held node, placement validity, and the destination for a Road near its wall. */
   getNodePlacementPreview(kind: NodeKind, x: number, y: number) {
-    const plan = this.planNodePlacement(kind, x, y, true);
-    if (!plan) return;
-    const { node, pairedNode, roadPair, valid } = plan;
-    const road: RoadPlacementTarget | undefined = roadPair && pairedNode && Math.abs(roadPair.score) <= getNodeSize(node).w
-      ? { sector: roadPair.sector, endpoint: pairedNode, localFacing: roadPair.side }
-      : undefined;
-    return { node, valid, road, crossingRequirement: plan.crossingRequirement };
+    return this.nodePlacementPlanner.getNodePlacementPreview(kind, x, y);
   }
 
   getNodePlacementError(kind: NodeKind, x: number, y: number) {
-    return this.planNodePlacement(kind, x, y, true)?.error ?? 'Choose an unlocked node and a clear location on this map.';
+    return this.nodePlacementPlanner.getNodePlacementError(kind, x, y);
   }
 
   placeNode(kind: NodeKind, x: number, y: number) {
@@ -1175,10 +831,9 @@ export class GameEngine {
   }
   createControlGroup(ids: string[], colorValue: string) {
     const sector = this.getSector();
-    const available = new Set(sector.nodes.filter(node => isPlayerMovableNode(node.kind) && !node.disabled).map(node => node.id));
-    const nodeIds = [...new Set(ids)].filter(id => available.has(id));
-    const color = CONTROL_GROUP_COLORS.find(color => color.value === colorValue);
-    if (nodeIds.length < 2 || !color) return;
+    const plan = planControlGroupCreation(sector.nodes, ids, colorValue);
+    if (!plan) return;
+    const { nodeIds, color } = plan;
     this.checkpoint();
     const group = { id: makeId('control-group'), nodeIds, color: color.value, colorName: color.name };
     sector.controlGroups = regroupControlNodes(sector.controlGroups ?? [], group);
@@ -1187,57 +842,22 @@ export class GameEngine {
   }
   disbandControlGroup(id: string) {
     const sector = this.getSector();
-    if (!sector.controlGroups?.some(group => group.id === id)) return false;
+    const groups = planControlGroupDisband(sector.controlGroups, id);
+    if (!groups) return false;
     this.checkpoint();
-    sector.controlGroups = sector.controlGroups.filter(group => group.id !== id);
+    sector.controlGroups = groups;
     this.publish();
     return true;
   }
-  private findRoadPair(x: number, y: number) {
-    const current = this.getSector();
-    const field = getWorldFieldSize(this.state);
-    const candidates = [
-      { score: x, x: current.x - 1, y: current.y, side: 'east' as const },
-      { score: field.width - x, x: current.x + 1, y: current.y, side: 'west' as const },
-      { score: y, x: current.x, y: current.y - 1, side: 'south' as const },
-      { score: field.height - y, x: current.x, y: current.y + 1, side: 'north' as const },
-    ].sort((a, b) => a.score - b.score);
-    const candidate = candidates[0];
-    const sector = this.state.sectors[sectorId(candidate.x, candidate.y)];
-    if (!sector?.unlocked) return;
-    return { ...candidate, ...pairedRoadPositions({ x, y }, candidate.side, field), sector };
-  }
 
-  private movedCablesBlocked(sector: SectorState, proposedById: Map<string, MachineNode>) {
-    const nodes = sector.nodes.map(node => proposedById.get(node.id) ?? node);
-    const byId = new Map(nodes.map(node => [node.id, node]));
-    return sector.connections.some(connection => {
-      if (!proposedById.has(connection.from) && !proposedById.has(connection.to)) return false;
-      const source = byId.get(connection.from), target = byId.get(connection.to);
-      return Boolean(source && target && connectionBlockedByWorld(source, target, { fromPort: connection.fromPort ?? 0, toPort: connection.toPort ?? 0 }, nodes));
-    });
-  }
 
   private roadPairLayout(sector: SectorState, node: MachineNode, point: { x: number; y: number }) {
-    return roadPairLayoutForField(this.state,sector,node,point,getWorldFieldSize(this.state));
+    return this.nodeMovementPlanner.roadPairLayout(sector, node, point);
   }
 
-  private planRoadMove(sector: SectorState, node: MachineNode, point: { x: number; y: number }) {
-    const layout = this.roadPairLayout(sector, node, point);
-    if (!layout) return;
-    const { node: proposed, road, pair } = layout;
-    const neighbor = road.sector, endpoint = road.endpoint, field = getWorldFieldSize(this.state);
-    const valid = !borderCrossingFailure(this.state, sector.id, neighbor.id) && canPlaceNode(proposed, sector.nodes, field) && canPlaceNode(endpoint, neighbor.nodes, field)
-      && !this.movedCablesBlocked(sector, new Map([[node.id, proposed]]))
-      && !this.movedCablesBlocked(neighbor, new Map([[pair.id, endpoint]]));
-    return { ...layout, valid };
-  }
 
   getRoadMovePreview(id: string, point: { x: number; y: number }) {
-    const sector = this.getSector();
-    const node = sector.nodes.find(candidate => candidate.id === id && hasNodeBehavior(candidate.kind, 'road'));
-    const plan = node && this.planRoadMove(sector, node, point);
-    return plan && { node: plan.node, road: plan.road, valid: plan.valid };
+    return this.nodeMovementPlanner.getRoadMovePreview(id, point);
   }
 
   moveNodes(ids: string[], dx: number, dy: number) {
@@ -1252,58 +872,17 @@ export class GameEngine {
 
   /** Applies a drag position using the original collision, cable, and paired-road rules. */
   tryMoveNodesTo(positions: Record<string, { x: number; y: number }>, apply = true) {
-    const sector = this.getSector();
-    positions={...positions};
-    if(this.state.research.completed.includes('campRelocation'))for(const camp of sector.nodes.filter(n=>n.kind==='monster-camp')) {
-      const box=sector.nodes.find(n=>usesNewWorldRules(this.state)?n.guardedCampId===camp.id:n.kind==='goblinTribute'&&n.tributeCampId===camp.id);
-      if(!box||(!positions[camp.id]&&!positions[box.id]))continue;
-      const anchor=positions[camp.id]?camp:box, point=positions[anchor.id];
-      const dx=point.x-anchor.x,dy=point.y-anchor.y;
-      for(const member of [camp,box]) {const next={x:member.x+dx,y:member.y+dy};if(positions[member.id]&&(Math.abs(positions[member.id].x-next.x)>1e-7||Math.abs(positions[member.id].y-next.y)>1e-7))return false;positions[member.id]=next;}
-    }
-    if (usesNewWorldRules(this.state) && this.state.research.completed.includes('lakeRelocation')) {
-      for (const lake of sector.nodes.filter(n => n.kind === 'lake' && positions[n.id])) {
-        const dx = positions[lake.id].x - lake.x, dy = positions[lake.id].y - lake.y;
-        const attached = new Set(sector.connections.filter(c => c.from === lake.id).map(c => c.to));
-        for (const intake of sector.nodes.filter(n => n.kind === 'fluidLink' && attached.has(n.id))) {
-          const next = { x: intake.x + dx, y: intake.y + dy };
-          if (positions[intake.id] && (Math.abs(positions[intake.id].x-next.x)>1e-7 || Math.abs(positions[intake.id].y-next.y)>1e-7)) return false;
-          positions[intake.id] = next;
-        }
-      }
-    }
-    const selected = sector.nodes.filter((node) => positions[node.id] && isPlayerMovableNode(node.kind,this.state,node));
-    if (!selected.length) return false;
-    if (selected.some(node => hasNodeBehavior(node.kind, 'road'))) {
-      if (selected.length !== 1) return false;
-      const node = selected[0];
-      const plan = this.planRoadMove(sector, node, positions[node.id]);
-      if (!plan?.valid) return false;
-      if (apply) {
-        this.checkpoint();
-        this.applyRoadMove(sector, node, plan);
-      }
-      return true;
-    }
-    const field = getWorldFieldSize(this.state);
-    const ignored = new Set(selected.map((node) => node.id));
-    const proposals = selected.map((node) => ({ node, proposed: { ...node, ...positions[node.id] } }));
-    if (!selected.some(n=>!getNodeModule(n.kind).controls.movable)) {
-      const minimumShiftX = Math.max(...proposals.map(({ proposed }) => getNodeSize(proposed).w / 2 + 12 - proposed.x));
-      const maximumShiftX = Math.min(...proposals.map(({ proposed }) => field.width - getNodeSize(proposed).w / 2 - 12 - proposed.x));
-      const minimumShiftY = Math.max(...proposals.map(({ proposed }) => getNodeSize(proposed).h / 2 + 52 - proposed.y));
-      const maximumShiftY = Math.min(...proposals.map(({ proposed }) => field.height - getNodeSize(proposed).h / 2 - 12 - proposed.y));
-      const shiftX = Math.max(minimumShiftX, Math.min(maximumShiftX, 0)); const shiftY = Math.max(minimumShiftY, Math.min(maximumShiftY, 0));
-      proposals.forEach(({ proposed }) => { proposed.x += shiftX; proposed.y += shiftY; });
-    }
-    if (proposals.some(({ proposed }) => !canPlaceNode(proposed, [...sector.nodes.filter(n=>!ignored.has(n.id)),...proposals.map(p=>p.proposed)], field))) return false;
-    const proposedById = new Map(proposals.map(({ proposed }) => [proposed.id, proposed]));
-    if (this.movedCablesBlocked(sector, proposedById)) return false;
+    const plan = this.nodeMovementPlanner.planMove(positions);
+    if (!plan) return false;
     if (!apply) return true;
     this.checkpoint();
-    proposals.forEach(({ node, proposed }) => { node.x = proposed.x; node.y = proposed.y; });
-    updateCampEncroachment(sector.nodes);
-    if (selected.length === 1 && getNodeModule(selected[0].kind).controls.movable) this.insertNodeOnCable(selected[0]);
+    if (plan.kind === 'road') this.applyRoadMove(plan.sector, plan.node, plan.plan);
+    else {
+      const { sector, selected, proposals } = plan;
+      proposals.forEach(({ node, proposed }) => { node.x = proposed.x; node.y = proposed.y; });
+      updateCampEncroachment(sector.nodes);
+      if (selected.length === 1 && getNodeModule(selected[0].kind).controls.movable) this.insertNodeOnCable(selected[0]);
+    }
     return true;
   }
 
@@ -1342,29 +921,7 @@ export class GameEngine {
   }
 
   getCableInsertionPreview(node: MachineNode): { replacedConnectionId: string; connections: [Connection, Connection] } | undefined {
-    if (!getNodeCapabilities(node.kind).passThrough || node.disabled) return undefined;
-    const sector = this.getSector();
-    for (const old of cablesUnderNode(node, sector)) {
-      const from = sector.nodes.find(candidate => candidate.id === old.from), to = sector.nodes.find(candidate => candidate.id === old.to);
-      if (!from || !to) continue;
-      const remaining = sector.connections.filter(candidate => candidate.id !== old.id);
-      for (let input = 0; input < getEffectiveNodeInputFamilies(node, this.state.research.completed).length; input++) {
-        const first = resolveExactConnectionPlan(from, old.fromPort ?? 0, node, input, remaining, this.state.research.completed);
-        if (!first || first.replace.length || connectionBlockedByWorld(from, node, first, sector.nodes)) continue;
-        for (let output = 0; output < getEffectiveNodeOutputFamilies(node).length; output++) {
-          const second = resolveExactConnectionPlan(node, output, to, old.toPort ?? 0, remaining, this.state.research.completed);
-          if (!second || second.replace.length || connectionBlockedByWorld(node, to, second, sector.nodes)) continue;
-          if (old.item && (!inputPortAcceptsItem(node, input, old.item, this.state.research.completed) || !portFamilyAcceptsItem(getEffectiveNodeOutputFamilies(node)[output], old.item))) continue;
-          const firstCable: Connection = { ...old, id: `__insert-in-${node.id}`, to: node.id, toPort: input, createdAt: Date.now() };
-          const secondCable: Connection = { ...old, id: `__insert-out-${node.id}`, from: node.id, fromPort: output, createdAt: Date.now() };
-          const previewNodes = [...sector.nodes.filter(candidate => candidate.id !== node.id), node];
-          if (routedConnectionFailure(secondCable, previewNodes, [...remaining, firstCable], this.state.research.completed, new Set())) continue;
-          return { replacedConnectionId: old.id, connections: [firstCable, secondCable] };
-
-        }
-      }
-    }
-    return undefined;
+    return this.connectionPlanner.getCableInsertionPreview(node);
   }
 
   private insertNodeOnCable(node: MachineNode) {
@@ -1385,15 +942,8 @@ export class GameEngine {
   beginMove() { this.checkpoint(); }
   commitMove() { this.publish(); }
   connect(from: string, to: string) {
-    if (from === to) return false;
-    const sector = this.getSector();
-    const sourceNode = sector.nodes.find((node) => node.id === from);
-    const targetNode = sector.nodes.find((node) => node.id === to);
-    if (!sourceNode || !targetNode) return false;
-    if(!this.canAddProgressionConnection(sourceNode,targetNode,sector.connections))return false;
-    const plan = resolveConnectionPlan(sourceNode, targetNode, sector.connections, this.state.research.completed, plan => !routedConnectionFailure({ from, to, fromPort: plan.fromPort, toPort: plan.toPort }, sector.nodes, sector.connections, this.state.research.completed, new Set(plan.replace)));
-    if (!plan || connectionBlockedByWorld(sourceNode, targetNode, plan, sector.nodes)) return false;
-    return this.connectPorts(from, plan.fromPort, to, plan.toPort);
+    const plan = this.connectionPlanner.planAutomaticConnection(from, to);
+    return plan ? this.connectPorts(from, plan.fromPort, to, plan.toPort) : false;
   }
 
   getRoadTransportStatus(nodeId: string) {
@@ -1402,63 +952,18 @@ export class GameEngine {
   }
 
   getRoadConnectionError(from: string, fromPort: number, to: string, toPort: number, replaceConnectionId?: string) {
-    const sector = this.getSector();
-    const source = sector.nodes.find(n => n.id === from), target = sector.nodes.find(n => n.id === to);
-    if (!source || !target) return;
-    const vehicleError = roadVehicleError(source, target);
-    if (vehicleError) return vehicleError;
-    const plan = resolveExactConnectionPlan(source, fromPort, target, toPort, sector.connections.filter(c => c.id !== replaceConnectionId), this.state.research.completed);
-    if (!plan) return;
-    return roadConnectionError(this.state, sector, { id: '__road-validation', from, to, fromPort, toPort, createdAt: 0 }, new Set([...plan.replace, ...(replaceConnectionId ? [replaceConnectionId] : [])]));
+    return this.connectionPlanner.getRoadConnectionError(from, fromPort, to, toPort, replaceConnectionId);
   }
 
   /** Read-only explanation using the same checks as a committed cable. */
   getConnectionFailure(from: string, fromPort: number, to: string, toPort: number, replaceConnectionId?: string): { title: string; detail: string } | undefined {
-    const sector = this.getSector();
-    const source = sector.nodes.find(n => n.id === from), target = sector.nodes.find(n => n.id === to);
-    if (!source || !target) return { title: 'Socket unavailable', detail: 'Choose an output and an input on existing nodes.' };
-    if (source === target) return { title: 'Choose another node', detail: 'A cable must connect two different nodes.' };
-    if (source.disabled || target.disabled) return { title: 'Node disabled', detail: 'Enable both nodes before connecting them.' };
-    if (source.guardedCampId && !guardedResourceAccessible(source, sector.nodes)) return { title: 'Deposit guarded', detail: 'Fully suppress the linked settlement before connecting extraction.' };
-    if (source.kind === 'lake' && usesNewWorldRules(this.state) && target.kind !== 'fluidLink') return { title: 'Lake Intake required', detail: 'Connect the Lake to a Lake Intake, then route its Water to the factory.' };
-    const vehicleError = roadVehicleError(source, target);
-    if (vehicleError) return { title: 'Freight vehicle required', detail: vehicleError };
-    const unconfigured = [source, target].find(needsRecipeSelection);
-    if (unconfigured && source.kind !== 'devSource') return { title: 'Choose a recipe first', detail: `${unconfigured.name} needs a recipe before it can be connected. Left-click it and choose a recipe.` };
-    if ((hasNodeBehavior(source.kind, 'resource') || source.infiniteResource) && !hasNodeBehavior(target.kind, 'extractor') && !getNodeCapabilities(target.kind).passThrough) return { title: 'Extractor required', detail: 'Connect the resource to an Extractor, then connect the Extractor output to this machine.' };
-    if (!portFamiliesCompatible(source, fromPort, target, toPort, this.state.research.completed)) {
-      if (isCartKind(target.kind)) return { title: 'Solid items only', detail: `${target.name} cannot store fluids. Use the appropriate fluid or waste storage instead.` };
-      const family = getEffectiveNodeInputFamilies(target, this.state.research.completed)[toPort];
-      const name = family && family in ITEM_NAMES ? ITEM_NAMES[family as ItemId] : family ?? 'a compatible material';
-      return { title: 'Incompatible socket', detail: `${target.name}'s selected input requires ${name}. Choose the matching output and input, or use a Filter to select a material.` };
-    }
-    const connections = sector.connections.filter(c => c.id !== replaceConnectionId);
-    if (!this.canAddProgressionConnection(source, target, connections)) return { title: 'Connection limit reached', detail: 'This node has reached its researched connection limit. Remove a connection or research more capacity.' };
-    const plan = resolveExactConnectionPlan(source, fromPort, target, toPort, connections, this.state.research.completed);
-    if (!plan) return { title: 'Connection unavailable', detail: 'These sockets are already connected or the receiving Merger holds a different material. Drain that material or choose another socket.' };
-    const materialFailure = routedConnectionFailure({ from, to, fromPort, toPort }, sector.nodes, connections, this.state.research.completed, new Set(plan.replace));
-    if (materialFailure) return materialFailure;
-    const obstruction = connectionObstruction(source, target, plan, sector.nodes);
-    if (obstruction) return { title: `Blocked by ${obstruction.name}`, detail: `The cable crosses ${obstruction.name} on map ${sector.id}. Route it around the obstruction using Joints, allowing clearance outside its border.` };
-    const road = this.getRoadConnectionError(from, fromPort, to, toPort, replaceConnectionId);
-    return road ? { title: 'Road connection blocked', detail: road } : undefined;
+    return this.connectionPlanner.getConnectionFailure(from, fromPort, to, toPort, replaceConnectionId);
   }
 
   connectPorts(from: string, fromPort: number, to: string, toPort: number, replaceConnectionId?: string) {
-    if (from === to) return false;
-    const sector = this.getSector();
-    const sourceNode = sector.nodes.find((node) => node.id === from);
-    const targetNode = sector.nodes.find((node) => node.id === to);
-    if (!sourceNode || !targetNode) return false;
-    const validationConnections = replaceConnectionId
-      ? sector.connections.filter((connection) => connection.id !== replaceConnectionId)
-      : sector.connections;
-    if(!this.canAddProgressionConnection(sourceNode,targetNode,validationConnections))return false;
-    const plan = resolveExactConnectionPlan(sourceNode, fromPort, targetNode, toPort, validationConnections, this.state.research.completed);
-    if (!plan || connectionBlockedByWorld(sourceNode, targetNode, plan, sector.nodes)) return false;
-    const replaced = new Set([...plan.replace, ...(replaceConnectionId ? [replaceConnectionId] : [])]);
-    if (routedConnectionFailure({ from, to, fromPort, toPort }, sector.nodes, sector.connections, this.state.research.completed, replaced)) return false;
-    if (roadConnectionError(this.state, sector, { id: '__road-validation', from, to, fromPort, toPort, createdAt: 0 }, replaced)) return false;
+    const plan = this.connectionPlanner.planConnection(from, fromPort, to, toPort, replaceConnectionId);
+    if (!plan) return false;
+    const { sector, sourceNode, replaced } = plan;
     this.checkpoint();
     this.cancelTransfers(replaced);
     sector.connections = sector.connections.filter((connection) => !replaced.has(connection.id));
@@ -1479,23 +984,11 @@ export class GameEngine {
     this.reconcileSectorExtractorStorage(sector);
     this.publish();
   }
-  private canAddProgressionConnection(source:MachineNode,target:MachineNode,connections:Connection[]){
-    if(source.kind==='devSource')return true;
-    if (source.kind === 'lake' && target.kind === 'fluidLink') {
-      const connectedPumps = connections.filter(cable => cable.from === source.id && cable.to !== target.id &&
-        this.getSector().nodes.some(node => node.id === cable.to && node.kind === 'fluidLink'));
-      if (new Set(connectedPumps.map(c => c.to)).size >= lakeIntakeLimit(this.state)) return false;
-    }
-    if(source.kind==='inventory'&&connections.filter(c=>c.from===source.id).length>=connectionLimit(this.state,'inventory'))return false;
-    if(target.kind==='storage'&&connections.filter(c=>c.to===target.id).length>=connectionLimit(this.state,'storage'))return false;
-    return true;
-  }
   deleteNodes(ids: string[]) {
-    const sector = this.getSector();
-    const deletable = sector.nodes.filter((n) => !n.landmark && ids.includes(n.id) && !n.protected && getNodeModule(n.kind).controls.deletable).map((n) => n.id);
-    if (!deletable.length) return;
+    const plan = planNodeDeletion(this.getSector(), ids);
+    if (!plan) return;
+    const { sector, deletable, removedConnectionIds } = plan;
     this.checkpoint();
-    const removedConnectionIds = new Set(sector.connections.filter((connection) => deletable.includes(connection.from) || deletable.includes(connection.to)).map((connection) => connection.id));
     this.cancelTransfers(removedConnectionIds);
     sector.nodes.filter((node) => deletable.includes(node.id) && hasNodeBehavior(node.kind,'road') && node.pairedSectorId && node.pairedRoadId).forEach((road) => {
       const pairSector = this.state.sectors[road.pairedSectorId!];
@@ -1608,11 +1101,7 @@ export class GameEngine {
       ((NODE_DEFINITIONS[n.kind].category !== 'Storage' && !isCartKind(n.kind)) || isNodeUnlocked(n.kind, this.state.research.unlocked)));
     if (!nodes.length) return;
     const copied = new Set(nodes.map(node => node.id));
-    return clone({ nodes: nodes.map(node => ({ ...node,
-      input: {}, output: {}, batch: undefined, growthCredit: 0, outputQueue: [], inputQueue: [],
-      filterBlocked: undefined, progressMs: 0, groupId: undefined,
-      miningProgress: undefined, transferProgressMs: undefined, researchConsumption: undefined,
-    })),
+    return clone({ nodes: nodes.map(node => ({ ...freshLayoutNode(node), groupId: undefined })),
       connections: sector.connections.filter(cable => copied.has(cable.from) && copied.has(cable.to)),
       controlGroups: sector.controlGroups?.filter(group => group.nodeIds.every(id => copied.has(id))),
     });
@@ -1805,41 +1294,14 @@ export class GameEngine {
     return true;
   }
   getRoadReversalError(nodeId: string) {
-    const sector = this.getSector();
-    const road = sector.nodes.find(node => node.id === nodeId && hasNodeBehavior(node.kind, 'road'));
-    const pairedSector = road?.pairedSectorId ? this.state.sectors[road.pairedSectorId] : undefined;
-    const pair = pairedSector?.nodes.find(node => node.id === road?.pairedRoadId);
-    if (!road || !pair || !pairedSector || !hasNodeBehavior(pair.kind, 'road')) return 'The paired road endpoint is unavailable.';
-    if ((pair.pairedRoadId && pair.pairedRoadId !== road.id) || (pair.pairedSectorId && pair.pairedSectorId !== sector.id)) return 'The paired road endpoint belongs to another Road.';
-    // Reversal changes direction without adding endpoints or consuming another face slot.
-    return undefined;
+    return this.roadCommands.getRoadReversalError(nodeId);
   }
   reverseRoad(nodeId: string) {
-    const road = this.getSector().nodes.find(node => node.id === nodeId && hasNodeBehavior(node.kind, 'road'));
-    return road ? this.setRoadDirection(nodeId, road.roadMode === 'import' ? 'export' : 'import') : false;
+    return this.roadCommands.reverseRoad(nodeId);
   }
   /** Either endpoint selects the single direction for this entire pair. */
   setRoadDirection(nodeId: string, direction: 'export' | 'import') {
-    if (direction !== 'export' && direction !== 'import') return false;
-    const sector = this.getSector();
-    const road = sector.nodes.find((node) => node.id === nodeId && hasNodeBehavior(node.kind, 'road'));
-    const pairedSector = road?.pairedSectorId ? this.state.sectors[road.pairedSectorId] : undefined;
-    const pair = pairedSector?.nodes.find((node) => node.id === road?.pairedRoadId);
-    if (!road || !pair || !pairedSector) return false;
-    if (this.getRoadReversalError(nodeId)) return false;
-    const pairedDirection = direction === 'export' ? 'import' : 'export';
-    if (road.roadMode === direction && pair.roadMode === pairedDirection) return true;
-    this.checkpoint();
-    for (const [owner, endpoint, mode] of [[sector, road, direction], [pairedSector, pair, pairedDirection]] as const) {
-      const removed = new Set(owner.connections.filter((connection) => connection.from === endpoint.id || connection.to === endpoint.id).map((connection) => connection.id));
-      this.cancelTransfers(removed);
-      owner.connections = owner.connections.filter((connection) => !removed.has(connection.id));
-      if (endpoint.roadMode !== mode) [endpoint.input, endpoint.output] = [endpoint.output, endpoint.input];
-      endpoint.roadMode = mode;
-      endpoint.progressMs = 0;
-    }
-    this.publish();
-    return true;
+    return this.roadCommands.setRoadDirection(nodeId, direction);
   }
   updatePreferences(patch: Partial<GameState['preferences']>) { Object.assign(this.state.preferences, patch); this.publish(); }
   developerSuppressTutorialPrompts() {
@@ -1892,22 +1354,26 @@ export class GameEngine {
   setCamera(camera: SectorState['camera']) { this.getSector().camera = camera; }
   renameSector(name: string, label: string, sectorId = this.state.activeSectorId) { const s = this.state.sectors[sectorId]; if (!s?.unlocked) return; s.name = name.trim().slice(0, 30) || (s.id === '5,5' ? 'Home Sector' : `Sector ${s.x}.${s.y}`); s.label = label.trim().slice(0, 3).toUpperCase() || (s.id === '5,5' ? 'HME' : `S${sectorDistance(s.x, s.y)}`.slice(0, 3)); this.publish(); }
   undo() { const previous = this.history.pop(); if (previous) {
-    if (this.state.devTutorialPromptsSuppressed) previous.devTutorialPromptsSuppressed = true;
-    if (previous.researchHintHistory || this.state.researchHintHistory) previous.researchHintHistory = mergeResearchHintHistory(previous.researchHintHistory, this.state.researchHintHistory);
-    if (!this.developerMapRevealUndo.has(previous)) previous.encounters = [...new Set([...(previous.encounters ?? []), ...(this.state.encounters ?? [])])];
-    previous.tutorialPromptsSeen = [...new Set([...(previous.tutorialPromptsSeen ?? []), ...(this.state.tutorialPromptsSeen ?? [])])];
-    previous.resourceDepletionLog = this.state.resourceDepletionLog;
-    for (const [id, sector] of Object.entries(this.state.sectors)) {
-      const previousSector = previous.sectors[id];
-      if (!previousSector) continue;
-      if (sector.visited && !this.developerMapRevealUndo.has(previous)) previousSector.visited = true;
-      previousSector.resourceDepletionPending = sector.resourceDepletionPending;
-    }
+    retainUndoKnowledge(previous, this.state, { restoringMapReveal: this.developerMapRevealUndo.has(previous) });
     this.state = previous;
     if (this.realtimeTickAt !== undefined) this.startRealtimeClock();
     activateMod(this.state.mod); initializeProgression(this.state); applyCartUpgrades(this.state); applyModNames(this.state); this.evaluateMilestones(); this.publish();
   } }
-  replaceState(state: GameState) { const next = clone(state); if (next.mod) next.mod = validateMod(next.mod); this.state = next; if (this.realtimeTickAt !== undefined) this.startRealtimeClock(); activateMod(this.state.mod); applyModNames(this.state); this.state.produced ??= {}; this.state.extracted ??= {}; this.state.hasCreatedConnection ??= false; this.state.research.completed ??= []; this.state.research.repeatableCompletions ??= {}; this.state.research.projectContributions ??= {}; migrateUpgrades(this.state); this.state.inFlightTransfers ??= []; this.normalizeExtractorCycles(); applyModNames(this.state); this.research.reconcileResearchSelection(); this.pruneLockedForestInputs(); this.history = []; this.publish(); }
+  replaceState(state: GameState) {
+    const next = clone(state);
+    if (next.mod) next.mod = validateMod(next.mod);
+    this.state = next;
+    if (this.realtimeTickAt !== undefined) this.startRealtimeClock();
+    activateMod(this.state.mod);
+    applyModNames(this.state);
+    initializeStateCollections(this.state);
+    this.normalizeExtractorCycles();
+    applyModNames(this.state);
+    this.research.reconcileResearchSelection();
+    this.pruneLockedForestInputs();
+    this.history = [];
+    this.publish();
+  }
   unlockSector(x: number, y: number) {
     if (usesNewWorldRules(this.state) && mapPurchaseProtected(this.state,sectorId(x,y))) return false;
     if (this.state.research.mapPoints < 1 || !canPurchaseMap(this.state, x, y)) return false;

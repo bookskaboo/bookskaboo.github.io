@@ -25,3 +25,6 @@ export function socketHitContains(dx: number, dy: number, side: string, compact:
   const inward = side === 'west' ? dx : side === 'east' ? -dx : side === 'north' ? dy : -dy;
   return inward <= (compact ? 2 : 5);
 }
+
+/** Shared drawn and hit-tested Corner socket radius. */
+export const CORNER_SOCKET_RADIUS = 13;

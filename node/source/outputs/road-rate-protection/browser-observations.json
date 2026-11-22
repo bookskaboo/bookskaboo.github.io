@@ -1,0 +1,61 @@
+{
+  "url": "http://127.0.0.1:4279/outputs/road-rate-protection/browser/",
+  "isolatedStorage": true,
+  "checks": [
+    {
+      "scenario": "Train rank 2 base",
+      "text": "Road\n×\nH → E1\n\nIron\n\nMaximum transfer rate: 72 items / minute\n\nActual delivery depends on available stock and receiver space."
+    },
+    {
+      "scenario": "Selected 2-second profile over 10-second base",
+      "text": "Road\n×\nH → E1\n\nIron\n\nMaximum transfer rate: 180 items / minute\n\nActual delivery depends on available stock and receiver space.",
+      "stock": "Isolated Road capacity check\nVehicle\nCart\nTruck\nTrain\nFreight rank\n0\n1\n2\n7\nDispatch timing\nBase five seconds\nMod two seconds\nProfile two seconds / base ten\nMod seven seconds\nRoute supply\nReady\nEmpty source\nFull receiver\nAdvance one ordinary dispatch\nInspect other endpoint\nReopen Road\n\nSender 14; receiver 6; dispatch checks 1"
+    },
+    {
+      "scenario": "Full receiving Train",
+      "panel": "Road\n×\nH → E1\n\nIron\n\nMaximum transfer rate: 180 items / minute\n\nActual delivery depends on available stock and receiver space.",
+      "stock": "Isolated Road capacity check\nVehicle\nCart\nTruck\nTrain\nFreight rank\n0\n1\n2\n7\nDispatch timing\nBase five seconds\nMod two seconds\nProfile two seconds / base ten\nMod seven seconds\nRoute supply\nReady\nEmpty source\nFull receiver\nAdvance one ordinary dispatch\nInspect other endpoint\nReopen Road\n\nSender 20; receiver 120; dispatch checks 1"
+    },
+    {
+      "scenario": "Empty source",
+      "panel": "Road\n×\nH → E1\n\nNo material assigned\n\nMaximum transfer rate: 180 items / minute\n\nActual delivery depends on available stock and receiver space.",
+      "stock": "Isolated Road capacity check\nVehicle\nCart\nTruck\nTrain\nFreight rank\n0\n1\n2\n7\nDispatch timing\nBase five seconds\nMod two seconds\nProfile two seconds / base ten\nMod seven seconds\nRoute supply\nReady\nEmpty source\nFull receiver\nAdvance one ordinary dispatch\nInspect other endpoint\nReopen Road\n\nSender 0; receiver 0; dispatch checks 1"
+    },
+    {
+      "scenario": "Cart",
+      "panel": "Road\n×\nH → E1\n\nIron\n\nMaximum transfer rate: 12 items / minute\n\nActual delivery depends on available stock and receiver space."
+    },
+    {
+      "scenario": "Truck",
+      "panel": "Road\n×\nH → E1\n\nIron\n\nMaximum transfer rate: 24 items / minute\n\nActual delivery depends on available stock and receiver space."
+    },
+    {
+      "scenario": "Fractional 7-second rate",
+      "panel": "Road\n×\nH → E1\n\nIron\n\nMaximum transfer rate: 51.43 items / minute\n\nActual delivery depends on available stock and receiver space."
+    }
+  ],
+  "additional": [
+    "receiving endpoint retained source-to-destination direction and 180 maximum",
+    "Close and Reopen at narrow width"
+  ],
+  "layout": {
+    "desktop": {
+      "width": 1280,
+      "height": 720
+    },
+    "mobile": {
+      "width": 390,
+      "height": 845,
+      "documentWidth": 390,
+      "panelClientWidth": 372,
+      "panelScrollWidth": 372
+    },
+    "rateFont": "400 12px UI sans with tabular digits",
+    "helpFont": "400 12px UI sans"
+  },
+  "warningsAndErrors": [],
+  "limits": [
+    "Standalone actual RoadFlowPanel with ordinary GameEngine in an isolated synthetic fixture",
+    "No campaign storage, normal-play balance run or publication"
+  ]
+}

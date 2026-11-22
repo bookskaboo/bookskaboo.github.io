@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { Dialog } from './components/Dialog';
 import { itemColorCss, ITEM_NAMES } from '../content/items';
 import { isNodeUnlocked, NODE_DEFINITIONS } from '../content/nodes';
 import { isRecipeUnlocked, RECIPES, RECIPE_GROUPS } from '../content/recipes';
@@ -23,9 +24,9 @@ const recipeColor = (recipe: Recipe) => {
   return output ? itemColorCss(output) : '#d5b77f';
 };
 
-export function RecipesPanel({ game, onClose, initialRecipeId, initialNode, backToResearch = false }: { game: GameState; onClose(): void; initialRecipeId?: string; initialNode?: NodeKind; backToResearch?: boolean }) {
+export function RecipesPanel({ game, onClose, initialRecipeId, initialNode, backToResearch = false, persistView = true }: { game: GameState; onClose(): void; initialRecipeId?: string; initialNode?: NodeKind; backToResearch?: boolean; persistView?: boolean }) {
   const [previewRecipeId, setPreviewRecipeId] = useState(initialRecipeId);
-  const { compact, toggle } = useRecipeIconView();
+  const { compact, toggle } = useRecipeIconView(persistView);
   const [expandedCompactRecipe, setExpandedCompactRecipe] = useState<string>();
   const materials = useMemo(() => accessibleRecipeMaterials(game), [game, game.revision]);
   const groups = useMemo(() => recipeGuideGroups(game, previewRecipeId), [game, game.revision, previewRecipeId]);
@@ -74,7 +75,7 @@ export function RecipesPanel({ game, onClose, initialRecipeId, initialNode, back
     });
   };
 
-  return <div className="modal-backdrop"><section className="modal recipes-modal glass" aria-labelledby="recipes-title">
+  return <div className="modal-backdrop"><Dialog panel className="modal recipes-modal glass" aria-labelledby="recipes-title" onDismiss={onClose}>
     <header className="recipes-dialog-header">
       <div className="recipes-title-mark"><NodeIcon kind="researchCenter" /></div>
       <div><h2 id="recipes-title">Recipes</h2><p>Exact ingredients. Optimism is not a substitute.</p></div>
@@ -194,6 +195,6 @@ export function RecipesPanel({ game, onClose, initialRecipeId, initialNode, back
       })}
       {!groups.length && <p className="empty-state">No recipes unlocked yet. Complete the required research or discoveries first. The paperwork precedes production.</p>}
     </div>
-  </section></div>;
+  </Dialog></div>;
 }
 

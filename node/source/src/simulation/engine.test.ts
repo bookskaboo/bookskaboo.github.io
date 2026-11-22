@@ -56,15 +56,25 @@ describe('simulation architecture', () => {
       id: 'test-planter', kind: 'treePlanter', name: 'Tree Planter', x: 900, y: 900, rotation: 0,
       input: {}, output: { 'forest-growth': 1 }, progressMs: 0, cycleMs: 1000, constructedAt: 0, constructionMs: 0,
     };
+    const sector = engine.getSector();
+    forest.x = 1600; forest.y = 900;
+    sector.nodes = [forest, planter];
+    sector.connections = [{ id: 'growth', from: planter.id, to: forest.id, fromPort: 0, toPort: 0, createdAt: 0 }];
 
     expect(getNodeInputFamilies('forest', state.research.completed)).toEqual([]);
     expect(portFamiliesCompatible(planter, 0, forest, 0, state.research.completed)).toBe(false);
-    expect((engine as unknown as { accepts(node: MachineNode, item: 'forest-growth'): boolean }).accepts(forest, 'forest-growth')).toBe(false);
+    engine.tick(400);
+    expect(planter.output['forest-growth']).toBe(1);
+    expect(state.inFlightTransfers?.filter(transfer => !transfer.cosmeticOnly)).toEqual([]);
 
     state.research.completed.push('treePlanter');
     expect(getNodeInputFamilies('forest', state.research.completed)).toEqual(['forest-growth']);
     expect(portFamiliesCompatible(planter, 0, forest, 0, state.research.completed)).toBe(true);
-    expect((engine as unknown as { accepts(node: MachineNode, item: 'forest-growth'): boolean }).accepts(forest, 'forest-growth')).toBe(true);
+    engine.tick(400);
+    expect(planter.output['forest-growth']).toBe(0);
+    expect(state.inFlightTransfers?.filter(transfer => !transfer.cosmeticOnly)).toMatchObject([
+      { from: planter.id, to: forest.id, item: 'forest-growth', amount: 1 },
+    ]);
   });
 
   it('removes locked Forest input connections when loading an older save', () => {

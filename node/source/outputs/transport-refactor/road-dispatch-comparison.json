@@ -1,0 +1,106 @@
+{
+  "slice": "road-dispatch",
+  "allMatch": true,
+  "results": [
+    {
+      "id": "fresh",
+      "mode": "ordinary",
+      "statesCompared": 351,
+      "publicationsCompared": 46,
+      "checks": null
+    },
+    {
+      "id": "shiny",
+      "mode": "ordinary",
+      "statesCompared": 351,
+      "publicationsCompared": 124,
+      "checks": null
+    },
+    {
+      "id": "late",
+      "mode": "ordinary",
+      "statesCompared": 351,
+      "publicationsCompared": 102,
+      "checks": null
+    },
+    {
+      "id": "active",
+      "mode": "ordinary",
+      "statesCompared": 351,
+      "publicationsCompared": 133,
+      "checks": {
+        "conservation": true,
+        "emptyRoads": true,
+        "reservationCapacity": true,
+        "maxReserved": 20,
+        "fifoLaunched": 87
+      }
+    },
+    {
+      "id": "active",
+      "mode": "lifecycle",
+      "statesCompared": 358,
+      "publicationsCompared": 160,
+      "checks": {
+        "conservation": true,
+        "emptyRoads": true,
+        "reservationCapacity": true,
+        "maxReserved": 20,
+        "fifoLaunched": 0
+      }
+    },
+    {
+      "id": "blocked",
+      "mode": "ordinary",
+      "statesCompared": 351,
+      "publicationsCompared": 46,
+      "checks": {
+        "conservation": true,
+        "emptyRoads": true,
+        "reservationCapacity": true,
+        "maxReserved": 20,
+        "fifoLaunched": 0
+      }
+    },
+    {
+      "id": "blocked",
+      "mode": "lifecycle",
+      "statesCompared": 358,
+      "publicationsCompared": 53,
+      "checks": {
+        "conservation": true,
+        "emptyRoads": true,
+        "reservationCapacity": true,
+        "maxReserved": 20,
+        "fifoLaunched": 0
+      }
+    },
+    {
+      "id": "idle",
+      "mode": "ordinary",
+      "statesCompared": 351,
+      "publicationsCompared": 46,
+      "checks": {
+        "conservation": true,
+        "emptyRoads": true,
+        "reservationCapacity": true,
+        "maxReserved": 0,
+        "fifoLaunched": 0
+      }
+    },
+    {
+      "id": "idle",
+      "mode": "lifecycle",
+      "statesCompared": 358,
+      "publicationsCompared": 53,
+      "checks": {
+        "conservation": true,
+        "emptyRoads": true,
+        "reservationCapacity": true,
+        "maxReserved": 0,
+        "fifoLaunched": 0
+      }
+    }
+  ],
+  "scope": "Deterministic original/candidate engine workers; exact saved-state digests after every tick/command and every publication. No performance measurement, accelerated tick delta or normal-play balance claim."
+}

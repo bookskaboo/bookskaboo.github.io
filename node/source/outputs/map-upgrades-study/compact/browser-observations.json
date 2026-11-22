@@ -1,0 +1,32 @@
+{
+  "date": "2026-11-21",
+  "url": "http://127.0.0.1:4174/outputs/status-page/map-upgrades.html",
+  "desktop": {
+    "costWeight": "400",
+    "height": 923,
+    "overflow": false,
+    "rowHeight": 58.990386962890625,
+    "width": 1210
+  },
+  "mobile": {
+    "height": 845,
+    "overflow": false,
+    "paragraphs": 0,
+    "width": 390
+  },
+  "checks": [
+    "21 map projects appear in Map upgrades in the initial Automata fixture",
+    "Extra Map Point appears once, first, only in Map upgrades",
+    "Map-focused projects are absent from Production nodes and Node upgrades",
+    "No introduction, description or status paragraphs in the card list; shared approximately 59px cards and regular-weight costs",
+    "Exploration followed by Extra Map Point completed through ordinary test lab cycles; Node Map displayed 2 saved points",
+    "River search returns Extra Map Point plus River Bridges and Border obstruction survey",
+    "Descriptions and prerequisite details remain in existing tooltips",
+    "Reset leaves an empty queue in the selected Map upgrades tab"
+  ],
+  "console": [],
+  "limits": [
+    "Isolated author page only; no campaign storage",
+    "Main game and worldwide map-reveal integration unchanged"
+  ]
+}

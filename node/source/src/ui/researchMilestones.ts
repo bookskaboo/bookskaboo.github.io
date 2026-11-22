@@ -4,6 +4,7 @@ import { RECIPES } from '../content/recipes';
 import { getResearchProject, remainingMapNodePurchases } from '../content/research';
 import type { GameState, ItemId, NodeKind } from '../domain/types';
 import { researchSection } from './researchPresentation';
+import { mythrilGuidance } from '../content/researchGuidance';
 
 export type MilestoneAction =
   | { kind: 'research'; id: string }
@@ -73,7 +74,8 @@ export function getResearchMilestones(game: GameState, options: { allCandidates?
   const knownDwarves = visited.flatMap(sector => sector.nodes.filter(node => node.lizardSettlement)
     .map(node => ({ sector, node })));
   const starterCamp = knownDwarves.find(({ node }) => node.lizardSettlement === 'camp');
-  const tributeSettlement = starterCamp ?? knownDwarves[0];
+  const mythrilSettlement = starterCamp ?? knownDwarves[0];
+  const mythrilHint = mythrilGuidance(game).hint;
   const knownGolem = visited.find(sector => sector.nodes.some(node => node.kind === 'resourceGolem'));
   const golemHint = knownGolem
     ? visit(knownGolem.id, 'Golem Camp', 'A stubborn rock. Potentially a permanent one.')
@@ -132,8 +134,8 @@ export function getResearchMilestones(game: GameState, options: { allCandidates?
   else if (!done('fluidRouting')) primary = research('fluidRouting', 'Fluids have places to be.');
   else if (!done('suppressionBot')) primary = expansion(camp);
   else if (!done('sealedRobotics')) primary = research('sealedRobotics', 'One AP only gets you so far.');
-  else if (!done('mithrilTools')) primary = tributeSettlement
-    ? visit(tributeSettlement.sector.id, 'Dwarven Tribute', 'The factory’s future depends on their cooperation.')
+  else if (!done('mithrilTools')) primary = mythrilSettlement
+    ? visit(mythrilSettlement.sector.id, mythrilHint.title, mythrilHint.detail)
     : expansion(dwarves);
   else if (!done('oreSeparation')) primary = research('oreSeparation', 'There’s something shiny in there.');
   else if (!made('shiny-core') && !done('precisionControl')) primary = core('shinyCore', 'shiny-core', 'Shiny Core', 'Mythril looks promising in Mesh.');
@@ -155,7 +157,7 @@ export function getResearchMilestones(game: GameState, options: { allCandidates?
     if (!done('suppressionBot')) candidates.push(expansion(camp));
     if (done('sealedRobotics') && !done('mithrilTools')) {
       if (starterCamp) candidates.push(recipe('assemble-bot-f2-g2', RECIPES['assemble-bot-f2-g2'].name, 'A steady procession might be persuasive.'));
-      else if (!tributeSettlement) candidates.push(expansion(dwarves));
+      else if (!mythrilSettlement) candidates.push(expansion(dwarves));
     }
     if (done('precisionControl')) {
       if (!made('command-core')) candidates.push(complex);

@@ -1,0 +1,166 @@
+{
+  "library": "Salamander Grand Piano V3 — Yamaha C5",
+  "author": "Alexander Holm",
+  "license": "CC-BY-3.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by/3.0/",
+  "homepage": "https://sfzinstruments.github.io/pianos/salamander/",
+  "repository": "https://github.com/sfzinstruments/SalamanderGrandPiano",
+  "commit": "3382bf9496bba2486f5ab0de55a264d1dfc38404",
+  "attribution": "Salamander Grand Piano V3 by Alexander Holm, licensed CC BY 3.0. Modified for NODE: selected velocity-10 notes, first four seconds converted from 24-bit FLAC to 16-bit stereo WAV; arranged, repitched and released as interaction cues.",
+  "samples": [
+    {
+      "file": "c2.wav",
+      "original": "Samples/C2v10.flac",
+      "url": "https://raw.githubusercontent.com/sfzinstruments/SalamanderGrandPiano/3382bf9496bba2486f5ab0de55a264d1dfc38404/Samples/C2v10.flac",
+      "nominalMidi": 36,
+      "sha256": "324cda72135c7f63d015f6d7d6c871dd075a4d9f1e5b1d36bdb208545327b1a2",
+      "originalSha256": "0e55ec6b4046552b7f00b19fb38fbe8aaf02d50f7f4badf9e7eb008ad0843e18",
+      "originalSampleRate": 48000,
+      "originalBits": 24,
+      "preparedFrames": 192000
+    },
+    {
+      "file": "ds2.wav",
+      "original": "Samples/D#2v10.flac",
+      "url": "https://raw.githubusercontent.com/sfzinstruments/SalamanderGrandPiano/3382bf9496bba2486f5ab0de55a264d1dfc38404/Samples/D%232v10.flac",
+      "nominalMidi": 39,
+      "sha256": "e50c6627126ac7e72c0d60fc1b4207741cd6947873a231307b0215fd0ad64aad",
+      "originalSha256": "7847ef2ab4bab2ae111e34390b843dc9f5875e1fb26a0d0df30ff916aa550152",
+      "originalSampleRate": 48000,
+      "originalBits": 24,
+      "preparedFrames": 192000
+    },
+    {
+      "file": "fs2.wav",
+      "original": "Samples/F#2v10.flac",
+      "url": "https://raw.githubusercontent.com/sfzinstruments/SalamanderGrandPiano/3382bf9496bba2486f5ab0de55a264d1dfc38404/Samples/F%232v10.flac",
+      "nominalMidi": 42,
+      "sha256": "dd3d70aa9ee670e5a8a5cf3ca6b28aa451a43bd3b5893f72dfc5ab006f754c0b",
+      "originalSha256": "db7c995bf388612d88de97c98183e71860a8c13fb46b02b8b3770fa1f0349ca9",
+      "originalSampleRate": 48000,
+      "originalBits": 24,
+      "preparedFrames": 192000
+    },
+    {
+      "file": "a2.wav",
+      "original": "Samples/A2v10.flac",
+      "url": "https://raw.githubusercontent.com/sfzinstruments/SalamanderGrandPiano/3382bf9496bba2486f5ab0de55a264d1dfc38404/Samples/A2v10.flac",
+      "nominalMidi": 45,
+      "sha256": "e512cc30b6cb360548fe215c3a05a02be874eef0223b5c5e40477db3af6ae897",
+      "originalSha256": "206bccac2ad09b26a46198876692a892dad8d56021dcf2f6e348aa038db7028c",
+      "originalSampleRate": 48000,
+      "originalBits": 24,
+      "preparedFrames": 192000
+    },
+    {
+      "file": "c3.wav",
+      "original": "Samples/C3v10.flac",
+      "url": "https://raw.githubusercontent.com/sfzinstruments/SalamanderGrandPiano/3382bf9496bba2486f5ab0de55a264d1dfc38404/Samples/C3v10.flac",
+      "nominalMidi": 48,
+      "sha256": "f777f61a9f550582b401f3efbb33e2dcb6a7f8a3845a49530c0b429eb43ba491",
+      "originalSha256": "eb3ddb8e7df54f63d1f91c7fcc04c921623941d325df3ebeed291e1a6d82318c",
+      "originalSampleRate": 48000,
+      "originalBits": 24,
+      "preparedFrames": 192000
+    },
+    {
+      "file": "ds3.wav",
+      "original": "Samples/D#3v10.flac",
+      "url": "https://raw.githubusercontent.com/sfzinstruments/SalamanderGrandPiano/3382bf9496bba2486f5ab0de55a264d1dfc38404/Samples/D%233v10.flac",
+      "nominalMidi": 51,
+      "sha256": "9489775def959e8c5ec3b9f22cad396441d077901ad13c6f03c5daaf6817b9e6",
+      "originalSha256": "6d932b081ecf89a9dd4bf84a74aab0945992c70b1ecff1880806b28829fbfd74",
+      "originalSampleRate": 48000,
+      "originalBits": 24,
+      "preparedFrames": 192000
+    },
+    {
+      "file": "fs3.wav",
+      "original": "Samples/F#3v10.flac",
+      "url": "https://raw.githubusercontent.com/sfzinstruments/SalamanderGrandPiano/3382bf9496bba2486f5ab0de55a264d1dfc38404/Samples/F%233v10.flac",
+      "nominalMidi": 54,
+      "sha256": "a62a42fd8777790fe1314145d3c7a909f7a409df3de83cac9f1cd9d0cd1337ce",
+      "originalSha256": "fb05b33c7e8bf85f2cac42f8c75ab1530754dc771f00f15f57a9d86c05cbd13f",
+      "originalSampleRate": 48000,
+      "originalBits": 24,
+      "preparedFrames": 192000
+    },
+    {
+      "file": "a3.wav",
+      "original": "Samples/A3v10.flac",
+      "url": "https://raw.githubusercontent.com/sfzinstruments/SalamanderGrandPiano/3382bf9496bba2486f5ab0de55a264d1dfc38404/Samples/A3v10.flac",
+      "nominalMidi": 57,
+      "sha256": "884feee69b3214e8a17978fdcc5d45ee8f61bdbae50358a89b620421a5b0c2d4",
+      "originalSha256": "78669b41c7fabb11aa073cc8f834197cb36689653d6671f441bb82b41fdb51ff",
+      "originalSampleRate": 48000,
+      "originalBits": 24,
+      "preparedFrames": 192000
+    },
+    {
+      "file": "c4.wav",
+      "original": "Samples/C4v10.flac",
+      "url": "https://raw.githubusercontent.com/sfzinstruments/SalamanderGrandPiano/3382bf9496bba2486f5ab0de55a264d1dfc38404/Samples/C4v10.flac",
+      "nominalMidi": 60,
+      "sha256": "f9a72e1f18450787533222e8917268eb88018107e0f598a2bae8e3bd0c1111dd",
+      "originalSha256": "0e9d6e945df79113cd8bd9e841aed5d4537989704e993bfbed7fa8839724244a",
+      "originalSampleRate": 48000,
+      "originalBits": 24,
+      "preparedFrames": 192000
+    },
+    {
+      "file": "ds4.wav",
+      "original": "Samples/D#4v10.flac",
+      "url": "https://raw.githubusercontent.com/sfzinstruments/SalamanderGrandPiano/3382bf9496bba2486f5ab0de55a264d1dfc38404/Samples/D%234v10.flac",
+      "nominalMidi": 63,
+      "sha256": "8cac6fbc59d553e5e2f0d5f3bb7c45219d539d990b58f9cbcae0732808c3ba89",
+      "originalSha256": "a00e4a1e6e2658e686e2eab60dff701fd539e75072ab3811cb3038d01192dc72",
+      "originalSampleRate": 48000,
+      "originalBits": 24,
+      "preparedFrames": 192000
+    },
+    {
+      "file": "fs4.wav",
+      "original": "Samples/F#4v10.flac",
+      "url": "https://raw.githubusercontent.com/sfzinstruments/SalamanderGrandPiano/3382bf9496bba2486f5ab0de55a264d1dfc38404/Samples/F%234v10.flac",
+      "nominalMidi": 66,
+      "sha256": "6282cbc7f542a425455b069ff00ac7f2162594913fdf9a04c2a9c4ffc1cb9fb8",
+      "originalSha256": "a9912cc7b9cc3c6f4fae20eeb0d9570f21c164f9a69475dfdcd6f7290b159317",
+      "originalSampleRate": 48000,
+      "originalBits": 24,
+      "preparedFrames": 192000
+    },
+    {
+      "file": "a4.wav",
+      "original": "Samples/A4v10.flac",
+      "url": "https://raw.githubusercontent.com/sfzinstruments/SalamanderGrandPiano/3382bf9496bba2486f5ab0de55a264d1dfc38404/Samples/A4v10.flac",
+      "nominalMidi": 69,
+      "sha256": "46c0b5b9b4a92f2f8470a9a7642b0683855e0c26ba190b3c8967104f8b05772e",
+      "originalSha256": "9e2aa68c1495c007ee16e8ce5c97cb07ac7249fd4cc77ba759551971d9c01be0",
+      "originalSampleRate": 48000,
+      "originalBits": 24,
+      "preparedFrames": 192000
+    },
+    {
+      "file": "c5.wav",
+      "original": "Samples/C5v10.flac",
+      "url": "https://raw.githubusercontent.com/sfzinstruments/SalamanderGrandPiano/3382bf9496bba2486f5ab0de55a264d1dfc38404/Samples/C5v10.flac",
+      "nominalMidi": 72,
+      "sha256": "93a7dac4e1ed709dc94c089a4a4e07a1cb5d9b6e4f540b787044ee191f350488",
+      "originalSha256": "89924ca36674fc1b3f7b99bf503be9f1644f093efa28cbbcedbc885866ec050e",
+      "originalSampleRate": 48000,
+      "originalBits": 24,
+      "preparedFrames": 192000
+    },
+    {
+      "file": "ds5.wav",
+      "original": "Samples/D#5v10.flac",
+      "url": "https://raw.githubusercontent.com/sfzinstruments/SalamanderGrandPiano/3382bf9496bba2486f5ab0de55a264d1dfc38404/Samples/D%235v10.flac",
+      "nominalMidi": 75,
+      "sha256": "3b9b2312d478dade7f3317f91b665e9b7e0b29dddb15049b208ad4b0e1793831",
+      "originalSha256": "f9b7d545e732b6601b0a0181440cb70bd14eadf37518d9063432b5ef2a9a10fe",
+      "originalSampleRate": 48000,
+      "originalBits": 24,
+      "preparedFrames": 192000
+    }
+  ]
+}

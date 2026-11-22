@@ -1,0 +1,25 @@
+{
+  "url": "https://bookskaboo.github.io/node/",
+  "checkedAt": "2026-11-21T08:30:29.279Z",
+  "startup": true,
+  "pauseResponded": true,
+  "optionsFocusEscapes": true,
+  "saveFieldEscapeIgnored": true,
+  "saveDialogRoleCount": 0,
+  "deleteBehindOptionsOpenedConfirmation": true,
+  "deleteCancelled": true,
+  "temporaryExtractorUndone": true,
+  "mobile": {
+    "width": 390,
+    "reportedHeight": 845,
+    "documentWidth": 390,
+    "upgradesBounds": {
+      "left": 7.99,
+      "right": 382.01,
+      "top": 130,
+      "bottom": 836.61
+    }
+  },
+  "persistentSavesWritten": false,
+  "warningOrErrorLogs": []
+}

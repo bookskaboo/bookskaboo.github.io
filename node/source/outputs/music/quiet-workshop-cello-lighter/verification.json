@@ -1,0 +1,67 @@
+{
+  "date": "2026-11-21",
+  "passed": true,
+  "durationSeconds": 60,
+  "notes": 57,
+  "key": "F major",
+  "tempo": 64,
+  "checks": [
+    "Six pinned CC0 source recording hashes",
+    "All melody pitches in F major",
+    "Exactly 64 beats / 60 seconds",
+    "Stereo 44.1 kHz / 16-bit PCM and file sizes",
+    "At least 12 dB peak headroom and negligible DC",
+    "Circular boundary steps within ordinary waveform changes",
+    "Audible energy on both sides of seam",
+    "Exact end/start PCM in 12-second join preview",
+    "MIDI note counts, tempo, instrument and 60-second timing",
+    "Byte-identical offline rerender of all seven deliverables"
+  ],
+  "measured": {
+    "peakDbfs": -12.100779900900596,
+    "rmsDbfs": -27.800896614768668,
+    "dc": -1.9895246510062356e-9,
+    "seams": [
+      {
+        "channel": 0,
+        "seamStep": 0.0048828125,
+        "interiorP999Step": 0.009918212890625,
+        "interiorMaximumStep": 0.0162353515625,
+        "boundaryRmsRatio": 0.6966135571661329
+      },
+      {
+        "channel": 1,
+        "seamStep": 0.00067138671875,
+        "interiorP999Step": 0.014373779296875,
+        "interiorMaximumStep": 0.02227783203125,
+        "boundaryRmsRatio": 0.5086899390228167
+      }
+    ]
+  },
+  "limits": [
+    "No subjective listener acceptance or hardware-audio/browser playback is claimed",
+    "No campaign music integration or publication"
+  ],
+  "comparison": {
+    "previousNotes": 40,
+    "currentNotes": 57,
+    "previousMeanMidi": 41.578125,
+    "currentMeanMidi": 47.546875,
+    "preservedOriginalFiles": [
+      "outputs/music/quiet-workshop/quiet-workshop-f-major-60s.wav",
+      "outputs/music/quiet-workshop/loop-boundary-preview.wav",
+      "outputs/music/quiet-workshop/quiet-workshop.mid",
+      "outputs/music/quiet-workshop/manifest.json",
+      "outputs/music/quiet-workshop/score.json",
+      "outputs/music/quiet-workshop/index.html",
+      "outputs/music/quiet-workshop/CREDITS.txt",
+      "outputs/music/quiet-workshop-cello/quiet-workshop-cello-f-major-60s.wav",
+      "outputs/music/quiet-workshop-cello/loop-boundary-preview.wav",
+      "outputs/music/quiet-workshop-cello/quiet-workshop.mid",
+      "outputs/music/quiet-workshop-cello/manifest.json",
+      "outputs/music/quiet-workshop-cello/score.json",
+      "outputs/music/quiet-workshop-cello/index.html",
+      "outputs/music/quiet-workshop-cello/CREDITS.txt"
+    ]
+  }
+}

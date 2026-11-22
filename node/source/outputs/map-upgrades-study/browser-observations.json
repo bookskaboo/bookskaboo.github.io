@@ -1,0 +1,40 @@
+{
+  "date": "2026-11-21",
+  "url": "http://127.0.0.1:4174/outputs/status-page/map-upgrades.html",
+  "desktop": {
+    "width": 1280,
+    "height": 720,
+    "horizontalOverflow": false,
+    "descriptionSize": "12px",
+    "coreBadgeWeight": 400
+  },
+  "mobile": {
+    "requested": {
+      "width": 390,
+      "height": 844
+    },
+    "actual": {
+      "width": 390,
+      "height": 845
+    },
+    "horizontalOverflow": false
+  },
+  "checks": [
+    "Map upgrades opens as the selected third native tab",
+    "Lake survey queues and completes through the standard test lab payment helper",
+    "Completed Lake survey shows its researched coverage status with Show completed projects enabled",
+    "ArrowLeft from Map upgrades selects Node upgrades",
+    "Searching river shows only Border obstruction survey",
+    "Changing Lake survey price to 2 changes its Core badge; restoring prices returns it to 5",
+    "Final stage makes all six surveys available without researching them automatically",
+    "Reset returns to Automata with six unresearched surveys and an empty queue"
+  ],
+  "warnings": [],
+  "errors": [],
+  "limits": [
+    "Author-only isolated catalog and lab; no campaign storage access",
+    "Worldwide map reveals are not wired into this screen study",
+    "No normal-play balance result",
+    "The source-module route rendered blank; standalone built route rendered and is the delivered URL"
+  ]
+}

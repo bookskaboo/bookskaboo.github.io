@@ -5,6 +5,7 @@ import { ITEM_NAMES } from '../content/items';
 import type { GameState, ItemId, ResearchProject } from '../domain/types';
 import type { RequirementFilter } from './researchUiConfig';
 import { mapResearchNeedsDestination } from '../simulation/mapExpansion';
+import { researchTriggerCopy } from '../content/researchGuidance';
 
 export type ResearchSection = 'active' | 'milestones' | 'available' | 'future' | 'completed';
 export const researchPrerequisiteName = (id: string) =>
@@ -69,11 +70,12 @@ export function searchResearch(game: GameState, query: string): ResearchProject[
   const normalized = query.trim().toLowerCase().replace(/\s+/g, ' ');
   if (!normalized) return [...RESEARCH_PROJECTS];
   return RESEARCH_PROJECTS.map((project, index) => {
+    const trigger = researchTriggerCopy(project, game);
     const name = project.name.toLowerCase();
     const prerequisites = [project.prerequisite, ...(project.prerequisites ?? [])].filter((id): id is string => Boolean(id));
     const related = [project.category, project.description, project.unlock, project.flavorText,
       ...prerequisites, ...prerequisites.map(researchPrerequisiteName),
-      project.trigger?.pending, project.trigger?.complete,
+      trigger?.pending, trigger?.complete,
       ...Object.keys(getResearchCostsForState(project, game.research)).map(item => ITEM_NAMES[item as ItemId]),
     ].filter(Boolean).join(' ').toLowerCase();
     const rank = name === normalized ? 0 : name.startsWith(normalized) ? 1 : name.includes(normalized) ? 2 : related.includes(normalized) ? 3 : -1;
@@ -83,6 +85,7 @@ export function searchResearch(game: GameState, query: string): ResearchProject[
 
 /** Card metadata is independent of rendering and shares the browser's access rules. */
 export function researchCardDetails(project: ResearchProject, game: GameState) {
+  const trigger = researchTriggerCopy(project, game);
   const section = researchSection(project, game);
   const active = game.research.selected === project.id;
   const complete = atResearchCap(project,game.research) || (!project.repeatable && game.research.completed.includes(project.id));
@@ -95,9 +98,9 @@ export function researchCardDetails(project: ResearchProject, game: GameState) {
     : costs['shiny-core'] ? 'shiny-core' : costs['hydro-core'] ? 'hydro-core'
     : costs['automata-core'] ? 'automata-core' : costs['basic-core'] ? 'basic-core' : 'simple-core';
   const missingAccess = visibleResearchRequirements(project, game).map(researchPrerequisiteName);
-  const status = complete ? project.trigger?.complete ?? 'Complete'
+  const status = complete ? trigger?.complete ?? 'Complete'
     : section === 'future' ? (missingAccess.length ? `Requires ${missingAccess.join(', ')}` : 'Requires progress')
-    : project.trigger ? project.trigger.pending
+    : trigger ? trigger.pending
     : expansionFunded ? 'All maps unlocked or covered by saved Map Points'
     : active ? 'Active project'
     : selectDestination ? 'Select a destination on the Node Map'

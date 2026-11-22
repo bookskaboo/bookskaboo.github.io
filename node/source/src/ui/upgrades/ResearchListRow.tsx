@@ -4,6 +4,7 @@ import { ResearchCard } from '../ResearchCard';
 import { researchProgress } from '../researchProgress';
 import { researchPrerequisiteName } from '../researchPresentation';
 import { RESEARCH_FILTER_OPTIONS } from '../researchUiConfig';
+import { researchTriggerCopy } from '../../content/researchGuidance';
 
 export function ResearchListRow({ project, game, selected, onInspect, onOpenRecipe, onQueue, disabled = false, tutorialChoice = false, recipesDisabled = false }: {
   project: ResearchProject; game: GameState; selected?: string;
@@ -14,7 +15,7 @@ export function ResearchListRow({ project, game, selected, onInspect, onOpenReci
   const { rows } = researchProgress(project, game);
   const prerequisites = [...new Set([project.prerequisite, ...(project.prerequisites ?? [])].filter((id): id is string => Boolean(id)))];
   const unlockRequirement = project.trigger?.id === 'complex-core-produced' ? 'Produce 1 Complex Core'
-    : project.trigger?.pending ?? (prerequisites.length ? `Complete ${prerequisites.map(researchPrerequisiteName).join(' and ')}` : 'Available from the start');
+    : researchTriggerCopy(project, game)?.pending ?? (prerequisites.length ? `Complete ${prerequisites.map(researchPrerequisiteName).join(' and ')}` : 'Available from the start');
   return <div className="status-research-row" role="listitem" data-project-row={project.id}>
     <ResearchCard project={project} game={game} disabled={disabled} expanded={false} selected={selected === project.id} showProgress={false} tutorialChoice={tutorialChoice} filters={[]} onToggle={onInspect} onDoubleClick={onQueue} />
     <div className="status-row-costs" role="group" aria-label={`${project.name} ${rows.length ? 'Core costs' : 'unlock requirement'}`}>

@@ -1,0 +1,57 @@
+{
+  "page_id": "page_e7453b10ac2c81919d88f5c40ab191c5",
+  "url": "https://chatgpt.com/space/page_e7453b10ac2c81919d88f5c40ab191c5",
+  "title": "NODE Live Game Audit and Review",
+  "verifiedAt": "2026-11-21T08:41:14.871Z",
+  "bodyMatchedBeforeImage": true,
+  "image": {
+    "page_id": "page_e7453b10ac2c81919d88f5c40ab191c5",
+    "reference": "library-file:fde1_bGliZmlsZV94M0ZEWHdzaUg0U0ZtSjBMWE5za0NB_FileDrive_dd6d4c554f2c819197649575ff548ca6",
+    "file_name": "delete-behind-options-6e9d7f0b144140a3b5175d6de976d34a.jpg",
+    "mime_type": "image/jpeg",
+    "byte_size": 43189,
+    "sha256": "53b920c4640e3b971156b2358eb6be09bb9e4189eda238cc45ca5d584918d5f3",
+    "file_access_confirmed": true,
+    "is_image": true,
+    "markdown": "![Delete shortcut acting behind live Options](library-file:fde1_bGliZmlsZV94M0ZEWHdzaUg0U0ZtSjBMWE5za0NB_FileDrive_dd6d4c554f2c819197649575ff548ca6)",
+    "inserted": false,
+    "next_step": "Read the Page and use edit_page with its fresh guards to insert markdown."
+  },
+  "imageEdit": {
+    "new_sequence": 1,
+    "through_sequence": 1,
+    "operation_results": [
+      {
+        "operation_index": 0,
+        "preceding_block_id": "7e389f8e-0e8f-4385-a79c-77a5f9b58444",
+        "created_block_ids": [
+          "7e389f8e-0e8f-4385-a79c-77a5f9b58444",
+          "2603cbc9-7454-4884-9c52-123af3cefb04"
+        ],
+        "continuation_position": {
+          "block_id": "2603cbc9-7454-4884-9c52-123af3cefb04",
+          "relative_position_base64": "AI7TsvIHigJB"
+        },
+        "affected_blocks": [
+          {
+            "block_id": "7e389f8e-0e8f-4385-a79c-77a5f9b58444",
+            "hash": "a37980e466928624d6d876beaf1c5af74843ecdfb37537deb5c9f2d959d00adc"
+          },
+          {
+            "block_id": "2603cbc9-7454-4884-9c52-123af3cefb04",
+            "hash": "7ca6a1744dea102a091c0454581a962a7445c789792655b7ffa3c6e948ee5465"
+          }
+        ]
+      }
+    ]
+  },
+  "readback": {
+    "title": "NODE Live Game Audit and Review",
+    "url": "https://chatgpt.com/space/page_e7453b10ac2c81919d88f5c40ab191c5",
+    "blockCount": 74,
+    "textMatches": true,
+    "imagePresent": true,
+    "renderedPreview": "Blocked by Cloudflare CAPTCHA; not solved.",
+    "checkedAt": "2026-11-21T08:42:26.078Z"
+  }
+}

@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, type CSSProperties } from 'react';
+import { Dialog } from './components/Dialog';
 import { getResearchProject } from '../content/research';
 import type { GameState, ResearchProject } from '../domain/types';
 import type { GameEngine } from '../simulation/engine';
@@ -116,7 +117,7 @@ export function LegacyResearchPanel({ focusProjectId, allowedProjectId, showMile
   return (
     <>
       <div className="modal-backdrop" style={treeOpen ? { display: 'none' } : undefined}>
-        <section className="modal research-modal glass">
+        <Dialog panel className="modal research-modal glass" aria-label="Research projects" active={!treeOpen} modal={!guided} onDismiss={onClose}>
           <PanelHeader
             title="Research projects" onClose={onClose}
             actions={!guided && (
@@ -192,7 +193,7 @@ export function LegacyResearchPanel({ focusProjectId, allowedProjectId, showMile
               </div>
             </div>
           </div>
-        </section>
+        </Dialog>
       </div>
       {treeOpen && (
         <ResearchTreeModal

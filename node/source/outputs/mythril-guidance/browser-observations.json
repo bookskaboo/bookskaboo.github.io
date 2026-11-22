@@ -1,0 +1,30 @@
+{
+  "url": "http://127.0.0.1:4279/outputs/mythril-guidance/browser/",
+  "isolatedStorage": true,
+  "desktop": {
+    "width": 1280,
+    "height": 720
+  },
+  "mobile": {
+    "width": 390,
+    "height": 845,
+    "documentWidth": 390,
+    "requirementFont": "400 12px",
+    "requirementFullyVisible": true
+  },
+  "checks": [
+    "new-world pending requirement and hint",
+    "search by suppression phrase",
+    "no Mythril Refining result for obsolete Tribute in new world",
+    "blocked queue message",
+    "legacy Tribute requirement, hint and search",
+    "new-world completed tooltip",
+    "corrected saved earned hint after completion through Previous hint"
+  ],
+  "postReloadWarnings": [],
+  "limits": [
+    "Synthetic saved-state fixtures, no real campaign storage accessed",
+    "HMR fixture-only createRoot warning cleared on explicit reload",
+    "No live publication or balance verification"
+  ]
+}

@@ -2,12 +2,12 @@ import { useState } from 'react';
 
 const VIEW_KEY = 'factorinode.recipe-icon-view.v1';
 
-export function useRecipeIconView() {
+export function useRecipeIconView(persist = true) {
   const [compact, setCompact] = useState(() => {
-    try { return localStorage.getItem(VIEW_KEY) === 'true'; } catch { return false; }
+    try { return persist && localStorage.getItem(VIEW_KEY) === 'true'; } catch { return false; }
   });
   const toggle = () => setCompact(current => {
-    try { localStorage.setItem(VIEW_KEY, String(!current)); } catch { /* The view still works without storage. */ }
+    try { if (persist) localStorage.setItem(VIEW_KEY, String(!current)); } catch { /* The view still works without storage. */ }
     return !current;
   });
   return { compact, toggle };

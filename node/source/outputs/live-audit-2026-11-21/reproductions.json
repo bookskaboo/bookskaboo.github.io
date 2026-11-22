@@ -1,0 +1,126 @@
+{
+  "checkedAt": "2026-11-21T08:34:59.297Z",
+  "results": [
+    {
+      "id": "SAVE-01",
+      "before": [
+        null,
+        null,
+        null
+      ],
+      "after": [
+        "New A",
+        null,
+        null
+      ],
+      "confirmed": true
+    },
+    {
+      "id": "TEMPLATE-01",
+      "saved": true,
+      "placed": true,
+      "copiedProgress": 19,
+      "result": {
+        "kind": "iron",
+        "resourceRemaining": 1000,
+        "motorsRemaining": 0
+      },
+      "confirmed": true
+    },
+    {
+      "id": "ROAD-01",
+      "shown": 48,
+      "actual": 72,
+      "modActual": 180,
+      "confirmed": true
+    },
+    {
+      "id": "SAVE-02",
+      "error": "Error: QuotaExceededError: synthetic full storage",
+      "playTimeMs": 60000,
+      "confirmed": true
+    },
+    {
+      "id": "BUILD-01",
+      "invalidResearchCosts": [],
+      "confirmed": false
+    },
+    {
+      "id": "GENERATOR-01",
+      "gates": [
+        {
+          "id": "hydro-core",
+          "generated": "hydraulicAssembly",
+          "live": "hydroCore"
+        },
+        {
+          "id": "shiny-core",
+          "generated": "oreSeparation",
+          "live": "shinyCore"
+        },
+        {
+          "id": "command-core",
+          "generated": "precisionControl",
+          "live": "complexCore"
+        }
+      ],
+      "confirmed": true,
+      "note": "Only the audit copy of the compiler was executed; its write target was redirected to the evidence directory."
+    },
+    {
+      "id": "RESCUE-01",
+      "claimedShortages": [
+        "copper"
+      ],
+      "deviceSector": "2,10",
+      "openedMaps": 9,
+      "quote": {
+        "simple-core": 5
+      },
+      "finalCoreStock": {
+        "simple-core": 5
+      },
+      "cycles": 4,
+      "confirmed": true,
+      "note": "Synthetic exhausted-world stock at the actual seeded tier-8 device with an open Home path and eight paid maps. Ordinary five-second cycles; explicit stock handoffs model the permitted vehicle feedback route."
+    },
+    {
+      "id": "PERF-01",
+      "syntheticNodes": 2400,
+      "serializedBytes": 508463,
+      "cloneMs": [
+        3.4674999999999727,
+        4.48619999999994,
+        3.40199999999993,
+        4.7409000000000106,
+        3.3251999999999953,
+        3.404899999999998,
+        3.2269999999999754,
+        3.1521000000000186,
+        3.292100000000005,
+        3.2101000000000113
+      ],
+      "meanCloneMs": 3.5707999999999855,
+      "historyLimit": 50,
+      "note": "Node timings only; conservative empty routing fixture; no browser FPS claim."
+    },
+    {
+      "id": "PERF-02",
+      "syntheticNodes": 2400,
+      "readMs": [
+        8.980799999999931,
+        9.520199999999932,
+        8.885899999999992,
+        9.288599999999974,
+        8.461700000000064,
+        9.375999999999976,
+        7.944500000000062,
+        9.308099999999968,
+        9.498700000000099,
+        8.209799999999973
+      ],
+      "meanReadMs": 8.947429999999997,
+      "note": "In-memory storage; measures parsing and normalization only. SavePanel calls this on each render."
+    }
+  ]
+}

@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 1,
+  "purpose": "Retired synthetic whole-world benchmark and unchanged historical reports",
+  "files": [
+    {
+      "originalPath": "scripts/run-stress.mjs",
+      "path": "run-stress.mjs.txt",
+      "bytes": 347,
+      "sha256": "7f315076cbf3b3600af55bf7cf96dcbe47ea650b117984d7aaf526f20beeff8b"
+    },
+    {
+      "originalPath": "scripts/stress.test.ts",
+      "path": "stress.test.ts.txt",
+      "bytes": 8465,
+      "sha256": "1a28d88666f3717e1e1037e9be5f7319593aa64747b35448955e1a602e412c57"
+    },
+    {
+      "originalPath": "scripts/summarize-stress.mjs",
+      "path": "summarize-stress.mjs.txt",
+      "bytes": 3953,
+      "sha256": "ea9284708ab5ebba7f568d4a4bf610bc8e35d76dabd6b92dbfb9572ec9d9c9ee"
+    },
+    {
+      "originalPath": "outputs/stress/baseline.json",
+      "path": "reports/baseline.json",
+      "bytes": 5368,
+      "sha256": "96b0a99cd6f5722c051356bb6bb9808b924a1c613ae5146f1e7d006227bec3af"
+    },
+    {
+      "originalPath": "outputs/stress/baseline.md",
+      "path": "reports/baseline.md",
+      "bytes": 3193,
+      "sha256": "9083b542070dffc58dd9377f4a6d2331951101d82a59b1b83b58fb0bcab82bdd"
+    },
+    {
+      "originalPath": "outputs/stress/latest.json",
+      "path": "reports/latest.json",
+      "bytes": 5494,
+      "sha256": "faa5f418e6968105ebdab03e9cfe2fe7eadf8d05c80ebad31a6f393cc808bb28"
+    },
+    {
+      "originalPath": "outputs/stress/latest.md",
+      "path": "reports/latest.md",
+      "bytes": 4294,
+      "sha256": "438d6ea41d9a2af312c7ec81a87a44847a8718357695f1b8163d554c249b1186"
+    }
+  ]
+}

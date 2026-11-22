@@ -4,6 +4,22 @@ The reviewed screen is now integrated into the unmodded game as **Upgrades** (Q)
 
 ## Opening the study
 
+### Map upgrades research proposal
+
+The new [standalone Map upgrades page](../../outputs/status-page/map-upgrades.html) is an isolated variant, built by `npm run preview:status`. Its source entry is [map-upgrades.html](map-upgrades.html); the delivered browser target is `http://127.0.0.1:4174/outputs/status-page/map-upgrades.html`. The source-module route rendered blank in the browser check, so use the standalone file for review.
+
+It adds a third native **Map upgrades** tab with six separate survey projects. Their Basic/Automata/Hydro/Shiny/Complex/Final character prerequisites preserve the agreed ladder. Bills require five of every Core from Simple through that survey's tier; the editable quantity applies to each included type. These projects are installed only inside the map-study page's catalog, not production source or the other study's catalog. Character upgrades make surveys eligible without completing them. All rows use the shared compact card-and-cost component, with outcomes and future requirements retained in hover/focus tooltips and accessible descriptions. There are no extra introduction or per-row text blocks; map-filter visibility remains a separate planned rule.
+
+Stage example changes eligibility; Adjust survey prices accepts whole numbers from 1–50 per included Core and Apply prices and reset example starts a fresh lab/queue. Select a card and Queue research, or double-click it. Payment tests → Supply test Cores and Complete current test project use ordinary research cycles. Show completed reveals researched projects and sits after Map upgrades; Queue research and Pause/Resume align at the right edge. Left/right/Home/End switch the three tabs.
+
+The map tab exclusively owns 20 visible projects: six surveys, combined Exploration, Extra Map Point, three border crossings, two Area Expansions, two Road Channels ranks, Advanced Road Channels, three relocations and Efficient Landfill. Extra Map Point is first, nonsticky and retained while searching. Exploration follows when shown, then Goblin camp survey; other rows use ordinary catalog ordering/completed filtering. No map projects appear in the other tabs. Vehicle upgrades and production access retain their view.
+
+Exploration now includes the previous Road benefit in this study, named simply Exploration. Its unchanged five-Simple/five-Basic bill grants one point, Map access, Roads and Carts. The standalone Road card is hidden. The fixture-only synchronization adapter retains the `road` completion/unlock alias so existing prerequisites work; the manual completion helper and real-time observer synchronize it. Older separately paid Road contributions need a production migration design before main-game adoption.
+
+The initial Automata fixture and lab are synthetic. Autosave is disabled and no campaign slots are imported. Research payment completion is functional; worldwide markers, camp-filter splitting, border toggles and production integration are pending. Current browser evidence is in [the cumulative-cost observations](../../outputs/map-upgrades-study/cumulative/browser-observations.json); earlier evidence remains in the parent output directory. `npx vitest run previews/status-page/` and the preview TypeScript/build verify this harness; they are not normal-play pacing evidence. Main-game current rules remain in [Research](../../docs/systems/research.md).
+
+### Other study views
+
 Run the development server and open /previews/status-page/. Use ?view=art for all eight portraits, ?view=hints for the full hint review, and ?stage=junior through ?stage=final for paused stage examples. npm run preview:status exports self-contained outputs/status-page/status-modal.html, robot-tier-art.html, hint-texts.html and eight editable SVG portraits. These files also open directly without a server.
 
 Test modal, Robot tier art and Hints and triggers select author views. Adjust wording edits the current role and first assignment in this tab; reload restores approved defaults. Reset example/stage selection creates a fresh isolated factory while retaining transient wording. Autosave is disabled and no campaign slots are imported. Stage fixtures are paused; live queue/practice fixtures run ordinary-speed clocks.

@@ -1,5 +1,72 @@
 # World exploration and encounters
 
+## Map filter research proposal
+
+**Separate research selected; cumulative bills and combined Exploration implemented in the author page (NODE-0791).** The user selected cheap separate surveys, compact Map upgrades rows, cumulative Core bills, combined Exploration/Road research named **Exploration**, and the revised control row. The [isolated test page](../../outputs/status-page/map-upgrades.html) supports reviewing the screen, queue, prices and tier gates. Main-game surveys, combined research and map reveals remain unimplemented. Current behavior remains in [Map nodes and exploration](../systems/map-nodes-and-exploration.md). Earlier decisions remain preserved in the changelog with their supersession links.
+
+The current four filters are Monster camps, Lakes, Landmarks and Golem camps. They currently appear after discovery without a research requirement. The selected design splits Monster camps into Goblin and Dwarven categories and adds one combined Border obstructions filter for rivers, mountains and chasms, producing six filters. Landmarks remains combined under NODE-0737. Corner markers are a separate existing progression feature.
+
+| Required completed character upgrade | Separate research | Draft bill | Worldwide scope |
+| --- | --- | --- | --- |
+| Basic | Goblin camp survey | 5 each, Simple through Basic | Goblin Camps, Villages and Kingdoms |
+| Automata | Lake survey | 5 each, Simple through Automata | All Lake locations |
+| Hydro | Dwarven settlement survey | 5 each, Simple through Hydro | Dwarven Camps, Villages and Kingdoms |
+| Shiny | Border obstruction survey | 5 each, Simple through Shiny | Rivers, mountains and chasms together |
+| Complex | Landmark survey | 5 each, Simple through Complex | All permanent landmark types together |
+| Final | Golem camp survey | 5 each of all seven Cores | All mineral Golem camps, retaining defeated infinite-reserve markers |
+
+The tier assignments remain selected. The user explicitly requires every earlier Core tier as well as the survey's own tier (NODE-0791), replacing the initial matching-Core-only bills. Default quantity remains five per included Core type; this is not a measured balance result. The author editor permits whole-number quantities from 1–50 per included type and resets the synthetic example explicitly when applying them. Lake survey at quantity two therefore costs two each of Simple, Basic and Automata. Normal lab cycles wait for a complete outstanding Core set. There is no Simple-tier survey or dependency on buying the preceding survey.
+
+These are character upgrade completions, not map-distance tiers or merely gaining access to a Core recipe. In the current unmodded catalog, Basic completes `automataCore`, Automata completes `hydroCore`, Hydro completes `shinyCore`, Shiny completes `complexCore`, Complex completes `finalCore`, and Final completes `finalBotUpgrade`.
+
+**Agreed structure (NODE-0785, retained by NODE-0787, replacing NODE-0776):** character upgrades unlock eligibility for separate survey projects. Completing a character upgrade does not complete a survey or grant worldwide coverage. The player selects a survey in Map upgrades, queues it and pays its own small bill through ordinary Research Center cycles. Map rows now use the shared card-and-cost layout without extra introduction, description or status paragraphs. The existing hover/focus tooltips and accessible descriptions retain outcomes and requirements.
+
+**Agreed worldwide scope (NODE-0777; activation revised by NODE-0785):** completing the separately purchased survey shows every matching feature throughout the world, including unexplored maps. A first visit is not required after survey research. The survey reveals the selected category, not unrelated contents; it does not activate maps, grant Map Points, mark maps visited or change travel/frontier requirements.
+
+**Agreed manual exploration (NODE-0777, NODE-0779):** visiting maps manually continues to reveal their contents normally, even before the corresponding character upgrade or survey research. Already discovered information remains available. Manual discovery also enables that category's filter early, limited to known locations. Purchasing the survey expands its coverage worldwide. Research gates must not suppress ordinary selected-map details, discoveries or this early filter use. For border obstructions, retain the current discovery rule that visiting either adjacent map reveals the shared border.
+
+**Agreed filter visibility (NODE-0780):** hide a category's map filter until the player either discovers a matching feature manually or completes its survey research. Do not show disabled placeholders or locked-category requirements in the map filter row. Once enabled by discovery, it filters known locations; once researched, it filters matching locations worldwide. Research cards are separate from map filters: the test page shows all six survey cards and their requirements so players can recognize coming rewards.
+
+**Existing-save scope retained; automatic grant superseded (NODE-0785):** target existing and new unmodded factories. Completed character upgrades establish research eligibility, not free survey completions. Since automatic surveys never shipped, do not manufacture paid survey completions when loading an older save. Preserve manual discoveries, actual research payments and the save's contents/generation versions. Do not add absent Landmarks or border obstructions. A survey with no matching features may have no markers; it must not create world features to populate its results. Main-game migration remains future implementation work.
+
+Scope follows the existing [applied-mod Upgrades deferral](../systems/saves-and-compatibility.md#migration-policy): character-upgrade surveys target unmodded factories. Applied-mod factories retain their existing Research/catalog and map behavior; this review does not reopen that broader support decision. Returning to unmodded play follows the ordinary completed-upgrade and saved-world rules.
+
+Implementation implications: use authoritative saved/versioned world metadata to survey unopened locations without rerolling generation, changing the gameplay RNG or treating them as visited. Respect old-world absences. The Complex-gated Landmark survey includes Unknown Device's location while its recipes and effect remain unexplained. The early exploration hint and existing corner reveals retain their separate roles.
+
+### Current author test page
+
+Open [Map upgrades](../../outputs/status-page/map-upgrades.html), or use `/outputs/status-page/map-upgrades.html` on the local server. The dedicated source entry is [map-upgrades.html](../../previews/status-page/map-upgrades.html); rebuild the standalone file with `npm run preview:status`. The verified browser target is the standalone build; the source-module route rendered blank during this check.
+
+The initial Automata example offers compact rows; tooltip requirements identify future projects. Stage example changes eligibility; Adjust survey prices edits the provisional survey bills. Applying prices resets this example/queue. Queue research or double-click a project, then use Payment tests → Supply test Cores or Complete current test project. The real engine handles Core consumption and completion; autosave is disabled and campaign slots are never imported. Search, completed toggle, cost-recipe links, four-slot queue and the existing robot remain available.
+
+Map upgrades exclusively owns 20 visible catalog entries: six surveys, the combined Exploration, Extra Map Point, River Bridges, Mountain Tunnels, Chasm Spans, both Area Expansions, both Road Channels ranks, Advanced Road Channels, Resource/Lake/Monster Camp Relocation and Efficient Landfill. Extra Map Point remains first, ordinary/nonsticky and present even while searching. When shown, Exploration follows, then Goblin camp survey; remaining projects follow the shared catalog's ordering. These projects are absent from Production nodes and Node upgrades. Vehicle upgrades and production access keep their existing view.
+
+**Combined Exploration (NODE-0791):** retain the stable `exploration` ID and the singular name **Exploration**. One bill of five Simple plus five Basic opens the Map, banks one Map Point and unlocks Roads and Carts. Remove the standalone Road card from the study. An idempotent preview adapter retains the `road` completion/unlock alias after Exploration so Road placement and crossing/channel prerequisites work without another bill; real-time updates, author completion controls and restored fixture rendering synchronize it. Production integration and migration of pre-existing separate Road contributions remain future work. Other moved projects keep their costs and rules.
+
+**Control row (NODE-0791):** label the checkbox **Show completed**, between the Map upgrades tab and research actions. Align Queue research and Pause/Resume together at the right edge. Narrow layouts wrap while retaining this DOM order. The existing completed-filter behavior is retained.
+
+The page does not connect survey completions to global map markers. Its visible prototype note states that limitation. The main game's Upgrades screen and research catalog remain unchanged.
+
+Settled decisions:
+
+1. **Agreed:** cheap separate research projects in a Map upgrades tab; character upgrades establish eligibility (NODE-0785). The automatic bundled design is superseded.
+2. **Agreed:** all six category/tier assignments above (NODE-0777).
+3. **Agreed:** worldwide category reveal after completing the separate survey, including unexplored maps; retain manual discovery before research (NODE-0777, revised by NODE-0785).
+4. **Agreed:** manual discovery enables the category's filter for known locations; survey research expands coverage worldwide (NODE-0779).
+5. **Agreed:** hide filters until their category is discovered or surveyed (NODE-0780).
+6. **Agreed scope retained:** existing and new unmodded saves and retained saved-world contents. Automatic coverage from completed upgrades is superseded; separate surveys must be researched (NODE-0785). Existing applied-mod Upgrades support remains deferred.
+
+### Implementation work and acceptance checks
+
+1. Extend the shared category/survey presentation in `src/ui/mapNodePresentation.ts` to separate Goblin and Dwarven settlements and combine manual discoveries with earned worldwide survey results. Include defeated Golem reserves. Reuse authoritative saved layouts and matching versioned generation data for unopened maps, leaving instantiated/player-modified sectors authoritative.
+2. Update `src/ui/NodeMinimap.tsx` and `src/ui/MapBorderObstructions.tsx` so all six filters use the agreed availability and coverage rules in expanded and compact map presentation. Border symbols use the combined Border obstructions toggle. Surveyed markers on locked/unexplored maps remain readable without permitting travel or activation outside normal rules. Preserve ordinary discovered map details and independent corner markers.
+3. After reviewing the study, adopt the separate survey projects/tab into the main game, with agreed prices and visible outcomes. Keep ordinary queue/payments and character-upgrade requirements. Follow and update both Markdown UI style references when implementing visible text or controls.
+4. Verify new and existing unmodded saves, reload, import, undo and return from applied mods. Coverage requires survey research completion; character-upgrade IDs only grant eligibility. Preserve paid and parked contributions and avoid free survey completions, map visits, changed purchases, rerolls or old-world opt-in. Applied-mod play keeps its current behavior.
+5. Test every tier boundary and manual-discovery path, both camp factions, all border types, unseen locations, empty/legacy categories, landmark identities and living/defeated Golems. Assert survey queries preserve gameplay state and generation outcomes. Check accessible names, keyboard use and narrow-screen layout with undiscovered, locally discovered and globally surveyed states. Controlled UI fixtures establish presentation, not normal-play balance.
+6. Update affected map, research, save and landmark/border references and applicable guides, regenerate exact catalogs, run appropriate workspace tests/build and documentation/history checks, and record actual results. Implementation and publication remain separate from this completed proposal review.
+
+Verification: all 83 author-preview tests passed, including cumulative bills, no consumption with missing earlier Cores, full-set partial payment/snapshot retention, adjusted quantities, combined Exploration's one point/Road alias and subsequent Map Point purchase. Preview TypeScript and standalone build passed. Browser confirmed default Lake survey bills of five Simple/Basic/Automata (15 total), actual completion, quantity-two edits across all three types, combined Exploration's Map Point and Road prerequisite, no Road card, requested first-row order and checkbox/action placement. Desktop 1210×923 and mobile 390×845 (requested 844) had no horizontal overflow, including Golem survey's seven Core badges. [Current browser observations](../../outputs/map-upgrades-study/cumulative/browser-observations.json) and screenshots retain evidence; earlier prototypes remain in the parent output. This is author-screen evidence, not main-game adoption, global-survey integration or normal-play balance.
+
 ## Border obstruction planning
 
 The [border obstruction plan](21-border-obstructions.md) covers visible rivers, chasms and mountains on shared Map Node edges, Road crossing research and initial density estimates. Whole-border obstruction is agreed; the plan distinguishes the remaining recommendations from decisions. Current gameplay remains described in the [system references](../systems/map-nodes-and-exploration.md).

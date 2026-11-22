@@ -7,6 +7,7 @@ import { ASSIGNMENT, previewState } from './model';
 import { assignmentComplete, eligibleStatusHints, hintKey, mergeUnlockedHints, statusHint } from './statusHints';
 import { HintBrowser } from './HintBrowser';
 import { HINT_REVIEW } from './hintReview';
+import { mythrilGuidance } from '../../src/content/researchGuidance';
 
 describe('Status assignment and hint review', () => {
   it('starts with the assignment, then recommends Forest after acknowledgement before any extraction', () => {
@@ -108,6 +109,10 @@ describe('Status assignment and hint review', () => {
     expect(required.size).toBeGreaterThan(30);
     const covered = new Set(HINT_REVIEW.map(row => row.text));
     for (const text of required) expect(covered.has(text), `Missing selector copy: ${text}`).toBe(true);
+    for (const worldRulesVersion of [1, 2] as const) {
+      const hint = mythrilGuidance({ worldRulesVersion }).hint;
+      expect(HINT_REVIEW).toContainEqual(expect.objectContaining({ title: hint.title, text: hint.detail }));
+    }
     expect(new Set(HINT_REVIEW.map(row => row.id)).size).toBe(HINT_REVIEW.length);
     for (const row of HINT_REVIEW) {
       expect(row.appears.length).toBeGreaterThan(10);

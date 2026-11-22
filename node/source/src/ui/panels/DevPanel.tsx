@@ -5,6 +5,7 @@ import type { GameState } from '../../domain/types';
 import { GameEngine } from '../../simulation/engine';
 import { worldGridSize } from '../../domain/worldGrid';
 import { PanelHeader } from '../PanelHeader';
+import { Dialog } from '../components/Dialog';
 
 export function DevPanel({ game, engine, showAllBuildNodes, onShowAllBuildNodes, onPlaceSource, onClose }: { game: GameState; engine: GameEngine; showAllBuildNodes: boolean; onShowAllBuildNodes(v: boolean): void; onPlaceSource(): void; onClose(): void }) {
   const [reportText, setReportText] = useState('');
@@ -17,7 +18,7 @@ export function DevPanel({ game, engine, showAllBuildNodes, onShowAllBuildNodes,
   const mapCount = worldGridSize(game) ** 2;
   const allMapNodesRevealed = game.devMapSurveysRevealed === true && Object.values(game.sectors).filter(sector => sector.unlocked && sector.visited).length === mapCount;
   const Control = ({ icon, title, detail, action, state, disabled }: { icon: string; title: string; detail: string; action(): void; state: string; disabled?: boolean }) => <button className={`option-action dev-control ${disabled ? 'complete' : ''}`} disabled={disabled} onClick={() => { engine.developerSuppressTutorialPrompts(); action(); }}><i>{icon}</i><span><b>{title}</b><small>{detail}</small></span><strong>{state}</strong></button>;
-  return <div className="modal-backdrop"><section className="modal dev-modal glass"><PanelHeader title="Dev controls" onClose={onClose} /><div className="dev-note"><i>!</i><span><b>Local developer overrides</b><small>These controls modify this save immediately. Unlock actions can be undone once with Ctrl + Z.</small></span></div><div className="option-list dev-controls">
+  return <div className="modal-backdrop"><Dialog panel className="modal dev-modal glass" aria-label="Dev controls" onDismiss={onClose}><PanelHeader title="Dev controls" onClose={onClose} /><div className="dev-note"><i>!</i><span><b>Local developer overrides</b><small>These controls modify this save immediately. Unlock actions can be undone once with Ctrl + Z.</small></span></div><div className="option-list dev-controls">
     <button className="option-action" onClick={exportReport}><i>↓</i><span><b>Export playtest report</b><small>Export resources, time, and factory state. Evidence, if required.</small></span><strong>JSON</strong></button>
     {reportText && <textarea className="dev-report" aria-label="Playtest report JSON" readOnly value={reportText} style={{ width: '100%', minHeight: 180 }} />}
     <Control icon="∞" title="Place Dev Source" detail="Supplies the connected input automatically. For a Road, feed a Cart, Truck, or Train first. Procurement has been excused." action={onPlaceSource} state="PLACE" />
@@ -27,5 +28,5 @@ export function DevPanel({ game, engine, showAllBuildNodes, onShowAllBuildNodes,
     <Control icon="◎" title="Unlock all map nodes" detail={`Activate all ${mapCount} maps and mark them explored, revealing terrain and surveys. Fieldwork has been waived.`} action={() => engine.developerUnlockAllSectors()} state={allMapNodesRevealed ? 'REVEALED' : 'UNLOCK'} disabled={allMapNodesRevealed} />
     <Control icon="▦" title="Global Inventory" detail="Autonomous Logistics unlocks Inventory withdrawals through Filters and shared-pool Storage deposits." action={() => {}} state="RESEARCH" disabled />
     <Control icon="□" title="Storage capacity" detail="The shared pool holds 1,000 per item. Repeatable research increases placements and connections." action={() => {}} state="ACTIVE" disabled />
-  </div></section></div>;
+  </div></Dialog></div>;
 }

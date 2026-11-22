@@ -60,7 +60,7 @@ Normal-play six-Core throughput, first-ending pacing, Reclamation calibration, h
 
 ## Git delivery location
 
-The existing deployment repository is `bookskaboo/bookskaboo.github.io`; the prepared branch is `codex/node-endgame-2026-11-04`. It contains the static NODE build under `node/` and the matching source under `node/source/`, preserving the other games. The working Git checkout is `outputs/endgame-git-worktree`; the older deployment checkout and `D:\Node Game` working copy are preserved. [Delivery manifest](../../outputs/implementation/endgame-delivery-manifest.json) records source hashes and verification. A branch push does not update the live main-branch site.
+The deployment repository is `bookskaboo/bookskaboo.github.io`. The historical prepared branch was `codex/node-endgame-2026-11-04`, with the static NODE build under `node/` and matching source under `node/source/`, preserving the other games. Delivery originally used `outputs/endgame-git-worktree` and its owning `outputs/github-pages-deployment` clone. Those obsolete checkouts are retired; their refs and reflog commit tips are retained in [the current history checkout](../../outputs/node-landmarks-release-2026-11-20/repo), with exact historical ref mappings in the [cleanup manifest](../../outputs/compiled-checkout-cleanup-2026-11-21/manifest.json) (NODE-0796). The `D:\Node Game` working copy is untouched. The [delivery manifest](../../outputs/implementation/endgame-delivery-manifest.json) retains the original source hashes and verification. A branch push does not update the live main-branch site.
 
 ## Confirmed live publication — November 4, 2026
 

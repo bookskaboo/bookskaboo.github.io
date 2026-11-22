@@ -1,0 +1,52 @@
+{
+  "date": "2026-11-21",
+  "status": "implemented-local",
+  "changelog": "NODE-0767",
+  "scope": "Approved Mining Drill template payment protection; shared reset with ordinary copies",
+  "redRegression": {
+    "failedTemplateCases": 5,
+    "passedOrdinaryCopyCases": 2
+  },
+  "focusedTests": {
+    "passed": 178,
+    "files": 8,
+    "newRegressions": 7
+  },
+  "workspaceTests": {
+    "passed": 2219,
+    "failed": 0,
+    "skipped": 2
+  },
+  "build": "TypeScript and local Vite production build passed; existing large-chunk warning",
+  "documentation": "Six catalogs regenerated; freshness and local links across 40 documents passed",
+  "limits": [
+    "No browser balance run",
+    "No campaign-save access",
+    "No publication"
+  ],
+  "reviewPage": "https://chatgpt.com/space/page_e7453b10ac2c81919d88f5c40ab191c5",
+  "files": [
+    "src/simulation/nodeLayoutCopy.ts",
+    "src/simulation/factoryTemplateRuntime.ts",
+    "src/simulation/factoryTemplateRuntime.test.ts",
+    "src/simulation/engine.ts",
+    "docs/systems/controls-and-factory-layouts.md",
+    "docs/systems/sustainability-and-recovery.md"
+  ],
+  "historyChecks": "All six passed; generated history fresh",
+  "pageReadback": {
+    "page": "https://chatgpt.com/space/page_e7453b10ac2c81919d88f5c40ab191c5",
+    "editedBlocksMatch": true,
+    "resolutionPresent": true,
+    "unrelatedBlocksPreserved": true,
+    "autosaveStillOpen": true
+  },
+  "sha256": {
+    "src/simulation/nodeLayoutCopy.ts": "bc1b87e21d284d1ce561a0147a3daed6f33e22a4ee095525eee0eb247fe97e27",
+    "src/simulation/factoryTemplateRuntime.ts": "589d8b90432f000ec99dc373e3975fe365bf50a872b56c2e9422d3f0228169fb",
+    "src/simulation/factoryTemplateRuntime.test.ts": "b0abf49d1960f06cb4b5ab8caba4ed3c5d61b33abe2c9088b16e1d74cdb71470",
+    "src/simulation/engine.ts": "6db1d3192c95b9798977ddcb5efebbfaa70352d2915e79d853f8746950dc52cb",
+    "docs/systems/controls-and-factory-layouts.md": "639e433e204c104a174de91aca538a09f90b24cc42256b6fc355e12c9891fdcb",
+    "docs/systems/sustainability-and-recovery.md": "f330332800a69599f4912e18654dd7d10bb56a953a67e8d57f47e8ce8362212d"
+  }
+}

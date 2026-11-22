@@ -1,0 +1,43 @@
+{
+  "library": "VSCO 2 Community Edition — Cello Section",
+  "author": "Versilian Studios / Sam Gossner",
+  "repository": "https://github.com/sgossner/VSCO-2-CE",
+  "commit": "440300901dfe9275fd84e0b7763af1f8443ae62e",
+  "license": "CC0-1.0",
+  "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "articulation": "Soft sustained bowed cello section, vibrato, v1 round robin 1",
+  "samples": [
+    {
+      "file": "c1.wav",
+      "sourceNote": "C1",
+      "original": "Strings/Cello Section/susvib/susvib_C1_v1_1.wav",
+      "url": "https://raw.githubusercontent.com/sgossner/VSCO-2-CE/440300901dfe9275fd84e0b7763af1f8443ae62e/Strings/Cello%20Section/susvib/susvib_C1_v1_1.wav",
+      "sha256": "abdcea431f384e135c469b0f3e4ac2a437f282f521dc5bcbe22abc221536e8de",
+      "bytes": 2347376
+    },
+    {
+      "file": "e1.wav",
+      "sourceNote": "E1",
+      "original": "Strings/Cello Section/susvib/susvib_E1_v1_1.wav",
+      "url": "https://raw.githubusercontent.com/sgossner/VSCO-2-CE/440300901dfe9275fd84e0b7763af1f8443ae62e/Strings/Cello%20Section/susvib/susvib_E1_v1_1.wav",
+      "sha256": "de31a61b02d4e1d5a79b8bc432b0f35fe2e434290ad34402cc0f2dd7dc278cde",
+      "bytes": 2468348
+    },
+    {
+      "file": "g1.wav",
+      "sourceNote": "G1",
+      "original": "Strings/Cello Section/susvib/susvib_G1_v1_1.wav",
+      "url": "https://raw.githubusercontent.com/sgossner/VSCO-2-CE/440300901dfe9275fd84e0b7763af1f8443ae62e/Strings/Cello%20Section/susvib/susvib_G1_v1_1.wav",
+      "sha256": "9e5d24e8e28d6c7f650f9bb2b33d43c13e341a8bd33124c64e23881378b181ba",
+      "bytes": 2161700
+    },
+    {
+      "file": "b1.wav",
+      "sourceNote": "B1",
+      "original": "Strings/Cello Section/susvib/susvib_B1_v1_1.wav",
+      "url": "https://raw.githubusercontent.com/sgossner/VSCO-2-CE/440300901dfe9275fd84e0b7763af1f8443ae62e/Strings/Cello%20Section/susvib/susvib_B1_v1_1.wav",
+      "sha256": "4f95c087c4b8d87ee591e9d39c3c9caf085c6f1b9125eac3ca9e4e637da628ee",
+      "bytes": 2372492
+    }
+  ]
+}

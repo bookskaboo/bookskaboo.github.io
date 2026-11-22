@@ -3,6 +3,7 @@ import { BUILDABLE_NODES, isNodeUnlocked, getBuildNodeDefinition } from '../../c
 import type { GameState, NodeDefinition, NodeKind } from '../../domain/types';
 import { NodeIcon } from '../NodeIcon';
 import { PanelHeader } from '../PanelHeader';
+import { Dialog } from '../components/Dialog';
 
 export function BuildPanel({ canBuild, training, extra, focusKind, game, category, setCategory, showAllNodes, onChoose, onClose }: { canBuild(kind: NodeKind): boolean; training?: boolean; extra?: React.ReactNode; focusKind?: NodeKind; game: GameState; category: string; setCategory(v: string): void; showAllNodes: boolean; onChoose(k: NodeKind): void; onClose(): void }) {
   useEffect(() => { if (!focusKind) return; const frame = requestAnimationFrame(() => { const target = document.querySelector<HTMLElement>(`[data-build-kind="${focusKind}"]`); target?.scrollIntoView({ block: 'center' }); target?.focus({ preventScroll: true }); }); return () => cancelAnimationFrame(frame); }, [focusKind]);
@@ -11,7 +12,7 @@ export function BuildPanel({ canBuild, training, extra, focusKind, game, categor
     training ? canBuild(node.kind) :
       (showAllNodes || isNodeUnlocked(node.kind, game.research.unlocked)) && (selectedCategory === 'All' || buildCategory(node) === selectedCategory)
   ).map(node => getBuildNodeDefinition(node.kind, game.research.completed));
-  return <div className="modal-backdrop"><section className="modal build-modal glass">
+  return <div className="modal-backdrop"><Dialog panel className="modal build-modal glass" aria-label="Build" modal={!training} onDismiss={onClose}>
     <PanelHeader title="Build" onClose={onClose} />
     {!training && <div className="category-tabs">{nodeCategoryOrder.map(name => (
       <button key={name} disabled={name !== 'All' && !BUILDABLE_NODES.some(node => buildCategory(node) === name && canBuild(node.kind))}
@@ -33,7 +34,7 @@ export function BuildPanel({ canBuild, training, extra, focusKind, game, categor
       {nodes.length === 0 && <div className="empty-state">Nothing unlocked here yet. The catalog remains optimistic.</div>}
     </div>
     {extra}
-  </section></div>;
+  </Dialog></div>;
 }
 
 const nodeCategoryOrder = ['All', 'Production', 'Logistics', 'Research'];

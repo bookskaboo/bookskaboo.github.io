@@ -8,8 +8,10 @@ Start with the [system reference library](systems/README.md) for the current gam
 | --- | --- |
 | Understand a mechanic or plan a system change | [Systems](systems/README.md) |
 | Work through the current document review | [Temporary system review register](reviews/system-review-temporary.md) |
+| Evaluate player enjoyment and factory-game priorities | [Fourteen-criterion enjoyment audit](reviews/system-review-temporary.md#player-enjoyment-audit) |
 | Find ingredients, costs, names, capacities or unlocks | [Reference catalogs](systems/README.md#reference-catalogs) |
 | Review intended direction and unresolved design work | [Master development plan](master-plan/README.md) |
+| Adjust the proposed Map upgrades research screen | [Isolated test page](../outputs/status-page/map-upgrades.html), [design and limits](master-plan/04-world-and-encounters.md#map-filter-research-proposal) |
 | Understand permanent map landmarks and their frequency | [Current Landmarks system](systems/landmarks.md), [design decisions](master-plan/23-map-power-ups.md) |
 | Find when or why something changed | [Change history](changelog/README.md), [searchable history](changelog/index.html) |
 | Find superseded reference material | [Documentation archive](archive/README.md) |
@@ -20,6 +22,7 @@ Start with the [system reference library](systems/README.md) for the current gam
 | Review river, mountain and chasm art or Node Map markers | [Border obstruction art and modal tests](../previews/border-obstructions/README.md) |
 | Review Map Node terrain art and starting resource rules | [Current terrain rules](systems/map-nodes-and-exploration.md#ground-terrain-for-new-games), [art and real-engine test views](../previews/terrain-tiles/README.md), [adopted design](master-plan/22-map-terrain-tiles.md) |
 | Review the junior AI premise, Status modal and robot upgrades | [Art and writing framework](master-plan/06-art-audio-and-writing.md#status-page-narrative-framework), [interactive study](../previews/status-page/README.md) |
+| Audition proposed sounds for player actions | [Sound test factory](../outputs/action-sounds/playground.html), [listening sheet](../outputs/action-sounds/proposal.html), [audio plan](master-plan/06-art-audio-and-writing.md#audio), [rebuild and limits](../previews/action-sounds/README.md) |
 | Create or share a data mod | [Mod guide](mods.md) |
 | Inspect historical observations | [Novice findings](novice-playtest-findings.md), [blind research playtest](blind-research-playtest-2026-11-11.md), [Final Core dry run](final-core-dry-run.md), [Final Core blind run](final-core-blind-run.md) |
 

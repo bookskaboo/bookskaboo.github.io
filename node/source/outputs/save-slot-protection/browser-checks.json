@@ -1,0 +1,31 @@
+{
+  "checkedAt": "2026-11-21T18:01:57.771Z",
+  "url": "http://127.0.0.1:4279/outputs/save-slot-protection/browser/",
+  "storage": "In-memory fixture only; no persistent campaign reads or writes",
+  "healthySiblingPreservedAfterSaving": true,
+  "healthySiblingLoadConfirmed": true,
+  "unreadableLoadDisabled": true,
+  "manualReplacementCancelWroteNothing": true,
+  "autosaveCopyReplacementConfirmed": true,
+  "wholeCollectionSaveAndCopyDisabled": true,
+  "retryRecoveredWithoutRemount": true,
+  "untouchedNamesRefreshedAfterRetry": true,
+  "viewports": [
+    {
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "width": 390,
+      "height": 845,
+      "requestedHeight": 844,
+      "scrollWidth": 390
+    }
+  ],
+  "alertFont": {
+    "size": "12px",
+    "weight": "400"
+  },
+  "fixtureHmrWarningsDuringEditing": 2,
+  "freshLoadLogs": []
+}

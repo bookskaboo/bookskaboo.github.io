@@ -4,6 +4,7 @@ import viteConfig from './vite.config.ts';
 export default mergeConfig(viteConfig, defineConfig({
   test: {
     // Generated snapshots and the deployment checkout can contain source copies.
-    exclude: [...configDefaults.exclude, 'outputs/**'],
+    // Keep the retired fixture's evidence-link notice out of test discovery.
+    exclude: [...configDefaults.exclude, 'outputs/**', 'scripts/stress.test.ts'],
   },
 }));

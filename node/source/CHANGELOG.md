@@ -2,7 +2,7 @@
 
 A searchable record of completed changes, design decisions, and relevant review findings. Stable NODE IDs can be cited in chats and searched in the repository.
 
-**763 records · 2026-10-12–2026-11-21 · America/Los_Angeles**
+**833 records · 2026-10-12–2026-11-22 · America/Los_Angeles**
 
 [Open searchable history](<docs/changelog/index.html>) · [How to review and maintain it](<docs/changelog/README.md>) · [Sources and coverage gaps](<docs/changelog/sources.md>)
 
@@ -12,6 +12,45 @@ Latest confirmed game publication: [c4284d4](https://github.com/bookskaboo/books
 
 | ID | Change | Topics |
 | --- | --- | --- |
+| [NODE-0834](<docs/changelog/2026-11.md#node-0834>) | Prepare a frozen live-release candidate and verify compatibility | Publishing, Testing, Saves, Documentation |
+| [NODE-0832](<docs/changelog/2026-11.md#node-0832>) | Start ambient music and its loop preview at low volume | Audio, Interface, Testing, Documentation |
+| [NODE-0831](<docs/changelog/2026-11.md#node-0831>) | Complete state lifecycle extraction and refactor integration | Architecture, Saves, Mods, Testing, Documentation |
+| [NODE-0830](<docs/changelog/2026-11.md#node-0830>) | Keep ambient string transitions continuous across notes and the loop | Audio, Interface, Testing, Documentation |
+| [NODE-0829](<docs/changelog/2026-11.md#node-0829>) | Separate factory UI coordination and playfield interactions | Architecture, Interface, Controls, Testing, Documentation |
+| [NODE-0828](<docs/changelog/2026-11.md#node-0828>) | Reset background music as a sparse string-only ambient draft | Audio, Interface, Testing, Documentation |
+| [NODE-0827](<docs/changelog/2026-11.md#node-0827>) | Soften the flowing melody on cello and double bass | Audio, Interface, Testing, Documentation |
+| [NODE-0826](<docs/changelog/2026-11.md#node-0826>) | Lighten the cello melody with a higher flowing variation | Audio, Interface, Testing, Documentation |
+| [NODE-0825](<docs/changelog/2026-11.md#node-0825>) | Render a cello comparison of the one-minute music loop | Audio, Interface, Testing, Documentation |
+| [NODE-0824](<docs/changelog/2026-11.md#node-0824>) | Compose a one-minute F-major bowed-double-bass loop | Audio, Interface, Testing, Documentation |
+| [NODE-0823](<docs/changelog/2026-11.md#node-0823>) | Separate factory command planning from engine commits | Architecture, Controls, Roads, Connections, Testing, Documentation |
+| [NODE-0822](<docs/changelog/2026-11.md#node-0822>) | Add melodic piano runs to research, character upgrade and victory | Audio, Interface, Testing, Documentation |
+| [NODE-0821](<docs/changelog/2026-11.md#node-0821>) | Simplify everyday piano cues and lengthen research and victory | Audio, Interface, Testing, Documentation |
+| [NODE-0819](<docs/changelog/2026-11.md#node-0819>) | Extract transport and reservation ownership in three verified slices | Architecture, Roads, Logistics, Testing, Documentation |
+| [NODE-0818](<docs/changelog/2026-11.md#node-0818>) | Use two notes for movement and broaden the F-major piano voicings | Audio, Interface, Documentation, Testing |
+| [NODE-0817](<docs/changelog/2026-11.md#node-0817>) | Complete the refactor baseline and extract Road direction commands | Architecture, Roads, Testing, Documentation |
+| [NODE-0815](<docs/changelog/2026-11.md#node-0815>) | Reuse recipe-producer lookups within each expansion recovery evaluation | Performance, Recovery, Documentation |
+| [NODE-0800](<docs/changelog/2026-11.md#node-0800>) | Arrange the piano action cues as distinct lower-register F-major chords and phrases | Audio, Interface, Documentation, Testing |
+| [NODE-0798](<docs/changelog/2026-11.md#node-0798>) | Avoid hidden inventory scans and repeated autosave normalization during UI updates | Performance, Interface, Saves, Documentation |
+| [NODE-0796](<docs/changelog/2026-11.md#node-0796>) | Retire compiled preview builds and older deployment checkouts | Tooling, Documentation, Publishing, Testing |
+| [NODE-0795](<docs/changelog/2026-11.md#node-0795>) | Restore independent Git history after release-checkout cleanup | Tooling, Documentation, Publishing, Testing |
+| [NODE-0792](<docs/changelog/2026-11.md#node-0792>) | Remove generated tool caches and obsolete Golem document renders | Tooling, Documentation, Testing |
+| [NODE-0791](<docs/changelog/2026-11.md#node-0791>) | Use cumulative survey Core bills and combine the Exploration preview | Exploration, Research, Interface, Saves, Documentation, Testing |
+| [NODE-0790](<docs/changelog/2026-11.md#node-0790>) | Align current references with implemented Landmarks, terrain and Map Points | Documentation, Landmarks, Research, World map, Saves, Tooling |
+| [NODE-0789](<docs/changelog/2026-11.md#node-0789>) | Audition draft sounds on real NODE nodes and controls in a temporary test factory | Audio, Interface, Testing, Documentation |
+| [NODE-0788](<docs/changelog/2026-11.md#node-0788>) | Retire the obsolete whole-world stress benchmark and preserve its evidence | Tooling, Performance, Testing, Documentation |
+| [NODE-0786](<docs/changelog/2026-11.md#node-0786>) | Retire the proposal compiler that overwrote current progression rules | Tooling, Recipes, Research, Documentation |
+| [NODE-0783](<docs/changelog/2026-11.md#node-0783>) | Show Road capacity using freight ranks and active dispatch timing | Roads, Logistics, Interface, Mods, Documentation |
+| [NODE-0778](<docs/changelog/2026-11.md#node-0778>) | Match Mythril guidance to each factory’s saved world rules | Narrative, Research, Tutorials, Saves, Interface, Documentation |
+| [NODE-0775](<docs/changelog/2026-11.md#node-0775>) | Include funded Unknown Device Core production in progression recovery budgets | Progression, Landmarks, Testing, Documentation |
+| [NODE-0773](<docs/changelog/2026-11.md#node-0773>) | Lower research-complete sample 12 by one octave | Audio, Interface, Documentation |
+| [NODE-0772](<docs/changelog/2026-11.md#node-0772>) | Make action-unavailable sample 17 a single short knock | Audio, Interface, Documentation |
+| [NODE-0771](<docs/changelog/2026-11.md#node-0771>) | Keep dialog keyboard focus and editing shortcuts out of the hidden factory | Controls, Interface, Testing, Documentation |
+| [NODE-0770](<docs/changelog/2026-11.md#node-0770>) | Give the research-complete sample a short ta-da fanfare | Audio, Interface, Documentation |
+| [NODE-0769](<docs/changelog/2026-11.md#node-0769>) | Create an audition sheet and original draft sounds for player actions | Audio, Interface, Documentation, Testing |
+| [NODE-0768](<docs/changelog/2026-11.md#node-0768>) | Recover visibly from automatic autosave failures without interrupting simulation | Saves, Interface, Testing, Documentation |
+| [NODE-0767](<docs/changelog/2026-11.md#node-0767>) | Require full Mining Drill payment for every template copy | Production, Controls, Saves, Testing, Documentation |
+| [NODE-0766](<docs/changelog/2026-11.md#node-0766>) | Protect healthy save slots when another saved payload is unreadable | Saves, Interface, Testing, Documentation |
+| [NODE-0765](<docs/changelog/2026-11.md#node-0765>) | Remove obsolete release checkout copies while preserving evidence and Git history | Tooling, Documentation, Publishing, Testing |
 | [NODE-0716](<docs/changelog/2026-11.md#node-0716>) | Show and select the actual zoom in the active-factory test | Controls, Interface, Tooling, Performance, Documentation |
 | [NODE-0708](<docs/changelog/2026-11.md#node-0708>) | Measure a practical 30 FPS zoom with restored node details | Performance, Controls, Tooling, Documentation |
 | [NODE-0703](<docs/changelog/2026-11.md#node-0703>) | Move workshop Travel controls outside the field and match arrow sizes | Controls, Logistics, Interface, Camera, Documentation |
@@ -123,7 +162,7 @@ Latest confirmed game publication: [c4284d4](https://github.com/bookskaboo/books
 
 ## Dated history
 
-- [2026-11](<docs/changelog/2026-11.md>) — 745 records
+- [2026-11](<docs/changelog/2026-11.md>) — 815 records
 - [2026-10](<docs/changelog/2026-10.md>) — 18 records
 
 “Known by” dates are implementation/publication bounds, not exact change dates. “Backfilled” dates mark records with uncertain original dates. Supersession links explain reversals. Original-game records do not certify current rebuild behavior.
@@ -170,70 +209,71 @@ A record marked “Published by” was known in that snapshot and may have appea
 
 - [Accessibility](<docs/changelog/index.html?topic=Accessibility>) (6)
 - [Animation](<docs/changelog/index.html?topic=Animation>) (6)
-- [Architecture](<docs/changelog/index.html?topic=Architecture>) (5)
+- [Architecture](<docs/changelog/index.html?topic=Architecture>) (11)
 - [Art](<docs/changelog/index.html?topic=Art>) (28)
-- [Audio](<docs/changelog/index.html?topic=Audio>) (1)
-- [Balance](<docs/changelog/index.html?topic=Balance>) (127)
+- [Audio](<docs/changelog/index.html?topic=Audio>) (22)
+- [Balance](<docs/changelog/index.html?topic=Balance>) (128)
 - [Bots](<docs/changelog/index.html?topic=Bots>) (1)
 - [Building](<docs/changelog/index.html?topic=Building>) (1)
 - [Camera](<docs/changelog/index.html?topic=Camera>) (8)
 - [Combat](<docs/changelog/index.html?topic=Combat>) (16)
 - [Compatibility](<docs/changelog/index.html?topic=Compatibility>) (3)
-- [Connections](<docs/changelog/index.html?topic=Connections>) (51)
+- [Connections](<docs/changelog/index.html?topic=Connections>) (52)
 - [Construction](<docs/changelog/index.html?topic=Construction>) (15)
 - [Control groups](<docs/changelog/index.html?topic=Control%20groups>) (3)
-- [Controls](<docs/changelog/index.html?topic=Controls>) (64)
+- [Controls](<docs/changelog/index.html?topic=Controls>) (68)
 - [Deployment](<docs/changelog/index.html?topic=Deployment>) (1)
 - [Design](<docs/changelog/index.html?topic=Design>) (7)
 - [Developer tools](<docs/changelog/index.html?topic=Developer%20tools>) (1)
 - [Discovery](<docs/changelog/index.html?topic=Discovery>) (5)
-- [Documentation](<docs/changelog/index.html?topic=Documentation>) (356)
+- [Documentation](<docs/changelog/index.html?topic=Documentation>) (426)
 - [Efficiency](<docs/changelog/index.html?topic=Efficiency>) (1)
 - [Encounters](<docs/changelog/index.html?topic=Encounters>) (148)
 - [Endgame](<docs/changelog/index.html?topic=Endgame>) (5)
-- [Exploration](<docs/changelog/index.html?topic=Exploration>) (45)
+- [Exploration](<docs/changelog/index.html?topic=Exploration>) (54)
 - [Extraction](<docs/changelog/index.html?topic=Extraction>) (1)
-- [Interface](<docs/changelog/index.html?topic=Interface>) (310)
-- [Landmarks](<docs/changelog/index.html?topic=Landmarks>) (10)
-- [Logistics](<docs/changelog/index.html?topic=Logistics>) (113)
+- [Interface](<docs/changelog/index.html?topic=Interface>) (356)
+- [Landmarks](<docs/changelog/index.html?topic=Landmarks>) (14)
+- [Logistics](<docs/changelog/index.html?topic=Logistics>) (118)
 - [Map](<docs/changelog/index.html?topic=Map>) (8)
-- [Map exploration](<docs/changelog/index.html?topic=Map%20exploration>) (1)
-- [Mods](<docs/changelog/index.html?topic=Mods>) (12)
+- [Map exploration](<docs/changelog/index.html?topic=Map%20exploration>) (2)
+- [Mods](<docs/changelog/index.html?topic=Mods>) (15)
 - [Monster camps](<docs/changelog/index.html?topic=Monster%20camps>) (4)
 - [Mythril](<docs/changelog/index.html?topic=Mythril>) (14)
 - [Naming](<docs/changelog/index.html?topic=Naming>) (7)
-- [Narrative](<docs/changelog/index.html?topic=Narrative>) (4)
+- [Narrative](<docs/changelog/index.html?topic=Narrative>) (5)
 - [Nodes](<docs/changelog/index.html?topic=Nodes>) (2)
 - [Obstructions](<docs/changelog/index.html?topic=Obstructions>) (3)
 - [Options](<docs/changelog/index.html?topic=Options>) (4)
-- [Performance](<docs/changelog/index.html?topic=Performance>) (15)
+- [Performance](<docs/changelog/index.html?topic=Performance>) (22)
 - [Persistence](<docs/changelog/index.html?topic=Persistence>) (47)
 - [Placement](<docs/changelog/index.html?topic=Placement>) (4)
-- [Planning](<docs/changelog/index.html?topic=Planning>) (239)
-- [Playtesting](<docs/changelog/index.html?topic=Playtesting>) (49)
+- [Planning](<docs/changelog/index.html?topic=Planning>) (240)
+- [Playtesting](<docs/changelog/index.html?topic=Playtesting>) (59)
 - [Power](<docs/changelog/index.html?topic=Power>) (2)
-- [Production](<docs/changelog/index.html?topic=Production>) (139)
-- [Progression](<docs/changelog/index.html?topic=Progression>) (216)
+- [Production](<docs/changelog/index.html?topic=Production>) (142)
+- [Progression](<docs/changelog/index.html?topic=Progression>) (220)
 - [Prototypes](<docs/changelog/index.html?topic=Prototypes>) (20)
 - [Publication](<docs/changelog/index.html?topic=Publication>) (2)
-- [Publishing](<docs/changelog/index.html?topic=Publishing>) (20)
-- [Recipes](<docs/changelog/index.html?topic=Recipes>) (122)
+- [Publishing](<docs/changelog/index.html?topic=Publishing>) (24)
+- [Recipes](<docs/changelog/index.html?topic=Recipes>) (123)
+- [Recovery](<docs/changelog/index.html?topic=Recovery>) (2)
 - [Recycling](<docs/changelog/index.html?topic=Recycling>) (3)
-- [Research](<docs/changelog/index.html?topic=Research>) (297)
+- [Research](<docs/changelog/index.html?topic=Research>) (312)
 - [Resources](<docs/changelog/index.html?topic=Resources>) (120)
 - [Responsive](<docs/changelog/index.html?topic=Responsive>) (2)
-- [Roads](<docs/changelog/index.html?topic=Roads>) (22)
+- [Roads](<docs/changelog/index.html?topic=Roads>) (26)
 - [Save compatibility](<docs/changelog/index.html?topic=Save%20compatibility>) (3)
-- [Saves](<docs/changelog/index.html?topic=Saves>) (40)
+- [Saves](<docs/changelog/index.html?topic=Saves>) (55)
 - [Search](<docs/changelog/index.html?topic=Search>) (2)
 - [Shortcuts](<docs/changelog/index.html?topic=Shortcuts>) (12)
 - [Simulation](<docs/changelog/index.html?topic=Simulation>) (8)
 - [Storage](<docs/changelog/index.html?topic=Storage>) (10)
 - [Sustainability](<docs/changelog/index.html?topic=Sustainability>) (1)
-- [Testing](<docs/changelog/index.html?topic=Testing>) (27)
+- [Testing](<docs/changelog/index.html?topic=Testing>) (74)
 - [Text](<docs/changelog/index.html?topic=Text>) (6)
-- [Tooling](<docs/changelog/index.html?topic=Tooling>) (32)
-- [Tutorials](<docs/changelog/index.html?topic=Tutorials>) (58)
+- [Tooling](<docs/changelog/index.html?topic=Tooling>) (41)
+- [Tutorials](<docs/changelog/index.html?topic=Tutorials>) (60)
 - [Typography](<docs/changelog/index.html?topic=Typography>) (3)
 - [UI](<docs/changelog/index.html?topic=UI>) (4)
 - [Undo](<docs/changelog/index.html?topic=Undo>) (4)
@@ -241,7 +281,7 @@ A record marked “Published by” was known in that snapshot and may have appea
 - [Workflow](<docs/changelog/index.html?topic=Workflow>) (1)
 - [World](<docs/changelog/index.html?topic=World>) (126)
 - [World generation](<docs/changelog/index.html?topic=World%20generation>) (23)
-- [World map](<docs/changelog/index.html?topic=World%20map>) (53)
+- [World map](<docs/changelog/index.html?topic=World%20map>) (54)
 - [Writing](<docs/changelog/index.html?topic=Writing>) (1)
 
 ## Search from the repository

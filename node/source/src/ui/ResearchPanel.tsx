@@ -1,4 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
+import { Dialog } from './components/Dialog';
+import { researchTriggerCopy } from '../content/researchGuidance';
 import { getResearchProject } from '../content/research';
 import { ASSIGNMENT, BOT_UPGRADES } from '../content/botUpgrades';
 import type { GameState } from '../domain/types';
@@ -46,7 +48,7 @@ function UpgradesPanel({ game, engine, focusProjectId, allowedProjectId, showMil
     const project = getResearchProject(id);
     if (!project) return;
     const details = researchCardDetails(project, game);
-    if (!details.selectable) { setMessage(project.trigger?.pending ?? details.status); return; }
+    if (!details.selectable) { setMessage(researchTriggerCopy(project, game)?.pending ?? details.status); return; }
     const result = engine.queueResearch(id, { adoptSelected: !isBot(game.research.selected) });
     setMessage(result === 'added' ? '' : result === 'full' ? 'Queue full. Remove a project to add another.'
       : result === 'duplicate' ? 'That project is already queued.' : 'This research is not available yet.');
@@ -56,24 +58,6 @@ function UpgradesPanel({ game, engine, focusProjectId, allowedProjectId, showMil
     setSelected(undefined); setQuery(''); setFilter('nodes'); setMessage('');
   }, [allowedProjectId]);
   useEffect(() => {
-    const origin = document.activeElement instanceof HTMLElement ? document.activeElement : undefined;
-    const frame = requestAnimationFrame(() => {
-      const target = focusProjectId && !isBot(focusProjectId) ? dialog.current?.querySelector<HTMLElement>(`[data-research-id="${focusProjectId}"]`) : undefined;
-      (target ?? dialog.current?.querySelector<HTMLElement>('button'))?.focus({ preventScroll: true });
-    });
-    const key = (event: KeyboardEvent) => {
-      if (event.key !== 'Tab') return;
-      const controls = [...(dialog.current?.querySelectorAll<HTMLElement>('button:not(:disabled),input:not(:disabled),[tabindex="0"]') ?? []),
-        ...document.querySelectorAll<HTMLElement>('.tutorial-callout button:not(:disabled), .notification-stack button:not(:disabled)')]
-        .filter(node => node.getClientRects().length > 0);
-      if (!controls.length) return;
-      if (event.shiftKey && document.activeElement === controls[0]) { event.preventDefault(); controls.at(-1)?.focus(); }
-      else if (!event.shiftKey && document.activeElement === controls.at(-1)) { event.preventDefault(); controls[0].focus(); }
-    };
-    window.addEventListener('keydown', key);
-    return () => { cancelAnimationFrame(frame); window.removeEventListener('keydown', key); if (origin?.isConnected) origin.focus({ preventScroll: true }); };
-  }, []);
-  useEffect(() => {
     if (!focusProjectId || guided) return;
     if (isBot(focusProjectId)) return;
     const project = getResearchProject(focusProjectId);
@@ -82,7 +66,8 @@ function UpgradesPanel({ game, engine, focusProjectId, allowedProjectId, showMil
     setFilter(/\d+$/.test(focusProjectId) ? 'upgrades' : 'nodes');
   }, [focusProjectId]);
   return <div className="upgrades-modal-scope"><div className="modal-backdrop">
-    <section ref={dialog} className="modal research-modal status-modal glass" role="dialog" aria-modal={guided ? undefined : true} aria-label="Upgrades">
+    <Dialog panel ref={dialog} className="modal research-modal status-modal glass" modal={!guided} aria-label="Upgrades" onDismiss={onClose}
+      initialFocus={() => focusProjectId && !isBot(focusProjectId) ? dialog.current?.querySelector<HTMLElement>(`[data-research-id="${focusProjectId}"]`) : undefined}>
       <PanelHeader title="Upgrades" onClose={onClose} />
       <div className="status-layout">
         <aside className="character-column" aria-label="Your AI bot">
@@ -110,6 +95,6 @@ function UpgradesPanel({ game, engine, focusProjectId, allowedProjectId, showMil
           </div>
         </div>
       </div>
-    </section>
+    </Dialog>
   </div></div>;
 }

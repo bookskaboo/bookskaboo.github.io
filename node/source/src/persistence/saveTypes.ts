@@ -7,3 +7,9 @@ export interface SaveSlot {
   state: GameState;
   name?: string;
 }
+
+export interface SaveSlotsSnapshot {
+  slots: Array<SaveSlot | null>;
+  unreadableSlots: number[];
+  error?: string;
+}

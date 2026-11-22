@@ -1,0 +1,26 @@
+{
+  "allMatch": true,
+  "cases": [
+    {
+      "scenario": "ordinary",
+      "steps": 48,
+      "publications": 30
+    },
+    {
+      "scenario": "roads",
+      "steps": 26,
+      "publications": 17
+    },
+    {
+      "scenario": "protected",
+      "steps": 24,
+      "publications": 15
+    },
+    {
+      "scenario": "modded",
+      "steps": 50,
+      "publications": 32
+    }
+  ],
+  "scope": "Original full pre-phase-4 source snapshot versus candidate; deterministic command results, complete-state hashes, publications and autosave-failure/recovery/storage. Not performance or balance evidence."
+}

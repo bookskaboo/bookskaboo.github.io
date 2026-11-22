@@ -1,0 +1,3500 @@
+[
+  {
+    "id": "fresh",
+    "counts": {
+      "sectors": 1,
+      "nodes": 5,
+      "connections": 0,
+      "roads": 0,
+      "pausedNodes": 0
+    },
+    "activity": {
+      "inFlight": 0,
+      "playTimeMs": 35000,
+      "producedDelta": 0
+    },
+    "checks": null,
+    "baseline": {
+      "medianRangeMs": [
+        0.0075999999999964984,
+        0.008600000000001273
+      ],
+      "p95RangeMs": [
+        0.03289999999999793,
+        0.03719999999999857
+      ],
+      "totalMedianMs": 4.325300000000041,
+      "maxMs": 0.4158000000000044,
+      "everySecond": [
+        {
+          "onSecondMedianMs": 0.024299999999996658,
+          "otherMedianMs": 0.007099999999994111
+        },
+        {
+          "onSecondMedianMs": 0.022500000000007958,
+          "otherMedianMs": 0.007900000000006457
+        },
+        {
+          "onSecondMedianMs": 0.02030000000000598,
+          "otherMedianMs": 0.007800000000003138
+        }
+      ]
+    },
+    "attribution": {
+      "totalMedianMs": 6.106300000000118,
+      "metrics": {
+        "engine.ts:tick": {
+          "calls": 300,
+          "selfMs": 0.7042999999997903,
+          "inclusiveMs": 6.000899999999973,
+          "queueUnits": 0
+        },
+        "engine.ts:deliverTransfers": {
+          "calls": 300,
+          "selfMs": 0.20129999999984705,
+          "inclusiveMs": 0.2797999999998382,
+          "queueUnits": 0
+        },
+        "simulationLookups.ts:constructor": {
+          "calls": 675,
+          "selfMs": 0.12250000000000227,
+          "inclusiveMs": 0.12250000000000227,
+          "queueUnits": 0
+        },
+        "engine.ts:simulateSector": {
+          "calls": 300,
+          "selfMs": 1.750499999999974,
+          "inclusiveMs": 2.7209000000000856,
+          "queueUnits": 0
+        },
+        "engine.ts:resolveExtractorInput": {
+          "calls": 600,
+          "selfMs": 0.28809999999988634,
+          "inclusiveMs": 0.8481999999998919,
+          "queueUnits": 0
+        },
+        "simulationLookups.ts:sector": {
+          "calls": 675,
+          "selfMs": 0.3790000000000049,
+          "inclusiveMs": 0.5043999999998903,
+          "queueUnits": 0
+        },
+        "obstructedConnections.ts:obstructedConnections": {
+          "calls": 375,
+          "selfMs": 0.12539999999988538,
+          "inclusiveMs": 0.12539999999988538,
+          "queueUnits": 0
+        },
+        "engine.ts:evaluateMilestones": {
+          "calls": 300,
+          "selfMs": 1.6312000000000637,
+          "inclusiveMs": 1.6312000000000637,
+          "queueUnits": 0
+        },
+        "engine.ts:routeSector": {
+          "calls": 75,
+          "selfMs": 0.10150000000008674,
+          "inclusiveMs": 0.1958999999999662,
+          "queueUnits": 0
+        },
+        "expansionRescue.ts:applyExpansionRescue": {
+          "calls": 30,
+          "selfMs": 0.5356000000000023,
+          "inclusiveMs": 0.5356000000000023,
+          "queueUnits": 0
+        }
+      }
+    },
+    "sampledAllocation": {
+      "byCategoryBytes": {
+        "outside tick": 253544,
+        "other engine work": 3528968,
+        "recovery": 393944,
+        "lookup indexes": 493528
+      },
+      "topFrames": [
+        {
+          "function": "next",
+          "bytes": 1541960,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "(anonymous)",
+            "tick",
+            "evaluateMilestones",
+            "evaluateMilestones",
+            "next"
+          ]
+        },
+        {
+          "function": "simulateSector",
+          "bytes": 328152,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "(anonymous)",
+            "tick",
+            "simulateSector"
+          ]
+        },
+        {
+          "function": "Set",
+          "bytes": 148200,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "(anonymous)",
+            "tick",
+            "simulateSector",
+            "removeDefeatedGolemCables",
+            "Set"
+          ]
+        },
+        {
+          "function": "Map",
+          "bytes": 148016,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "(anonymous)",
+            "tick",
+            "simulateSector",
+            "resolveExtractorInput",
+            "sector",
+            "Map"
+          ]
+        },
+        {
+          "function": "removeDefeatedGolemCables",
+          "bytes": 131280,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "(anonymous)",
+            "tick",
+            "simulateSector",
+            "removeDefeatedGolemCables"
+          ]
+        },
+        {
+          "function": "simulateProgressionNode",
+          "bytes": 114848,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "(anonymous)",
+            "tick",
+            "simulateSector",
+            "simulateProgressionNode"
+          ]
+        },
+        {
+          "function": "next",
+          "bytes": 114840,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "(anonymous)",
+            "tick",
+            "simulateSector",
+            "syncGuardedResources",
+            "next"
+          ]
+        },
+        {
+          "function": "post",
+          "bytes": 104760,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "(anonymous)",
+            "post",
+            "Promise",
+            "(anonymous)",
+            "post"
+          ]
+        },
+        {
+          "function": "progressionDeficits",
+          "bytes": 98440,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "(anonymous)",
+            "tick",
+            "applyExpansionRescue",
+            "applyStartingRecovery",
+            "progressionDeficits"
+          ]
+        },
+        {
+          "function": "set",
+          "bytes": 82632,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "(anonymous)",
+            "tick",
+            "simulateSector",
+            "resolveExtractorInput",
+            "sector",
+            "set"
+          ]
+        },
+        {
+          "function": "Set",
+          "bytes": 82200,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "(anonymous)",
+            "tick",
+            "simulateSector",
+            "removeInactiveTribute",
+            "Set"
+          ]
+        },
+        {
+          "function": "next",
+          "bytes": 82040,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "(anonymous)",
+            "tick",
+            "simulateSector",
+            "next"
+          ]
+        },
+        {
+          "function": "values",
+          "bytes": 82032,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "(anonymous)",
+            "tick",
+            "values"
+          ]
+        },
+        {
+          "function": "regenerateGuardedResources",
+          "bytes": 82016,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "(anonymous)",
+            "tick",
+            "simulateSector",
+            "regenerateGuardedResources"
+          ]
+        },
+        {
+          "function": "Map",
+          "bytes": 65816,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "(anonymous)",
+            "tick",
+            "deliverTransfers",
+            "SimulationLookups",
+            "(anonymous)",
+            "Map"
+          ]
+        },
+        {
+          "function": "filter",
+          "bytes": 65816,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "(anonymous)",
+            "tick",
+            "filter"
+          ]
+        },
+        {
+          "function": "sector",
+          "bytes": 65632,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "(anonymous)",
+            "tick",
+            "simulateSector",
+            "resolveExtractorInput",
+            "sector"
+          ]
+        },
+        {
+          "function": "filter",
+          "bytes": 65616,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "(anonymous)",
+            "tick",
+            "simulateSector",
+            "removeDefeatedGolemCables",
+            "filter"
+          ]
+        },
+        {
+          "function": "",
+          "bytes": 65600,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "(anonymous)",
+            "tick",
+            "simulateSector",
+            "removeInactiveTribute",
+            "filter",
+            "(anonymous)"
+          ]
+        },
+        {
+          "function": "next",
+          "bytes": 65600,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "(anonymous)",
+            "tick",
+            "simulateSector",
+            "resolveExtractorInput",
+            "sector",
+            "next"
+          ]
+        }
+      ]
+    },
+    "sampledCpu": {
+      "byCategorySamples": {
+        "outside tick": 1,
+        "other engine work": 4
+      },
+      "topFrames": [
+        {
+          "function": "dispatch",
+          "samples": 1,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "post",
+            "(anonymous)",
+            "post",
+            "dispatch"
+          ]
+        },
+        {
+          "function": "publish",
+          "samples": 1,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "tick",
+            "publish"
+          ]
+        },
+        {
+          "function": "simulateSector",
+          "samples": 1,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "tick",
+            "simulateSector"
+          ]
+        },
+        {
+          "function": "resolveExtractorInput",
+          "samples": 1,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "tick",
+            "simulateSector",
+            "resolveExtractorInput"
+          ]
+        },
+        {
+          "function": "evaluateMilestones",
+          "samples": 1,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "tick",
+            "evaluateMilestones"
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "shiny",
+    "counts": {
+      "sectors": 31,
+      "nodes": 469,
+      "connections": 333,
+      "roads": 22,
+      "pausedNodes": 99
+    },
+    "activity": {
+      "inFlight": 12,
+      "playTimeMs": 6784600,
+      "producedDelta": 90
+    },
+    "checks": null,
+    "baseline": {
+      "medianRangeMs": [
+        0.6361999999999739,
+        0.7946999999999775
+      ],
+      "p95RangeMs": [
+        1.9913999999999987,
+        2.6024999999999636
+      ],
+      "totalMedianMs": 278.3038000000003,
+      "maxMs": 6.516400000000004,
+      "everySecond": [
+        {
+          "onSecondMedianMs": 1.2528000000000077,
+          "otherMedianMs": 0.6247000000000185
+        },
+        {
+          "onSecondMedianMs": 1.1106000000000336,
+          "otherMedianMs": 0.6783000000000357
+        },
+        {
+          "onSecondMedianMs": 1.2216999999999985,
+          "otherMedianMs": 0.7830999999999904
+        }
+      ]
+    },
+    "attribution": {
+      "totalMedianMs": 297.6574999999996,
+      "metrics": {
+        "engine.ts:tick": {
+          "calls": 300,
+          "selfMs": 2.910000000000622,
+          "inclusiveMs": 297.4322000000005,
+          "queueUnits": 0
+        },
+        "engine.ts:deliverTransfers": {
+          "calls": 300,
+          "selfMs": 2.3201000000004512,
+          "inclusiveMs": 8.18040000000039,
+          "queueUnits": 0
+        },
+        "simulationLookups.ts:constructor": {
+          "calls": 675,
+          "selfMs": 0.11610000000044352,
+          "inclusiveMs": 0.11610000000044352,
+          "queueUnits": 0
+        },
+        "engine.ts:simulateSector": {
+          "calls": 9300,
+          "selfMs": 113.48040000000822,
+          "inclusiveMs": 188.77079999999987,
+          "queueUnits": 0
+        },
+        "mixedOutput.ts:reconcileQueue": {
+          "calls": 27899,
+          "selfMs": 7.666499999996859,
+          "inclusiveMs": 7.666499999996859,
+          "queueUnits": 31520
+        },
+        "engine.ts:resolveExtractorInput": {
+          "calls": 10500,
+          "selfMs": 3.338199999998835,
+          "inclusiveMs": 39.42749999999842,
+          "queueUnits": 0
+        },
+        "simulationLookups.ts:sector": {
+          "calls": 33287,
+          "selfMs": 21.6006000000051,
+          "inclusiveMs": 88.92809999999807,
+          "queueUnits": 0
+        },
+        "obstructedConnections.ts:obstructedConnections": {
+          "calls": 3661,
+          "selfMs": 68.01820000000185,
+          "inclusiveMs": 68.01820000000185,
+          "queueUnits": 0
+        },
+        "engine.ts:resolveResourceRoute": {
+          "calls": 10500,
+          "selfMs": 1.7115000000015925,
+          "inclusiveMs": 2.2917000000022085,
+          "queueUnits": 0
+        },
+        "engine.ts:evaluateMilestones": {
+          "calls": 300,
+          "selfMs": 3.357600000000133,
+          "inclusiveMs": 3.357600000000133,
+          "queueUnits": 0
+        },
+        "engine.ts:routeSector": {
+          "calls": 2325,
+          "selfMs": 18.762900000003185,
+          "inclusiveMs": 93.29319999999981,
+          "queueUnits": 0
+        },
+        "mixedOutput.ts:outputHead": {
+          "calls": 17863,
+          "selfMs": 1.8201999999938607,
+          "inclusiveMs": 4.247299999999086,
+          "queueUnits": 0
+        },
+        "engine.ts:resolveDeliveryRoute": {
+          "calls": 8515,
+          "selfMs": 1.7990000000015414,
+          "inclusiveMs": 46.658500000000544,
+          "queueUnits": 0
+        },
+        "logisticsRoutes.ts:logisticsRoute": {
+          "calls": 8515,
+          "selfMs": 30.22149999999786,
+          "inclusiveMs": 44.220999999999265,
+          "queueUnits": 0
+        },
+        "roadMaterials.ts:roadInputAccepts": {
+          "calls": 9275,
+          "selfMs": 8.512900000000457,
+          "inclusiveMs": 13.691499999999365,
+          "queueUnits": 0
+        },
+        "simulationLookups.ts:target": {
+          "calls": 8942,
+          "selfMs": 0.8001999999978011,
+          "inclusiveMs": 1.140600000000319,
+          "queueUnits": 0
+        },
+        "simulationLookups.ts:indexTransfer": {
+          "calls": 1520,
+          "selfMs": 0.5360999999997489,
+          "inclusiveMs": 0.5360999999997489,
+          "queueUnits": 0
+        },
+        "engine.ts:inputCapacity": {
+          "calls": 9275,
+          "selfMs": 1.2504000000006101,
+          "inclusiveMs": 1.2504000000006101,
+          "queueUnits": 0
+        },
+        "mixedOutput.ts:takeOutput": {
+          "calls": 380,
+          "selfMs": 0.32750000000038426,
+          "inclusiveMs": 0.32750000000038426,
+          "queueUnits": 0
+        },
+        "simulationLookups.ts:launched": {
+          "calls": 339,
+          "selfMs": 0.11600000000007071,
+          "inclusiveMs": 0.3011999999996533,
+          "queueUnits": 0
+        },
+        "mixedOutput.ts:queueOutputs": {
+          "calls": 211,
+          "selfMs": 0.26210000000011746,
+          "inclusiveMs": 0.34100000000009345,
+          "queueUnits": 0
+        },
+        "expansionRescue.ts:applyExpansionRescue": {
+          "calls": 30,
+          "selfMs": 0.08300000000014052,
+          "inclusiveMs": 0.11209999999999809,
+          "queueUnits": 0
+        },
+        "expansionRescue.ts:nextExpansionShortages": {
+          "calls": 30,
+          "selfMs": 0.030000000000143245,
+          "inclusiveMs": 0.030000000000143245,
+          "queueUnits": 0
+        },
+        "roadMaterials.ts:roadMaterialState": {
+          "calls": 179,
+          "selfMs": 8.94240000000093,
+          "inclusiveMs": 8.94240000000093,
+          "queueUnits": 0
+        },
+        "engine.ts:dispatchRoadItem": {
+          "calls": 66,
+          "selfMs": 0.6147999999998319,
+          "inclusiveMs": 9.235600000000062,
+          "queueUnits": 0
+        }
+      }
+    },
+    "sampledAllocation": {
+      "byCategoryBytes": {
+        "outside tick": 170392,
+        "other engine work": 154004600,
+        "queue reconciliation": 8075728,
+        "lookup indexes": 81491760,
+        "obstruction checking": 63870136,
+        "logistics route traversal": 16057120,
+        "Road material tracing": 10922128
+      },
+      "topFrames": [
+        {
+          "function": "sector",
+          "bytes": 27786488,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "(anonymous)",
+            "tick",
+            "simulateSector",
+            "resolveExtractorInput",
+            "sector"
+          ]
+        },
+        {
+          "function": "simulateSector",
+          "bytes": 22557656,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "(anonymous)",
+            "tick",
+            "simulateSector"
+          ]
+        },
+        {
+          "function": "obstructedConnections",
+          "bytes": 11006264,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "(anonymous)",
+            "tick",
+            "simulateSector",
+            "resolveExtractorInput",
+            "sector",
+            "obstructedConnections"
+          ]
+        },
+        {
+          "function": "set",
+          "bytes": 10118984,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "(anonymous)",
+            "tick",
+            "simulateSector",
+            "resolveExtractorInput",
+            "sector",
+            "set"
+          ]
+        },
+        {
+          "function": "sector",
+          "bytes": 9158208,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "(anonymous)",
+            "tick",
+            "simulateSector",
+            "simulateProgressionNode",
+            "sector"
+          ]
+        },
+        {
+          "function": "",
+          "bytes": 8447600,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "(anonymous)",
+            "tick",
+            "simulateSector",
+            "resolveExtractorInput",
+            "sector",
+            "obstructedConnections",
+            "map",
+            "(anonymous)"
+          ]
+        },
+        {
+          "function": "sector",
+          "bytes": 8366448,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "(anonymous)",
+            "tick",
+            "(anonymous)",
+            "routeSector",
+            "sector"
+          ]
+        },
+        {
+          "function": "footprint",
+          "bytes": 6672608,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "(anonymous)",
+            "tick",
+            "simulateSector",
+            "updateCampEncroachment",
+            "some",
+            "(anonymous)",
+            "footprintsOverlap",
+            "footprint"
+          ]
+        },
+        {
+          "function": "next",
+          "bytes": 6628152,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "(anonymous)",
+            "tick",
+            "simulateSector",
+            "next"
+          ]
+        },
+        {
+          "function": "sector",
+          "bytes": 6408824,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "(anonymous)",
+            "tick",
+            "forEach",
+            "(anonymous)",
+            "routeSector",
+            "sector"
+          ]
+        },
+        {
+          "function": "",
+          "bytes": 5331288,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "(anonymous)",
+            "tick",
+            "simulateSector",
+            "removeInactiveTribute",
+            "filter",
+            "(anonymous)"
+          ]
+        },
+        {
+          "function": "routeSector",
+          "bytes": 5119688,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "(anonymous)",
+            "tick",
+            "(anonymous)",
+            "routeSector"
+          ]
+        },
+        {
+          "function": "obstructedConnections",
+          "bytes": 5067040,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "(anonymous)",
+            "tick",
+            "simulateSector",
+            "simulateProgressionNode",
+            "sector",
+            "obstructedConnections"
+          ]
+        },
+        {
+          "function": "simulateProgressionNode",
+          "bytes": 5019536,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "(anonymous)",
+            "tick",
+            "simulateSector",
+            "simulateProgressionNode"
+          ]
+        },
+        {
+          "function": "footprint",
+          "bytes": 4576888,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "(anonymous)",
+            "tick",
+            "simulateSector",
+            "updateCampEncroachment",
+            "some",
+            "(anonymous)",
+            "footprint"
+          ]
+        },
+        {
+          "function": "obstructedConnections",
+          "bytes": 4511320,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "(anonymous)",
+            "tick",
+            "(anonymous)",
+            "routeSector",
+            "sector",
+            "obstructedConnections"
+          ]
+        },
+        {
+          "function": "set",
+          "bytes": 4289360,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "(anonymous)",
+            "tick",
+            "(anonymous)",
+            "routeSector",
+            "sector",
+            "set"
+          ]
+        },
+        {
+          "function": "",
+          "bytes": 4281456,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "(anonymous)",
+            "tick",
+            "simulateSector",
+            "simulateProgressionNode",
+            "sector",
+            "obstructedConnections",
+            "map",
+            "(anonymous)"
+          ]
+        },
+        {
+          "function": "routeSector",
+          "bytes": 4151896,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "(anonymous)",
+            "tick",
+            "forEach",
+            "(anonymous)",
+            "routeSector"
+          ]
+        },
+        {
+          "function": "set",
+          "bytes": 4110472,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "(anonymous)",
+            "tick",
+            "simulateSector",
+            "simulateProgressionNode",
+            "sector",
+            "set"
+          ]
+        }
+      ]
+    },
+    "sampledCpu": {
+      "byCategorySamples": {
+        "outside tick": 14,
+        "other engine work": 84,
+        "lookup indexes": 10,
+        "obstruction checking": 52,
+        "Road material tracing": 7,
+        "queue reconciliation": 4,
+        "logistics route traversal": 29
+      },
+      "topFrames": [
+        {
+          "function": "obstructedConnections",
+          "samples": 21,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "tick",
+            "simulateSector",
+            "resolveExtractorInput",
+            "sector",
+            "obstructedConnections"
+          ]
+        },
+        {
+          "function": "simulateSector",
+          "samples": 18,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "tick",
+            "simulateSector"
+          ]
+        },
+        {
+          "function": "tick",
+          "samples": 12,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "tick"
+          ]
+        },
+        {
+          "function": "obstructedConnections",
+          "samples": 11,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "tick",
+            "simulateSector",
+            "simulateProgressionNode",
+            "sector",
+            "obstructedConnections"
+          ]
+        },
+        {
+          "function": "obstructedConnections",
+          "samples": 9,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "tick",
+            "(anonymous)",
+            "routeSector",
+            "sector",
+            "obstructedConnections"
+          ]
+        },
+        {
+          "function": "(garbage collector)",
+          "samples": 7,
+          "path": [
+            "(root)",
+            "(garbage collector)"
+          ]
+        },
+        {
+          "function": "efficiencyFactors",
+          "samples": 6,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "tick",
+            "simulateSector",
+            "efficiencyMultiplier",
+            "efficiencyFactors"
+          ]
+        },
+        {
+          "function": "(program)",
+          "samples": 6,
+          "path": [
+            "(root)",
+            "(program)"
+          ]
+        },
+        {
+          "function": "portFamiliesCompatible",
+          "samples": 5,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "tick",
+            "(anonymous)",
+            "routeSector",
+            "logisticsRoute",
+            "visit",
+            "portFamiliesCompatible"
+          ]
+        },
+        {
+          "function": "simulateExtendedRecipe",
+          "samples": 4,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "tick",
+            "simulateSector",
+            "simulateExtendedRecipe"
+          ]
+        },
+        {
+          "function": "sector",
+          "samples": 4,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "tick",
+            "simulateSector",
+            "resolveExtractorInput",
+            "sector"
+          ]
+        },
+        {
+          "function": "sector",
+          "samples": 4,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "tick",
+            "simulateSector",
+            "simulateProgressionNode",
+            "sector"
+          ]
+        },
+        {
+          "function": "reconcileQueue",
+          "samples": 4,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "tick",
+            "simulateSector",
+            "reconcileQueue"
+          ]
+        },
+        {
+          "function": "footprint",
+          "samples": 3,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "tick",
+            "simulateSector",
+            "updateCampEncroachment",
+            "(anonymous)",
+            "footprintsOverlap",
+            "footprint"
+          ]
+        },
+        {
+          "function": "footprint",
+          "samples": 3,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "tick",
+            "simulateSector",
+            "updateCampEncroachment",
+            "(anonymous)",
+            "footprintsOverlap",
+            "translatedBounds",
+            "footprint"
+          ]
+        },
+        {
+          "function": "efficiencyFactors",
+          "samples": 3,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "tick",
+            "simulateSector",
+            "getEfficiencyMultiplier",
+            "efficiencyFactors"
+          ]
+        },
+        {
+          "function": "resolveResourceRoute",
+          "samples": 3,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "tick",
+            "simulateSector",
+            "resolveExtractorInput",
+            "resolveResourceRoute"
+          ]
+        },
+        {
+          "function": "syncGuardedResources",
+          "samples": 3,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "tick",
+            "simulateSector",
+            "syncGuardedResources"
+          ]
+        },
+        {
+          "function": "routeSector",
+          "samples": 3,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "tick",
+            "(anonymous)",
+            "routeSector"
+          ]
+        },
+        {
+          "function": "roadInputAccepts",
+          "samples": 3,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "tick",
+            "(anonymous)",
+            "routeSector",
+            "logisticsRoute",
+            "visit",
+            "canAcceptAtInputPort",
+            "roadInputAccepts"
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "late",
+    "counts": {
+      "sectors": 64,
+      "nodes": 1159,
+      "connections": 1033,
+      "roads": 132,
+      "pausedNodes": 22
+    },
+    "activity": {
+      "inFlight": 151,
+      "playTimeMs": 40480200,
+      "producedDelta": 296
+    },
+    "checks": null,
+    "baseline": {
+      "medianRangeMs": [
+        2.0763999999999783,
+        2.28449999999998
+      ],
+      "p95RangeMs": [
+        14.690799999999967,
+        15.874000000000137
+      ],
+      "totalMedianMs": 1133.3935999999985,
+      "maxMs": 28.51369999999997,
+      "everySecond": [
+        {
+          "onSecondMedianMs": 16.351099999999974,
+          "otherMedianMs": 2.038099999999986
+        },
+        {
+          "onSecondMedianMs": 15.59839999999997,
+          "otherMedianMs": 2.0075999999999112
+        },
+        {
+          "onSecondMedianMs": 15.517100000000028,
+          "otherMedianMs": 1.98660000000001
+        }
+      ]
+    },
+    "attribution": {
+      "totalMedianMs": 1119.5486,
+      "metrics": {
+        "engine.ts:tick": {
+          "calls": 300,
+          "selfMs": 6.0520000000016125,
+          "inclusiveMs": 1119.0676000000005,
+          "queueUnits": 0
+        },
+        "engine.ts:deliverTransfers": {
+          "calls": 300,
+          "selfMs": 5.909999999998604,
+          "inclusiveMs": 31.69109999999921,
+          "queueUnits": 0
+        },
+        "simulationLookups.ts:constructor": {
+          "calls": 675,
+          "selfMs": 0.11310000000139553,
+          "inclusiveMs": 0.11310000000139553,
+          "queueUnits": 0
+        },
+        "engine.ts:simulateSector": {
+          "calls": 19200,
+          "selfMs": 305.5700999999915,
+          "inclusiveMs": 549.4299999999895,
+          "queueUnits": 0
+        },
+        "mixedOutput.ts:reconcileQueue": {
+          "calls": 104776,
+          "selfMs": 17.12879999997483,
+          "inclusiveMs": 17.12879999997483,
+          "queueUnits": 11300
+        },
+        "engine.ts:resolveExtractorInput": {
+          "calls": 35700,
+          "selfMs": 9.232500000005643,
+          "inclusiveMs": 191.2876999999965,
+          "queueUnits": 0
+        },
+        "simulationLookups.ts:sector": {
+          "calls": 88429,
+          "selfMs": 74.898800000003,
+          "inclusiveMs": 274.97970000000953,
+          "queueUnits": 0
+        },
+        "obstructedConnections.ts:obstructedConnections": {
+          "calls": 10545,
+          "selfMs": 198.60969999999242,
+          "inclusiveMs": 198.60969999999242,
+          "queueUnits": 0
+        },
+        "engine.ts:resolveResourceRoute": {
+          "calls": 35700,
+          "selfMs": 5.115400000013608,
+          "inclusiveMs": 7.01380000001933,
+          "queueUnits": 0
+        },
+        "mixedOutput.ts:queueOutputs": {
+          "calls": 928,
+          "selfMs": 0.5955000000013797,
+          "inclusiveMs": 0.8144000000002052,
+          "queueUnits": 0
+        },
+        "engine.ts:evaluateMilestones": {
+          "calls": 300,
+          "selfMs": 7.877000000001772,
+          "inclusiveMs": 7.877000000001772,
+          "queueUnits": 0
+        },
+        "engine.ts:routeSector": {
+          "calls": 4800,
+          "selfMs": 54.48040000001333,
+          "inclusiveMs": 201.39530000000474,
+          "queueUnits": 0
+        },
+        "mixedOutput.ts:outputHead": {
+          "calls": 60385,
+          "selfMs": 6.619699999998204,
+          "inclusiveMs": 11.220999999995627,
+          "queueUnits": 0
+        },
+        "engine.ts:resolveDeliveryRoute": {
+          "calls": 6720,
+          "selfMs": 1.479299999992179,
+          "inclusiveMs": 63.331399999988946,
+          "queueUnits": 0
+        },
+        "logisticsRoutes.ts:logisticsRoute": {
+          "calls": 6720,
+          "selfMs": 33.71840000001521,
+          "inclusiveMs": 61.64670000000018,
+          "queueUnits": 0
+        },
+        "roadMaterials.ts:roadInputAccepts": {
+          "calls": 10278,
+          "selfMs": 16.298299999999244,
+          "inclusiveMs": 34.86149999999651,
+          "queueUnits": 0
+        },
+        "simulationLookups.ts:target": {
+          "calls": 8523,
+          "selfMs": 1.3016999999868517,
+          "inclusiveMs": 2.157899999990036,
+          "queueUnits": 0
+        },
+        "simulationLookups.ts:indexTransfer": {
+          "calls": 7571,
+          "selfMs": 1.4917999999977951,
+          "inclusiveMs": 1.4917999999977951,
+          "queueUnits": 0
+        },
+        "engine.ts:inputCapacity": {
+          "calls": 10278,
+          "selfMs": 1.3251999999983468,
+          "inclusiveMs": 1.3251999999983468,
+          "queueUnits": 0
+        },
+        "mixedOutput.ts:takeOutput": {
+          "calls": 1827,
+          "selfMs": 0.5951999999996929,
+          "inclusiveMs": 0.5951999999996929,
+          "queueUnits": 0
+        },
+        "simulationLookups.ts:launched": {
+          "calls": 1781,
+          "selfMs": 0.2899000000008414,
+          "inclusiveMs": 1.0127000000061344,
+          "queueUnits": 0
+        },
+        "roadMaterials.ts:roadMaterialState": {
+          "calls": 1185,
+          "selfMs": 40.85619999999807,
+          "inclusiveMs": 40.85619999999807,
+          "queueUnits": 0
+        },
+        "expansionRescue.ts:applyExpansionRescue": {
+          "calls": 30,
+          "selfMs": 0.1359000000004471,
+          "inclusiveMs": 327.6674000000002,
+          "queueUnits": 0
+        },
+        "expansionRescue.ts:nextExpansionShortages": {
+          "calls": 30,
+          "selfMs": 301.0838000000004,
+          "inclusiveMs": 327.53830000000005,
+          "queueUnits": 0
+        },
+        "expansionRescue.ts:minimumCosts": {
+          "calls": 90,
+          "selfMs": 26.454499999999655,
+          "inclusiveMs": 26.454499999999655,
+          "queueUnits": 0
+        },
+        "engine.ts:dispatchRoadItem": {
+          "calls": 396,
+          "selfMs": 1.4082999999980075,
+          "inclusiveMs": 33.18409999999881,
+          "queueUnits": 0
+        }
+      }
+    },
+    "sampledAllocation": {
+      "byCategoryBytes": {
+        "outside tick": 187048,
+        "other engine work": 391289824,
+        "recovery": 402673800,
+        "queue reconciliation": 20643016,
+        "logistics route traversal": 20783984,
+        "Road material tracing": 60002400,
+        "lookup indexes": 311717552,
+        "obstruction checking": 187937832
+      },
+      "topFrames": [
+        {
+          "function": "sector",
+          "bytes": 122507104,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "(anonymous)",
+            "tick",
+            "simulateSector",
+            "resolveExtractorInput",
+            "sector"
+          ]
+        },
+        {
+          "function": "simulateSector",
+          "bytes": 66336608,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "(anonymous)",
+            "tick",
+            "simulateSector"
+          ]
+        },
+        {
+          "function": "values",
+          "bytes": 54539680,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "(anonymous)",
+            "tick",
+            "applyExpansionRescue",
+            "nextExpansionShortages",
+            "filter",
+            "(anonymous)",
+            "resourcePotential",
+            "values"
+          ]
+        },
+        {
+          "function": "set",
+          "bytes": 51290760,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "(anonymous)",
+            "tick",
+            "simulateSector",
+            "resolveExtractorInput",
+            "sector",
+            "set"
+          ]
+        },
+        {
+          "function": "obstructedConnections",
+          "bytes": 48793712,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "(anonymous)",
+            "tick",
+            "simulateSector",
+            "resolveExtractorInput",
+            "sector",
+            "obstructedConnections"
+          ]
+        },
+        {
+          "function": "minimumCosts",
+          "bytes": 34142376,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "(anonymous)",
+            "tick",
+            "applyExpansionRescue",
+            "nextExpansionShortages",
+            "filter",
+            "(anonymous)",
+            "minimumCosts"
+          ]
+        },
+        {
+          "function": "values",
+          "bytes": 31581040,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "(anonymous)",
+            "tick",
+            "applyExpansionRescue",
+            "nextExpansionShortages",
+            "filter",
+            "(anonymous)",
+            "values"
+          ]
+        },
+        {
+          "function": "",
+          "bytes": 31274208,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "(anonymous)",
+            "tick",
+            "simulateSector",
+            "resolveExtractorInput",
+            "sector",
+            "obstructedConnections",
+            "map",
+            "(anonymous)"
+          ]
+        },
+        {
+          "function": "values",
+          "bytes": 28497976,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "(anonymous)",
+            "tick",
+            "applyExpansionRescue",
+            "nextExpansionShortages",
+            "filter",
+            "(anonymous)",
+            "resourcePotential",
+            "map",
+            "(anonymous)",
+            "reduce",
+            "(anonymous)",
+            "resourcePotential",
+            "values"
+          ]
+        },
+        {
+          "function": "values",
+          "bytes": 27966952,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "(anonymous)",
+            "tick",
+            "applyExpansionRescue",
+            "nextExpansionShortages",
+            "filter",
+            "(anonymous)",
+            "resourcePotential",
+            "map",
+            "(anonymous)",
+            "reduce",
+            "(anonymous)",
+            "resourcePotential",
+            "map",
+            "(anonymous)",
+            "reduce",
+            "(anonymous)",
+            "resourcePotential",
+            "map",
+            "(anonymous)",
+            "reduce",
+            "(anonymous)",
+            "resourcePotential",
+            "values"
+          ]
+        },
+        {
+          "function": "values",
+          "bytes": 27254728,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "(anonymous)",
+            "tick",
+            "applyExpansionRescue",
+            "nextExpansionShortages",
+            "filter",
+            "(anonymous)",
+            "resourcePotential",
+            "map",
+            "(anonymous)",
+            "reduce",
+            "(anonymous)",
+            "resourcePotential",
+            "map",
+            "(anonymous)",
+            "reduce",
+            "(anonymous)",
+            "resourcePotential",
+            "values"
+          ]
+        },
+        {
+          "function": "sector",
+          "bytes": 25513792,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "(anonymous)",
+            "tick",
+            "(anonymous)",
+            "routeSector",
+            "sector"
+          ]
+        },
+        {
+          "function": "entries",
+          "bytes": 25313888,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "(anonymous)",
+            "tick",
+            "applyExpansionRescue",
+            "nextExpansionShortages",
+            "filter",
+            "(anonymous)",
+            "minimumCosts",
+            "entries"
+          ]
+        },
+        {
+          "function": "",
+          "bytes": 21817144,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "(anonymous)",
+            "tick",
+            "applyExpansionRescue",
+            "nextExpansionShortages",
+            "filter",
+            "(anonymous)"
+          ]
+        },
+        {
+          "function": "sector",
+          "bytes": 21673944,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "(anonymous)",
+            "tick",
+            "simulateSector",
+            "sector"
+          ]
+        },
+        {
+          "function": "values",
+          "bytes": 20768984,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "(anonymous)",
+            "tick",
+            "applyExpansionRescue",
+            "nextExpansionShortages",
+            "filter",
+            "(anonymous)",
+            "resourcePotential",
+            "map",
+            "(anonymous)",
+            "reduce",
+            "(anonymous)",
+            "resourcePotential",
+            "map",
+            "(anonymous)",
+            "reduce",
+            "(anonymous)",
+            "resourcePotential",
+            "map",
+            "(anonymous)",
+            "reduce",
+            "(anonymous)",
+            "resourcePotential",
+            "map",
+            "(anonymous)",
+            "reduce",
+            "(anonymous)",
+            "resourcePotential",
+            "values"
+          ]
+        },
+        {
+          "function": "sector",
+          "bytes": 20238936,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "(anonymous)",
+            "tick",
+            "forEach",
+            "(anonymous)",
+            "routeSector",
+            "sector"
+          ]
+        },
+        {
+          "function": "sector",
+          "bytes": 18313896,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "(anonymous)",
+            "tick",
+            "deliverTransfers",
+            "sector"
+          ]
+        },
+        {
+          "function": "getEfficiencyMultiplier",
+          "bytes": 18211936,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "(anonymous)",
+            "tick",
+            "simulateSector",
+            "getEfficiencyMultiplier"
+          ]
+        },
+        {
+          "function": "",
+          "bytes": 15194128,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "(anonymous)",
+            "tick",
+            "simulateSector",
+            "resolveExtractorInput",
+            "sector",
+            "obstructedConnections",
+            "map",
+            "(anonymous)"
+          ]
+        }
+      ]
+    },
+    "sampledCpu": {
+      "byCategorySamples": {
+        "outside tick": 45,
+        "other engine work": 269,
+        "obstruction checking": 151,
+        "lookup indexes": 47,
+        "queue reconciliation": 6,
+        "Road material tracing": 24,
+        "logistics route traversal": 45,
+        "recovery": 228
+      },
+      "topFrames": [
+        {
+          "function": "obstructedConnections",
+          "samples": 73,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "tick",
+            "simulateSector",
+            "resolveExtractorInput",
+            "sector",
+            "obstructedConnections"
+          ]
+        },
+        {
+          "function": "simulateSector",
+          "samples": 66,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "tick",
+            "simulateSector"
+          ]
+        },
+        {
+          "function": "resourcePotential",
+          "samples": 39,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "tick",
+            "applyExpansionRescue",
+            "nextExpansionShortages",
+            "(anonymous)",
+            "resourcePotential"
+          ]
+        },
+        {
+          "function": "tick",
+          "samples": 37,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "tick"
+          ]
+        },
+        {
+          "function": "sector",
+          "samples": 35,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "tick",
+            "simulateSector",
+            "resolveExtractorInput",
+            "sector"
+          ]
+        },
+        {
+          "function": "resourcePotential",
+          "samples": 35,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "tick",
+            "applyExpansionRescue",
+            "nextExpansionShortages",
+            "(anonymous)",
+            "resourcePotential",
+            "(anonymous)",
+            "(anonymous)",
+            "resourcePotential"
+          ]
+        },
+        {
+          "function": "resourcePotential",
+          "samples": 31,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "tick",
+            "applyExpansionRescue",
+            "nextExpansionShortages",
+            "(anonymous)",
+            "resourcePotential",
+            "(anonymous)",
+            "(anonymous)",
+            "resourcePotential",
+            "(anonymous)",
+            "(anonymous)",
+            "resourcePotential"
+          ]
+        },
+        {
+          "function": "(garbage collector)",
+          "samples": 28,
+          "path": [
+            "(root)",
+            "(garbage collector)"
+          ]
+        },
+        {
+          "function": "obstructedConnections",
+          "samples": 27,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "tick",
+            "(anonymous)",
+            "routeSector",
+            "sector",
+            "obstructedConnections"
+          ]
+        },
+        {
+          "function": "resourcePotential",
+          "samples": 18,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "tick",
+            "applyExpansionRescue",
+            "nextExpansionShortages",
+            "(anonymous)",
+            "resourcePotential",
+            "(anonymous)",
+            "(anonymous)",
+            "resourcePotential",
+            "(anonymous)",
+            "(anonymous)",
+            "resourcePotential",
+            "(anonymous)",
+            "(anonymous)",
+            "resourcePotential",
+            "(anonymous)",
+            "(anonymous)",
+            "resourcePotential"
+          ]
+        },
+        {
+          "function": "minimumCosts",
+          "samples": 16,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "tick",
+            "applyExpansionRescue",
+            "nextExpansionShortages",
+            "(anonymous)",
+            "minimumCosts"
+          ]
+        },
+        {
+          "function": "routeSector",
+          "samples": 16,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "tick",
+            "(anonymous)",
+            "routeSector"
+          ]
+        },
+        {
+          "function": "efficiencyFactors",
+          "samples": 13,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "tick",
+            "simulateSector",
+            "getEfficiencyMultiplier",
+            "efficiencyFactors"
+          ]
+        },
+        {
+          "function": "resourcePotential",
+          "samples": 13,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "tick",
+            "applyExpansionRescue",
+            "nextExpansionShortages",
+            "(anonymous)",
+            "resourcePotential",
+            "(anonymous)",
+            "(anonymous)",
+            "resourcePotential",
+            "(anonymous)",
+            "(anonymous)",
+            "resourcePotential",
+            "(anonymous)",
+            "(anonymous)",
+            "resourcePotential"
+          ]
+        },
+        {
+          "function": "simulateProgressionNode",
+          "samples": 12,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "tick",
+            "simulateSector",
+            "simulateProgressionNode"
+          ]
+        },
+        {
+          "function": "getEfficiencyMultiplier",
+          "samples": 12,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "tick",
+            "simulateSector",
+            "getEfficiencyMultiplier"
+          ]
+        },
+        {
+          "function": "obstructedConnections",
+          "samples": 12,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "tick",
+            "deliverTransfers",
+            "sector",
+            "obstructedConnections"
+          ]
+        },
+        {
+          "function": "(program)",
+          "samples": 12,
+          "path": [
+            "(root)",
+            "(program)"
+          ]
+        },
+        {
+          "function": "",
+          "samples": 10,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "tick",
+            "simulateSector",
+            "resolveExtractorInput",
+            "sector",
+            "obstructedConnections",
+            "(anonymous)"
+          ]
+        },
+        {
+          "function": "resourcePotential",
+          "samples": 10,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "tick",
+            "applyExpansionRescue",
+            "nextExpansionShortages",
+            "(anonymous)",
+            "resourcePotential",
+            "(anonymous)",
+            "(anonymous)",
+            "resourcePotential",
+            "(anonymous)",
+            "(anonymous)",
+            "resourcePotential",
+            "(anonymous)",
+            "(anonymous)",
+            "resourcePotential",
+            "(anonymous)",
+            "(anonymous)",
+            "resourcePotential",
+            "(anonymous)",
+            "(anonymous)",
+            "resourcePotential"
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "active",
+    "counts": {
+      "sectors": 2,
+      "nodes": 9,
+      "connections": 5,
+      "roads": 2,
+      "pausedNodes": 0
+    },
+    "activity": {
+      "inFlight": 4,
+      "playTimeMs": 35000,
+      "producedDelta": 0
+    },
+    "checks": {
+      "conservation": true,
+      "fifoOrder": true,
+      "roadsHoldNoStock": true,
+      "reservedCapacity": true,
+      "maxReserved": 20,
+      "fifoLaunched": 87
+    },
+    "baseline": {
+      "medianRangeMs": [
+        0.012000000000000455,
+        0.013700000000000045
+      ],
+      "p95RangeMs": [
+        0.07150000000000034,
+        0.0945999999999998
+      ],
+      "totalMedianMs": 8.00209999999997,
+      "maxMs": 0.6043999999999983,
+      "everySecond": [
+        {
+          "onSecondMedianMs": 0.03159999999999741,
+          "otherMedianMs": 0.011300000000005639
+        },
+        {
+          "onSecondMedianMs": 0.03740000000000521,
+          "otherMedianMs": 0.012299999999996203
+        },
+        {
+          "onSecondMedianMs": 0.03119999999999834,
+          "otherMedianMs": 0.01099999999999568
+        }
+      ]
+    },
+    "attribution": {
+      "totalMedianMs": 11.32200000000006,
+      "metrics": {
+        "engine.ts:tick": {
+          "calls": 300,
+          "selfMs": 0.7778999999997609,
+          "inclusiveMs": 11.243099999999885,
+          "queueUnits": 0
+        },
+        "engine.ts:deliverTransfers": {
+          "calls": 300,
+          "selfMs": 0.5738000000001193,
+          "inclusiveMs": 0.8502000000000578,
+          "queueUnits": 0
+        },
+        "simulationLookups.ts:constructor": {
+          "calls": 675,
+          "selfMs": 0.0892000000000337,
+          "inclusiveMs": 0.0892000000000337,
+          "queueUnits": 0
+        },
+        "engine.ts:simulateSector": {
+          "calls": 600,
+          "selfMs": 2.16790000000006,
+          "inclusiveMs": 3.4339999999999833,
+          "queueUnits": 0
+        },
+        "mixedOutput.ts:reconcileQueue": {
+          "calls": 2418,
+          "selfMs": 0.9670000000002688,
+          "inclusiveMs": 0.9670000000002688,
+          "queueUnits": 16644
+        },
+        "engine.ts:evaluateMilestones": {
+          "calls": 300,
+          "selfMs": 1.5017000000000849,
+          "inclusiveMs": 1.5017000000000849,
+          "queueUnits": 0
+        },
+        "engine.ts:routeSector": {
+          "calls": 150,
+          "selfMs": 1.140200000000135,
+          "inclusiveMs": 4.0946,
+          "queueUnits": 0
+        },
+        "simulationLookups.ts:sector": {
+          "calls": 549,
+          "selfMs": 0.3850000000003604,
+          "inclusiveMs": 0.47369999999992274,
+          "queueUnits": 0
+        },
+        "obstructedConnections.ts:obstructedConnections": {
+          "calls": 237,
+          "selfMs": 0.08590000000005205,
+          "inclusiveMs": 0.08590000000005205,
+          "queueUnits": 0
+        },
+        "mixedOutput.ts:outputHead": {
+          "calls": 312,
+          "selfMs": 0.08829999999996119,
+          "inclusiveMs": 0.44289999999992347,
+          "queueUnits": 0
+        },
+        "engine.ts:resolveDeliveryRoute": {
+          "calls": 306,
+          "selfMs": 0.14020000000010668,
+          "inclusiveMs": 2.0550999999999817,
+          "queueUnits": 0
+        },
+        "logisticsRoutes.ts:logisticsRoute": {
+          "calls": 306,
+          "selfMs": 1.3905999999999779,
+          "inclusiveMs": 1.884199999999936,
+          "queueUnits": 0
+        },
+        "roadMaterials.ts:roadInputAccepts": {
+          "calls": 456,
+          "selfMs": 0.20249999999995794,
+          "inclusiveMs": 0.2794999999999561,
+          "queueUnits": 0
+        },
+        "simulationLookups.ts:target": {
+          "calls": 381,
+          "selfMs": 0.11510000000001241,
+          "inclusiveMs": 0.20060000000005118,
+          "queueUnits": 0
+        },
+        "simulationLookups.ts:indexTransfer": {
+          "calls": 267,
+          "selfMs": 0.10019999999994411,
+          "inclusiveMs": 0.10019999999994411,
+          "queueUnits": 0
+        },
+        "engine.ts:inputCapacity": {
+          "calls": 456,
+          "selfMs": 0.11920000000004904,
+          "inclusiveMs": 0.11920000000004904,
+          "queueUnits": 0
+        },
+        "mixedOutput.ts:takeOutput": {
+          "calls": 81,
+          "selfMs": 0.05310000000002901,
+          "inclusiveMs": 0.05310000000002901,
+          "queueUnits": 0
+        },
+        "simulationLookups.ts:launched": {
+          "calls": 75,
+          "selfMs": 0.02189999999998804,
+          "inclusiveMs": 0.042000000000058435,
+          "queueUnits": 0
+        },
+        "mixedOutput.ts:queueOutputs": {
+          "calls": 81,
+          "selfMs": 0.08040000000015368,
+          "inclusiveMs": 0.28069999999986806,
+          "queueUnits": 0
+        },
+        "engine.ts:dispatchRoadItem": {
+          "calls": 6,
+          "selfMs": 0.1967999999999961,
+          "inclusiveMs": 0.6222999999999956,
+          "queueUnits": 0
+        },
+        "roadMaterials.ts:roadMaterialState": {
+          "calls": 12,
+          "selfMs": 0.3178999999999945,
+          "inclusiveMs": 0.3178999999999945,
+          "queueUnits": 0
+        }
+      }
+    },
+    "sampledAllocation": {
+      "byCategoryBytes": {
+        "outside tick": 5786464,
+        "other engine work": 5501304,
+        "queue reconciliation": 2459888,
+        "lookup indexes": 903376,
+        "Road material tracing": 147696,
+        "logistics route traversal": 508912
+      },
+      "topFrames": [
+        {
+          "function": "next",
+          "bytes": 1525560,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "(anonymous)",
+            "tick",
+            "evaluateMilestones",
+            "evaluateMilestones",
+            "next"
+          ]
+        },
+        {
+          "function": "physical",
+          "bytes": 1000752,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "(anonymous)",
+            "validate",
+            "physical"
+          ]
+        },
+        {
+          "function": "next",
+          "bytes": 754600,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "(anonymous)",
+            "validate",
+            "physical",
+            "next"
+          ]
+        },
+        {
+          "function": "entries",
+          "bytes": 721744,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "(anonymous)",
+            "validate",
+            "physical",
+            "entries"
+          ]
+        },
+        {
+          "function": "validate",
+          "bytes": 640008,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "(anonymous)",
+            "validate"
+          ]
+        },
+        {
+          "function": "simulateSector",
+          "bytes": 607200,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "(anonymous)",
+            "tick",
+            "simulateSector"
+          ]
+        },
+        {
+          "function": "next",
+          "bytes": 475720,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "(anonymous)",
+            "tick",
+            "forEach",
+            "(anonymous)",
+            "routeSector",
+            "outputHead",
+            "reconcileQueue",
+            "next"
+          ]
+        },
+        {
+          "function": "reconcileQueue",
+          "bytes": 410248,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "(anonymous)",
+            "tick",
+            "simulateSector",
+            "reconcileQueue"
+          ]
+        },
+        {
+          "function": "keyCheck",
+          "bytes": 393656,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "(anonymous)",
+            "validate",
+            "deepStrictEqual",
+            "innerDeepEqual",
+            "objectComparisonStart",
+            "keyCheck"
+          ]
+        },
+        {
+          "function": "reconcileQueue",
+          "bytes": 371624,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "(anonymous)",
+            "tick",
+            "forEach",
+            "(anonymous)",
+            "routeSector",
+            "outputHead",
+            "reconcileQueue"
+          ]
+        },
+        {
+          "function": "reconcileQueue",
+          "bytes": 311888,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "(anonymous)",
+            "tick",
+            "simulateSector",
+            "simulateProgressionNode",
+            "reconcileQueue"
+          ]
+        },
+        {
+          "function": "values",
+          "bytes": 311584,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "(anonymous)",
+            "validate",
+            "values"
+          ]
+        },
+        {
+          "function": "sort",
+          "bytes": 300280,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "(anonymous)",
+            "validate",
+            "physical",
+            "sort"
+          ]
+        },
+        {
+          "function": "sector",
+          "bytes": 278896,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "(anonymous)",
+            "tick",
+            "forEach",
+            "(anonymous)",
+            "routeSector",
+            "sector"
+          ]
+        },
+        {
+          "function": "next",
+          "bytes": 278880,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "(anonymous)",
+            "tick",
+            "simulateSector",
+            "simulateProgressionNode",
+            "queueOutputs",
+            "reconcileQueue",
+            "next"
+          ]
+        },
+        {
+          "function": "values",
+          "bytes": 229728,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "(anonymous)",
+            "validate",
+            "physical",
+            "values"
+          ]
+        },
+        {
+          "function": "regenerateGuardedResources",
+          "bytes": 213288,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "(anonymous)",
+            "tick",
+            "simulateSector",
+            "regenerateGuardedResources"
+          ]
+        },
+        {
+          "function": "Set",
+          "bytes": 197600,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "(anonymous)",
+            "tick",
+            "simulateSector",
+            "removeInactiveTribute",
+            "Set"
+          ]
+        },
+        {
+          "function": "routeSector",
+          "bytes": 196920,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "(anonymous)",
+            "tick",
+            "forEach",
+            "(anonymous)",
+            "routeSector"
+          ]
+        },
+        {
+          "function": "simulateProgressionNode",
+          "bytes": 196856,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "(anonymous)",
+            "tick",
+            "simulateSector",
+            "simulateProgressionNode"
+          ]
+        }
+      ]
+    },
+    "sampledCpu": {
+      "byCategorySamples": {
+        "outside tick": 6,
+        "other engine work": 2,
+        "lookup indexes": 1
+      },
+      "topFrames": [
+        {
+          "function": "physical",
+          "samples": 2,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "validate",
+            "physical"
+          ]
+        },
+        {
+          "function": "dispatch",
+          "samples": 1,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "post",
+            "(anonymous)",
+            "post",
+            "dispatch"
+          ]
+        },
+        {
+          "function": "",
+          "samples": 1,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "validate",
+            "physical",
+            "(anonymous)"
+          ]
+        },
+        {
+          "function": "keyCheck",
+          "samples": 1,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "validate",
+            "deepStrictEqual",
+            "isDeepStrictEqual",
+            "innerDeepEqual",
+            "objectComparisonStart",
+            "keyCheck"
+          ]
+        },
+        {
+          "function": "simulateProgressionNode",
+          "samples": 1,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "tick",
+            "simulateSector",
+            "simulateProgressionNode"
+          ]
+        },
+        {
+          "function": "removeDefeatedGolemCables",
+          "samples": 1,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "tick",
+            "simulateSector",
+            "removeDefeatedGolemCables"
+          ]
+        },
+        {
+          "function": "target",
+          "samples": 1,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "tick",
+            "(anonymous)",
+            "routeSector",
+            "(anonymous)",
+            "resolveRoute",
+            "resolveDeliveryRoute",
+            "logisticsRoute",
+            "visit",
+            "(anonymous)",
+            "target"
+          ]
+        },
+        {
+          "function": "",
+          "samples": 1,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "now",
+            "(anonymous)"
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "blocked",
+    "counts": {
+      "sectors": 2,
+      "nodes": 9,
+      "connections": 5,
+      "roads": 2,
+      "pausedNodes": 1
+    },
+    "activity": {
+      "inFlight": 0,
+      "playTimeMs": 35000,
+      "producedDelta": 0
+    },
+    "checks": {
+      "conservation": true,
+      "fifoOrder": true,
+      "roadsHoldNoStock": true,
+      "reservedCapacity": true,
+      "maxReserved": 20,
+      "fifoLaunched": 0
+    },
+    "baseline": {
+      "medianRangeMs": [
+        0.007900000000006457,
+        0.010200000000011755
+      ],
+      "p95RangeMs": [
+        0.042899999999988836,
+        0.06640000000000157
+      ],
+      "totalMedianMs": 5.7095000000002045,
+      "maxMs": 0.32099999999999795,
+      "everySecond": [
+        {
+          "onSecondMedianMs": 0.018000000000000682,
+          "otherMedianMs": 0.007800000000003138
+        },
+        {
+          "onSecondMedianMs": 0.019599999999996953,
+          "otherMedianMs": 0.009000000000000341
+        },
+        {
+          "onSecondMedianMs": 0.018799999999998818,
+          "otherMedianMs": 0.00910000000000366
+        }
+      ]
+    },
+    "attribution": {
+      "totalMedianMs": 7.890899999999888,
+      "metrics": {
+        "engine.ts:tick": {
+          "calls": 300,
+          "selfMs": 0.7064999999997355,
+          "inclusiveMs": 7.79289999999996,
+          "queueUnits": 0
+        },
+        "engine.ts:deliverTransfers": {
+          "calls": 300,
+          "selfMs": 0.18089999999988038,
+          "inclusiveMs": 0.24039999999999395,
+          "queueUnits": 0
+        },
+        "simulationLookups.ts:constructor": {
+          "calls": 675,
+          "selfMs": 0.10030000000008954,
+          "inclusiveMs": 0.10030000000008954,
+          "queueUnits": 0
+        },
+        "engine.ts:simulateSector": {
+          "calls": 600,
+          "selfMs": 2.059000000000168,
+          "inclusiveMs": 3.1172000000000537,
+          "queueUnits": 0
+        },
+        "mixedOutput.ts:reconcileQueue": {
+          "calls": 1962,
+          "selfMs": 0.49799999999983413,
+          "inclusiveMs": 0.49799999999983413,
+          "queueUnits": 3240
+        },
+        "engine.ts:evaluateMilestones": {
+          "calls": 300,
+          "selfMs": 1.3986000000001013,
+          "inclusiveMs": 1.3986000000001013,
+          "queueUnits": 0
+        },
+        "engine.ts:routeSector": {
+          "calls": 150,
+          "selfMs": 0.4544000000001347,
+          "inclusiveMs": 2.276300000000006,
+          "queueUnits": 0
+        },
+        "simulationLookups.ts:sector": {
+          "calls": 324,
+          "selfMs": 0.3204999999998819,
+          "inclusiveMs": 0.39249999999992724,
+          "queueUnits": 0
+        },
+        "obstructedConnections.ts:obstructedConnections": {
+          "calls": 162,
+          "selfMs": 0.07200000000004536,
+          "inclusiveMs": 0.07200000000004536,
+          "queueUnits": 0
+        },
+        "mixedOutput.ts:outputHead": {
+          "calls": 237,
+          "selfMs": 0.07219999999995252,
+          "inclusiveMs": 0.23469999999994684,
+          "queueUnits": 0
+        },
+        "engine.ts:resolveDeliveryRoute": {
+          "calls": 156,
+          "selfMs": 0.11800000000000921,
+          "inclusiveMs": 1.4526999999999788,
+          "queueUnits": 0
+        },
+        "logisticsRoutes.ts:logisticsRoute": {
+          "calls": 156,
+          "selfMs": 0.8431999999999249,
+          "inclusiveMs": 1.3051999999998714,
+          "queueUnits": 0
+        },
+        "roadMaterials.ts:roadInputAccepts": {
+          "calls": 156,
+          "selfMs": 0.13000000000000966,
+          "inclusiveMs": 0.22889999999991062,
+          "queueUnits": 0
+        },
+        "simulationLookups.ts:target": {
+          "calls": 156,
+          "selfMs": 0.037800000000018485,
+          "inclusiveMs": 0.037800000000018485,
+          "queueUnits": 0
+        },
+        "engine.ts:inputCapacity": {
+          "calls": 156,
+          "selfMs": 0.10529999999998552,
+          "inclusiveMs": 0.10529999999998552,
+          "queueUnits": 0
+        },
+        "engine.ts:dispatchRoadItem": {
+          "calls": 6,
+          "selfMs": 0.13440000000001362,
+          "inclusiveMs": 0.5294999999999987,
+          "queueUnits": 0
+        },
+        "roadMaterials.ts:roadMaterialState": {
+          "calls": 12,
+          "selfMs": 0.2738000000000227,
+          "inclusiveMs": 0.2738000000000227,
+          "queueUnits": 0
+        }
+      }
+    },
+    "sampledAllocation": {
+      "byCategoryBytes": {
+        "outside tick": 5221896,
+        "other engine work": 5186856,
+        "queue reconciliation": 772624,
+        "lookup indexes": 591576,
+        "obstruction checking": 32816,
+        "Road material tracing": 82048,
+        "logistics route traversal": 295792
+      },
+      "topFrames": [
+        {
+          "function": "next",
+          "bytes": 1640400,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "(anonymous)",
+            "tick",
+            "evaluateMilestones",
+            "evaluateMilestones",
+            "next"
+          ]
+        },
+        {
+          "function": "physical",
+          "bytes": 1328848,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "(anonymous)",
+            "validate",
+            "physical"
+          ]
+        },
+        {
+          "function": "simulateSector",
+          "bytes": 804104,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "(anonymous)",
+            "tick",
+            "simulateSector"
+          ]
+        },
+        {
+          "function": "validate",
+          "bytes": 541568,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "(anonymous)",
+            "validate"
+          ]
+        },
+        {
+          "function": "next",
+          "bytes": 492120,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "(anonymous)",
+            "validate",
+            "physical",
+            "next"
+          ]
+        },
+        {
+          "function": "entries",
+          "bytes": 360840,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "(anonymous)",
+            "validate",
+            "physical",
+            "entries"
+          ]
+        },
+        {
+          "function": "values",
+          "bytes": 344400,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "(anonymous)",
+            "validate",
+            "values"
+          ]
+        },
+        {
+          "function": "sort",
+          "bytes": 300824,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "(anonymous)",
+            "validate",
+            "physical",
+            "sort"
+          ]
+        },
+        {
+          "function": "keyCheck",
+          "bytes": 295296,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "(anonymous)",
+            "validate",
+            "deepStrictEqual",
+            "innerDeepEqual",
+            "objectComparisonStart",
+            "keyCheck"
+          ]
+        },
+        {
+          "function": "reconcileQueue",
+          "bytes": 262504,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "(anonymous)",
+            "tick",
+            "simulateSector",
+            "reconcileQueue"
+          ]
+        },
+        {
+          "function": "concat",
+          "bytes": 229600,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "(anonymous)",
+            "validate",
+            "concat"
+          ]
+        },
+        {
+          "function": "reconcileQueue",
+          "bytes": 214848,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "(anonymous)",
+            "tick",
+            "forEach",
+            "(anonymous)",
+            "routeSector",
+            "outputHead",
+            "reconcileQueue"
+          ]
+        },
+        {
+          "function": "simulateProgressionNode",
+          "bytes": 213256,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "(anonymous)",
+            "tick",
+            "simulateSector",
+            "simulateProgressionNode"
+          ]
+        },
+        {
+          "function": "sector",
+          "bytes": 197112,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "(anonymous)",
+            "tick",
+            "forEach",
+            "(anonymous)",
+            "routeSector",
+            "sector"
+          ]
+        },
+        {
+          "function": "Set",
+          "bytes": 181216,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "(anonymous)",
+            "tick",
+            "simulateSector",
+            "removeDefeatedGolemCables",
+            "Set"
+          ]
+        },
+        {
+          "function": "removeDefeatedGolemCables",
+          "bytes": 180552,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "(anonymous)",
+            "tick",
+            "simulateSector",
+            "removeDefeatedGolemCables"
+          ]
+        },
+        {
+          "function": "next",
+          "bytes": 180440,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "(anonymous)",
+            "tick",
+            "simulateSector",
+            "syncGuardedResources",
+            "next"
+          ]
+        },
+        {
+          "function": "next",
+          "bytes": 164040,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "(anonymous)",
+            "tick",
+            "forEach",
+            "(anonymous)",
+            "routeSector",
+            "sector",
+            "next"
+          ]
+        },
+        {
+          "function": "next",
+          "bytes": 147640,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "(anonymous)",
+            "tick",
+            "forEach",
+            "(anonymous)",
+            "routeSector",
+            "outputHead",
+            "reconcileQueue",
+            "next"
+          ]
+        },
+        {
+          "function": "next",
+          "bytes": 147640,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "(anonymous)",
+            "validate",
+            "next"
+          ]
+        }
+      ]
+    },
+    "sampledCpu": {
+      "byCategorySamples": {
+        "outside tick": 3,
+        "other engine work": 3
+      },
+      "topFrames": [
+        {
+          "function": "evaluateMilestones",
+          "samples": 2,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "tick",
+            "evaluateMilestones",
+            "evaluateMilestones"
+          ]
+        },
+        {
+          "function": "dispatch",
+          "samples": 1,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "post",
+            "(anonymous)",
+            "post",
+            "dispatch"
+          ]
+        },
+        {
+          "function": "simulateSector",
+          "samples": 1,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "tick",
+            "simulateSector"
+          ]
+        },
+        {
+          "function": "physical",
+          "samples": 1,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "validate",
+            "physical"
+          ]
+        },
+        {
+          "function": "(garbage collector)",
+          "samples": 1,
+          "path": [
+            "(root)",
+            "(garbage collector)"
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "idle",
+    "counts": {
+      "sectors": 2,
+      "nodes": 9,
+      "connections": 5,
+      "roads": 2,
+      "pausedNodes": 0
+    },
+    "activity": {
+      "inFlight": 0,
+      "playTimeMs": 35000,
+      "producedDelta": 0
+    },
+    "checks": {
+      "conservation": true,
+      "fifoOrder": true,
+      "roadsHoldNoStock": true,
+      "reservedCapacity": true,
+      "maxReserved": 0,
+      "fifoLaunched": 0
+    },
+    "baseline": {
+      "medianRangeMs": [
+        0.00910000000000366,
+        0.010000000000005116
+      ],
+      "p95RangeMs": [
+        0.04779999999999518,
+        0.06680000000000064
+      ],
+      "totalMedianMs": 5.619900000000129,
+      "maxMs": 0.39399999999999125,
+      "everySecond": [
+        {
+          "onSecondMedianMs": 0.013700000000000045,
+          "otherMedianMs": 0.009399999999999409
+        },
+        {
+          "onSecondMedianMs": 0.01480000000000814,
+          "otherMedianMs": 0.008899999999997021
+        },
+        {
+          "onSecondMedianMs": 0.016199999999997772,
+          "otherMedianMs": 0.009800000000012687
+        }
+      ]
+    },
+    "attribution": {
+      "totalMedianMs": 7.522800000000132,
+      "metrics": {
+        "engine.ts:tick": {
+          "calls": 300,
+          "selfMs": 0.8898999999997415,
+          "inclusiveMs": 7.398900000000211,
+          "queueUnits": 0
+        },
+        "engine.ts:deliverTransfers": {
+          "calls": 300,
+          "selfMs": 0.19260000000009825,
+          "inclusiveMs": 0.24399999999994293,
+          "queueUnits": 0
+        },
+        "simulationLookups.ts:constructor": {
+          "calls": 675,
+          "selfMs": 0.09289999999978704,
+          "inclusiveMs": 0.09289999999978704,
+          "queueUnits": 0
+        },
+        "engine.ts:simulateSector": {
+          "calls": 600,
+          "selfMs": 2.2889000000005097,
+          "inclusiveMs": 3.090900000000147,
+          "queueUnits": 0
+        },
+        "mixedOutput.ts:reconcileQueue": {
+          "calls": 2325,
+          "selfMs": 0.4342999999995385,
+          "inclusiveMs": 0.4342999999995385,
+          "queueUnits": 0
+        },
+        "engine.ts:evaluateMilestones": {
+          "calls": 300,
+          "selfMs": 1.6529000000000593,
+          "inclusiveMs": 1.6529000000000593,
+          "queueUnits": 0
+        },
+        "engine.ts:routeSector": {
+          "calls": 150,
+          "selfMs": 0.4865999999998252,
+          "inclusiveMs": 1.015399999999957,
+          "queueUnits": 0
+        },
+        "simulationLookups.ts:sector": {
+          "calls": 168,
+          "selfMs": 0.3382000000001568,
+          "inclusiveMs": 0.4067000000001002,
+          "queueUnits": 0
+        },
+        "obstructedConnections.ts:obstructedConnections": {
+          "calls": 162,
+          "selfMs": 0.06849999999994338,
+          "inclusiveMs": 0.06849999999994338,
+          "queueUnits": 0
+        },
+        "mixedOutput.ts:outputHead": {
+          "calls": 300,
+          "selfMs": 0.10459999999984859,
+          "inclusiveMs": 0.1551000000000755,
+          "queueUnits": 0
+        },
+        "engine.ts:dispatchRoadItem": {
+          "calls": 6,
+          "selfMs": 0.08339999999996905,
+          "inclusiveMs": 0.4147999999999996,
+          "queueUnits": 0
+        },
+        "roadMaterials.ts:roadMaterialState": {
+          "calls": 6,
+          "selfMs": 0.3067999999999955,
+          "inclusiveMs": 0.3067999999999955,
+          "queueUnits": 0
+        }
+      }
+    },
+    "sampledAllocation": {
+      "byCategoryBytes": {
+        "outside tick": 4130840,
+        "other engine work": 5566288,
+        "queue reconciliation": 672696,
+        "lookup indexes": 607744,
+        "Road material tracing": 65632,
+        "obstruction checking": 32816
+      },
+      "topFrames": [
+        {
+          "function": "next",
+          "bytes": 1492760,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "(anonymous)",
+            "tick",
+            "evaluateMilestones",
+            "evaluateMilestones",
+            "next"
+          ]
+        },
+        {
+          "function": "physical",
+          "bytes": 1066336,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "(anonymous)",
+            "validate",
+            "physical"
+          ]
+        },
+        {
+          "function": "validate",
+          "bytes": 640032,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "(anonymous)",
+            "validate"
+          ]
+        },
+        {
+          "function": "simulateSector",
+          "bytes": 590800,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "(anonymous)",
+            "tick",
+            "simulateSector"
+          ]
+        },
+        {
+          "function": "next",
+          "bytes": 508520,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "(anonymous)",
+            "validate",
+            "physical",
+            "next"
+          ]
+        },
+        {
+          "function": "keyCheck",
+          "bytes": 311616,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "(anonymous)",
+            "validate",
+            "deepStrictEqual",
+            "innerDeepEqual",
+            "objectComparisonStart",
+            "keyCheck"
+          ]
+        },
+        {
+          "function": "values",
+          "bytes": 278808,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "(anonymous)",
+            "validate",
+            "values"
+          ]
+        },
+        {
+          "function": "reconcileQueue",
+          "bytes": 262520,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "(anonymous)",
+            "tick",
+            "simulateSector",
+            "reconcileQueue"
+          ]
+        },
+        {
+          "function": "Set",
+          "bytes": 247016,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "(anonymous)",
+            "tick",
+            "simulateSector",
+            "removeDefeatedGolemCables",
+            "Set"
+          ]
+        },
+        {
+          "function": "sector",
+          "bytes": 229696,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "(anonymous)",
+            "tick",
+            "forEach",
+            "(anonymous)",
+            "routeSector",
+            "sector"
+          ]
+        },
+        {
+          "function": "entries",
+          "bytes": 196928,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "(anonymous)",
+            "validate",
+            "physical",
+            "entries"
+          ]
+        },
+        {
+          "function": "",
+          "bytes": 196840,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "(anonymous)",
+            "tick",
+            "simulateSector",
+            "removeInactiveTribute",
+            "filter",
+            "(anonymous)"
+          ]
+        },
+        {
+          "function": "next",
+          "bytes": 196840,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "(anonymous)",
+            "tick",
+            "simulateSector",
+            "next"
+          ]
+        },
+        {
+          "function": "next",
+          "bytes": 180440,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "(anonymous)",
+            "tick",
+            "simulateSector",
+            "syncGuardedResources",
+            "next"
+          ]
+        },
+        {
+          "function": "next",
+          "bytes": 180440,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "(anonymous)",
+            "tick",
+            "simulateSector",
+            "regenerateGuardedResources",
+            "next"
+          ]
+        },
+        {
+          "function": "routeSector",
+          "bytes": 164064,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "(anonymous)",
+            "tick",
+            "forEach",
+            "(anonymous)",
+            "routeSector"
+          ]
+        },
+        {
+          "function": "filter",
+          "bytes": 164064,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "(anonymous)",
+            "validate",
+            "filter"
+          ]
+        },
+        {
+          "function": "reconcileQueue",
+          "bytes": 164048,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "(anonymous)",
+            "tick",
+            "simulateSector",
+            "simulateProgressionNode",
+            "reconcileQueue"
+          ]
+        },
+        {
+          "function": "simulateProgressionNode",
+          "bytes": 164000,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "(anonymous)",
+            "tick",
+            "simulateSector",
+            "simulateProgressionNode"
+          ]
+        },
+        {
+          "function": "Set",
+          "bytes": 148216,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "(anonymous)",
+            "tick",
+            "simulateSector",
+            "removeInactiveTribute",
+            "Set"
+          ]
+        }
+      ]
+    },
+    "sampledCpu": {
+      "byCategorySamples": {
+        "outside tick": 3,
+        "other engine work": 3
+      },
+      "topFrames": [
+        {
+          "function": "dispatch",
+          "samples": 1,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "post",
+            "(anonymous)",
+            "post",
+            "dispatch"
+          ]
+        },
+        {
+          "function": "routeSector",
+          "samples": 1,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "tick",
+            "(anonymous)",
+            "routeSector"
+          ]
+        },
+        {
+          "function": "isExtractorCable",
+          "samples": 1,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "tick",
+            "(anonymous)",
+            "routeSector",
+            "isExtractorCable"
+          ]
+        },
+        {
+          "function": "evaluateMilestones",
+          "samples": 1,
+          "path": [
+            "(root)",
+            "(anonymous)",
+            "tick",
+            "evaluateMilestones",
+            "evaluateMilestones"
+          ]
+        },
+        {
+          "function": "(garbage collector)",
+          "samples": 1,
+          "path": [
+            "(root)",
+            "(garbage collector)"
+          ]
+        },
+        {
+          "function": "(program)",
+          "samples": 1,
+          "path": [
+            "(root)",
+            "(program)"
+          ]
+        }
+      ]
+    }
+  }
+]

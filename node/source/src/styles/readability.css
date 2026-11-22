@@ -227,6 +227,7 @@ kbd, .modal-trigger-strip .rail-button kbd, .command-row kbd { font:400 12px/1.2
 .recipe-guide-material b { font:inherit; font-variant-numeric:tabular-nums; }
 .recipe-warning-suppression :is(b, small), .filter-picker-outlet span { font:var(--modal-copy-font); color:#c6d2dc; }
 .road-flow-rate { color:#b5c2ca; font:var(--ui-meta-font); font-variant-numeric:tabular-nums; }
+.road-flow-help { color:#b5c2ca; font:var(--modal-copy-font); }
 .road-flow-toggle b { font-family:var(--ui-font-family); font-weight:600; }
 
 .discovery-time, .save-slot-copy p, .save-slot-copy em, .autosave-copy-actions > span,

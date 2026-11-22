@@ -1,0 +1,153 @@
+{
+  "record": "NODE-0819",
+  "localDate": "2026-11-21",
+  "phase": 2,
+  "status": "complete locally",
+  "baseline": {
+    "passed": 2383,
+    "failed": 0,
+    "skipped": 1,
+    "files": 234,
+    "currentPassed": 1587,
+    "preservedPassed": 796
+  },
+  "contractsBefore": {
+    "passed": 3,
+    "failed": 0,
+    "skipped": 0,
+    "files": 1,
+    "currentPassed": 3,
+    "preservedPassed": 0
+  },
+  "road": {
+    "passed": 205,
+    "failed": 0,
+    "skipped": 0,
+    "files": 17,
+    "currentPassed": 131,
+    "preservedPassed": 74
+  },
+  "delivery": {
+    "passed": 308,
+    "failed": 0,
+    "skipped": 0,
+    "files": 28,
+    "currentPassed": 207,
+    "preservedPassed": 101
+  },
+  "localRouting": {
+    "passed": 308,
+    "failed": 0,
+    "skipped": 0,
+    "files": 28,
+    "currentPassed": 207,
+    "preservedPassed": 101
+  },
+  "final": {
+    "passed": 2386,
+    "failed": 0,
+    "skipped": 1,
+    "files": 235,
+    "currentPassed": 1590,
+    "preservedPassed": 796
+  },
+  "originalFacade": {
+    "passed": 61,
+    "failed": 0,
+    "skipped": 0,
+    "files": 2,
+    "currentPassed": 61,
+    "preservedPassed": 0
+  },
+  "facade": {
+    "passed": 116,
+    "failed": 0,
+    "skipped": 0,
+    "files": 3,
+    "currentPassed": 61,
+    "preservedPassed": 55
+  },
+  "comparisons": [
+    {
+      "slice": "road-dispatch",
+      "cases": 9,
+      "states": 3180,
+      "publications": 763,
+      "allMatch": true
+    },
+    {
+      "slice": "delivery",
+      "cases": 9,
+      "states": 3180,
+      "publications": 763,
+      "allMatch": true
+    },
+    {
+      "slice": "local-routing",
+      "cases": 9,
+      "states": 3180,
+      "publications": 763,
+      "allMatch": true
+    }
+  ],
+  "preservation": {
+    "capturedFiles": 615,
+    "snapshots": 387,
+    "changedExistingSource": [
+      "src/simulation/connectionRules.ts",
+      "src/simulation/engine.test.ts",
+      "src/simulation/engine.ts",
+      "src/simulation/roadTransport.ts"
+    ],
+    "addedSource": [
+      "src/simulation/transportRuntime.test.ts",
+      "src/simulation/transportRuntime.ts"
+    ],
+    "allOtherCapturedSourceUnchanged": true,
+    "fourteenMovedBodiesPreserved": true,
+    "engineTickSimulationCommandsAndLifecycleUnchanged": true,
+    "legacyRoadRecoveryUnchanged": true,
+    "connectionRulesOnlySharesExistingFamilySet": true,
+    "onlyForestPrivateHelperTestAdapted": true,
+    "existingFilesChangedSinceCapture": [
+      "src/simulation/connectionRules.ts",
+      "src/simulation/engine.test.ts",
+      "src/simulation/engine.ts",
+      "src/simulation/roadTransport.ts",
+      "scripts/build-action-sounds.mjs",
+      "scripts/check-piano-sounds.mjs",
+      "docs/changelog/2026-11.md",
+      "docs/changelog/entries.json",
+      "docs/changelog/index.html",
+      "docs/master-plan/06-art-audio-and-writing.md",
+      "docs/master-plan/07-technical-design.md",
+      "docs/node-ui-style-guide.md",
+      "docs/reviews/system-review-temporary.md",
+      "docs/systems/architecture-and-simulation.md",
+      "docs/systems/connections-and-routing.md",
+      "docs/systems/interface-and-assets.md",
+      "docs/systems/roads-and-vehicles.md",
+      "docs/systems/testing-and-publishing.md",
+      "docs/typography-style-review.md",
+      "CHANGELOG.md"
+    ],
+    "concurrentChangesPreserved": [
+      "scripts/build-action-sounds.mjs",
+      "scripts/check-piano-sounds.mjs",
+      "docs/master-plan/06-art-audio-and-writing.md",
+      "docs/node-ui-style-guide.md",
+      "docs/systems/interface-and-assets.md",
+      "docs/typography-style-review.md"
+    ]
+  },
+  "lifecycle": "Current-state getter retains no factory/node state; SimulationLookups stays phase-scoped. Extractor dispatch WeakMap retains original lifetime, keyed by actual cable objects, with replacement/undo cloning supplying new keys. Engine retains mod activation, IDs, events and all publication/checkpoint policy.",
+  "builds": "Baseline and final isolated TypeScript/Vite production builds passed; existing large-chunk warning retained.",
+  "documentation": "Six system catalogs regenerated and checked fresh; local links across forty documents and all six final history checks passed.",
+  "testAdjustment": "The first full run had one failure from an existing test calling the moved private engine.accepts helper (2385 passes). Its Forest gate case now checks actual routing before/after research; 61 current engine/lifecycle cases passed with the captured original engine and the candidate. Original failure JSON/log retained separately.",
+  "limits": [
+    "No browser campaign storage access, browser performance comparison, balance run, publishing or commit. Historical factory JSON copies were read only by isolated comparison workers.",
+    "Existing and new headless tests plus deterministic controlled/archive-copy comparisons establish scoped regression evidence, not universal behavior or performance guarantees.",
+    "Preserved release-copy tests remain in ordinary workspace discovery; current and preserved pass counts are separate.",
+    "Later refactor phases 3–5 remain pending."
+  ]
+}

@@ -4,6 +4,7 @@ import { RECIPES, RECIPE_GROUPS, isRecipeUnlocked } from '../content/recipes';
 import { NODE_DEFINITIONS } from '../content/nodes';
 import { getResearchProject, getResearchCostsForState } from '../content/research';
 import { getNodeCapabilities } from '../content/nodeCapabilities';
+import { CORE_ITEMS } from '../content/landmarks';
 
 export const RECOVERY_MINERALS = ['iron', 'copper', 'stone'] as const;
 type Bag = Partial<Record<ItemId, number>>;
@@ -51,9 +52,13 @@ export function progressionDeficits(state: GameState, target: string, quotedCost
   const project = getResearchProject(projectId)!;
   const costs = projectId === target && quotedCosts ? quotedCosts : getResearchCostsForState(project, state.research);
   const nodes = Object.values(state.sectors).filter(sector => sector.unlocked).flatMap(sector => sector.nodes);
+  // Like other production plans, wiring/pausing can be repaired without a resource grant.
+  const hasUnknownDevice = nodes.some(node => node.landmark === 'unknown');
+  const canRepeatCore = (item: ItemId) => hasUnknownDevice && CORE_ITEMS.includes(item);
   const stock: Bag = access ? { ...access.stock } : completedPool(state);
   if (!access) for (const node of nodes) {
     for (const bag of [node.input, node.output, node.batch?.outputs ?? {}]) for (const [item, amount] of Object.entries(bag)) if (amount! > 0) add(stock, item as ItemId, amount!);
+    if (node.landmark === 'unknown' && node.activeCore && CORE_ITEMS.includes(node.activeCore)) add(stock, node.activeCore, 1);
     if (node.resourceItem && (!node.guardedCampId || node.guardedLocked === false)) {
       const renewable = node.infiniteResource || node.kind === 'forest' && (node.resourceCapacity ?? 0) > 0
         || state.research.completed.includes('mineralRegeneration') && (node.resourceCapacity ?? 0) > 0 && getNodeCapabilities(node.kind).behavior === 'resource';
@@ -84,7 +89,10 @@ export function progressionDeficits(state: GameState, target: string, quotedCost
   let operations = 0;
   const supply = (budget: Budget, item: ItemId, count: number, path: Set<ItemId>): Budget | undefined => {
     if (++operations > 12000) return; // An inconclusive plan must never grant resources.
-    const held = budget.stock[item] ?? 0, used = Math.min(held, count);
+    const repeatable = canRepeatCore(item), held = budget.stock[item] ?? 0;
+    // Keep the seed in the planning ledger, not in the actual factory's stock.
+    if (repeatable && held >= 1) { budget.stock[item] = Infinity; return budget; }
+    const used = Math.min(held, count);
     if (Number.isFinite(held)) budget.stock[item] = held - used;
     count -= used;
     if (count <= 1e-9) return budget;
@@ -94,13 +102,15 @@ export function progressionDeficits(state: GameState, target: string, quotedCost
     if (raw.has(item)) { const fallback = copy(budget); add(fallback.missing, item, count); options.push(fallback); }
     for (const recipe of producers.get(item) ?? []) {
       let candidate: Budget | undefined = copy(budget);
-      const batches = Math.ceil(count / recipe.outputs[item]!);
+      // First fund one seed through ordinary recipes. Missing ingredients remain deficits.
+      const batches = Math.ceil((repeatable ? 1 : count) / recipe.outputs[item]!);
       for (const [ingredient, amount] of Object.entries(recipe.inputs)) {
         candidate = candidate && supply(candidate, ingredient as ItemId, amount! * batches, next);
         if (!candidate) break;
       }
       if (!candidate) continue;
       for (const [output, amount] of Object.entries(recipe.outputs)) add(candidate.stock, output as ItemId, amount! * batches);
+      if (repeatable) candidate.stock[item] = Infinity;
       candidate.stock[item]! -= count;
       options.push(candidate);
     }

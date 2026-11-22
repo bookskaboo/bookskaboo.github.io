@@ -1,4 +1,5 @@
 import { useState, type CSSProperties } from 'react';
+import { Dialog } from './components/Dialog';
 import { itemColorCss, ITEM_NAMES } from '../content/items';
 import { NODE_DEFINITIONS } from '../content/nodes';
 import { RECIPES, RECIPE_GROUPS } from '../content/recipes';
@@ -13,7 +14,7 @@ import { recipeIngredientName, recipeTooltip } from './recipePresentation';
 import { recipeGuideCycle } from './recipeGuide';
 import { landmarkMultiplier, landmarkRecipe, landmarkRecipeAllowed } from '../content/landmarks';
 
-export function NodeRecipePicker({ game, engine, node, requiredRecipeId, skipWarnings, onSkipWarnings, onClose }: {
+export function NodeRecipePicker({ game, engine, node, requiredRecipeId, skipWarnings, onSkipWarnings, onClose, persistView = true }: {
   game: GameState;
   engine: GameEngine;
   node: MachineNode;
@@ -21,9 +22,10 @@ export function NodeRecipePicker({ game, engine, node, requiredRecipeId, skipWar
   skipWarnings: boolean;
   onSkipWarnings(value: boolean): void;
   onClose(): void;
+  persistView?: boolean;
 }) {
   const [pending, setPending] = useState<string>();
-  const { compact: iconsOnly, toggle } = useRecipeIconView();
+  const { compact: iconsOnly, toggle } = useRecipeIconView(persistView);
   const compact = requiredRecipeId === undefined && iconsOnly;
   if (node.landmark === 'unknown') return null;
   const choices = (RECIPE_GROUPS[node.kind] ?? []).filter(id => isRecipeAvailable(id, game, node.kind) && landmarkRecipeAllowed(node, RECIPES[id]));
@@ -100,13 +102,13 @@ export function NodeRecipePicker({ game, engine, node, requiredRecipeId, skipWar
         </div>
       </aside>
     {pending && <div className="modal-backdrop recipe-change-confirm" onMouseDown={(event) => { if (event.target === event.currentTarget) setPending(undefined); }}>
-      <section className="confirm-modal glass">
+      <Dialog className="confirm-modal glass" aria-label={`Change ${machineName} recipe?`} onDismiss={() => setPending(undefined)}>
         <span className="warning-icon">!</span>
         <h2>Change {machineName} recipe?</h2>
         <p>Changing recipes destroys all ingredients, completed output, and current progress stored in this machine. Incompatible cables will be disconnected.</p>
         <label className="recipe-warning-suppression"><input type="checkbox" checked={skipWarnings} onChange={(event) => onSkipWarnings(event.target.checked)} /><span><b>Never show again</b><small>Change recipes immediately, including the losses. Fewer interruptions, same consequences.</small></span></label>
         <div><button onClick={() => setPending(undefined)}>CANCEL</button><button className="danger-button" onClick={() => apply(pending)}>CONFIRM</button></div>
-      </section>
+      </Dialog>
     </div>}
   </>;
 }

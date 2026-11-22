@@ -4,6 +4,225 @@
 
 Working issue queue from the November 18, 2026 document review. New-world implementation and related reference corrections completed November 19 (NODE-0608) are recorded below; unrelated tooling, policy and validation work remains open. The review itself did not implement gameplay. The original findings remain dated evidence.
 
+## Live game audit review
+
+The separate [NODE Live Game Audit and Review Page](https://chatgpt.com/space/page_e7453b10ac2c81919d88f5c40ab191c5) owns the new live-release audit queue recorded in NODE-0764. It contains eleven prioritized findings, five optimization and organization proposals, reproducible evidence and verification limits. Save-slot protection (NODE-0766), fresh Mining Drill template payments (NODE-0767), automatic autosave recovery with portable files (NODE-0768), dialog keyboard protection (NODE-0771), funded Unknown Device recovery budgets (NODE-0775), world-specific Mythril guidance (NODE-0778), accurate Road maximum-rate display (NODE-0783/SR-10), historical compiler retirement (NODE-0786/SR-02), obsolete benchmark retirement (NODE-0788) and current-reference reconciliation (NODE-0790) were approved and implemented locally; none is published. The mod recovery control (SR-15) is deferred to a separate full mod-page review (NODE-0784). The eleven primary audit findings now have review outcomes; optimization proposals and the separately noted preference-storage/Build-copy follow-ups remain for review. Whole-world multi-map performance coverage stays open under SR-20; the retired benchmark is not being repaired. Separate preference-storage hardening is outside the approved autosave fix. SR-02, SR-10 and SR-15 were independently reconfirmed and retain their existing IDs. Earlier entries below remain dated review evidence rather than a fresh statement that every recorded mechanic is still current.
+
+The code-organization opportunity has an adopted targeted-extraction guideline and a [standalone execution plan](../master-plan/07-technical-design.md#standalone-code-organization-refactor-plan) prepared in NODE-0793. Its baseline and Road-direction pilot are complete locally (NODE-0817), followed by Phase 2 transport ownership (NODE-0819) and Phase 3 factory command planning (NODE-0823); Phase 4 UI/renderer coordination (NODE-0829) and Phase 5 lifecycle operations/final integration (NODE-0831) are now complete locally. Their [evidence](../../outputs/ui-lifecycle-refactor/README.md) retains startup/disposal and live-state contracts, original-source comparisons and isolated browser checks. Serial renderer samples showed host variation without a consistent refactor regression; the open whole-world performance gap is unchanged. The [pilot evidence](../../outputs/road-command-refactor/README.md) retains the dependency map, recoverable snapshots, baseline factory sample and before/after contract checks. The [transport evidence](../../outputs/transport-refactor/README.md) retains three independently verified extraction slices, original-engine comparisons, lifecycle regressions and current owner/invalidation rules. The [factory command evidence](../../outputs/factory-command-refactor/README.md) retains read-only planning boundaries, four frozen original-engine comparisons, lifecycle/history regressions and isolated placement/wiring/movement/decommission-Undo browser checks. The shared layout-reset fix remains shared. The focused interface-update optimization is implemented locally (NODE-0798): closed Inventory consumers no longer scan the world, and Save / Load caches its autosave preview with explicit write, browser-event and reopen invalidation. Both engine subscriptions remain because their consumers still require updates. Verification and its limits are retained in [the interface optimization evidence](../../outputs/interface-update-optimization/browser-observations.json) and on the audit Page. Transport performance follow-up proposals and optional-screen loading remain for review; that optimization did not change undo history or execute the standalone refactor plan.
+
+Undo/save profiling is complete (NODE-0801): [declared factory copies and measurements](../../outputs/undo-save-profile/README.md) show bounded fifty-checkpoint retention, source/archive preservation and successful native quota-failure recovery. The user adopted retaining the current fifty-checkpoint behavior and deferring a byte-budget or history-representation redesign (NODE-0802). Revisit only if slower-device testing or larger current factories demonstrate a problem; manual-save phase profiling remains a possible separately scoped task. Transport follow-up proposals and optional-screen loading remain unresolved.
+
+Bounded transport/queue profiling is complete (NODE-0808): [declared workloads, phase attribution and allocation samples](../../outputs/transport-profile/README.md) preserved source/archive hashes and identical baseline/profiled outcomes, with controlled conservation, FIFO and reservation checks. The approved per-evaluation recipe-producer lookup is now implemented locally (NODE-0815), retaining recovery rules and matching the old outcomes. Its [paired timing comparison](../../outputs/recovery-recipe-index/README.md) shows reduced periodic recovery cost in the late layout. Obstruction-signature/index work remains a separate pending follow-up; no queue rewrite or cross-phase cache overhaul was implemented. Optional-screen loading also remains unresolved; the audit Page owns these decisions.
+
+Local evidence is retained in [the audit output directory](../../outputs/live-audit-2026-11-21/). The [live verification](../../outputs/live-audit-2026-11-21/live-verification.json) binds the audit to release c4284d4; [isolated reproductions](../../outputs/live-audit-2026-11-21/reproductions.json) distinguish observed defects from proposed fixes. Record later decisions and implementation in the primary changelog and update the Page instead of starting another queue.
+
+## Player enjoyment audit
+
+Recorded under NODE-0799. This is a current-local-source audit against the fourteen enjoyment criteria discussed with the user, followed by five factory-game priorities. It complements the correctness audit above; it does not replace its findings or reopen settled design choices. Review one criterion at a time, following the current cursor below. Dispositions distinguish approved testing from unresolved proposals; this audit authorizes no gameplay changes.
+
+### Scope, evidence and ratings
+
+The baseline is the local unmodded implementation, including character Upgrades, banked Map Points, terrain, guarded deposits and seventeen Landmarks. Existing/legacy worlds and applied-mod factories can expose different mechanics. Local safeguards and interface optimizations recorded through NODE-0798 are included; they are not assumed published. No live-site comparison or new browser session was performed for this audit.
+
+Ratings describe implementation support for an enjoyable experience, not measured player enjoyment: **0** absent, **1** weak, **2** working foundation with material gaps, **3** strong structural support, **U** insufficient experience/balance evidence, **N/A** optional for the current promise. A 3 is not proof of fun or optimal balance. Confidence concerns the stated finding, not whether a player will enjoy it. There is no aggregate score. Observe player intention, choices, frustration, satisfaction and ability to stop; time played alone is not the enjoyment measure.
+
+Research basis: [Ryan, Rigby and Przybylski's four studies](https://selfdeterminationtheory.org/SDT/documents/2006_RyanRigbyPrzybylski_MandE.pdf) associate competence, autonomy and relatedness with enjoyment; [GameFlow](https://doi.org/10.1145/1077246.1077253) organizes enjoyment heuristics around goals, feedback, challenge, skills, control, concentration, immersion and social interaction; [Malone](https://onlinelibrary.wiley.com/doi/10.1207/s15516709cog0504_2) discusses challenge, curiosity and fantasy. [LeBlanc's design framework](https://8kindsoffun.com/) distinguishes several kinds of fun. [GameFlow Affordances](https://researchportalplus.anu.edu.au/en/publications/gameflow-affordances-towards-a-tool-for-designing-gameful-experie/) moves toward broader opportunities for enjoyable experiences. The following rubric, ratings, factory-specific interpretations and suggested acceptance tasks are this audit's synthesis, not a validated research instrument.
+
+Fresh verification: **68 tests passed across eight explicitly selected current-tree files**, zero failures/skips. [Raw results](../../outputs/enjoyment-audit-2026-11-21/focused-tests.json) cover local production explanations, research shortage status, queues, fresh template work, dialog focus, learned hints and banked-point fixtures. An initial path-filtered invocation also discovered eleven preserved-release tests; the final run explicitly excludes `.artifact-work` and `outputs`, and only the final current-tree result supports this count. Engine tests and synthetic Upgrades fixtures establish contracts, not human comprehension, rendered accessibility, current campaign feasibility or enjoyment. No new tests, gameplay source, saves, balance rules, audio integration or deployment were changed.
+
+### Criteria overview
+
+| ID | Criterion | Rating | Finding | Confidence |
+| --- | --- | --- | --- | --- |
+| E01 | Clear purpose | 2 | Assignment, next character upgrade and reactive hints give direction; independent comprehension needs checking | Medium |
+| E02 | Meaningful choices | 3 | Factory location, freight, scaling, optional upgrades and resource use create tradeoffs | High for mechanics; optimal-strategy diversity untested |
+| E03 | Agency | 3 | Player controls layouts, recipes, routes, research order and expansion | High for mechanics |
+| E04 | Appropriate challenge | U | Difficulty changes with geography and supply constraints; target-player challenge is unmeasured | Low for challenge fit |
+| E05 | Learning and mastery | 2 | Five practice lessons and saved clues support learning; later-system teaching and transfer remain open | Medium |
+| E06 | Clear feedback | 2 | Local shortage/blockage explanations exist; research-to-upstream diagnosis is incomplete | High |
+| E07 | Satisfying progress | 2 | Real Core payments, robot assembly and unlocks show accomplishments; value and payoff timing need playtests | Medium |
+| E08 | Curiosity and discovery | 3 | Hidden sectors, terrain, Landmarks and Unknown Device support investigation | High for mechanics; discovery appeal untested |
+| E09 | Variety and development | 3 | Fluids, suppression, mixed output and four corner tasks introduce distinct problems | High for structural variety |
+| E10 | Experimentation and recovery | 2 | Undo, isolated practice, payment retention and save/recovery safeguards support trying ideas | Medium |
+| E11 | Comfortable control | 2 | Layout tools, travel and dialog protection help; precision/accessibility/distributed-scale limits remain open | Medium |
+| E12 | Absorbing presentation | 2 | Shared visual language, robot progression and dry voice are established; campaign audio remains absent | High for integration status; subjective appeal untested |
+| E13 | Expression and ownership | 3 | Free factory layout, groups, templates and mod support permit personal approaches | High for mechanics |
+| E14 | Connection | N/A | Single-player is the current promise; multiplayer is not a requirement | High for scope |
+
+### E01 Clear purpose
+
+**Criterion:** the player can state a goal they care about and identify an available next action without being forced into a layout.
+
+**Current support:** the assignment explicitly asks the junior AI to use world resources, manufacture Cores and upgrade itself. Upgrades presents one next character upgrade, real payment badges and an always-visible primary thought; learned hints remain browsable. Basics teaches actual Simple Core production and paid research. See [tutorials/guidance](../systems/tutorials-and-discovery.md), [assignment and upgrades](../../src/content/botUpgrades.ts), [hint selection](../../src/ui/researchMilestones.ts) and [HintBrowser](../../src/ui/upgrades/HintBrowser.tsx).
+
+**Concern:** hints such as “The trees look employable.” and “We should probably look around.” intentionally favor dry suggestion. They do not by themselves establish whether a newcomer can identify the action, its interface location and the reason to take it. The Upgrades character tooltips explain benefits; absence of permanent expanded details is an adopted choice, not a newly discovered defect. This is a comprehension hypothesis, not a confirmed copy failure.
+
+**Selected approach:** test current guidance before changing it. At fresh Home, after Basics and at first Exploration, ask the player to name their goal, explain its benefit and demonstrate the next action; record requests for outside help and wrong turns. A useful acceptance task is successful independent action at each checkpoint, allowing deliberate self-directed alternatives. If a checkpoint fails, specify a contextual literal action beside or behind the existing hint without prescribing factory placement. Preserve the adopted voice and compact Upgrades layout. **Disposition: test-first approach approved (NODE-0803); participant testing pending.** The 2/3 structural rating remains provisional. This is not a passed comprehension test or authorization to rewrite guidance.
+
+**Prepared observation tasks:** use a newcomer who has not read this audit or received an explanation of the expected actions. Use the same neutral prompt, “What would you do next, and why? Show me.” Present one prompt at a time, record the answer before assisting, and allow normal in-game help. Record any facilitator hint separately; a coached completion is not independent success.
+
+| Checkpoint | Setup through ordinary play | What to observe |
+| --- | --- | --- |
+| Fresh Home | Fresh isolated campaign before Basics; preserve any existing player campaign | Whether the player finds a goal and a usable first action from the welcome, assignment and current hints; distinguish choosing Learn to Play from being unable to proceed |
+| After Basics | Complete the ordinary practice lesson and return to that campaign | Whether the player transfers the production/research lesson to Home without tutorial placement targets; document their chosen next action and benefit |
+| First Exploration opportunity | Reach Exploration eligibility through ordinary campaign production | Whether the player understands research funding, the banked Map Point, activation and travel as the opportunity becomes available; observe each step without explaining the sequence first |
+
+Retain seed, current rule/version identifiers, viewport/input device, prior factory-game experience, hint/help use, the player's own explanation, attempted action, wrong turns, outside assistance, elapsed game time, resource totals and interaction versus waiting time. Before browser work follow the browser/build guides and preserve the existing game. A self-directed useful alternative counts; the observer's preferred layout is not an answer key. Source/automated checks can verify visible hints and triggers but cannot substitute for this participant evidence. No participant session has been run for this decision.
+
+### E02 Meaningful choices
+
+**Criterion:** alternatives lead to understandable differences and worthwhile tradeoffs.
+
+**Current support:** fluids favor local processing; solids can travel by vehicles/Roads; earlier Core production competes with upgrades, map purchases and new tiers. Optional efficiency, recycling versus Reclamation, location-bound Landmarks and terrain supply add competing investments. See [progression](../systems/progression-tiers.md), [efficiency](../systems/efficiency.md), [routing](../systems/connections-and-routing.md), [waste](../systems/waste-and-recycling.md) and [Landmarks](../systems/landmarks.md).
+
+**Risk and proposed task:** several choices may converge on one dominant strategy once real costs are measured. Compare at least two player-chosen solutions to the same bottleneck, including their Core/material cost, setup work, delivered output and player's reason for choosing. Three means choices exist; it does not establish equal viability. Do not require every option to perform equally.
+
+**Disposition: comparison approved (NODE-0804); normal-play execution pending.** Compare parallel ordinary machines with an available speed upgrade against the same production shortage. Keep existing mechanics and the provisional 3/3 structural rating. This settles the same comparison under F02; do not ask for it again.
+
+**Prepared comparison:** use comparable checkpoints reached through ordinary play on the same declared seed/rules, preferably in separate normal campaigns so a family-wide upgrade does not also accelerate the parallel-machine case. Preserve successful supply branches. Record comparison order and differences in the factories/stock rather than claiming perfectly controlled human runs. Select a demonstrated processing bottleneck with an eligible, unpurchased upgrade; exclude fixed-speed Rapid/Reclaimer/Unknown Device cases. Let the player explain and choose the expansion/configuration in each approach.
+
+For each approach retain baseline and sustained post-change delivery to the same kind of receiver over declared observation windows after startup buffers settle; machine family/count, selected recipes, upstream supply and downstream room; added nodes/cables/space and build/wiring time; research bill, paid Cores, production waiting and opportunity cost; total resource use and elapsed game time. Family upgrades can benefit several machines, so include those affected producers when discussing payoff. No grants, save injection, acceleration or balance edits. Distinguish an improved bottleneck from congestion merely moving upstream/downstream, and count a failed diagnosis separately from an unattractive investment. Unequal gains do not themselves make the choices meaningless: document the conditions and player intentions favoring each. No outcome or optimal strategy is established until the comparison is run.
+
+### E03 Agency
+
+**Criterion:** players can form intentions, act on them and recognize their consequences.
+
+**Current support:** layouts, recipe selection, routing, queue order, bot-upgrade priority and frontier selection are player-controlled. Banked Map Points separate funding from destination choice; disabling an upgrade returns to queued research while retaining paid contributions. See [controls](../systems/controls-and-factory-layouts.md), [research](../systems/research.md), [map access](../systems/map-nodes-and-exploration.md) and [BotUpgrade](../../src/ui/upgrades/BotUpgrade.tsx).
+
+**Risk and proposed task:** machine gates, physical obstructions and hidden recipes can be legitimate constraints, but unexplained rejection can undermine control. Ask a player to pursue a different research/expansion plan and recover from a rejected connection; check that they can explain the constraint and choose another action. Preserve Unknown Device's deliberately hidden effect.
+
+**Disposition: keep current agency design (NODE-0805).** The user accepted the current approach; no agency redesign or new feature is requested. Retain the provisional 3/3 structural rating. The approved E02 comparison can supply evidence about practical freedom without another decision or a separate agency test commitment. Existing constraint observations remain hypotheses for later play, not confirmed defects. Preserve player control over layouts, recipes, routing, research order and frontier choice, along with paid-progress retention and deliberately hidden Unknown Device behavior.
+
+### E04 Appropriate challenge
+
+**Criterion:** the intended audience finds problems engaging at their preferred intensity, with manageable setbacks.
+
+**Current support:** typed routing, finite reserves, Lake geography, camp suppression, mixed outputs and corner supply create real problems. That establishes complexity, not suitable difficulty. Later rules, prices, terrain, Landmarks and efficiency changes prevent older runs from settling current challenge fit.
+
+**Recommendation:** use current normal gameplay with a newcomer and an experienced factory player, covering multiple declared seeds. Record where they feel bored, stretched, confused or overwhelmed and whether their next attempt improves. Retain phase time/resource/setup/wait data under [SR-18](#sr-18-current-balance-baseline) and sustained-supply evidence under [SR-19](#sr-19-sustained-world-feasibility). Do not increase bills or waiting based on this audit alone.
+
+**Disposition: test current challenge first (NODE-0806); participant execution pending.** The user approved ordinary-play observations with a newcomer and an experienced factory player before price/timer changes. Combine these with the E01/E02 sessions where practical; no additional campaign is required merely to give this criterion a separate report. Retain U until suitable evidence exists. Automation enthusiasts remain the primary audience, with optional teaching for newcomers and recoverable setbacks; this does not reopen audience or setback policy.
+
+**Prepared observations:** after the player has attempted an encountered problem, ask one neutral question about how it felt, then separately ask what they would try next. Sample the first production bottleneck, expansion/freight, fluids, camp suppression and mixed-output blockage as reached through ordinary play. Record the player's words, boredom/engagement/confusion/overwhelm, mistakes, assistance, revised strategy and whether an ordinary repair succeeds. Distinguish unclear information, difficult reasoning and production waiting before suggesting a remedy. Preserve seed/rules, experience, phase/game time, resource totals and setup/interaction/waiting evidence using SR-18/SR-19; retain failed attempts and unfinished phases. A small number of participants/seeds yields exploratory observations, not population-wide difficulty claims. Do not manufacture setbacks with injected states, recruit/message participants without authorization, or treat this prepared protocol as a completed playtest. Carry this challenge-observation decision into F05 without re-asking it; detailed pacing/payback questions remain separate.
+
+### E05 Learning and mastery
+
+**Criterion:** understanding and practice let the player solve increasingly capable tasks independently.
+
+**Current support:** Basics, Logistics, Expansion, Control Groups and Monster Camps use isolated practice with real action/delivery checks; saved hints and the journal retain information. The older simulated-novice report explicitly does not establish human novice transfer. See [tutorial system](../systems/tutorials-and-discovery.md) and [historical novice evidence](../novice-playtest-findings.md).
+
+**Gap and proposed task:** [SR-17](#sr-17-later-system-teaching) already owns contextual fluids, mixed-waste, Dwarven and corner teaching. First test whether a player can reproduce a useful line in their campaign after practice, then diagnose a blocked Controller/Filter stream without a supplied layout. Specify small optional help only for demonstrated gaps; keep Power deferred. Do not duplicate SR-17 as a new feature request.
+
+**Disposition: draft lesson outline completed (NODE-0807).** The user selected Draft the lesson outline. The [five-stage Mixed output and Filters draft](../master-plan/05-interface-and-learning.md#draft-optional-lesson-mixed-output-and-filters) covers guaranteed Controller/Fines output, player-chosen separation, finite storage, required-outlet blockage and actual repair. Proposed invitation, lesson fixture and completion checks remain unimplemented. Keep the provisional 2/3 rating and SR-17 open; authoring the outline does not establish learning or complete later-system teaching. The after-Basics transfer test remains the already approved E01 task. Apply the same teaching disposition within F01 without asking again.
+
+### E06 Clear feedback
+
+**Criterion:** the player can connect an action, the resulting state and its cause.
+
+**Current support:** live cargo, progress, buffers and [production explanations](../../src/renderer/productionVisuals.ts) distinguish missing ingredients, paid batches and output/waste blockage. [NodeInspector](../../src/ui/NodeInspector.tsx) exposes available/required amounts; [research status](../../src/renderer/researchCenterView.ts) names missing Cores. The corrected [Road inspector](../../src/ui/RoadFlowPanel.tsx) labels a maximum theoretical rate, not measured delivery.
+
+**Confirmed gap:** [BotUpgrade](../../src/ui/upgrades/BotUpgrade.tsx) and [ResearchListRow](../../src/ui/upgrades/ResearchListRow.tsx) Core buttons call `onOpenRecipe`; they do not locate the first upstream shortage. This is the existing [SR-16](#sr-16-research-shortage-navigation)/NODE-0332 implementation gap. Local feedback is present; following a multi-map cause remains the burden. Prioritize scoping that already adopted diagnostic feature when implementation is authorized. Test a missing producer, one local shortage, a blocked output and a cross-map delivery shortage, retaining a recipe fallback where evidence is ambiguous.
+
+**Disposition: implementation plan completed (NODE-0809).** The user selected Plan shortage navigation. The [source-grounded plan](../master-plan/05-interface-and-learning.md#shortage-navigation-implementation-plan) specifies project-aware callbacks, a read-only bounded resolver, real connected routes/stock/cargo, multiple-producer ambiguity, cross-map Road constraints, target inspection/return, architecture boundaries and acceptance cases. It preserves missing-producer and uncertain-cause recipe/delivery fallback, current payments/queue and hidden discovery behavior. Implementation/new tests remain pending; keep SR-16 open and the 2/3 structural rating. Apply this same diagnosis-plan decision to F01 without asking again.
+
+### E07 Satisfying progress
+
+**Criterion:** effort produces a visible accomplishment that matters to the player's goals.
+
+**Current support:** paid Core sets visibly assemble the robot, queue progress reflects actual payment and promotions unlock recipes/possibilities. Discovery, working delivery and separately chosen victory provide milestones. See [research progression](../systems/research.md), [robot assembly](../../src/ui/upgrades/robotAssembly.ts) and [ending](../systems/endgame-and-victory.md).
+
+**Risk and proposed task:** visible progress can coexist with low-value spending or long unrewarding waits. At each milestone ask what changed, what the player wants to do with it and whether the effort felt worthwhile. Measure time from an investment to an observable improvement in sustained delivery; do not count buffered startup output as lasting payoff. Optional-upgrade payback belongs to SR-18, not to this structural rating.
+
+**Disposition: milestone payoff checks approved (NODE-0810); participant execution pending.** Add brief observations to the existing E01/E02/E04 normal-play sessions rather than create a separate run. Retain the provisional 2/3 rating. Reuse E02's parallel-machine/upgrade comparison for measured delivery gains and SR-18 for actual investment payback; do not repeat or treat that comparison as completed. Apply the same milestone-value checks within F03/F04 without asking again.
+
+**Prepared observation:** sample representative naturally reached milestones such as an early character promotion, a first working outpost delivery and a later recipe/tool unlock; observe victory only if reached in the declared session. After the player notices the milestone, ask one question at a time: what changed, what they want to do next with it, then whether the effort felt worthwhile and why. Record their answers before explaining any benefit. Note missed or misunderstood rewards, disappointment and deliberate alternatives as valid evidence, not incorrect responses. Reuse the session's seed/rules, elapsed game time, resource totals, setup/interaction/waiting and assistance record; distinguish actual new possibilities from a changed number or portrait alone. Do not interrupt every small completion or force the player to use an unlock. A milestone not reached remains unobserved, and a positive response is not a required outcome. No session, satisfaction result, price/copy change or additional delivery test has occurred for this decision.
+
+### E08 Curiosity and discovery
+
+**Criterion:** players have appealing unanswered questions they can investigate through play.
+
+**Current support:** unknown sectors, seeded geography, seventeen Landmarks, the direction-specific early detour and unexplained Unknown Device create discoveries with mechanical uses. See [Landmarks](../systems/landmarks.md) and [world exploration](../systems/map-nodes-and-exploration.md). First-visit reveal and hidden device effects are deliberate adopted decisions. Proposed global surveys/Map upgrades are author-study work and are not counted as main-game support.
+
+**Risk and proposed task:** discovery can become costly blind scouting; a powerful landmark can also flatten later decisions. Observe whether players voluntarily investigate, understand ordinary landmark uses and find an experiment for Unknown Device. Track discovery expense and subsequent route/production changes across seeds. Keep the mystery; do not add a formula explanation merely to satisfy this checklist.
+
+**Disposition: discovery observations approved (NODE-0811); participant execution pending.** Add these to the existing normal-play sessions, preserving first-visit reveal and hidden effects. Retain the provisional 3/3 structural rating. Reuse E07's milestone payoff questions after a discovery rather than duplicate them. Carry this discovery-observation decision into F04 without asking again; it does not authorize surveys, new landmark hints or revealed Unknown Device recipes.
+
+**Prepared observation:** record what the player voluntarily investigates, including whether they notice/use the early detour hint, choose a frontier for a particular reason, inspect a found landmark, try an experiment without outside help and change their production/routing plan afterward. Observe before offering an explanation; a deliberate choice to postpone scouting or ignore a landmark is valid evidence. Reuse the session's seed/world rules, discovery order, actual map-purchase Core/point costs, setup/interaction/waiting time and resources; distinguish spending to reach a production goal from optional investigative detours. Do not show the participant seeded locations, source descriptions or the Unknown Device formula. Only record discoveries actually encountered; an unreached device is unobserved, not a failed curiosity test. Check the campaign's version/eligibility because legacy worlds do not gain the new landmark layout. Preserve any existing campaign and use declared ordinary-play sessions rather than developer reveals or forced visits. No discovery appeal, scouting-cost balance or player outcome has been established by preparing these observations.
+
+### E09 Variety and development
+
+**Criterion:** later play invites new reasoning rather than only repetition at larger quantities.
+
+**Current support:** early single-stream processing develops into assembly, local fluids, suppression-dependent Mythril, mixed Controller output and four different corner payment tasks. World pairings and geography vary supply planning. See [tier reference](../systems/progression-tiers.md), [camps](../systems/encounters-and-obstructions.md), [waste](../systems/waste-and-recycling.md) and [corners](../systems/endgame-and-victory.md).
+
+**Risk and proposed task:** research can expose a new recipe without changing the player's actual decisions. At each transition record the new decision/problem, a strategy the player changed and the amount of routine rebuilding. A longer bill alone does not establish useful variety. No extra system is recommended before observing the existing sequence.
+
+**Disposition: keep current tier variety (NODE-0812).** The user accepted the existing progression from processing/assembly through local fluids, suppression-dependent Mythril, mixed output and distinct corner tasks. Retain the provisional 3/3 structural rating. Use approved E04 challenge and E07 milestone observations to record whether encountered transitions change the player's strategy and where routine rebuilding feels repetitive; this creates no separate test commitment. Preserve the current mechanics while those results remain pending. No additional system or larger bill is requested by this decision. Apply the same tier-variety disposition within F04 without asking again; specific future issues can be recorded from actual evidence.
+
+### E10 Experimentation and recovery
+
+**Criterion:** trying an idea and correcting a mistake have understandable, acceptable costs.
+
+**Current support:** recorded-command undo, reusable layouts, independent practice, retained research payments, local resource recovery and autosave/export/import safeguards reduce avoidable loss. Recent fixes protect unreadable sibling slots and prevent copied Drills from inheriting paid work. See [controls](../systems/controls-and-factory-layouts.md), [saves](../systems/saves-and-compatibility.md), [resource recovery](../systems/sustainability-and-recovery.md) and NODE-0766–NODE-0768/NODE-0775.
+
+**Limits and proposed task:** undo is not a promise to reverse every consequence of elapsed simulation; extraction rewired to another resource can discard incompatible stock. Long-lived depletion and cross-map rebuilding remain under SR-19. Observe an ordinary mistaken cable, recipe change and failed layout, then ask the player to recover and explain any loss. Respect intentional costs; require no grants or save injection in balance evidence.
+
+**Disposition: keep current recovery design (NODE-0813).** The user accepted the current undo/practice/layout, retained-payment and save/resource recovery approach. Keep the provisional 2/3 structural rating and intentional costs; this decision does not promise that undo reverses all elapsed simulation or that changing an Extractor resource preserves incompatible stock. Use already approved E04 setback observations to record whether the player understands any loss and can repair through ordinary play, without a separate test commitment. Sustained depletion/cross-map rebuilding remains open under SR-19 and participant outcomes remain pending. Apply the same recovery disposition within F02 without asking again; no recovery redesign, new grants or gameplay change is requested.
+
+### E11 Comfortable control
+
+**Criterion:** players can execute intentions without disproportionate interface effort.
+
+**Current support:** 32-unit snapping, groups, copy/paste/templates, recipe copying, shortcut bars, Road travel/focus and shared dialog keyboard scopes reduce repeated work. Fresh focus/template tests support selected contracts. See [controls](../systems/controls-and-factory-layouts.md), [dialog focus](../../src/ui/dialogFocus.ts) and [keyboard boundary](../../src/ui/factoryKeyboard.ts).
+
+**Limits and proposed task:** crowded socket precision, text at 15% zoom, tooltip access and complete accessibility remain [SR-21](#sr-21-accessibility); distributed-world performance remains [SR-20](#sr-20-supported-scale). Recent 600/2,400-node synthetic rendering work supersedes treating the earliest 600-node failure as a current limit, but is not supported-scale certification. Measure time/mistakes to wire, duplicate and repair a crowded line at normal and narrow viewports; separately measure response/save/load/undo under declared workloads.
+
+**Disposition: focused control audit checklist prepared (NODE-0814).** The user selected Prepare control audit checklist. The [twelve-task desktop checklist](../master-plan/05-interface-and-learning.md#focused-desktop-control-audit-checklist) specifies environments, tasks, functional acceptance, evidence and separate comfort observations. It covers crowded wiring, overview versus inspection readability, layout tools, focus/shortcuts, tooltips, clipping/contrast/non-color cues, motion and travel/context. All new execution results remain Not tested. Keep SR-21 open and the provisional 2/3 rating; SR-20 distributed-world performance remains separate. Apply the same control-checklist disposition within F01 without asking again.
+
+### E12 Absorbing presentation
+
+**Criterion:** art, sound, theme and voice reinforce the intended activity and mood without obscuring information.
+
+**Current support:** the charcoal/gold interface, typed material colors, physical transfers, ground/border art, robot silhouettes and dry junior-AI voice form a consistent direction. Reduced-motion handling exists. See [interface/assets](../systems/interface-and-assets.md), [style guide](../node-ui-style-guide.md) and [review notes](../typography-style-review.md).
+
+**Confirmed incompleteness:** recorded-piano cues and the sound-test factory are author artifacts; campaign event playback, saved audio controls, ambience and music remain future work under [SR-22](#sr-22-audio-scope) and the [audio plan](../master-plan/06-art-audio-and-writing.md#audio). Their existence is not main-game integration. Check legibility/non-color meaning through SR-21 and let the user finish the current sound audition; later test repetition and comfort in actual play. Sound is an opportunity, not proof that silent play cannot be fun.
+
+### E13 Expression and ownership
+
+**Criterion:** players can recognize their own choices in what they have built.
+
+**Current support:** free layouts, local processing versus freight, group colors, templates, chosen expansion paths and [data mods](../systems/mods.md) permit personal solutions. [Controls](../systems/controls-and-factory-layouts.md) preserve configuration while copies start fresh work. The game does not need decorative construction to support expression through engineering.
+
+**Risk and proposed task:** economic dominance could narrow practical expression despite formal freedom. Compare two players' solutions to the same objective and ask what each chose for personal reasons, including layout clarity and maintenance. Do not infer that a cosmetic editor or public sharing service is required.
+
+### E14 Connection
+
+**Criterion:** where it is part of the promise, relationships and shared play add enjoyment.
+
+**Current scope:** NODE is [local-first and single-player](../master-plan/01-vision-and-scope.md); no cooperative/competitive multiplayer is counted as implemented. Mod share codes provide a limited sharing mechanism, not evidence of a thriving community. The robot character may support attachment, but this audit has no player evidence for it.
+
+**Recommendation:** retain N/A for required gameplay connection. If community enjoyment becomes a goal, first test whether players want to share factories, strategies or mod codes. Do not add multiplayer or grade the game down for lacking it. Any scope expansion requires its own decision.
+
+### Five factory-game priorities
+
+These are cross-cutting lenses on the same fourteen criteria, not five extra features or an independent score total.
+
+| ID | Priority | Related criteria | Rating | Concrete conclusion and acceptance task |
+| --- | --- | --- | --- | --- |
+| F01 | Diagnosing problems is interesting | E01/E05/E06/E11 | 2 | Local causes are explained; upstream research-shortage navigation remains SR-16. Ask a player to trace a stopped Core through a multi-map chain, identify the cause and demonstrate recovery. Record searches, wrong turns and outside help; do not measure only whether the output eventually resumes. |
+| F02 | Solutions involve choices | E02/E03/E10/E13 | 3 | Scaling, transport, production location and optional upgrades are actual alternatives. Compare two ordinary solutions with full costs and delivered results, plus the player's reasons; check whether at least two remain attractive for different intentions. |
+| F03 | Improvements are visible | E06/E07/E12 | 2 | Cargo/buffers/cycles and paid robot hardware show changes. Measure sustained before/after delivery at a fixed receiver after transient buffers settle, and ask the player to predict and explain the change. A higher theoretical maximum alone is insufficient. |
+| F04 | Progress expands possibilities | E03/E07/E08/E09 | 3 | Fluids, bots, routing, Landmarks and corner recipes enable distinct activity. Record one newly possible action and a changed plan after representative milestones; verify that players notice the opportunity without prescribing the solution. |
+| F05 | Pacing sustains interest | E04/E05/E07/E09 | U | Current complete-campaign pacing, wait quality and efficiency payback are unverified (SR-18/SR-19). Run ordinary gameplay on declared seeds; preserve successful supply branches and separately record active planning/building, interaction overhead, wanted observation and unwanted waiting, together with game time and resource totals. |
+
+The [November 14 peripheral report](../../outputs/first-balance-patch-2026-11-14/README.md) is historical warning evidence, not a current benchmark: matched victories used a flat-five-Simple test mod, excluded manual placement/wiring time, and preceded later systems. Its three default-price route stops do not establish a present softlock. Do not quote those victory times as current session lengths or tune today's game against them without a fresh baseline.
+
+### Review order and acceptance boundaries
+
+Review E01 through E14 sequentially, then F01 through F05 as a cross-check; a decision applying to a linked finding settles that decision everywhere and must not be asked again. Deliberate deferrals advance the review. E14 may be acknowledged as out of scope without a permission question. The current cursor is **E12: pending**. E01's guidance test, E02's parallel-machine/upgrade comparison and E04's challenge observations are settled; participant/normal-play execution remains pending. E03 is settled as keep current agency design. E05's optional mixed-output outline is drafted; implementation/testing remains open under SR-17. E06's shortage-navigation implementation plan is complete; code/testing remains open under SR-16. E07's milestone payoff observations are approved; participant execution remains pending. E08's discovery observations are approved, with execution pending and the same F04 decision settled. E09 is settled as keep current tier variety and reuse E04/E07 observations, including the same F04 disposition. E10 is settled as keep current recovery design and reuse E04 setback observations, including the same F02 disposition. E11's focused control checklist is prepared; execution/SR-21 remains pending and the same F01 disposition is settled. Apply E01 to the clarity/comprehension portions of F01/F04, E02 to the same F02 comparison, E03 to the same agency questions within F02/F04, E04 to F05's same challenge observations, E05 to F01's same teaching outline and E06 to F01's same diagnosis plan without asking again; other linked questions remain open. Record actual decisions/deferrals in the primary changelog, then update this working disposition; do not treat a preselected card option as consent.
+
+For implementation triage, the strongest concrete existing gap is SR-16 (diagnosis), followed by SR-17 (later learning). The highest uncertainty to resolve is SR-18/SR-19 (challenge, payoff and pacing). SR-21 (accessible control/presentation), SR-20 (distributed scale) and SR-22 (audio integration) retain their existing scope and separate review. This order is a recommendation, not authorization to implement those batches. No new currency, forced layout, mandatory efficiency gate, added grind, revealed Unknown Device formula or multiplayer is proposed.
+
 ## How to use this register
 
 Address one issue at a time. Preserve SR IDs when reordering. For an unresolved policy, present one native question card with current behavior, concrete alternatives and a recommendation. For an already settled rule, do not ask for the same decision again: scope and implement it when implementation is authorized. A deliberate deferral settles the item for now and advances the queue.
@@ -17,7 +236,7 @@ Priorities indicate work order: **P1** protects future releases or content editi
 | ID | Priority | Classification | Issue | State |
 | --- | --- | --- | --- | --- |
 | [SR-01](#sr-01-world-rule-persistence) | P1 | Approved implementation prerequisite | Preserve old/new world rules through saves and future exploration | Completed (NODE-0608) |
-| [SR-02](#sr-02-historical-content-compiler) | P1 | Confirmed tooling regression risk | Historical compiler would restore obsolete Core recipe gates | Open |
+| [SR-02](#sr-02-historical-content-compiler) | P1 | Confirmed tooling regression risk | Historical compiler would restore obsolete Core recipe gates | Completed locally (NODE-0786) |
 | [SR-03](#sr-03-unused-stone) | P2 | Approved implementation gap | Refund unused Stone on completed holes | Completed (NODE-0608) |
 | [SR-04](#sr-04-filled-terrain) | P2 | Approved implementation gap | Preserve non-blocking grey filled terrain | Completed (NODE-0608) |
 | [SR-05](#sr-05-hole-candidate-budgets) | P2 | Approved implementation gap | Implement five-candidate area and Stone budgets | Completed (NODE-0608) |
@@ -25,12 +244,12 @@ Priorities indicate work order: **P1** protects future releases or content editi
 | [SR-07](#sr-07-intake-only-water) | P2 | Approved implementation gap | Require Intakes for all new-world Lake Water | Completed (NODE-0608) |
 | [SR-08](#sr-08-intake-count-upgrades) | P2 | Approved implementation gap | Raise Intake cap from two to three to four | Completed (NODE-0608) |
 | [SR-09](#sr-09-coupled-lake-relocation) | P2 | Approved implementation gap | Move connected Intakes automatically with Lakes | Completed (NODE-0608) |
-| [SR-10](#sr-10-freight-rate-display) | P2 | Confirmed game presentation defect | Road rate omits postgame payload ranks and mod timing | Open |
+| [SR-10](#sr-10-freight-rate-display) | P2 | Confirmed game presentation defect | Road rate omits postgame payload ranks and mod timing | Road inspector completed locally (NODE-0783); Build copy follow-up |
 | [SR-11](#sr-11-pump-relay-reference) | P2 | Confirmed documentation error | Library denies implemented Pump relay behavior | Completed (NODE-0608) |
 | [SR-12](#sr-12-mythril-drill-reference) | P2 | Confirmed documentation error | Library advertises a rejected Mythril Drill target | Completed (NODE-0608) |
 | [SR-13](#sr-13-postgame-fluid-transport) | P2 | Confirmed documentation overstatement | Shared pool provides a postgame fluid transport exception | Completed (NODE-0608) |
 | [SR-14](#sr-14-copper-slurry-storage) | P2 | Policy clarification | Slurry is a fluid but Fluid Tanks reject it | Open |
-| [SR-15](#sr-15-mod-recovery-control) | P2 | Confirmed game presentation defect | Mod checkbox promises a removed recovery speed effect | Open |
+| [SR-15](#sr-15-mod-recovery-control) | P2 | Confirmed game presentation defect | Mod checkbox promises a removed recovery speed effect | Deferred to separate full mod-page review (NODE-0784) |
 | [SR-16](#sr-16-research-shortage-navigation) | P2 | Approved implementation gap | Missing-Core links stop at recipes rather than shortages | Open |
 | [SR-17](#sr-17-later-system-teaching) | P2 | Agreed scope needing specification | Teach fluids, mixed waste and later encounters contextually | Open |
 | [SR-18](#sr-18-current-balance-baseline) | P2 | Balance validation gap | Pacing and upgrade payback evidence predates current rules | Open |
@@ -62,11 +281,11 @@ Suggested batches: establish SR-01/SR-02 safeguards, preserve the settled SR-26/
 
 **Finding:** A write-intercepted run of `scripts/sync-progression-content.mjs` produces Hydro/Shiny/Complex recipe gates of `hydraulicAssembly` / `oreSeparation` / `precisionControl`. Current recipes correctly require `hydroCore` / `shinyCore` / `complexCore`. The script reads old analytical inputs and would overwrite `src/content/progression.ts`.
 
-**Concern and next action:** Retire the compiler as a historical tool or update its authoritative inputs and transformations, then add a meaningful round-trip comparison. The file's generated header can otherwise encourage a future edit to rerun it and undo reviewed progression. The safe `docs:systems` generator is a different command and has no such source rewrite.
+**Approved resolution:** retire the source-writing compiler and retain an explicit compatibility refusal. Preserve exact original compiler/helper/input copies as historical evidence and replace the generated-file header with current content ownership guidance. The safe `docs:systems` documentation generator remains separate and does not rewrite gameplay.
 
-**Close when:** the supported workflow cannot overwrite current production/research rules with historical settings, and its output is compared against live gates, quantities, machine groups and timing. Preserve the historical inputs as evidence.
+**Close when:** the retired command refuses without source writes for direct execution and import, historical inputs and source are preserved with verified checksums, and the maintained gameplay catalog remains unchanged. A supported content generator or historical round-trip is not part of the selected retirement.
 
-**Evidence:** [compiler](../../scripts/sync-progression-content.mjs), [review transformation](../../scripts/apply-reviewed-production.mjs), [Core projects](../../src/content/coreResearch.ts), [intercepted results](../../outputs/document-review-2026-11-18/results.json). **Outcome: pending.**
+**Evidence:** [compiler](../../scripts/sync-progression-content.mjs), [review transformation](../../scripts/apply-reviewed-production.mjs), [Core projects](../../src/content/coreResearch.ts), [intercepted results](../../outputs/document-review-2026-11-18/results.json). **Outcome: completed locally (NODE-0786), not published.** The command exits with status 1 and guidance, without imports, input reads or writes. Six new regressions verify refusal, file preservation and exact archive checksums in disposable workspaces. The 169 focused and 2,344 workspace tests passed, with two existing workspace skips; TypeScript/local build and documentation checks passed. The catalog body is byte-identical and the original helper/input files remain intact. See the [historical bundle](../../scripts/archive/progression-proposal/README.md) and [verification](../../outputs/compiler-retirement/source-verification.json).
 
 ### SR-03 Unused Stone
 
@@ -132,9 +351,9 @@ The [28-map distribution calibration](../deep-hole-exploration-simulation.md#dis
 
 **Finding:** the Road panel calculates `12 × vehiclePayload(completedResearch)` and omits Train Freight Capacity rank. At rank two, actual base-interval payload is six items, or 72/minute, while the panel formula reports 48/minute. It also assumes a five-second interval despite supported mod overrides.
 
-**Next action:** derive displayed theoretical capacity from the same payload rank and dispatch interval as simulation. Review Build descriptions too, because base-only capacity text may similarly omit Train ranks. Distinguish theoretical rate from measured deliveries.
+**Approved correction:** derive displayed theoretical capacity from the same payload rank and dispatch interval as simulation and distinguish it from measured deliveries. The Road inspector correction is implemented locally. Reviewed Build descriptions still quote base Train storage/payload; correcting those descriptions remains a separate copy follow-up outside this approved panel change.
 
-**Close when:** Cart/Truck/Train, multiple postgame ranks and custom Road intervals agree between runtime and presentation, with blocked receiving stock still handled correctly. Update both style references if player-facing copy changes. **Evidence:** [Road panel](../../src/ui/RoadFlowPanel.tsx), [payload](../../src/content/cartUpgrades.ts), [dispatch](../../src/simulation/engine.ts), [results](../../outputs/document-review-2026-11-18/results.json). **Outcome: pending.**
+**Close when:** Cart/Truck/Train, multiple postgame ranks and custom Road intervals agree between runtime and presentation, with blocked receiving stock still handled correctly. Update both style references if player-facing copy changes. **Evidence:** [Road panel](../../src/ui/RoadFlowPanel.tsx), [payload](../../src/content/cartUpgrades.ts), [dispatch](../../src/simulation/engine.ts), [results](../../outputs/document-review-2026-11-18/results.json). **Outcome: Road inspector completed locally in NODE-0783, not published.** All 23 new regressions and 106 focused checks passed; the full workspace suite passed 2,333 tests with two existing skips. TypeScript/local build, system catalogs/links and browser checks at 1280 × 720 and 390 × 845 passed. The panel uses actual freight rank and active mod/profile timing, reports Maximum transfer rate and explains stock/receiver limits. Blocked deliveries preserve stock. Build-menu base-only vehicle descriptions remain the follow-up identified above.
 
 ### SR-11 Pump relay reference
 
@@ -172,9 +391,9 @@ The [28-map distribution calibration](../deep-hole-exploration-simulation.md#dis
 
 **Finding:** the recipe editor labels `recovery` as “Applies recovery efficiency research,” and the full mod guide advertises recovery efficiency. Current `getRecoveryMultiplier` always returns one: speed now belongs to the operating node, while the flag still identifies/group-lists recovery recipes.
 
-**Next action:** describe the flag's actual classification role and node-owned timing. Do not restore a second stacking multiplier merely to match obsolete wording.
+**Next action:** revisit this finding during the user-requested full mod-page review in another chat. Retain the proposed “Recovery recipe” label and “Groups this recipe under Waste recovery. Processing speed follows the machine’s upgrades.” help as an unapproved alternative. Do not restore a second stacking multiplier merely to match obsolete wording.
 
-**Close when:** checkbox/help text, guide and recipe timing agree for flagged/unflagged recipes on the same machine; update both style documents with the copy change. **Evidence:** [editor](../../src/ui/ModEntryEditor.tsx), [timing lookup](../../src/content/efficiency.ts), [mod guide](../mods.md), NODE-0577, [results](../../outputs/document-review-2026-11-18/results.json). **Outcome: pending.**
+**Close when:** checkbox/help text, guide and recipe timing agree for flagged/unflagged recipes on the same machine; update both style documents with the copy change. **Evidence:** [editor](../../src/ui/ModEntryEditor.tsx), [timing lookup](../../src/content/efficiency.ts), [mod guide](../mods.md), NODE-0577, [results](../../outputs/document-review-2026-11-18/results.json). **Outcome: deliberately deferred (NODE-0784).** The user chose a separate full review of the mod page rather than this narrow wording change. No player-facing copy, runtime or mod data was changed.
 
 ## Guidance and validation work
 
@@ -184,7 +403,7 @@ The [28-map distribution calibration](../deep-hole-exploration-simulation.md#dis
 
 **Next action:** implement the agreed diagnostic link when authorized, retaining a clear fallback and avoiding prescriptions about factory location.
 
-**Close when:** a local shortage, a cross-map chain and a missing producer lead to correct evidence-backed destinations or fallback. **Evidence:** [adopted design](../master-plan/05-interface-and-learning.md#connect-research-to-the-factory), [research details](../../src/ui/ResearchProjectDetail.tsx), [status](../../src/ui/researchProgress.ts), NODE-0332. **Outcome: pending.**
+**Close when:** a local shortage, a cross-map chain and a missing producer lead to correct evidence-backed destinations or fallback. **Evidence:** [adopted design](../master-plan/05-interface-and-learning.md#connect-research-to-the-factory), [research details](../../src/ui/ResearchProjectDetail.tsx), [status](../../src/ui/researchProgress.ts), NODE-0332. **Outcome: pending implementation/testing.** The user requested the [E06 implementation plan](../master-plan/05-interface-and-learning.md#shortage-navigation-implementation-plan), completed under NODE-0809; navigation behavior remains unimplemented.
 
 ### SR-17 Later system teaching
 
@@ -192,7 +411,7 @@ The [28-map distribution calibration](../deep-hole-exploration-simulation.md#dis
 
 **Next action:** specify small optional factual lessons, beginning with guaranteed Controller Fines and whole-Filter blockage before those rules can strand a newcomer. Keep Power deferred and avoid prescribing a factory solution.
 
-**Close when:** relevant unlocks offer help, skipping it preserves progression, and newcomers can diagnose the stream independently. **Evidence:** [tutorial library](../systems/tutorials-and-discovery.md), [learning plan](../master-plan/05-interface-and-learning.md), [novice dispositions](../novice-playtest-findings.md). **Outcome: pending.**
+**Close when:** relevant unlocks offer help, skipping it preserves progression, and newcomers can diagnose the stream independently. **Evidence:** [tutorial library](../systems/tutorials-and-discovery.md), [learning plan](../master-plan/05-interface-and-learning.md), [novice dispositions](../novice-playtest-findings.md). **Outcome: pending implementation/testing.** E05 authorized the [mixed-output lesson outline](../master-plan/05-interface-and-learning.md#draft-optional-lesson-mixed-output-and-filters), now drafted under NODE-0807; no new lesson is implemented, and fluids/Dwarven/corner teaching remains separately open.
 
 ### SR-18 Current balance baseline
 
@@ -216,7 +435,7 @@ The [28-map distribution calibration](../deep-hole-exploration-simulation.md#dis
 
 **Decision and next action:** choose representative environments/workloads, then measure frame/input responsiveness, simulation rate, memory, save/load/undo time and storage failures. Include a distributed 121-map workload and a dense usable factory rather than only synthetic engine graphs.
 
-**Close when:** acceptance thresholds and repeatable measurements exist for the supported environment; investigate the observed 600-node failure without assuming its cause, and give custom 21×21 worlds explicit limits. **Evidence:** [active factory fixture](../../previews/active-factory/README.md), [technical plan](../master-plan/07-technical-design.md), [quality plan](../master-plan/08-quality-and-playtesting.md), [stress harness](../../scripts/stress.test.ts), NODE-0598. **Outcome: pending.**
+**Close when:** acceptance thresholds and repeatable measurements exist for the supported environment; investigate the observed 600-node failure without assuming its cause, and give custom 21×21 worlds explicit limits. **Evidence:** [active factory fixture](../../previews/active-factory/README.md), [technical plan](../master-plan/07-technical-design.md), [quality plan](../master-plan/08-quality-and-playtesting.md), [retired stress archive](../../scripts/archive/engine-stress/README.md), NODE-0598. **Outcome: pending.** The old engine benchmark is now retired at the user’s request (NODE-0788); its reports remain historical evidence. This closes the obsolete-tool audit finding, not this supported-scale requirement. Whole-world multi-map performance measurement remains open, with a smaller current benchmark deferred until cross-map optimization needs it.
 
 ### SR-21 Accessibility
 
@@ -224,7 +443,7 @@ The [28-map distribution calibration](../deep-hole-exploration-simulation.md#dis
 
 **Next action:** assess contrast/readability at supported zoom/viewport, non-color state cues, motion control, focus/dismissal, tooltip alternatives and socket/input precision. Record actual findings before adding a broad redesign.
 
-**Close when:** each observed issue has environment, severity and a repeatable acceptance check, with prioritized fixes verified. **Evidence:** [accessibility commitment](../master-plan/05-interface-and-learning.md#accessibility-commitment), [style references](../node-ui-style-guide.md), [UI system](../systems/interface-and-assets.md). **Outcome: pending.**
+**Close when:** each observed issue has environment, severity and a repeatable acceptance check, with prioritized fixes verified. **Evidence:** [accessibility commitment](../master-plan/05-interface-and-learning.md#accessibility-commitment), [style references](../node-ui-style-guide.md), [UI system](../systems/interface-and-assets.md). **Outcome: pending audit execution.** The user-authorized [E11 checklist](../master-plan/05-interface-and-learning.md#focused-desktop-control-audit-checklist) is prepared (NODE-0814); all twelve new task results remain Not tested, and no redesign or certification is implied.
 
 ### SR-22 Audio scope
 

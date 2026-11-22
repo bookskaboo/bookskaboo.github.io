@@ -18,6 +18,7 @@ const html = template.replace('</head>', () => `<style>${styles.source}</style><
   .replace('<script type="module" src="./main.tsx"></script>', () => `<script>${script.code.replace(/<\/script/gi, '<\\/script')}</script>`);
 await mkdir('outputs/status-page/art', { recursive: true });
 await Promise.all(['status-modal.html', 'robot-tier-art.html', 'robot-upgrade-animations.html', 'hint-texts.html'].map(file => writeFile(`outputs/status-page/${file}`, html)));
+await writeFile('outputs/status-page/map-upgrades.html', html.replace('NODE · Status page study', 'NODE · Map upgrades study'));
 const server = await createServer({ configFile: false, server: { middlewareMode: true, watch: null } });
 try {
   const { robotSvg } = await server.ssrLoadModule('/previews/status-page/robotArt.ts');

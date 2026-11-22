@@ -26,7 +26,7 @@ The [current implementation report](20-endgame-implementation.md) is the startin
 | [World and encounters](04-world-and-encounters.md) | Geography, exploration, settlements and sustainability | Four unique corner obstructions, productive expansion and resource longevity |
 | [Interface and learning](05-interface-and-learning.md) | Controls, onboarding, accessibility and feedback | Human learning tests and accessibility scope |
 | [Art audio and writing](06-art-audio-and-writing.md) | Visual identity, sound, fiction and asset production | Audio direction, fiction depth and asset standards |
-| [Technical design](07-technical-design.md) | Architecture, saves, performance and content workflow | Browser budgets, compatibility and build reproducibility |
+| [Technical design](07-technical-design.md) | Architecture, saves, performance and content workflow | Browser budgets, compatibility, build reproducibility and the [standalone refactor execution plan](07-technical-design.md#standalone-code-organization-refactor-plan) |
 | [Quality and playtesting](08-quality-and-playtesting.md) | Evidence, test matrix and completion checks | Human sessions and stable late factories |
 | [Production roadmap](09-production-roadmap.md) | Dependencies, milestones, risks and task intake | Implement the adopted milestone and validate its exit criteria |
 | [Decisions and review queue](10-decisions-and-review-queue.md) | Recorded decisions and review history | Q144 closes this design pass; extra QoL deferred until endgame playtesting. Implementation is delivered locally; see document 20 for evidence and remaining validation. |

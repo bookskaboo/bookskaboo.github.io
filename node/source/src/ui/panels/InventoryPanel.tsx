@@ -3,10 +3,11 @@ import { cargoMaterial } from '../../content/botAssembly';
 import type { ItemId } from '../../domain/types';
 import { MaterialIcon } from '../MaterialIcon';
 import { PanelHeader } from '../PanelHeader';
+import { Dialog } from '../components/Dialog';
 
 export function InventoryPanel({ inventory, onClose }: { inventory: Partial<Record<ItemId, number>>; onClose(): void }) {
   const entries = Object.entries(inventory).filter(([, count]) => (count ?? 0) > 0) as [ItemId, number][];
-  return <div className="modal-backdrop"><section className="modal inventory-modal glass">
+  return <div className="modal-backdrop"><Dialog panel className="modal inventory-modal glass" aria-label="Inventory" onDismiss={onClose}>
     <PanelHeader title="Stock overview" onClose={onClose} />
     <div className="inventory-summary"><b>{entries.reduce((total, [, count]) => total + count, 0)}</b><span>items in buffers</span></div>
     <div className="inventory-grid">
@@ -20,5 +21,5 @@ export function InventoryPanel({ inventory, onClose }: { inventory: Partial<Reco
       })}
       {!entries.length && <div className="empty-state">Factory buffers are empty. Remarkably easy to inventory.</div>}
     </div>
-  </section></div>;
+  </Dialog></div>;
 }

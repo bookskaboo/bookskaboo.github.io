@@ -1,4 +1,5 @@
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import { Dialog } from './components/Dialog';
 import type { GameState } from '../domain/types';
 import { PanelHeader } from './PanelHeader';
 import { researchSection } from './researchPresentation';
@@ -62,18 +63,9 @@ export function ResearchTreeModal({ game, focusProjectId, onInspect, onClose }: 
     update(); const observer = new ResizeObserver(update); observer.observe(element);
     return () => observer.disconnect();
   }, []);
-  useEffect(() => { search.current?.focus(); }, []);
   useEffect(() => { scroll.current?.scrollTo({ top: 0 }); }, [query]);
-  return <div className="modal-backdrop research-tree-backdrop" onMouseDown={event => { if (event.target === event.currentTarget) onClose(); }} onKeyDownCapture={event => {
-    if (event.key === 'Escape') { event.preventDefault(); event.stopPropagation(); onClose(); }
-    if (event.key === 'Tab') {
-      const controls = [...(modal.current?.querySelectorAll<HTMLElement>('button:not(:disabled), input') ?? [])];
-      const first = controls[0], last = controls.at(-1);
-      if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last?.focus(); }
-      else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first?.focus(); }
-    }
-  }}>
-    <section ref={modal} className="modal research-tree-modal glass" role="dialog" aria-modal="true" aria-label="Research dependency tree">
+  return <div className="modal-backdrop research-tree-backdrop" onMouseDown={event => { if (event.target === event.currentTarget) onClose(); }}>
+    <Dialog ref={modal} className="modal research-tree-modal glass" aria-label="Research dependency tree" onDismiss={onClose} initialFocus={() => search.current}>
       <PanelHeader title="Research tree" onClose={onClose} />
       <div className="research-tree-tools">
         <div className="research-tree-tools-actions">
@@ -129,6 +121,6 @@ export function ResearchTreeModal({ game, focusProjectId, onInspect, onClose }: 
           <button type="button" onClick={() => { clearPin(); search.current?.focus(); }}>Clear pin</button>
         </> : 'Click a project for details or use its pin to follow the prerequisites.'}
       </footer>
-    </section>
+    </Dialog>
   </div>;
 }

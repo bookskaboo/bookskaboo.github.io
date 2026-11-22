@@ -1,4 +1,6 @@
 import { EndgameNotice } from './components/EndgameNotice';
+import { AutosaveWarning } from './components/AutosaveWarning';
+import { Dialog } from './components/Dialog';
 import { DwarvenDiscoveryNotice } from './components/DwarvenDiscoveryNotice';
 import { firstSpottedDwarvenCamp } from '../tutorials/dwarvenDiscovery';
 import { readShortcutBars, readShortcutBarGroups, readKnownShortcutUnlocks, readNewShortcutAssignments } from './shortcutPreferences';
@@ -7,6 +9,7 @@ import { Stat } from './components/Stat';
 import { formatTime } from './formatters';
 import { BuildPanel } from './panels/BuildPanel';
 import { InventoryPanel } from './panels/InventoryPanel';
+import { useInventoryTotals } from './useInventoryTotals';
 import { OptionsPanel } from './panels/OptionsPanel';
 import { DevPanel } from './panels/DevPanel';
 import { CommandsPanel } from './panels/CommandsPanel';
@@ -16,13 +19,13 @@ import { WelcomeModal } from './components/WelcomeModal';
 import { ConfirmModal } from './components/ConfirmModal';
 import { RailButton } from './components/RailButton';
 import { UiTooltipLayer } from './components/UiTooltipLayer';
-import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { BUILDABLE_NODES, isNodeUnlocked, NODE_DEFINITIONS } from '../content/nodes';
 import { ITEM_NAMES } from '../content/items';
 import { getNodeModule } from '../content/nodeModules';
 import { CONNECTOR_MIRRORING_RESEARCH, isProductionMachine } from '../content/productionNodes';
 import type { CameraState, GameEvent, GameState, ItemId, NodeKind } from '../domain/types';
-import { readSlots, type SaveSlot } from '../persistence/saves';
+import type { SaveSlot } from '../persistence/saves';
 import { PixiPlayfield, type PlayfieldTooltip, type SelectionInfo } from '../renderer/PixiPlayfield';
 import { CONTROL_GROUP_COLORS } from '../domain/controlGroups';
 import { startingCamera } from './startingCamera';
@@ -46,7 +49,7 @@ import { TributeResourcePicker } from './TributeResourcePicker';
 import { RecipesPanel } from './RecipesPanel';
 import { FactoryTemplates } from './FactoryTemplates';
 import { DiscoveryJournal } from './DiscoveryJournal';
-import { researchEventProject, unlockDestination, type UnlockDestination } from './unlockNavigation';
+import { researchEventProject } from './unlockNavigation';
 import { ResearchPanel } from './ResearchPanel';
 import { ASSIGNMENT, BOT_UPGRADES, STAGES, botUpgradeBenefits } from '../content/botUpgrades';
 import { syncStatusHintHistory } from './upgrades/statusHints';
@@ -63,7 +66,8 @@ import { useViewport } from './useViewport';
 import { poolCapacity } from '../simulation/progression';
 import { createDefaultShortcutBars, addUnlockedNodeShortcuts, DEFAULT_SHORTCUT_BAR_GROUPS, DEFAULT_SHORTCUT_BARS, reconcileShortcutBars, SHORTCUT_BAR_IDS, ShortcutBars, type ShortcutBarGroup, type ShortcutBarId, type ShortcutBarsState } from './ShortcutBars';
 
-type Panel = 'build' | 'inventory' | 'journal' | 'research' | 'map' | 'options' | 'save' | 'commands' | 'recipes' | 'dev' | 'mods' | null;
+import { useFactoryPanels, type Panel } from './useFactoryPanels';
+import { useFactoryKeyboard } from './useFactoryKeyboard';
 type NoticeTone = 'research' | 'warning';
 interface Notice { id: string; message: string; label: string; tone: NoticeTone; projectId?: string }
 
@@ -101,20 +105,7 @@ export function App() {
   const dwarvenDiscovery = !welcome && !training && !tutorialMenu ? firstSpottedDwarvenCamp(ENGINE.getState()) : undefined;
   const dismissDwarvenDiscovery = useCallback(() => { ENGINE.acknowledgeDwarvenDiscovery(); }, []);
   const tutorialInvitation = !welcome && !training && !tutorialMenu && !dwarvenDiscovery ? nextTutorialInvitation(ENGINE.getState()) : undefined;
-  const invitationOpen = Boolean(tutorialInvitation);
   const dismissTutorialInvitation = useCallback(() => { if (tutorialInvitation) ENGINE.acknowledgeTutorialInvitation(tutorialInvitation); }, [tutorialInvitation]);
-  useEffect(() => {
-    if (!invitationOpen && !tutorialMenu) return;
-    const onKey = (event: KeyboardEvent) => {
-      event.stopPropagation();
-      if (event.key !== 'Escape') return;
-      event.preventDefault();
-      if (tutorialMenu) setTutorialMenu(false);
-      else dismissTutorialInvitation();
-    };
-    window.addEventListener('keydown', onKey, true);
-    return () => window.removeEventListener('keydown', onKey, true);
-  }, [invitationOpen, tutorialMenu, dismissTutorialInvitation]);
   const startTutorial = (kind: TutorialKind) => { if (!isTutorialUnlocked(kind, ENGINE.getState())) return; if (kind === 'expansion' || kind === 'monster-camps') ENGINE.acknowledgeTutorialInvitation(kind); setTraining({ id: crypto.randomUUID(), kind, engine: new GameEngine(createTutorialState(kind), { autosave: false }) }); setTutorialMenu(false); };
   const exitTutorial = () => { setTraining(undefined); setTutorialMenu(true); };
   const finishTutorial = () => {
@@ -126,7 +117,7 @@ export function App() {
   return <><FactoryApp key={training?.id ?? 'factory'} engine={training?.engine ?? ENGINE} training={training} welcome={!training && welcome} onShowWelcome={() => setWelcome(true)} onCloseWelcome={() => setWelcome(false)} onTutorials={() => setTutorialMenu(true)} onExitTutorial={exitTutorial} onFinishTutorial={finishTutorial} />{dwarvenDiscovery && <DwarvenDiscoveryNotice onDismiss={dismissDwarvenDiscovery} />}{tutorialMenu && <TutorialMenu game={ENGINE.getState()} onStart={startTutorial} onClose={() => setTutorialMenu(false)} />}{tutorialInvitation && <TutorialUnlockInvitation kind={tutorialInvitation} onStart={() => startTutorial(tutorialInvitation)} onLater={dismissTutorialInvitation} />}</>;
 }
 
-function FactoryApp({ engine, training, welcome, onShowWelcome, onCloseWelcome, onTutorials, onExitTutorial, onFinishTutorial }: { engine: GameEngine; training?: TrainingSession; welcome: boolean; onShowWelcome(): void; onCloseWelcome(): void; onTutorials(): void; onExitTutorial(): void; onFinishTutorial(): void }) {
+export function FactoryApp({ engine, training, welcome, onShowWelcome, onCloseWelcome, onTutorials, onExitTutorial, onFinishTutorial }: { engine: GameEngine; training?: TrainingSession; welcome: boolean; onShowWelcome(): void; onCloseWelcome(): void; onTutorials(): void; onExitTutorial(): void; onFinishTutorial(): void }) {
   const fieldViewportRef = useRef<HTMLDivElement>(null);
   useLayoutEffect(() => {
     if (training || !needsStartingCamera || !fieldViewportRef.current) return;
@@ -134,8 +125,6 @@ function FactoryApp({ engine, training, welcome, onShowWelcome, onCloseWelcome, 
     needsStartingCamera = false;
   }, [engine, training]);
   const [, forceRender] = useState(0);
-  const [panel, setPanel] = useState<Panel>(null);
-  const [returnPanel, setReturnPanel] = useState<Exclude<Panel, null> | null>(null);
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const [selectionInfo, setSelectionInfo] = useState<SelectionInfo>();
   const [pendingGroupNodes, setPendingGroupNodes] = useState<string[]>();
@@ -163,7 +152,6 @@ function FactoryApp({ engine, training, welcome, onShowWelcome, onCloseWelcome, 
     return () => window.clearTimeout(timer);
   }, [placementCorrection]);
   const [buildCategory, setBuildCategory] = useState('All');
-  const [saveSlots, setSaveSlots] = useState<Array<SaveSlot | null>>(() => readSlots());
   const [confirmDelete, setConfirmDelete] = useState(false);
   const showRecipeIcons = useRecipeIconToggle(!training && !welcome && !confirmDelete && !pendingGroupNodes && !pendingDisbandGroup);
   const [configuringNodeId, setConfiguringNodeId] = useState<string>();
@@ -208,11 +196,6 @@ function FactoryApp({ engine, training, welcome, onShowWelcome, onCloseWelcome, 
   const [interactionFailure, setInteractionFailure] = useState<InteractionFailure>();
   const dismissInteractionFailure = useCallback(() => setInteractionFailure(undefined), []);
   const [notices, setNotices] = useState<Notice[]>([]);
-  const [unlockFocus, setUnlockFocus] = useState<UnlockDestination>();
-  const [unlockVisit, setUnlockVisit] = useState(0);
-  const researchRecipeParent = useRef<Panel>(null);
-  const researchRecipeFocus = useRef<HTMLElement | null>(null);
-  const researchRecipeScroll = useRef(0);
   const [shortcutBars, setShortcutBars] = useState<ShortcutBarsState>(() => {
     const bars = reconcileShortcutBars(training ? Object.fromEntries(Object.entries(structuredClone(DEFAULT_SHORTCUT_BARS)).map(([id, bar], index) => [id, { ...bar, position: { x: 85, y: (training.kind === 'expansion' ? 75 : 17) + index * 8 } }])) as ShortcutBarsState : readShortcutBars({ recoverAllHidden: welcome }), engine.getState().research.unlocked);
     if (welcome && !training && bars.storage.assignments.every(kind => kind === null)) bars.storage.visible = false;
@@ -280,42 +263,11 @@ function FactoryApp({ engine, training, welcome, onShowWelcome, onCloseWelcome, 
   }, [noticeSignature, training]);
   useEffect(() => () => { noticeTimers.current.forEach((timer) => window.clearTimeout(timer)); }, []);
 
-  const closePanels = useCallback(() => { setPanel(null); setReturnPanel(null); setInspectingNodeId(undefined); setConfiguringNodeId(undefined); }, []);
-  const dismissPanel = useCallback(() => {
-    if (panel === 'recipes' && returnPanel === 'research') { setPanel('research'); setReturnPanel(researchRecipeParent.current); researchRecipeParent.current = null; }
-    else if (returnPanel) { setPanel(returnPanel); setReturnPanel(null); }
-    else setPanel(null);
-  }, [panel, returnPanel]);
-  useEffect(() => { if (panel === 'map' && !mapAvailable) dismissPanel(); }, [panel, mapAvailable, dismissPanel]);
-  const openResearchRecipe = (recipeId: string) => {
-    if (training) return;
-    researchRecipeParent.current = returnPanel;
-    researchRecipeFocus.current = document.activeElement instanceof HTMLElement ? document.activeElement : null;
-    researchRecipeScroll.current = document.querySelector('.status-stage-list, .research-sections')?.scrollTop ?? 0;
-    setUnlockFocus({ panel: 'recipes', recipeId }); setReturnPanel('research'); setPanel('recipes');
-  };
-  useEffect(() => {
-    if (panel !== 'research' || !researchRecipeFocus.current) return;
-    const target = researchRecipeFocus.current; researchRecipeFocus.current = null;
-    const frame = requestAnimationFrame(() => {
-      document.querySelector('.status-stage-list, .research-sections')?.scrollTo({ top: researchRecipeScroll.current });
-      if (target.isConnected) target.focus({ preventScroll: true });
-    });
-    return () => cancelAnimationFrame(frame);
-  }, [panel]);
-  const togglePanel = useCallback((next: Exclude<Panel, null>) => {
-    if (training && allowedPanel !== next) return;
-    if (next === 'map') { setMinimapVisible(true); engine.acknowledgeCornerDiscovery(); }
-    setUnlockFocus(undefined); setReturnPanel(null); setPanel((current) => current === next ? null : next); setPlacement(undefined); setPasting(false); setInspectingNodeId(undefined); setConfiguringNodeId(undefined);
-  }, [training, allowedPanel, engine]);
-  const openSubPanel = useCallback((next: Exclude<Panel, null>, parent: Exclude<Panel, null>) => { setUnlockFocus(undefined); setReturnPanel(parent); setPanel(next); }, []);
-  const openUnlock = (projectId: string, fromJournal = false, nodeKind?: NodeKind) => {
-    const destination = unlockDestination(projectId, nodeKind);
-    setUnlockFocus(destination); setUnlockVisit(value => value + 1);
-    setPlacement(undefined); setConfiguringNodeId(undefined);
-    setReturnPanel(fromJournal ? 'journal' : null); setPanel(destination.panel);
-    if (destination.panel === 'build') setBuildCategory('All');
-  };
+  const { panel, setPanel, returnPanel, setReturnPanel, unlockFocus, unlockVisit,
+    closePanels, dismissPanel, openResearchRecipe, togglePanel, openSubPanel, openUnlock } = useFactoryPanels({
+    engine, training, allowedPanel, mapAvailable, setInspectingNodeId, setConfiguringNodeId,
+    setPlacement, setPasting, setMinimapVisible, setBuildCategory,
+  });
   const requestDeleteNodes = useCallback((ids: string[]) => {
     const deletable = engine.getSector().nodes.filter(node => ids.includes(node.id) && canDeleteNode(node)).map(node => node.id);
     if (!deletable.length) return;
@@ -370,56 +322,7 @@ function FactoryApp({ engine, training, welcome, onShowWelcome, onCloseWelcome, 
     if (!training) localStorage.setItem(SHORTCUT_BARS_KEY, JSON.stringify(next));
   }, [game.research.unlocked, researchUnlockSignature, shortcutBars]);
 
-  useEffect(() => {
-    const onKey = (event: KeyboardEvent) => {
-      const target = event.target as HTMLElement | null;
-      if (target?.matches('input, select, textarea') || target?.isContentEditable) return;
-      const key = event.key.toLowerCase();
-      const commandModifier = event.ctrlKey || event.metaKey;
-      const plainKey = !commandModifier && !event.altKey && !event.shiftKey;
-      if (welcome) { if (key === 'escape') { event.preventDefault(); closeWelcome(); } return; }
-      if (pendingGroupNodes || pendingDisbandGroup) { if (key === 'escape') { event.preventDefault(); setPendingGroupNodes(undefined); setPendingDisbandGroup(undefined); } return; }
-      if (confirmDelete) { if (key === 'escape') { event.preventDefault(); setConfirmDelete(false); } return; }
-      if (configuringNodeId && key === 'escape') { event.preventDefault(); setConfiguringNodeId(undefined); return; }
-      if (!event.repeat && commandModifier && !event.altKey && !event.shiftKey && key === 'z') { event.preventDefault(); if (!training) { engine.undo(); setSelectedIds([]); setSelectedConnection(undefined); } return; }
-      if (commandModifier && !event.altKey && !event.shiftKey && (key === 'c' || key === 'v')) {
-        if (training || panel || event.repeat) return;
-        if (key === 'c') {
-          if (!window.getSelection()?.toString() && engine.copyNodes(selectedIds)) {
-            event.preventDefault();
-            setPasting(false);
-          }
-          return;
-        }
-        if (!engine.hasCopiedNodes()) return;
-        event.preventDefault();
-        closePanels();
-        setPlacement(undefined);
-        setTooltip(undefined);
-        setPasting(true);
-        return;
-      }
-      if (!event.repeat && plainKey && (key === 'delete' || key === 'backspace')) { event.preventDefault(); if (!training) requestDelete(); return; }
-      if (key === 'escape') { recipeCopySource.current = undefined; setPlacement(undefined); setPasting(false); dismissPanel(); setSelectedIds([]); setSelectedConnection(undefined); setTooltip(undefined); return; }
-      if (!event.repeat && plainKey && key === 'b') { event.preventDefault(); togglePanel('build'); return; }
-      if (!event.repeat && plainKey && key === 'j') { event.preventDefault(); togglePanel('journal'); return; }
-      if (!event.repeat && plainKey && key === 'o') { event.preventDefault(); togglePanel('options'); return; }
-      if (!event.repeat && plainKey && key === 'q') { event.preventDefault(); togglePanel('research'); return; }
-      if (!event.repeat && !commandModifier && !event.altKey && event.shiftKey && key === 'm') { event.preventDefault(); if (mapAvailable) togglePanel('map'); return; }
-      if (!event.repeat && plainKey && key === 'm') { event.preventDefault(); if (!training && mapAvailable) { if (panel === 'map') { dismissPanel(); setMinimapVisible(false); } else setMinimapVisible((visible) => !visible); } return; }
-      if (!event.repeat && !commandModifier && !event.altKey && (key === '?' || (key === '/' && event.shiftKey))) { event.preventDefault(); togglePanel('commands'); return; }
-      if (!event.repeat && plainKey && key === 'r') { const node = sector.nodes.find((candidate) => candidate.id === hoveredNodeId) ?? selectedNode; if (node && (!training || choices?.rotationKind === node.kind) && getNodeModule(node.kind, node).controls.rotatable) { event.preventDefault(); engine.rotateNode(node.id); } return; }
-      const functionBarShortcut = /^F([1-3])$/.exec(event.code);
-      if (!event.repeat && plainKey && functionBarShortcut) { event.preventDefault(); if (!training) { const id = SHORTCUT_BAR_IDS[Number(functionBarShortcut[1]) - 1]; changeShortcutBars({ ...shortcutBars, [id]: { ...shortcutBars[id], visible: !shortcutBars[id].visible } }); } return; }
-      const digitShortcut = /^Digit([1-5])$/.exec(event.code);
-      if (!event.repeat && !event.metaKey && !event.altKey && !(event.ctrlKey && event.shiftKey) && digitShortcut) {
-        const digit = Number(digitShortcut[1]);
-        const barId = event.ctrlKey ? 'storage' : event.shiftKey ? 'logistics' : 'production'; const quick = shortcutBars[barId].assignments[digit - 1];
-        if (quick && canBuild(quick) && isNodeUnlocked(quick, game.research.unlocked)) { event.preventDefault(); setPasting(false); setPlacement(quick); closePanels(); }
-      }
-    };
-    window.addEventListener('keydown', onKey); return () => window.removeEventListener('keydown', onKey);
-  }, [changeShortcutBars, closePanels, configuringNodeId, confirmDelete, dismissPanel, engine, game.research.unlocked, hoveredNodeId, mapAvailable, panel, pendingGroupNodes, pendingDisbandGroup, requestDelete, sector.nodes, selectedIds, selectedNode, shortcutBars, togglePanel, welcome, training?.kind, tutorialStage]);
+  useFactoryKeyboard({ changeShortcutBars, closePanels, configuringNodeId, confirmDelete, dismissPanel, engine, researchUnlocked: game.research.unlocked, hoveredNodeId, mapAvailable, panel, pendingGroupNodes, pendingDisbandGroup, requestDelete, nodes: sector.nodes, selectedIds, selectedNode, shortcutBars, togglePanel, welcome, training, tutorialStage, closeWelcome: () => closeWelcome(), setPendingGroupNodes, setPendingDisbandGroup, setConfirmDelete, setConfiguringNodeId, recipeCopySource, setPlacement, setPasting, setSelectedIds, setSelectedConnection, setTooltip, setMinimapVisible, choices, canBuild });
 
   useEffect(() => {
     if (!placing && !pasting) return;
@@ -432,11 +335,7 @@ function FactoryApp({ engine, training, welcome, onShowWelcome, onCloseWelcome, 
     return () => { window.removeEventListener('pointerdown', cancelHeldNode, true); window.removeEventListener('contextmenu', blockContextMenu, true); };
   }, [placing, pasting]);
 
-  const inventory = useMemo(() => {
-    const totals: Partial<Record<ItemId, number>> = {};
-    Object.values(game.sectors).forEach((s) => s.nodes.forEach((node) => [node.input, node.output].forEach((bag) => Object.entries(bag).forEach(([item, count]) => { totals[item as ItemId] = (totals[item as ItemId] ?? 0) + (count ?? 0); }))));
-    return totals;
-  }, [game.revision]);
+  const inventory = useInventoryTotals(game, panel === 'inventory');
 
   const travelToSector = (id: string, sourceRoadId?: string) => {
     const target = game.sectors[id];
@@ -496,6 +395,7 @@ function FactoryApp({ engine, training, welcome, onShowWelcome, onCloseWelcome, 
 
   return (
     <main className={training ? "game-shell training-session" : "game-shell"} style={{ '--shortcut-dock-height': `${dockLayout.height}px` } as React.CSSProperties}>
+      {!training && <AutosaveWarning engine={engine} />}
       <div className="ambient ambient-a" /><div className="ambient ambient-b" />
       <PixiPlayfield
         viewportRef={fieldViewportRef}
@@ -578,7 +478,7 @@ function FactoryApp({ engine, training, welcome, onShowWelcome, onCloseWelcome, 
         />
       </div>}
 
-      {panel === 'save' && !training && <SavePanel game={game} engine={engine} slots={saveSlots} setSlots={setSaveSlots} onLoad={loadSave} onClose={dismissPanel} />}
+      {panel === 'save' && !training && <SavePanel game={game} engine={engine} onLoad={loadSave} onClose={dismissPanel} />}
       {panel === 'commands' && <CommandsPanel onClose={dismissPanel} />}
       {panel === 'mods' && !training && <ModsModal game={game} engine={engine} onClose={dismissPanel} />}
       {panel === 'dev' && !training && <DevPanel game={game} engine={engine} showAllBuildNodes={showAllBuildNodes} onShowAllBuildNodes={setShowAllBuildNodes} onPlaceSource={() => startPlacement('devSource')} onClose={dismissPanel} />}
@@ -595,14 +495,14 @@ function FactoryApp({ engine, training, welcome, onShowWelcome, onCloseWelcome, 
       <div className="notification-stack" aria-live="polite">{notices.map((notice) => <article key={notice.id} className={`notification ${notice.tone}`} role={notice.tone === 'warning' ? 'alert' : undefined}><i>{notice.tone === 'warning' ? '!' : '⌁'}</i><button className="notification-content" disabled={!notice.projectId} aria-label={notice.projectId ? `View unlock: ${notice.message}` : undefined} onClick={() => { if (!notice.projectId) return; openUnlock(notice.projectId); const timer = noticeTimers.current.get(notice.id); if (timer) window.clearTimeout(timer); noticeTimers.current.delete(notice.id); setNotices(current => current.filter(candidate => candidate.id !== notice.id)); }}><small>{notice.label}</small><b>{notice.message}</b></button><button aria-label="Dismiss notification" onClick={() => { const timer = noticeTimers.current.get(notice.id); if (timer) window.clearTimeout(timer); noticeTimers.current.delete(notice.id); setNotices((current) => current.filter((candidate) => candidate.id !== notice.id)); }}>×</button><span /></article>)}</div>
 
       {welcome && <WelcomeModal onClose={closeWelcome} onTutorials={onTutorials} />}
-      {pendingGroupNodes && <div className="modal-backdrop control-group-backdrop"><section className="modal glass control-group-modal" role="dialog" aria-modal="true" aria-labelledby="control-group-title">
+      {pendingGroupNodes && <div className="modal-backdrop control-group-backdrop"><Dialog className="modal glass control-group-modal" aria-labelledby="control-group-title" onDismiss={() => setPendingGroupNodes(undefined)}>
         <PanelHeader eyebrow="CONTROL GROUPS" title="Choose a control group color" onClose={() => setPendingGroupNodes(undefined)} />
         <span id="control-group-title" className="control-group-sr-label">Choose a control group color</span>
         <p>{pendingGroupNodes.length} nodes will select and move together. They have agreed to cooperate.</p>
         <div className="control-group-palette" role="group" aria-label="Control group colors">{CONTROL_GROUP_COLORS.map(color => <button key={color.name} aria-label={`Create ${color.name} control group`} style={{ '--group-color': color.value } as React.CSSProperties} onClick={() => { const group = engine.createControlGroup(pendingGroupNodes, color.value); if (group) selectNodes(group.nodeIds); setPendingGroupNodes(undefined); }}><i /><b>{color.name}</b></button>)}</div>
         <p>Click or drag a member to control the group. Double-click to control one node. Right-click to disband.</p>
         <button className="primary-cta" onClick={() => setPendingGroupNodes(undefined)}>Cancel</button>
-      </section></div>}
+      </Dialog></div>}
       {pendingDisbandGroup && <ConfirmModal title="Disband this control group?" body={`The ${sector.controlGroups?.find(group => group.id === pendingDisbandGroup)?.colorName ?? 'selected'} group will be removed. Its nodes, cables, and positions stay unchanged. An administrative separation.`} confirm="DISBAND" onCancel={() => setPendingDisbandGroup(undefined)} onConfirm={() => { engine.disbandControlGroup(pendingDisbandGroup); setPendingDisbandGroup(undefined); }} />}
       {training && <TutorialGuide researchLayout={game.mod ? "current" : "upgrades"} session={training} game={game} camera={camera} nodePositions={tutorialNodePositions} onStageChange={setTutorialStage} onPlacementTarget={setTutorialTarget} placementCorrection={placementCorrection?.text} panel={panel} placing={placing} selectedIds={selectedIds} selectionInfo={selectionInfo} onPanel={value => { setPanel(value); setReturnPanel(null); setSelectedIds([]); setPlacement(undefined); }} onExit={onExitTutorial} onFinish={onFinishTutorial} />}
       {configuringNode?.kind === 'botPlant' && <BotPlantInspector node={configuringNode} completed={game.research.completed} onClose={() => setConfiguringNodeId(undefined)} />}

@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "purpose": "Historical proposal compiler and exact inputs; not a supported source generator",
+  "files": [
+    {
+      "originalPath": "scripts/sync-progression-content.mjs",
+      "path": "sync-progression-content.mjs.txt",
+      "bytes": 14166,
+      "sha256": "4487481b2f574a071c36cbbdcd7afbb746b5424375166956f433d1314961edfa"
+    },
+    {
+      "originalPath": "scripts/apply-reviewed-production.mjs",
+      "path": "apply-reviewed-production.mjs.txt",
+      "bytes": 7115,
+      "sha256": "4650ff2473f470b5d83928986bdef6ba6ef08cee335add4d1183aab4703ed864"
+    },
+    {
+      "originalPath": "outputs/progression/core-design.json",
+      "path": "core-design.json",
+      "bytes": 86482,
+      "sha256": "ecb8cc4e780cfe501ebcbca3575e09a282d2395c8bc072674d5d1e4a75009f8d"
+    },
+    {
+      "originalPath": "outputs/progression/waste-design.json",
+      "path": "waste-design.json",
+      "bytes": 7891,
+      "sha256": "567dc62c7960da314b0633e0113fbe50408560af079066a7abce48f7680998a6"
+    }
+  ]
+}

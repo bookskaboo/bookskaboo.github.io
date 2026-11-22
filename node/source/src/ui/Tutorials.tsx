@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { Dialog } from './components/Dialog';
 import { CONTROL_GROUP_NODE_IDS, tutorialStages } from '../tutorials/tutorialRuntime';
 import { tutorialInsertionTarget, tutorialPlacementTarget, type TutorialPlacementTarget } from '../tutorials/tutorialRuntime';
 import type { SelectionInfo } from '../renderer/PixiPlayfield';
@@ -23,7 +24,7 @@ const TUTORIAL_DESCRIPTIONS: Record<TutorialKind, string> = {
 
 export function TutorialMenu({ game, onStart, onClose }: { game: GameState; onStart(kind: TutorialKind): void; onClose(): void }) {
   return <div className="modal-backdrop tutorial-menu-backdrop">
-    <section className="modal glass tutorial-dialog tutorial-menu" role="dialog" aria-modal="true" aria-label="Tutorials">
+    <Dialog className="modal glass tutorial-dialog tutorial-menu" aria-label="Tutorials" onDismiss={onClose}>
       <PanelHeader title="Tutorials" onClose={onClose} />
       <div className="tutorial-modal-content">
         <p className="tutorial-intro">Practice in a separate factory.</p>
@@ -36,7 +37,7 @@ export function TutorialMenu({ game, onStart, onClose }: { game: GameState; onSt
           </article>)}
         </div>
       </div>
-    </section>
+    </Dialog>
   </div>;
 }
 

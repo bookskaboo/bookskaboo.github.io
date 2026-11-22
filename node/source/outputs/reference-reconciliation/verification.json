@@ -1,0 +1,70 @@
+{
+  "runtimeFilesChecked": 374,
+  "runtimeFilesChanged": [],
+  "catalogs": [
+    {
+      "file": "bots.md",
+      "unchanged": true,
+      "tableRowsUnchanged": true
+    },
+    {
+      "file": "efficiency.md",
+      "unchanged": true,
+      "tableRowsUnchanged": true
+    },
+    {
+      "file": "items.md",
+      "unchanged": true,
+      "tableRowsUnchanged": true
+    },
+    {
+      "file": "nodes.md",
+      "unchanged": true,
+      "tableRowsUnchanged": true
+    },
+    {
+      "file": "recipes.md",
+      "unchanged": true,
+      "tableRowsUnchanged": true
+    },
+    {
+      "file": "research.md",
+      "unchanged": false,
+      "tableRowsUnchanged": true
+    }
+  ],
+  "sourceEvidence": {
+    "LandmarkTransport": [
+      "src/simulation/engine.ts",
+      "src/content/landmarks.ts"
+    ],
+    "LandmarkBuffers": [
+      "src/content/nodeCapabilities.ts",
+      "src/simulation/progression.ts",
+      "src/simulation/landmarkRuntime.ts"
+    ],
+    "LandmarkCompatibility": [
+      "src/simulation/landmarkGeneration.ts",
+      "src/simulation/landmarkValidation.ts"
+    ],
+    "Terrain": [
+      "src/domain/mapTerrain.ts",
+      "src/simulation/mapTerrain.ts",
+      "src/simulation/createInitialState.ts"
+    ],
+    "MapPoints": [
+      "src/content/research.ts",
+      "src/simulation/upgradesMigration.ts",
+      "src/simulation/mapExpansion.ts",
+      "src/simulation/researchRuntime.ts"
+    ]
+  },
+  "verification": [
+    "npm run docs:systems",
+    "npm run docs:systems:check"
+  ],
+  "limits": [
+    "Documentation and generator explanation only; no gameplay, build, browser or balance rerun",
+    "Dated plans, recorded history and legitimate deferrals preserved"
+  ]
+}

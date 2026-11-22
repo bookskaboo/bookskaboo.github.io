@@ -1,0 +1,2158 @@
+{
+  "date": "2026-11-21",
+  "status": "completed",
+  "reason": "User authorized deletion of the 22 older release repo folders identified in the workspace audit.",
+  "retainedHistoryCheckout": "D:\\node factory v2\\outputs\\node-landmarks-release-2026-11-20\\repo",
+  "retainedHistoryHead": "aecc45ec1540249594946fb53bbde714061874f6",
+  "targets": [
+    {
+      "path": "D:\\node factory v2\\outputs\\node-border-art-release-2026-11-20\\repo",
+      "relativePath": "outputs/node-border-art-release-2026-11-20/repo",
+      "head": "00a81bea23211576fa2c4921330e6839b9452dd1",
+      "refs": [
+        "00a81bea23211576fa2c4921330e6839b9452dd1 refs/heads/release/border-art-clearance-2026-11-20",
+        "2f46d98354e8432124c2220533b2fbf6b6e492e9 refs/heads/release/dense-optimization-2026-11-19"
+      ],
+      "linkedWorktree": false,
+      "worktrees": [
+        "D:\\node factory v2\\outputs\\node-border-art-release-2026-11-20\\repo"
+      ],
+      "files": 1899,
+      "bytes": 121479713,
+      "junctions": [],
+      "preservedSiblingFiles": [
+        {
+          "path": "D:\\node factory v2\\outputs\\node-border-art-release-2026-11-20\\build-manifest.json",
+          "bytes": 1960,
+          "sha256": "697ce17c172a73867cca52465d7dad29a926d11d96c57f129607a246d3c15011"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-border-art-release-2026-11-20\\candidate-audit.log",
+          "bytes": 229,
+          "sha256": "f924b1d482484fd06a484eebce976817c314063bb488af4c64dc21952691d9d3"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-border-art-release-2026-11-20\\candidate-browser.json",
+          "bytes": 623,
+          "sha256": "88098189bbe46e6a9226e5a7eeeec8746c0235fcb62d9687b816e76ca6433f21"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-border-art-release-2026-11-20\\candidate-build.log",
+          "bytes": 1799,
+          "sha256": "f944ffa03110b39f3c71d41fdffdee83212bf46df277716e9d02f32acefb6f6a"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-border-art-release-2026-11-20\\candidate-ghost.jpg",
+          "bytes": 59287,
+          "sha256": "2957fc32bb65c3bce11dab8035d8a5d60ef13c1b65eba7adbbbf1766cbc75a22"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-border-art-release-2026-11-20\\candidate-preview.log",
+          "bytes": 1180,
+          "sha256": "33f8a3a7ebde8913b1b092ce3a02db2f810ec3fa4042337eba17694e255a5581"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-border-art-release-2026-11-20\\candidate-south.jpg",
+          "bytes": 59411,
+          "sha256": "cd3b9f7f601e5a939f4aadacb526dfcee5e80f13afce9300df82d70bca89872f"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-border-art-release-2026-11-20\\candidate-tests.log",
+          "bytes": 582,
+          "sha256": "49a411744d9354a5018c7d03e6e25e479a80106bc58964910fe90295b96c38ca"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-border-art-release-2026-11-20\\finalize-publication-metadata.mjs",
+          "bytes": 2314,
+          "sha256": "9bbfc508c6c94ea47cef132acd06daa8f81b50a81cc2eaded0b120ab8664fb2e"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-border-art-release-2026-11-20\\finalize-release.mjs",
+          "bytes": 4259,
+          "sha256": "2d21f236bfaca9429b0e6a80c2744c38ceeecf74bb706794b02af1ec4044ce28"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-border-art-release-2026-11-20\\metadata-pages-status.json",
+          "bytes": 14547,
+          "sha256": "55720faef80a8b57e2e95edeca0f1c9cc246afba60ffbb146e25c9bbfd64006c"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-border-art-release-2026-11-20\\metadata-preflight-report.json",
+          "bytes": 421,
+          "sha256": "3b5291af912daa83d189dabfdf4ed214d6d2c4402fa0e267dc603632c1cf3fec"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-border-art-release-2026-11-20\\metadata-publication-receipt.json",
+          "bytes": 2309,
+          "sha256": "7f4e31f4cdd47c1566b7e05fa3d7f7ddc3ba29ef1aa3e5e3ae39ebda9b45e8c3"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-border-art-release-2026-11-20\\pages-status.json",
+          "bytes": 14555,
+          "sha256": "c0cf5835b125d0facf5245112792c25d00ce624807f393f9b711c832e75f163c"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-border-art-release-2026-11-20\\preflight-report.json",
+          "bytes": 910,
+          "sha256": "af228b20f025f22de7eae37f08c5e73fdc9600a609b303078eb8bfd3cde7176a"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-border-art-release-2026-11-20\\preflight.mjs",
+          "bytes": 2822,
+          "sha256": "ff279530a15f04610c8fb5756c3053491301d35f04c6a4c24c80ab6cbf83e98a"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-border-art-release-2026-11-20\\prepare-release.mjs",
+          "bytes": 8649,
+          "sha256": "d8e612d045a048141a1d42d89216d85ca80ed76525732681f04f6379c576f141"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-border-art-release-2026-11-20\\publication-history-id.txt",
+          "bytes": 10,
+          "sha256": "eb9bb8eb7398d647aaa7298031a2e8d3b0ea96ed9f2014d9fd93faa7579d0e79"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-border-art-release-2026-11-20\\publication-receipt.json",
+          "bytes": 2309,
+          "sha256": "9ffb82d1da0eb4c1e3972c00b119716d3cf59fa12ace0b77b0f66fa911fa83a9"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-border-art-release-2026-11-20\\record-publication.mjs",
+          "bytes": 7646,
+          "sha256": "ef7217cdeb5253bc37ff96b50eb7c0af672d0f0c13f605ca5eaf68c946aa7831"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-border-art-release-2026-11-20\\scope.json",
+          "bytes": 1007,
+          "sha256": "0754a19b6d9f3f773435d4af70abb8c6760cc0ecea3745d8af23d9a291391be2"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-border-art-release-2026-11-20\\source-manifest.json",
+          "bytes": 73244,
+          "sha256": "c9a02dd51253fcbf51570046f7397a067f79b47a2e350d9952c94144ef78750b"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-border-art-release-2026-11-20\\verify-release.mjs",
+          "bytes": 2893,
+          "sha256": "16b55ee05e5208bb4f116e9ddfb894f9d56028d866089d919ccfcf7be7e09871"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-border-art-release-2026-11-20\\workspace-build.log",
+          "bytes": 1540,
+          "sha256": "2aaabf013cb213b046f6684c31d2edf3dab3c77d7a2b66c44b33b65052d9bad5"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-border-art-release-2026-11-20\\workspace-tests.log",
+          "bytes": 426,
+          "sha256": "e2c867317e877180874ef26fb90e5d2cf02c9ca4da3100982c3e65ddd3a7f8f4"
+        }
+      ],
+      "removed": true
+    },
+    {
+      "path": "D:\\node factory v2\\outputs\\node-border-release-2026-11-20\\repo",
+      "relativePath": "outputs/node-border-release-2026-11-20/repo",
+      "head": "2f46d98354e8432124c2220533b2fbf6b6e492e9",
+      "refs": [
+        "2f46d98354e8432124c2220533b2fbf6b6e492e9 refs/heads/release/dense-optimization-2026-11-19"
+      ],
+      "linkedWorktree": false,
+      "worktrees": [
+        "D:\\node factory v2\\outputs\\node-border-release-2026-11-20\\repo"
+      ],
+      "files": 1646,
+      "bytes": 104075581,
+      "junctions": [],
+      "preservedSiblingFiles": [
+        {
+          "path": "D:\\node factory v2\\outputs\\node-border-release-2026-11-20\\build-manifest.json",
+          "bytes": 1734,
+          "sha256": "29a2092f82c51eaac824f41bdd83f172c2ba7d91d851ef80bd130af71cd1116b"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-border-release-2026-11-20\\candidate-browser.json",
+          "bytes": 1123,
+          "sha256": "5bcabe344495f1b65eca4681383ae78bd3d07589285f2766b018353c6c0f40eb"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-border-release-2026-11-20\\candidate-build.log",
+          "bytes": 1540,
+          "sha256": "2923407688297224fd68827741ea3cb4555a560f630823dfb7e6595b5f557c07"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-border-release-2026-11-20\\candidate-docs-generate.log",
+          "bytes": 163,
+          "sha256": "3ac335bbba7a8dadf6ae3f6fa679e0999d75ee473cd04a07fe19bb6ed5abd9f6"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-border-release-2026-11-20\\candidate-docs.log",
+          "bytes": 230,
+          "sha256": "d3b6ecb76e86eb915d4b8da1155dbfefd72539300da1b57bb40572dc2cbcb34d"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-border-release-2026-11-20\\candidate-history-generate.log",
+          "bytes": 127,
+          "sha256": "050659d3cfe307b62b9ec32f49b4453a3137931d9930669dde6b150d56c02173"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-border-release-2026-11-20\\candidate-history.log",
+          "bytes": 784,
+          "sha256": "4af179a46c33a1d4db1354d52114d7ec168eb7b63349f9e2ce7eb120971fc5a7"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-border-release-2026-11-20\\candidate-node-map.png",
+          "bytes": 77877,
+          "sha256": "325c7362c6c5b83b8eb88ee572053488afacc9535eb0fbcba1bbd097923a06f3"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-border-release-2026-11-20\\candidate-preview-build.log",
+          "bytes": 1090,
+          "sha256": "c915f8b2af996798c8f761c5109fbf8c6cb0722007969202074010f2a4e85b58"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-border-release-2026-11-20\\candidate-preview-types.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-border-release-2026-11-20\\candidate-seed-audit.log",
+          "bytes": 1623,
+          "sha256": "874e8e6e0b381338d1fd0e30ab09abd5d74527d8a0c6af74661dab4039c2fd69"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-border-release-2026-11-20\\candidate-tests.log",
+          "bytes": 578,
+          "sha256": "bb903370895a610133b9ad32b838bdc17dc14a389c65114c7b5f73bb79d8cbed"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-border-release-2026-11-20\\commit-publication-record.mjs",
+          "bytes": 2644,
+          "sha256": "052dbfb3f8c4375089145266eed1edb93797a7d20709060b7c0526ce687d1376"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-border-release-2026-11-20\\finalize-release.mjs",
+          "bytes": 4519,
+          "sha256": "224dfb297166df66539fc8c47195212ad358d465ac98f562e232a557c7de4701"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-border-release-2026-11-20\\metadata-pages-status.json",
+          "bytes": 14541,
+          "sha256": "f6302b236ace37e787cbae4a38e9f1ddbae1f75f353468a8fe4e65c3b93d474a"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-border-release-2026-11-20\\metadata-preflight-report.json",
+          "bytes": 1514,
+          "sha256": "689b2c085683178297d20323dfe249e276d9cb200e86bafa41a4b6045ad15475"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-border-release-2026-11-20\\metadata-publication-receipt.json",
+          "bytes": 2109,
+          "sha256": "24fb22c9d18e69872979724923b81fdd677ef6d13487fa9902af7234ccf080e9"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-border-release-2026-11-20\\pages-status.json",
+          "bytes": 14563,
+          "sha256": "ad4bf4258ddb67cd31209a300c79f4c7baad3676b29123d45585179f52d4e3c0"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-border-release-2026-11-20\\preflight-report.json",
+          "bytes": 1402,
+          "sha256": "4d59edfdbc3e66f87aecda3a4cb834b4d577efed018e841c2da5aa6e02ee24a3"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-border-release-2026-11-20\\preflight.mjs",
+          "bytes": 3593,
+          "sha256": "1a95aa729857dbdd29fbdda6d2ce3cc3a6e355c7511d1b4fffb932a4ddde486f"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-border-release-2026-11-20\\prepare-release.mjs",
+          "bytes": 9090,
+          "sha256": "eb2da7d7866a006a32281c30c85b4c1799ae636fb0c0305375896941ebc122a6"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-border-release-2026-11-20\\publication-docs.log",
+          "bytes": 176,
+          "sha256": "a6bcd4a687196a647f6a4ff612d8b5a92bc06ab0993806ece74ae9defd036804"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-border-release-2026-11-20\\publication-history-generate.log",
+          "bytes": 127,
+          "sha256": "a6094f83edcad864ff47eaed65659502bc6747d4ca9a7ea87c02f212c53a068e"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-border-release-2026-11-20\\publication-history-id.txt",
+          "bytes": 10,
+          "sha256": "9dfd6c18decfe3266e2c8f781c068386bff8c72fe61379295d69726e3f1d09fa"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-border-release-2026-11-20\\publication-history.log",
+          "bytes": 785,
+          "sha256": "6173b6d3e2d9dcaf89b71c7ab0d175986aa54781e9fe32a056ba1aaac9e7b8dd"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-border-release-2026-11-20\\publication-receipt.json",
+          "bytes": 2109,
+          "sha256": "1f51b8bfb6d0cfd8e052355425e14985be5d259a3598062db6f25a769ec8fb1e"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-border-release-2026-11-20\\record-publication.mjs",
+          "bytes": 7241,
+          "sha256": "7768d20ea08bf53e4a7810d1c2c97dfdefba872c10a48fbf1315947199a8590c"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-border-release-2026-11-20\\source-manifest.json",
+          "bytes": 43991,
+          "sha256": "02bf303ce388072eec5ddc6938afb4bd0143c688623ce3c3236cda1a6a77e64d"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-border-release-2026-11-20\\verify-release.mjs",
+          "bytes": 3171,
+          "sha256": "05af04acf0349c93a7d39d3cd413af62525cf44ae0848bca3a83abbcc110af44"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-border-release-2026-11-20\\workspace-build.log",
+          "bytes": 1540,
+          "sha256": "c678ebce037243d6281c3e6c54c2307fccd22dbf10cb0f9d596fa4503f75e85e"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-border-release-2026-11-20\\workspace-publication-docs.log",
+          "bytes": 176,
+          "sha256": "a6bcd4a687196a647f6a4ff612d8b5a92bc06ab0993806ece74ae9defd036804"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-border-release-2026-11-20\\workspace-publication-history-generate.log",
+          "bytes": 127,
+          "sha256": "18cc6708f3310cb3a052cf287c779450f908f7f1571a4a322a138ec8a3b74169"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-border-release-2026-11-20\\workspace-publication-history.log",
+          "bytes": 786,
+          "sha256": "e54f9aa45f22bfcab5b8cd8ed8bb6e8749eec30d8053eb972416b19428c81ed6"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-border-release-2026-11-20\\workspace-runtime-diff.patch",
+          "bytes": 33541,
+          "sha256": "0fdecc2d71afe3f9847dfc85e6ffcfe361e4ace44017d262b2a558add8c2f570"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-border-release-2026-11-20\\workspace-tests.log",
+          "bytes": 426,
+          "sha256": "ff5c7dc6d9801d23bc99692f4b95b4b1845036a48fbf5cbac44c3f08f0a1d05a"
+        }
+      ],
+      "removed": true
+    },
+    {
+      "path": "D:\\node factory v2\\outputs\\node-bot-plant-panel-release-2026-11-16\\repo",
+      "relativePath": "outputs/node-bot-plant-panel-release-2026-11-16/repo",
+      "head": "d3f62b5efdbbeb850a80635efefb3229e7085bcc",
+      "refs": [
+        "d3f62b5efdbbeb850a80635efefb3229e7085bcc refs/heads/main"
+      ],
+      "linkedWorktree": false,
+      "worktrees": [
+        "D:\\node factory v2\\outputs\\node-bot-plant-panel-release-2026-11-16\\repo",
+        "D:\\node factory v2\\outputs\\node-research-tutorial-release-2026-11-18\\repo"
+      ],
+      "files": 936,
+      "bytes": 71375260,
+      "junctions": [
+        {
+          "path": "D:\\node factory v2\\outputs\\node-bot-plant-panel-release-2026-11-16\\repo\\node\\source\\node_modules",
+          "target": "D:\\node factory v2\\node_modules"
+        }
+      ],
+      "preservedSiblingFiles": [
+        {
+          "path": "D:\\node factory v2\\outputs\\node-bot-plant-panel-release-2026-11-16\\publication-receipt.json",
+          "bytes": 1822,
+          "sha256": "277075af7bf22154e4f010181106dbe8f851debea2b41fd666e6f3ee3123cdc5"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-bot-plant-panel-release-2026-11-16\\verify-release.mjs",
+          "bytes": 2488,
+          "sha256": "3ec535818ef52775f27c9aff43fa36b793f6ec09aea20c57c8974ff6571be2f0"
+        }
+      ],
+      "removed": true
+    },
+    {
+      "path": "D:\\node factory v2\\outputs\\node-bot-production-release-2026-11-16\\repo",
+      "relativePath": "outputs/node-bot-production-release-2026-11-16/repo",
+      "head": "4aa0617302d84a4267ac0564183ed49307b5fcf4",
+      "refs": [
+        "4aa0617302d84a4267ac0564183ed49307b5fcf4 refs/heads/main"
+      ],
+      "linkedWorktree": false,
+      "worktrees": [
+        "D:\\node factory v2\\outputs\\node-bot-production-release-2026-11-16\\repo"
+      ],
+      "files": 778,
+      "bytes": 67437420,
+      "junctions": [
+        {
+          "path": "D:\\node factory v2\\outputs\\node-bot-production-release-2026-11-16\\repo\\node\\source\\node_modules",
+          "target": "D:\\node factory v2\\node_modules"
+        }
+      ],
+      "preservedSiblingFiles": [
+        {
+          "path": "D:\\node factory v2\\outputs\\node-bot-production-release-2026-11-16\\final-bot-capacity.json",
+          "bytes": 14197,
+          "sha256": "aafe5b853791468a4cf2a135e892d217f2b32d8d2c932e7f2d10d73250963f80"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-bot-production-release-2026-11-16\\publication-receipt.json",
+          "bytes": 1822,
+          "sha256": "cdd35791daf5c4280c4b209889650a7dcf2c754c4f8f6ededf499ad2b900448b"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-bot-production-release-2026-11-16\\verify-release.mjs",
+          "bytes": 2485,
+          "sha256": "9fded79a4b91f4b39bb450e5bb761c29dd17710334aa3220010fff2ef12cc5de"
+        }
+      ],
+      "removed": true
+    },
+    {
+      "path": "D:\\node factory v2\\outputs\\node-camp-fixes-release-2026-11-20\\repo",
+      "relativePath": "outputs/node-camp-fixes-release-2026-11-20/repo",
+      "head": "38759a9fa481795b617398dea782123a475f35b0",
+      "refs": [
+        "38759a9fa481795b617398dea782123a475f35b0 refs/heads/release/dense-optimization-2026-11-19"
+      ],
+      "linkedWorktree": false,
+      "worktrees": [
+        "D:\\node factory v2\\outputs\\node-camp-fixes-release-2026-11-20\\repo"
+      ],
+      "files": 1426,
+      "bytes": 95166756,
+      "junctions": [],
+      "preservedSiblingFiles": [
+        {
+          "path": "D:\\node factory v2\\outputs\\node-camp-fixes-release-2026-11-20\\build-manifest.json",
+          "bytes": 1709,
+          "sha256": "ec2474ae1af2af0dbb44bc94345b60d2ed3f019109c5e86e64be2f5eab3d9cc8"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-camp-fixes-release-2026-11-20\\candidate-build.log",
+          "bytes": 1540,
+          "sha256": "9faf1b0f0851bbf8b019ed82ac397f0933d90d3d1f2b7c5c84ee856ad80b726a"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-camp-fixes-release-2026-11-20\\candidate-docs-generate.log",
+          "bytes": 163,
+          "sha256": "3ac335bbba7a8dadf6ae3f6fa679e0999d75ee473cd04a07fe19bb6ed5abd9f6"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-camp-fixes-release-2026-11-20\\candidate-docs.log",
+          "bytes": 176,
+          "sha256": "a6bcd4a687196a647f6a4ff612d8b5a92bc06ab0993806ece74ae9defd036804"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-camp-fixes-release-2026-11-20\\candidate-history-generate.log",
+          "bytes": 127,
+          "sha256": "bb4be461d916d0e212baac02608acbaa47cb2e7ab3d126c692504b7ff90efb56"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-camp-fixes-release-2026-11-20\\candidate-history.log",
+          "bytes": 783,
+          "sha256": "547aaf695e7804b749e9c61b17f9b29ab19f177f3edc916928cdff331a862c43"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-camp-fixes-release-2026-11-20\\candidate-preview-types.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-camp-fixes-release-2026-11-20\\candidate-tests.log",
+          "bytes": 2689,
+          "sha256": "e201ee3b491a7ab404f6e6d8ad236799402d85c01a88603af8528ce3df9d8e17"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-camp-fixes-release-2026-11-20\\commit-publication-record.mjs",
+          "bytes": 1982,
+          "sha256": "82942b92b4e691de29eb767b6a120c44d9e9279dcf845eda660c107bdf4bacd3"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-camp-fixes-release-2026-11-20\\finalize-release.mjs",
+          "bytes": 3660,
+          "sha256": "7cb7692562ef3e8aa040a4fbb88ddee17a239384f210ff670b1949cf92300655"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-camp-fixes-release-2026-11-20\\metadata-pages-status.json",
+          "bytes": 14550,
+          "sha256": "d57c5ba273da2e1fc032de7ac9cdf41b15c9b2bc8951da6ecef36c711666c87c"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-camp-fixes-release-2026-11-20\\metadata-preflight-report.json",
+          "bytes": 1171,
+          "sha256": "a64a429f8b8351101f2bb4f185c785a0858da40a5cf21f16fdfcf9fcf1068acd"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-camp-fixes-release-2026-11-20\\metadata-publication-receipt.json",
+          "bytes": 2109,
+          "sha256": "40dcfe08f14a34cb385479badf2253006f1b11097c46c1bec6f0bb40b2b8d755"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-camp-fixes-release-2026-11-20\\pages-status.json",
+          "bytes": 14570,
+          "sha256": "7ec97371690b640c02a5e45b3fc50bf9a8685cc6224e26780fe39cce499ed5bd"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-camp-fixes-release-2026-11-20\\preflight-report.json",
+          "bytes": 1239,
+          "sha256": "8358938bc0ed6fc0b460a49e6fd27127594b3ca4fa9ace2510213175a11166fc"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-camp-fixes-release-2026-11-20\\preflight.mjs",
+          "bytes": 3781,
+          "sha256": "5279ebb738ad521f4baa7eb6ea8f76820b5d313ea7311cd962d70a0a48a7fd65"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-camp-fixes-release-2026-11-20\\prepare-release.mjs",
+          "bytes": 6185,
+          "sha256": "54c1db55ea4b14e5741025cc9c4b0b61749b45bb07de6ee01f6206d8c34c18ef"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-camp-fixes-release-2026-11-20\\publication-history-id.txt",
+          "bytes": 10,
+          "sha256": "ef2c45fe22aa2a3d751e70732b2d1771b94f8ffc0243fe639bf18921ded5c05e"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-camp-fixes-release-2026-11-20\\publication-receipt.json",
+          "bytes": 2109,
+          "sha256": "d981b07c4b79c031bf4fc0f49722cf1060d1c28fde1612d92b9a8f3ed0256def"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-camp-fixes-release-2026-11-20\\record-publication.mjs",
+          "bytes": 5632,
+          "sha256": "6bbf4f7872fe46a6623167a56e745ac45c791580c3a524bfab0a44480f2d26c1"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-camp-fixes-release-2026-11-20\\source-manifest.json",
+          "bytes": 42615,
+          "sha256": "8281c84b6bce69c2833b14ec592a1485fb5fc3a6d74fe29502d1b75e9c45025b"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-camp-fixes-release-2026-11-20\\verify-release.mjs",
+          "bytes": 2994,
+          "sha256": "49c91833c9a921b651d1d40de4575f8944192b1847227604de8857bdb842a574"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-camp-fixes-release-2026-11-20\\workspace-build.log",
+          "bytes": 1540,
+          "sha256": "be3d8ddb41cf353833934602da9d59c7a134139a52cc3d63f64052670975fa77"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-camp-fixes-release-2026-11-20\\workspace-docs.log",
+          "bytes": 176,
+          "sha256": "a6bcd4a687196a647f6a4ff612d8b5a92bc06ab0993806ece74ae9defd036804"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-camp-fixes-release-2026-11-20\\workspace-history.log",
+          "bytes": 785,
+          "sha256": "3908c0586be75ebc3ae130164c0957724f1bc17600971c50a7a7149c3472f963"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-camp-fixes-release-2026-11-20\\workspace-tests.log",
+          "bytes": 4283,
+          "sha256": "3986bc049562573c847e1809263dad4d88a3e88c6c2ea52150ac05a1b5561a59"
+        }
+      ],
+      "removed": true
+    },
+    {
+      "path": "D:\\node factory v2\\outputs\\node-centered-expansion-release-2026-11-20\\repo",
+      "relativePath": "outputs/node-centered-expansion-release-2026-11-20/repo",
+      "head": "76d897099f97c799ff839f5ebd1cce2dca3cf34c",
+      "refs": [
+        "edc6d90010c2bddcb2347590a5888ee231e6e5e1 refs/heads/release/dense-optimization-2026-11-19",
+        "e3b9dd1b3d429624cd134a97701b8b55860f1bcb refs/heads/release/readouts-35-2026-11-20",
+        "df7ec85b00be8f74465b88aefb1c1c5b65bd30ef refs/heads/release/zoom-15-2026-11-20"
+      ],
+      "linkedWorktree": true,
+      "worktrees": [
+        "D:\\node factory v2\\outputs\\node-readouts-35-release-2026-11-20\\repo",
+        "D:\\node factory v2\\outputs\\node-centered-expansion-release-2026-11-20\\repo",
+        "D:\\node factory v2\\outputs\\node-zoom-15-release-2026-11-20\\repo"
+      ],
+      "files": 1982,
+      "bytes": 130242982,
+      "junctions": [],
+      "preservedSiblingFiles": [
+        {
+          "path": "D:\\node factory v2\\outputs\\node-centered-expansion-release-2026-11-20\\build-manifest.json",
+          "bytes": 1646,
+          "sha256": "d8c84d22ef40c1ac5edcc751f682884b940c612dc14525a3fd3488b00539f881"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-centered-expansion-release-2026-11-20\\candidate-build.log",
+          "bytes": 1540,
+          "sha256": "25a4ad3129ae6e7a02313bf06488d84599463b13d0ed54436fedd01a7f16b6cb"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-centered-expansion-release-2026-11-20\\candidate-tests.log",
+          "bytes": 588,
+          "sha256": "759ec634cca62afd0d6c9d4c4fca41af9277431409c249f338e7f44c464997c2"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-centered-expansion-release-2026-11-20\\commit-publication-record.mjs",
+          "bytes": 1625,
+          "sha256": "e0231cc15ea4898f2ce6764aaa9118f32670f3e9b1cf08289ad0747d11f8b53c"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-centered-expansion-release-2026-11-20\\commit-release.mjs",
+          "bytes": 1432,
+          "sha256": "306986567250b5b068d2b02d826e9ca6c6b0e5df38aed15f86c1d733673f9202"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-centered-expansion-release-2026-11-20\\excluded-landmark-hook.json",
+          "bytes": 526,
+          "sha256": "f9d6cead959d9a0d62df2786b5a47ff1f7aa1281686113818e497e567bb1db61"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-centered-expansion-release-2026-11-20\\finalize-release.mjs",
+          "bytes": 2479,
+          "sha256": "832ff80cbaaed9846bbd9d74a120cc15e946d5a9fe2d3ec95673b3b62b8a4e6c"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-centered-expansion-release-2026-11-20\\metadata-pages-status.json",
+          "bytes": 14551,
+          "sha256": "95a00378ee3212b9f4d373ee8887e680de8b14861f93890b417448cb8c735169"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-centered-expansion-release-2026-11-20\\metadata-preflight-report.json",
+          "bytes": 703,
+          "sha256": "39912819ffca0d4d4c449a25a664d983ba1b783324e44ad7bd8469a7b597009b"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-centered-expansion-release-2026-11-20\\metadata-publication-receipt.json",
+          "bytes": 2142,
+          "sha256": "2aef1e33edc6f71ee405a4dd75c132e0820159297e67aff439c9632575215eab"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-centered-expansion-release-2026-11-20\\pages-status.json",
+          "bytes": 14563,
+          "sha256": "4ffbce8ece482d7d1dcee4e4d34a59ea0ee69b9f73f71c124a1622aa399feca9"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-centered-expansion-release-2026-11-20\\preflight-report.json",
+          "bytes": 1317,
+          "sha256": "a14f66bab5a1066b61a4f220746780c92093d755f600f866b2aebca63205883d"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-centered-expansion-release-2026-11-20\\preflight.mjs",
+          "bytes": 2711,
+          "sha256": "1cfdf7d4a145608d1baf355b5a961886ce693d27bb32fbd0fec5278ab6638dfd"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-centered-expansion-release-2026-11-20\\prepare-release.mjs",
+          "bytes": 7324,
+          "sha256": "263e17c386341446bd433556aba28c8056e94014798c47e1094d6bae46467bcd"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-centered-expansion-release-2026-11-20\\publication-history-id.txt",
+          "bytes": 10,
+          "sha256": "69711e565f7814b4d957bdf90664273124d7a3a15562b3dd7ce7f33a13ea9842"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-centered-expansion-release-2026-11-20\\publication-receipt.json",
+          "bytes": 2142,
+          "sha256": "da067a830af68a97339ae8c4431992ff599d392ea3781b7abd5884745bc43fa2"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-centered-expansion-release-2026-11-20\\record-publication.mjs",
+          "bytes": 5928,
+          "sha256": "b272a6c3053fdec84b248ee502a192da4c428c2d8e364357fa420ad86a24d7df"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-centered-expansion-release-2026-11-20\\source-manifest.json",
+          "bytes": 50616,
+          "sha256": "a785ce04b0136a5dc12de3dfe8060ba0909a72b2a09e26a2c8de8d2d380a5aed"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-centered-expansion-release-2026-11-20\\verify-live.mjs",
+          "bytes": 2906,
+          "sha256": "98ac7336e1ce041e6598e113ca5c2395f3ac880a1b95adc4ab5c6528efd40f5d"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-centered-expansion-release-2026-11-20\\workspace-tests.log",
+          "bytes": 26586,
+          "sha256": "2f8b3e3420dd13edecadb06bcdc3162db9a0965fbc6dd3b74e5eb3cee61b0a57"
+        }
+      ],
+      "removed": true
+    },
+    {
+      "path": "D:\\node factory v2\\outputs\\node-deep-hole-release-2026-11-09\\repo",
+      "relativePath": "outputs/node-deep-hole-release-2026-11-09/repo",
+      "head": "631698997b6bd684876ed2128159c787aeba284a",
+      "refs": [
+        "631698997b6bd684876ed2128159c787aeba284a refs/heads/main"
+      ],
+      "linkedWorktree": false,
+      "worktrees": [
+        "D:\\node factory v2\\outputs\\node-deep-hole-release-2026-11-09\\repo"
+      ],
+      "files": 805,
+      "bytes": 36105558,
+      "junctions": [],
+      "preservedSiblingFiles": [
+        {
+          "path": "D:\\node factory v2\\outputs\\node-deep-hole-release-2026-11-09\\publication-receipt.json",
+          "bytes": 1973,
+          "sha256": "b0040a41b8eae1493b456a8f0ceec4bbcbef117c1603a64208cb3b839eb666f9"
+        }
+      ],
+      "removed": true
+    },
+    {
+      "path": "D:\\node factory v2\\outputs\\node-dense-optimization-release-2026-11-19\\repo",
+      "relativePath": "outputs/node-dense-optimization-release-2026-11-19/repo",
+      "head": "edc6d90010c2bddcb2347590a5888ee231e6e5e1",
+      "refs": [
+        "9bdcb6a7b79584dbf29861abe8ee1dda94aaa9a6 refs/heads/main",
+        "edc6d90010c2bddcb2347590a5888ee231e6e5e1 refs/heads/release/dense-optimization-2026-11-19"
+      ],
+      "linkedWorktree": false,
+      "worktrees": [
+        "D:\\node factory v2\\outputs\\node-dense-optimization-release-2026-11-19\\repo"
+      ],
+      "files": 987,
+      "bytes": 92120776,
+      "junctions": [
+        {
+          "path": "D:\\node factory v2\\outputs\\node-dense-optimization-release-2026-11-19\\repo\\node\\source\\node_modules",
+          "target": "D:\\node factory v2\\node_modules"
+        }
+      ],
+      "preservedSiblingFiles": [
+        {
+          "path": "D:\\node factory v2\\outputs\\node-dense-optimization-release-2026-11-19\\build-manifest.json",
+          "bytes": 1646,
+          "sha256": "1dd897eb1be3bdfdba0d4e52174be62a422e79f4b84bac2cd5dd6c0283f1e251"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-dense-optimization-release-2026-11-19\\candidate-build.log",
+          "bytes": 1540,
+          "sha256": "d2686a128fc5e9a757fdc79ba39e62b25c6056f5bdcf522665b51fc347d5a196"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-dense-optimization-release-2026-11-19\\candidate-tests.log",
+          "bytes": 551,
+          "sha256": "b87d3eac7195357ad4d67b81323bd43932ad0c005e06ad5f4cf5717371d57f75"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-dense-optimization-release-2026-11-19\\commit-publication-record.mjs",
+          "bytes": 2100,
+          "sha256": "13e4382802c424666617b04b0ede4ddd477f792528fc309fd85975e214695a73"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-dense-optimization-release-2026-11-19\\commit-release.mjs",
+          "bytes": 1082,
+          "sha256": "1d908e431b4ec9c028ca805e8089fa356a7e00d31cf5cd8000c397a26b921904"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-dense-optimization-release-2026-11-19\\finalize-release.mjs",
+          "bytes": 2917,
+          "sha256": "aa5f6159d2a2c1a24996bcf5482aa3d90ea7dab9f796d72a562aef6bd894b8cf"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-dense-optimization-release-2026-11-19\\metadata-pages-status.json",
+          "bytes": 14549,
+          "sha256": "d5d3fd4464c4746e7ee0dbae1fc062e59cec0c0ea492c73f955e682178463aff"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-dense-optimization-release-2026-11-19\\metadata-preflight-report.json",
+          "bytes": 1176,
+          "sha256": "93d4ef451ed0e318b82468d4f38b5fb304bf62e6b4fcde6737384a1c8a9581e9"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-dense-optimization-release-2026-11-19\\metadata-publication-receipt.json",
+          "bytes": 2109,
+          "sha256": "3459a7d61b15e5ed08e6ddcbfe683116066c28f987cdba922b10886af7a4f1a5"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-dense-optimization-release-2026-11-19\\pages-status.json",
+          "bytes": 14552,
+          "sha256": "190e30909a9e4c0bf7bebd5d33af164c530ba8abbe00c166c22df91d7aa049e6"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-dense-optimization-release-2026-11-19\\preflight-report.json",
+          "bytes": 786,
+          "sha256": "ffe9ba7b338a8a40fa456180e753a47c99624ea235fb50ad173a8c406bd79310"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-dense-optimization-release-2026-11-19\\preflight.mjs",
+          "bytes": 2687,
+          "sha256": "cfa0da8954426ca87d8524a30a445ae7cdb4df1a6858e7fd01ab66627f275b21"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-dense-optimization-release-2026-11-19\\prepare-release.mjs",
+          "bytes": 3252,
+          "sha256": "536eb27cd1d767234e8be895db516a328316143a3564f4a5009ffb2b5885afab"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-dense-optimization-release-2026-11-19\\publication-history-id.txt",
+          "bytes": 10,
+          "sha256": "8b14a2c2c7f3845b69d6d175cf75fa0df3b936900de9e436505de10e91456af7"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-dense-optimization-release-2026-11-19\\publication-receipt.json",
+          "bytes": 2109,
+          "sha256": "844a315451db385637b74cb8e2c501e120abd6749acdf9ed77ac3a6c5b1f4995"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-dense-optimization-release-2026-11-19\\record-publication.mjs",
+          "bytes": 4890,
+          "sha256": "a20a96cfb5738317c7359bd5126ca0a1c3c0f9f271c43e7343e21f17afe4d86e"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-dense-optimization-release-2026-11-19\\source-manifest.json",
+          "bytes": 41763,
+          "sha256": "ed1854343d174f19a91353b5f2901948477747fccacb1159812a7f0baf928219"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-dense-optimization-release-2026-11-19\\verify-release.mjs",
+          "bytes": 2995,
+          "sha256": "47b43a453067959c2c36b34d2f4d9f54ea2818e2fa62b5ef6c3a61836050aa2b"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-dense-optimization-release-2026-11-19\\workspace-build.log",
+          "bytes": 1540,
+          "sha256": "a56bec16d7a501f3d9c7f118bd9edb1e381cac41f0bb086ab7c39cc4913bc993"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-dense-optimization-release-2026-11-19\\workspace-tests.log",
+          "bytes": 486,
+          "sha256": "acb841bcb57cf620590dfb3d15a4224d04f71ae662c6ac3cb4db0524a873d67c"
+        }
+      ],
+      "removed": true
+    },
+    {
+      "path": "D:\\node factory v2\\outputs\\node-efficiency-recovery-release-2026-11-18\\repo",
+      "relativePath": "outputs/node-efficiency-recovery-release-2026-11-18/repo",
+      "head": "7a2fdbb55dc4bdc534bcbbc9a751da34f6505ed2",
+      "refs": [
+        "7a2fdbb55dc4bdc534bcbbc9a751da34f6505ed2 refs/heads/codex/node-efficiency-recovery-2026-11-18",
+        "76b19b79e1954af44f98bf5f0b38e657d92b197f refs/heads/main"
+      ],
+      "linkedWorktree": true,
+      "worktrees": [
+        "D:\\node factory v2\\outputs\\node-grid-contact-release-2026-11-18\\repo",
+        "D:\\node factory v2\\outputs\\node-efficiency-recovery-release-2026-11-18\\repo"
+      ],
+      "files": 783,
+      "bytes": 55502562,
+      "junctions": [],
+      "preservedSiblingFiles": [
+        {
+          "path": "D:\\node factory v2\\outputs\\node-efficiency-recovery-release-2026-11-18\\browser-report.json",
+          "bytes": 292,
+          "sha256": "03e5e251d18e9cc95990fd4943d6d0d637882508d37198814b4dbb627882a936"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-efficiency-recovery-release-2026-11-18\\build-manifest.json",
+          "bytes": 1646,
+          "sha256": "a3ba06a1de287d989041af9cf5b589d3ffd8703dc40c871eed4b3692a92dfb9a"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-efficiency-recovery-release-2026-11-18\\continuity-migrated.png",
+          "bytes": 168752,
+          "sha256": "67788d413e331cddf39535c25ccac67d8e6e9199aa51939858ad57b373f2c8b8"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-efficiency-recovery-release-2026-11-18\\continuity-report.json",
+          "bytes": 719,
+          "sha256": "7124292b5aff626e02a0120e94856080f64adda61265860ab45afe744babd7f5"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-efficiency-recovery-release-2026-11-18\\implementation-id.txt",
+          "bytes": 11,
+          "sha256": "7e83fc800faecb7c37f3a9a2d3bcbdabcbee5baaec50d00db96a4790549217ab"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-efficiency-recovery-release-2026-11-18\\metadata-pages-status.json",
+          "bytes": 14550,
+          "sha256": "81ac52f6a3c6705b4198e97fc9b2a12bea375a11b7c6d096b6fe09f236dfda4f"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-efficiency-recovery-release-2026-11-18\\metadata-publication-receipt.json",
+          "bytes": 2109,
+          "sha256": "a0185b334d7e1e4f99b70cca92ccfa2350c467061bbe47c3185646916730140e"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-efficiency-recovery-release-2026-11-18\\pages-status.json",
+          "bytes": 14562,
+          "sha256": "3f755b773327d4c653c7367ef3f8a8c4adfdcf26f5f606683c3a39e19e839559"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-efficiency-recovery-release-2026-11-18\\preflight-report.json",
+          "bytes": 349,
+          "sha256": "eedf1be5be1054282eeb184641ba3d88120a81a812baea1131fe0e8ccafe3722"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-efficiency-recovery-release-2026-11-18\\preflight.mjs",
+          "bytes": 2997,
+          "sha256": "8b9f2c02337b52b3b02be9dcabcea9988340bc0a2f368a16821cb7e01cbe1c2a"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-efficiency-recovery-release-2026-11-18\\prepare-release.mjs",
+          "bytes": 3500,
+          "sha256": "3263b797cb04e2f882e56d9490b31de8e806c5533df49530c5a6f425786f8293"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-efficiency-recovery-release-2026-11-18\\publication-history-id.txt",
+          "bytes": 11,
+          "sha256": "ad26901d8258d4f39b486d235343fc790bcbfd0a1ea1971ed59854e545c46fdc"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-efficiency-recovery-release-2026-11-18\\publication-receipt.json",
+          "bytes": 2109,
+          "sha256": "7ae9f8badae8eb7c97b06b29d632b9263804a3c7c19db633d563d05bd5ff22ce"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-efficiency-recovery-release-2026-11-18\\verify-release.mjs",
+          "bytes": 3247,
+          "sha256": "d19f5dfa6a80d0cff0e52a08db92737f68a790867446abdc63351863351e48ec"
+        }
+      ],
+      "removed": true
+    },
+    {
+      "path": "D:\\node factory v2\\outputs\\node-extra-map-point-release-2026-11-09\\repo",
+      "relativePath": "outputs/node-extra-map-point-release-2026-11-09/repo",
+      "head": "8ba36918eaf14ad8fb30b0cf26af0d180a03d31d",
+      "refs": [
+        "8ba36918eaf14ad8fb30b0cf26af0d180a03d31d refs/heads/main"
+      ],
+      "linkedWorktree": false,
+      "worktrees": [
+        "D:\\node factory v2\\outputs\\node-extra-map-point-release-2026-11-09\\repo"
+      ],
+      "files": 811,
+      "bytes": 37198591,
+      "junctions": [],
+      "preservedSiblingFiles": [
+        {
+          "path": "D:\\node factory v2\\outputs\\node-extra-map-point-release-2026-11-09\\publication-receipt.json",
+          "bytes": 1973,
+          "sha256": "bbbf512b545d8aba1f207cadfbec15a6350129886b1ebc241aefc676b2dc5567"
+        }
+      ],
+      "removed": true
+    },
+    {
+      "path": "D:\\node factory v2\\outputs\\node-full-release-2026-11-10\\repo",
+      "relativePath": "outputs/node-full-release-2026-11-10/repo",
+      "head": "afdea7a72552e6c1575dc039b54018c909a50edb",
+      "refs": [
+        "afdea7a72552e6c1575dc039b54018c909a50edb refs/heads/main"
+      ],
+      "linkedWorktree": false,
+      "worktrees": [
+        "D:\\node factory v2\\outputs\\node-full-release-2026-11-10\\repo"
+      ],
+      "files": 782,
+      "bytes": 54576021,
+      "junctions": [],
+      "preservedSiblingFiles": [
+        {
+          "path": "D:\\node factory v2\\outputs\\node-full-release-2026-11-10\\publication-receipt.json",
+          "bytes": 2104,
+          "sha256": "c50d43c81803545ba729012e3648df974da8e63f06bdf306c684974b5c2c210c"
+        }
+      ],
+      "removed": true
+    },
+    {
+      "path": "D:\\node factory v2\\outputs\\node-full-release-2026-11-11\\repo",
+      "relativePath": "outputs/node-full-release-2026-11-11/repo",
+      "head": "d43b163db424635358f967d71c2fabf311d2b7c4",
+      "refs": [
+        "d43b163db424635358f967d71c2fabf311d2b7c4 refs/heads/main"
+      ],
+      "linkedWorktree": false,
+      "worktrees": [
+        "D:\\node factory v2\\outputs\\node-full-release-2026-11-11\\repo"
+      ],
+      "files": 891,
+      "bytes": 56380768,
+      "junctions": [],
+      "preservedSiblingFiles": [
+        {
+          "path": "D:\\node factory v2\\outputs\\node-full-release-2026-11-11\\prepared-build.json",
+          "bytes": 1608,
+          "sha256": "1775436f24ef0b6092d59718d7944cf458931426d0dd3fe5f4ab4273232c129c"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-full-release-2026-11-11\\publication-receipt.json",
+          "bytes": 2049,
+          "sha256": "2b3b7d6d568a1c3f06abba923215c206e5e2bf404905229344555d631906a6f4"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-full-release-2026-11-11\\verify-live.py",
+          "bytes": 2662,
+          "sha256": "efc51606e094a3a7e4d0b28614f8ca3a6b60b1b93124bf2a7b90b1f8fd6f90b6"
+        }
+      ],
+      "removed": true
+    },
+    {
+      "path": "D:\\node factory v2\\outputs\\node-grid-contact-release-2026-11-18\\repo",
+      "relativePath": "outputs/node-grid-contact-release-2026-11-18/repo",
+      "head": "76b19b79e1954af44f98bf5f0b38e657d92b197f",
+      "refs": [
+        "7a2fdbb55dc4bdc534bcbbc9a751da34f6505ed2 refs/heads/codex/node-efficiency-recovery-2026-11-18",
+        "76b19b79e1954af44f98bf5f0b38e657d92b197f refs/heads/main"
+      ],
+      "linkedWorktree": false,
+      "worktrees": [
+        "D:\\node factory v2\\outputs\\node-grid-contact-release-2026-11-18\\repo",
+        "D:\\node factory v2\\outputs\\node-efficiency-recovery-release-2026-11-18\\repo"
+      ],
+      "files": 968,
+      "bytes": 79729725,
+      "junctions": [],
+      "preservedSiblingFiles": [
+        {
+          "path": "D:\\node factory v2\\outputs\\node-grid-contact-release-2026-11-18\\build-manifest.json",
+          "bytes": 1646,
+          "sha256": "888b438e4053783454d328745fbe70feee00f1cfc2019e89de332ebbe16ccbdd"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-grid-contact-release-2026-11-18\\metadata-pages-status.json",
+          "bytes": 14535,
+          "sha256": "ea018a16a13231f0c0217a6d136ed8b74bf5d0b7daeebf4470c70299dfb3e91a"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-grid-contact-release-2026-11-18\\metadata-publication-receipt.json",
+          "bytes": 2109,
+          "sha256": "043470ae7aaf5d8ac21c46d0d3cbc87d22b8470c6b483aa64dd1ad0fd4bee11b"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-grid-contact-release-2026-11-18\\pages-status.json",
+          "bytes": 14544,
+          "sha256": "7d09536042208212c0d40cf51a57985b42514d00b067b947987ca010512904c6"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-grid-contact-release-2026-11-18\\preflight-report.json",
+          "bytes": 349,
+          "sha256": "38af83e3507b9978c5d2134a40df989a4c5ed43745b07b4214ab51b6365c99c9"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-grid-contact-release-2026-11-18\\preflight.mjs",
+          "bytes": 2688,
+          "sha256": "7967ae2d95604a4ada6ba46293235bb313bac117f2c619c230bb08cf2e82406a"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-grid-contact-release-2026-11-18\\prepare-release.mjs",
+          "bytes": 2987,
+          "sha256": "2b9ebebfa541c25ff7d5c8f4adf4b11d5585a40063c087745bfd22da65e8e9e0"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-grid-contact-release-2026-11-18\\publication-receipt.json",
+          "bytes": 2043,
+          "sha256": "99a7c397bd449df41e9e8f9c81b21b224c7245a04162d5412606dea10402bf1b"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-grid-contact-release-2026-11-18\\verify-release.mjs",
+          "bytes": 3206,
+          "sha256": "fbbd47789d19c442135db6e12c6dc1f98f0c847675b2ab3c3dfe2d1e11f5854f"
+        }
+      ],
+      "removed": true
+    },
+    {
+      "path": "D:\\node factory v2\\outputs\\node-obstruction-release-2026-11-19\\repo",
+      "relativePath": "outputs/node-obstruction-release-2026-11-19/repo",
+      "head": "24bdb03ff3c25a8d9e3601889eef22f8a24defbb",
+      "refs": [
+        "24bdb03ff3c25a8d9e3601889eef22f8a24defbb refs/heads/main"
+      ],
+      "linkedWorktree": false,
+      "worktrees": [
+        "D:\\node factory v2\\outputs\\node-obstruction-release-2026-11-19\\repo"
+      ],
+      "files": 1692,
+      "bytes": 118984764,
+      "junctions": [],
+      "preservedSiblingFiles": [
+        {
+          "path": "D:\\node factory v2\\outputs\\node-obstruction-release-2026-11-19\\build-manifest.json",
+          "bytes": 1646,
+          "sha256": "faffb4b8809f680d06461f31d7109bb2da36e181e4c07e22828914398c50b9d9"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-obstruction-release-2026-11-19\\candidate-build.log",
+          "bytes": 1540,
+          "sha256": "b33c496f66c88a83c40fedd4e353c5ba686983a98d47f6fda6d1e3a911d2eeb2"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-obstruction-release-2026-11-19\\candidate-docs.log",
+          "bytes": 176,
+          "sha256": "a6bcd4a687196a647f6a4ff612d8b5a92bc06ab0993806ece74ae9defd036804"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-obstruction-release-2026-11-19\\candidate-history.log",
+          "bytes": 785,
+          "sha256": "1df9a6e77ae9b45b2ec6fab3dbe0d9dcaff76d9853e9ccb53d4f4bdd1d8bcae8"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-obstruction-release-2026-11-19\\candidate-preview-types.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-obstruction-release-2026-11-19\\candidate-tests.log",
+          "bytes": 2639,
+          "sha256": "ea58982d0981ac736464853b25ddb8bdc73500c4bdfd0eb2e745cefef4f033d2"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-obstruction-release-2026-11-19\\commit-publication-record.mjs",
+          "bytes": 2011,
+          "sha256": "4b563c66a633704849934abbc2ff5081e4b618b9ca338759ffca93fa3160265b"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-obstruction-release-2026-11-19\\finalize-release.mjs",
+          "bytes": 3441,
+          "sha256": "df38a07d4234978206af353849f9015ab70cb55d17ac5acbd29b37e783c205fe"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-obstruction-release-2026-11-19\\metadata-pages-status.json",
+          "bytes": 14553,
+          "sha256": "0118587c190987593774dd66c29cc57d8e2f4ea64ce3989ad36eb56c3c6a9ead"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-obstruction-release-2026-11-19\\metadata-preflight-report.json",
+          "bytes": 1185,
+          "sha256": "f7ab983642b0a81f4926b23a12bb9b7793d718770fc99c2ae5a0d390fb25ea99"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-obstruction-release-2026-11-19\\metadata-publication-receipt.json",
+          "bytes": 2109,
+          "sha256": "aea80eef2c679edbf32e5940a2dbb09a78dc8703b0c5a8044bdf1de9ba6fe960"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-obstruction-release-2026-11-19\\pages-status.json",
+          "bytes": 14557,
+          "sha256": "00c1bab98145d1932b632d381c58326465475739c5d489358c7f276d1bc66b7f"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-obstruction-release-2026-11-19\\preflight-report.json",
+          "bytes": 1769,
+          "sha256": "6574f9a7789179be34573a6e02c97558259b9ea48791bf204fb0c412cdc053f3"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-obstruction-release-2026-11-19\\preflight.mjs",
+          "bytes": 2954,
+          "sha256": "6cdcb0d15ac83d2e569a6c11a7bbb1610549c5921f97697937aaacf7115506b7"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-obstruction-release-2026-11-19\\prepare-release.mjs",
+          "bytes": 6105,
+          "sha256": "d3ef1d1a6fb1defc852d2ffe4b7e59680f3e684e20317694d38fc3504da07e28"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-obstruction-release-2026-11-19\\publication-history-id.txt",
+          "bytes": 10,
+          "sha256": "9bfb3fc09615b434b25ed59c0a3cb0bb3cfe649085a994e69004d4db886eb7bd"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-obstruction-release-2026-11-19\\publication-receipt.json",
+          "bytes": 2109,
+          "sha256": "857479134e8d483f86e64d68f3210b9effc6460d38346b432de2b5198a9a30da"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-obstruction-release-2026-11-19\\record-publication.mjs",
+          "bytes": 4864,
+          "sha256": "25f29f6b8df8929f038f58ca29640bb1b8440c386db2761633142db6abf32b6f"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-obstruction-release-2026-11-19\\source-manifest.json",
+          "bytes": 42315,
+          "sha256": "a6a4496a71e2f570efda84b5eddd6b310c0f91ed65605b29e8468e638d68365e"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-obstruction-release-2026-11-19\\verify-release.mjs",
+          "bytes": 2985,
+          "sha256": "6e646909f608bc90735693c98249e824b18bacee88c5132530be411a3ba9d074"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-obstruction-release-2026-11-19\\workspace-build.log",
+          "bytes": 1540,
+          "sha256": "13230b0d9d1005a8ab05cd8856ac3a782ed4a8811649edec8a727ceec044231d"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-obstruction-release-2026-11-19\\workspace-docs.log",
+          "bytes": 176,
+          "sha256": "a6bcd4a687196a647f6a4ff612d8b5a92bc06ab0993806ece74ae9defd036804"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-obstruction-release-2026-11-19\\workspace-history.log",
+          "bytes": 785,
+          "sha256": "74ada2a2c50f6c011308d138fb8e94c9bb5f8eb0c4a3ad2439dc8b8d42024683"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-obstruction-release-2026-11-19\\workspace-tests.log",
+          "bytes": 4185,
+          "sha256": "1807316642c7d8d94fcc776827c0ef0ea2acdf92fbe50d5101fed9e0b6fc795c"
+        }
+      ],
+      "removed": true
+    },
+    {
+      "path": "D:\\node factory v2\\outputs\\node-readouts-35-release-2026-11-20\\repo",
+      "relativePath": "outputs/node-readouts-35-release-2026-11-20/repo",
+      "head": "e3b9dd1b3d429624cd134a97701b8b55860f1bcb",
+      "refs": [
+        "edc6d90010c2bddcb2347590a5888ee231e6e5e1 refs/heads/release/dense-optimization-2026-11-19",
+        "e3b9dd1b3d429624cd134a97701b8b55860f1bcb refs/heads/release/readouts-35-2026-11-20",
+        "df7ec85b00be8f74465b88aefb1c1c5b65bd30ef refs/heads/release/zoom-15-2026-11-20"
+      ],
+      "linkedWorktree": false,
+      "worktrees": [
+        "D:\\node factory v2\\outputs\\node-readouts-35-release-2026-11-20\\repo",
+        "D:\\node factory v2\\outputs\\node-centered-expansion-release-2026-11-20\\repo",
+        "D:\\node factory v2\\outputs\\node-zoom-15-release-2026-11-20\\repo"
+      ],
+      "files": 1884,
+      "bytes": 128426671,
+      "junctions": [
+        {
+          "path": "D:\\node factory v2\\outputs\\node-readouts-35-release-2026-11-20\\repo\\node\\source\\node_modules",
+          "target": "D:\\node factory v2\\node_modules"
+        }
+      ],
+      "preservedSiblingFiles": [
+        {
+          "path": "D:\\node factory v2\\outputs\\node-readouts-35-release-2026-11-20\\build-manifest.json",
+          "bytes": 1708,
+          "sha256": "a57fcb56ff932cadb5aa0b5ecde1932342ee1630caf06a042ccafc67d8ecc18b"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-readouts-35-release-2026-11-20\\candidate-browser.json",
+          "bytes": 648,
+          "sha256": "fdc8b4e6a54db5225a009b3c5de4888b7e6b87832942ff5bfbcc34a180912caf"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-readouts-35-release-2026-11-20\\candidate-build.log",
+          "bytes": 1540,
+          "sha256": "3a3fb7c8155b0bcc23a23dd891ae896925f9c6f2187484de97f2b12933595845"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-readouts-35-release-2026-11-20\\candidate-tests.log",
+          "bytes": 657,
+          "sha256": "6f0c191434182bca6852c3308a7b10f1491aa2b13535638dd37531da2996c22d"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-readouts-35-release-2026-11-20\\candidate35.jpg",
+          "bytes": 217084,
+          "sha256": "3d35fefe71f47a71b48903b1b017c968e856681d657275e00cd23249b4ab623e"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-readouts-35-release-2026-11-20\\commit-publication-record.mjs",
+          "bytes": 2080,
+          "sha256": "f45ae8d02fded2c27ffb941e6d8e88cae8c033e98e948520d824fddd7f10a363"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-readouts-35-release-2026-11-20\\commit-release.mjs",
+          "bytes": 1268,
+          "sha256": "0b4e7d5010dc5c94698124f60e036f75ba2b73c0708b74ce07866b5ad502be2e"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-readouts-35-release-2026-11-20\\finalize-release.mjs",
+          "bytes": 2910,
+          "sha256": "9848265e14ac5ea7602446f7410fa33f40434a9d40fde3519c31543209149ae7"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-readouts-35-release-2026-11-20\\implementation-id.txt",
+          "bytes": 10,
+          "sha256": "30d825f12d56231a52147510b7b50125d7a62f1cb39dfd0d454de60df8e1415d"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-readouts-35-release-2026-11-20\\metadata-pages-status.json",
+          "bytes": 14534,
+          "sha256": "d45f56e576c3154772729afae4f79b52e1b714baafb077c22158dcfe1aba28e8"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-readouts-35-release-2026-11-20\\metadata-preflight-report.json",
+          "bytes": 1378,
+          "sha256": "f98a25374074beda903824e5f5b0fc0e01e3a15926a67511c402b105e5addf73"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-readouts-35-release-2026-11-20\\metadata-publication-receipt.json",
+          "bytes": 2109,
+          "sha256": "9f528bc17c87b3a11e71c0e9a676a385c5cb341ca04e89a8316d217908b825b6"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-readouts-35-release-2026-11-20\\pages-status.json",
+          "bytes": 14555,
+          "sha256": "911ebf488acde100a8f500516c7e67528284b5b728c82aba4c66b83cae301760"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-readouts-35-release-2026-11-20\\preflight-report.json",
+          "bytes": 628,
+          "sha256": "192f37432e13976774643d213195e23de737d0b3c915aa3ade19129c0a174e2a"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-readouts-35-release-2026-11-20\\preflight.mjs",
+          "bytes": 2680,
+          "sha256": "18987447a3f61322425b92acd3c1b9c6e0bf1a9cf09917c8d27c86fb57fdf2e6"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-readouts-35-release-2026-11-20\\prepare-release.mjs",
+          "bytes": 3050,
+          "sha256": "aaed837e8b56269270f6a919b94879715d7dcfd4f883889df996ee5191f86417"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-readouts-35-release-2026-11-20\\preview\\assets\\browserAll-DJX6i_fu.js",
+          "bytes": 43485,
+          "sha256": "7f7c1d6864dd0de7b948d29d85e14ba50baf21faa6b2ca7e394d4c6d8a12a656"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-readouts-35-release-2026-11-20\\preview\\assets\\CanvasPool-DUTwLfjw.js",
+          "bytes": 113025,
+          "sha256": "c6942c2d9b98f9ca2e5e0aa707a29a1b1d2792169e0a3f415032c39fcca6929c"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-readouts-35-release-2026-11-20\\preview\\assets\\canvasUtils-BS3XAg00.js",
+          "bytes": 6013,
+          "sha256": "48ebd2bf478215adbd9898a8009e6a0a12873131e8fe4f604c1c335afedd6666"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-readouts-35-release-2026-11-20\\preview\\assets\\getTexelRangeRects-DJYCCvvH.js",
+          "bytes": 11314,
+          "sha256": "394121d0b4386f20c37b2120d13aaf76aeb59a3a7f0e14321ad8c9bf117a83b8"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-readouts-35-release-2026-11-20\\preview\\assets\\getTextureBatchBindGroup-BJjgf9s3.js",
+          "bytes": 344,
+          "sha256": "6496aa360360333d49dabbb3b98c9fce8d50616a9c7c76e2bdacb65c3c19c7c4"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-readouts-35-release-2026-11-20\\preview\\assets\\index-Dn9dQJyk.js",
+          "bytes": 923662,
+          "sha256": "9c1423e117c72b41bea07fbdde435fb5b47e9972e071607ab2cc1304711d28ce"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-readouts-35-release-2026-11-20\\preview\\assets\\index-znslrVBA.css",
+          "bytes": 185040,
+          "sha256": "1aedeaa76314ab54e0d66633c219c39720af0cb6b196d6c5ca711b2faa00b751"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-readouts-35-release-2026-11-20\\preview\\assets\\init-DER6rRkD.js",
+          "bytes": 14190,
+          "sha256": "0c11cee94e636294da7f6025d77f297981520ff61b69e02b3922476aaf238cb8"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-readouts-35-release-2026-11-20\\preview\\assets\\RenderTargetSystem-ivt3N3hh.js",
+          "bytes": 78118,
+          "sha256": "1aa03dd15b5770518286a957b874a2119cc4d9cbe61fb48492112e5e706bf9c2"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-readouts-35-release-2026-11-20\\preview\\assets\\webworkerAll-D_XOZ2f_.js",
+          "bytes": 55,
+          "sha256": "1077f320de69920168db8c9d8efcef634a5e27b8ef4cc1c58b3f6a6e1c51cf2a"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-readouts-35-release-2026-11-20\\preview\\previews\\active-factory\\index.html",
+          "bytes": 908,
+          "sha256": "38c65cb0b5ae64b323bd8e86eeb7d18d5c992d820980cb672414cc50f670538b"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-readouts-35-release-2026-11-20\\publication-history-id.txt",
+          "bytes": 10,
+          "sha256": "ee87f6e97ecd5acf36e6eb615aafa195bde922a396392d6a3108db973172c96d"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-readouts-35-release-2026-11-20\\publication-receipt.json",
+          "bytes": 2109,
+          "sha256": "b3253b092a3f2c5d22a5323d74d15015157fc31cd23eb224394ff624ac37d63e"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-readouts-35-release-2026-11-20\\record-publication.mjs",
+          "bytes": 4678,
+          "sha256": "4a7083cd04aab433d55c4b9a050909621366062ae93db03811aa5ecabd1aeb28"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-readouts-35-release-2026-11-20\\restored-evidence.json",
+          "bytes": 3232,
+          "sha256": "1c65456e84918b8e7f90d3a9951d3f2300a2098c391e609d91934834ff25068f"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-readouts-35-release-2026-11-20\\source-manifest.json",
+          "bytes": 48214,
+          "sha256": "9175e869b54f775f35ad886392b1923a90b6663a35fa09ef30652703205a7d1c"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-readouts-35-release-2026-11-20\\verify-release.mjs",
+          "bytes": 2985,
+          "sha256": "ca2d264e5df1efa162f79e1dc1416eca1312ea63cb2146cf7ceb25289390687f"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-readouts-35-release-2026-11-20\\workspace-build.log",
+          "bytes": 1540,
+          "sha256": "daa1bb4d740bbbbf2093172c88a3870bf828c82b74ac9bd483d243b51a47880c"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-readouts-35-release-2026-11-20\\workspace-tests.log",
+          "bytes": 596,
+          "sha256": "70d14cc28e09fa260d239bd1f06dd1a0b44edd95f866f2864c2cb1b79189cb1f"
+        }
+      ],
+      "removed": true
+    },
+    {
+      "path": "D:\\node factory v2\\outputs\\node-recipe-icon-release-2026-11-14\\repo",
+      "relativePath": "outputs/node-recipe-icon-release-2026-11-14/repo",
+      "head": "95a2bb5caeedf1705b61282ece705235c5ac0b05",
+      "refs": [
+        "95a2bb5caeedf1705b61282ece705235c5ac0b05 refs/heads/main"
+      ],
+      "linkedWorktree": false,
+      "worktrees": [
+        "D:\\node factory v2\\outputs\\node-recipe-icon-release-2026-11-14\\repo"
+      ],
+      "files": 962,
+      "bytes": 63168046,
+      "junctions": [],
+      "preservedSiblingFiles": [
+        {
+          "path": "D:\\node factory v2\\outputs\\node-recipe-icon-release-2026-11-14\\prepared-build.json",
+          "bytes": 1583,
+          "sha256": "ddf72130aba37df541c4fb0342af611e464636dd0984b9c83db6b4b908bf8a87"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-recipe-icon-release-2026-11-14\\publication-receipt.json",
+          "bytes": 2049,
+          "sha256": "ca33ab2d64a78a923801919fbd32676302c3aca0f79861a3654285a8d40b0f3d"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-recipe-icon-release-2026-11-14\\verify-live.py",
+          "bytes": 2664,
+          "sha256": "1cfa99048460d970ed785bbed9c9cd571cbc57c076e8e4f48888248e7fe7ad44"
+        }
+      ],
+      "removed": true
+    },
+    {
+      "path": "D:\\node factory v2\\outputs\\node-renderer-release-2026-11-19\\repo",
+      "relativePath": "outputs/node-renderer-release-2026-11-19/repo",
+      "head": "9bdcb6a7b79584dbf29861abe8ee1dda94aaa9a6",
+      "refs": [
+        "7a2fdbb55dc4bdc534bcbbc9a751da34f6505ed2 refs/heads/codex/node-efficiency-recovery-2026-11-18",
+        "9bdcb6a7b79584dbf29861abe8ee1dda94aaa9a6 refs/heads/main"
+      ],
+      "linkedWorktree": false,
+      "worktrees": [
+        "D:\\node factory v2\\outputs\\node-renderer-release-2026-11-19\\repo"
+      ],
+      "files": 1305,
+      "bytes": 109015495,
+      "junctions": [
+        {
+          "path": "D:\\node factory v2\\outputs\\node-renderer-release-2026-11-19\\repo\\node\\source\\node_modules",
+          "target": "D:\\node factory v2\\node_modules"
+        }
+      ],
+      "preservedSiblingFiles": [
+        {
+          "path": "D:\\node factory v2\\outputs\\node-renderer-release-2026-11-19\\build-manifest.json",
+          "bytes": 1646,
+          "sha256": "3d5ab76a45492cd046c8f2c8b074fb9f65bcc6665c0ca569ef0d77d1baa5bdbb"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-renderer-release-2026-11-19\\commit-publication-record.mjs",
+          "bytes": 1621,
+          "sha256": "448cbc7624159fc466f7f452d66c71b72a591e77972ad661a22cc7056da183ae"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-renderer-release-2026-11-19\\commit-release.mjs",
+          "bytes": 1070,
+          "sha256": "959f12928c91bf28e7876bcd7a5e4bd668795ae329082924100295b3d9a44ee5"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-renderer-release-2026-11-19\\finalize-release.mjs",
+          "bytes": 2907,
+          "sha256": "664c54fe9507967b0e8a66e58091c91def7dc83ebd4e5ac3d1a565eb7b52e667"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-renderer-release-2026-11-19\\metadata-pages-status.json",
+          "bytes": 14543,
+          "sha256": "c52c92716c1bcfc8edd83f1cec4d212a3f67a04fe1b3bd9cbc53a4ef4f83c35f"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-renderer-release-2026-11-19\\metadata-preflight-report.json",
+          "bytes": 722,
+          "sha256": "0c6c4ae2802ada212bf7cc7e965d70a72ffa5e97f6d415ff38848583afadb218"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-renderer-release-2026-11-19\\metadata-publication-receipt.json",
+          "bytes": 2109,
+          "sha256": "7c09681e2529c8fb723f5da6ba2cc59b466552000d15717b948b1d2c62a69e50"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-renderer-release-2026-11-19\\pages-status.json",
+          "bytes": 14550,
+          "sha256": "685d7e52425c62a932515dd434d8ef503d21f62ef9126f341cf85127d22ebaa4"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-renderer-release-2026-11-19\\preflight-report.json",
+          "bytes": 779,
+          "sha256": "6891554ca92ca2b5dcdafb5976e78eadc86ad0a89e177532886b80092c9096b8"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-renderer-release-2026-11-19\\preflight.mjs",
+          "bytes": 2677,
+          "sha256": "32ced963cb52620e5dd6c534944f32d90ea29d0e239cc9c3f92431f925e3a58f"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-renderer-release-2026-11-19\\prepare-release.mjs",
+          "bytes": 3794,
+          "sha256": "ca755d3a5e191437cdacf2ed580b0e1bedf89d17c1cd1319e4a976db8b1bf1ab"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-renderer-release-2026-11-19\\publication-history-id.txt",
+          "bytes": 10,
+          "sha256": "e678266982ba94344f63cb267f28c4937a3fcd3b360415188c662f67c4c1991d"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-renderer-release-2026-11-19\\publication-receipt.json",
+          "bytes": 2109,
+          "sha256": "e4ac9dda7048de3fa1167214ac251291014e77183eb5364ff450da236afca253"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-renderer-release-2026-11-19\\record-publication.mjs",
+          "bytes": 4460,
+          "sha256": "c57976b1441f4fb5451693ff5623c37592dd6e9a294d3fa733e8ed46607f7d3b"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-renderer-release-2026-11-19\\source-manifest.json",
+          "bytes": 42195,
+          "sha256": "8e596f9cf4073a93d136a01172aa575fbdd71c1b3d90f94c662f08e0fdee3ea6"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-renderer-release-2026-11-19\\verify-release.mjs",
+          "bytes": 3204,
+          "sha256": "68800f62ce0fdcd4e15330b05737190a243bc2ac8942c4d6ea8c8264143653c9"
+        }
+      ],
+      "removed": true
+    },
+    {
+      "path": "D:\\node factory v2\\outputs\\node-research-tutorial-release-2026-11-18\\repo",
+      "relativePath": "outputs/node-research-tutorial-release-2026-11-18/repo",
+      "head": "db779c73fb21bfb799838bd14e58ffaf7d71c72c",
+      "refs": [
+        "d3f62b5efdbbeb850a80635efefb3229e7085bcc refs/heads/main"
+      ],
+      "linkedWorktree": true,
+      "worktrees": [
+        "D:\\node factory v2\\outputs\\node-bot-plant-panel-release-2026-11-16\\repo",
+        "D:\\node factory v2\\outputs\\node-research-tutorial-release-2026-11-18\\repo"
+      ],
+      "files": 731,
+      "bytes": 52167525,
+      "junctions": [],
+      "preservedSiblingFiles": [
+        {
+          "path": "D:\\node factory v2\\outputs\\node-research-tutorial-release-2026-11-18\\build-manifest.json",
+          "bytes": 1646,
+          "sha256": "ecf653b4e37c23722e7bf9febc9860dbfafc7baac491b1fe30a030e150319c8a"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-research-tutorial-release-2026-11-18\\continuity-migrated.png",
+          "bytes": 165607,
+          "sha256": "6b28e138c83ea289e5b789cc62b065bb7eebea422e1ffa009c0f2cec69b943b7"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-research-tutorial-release-2026-11-18\\continuity-report.json",
+          "bytes": 616,
+          "sha256": "dc0961000f875bb7ed373db101628ca8e6ca2b8c685cf3913c208f3642ca2a1f"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-research-tutorial-release-2026-11-18\\live-before.html",
+          "bytes": 2445,
+          "sha256": "04643049963736a5807aca95f40bf2ac8b61d1b5f09fe9c8a91f16d6f85f72e9"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-research-tutorial-release-2026-11-18\\preflight-report.json",
+          "bytes": 315,
+          "sha256": "ddc809e7a95eb0b99354b7fe44bea289145ae3ea4a6d3e8612b99de7fc4d907f"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-research-tutorial-release-2026-11-18\\preflight.mjs",
+          "bytes": 2057,
+          "sha256": "b784e4662db9c654b517490f5fc516854fe38f5808c262c4f11608372d285e2a"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-research-tutorial-release-2026-11-18\\publication-receipt.json",
+          "bytes": 1854,
+          "sha256": "b4f677ad3f3387d52517b601918310ca479489fff72176672961b7cf7062515c"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-research-tutorial-release-2026-11-18\\verify-release.mjs",
+          "bytes": 2047,
+          "sha256": "29f3e8ab5f9d85de940aa63eea12b2d4d83cfb4524d65078a49fca15909c56fd"
+        }
+      ],
+      "removed": true
+    },
+    {
+      "path": "D:\\node factory v2\\outputs\\node-robot-animations-release-2026-11-20\\repo",
+      "relativePath": "outputs/node-robot-animations-release-2026-11-20/repo",
+      "head": "8b80b46725a294a63a7db2b7eb0fa7dbb0eec992",
+      "refs": [
+        "6378ee7a03af8c4c164f86d6d8fcf9748d3fd7c8 refs/heads/main",
+        "8b80b46725a294a63a7db2b7eb0fa7dbb0eec992 refs/heads/release-robot-animations"
+      ],
+      "linkedWorktree": true,
+      "worktrees": [
+        "D:\\node factory v2\\outputs\\node-upgrades-release-2026-11-20\\repo",
+        "D:\\node factory v2\\outputs\\node-robot-animations-release-2026-11-20\\repo"
+      ],
+      "files": 1572,
+      "bytes": 115460157,
+      "junctions": [
+        {
+          "path": "D:\\node factory v2\\outputs\\node-robot-animations-release-2026-11-20\\repo\\node\\source\\node_modules",
+          "target": "D:\\node factory v2\\node_modules"
+        }
+      ],
+      "preservedSiblingFiles": [
+        {
+          "path": "D:\\node factory v2\\outputs\\node-robot-animations-release-2026-11-20\\build-manifest.json",
+          "bytes": 2184,
+          "sha256": "4957fdfe89495aee011e4dbe1b28115c262a96df7c4c34792617829745412d7b"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-robot-animations-release-2026-11-20\\candidate-build.log",
+          "bytes": 1847,
+          "sha256": "b34356af54e14c4a71cad10468353311e9b0f86421bb42fa3244db49d5090127"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-robot-animations-release-2026-11-20\\candidate-changelog.log",
+          "bytes": 786,
+          "sha256": "531fb1e91c399731d081c9f0498d388a68f9a06e4967fb01bae7e34084bb8652"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-robot-animations-release-2026-11-20\\candidate-docs.log",
+          "bytes": 176,
+          "sha256": "6ec8cae4a0ae081abbfa3c922b19c13d13f980d99683511480ddb2ef245d624e"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-robot-animations-release-2026-11-20\\candidate-initial-build.log",
+          "bytes": 1847,
+          "sha256": "bcb5fe7c01accd7a7b432f2c2c0ea590dd7da654bdaa45f6cf75c4349daa6ea3"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-robot-animations-release-2026-11-20\\candidate-initial-tests.log",
+          "bytes": 572,
+          "sha256": "2348502d2feae73d845d87a4ae9a3b67e4fb8c3710bd3fbcef57c2dc7334bf3a"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-robot-animations-release-2026-11-20\\candidate-tests.log",
+          "bytes": 572,
+          "sha256": "eb4956f4604c9538b2fbc784ceb46274e88234fe61698e1b70ff02cf372fa770"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-robot-animations-release-2026-11-20\\finalize.log",
+          "bytes": 430,
+          "sha256": "68d5bbd132f9022d11c024fb608e58872041c00fa83f100a7978d91a9d968ee8"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-robot-animations-release-2026-11-20\\finalize.mjs",
+          "bytes": 5045,
+          "sha256": "293f922647de1cfdd22355f3f668ea0f17cabd87d6345e918f3311501c0fe666"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-robot-animations-release-2026-11-20\\metadata-pages-status.json",
+          "bytes": 14538,
+          "sha256": "b6d2c4a41caf6bfd1b6f8af711a2044d0f114f3512389004b7a43e2257b4a622"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-robot-animations-release-2026-11-20\\metadata-preflight-report.json",
+          "bytes": 1121,
+          "sha256": "094ea1144fab209acd527cde4f4fc697d173793df5eb10603ed6c3b8c333b372"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-robot-animations-release-2026-11-20\\metadata-publication-receipt.json",
+          "bytes": 2349,
+          "sha256": "f83b95c5abbdcf7c8aba3a15974c593bf12470b448a34317ba35d13af6186f61"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-robot-animations-release-2026-11-20\\metadata.mjs",
+          "bytes": 1975,
+          "sha256": "141a82ce4514cbd7b62ad4006bb85303c8323332fe787a16341a878ef9345a6d"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-robot-animations-release-2026-11-20\\pages-status.json",
+          "bytes": 14540,
+          "sha256": "d945605e99f96f590da105893be3b2f14292f50d722f4da0c68c0910450e5eae"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-robot-animations-release-2026-11-20\\preflight-report.json",
+          "bytes": 494,
+          "sha256": "4fe60c6ced4df1b500c78e9d32491ea17b3c0a931974868821438fda85c7a45a"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-robot-animations-release-2026-11-20\\prepare.mjs",
+          "bytes": 3601,
+          "sha256": "dc2358b61e299b1e1edd3cee89df70531e6824ea8446593ab3d8eca726285a4d"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-robot-animations-release-2026-11-20\\publication-history-id.txt",
+          "bytes": 10,
+          "sha256": "41904116c1aa074b256fa206f80049600f13d7786356f67f595a519de4993525"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-robot-animations-release-2026-11-20\\publication-receipt.json",
+          "bytes": 2349,
+          "sha256": "59ed110ea7952bd3c52baff380520a23efac2e29dae25a5032803c65be9ff112"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-robot-animations-release-2026-11-20\\record.mjs",
+          "bytes": 5822,
+          "sha256": "98a5bcce1e29ef1e9c77e554f7cbaa08b58d61caa440132a46f9d659889f5373"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-robot-animations-release-2026-11-20\\snapshot.log",
+          "bytes": 4200,
+          "sha256": "9efac5f5e66b00419f01ac89a751785a99f210da0c5a0879aa37544879e461bf"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-robot-animations-release-2026-11-20\\source-manifest.json",
+          "bytes": 136806,
+          "sha256": "bac4148356df49dd46cf9ccf0324b8d21e0918e574d972fdfd4af79f120ab11c"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-robot-animations-release-2026-11-20\\verify.mjs",
+          "bytes": 2625,
+          "sha256": "55449a9821a0631eb34227579b05d36a494c05315561bd92513f0826443b1ae7"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-robot-animations-release-2026-11-20\\workspace-build.log",
+          "bytes": 1540,
+          "sha256": "ac67846a8cd84b506e7e7aa0f45004b2c87288a71571de466421e508d20ce1a2"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-robot-animations-release-2026-11-20\\workspace-tests.log",
+          "bytes": 506,
+          "sha256": "909f5b291d37e0af3c29f7bf501b2dfe76fe8d884237c656a56480cfcbda9a46"
+        }
+      ],
+      "removed": true
+    },
+    {
+      "path": "D:\\node factory v2\\outputs\\node-tier-map-prices-release-2026-11-15\\repo",
+      "relativePath": "outputs/node-tier-map-prices-release-2026-11-15/repo",
+      "head": "8437231277dca6792b429da3aa91080be0ab5224",
+      "refs": [
+        "8437231277dca6792b429da3aa91080be0ab5224 refs/heads/main"
+      ],
+      "linkedWorktree": false,
+      "worktrees": [
+        "D:\\node factory v2\\outputs\\node-tier-map-prices-release-2026-11-15\\repo"
+      ],
+      "files": 799,
+      "bytes": 64459548,
+      "junctions": [],
+      "preservedSiblingFiles": [
+        {
+          "path": "D:\\node factory v2\\outputs\\node-tier-map-prices-release-2026-11-15\\prepared-build.json",
+          "bytes": 1302,
+          "sha256": "581603e85905c309d60b66065ba85fe42f98f2da5e1fe712013550f2b8f534df"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-tier-map-prices-release-2026-11-15\\publication-receipt.json",
+          "bytes": 3074,
+          "sha256": "19cd7b08802982898e5b2f3c5b78bc9b0a43f499776fae3d63737563a1bc1be7"
+        }
+      ],
+      "removed": true
+    },
+    {
+      "path": "D:\\node factory v2\\outputs\\node-upgrades-release-2026-11-20\\repo",
+      "relativePath": "outputs/node-upgrades-release-2026-11-20/repo",
+      "head": "6378ee7a03af8c4c164f86d6d8fcf9748d3fd7c8",
+      "refs": [
+        "6378ee7a03af8c4c164f86d6d8fcf9748d3fd7c8 refs/heads/main",
+        "8b80b46725a294a63a7db2b7eb0fa7dbb0eec992 refs/heads/release-robot-animations"
+      ],
+      "linkedWorktree": false,
+      "worktrees": [
+        "D:\\node factory v2\\outputs\\node-upgrades-release-2026-11-20\\repo",
+        "D:\\node factory v2\\outputs\\node-robot-animations-release-2026-11-20\\repo"
+      ],
+      "files": 2224,
+      "bytes": 147643686,
+      "junctions": [
+        {
+          "path": "D:\\node factory v2\\outputs\\node-upgrades-release-2026-11-20\\repo\\node\\source\\node_modules",
+          "target": "D:\\node factory v2\\node_modules"
+        }
+      ],
+      "preservedSiblingFiles": [
+        {
+          "path": "D:\\node factory v2\\outputs\\node-upgrades-release-2026-11-20\\build-manifest.json",
+          "bytes": 2002,
+          "sha256": "a033df8d8f78540718feebd2fe157773608b868a26e81d0f9a7ef17bbd3bed2a"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-upgrades-release-2026-11-20\\candidate-build.log",
+          "bytes": 1775,
+          "sha256": "4c9558f0e2c824b7b5d3aecf92c1d583d51fa0a6288f16d14616e594338c988d"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-upgrades-release-2026-11-20\\candidate-changelog.log",
+          "bytes": 784,
+          "sha256": "f2eb0420e696bd0c1857aa4dbbd1d56536f223629efd452f16a41ab07cbafe2e"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-upgrades-release-2026-11-20\\candidate-docs-initial.log",
+          "bytes": 644,
+          "sha256": "f79db1b1ae0720bdc28b262655b65cabf176dcccc6605d844134aae7bfcaa3be"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-upgrades-release-2026-11-20\\candidate-docs.log",
+          "bytes": 176,
+          "sha256": "6ec8cae4a0ae081abbfa3c922b19c13d13f980d99683511480ddb2ef245d624e"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-upgrades-release-2026-11-20\\candidate-tests.log",
+          "bytes": 564,
+          "sha256": "0181c4c44c6457ec8a6e313eb293f0c1840192ed1b28c1b0e3556c27d5dc78f1"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-upgrades-release-2026-11-20\\finalize.mjs",
+          "bytes": 4880,
+          "sha256": "101ece89b004eb509f8ad5c41141d060f4847f6dabf04c5e54523f0122460c4f"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-upgrades-release-2026-11-20\\metadata-pages-status.json",
+          "bytes": 14531,
+          "sha256": "00d16e66e4b609b7ea2d74bdae8a432500d7961c42b8fc49809205452efd0c2b"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-upgrades-release-2026-11-20\\metadata-preflight-report.json",
+          "bytes": 1065,
+          "sha256": "fa1862e51dc13501f212e900546f278365132ddaeb4c2e72c35046b98746a2fc"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-upgrades-release-2026-11-20\\metadata-publication-receipt.json",
+          "bytes": 2289,
+          "sha256": "4d7742439bc74886638bd70b45867e2a3afe3b1b73324060b4c84a59cc30865d"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-upgrades-release-2026-11-20\\metadata.mjs",
+          "bytes": 1960,
+          "sha256": "0389ddceb38ccec81d6d7db9ef109fc99ec9008cac9932cef30b941e7568cfef"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-upgrades-release-2026-11-20\\pages-status.json",
+          "bytes": 14553,
+          "sha256": "d861115249e226096edd672c7f7135ae8e670ddbd217e83b3449a27d2b49221f"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-upgrades-release-2026-11-20\\preflight-report.json",
+          "bytes": 495,
+          "sha256": "4cb29f97f76ce177147459b8c30dd606d59ad832ce19ac2a6b69378bf830192d"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-upgrades-release-2026-11-20\\prepare.mjs",
+          "bytes": 3151,
+          "sha256": "637ab76001cee26c3ba37a5b7738335ebdf72396818fe897a1b4588d57e0f880"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-upgrades-release-2026-11-20\\publication-history-id.txt",
+          "bytes": 10,
+          "sha256": "7a163e808438b0e37dc3cde8ae1b8afeed869e915455f8e3ab7c8a1bdbeea1e2"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-upgrades-release-2026-11-20\\publication-receipt.json",
+          "bytes": 2289,
+          "sha256": "8b2740e83247a8d10b03a657488029e9ff7243e02cc0bb03f0170c0e1a7c3694"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-upgrades-release-2026-11-20\\record.mjs",
+          "bytes": 6162,
+          "sha256": "3e306c28b674742da35f1a3f6ccd249068fb5e02547f75117b7d4d9d993f1712"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-upgrades-release-2026-11-20\\source-manifest.json",
+          "bytes": 159125,
+          "sha256": "0e5bac841665ba99e3a28089d8e942098d1c73ae8307a597aa481716339e4f96"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-upgrades-release-2026-11-20\\verify.mjs",
+          "bytes": 2616,
+          "sha256": "cd9fc0f275e6e388ca326dde7312bf09bc44bcef13e806b28aea521c66a12037"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-upgrades-release-2026-11-20\\workspace-build.log",
+          "bytes": 1540,
+          "sha256": "31da6e13283cb4bc9fc990a360226c4997c093b612ab85b1549dbb9d93735fd5"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-upgrades-release-2026-11-20\\workspace-tests.log",
+          "bytes": 505,
+          "sha256": "c7383782f4cc265af89a590a3d9913a9a32c5e750adc24139c4b8a72166e7a09"
+        }
+      ],
+      "removed": true
+    },
+    {
+      "path": "D:\\node factory v2\\outputs\\node-zoom-15-release-2026-11-20\\repo",
+      "relativePath": "outputs/node-zoom-15-release-2026-11-20/repo",
+      "head": "df7ec85b00be8f74465b88aefb1c1c5b65bd30ef",
+      "refs": [
+        "edc6d90010c2bddcb2347590a5888ee231e6e5e1 refs/heads/release/dense-optimization-2026-11-19",
+        "e3b9dd1b3d429624cd134a97701b8b55860f1bcb refs/heads/release/readouts-35-2026-11-20",
+        "df7ec85b00be8f74465b88aefb1c1c5b65bd30ef refs/heads/release/zoom-15-2026-11-20"
+      ],
+      "linkedWorktree": true,
+      "worktrees": [
+        "D:\\node factory v2\\outputs\\node-readouts-35-release-2026-11-20\\repo",
+        "D:\\node factory v2\\outputs\\node-centered-expansion-release-2026-11-20\\repo",
+        "D:\\node factory v2\\outputs\\node-zoom-15-release-2026-11-20\\repo"
+      ],
+      "files": 1920,
+      "bytes": 126896273,
+      "junctions": [],
+      "preservedSiblingFiles": [
+        {
+          "path": "D:\\node factory v2\\outputs\\node-zoom-15-release-2026-11-20\\build-manifest.json",
+          "bytes": 1646,
+          "sha256": "04a4c577433a77fdd82b0844ce09157ff3fea6ca471122bc61bc4aef21966093"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-zoom-15-release-2026-11-20\\candidate-build.log",
+          "bytes": 1540,
+          "sha256": "d8d24072e5cd78e2753d0809c24236d463f082b091e1634ad596f3833d2d3bd2"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-zoom-15-release-2026-11-20\\candidate-tests.log",
+          "bytes": 653,
+          "sha256": "932e5ef9afd2cd14ebab356390ec3f3f5505e9a4c54f48f4ca92d1ed4c8f0025"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-zoom-15-release-2026-11-20\\commit-publication-record.mjs",
+          "bytes": 2087,
+          "sha256": "10a2d955ccf816993254cb3c2bba842e49b842aae040775e20c59fa078f56836"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-zoom-15-release-2026-11-20\\commit-release.mjs",
+          "bytes": 1285,
+          "sha256": "0c5c0cbdf48be758e723b343225dc330380ca0c07abb12b24bc9c2f52bc4bf90"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-zoom-15-release-2026-11-20\\finalize-release.mjs",
+          "bytes": 1848,
+          "sha256": "3c14af3383fde2822e47bf68b03ccde94741e72cffa62c6367d27832d8cb4a1d"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-zoom-15-release-2026-11-20\\implementation-id.txt",
+          "bytes": 10,
+          "sha256": "be2fe65d3ac56509b488d1cd4b813b49835e15c5e182c40142cb2973bd2e3b8b"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-zoom-15-release-2026-11-20\\metadata-pages-status.json",
+          "bytes": 14543,
+          "sha256": "de338ff15fe61c43e8c873799dc24a1809a8bf8954e606c8f8761650f43fa0ba"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-zoom-15-release-2026-11-20\\metadata-preflight-report.json",
+          "bytes": 864,
+          "sha256": "831157523684571befb94dea816ad631ae49a11ccbbafc2d69e577d0590d42d6"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-zoom-15-release-2026-11-20\\metadata-publication-receipt.json",
+          "bytes": 2109,
+          "sha256": "370a41c8014bd74b5a023d55e9f55c129ed4481c90e487d82c67d047747a11a6"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-zoom-15-release-2026-11-20\\pages-status.json",
+          "bytes": 14554,
+          "sha256": "d20b8c05cf9a3334e9c265db7376e800f7c376e0c90caabf8fe26cf84da4d1b5"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-zoom-15-release-2026-11-20\\preflight-report.json",
+          "bytes": 697,
+          "sha256": "2f18923801064f624b242c39fbe256f44da829800c47d580dace00c003b44444"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-zoom-15-release-2026-11-20\\preflight.mjs",
+          "bytes": 2677,
+          "sha256": "bb5a66325a18f5b0f21607f1012a91b2bd9cd39944a18614f25fb66c83c6d144"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-zoom-15-release-2026-11-20\\prepare-release.mjs",
+          "bytes": 3577,
+          "sha256": "cd6148ab14881036105dc879dce67b5ebc37230ae47ee020999f9b8ec1612eb3"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-zoom-15-release-2026-11-20\\preview\\assets\\browserAll-BffsXXjY.js",
+          "bytes": 43485,
+          "sha256": "39920f05ece4ba092098a625abdfb889d2cfce2fd665d868399be5a24f732724"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-zoom-15-release-2026-11-20\\preview\\assets\\browserAll-D0uF4yHg.js",
+          "bytes": 43485,
+          "sha256": "da0d75f4db54633f5b2c98d8bc0dcbd01908608dce0a2b6099b6f242a7a90501"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-zoom-15-release-2026-11-20\\preview\\assets\\CanvasPool-DUTwLfjw.js",
+          "bytes": 113025,
+          "sha256": "c6942c2d9b98f9ca2e5e0aa707a29a1b1d2792169e0a3f415032c39fcca6929c"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-zoom-15-release-2026-11-20\\preview\\assets\\canvasUtils-BS3XAg00.js",
+          "bytes": 6013,
+          "sha256": "48ebd2bf478215adbd9898a8009e6a0a12873131e8fe4f604c1c335afedd6666"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-zoom-15-release-2026-11-20\\preview\\assets\\getTexelRangeRects-DJYCCvvH.js",
+          "bytes": 11314,
+          "sha256": "394121d0b4386f20c37b2120d13aaf76aeb59a3a7f0e14321ad8c9bf117a83b8"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-zoom-15-release-2026-11-20\\preview\\assets\\getTextureBatchBindGroup-BJjgf9s3.js",
+          "bytes": 344,
+          "sha256": "6496aa360360333d49dabbb3b98c9fce8d50616a9c7c76e2bdacb65c3c19c7c4"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-zoom-15-release-2026-11-20\\preview\\assets\\index-BN55hpMD.js",
+          "bytes": 924234,
+          "sha256": "3639922d0d02cdd7fcb446b918a828c2a712c4f711fe29544af5264f1fc8f91a"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-zoom-15-release-2026-11-20\\preview\\assets\\index-CFZzpPQA.css",
+          "bytes": 185623,
+          "sha256": "2cdb281818c5cdb91f29c94ec93f43cc8d941ec056e47470c7e5915b7c2cc10c"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-zoom-15-release-2026-11-20\\preview\\assets\\index-DA0edy8Q.js",
+          "bytes": 924235,
+          "sha256": "cc9c01dae684442dcb29bd1d98fbcad34d83702033fc8f414af3f341677dc559"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-zoom-15-release-2026-11-20\\preview\\assets\\init-Bps-uAw2.js",
+          "bytes": 14190,
+          "sha256": "7084f8f79f3b22da33c0d115b7f2ff13577041b2875624f68f842d66e82a2855"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-zoom-15-release-2026-11-20\\preview\\assets\\init-EcBXrrjU.js",
+          "bytes": 14190,
+          "sha256": "ba80edb4cb643886f16a6d0ee8050535329fd1ed11a5de147c23c7f6b0934e71"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-zoom-15-release-2026-11-20\\preview\\assets\\RenderTargetSystem-ivt3N3hh.js",
+          "bytes": 78118,
+          "sha256": "1aa03dd15b5770518286a957b874a2119cc4d9cbe61fb48492112e5e706bf9c2"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-zoom-15-release-2026-11-20\\preview\\assets\\webworkerAll-kIRd6A6o.js",
+          "bytes": 55,
+          "sha256": "6d7883ea6caf910a3bef3b9826d3900b6ffc975b389fcf9f8d5a2cde41f1d870"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-zoom-15-release-2026-11-20\\preview\\assets\\webworkerAll-ZsKjslFj.js",
+          "bytes": 55,
+          "sha256": "913f8e67bbf59408f0c7c7ca0a314ba3074a1a704eec095795cb68f5d12e5caf"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-zoom-15-release-2026-11-20\\preview\\previews\\active-factory\\index.html",
+          "bytes": 895,
+          "sha256": "28969c7340b5752e5765c56f05f9f44aaf48be5bc26e072637c11daf6207a812"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-zoom-15-release-2026-11-20\\publication-history-id.txt",
+          "bytes": 10,
+          "sha256": "bbc876cf927f2a79ab8806c5d191f575d908e99e6aa823f98ef06070d286c6d0"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-zoom-15-release-2026-11-20\\publication-receipt.json",
+          "bytes": 2109,
+          "sha256": "1920a6d1351c9f67052eba98a58d0b7cc7f7708e81b702b54acbaa076e3cba33"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-zoom-15-release-2026-11-20\\record-implementation.mjs",
+          "bytes": 4050,
+          "sha256": "f89b432742e04b686b94933d36f2ba9392439487a93b8288257dc4ad849b47dc"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-zoom-15-release-2026-11-20\\record-publication.mjs",
+          "bytes": 4692,
+          "sha256": "0f0c20300cf7acb83b9b6682d647a04211ab5f8b7b3b9b52747eca314700adb5"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-zoom-15-release-2026-11-20\\restored-evidence.json",
+          "bytes": 195,
+          "sha256": "864e37462b9d278445023f76c825555830d0dd591a909ff876ba694e82551a52"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-zoom-15-release-2026-11-20\\source-manifest.json",
+          "bytes": 48892,
+          "sha256": "79454588f1a4a2026d32c640a24f1ac9577f1534bd243bff8ffdaddf193961ec"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-zoom-15-release-2026-11-20\\verify-release.mjs",
+          "bytes": 2991,
+          "sha256": "77a0770b48e9994292aebbf5eef1400eee58fd5b4da7fd377890b30c6e4f46b3"
+        },
+        {
+          "path": "D:\\node factory v2\\outputs\\node-zoom-15-release-2026-11-20\\workspace-tests.log",
+          "bytes": 501,
+          "sha256": "caf9c832a3147b4c9416cf25fb8827a5ee9e981ea52266138731febc89ec14b1"
+        }
+      ],
+      "removed": true
+    }
+  ],
+  "protectedCheckouts": [
+    {
+      "path": "D:\\node factory v2\\outputs\\node-landmarks-release-2026-11-20\\repo",
+      "head": "aecc45ec1540249594946fb53bbde714061874f6",
+      "status": ""
+    },
+    {
+      "path": "D:\\node factory v2\\outputs\\node-terrain-road-release-2026-11-20\\repo",
+      "head": "00a81bea23211576fa2c4921330e6839b9452dd1",
+      "status": "M node/source/AGENTS.md\n M node/source/README.md\n M node/source/dist/assets/CanvasPool-O_8k9jVW.js\n D node/source/dist/assets/RenderTargetSystem-CHWUCnC7.js\n D node/source/dist/assets/border-art-20261120/CanvasPool-O_8k9jVW.js\n D node/source/dist/assets/border-art-20261120/RenderTargetSystem-CHWUCnC7.js\n D node/source/dist/assets/border-art-20261120/browserAll-CUwAVoCt.js\n D node/source/dist/assets/border-art-20261120/canvasUtils-DHiBpmSz.js\n D node/source/dist/assets/border-art-20261120/getTexelRangeRects-5CG6mIA2.js\n D node/source/dist/assets/border-art-20261120/getTextureBatchBindGroup-CDnZS9mH.js\n D node/source/dist/assets/border-art-20261120/index-Bw0l-Ea0.js\n D node/source/dist/assets/border-art-20261120/index-vtyXR-db.css\n D node/source/dist/assets/border-art-20261120/init-B1lcjyyE.js\n D node/source/dist/assets/border-art-20261120/webworkerAll-BCcBAr7N.js\n D node/source/dist/assets/browserAll-BLxqzKpU.js\n D node/source/dist/assets/browserAll-CfmOr-is.js\n D node/source/dist/assets/browserAll-ChiHiKC_.js\n D node/source/dist/assets/browserAll-ZMSyW_nt.js\n D node/source/dist/assets/browserAll-pWjHxPUM.js\n D node/source/dist/assets/getTexelRangeRects-5CG6mIA2.js\n D node/source/dist/assets/index-BIox6E9-.js\n D node/source/dist/assets/index-BKQbxjGt.js\n D node/source/dist/assets/index-Bxf-I3Pm.js\n D node/source/dist/assets/index-DQsm_A1R.js\n D node/source/dist/assets/index-JV7tYgav.css\n D node/source/dist/assets/index-Vtbsvka9.js\n D node/source/dist/assets/index-rwmamF5i.css\n D node/source/dist/assets/index-vtyXR-db.css\n D node/source/dist/assets/init-0Lxaq-U8.js\n D node/source/dist/assets/init-CewI-evo.js\n D node/source/dist/assets/init-DHRW3hKc.js\n D node/source/dist/assets/init-GkcCSrtx.js\n D node/source/dist/assets/init-JD6EnTmz.js\n D node/source/dist/assets/webworkerAll-BiRb95Id.js\n D node/source/dist/assets/webworkerAll-D0ipOw8E.js\n D node/source/dist/assets/webworkerAll-DQX3DvdQ.js\n D node/source/dist/assets/webworkerAll-Dmc7ZJnm.js\n D node/source/dist/assets/webworkerAll-gnSRJtEG.js\n M node/source/dist/index.html\n M node/source/docs/README.md\n M node/source/docs/browser-playtest.md\n M node/source/docs/changelog/entries.json\n M node/source/docs/node-ui-style-guide.md\n M node/source/docs/systems/catalogs/bots.md\n M node/source/docs/systems/catalogs/efficiency.md\n M node/source/docs/systems/catalogs/items.md\n M node/source/docs/systems/catalogs/nodes.md\n M node/source/docs/systems/catalogs/recipes.md\n M node/source/docs/systems/catalogs/research.md\n M node/source/docs/systems/controls-and-factory-layouts.md\n M node/source/docs/systems/interface-and-assets.md\n M node/source/docs/systems/map-nodes-and-exploration.md\n M node/source/docs/systems/roads-and-vehicles.md\n M node/source/docs/systems/saves-and-compatibility.md\n M node/source/docs/typography-style-review.md\n M node/source/src/domain/camera.ts\n M node/source/src/domain/types.ts\n M node/source/src/mods/worldGrid.test.ts\n M node/source/src/persistence/legacyMigration.ts\n M node/source/src/renderer/PixiPlayfield.tsx\n M node/source/src/renderer/playfieldTypes.ts\n M node/source/src/simulation/borderTerrainClearance.test.ts\n M node/source/src/simulation/createInitialState.ts\n M node/source/src/simulation/devSource.test.ts\n M node/source/src/simulation/devSource.ts\n M node/source/src/simulation/engine.test.ts\n M node/source/src/simulation/engine.ts\n M node/source/src/simulation/expansionRescue.ts\n M node/source/src/simulation/mapExpansion.ts\n M node/source/src/simulation/newWorldObstructions.test.ts\n M node/source/src/simulation/sectorTravel.test.ts\n M node/source/src/simulation/settlementPopulation.test.ts\n M node/source/src/simulation/worldGeneration.ts\n M node/source/src/styles/node-map.css\n M node/source/src/styles/readability.css\n M node/source/src/tutorials/dwarvenDiscovery.test.ts\n M node/source/src/tutorials/dwarvenDiscovery.ts\n M node/source/src/tutorials/tutorialState.ts\n M node/source/src/tutorials/tutorialUnlocks.test.ts\n M node/source/src/tutorials/tutorialUnlocks.ts\n M node/source/src/ui/App.tsx\n M node/source/src/ui/MapBorderObstructions.test.tsx\n M node/source/src/ui/MapBorderObstructions.tsx\n M node/source/src/ui/MapNodeDetails.tsx\n M node/source/src/ui/NodeMinimap.tsx\n M node/source/src/ui/mapBorderObstructions.css\n M node/source/src/ui/mapNodePresentation.test.ts\n M node/source/src/ui/mapNodePresentation.ts\n M node/source/src/ui/panels/CommandsPanel.tsx\n M node/source/src/ui/panels/DevPanel.tsx\n?? node/source/docs/archive/style-reference-docx/README.md\n?? node/source/docs/archive/style-reference-docx/node-ui-style-guide.docx\n?? node/source/docs/archive/style-reference-docx/typography-style-review.docx\n?? node/source/docs/master-plan/22-map-terrain-tiles.md\n?? node/source/outputs/road-workshop/double-click-arrival-focus.jpg\n?? node/source/outputs/road-workshop/exterior-equal-arrows.jpg\n?? node/source/outputs/road-workshop/main-adoption-controls.jpg\n?? node/source/outputs/road-workshop/overview.jpg\n?? node/source/outputs/road-workshop/road-controls-focused.jpg\n?? node/source/outputs/road-workshop/travel-button-arrival-focus.jpg\n?? node/source/outputs/style-markdown-conversion/convert-style-references.py\n?? node/source/outputs/style-markdown-conversion/verification.json\n?? node/source/outputs/style-markdown-conversion/verify-conversion.py\n?? node/source/outputs/terrain-tiles-broad/terrain-proposal.html\n?? node/source/outputs/terrain-tiles-initial/terrain-proposal.html\n?? node/source/outputs/terrain-tiles-page/art/badlands-1.svg\n?? node/source/outputs/terrain-tiles-page/art/badlands-2.svg\n?? node/source/outputs/terrain-tiles-page/art/badlands-3.svg\n?? node/source/outputs/terrain-tiles-page/art/badlands-4.svg\n?? node/source/outputs/terrain-tiles-page/art/desert-1.svg\n?? node/source/outputs/terrain-tiles-page/art/desert-2.svg\n?? node/source/outputs/terrain-tiles-page/art/desert-3.svg\n?? node/source/outputs/terrain-tiles-page/art/desert-4.svg\n?? node/source/outputs/terrain-tiles-page/art/grassland-1.svg\n?? node/source/outputs/terrain-tiles-page/art/grassland-2.svg\n?? node/source/outputs/terrain-tiles-page/art/grassland-3.svg\n?? node/source/outputs/terrain-tiles-page/art/grassland-4.svg\n?? node/source/outputs/terrain-tiles-page/art/initial/badlands-1.svg\n?? node/source/outputs/terrain-tiles-page/art/initial/badlands-2.svg\n?? node/source/outputs/terrain-tiles-page/art/initial/badlands-3.svg\n?? node/source/outputs/terrain-tiles-page/art/initial/badlands-4.svg\n?? node/source/outputs/terrain-tiles-page/art/initial/desert-1.svg\n?? node/source/outputs/terrain-tiles-page/art/initial/desert-2.svg\n?? node/source/outputs/terrain-tiles-page/art/initial/desert-3.svg\n?? node/source/outputs/terrain-tiles-page/art/initial/desert-4.svg\n?? node/source/outputs/terrain-tiles-page/art/initial/grassland-1.svg\n?? node/source/outputs/terrain-tiles-page/art/initial/grassland-2.svg\n?? node/source/outputs/terrain-tiles-page/art/initial/grassland-3.svg\n?? node/source/outputs/terrain-tiles-page/art/initial/grassland-4.svg\n?? node/source/outputs/terrain-tiles-page/art/initial/rocky-1.svg\n?? node/source/outputs/terrain-tiles-page/art/initial/rocky-2.svg\n?? node/source/outputs/terrain-tiles-page/art/initial/rocky-3.svg\n?? node/source/outputs/terrain-tiles-page/art/initial/rocky-4.svg\n?? node/source/outputs/terrain-tiles-page/art/regular/badlands-1.svg\n?? node/source/outputs/terrain-tiles-page/art/regular/badlands-2.svg\n?? node/source/outputs/terrain-tiles-page/art/regular/badlands-3.svg\n?? node/source/outputs/terrain-tiles-page/art/regular/badlands-4.svg\n?? node/source/outputs/terrain-tiles-page/art/regular/desert-1.svg\n?? node/source/outputs/terrain-tiles-page/art/regular/desert-2.svg\n?? node/source/outputs/terrain-tiles-page/art/regular/desert-3.svg\n?? node/source/outputs/terrain-tiles-page/art/regular/desert-4.svg\n?? node/source/outputs/terrain-tiles-page/art/regular/grassland-1.svg\n?? node/source/outputs/terrain-tiles-page/art/regular/grassland-2.svg\n?? node/source/outputs/terrain-tiles-page/art/regular/grassland-3.svg\n?? node/source/outputs/terrain-tiles-page/art/regular/grassland-4.svg\n?? node/source/outputs/terrain-tiles-page/art/regular/rocky-1.svg\n?? node/source/outputs/terrain-tiles-page/art/regular/rocky-2.svg\n?? node/source/outputs/terrain-tiles-page/art/regular/rocky-3.svg\n?? node/source/outputs/terrain-tiles-page/art/regular/rocky-4.svg\n?? node/source/outputs/terrain-tiles-page/art/rocky-1.svg\n?? node/source/outputs/terrain-tiles-page/art/rocky-2.svg\n?? node/source/outputs/terrain-tiles-page/art/rocky-3.svg\n?? node/source/outputs/terrain-tiles-page/art/rocky-4.svg\n?? node/source/outputs/terrain-tiles-page/assets/index-BdM2AHrc.css\n?? node/source/outputs/terrain-tiles-page/assets/index-Pd37isnK.js\n?? node/source/outputs/terrain-tiles-page/index.html\n?? node/source/outputs/terrain-tiles-page/terrain-proposal.html\n?? node/source/outputs/terrain-tiles-qa/art-selection-before.json\n?? node/source/outputs/terrain-tiles-qa/art-selection-verification.json\n?? node/source/outputs/terrain-tiles-qa/art-selection-word-structure.json\n?? node/source/outputs/terrain-tiles-qa/browser-review.json\n?? node/source/outputs/terrain-tiles-qa/dev-map-reveal.jpg\n?? node/source/outputs/terrain-tiles-qa/dev-tools-browser.json\n?? node/source/outputs/terrain-tiles-qa/dev-tools-verification.json\n?? node/source/outputs/terrain-tiles-qa/dev-tutorials-verification.json\n?? node/source/outputs/terrain-tiles-qa/downloaded-rule-snapshot.json\n?? node/source/outputs/terrain-tiles-qa/holes-exploration-enabled.jpg\n?? node/source/outputs/terrain-tiles-qa/irregular-browser-review.json\n?? node/source/outputs/terrain-tiles-qa/irregular-terrain-comparison.jpg\n?? node/source/outputs/terrain-tiles-qa/irregular-verification.json\n?? node/source/outputs/terrain-tiles-qa/irregular-word-structure.json\n?? node/source/outputs/terrain-tiles-qa/map-details-cleanup-desktop.jpg\n?? node/source/outputs/terrain-tiles-qa/map-details-cleanup-mobile.jpg\n?? node/source/outputs/terrain-tiles-qa/map-exploration-cleanup-browser.json\n?? node/source/outputs/terrain-tiles-qa/map-exploration-cleanup-verification.json\n?? node/source/outputs/terrain-tiles-qa/map-tint-browser.json\n?? node/source/outputs/terrain-tiles-qa/map-tint-desktop.jpg\n?? node/source/outputs/terrain-tiles-qa/map-tint-mobile.jpg\n?? node/source/outputs/terrain-tiles-qa/map-tint-verification.json\n?? node/source/outputs/terrain-tiles-qa/natural-browser-review.json\n?? node/source/outputs/terrain-tiles-qa/natural-terrain-comparison.jpg\n?? node/source/outputs/terrain-tiles-qa/natural-verification.json\n?? node/source/outputs/terrain-tiles-qa/natural-word-structure.json\n?? node/source/outputs/terrain-tiles-qa/quadrant-11x11-snapshot.json\n?? node/source/outputs/terrain-tiles-qa/quadrant-21x21-snapshot.json\n?? node/source/outputs/terrain-tiles-qa/quadrant-audit-1.2.json\n?? node/source/outputs/terrain-tiles-qa/quadrant-audit.json\n?? node/source/outputs/terrain-tiles-qa/quadrant-browser-review.json\n?? node/source/outputs/terrain-tiles-qa/quadrant-final-word-structure.json\n?? node/source/outputs/terrain-tiles-qa/quadrant-mobile.jpg\n?? node/source/outputs/terrain-tiles-qa/quadrant-one-third-audit.json\n?? node/source/outputs/terrain-tiles-qa/quadrant-preferred-entries.jpg\n?? node/source/outputs/terrain-tiles-qa/quadrant-verification.json\n?? node/source/outputs/terrain-tiles-qa/quadrant-word-structure.json\n?? node/source/outputs/terrain-tiles-qa/road-double-click-travel.jpg\n?? node/source/outputs/terrain-tiles-qa/runtime-art-preservation.json\n?? node/source/outputs/terrain-tiles-qa/runtime-browser-review.json\n?? node/source/outputs/terrain-tiles-qa/runtime-verification.json\n?? node/source/outputs/terrain-tiles-qa/runtime-word-structure.json\n?? node/source/outputs/terrain-tiles-qa/scaling-11x11-snapshot.json\n?? node/source/outputs/terrain-tiles-qa/scaling-21x21-snapshot.json\n?? node/source/outputs/terrain-tiles-qa/scaling-browser-review.json\n?? node/source/outputs/terrain-tiles-qa/scaling-mobile.jpg\n?? node/source/outputs/terrain-tiles-qa/scaling-verification.json\n?? node/source/outputs/terrain-tiles-qa/scaling-word-structure.json\n?? node/source/outputs/terrain-tiles-qa/scaling-world-21.jpg\n?? node/source/outputs/terrain-tiles-qa/terrain-comparison.jpg\n?? node/source/outputs/terrain-tiles-qa/terrain-discovery-verification.json\n?? node/source/outputs/terrain-tiles-qa/verification.json\n?? node/source/outputs/terrain-tiles-qa/word-structure.json\n?? node/source/previews/road-workshop/README.md\n?? node/source/previews/road-workshop/fixture.test.ts\n?? node/source/previews/road-workshop/fixture.ts\n?? node/source/previews/road-workshop/index.html\n?? node/source/previews/road-workshop/main.tsx\n?? node/source/previews/road-workshop/style.css\n?? node/source/previews/road-workshop/tsconfig.json\n?? node/source/previews/status-page/mapPoints.test.ts\n?? node/source/previews/terrain-tiles/README.md\n?? node/source/previews/terrain-tiles/art.ts\n?? node/source/previews/terrain-tiles/index.html\n?? node/source/previews/terrain-tiles/initialArt.ts\n?? node/source/previews/terrain-tiles/main.ts\n?? node/source/previews/terrain-tiles/model.test.ts\n?? node/source/previews/terrain-tiles/model.ts\n?? node/source/previews/terrain-tiles/preview.css\n?? node/source/previews/terrain-tiles/regularArt.ts\n?? node/source/previews/terrain-tiles/runtime.css\n?? node/source/previews/terrain-tiles/runtime.html\n?? node/source/previews/terrain-tiles/runtime.tsx\n?? node/source/previews/terrain-tiles/tsconfig.json\n?? node/source/scripts/build-terrain-preview.mjs\n?? node/source/src/art/mapTerrainArt.ts\n?? node/source/src/domain/mapTerrain.ts\n?? node/source/src/domain/roadNavigation.ts\n?? node/source/src/renderer/mapTerrain.ts\n?? node/source/src/renderer/roadNodeTravel.test.ts\n?? node/source/src/renderer/roadNodeTravel.ts\n?? node/source/src/renderer/roadTravelControl.ts\n?? node/source/src/simulation/mapTerrain.test.ts\n?? node/source/src/simulation/mapTerrain.ts\n?? node/source/src/simulation/roadTravel.test.ts\n?? node/source/src/ui/mapTerrain.test.tsx"
+    },
+    {
+      "path": "D:\\node factory v2\\outputs\\github-pages-deployment",
+      "head": "e177479113d773e1b74bdaf2fafd46776ea4a786",
+      "status": ""
+    },
+    {
+      "path": "D:\\node factory v2\\outputs\\endgame-git-worktree",
+      "head": "fbb375f7a38a77ce3c67a63403377f28fd1ef475",
+      "status": ""
+    }
+  ],
+  "sharedDependencies": {
+    "path": "D:\\node factory v2\\node_modules",
+    "files": 10145,
+    "bytes": 395796254
+  },
+  "totalFiles": 27783,
+  "totalBytes": 1927613878,
+  "verification": {
+    "removedFolders": 22,
+    "preservedSiblingFilesSha256Verified": 330,
+    "protectedCheckoutsHeadAndStatusVerified": 4,
+    "sharedDependencyFilesVerified": 10145,
+    "sharedDependencyBytesVerified": 395796254,
+    "scope": "Removed only the 22 authorized repo subfolders and their seven dependency junction links. Parent release folders and sibling evidence retained. No game code, saves, caches or publications changed."
+  },
+  "followUp": {
+    "id": "NODE-0795",
+    "verification": "outputs/git-history-recovery-2026-11-21/verification.json",
+    "issue": "Original preflight ancestry checks borrowed Git objects from a checkout in the deletion set. HEAD/status preservation checks did not establish independent object retention.",
+    "outcome": "Recovered missing objects from a temporary remote mirror, packed retained history locally, removed alternates and temporary mirror, and passed full fsck and all 22 unique removed commit-tip ancestry checks."
+  }
+}

@@ -1,0 +1,83 @@
+{
+  "url": "http://127.0.0.1:4287/outputs/interface-update-optimization/browser/",
+  "isolatedMemoryStorage": true,
+  "checks": [
+    {
+      "scenario": "hidden initial",
+      "diagnostics": "Autosave reads 0; inventory sector scans 0"
+    },
+    {
+      "scenario": "ten hidden stock revisions",
+      "diagnostics": "Autosave reads 0; inventory sector scans 0"
+    },
+    {
+      "scenario": "opened inventory",
+      "diagnostics": "Autosave reads 0; inventory sector scans 1",
+      "text": "Inventory totals: {\"iron\":17}"
+    },
+    {
+      "scenario": "ten unrelated visible renders",
+      "diagnostics": "Autosave reads 0; inventory sector scans 1"
+    },
+    {
+      "scenario": "replacement retains revision zero",
+      "diagnostics": "Autosave reads 0; inventory sector scans 2",
+      "text": "Inventory totals: {\"iron\":21}"
+    },
+    {
+      "scenario": "save panel mounted",
+      "diagnostics": "Autosave reads 2; inventory sector scans 2"
+    },
+    {
+      "scenario": "ten ordinary revisions plus name typing",
+      "diagnostics": "Autosave reads 2; inventory sector scans 2"
+    },
+    {
+      "scenario": "successful write updates open panel",
+      "diagnostics": "Autosave reads 3; inventory sector scans 2",
+      "title": "Fresh autosave"
+    },
+    {
+      "scenario": "synthetic other-tab replacement preserves editing",
+      "title": "External factory",
+      "editedName": "Unsaved typed name"
+    },
+    {
+      "scenario": "synthetic storage clear",
+      "pending": "Awaiting first autosave"
+    },
+    {
+      "scenario": "malformed external autosave",
+      "pending": "Awaiting first autosave"
+    },
+    {
+      "scenario": "blocked manual collection Retry",
+      "alertsRemaining": 0,
+      "manualSlot": "SLOT\n1\nSAVE NAME\n\nEMPTY\nNo saved game here. Room for a better idea.\n\nSAVE\nLOAD"
+    },
+    {
+      "scenario": "reopen reads current saved value",
+      "title": "External factory"
+    },
+    {
+      "scenario": "FactoryApp normal Options Save path",
+      "diagnostics": "Autosave reads 16; inventory sector scans 2"
+    },
+    {
+      "scenario": "factory autosave-frequency changes and typing",
+      "diagnostics": "Autosave reads 16; inventory sector scans 2"
+    }
+  ],
+  "layout": {
+    "desktop": "1280x720",
+    "mobile": "390x845",
+    "documentWidth": 390
+  },
+  "warningsAfterReload": [],
+  "limits": [
+    "Inventory scan/memoization checks use the actual hook in an isolated diagnostic component; production FactoryApp Save / Load path also checked",
+    "External changes use synthetic StorageEvents against in-memory storage, not campaign storage or a native two-tab storage test",
+    "Fixture-only HMR createRoot warning preceded explicit reload",
+    "No FPS, whole-world performance, balance or publication claim"
+  ]
+}

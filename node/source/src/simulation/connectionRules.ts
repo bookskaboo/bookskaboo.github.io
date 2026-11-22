@@ -11,6 +11,9 @@ import { BOT_FRAMES, BOT_GUNS, BOT_ITEMS, cargoMaterial } from '../content/botAs
 import { modNode, modNodeTemplate, modResearchAccepts, modReserveItems } from '../mods/modRules';
 import { recyclerRecipeForMaterial } from '../content/recipes';
 
+/** Generic socket families, shared by concrete-output inference and transport validation. */
+export const nonItemFamilies = new Set(['FLUID', 'WASTE','ANY', 'RESOURCE', 'METAL', 'PLATE', 'GEAR', 'CORE', 'ROBOT_FRAME', 'ROBOT_WEAPON', 'ATTACK_POWER', 'POWER']);
+
 export type PortDirection = 'input' | 'output';
 export type PortSide = 'north' | 'east' | 'south' | 'west';
 

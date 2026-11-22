@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { Dialog } from './Dialog';
 import type { GameState } from '../../domain/types';
 import type { GameEngine } from '../../simulation/engine';
 import { IconGlyph } from '../NodeIcon';
@@ -7,27 +7,13 @@ import '../../styles/endgame.css';
 export function EndgameNotice({ game, engine }: { game: GameState; engine: GameEngine }) {
   const rescue = game.rescue?.pending;
   const victory = !rescue && !game.devResearchUnlocked && game.research.completed.includes('victory') && !game.endgame?.victoryAcknowledged;
-  const card = useRef<HTMLElement>(null);
   const open = Boolean(rescue || victory);
-  useEffect(() => {
-    if (!open) return;
-    const previous = document.activeElement as HTMLElement | null;
-    card.current?.querySelector<HTMLButtonElement>('button')?.focus();
-    return () => { if(previous?.isConnected)previous.focus(); };
-  }, [open, rescue?.resource]);
   if (!open) return null;
   const stage = game.rescue?.resources.length ?? 1;
   const local = rescue?.kind === 'local';
   const title = local ? 'Production has been unblocked.' : rescue ? ['Congratulations. You found the edge case.', 'Another successful failure.', 'Congratulations. The checklist is on fire.'][Math.min(2, Math.max(0, stage - 1))] : 'Victory. Somehow.';
   const close = () => rescue ? engine.acknowledgeRescue() : engine.acknowledgeVictory();
-  return <div className="endgame-backdrop" onKeyDown={event => {
-    event.stopPropagation();
-    if (event.key === 'Escape') { event.preventDefault(); event.stopPropagation(); close(); }
-    if (event.key === 'Tab') {
-      const buttons = [...(card.current?.querySelectorAll<HTMLButtonElement>('button') ?? [])];
-      if (buttons.length === 1 || (event.shiftKey && document.activeElement === buttons[0]) || (!event.shiftKey && document.activeElement === buttons.at(-1))) { event.preventDefault(); (event.shiftKey ? buttons.at(-1) : buttons[0])?.focus(); }
-    }
-  }}><section ref={card} className={`endgame-notice ${rescue ? 'endgame-rescue' : ''}`} role="dialog" aria-modal="true" aria-labelledby="endgame-title">
+  return <div className="endgame-backdrop"><Dialog className={`endgame-notice ${rescue ? 'endgame-rescue' : ''}`} aria-labelledby="endgame-title" onDismiss={close}>
     <div className="endgame-orbit" aria-hidden="true">{rescue ? <span>✦</span> : <IconGlyph icon="final-core" className="endgame-core" />}<i/><i/><i/><i/></div>
     <small>{rescue ? 'EMERGENCY PROCEDURE: SUCCESSFUL' : 'FINAL CORE ACCEPTED'}</small>
     <h1 id="endgame-title">{title}</h1>
@@ -47,5 +33,5 @@ export function EndgameNotice({ game, engine }: { game: GameState; engine: GameE
       <p className="endgame-subtitle">Your factory and progress are preserved. Keep building, keep improving, or just watch it work.</p>
       <button onClick={close}>CONTINUE PLAYING</button><small>Optimization is now a personal problem.</small>
     </>}
-  </section></div>;
+  </Dialog></div>;
 }

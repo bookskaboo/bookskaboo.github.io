@@ -1,0 +1,121 @@
+{
+  "record": "NODE-0817",
+  "localDate": "2026-11-21",
+  "phases": {
+    "baseline": "complete",
+    "roadDirectionPilot": "complete",
+    "remaining": [
+      2,
+      3,
+      4,
+      5
+    ]
+  },
+  "baseline": {
+    "passed": 2372,
+    "failed": 0,
+    "skipped": 1,
+    "files": 233,
+    "currentPassed": 1576,
+    "preservedPassed": 796
+  },
+  "contractsBefore": {
+    "passed": 11,
+    "failed": 0,
+    "skipped": 0,
+    "files": 1,
+    "currentPassed": 11,
+    "preservedPassed": 0
+  },
+  "focusedAfter": {
+    "passed": 191,
+    "failed": 0,
+    "skipped": 0,
+    "files": 18,
+    "currentPassed": 129,
+    "preservedPassed": 62
+  },
+  "final": {
+    "passed": 2383,
+    "failed": 0,
+    "skipped": 1,
+    "files": 234,
+    "currentPassed": 1587,
+    "preservedPassed": 796
+  },
+  "preservation": {
+    "existingSourceFiles": 378,
+    "changedRuntime": [
+      "src/simulation/engine.ts"
+    ],
+    "added": [
+      "src/simulation/roadCommandRuntime.test.ts",
+      "src/simulation/roadCommandRuntime.ts"
+    ],
+    "allOtherCapturedSourcesUnchanged": true,
+    "existingFilesChangedSinceCapture": [
+      "src/simulation/engine.ts",
+      "scripts/build-action-sounds.mjs",
+      "scripts/check-piano-sounds.mjs",
+      "docs/changelog/2026-11.md",
+      "docs/changelog/entries.json",
+      "docs/changelog/index.html",
+      "docs/master-plan/06-art-audio-and-writing.md",
+      "docs/master-plan/07-technical-design.md",
+      "docs/node-ui-style-guide.md",
+      "docs/reviews/system-review-temporary.md",
+      "docs/systems/architecture-and-simulation.md",
+      "docs/systems/interface-and-assets.md",
+      "docs/systems/roads-and-vehicles.md",
+      "docs/systems/testing-and-publishing.md",
+      "docs/typography-style-review.md",
+      "CHANGELOG.md"
+    ],
+    "concurrentChangedFilesPreserved": [
+      "scripts/build-action-sounds.mjs",
+      "scripts/check-piano-sounds.mjs",
+      "docs/master-plan/06-art-audio-and-writing.md",
+      "docs/node-ui-style-guide.md",
+      "docs/systems/interface-and-assets.md",
+      "docs/typography-style-review.md"
+    ],
+    "threeMethodBodiesVerbatim": true,
+    "engineOnlyExpectedImportOwnerAndDelegates": true,
+    "newOwnerImportsOnlyCapabilitiesAndTypes": true,
+    "baselineManifestSha256": "c5df180449e109f5ebd6cb29eef75deec653b683e3f2a66941751a1dfddf600b"
+  },
+  "builds": {
+    "baseline": "passed (TypeScript and local Vite production)",
+    "final": "passed (TypeScript and local Vite production)",
+    "warning": "Existing minified chunks above 500 kB; not changed in this pilot.",
+    "outputs": [
+      "baseline-build",
+      "final-build",
+      "baseline-fixture"
+    ]
+  },
+  "documentation": {
+    "baseline": "Six catalogs and links across forty documents; six history checks passed.",
+    "final": "Regenerated six catalogs and history; freshness/local links across forty documents and all six history checks passed."
+  },
+  "browser": {
+    "url": "http://127.0.0.1:4186/?layout=standard&nodes=600&sampleSeconds=25",
+    "build": "baseline-fixture (Vite production)",
+    "sampleProtocol": "Fit all, five-second warmup, uninterrupted fixed 25-second sample; no heavy checks overlapped",
+    "benchmark": "{\"frameP95\":16.799999999999272,\"frameP99\":25,\"tickP95\":4.400000035762787,\"slowFrames\":1,\"count\":1857,\"seconds\":25,\"meanFrameMs\":13.462574044157243,\"averageFps\":74.28,\"complete\":true}",
+    "camera": "{\"zoom\":0.15,\"x\":225.99408411979675,\"y\":151.41607093811035}",
+    "renderer": "{\"nodesCreated\":600,\"nodesDestroyed\":0,\"particleObjectsCreated\":64,\"visibleNodes\":600,\"totalNodes\":600,\"activeParticles\":22,\"pooledParticles\":42,\"overviewTextures\":13,\"cableChunks\":24,\"cachedCables\":true}",
+    "text": "5,400 × 3,600 field600 nodes90 producers831 connections210 Splitters210 Mergers63 cycling12 materials in transit310 produced70 delivered42 s elapsed66 page FPS0.5 ms last tick16.8 ms p95 frame",
+    "viewport": {
+      "devicePixelRatio": 1.2999999523162842,
+      "height": 720,
+      "width": 1280
+    }
+  },
+  "limitations": [
+    "One synthetic active-factory baseline only, with no post-pilot FPS claim or whole-world certification.",
+    "No UI/renderer extraction, campaign saves, balance run, dependency upgrade, transport rewrite, commit or publication.",
+    "Original and extracted engine each passed the same eleven new facade regressions; full-engine differential simulation was not added.",
+    "Existing preserved release copies remain in workspace test discovery; they are reported separately."
+  ]
+}

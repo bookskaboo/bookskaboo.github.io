@@ -1,6 +1,8 @@
+import { createPlayfieldInteractionState, createPlayfieldInteractions } from './playfieldInteractions';
+import { PlayfieldResources, destroyPlayfieldApplication } from './playfieldResources';
 import { CableLayers } from './cableLayers';
 import { GuardedRefillLinks } from './guardedRefillLinks';
-import { RoadTravelClicks, roadTravelDestination } from './roadNodeTravel';
+import { roadTravelDestination } from './roadNodeTravel';
 import { createRoadTravelControl, positionRoadTravelControl } from './roadTravelControl';
 import { createBorderTerrain } from './borderTerrain';
 import { MapTerrainTextures } from './mapTerrain';
@@ -18,14 +20,14 @@ import { outputTotal, inputTotal, outputCapacity, resourceCapacityReadout, resou
 import { connectionPoints, curvePoint, buildTransferMotionPath, sampleCurveMotion } from './cableGeometry';
 import { drawCurve, label, drawTrashIcon, drawRoadFlowArrow, drawFreightVehicleFlowArrow, escapeHtml, nodeHeaderHeight } from './playfieldDrawing';
 import { drawBufferSquares, updateProductionPort, updateBufferSquares, drawProductionCue, updateInputSquares } from './nodeBuffers';
-import type { PlayfieldTooltip, PixiPlayfieldProps as Props, DragState, NodeView, PortHandle, PortView, ConnectionDragState, ConnectionRejection, FlowParticle, PlacementView } from './playfieldTypes';
+import type { PlayfieldTooltip, PixiPlayfieldProps as Props, NodeView, PortHandle, PortView, ConnectionDragState, ConnectionRejection, FlowParticle, PlacementView } from './playfieldTypes';
 export type { PlayfieldTooltip, SelectionInfo } from './playfieldTypes';
 import { productionExplanation, productionVisual, productionVisualContext, type ProductionVisual } from './productionVisuals';
 import { createProductionRecipeIcon } from './productionRecipeIcon';
 import { isProductionMachine } from './productionPortRows';
 import { isStorageNode } from './bufferSlots';
-import { NodeControlHover, JOINT_CONTROL_GRACE_MS } from './nodeControlHover';
-import { nearestSocket, socketHitContains } from './socketTargeting';
+import { JOINT_CONTROL_GRACE_MS } from './nodeControlHover';
+import { CORNER_SOCKET_RADIUS, socketHitContains } from './socketTargeting';
 import { ROAD_PREVIEW_GAP, roadPreviewCrop, roadPreviewPosition } from './roadPreviewCrop';
 import { useEffect, useRef } from 'react';
 import { Application, ColorMatrixFilter, Container, Graphics, Rectangle, Sprite, Text, type FederatedPointerEvent } from 'pixi.js';
@@ -40,8 +42,7 @@ import type { Connection, InFlightTransfer, ItemId, MachineNode, SectorState } f
 import type { RoadPlacementTarget } from '../simulation/engine';
 import { getWorldFieldSize } from '../simulation/worldGeneration';
 import { clampFieldCamera, exteriorFieldOverviewSize, scrollCameraForDrag } from '../domain/camera';
-import { WORLD_GRID_SIZE, draggedNodePositions, snapNodePosition } from '../domain/nodeGrid';
-import { boxControlSelection, ControlGroupSelection } from '../domain/controlGroups';
+import { WORLD_GRID_SIZE, snapNodePosition } from '../domain/nodeGrid';
 import { getConnectionControlPoints, getPortSide, isMultiConnectionPort } from '../simulation/connectionRules';
 import { filterOutletLabels, getNodeSize, getPortAnchor, isCompactNode, isOrganicNode, isResourceNode, organicPolygon } from '../domain/nodeGeometry';
 import { blockedFilterPort, filterOutlet } from '../domain/filterRouting';
@@ -57,38 +58,39 @@ import { mapNodePosition } from '../ui/mapNodePresentation';
 import { measureFieldViewport } from '../ui/responsiveLayout';
 import { boundsOnScreen, nodeDrawingKey, nodeOnScreen, playfieldResolution, progressBarTransform, reconcileViews, showNodeDetails, showNodeReadouts, type CableBounds, type ViewIdentity } from './sceneUpdates';
 
-const CORNER_SOCKET_RADIUS = 13;
 const cornerSocketScale = (zoom: number, limit: number) => Math.min(Math.max(2, 1 / zoom), limit);
 
 export function PixiPlayfield(props: Props) {
   const hostRef = useRef<HTMLDivElement>(null); const propsRef = useRef(props); propsRef.current = props;
 
   useEffect(() => {
-    const host = hostRef.current!; let destroyed = false; let initialized = false; let app: Application;
+    const host = hostRef.current!; let destroyed = false; let app: Application;
+    const inputState = createPlayfieldInteractionState();
+    const resources = new PlayfieldResources();
     const viewportElement = props.viewportRef.current!;
     let viewport = measureFieldViewport(viewportElement);
     let insertionPreviewLayer: Graphics; let insertionPreviewSignature = ''; let insertionPreviewCableId: string | undefined;
     let world: Container; let surfaceLayer: Container; let cableLayer: Container; let particleLayer: Container; let nodeLayer: Container; let campPortLayer: Container; let placementLayer: Container; let overlayLayer: Container;
     let camera = { ...props.engine.getSector().camera }; let worldSize = getWorldFieldSize(props.engine.getState());
     let renderedState = props.engine.getState(); let renderedSectorId = props.engine.getSector().id; let appliedCameraNonce = props.cameraFocus?.nonce ?? -1;
-    let drag: DragState | undefined; let connectionDrag: ConnectionDragState | undefined; let snappedPortKey: string | undefined; let panning: { x: number; y: number; cameraX: number; cameraY: number } | undefined;
-    const groupSelection = new ControlGroupSelection();
-    const roadTravelClicks = new RoadTravelClicks();
-    let roadBodyPress: { nodeId: string; sectorId: string; x: number; y: number } | undefined;
-    let rightPress: { id: string; x: number; y: number; moved: boolean } | undefined;
-    let marquee: { startX: number; startY: number; graphic: Graphics; baseSelection: string[]; previewIds: Set<string> } | undefined; let spaceHeld = false; let previewCable: Graphics | undefined; let previewPoint = { x: 0, y: 0 };
-    let placementView: PlacementView | undefined; let placementPointerInside = false; let placementCursor = { x: 0, y: 0 };
+       
+    
+    
+    
+    
+      let previewCable: Graphics | undefined; 
+    let placementView: PlacementView | undefined;  
     let pasteView: { root: Container; outlines: Graphics; status: Text; connections: Connection[] } | undefined;
     let pastePreviewKey = '';
     let roadPreview: ReturnType<typeof createRoadPreview> | undefined;
     let lastRoadInHand = props.placing === 'road';
-    let dragPointer: { x: number; y: number } | undefined;
+    
     let lastSnapToGrid = props.snapToGrid;
     let connectionRejection: ConnectionRejection | undefined; let rejectionGraphic: Graphics | undefined;
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-    const controlHover = new NodeControlHover();
-    const enterNodeHover = (id: string) => { controlHover.enter(id); hoveredNodeId = id; propsRef.current.onHoverNode?.(id); };
-    let hoveredNodeId: string | undefined; let tooltipIntent: (PlayfieldTooltip & { key: string; visible: boolean }) | undefined; let tooltipTimer: number | undefined;
+    
+    const enterNodeHover = (id: string) => { inputState.controlHover.enter(id); inputState.hoveredNodeId = id; propsRef.current.onHoverNode?.(id); };
+     let tooltipIntent: (PlayfieldTooltip & { key: string; visible: boolean }) | undefined; let tooltipTimer: number | undefined;
     let drawnGridEnabled = props.engine.getState().preferences.showGrid; let drawnTerrain = ''; let lastTooltipAt = 0; let lastUiSignature = '';
     let observedPlayTimeMs = props.engine.getState().playTimeMs; let observedPlayTimeAt = performance.now();
     const portsByNode = new Map<string, PortView[]>();
@@ -101,6 +103,7 @@ export function PixiPlayfield(props: Props) {
     const pathCache = new Map<string, { ids: string[]; motion: ReturnType<typeof buildTransferMotionPath> }>();
     const particlePool: FlowParticle[] = [];
     const overviewTextures = new OverviewTextures();
+    resources.add(() => overviewTextures.destroy());
     let overviewContext = '';
     let cachedCables = false; let cableLayers: CableLayers;
     let guardedRefills: GuardedRefillLinks;
@@ -116,59 +119,16 @@ export function PixiPlayfield(props: Props) {
     let pathRevision = 0;
 
 
-    const toWorld = (x: number, y: number) => ({ x: (x - camera.x) / camera.zoom, y: (y - camera.y) / camera.zoom });
-    const portKey = (handle: PortHandle) => `${handle.nodeId}:${handle.direction}:${handle.index}`;
-    const portScreenPoint = (handle: PortHandle) => {
-      const node = sceneNodes.get(handle.nodeId);
-      if (!node) return undefined;
-      const anchor = getPortAnchor(node, handle.direction, handle.index);
-      return { x: camera.x + (node.x + anchor.x) * camera.zoom, y: camera.y + (node.y + anchor.y) * camera.zoom };
-    };
-    const normalizedConnection = (first: PortHandle, second: PortHandle) => first.direction === 'output'
-      ? { output: first, input: second }
-      : { output: second, input: first };
-    const canSelectNode = (id: string) => !propsRef.current.selectableNodeId || propsRef.current.selectableNodeId === id;
-    const socketAt = (x: number, y: number) => {
-      const candidates = [...portViews.values()].flatMap(handle => {
-        const node = sceneNodes.get(handle.nodeId);
-        const point = portScreenPoint(handle);
-        if (!canSelectNode(handle.nodeId) || !node || !point || point.y < viewport.top || (node.kind === 'joint' && handle.direction === 'input')) return [];
-        const dx = x - point.x, dy = y - point.y;
-        if (handle.cornerScaleLimit !== undefined
-          ? Math.hypot(dx, dy) > CORNER_SOCKET_RADIUS * handle.root.scale.x * camera.zoom
-          : !socketHitContains(dx, dy, getPortSide(node, handle.direction, handle.index), isCompactNode(node))) return [];
-        return [{ ...point, key: portKey(handle), side: getPortSide(node, handle.direction, handle.index), handle }];
-      });
-      return nearestSocket(candidates, x, y, Infinity)?.handle;
-    };
-    const activeHandleForTarget = (state: ConnectionDragState, target: PortHandle): PortHandle => state.adaptiveJointDirection
-      ? { nodeId: state.originNodeId, direction: target.direction === 'input' ? 'output' : 'input', index: 0 }
-      : state.active;
-    const findNearbyCompatiblePort = (x: number, y: number) => {
-      const state = connectionDrag; if (!state) return undefined;
-      let nearest: { handle: PortHandle; distance: number } | undefined;
-      portViews.forEach((candidate) => {
-        const handle: PortHandle = { nodeId: candidate.nodeId, direction: candidate.direction, index: candidate.index };
-        const active = activeHandleForTarget(state, handle);
-        if (handle.nodeId === active.nodeId || handle.direction === active.direction) return;
-        const point = portScreenPoint(handle); if (!point || point.y < viewport.top) return; const distance = Math.hypot(point.x - x, point.y - y);
-        const radius = candidate.cornerScaleLimit === undefined ? 44 : Math.max(44, CORNER_SOCKET_RADIUS * candidate.root.scale.x * camera.zoom);
-        if (distance <= radius && (!nearest || distance < nearest.distance)) nearest = { handle, distance };
-      });
-      return nearest?.handle;
-    };
-    const updateSnappedPort = (handle?: PortHandle) => {
-      if (snappedPortKey) { const previous = portViews.get(snappedPortKey); if (previous) previous.hovered = false; }
-      snappedPortKey = handle ? portKey(handle) : undefined;
-      if (snappedPortKey) { const next = portViews.get(snappedPortKey); if (next) next.hovered = true; }
-      if (connectionDrag) connectionDrag.snapped = handle;
-    };
-    const cancelConnectionDrag = () => {
-      updateSnappedPort();
-      connectionDrag = undefined;
-      previewCable?.destroy();
-      previewCable = undefined;
-    };
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     const clearConnectionRejection = () => { connectionRejection = undefined; rejectionGraphic?.destroy(); rejectionGraphic = undefined; };
     const rejectConnection = (state: ConnectionDragState, x: number, y: number, snapped?: PortHandle) => {
       clearConnectionRejection(); clearTooltip();
@@ -182,34 +142,8 @@ export function PixiPlayfield(props: Props) {
       connectionRejection = { origin: target ? activeHandleForTarget(state, target) : state.active, target, point: toWorld(x, y), startedAt: performance.now() };
       rejectionGraphic = new Graphics(); rejectionGraphic.eventMode = 'none'; overlayLayer.addChild(rejectionGraphic);
     };
-    const beginPortDrag = (handle: PortHandle, event: FederatedPointerEvent) => {
-      roadBodyPress=undefined; roadTravelClicks.clear();
-      clearConnectionRejection();
-      event.preventDefault(); event.stopPropagation(); clearTooltip();
-      const node = propsRef.current.engine.getSector().nodes.find(candidate => candidate.id === handle.nodeId);
-      if (!node) return;
-      let active = handle; let replaceConnectionId: string | undefined;
-      if (handle.direction === 'input' && node.kind !== 'joint') {
-        const attached = propsRef.current.engine.getSector().connections.filter(connection => connection.to === node.id && (connection.toPort ?? 0) === handle.index);
-        const existing = attached.find(connection => connection.id === propsRef.current.selectedConnection) ?? (attached.length === 1 ? attached[0] : undefined);
-        if (existing) { active = { nodeId: existing.from, direction: 'output', index: existing.fromPort ?? 0 }; replaceConnectionId = existing.id; }
-      }
-      dragPointer = { x: event.global.x, y: event.global.y };
-      connectionDrag = { originNodeId: node.id, active, replaceConnectionId, adaptiveJointDirection: node.kind === 'joint', startX: event.global.x, startY: event.global.y, moved: false };
-      previewPoint = { x: event.global.x, y: event.global.y };
-    };
-    const nodesInMarquee = (startX: number, startY: number, endX: number, endY: number) => {
-      const start = toWorld(startX, startY); const end = toWorld(endX, endY);
-      const left = Math.min(start.x, end.x), right = Math.max(start.x, end.x), top = Math.min(start.y, end.y), bottom = Math.max(start.y, end.y);
-      if (Math.abs(right - left) <= 10 || Math.abs(bottom - top) <= 10) return [];
-      const sector = propsRef.current.engine.getSector();
-      const hits = sector.nodes.filter((node) => {
-        const size = getNodeSize(node);
-        return canSelectNode(node.id) && isPlayerMovableNode(node.kind, propsRef.current.engine.getState(), node) && !node.disabled && node.x + size.w / 2 >= left && node.x - size.w / 2 <= right && node.y + size.h / 2 >= top && node.y - size.h / 2 <= bottom;
-      }).map((node) => node.id);
-      const selectable = new Set(sector.nodes.filter(node => isPlayerMovableNode(node.kind, propsRef.current.engine.getState(), node) && !node.disabled).map(node => node.id));
-      return boxControlSelection(hits, sector.controlGroups ?? [], start, end).ids.filter(id => selectable.has(id));
-    };
+    
+    
     const drawMarqueeHighlights = (ids: ReadonlySet<string>) => {
       const nodes = new Map(propsRef.current.engine.getSector().nodes.map((node) => [node.id, node] as const));
       nodeViews.forEach((view, id) => {
@@ -226,7 +160,7 @@ export function PixiPlayfield(props: Props) {
         else port.root.hitArea = new Rectangle(-radius, -radius, radius * 2, radius * 2);
       });
     };
-    const roadInHand = () => propsRef.current.placing === 'road' || Boolean(drag?.road);
+    const roadInHand = () => propsRef.current.placing === 'road' || Boolean(inputState.drag?.road);
     const cameraOverviewSize = () => !propsRef.current.training
       ? exteriorFieldOverviewSize(worldSize)
       : roadInHand()
@@ -240,9 +174,10 @@ export function PixiPlayfield(props: Props) {
       viewport = next;
       updateCamera();
     });
+    resources.add(() => viewportObserver.disconnect());
     const clearTooltip = () => { if (tooltipTimer) window.clearTimeout(tooltipTimer); tooltipTimer = undefined; tooltipIntent = undefined; propsRef.current.onTooltip?.(); };
     const showTooltip = (event: FederatedPointerEvent, title: string, detail: string, tone?: string, eyebrow?: string, nodeId?: string) => {
-      if (connectionDrag || connectionRejection) return;
+      if (inputState.connectionDrag || connectionRejection) return;
       const now = performance.now();
       const key = `${nodeId ?? ''}|${eyebrow ?? ''}|${title}|${detail}`;
       const next = { key, title, detail, nodeId, x: event.global.x, y: event.global.y, tone, eyebrow, visible: tooltipIntent?.key === key && tooltipIntent.visible };
@@ -265,6 +200,7 @@ export function PixiPlayfield(props: Props) {
     };
 
     const terrainTextures = new MapTerrainTextures(() => { if (!destroyed) { drawnTerrain=''; clearRoadPreview(); renderScene(); } });
+    resources.add(() => terrainTextures.destroy());
     const fieldSurface = ({ width, height }: typeof worldSize, showGrid: boolean, sectorId: string) => {
       const root = new Container(); root.eventMode = 'none';
       const floor = terrainTextures.create(propsRef.current.engine.getState(), sectorId, { width, height });
@@ -324,26 +260,26 @@ export function PixiPlayfield(props: Props) {
     };
 
     const addAction = (node: MachineNode, root: Container, x: number, key: string, glyph: string, color: number, action: () => void) => {
-      const compact = isCompactNode(node); const chest = getNodeModule(node.kind, node).appearance.shape === 'chest'; const actionSize = compact || chest ? 18 : 25; const button = new Container(); button.label = 'node-control'; button.visible = controlHover.visible(node.id, performance.now()); const plate = new Graphics();
+      const compact = isCompactNode(node); const chest = getNodeModule(node.kind, node).appearance.shape === 'chest'; const actionSize = compact || chest ? 18 : 25; const button = new Container(); button.label = 'node-control'; button.visible = inputState.controlHover.visible(node.id, performance.now()); const plate = new Graphics();
       button.position.set(x, -getNodeSize(node).h / 2 + (compact ? -7 : chest ? 12 : 18)); button.eventMode = 'static'; button.cursor = 'pointer'; button.hitArea = new Rectangle(0, 0, actionSize, actionSize);
       const drawPlate = (hovered = false, pressed = false) => { const base = key === 'delete' ? 0x241b1d : key === 'pause' ? 0x252117 : 0x1d2328; const hover = key === 'delete' ? 0x5e292b : key === 'pause' ? 0x50401f : 0x293b47; plate.clear().roundRect(0, pressed ? 1 : 0, actionSize, actionSize, compact ? actionSize / 2 : 6).fill({ color: hovered ? hover : base, alpha: .98 }).stroke({ color, width: 1, alpha: hovered ? .82 : .34 }); };
       drawPlate(); button.addChild(plate);
       if (key === 'delete') drawTrashIcon(button, actionSize / 2, actionSize / 2, color); else { const text = label(glyph, compact ? 10 : 12, color, '600'); text.anchor.set(.5); text.position.set(actionSize / 2, actionSize / 2); button.addChild(text); }
-      button.on('pointerdown', (event) => { if (event.button !== 0) return; event.stopPropagation(); controlHover.press(node.id); drawPlate(true, true); }); button.on('pointerup', () => { controlHover.release(); drawPlate(true); }); button.on('pointerupoutside', () => { controlHover.release(); drawPlate(); }); button.on('pointertap', (event) => { if (event.button !== 0) return; event.stopPropagation(); clearTooltip(); action(); });
+      button.on('pointerdown', (event) => { if (event.button !== 0) return; event.stopPropagation(); inputState.controlHover.press(node.id); drawPlate(true, true); }); button.on('pointerup', () => { inputState.controlHover.release(); drawPlate(true); }); button.on('pointerupoutside', () => { inputState.controlHover.release(); drawPlate(); }); button.on('pointertap', (event) => { if (event.button !== 0) return; event.stopPropagation(); clearTooltip(); action(); });
       const actionTooltip = (event: FederatedPointerEvent) => showTooltip(event, key === 'delete' ? 'Decommission' : key === 'pause' ? (node.processingPaused ? 'Resume processing' : 'Pause processing') : key === 'rotate' ? 'Rotate connectors' : key === 'configure' ? 'Choose recipe' : key === 'recipes' ? 'Choose Recycler recipe' : 'Select', key === 'delete' ? 'Remove this node and its attached cables.' : key === 'pause' ? 'Stops new production. Completed output continues routing.' : key === 'rotate' ? 'Rotate the Splitter or Merger 90°.' : key === 'configure' ? 'Configure this machine with one of its unlocked production recipes.' : key === 'recipes' ? 'Pin a recipe or match the incoming material.' : 'Select this node on the factory map.', `#${color.toString(16).padStart(6, '0')}`, 'NODE CONTROL');
       button.on('pointerover', (event) => { event.stopPropagation(); enterNodeHover(node.id); drawPlate(true); actionTooltip(event); }); button.on('pointermove', (event) => { event.stopPropagation(); enterNodeHover(node.id); actionTooltip(event); });
       button.on('pointerout', () => { drawPlate(); clearTooltip(); }); root.addChild(button);
     };
 
     const addPortOrderAction = (node: MachineNode, root: Container, x: number) => {
-      const color = 0xaab0b8; const actionSize = 25; const button = new Container(); button.label = 'node-control'; button.visible = controlHover.visible(node.id, performance.now()); const plate = new Graphics();
+      const color = 0xaab0b8; const actionSize = 25; const button = new Container(); button.label = 'node-control'; button.visible = inputState.controlHover.visible(node.id, performance.now()); const plate = new Graphics();
       button.position.set(x, -getNodeSize(node).h / 2 + 18); button.eventMode = 'static'; button.cursor = 'pointer'; button.hitArea = new Rectangle(0, 0, actionSize, actionSize);
       const drawPlate = (hovered = false, pressed = false) => { plate.clear().roundRect(0, pressed ? 1 : 0, actionSize, actionSize, 6).fill({ color: hovered ? 0x41464d : 0x25282d, alpha: .98 }).stroke({ color, width: 1, alpha: hovered ? .82 : .34 }); };
       drawPlate(); button.addChild(plate);
       const icon = label('⇅', 15, color, '600'); icon.anchor.set(.5); icon.position.set(actionSize / 2, actionSize / 2); button.addChild(icon);
       const tooltip = (event: FederatedPointerEvent) => showTooltip(event, 'Reposition connectors', actionSize * camera.zoom < 12 ? 'Zoom in to rearrange connectors.' : 'Left-click cycles input order. Right-click cycles output position.', '#aab0b8', 'NODE CONTROL');
-      button.on('pointerdown', (event: FederatedPointerEvent) => { if (event.button !== 0 && event.button !== 2) return; event.preventDefault(); event.stopPropagation(); controlHover.press(node.id); drawPlate(true, true); });
-      button.on('pointerup', () => { controlHover.release(); drawPlate(true); }); button.on('pointerupoutside', () => { controlHover.release(); drawPlate(); });
+      button.on('pointerdown', (event: FederatedPointerEvent) => { if (event.button !== 0 && event.button !== 2) return; event.preventDefault(); event.stopPropagation(); inputState.controlHover.press(node.id); drawPlate(true, true); });
+      button.on('pointerup', () => { inputState.controlHover.release(); drawPlate(true); }); button.on('pointerupoutside', () => { inputState.controlHover.release(); drawPlate(); });
       button.on('pointertap', (event: FederatedPointerEvent) => { if (event.button !== 0) return; event.preventDefault(); event.stopPropagation(); clearTooltip(); if (actionSize * camera.zoom < 12) { propsRef.current.onSelect([node.id]); tooltip(event); return; } propsRef.current.onCycleInputPorts(node.id); });
       button.on('rightclick', (event: FederatedPointerEvent) => { event.preventDefault(); event.stopPropagation(); clearTooltip(); if (actionSize * camera.zoom < 12) { propsRef.current.onSelect([node.id]); tooltip(event); return; } propsRef.current.onCycleOutputPorts(node.id); });
       button.on('pointerover', (event: FederatedPointerEvent) => { event.stopPropagation(); enterNodeHover(node.id); drawPlate(true); tooltip(event); });
@@ -436,7 +372,7 @@ export function PixiPlayfield(props: Props) {
       };
       portRoot.on('pointerover', (event) => { view.hovered = true; tooltip(event); }); portRoot.on('pointermove', tooltip); portRoot.on('pointerout', () => { view.hovered = false; clearTooltip(); });
       portRoot.on('pointerdown', (event: FederatedPointerEvent) => {
-        if (event.button !== 0 || spaceHeld) return;
+        if (event.button !== 0 || inputState.spaceHeld) return;
         event.preventDefault(); event.stopPropagation(); clearTooltip();
         let handle: PortHandle = { nodeId: node.id, direction, index };
         let closest = Infinity;
@@ -580,7 +516,7 @@ export function PixiPlayfield(props: Props) {
         grip.roundRect(0, 0, 17, 30, 6).fill({ color: 0x202328, alpha: .98 }).stroke({ color: definition.accent, width: 1.3, alpha: .85 });
         for (let dot = 0; dot < 6; dot++) grip.circle(5.5 + dot % 2 * 6, 9 + Math.floor(dot / 2) * 6, 1.5).fill(definition.accent);
         jointMoveHandle.addChild(grip);
-        jointMoveHandle.visible = hoveredNodeId === node.id || Boolean(propsRef.current.jointMoveHint);
+        jointMoveHandle.visible = inputState.hoveredNodeId === node.id || Boolean(propsRef.current.jointMoveHint);
         root.addChild(jointMoveHandle);
       }
       const productionRecipeIcon = !placementPreview && isProductionMachine(node) ? createProductionRecipeIcon(node) : undefined;
@@ -594,44 +530,11 @@ export function PixiPlayfield(props: Props) {
       const flash = new Graphics(); const marqueeHighlight = new Graphics(); const invalidOverlay = new Graphics(); root.addChild(flash, marqueeHighlight, invalidOverlay);
       if (!placementPreview) {
         const nodeTooltip = (event: FederatedPointerEvent) => { const obstruction = isOrganicNode(node); const engine = propsRef.current.engine; const live = engine.getSector().nodes.find(n => n.id === node.id) ?? node; const production = productionExplanation(live, engine.getState(), engine.getSector()); const detail = node.kind === 'lake' ? 'Water source · Fixed world obstruction · Connect from any output socket.' : node.kind === 'big-hole' ? `${Math.floor(node.resourceRemaining ?? 0)} Stone required · Fixed world obstruction.` : node.kind === 'monster-camp' ? `Threat ${live.campStrength ?? 25}% · ${campStatus(live).apLabel} per check · ${campStatus(live).checkLabel}.` : production.summary || `Click to select${movable ? ' · Drag to move' : ''}.`; showTooltip(event, getNodeDisplayName(live), detail, definition.accentCss, obstruction ? 'WORLD OBSTRUCTION' : definition.category.toUpperCase(), node.id); };
-        root.on('pointerenter', () => { if (!propsRef.current.placing) enterNodeHover(node.id); }); root.on('pointermove', (event) => { if (!drag && !propsRef.current.placing && event.target === root) nodeTooltip(event); });
-        root.on('pointerleave', () => { controlHover.leave(node.id, performance.now(), node.kind === 'joint' ? JOINT_CONTROL_GRACE_MS : 0); if (hoveredNodeId === node.id) { hoveredNodeId = undefined; propsRef.current.onHoverNode?.(); } clearTooltip(); });
-        root.on('pointerdown', (event: FederatedPointerEvent) => {
-          roadBodyPress=undefined;
-          if (event.button!==0 || event.shiftKey || event.ctrlKey || event.metaKey || event.altKey || spaceHeld || propsRef.current.placing) roadTravelClicks.clear();
-          if (!canSelectNode(node.id)) { event.stopPropagation(); return; }
-          if (event.button === 2 && !propsRef.current.placing) { rightPress = { id: node.id, x: event.global.x, y: event.global.y, moved: false }; return; }
-          if (event.button !== 0 || spaceHeld) return; event.stopPropagation();
-          if (event.shiftKey && propsRef.current.onCopyRecipe(node.id)) return;
-          if ((event.ctrlKey || event.metaKey) && movable) { groupSelection.clear(); propsRef.current.onClonePlacement(node.kind); return; }
-          // The body can win Pixi hit testing over an enlarged socket. Resolve
-          // nearby sockets before starting a machine move, including inside edges.
-          if (event.target === jointMoveHandle) controlHover.press(node.id);
-          const nearby = event.target === jointMoveHandle ? undefined : socketAt(event.global.x, event.global.y);
-          if (nearby) { beginPortDrag(nearby, event); return; }
-          if (!event.shiftKey && !event.ctrlKey && !event.metaKey && !event.altKey && roadTravelDestination(propsRef.current.engine.getState(),node.id)) roadBodyPress={nodeId:node.id,sectorId:propsRef.current.engine.getSector().id,x:event.global.x,y:event.global.y};
-          else roadTravelClicks.clear();
-          const sector = propsRef.current.engine.getSector();
-          const existing = propsRef.current.selectedIds;
-          const selectedIds = !movable || node.kind === 'road' || node.kind === 'fluidRoad' ? [node.id] : groupSelection.press(node.id, existing, sector.controlGroups ?? [], event.global, performance.now(), event.shiftKey, event.detail);
-          propsRef.current.onSelect(selectedIds, { source: 'node', individual: groupSelection.individualId === node.id, priority: groupSelection.priorityIds.length > 0 }); propsRef.current.onConnectionSelect(undefined); if (!movable) { groupSelection.clear(); return; } const origins = new Map<string, { x: number; y: number }>();
-          const movableIds = sector.nodes.filter((candidate) => selectedIds.includes(candidate.id) && isPlayerMovableNode(candidate.kind, propsRef.current.engine.getState(), candidate) && !candidate.disabled).map((candidate) => candidate.id);
-          propsRef.current.engine.getSector().nodes.filter((candidate) => movableIds.includes(candidate.id)).forEach((candidate) => origins.set(candidate.id, { x: candidate.x, y: candidate.y })); dragPointer = { x: event.global.x, y: event.global.y }; drag = { ids: movableIds, anchorId: node.id, anchorSize: getNodeSize(node), start: toWorld(event.global.x, event.global.y), origins, moved: false, valid: true };
-        });
+        root.on('pointerenter', () => { if (!propsRef.current.placing) enterNodeHover(node.id); }); root.on('pointermove', (event) => { if (!inputState.drag && !propsRef.current.placing && event.target === root) nodeTooltip(event); });
+        root.on('pointerleave', () => { inputState.controlHover.leave(node.id, performance.now(), node.kind === 'joint' ? JOINT_CONTROL_GRACE_MS : 0); if (inputState.hoveredNodeId === node.id) { inputState.hoveredNodeId = undefined; propsRef.current.onHoverNode?.(); } clearTooltip(); });
+        root.on('pointerdown', (event: FederatedPointerEvent) => interactions.nodePointerDown(node, movable, jointMoveHandle, event));
         // A stationary right-click invokes the node action; dragging still pans.
-        root.on('pointerup', (event: FederatedPointerEvent) => {
-          if (event.button === 0 && drag?.ids.includes(node.id) && !drag.moved && getNodeModule(node.kind, node).controls.configuration === 'research') {
-            propsRef.current.onConfigure(node.id);
-          }
-          if (event.button === 2) {
-            const press = rightPress; rightPress = undefined;
-            if (press?.id === node.id && !press.moved && Math.hypot(event.global.x - press.x, event.global.y - press.y) <= 4) {
-              panning = undefined; clearTooltip();
-              propsRef.current.onNodeContextMenu(node.id, groupSelection.priorityIds.includes(node.id), event.shiftKey);
-              event.stopPropagation();
-            }
-          }
-        });
+        root.on('pointerup', (event: FederatedPointerEvent) => interactions.nodePointerUp(node, event));
       }
       const travelDestination = !placementPreview && !propsRef.current.training && propsRef.current.onTravelToSector ? roadTravelDestination(propsRef.current.engine.getState(), node.id) : undefined;
       const travelTarget = travelDestination ? propsRef.current.engine.getState().sectors[travelDestination] : undefined;
@@ -743,7 +646,7 @@ export function PixiPlayfield(props: Props) {
       if (props.training || props.placing || !props.onTravelToSector || props.engine.getSector().id !== sourceSectorId) return;
       const destination = roadTravelDestination(props.engine.getState(), nodeId);
       if (!destination) return;
-      roadBodyPress = undefined; roadTravelClicks.clear(); clearTooltip(); clearRoadPreview();
+      inputState.roadBodyPress = undefined; inputState.roadTravelClicks.clear(); clearTooltip(); clearRoadPreview();
       props.onTravelToSector(destination, nodeId);
     };
 
@@ -794,12 +697,12 @@ export function PixiPlayfield(props: Props) {
         pastePreviewKey = '';
         return;
       }
-      if (!placementPointerInside || placementCursor.y < viewport.top) {
+      if (!inputState.placementPointerInside || inputState.placementCursor.y < viewport.top) {
         if (pasteView) pasteView.root.visible = false;
         pastePreviewKey = '';
         return;
       }
-      const point = pasteAnchor(placementCursor.x, placementCursor.y);
+      const point = pasteAnchor(inputState.placementCursor.x, inputState.placementCursor.y);
       const sector = engine.getSector();
       const key = `${sector.id}:${engine.getState().revision}:${point.x}:${point.y}:${camera.zoom}`;
       if (key === pastePreviewKey) return;
@@ -848,14 +751,14 @@ export function PixiPlayfield(props: Props) {
       syncPastePreview();
       const kind = propsRef.current.placing;
       if (!roadInHand()) clearRoadPreview();
-      if (!kind || !placementPointerInside) {
-        if (drag?.desired && drag.ids.length === 1) {
-          const node = propsRef.current.engine.getSector().nodes.find(candidate => candidate.id === drag!.ids[0]);
-          if (node) drawInsertionPreview({ ...node, ...drag.desired[node.id] }, drag.valid);
+      if (!kind || !inputState.placementPointerInside) {
+        if (inputState.drag?.desired && inputState.drag.ids.length === 1) {
+          const node = propsRef.current.engine.getSector().nodes.find(candidate => candidate.id === inputState.drag!.ids[0]);
+          if (node) drawInsertionPreview({ ...node, ...inputState.drag.desired[node.id] }, inputState.drag.valid);
         } else drawInsertionPreview();
-        syncRoadPreview(placementPointerInside ? drag?.road : undefined, drag?.valid);
+        syncRoadPreview(inputState.placementPointerInside ? inputState.drag?.road : undefined, inputState.drag?.valid);
         if (placementView) placementView.view.root.visible = false; return; }
-      const point = snapNodePosition(toWorld(placementCursor.x, placementCursor.y), propsRef.current.snapToGrid, getNodeSize({ kind }));
+      const point = snapNodePosition(toWorld(inputState.placementCursor.x, inputState.placementCursor.y), propsRef.current.snapToGrid, getNodeSize({ kind }));
       const destination = propsRef.current.roadPlacementPoint?.(point) ?? point;
       const preview = propsRef.current.engine.getNodePlacementPreview(kind, destination.x, destination.y);
       if (!preview) { syncRoadPreview(); drawInsertionPreview(); if (placementView) placementView.view.root.visible = false; return; }
@@ -1003,15 +906,15 @@ export function PixiPlayfield(props: Props) {
       sceneMod = game.mod;
       const worldSizeChanged = worldSize.width !== nextWorldSize.width || worldSize.height !== nextWorldSize.height;
       worldSize = nextWorldSize;
-      if (renderedSectorId !== sector.id || renderedState !== propsRef.current.engine.getState()) { roadBodyPress=undefined; roadTravelClicks.clear(); drag = undefined; propsRef.current.onDragPreview?.(undefined); groupSelection.clear(); controlHover.clear(); renderedState = propsRef.current.engine.getState(); renderedSectorId = sector.id; camera = { ...sector.camera }; clearConnectionRejection(); trackedTransfers.clear(); seenTransferIds.clear(); lastInputTotals.clear(); flashStartedAt.clear(); updateCamera(); }
+      if (renderedSectorId !== sector.id || renderedState !== propsRef.current.engine.getState()) { inputState.roadBodyPress=undefined; inputState.roadTravelClicks.clear(); inputState.drag = undefined; propsRef.current.onDragPreview?.(undefined); inputState.groupSelection.clear(); inputState.controlHover.clear(); renderedState = propsRef.current.engine.getState(); renderedSectorId = sector.id; camera = { ...sector.camera }; clearConnectionRejection(); trackedTransfers.clear(); seenTransferIds.clear(); lastInputTotals.clear(); flashStartedAt.clear(); updateCamera(); }
       if (worldSizeChanged || !surfaceLayer.children.length) {
         // Expansion rebases all saved cameras with the factory's rigid layout.
         // Adopt that view before publishing this renderer's local camera again.
         if (worldSizeChanged) {
           camera = { ...sector.camera };
-          drag = undefined; panning = undefined; dragPointer = undefined;
+          inputState.drag = undefined; inputState.panning = undefined; inputState.dragPointer = undefined;
           propsRef.current.onDragPreview?.(undefined); cancelConnectionDrag();
-          if (marquee) { drawMarqueeHighlights(new Set()); marquee.graphic.destroy(); marquee = undefined; }
+          if (inputState.marquee) { drawMarqueeHighlights(new Set()); inputState.marquee.graphic.destroy(); inputState.marquee = undefined; }
         }
         drawWorldSurface(); updateCamera();
       }
@@ -1039,7 +942,7 @@ export function PixiPlayfield(props: Props) {
         view.root.destroy({ children: true });
         lastInputTotals.delete(id); flashStartedAt.delete(id);
       });
-      const visualNodes = drag?.desired ? new Map(sector.nodes.map(node => [node.id, drag!.desired![node.id] ? { ...node, ...drag!.desired![node.id] } : node])) : nodes;
+      const visualNodes = inputState.drag?.desired ? new Map(sector.nodes.map(node => [node.id, inputState.drag!.desired![node.id] ? { ...node, ...inputState.drag!.desired![node.id] } : node])) : nodes;
       syncCableViews(visualNodes, sector.connections);
       sceneNodes = nodes;
       sceneConnections = new Map(sector.connections.map((connection) => [connection.id, connection]));
@@ -1047,56 +950,13 @@ export function PixiPlayfield(props: Props) {
       syncParticles();
     };
 
-    const init = async () => {
-      app = new Application(); await app.init({ resizeTo: host, backgroundAlpha: 0, antialias: true, resolution: playfieldResolution(window.devicePixelRatio), autoDensity: true, preference: 'webgl' }); initialized = true;
-      if (destroyed) { app.destroy(true); return; } host.appendChild(app.canvas); app.stage.eventMode = 'static'; app.stage.hitArea = app.screen;
-      viewport = measureFieldViewport(viewportElement);
-      viewportObserver.observe(viewportElement);
-      viewportObserver.observe(host);
-      world = new Container(); surfaceLayer = new Container(); cableLayer = new Container(); cableLayers = new CableLayers(cableLayer); particleLayer = new Container(); nodeLayer = new Container(); nodeLayer.sortableChildren = true; campPortLayer = new Container(); const refillLayer = new Container(); guardedRefills = new GuardedRefillLinks(refillLayer); placementLayer = new Container(); placementLayer.eventMode = 'none'; overlayLayer = new Container(); insertionPreviewLayer = new Graphics(); insertionPreviewLayer.eventMode = 'none'; world.addChild(surfaceLayer, cableLayer, insertionPreviewLayer, particleLayer, nodeLayer, refillLayer, campPortLayer, placementLayer); app.stage.addChild(world, overlayLayer); drawWorldSurface(); updateCamera(); renderScene();
-      const placePaste = (event: FederatedPointerEvent) => {
-        const { onPaste } = propsRef.current;
-        if (!onPaste || event.button !== 0 || spaceHeld) return false;
-        event.preventDefault();
-        event.stopPropagation();
-        clearTooltip();
-        if (event.global.y >= viewport.top) onPaste(pasteAnchor(event.global.x, event.global.y));
-        return true;
-      };
-      app.stage.on('pointerdowncapture', (event: FederatedPointerEvent) => {
-        if (placePaste(event)) return;
-        for (let target = event.target as Container | null; target; target = target.parent) { if (target.label === 'node-control' || target.label === 'joint-move-handle') return; }
-        if (!propsRef.current.placing && event.button === 0 && !spaceHeld) {
-          const handle = socketAt(event.global.x, event.global.y);
-          if (handle) { beginPortDrag(handle, event); return; }
-        }
-        const active = propsRef.current.placing;
-        if (!active || event.button !== 0 || spaceHeld) return;
-        event.preventDefault(); event.stopPropagation();
-        const point = toWorld(event.global.x, event.global.y);
-        propsRef.current.onPlace(active, point.x, point.y, event.ctrlKey || event.metaKey || event.shiftKey);
-      });
-      app.stage.on('pointerdown', (event: FederatedPointerEvent) => {
-        roadBodyPress=undefined; roadTravelClicks.clear();
-        if (event.defaultPrevented || placePaste(event)) return; clearTooltip(); if (event.button === 1 || event.button === 2 || (event.button === 0 && spaceHeld)) { panning = { x: event.global.x, y: event.global.y, cameraX: camera.x, cameraY: camera.y }; return; } if (event.button !== 0) return;
-        const active = propsRef.current.placing; const point = toWorld(event.global.x, event.global.y); if (active) { propsRef.current.onPlace(active, point.x, point.y, event.ctrlKey || event.metaKey || event.shiftKey); return; }
-        const baseSelection = event.shiftKey ? [...propsRef.current.selectedIds] : [];
-        propsRef.current.onConnectionSelect(undefined); propsRef.current.onSelect(baseSelection); const graphic = new Graphics(); overlayLayer.addChild(graphic); marquee = { startX: event.global.x, startY: event.global.y, graphic, baseSelection, previewIds: new Set() };
-      });
-      const updateDragAt = (point: { x: number; y: number }) => {
-        previewPoint = { x: point.x, y: point.y };
-        if (connectionDrag) {
-          if (Math.hypot(point.x - connectionDrag.startX, point.y - connectionDrag.startY) > 4) connectionDrag.moved = true;
-          const snapped = findNearbyCompatiblePort(point.x, point.y); updateSnappedPort(snapped);
-          const snappedPoint = snapped ? portScreenPoint(snapped) : undefined; if (snappedPoint) previewPoint = snappedPoint;
-        }
-        if (drag) { const now = toWorld(point.x, point.y); const dx = now.x - drag.start.x; const dy = now.y - drag.start.y; if (Math.abs(dx) + Math.abs(dy) > 2) { drag.moved = true; clearTooltip(); }
-          const sector = propsRef.current.engine.getSector(); const desired = draggedNodePositions(drag.origins, drag.anchorId, { x: dx, y: dy }, propsRef.current.snapToGrid && drag.moved, drag.anchorSize);
-          const engine = propsRef.current.engine;
-          const road = drag.moved && drag.ids.length === 1 ? engine.getRoadMovePreview(drag.anchorId, desired[drag.anchorId]) : undefined;
-          if (road) desired[drag.anchorId] = { x: road.node.x, y: road.node.y };
-          drag.road = road?.road;
-          drag.desired = desired; propsRef.current.onDragPreview?.(desired); drag.valid = road?.valid ?? engine.canMoveNodesTo(desired);
+    const interactions = createPlayfieldInteractions(inputState, {
+      propsRef, get camera() { return camera; }, get viewport() { return viewport; },
+      get nodes() { return sceneNodes; }, ports: portViews, get overlay() { return overlayLayer; },
+      clearTooltip, clearConnectionRejection, rejectConnection, drawMarqueeHighlights,
+      updateCamera, clampCamera, renderScene, syncPlacementPreview, pasteAnchor, tryRoadTravel,
+      clearConnectionPreview: () => { previewCable?.destroy(); previewCable = undefined; },
+      previewDrag: (sector, desired, drag) => {
           drag.ids.forEach((id) => { const position = desired[id]; if (position) nodeViews.get(id)?.root.position.set(position.x, position.y); });
           const nodeMap = new Map(sector.nodes.map((candidate) => { const position = desired[candidate.id]; return [candidate.id, position ? { ...candidate, ...position } : candidate] as const; }));
           syncCableViews(nodeMap, sector.connections);
@@ -1110,82 +970,21 @@ export function PixiPlayfield(props: Props) {
             if (path.length) { particle.path = path; particle.passages = passages; }
           });
           drawInsertionPreview(drag.ids.length === 1 ? nodeMap.get(drag.ids[0]) : undefined, drag.valid);
-        }
-      };
-      app.stage.on('pointermove', (event: FederatedPointerEvent) => {
-        if (rightPress && Math.hypot(event.global.x - rightPress.x, event.global.y - rightPress.y) > 4) rightPress.moved = true;
-        placementPointerInside = true; placementCursor = { x: event.global.x, y: event.global.y }; if (propsRef.current.placing || propsRef.current.onPaste) clearTooltip(); previewPoint = { x: event.global.x, y: event.global.y }; if (panning) { camera.x = panning.cameraX + event.global.x - panning.x; camera.y = panning.cameraY + event.global.y - panning.y; updateCamera(); }
-        dragPointer = { x: event.global.x, y: event.global.y };
-        updateDragAt(dragPointer);
-        if (marquee) { const x = Math.min(marquee.startX, event.global.x); const y = Math.min(marquee.startY, event.global.y); const width = Math.abs(event.global.x - marquee.startX); const height = Math.abs(event.global.y - marquee.startY); marquee.graphic.clear().rect(x, y, width, height).fill({ color: THEME.selected, alpha: .1 }).stroke({ color: THEME.selected, width: 1, alpha: .92 }); marquee.previewIds = new Set(nodesInMarquee(marquee.startX, marquee.startY, event.global.x, event.global.y)); drawMarqueeHighlights(marquee.previewIds); }
-      });
-      const pointerUp = (event: { global: { x: number; y: number }; shiftKey: boolean; ctrlKey?: boolean; metaKey?: boolean; altKey?: boolean; button?: number }, commitInteraction = true) => {
-        const roadPress=roadBodyPress; roadBodyPress=undefined;
-        const roadTap=Boolean(roadPress && commitInteraction && (event.button??0)===0 && !event.shiftKey && !event.ctrlKey && !event.metaKey && !event.altKey && !spaceHeld && !drag?.moved && !connectionDrag && !panning && Math.hypot(event.global.x-roadPress.x,event.global.y-roadPress.y)<=4);
-        controlHover.release();
-        if (drag?.moved && commitInteraction) updateDragAt(event.global);
-        if (connectionDrag) {
-          const finished = connectionDrag;
-          // Pointer-up can arrive after the last move sample, especially when
-          // sockets are close together. Resolve against the actual release.
-          const snapped = commitInteraction ? findNearbyCompatiblePort(event.global.x, event.global.y) : undefined;
-          let connected = false;
-          if (snapped) {
-            const active = activeHandleForTarget(finished, snapped); const { output, input } = normalizedConnection(active, snapped);
-            connected = propsRef.current.onConnect(output.nodeId, input.nodeId, output.index, input.index, finished.replaceConnectionId);
-          }
-          cancelConnectionDrag();
-          if (commitInteraction && finished.moved && !connected) {
-            rejectConnection(finished, event.global.x, event.global.y, snapped);
-            let failure = { title: 'Choose a socket', detail: 'Release the cable on an input or output socket on another node. A highlighted socket shows the destination before release.' };
-            if (snapped) {
-              const { output, input } = normalizedConnection(activeHandleForTarget(finished, snapped), snapped);
-              failure = propsRef.current.engine.getConnectionFailure(output.nodeId, output.index, input.nodeId, input.index, finished.replaceConnectionId) ?? { title: 'Connection unavailable', detail: 'Choose a different socket or route, then try again.' };
-            }
-            propsRef.current.onConnectionRejected({ ...failure, x: event.global.x, y: event.global.y });
-          }
-        }
-        if (panning) { panning = undefined; updateCamera(); } if (drag) { const finished = drag; drag = undefined; if (commitInteraction && finished.moved && finished.valid && finished.desired) { propsRef.current.engine.beginMove(); if (propsRef.current.engine.tryMoveNodesTo(finished.desired)) propsRef.current.engine.commitMove(); } propsRef.current.onDragPreview?.(undefined); renderScene(); }
-        if (marquee) { const finished = marquee; if (commitInteraction) { const hits = nodesInMarquee(finished.startX, finished.startY, event.global.x, event.global.y); const ids = Array.from(new Set([...finished.baseSelection, ...hits])); const priority = event.global.x < finished.startX && event.global.y < finished.startY; groupSelection.box(ids, priority); propsRef.current.onSelect(ids, { source: 'box', priority, forward: event.global.x >= finished.startX && event.global.y >= finished.startY }); } drawMarqueeHighlights(new Set()); finished.graphic.destroy(); marquee = undefined; }
-        if (roadPress) {
-          const game=propsRef.current.engine.getState(), destination=roadTravelDestination(game,roadPress.nodeId);
-          if (!roadTap || propsRef.current.training || propsRef.current.placing || !propsRef.current.onTravelToSector || game.activeSectorId!==roadPress.sectorId || !destination) roadTravelClicks.clear();
-          else if (roadTravelClicks.tap(`${game.activeSectorId}:${roadPress.nodeId}`,event.global,performance.now())) tryRoadTravel(roadPress.nodeId, roadPress.sectorId);
-        }
-      };
-      app.stage.on('pointerup', (event) => pointerUp(event, event.global.y >= viewport.top)); app.stage.on('pointerupoutside', (event) => pointerUp(event, event.global.y >= viewport.top)); app.stage.on('pointercancel', (event) => pointerUp(event, false));
-      const wheel = (event: WheelEvent) => { event.preventDefault(); const rect = app.canvas.getBoundingClientRect(); const mx = event.clientX - rect.left; const my = event.clientY - rect.top; const trackpadPan = !event.ctrlKey && event.deltaMode === 0 && (Math.abs(event.deltaX) > 0 || Math.abs(event.deltaY) < 50); if (trackpadPan) { camera.x -= event.deltaX; camera.y -= event.deltaY; updateCamera(); return; } const before = toWorld(mx, my); camera.zoom *= event.deltaY < 0 ? 1.1 : .9; clampCamera(); camera.x = mx - before.x * camera.zoom; camera.y = my - before.y * camera.zoom; updateCamera(); };
-      const blockContextMenu = (event: MouseEvent) => event.preventDefault();
-      app.canvas.addEventListener('wheel', wheel, { passive: false }); app.canvas.addEventListener('contextmenu', blockContextMenu); const keyDown = (event: KeyboardEvent) => { if (event.code === 'Space' && !(event.target instanceof HTMLInputElement || event.target instanceof HTMLTextAreaElement || (event.target instanceof HTMLElement && event.target.isContentEditable))) { spaceHeld = true; event.preventDefault(); } if (event.code === 'Escape' && connectionDrag) cancelConnectionDrag(); }; const keyUp = (event: KeyboardEvent) => { if (event.code === 'Space') spaceHeld = false; };
-      const cancelLostInteractions = () => {
-        roadBodyPress=undefined; roadTravelClicks.clear();
-        placementPointerInside = false;
-        syncPlacementPreview();
-        controlHover.clear();
-        rightPress = undefined;
-        spaceHeld = false;
-        clearConnectionRejection();
-        if (connectionDrag) cancelConnectionDrag();
-        if (panning) { panning = undefined; updateCamera(); }
-        if (drag) { drag = undefined; propsRef.current.onDragPreview?.(undefined); renderScene(); }
-        if (marquee) { drawMarqueeHighlights(new Set()); marquee.graphic.destroy(); marquee = undefined; }
-      };
-      const releaseGlobalInteractions = (event: PointerEvent) => {
-        if (!connectionDrag && !panning && !drag && !marquee) return;
-        const rect = app.canvas.getBoundingClientRect(); const x = event.clientX - rect.left; const y = event.clientY - rect.top;
-        const insideCanvas = x >= 0 && y >= viewport.top && x <= rect.width && y <= rect.height;
-        pointerUp({ global: { x, y }, shiftKey: event.shiftKey, ctrlKey: event.ctrlKey, metaKey: event.metaKey, altKey: event.altKey, button: event.button }, insideCanvas);
-      };
-      window.addEventListener('keydown', keyDown); window.addEventListener('keyup', keyUp); window.addEventListener('pointerup', releaseGlobalInteractions); window.addEventListener('pointercancel', cancelLostInteractions); window.addEventListener('blur', cancelLostInteractions);
-      const pointerEnter = (event: PointerEvent) => {
-        const rect = app.canvas.getBoundingClientRect();
-        placementPointerInside = true;
-        placementCursor = { x: event.clientX - rect.left, y: event.clientY - rect.top };
-      };
-      const pointerLeave = () => { controlHover.clear(); hoveredNodeId = undefined; placementPointerInside = false; clearTooltip(); propsRef.current.onHoverNode?.(); syncPlacementPreview(); };
-      app.canvas.addEventListener('pointerenter', pointerEnter); app.canvas.addEventListener('pointerleave', pointerLeave);
+      },
+    });
+    const { toWorld, portKey, portScreenPoint, normalizedConnection, canSelectNode, activeHandleForTarget, cancelConnectionDrag, beginPortDrag } = interactions;
+
+    const init = async () => {
+      app = new Application();
+      if (!await resources.initialize(() => app.init({ resizeTo: host, backgroundAlpha: 0, antialias: true, resolution: playfieldResolution(window.devicePixelRatio), autoDensity: true, preference: 'webgl' }), () => destroyPlayfieldApplication(app))) return;
+      resources.add(() => { particlePool.forEach(particle => particle.root.destroy({ children: true })); particlePool.length = 0; propsRef.current.onDragPreview?.(undefined); clearRoadPreview(); clearConnectionRejection(); clearTooltip(); }); host.appendChild(app.canvas); app.stage.eventMode = 'static'; app.stage.hitArea = app.screen;
+      viewport = measureFieldViewport(viewportElement);
+      viewportObserver.observe(viewportElement);
+      viewportObserver.observe(host);
+      world = new Container(); surfaceLayer = new Container(); cableLayer = new Container(); cableLayers = new CableLayers(cableLayer); particleLayer = new Container(); nodeLayer = new Container(); nodeLayer.sortableChildren = true; campPortLayer = new Container(); const refillLayer = new Container(); guardedRefills = new GuardedRefillLinks(refillLayer); placementLayer = new Container(); placementLayer.eventMode = 'none'; overlayLayer = new Container(); insertionPreviewLayer = new Graphics(); insertionPreviewLayer.eventMode = 'none'; world.addChild(surfaceLayer, cableLayer, insertionPreviewLayer, particleLayer, nodeLayer, refillLayer, campPortLayer, placementLayer); app.stage.addChild(world, overlayLayer); drawWorldSurface(); updateCamera(); renderScene();
+      const { updateDragAt } = interactions.install(app, resources);
       let cueRevision = -1; let cueTime = -1; const productionCues = new Map<string, ProductionVisual>();
-      app.ticker.add(() => {
+      const tick = () => {
         if (propsRef.current.onDiagnostics && performance.now() - diagnosticsAt > 1000) {
           diagnosticsAt = performance.now();
           propsRef.current.onDiagnostics({ ...diagnostics, visibleNodes: [...nodeViews.values()].filter(view => view.root.visible).length,
@@ -1196,15 +995,15 @@ export function PixiPlayfield(props: Props) {
         lastRoadInHand = roadHeld;
         if (lastSnapToGrid !== propsRef.current.snapToGrid) {
           lastSnapToGrid = propsRef.current.snapToGrid;
-          if (drag?.moved && dragPointer) updateDragAt(dragPointer);
+          if (inputState.drag?.moved && inputState.dragPointer) updateDragAt(inputState.dragPointer);
         }
-        if (placementPointerInside && dragPointer && !panning && (drag?.moved || connectionDrag?.moved)) {
-          const next = scrollCameraForDrag(camera, worldSize, viewport, dragPointer, app.ticker.deltaMS, cameraOverviewSize());
+        if (inputState.placementPointerInside && inputState.dragPointer && !inputState.panning && (inputState.drag?.moved || inputState.connectionDrag?.moved)) {
+          const next = scrollCameraForDrag(camera, worldSize, viewport, inputState.dragPointer, app.ticker.deltaMS, cameraOverviewSize());
           if (next.x !== camera.x || next.y !== camera.y) {
-            camera = next; updateCamera(); updateDragAt(dragPointer);
+            camera = next; updateCamera(); updateDragAt(inputState.dragPointer);
           }
         }
-        if (!propsRef.current.selectedIds.length && !marquee && !drag) groupSelection.clear(); const uiSignature = `${propsRef.current.selectedIds.join(',')}|${propsRef.current.selectedConnection ?? ''}|${propsRef.current.placing ?? ''}`; if (uiSignature !== lastUiSignature) { lastUiSignature = uiSignature; renderScene(); }
+        if (!propsRef.current.selectedIds.length && !inputState.marquee && !inputState.drag) inputState.groupSelection.clear(); const uiSignature = `${propsRef.current.selectedIds.join(',')}|${propsRef.current.selectedConnection ?? ''}|${propsRef.current.placing ?? ''}`; if (uiSignature !== lastUiSignature) { lastUiSignature = uiSignature; renderScene(); }
         syncPlacementPreview();
         const focus = propsRef.current.cameraFocus; if (focus && focus.nonce !== appliedCameraNonce) { appliedCameraNonce = focus.nonce; camera = { ...focus.camera }; updateCamera(); }
         syncParticles();
@@ -1223,7 +1022,7 @@ export function PixiPlayfield(props: Props) {
         const sector = propsRef.current.engine.getSector(); const nodeMap = sceneNodes; const frameNow = performance.now();
         const gameState = propsRef.current.engine.getState();
         guardedRefills.update(frameNow, { paused: gameState.paused, particles: gameState.preferences.particles,
-          reducedMotion: reducedMotion.matches, positions: drag?.desired });
+          reducedMotion: reducedMotion.matches, positions: inputState.drag?.desired });
         if (gameState.playTimeMs !== observedPlayTimeMs) { observedPlayTimeMs = gameState.playTimeMs; observedPlayTimeAt = frameNow; }
         const animationPlayTimeMs = gameState.paused ? gameState.playTimeMs : gameState.playTimeMs + Math.min(120, Math.max(0, frameNow - observedPlayTimeAt));
         if (cueRevision !== gameState.revision || cueTime !== gameState.playTimeMs) {
@@ -1239,14 +1038,14 @@ export function PixiPlayfield(props: Props) {
         particles.forEach((particle) => { const connection = sceneConnections.get(particle.connectionId); if (!connection) { particle.root.visible = false; return; } const phase = transferProgress(particle.transfer, animationPlayTimeMs); particle.passages.forEach(passage => { if (phase >= passage.phase && !particle.passed.has(passage.nodeId)) { particle.passed.add(passage.nodeId); flashStartedAt.set(passage.nodeId, frameNow); portsByNode.get(passage.nodeId)?.forEach(port => { port.pulseStartedAt = frameNow; }); } }); const motion = sampleCurveMotion(particle.path, phase); if (!motion) return; particle.root.visible = phase < 1; particle.root.position.set(motion.x, motion.y); particle.root.rotation = motion.angle; particle.root.alpha = Math.max(0, Math.min(1, phase / .08, (1 - phase) / .12)); });
         nodeViews.forEach((view, id) => {
           const node = nodeMap.get(id); if (!node) return;
-          const dragPosition = drag?.desired?.[id];
+          const dragPosition = inputState.drag?.desired?.[id];
           view.root.visible = nodeOnScreen(node, camera, viewport, dragPosition ?? node);
           if (view.campPortOverlay) {
             view.campPortOverlay.visible = view.root.visible;
             view.campPortOverlay.position.set(dragPosition?.x ?? node.x, dragPosition?.y ?? node.y);
           }
           if (!view.root.visible) return;
-          const important = propsRef.current.selectedIds.includes(id) || hoveredNodeId === id || Boolean(drag?.ids.includes(id)) || connectionDrag?.active.nodeId === id || connectionDrag?.snapped?.nodeId === id;
+          const important = propsRef.current.selectedIds.includes(id) || inputState.hoveredNodeId === id || Boolean(inputState.drag?.ids.includes(id)) || inputState.connectionDrag?.active.nodeId === id || inputState.connectionDrag?.snapped?.nodeId === id;
           const fullArtwork = showNodeDetails(camera.zoom, important);
           const details = showNodeReadouts(camera.zoom, important, propsRef.current.showDistantNodeDetails);
           const dataChanged = view.dataRevision !== gameState.revision || view.dataTime !== gameState.playTimeMs || view.detailVisible !== details || view.dataZoom !== camera.zoom;
@@ -1256,7 +1055,7 @@ export function PixiPlayfield(props: Props) {
           view.root.eventMode = node.disabled || !selectable ? 'none' : 'static';
           view.root.alpha = node.disabled || guardedResourceLocked(node) ? .68 : !selectable ? .45 : 1;
           if (view.campPortOverlay) { view.campPortOverlay.alpha = view.root.alpha; view.campPortOverlay.interactiveChildren = selectable; }
-          const controlsVisible = selectable && !propsRef.current.placing && controlHover.visible(id, frameNow);
+          const controlsVisible = selectable && !propsRef.current.placing && inputState.controlHover.visible(id, frameNow);
           view.root.children.forEach(child => { if (child.label === 'node-control') child.visible = controlsVisible; });
           const travelControl = view.root.children.find(child => child.label === 'road-travel-control');
           if (travelControl) {
@@ -1266,12 +1065,12 @@ export function PixiPlayfield(props: Props) {
           }
           if (view.jointMoveHandle) {
             view.jointMoveHandle.visible = !propsRef.current.placing && (controlsVisible || Boolean(propsRef.current.jointMoveHint));
-            view.jointMoveHandle.cursor = drag?.ids.includes(id) ? 'grabbing' : 'grab';
+            view.jointMoveHandle.cursor = inputState.drag?.ids.includes(id) ? 'grabbing' : 'grab';
           }
           view.root.position.set(dragPosition?.x ?? node.x, dragPosition?.y ?? node.y);
           const readabilityScale = nodeTextScale(camera.zoom);
           if (details) view.readabilityLabels.forEach(text => text.scale.set(readabilityScale));
-          const invalid = Boolean(drag?.moved && !drag.valid && drag.ids.includes(id));
+          const invalid = Boolean(inputState.drag?.moved && !inputState.drag.valid && inputState.drag.ids.includes(id));
           if (invalid !== view.invalidVisible) {
             view.invalidVisible = invalid; view.invalidOverlay.clear();
             if (invalid) { const size = getNodeSize(node); view.invalidOverlay.roundRect(-size.w / 2 - 5, -size.h / 2 - 5, size.w + 10, size.h + 10, 16).fill({ color: THEME.danger, alpha: .18 }).stroke({ color: THEME.danger, width: 3, alpha: .98 }); }
@@ -1377,8 +1176,8 @@ export function PixiPlayfield(props: Props) {
         portViews.forEach((port) => {
           const live = nodeMap.get(port.nodeId);
           const owner = nodeViews.get(port.nodeId);
-          if (!live || !owner?.root.visible || (owner.overviewSprite?.visible && !owner.detailVisible && !port.hovered && !connectionDrag)) return;
-          const details = owner.detailVisible || port.hovered || Boolean(connectionDrag);
+          if (!live || !owner?.root.visible || (owner.overviewSprite?.visible && !owner.detailVisible && !port.hovered && !inputState.connectionDrag)) return;
+          const details = owner.detailVisible || port.hovered || Boolean(inputState.connectionDrag);
           port.root.children.forEach(child => { if (child.label === 'port-label') child.visible = Boolean(details); });
           if (port.materialLabel) port.materialLabel.visible = Boolean(details);
           if (port.materialBuffer) port.materialBuffer.visible = Boolean(details);
@@ -1403,17 +1202,17 @@ export function PixiPlayfield(props: Props) {
                 .fill({ color: 0x111419, alpha: .96 }).stroke({ color: ITEM_COLORS.stone, width: 1, alpha: .78 });
             }
           }
-          const active = connectionDrag && portKey(connectionDrag.active) === portKey(port);
-          const snapped = snappedPortKey === portKey(port);
+          const active = inputState.connectionDrag && portKey(inputState.connectionDrag.active) === portKey(port);
+          const snapped = inputState.snappedPortKey === portKey(port);
           const rejected = connectionRejection?.target && portKey(connectionRejection.target) === portKey(port);
-          const highlightSignature = active || snapped || rejected || port.hovered ? `${Boolean(active)}:${Boolean(snapped)}:${Boolean(rejected)}:${port.hovered}:${Boolean(connectionDrag)}:${gameState.revision}` : '';
+          const highlightSignature = active || snapped || rejected || port.hovered ? `${Boolean(active)}:${Boolean(snapped)}:${Boolean(rejected)}:${port.hovered}:${Boolean(inputState.connectionDrag)}:${gameState.revision}` : '';
           if (port.highlightSignature !== highlightSignature) {
           port.highlightSignature = highlightSignature; port.highlight.clear();
           if (!rejected && (port.hovered || active || snapped)) {
             let invalid = false;
-            if (snapped && connectionDrag) { const { output, input } = normalizedConnection(activeHandleForTarget(connectionDrag, port), port); invalid = Boolean(propsRef.current.engine.getConnectionFailure(output.nodeId, output.index, input.nodeId, input.index, connectionDrag.replaceConnectionId)); }
+            if (snapped && inputState.connectionDrag) { const { output, input } = normalizedConnection(activeHandleForTarget(inputState.connectionDrag, port), port); invalid = Boolean(propsRef.current.engine.getConnectionFailure(output.nodeId, output.index, input.nodeId, input.index, inputState.connectionDrag.replaceConnectionId)); }
             const color = invalid ? THEME.danger : snapped ? 0x9de0c1 : 0xffdf91;
-            port.highlight.circle(0, 0, port.cornerScaleLimit !== undefined ? 13 : connectionDrag ? 12 : 19).fill({ color, alpha: .18 }).stroke({ color, width: 2.5, alpha: 1 });
+            port.highlight.circle(0, 0, port.cornerScaleLimit !== undefined ? 13 : inputState.connectionDrag ? 12 : 19).fill({ color, alpha: .18 }).stroke({ color, width: 2.5, alpha: 1 });
             // Outward/inward arrows show connector direction without a label.
             const node = nodeMap.get(port.nodeId);
             if (node) {
@@ -1426,7 +1225,7 @@ export function PixiPlayfield(props: Props) {
             }
           }
           }
-          port.root.cursor = connectionDrag ? 'grabbing' : 'grab';
+          port.root.cursor = inputState.connectionDrag ? 'grabbing' : 'grab';
           if (port.pulseStartedAt || port.pulseActive) port.pulse.clear();
           port.pulseActive = Boolean(port.pulseStartedAt);
           let arrivalScale = 1;
@@ -1440,22 +1239,22 @@ export function PixiPlayfield(props: Props) {
               port.pulse.circle(0, 0, 8 + progress * 9).stroke({ color: THEME.flowHighlight, width: 1.5, alpha: intensity * .72 });
             }
           }
-          if (port.cornerScaleLimit === undefined) port.root.scale.set(connectionDrag || port.materialBuffer ? 1 : arrivalScale);
+          if (port.cornerScaleLimit === undefined) port.root.scale.set(inputState.connectionDrag || port.materialBuffer ? 1 : arrivalScale);
         });
-        if (connectionDrag) {
-          const active = connectionDrag.snapped ? activeHandleForTarget(connectionDrag, connectionDrag.snapped) : connectionDrag.active;
+        if (inputState.connectionDrag) {
+          const active = inputState.connectionDrag.snapped ? activeHandleForTarget(inputState.connectionDrag, inputState.connectionDrag.snapped) : inputState.connectionDrag.active;
           const activePoint = portScreenPoint(active);
           if (activePoint) {
             if (!previewCable) { previewCable = new Graphics(); overlayLayer.addChild(previewCable); }
             previewCable.clear();
             if (active.direction === 'output') {
-              const targetSide = connectionDrag.snapped ? getPortSide(nodeMap.get(connectionDrag.snapped.nodeId)!, 'input', connectionDrag.snapped.index) : 'west';
-              drawCurve(previewCable, activePoint, previewPoint, getPortSide(nodeMap.get(active.nodeId)!, 'output', active.index), targetSide);
+              const targetSide = inputState.connectionDrag.snapped ? getPortSide(nodeMap.get(inputState.connectionDrag.snapped.nodeId)!, 'input', inputState.connectionDrag.snapped.index) : 'west';
+              drawCurve(previewCable, activePoint, inputState.previewPoint, getPortSide(nodeMap.get(active.nodeId)!, 'output', active.index), targetSide);
             } else {
-              const sourceSide = connectionDrag.snapped ? getPortSide(nodeMap.get(connectionDrag.snapped.nodeId)!, 'output', connectionDrag.snapped.index) : 'east';
-              drawCurve(previewCable, previewPoint, activePoint, sourceSide, getPortSide(nodeMap.get(active.nodeId)!, 'input', active.index));
+              const sourceSide = inputState.connectionDrag.snapped ? getPortSide(nodeMap.get(inputState.connectionDrag.snapped.nodeId)!, 'output', inputState.connectionDrag.snapped.index) : 'east';
+              drawCurve(previewCable, inputState.previewPoint, activePoint, sourceSide, getPortSide(nodeMap.get(active.nodeId)!, 'input', active.index));
             }
-            previewCable.stroke({ color: connectionDrag.snapped ? THEME.flowHighlight : THEME.flow, width: connectionDrag.snapped ? 4 : 3, alpha: .94, cap: 'round' });
+            previewCable.stroke({ color: inputState.connectionDrag.snapped ? THEME.flowHighlight : THEME.flow, width: inputState.connectionDrag.snapped ? 4 : 3, alpha: .94, cap: 'round' });
           }
         } else if (previewCable) { previewCable.destroy(); previewCable = undefined; }
         if (connectionRejection && rejectionGraphic) {
@@ -1478,11 +1277,12 @@ export function PixiPlayfield(props: Props) {
             graphic.moveTo(x - 5, y - 5).lineTo(x + 5, y + 5).moveTo(x + 5, y - 5).lineTo(x - 5, y + 5).stroke({ color: 0xffe7e9, width: 2.5, cap: 'round' });
           }
         }
-      });
-      const unsubscribe = props.engine.subscribe(renderScene); (host as HTMLDivElement & { cleanup?: () => void }).cleanup = () => { unsubscribe(); app.canvas.removeEventListener('wheel', wheel); app.canvas.removeEventListener('contextmenu', blockContextMenu); app.canvas.removeEventListener('pointerenter', pointerEnter); app.canvas.removeEventListener('pointerleave', pointerLeave); window.removeEventListener('keydown', keyDown); window.removeEventListener('keyup', keyUp); window.removeEventListener('pointerup', releaseGlobalInteractions); window.removeEventListener('pointercancel', cancelLostInteractions); window.removeEventListener('blur', cancelLostInteractions); };
+      };
+      app.ticker.add(tick); resources.add(() => app.ticker.remove(tick));
+      resources.add(props.engine.subscribe(renderScene));
     };
-    void init().catch((error: unknown) => { console.error('Pixi playfield failed to initialize', error); if (!destroyed) { const message = error instanceof Error ? error.message : String(error); host.innerHTML = `<div class="pixi-boot-error"><b>PLAYFIELD BOOT INTERRUPTED</b><span>${escapeHtml(message)}</span><small>Reload the local page. If this persists, verify that WebGL is enabled.</small></div>`; } });
-    return () => { particlePool.forEach(particle => particle.root.destroy({ children: true })); particlePool.length = 0; viewportObserver.disconnect(); propsRef.current.onDragPreview?.(undefined); destroyed = true; clearRoadPreview(); clearConnectionRejection(); clearTooltip(); (host as HTMLDivElement & { cleanup?: () => void }).cleanup?.(); if (initialized && app) app.destroy(true, { children: true }); overviewTextures.destroy(); terrainTextures.destroy(); };
+    void init().catch((error: unknown) => { console.error('Pixi playfield failed to initialize', error); const report = !destroyed; destroyed = true; resources.dispose(); if (report) { const message = error instanceof Error ? error.message : String(error); host.innerHTML = `<div class="pixi-boot-error"><b>PLAYFIELD BOOT INTERRUPTED</b><span>${escapeHtml(message)}</span><small>Reload the local page. If this persists, verify that WebGL is enabled.</small></div>`; } });
+    return () => { destroyed = true; resources.dispose(); };
   }, [props.engine, props.viewportRef]);
 
   return <div ref={props.viewportRef} className="playfield-viewport">

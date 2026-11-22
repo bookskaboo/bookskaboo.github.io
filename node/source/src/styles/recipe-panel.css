@@ -10,6 +10,7 @@
 .road-flow-toggle:disabled { opacity:.5; cursor:default; }
 .road-flow-material, .road-flow-rate { margin:0; text-align:center; }
 .road-flow-material { margin-block:var(--modal-paragraph-gap) var(--modal-label-gap); }
+.road-flow-help { margin:var(--modal-paragraph-gap) 0 0; text-align:center; }
 .recipe-picker-panel .recipe-picker-header { min-height: 0; grid-template-columns: 30px minmax(0, 1fr) 30px; padding: 16px 14px; gap: 9px; }
 .recipe-picker-panel .recipe-picker-header > span { width: 30px; height: 34px; border-radius: 7px; }
 .recipe-picker-panel .recipe-picker-header > span .node-icon { width: 22px; height: 22px; }

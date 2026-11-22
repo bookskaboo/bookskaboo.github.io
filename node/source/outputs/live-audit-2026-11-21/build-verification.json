@@ -1,0 +1,68 @@
+[
+  {
+    "file": "assets/browserAll-CKByXHgu.js",
+    "expected": "d80fd7467b0e0ee6f8c40db9849d85ea879e0180fcb741d2512a76e829168a69",
+    "actual": "d80fd7467b0e0ee6f8c40db9849d85ea879e0180fcb741d2512a76e829168a69",
+    "matches": true
+  },
+  {
+    "file": "assets/CanvasPool-O_8k9jVW.js",
+    "expected": "9cf12a9f53a878bb8f9f46337b799031a6986b5f87dd775ef57b2902ae0dc9cd",
+    "actual": "9cf12a9f53a878bb8f9f46337b799031a6986b5f87dd775ef57b2902ae0dc9cd",
+    "matches": true
+  },
+  {
+    "file": "assets/canvasUtils-DHiBpmSz.js",
+    "expected": "8843c3459529c72ffb9a82655454eff39f3458448dd2ae362764f3be4933288f",
+    "actual": "8843c3459529c72ffb9a82655454eff39f3458448dd2ae362764f3be4933288f",
+    "matches": true
+  },
+  {
+    "file": "assets/getTexelRangeRects-BhRlOlmi.js",
+    "expected": "ca0b3e94399ce67c9dca1ec3021473e2542251d523bc93bd04a9b149070dd130",
+    "actual": "ca0b3e94399ce67c9dca1ec3021473e2542251d523bc93bd04a9b149070dd130",
+    "matches": true
+  },
+  {
+    "file": "assets/getTextureBatchBindGroup-CDnZS9mH.js",
+    "expected": "2b2eff79ef557432774e0acd98963de65847a16840f0b738b07556ea37e21caa",
+    "actual": "2b2eff79ef557432774e0acd98963de65847a16840f0b738b07556ea37e21caa",
+    "matches": true
+  },
+  {
+    "file": "assets/index-CAz0gFy_.css",
+    "expected": "06c8543818a7387c86be5022667b250d8cbcae3e97355b6431e46ef839608fde",
+    "actual": "06c8543818a7387c86be5022667b250d8cbcae3e97355b6431e46ef839608fde",
+    "matches": true
+  },
+  {
+    "file": "assets/index-CD2K3jIg.js",
+    "expected": "fb89993b7e78eb53483c7279de6c2bc9d246703fca2ee1426a330e83de5bed00",
+    "actual": "fb89993b7e78eb53483c7279de6c2bc9d246703fca2ee1426a330e83de5bed00",
+    "matches": true
+  },
+  {
+    "file": "assets/init-Bp3Xurjh.js",
+    "expected": "0a4c60f9f50dde91c0e977a183ed67feec63d84601cca4331bb555386c27d4b0",
+    "actual": "0a4c60f9f50dde91c0e977a183ed67feec63d84601cca4331bb555386c27d4b0",
+    "matches": true
+  },
+  {
+    "file": "assets/RenderTargetSystem-D85YXrAp.js",
+    "expected": "20605afc2541d39cab4bebe036e73f8de687ac78d22cd48b5485993be0c8604f",
+    "actual": "20605afc2541d39cab4bebe036e73f8de687ac78d22cd48b5485993be0c8604f",
+    "matches": true
+  },
+  {
+    "file": "assets/webworkerAll-DqRMvG0Z.js",
+    "expected": "3399e952d450974128f33f69daf7259aa87b3248f77c38c025e37e33415eb10c",
+    "actual": "3399e952d450974128f33f69daf7259aa87b3248f77c38c025e37e33415eb10c",
+    "matches": true
+  },
+  {
+    "file": "index.html",
+    "expected": "79aec1cd2a2b47a2e1e936d5a5ebbfdba6860ca4efc9f014c06e477d630ce7c1",
+    "actual": "79aec1cd2a2b47a2e1e936d5a5ebbfdba6860ca4efc9f014c06e477d630ce7c1",
+    "matches": true
+  }
+]

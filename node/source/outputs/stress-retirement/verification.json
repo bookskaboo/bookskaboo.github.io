@@ -1,0 +1,54 @@
+{
+  "archive": [
+    {
+      "path": "scripts/run-stress.mjs",
+      "archiveSha256": "7f315076cbf3b3600af55bf7cf96dcbe47ea650b117984d7aaf526f20beeff8b"
+    },
+    {
+      "path": "scripts/stress.test.ts",
+      "archiveSha256": "1a28d88666f3717e1e1037e9be5f7319593aa64747b35448955e1a602e412c57"
+    },
+    {
+      "path": "scripts/summarize-stress.mjs",
+      "archiveSha256": "ea9284708ab5ebba7f568d4a4bf610bc8e35d76dabd6b92dbfb9572ec9d9c9ee"
+    },
+    {
+      "path": "outputs/stress/baseline.json",
+      "archiveSha256": "96b0a99cd6f5722c051356bb6bb9808b924a1c613ae5146f1e7d006227bec3af",
+      "originalReportUnchanged": true
+    },
+    {
+      "path": "outputs/stress/baseline.md",
+      "archiveSha256": "9083b542070dffc58dd9377f4a6d2331951101d82a59b1b83b58fb0bcab82bdd",
+      "originalReportUnchanged": true
+    },
+    {
+      "path": "outputs/stress/latest.json",
+      "archiveSha256": "faa5f418e6968105ebdab03e9cfe2fe7eadf8d05c80ebad31a6f393cc808bb28",
+      "originalReportUnchanged": true
+    },
+    {
+      "path": "outputs/stress/latest.md",
+      "archiveSha256": "438d6ea41d9a2af312c7ec81a87a44847a8718357695f1b8163d554c249b1186",
+      "originalReportUnchanged": true
+    }
+  ],
+  "archiveReadmeLinksChecked": 10,
+  "smoke": [
+    {
+      "name": "legacy runner",
+      "exitCode": 1,
+      "output": "Retired: the old synthetic whole-world stress benchmark is no longer supported.\nHistorical source and reports: scripts/archive/engine-stress/README.md.\nCurrent browser performance tool: previews/active-factory/README.md.\nWhole-world multi-map performance coverage remains open; see docs/systems/testing-and-publishing.md.\n"
+    },
+    {
+      "name": "legacy formatter",
+      "exitCode": 1,
+      "output": "Retired: the old synthetic whole-world stress benchmark is no longer supported.\nHistorical source and reports: scripts/archive/engine-stress/README.md.\nCurrent browser performance tool: previews/active-factory/README.md.\nWhole-world multi-map performance coverage remains open; see docs/systems/testing-and-publishing.md.\n"
+    },
+    {
+      "name": "removed npm command",
+      "exitCode": 1,
+      "output": "Missing script: stress"
+    }
+  ]
+}
