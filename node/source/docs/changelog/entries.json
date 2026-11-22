@@ -16,6 +16,14 @@
   },
   "releases": [
     {
+      "id": "a8a8d12",
+      "date": "2026-11-22",
+      "title": "Tested refactor and reliability update",
+      "commit": "a8a8d12ba63dd13b9af95d049bb98c6f76442ed4",
+      "url": "https://github.com/bookskaboo/bookskaboo.github.io/commit/a8a8d12ba63dd13b9af95d049bb98c6f76442ed4",
+      "notes": "Exact frozen candidate tree; only node/ changed. Pages succeeded and normal live HTML/all eleven build files plus ten previous assets matched SHA-256. Preserve saved data and prior runtime assets; audio auditions remain separate from gameplay."
+    },
+    {
       "id": "c4284d4",
       "date": "2026-11-21",
       "title": "Seeded Production Landmarks and Unknown Device",
@@ -25357,7 +25365,7 @@
       "dateBasis": "chat",
       "kind": "fixed",
       "state": "implemented",
-      "delivery": "local",
+      "delivery": "published",
       "title": "Protect healthy save slots when another saved payload is unreadable",
       "summary": "Approved audit finding 1: isolate slot failures, preserve untouched stored payloads and block manual saves/copies when the entire collection cannot be read.",
       "details": [
@@ -25393,7 +25401,8 @@
         "outputs/save-slot-protection/unreadable-mobile.jpg",
         "outputs/save-slot-protection/blocked-collection.jpg"
       ],
-      "validation": "All 23 focused persistence/presentation regressions passed. Final workspace suite: 2212 passed, zero failed, two existing skips. TypeScript/local Vite production build passed, retaining the pre-existing large-chunk warning. Regenerated all six system catalogs and passed freshness/local-link checks across 40 documents. In-memory browser fixture verified saving beside an unreadable slot, healthy sibling loading, overwrite cancellation, confirmed autosave copy to the selected unreadable slot, whole-collection disabled controls and Retry recovery. Checked 1280x720 and 390x845 (requested 390x844), wrapping and 12px/400 alert text. Two fixture hot-reload createRoot warnings occurred while editing; the clean reload had no warning/error logs. No campaign storage was read or written, no publication and no damaged-save recovery. Automatic autosave failure handling and general modal keyboard behavior remain separate review items."
+      "validation": "All 23 focused persistence/presentation regressions passed. Final workspace suite: 2212 passed, zero failed, two existing skips. TypeScript/local Vite production build passed, retaining the pre-existing large-chunk warning. Regenerated all six system catalogs and passed freshness/local-link checks across 40 documents. In-memory browser fixture verified saving beside an unreadable slot, healthy sibling loading, overwrite cancellation, confirmed autosave copy to the selected unreadable slot, whole-collection disabled controls and Retry recovery. Checked 1280x720 and 390x845 (requested 390x844), wrapping and 12px/400 alert text. Two fixture hot-reload createRoot warnings occurred while editing; the clean reload had no warning/error logs. No campaign storage was read or written, no publication and no damaged-save recovery. Automatic autosave failure handling and general modal keyboard behavior remain separate review items.",
+      "publishedBy": "a8a8d12"
     },
     {
       "id": "NODE-0767",
@@ -25401,7 +25410,7 @@
       "dateBasis": "chat",
       "kind": "fixed",
       "state": "implemented",
-      "delivery": "local",
+      "delivery": "published",
       "title": "Require full Mining Drill payment for every template copy",
       "summary": "Approved audit finding 2: clear paid Drill progress when capturing and placing factory templates, including templates saved before the fix.",
       "details": [
@@ -25429,7 +25438,8 @@
         "outputs/mining-drill-template-protection/tests.json",
         "outputs/mining-drill-template-protection/verification.json"
       ],
-      "validation": "Before the fix, five new template cases failed and both ordinary-copy cases passed. Afterward all seven new regressions passed: Iron/Copper/Stone copies consume twenty Motors, old 19/20-Motor templates produce independent unpaid copies, and source progress/configuration are preserved. The related focused run passed 178 tests across eight files. Full workspace suite passed 2219 tests with zero failures and two existing skips. TypeScript/local Vite production build passed with the existing large-chunk warning. Regenerated six system catalogs and passed freshness/local-link checks across 40 documents. No browser balance run, campaign-save access, commit or publication."
+      "validation": "Before the fix, five new template cases failed and both ordinary-copy cases passed. Afterward all seven new regressions passed: Iron/Copper/Stone copies consume twenty Motors, old 19/20-Motor templates produce independent unpaid copies, and source progress/configuration are preserved. The related focused run passed 178 tests across eight files. Full workspace suite passed 2219 tests with zero failures and two existing skips. TypeScript/local Vite production build passed with the existing large-chunk warning. Regenerated six system catalogs and passed freshness/local-link checks across 40 documents. No browser balance run, campaign-save access, commit or publication.",
+      "publishedBy": "a8a8d12"
     },
     {
       "id": "NODE-0768",
@@ -25437,7 +25447,7 @@
       "dateBasis": "chat",
       "kind": "fixed",
       "state": "implemented",
-      "delivery": "local",
+      "delivery": "published",
       "title": "Recover visibly from automatic autosave failures without interrupting simulation",
       "summary": "Approved audit finding 3: preserve the previous autosave on write failure, keep simulation running and offer persistent Retry and Export Save recovery.",
       "details": [
@@ -25479,7 +25489,8 @@
         "outputs/autosave-recovery/import-mobile.jpg",
         "outputs/autosave-recovery/exported-save.json"
       ],
-      "validation": "Reproduced the original quota exception before the fix. All 40 focused checks passed across six files, including seventeen new tests for quota/denied storage/serialization, interval retries, paused recovery, transient status, export/import round trips, invalid files, download cleanup and warning presentation. Full workspace suite: 2236 passed, zero failed, two existing skips. TypeScript/local Vite production build passed with the existing large-chunk warning. Six system catalogs regenerated and freshness/local links checked across 40 documents. Isolated browser fixture verified actual download, cancellation, invalid-file rejection, confirmed restore, warning persistence, paused Retry recovery and later failures; desktop 1280x720 and mobile 390x845 (requested 844) had no horizontal overflow or captured warning/error logs. No campaign storage access, normal-play balance run, commit or publication; general modal keyboard behavior remains separate."
+      "validation": "Reproduced the original quota exception before the fix. All 40 focused checks passed across six files, including seventeen new tests for quota/denied storage/serialization, interval retries, paused recovery, transient status, export/import round trips, invalid files, download cleanup and warning presentation. Full workspace suite: 2236 passed, zero failed, two existing skips. TypeScript/local Vite production build passed with the existing large-chunk warning. Six system catalogs regenerated and freshness/local links checked across 40 documents. Isolated browser fixture verified actual download, cancellation, invalid-file rejection, confirmed restore, warning persistence, paused Retry recovery and later failures; desktop 1280x720 and mobile 390x845 (requested 844) had no horizontal overflow or captured warning/error logs. No campaign storage access, normal-play balance run, commit or publication; general modal keyboard behavior remains separate.",
+      "publishedBy": "a8a8d12"
     },
     {
       "id": "NODE-0769",
@@ -25562,7 +25573,7 @@
       "dateBasis": "chat",
       "kind": "fixed",
       "state": "implemented",
-      "delivery": "local",
+      "delivery": "published",
       "title": "Keep dialog keyboard focus and editing shortcuts out of the hidden factory",
       "summary": "Approved audit finding 4: share named dialog focus scopes, handle Escape from fields and block hidden factory edits while retaining deliberate practice, Pause and recovery controls.",
       "details": [
@@ -25604,7 +25615,8 @@
         "outputs/modal-keyboard-protection/nested-mobile.jpg",
         "outputs/modal-keyboard-protection/guided-mobile.jpg"
       ],
-      "validation": "All 32 new controller/shortcut/semantic regressions passed. Final workspace suite passed 2268 tests with zero failures and two existing skips. TypeScript/local Vite production build passed with the existing large-chunk warning and unchanged CSS asset. Six catalogs regenerated; freshness/local links across 40 documents passed. Real FactoryApp browser fixture verified focus cycles, hidden edit protection with confirmation disabled, normal Delete/Undo outside dialogs, text-field Escape, nested ownership and Cancel focus, remounted opener race correction, Commands/Mods/Upgrades returns, native Space/Pause, recovery controls, empty fallback and guided Basics at desktop 1280x720 and mobile 390x845 (requested 844), without horizontal overflow. Three fixture hot-reload createRoot errors occurred during edits; final clean reload had no warning/error logs. No campaign storage, normal-play balance run, commit or publication."
+      "validation": "All 32 new controller/shortcut/semantic regressions passed. Final workspace suite passed 2268 tests with zero failures and two existing skips. TypeScript/local Vite production build passed with the existing large-chunk warning and unchanged CSS asset. Six catalogs regenerated; freshness/local links across 40 documents passed. Real FactoryApp browser fixture verified focus cycles, hidden edit protection with confirmation disabled, normal Delete/Undo outside dialogs, text-field Escape, nested ownership and Cancel focus, remounted opener race correction, Commands/Mods/Upgrades returns, native Space/Pause, recovery controls, empty fallback and guided Basics at desktop 1280x720 and mobile 390x845 (requested 844), without horizontal overflow. Three fixture hot-reload createRoot errors occurred during edits; final clean reload had no warning/error logs. No campaign storage, normal-play balance run, commit or publication.",
+      "publishedBy": "a8a8d12"
     },
     {
       "id": "NODE-0772",
@@ -25712,7 +25724,7 @@
       "dateBasis": "chat",
       "kind": "fixed",
       "state": "implemented",
-      "delivery": "local",
+      "delivery": "published",
       "title": "Include funded Unknown Device Core production in progression recovery budgets",
       "summary": "Approved audit finding 5: avoid a false mineral-shortage rescue when an accessible Unknown Device can fund the Core bill from a real seed.",
       "details": [
@@ -25739,7 +25751,8 @@
         "outputs/unknown-device-recovery/focused-tests.json",
         "outputs/unknown-device-recovery/tests.json"
       ],
-      "validation": "Before the fix, 22 of the original 29 new cases failed; seven negative cases passed. All 30 final new regressions passed, including all seven owned/active Core tiers, inaccessible supply, first-seed costs, no state mutation, real rescue eligibility and four ordinary device feedback cycles. Focused current-source run passed 78 tests across three files with .artifact-work excluded. Standard workspace suite passed 2298 tests with zero failures and two existing skips: 1502 current-tree passes and 796 preserved snapshot passes. TypeScript/local Vite production build passed with the existing large-chunk warning and unchanged CSS asset. Regenerated six system catalogs and checked local links across 40 documents. Headless functional evidence only; no campaign storage, normal-play balance run, browser review, commit or publication."
+      "validation": "Before the fix, 22 of the original 29 new cases failed; seven negative cases passed. All 30 final new regressions passed, including all seven owned/active Core tiers, inaccessible supply, first-seed costs, no state mutation, real rescue eligibility and four ordinary device feedback cycles. Focused current-source run passed 78 tests across three files with .artifact-work excluded. Standard workspace suite passed 2298 tests with zero failures and two existing skips: 1502 current-tree passes and 796 preserved snapshot passes. TypeScript/local Vite production build passed with the existing large-chunk warning and unchanged CSS asset. Regenerated six system catalogs and checked local links across 40 documents. Headless functional evidence only; no campaign storage, normal-play balance run, browser review, commit or publication.",
+      "publishedBy": "a8a8d12"
     },
     {
       "id": "NODE-0776",
@@ -25810,7 +25823,7 @@
       "dateBasis": "chat",
       "kind": "fixed",
       "state": "implemented",
-      "delivery": "local",
+      "delivery": "published",
       "title": "Match Mythril guidance to each factory’s saved world rules",
       "summary": "New worlds explain fully suppressed Dwarven deposit extraction and its Extractor connection; legacy factories retain Tribute guidance.",
       "details": [
@@ -25847,7 +25860,8 @@
       "supersedes": [
         "NODE-0684"
       ],
-      "validation": "12 new regressions passed; focused current-source run 75 passed across seven files. Standard workspace run 2,310 passed, zero failed, two existing skips: 1,514 current-tree and 796 preserved-snapshot passes. TypeScript and local production build passed, retaining existing large-chunk warning. Six generated system catalogs and links across 40 documents verified. Isolated browser checks at 1280 × 720 and 390 × 845 covered modern/legacy guidance, search, blocked queue feedback, completion tooltip and corrected earned history; regular 12 px text wrapped without page-width overflow. No warnings/errors after explicit reload; fixture-only HMR createRoot warning before reload. No campaign storage accessed, balance run or live publication."
+      "validation": "12 new regressions passed; focused current-source run 75 passed across seven files. Standard workspace run 2,310 passed, zero failed, two existing skips: 1,514 current-tree and 796 preserved-snapshot passes. TypeScript and local production build passed, retaining existing large-chunk warning. Six generated system catalogs and links across 40 documents verified. Isolated browser checks at 1280 × 720 and 390 × 845 covered modern/legacy guidance, search, blocked queue feedback, completion tooltip and corrected earned history; regular 12 px text wrapped without page-width overflow. No warnings/errors after explicit reload; fixture-only HMR createRoot warning before reload. No campaign storage accessed, balance run or live publication.",
+      "publishedBy": "a8a8d12"
     },
     {
       "id": "NODE-0779",
@@ -25980,7 +25994,7 @@
       "dateBasis": "chat",
       "kind": "fixed",
       "state": "implemented",
-      "delivery": "local",
+      "delivery": "published",
       "title": "Show Road capacity using freight ranks and active dispatch timing",
       "summary": "The Road inspector now reports an accurate Maximum transfer rate and explains stock and receiver-space limits.",
       "details": [
@@ -26013,7 +26027,8 @@
         "outputs/road-rate-protection/tests.json",
         "outputs/road-rate-protection/browser-observations.json"
       ],
-      "validation": "23 new regressions and 106 related focused current-source checks passed. Standard workspace suite: 2,333 passed, zero failed, two existing skips (1,537 current-tree and 796 preserved-snapshot passes). TypeScript/local production build passed with existing large-chunk warning. Six system catalogs regenerated and documentation links across 40 files verified. Isolated actual-component/browser checks at 1280 × 720 and 390 × 845 confirmed ranked/mod/profile rates, six-item dispatch, blocked stock conservation, fractional formatting, receiving-end flow and Close/Reopen. Rate and help both 12 px/400 sans; no horizontal overflow or captured warnings/errors. No campaign storage accessed, normal-play balance run or live publication."
+      "validation": "23 new regressions and 106 related focused current-source checks passed. Standard workspace suite: 2,333 passed, zero failed, two existing skips (1,537 current-tree and 796 preserved-snapshot passes). TypeScript/local production build passed with existing large-chunk warning. Six system catalogs regenerated and documentation links across 40 files verified. Isolated actual-component/browser checks at 1280 × 720 and 390 × 845 confirmed ranked/mod/profile rates, six-item dispatch, blocked stock conservation, fractional formatting, receiving-end flow and Close/Reopen. Rate and help both 12 px/400 sans; no horizontal overflow or captured warnings/errors. No campaign storage accessed, normal-play balance run or live publication.",
+      "publishedBy": "a8a8d12"
     },
     {
       "id": "NODE-0784",
@@ -26105,7 +26120,7 @@
       "dateBasis": "chat",
       "kind": "fixed",
       "state": "implemented",
-      "delivery": "local",
+      "delivery": "published",
       "title": "Retire the proposal compiler that overwrote current progression rules",
       "summary": "The old source-generation command now refuses without writes; exact historical compiler and input copies remain available as checksummed evidence.",
       "details": [
@@ -26135,7 +26150,8 @@
         "outputs/compiler-retirement/source-verification.json",
         "outputs/compiler-retirement/tests.json"
       ],
-      "validation": "Six new retirement/archive checks passed; focused current-source run 169 passed across five files. Child-process regressions use disposable workspaces with populated original inputs/current catalog, missing inputs, force/output arguments and ESM import, checking refusal and unchanged file hashes. Workspace suite passed 2,344 tests with two existing skips (1,548 current-tree and 796 preserved-snapshot passes). TypeScript/local production build passed with existing large-chunk warning. Six system catalogs regenerated and links across 40 documents verified. Direct invocation of the new compatibility entry point returned expected status 1 and maintenance guidance. All four archival checksums matched, original helper/inputs remained unchanged, and the gameplay catalog body stayed byte-identical. No browser/campaign balance run, save access or publication; no historical writer was run in the real checkout."
+      "validation": "Six new retirement/archive checks passed; focused current-source run 169 passed across five files. Child-process regressions use disposable workspaces with populated original inputs/current catalog, missing inputs, force/output arguments and ESM import, checking refusal and unchanged file hashes. Workspace suite passed 2,344 tests with two existing skips (1,548 current-tree and 796 preserved-snapshot passes). TypeScript/local production build passed with existing large-chunk warning. Six system catalogs regenerated and links across 40 documents verified. Direct invocation of the new compatibility entry point returned expected status 1 and maintenance guidance. All four archival checksums matched, original helper/inputs remained unchanged, and the gameplay catalog body stayed byte-identical. No browser/campaign balance run, save access or publication; no historical writer was run in the real checkout.",
+      "publishedBy": "a8a8d12"
     },
     {
       "id": "NODE-0787",
@@ -26189,7 +26205,7 @@
       "dateBasis": "chat",
       "kind": "changed",
       "state": "implemented",
-      "delivery": "local",
+      "delivery": "published",
       "title": "Retire the obsolete whole-world stress benchmark and preserve its evidence",
       "summary": "Remove the old npm benchmark and active fixture while retaining exact source/report archives and documenting the open multi-map performance gap.",
       "details": [
@@ -26223,7 +26239,8 @@
         "outputs/stress-retirement/verification.json",
         "outputs/stress-retirement/test-summary.json"
       ],
-      "validation": "Smoke checks confirmed the removed npm script is unavailable and both direct legacy entry points refuse with status 1, including GAME_STRESS=1, without running the workload. Seven archived file checksums and four unchanged original reports verified, plus archive README links. Workspace suite passed 2,354 tests with one existing skip (1,558 current-tree and 796 preserved-snapshot passes); the retired current fixture was not discovered. Retained Road and active-factory model/benchmark/dense checks passed in that run. TypeScript/local production build passed with existing large-chunk warning. Six system catalogs regenerated and links across 40 documents verified. No new benchmark timings, browser session, campaign save access, gameplay change or publication; preserved release test copies remain historical."
+      "validation": "Smoke checks confirmed the removed npm script is unavailable and both direct legacy entry points refuse with status 1, including GAME_STRESS=1, without running the workload. Seven archived file checksums and four unchanged original reports verified, plus archive README links. Workspace suite passed 2,354 tests with one existing skip (1,558 current-tree and 796 preserved-snapshot passes); the retired current fixture was not discovered. Retained Road and active-factory model/benchmark/dense checks passed in that run. TypeScript/local production build passed with existing large-chunk warning. Six system catalogs regenerated and links across 40 documents verified. No new benchmark timings, browser session, campaign save access, gameplay change or publication; preserved release test copies remain historical.",
+      "publishedBy": "a8a8d12"
     },
     {
       "id": "NODE-0789",
@@ -26280,7 +26297,7 @@
       "dateBasis": "chat",
       "kind": "docs",
       "state": "implemented",
-      "delivery": "local",
+      "delivery": "published",
       "title": "Align current references with implemented Landmarks, terrain and Map Points",
       "summary": "Remove obsolete planned/not-implemented claims and correct current pricing and maintenance explanations without changing gameplay.",
       "details": [
@@ -26312,7 +26329,8 @@
         "docs/reviews/system-review-temporary.md",
         "outputs/reference-reconciliation/verification.json"
       ],
-      "validation": "Regenerated six system catalogs and passed freshness/local-link checks across 40 documents. All table rows across all six catalogs are unchanged; five catalogs are wholly unchanged and only the research catalog’s explanatory paragraph differs. SHA-256 comparison of all 374 captured src files found no runtime source changes. Read relevant Landmark generation/buffer/transport, map terrain, Map Point pricing and unmodded migration owners before correcting prose. Documentation-only change; no gameplay suite, production build, browser or campaign balance rerun, player-save access or publication."
+      "validation": "Regenerated six system catalogs and passed freshness/local-link checks across 40 documents. All table rows across all six catalogs are unchanged; five catalogs are wholly unchanged and only the research catalog’s explanatory paragraph differs. SHA-256 comparison of all 374 captured src files found no runtime source changes. Read relevant Landmark generation/buffer/transport, map terrain, Map Point pricing and unmodded migration owners before correcting prose. Documentation-only change; no gameplay suite, production build, browser or campaign balance rerun, player-save access or publication.",
+      "publishedBy": "a8a8d12"
     },
     {
       "id": "NODE-0791",
@@ -26594,7 +26612,7 @@
       "dateBasis": "chat",
       "kind": "changed",
       "state": "implemented",
-      "delivery": "local",
+      "delivery": "published",
       "title": "Avoid hidden inventory scans and repeated autosave normalization during UI updates",
       "summary": "Inventory totals now follow consumer visibility, while Save / Load retains a current snapshot refreshed at persistence and browser invalidation boundaries.",
       "details": [
@@ -26625,7 +26643,8 @@
         "outputs/interface-update-optimization/tests.json",
         "outputs/interface-update-optimization/browser-observations.json"
       ],
-      "validation": "All ten new regressions and 47 related focused checks passed. Full workspace: 2,365 passed, zero failed, one existing skip (1,569 current-tree and 796 preserved-snapshot passes). TypeScript/local production build passed with existing large-chunk warning; six system catalogs regenerated and documentation links across 40 files verified. Isolated actual-hook browser checks recorded zero sector scans for ten hidden revisions, one scan on opening, no extra scan for ten unrelated visible renders and fresh stock after same-revision replacement. Save panel mounted with two bounded reads and performed no further reads for ten ordinary revisions plus typing; a successful write triggered one refresh. Actual FactoryApp Options/Save path retained its read count across frequency changes and typing. Verified synthetic StorageEvent replacement/clear/malformed data, retained names, manual copy, blocked-collection Retry, reopening and confirmed load. Desktop 1280x720 and mobile 390x845 retained no horizontal overflow. No warnings/errors after explicit reload; a fixture-only HMR createRoot warning preceded it. Browser storage was in-memory; external changes were synthetic events, not a native two-tab test. No FPS, whole-world timing, campaign-balance or publication claim."
+      "validation": "All ten new regressions and 47 related focused checks passed. Full workspace: 2,365 passed, zero failed, one existing skip (1,569 current-tree and 796 preserved-snapshot passes). TypeScript/local production build passed with existing large-chunk warning; six system catalogs regenerated and documentation links across 40 files verified. Isolated actual-hook browser checks recorded zero sector scans for ten hidden revisions, one scan on opening, no extra scan for ten unrelated visible renders and fresh stock after same-revision replacement. Save panel mounted with two bounded reads and performed no further reads for ten ordinary revisions plus typing; a successful write triggered one refresh. Actual FactoryApp Options/Save path retained its read count across frequency changes and typing. Verified synthetic StorageEvent replacement/clear/malformed data, retained names, manual copy, blocked-collection Retry, reopening and confirmed load. Desktop 1280x720 and mobile 390x845 retained no horizontal overflow. No warnings/errors after explicit reload; a fixture-only HMR createRoot warning preceded it. Browser storage was in-memory; external changes were synthetic events, not a native two-tab test. No FPS, whole-world timing, campaign-balance or publication claim.",
+      "publishedBy": "a8a8d12"
     },
     {
       "id": "NODE-0799",
@@ -27189,7 +27208,7 @@
       "dateBasis": "chat",
       "kind": "changed",
       "state": "implemented",
-      "delivery": "local",
+      "delivery": "published",
       "title": "Reuse recipe-producer lookups within each expansion recovery evaluation",
       "summary": "Recovery checks build one lazy producer index instead of rescanning the recipe catalog during recursion, preserving resource budgets and rescue behavior.",
       "details": [
@@ -27221,7 +27240,8 @@
         "outputs/recovery-recipe-index/summary.json",
         "outputs/recovery-recipe-index/tests.json"
       ],
-      "validation": "Focused current-source recovery/endgame run: 85 passed across four files. Standard workspace suite: 2372 passed, zero failed and one existing skip, comprising 1576 current-tree and 796 preserved release-snapshot passes. TypeScript/local production build passed with the existing large-chunk warning. Forty-eight repeated profiling workers and twenty-four paired workers passed applicable assertions and old/new state equivalence. Six catalogs/local links across forty system documents and generated-history checks accompany the record. Headless Node v24.19.0 on one Ryzen 9 9900X desktop, preserved legacy factory rules/per-node pauses, deterministic clock/randomness and sampling/instrumentation limits; no browser/campaign, FPS/mobile/balance certification, release or commit."
+      "validation": "Focused current-source recovery/endgame run: 85 passed across four files. Standard workspace suite: 2372 passed, zero failed and one existing skip, comprising 1576 current-tree and 796 preserved release-snapshot passes. TypeScript/local production build passed with the existing large-chunk warning. Forty-eight repeated profiling workers and twenty-four paired workers passed applicable assertions and old/new state equivalence. Six catalogs/local links across forty system documents and generated-history checks accompany the record. Headless Node v24.19.0 on one Ryzen 9 9900X desktop, preserved legacy factory rules/per-node pauses, deterministic clock/randomness and sampling/instrumentation limits; no browser/campaign, FPS/mobile/balance certification, release or commit.",
+      "publishedBy": "a8a8d12"
     },
     {
       "id": "NODE-0816",
@@ -27266,7 +27286,7 @@
       "dateBasis": "chat",
       "kind": "refactored",
       "state": "implemented",
-      "delivery": "local",
+      "delivery": "published",
       "title": "Complete the refactor baseline and extract Road direction commands",
       "summary": "Complete Phases 0 and 1 of the standalone organization plan, preserving the engine facade and existing Road behavior; later phases remain pending.",
       "details": [
@@ -27303,7 +27323,8 @@
         "outputs/road-command-refactor/verification.json",
         "docs/systems/testing-and-publishing.md"
       ],
-      "validation": "Baseline workspace: 2372 passed and one existing skip (1576 current-tree and 796 preserved-release passes). Final workspace: 2383 passed, zero failed and the same one skip (1587 current-tree and 796 preserved-release passes), across 234 files, using four workers and an explicit 15-second test timeout. Eleven new contract cases passed before extraction; focused Road/routing/architecture run passed 191 tests across 18 discovered files. TypeScript and both isolated local production builds passed with the existing large-chunk warning. Baseline and final six-catalog freshness/local-link checks across forty documents passed; regenerated history and all six history checks passed. The uninterrupted 25-second synthetic browser baseline measured 74.28 average FPS, frame p95 16.8 ms and tick p95 4.4 ms on this host; it is comparison evidence only. No campaign/balance run, UI/renderer extraction, post-pilot performance claim, commit or publication."
+      "validation": "Baseline workspace: 2372 passed and one existing skip (1576 current-tree and 796 preserved-release passes). Final workspace: 2383 passed, zero failed and the same one skip (1587 current-tree and 796 preserved-release passes), across 234 files, using four workers and an explicit 15-second test timeout. Eleven new contract cases passed before extraction; focused Road/routing/architecture run passed 191 tests across 18 discovered files. TypeScript and both isolated local production builds passed with the existing large-chunk warning. Baseline and final six-catalog freshness/local-link checks across forty documents passed; regenerated history and all six history checks passed. The uninterrupted 25-second synthetic browser baseline measured 74.28 average FPS, frame p95 16.8 ms and tick p95 4.4 ms on this host; it is comparison evidence only. No campaign/balance run, UI/renderer extraction, post-pilot performance claim, commit or publication.",
+      "publishedBy": "a8a8d12"
     },
     {
       "id": "NODE-0818",
@@ -27355,7 +27376,7 @@
       "dateBasis": "chat",
       "kind": "refactored",
       "state": "implemented",
-      "delivery": "local",
+      "delivery": "published",
       "title": "Extract transport and reservation ownership in three verified slices",
       "summary": "Complete Phase 2 of the standalone organization plan: Road dispatch, delivery/refunds and local routing share existing rules behind the engine facade, preserving behavior and tick order.",
       "details": [
@@ -27398,7 +27419,8 @@
         "outputs/transport-refactor/delivery-comparison.json",
         "outputs/transport-refactor/local-routing-comparison.json"
       ],
-      "validation": "Baseline workspace: 2383 passed and one existing skip. Final workspace: 2386 passed, zero failed and one existing skip across 235 files (1590 current-tree and 796 preserved-release passes), using four workers and an explicit 15-second test timeout. Focused Road slice: 205 passes across 17 discovered files; delivery and local-routing slices: 308 passes each across 28 files. Three new lifecycle cases passed before delivery extraction. Original-engine current facade checks: 61 passed; candidate facade checks: 116 passed including 61 current and 55 preserved-copy cases. Fourteen moved bodies are unchanged except explicit state/ID/resolver bindings; all other engine tick, simulation, lifecycle and command bodies, legacy Road recovery and phase-index implementation are preserved. All 27 original/candidate workload pairs match 9540 states and 2289 publications. TypeScript and isolated baseline/final production builds passed with the existing large-chunk warning. Baseline history checks and final six-catalog regeneration/freshness/local-link checks across forty documents passed. Headless deterministic comparisons are not browser, balance, performance or universal-correctness certification; no commit or publication."
+      "validation": "Baseline workspace: 2383 passed and one existing skip. Final workspace: 2386 passed, zero failed and one existing skip across 235 files (1590 current-tree and 796 preserved-release passes), using four workers and an explicit 15-second test timeout. Focused Road slice: 205 passes across 17 discovered files; delivery and local-routing slices: 308 passes each across 28 files. Three new lifecycle cases passed before delivery extraction. Original-engine current facade checks: 61 passed; candidate facade checks: 116 passed including 61 current and 55 preserved-copy cases. Fourteen moved bodies are unchanged except explicit state/ID/resolver bindings; all other engine tick, simulation, lifecycle and command bodies, legacy Road recovery and phase-index implementation are preserved. All 27 original/candidate workload pairs match 9540 states and 2289 publications. TypeScript and isolated baseline/final production builds passed with the existing large-chunk warning. Baseline history checks and final six-catalog regeneration/freshness/local-link checks across forty documents passed. Headless deterministic comparisons are not browser, balance, performance or universal-correctness certification; no commit or publication.",
+      "publishedBy": "a8a8d12"
     },
     {
       "id": "NODE-0820",
@@ -27520,7 +27542,7 @@
       "dateBasis": "chat",
       "kind": "refactored",
       "state": "implemented",
-      "delivery": "local",
+      "delivery": "published",
       "title": "Separate factory command planning from engine commits",
       "summary": "Complete Phase 3 by separating placement, movement, connection, deletion and Control Group planning while preserving engine commit, Undo and publication behavior.",
       "details": [
@@ -27566,7 +27588,8 @@
         "outputs/factory-command-refactor/browser-observations.json",
         "outputs/factory-command-refactor/browser-after-undo.jpg"
       ],
-      "validation": "Baseline workspace: 2386 passed and one existing skip. Final workspace: 2393 passed, zero failed and one existing skip across 236 files (1597 current-tree and 796 preserved-release passes), using four workers and a 15-second test timeout. Focused placement/movement/connection/selection runs passed 330/221/535/582 tests across 22/20/34/38 discovered files. Seven new facade cases passed before movement extraction and against the captured original engine. All 16 slice/scenario pairs match 400 command result/full-state and 216 publication observations. Source checks preserve twelve moved bodies except ID binding, validation ordering and engine commit/tick/lifecycle/copy/template behavior. Baseline/final TypeScript and isolated production builds and all four slice type checks passed; existing large-chunk warning retained. Baseline catalog/link/history checks passed. Browser functional checks passed at 1280×720 on a paused synthetic factory with autosave disabled. These scoped tests do not certify balance, performance, all factories or mobile interaction. No campaign saves, commit or publication."
+      "validation": "Baseline workspace: 2386 passed and one existing skip. Final workspace: 2393 passed, zero failed and one existing skip across 236 files (1597 current-tree and 796 preserved-release passes), using four workers and a 15-second test timeout. Focused placement/movement/connection/selection runs passed 330/221/535/582 tests across 22/20/34/38 discovered files. Seven new facade cases passed before movement extraction and against the captured original engine. All 16 slice/scenario pairs match 400 command result/full-state and 216 publication observations. Source checks preserve twelve moved bodies except ID binding, validation ordering and engine commit/tick/lifecycle/copy/template behavior. Baseline/final TypeScript and isolated production builds and all four slice type checks passed; existing large-chunk warning retained. Baseline catalog/link/history checks passed. Browser functional checks passed at 1280×720 on a paused synthetic factory with autosave disabled. These scoped tests do not certify balance, performance, all factories or mobile interaction. No campaign saves, commit or publication.",
+      "publishedBy": "a8a8d12"
     },
     {
       "id": "NODE-0824",
@@ -27772,7 +27795,7 @@
       "dateBasis": "chat",
       "kind": "changed",
       "state": "implemented",
-      "delivery": "local",
+      "delivery": "published",
       "title": "Separate factory UI coordination and playfield interactions",
       "summary": "Complete refactor Phase 4 with narrow panel/keyboard hooks, a live playfield interaction controller and explicit resource disposal while preserving gameplay and interface policies.",
       "topics": [
@@ -27793,7 +27816,8 @@
         "outputs/ui-lifecycle-refactor/README.md",
         "docs/master-plan/07-technical-design.md"
       ],
-      "validation": "494 focused tests and 2,405 workspace tests passed, with one existing skip; TypeScript and production build passed. Isolated browser checks covered nested recipe return/focus, hidden Upgrades state, shortcut guards, wiring/reconnect, movement/Undo, pan/zoom, Road travel, snapshot/engine replacement and zero subscriptions/canvases after unmount. Serial Phase 0/4 600-node samples and reverse-order repeats showed host variation; no consistent regression or improvement is established. Startup failure and pending-unmount disposal covered automatically. Synthetic evidence only; whole-world performance and publication remain outside scope."
+      "validation": "494 focused tests and 2,405 workspace tests passed, with one existing skip; TypeScript and production build passed. Isolated browser checks covered nested recipe return/focus, hidden Upgrades state, shortcut guards, wiring/reconnect, movement/Undo, pan/zoom, Road travel, snapshot/engine replacement and zero subscriptions/canvases after unmount. Serial Phase 0/4 600-node samples and reverse-order repeats showed host variation; no consistent regression or improvement is established. Startup failure and pending-unmount disposal covered automatically. Synthetic evidence only; whole-world performance and publication remain outside scope.",
+      "publishedBy": "a8a8d12"
     },
     {
       "id": "NODE-0830",
@@ -27839,7 +27863,7 @@
       "dateBasis": "chat",
       "kind": "changed",
       "state": "implemented",
-      "delivery": "local",
+      "delivery": "published",
       "title": "Complete state lifecycle extraction and refactor integration",
       "summary": "Finish Phase 5 by sharing only collection initialization and Undo knowledge retention while preserving the engine’s distinct construction, replacement, Undo, new-game/tutorial and mod policies.",
       "details": [
@@ -27865,7 +27889,8 @@
         "docs/systems/architecture-and-simulation.md",
         "docs/master-plan/07-technical-design.md"
       ],
-      "validation": "Five lifecycle regressions passed before/after extraction; 250 focused persistence/mod/research/template/Road/Landmark/terrain tests and final 2,411 workspace tests passed, with one existing skip. TypeScript and local production build passed. Deterministic original-source comparison matched 148 states/results and 94 publications across four scenarios, plus autosave failure/replacement/retry/storage. Final isolated browser snapshot/engine replacement, wiring/Undo and zero-resource unmount/remount checks passed without observed console errors. Resource failure/disposal and current-callback contracts pass. Catalog/local-link/history checks and static dependency/preservation review passed. Synthetic evidence, not a campaign, balance or whole-world performance result; no commit or publication."
+      "validation": "Five lifecycle regressions passed before/after extraction; 250 focused persistence/mod/research/template/Road/Landmark/terrain tests and final 2,411 workspace tests passed, with one existing skip. TypeScript and local production build passed. Deterministic original-source comparison matched 148 states/results and 94 publications across four scenarios, plus autosave failure/replacement/retry/storage. Final isolated browser snapshot/engine replacement, wiring/Undo and zero-resource unmount/remount checks passed without observed console errors. Resource failure/disposal and current-callback contracts pass. Catalog/local-link/history checks and static dependency/preservation review passed. Synthetic evidence, not a campaign, balance or whole-world performance result; no commit or publication.",
+      "publishedBy": "a8a8d12"
     },
     {
       "id": "NODE-0832",
@@ -27909,7 +27934,7 @@
       "dateBasis": "chat",
       "kind": "changed",
       "state": "implemented",
-      "delivery": "local",
+      "delivery": "published",
       "title": "Prepare a frozen live-release candidate and verify compatibility",
       "summary": "Complete the requested pre-publication checks on a frozen current-game candidate based on remote main, without publishing it.",
       "details": [
@@ -27935,7 +27960,46 @@
         "outputs/node-refactor-preflight-2026-11-21/browser-final.jpg",
         "docs/systems/testing-and-publishing.md"
       ],
-      "validation": "Workspace: 2,415 passed, one existing skip. Frozen candidate: 1,619 passed, no skips/failures. /node/ TypeScript/Vite build, catalogs/local links and history checks passed. Browser round-trip preserved all map contents, research, seed, elapsed time, active map, stock, transfers and saved world/Landmark/terrain fields; zero-value legacy input cleanup is distinguished from physical stock loss. All eleven served HTML/assets matched SHA-256. No observed browser console errors. Remote main was rechecked at aecc45ec1540249594946fb53bbde714061874f6 and package scope is confined to node/. Archived functional evidence is not a current balance, supported-scale or full accessibility audit. Dev JSON export/reimport was tested; recovery-only file download remains covered automatically. No push, Pages deployment or publication claim."
+      "validation": "Workspace: 2,415 passed, one existing skip. Frozen candidate: 1,619 passed, no skips/failures. /node/ TypeScript/Vite build, catalogs/local links and history checks passed. Browser round-trip preserved all map contents, research, seed, elapsed time, active map, stock, transfers and saved world/Landmark/terrain fields; zero-value legacy input cleanup is distinguished from physical stock loss. All eleven served HTML/assets matched SHA-256. No observed browser console errors. Remote main was rechecked at aecc45ec1540249594946fb53bbde714061874f6 and package scope is confined to node/. Archived functional evidence is not a current balance, supported-scale or full accessibility audit. Dev JSON export/reimport was tested; recovery-only file download remains covered automatically. No push, Pages deployment or publication claim.",
+      "publishedBy": "a8a8d12"
+    },
+    {
+      "id": "NODE-0835",
+      "date": "2026-11-22",
+      "dateBasis": "chat",
+      "kind": "changed",
+      "state": "implemented",
+      "delivery": "published",
+      "publishedBy": "a8a8d12",
+      "title": "Publish the tested NODE refactor and reliability update",
+      "summary": "Publish the exact frozen candidate with all six refactor phases and the tested save, dialog, template, recovery and interface safeguards.",
+      "details": [
+        "Fast-forward main from aecc45ec1540249594946fb53bbde714061874f6 to a8a8d12ba63dd13b9af95d049bb98c6f76442ed4 in bookskaboo/bookskaboo.github.io. The committed tree a1b075377f19ca8ddfac0dea6e0eb2453618da23 exactly matches the tested candidate and changes only node/. Matching /node/ runtime and source are included; preceding hashed assets remain available for already-open sessions.",
+        "Retain engine command/lifecycle policy and save representation while separating Road commands, transport/reservations, read-only factory planning, panel/keyboard coordination and renderer interactions/resource disposal. Ship protected manual slots, autosave retry/export/import, full Mining Drill template payments, dialog focus/shortcut guards, funded Unknown Device recovery, world-specific Mythril guidance, accurate Road maximum rate, retired historical writers/benchmark and bounded inventory/autosave/recovery lookup optimizations.",
+        "The frozen source contains author studies and audio auditions separately from the game runtime. Audio drafts, pending proposals and later concurrent workspace preview edits are not game audio integration. Existing balance, whole-world scale and accessibility gaps remain open.",
+        "Record publication only after GitHub Pages succeeds and SHA-256 matches normal live HTML, all current build assets and preceding-build asset URLs. The preflight used a separate localhost origin and archived save copies; real published-origin campaigns were not accessed."
+      ],
+      "topics": [
+        "Publishing",
+        "Architecture",
+        "Saves",
+        "Interface",
+        "Logistics",
+        "Testing"
+      ],
+      "sources": [
+        "local-code"
+      ],
+      "evidence": [
+        "outputs/node-refactor-preflight-2026-11-21/publication-receipt.json",
+        "outputs/node-refactor-preflight-2026-11-21/final-report.json",
+        "outputs/node-refactor-preflight-2026-11-21/build-manifest.json",
+        "outputs/node-refactor-preflight-2026-11-21/final-source-manifest.json",
+        "docs/master-plan/07-technical-design.md",
+        "docs/systems/architecture-and-simulation.md",
+        "docs/systems/saves-and-compatibility.md"
+      ],
+      "validation": "Workspace 2,415 tests passed with one existing skip; frozen candidate 1,619 passed with no skips/failures. /node/ TypeScript/Vite build, catalog/local-link and history checks passed. Browser fresh start, archived 77-map import, ordinary simulation, placement/wiring/Undo, dialog/recipe focus and hidden state, map/Road travel and save/export/reload/reimport passed. The paused round-trip preserved all map contents, research, elapsed time, stocks/transfers and saved world/Landmark/terrain fields. Pages run 45002772100 succeeded; normal live HTML plus all eleven build files and ten prior assets verified by SHA-256. No browser console errors were observed in the exact candidate preflight. No new ordinary-play balance, whole-world performance or complete accessibility certification."
     }
   ]
 }

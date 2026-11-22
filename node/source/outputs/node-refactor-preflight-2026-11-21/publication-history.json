@@ -1,0 +1,25 @@
+{
+  "id": "NODE-0835",
+  "releaseId": "a8a8d12",
+  "commit": "a8a8d12ba63dd13b9af95d049bb98c6f76442ed4",
+  "shipped": [
+    "NODE-0766",
+    "NODE-0767",
+    "NODE-0768",
+    "NODE-0771",
+    "NODE-0775",
+    "NODE-0778",
+    "NODE-0783",
+    "NODE-0786",
+    "NODE-0788",
+    "NODE-0790",
+    "NODE-0798",
+    "NODE-0815",
+    "NODE-0817",
+    "NODE-0819",
+    "NODE-0823",
+    "NODE-0829",
+    "NODE-0831",
+    "NODE-0834"
+  ]
+}

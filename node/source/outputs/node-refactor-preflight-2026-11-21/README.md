@@ -1,6 +1,8 @@
 # Frozen NODE release preflight
 
-Supporting evidence for NODE-0834. **Preflight passed; not published.** Started November 21 and completed November 22, 2026 (America/Los_Angeles). This is a release validation artifact, not a new chronological history.
+**Current delivery:** the exact candidate is verified live as a8a8d12 under NODE-0835. See [publication receipt](publication-receipt.json). The preflight sections below retain the checks and limits recorded before publication.
+
+Supporting evidence for NODE-0834. **Original preflight status: passed, not yet published.** Started November 21 and completed November 22, 2026 (America/Los_Angeles). This is a release validation artifact, not a new chronological history.
 
 ## Candidate identity and scope
 

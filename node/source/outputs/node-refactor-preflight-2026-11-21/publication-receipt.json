@@ -1,0 +1,175 @@
+{
+  "commit": "a8a8d12ba63dd13b9af95d049bb98c6f76442ed4",
+  "deploymentCommit": "a8a8d12ba63dd13b9af95d049bb98c6f76442ed4",
+  "tree": "a1b075377f19ca8ddfac0dea6e0eb2453618da23",
+  "base": "aecc45ec1540249594946fb53bbde714061874f6",
+  "url": "https://bookskaboo.github.io/node/",
+  "verifiedAt": "2026-11-22T08:27:07.292Z",
+  "pagesRun": {
+    "id": 45002772100,
+    "url": "https://github.com/bookskaboo/bookskaboo.github.io/actions/runs/45002772100",
+    "status": "completed",
+    "conclusion": "success"
+  },
+  "matchedRuntimeFiles": 11,
+  "previousAssetUrlsVerified": 10,
+  "files": [
+    {
+      "file": "assets/browserAll-B_Fy-RLr.js",
+      "sha256": "c188db5c06a86673fb89e3dbf3014824a51038084e5f5851d6b0665dca887f08",
+      "bytes": 43485
+    },
+    {
+      "file": "assets/CanvasPool-O_8k9jVW.js",
+      "sha256": "9cf12a9f53a878bb8f9f46337b799031a6986b5f87dd775ef57b2902ae0dc9cd",
+      "bytes": 113033
+    },
+    {
+      "file": "assets/canvasUtils-DHiBpmSz.js",
+      "sha256": "8843c3459529c72ffb9a82655454eff39f3458448dd2ae362764f3be4933288f",
+      "bytes": 6013
+    },
+    {
+      "file": "assets/getTexelRangeRects-BhRlOlmi.js",
+      "sha256": "ca0b3e94399ce67c9dca1ec3021473e2542251d523bc93bd04a9b149070dd130",
+      "bytes": 11314
+    },
+    {
+      "file": "assets/getTextureBatchBindGroup-CDnZS9mH.js",
+      "sha256": "2b2eff79ef557432774e0acd98963de65847a16840f0b738b07556ea37e21caa",
+      "bytes": 344
+    },
+    {
+      "file": "assets/index-Ca6Nwvru.css",
+      "sha256": "a38b49db80ae755f87b5f25f4e792f81aa48ab2874e3d5ad2eb94491c687a609",
+      "bytes": 189499
+    },
+    {
+      "file": "assets/index-CwWJ5EJi.js",
+      "sha256": "1623bb5222e90844c3bdcb0b7abcd6b17cef0f60bcf42d0dd06dfc90ce1c8880",
+      "bytes": 1242749
+    },
+    {
+      "file": "assets/init-DZ7sSiO_.js",
+      "sha256": "7f5958557e6841041e5c70c2a3f8d843702ae4d5ce80fa1e946f61a92cdcf3f0",
+      "bytes": 14190
+    },
+    {
+      "file": "assets/RenderTargetSystem-D85YXrAp.js",
+      "sha256": "20605afc2541d39cab4bebe036e73f8de687ac78d22cd48b5485993be0c8604f",
+      "bytes": 78118
+    },
+    {
+      "file": "assets/webworkerAll-CY6p_HB-.js",
+      "sha256": "14e3006c21ae4999f6ce1760c6be02b68f068693bff703ac1415789682eb567b",
+      "bytes": 55
+    },
+    {
+      "file": "index.html",
+      "sha256": "97fb0566b45343805ff52e94bc39615eea917a3f78f55a8ddee08e61ce51d626",
+      "bytes": 2445
+    }
+  ],
+  "checked": [
+    {
+      "file": "index.html",
+      "sha256": "97fb0566b45343805ff52e94bc39615eea917a3f78f55a8ddee08e61ce51d626",
+      "bytes": 2445,
+      "matches": true
+    },
+    {
+      "file": "assets/browserAll-B_Fy-RLr.js",
+      "sha256": "c188db5c06a86673fb89e3dbf3014824a51038084e5f5851d6b0665dca887f08",
+      "bytes": 43485,
+      "matches": true
+    },
+    {
+      "file": "assets/getTexelRangeRects-BhRlOlmi.js",
+      "sha256": "ca0b3e94399ce67c9dca1ec3021473e2542251d523bc93bd04a9b149070dd130",
+      "bytes": 11314,
+      "matches": true
+    },
+    {
+      "file": "assets/canvasUtils-DHiBpmSz.js",
+      "sha256": "8843c3459529c72ffb9a82655454eff39f3458448dd2ae362764f3be4933288f",
+      "bytes": 6013,
+      "matches": true
+    },
+    {
+      "file": "assets/CanvasPool-O_8k9jVW.js",
+      "sha256": "9cf12a9f53a878bb8f9f46337b799031a6986b5f87dd775ef57b2902ae0dc9cd",
+      "bytes": 113033,
+      "matches": true
+    },
+    {
+      "file": "assets/getTextureBatchBindGroup-CDnZS9mH.js",
+      "sha256": "2b2eff79ef557432774e0acd98963de65847a16840f0b738b07556ea37e21caa",
+      "bytes": 344,
+      "matches": true
+    },
+    {
+      "file": "assets/index-Ca6Nwvru.css",
+      "sha256": "a38b49db80ae755f87b5f25f4e792f81aa48ab2874e3d5ad2eb94491c687a609",
+      "bytes": 189499,
+      "matches": true
+    },
+    {
+      "file": "assets/init-DZ7sSiO_.js",
+      "sha256": "7f5958557e6841041e5c70c2a3f8d843702ae4d5ce80fa1e946f61a92cdcf3f0",
+      "bytes": 14190,
+      "matches": true
+    },
+    {
+      "file": "assets/index-CwWJ5EJi.js",
+      "sha256": "1623bb5222e90844c3bdcb0b7abcd6b17cef0f60bcf42d0dd06dfc90ce1c8880",
+      "bytes": 1242749,
+      "matches": true
+    },
+    {
+      "file": "assets/webworkerAll-CY6p_HB-.js",
+      "sha256": "14e3006c21ae4999f6ce1760c6be02b68f068693bff703ac1415789682eb567b",
+      "bytes": 55,
+      "matches": true
+    },
+    {
+      "file": "assets/browserAll-CKByXHgu.js",
+      "sha256": "d80fd7467b0e0ee6f8c40db9849d85ea879e0180fcb741d2512a76e829168a69",
+      "bytes": 43485,
+      "matches": true
+    },
+    {
+      "file": "assets/RenderTargetSystem-D85YXrAp.js",
+      "sha256": "20605afc2541d39cab4bebe036e73f8de687ac78d22cd48b5485993be0c8604f",
+      "bytes": 78118,
+      "matches": true
+    },
+    {
+      "file": "assets/index-CAz0gFy_.css",
+      "sha256": "06c8543818a7387c86be5022667b250d8cbcae3e97355b6431e46ef839608fde",
+      "bytes": 187024,
+      "matches": true
+    },
+    {
+      "file": "assets/webworkerAll-DqRMvG0Z.js",
+      "sha256": "3399e952d450974128f33f69daf7259aa87b3248f77c38c025e37e33415eb10c",
+      "bytes": 55,
+      "matches": true
+    },
+    {
+      "file": "assets/init-Bp3Xurjh.js",
+      "sha256": "0a4c60f9f50dde91c0e977a183ed67feec63d84601cca4331bb555386c27d4b0",
+      "bytes": 14190,
+      "matches": true
+    },
+    {
+      "file": "assets/index-CD2K3jIg.js",
+      "sha256": "fb89993b7e78eb53483c7279de6c2bc9d246703fca2ee1426a330e83de5bed00",
+      "bytes": 1224145,
+      "matches": true
+    }
+  ],
+  "limits": [
+    "Live HTML/asset delivery verified by SHA-256. Functional browser checks were performed on the identical frozen localhost candidate before publication.",
+    "Campaign balance, whole-world supported scale and full accessibility audit remain open."
+  ]
+}

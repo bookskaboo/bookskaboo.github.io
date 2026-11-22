@@ -1,0 +1,128 @@
+{
+  "verifiedAt": "2026-11-22T08:08:07.977Z",
+  "status": "ready for publication; not published",
+  "base": "aecc45ec1540249594946fb53bbde714061874f6",
+  "destination": {
+    "repository": "bookskaboo/bookskaboo.github.io",
+    "branch": "main",
+    "path": "node/"
+  },
+  "workspace": {
+    "passed": 2415,
+    "skipped": 1,
+    "files": 240
+  },
+  "candidate": {
+    "passed": 1619,
+    "skipped": 0,
+    "files": 156,
+    "tree": "a1b075377f19ca8ddfac0dea6e0eb2453618da23",
+    "commit": null
+  },
+  "frozenInputFiles": 815,
+  "runtimeFiles": 264,
+  "buildFiles": 11,
+  "buildBytes": 1701245,
+  "browser": {
+    "url": "http://127.0.0.1:4208/node/",
+    "viewport": "1280x720",
+    "freshStart": true,
+    "legacyImport": {
+      "seed": 680312004,
+      "maps": 77,
+      "nodes": 2037,
+      "originalPlayTimeMs": 24640800
+    },
+    "normalSimulationAdvancedTo": 24650439.200000048,
+    "ordinaryPlacement": 2,
+    "wiringUndo": true,
+    "mapTravel": true,
+    "roadTravel": "W5 to N1.W5 through exterior Travel arrow",
+    "manualSlotsSurvivedReload": 3,
+    "roundTripExact": [
+      "seed",
+      "playTimeMs",
+      "activeSectorId",
+      "paused",
+      "sectors",
+      "research",
+      "produced",
+      "extracted",
+      "inFlightTransfers",
+      "globalPool",
+      "factoryTemplates",
+      "world/terrain/Landmark markers"
+    ],
+    "exportedJsonReimported": true,
+    "recipeReturnFocusAndSearch": true,
+    "topConfirmationShortcutGuards": true,
+    "consoleErrors": [],
+    "canvasesAfterReload": 1,
+    "requests": 20,
+    "requestFailures": 0,
+    "screenshot": "browser-final.jpg"
+  },
+  "scope": {
+    "modified": 179,
+    "added": 313,
+    "onlyNode": true,
+    "buildAndSourceHashesMatch": true,
+    "frozenInputsUnchanged": true,
+    "workspaceRuntimeMatchesFrozen": true
+  },
+  "limits": [
+    "Archived headless playtest checkpoint used for functional compatibility, not a current ordinary-play balance result.",
+    "Export uses the existing read-only Dev playtest JSON control; recovery-only Export Save download is covered by automated tests, not forced storage failure in this browser.",
+    "Whole-world performance, campaign balance and full accessibility audits remain open; this smoke test does not close them.",
+    "Runtime source is frozen. Later unrelated workspace audio/documentation work is not automatically included.",
+    "No push, GitHub Pages change or publication history claim."
+  ],
+  "record": "NODE-0834",
+  "completedAt": "2026-11-22T08:12:49.425Z",
+  "git": {
+    "base": "aecc45ec1540249594946fb53bbde714061874f6",
+    "remoteMainVerified": "aecc45ec1540249594946fb53bbde714061874f6",
+    "tree": "a1b075377f19ca8ddfac0dea6e0eb2453618da23",
+    "stagedPaths": 496,
+    "onlyNode": true,
+    "unstaged": 0,
+    "untracked": 0,
+    "canCreateFastForwardCommit": true,
+    "commitCreated": false,
+    "pushed": false,
+    "largestChangedFiles": [
+      {
+        "file": "node/source/outputs/action-sounds/playground.html",
+        "bytes": 20801844
+      },
+      {
+        "file": "node/source/outputs/action-sounds/f-major-review.html",
+        "bytes": 19342793
+      },
+      {
+        "file": "node/source/outputs/action-sounds/f-major-revision-5.html",
+        "bytes": 19342793
+      },
+      {
+        "file": "node/source/outputs/action-sounds/f-major-revision-6.html",
+        "bytes": 19342793
+      },
+      {
+        "file": "node/source/outputs/action-sounds/f-major-variety.html",
+        "bytes": 19342793
+      }
+    ]
+  },
+  "finalMetadataChanges": [
+    "docs/changelog/2026-11.md",
+    "docs/changelog/entries.json",
+    "docs/changelog/index.html",
+    "docs/systems/testing-and-publishing.md",
+    "CHANGELOG.md"
+  ],
+  "stagedBuildBlobsMatchSha256": true,
+  "servedBuildFilesVerified": 11,
+  "originalArchivedSaveUnchanged": true,
+  "documentation": "Workspace and candidate: six fresh catalogs, forty documentation link targets, six history checks passed after recording NODE-0834.",
+  "publicationBoundary": "No local commit or push was needed for this preflight. The staged tree is concrete and reviewable; publication must create its commit on the declared base, recheck remote main and submit the exact commit/destination through configured approval, then verify live HTML/assets before marking any delivery published."
+}

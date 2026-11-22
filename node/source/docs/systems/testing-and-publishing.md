@@ -4,6 +4,8 @@
 
 Verification should match the change: catalog consistency, simulation behavior, browser interaction, normal-play balance and live publication establish different things. Keep those claims separate in history and reports.
 
+The frozen refactor/reliability candidate is verified live under NODE-0835 (a8a8d12). Its [publication receipt](../../outputs/node-refactor-preflight-2026-11-21/publication-receipt.json) binds the normal live HTML and current/preceding asset hashes to the exact tested candidate. This establishes delivery; campaign balance, whole-world supported scale and the full accessibility audit retain their separate open requirements.
+
 For a live-game audit, verify served HTML and asset hashes against a frozen release before attributing source findings to the live game. Compare source with explicit line-ending normalization when needed. Keep fresh regression results, isolated defect reproductions and browser observations distinct. Put findings in the requested review destination, indexed by the [review register](../reviews/system-review-temporary.md); a passing suite or link check does not establish error-free gameplay or accurate prose. Label adapted stress fixtures and timeouts explicitly, and keep their results separate from browser performance and normal-play balance.
 
 ## Player enjoyment audits
