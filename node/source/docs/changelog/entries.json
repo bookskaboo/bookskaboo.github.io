@@ -16,6 +16,14 @@
   },
   "releases": [
     {
+      "id": "5f71c9c",
+      "date": "2026-11-22",
+      "title": "Reviewed tutorial mechanics corrections",
+      "commit": "5f71c9cef98479933c121ec6e1b8b8a09b9721b4",
+      "url": "https://github.com/bookskaboo/bookskaboo.github.io/commit/5f71c9cef98479933c121ec6e1b8b8a09b9721b4",
+      "notes": "Only node/ changed. Exact tested tutorial-only runtime over the previous verified live source; matching source included. Pages succeeded; normal live HTML, all eleven current build files and ten prior asset URLs matched SHA-256."
+    },
+    {
       "id": "a8a8d12",
       "date": "2026-11-22",
       "title": "Tested refactor and reliability update",
@@ -28056,7 +28064,7 @@
       "dateBasis": "chat",
       "kind": "fixed",
       "state": "implemented",
-      "delivery": "local",
+      "delivery": "published",
       "title": "Correct Expansion Road reversal instructions and the tutorial audit",
       "summary": "Apply the approved right-click and rewiring explanation, and correct the prior audit to recognize the active Monster Camps dialogue override.",
       "details": [
@@ -28091,7 +28099,8 @@
         "docs/node-ui-style-guide.md",
         "docs/typography-style-review.md"
       ],
-      "validation": "All 93 focused tests across 12 files passed: npm test -- src/tutorials src/renderer/roadNodeTravel.test.ts src/simulation/roadCommandRuntime.test.ts. Source review confirmed the active camp body override and the ordinary Road controls. No new browser walkthrough, wrapping check, human comprehension assessment, full workspace suite or publication."
+      "validation": "All 93 focused tests across 12 files passed: npm test -- src/tutorials src/renderer/roadNodeTravel.test.ts src/simulation/roadCommandRuntime.test.ts. Source review confirmed the active camp body override and the ordinary Road controls. No new browser walkthrough, wrapping check, human comprehension assessment, full workspace suite or publication.",
+      "publishedBy": "5f71c9c"
     },
     {
       "id": "NODE-0850",
@@ -28099,7 +28108,7 @@
       "dateBasis": "chat",
       "kind": "fixed",
       "state": "implemented",
-      "delivery": "local",
+      "delivery": "published",
       "title": "Require full suppression in Monster Camps practice",
       "summary": "Camp practice waits for the same full-suppression state as guarded resource access and distinguishes a passed check from full suppression.",
       "details": [
@@ -28131,7 +28140,8 @@
         "previews/status-page/README.md",
         "outputs/hint-navigation/index.html"
       ],
-      "validation": "All 171 focused tests across 13 files passed: npm test -- src/tutorials src/simulation/campStatus.test.ts previews/status-page/hintNavigation.test.ts --testTimeout=15000. Engine regression verifies initial incompletion, first passed check remaining locked/incomplete, no early advancement before the second check, deposit access and completion together at full suppression, and restart clearing completion. Production build, preview TypeScript and standalone hint build passed; production build retains its bundle-size advisory. Regenerated and verified six system catalogs and local links across 40 documents. No fresh browser walkthrough, human comprehension assessment, full workspace suite, balance run or publication."
+      "validation": "All 171 focused tests across 13 files passed: npm test -- src/tutorials src/simulation/campStatus.test.ts previews/status-page/hintNavigation.test.ts --testTimeout=15000. Engine regression verifies initial incompletion, first passed check remaining locked/incomplete, no early advancement before the second check, deposit access and completion together at full suppression, and restart clearing completion. Production build, preview TypeScript and standalone hint build passed; production build retains its bundle-size advisory. Regenerated and verified six system catalogs and local links across 40 documents. No fresh browser walkthrough, human comprehension assessment, full workspace suite, balance run or publication.",
+      "publishedBy": "5f71c9c"
     },
     {
       "id": "NODE-0852",
@@ -28139,7 +28149,7 @@
       "dateBasis": "chat",
       "kind": "changed",
       "state": "implemented",
-      "delivery": "local",
+      "delivery": "published",
       "title": "Require downstream Charcoal production in Logistics practice",
       "summary": "Splitter and Merger exercises wait for actual Charcoal in their destination Kilns before completing, while retaining connection, rotation and insertion practice.",
       "details": [
@@ -28170,7 +28180,45 @@
         "docs/typography-style-review.md",
         "outputs/hint-navigation/index.html"
       ],
-      "validation": "All 98 focused tests across 12 files passed: npm test -- src/tutorials src/simulation/logisticsRouting.test.ts --testTimeout=15000. Real-engine regressions verify initial incompletion after wiring/rotation, one productive Splitter branch remaining incomplete, delivered Wood without Merger-fed production remaining incomplete, successful normal production after resuming paused Kilns, removed wiring invalidating completion, fresh fixture isolation, stage ordering and absence of manual bypass. Production build, preview TypeScript and standalone hint build passed; the production build retains its bundle-size advisory. Regenerated and verified six system catalogs and local links across 40 documents. Browser capabilities were inspected but no new page or interactive canvas walkthrough was run; no human comprehension assessment, full workspace suite, balance run or publication."
+      "validation": "All 98 focused tests across 12 files passed: npm test -- src/tutorials src/simulation/logisticsRouting.test.ts --testTimeout=15000. Real-engine regressions verify initial incompletion after wiring/rotation, one productive Splitter branch remaining incomplete, delivered Wood without Merger-fed production remaining incomplete, successful normal production after resuming paused Kilns, removed wiring invalidating completion, fresh fixture isolation, stage ordering and absence of manual bypass. Production build, preview TypeScript and standalone hint build passed; the production build retains its bundle-size advisory. Regenerated and verified six system catalogs and local links across 40 documents. Browser capabilities were inspected but no new page or interactive canvas walkthrough was run; no human comprehension assessment, full workspace suite, balance run or publication.",
+      "publishedBy": "5f71c9c"
+    },
+    {
+      "id": "NODE-0855",
+      "date": "2026-11-22",
+      "dateBasis": "chat",
+      "kind": "changed",
+      "state": "implemented",
+      "delivery": "published",
+      "publishedBy": "5f71c9c",
+      "title": "Publish the reviewed tutorial mechanics corrections",
+      "summary": "Publish accurate Road reversal guidance, full-suppression camp completion and downstream-production checks in Logistics practice.",
+      "details": [
+        "Fast-forward main from 2a16d6f85b626b194e1106285e07a2708e9bc864 to 5f71c9cef98479933c121ec6e1b8b8a09b9721b4 in bookskaboo/bookskaboo.github.io. The exact tested tree 74c76619a97ca9d3be338c5b5da5986f7cf41c19 changes only node/ and contains matching /node/ runtime and source.",
+        "Ship the five reviewed tutorial implementation/test files over the last verified live source, with curated tutorial documentation and history. Preserve the three approved decisions: right-click Road reversal and rewiring consequence; full suppression before advancing camp practice; Charcoal output from both Splitter-fed Kilns and the Merger-fed Kiln before those exercises complete.",
+        "Retain prior hashed runtime assets for already-open games. Concurrent research-hint edits, newer Map-upgrade/hint study behavior and audio authoring remain outside this runtime release. The evidence-only hint preview under source/ is an author artifact, not campaign integration.",
+        "Record publication only after GitHub Pages succeeds and SHA-256 matches the HTML at the normal live URL and every new build asset. Neither automated tests nor delivery hashes establish human comprehension, campaign balance or a new interactive browser walkthrough."
+      ],
+      "topics": [
+        "Publishing",
+        "Tutorials",
+        "Logistics",
+        "Interface",
+        "Testing"
+      ],
+      "sources": [
+        "chat-current",
+        "local-code"
+      ],
+      "evidence": [
+        "outputs/node-tutorials-release-2026-11-22/publication-receipt.json",
+        "outputs/node-tutorials-release-2026-11-22/preflight-report.json",
+        "outputs/node-tutorials-release-2026-11-22/source-manifest.json",
+        "outputs/node-tutorials-release-2026-11-22/build-manifest.json",
+        "docs/systems/tutorials-and-discovery.md",
+        "docs/systems/testing-and-publishing.md"
+      ],
+      "validation": "Workspace suite passed 2539 tests with 1 existing skip; exact isolated candidate passed 1621 tests with no failures/skips. npm run build:site, six catalog/local-link checks and history checks passed. Staged source matched frozen normalized text and all runtime blobs matched build bytes. Pages run 45082925259 succeeded; normal live HTML, all 11 current build files and 10 preceding asset URLs matched SHA-256. Only node/ changed. No fresh interactive browser, human learning or normal-play balance run."
     }
   ]
 }

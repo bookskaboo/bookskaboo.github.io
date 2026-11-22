@@ -2,19 +2,16 @@
 
 A searchable record of completed changes, design decisions, and relevant review findings. Stable NODE IDs can be cited in chats and searched in the repository.
 
-**838 records · 2026-10-12–2026-11-22 · America/Los_Angeles**
+**839 records · 2026-10-12–2026-11-22 · America/Los_Angeles**
 
 [Open searchable history](<docs/changelog/index.html>) · [How to review and maintain it](<docs/changelog/README.md>) · [Sources and coverage gaps](<docs/changelog/sources.md>)
 
 ## Local changes awaiting publication
 
-Latest confirmed game publication: [a8a8d12](https://github.com/bookskaboo/bookskaboo.github.io/commit/a8a8d12ba63dd13b9af95d049bb98c6f76442ed4).
+Latest confirmed game publication: [5f71c9c](https://github.com/bookskaboo/bookskaboo.github.io/commit/5f71c9cef98479933c121ec6e1b8b8a09b9721b4).
 
 | ID | Change | Topics |
 | --- | --- | --- |
-| [NODE-0852](<docs/changelog/2026-11.md#node-0852>) | Require downstream Charcoal production in Logistics practice | Tutorials, Logistics, Interface, Documentation, Testing |
-| [NODE-0850](<docs/changelog/2026-11.md#node-0850>) | Require full suppression in Monster Camps practice | Tutorials, Interface, Documentation, Testing |
-| [NODE-0848](<docs/changelog/2026-11.md#node-0848>) | Correct Expansion Road reversal instructions and the tutorial audit | Tutorials, Interface, Logistics, Documentation, Testing |
 | [NODE-0832](<docs/changelog/2026-11.md#node-0832>) | Start ambient music and its loop preview at low volume | Audio, Interface, Testing, Documentation |
 | [NODE-0830](<docs/changelog/2026-11.md#node-0830>) | Keep ambient string transitions continuous across notes and the loop | Audio, Interface, Testing, Documentation |
 | [NODE-0828](<docs/changelog/2026-11.md#node-0828>) | Reset background music as a sparse string-only ambient draft | Audio, Interface, Testing, Documentation |
@@ -147,13 +144,14 @@ Latest confirmed game publication: [a8a8d12](https://github.com/bookskaboo/books
 
 ## Dated history
 
-- [2026-11](<docs/changelog/2026-11.md>) — 820 records
+- [2026-11](<docs/changelog/2026-11.md>) — 821 records
 - [2026-10](<docs/changelog/2026-10.md>) — 18 records
 
 “Known by” dates are implementation/publication bounds, not exact change dates. “Backfilled” dates mark records with uncertain original dates. Supersession links explain reversals. Original-game records do not certify current rebuild behavior.
 
 ## Published releases
 
+- 2026-11-22 — [5f71c9c: Reviewed tutorial mechanics corrections](https://github.com/bookskaboo/bookskaboo.github.io/commit/5f71c9cef98479933c121ec6e1b8b8a09b9721b4) — Only node/ changed. Exact tested tutorial-only runtime over the previous verified live source; matching source included. Pages succeeded; normal live HTML, all eleven current build files and ten prior asset URLs matched SHA-256.
 - 2026-11-22 — [a8a8d12: Tested refactor and reliability update](https://github.com/bookskaboo/bookskaboo.github.io/commit/a8a8d12ba63dd13b9af95d049bb98c6f76442ed4) — Exact frozen candidate tree; only node/ changed. Pages succeeded and normal live HTML/all eleven build files plus ten previous assets matched SHA-256. Preserve saved data and prior runtime assets; audio auditions remain separate from gameplay.
 - 2026-11-21 — [c4284d4: Seeded Production Landmarks and Unknown Device](https://github.com/bookskaboo/bookskaboo.github.io/commit/c4284d4f2a93f83255c520ef0544694b0cd24ee9) — Seventeen permanent discoveries in new standard 11x11 campaigns. Pink Unknown Device; sixteen purple landmarks. Workspace 2189 passing tests/two existing skips; frozen release 1393 passing tests/one skip. Matching /node/ site and source builds. Pages succeeded and normal live HTML plus all ten new assets matched SHA-256; ten preceding asset URLs still match. Existing saves remain unchanged.
 - 2026-11-20 — [ed6bef1: Centered Area Expansion and obstruction-aware spawning](https://github.com/bookskaboo/bookskaboo.github.io/commit/ed6bef16986ba9050513de06196ca69262458c66) — Only node/ changed. All 1,362 isolated candidate tests passed, with one existing skip. Pages succeeded; normal live HTML and all ten new assets matched SHA-256, plus ten preceding asset URLs. Retain all 169 older runtime assets. Preserve built layouts and camera view; move paired Roads to equally expanded borders. Keep unrelated unfinished landmark code out of the release.
@@ -218,9 +216,9 @@ A record marked “Published by” was known in that snapshot and may have appea
 - [Endgame](<docs/changelog/index.html?topic=Endgame>) (5)
 - [Exploration](<docs/changelog/index.html?topic=Exploration>) (54)
 - [Extraction](<docs/changelog/index.html?topic=Extraction>) (1)
-- [Interface](<docs/changelog/index.html?topic=Interface>) (361)
+- [Interface](<docs/changelog/index.html?topic=Interface>) (362)
 - [Landmarks](<docs/changelog/index.html?topic=Landmarks>) (14)
-- [Logistics](<docs/changelog/index.html?topic=Logistics>) (122)
+- [Logistics](<docs/changelog/index.html?topic=Logistics>) (123)
 - [Map](<docs/changelog/index.html?topic=Map>) (8)
 - [Map exploration](<docs/changelog/index.html?topic=Map%20exploration>) (2)
 - [Mods](<docs/changelog/index.html?topic=Mods>) (15)
@@ -241,7 +239,7 @@ A record marked “Published by” was known in that snapshot and may have appea
 - [Progression](<docs/changelog/index.html?topic=Progression>) (220)
 - [Prototypes](<docs/changelog/index.html?topic=Prototypes>) (20)
 - [Publication](<docs/changelog/index.html?topic=Publication>) (2)
-- [Publishing](<docs/changelog/index.html?topic=Publishing>) (25)
+- [Publishing](<docs/changelog/index.html?topic=Publishing>) (26)
 - [Recipes](<docs/changelog/index.html?topic=Recipes>) (123)
 - [Recovery](<docs/changelog/index.html?topic=Recovery>) (2)
 - [Recycling](<docs/changelog/index.html?topic=Recycling>) (3)
@@ -256,10 +254,10 @@ A record marked “Published by” was known in that snapshot and may have appea
 - [Simulation](<docs/changelog/index.html?topic=Simulation>) (8)
 - [Storage](<docs/changelog/index.html?topic=Storage>) (10)
 - [Sustainability](<docs/changelog/index.html?topic=Sustainability>) (1)
-- [Testing](<docs/changelog/index.html?topic=Testing>) (79)
+- [Testing](<docs/changelog/index.html?topic=Testing>) (80)
 - [Text](<docs/changelog/index.html?topic=Text>) (6)
 - [Tooling](<docs/changelog/index.html?topic=Tooling>) (41)
-- [Tutorials](<docs/changelog/index.html?topic=Tutorials>) (64)
+- [Tutorials](<docs/changelog/index.html?topic=Tutorials>) (65)
 - [Typography](<docs/changelog/index.html?topic=Typography>) (3)
 - [UI](<docs/changelog/index.html?topic=UI>) (4)
 - [Undo](<docs/changelog/index.html?topic=Undo>) (4)

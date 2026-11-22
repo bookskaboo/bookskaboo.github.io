@@ -1,0 +1,57 @@
+{
+  "preparedAt": "2026-11-22T23:21:15.635Z",
+  "base": "2a16d6f85b626b194e1106285e07a2708e9bc864",
+  "tree": "74c76619a97ca9d3be338c5b5da5986f7cf41c19",
+  "repository": "bookskaboo/bookskaboo.github.io",
+  "destination": "refs/heads/main",
+  "changedFiles": [
+    "node/assets/browserAll-C-d3-MQs.js",
+    "node/assets/index-COg0li1e.js",
+    "node/assets/init-DeaLRD1z.js",
+    "node/assets/webworkerAll-D77H45g4.js",
+    "node/index.html",
+    "node/source/CHANGELOG.md",
+    "node/source/dist/assets/browserAll-C-d3-MQs.js",
+    "node/source/dist/assets/index-COg0li1e.js",
+    "node/source/dist/assets/index-Ca6Nwvru.css",
+    "node/source/dist/assets/init-DeaLRD1z.js",
+    "node/source/dist/assets/webworkerAll-D77H45g4.js",
+    "node/source/dist/index.html",
+    "node/source/docs/changelog/2026-11.md",
+    "node/source/docs/changelog/entries.json",
+    "node/source/docs/changelog/index.html",
+    "node/source/docs/node-ui-style-guide.md",
+    "node/source/docs/systems/tutorials-and-discovery.md",
+    "node/source/docs/typography-style-review.md",
+    "node/source/outputs/hint-navigation/index.html",
+    "node/source/previews/status-page/hintNavigationCatalog.ts",
+    "node/source/src/tutorials/tutorialDefinitions.ts",
+    "node/source/src/tutorials/tutorialDialogue.ts",
+    "node/source/src/tutorials/tutorialProgress.ts",
+    "node/source/src/tutorials/tutorialRuntime.test.ts",
+    "node/source/src/ui/Tutorials.tsx"
+  ],
+  "runtimeOverlay": [
+    "src/tutorials/tutorialDefinitions.ts",
+    "src/tutorials/tutorialDialogue.ts",
+    "src/tutorials/tutorialProgress.ts",
+    "src/tutorials/tutorialRuntime.test.ts",
+    "src/ui/Tutorials.tsx"
+  ],
+  "sourceComparison": "Exact normalized text matches; CRLF/LF normalization only. Build blobs match byte-for-byte.",
+  "workspaceTests": {
+    "passed": 2539,
+    "skipped": 1,
+    "failed": 0
+  },
+  "candidateTests": {
+    "passed": 1621,
+    "skipped": 0,
+    "failed": 0
+  },
+  "buildFiles": 11,
+  "limits": [
+    "No fresh interactive browser walkthrough or human learning/balance assessment.",
+    "Concurrent hint guidance, audio authoring and other unrelated workspace edits are excluded from runtime."
+  ]
+}

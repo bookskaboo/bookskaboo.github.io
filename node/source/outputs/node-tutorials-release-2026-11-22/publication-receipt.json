@@ -1,0 +1,171 @@
+{
+  "commit": "5f71c9cef98479933c121ec6e1b8b8a09b9721b4",
+  "deploymentCommit": "5f71c9cef98479933c121ec6e1b8b8a09b9721b4",
+  "tree": "74c76619a97ca9d3be338c5b5da5986f7cf41c19",
+  "base": "2a16d6f85b626b194e1106285e07a2708e9bc864",
+  "url": "https://bookskaboo.github.io/node/",
+  "verifiedAt": "2026-11-22T23:23:47.953Z",
+  "pagesRun": {
+    "id": 45082925259,
+    "url": "https://github.com/bookskaboo/bookskaboo.github.io/actions/runs/45082925259",
+    "status": "completed",
+    "conclusion": "success"
+  },
+  "matchedRuntimeFiles": 11,
+  "previousAssetUrlsVerified": 10,
+  "files": [
+    {
+      "file": "assets/browserAll-C-d3-MQs.js",
+      "bytes": 43485,
+      "sha256": "ee2d1b55e12774221e2c046517e6de8dcb64ec32c2fa3ac7fd4bfac6d0aad1ad"
+    },
+    {
+      "file": "assets/CanvasPool-O_8k9jVW.js",
+      "bytes": 113033,
+      "sha256": "9cf12a9f53a878bb8f9f46337b799031a6986b5f87dd775ef57b2902ae0dc9cd"
+    },
+    {
+      "file": "assets/canvasUtils-DHiBpmSz.js",
+      "bytes": 6013,
+      "sha256": "8843c3459529c72ffb9a82655454eff39f3458448dd2ae362764f3be4933288f"
+    },
+    {
+      "file": "assets/getTexelRangeRects-BhRlOlmi.js",
+      "bytes": 11314,
+      "sha256": "ca0b3e94399ce67c9dca1ec3021473e2542251d523bc93bd04a9b149070dd130"
+    },
+    {
+      "file": "assets/getTextureBatchBindGroup-CDnZS9mH.js",
+      "bytes": 344,
+      "sha256": "2b2eff79ef557432774e0acd98963de65847a16840f0b738b07556ea37e21caa"
+    },
+    {
+      "file": "assets/index-Ca6Nwvru.css",
+      "bytes": 189499,
+      "sha256": "a38b49db80ae755f87b5f25f4e792f81aa48ab2874e3d5ad2eb94491c687a609"
+    },
+    {
+      "file": "assets/index-COg0li1e.js",
+      "bytes": 1243572,
+      "sha256": "caf0f83ed41c884a3e1a126a185c7c4f1a8fcf5f3cf3cd75c8920534cd470c63"
+    },
+    {
+      "file": "assets/init-DeaLRD1z.js",
+      "bytes": 14190,
+      "sha256": "40be9e97a3ebca9f0c848b242bf6b42722d64b187d22f2895050915f35254718"
+    },
+    {
+      "file": "assets/RenderTargetSystem-D85YXrAp.js",
+      "bytes": 78118,
+      "sha256": "20605afc2541d39cab4bebe036e73f8de687ac78d22cd48b5485993be0c8604f"
+    },
+    {
+      "file": "assets/webworkerAll-D77H45g4.js",
+      "bytes": 55,
+      "sha256": "1bc30222bd5abbced98224a638b141fd155fe67aeea850fe07b61f34f70e81dc"
+    },
+    {
+      "file": "index.html",
+      "bytes": 2445,
+      "sha256": "7debf7e48172867ef47585193daef2197b5d502b4c390c9a9c5a5bef998a9bcd"
+    }
+  ],
+  "checked": [
+    {
+      "file": "index.html",
+      "sha256": "7debf7e48172867ef47585193daef2197b5d502b4c390c9a9c5a5bef998a9bcd",
+      "bytes": 2445,
+      "matches": true
+    },
+    {
+      "file": "assets/canvasUtils-DHiBpmSz.js",
+      "sha256": "8843c3459529c72ffb9a82655454eff39f3458448dd2ae362764f3be4933288f",
+      "bytes": 6013,
+      "matches": true
+    },
+    {
+      "file": "assets/browserAll-C-d3-MQs.js",
+      "sha256": "ee2d1b55e12774221e2c046517e6de8dcb64ec32c2fa3ac7fd4bfac6d0aad1ad",
+      "bytes": 43485,
+      "matches": true
+    },
+    {
+      "file": "assets/getTexelRangeRects-BhRlOlmi.js",
+      "sha256": "ca0b3e94399ce67c9dca1ec3021473e2542251d523bc93bd04a9b149070dd130",
+      "bytes": 11314,
+      "matches": true
+    },
+    {
+      "file": "assets/CanvasPool-O_8k9jVW.js",
+      "sha256": "9cf12a9f53a878bb8f9f46337b799031a6986b5f87dd775ef57b2902ae0dc9cd",
+      "bytes": 113033,
+      "matches": true
+    },
+    {
+      "file": "assets/getTextureBatchBindGroup-CDnZS9mH.js",
+      "sha256": "2b2eff79ef557432774e0acd98963de65847a16840f0b738b07556ea37e21caa",
+      "bytes": 344,
+      "matches": true
+    },
+    {
+      "file": "assets/init-DeaLRD1z.js",
+      "sha256": "40be9e97a3ebca9f0c848b242bf6b42722d64b187d22f2895050915f35254718",
+      "bytes": 14190,
+      "matches": true
+    },
+    {
+      "file": "assets/index-Ca6Nwvru.css",
+      "sha256": "a38b49db80ae755f87b5f25f4e792f81aa48ab2874e3d5ad2eb94491c687a609",
+      "bytes": 189499,
+      "matches": true
+    },
+    {
+      "file": "assets/index-COg0li1e.js",
+      "sha256": "caf0f83ed41c884a3e1a126a185c7c4f1a8fcf5f3cf3cd75c8920534cd470c63",
+      "bytes": 1243572,
+      "matches": true
+    },
+    {
+      "file": "assets/webworkerAll-D77H45g4.js",
+      "sha256": "1bc30222bd5abbced98224a638b141fd155fe67aeea850fe07b61f34f70e81dc",
+      "bytes": 55,
+      "matches": true
+    },
+    {
+      "file": "assets/RenderTargetSystem-D85YXrAp.js",
+      "sha256": "20605afc2541d39cab4bebe036e73f8de687ac78d22cd48b5485993be0c8604f",
+      "bytes": 78118,
+      "matches": true
+    },
+    {
+      "file": "assets/browserAll-B_Fy-RLr.js",
+      "sha256": "c188db5c06a86673fb89e3dbf3014824a51038084e5f5851d6b0665dca887f08",
+      "bytes": 43485,
+      "matches": true
+    },
+    {
+      "file": "assets/index-CwWJ5EJi.js",
+      "sha256": "1623bb5222e90844c3bdcb0b7abcd6b17cef0f60bcf42d0dd06dfc90ce1c8880",
+      "bytes": 1242749,
+      "matches": true
+    },
+    {
+      "file": "assets/init-DZ7sSiO_.js",
+      "sha256": "7f5958557e6841041e5c70c2a3f8d843702ae4d5ce80fa1e946f61a92cdcf3f0",
+      "bytes": 14190,
+      "matches": true
+    },
+    {
+      "file": "assets/webworkerAll-CY6p_HB-.js",
+      "sha256": "14e3006c21ae4999f6ce1760c6be02b68f068693bff703ac1415789682eb567b",
+      "bytes": 55,
+      "matches": true
+    }
+  ],
+  "sourceMetadataVerified": [],
+  "limits": [
+    "Runtime delivery verified from normal live HTML and every new asset by SHA-256.",
+    "Functional evidence is the fresh workspace/candidate automated suites; no new interactive browser or human learning/balance assessment.",
+    "Concurrent research-hint and author-preview changes are excluded from the runtime release."
+  ]
+}
