@@ -130,6 +130,18 @@
 .options-modal .option-list { min-height:0; max-height:none; gap:8px; }
 .options-modal .option-action { min-height:48px; grid-template-columns:32px minmax(0,1fr) auto; gap:10px; padding:7px 12px; }
 .options-modal .option-action > i { width:32px; height:32px; font-size:17px; }
+.audio-options { display:grid; gap:8px; margin:0 0 4px; }
+.audio-option-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; }
+.audio-control { min-width:0; min-height:48px; padding:7px 10px; display:grid; align-items:center; grid-template-columns:minmax(68px,84px) minmax(0,1fr) auto; gap:8px; border:1px solid #43484e; border-radius:11px; background:linear-gradient(145deg,#292d31,#202327); box-shadow:inset 0 1px #ffffff09; }
+.audio-control > label { font:var(--modal-card-font); color:#d1d9df; }
+.audio-control > button { padding:5px 9px; min-width:58px; min-height:30px; border:1px solid #596873; border-radius:7px; color:#bacbd5; background:linear-gradient(180deg,#303c45,#252f36); font:var(--ui-control-font); cursor:pointer; }
+.audio-control > button:hover { border-color:#8ba9bd; background:#344650; }
+.audio-control > button.active { color:#d1d9df; border-color:#7da5bf; background:#334550; }
+.audio-volume-row { display:grid; grid-template-columns:minmax(0,1fr) 4ch; gap:10px; align-items:center; }
+.audio-volume-row input { width:100%; min-width:0; margin:0; accent-color:#9ebed2; cursor:pointer; }
+.audio-volume-row output { color:#b8c9d4; font:var(--ui-meta-font); text-align:right; }
+.audio-control:focus-within { outline:2px solid #d5b666; outline-offset:2px; }
+@media (max-width:480px) { .audio-option-grid { grid-template-columns:1fr; } .audio-volume-row { gap:6px; } }
 .options-toggle-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; }
 .options-toggle-grid .toggle-row { min-height:60px; grid-template-columns:32px minmax(0,1fr) 36px; gap:10px; padding:10px; }
 .options-toggle-grid .toggle-row > em { width:32px; height:32px; font-size:16px; }

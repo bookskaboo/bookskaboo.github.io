@@ -1,0 +1,109 @@
+{
+  "pianoRevision": 7,
+  "key": "F major",
+  "register": "C2–C4",
+  "pianoLicense": "CC-BY-3.0",
+  "musicLicense": "CC0-1.0",
+  "assets": [
+    {
+      "id": "select",
+      "file": "select.wav",
+      "sha256": "fcaa63a414e3e472d15ae180c2f4ddc5f29552637d61b4bf437b074a747d854f"
+    },
+    {
+      "id": "panel",
+      "file": "panel.wav",
+      "sha256": "6a3db5b680b48067beb7af668eceb27116c331669510c1d643e28d874ca319fa"
+    },
+    {
+      "id": "place",
+      "file": "place.wav",
+      "sha256": "c705bb78d7054a66f0c6e33d82ffd7cc2de6613c5b10ba3a354ae72758390122"
+    },
+    {
+      "id": "move",
+      "file": "move.wav",
+      "sha256": "9a529b58aa5368959aa1bb21d9b37d770ecce3d2072236335a3f5c89f959b76c"
+    },
+    {
+      "id": "connect",
+      "file": "connect.wav",
+      "sha256": "c669ed62a0ab10b41e6801e6d14a49140db20586dfa5e3c5480afc4f2649f345"
+    },
+    {
+      "id": "disconnect",
+      "file": "disconnect.wav",
+      "sha256": "044616d704260f8346cab8cb4383495444defa0d8afee7b5c2a62883cbe95f26"
+    },
+    {
+      "id": "delete",
+      "file": "delete.wav",
+      "sha256": "abf75df90c32d3c8a57b76a03bb23c02d594cc431e6920e735c109ab781f9bc0"
+    },
+    {
+      "id": "configure",
+      "file": "configure.wav",
+      "sha256": "0ba0caecfdd436e0f840fbeec86825964d8641ccb9f8b1982eb9bbea60a5b824"
+    },
+    {
+      "id": "queue",
+      "file": "queue.wav",
+      "sha256": "07b5f09cbe556da85edc2a8f323bbf72af43e1da236a4a5bd1a21b3cf01d7585"
+    },
+    {
+      "id": "pause",
+      "file": "pause.wav",
+      "sha256": "8908426fed951be34d8793e3bea5ae6c90fb98ae56c1669235dd66681dff740b"
+    },
+    {
+      "id": "resume",
+      "file": "resume.wav",
+      "sha256": "f458f9087ad1181bbe04508d6d895907a5a9c136677e03d56572eda64e042870"
+    },
+    {
+      "id": "complete",
+      "file": "complete.wav",
+      "sha256": "f33cc64b3bdf3393ee8c929dcbafa3b3d869118da0a3a6d2797d72fb4e206818"
+    },
+    {
+      "id": "upgrade",
+      "file": "upgrade.wav",
+      "sha256": "7380a5f905cc22333e152922685c67616425d9f46f64dbdcf100074eaf6ca9e6"
+    },
+    {
+      "id": "unlock",
+      "file": "unlock.wav",
+      "sha256": "43773772398e178f71b7c6dfe69e9c33bba810c35912c590c287b123f2ae4ded"
+    },
+    {
+      "id": "travel",
+      "file": "travel.wav",
+      "sha256": "ad34e6b049ceb32deafd4d7ab72c453672ff7e4ac5eb8b5a58bad2eab93d4336"
+    },
+    {
+      "id": "save",
+      "file": "save.wav",
+      "sha256": "7e8d7fba7784601d6487757583be251d8188ad5026e1c8f1454f73f702765c08"
+    },
+    {
+      "id": "reject",
+      "file": "reject.wav",
+      "sha256": "5c819f9590d6309333494e33dae9f12a4f887555bfcadf2dca0b0d7a1c76457c"
+    },
+    {
+      "id": "attention",
+      "file": "attention.wav",
+      "sha256": "64a2f02fd47bb315ed008784ab7c27ec17ef1f90be951d4395cb55ad2c91eac4"
+    },
+    {
+      "id": "victory",
+      "file": "victory.wav",
+      "sha256": "b6e02593897d2f5d2baa128518a8f04f2724707d76ca02bed6c0dc1e1248d4b8"
+    }
+  ],
+  "music": {
+    "file": "workshop.wav",
+    "durationSeconds": 60,
+    "sha256": "0b910ae3350acada62020cdfee72dfa92dbdf7c0f348e96edd1f5d52d69be528"
+  }
+}

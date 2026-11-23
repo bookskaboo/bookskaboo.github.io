@@ -38,6 +38,7 @@ Current local implementation reference, established November 18, 2026. Use these
 | [Saves and compatibility](saves-and-compatibility.md) | Slots, autosave, imports, undo, migrations and serialized IDs |
 | [Mods](mods.md) | Data content, profiles, validation, activation and share codes |
 | [Interface and assets](interface-and-assets.md) | Typography, voice, icon/art ownership, panels and responsive behavior |
+| [Audio](audio.md) | Piano feedback, continuous ambient strings, saved channel mute/volume and browser lifecycle |
 | [Development tools](development-tools.md) | Dev Sources, debugging grants and separation from normal-play evidence |
 | [Architecture and simulation](architecture-and-simulation.md) | State ownership, ticks, renderer boundary, routing and content modules |
 | [Testing and publishing](testing-and-publishing.md) | Verification scope, playtests, benchmarks, documentation upkeep and release checks |

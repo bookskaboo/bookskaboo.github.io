@@ -1,0 +1,29 @@
+{
+  "date": "2026-11-22",
+  "final": {
+    "overflow": false,
+    "queued": 0,
+    "scrollY": 0,
+    "selected": "true",
+    "showMe": "Show me",
+    "tooltipCount": 0,
+    "url": "http://127.0.0.1:5188/outputs/hint-navigation/index.html",
+    "viewport": {
+      "height": 720,
+      "width": 1280
+    }
+  },
+  "checks": [
+    "Exploration focuses/selects actual project without queue/payment; Queue research separately adds it.",
+    "Forest opens actual Build panel and focuses Extractor; close returns Show me focus.",
+    "Simple Core opens actual Recipes panel and focuses its card; Back returns.",
+    "Current has no action; proposed and current hint boxes both measured 120.60096740722656 CSS px.",
+    "Keyboard Enter follows navigation; typing research search retains focus; Show me clears search to reveal target.",
+    "390x845 actual viewport (844 requested) has no horizontal overflow; body copy 12px."
+  ],
+  "warningsAndErrors": [],
+  "limits": [
+    "Synthetic paused fixture; no campaign placement, save/load, normal-play balance or human comprehension verification.",
+    "No changes to src or live publication."
+  ]
+}

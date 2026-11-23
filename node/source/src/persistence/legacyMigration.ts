@@ -1,4 +1,5 @@
 import { validateMod } from '../mods/modValidation';
+import { audioPreferences } from '../domain/audioPreferences';
 import { isWorldGridSize, worldGridSize } from '../domain/worldGrid';
 import { borderRoadPermissionsValid, normalizeBorderLayout } from '../simulation/borderObstructions';
 import { normalizeMapTerrains } from '../simulation/mapTerrain';
@@ -171,6 +172,9 @@ function migrateOriginalPayload(payloadValue: unknown): GameState | null {
 }
 
 function normalizeGameState(value: GameState) {
+  if (value.research.endgameUnlockVersion !== undefined && value.research.endgameUnlockVersion !== 1) return null;
+  if (value.research.legacyHalfRecipesUnlocked !== undefined && value.research.legacyHalfRecipesUnlocked !== true) return null;
+  if (value.research.legacyCornerLocationsRevealed !== undefined && value.research.legacyCornerLocationsRevealed !== true) return null;
   if (value.mapResearchMode !== undefined && value.mapResearchMode !== 'points') return null;
   if (value.worldGridSize !== undefined && !isWorldGridSize(value.worldGridSize)) return null;
   if (value.worldRulesVersion !== undefined && value.worldRulesVersion !== 1 && value.worldRulesVersion !== 2) return null;
@@ -194,6 +198,7 @@ function normalizeGameState(value: GameState) {
   migrateUpgrades(state);
   if (!borderRoadPermissionsValid(state)) return null;
   state.preferences ??= { autosaveMinutes: 5, confirmDelete: true, particles: true, showGrid: true, snapToGrid: false, sound: false };
+  Object.assign(state.preferences, audioPreferences(state.preferences));
   state.preferences.snapToGrid ??= false;
   state.events ??= []; state.achievements ??= [];
   return state;

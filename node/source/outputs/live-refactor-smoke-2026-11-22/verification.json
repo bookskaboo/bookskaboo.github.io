@@ -1,0 +1,40 @@
+{
+  "testedAt": "2026-11-22T08:38:41.471Z",
+  "url": "https://bookskaboo.github.io/node/",
+  "runtimeCommit": "a8a8d12ba63dd13b9af95d049bb98c6f76442ed4",
+  "expectedScript": "/node/assets/index-CwWJ5EJi.js",
+  "input": "Hidden in-app browser; Playwright DOM click/fill/press only. No native desktop input, browser visibility or viewport changes.",
+  "checks": {
+    "liveScriptMatches": true,
+    "practice": "Control Groups starts, displays three authored Extractors, restarts at step 1/9 and exits to the main factory; one canvas retained.",
+    "panels": "Upgrades → Core recipe → Escape restores exact Core opener focus and hidden Kiln search. Tab targets Compact recipe cards, outside hidden Upgrades. Options → Save / Load → Escape restores Save / Load opener.",
+    "editing": "Temporary manual-save name edit responds to Backspace and original field value is restored. No Save, Overwrite, Load or Import invoked.",
+    "placement": {
+      "control": "Build → Extractor, ordinary canvas-centre click",
+      "placedStats": "Nodes06Links00Map pts00Runtime00:01:17",
+      "undoStats": "Nodes05Links00Map pts00Runtime00:01:17",
+      "passed": true
+    },
+    "clock": {
+      "before": "Nodes05Links00Map pts00Runtime00:01:17",
+      "running": "Nodes05Links00Map pts00Runtime00:01:26",
+      "afterPause": "Nodes05Links00Map pts00Runtime00:01:26",
+      "stableFinal": "Nodes05Links00Map pts00Runtime00:01:26",
+      "passed": true
+    },
+    "final": {
+      "canvasCount": 1,
+      "dialog": "Upgrades",
+      "paused": true,
+      "script": "/node/assets/index-CwWJ5EJi.js",
+      "stats": "Nodes05Links00Map pts00Runtime00:01:26"
+    }
+  },
+  "consoleErrors": [],
+  "limits": [
+    "Quick live smoke test, not full campaign/balance/performance certification.",
+    "Pointer drag/reconnect, group movement and Road travel were not repeated in this DOM-only background pass; covered in the identical-candidate preflight.",
+    "No existing campaign was loaded, no manual save slots were written, no grants or game-rule changes. Authored practice restart affects only practice. Main factory paused before closing.",
+    "Background click attempts behind active welcome/tutorial dialogs were resolved through top-dialog keyboard focus; toolbar controls worked after dialog dismissal."
+  ]
+}

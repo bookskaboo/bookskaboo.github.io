@@ -1,5 +1,5 @@
 // Proposal only. These IDs are audition assets, not game/save event IDs.
-export const PALETTE = { key: 'F major', register: 'C2–C4', revision: 6 };
+export const PALETTE = { key: 'F major', register: 'C2–C4', revision: 7 };
 const pitches = {C:0,D:2,E:4,F:5,G:7,A:9,Bb:10};
 export function pianoNoteFrequency(name) {
   const match=/^(Bb|[CDEFGA])([2-4])$/.exec(name.replaceAll(' ',''));
@@ -10,29 +10,29 @@ export function pianoNoteFrequency(name) {
 const v=(at,hold,name,gain=.05)=>{const hz=pianoNoteFrequency(name);return [at,hold,hz,hz,gain,'piano'];};
 const chord=(at,hold,names,gain=.045)=>names.map(name=>v(at,hold,name,gain));
 export const cues = [
-  {id:'select',name:'Select',harmony:'Single F-major chord',description:'F3–A3–C4 struck together once.',duration:.16,voices:[v(0,.13,'F3',.04),v(0,.13,'A3',.035),v(0,.13,'C4',.03)]},
-  {id:'panel',name:'Open panel',harmony:'B-flat major, two-note rise',description:'B-flat2–D3, two short rising notes.',duration:.28,voices:[v(0,.14,'Bb2',.055),v(.07,.16,'D3',.05)]},
-  {id:'place',name:'Place node',harmony:'F major, three-note rise',description:'F2–C3–A3, three soft, clearly spaced notes.',duration:.4,voices:[v(0,.14,'F2',.035),v(.085,.14,'C3',.035),v(.17,.18,'A3',.035)]},
-  {id:'move',name:'Finish moving',harmony:'F major, two-note fall',description:'A3–F3, two descending notes.',duration:.24,voices:[v(0,.12,'A3',.065),v(.065,.14,'F3',.06)]},
-  {id:'connect',name:'Connect cable',harmony:'G minor → C major',description:'A short ii–V answer, with G and E coming forward.',duration:.32,voices:[...chord(0,.11,['G2','Bb2','D3'],.035),...chord(.13,.16,['C3','E3','G3'],.045)]},
-  {id:'disconnect',name:'Disconnect cable',harmony:'Low E diminished, falling',description:'B-flat2–G2–E2, a descent one octave lower.',duration:.3,voices:[v(0,.12,'Bb2',.06),v(.06,.13,'G2',.055),v(.12,.15,'E2',.06)]},
-  {id:'delete',name:'Remove nodes',harmony:'D minor, three-note fall',description:'A3–F3–D3, three descending notes.',duration:.3,voices:[v(0,.13,'A3',.055),v(.06,.14,'F3',.055),v(.12,.15,'D3',.06)]},
-  {id:'configure',name:'Apply configuration',harmony:'Open A minor 7 over E',description:'E2–A2–C3–G3, a wide, low arpeggio.',duration:.36,voices:[v(0,.15,'E2',.065),v(.045,.15,'A2',.055),v(.09,.15,'C3',.05),v(.135,.16,'G3',.055)]},
-  {id:'queue',name:'Queue project',harmony:'Quiet G minor',description:'G2–B-flat2–D3, a quiet, compact rising phrase.',duration:.28,voices:[v(0,.13,'G2',.038),v(.045,.13,'Bb2',.032),v(.09,.15,'D3',.035)]},
-  {id:'pause',name:'Pause',harmony:'D minor, falling wide',description:'A3–F3–D2, settling into the bass.',duration:.36,voices:[v(0,.16,'A3',.06),v(.08,.16,'F3',.06),v(.16,.17,'D2',.07)]},
-  {id:'resume',name:'Resume',harmony:'C major over E, rising',description:'E2–G2–C3, a low, clear upward answer.',duration:.36,voices:[v(0,.16,'E2',.07),v(.08,.16,'G2',.065),v(.16,.17,'C3',.065)]},
-  {id:'complete',name:'Research complete',harmony:'C major → rising run → sustained F major',description:'A low ta-da with an E3–F3–G3–A3 run into the held F-major chord.',duration:1.62,voices:[...chord(0,.1,['C3','E3','G3'],.04),v(.13,.11,'E3',.04),v(.2,.11,'F3',.04),v(.27,.11,'G3',.04),v(.34,.11,'A3',.04),v(.46,1.1,'F3',.065),v(.46,1.1,'A3',.055),v(.46,1.1,'C4',.045)]},
-  {id:'upgrade',name:'Character upgrade',harmony:'B-flat major 7 → A minor 7 → descending run → D minor 7',description:'Two rising arpeggios, then A3–G3–F3–E3 into a low D-minor finish.',duration:1.5,voices:[v(0,.16,'Bb2',.05),v(.07,.16,'D3',.045),v(.14,.16,'F3',.04),v(.21,.16,'A3',.04),v(.35,.14,'A2',.035),v(.42,.14,'C3',.035),v(.49,.14,'E3',.035),v(.56,.14,'G3',.035),v(.7,.12,'A3',.04),v(.77,.12,'G3',.04),v(.84,.12,'F3',.04),v(.91,.12,'E3',.04),v(1.05,.4,'D2',.06),v(1.05,.4,'F3',.045),v(1.05,.4,'C4',.035)]},
-  {id:'unlock',name:'Activate Map Node',harmony:'Open B-flat major 9',description:'B-flat2–D3–A3–C4, an open major-ninth color.',duration:.46,voices:[v(0,.28,'Bb2',.055),v(.045,.28,'D3',.045),v(.09,.28,'A3',.04),v(.135,.28,'C4',.035)]},
-  {id:'travel',name:'Travel',harmony:'G minor 7 staircase',description:'F2–G2–B-flat2–D3, stepping outward from the tonic.',duration:.44,voices:[v(0,.14,'F2',.06),v(.075,.14,'G2',.06),v(.15,.14,'Bb2',.06),v(.225,.17,'D3',.075)]},
-  {id:'save',name:'Manual save complete',harmony:'C major, closing downward',description:'C4–G3–E3–C2, a brief close into the bass.',duration:.34,voices:[v(0,.12,'C4',.05),v(.05,.12,'G3',.05),v(.1,.13,'E3',.055),v(.15,.15,'C2',.065)]},
-  {id:'reject',name:'Action unavailable',harmony:'Low F tonic',description:'One low F2 strike; informative rather than scolding.',duration:.16,voices:[v(0,.14,'F2',.12)]},
-  {id:'attention',name:'Attention',harmony:'E half-diminished 7, upper answer',description:'E3–G3–B-flat3–D3, then G3–B-flat3 calling again.',duration:.58,voices:[...chord(0,.12,['E3','G3','Bb3','D3'],.03),...chord(.29,.24,['G3','Bb3'],.055)]},
-  {id:'victory',name:'Victory',harmony:'F → B-flat → C7 → sustained F, with connecting runs',description:'An I–IV–V7–I cadence with three-note runs between chords and a held finish. Paperwork complete.',duration:2.5,voices:[...chord(0,.3,['F2','A2','C3'],.04),v(.14,.12,'A2',.03),v(.23,.12,'C3',.03),v(.32,.12,'D3',.03),...chord(.44,.3,['Bb2','D3','F3'],.035),v(.58,.12,'F3',.03),v(.67,.12,'G3',.03),v(.76,.12,'A3',.03),...chord(.9,.3,['C3','E3','Bb3'],.035),v(1.04,.12,'G3',.03),v(1.13,.12,'E3',.03),v(1.22,.12,'C3',.03),...chord(1.38,1.05,['F3','A3','C4'],.055)]},
+  {id:'select',name:'Select',harmony:'Single soft F-major chord',description:'F3–A3–C4 struck together once, with a gentler touch.',duration:.15,voices:[v(0,.12,'F3',.03),v(0,.12,'A3',.026),v(0,.12,'C4',.022)]},
+  {id:'panel',name:'Open panel',harmony:'B-flat major, two-note rise',description:'B-flat2–D3, two gently spaced notes.',duration:.32,voices:[v(0,.1,'Bb2',.04),v(.14,.14,'D3',.03)]},
+  {id:'place',name:'Place node',harmony:'F major, three-note rise',description:'F2–C3–A3, a soft rise with room between notes.',duration:.48,voices:[v(0,.12,'F2',.028),v(.14,.12,'C3',.025),v(.28,.16,'A3',.022)]},
+  {id:'move',name:'Finish moving',harmony:'Single low F-major chord',description:'F2–A2–C3 struck together once, softly settling.',duration:.22,voices:[v(0,.16,'F2',.035),v(0,.16,'A2',.028),v(0,.16,'C3',.022)]},
+  {id:'connect',name:'Connect cable',harmony:'G minor → F major',description:'A short G-minor pickup settles into a quiet F-major chord.',duration:.44,voices:[...chord(0,.1,['G2','Bb2','D3'],.028),v(.22,.18,'F2',.032),v(.22,.18,'A2',.025),v(.22,.18,'C3',.02)]},
+  {id:'disconnect',name:'Disconnect cable',harmony:'Low suspended fall → F',description:'B-flat2–G2–F2, a spaced descent to a soft low F.',duration:.42,voices:[v(0,.1,'Bb2',.042),v(.13,.1,'G2',.033),v(.26,.13,'F2',.027)]},
+  {id:'delete',name:'Remove nodes',harmony:'F major, three-note fall',description:'A3–F3–C3, three descending notes with a quiet C ending.',duration:.42,voices:[v(0,.1,'A3',.04),v(.13,.1,'F3',.032),v(.26,.13,'C3',.026)]},
+  {id:'configure',name:'Apply configuration',harmony:'Open A minor, settling on A',description:'E2–A2–C3–A3, a gently spaced low arpeggio.',duration:.5,voices:[v(0,.1,'E2',.045),v(.105,.1,'A2',.037),v(.21,.1,'C3',.03),v(.315,.14,'A3',.024)]},
+  {id:'queue',name:'Queue project',harmony:'Quiet suspended rise → C',description:'G2–B-flat2–C3, a small rising phrase that ends softly.',duration:.42,voices:[v(0,.1,'G2',.028),v(.12,.1,'Bb2',.024),v(.24,.14,'C3',.021)]},
+  {id:'pause',name:'Pause',harmony:'D minor, falling wide',description:'A3–F3–D2, a slower, gently fading descent.',duration:.52,voices:[v(0,.12,'A3',.042),v(.16,.12,'F3',.034),v(.32,.16,'D2',.03)]},
+  {id:'resume',name:'Resume',harmony:'C major over E, rising',description:'E2–G2–C3, a gently spaced answer ending on C.',duration:.52,voices:[v(0,.12,'E2',.045),v(.16,.12,'G2',.036),v(.32,.16,'C3',.03)]},
+  {id:'complete',name:'Research complete',harmony:'C major → gentle rising run → soft F major',description:'A low ta-da with a slower E3–F3–G3–A3 run and a quiet held F-major finish.',duration:2.05,voices:[...chord(0,.12,['C3','E3','G3'],.032),v(.2,.13,'E3',.027),v(.35,.13,'F3',.028),v(.5,.13,'G3',.026),v(.65,.13,'A3',.024),v(.88,1.1,'F3',.046),v(.88,1.1,'A3',.035),v(.88,1.1,'C4',.027)]},
+  {id:'upgrade',name:'Character upgrade',harmony:'B-flat major 7 → A minor 7 → falling run → F major',description:'Two unhurried arpeggios and a soft descent resolve into a low F-major chord.',duration:2.2,voices:[v(0,.13,'Bb2',.038),v(.11,.13,'D3',.032),v(.22,.13,'F3',.03),v(.33,.13,'A3',.026),v(.53,.12,'A2',.032),v(.64,.12,'C3',.03),v(.75,.12,'E3',.027),v(.86,.12,'G3',.025),v(1.06,.1,'A3',.028),v(1.17,.1,'G3',.027),v(1.28,.1,'F3',.026),v(1.39,.1,'E3',.024),v(1.6,.55,'F2',.045),v(1.6,.55,'A2',.035),v(1.6,.55,'C3',.026)]},
+  {id:'unlock',name:'Activate Map Node',harmony:'Open B-flat add9',description:'B-flat2–D3–F3–C4, a gently opening phrase that settles on C.',duration:.64,voices:[v(0,.18,'Bb2',.04),v(.12,.18,'D3',.032),v(.24,.18,'F3',.027),v(.36,.24,'C4',.022)]},
+  {id:'travel',name:'Travel',harmony:'Rising pickup → C',description:'F2–G2–B-flat2–C3, a soft outward phrase ending on C.',duration:.53,voices:[v(0,.1,'F2',.042),v(.12,.1,'G2',.036),v(.24,.1,'Bb2',.03),v(.36,.13,'C3',.026)]},
+  {id:'save',name:'Manual save complete',harmony:'C major, closing downward',description:'C4–G3–E3–C2, a gently spaced close into the bass.',duration:.54,voices:[v(0,.1,'C4',.036),v(.12,.1,'G3',.03),v(.24,.1,'E3',.026),v(.36,.14,'C2',.023)]},
+  {id:'reject',name:'Action unavailable',harmony:'Soft low F tonic',description:'One soft low F2 strike; informative rather than scolding.',duration:.15,voices:[v(0,.12,'F2',.08)]},
+  {id:'attention',name:'Attention',harmony:'E half-diminished 7 → soft F-major answer',description:'A quiet questioning chord, then A3–C4 answering gently.',duration:.62,voices:[...chord(0,.1,['E3','G3','Bb3','D3'],.022),...chord(.36,.2,['A3','C4'],.03)]},
+  {id:'victory',name:'Victory',harmony:'F → B-flat → C7 → soft F, with spacious runs',description:'An unhurried I–IV–V7–I cadence with quieter connecting notes and a soft held finish. Paperwork complete.',duration:3.25,voices:[...chord(0,.24,['F2','A2','C3'],.03),v(.22,.12,'A2',.022),v(.37,.12,'C3',.022),v(.52,.12,'D3',.022),...chord(.74,.24,['Bb2','D3','F3'],.028),v(.96,.12,'F3',.022),v(1.11,.12,'G3',.022),v(1.26,.12,'A3',.022),...chord(1.48,.24,['C3','E3','Bb3'],.026),v(1.7,.12,'G3',.022),v(1.85,.12,'E3',.022),v(2,.12,'C3',.022),v(2.24,.95,'F3',.04),v(2.24,.95,'A3',.031),v(2.24,.95,'C4',.024)]},
 ];
 // The optional comparison moves the selection chord down one octave.
 export const variants = [
-  {id:'select-low',baseId:'select',name:'Select — lower pitch',harmony:'Single low F-major chord',description:'F2–A2–C3 struck together once; one octave lower.',duration:.16,voices:[v(0,.13,'F2',.04),v(0,.13,'A2',.035),v(0,.13,'C3',.03)]},
+  {id:'select-low',baseId:'select',name:'Select — lower pitch',harmony:'Single soft low F-major chord',description:'F2–A2–C3 struck together once; one octave lower with the same gentle touch.',duration:.15,voices:[v(0,.12,'F2',.03),v(0,.12,'A2',.026),v(0,.12,'C3',.022)]},
 ];
 
 // Frequency limits below are proposed real-wall-time limits for future integration.

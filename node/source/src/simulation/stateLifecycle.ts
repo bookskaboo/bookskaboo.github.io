@@ -1,9 +1,11 @@
 import type { GameState } from '../domain/types';
+import { audioPreferences } from '../domain/audioPreferences';
 import { mergeResearchHintHistory } from '../domain/researchHintHistory';
 import { migrateUpgrades } from './upgradesMigration';
 
 /** Shared load preconditions only. Callers retain catalog, normalization and publication order. */
 export function initializeStateCollections(state: GameState) {
+  Object.assign(state.preferences, audioPreferences(state.preferences));
   state.produced ??= {};
   state.extracted ??= {};
   state.hasCreatedConnection ??= false;
@@ -16,6 +18,7 @@ export function initializeStateCollections(state: GameState) {
 
 /** Carry earned knowledge into a command snapshot; developer reveal has its own rewind policy. */
 export function retainUndoKnowledge(previous: GameState, current: GameState, options: { restoringMapReveal: boolean }) {
+  Object.assign(previous.preferences, audioPreferences(current.preferences));
   if (current.devTutorialPromptsSuppressed) previous.devTutorialPromptsSuppressed = true;
   if (previous.researchHintHistory || current.researchHintHistory) previous.researchHintHistory = mergeResearchHintHistory(previous.researchHintHistory, current.researchHintHistory);
   if (!options.restoringMapReveal) previous.encounters = [...new Set([...(previous.encounters ?? []), ...(current.encounters ?? [])])];

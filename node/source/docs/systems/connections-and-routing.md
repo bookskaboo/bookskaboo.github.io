@@ -22,6 +22,8 @@ Guarded camps also have a system-owned refill connection, visible only while ful
 
 Splitter and Merger unlock together automatically when the factory produces its first Simple Core. Their shared requirement is Produce 1 Simple Core. Stock alone, other Refiner output, Assembler construction and Basic Core production do not count. Previously completed routing research remains completed.
 
+In unmodded factories, Filter unlocks alongside Waste Bin through the automatic Waste Handling discovery granted by Precision Control. It is hidden from the normal starting Build menu. Existing Filters in older saves retain stock, configuration and cables and keep routing before this unlock; new Build choices and layout pastes require Waste Handling. Applied-mod catalogs retain their own gates.
+
 | Node | Rule |
 | --- | --- |
 | Joint | Transparent route shaping; adds a cable bend without its own production recipe |

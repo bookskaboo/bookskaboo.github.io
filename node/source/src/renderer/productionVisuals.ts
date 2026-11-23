@@ -5,7 +5,7 @@ import { landmarkYield } from '../content/landmarks';
 import { modNode } from '../mods/modRules';
 import { getNodeCapabilities, isResourceBehavior } from '../content/nodeCapabilities';
 import { getEffectiveNodeOutputFamilies, NODE_DEFINITIONS } from '../content/nodes';
-import { getBotPlantBuild, RECIPES } from '../content/recipes';
+import { getBotPlantBuild, isRecipeUnlocked, RECIPES } from '../content/recipes';
 import { recyclerMaterialStock } from '../content/recycling';
 import { WASTE_ITEMS } from '../content/progression';
 import { researchCenterView } from './researchCenterView';
@@ -53,7 +53,7 @@ export function productionExplanation(node: MachineNode, game: GameState, sector
   else if (node.processingPaused && NODE_DEFINITIONS[node.kind].category !== 'Logistics') summary = botBuild ? `Production paused. ${botBuild.recipe.name}.` : 'Production paused.';
   else if (node.batch?.finished) summary = 'Completed batch waiting for output space.';
   else if (node.batch) summary = node.landmark==='doubler' ? `Producing ${recipe?.name}. Batch ingredients already consumed; outputs enter the shared buffer as space opens.` : `Producing ${recipe?.name ?? 'a committed batch'}. Batch ingredients already consumed; output room reserved.`;
-  else if (recipe?.unlockResearch && !game.research.completed.includes(recipe.unlockResearch)) summary = 'Required recipe research is incomplete.';
+  else if (recipe?.unlockResearch && !isRecipeUnlocked(recipe.id, game.research.completed, game.research.legacyHalfRecipesUnlocked)) summary = 'Required recipe research is incomplete.';
   else if (recipe && requiredRoom > 0 && used + requiredRoom > capacity) summary = `Output/waste buffer full: ${used}/${capacity} stored; next batch needs ${requiredRoom} free spaces. Drain the output or waste route.${botBuild ? ` Next build: ${botBuild.recipe.name}.` : ''}`;
   else if (missing.length) summary = `Waiting for ${missing.map(input => `${node.kind === 'recycler' ? materialTypeName(input.item) : ITEM_NAMES[input.item]} (${input.available}/${input.required})`).join(', ')}.`;
   else if (getNodeCapabilities(node.kind).behavior === 'research') summary = researchCenterView(node, game).summary;

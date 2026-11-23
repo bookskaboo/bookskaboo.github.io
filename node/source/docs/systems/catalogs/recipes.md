@@ -238,7 +238,7 @@ Sources: [recipes](../../../src/content/recipes.ts), [progression](../../../src/
 
 | ID | Machine | Inputs | Guaranteed outputs | Chance outputs | Base seconds | Recipe gate |
 | --- | --- | --- | --- | --- | --- | --- |
-| `core-half-a-0` | Assembler | 1 α Piece + 1 β Piece | 1 Yin | None | 20 | [Shiny upgrade](research.md#research-complexCore) |
+| `core-half-a-0` | Assembler | 1 α Piece + 1 β Piece | 1 Yin | None | 20 | [Complex upgrade](research.md#research-finalCore) |
 
 <a id="recipe-core-half-b-0"></a>
 
@@ -246,7 +246,7 @@ Sources: [recipes](../../../src/content/recipes.ts), [progression](../../../src/
 
 | ID | Machine | Inputs | Guaranteed outputs | Chance outputs | Base seconds | Recipe gate |
 | --- | --- | --- | --- | --- | --- | --- |
-| `core-half-b-0` | Assembler | 1 δ Piece + 1 γ Piece | 1 Yang | None | 20 | [Shiny upgrade](research.md#research-complexCore) |
+| `core-half-b-0` | Assembler | 1 δ Piece + 1 γ Piece | 1 Yang | None | 20 | [Complex upgrade](research.md#research-finalCore) |
 
 <a id="recipe-core-half-a-1"></a>
 
@@ -254,7 +254,7 @@ Sources: [recipes](../../../src/content/recipes.ts), [progression](../../../src/
 
 | ID | Machine | Inputs | Guaranteed outputs | Chance outputs | Base seconds | Recipe gate |
 | --- | --- | --- | --- | --- | --- | --- |
-| `core-half-a-1` | Assembler | 1 α Piece + 1 δ Piece | 1 Yin | None | 20 | [Shiny upgrade](research.md#research-complexCore) |
+| `core-half-a-1` | Assembler | 1 α Piece + 1 δ Piece | 1 Yin | None | 20 | [Complex upgrade](research.md#research-finalCore) |
 
 <a id="recipe-core-half-b-1"></a>
 
@@ -262,7 +262,7 @@ Sources: [recipes](../../../src/content/recipes.ts), [progression](../../../src/
 
 | ID | Machine | Inputs | Guaranteed outputs | Chance outputs | Base seconds | Recipe gate |
 | --- | --- | --- | --- | --- | --- | --- |
-| `core-half-b-1` | Assembler | 1 β Piece + 1 γ Piece | 1 Yang | None | 20 | [Shiny upgrade](research.md#research-complexCore) |
+| `core-half-b-1` | Assembler | 1 β Piece + 1 γ Piece | 1 Yang | None | 20 | [Complex upgrade](research.md#research-finalCore) |
 
 <a id="recipe-core-half-a-2"></a>
 
@@ -270,7 +270,7 @@ Sources: [recipes](../../../src/content/recipes.ts), [progression](../../../src/
 
 | ID | Machine | Inputs | Guaranteed outputs | Chance outputs | Base seconds | Recipe gate |
 | --- | --- | --- | --- | --- | --- | --- |
-| `core-half-a-2` | Assembler | 1 α Piece + 1 γ Piece | 1 Yin | None | 20 | [Shiny upgrade](research.md#research-complexCore) |
+| `core-half-a-2` | Assembler | 1 α Piece + 1 γ Piece | 1 Yin | None | 20 | [Complex upgrade](research.md#research-finalCore) |
 
 <a id="recipe-core-half-b-2"></a>
 
@@ -278,7 +278,7 @@ Sources: [recipes](../../../src/content/recipes.ts), [progression](../../../src/
 
 | ID | Machine | Inputs | Guaranteed outputs | Chance outputs | Base seconds | Recipe gate |
 | --- | --- | --- | --- | --- | --- | --- |
-| `core-half-b-2` | Assembler | 1 β Piece + 1 δ Piece | 1 Yang | None | 20 | [Shiny upgrade](research.md#research-complexCore) |
+| `core-half-b-2` | Assembler | 1 β Piece + 1 δ Piece | 1 Yang | None | 20 | [Complex upgrade](research.md#research-finalCore) |
 
 <a id="recipe-final-core"></a>
 

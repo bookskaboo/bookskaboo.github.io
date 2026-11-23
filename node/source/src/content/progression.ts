@@ -1064,7 +1064,7 @@ export const LATE_RESEARCH = [
     "id": "areaExpansion2",
     "name": "Area Expansion 2",
     "category": "Logistics",
-    "description": "Make every play area 50% wider and 50% taller than its original size.",
+    "description": "Give every map more room again. The previous allowance was optimistic.",
     "unlock": "Expands every play area.",
     "costs": {
       "simple-core": 50,

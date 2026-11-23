@@ -1,0 +1,59 @@
+{
+  "freshHints": [
+    "Terms of employment",
+    "Available staff",
+    "Grounds for optimism",
+    "Alternative employment"
+  ],
+  "checks": [
+    {
+      "case": "Invitation",
+      "text": "Basics tutorial\n×\n\nWe have a tutorial for this. It’s almost suspiciously relevant. Want to try it?\n\nPractice in a separate factory.\n\nNot now\nStart Basics",
+      "focus": "Not now"
+    },
+    {
+      "case": "Escape",
+      "upgradesVisible": true,
+      "focus": "Open Basics tutorial",
+      "title": "Grounds for optimism"
+    },
+    {
+      "case": "Exit practice",
+      "title": "Grounds for optimism",
+      "query": "kiln",
+      "filter": "true",
+      "focus": "Open Basics tutorial",
+      "queue": "Research queue\n0/4\n\nSelect a card and press Queue research, or double-click a card.\n\n1\nEmpty\n2\nEmpty\n3\nEmpty\n4\nEmpty",
+      "core": "Simple\n0/5"
+    },
+    {
+      "case": "Outside click",
+      "upgradesVisible": true,
+      "invitationCount": 0,
+      "focus": "Open Basics tutorial"
+    },
+    {
+      "case": "Research shortcut",
+      "focus": "assembler",
+      "query": "",
+      "productionView": "true",
+      "selected": "true",
+      "queue": "Research queue\n0/4\n\nSelect a card and press Queue research, or double-click a card.\n\n1\nEmpty\n2\nEmpty\n3\nEmpty\n4\nEmpty"
+    },
+    {
+      "case": "Character shortcut",
+      "title": "Room to improve",
+      "focus": "Enable Simple upgrade",
+      "enabled": "false",
+      "core": "Simple\n0/5"
+    },
+    {
+      "case": "Late normal-gated shortcut",
+      "title": "Promotion pending",
+      "focus": "Enable Complex upgrade",
+      "enabled": "false",
+      "tooltip": "Upgrade to Planetary Administrator. Unlock the Final Core recipe. Unlock the Yin and Yang recipes."
+    }
+  ],
+  "logs": []
+}

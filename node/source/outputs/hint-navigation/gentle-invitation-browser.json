@@ -1,0 +1,34 @@
+{
+  "checks": [
+    {
+      "check": "click inside preserves invitation",
+      "dialogCount": 1
+    },
+    {
+      "check": "outside click dismisses without practice or background action",
+      "dialogs": 0,
+      "focused": "Show me",
+      "hint": "A promising Forest",
+      "practice": 0,
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty"
+    }
+  ],
+  "additionalChecks": [
+    "Not now dismisses",
+    "Escape dismisses",
+    "Start Basics launches real step 1 of 19",
+    "Exit practice restores Forest hint and Show me focus"
+  ],
+  "layout": {
+    "dialog": {
+      "height": 223.5576934814453,
+      "width": 400
+    },
+    "focused": "Not now",
+    "height": 923,
+    "scrollWidth": 1195,
+    "text": "Basics tutorial×We have a tutorial for this. It’s almost suspiciously relevant. Want to try it?Practice in a separate factory.Not nowStart Basics",
+    "width": 1210
+  },
+  "logs": []
+}

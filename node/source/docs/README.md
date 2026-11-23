@@ -22,6 +22,7 @@ Start with the [system reference library](systems/README.md) for the current gam
 | Review river, mountain and chasm art or Node Map markers | [Border obstruction art and modal tests](../previews/border-obstructions/README.md) |
 | Review Map Node terrain art and starting resource rules | [Current terrain rules](systems/map-nodes-and-exploration.md#ground-terrain-for-new-games), [art and real-engine test views](../previews/terrain-tiles/README.md), [adopted design](master-plan/22-map-terrain-tiles.md) |
 | Review the junior AI premise, Status modal and robot upgrades | [Art and writing framework](master-plan/06-art-audio-and-writing.md#status-page-narrative-framework), [interactive study](../previews/status-page/README.md) |
+| Understand current game audio and saved channel controls | [Audio system](systems/audio.md) |
 | Audition proposed sounds for player actions | [Sound test factory](../outputs/action-sounds/playground.html), [listening sheet](../outputs/action-sounds/proposal.html), [audio plan](master-plan/06-art-audio-and-writing.md#audio), [rebuild and limits](../previews/action-sounds/README.md) |
 | Create or share a data mod | [Mod guide](mods.md) |
 | Inspect historical observations | [Novice findings](novice-playtest-findings.md), [blind research playtest](blind-research-playtest-2026-11-11.md), [Final Core dry run](final-core-dry-run.md), [Final Core blind run](final-core-blind-run.md) |

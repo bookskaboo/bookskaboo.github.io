@@ -18,7 +18,7 @@ export class PreviewAudio {
   private played = new Map<CueId, number>();
   enabled = false;
   muted = false;
-  volume = .6;
+  volume = .3;
   music = true;
   musicVolume = .15;
   optional = false;

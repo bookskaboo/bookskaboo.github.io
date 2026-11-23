@@ -1,4 +1,6 @@
 import { applyExpansionRescue } from './expansionRescue';
+import type { FeedbackCue, PlayerFeedback } from '../domain/playerFeedback';
+import { BOT_UPGRADES } from '../content/botUpgrades';
 import { expandMapsAroundCenter } from './unvisitedMapExpansion';
 import { focusedFieldCamera, sectorTravelCamera, type FieldViewport } from '../domain/camera';
 import { roadTravelPair } from '../domain/roadNavigation';
@@ -107,6 +109,9 @@ export class GameEngine {
   );
   private state: GameState;
   private listeners = new Set<() => void>();
+  private feedbackListeners = new Set<(event: PlayerFeedback) => void>();
+  private feedbackBlocked = false;
+  private moveOrigin?: string;
   private history: GameState[] = [];
   private developerMapRevealUndo = new WeakSet<GameState>();
   private copiedLayout?: NodeLayoutCopy;
@@ -134,6 +139,13 @@ export class GameEngine {
     this.evaluateMilestones();
   }
   subscribe = (listener: () => void) => { this.listeners.add(listener); return () => { this.listeners.delete(listener); }; };
+  subscribeFeedback = (listener: (event: PlayerFeedback) => void) => { this.feedbackListeners.add(listener); return () => { this.feedbackListeners.delete(listener); }; };
+  private feedback(cue?: FeedbackCue) {
+    if (this.feedbackBlocked) return;
+    for (const listener of this.feedbackListeners) {
+      try { listener(cue ? { type: 'cue', cue } : { type: 'reset' }); } catch { /* Feedback cannot interrupt a committed command. */ }
+    }
+  }
   getState = () => { activateMod(this.state.mod); return this.state; };
   getSector = () => { activateMod(this.state.mod); return this.state.sectors[this.state.activeSectorId]; };
   hasAutosaveFailure = () => this.autosaveFailed;
@@ -264,6 +276,8 @@ export class GameEngine {
     if (type === 'ResearchCompleted') (this.state.researchLog ??= []).unshift(clone(event));
     if (type === 'DepositDepleted') this.state.resourceDepletionLog = [event, ...(this.state.resourceDepletionLog ?? [])].slice(0, 16);
     this.state.events = this.state.events.slice(0, 12);
+    if (type === 'DepositDepleted') this.feedback('attention');
+    if (type === 'ResearchCompleted') this.feedback(projectId === 'victory' ? 'victory' : !this.state.mod && BOT_UPGRADES.some(upgrade => upgrade.id === projectId) ? 'upgrade' : 'complete');
   }
 
   private pruneLockedForestInputs() {
@@ -555,7 +569,7 @@ export class GameEngine {
         continue;
       }
       const recipe = node.recipeId ? RECIPES[node.recipeId] : undefined;
-      if (!recipe || (SEVEN_CORES.includes(recipe.id as ItemId) && !isRecipeUnlocked(recipe.id, this.state.research.completed))) continue;
+      if (!recipe || (SEVEN_CORES.includes(recipe.id as ItemId) && !isRecipeUnlocked(recipe.id, this.state.research.completed, this.state.research.legacyHalfRecipesUnlocked))) continue;
       const hasInputs = Object.entries(recipe.inputs).every(([item, count]) => (node.input[item as ItemId] ?? 0) >= (count ?? 0));
       const hasOutputRoom = sum(node.output) + sum(recipe.outputs) <= (modNode(node.kind)?.capacity ?? 5);
       if (!hasInputs || !hasOutputRoom) { node.progressMs = 0; continue; }
@@ -826,7 +840,7 @@ export class GameEngine {
     this.insertNodeOnCable(node);
     this.evaluateMilestones();
     this.event('NodePlaced', `${node.name} placed. Construction started.`);
-    this.publish();
+    this.publish(); this.feedback('place');
     return node.id;
   }
   createControlGroup(ids: string[], colorValue: string) {
@@ -837,7 +851,7 @@ export class GameEngine {
     this.checkpoint();
     const group = { id: makeId('control-group'), nodeIds, color: color.value, colorName: color.name };
     sector.controlGroups = regroupControlNodes(sector.controlGroups ?? [], group);
-    this.publish();
+    this.publish(); this.feedback('configure');
     return group;
   }
   disbandControlGroup(id: string) {
@@ -846,7 +860,7 @@ export class GameEngine {
     if (!groups) return false;
     this.checkpoint();
     sector.controlGroups = groups;
-    this.publish();
+    this.publish(); this.feedback('configure');
     return true;
   }
 
@@ -862,7 +876,8 @@ export class GameEngine {
 
   moveNodes(ids: string[], dx: number, dy: number) {
     const positions = Object.fromEntries(this.getSector().nodes.filter((node) => ids.includes(node.id)).map((node) => [node.id, { x: node.x + dx, y: node.y + dy }]));
-    if (this.tryMoveNodesTo(positions)) this.publish();
+    const before = this.moveSignature();
+    if (this.tryMoveNodesTo(positions)) { this.publish(); if (before !== this.moveSignature()) this.feedback('move'); }
   }
 
   /** Checks a drag preview against the same collision, cable, and paired-road rules as a committed move. */
@@ -939,8 +954,9 @@ export class GameEngine {
     return true;
   }
 
-  beginMove() { this.checkpoint(); }
-  commitMove() { this.publish(); }
+  private moveSignature() { return this.getSector().nodes.map(node => `${node.id}:${node.x}:${node.y}`).join('|'); }
+  beginMove() { this.checkpoint(); this.moveOrigin = this.moveSignature(); }
+  commitMove() { const moved = this.moveOrigin !== undefined && this.moveOrigin !== this.moveSignature(); this.moveOrigin = undefined; this.publish(); if (moved) this.feedback('move'); }
   connect(from: string, to: string) {
     const plan = this.connectionPlanner.planAutomaticConnection(from, to);
     return plan ? this.connectPorts(from, plan.fromPort, to, plan.toPort) : false;
@@ -971,7 +987,7 @@ export class GameEngine {
     this.reconcileSectorExtractorStorage(sector);
     this.state.hasCreatedConnection = true;
     this.evaluateMilestones();
-    this.publish();
+    this.publish(); this.feedback('connect');
     return true;
   }
 
@@ -982,7 +998,7 @@ export class GameEngine {
     this.cancelTransfers(new Set([connectionId]));
     sector.connections = sector.connections.filter((connection) => connection.id !== connectionId);
     this.reconcileSectorExtractorStorage(sector);
-    this.publish();
+    this.publish(); this.feedback('disconnect');
   }
   deleteNodes(ids: string[]) {
     const plan = planNodeDeletion(this.getSector(), ids);
@@ -1000,7 +1016,7 @@ export class GameEngine {
     sector.nodes = sector.nodes.filter((n) => !deletable.includes(n.id));
     sector.connections = sector.connections.filter((c) => !deletable.includes(c.from) && !deletable.includes(c.to));
     for (const map of Object.values(this.state.sectors)) map.controlGroups = normalizeControlGroups(map.controlGroups, map.nodes);
-    this.publish();
+    this.publish(); this.feedback('delete');
   }
 
   private clearFilledHoles(sector: SectorState, holes: readonly MachineNode[]) {
@@ -1043,7 +1059,7 @@ export class GameEngine {
     const node = this.getSector().nodes.find((candidate) => candidate.id === nodeId);
     if (!node || !getNodeModule(node.kind).controls.pauseable || NODE_DEFINITIONS[node.kind].category === 'World' || NODE_DEFINITIONS[node.kind].output.length === 0) return;
     node.processingPaused = !node.processingPaused;
-    this.publish();
+    this.publish(); this.feedback('configure');
   }
 
   rotateNode(nodeId: string) {
@@ -1051,14 +1067,14 @@ export class GameEngine {
     if (!node || !getNodeModule(node.kind).controls.rotatable) return;
     this.checkpoint();
     node.rotation = (node.rotation + 90) % 360;
-    this.publish();
+    this.publish(); this.feedback('configure');
   }
   mirrorProductionConnectors(nodeId: string) {
     const node = this.getSector().nodes.find(candidate => candidate.id === nodeId);
     if (!node || node.disabled || !isProductionMachine(node) || !this.state.research.completed.includes(CONNECTOR_MIRRORING_RESEARCH)) return false;
     this.checkpoint();
     node.connectorsMirrored = !node.connectorsMirrored;
-    this.publish();
+    this.publish(); this.feedback('configure');
     return true;
   }
   cycleNodeInputOrder(nodeId: string) {
@@ -1072,7 +1088,7 @@ export class GameEngine {
     const last = current.pop();
     if (last === undefined) return;
     node.inputPortOrder = [last, ...current];
-    this.publish();
+    this.publish(); this.feedback('configure');
   }
   cycleNodeOutputPosition(nodeId: string) {
     const node = this.getSector().nodes.find((candidate) => candidate.id === nodeId);
@@ -1091,7 +1107,7 @@ export class GameEngine {
       node.outputPortOrder = [last, ...current];
       node.outputRowOffset = 0;
     }
-    this.publish();
+    this.publish(); this.feedback('configure');
   }
   private captureNodeLayout(ids: readonly string[]): NodeLayoutCopy | undefined {
     const sector = this.getSector();
@@ -1125,7 +1141,7 @@ export class GameEngine {
     };
     const nodes = this.offsetLayoutNodes(layout, offset);
     const unlocked = layout.nodes.every(({ kind, recipeId }) => isNodeUnlocked(kind, this.state.research.unlocked) &&
-      (!recipeId || (RECIPE_GROUPS[kind]?.includes(recipeId) && isRecipeUnlocked(recipeId, this.state.research.completed) &&
+      (!recipeId || (RECIPE_GROUPS[kind]?.includes(recipeId) && isRecipeUnlocked(recipeId, this.state.research.completed, this.state.research.legacyHalfRecipesUnlocked) &&
         worldRecipeAllowed(recipeId, this.state))));
     return { nodes, connections: layout.connections, valid: unlocked && this.canPlaceNodeLayout(nodes, layout.connections) };
   }
@@ -1174,7 +1190,7 @@ export class GameEngine {
     const copiedConnections = layout.connections.map(c => ({ ...c, id: makeId('cable'), from: copyIds.get(c.from)!, to: copyIds.get(c.to)!, createdAt: now, batchCredit: undefined }));
     sector.connections.push(...copiedConnections);
     sector.controlGroups = [...(sector.controlGroups ?? []), ...copyControlGroups(layout.controlGroups ?? [], copyIds, () => makeId('control-group'))];
-    this.publish();
+    this.publish(); this.feedback('place');
     return copies.map((n) => n.id);
   }
   copyRecipe(sourceId: string, targetId: string) {
@@ -1187,7 +1203,7 @@ export class GameEngine {
   setRecipe(nodeId: string, recipeId: string) {
     const sector = this.getSector();
     const node = sector.nodes.find((n) => n.id === nodeId);
-    if (!node || (node.landmark && (!isNodeUnlocked(node.kind, this.state.research.unlocked) || !RECIPES[recipeId] || !landmarkRecipeAllowed(node, RECIPES[recipeId]))) || getNodeCapabilities(node.kind).behavior === 'bot-assembly' || node.batch || !RECIPES[recipeId] || !RECIPE_GROUPS[node.kind]?.includes(recipeId) || !isRecipeUnlocked(recipeId,this.state.research.completed) || !worldRecipeAllowed(recipeId,this.state)) return false;
+    if (!node || (node.landmark && (!isNodeUnlocked(node.kind, this.state.research.unlocked) || !RECIPES[recipeId] || !landmarkRecipeAllowed(node, RECIPES[recipeId]))) || getNodeCapabilities(node.kind).behavior === 'bot-assembly' || node.batch || !RECIPES[recipeId] || !RECIPE_GROUPS[node.kind]?.includes(recipeId) || !isRecipeUnlocked(recipeId, this.state.research.completed, this.state.research.legacyHalfRecipesUnlocked) || !worldRecipeAllowed(recipeId,this.state)) return false;
     if (['robot-frame', 'robot-gun', 'suppression-bot'].includes(recipeId) && !this.state.research.completed.includes('suppressionBot')) return false;
     if (node.recipeId === recipeId) return true;
     this.checkpoint();
@@ -1209,13 +1225,13 @@ export class GameEngine {
     }).map((connection) => connection.id));
     this.cancelTransfers(removed);
     if (removed.size) sector.connections = sector.connections.filter((connection) => !removed.has(connection.id));
-    this.publish();
+    this.publish(); this.feedback('configure');
     return true;
   }
 
   saveFactoryTemplate(name: string, ids: string[]) { return this.templates.saveFactoryTemplate(name, ids); }
   getTemplatePreview(index: number, x: number, y: number) { return this.templates.getTemplatePreview(index, x, y); }
-  placeFactoryTemplate(index: number, x: number, y: number) { return this.templates.placeFactoryTemplate(index, x, y); }
+  placeFactoryTemplate(index: number, x: number, y: number) { const placed = this.templates.placeFactoryTemplate(index, x, y); if (placed) this.feedback('place'); return placed; }
   acknowledgeRescue() { if(this.state.rescue?.pending){delete this.state.rescue.pending;this.rescueAccumulator=1000;this.publish();} }
   acknowledgeCornerDiscovery(cornerId?: string) {
     if (!cornerDiscoveryPending(this.state, cornerId)) return;
@@ -1225,12 +1241,12 @@ export class GameEngine {
     this.publish();
   }
   acknowledgeVictory() { if(this.state.endgame&&this.state.research.completed.includes('victory')) {this.state.endgame.victoryAcknowledged=true;this.publish();} }
-  selectResearch(id?: string) { this.research.selectResearch(id); }
-  queueResearch(id: string, options?: QueueResearchOptions) { return this.research.queueResearch(id, options); }
+  selectResearch(id?: string) { const previous = this.state.research.selected; this.research.selectResearch(id); if (id && this.state.research.selected === id && previous !== id) this.feedback('queue'); }
+  queueResearch(id: string, options?: QueueResearchOptions) { const result = this.research.queueResearch(id, options); if (result === 'added') this.feedback('queue'); return result; }
   removeQueuedResearch(id: string) { this.research.removeQueuedResearch(id); }
   releasePriorityResearch(id: string) { this.research.releasePriorityResearch(id); }
-  setResearchPaused(paused: boolean) { this.research.setResearchPaused(paused); }
-  startMapResearch(x: number, y: number) { return this.research.startMapResearch(x, y); }
+  setResearchPaused(paused: boolean) { const previous = Boolean(this.state.research.paused); this.research.setResearchPaused(paused); if (previous !== paused) this.feedback(paused ? 'pause' : 'resume'); }
+  startMapResearch(x: number, y: number) { const started = this.research.startMapResearch(x, y); if (started) this.feedback('queue'); return started; }
 
   setFilterItem(nodeId: string, filterItem: ItemId, outputPort?: FilterPort) {
     const sector = this.getSector();
@@ -1243,7 +1259,7 @@ export class GameEngine {
     node.filterOutputPort = port;
     this.reconcileSectorExtractorStorage(sector);
     node.filterBlocked = this.filterBlockage(node, sector, new SimulationLookups(this.state));
-    this.publish();
+    this.publish(); this.feedback('configure');
     return true;
   }
   setGoblinTributeItem(nodeId: string, item: TributeItem) {
@@ -1260,7 +1276,7 @@ export class GameEngine {
       for (const stored of Object.keys(tribute.output) as ItemId[]) if (stored !== item) delete tribute.output[stored];
       tribute.tributeItem = item; tribute.progressMs = 0;
     }
-    this.publish();
+    this.publish(); this.feedback('configure');
     return true;
   }
   setMiningTarget(nodeId: string, miningTarget: NonNullable<MachineNode['miningTarget']>) {
@@ -1269,7 +1285,7 @@ export class GameEngine {
     if (node.miningTarget === miningTarget) return true;
     this.checkpoint();
     node.miningTarget = miningTarget;
-    this.publish();
+    this.publish(); this.feedback('configure');
     return true;
   }
   togglePause() {
@@ -1280,7 +1296,7 @@ export class GameEngine {
       this.realtimeTickAt = now;
     }
     this.state.paused = !this.state.paused;
-    this.publish();
+    this.publish(); this.feedback(this.state.paused ? 'pause' : 'resume');
   }
   acknowledgeDwarvenDiscovery() {
     if (!firstSpottedDwarvenCamp(this.state)) return false;
@@ -1297,11 +1313,12 @@ export class GameEngine {
     return this.roadCommands.getRoadReversalError(nodeId);
   }
   reverseRoad(nodeId: string) {
-    return this.roadCommands.reverseRoad(nodeId);
+    const reversed = this.roadCommands.reverseRoad(nodeId); if (reversed) this.feedback('configure'); return reversed;
   }
   /** Either endpoint selects the single direction for this entire pair. */
   setRoadDirection(nodeId: string, direction: 'export' | 'import') {
-    return this.roadCommands.setRoadDirection(nodeId, direction);
+    const previous = this.getSector().nodes.find(node => node.id === nodeId)?.roadMode;
+    const changed = this.roadCommands.setRoadDirection(nodeId, direction); if (changed && previous !== direction) this.feedback('configure'); return changed;
   }
   updatePreferences(patch: Partial<GameState['preferences']>) { Object.assign(this.state.preferences, patch); this.publish(); }
   developerSuppressTutorialPrompts() {
@@ -1355,24 +1372,33 @@ export class GameEngine {
   renameSector(name: string, label: string, sectorId = this.state.activeSectorId) { const s = this.state.sectors[sectorId]; if (!s?.unlocked) return; s.name = name.trim().slice(0, 30) || (s.id === '5,5' ? 'Home Sector' : `Sector ${s.x}.${s.y}`); s.label = label.trim().slice(0, 3).toUpperCase() || (s.id === '5,5' ? 'HME' : `S${sectorDistance(s.x, s.y)}`.slice(0, 3)); this.publish(); }
   undo() { const previous = this.history.pop(); if (previous) {
     retainUndoKnowledge(previous, this.state, { restoringMapReveal: this.developerMapRevealUndo.has(previous) });
-    this.state = previous;
-    if (this.realtimeTickAt !== undefined) this.startRealtimeClock();
-    activateMod(this.state.mod); initializeProgression(this.state); applyCartUpgrades(this.state); applyModNames(this.state); this.evaluateMilestones(); this.publish();
+    this.feedbackBlocked = true;
+    try {
+      this.moveOrigin = undefined;
+      this.state = previous;
+      if (this.realtimeTickAt !== undefined) this.startRealtimeClock();
+      activateMod(this.state.mod); initializeProgression(this.state); applyCartUpgrades(this.state); applyModNames(this.state); this.evaluateMilestones();
+    } finally { this.feedbackBlocked = false; }
+    this.publish(); this.feedback(); this.feedback('move');
   } }
   replaceState(state: GameState) {
     const next = clone(state);
     if (next.mod) next.mod = validateMod(next.mod);
-    this.state = next;
-    if (this.realtimeTickAt !== undefined) this.startRealtimeClock();
-    activateMod(this.state.mod);
-    applyModNames(this.state);
-    initializeStateCollections(this.state);
-    this.normalizeExtractorCycles();
-    applyModNames(this.state);
-    this.research.reconcileResearchSelection();
-    this.pruneLockedForestInputs();
-    this.history = [];
-    this.publish();
+    this.feedbackBlocked = true;
+    this.moveOrigin = undefined;
+    try {
+      this.state = next;
+      if (this.realtimeTickAt !== undefined) this.startRealtimeClock();
+      activateMod(this.state.mod);
+      applyModNames(this.state);
+      initializeStateCollections(this.state);
+      this.normalizeExtractorCycles();
+      applyModNames(this.state);
+      this.research.reconcileResearchSelection();
+      this.pruneLockedForestInputs();
+      this.history = [];
+    } finally { this.feedbackBlocked = false; }
+    this.publish(); this.feedback();
   }
   unlockSector(x: number, y: number) {
     if (usesNewWorldRules(this.state) && mapPurchaseProtected(this.state,sectorId(x,y))) return false;
@@ -1380,7 +1406,7 @@ export class GameEngine {
     this.checkpoint();
     if (!this.openFundedSector(sectorId(x, y))) return false;
     this.state.research.mapPoints--;
-    this.publish();
+    this.publish(); this.feedback('unlock');
     return true;
   }
   private openFundedSector(destination: string) {
@@ -1408,10 +1434,11 @@ export class GameEngine {
   }
   switchSector(id: string, firstVisitCamera?: SectorState['camera']) {
     const sector = this.state.sectors[id]; if (!sector?.unlocked) return;
+    const changed = id !== this.state.activeSectorId;
     syncCornerLayout(sector, getWorldFieldSize(this.state), this.state);
     if (!sector.visited && firstVisitCamera) sector.camera = { ...firstVisitCamera };
     if (id !== this.state.activeSectorId) delete sector.resourceDepletionPending;
-    this.state.activeSectorId = id; discoverActiveSector(this.state);this.evaluateMilestones();this.publish();
+    this.state.activeSectorId = id; discoverActiveSector(this.state);this.evaluateMilestones();this.publish();if (changed) this.feedback('travel');
   }
   ensureSector(x: number, y: number) {
     activateMod(this.state.mod);

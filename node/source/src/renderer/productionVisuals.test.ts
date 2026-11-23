@@ -6,6 +6,17 @@ import { createProductionRecipeIcon } from './productionRecipeIcon';
 import { productionExplanation, productionVisual } from './productionVisuals';
 
 describe('production animation and bottleneck cues', () => {
+  it('uses the moved half-recipe gate and retained legacy access in production feedback', () => {
+    const game=createInitialState(1),sector=game.sectors[game.activeSectorId];
+    game.research.completed.push('complexCore');
+    const node=tutorialNode('assembler','half',500,500,{recipeId:'core-half-a-0'});
+    expect(productionExplanation(node,game,sector).summary).toContain('Required recipe research is incomplete.');
+    game.research.legacyHalfRecipesUnlocked=true;
+    expect(productionExplanation(node,game,sector).summary).not.toContain('Required recipe research is incomplete.');
+    delete game.research.legacyHalfRecipesUnlocked;
+    game.research.completed.push('finalCore');
+    expect(productionExplanation(node,game,sector).summary).not.toContain('Required recipe research is incomplete.');
+  });
   it('shows Cart contents and exact counts while ignoring an obsolete processing-pause flag', () => {
     const game = createInitialState(1), sector = game.sectors[game.activeSectorId];
     const node = tutorialNode('woodenChest', 'chest', 500, 500, { capacity: 20 });

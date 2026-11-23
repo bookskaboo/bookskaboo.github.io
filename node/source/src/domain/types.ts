@@ -217,6 +217,10 @@ export interface MapNodePricingPhase {
   startedAt: number;
 }
 export interface ResearchState {
+  /** New factories gate halves/corner reveal on Complex upgrade; old earned access is preserved. */
+  endgameUnlockVersion?: 1;
+  legacyHalfRecipesUnlocked?: true;
+  legacyCornerLocationsRevealed?: true;
   /** Ordered manual projects, including the active queued project; maximum four. */
   queue?: string[];
   /** Stops research payments without pausing production or discarding progress. */
@@ -235,7 +239,7 @@ export interface ResearchState {
   mapNodePricingPhase?: MapNodePricingPhase;
 }
 export interface GameEvent { id: string; type: 'ItemProduced' | 'TransferStarted' | 'ResearchCompleted' | 'DepositDepleted' | 'NodePlaced'; message: string; at: number; projectId?: string; elapsedMs?: number; }
-export interface GamePreferences { autosaveMinutes: number; confirmDelete: boolean; particles: boolean; showGrid: boolean; snapToGrid: boolean; sound: boolean; skipMultiConnectionTooltip?: boolean; }
+export interface GamePreferences { autosaveMinutes: number; confirmDelete: boolean; particles: boolean; showGrid: boolean; snapToGrid: boolean; sound: boolean; effectsVolume?: number; musicVolume?: number; effectsMuted?: boolean; musicMuted?: boolean; skipMultiConnectionTooltip?: boolean; }
 export interface GameState {
   landmarkVersion?: 0 | 1;
   /** Only newly created campaigns may regenerate a layout during pre-exploration setup. */

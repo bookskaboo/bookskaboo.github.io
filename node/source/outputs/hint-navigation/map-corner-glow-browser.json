@@ -1,0 +1,105 @@
+{
+  "complexTooltip": "Upgrade to Planetary Administrator. Unlock the Final Core recipe. Unlock the Yin and Yang recipes.",
+  "expansion1": "Available research\nSimple Core + Basic Core + Automata Core · 0/30\n\nGive every map a little more room. The factory appears to need it.",
+  "expansion2": "Requires Area Expansion 1, Precision Control\nSimple Core + Basic Core + Automata Core + Hydro Core + Shiny Core · 0/250\n\nGive every map more room again. The previous allowance was optimistic.",
+  "beforeComplex": 0,
+  "afterComplex": [
+    {
+      "animation": "map-discovery-flash",
+      "id": "0,0",
+      "label": "Map Node N5.W5: locked · ??? · Newly revealed corner",
+      "outline": "solid"
+    },
+    {
+      "animation": "map-discovery-flash",
+      "id": "10,0",
+      "label": "Map Node N5.E5: locked · ??? · Newly revealed corner",
+      "outline": "solid"
+    },
+    {
+      "animation": "map-discovery-flash",
+      "id": "0,10",
+      "label": "Map Node S5.W5: locked · ??? · Newly revealed corner",
+      "outline": "solid"
+    },
+    {
+      "animation": "map-discovery-flash",
+      "id": "10,10",
+      "label": "Map Node S5.E5: locked · ??? · Newly revealed corner",
+      "outline": "solid"
+    }
+  ],
+  "afterAcknowledgement": [
+    {
+      "animation": "map-discovery-flash",
+      "id": "0,0",
+      "label": "Map Node N5.W5: locked · ???"
+    },
+    {
+      "animation": "map-discovery-flash",
+      "id": "10,0",
+      "label": "Map Node N5.E5: locked · ???"
+    },
+    {
+      "animation": "map-discovery-flash",
+      "id": "0,10",
+      "label": "Map Node S5.W5: locked · ???"
+    },
+    {
+      "animation": "map-discovery-flash",
+      "id": "10,10",
+      "label": "Map Node S5.E5: locked · ???"
+    }
+  ],
+  "mapCanReopen": false,
+  "reopenLimitation": "Resolved in the author check: the open Payment tests menu overlaid the map Close button. Collapsing that menu before opening the map allowed acknowledgement, Close and reopening with all four glows retained. No campaign save was used.",
+  "escapeCanReopen": true,
+  "reopenedCorners": [
+    {
+      "animation": "map-discovery-flash",
+      "id": "0,0",
+      "label": "Map Node N5.W5: locked · ???"
+    },
+    {
+      "animation": "map-discovery-flash",
+      "id": "10,0",
+      "label": "Map Node N5.E5: locked · ???"
+    },
+    {
+      "animation": "map-discovery-flash",
+      "id": "0,10",
+      "label": "Map Node S5.W5: locked · ???"
+    },
+    {
+      "animation": "map-discovery-flash",
+      "id": "10,10",
+      "label": "Map Node S5.E5: locked · ???"
+    }
+  ],
+  "mapDetails": "Node Map\n×\nN5.W5\nN5.W4\nN5.W3\nN5.W2\nN5.W1\nN5\nN5.E1\nN5.E2\nN5.E3\nN5.E4\nN5.E5\nN4.W5\nN4.W4\nN4.W3\nN4.W2\nN4.W1\nN4\nN4.E1\nN4.E2\nN4.E3\nN4.E4\nN4.E5\nN3.W5\nN3.W4\nN3.W3\nN3.W2\nN3.W1\nN3\nN3.E1\nN3.E2\nN3.E3\nN3.E4\nN3.E5\nN2.W5\nN2.W4\nN2.W3\nN2.W2\nN2.W1\nN2\nN2.E1\nN2.E2\nN2.E3\nN2.E4\nN2.E5\nN1.W5\nN1.W4\nN1.W3\nN1.W2\nN1.W1\nN1\nN1.E1\nN1.E2\nN1.E3\nN1.E4\nN1.E5\nW5\nW4\nW3\nW2\nW1\nH\nE1\nE2\nE3\nE4\nE5\nS1.W5\nS1.W4\nS1.W3\nS1.W2\nS1.W1\nS1\nS1.E1\nS1.E2\nS1.E3\nS1.E4\nS1.E5\nS2.W5\nS2.W4\nS2.W3\nS2.W2\nS2.W1\nS2\nS2.E1\nS2.E2\nS2.E3\nS2.E4\nS2.E5\nS3.W5\nS3.W4\nS3.W3\nS3.W2\nS3.W1\nS3\nS3.E1\nS3.E2\nS3.E3\nS3.E4\nS3.E5\nS4.W5\nS4.W4\nS4.W3\nS4.W2\nS4.W1\nS4\nS4.E1\nS4.E2\nS4.E3\nS4.E4\nS4.E5\nS5.W5\nS5.W4\nS5.W3\nS5.W2\nS5.W1\nS5\nS5.E1\nS5.E2\nS5.E3\nS5.E4\nS5.E5\nH\nTerrain: Grassland\nResources\n\nNo mapped resources. A scenic investment.\n\nPoints of Interest\n\nNone. A rare lack of complications.\n\nMap Points\n1\nSelect a node",
+  "hintPreviewTooltip": "Upgrade to Planetary Administrator. Unlock the Final Core recipe. Unlock the Yin and Yang recipes.",
+  "logs": [],
+  "uncoveredCloseCanReopen": true,
+  "reopenedByClose": [
+    {
+      "animation": "map-discovery-flash",
+      "id": "0,0",
+      "label": "Map Node N5.W5: locked · ???"
+    },
+    {
+      "animation": "map-discovery-flash",
+      "id": "10,0",
+      "label": "Map Node N5.E5: locked · ???"
+    },
+    {
+      "animation": "map-discovery-flash",
+      "id": "0,10",
+      "label": "Map Node S5.W5: locked · ???"
+    },
+    {
+      "animation": "map-discovery-flash",
+      "id": "10,10",
+      "label": "Map Node S5.E5: locked · ???"
+    }
+  ]
+}

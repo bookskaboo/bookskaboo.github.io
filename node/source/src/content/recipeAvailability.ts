@@ -21,7 +21,7 @@ export function accessibleRecipeMaterials(game: GameState): ReadonlySet<ItemId> 
 }
 
 export function isRecipeAvailable(id: string, game: GameState, kind?: NodeKind) {
-  if (!worldRecipeAllowed(id, game) || !isRecipeUnlocked(id, game.research.completed)) return false;
+  if (!worldRecipeAllowed(id, game) || !isRecipeUnlocked(id, game.research.completed, game.research.legacyHalfRecipesUnlocked)) return false;
   // Configure the factory before its ingredients arrive, including recovery lines.
   const producers = kind ? [kind] : Object.keys(RECIPE_GROUPS) as NodeKind[];
   return producers.some(producer => RECIPE_GROUPS[producer]?.includes(id) && isNodeUnlocked(producer, game.research.unlocked));

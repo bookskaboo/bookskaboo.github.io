@@ -8,6 +8,7 @@ interface ResearchCardProps {
   disabled: boolean;
   expanded: boolean;
   selected?: boolean;
+  highlighted?: boolean;
   showProgress?: boolean;
   tutorialChoice: boolean;
   filters: RequirementFilter[];
@@ -15,13 +16,14 @@ interface ResearchCardProps {
   onDoubleClick?(id: string): void;
 }
 
-export function ResearchCard({ project, game, disabled, expanded, selected, showProgress = true, tutorialChoice, filters, onToggle, onDoubleClick }: ResearchCardProps) {
+export function ResearchCard({ project, game, disabled, expanded, selected, highlighted, showProgress = true, tutorialChoice, filters, onToggle, onDoubleClick }: ResearchCardProps) {
   const view = researchCardDetails(project, game);
   const matchesRequirement = filters.length === 0 || filters.includes(view.requirement);
   const className = [
     'research-card', view.active && 'active', view.complete && 'complete',
     view.section === 'future' ? 'locked' : !view.complete && !view.active && 'reachable', view.milestone && 'milestone',
     tutorialChoice && 'tutorial-research-choice',
+    highlighted && 'hint-research-focus',
     filters.length > 0 && (matchesRequirement ? 'requirement-filter-match' : 'requirement-filter-muted'),
   ].filter(Boolean).join(' ');
 

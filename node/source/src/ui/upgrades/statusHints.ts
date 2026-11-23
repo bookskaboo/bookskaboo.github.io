@@ -2,7 +2,7 @@ import type { GameState } from '../../domain/types';
 import { normalizeResearchHintHistory, type ResearchHintCopy, type ResearchHintHistory } from '../../domain/researchHintHistory';
 import { getResearchMilestones, type ResearchMilestone } from '../researchMilestones';
 import { ASSIGNMENT } from '../../content/botUpgrades';
-import { reconcileMythrilHint } from '../../content/researchGuidance';
+import { isRetiredResearchHint, reconcileMythrilHint, reconcileSuppressionBotHint } from '../../content/researchGuidance';
 
 /** Acknowledgement belongs to this factory; existing opening progress also skips it. */
 export function assignmentComplete(game: GameState, assignmentSeen = false) {
@@ -30,7 +30,7 @@ export function mergeUnlockedHints<T extends ResearchHintCopy>(previous: T[], el
 /** Old factories seed only currently eligible clues; unreached review entries stay hidden. */
 export function readStatusHintHistory(game: GameState, assignment = ASSIGNMENT): ResearchHintHistory {
   const saved = normalizeResearchHintHistory(game.researchHintHistory);
-  const previous = (saved?.unlocked ?? []).map(hint => hint.title === 'Your assignment' ? { ...hint, detail: assignment } : reconcileMythrilHint(hint, game));
+  const previous = (saved?.unlocked ?? []).filter(hint => !isRetiredResearchHint(hint)).map(hint => hint.title === 'Your assignment' ? { ...hint, detail: assignment } : reconcileSuppressionBotHint(reconcileMythrilHint(hint, game)));
   return { assignmentAcknowledged: assignmentComplete(game),
     unlocked: mergeUnlockedHints<ResearchHintCopy>(previous, eligibleStatusHints(game, assignment))
       .map(({ title, detail }) => ({ title, detail })) };

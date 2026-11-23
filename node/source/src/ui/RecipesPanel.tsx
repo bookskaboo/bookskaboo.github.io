@@ -132,7 +132,7 @@ export function RecipesPanel({ game, onClose, initialRecipeId, initialNode, back
             const cycleMs = recipeGuideCycle(recipe, group.node, game);
             const recipeResearch = recipe.unlockResearch;
             const machineResearch = NODE_DEFINITIONS[group.node].unlockResearch;
-            const unlocked = isRecipeUnlocked(recipe.id, game.research.completed);
+            const unlocked = isRecipeUnlocked(recipe.id, game.research.completed, game.research.legacyHalfRecipesUnlocked);
             const requiredResearch = !unlocked ? recipeResearch : !isNodeUnlocked(group.node, game.research.unlocked) ? machineResearch : undefined;
             const locked = !unlocked || Boolean(requiredResearch);
             const hasWaste = Boolean(recipe.chanceOutputs?.length || Object.keys(recipe.outputs).some(item => WASTE_ITEMS.includes(item as ItemId)));

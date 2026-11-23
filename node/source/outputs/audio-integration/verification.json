@@ -1,0 +1,116 @@
+{
+  "date": "2026-11-22",
+  "scope": "Local game audio integration",
+  "passed": true,
+  "technical": {
+    "fullSuiteTests": 2560,
+    "finalFocusedTests": 13,
+    "buildPassed": true,
+    "localBuildPassed": true,
+    "pianoRevision": 7,
+    "pianoCues": 19,
+    "sliderDefaults": {
+      "music": 50,
+      "effects": 50
+    },
+    "defaultGains": {
+      "music": 0.15,
+      "effects": 0.3
+    },
+    "maximumGains": {
+      "music": 0.3,
+      "effects": 0.6
+    },
+    "assetsManifest": "../../src/audio/assets/manifest.json",
+    "checks": [
+      "Adopted PCM hashes and licenses",
+      "Independent levels/mute with continuous music clock",
+      "Lazy trusted-gesture activation and retries",
+      "Visibility/disposal and late-load cancellation",
+      "Milestone priority and navigation double-cue suppression",
+      "Committed command feedback and silent previews/no-ops/restoration",
+      "New lab completion and map activation",
+      "Save round trips, migration normalization and audio settings retained by Undo",
+      "Final compact Options controls and preview build"
+    ]
+  },
+  "browser": {
+    "date": "2026-11-22",
+    "url": "http://127.0.0.1:4174/outputs/audio-integration/game/index.html",
+    "desktop": {
+      "canvases": 1,
+      "cards": [
+        {
+          "height": 47.99279022216797,
+          "sliderWidth": 135.54086303710938,
+          "top": 180.3485565185547,
+          "width": 359.54327392578125
+        },
+        {
+          "height": 47.99279022216797,
+          "sliderWidth": 135.54086303710938,
+          "top": 180.3485565185547,
+          "width": 359.54327392578125
+        }
+      ],
+      "creditsLinkCount": 0,
+      "headingCount": 0,
+      "otherCardHeight": 47.99279022216797,
+      "overflow": false
+    },
+    "mobile": {
+      "cards": [
+        {
+          "height": 47.99279022216797,
+          "sliderWidth": 101.08173370361328,
+          "width": 321.08172607421875
+        },
+        {
+          "height": 47.99279022216797,
+          "sliderWidth": 101.08173370361328,
+          "width": 321.08172607421875
+        }
+      ],
+      "overflow": false,
+      "sliders": [
+        "50",
+        "50"
+      ],
+      "width": 390
+    },
+    "adjustments": [
+      {
+        "effects": "0",
+        "effectsMuted": "false",
+        "music": "100",
+        "musicMuted": "true"
+      },
+      {
+        "effects": "100",
+        "effectsMuted": "true",
+        "music": "100",
+        "musicMuted": "false"
+      }
+    ],
+    "logs": [],
+    "observations": [
+      "Full local game rendered with one canvas",
+      "Initial channels each 50%, unmuted",
+      "Independent keyboard-adjustable 0–100 sliders and pressed-state mute buttons",
+      "Desktop cards share one row and match the 48px option cards; no Audio heading or Credits link",
+      "Narrow layout has no overflow; viewport restored",
+      "Ordinary game pause/resume and Options close/reopen preserve values",
+      "Final game paused with Options open and defaults restored"
+    ],
+    "limits": [
+      "UI/playback routing checked; no independent hardware listening or ordinary progression balance run",
+      "No manual save slots or stored campaigns overwritten"
+    ]
+  },
+  "limits": [
+    "An initial full run hit a pre-existing 5-second seeded-world timeout; bounded four-worker/30-second run passed",
+    "A test-file rename during another run invalidated its old collection path; final full and focused runs passed",
+    "Existing main-bundle size advisory remains",
+    "No subjective hardware listening judgment, ordinary progression balance run or publication"
+  ]
+}

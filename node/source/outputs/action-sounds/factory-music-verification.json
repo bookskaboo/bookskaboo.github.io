@@ -1,0 +1,41 @@
+{
+  "date": "2026-11-21",
+  "scope": "Author sound test factory only",
+  "technical": {
+    "passed": true,
+    "mixerAndFixtureTestsPassed": 14,
+    "previewTypeScriptPassed": true,
+    "standaloneBuildPassed": true,
+    "pianoAssetChecksPassed": 7,
+    "ambientArtifactChecksPassed": true,
+    "embeddedMusicMatchesWav": true,
+    "standaloneRouteCopiesIdentical": true,
+    "musicDurationSeconds": 60,
+    "defaultMusicVolume": 0.15,
+    "defaultEffectsVolume": 0.6,
+    "musicWavUnchanged": true,
+    "bundleBytes": 20801844
+  },
+  "browser": {
+    "url": "http://127.0.0.1:4174/outputs/action-sounds/factory-with-music.html",
+    "viewport": {
+      "width": 1280,
+      "height": 720
+    },
+    "horizontalOverflow": false,
+    "observations": [
+      "Initial Ambient music checked; Music volume 15; Effects volume 60; explicit Enable sound required",
+      "Enable sound completes and shows Ambient strings looping",
+      "Disconnect Wood route changes cable count and records Disconnect cable; Research notice records Research complete with music enabled",
+      "Music volume independently changes to 10; effects remains 60",
+      "Shared Mute shows Music muted; unmute and music checkbox off show Music off",
+      "Restore music at 15, reset disposable factory to six nodes/two cables, and play research notice",
+      "No captured warnings/errors; marked selected tab as deliverable"
+    ],
+    "screenshot": "factory-with-music-ready.jpg"
+  },
+  "limits": [
+    "Browser confirms controls and successful decoding/UI cue feedback, not subjective hardware-audio quality",
+    "No mobile layout, campaign saves, full game suite, balance run or publication"
+  ]
+}

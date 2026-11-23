@@ -18,7 +18,7 @@ export const CORE_RECIPE_PROJECTS = CORE_RESEARCH.flatMap(({ id, name, machine, 
     id, name, prerequisite,
     category: 'Fabrication',
     description: `Unlock the ${name} recipe in the ${machine}.`,
-    unlock: `Unlocks the ${name} recipe in the ${machine}.` + (id === 'complexCore' ? ' Unlocks the Yin and Yang recipes and reveals all four map corners.' : ''),
+    unlock: `Unlocks the ${name} recipe in the ${machine}.` + (id === 'finalCore' ? ' Unlocks the Yin and Yang recipes and reveals all four map corners.' : ''),
     costs: Object.fromEntries(CORE_RESEARCH.slice(0, index).map(({ item }) => [item, 5])),
     ...(index > 1 ? { prerequisites: [previous.id] } : {}),
   }];

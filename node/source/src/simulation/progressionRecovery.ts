@@ -75,7 +75,7 @@ export function progressionDeficits(state: GameState, target: string, quotedCost
     const definition = NODE_DEFINITIONS[kind as keyof typeof NODE_DEFINITIONS];
     if (!definition || definition.unlockResearch && !completed.includes(definition.unlockResearch)) continue;
     for (const id of ids) {
-      if (!isRecipeUnlocked(id, completed)) continue;
+      if (!isRecipeUnlocked(id, completed, state.research.legacyHalfRecipesUnlocked)) continue;
       const recipe = RECIPES[id];
       for (const [item, quantity] of Object.entries(recipe.outputs)) if (quantity! > 0) {
         const list = producers.get(item as ItemId) ?? [];

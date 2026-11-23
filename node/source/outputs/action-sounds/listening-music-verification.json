@@ -1,0 +1,47 @@
+{
+  "date": "2026-11-22",
+  "technical": {
+    "passed": true,
+    "defaultMusicVolume": 0.15,
+    "defaultEffectsVolume": 0.3,
+    "numberedCues": 19,
+    "comparisonCues": 1,
+    "exactMusicUriEmbedded": true,
+    "musicSha256": "0b910ae3350acada62020cdfee72dfa92dbdf7c0f348e96edd1f5d52d69be528",
+    "musicMatchesExistingFactory": true,
+    "checks": [
+      "Actual generated script executes with Web Audio/media/DOM stubs",
+      "Initial silence with lazy context creation; music 15%, effects/reference 30%",
+      "One decoded 60-second buffer, loopStart 0 and loopEnd 60",
+      "Same source stays running across first and second minute boundaries without another start or stop",
+      "Progress display wraps with the audio clock",
+      "Individual cues, reference, reel and Stop sounds preserve background playback",
+      "Independent sliders and shared mute update actual gains",
+      "Pause/resume preserves offset without decoding again",
+      "Hidden page pauses players and removes progress timer",
+      "Pending activation cancels on pause/disposal",
+      "Nineteen cue buttons plus lower selection comparison"
+    ]
+  },
+  "limits": [
+    "Clock/lifecycle checks use Web Audio/DOM stubs; browser observations are recorded separately",
+    "No subjective hardware listening result, campaign audio integration or publication"
+  ],
+  "browser": {
+    "date": "2026-11-22",
+    "url": "http://127.0.0.1:4174/outputs/action-sounds/calmer-piano-with-music.html",
+    "observations": [
+      "Revision 7 / Gentle phrasing header and current harmony/duration labels rendered",
+      "Music 15%, effects 30%, initial silence",
+      "Full 37.44-second nineteen-cue reel played alongside Ambient strings looping",
+      "Reel reached Finished: All samples with ended true while music continued at 0:52",
+      "Stop sounds left music running",
+      "No horizontal overflow or captured warning/error logs",
+      "Reloaded to 0:00, controls visible and deliverable tab retained"
+    ],
+    "screenshot": "gentle-phrasing-ready.jpg",
+    "limits": [
+      "Observed playback/UI flow; no subjective hardware listening judgment"
+    ]
+  }
+}

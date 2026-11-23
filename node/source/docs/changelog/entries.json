@@ -27937,6 +27937,47 @@
       "validation": "Executed the actual generated startup script in a DOM stub for each of three routes: both media elements initialize from volume 1 to 0.15. Existing explicit-play/no-autoplay, source/instrument/key, sixty-second PCM, headroom/DC, continuous envelope coverage, merged boundary tones, exact join excerpt, script syntax, alias and nine-file deterministic-rerender checks passed. All three WAV SHA-256 hashes are unchanged. System catalogs/freshness/local links and changelog checks passed. No browser/hardware-audio or independent comfort test, full game suite, campaign integration or publication is claimed."
     },
     {
+      "id": "NODE-0833",
+      "date": "2026-11-21",
+      "dateBasis": "chat",
+      "kind": "added",
+      "state": "implemented",
+      "delivery": "local",
+      "title": "Mix ambient music with piano actions in the sound test factory",
+      "summary": "Add the selected string background to the real-node audition factory, starting music at 15% after Enable sound with independent effects/music controls.",
+      "details": [
+        "The user requested hearing the low-volume ambient strings together with the developed piano action sounds. Decode the exact sixty-second music WAV into a dedicated looping Web Audio source/gain outside the effects priority/voice pool. Keep effects at 60% and music at 15% by default; a checked Ambient music option, separate sliders and shared Mute support comparison. Nothing plays before explicit Enable sound.",
+        "Completion/upgrade/victory cues, Undo and disposable factory reset stop only effects and do not restart the music. Hidden tabs suspend the shared audio clock and stop pending effects; returning resumes the same music source/position. Music opt-out works before activation; disposal stops the source and closes the context. Game pause leaves the background playing.",
+        "The standalone build embeds the verified music bytes alongside all twenty cue/comparison WAVs. Add factory-with-music.html as a fresh route and rebuild ambient music in npm run preview:sound-game. Retain four mixer regressions, existing fixture/preference checks, current system/style/plan/author documentation and browser evidence. Campaign App audio, saved preferences and publication remain outside this author preview."
+      ],
+      "topics": [
+        "Audio",
+        "Interface",
+        "Testing",
+        "Documentation"
+      ],
+      "sources": [
+        "local-code"
+      ],
+      "evidence": [
+        "previews/action-sounds/audio.ts",
+        "previews/action-sounds/audio.test.ts",
+        "previews/action-sounds/playground.tsx",
+        "scripts/build-ambient-music.mjs",
+        "scripts/check-ambient-music.mjs",
+        "scripts/build-sound-playground.mjs",
+        "outputs/action-sounds/factory-with-music.html",
+        "outputs/action-sounds/factory-music-verification.json",
+        "outputs/action-sounds/factory-with-music-ready.jpg",
+        "docs/master-plan/06-art-audio-and-writing.md",
+        "docs/systems/interface-and-assets.md",
+        "previews/action-sounds/README.md",
+        "docs/node-ui-style-guide.md",
+        "docs/typography-style-review.md"
+      ],
+      "validation": "Four mixer lifecycle/default/control regressions plus ten existing fixture/preference checks passed. Preview TypeScript and standalone build passed. Seven piano source/render/embedding checks and ambient source/render/no-piano/loop/embedding/ten-file deterministic checks passed. Confirmed the factory embeds the exact music URI/hash, both factory routes are byte-identical and all three music WAV hashes remain unchanged. Browser at 1280×720 confirmed low/default controls, explicit enable, music-loop status, actual cable action and research cue feedback, independent music level, mute/off/restoration and reset; no horizontal overflow or captured warnings/errors. Screenshot retained and selected tab left available. System catalogs/freshness/local links and changelog checks passed. Browser observations do not establish subjective hardware-audio quality; no mobile test, campaign-save change, full game suite, balance run or publication."
+    },
+    {
       "id": "NODE-0834",
       "date": "2026-11-22",
       "dateBasis": "chat",
@@ -28008,6 +28049,447 @@
         "docs/systems/saves-and-compatibility.md"
       ],
       "validation": "Workspace 2,415 tests passed with one existing skip; frozen candidate 1,619 passed with no skips/failures. /node/ TypeScript/Vite build, catalog/local-link and history checks passed. Browser fresh start, archived 77-map import, ordinary simulation, placement/wiring/Undo, dialog/recipe focus and hidden state, map/Road travel and save/export/reload/reimport passed. The paused round-trip preserved all map contents, research, elapsed time, stocks/transfers and saved world/Landmark/terrain fields. Pages run 45002772100 succeeded; normal live HTML plus all eleven build files and ten prior assets verified by SHA-256. No browser console errors were observed in the exact candidate preflight. No new ordinary-play balance, whole-world performance or complete accessibility certification."
+    },
+    {
+      "id": "NODE-0836",
+      "date": "2026-11-22",
+      "dateBasis": "chat",
+      "kind": "changed",
+      "state": "implemented",
+      "delivery": "local",
+      "title": "Make movement cue 04 a single low F-major chord",
+      "summary": "Replace the two-note Finish moving fall with F2–A2–C3 struck together once in the listening sheet and mixed sound test factory.",
+      "details": [
+        "The user requested 04 as a lower single chord. Use the F-major triad one octave below selection, all three notes starting at zero with 180 ms holds, retaining the 240 ms gesture and 450 ms release (about 690 ms total). Reduce per-note levels to keep the chord restrained.",
+        "Rebuild the cue WAVs, sheet/CSV/manifest/reels and both standalone factory routes. Add move-low-chord.wav and a fresh f-major-move-chord.html sheet route. Preserve the earlier move-two-notes.wav as historical audition evidence. Nineteen other cue/comparison WAVs and all three ambient music WAVs remain byte-identical; the factory retains the selected strings, separate controls and low music default.",
+        "Update current plan, system, style and author references and the existing voicing assertion. This revises only the movement shape from NODE-0818; its wider-palette and other cue choices remain intact. No campaign music/action integration or publication."
+      ],
+      "topics": [
+        "Audio",
+        "Interface",
+        "Testing",
+        "Documentation"
+      ],
+      "sources": [
+        "local-code"
+      ],
+      "evidence": [
+        "previews/action-sounds/model.mjs",
+        "scripts/build-action-sounds.mjs",
+        "scripts/check-piano-sounds.mjs",
+        "outputs/action-sounds/move-low-chord.wav",
+        "outputs/action-sounds/f-major-move-chord.html",
+        "outputs/action-sounds/piano-verification.json",
+        "docs/master-plan/06-art-audio-and-writing.md",
+        "docs/systems/interface-and-assets.md",
+        "previews/action-sounds/README.md",
+        "docs/node-ui-style-guide.md",
+        "docs/typography-style-review.md"
+      ],
+      "validation": "Seven source/render/musical checks passed, including simultaneous low movement triad, fixed recorded piano, fifteen F-major pitches, distinct phrases and embedded factory audio. All twenty WAV format/duration, silent-edge, headroom/DC, SHA-256, mapping, generated JavaScript and deterministic action-pack checks passed; minimum headroom 18.42 dB. Standalone combined factory build passed. Hash comparison confirms only move changed, the new alias matches, the historical two-note alias is preserved, all ambient WAVs are unchanged and the exact music data remains embedded. System catalogs/freshness/local links and changelog checks passed. No new browser/hardware audition, full game suite, mixer lifecycle check, campaign integration or publication is claimed."
+    },
+    {
+      "id": "NODE-0837",
+      "date": "2026-11-22",
+      "dateBasis": "chat",
+      "kind": "docs",
+      "state": "implemented",
+      "delivery": "local",
+      "title": "Verify the live refactor with a background-only smoke test",
+      "summary": "Check the published NODE refactor through browser-only input without taking desktop mouse or keyboard control; no regression found in the exercised paths.",
+      "details": [
+        "Serve the expected index-CwWJ5EJi.js from the normal live URL. Use a hidden in-app tab and only Playwright DOM click/fill/press for interaction; no native desktop input, foreground activation or viewport change.",
+        "Control Groups practice starts, restarts at step 1 of 9 and exits back to the main factory with one canvas. Upgrades/Core recipe navigation retains hidden Kiln search, scopes Tab to the visible recipe controls and restores the precise opener. Save / Load returns to Options and restores its opener; a temporary name edit responds to Backspace and is restored without writing a slot.",
+        "Ordinary Build/Extractor placement increases node count from five to six; Ctrl+Z restores five. Runtime advances from 00:01:17 to 00:01:26 and stays stable after pausing. No console errors observed. Close the isolated test tab after recording evidence; no existing campaign loaded, manual saves written, grants, rule changes or source fixes."
+      ],
+      "topics": [
+        "Testing",
+        "Interface",
+        "Controls",
+        "Documentation"
+      ],
+      "sources": [
+        "local-code"
+      ],
+      "evidence": [
+        "outputs/live-refactor-smoke-2026-11-22/verification.json",
+        "outputs/live-refactor-smoke-2026-11-22/live-upgrades.jpg",
+        "docs/browser-playtest.md",
+        "docs/systems/testing-and-publishing.md"
+      ],
+      "validation": "Live DOM/screenshot checks passed for the declared paths on the published refactor at 1280×720. Browser-only input preserved desktop control. Pointer drag/reconnect, group movement and Road travel were not repeated in this background pass; the identical-candidate preflight retains those checks. This quick smoke test is not full campaign, balance, performance or accessibility certification. Documentation/catalog/history checks passed; no game code change or new publication."
+    },
+    {
+      "id": "NODE-0838",
+      "date": "2026-11-22",
+      "dateBasis": "chat",
+      "kind": "added",
+      "state": "implemented",
+      "delivery": "local",
+      "title": "Play individual action sounds over music on the listening sheet",
+      "summary": "Add a separate low-volume background music player to the nineteen-cue audition page so each sound can be heard directly over the ambient strings.",
+      "details": [
+        "The user clarified that the desired page combines individual sound buttons with background music. Embed the exact selected string-loop URI in the listening sheet alongside the existing cue data and add listen-with-music.html as a clear route. All generated sheet aliases receive the same controls. No factory interaction is required.",
+        "Add explicit Play/Pause background music, native looping playback and independent Music volume at 15%; keep effects/reference at 60%. Cue selection, reference and reel playback, and Stop sounds do not stop or reset background music. Mute all covers all three players, music pause/resume preserves its position, and a hidden page pauses all players. Nothing autoplays on load.",
+        "Rebuild ambient data before npm run preview:sounds, avoid a duplicate music build in the test-factory script, and preserve current sound arrangements including the low single-chord 04. Update the plan/system/author/style references and retain generated-script and browser evidence. No audio composition change or campaign integration."
+      ],
+      "topics": [
+        "Audio",
+        "Interface",
+        "Testing",
+        "Documentation"
+      ],
+      "sources": [
+        "local-code"
+      ],
+      "evidence": [
+        "previews/action-sounds/index.html",
+        "scripts/build-action-sounds.mjs",
+        "scripts/check-listening-sheet.mjs",
+        "outputs/action-sounds/listen-with-music.html",
+        "outputs/action-sounds/listening-music-verification.json",
+        "outputs/action-sounds/listening-with-music-ready.jpg",
+        "docs/master-plan/06-art-audio-and-writing.md",
+        "docs/systems/interface-and-assets.md",
+        "previews/action-sounds/README.md",
+        "docs/node-ui-style-guide.md",
+        "docs/typography-style-review.md"
+      ],
+      "validation": "Generated actual sheet script executed with media/DOM stubs: initial silence, 15% music/60% effects, exact loop URI, twenty cue/comparison IDs, music uninterrupted by individual cues/reference/reel/Stop sounds, independent sliders, shared mute, pause/resume position and hidden pause passed. Seven existing piano source/render/musical/embedding checks passed. Browser confirmed sixty-second looping media, concurrent music/cue playback, music remaining unpaused after Stop sounds, the low default and nineteen cards; at 1210×923 there was no horizontal overflow or captured warning/error. Screenshot and selected deliverable tab retained. System catalogs/freshness/local links and changelog checks passed. No subjective hardware listening, mobile test, full game suite, campaign integration or publication is claimed."
+    },
+    {
+      "id": "NODE-0839",
+      "date": "2026-11-22",
+      "dateBasis": "chat",
+      "kind": "changed",
+      "state": "implemented",
+      "delivery": "local",
+      "title": "Lower the piano audition default to 30% beside 15% music",
+      "summary": "Reduce the piano/effects starting level on both the individual listening sheet and sound test factory so it sits more quietly with the ambient background.",
+      "details": [
+        "The user requested a lower piano default to balance the background. Set effects/reference playback to 30% instead of 60%, leaving music at 15%. Preserve independent sliders, explicit activation, shared mute and all existing playback/loop behavior. The WAV files are unchanged.",
+        "Update the listening-sheet input, output and status copy, the test-factory React initial state and PreviewAudio effects gain. Read actual HTML defaults in the generated-script check instead of hardcoding the DOM fixture value; retain a separate changed-level mixer assertion. Rebuild all sheet aliases and both factory routes.",
+        "Update current plan/system/author/style defaults, preserve older browser evidence as earlier 60% observations and record fresh script/mixer/hash/build verification. No saved campaign setting, game audio integration or publication."
+      ],
+      "topics": [
+        "Audio",
+        "Interface",
+        "Testing",
+        "Documentation"
+      ],
+      "sources": [
+        "local-code"
+      ],
+      "evidence": [
+        "previews/action-sounds/index.html",
+        "previews/action-sounds/audio.ts",
+        "previews/action-sounds/audio.test.ts",
+        "previews/action-sounds/playground.tsx",
+        "scripts/check-listening-sheet.mjs",
+        "outputs/action-sounds/volume-default-verification.json",
+        "outputs/action-sounds/listening-music-verification.json",
+        "docs/master-plan/06-art-audio-and-writing.md",
+        "docs/systems/interface-and-assets.md",
+        "previews/action-sounds/README.md",
+        "docs/node-ui-style-guide.md",
+        "docs/typography-style-review.md"
+      ],
+      "validation": "Actual generated HTML initializes music to 0.15 and effects/reference to 0.30; cue/reel/reference/Stop sounds preserve background playback, independent adjustments, shared mute and hidden pause passed. Fourteen focused mixer/observer/preference tests and standalone factory build passed; final distinct adjusted-effects-level mixer case was rechecked. Confirmed twenty cue/comparison WAVs plus the ambient WAV retain their hashes. System catalogs/freshness/local links and changelog checks passed. No new browser, hardware-audio balance, comfort, full game suite, campaign integration or publication result is claimed."
+    },
+    {
+      "id": "NODE-0840",
+      "date": "2026-11-22",
+      "dateBasis": "chat",
+      "kind": "fixed",
+      "state": "implemented",
+      "delivery": "local",
+      "title": "Keep listening-sheet background playback continuous across the minute",
+      "summary": "Replace the individual sound sheet’s native background-media loop with one continuous Web Audio buffer after distortion was reported at the one-minute restart.",
+      "details": [
+        "The user identified the one-minute boundary. The existing WAV peaks at about -20.92 dBFS and its boundary steps lie within normal waveform changes; these checks do not establish the subjective cause. Keep the approved quiet string-only composition and every music/piano WAV unchanged.",
+        "Embed a shared preview-only loop controller in all listening-sheet aliases. Decode once, loop exactly 0–60 seconds on the same source, preserve pause/resume offset and cancel pending activation on pause or disposal. Retain independent 15% music / 30% effects levels, mute and cue/reference/reel coexistence. Replace native music transport with an accessible progress indicator and elapsed time.",
+        "The test factory already uses a continuous looping buffer and remains unchanged; standalone music-only comparison players retain native transports. Update current system, audio-plan, author and style references. Subjective confirmation of the reported distortion remains pending."
+      ],
+      "topics": [
+        "Audio",
+        "Interface",
+        "Testing",
+        "Documentation"
+      ],
+      "sources": [
+        "local-code"
+      ],
+      "evidence": [
+        "previews/action-sounds/loop-player.mjs",
+        "previews/action-sounds/index.html",
+        "scripts/build-action-sounds.mjs",
+        "scripts/check-listening-sheet.mjs",
+        "outputs/action-sounds/listen-with-music.html",
+        "outputs/action-sounds/listening-music-verification.json",
+        "outputs/action-sounds/continuous-loop-ready.jpg",
+        "docs/systems/interface-and-assets.md",
+        "docs/master-plan/06-art-audio-and-writing.md",
+        "previews/action-sounds/README.md",
+        "docs/node-ui-style-guide.md",
+        "docs/typography-style-review.md",
+        "outputs/action-sounds/continuous-loop-verification.json"
+      ],
+      "validation": "Generated-script Web Audio/DOM checks passed: one decode and one source start across two simulated minute boundaries, progress wrap, independent levels/mute, cue/reference/reel/Stop sounds coexistence, offset resume, hidden pause and canceled pending activation/disposal. Seven piano source/musical/render checks passed. Ambient PCM/headroom/boundary and byte-identical offline rerender checks passed; embedded music matches the unchanged factory bundle. Browser observed music still playing and progress wrapped after 68.3 seconds, cue/Stop sounds coexistence and offset resume, with no overflow or captured warnings/errors; screenshot retained. Preview build passed. System catalogs/freshness/local links and changelog checks passed. No subjective hardware listening, mobile test, full campaign suite, campaign integration or publication is claimed."
+    },
+    {
+      "id": "NODE-0841",
+      "date": "2026-11-22",
+      "dateBasis": "chat",
+      "kind": "review",
+      "state": "recorded",
+      "delivery": "not-applicable",
+      "title": "Expand the enjoyment review into strengths, weaknesses and improvement plans",
+      "summary": "Restart detailed discussion at clear purpose while preserving prior approvals and separating confirmed gaps from untested player outcomes.",
+      "details": [
+        "The user requested discussing each item, categorizing what is good and what is not, and planning improvements. Revisit fourteen criteria followed by five factory priorities sequentially using strengths, weak design/implementation, unresolved evidence and concrete plans/success checks.",
+        "Preserve all E01–E11 decisions. The unanswered E12 card is set aside until its expanded discussion without inferring an answer or reopening settled rules. Begin expanded E01 discussion and present only its newly unresolved conditional remedy preference.",
+        "Reinspect assignment, milestone action metadata and HintBrowser. Preserve clear upgrade goals, real payment progress, saved/reactive hints and practice. Identify the text/arrow-only hint presentation as a potential goal-to-control navigation improvement, while newcomer comprehension remains unverified.",
+        "Retain E01’s approved test-first workflow. Prepare conditional remedies matched to goal, control-location or benefit confusion, reusing existing surfaces and SR-16 for actual production diagnosis. Optional contextual navigation is a proposal only; no new runtime button or hint rewrite is approved."
+      ],
+      "topics": [
+        "Testing",
+        "Playtesting",
+        "Interface",
+        "Documentation"
+      ],
+      "sources": [
+        "chat-current",
+        "local-code"
+      ],
+      "evidence": [
+        "docs/reviews/system-review-temporary.md",
+        "src/content/botUpgrades.ts",
+        "src/ui/researchMilestones.ts",
+        "src/ui/upgrades/HintBrowser.tsx",
+        "docs/systems/tutorials-and-discovery.md"
+      ],
+      "validation": "Re-read current assignment/hint selection/presentation owners and preserved decision state. Documentation/discussion only: no new tests, participant evidence, browser/campaign access, gameplay-source or runtime-copy changes, implementation or publication."
+    },
+    {
+      "id": "NODE-0842",
+      "date": "2026-11-22",
+      "dateBasis": "chat",
+      "kind": "changed",
+      "state": "implemented",
+      "delivery": "local",
+      "title": "Give the ambient cello gentle melodic inflection and bow swells",
+      "summary": "Shape four slow cello phrases with sixteen varied-length notes and soft dynamics over the quiet bass background, preserving the one-minute F-major loop and low audition defaults.",
+      "details": [
+        "The user heard the cello as a simple chord and requested a little more inflection. Replace the eight uniform cello positions with sixteen notes in four fifteen-second phrases, moving gently through F major. Vary bow strength between notes and apply smooth nonzero edge-to-peak swells; retain the sampled natural vibrato and upper-frequency softening.",
+        "Shorten cello handoffs from 2.4 to 1.2 seconds so the melodic contour is clearer. Keep bass score and its 2.8-second transitions, string-only instrumentation, 64 BPM, exact sixty seconds, merged boundary F, twelve-dB stem separation and -34.4 dBFS average loudness. Retain music 15% and piano 30%; piano cue bytes and continuous buffer playback remain unchanged.",
+        "Rebuild the standalone music players, individual cue sheet and mixed test factory. Preserve the previous sparse WAV for comparison and retain the earlier continuous-loop verification. Update current system, plan, author/style references and focused music validation. Listener acceptance remains pending."
+      ],
+      "topics": [
+        "Audio",
+        "Interface",
+        "Testing",
+        "Documentation"
+      ],
+      "sources": [
+        "local-code"
+      ],
+      "evidence": [
+        "previews/action-sounds/ambient-music.mjs",
+        "scripts/build-ambient-music.mjs",
+        "scripts/check-ambient-music.mjs",
+        "outputs/music/quiet-workshop-ambient-strings/score.json",
+        "outputs/music/quiet-workshop-ambient-strings/manifest.json",
+        "outputs/music/quiet-workshop-ambient-strings/verification.json",
+        "outputs/music/quiet-workshop-ambient-strings/ambient-before-inflection-60s.wav",
+        "outputs/action-sounds/listen-with-music.html",
+        "outputs/action-sounds/listening-music-verification.json",
+        "outputs/action-sounds/factory-with-music.html",
+        "docs/systems/interface-and-assets.md",
+        "docs/master-plan/06-art-audio-and-writing.md",
+        "previews/action-sounds/README.md",
+        "docs/node-ui-style-guide.md",
+        "docs/typography-style-review.md",
+        "outputs/action-sounds/cello-inflection-ready.jpg"
+      ],
+      "validation": "Ambient checks passed: pinned recorded sources, only strings, sixteen cello positions covering sixty seconds with varied durations and ascending/descending diatonic motion, multiple note strengths and smooth positive swells, continuous handoff coverage and boundary F, -34.4 dBFS RMS, peak below -18 dBFS, negligible DC, exact join excerpt and byte-identical offline rerender. Actual generated sheet checks passed with the new embedded music: two simulated minute boundaries on one source, low defaults, cue coexistence, mute and pause/disposal lifecycle. Seven piano checks passed. Standalone mixed factory build passed. System catalog/link/freshness and changelog checks passed. Browser refresh and playback observed on the listening sheet; no subjective listening, full campaign test, campaign integration or publication is claimed."
+    },
+    {
+      "id": "NODE-0843",
+      "date": "2026-11-22",
+      "dateBasis": "chat",
+      "kind": "added",
+      "state": "superseded",
+      "delivery": "local",
+      "title": "Preview optional hint navigation in an isolated Upgrades test page",
+      "summary": "Create the user-requested Current/With navigation comparison with a compact Show me action and three real destination examples; keep campaign adoption pending.",
+      "details": [
+        "The user asked how optional contextual navigation would look in game and requested a test page before deciding. Add an author-only renderer/resolver and independent standalone builder under the existing status-page harness; reuse shared robot, research rows, queue, Build and Recipes without editing src.",
+        "Show me sits between existing previous/next arrows and keeps the assignment-sized thought bubble unchanged. Exploration clears conflicting view/search and focuses/outlines its actual research card; queue/payment remain separate. Forest opens Build at Extractor and Simple Core opens its recipe; closing/Back restores origin focus.",
+        "Use current eligible milestone action metadata, recheck on click and disable unsupported/stale targets. Three paused disposable examples have autosave disabled and recipe-view persistence disabled; placement stops at node choice. No campaign slots, map layout, normal-play resources or live game are changed.",
+        "Add usage/current-system pointers and both Markdown style references, and retain review cursor E01 for user feedback. The earlier test-first decision remains intact; making the prototype does not accept navigation priority or authorize main-game integration."
+      ],
+      "topics": [
+        "Interface",
+        "Prototypes",
+        "Research",
+        "Testing",
+        "Documentation"
+      ],
+      "sources": [
+        "chat-current",
+        "local-code"
+      ],
+      "evidence": [
+        "previews/status-page/hint-navigation.tsx",
+        "previews/status-page/hintNavigation.ts",
+        "previews/status-page/hintNavigation.test.ts",
+        "previews/status-page/hint-navigation.css",
+        "scripts/build-hint-navigation.mjs",
+        "previews/status-page/README.md",
+        "docs/systems/tutorials-and-discovery.md",
+        "docs/node-ui-style-guide.md",
+        "docs/typography-style-review.md",
+        "docs/reviews/system-review-temporary.md",
+        "outputs/hint-navigation/index.html",
+        "outputs/hint-navigation/tests.json",
+        "outputs/hint-navigation/browser-observations.json",
+        "outputs/hint-navigation/desktop.jpg",
+        "outputs/hint-navigation/mobile.jpg"
+      ],
+      "validation": "All six focused current-tree tests passed; preview TypeScript and standalone Vite build passed. Browser verified all three real destination jumps, no automatic queue, separate explicit queue action, Build/recipe return focus, Enter activation, search typing and navigation reset. Current/proposed bubble heights both measured 120.60096740722656 CSS px; narrow body copy 12 px. Desktop 1280x720 and 390x845 (844 requested) had no horizontal overflow; final captured warning/error list empty. Sandbox server was unreachable; host-visible local 5188 server delivered the verified page. Link/evidence checks passed. No full workspace suite/main build, campaign access, ordinary-play balance, human comprehension, main-game adoption or publication is claimed."
+    },
+    {
+      "id": "NODE-0844",
+      "date": "2026-11-22",
+      "dateBasis": "chat",
+      "kind": "changed",
+      "state": "superseded",
+      "delivery": "local",
+      "title": "Limit the thought-navigation preview to useful research shortcuts",
+      "summary": "Apply user feedback by keeping Show me only for eligible research destinations and removing map, recipe and node-action shortcuts from the isolated study.",
+      "details": [
+        "The user liked research destinations but found map/node manipulation shortcuts unhelpful. Restrict the author resolver to live eligible research actions; omit Show me entirely for direct map/sector/Build/recipe targets and stale/unavailable thoughts, retaining text and browsing. A geography-themed clue may still offer a real Map Point research destination when that is its current action.",
+        "Provide Exploration, Assembler and Road research examples, plus Forest and Simple Core clues demonstrating no shortcut. Remove Build/recipe hint navigation; ordinary Core-badge recipe inspection remains. Research jumps clear conflicting view/search and focus/outline actual projects without queueing or paying.",
+        "Update author guide, current tutorial pointer and both Markdown style references. Preserve initial screenshots/browser evidence and supersede its mixed-destination scope. This settles the research-only candidate direction, with no main-game source, save or campaign-rule change; participant testing and adoption remain pending during E01 review."
+      ],
+      "topics": [
+        "Interface",
+        "Prototypes",
+        "Research",
+        "Testing",
+        "Documentation"
+      ],
+      "sources": [
+        "chat-current",
+        "local-code"
+      ],
+      "supersedes": [
+        "NODE-0843"
+      ],
+      "evidence": [
+        "previews/status-page/hintNavigation.ts",
+        "previews/status-page/hint-navigation.tsx",
+        "previews/status-page/hintNavigation.test.ts",
+        "previews/status-page/README.md",
+        "docs/systems/tutorials-and-discovery.md",
+        "docs/reviews/system-review-temporary.md",
+        "docs/node-ui-style-guide.md",
+        "docs/typography-style-review.md",
+        "outputs/hint-navigation/index.html",
+        "outputs/hint-navigation/research-only-tests.json",
+        "outputs/hint-navigation/research-only-browser.json",
+        "outputs/hint-navigation/research-only-desktop.jpg",
+        "outputs/hint-navigation/research-only-forest.jpg",
+        "outputs/hint-navigation/research-only-mobile.jpg"
+      ],
+      "validation": "Nine focused tests passed; preview TypeScript and standalone build passed. The initial geographic negative-test fixture had no banked Map Point and therefore correctly generated research destinations; the final fixture supplies an isolated banked point and checks actual eligible map/sector actions. Browser verified no shortcut for Forest/Simple Core, correct Exploration/Assembler/Road selection and zero automatic queue entries. Desktop 1210x923 and narrow 390x845 (844 requested) had no horizontal overflow; final warning/error list empty. A body-keypress automation timeout left the correct Forest state; direct controls/captures then succeeded. No full main-game suite/build, campaign access, normal-play balance, human comprehension or publication."
+    },
+    {
+      "id": "NODE-0845",
+      "date": "2026-11-22",
+      "dateBasis": "chat",
+      "kind": "changed",
+      "state": "implemented",
+      "delivery": "local",
+      "title": "Link matching early hints to an optional Basics tutorial dialog",
+      "summary": "Extend the user-reviewed hint prototype with explicit tutorial associations and working separate practice while keeping research shortcuts and omitting direct manipulation.",
+      "details": [
+        "The user suggested matching tutorial modals for some early hints. Use live eligible hint metadata and explicit Basics-covered extraction/production IDs; research actions retain priority. Unmatched geography/node work remains without a shortcut.",
+        "Forest and Simple Core examples open the associated Basics dialog, with literal scope, Back to Upgrades and Start Basics. Opening does not start practice. Start launches the existing FactoryApp/real nineteen-step Basics lesson on an independent autosave-disabled training engine; Exit returns to the mounted study hint/focus without progress grants.",
+        "Keep study controls visible but inert behind the modal; preserve current thought, research context and regular Core-badge recipe inspection. Update current tutorial pointer, author guide and both Markdown style references. Supersede the research-only prototype scope with this explicit tutorial exception, retaining earlier evidence and no direct Build/recipe/map action.",
+        "Main-game source/components, saved formats and campaign gates are unchanged by this author fixture. Participant validation, live adoption and the broader E01 review remain pending."
+      ],
+      "topics": [
+        "Interface",
+        "Prototypes",
+        "Tutorials",
+        "Testing",
+        "Documentation"
+      ],
+      "sources": [
+        "chat-current",
+        "local-code"
+      ],
+      "supersedes": [
+        "NODE-0844"
+      ],
+      "evidence": [
+        "previews/status-page/hintNavigation.ts",
+        "previews/status-page/hint-navigation.tsx",
+        "previews/status-page/hintNavigation.test.ts",
+        "previews/status-page/hint-navigation.css",
+        "previews/status-page/README.md",
+        "docs/systems/tutorials-and-discovery.md",
+        "docs/reviews/system-review-temporary.md",
+        "docs/node-ui-style-guide.md",
+        "docs/typography-style-review.md",
+        "outputs/hint-navigation/index.html",
+        "outputs/hint-navigation/tutorial-tests.json",
+        "outputs/hint-navigation/tutorial-browser.json",
+        "outputs/hint-navigation/tutorial-modal.jpg",
+        "outputs/hint-navigation/tutorial-mobile.jpg",
+        "outputs/hint-navigation/tutorial-practice.jpg"
+      ],
+      "validation": "Twelve focused tests passed, including research/tutorial matching, early Copper/Charcoal, read-only opening, future/stale/geographic negatives and independent autosave-disabled practice state. Preview TypeScript and standalone build passed. Browser verified both tutorial dialogs, no auto-start, actual Basics/normal Build advancing to step 2 of 19, Exit and close/Escape returning to original hint/focus with zero queue entries, unchanged Exploration focus, and inert background. Desktop 1210x923 and narrow 390x845 (844 requested) had no horizontal overflow; final warning/error logs empty. No fresh full nineteen-stage completion, full workspace suite/main build, campaign access, normal-play balance, human comprehension or publication."
+    },
+    {
+      "id": "NODE-0846",
+      "date": "2026-11-22",
+      "dateBasis": "chat",
+      "kind": "changed",
+      "state": "implemented",
+      "delivery": "local",
+      "title": "Soften the hint tutorial invitation and dismiss it on outside click",
+      "summary": "Replace the formal preview lesson pitch with a compact dry invitation and easy dismissal.",
+      "details": [
+        "User found the modal wording interrupting and requested a casual tutorial offer plus outside-click dismissal. Say: We have a tutorial for this. It’s almost suspiciously relevant. Want to try it? Keep a short separate-practice note, Not now and explicit Start Basics.",
+        "Cap the invitation at 400 CSS px, lighten its backdrop to 27% black without blur, and initially focus Not now. Only clicks on the backdrop itself dismiss; inside clicks preserve it. Existing Close/Escape and origin focus restoration remain.",
+        "This refines NODE-0845 invitation copy/presentation only. Tutorial matching, research shortcuts and real separate practice remain; main-game source, campaigns and publication are unchanged."
+      ],
+      "topics": [
+        "Interface",
+        "Prototypes",
+        "Tutorials",
+        "Documentation",
+        "Testing"
+      ],
+      "sources": [
+        "chat-current",
+        "local-code"
+      ],
+      "evidence": [
+        "previews/status-page/hint-navigation.tsx",
+        "previews/status-page/hint-navigation.css",
+        "previews/status-page/README.md",
+        "docs/node-ui-style-guide.md",
+        "docs/typography-style-review.md",
+        "docs/systems/tutorials-and-discovery.md",
+        "docs/reviews/system-review-temporary.md",
+        "outputs/hint-navigation/index.html",
+        "outputs/hint-navigation/gentle-invitation-browser.json",
+        "outputs/hint-navigation/gentle-invitation.jpg"
+      ],
+      "validation": "Preview TypeScript and standalone build passed. Fresh browser checked inside/outside clicks, Not now/Escape dismissal, no practice or queued research after dismissal, same Forest hint and Show me focus, explicit Start Basics entering the real 19-stage lesson and Exit restoring the hint. At 1210x923 the dialog measured 400x223.56 CSS px with no horizontal overflow; initial focus Not now and captured warnings/errors empty. No fresh narrow-view test, full lesson completion, full workspace suite, participant comprehension test, main-game integration or publication."
     },
     {
       "id": "NODE-0847",
@@ -28103,6 +28585,57 @@
       "publishedBy": "5f71c9c"
     },
     {
+      "id": "NODE-0849",
+      "date": "2026-11-22",
+      "dateBasis": "chat",
+      "kind": "changed",
+      "state": "superseded",
+      "delivery": "local",
+      "title": "Expand the hint prototype to every hint in the existing review order",
+      "summary": "Review 48 hints and 60 live situations with working research/tutorial destinations and explicit proposals for missing teaching.",
+      "details": [
+        "User requested every game hint, suggestions for expansion and the established order. Reuse the shared author catalog; add the overlooked A useful detour after Exploration and correct stale written totals, preserving every previous relative position.",
+        "Provide numbered selection, Previous/Next review, full ordered list, original live copy, eligibility/retirement context, recommendation, reason and suggested expansion. Start at Your assignment. Use actually eligible paused fixtures, seeded endgame/terrain and separate current/legacy Dwarven cases.",
+        "Cover six Core upgrade/recipe pairs and six missing/available Map Point pairs. Research focuses its real card or next character Upgrade button without queue/payment/enabling. Existing Basics, Expansion and partial Monster Camps refreshers use the accepted compact optional invitation and isolated practice. Iron does not inherit an unrelated Basics association.",
+        "New Iron/Core, fluid, mixed-output, Bot/transport, corner and world-pairing lessons remain clearly labeled unimplemented proposals with no fake start actions. Known scope review under NODE-0848 is preserved. Unsupported and terminal clues omit Show me; direct map/node/recipe manipulation remains absent.",
+        "Update author guide, tutorial system pointer, existing learning plan and both Markdown style references. No main-game source, campaign save, unlock rules or publication change; broader E01 and human validation remain pending."
+      ],
+      "topics": [
+        "Interface",
+        "Prototypes",
+        "Tutorials",
+        "Research",
+        "Documentation",
+        "Testing"
+      ],
+      "sources": [
+        "chat-current",
+        "local-code"
+      ],
+      "evidence": [
+        "previews/status-page/hintNavigationCatalog.ts",
+        "previews/status-page/hintNavigation.ts",
+        "previews/status-page/hintNavigation.test.ts",
+        "previews/status-page/hintReview.ts",
+        "previews/status-page/hint-navigation.tsx",
+        "previews/status-page/hint-navigation.css",
+        "previews/status-page/README.md",
+        "docs/systems/tutorials-and-discovery.md",
+        "docs/master-plan/05-interface-and-learning.md",
+        "docs/reviews/system-review-temporary.md",
+        "docs/node-ui-style-guide.md",
+        "docs/typography-style-review.md",
+        "outputs/hint-navigation/index.html",
+        "outputs/status-page/hint-texts.html",
+        "outputs/hint-navigation/all-hints-tests.json",
+        "outputs/hint-navigation/all-hints-browser.json",
+        "outputs/hint-navigation/all-hints-desktop.jpg",
+        "outputs/hint-navigation/all-hints-mobile.jpg",
+        "outputs/hint-navigation/all-hints-lesson-proposal.jpg"
+      ],
+      "validation": "All 162 preview tests passed, including 79 ordered hint-case/resolver contracts; preview TypeScript and both standalone builds passed. Browser exercised all 60 situations (29 research/upgrade targets, 14 existing-lesson invitations, 17 no-action cases), unchanged comparison copy, 48-entry catalog and Next/Previous order. All invitations returned on outside click; no automatic practice/queue entries. An initial immediate animation-frame focus observation failed for Camp/Map Point; focus was made synchronous in layout effect and all 29 research targets then focused correctly. Desktop 1210x923 and narrow 390x845 had no horizontal overflow; final warnings/errors empty. Early fixture tests caught invalid overridden corner terrain and missing optional pool handling; final fixtures retain seeded terrain/order and all live copy checks pass. No complete fresh lesson, full workspace suite, balance, participant comprehension, main-game adoption or publication. The final secondary status-preview build emitted an existing HMR-port-in-use warning while completing all standalone artifacts successfully; browser logs for the hint page remained empty."
+    },
+    {
       "id": "NODE-0850",
       "date": "2026-11-22",
       "dateBasis": "chat",
@@ -28142,6 +28675,58 @@
       ],
       "validation": "All 171 focused tests across 13 files passed: npm test -- src/tutorials src/simulation/campStatus.test.ts previews/status-page/hintNavigation.test.ts --testTimeout=15000. Engine regression verifies initial incompletion, first passed check remaining locked/incomplete, no early advancement before the second check, deposit access and completion together at full suppression, and restart clearing completion. Production build, preview TypeScript and standalone hint build passed; production build retains its bundle-size advisory. Regenerated and verified six system catalogs and local links across 40 documents. No fresh browser walkthrough, human comprehension assessment, full workspace suite, balance run or publication.",
       "publishedBy": "5f71c9c"
+    },
+    {
+      "id": "NODE-0851",
+      "date": "2026-11-22",
+      "dateBasis": "chat",
+      "kind": "changed",
+      "state": "implemented",
+      "delivery": "local",
+      "title": "Use the newer Map upgrades model in an unrestricted hint implementation preview",
+      "summary": "Default to the clean three-tab Upgrades design and let the explicitly unlocked author snapshot sequence be reviewed from start to end.",
+      "details": [
+        "User requested the newer Upgrades version, production-shaped presentation and an explicit exception unlocking end-to-end review. Default to the game-shaped screen; move author comparison, eligibility and recommendations behind Review notes.",
+        "Compose the existing map-study model rather than copying the old main-game research layout: Production nodes, Node upgrades and Map upgrades; all 20 map projects exclusive to Map upgrades; six separate cumulative-cost surveys; correct completed/action ordering; combined Exploration/Road with its compatibility alias.",
+        "Expose all 48 established hint snapshots through bubble Previous/Next, keyboard arrows and numbered selection from the opening screen. Each loads a matching isolated paused context, with 60 situation variants. This changes the review fixture, not campaign future-hint eligibility or research payments.",
+        "Route research focus to the real category/card or character Upgrade button without queue/payment/enabling. The retained historical Road clue opens existing Expansion practice rather than a second bill and should retire from progression on adoption. Keep optional dry invitations, outside-dismissal and separate real practice; unimplemented lessons remain proposals.",
+        "Keep current-world/legacy guidance distinct and preserve NODE-0850 full-suppression teaching. Update current research/tutorial pointers, existing plan, review disposition, author README and both style references. No main-game runtime/source, user-save or publication changes."
+      ],
+      "topics": [
+        "Interface",
+        "Prototypes",
+        "Research",
+        "Tutorials",
+        "Documentation",
+        "Testing"
+      ],
+      "sources": [
+        "chat-current",
+        "local-code"
+      ],
+      "supersedes": [
+        "NODE-0849"
+      ],
+      "evidence": [
+        "previews/status-page/hintImplementation.ts",
+        "previews/status-page/hintImplementation.test.ts",
+        "previews/status-page/hint-navigation.tsx",
+        "previews/status-page/hint-navigation.css",
+        "previews/status-page/mapUpgrades.ts",
+        "previews/status-page/README.md",
+        "docs/systems/research.md",
+        "docs/systems/tutorials-and-discovery.md",
+        "docs/master-plan/05-interface-and-learning.md",
+        "docs/reviews/system-review-temporary.md",
+        "docs/node-ui-style-guide.md",
+        "docs/typography-style-review.md",
+        "outputs/hint-navigation/index.html",
+        "outputs/hint-navigation/implementation-tests.json",
+        "outputs/hint-navigation/implementation-browser.json",
+        "outputs/hint-navigation/implementation-desktop.jpg",
+        "outputs/hint-navigation/implementation-mobile.jpg"
+      ],
+      "validation": "All 225 preview tests passed across 12 files, including 63 new implementation-composition contracts; preview TypeScript and standalone Vite build passed. Browser traversed all 48 ordered snapshots using the bubble Next control and checked all 60 situations: 28 research/upgrade focus targets, 15 invitations, 17 no-action cases. All targets focused in their correct tab, all outside-click returns restored Show me, and no automatic queue or practice occurred. Verified search clearing/view recovery, explicit Exploration queue at 1/4 with 0/10 paid and factory paused, Home/End tab keys, review-notes toggle, Expansion and Monster Camps real entry/Exit, Escape and narrow outside-dismissal. Desktop 1210x923 fit one viewport; 390x845 had no horizontal overflow. Browser inspection found and fixed a missing search icon slot that otherwise squeezed the input into an 18px grid column. Final captured warnings/errors empty. Existing Expansion practice still references its normal separate Road/Exploration researched setup; combined-project dialogue and worldwide survey/filter behavior remain adoption work. No fresh complete lesson, full workspace suite, normal-play balance, human learning assessment, campaign mutation or publication."
     },
     {
       "id": "NODE-0852",
@@ -28184,6 +28769,101 @@
       "publishedBy": "5f71c9c"
     },
     {
+      "id": "NODE-0853",
+      "date": "2026-11-22",
+      "dateBasis": "chat",
+      "kind": "changed",
+      "state": "implemented",
+      "delivery": "local",
+      "title": "Trim hint guidance and put Complex upgrade before the corners and halves",
+      "summary": "Remove AP from the Suppression Bot clue, retire Tree Planter and trailing optional hints, and separate the earlier Complex upgrade from later Final Core assembly.",
+      "details": [
+        "User requested each change during the active review: no 4 AP in the Suppression Bot title; no Tree Planter hint; Complex upgrade before Yin/Yang and the corners; remove every hint listed after You’ve got this.",
+        "Centralize the generic Suppression Bot clue while retaining the same assembly recipe/action and understated body. Filter exact retired saved-copy pairs and normalize only the known old bot title/detail, preserving other custom text and saved progress.",
+        "Remove live Tree Planter, undiscovered/discovered Golem, Heavy Robotics, Command Robotics, Trucks, Road Channels 1 and Trains guidance. Their actual research, recipes and encounters remain unchanged.",
+        "Split the previously combined Complex upgrade / Final Core review row. Prioritize finalCore research after complexCore in the shared primary selector; review it before all late corners and Yin/Yang. Keep Final Core recipe assembly after both halves. Preserve early supporting exploration conditions and the missing-lab override.",
+        "Rebuild both author pages with 41 entries and 51 situations ending at You’ve got this. Update selection explanation, current system/style references and existing plan/review. Restore missing guide/reference sections from retained source plus previously recorded current text, normalizing newline handling and preserving concurrent tutorial updates. These are local shared-guidance/source changes, not a publication."
+      ],
+      "topics": [
+        "Interface",
+        "Research",
+        "Tutorials",
+        "Prototypes",
+        "Documentation",
+        "Testing",
+        "Saves"
+      ],
+      "sources": [
+        "chat-current",
+        "local-code"
+      ],
+      "evidence": [
+        "src/content/researchGuidance.ts",
+        "src/ui/researchMilestones.ts",
+        "src/ui/researchMilestones.test.ts",
+        "src/ui/upgrades/statusHints.ts",
+        "previews/status-page/hintReview.ts",
+        "previews/status-page/HintReviewPage.tsx",
+        "previews/status-page/hintNavigationCatalog.ts",
+        "previews/status-page/hintNavigation.test.ts",
+        "previews/status-page/hintHistory.test.ts",
+        "previews/status-page/README.md",
+        "docs/systems/tutorials-and-discovery.md",
+        "docs/systems/research.md",
+        "docs/node-ui-style-guide.md",
+        "docs/typography-style-review.md",
+        "docs/master-plan/05-interface-and-learning.md",
+        "docs/reviews/system-review-temporary.md",
+        "outputs/hint-navigation/index.html",
+        "outputs/status-page/hint-texts.html",
+        "outputs/hint-navigation/revised-hints-tests.json",
+        "outputs/hint-navigation/revised-hints-browser.json",
+        "outputs/hint-navigation/revised-hints-upgrade.jpg"
+      ],
+      "validation": "217 focused tests passed across 14 files, including every preview case, shared milestone selection and Upgrades integration. Existing regressions now verify Suppression Bot without AP, exact old-copy rename/retirement, absence of removed hints, Complex upgrade before discovered corners and half recipes across all three pairings, and Final Core after the halves. Main TypeScript/Vite production build, preview TypeScript and both standalone builds passed; existing main-build chunk-size advisory retained. Browser traversed all 41 ordered snapshots and all 51 situations (21 research/upgrade targets, 14 tutorial invitations, 16 no-action cases), with correct order/title/terminal entry, focused Complex upgrade, no unintended queue entries and empty warning/error logs. Restored reference sections and guide headings accidentally dropped by the previous newline-sensitive paragraph edit, preserving current tutorial-review updates. No fresh full lesson, full workspace suite, ordinary-play balance, participant comprehension, direct campaign-save access or publication."
+    },
+    {
+      "id": "NODE-0854",
+      "date": "2026-11-22",
+      "dateBasis": "chat",
+      "kind": "changed",
+      "state": "implemented",
+      "delivery": "local",
+      "title": "Draft more suggestive hint titles in the implementation preview",
+      "summary": "Replace explicit preview headings with short dry clues while preserving literal action controls and stable destination resolution.",
+      "details": [
+        "User requested less explicit, more hint-like titles. Add a complete title presentation map for 41 retained hints and five production-phase variants. Keep existing already-suggestive headings, the established cleanup/order and the terminal You’ve got this.",
+        "Examples: Room for thought, Liquid assets, A staffing solution, Promotion pending and A complete picture. Apply the names consistently to the thought bubble, numbered selector and expanded preview list.",
+        "Keep original raw live clue titles for action/eligibility resolution; retain bodies, project/lesson control names and saved campaign history. Review notes exposes the original reference and Current/With navigation compares original/proposed names. This is an implemented local preview draft, not adopted main-game hint renaming.",
+        "Update author README, guidance pointer and both maintained style references. No source gameplay, research naming, gating, save representation or publication change."
+      ],
+      "topics": [
+        "Interface",
+        "Prototypes",
+        "Tutorials",
+        "Documentation",
+        "Testing"
+      ],
+      "sources": [
+        "chat-current",
+        "local-code"
+      ],
+      "evidence": [
+        "previews/status-page/hintTitles.ts",
+        "previews/status-page/hint-navigation.tsx",
+        "previews/status-page/README.md",
+        "docs/systems/tutorials-and-discovery.md",
+        "docs/reviews/system-review-temporary.md",
+        "docs/node-ui-style-guide.md",
+        "docs/typography-style-review.md",
+        "outputs/hint-navigation/index.html",
+        "outputs/hint-navigation/hint-titles-tests.json",
+        "outputs/hint-navigation/hint-titles-browser.json",
+        "outputs/hint-navigation/hint-titles-desktop.jpg"
+      ],
+      "validation": "217 existing focused tests passed across 14 files; preview TypeScript and standalone build passed. Browser checked 41 entries and all 51 situations: 21 research/upgrade targets, 14 invitations and 16 no-action cases. Research focus and empty queues passed; original/proposed comparison showed Complex upgrade versus Promotion pending. Two initial fast-loop Plate/Lab observations still showed the opening assignment; fresh exact-visible-title waits and dialog assertions passed for both, and the evidence preserves the retried checks. At 1210x923 there was no horizontal overflow and final captured warnings/errors were empty. No new tests were added for the reversible copy draft. No fresh narrow/full-lesson/human-learning test, full workspace suite, campaign-title migration, main-game adoption or publication."
+    },
+    {
       "id": "NODE-0855",
       "date": "2026-11-22",
       "dateBasis": "chat",
@@ -28219,6 +28899,407 @@
         "docs/systems/testing-and-publishing.md"
       ],
       "validation": "Workspace suite passed 2539 tests with 1 existing skip; exact isolated candidate passed 1621 tests with no failures/skips. npm run build:site, six catalog/local-link checks and history checks passed. Staged source matched frozen normalized text and all runtime blobs matched build bytes. Pages run 45082925259 succeeded; normal live HTML, all 11 current build files and 10 preceding asset URLs matched SHA-256. Only node/ changed. No fresh interactive browser, human learning or normal-play balance run."
+    },
+    {
+      "id": "NODE-0856",
+      "date": "2026-11-22",
+      "dateBasis": "chat",
+      "kind": "changed",
+      "state": "implemented",
+      "delivery": "local",
+      "title": "Avoid repeated words between preview hint titles and bodies",
+      "summary": "Revise nine title variants so heading and clue contribute different wording while retaining the dry voice.",
+      "details": [
+        "User requested avoiding the same words in title and hint text. Replace the eight default overlaps and Complex Core production overlap, including close forms flat/flatter and growth.",
+        "Use Grounds for optimism, Alternative employment, Material progress, Career prospects, Equipment request, Restricted access, Revised specifications, Delayed returns and Unclaimed value. Preserve every body, action label, source identity, order, gate and campaign save.",
+        "Document the current wording rule in the style guide and author references. Review all rendered variants; ordinary function words need not be artificially removed. This remains a local preview title draft."
+      ],
+      "topics": [
+        "Interface",
+        "Prototypes",
+        "Documentation",
+        "Testing"
+      ],
+      "sources": [
+        "chat-current",
+        "local-code"
+      ],
+      "evidence": [
+        "previews/status-page/hintTitles.ts",
+        "previews/status-page/README.md",
+        "docs/node-ui-style-guide.md",
+        "docs/typography-style-review.md",
+        "docs/systems/tutorials-and-discovery.md",
+        "docs/reviews/system-review-temporary.md",
+        "outputs/hint-navigation/index.html",
+        "outputs/hint-navigation/title-overlap-browser.json",
+        "outputs/hint-navigation/title-overlap-desktop.jpg"
+      ],
+      "validation": "Standalone preview build passed. Fresh browser wording audit inspected all 41 entries and 51 displayed situations, including five production variants and five Map Point variants. No repeated meaningful keywords remained with ordinary function words ignored and flat/flatter plus growth/growing reviewed as word families. Actual rendered title/body pairs and unchanged action labels are recorded; final browser warnings/errors empty. No new automated tests or repeat of the broader functional suite for the reversible copy-only change. Previous routing evidence remains under NODE-0854; no fresh mobile, human comprehension, main-game adoption or publication."
+    },
+    {
+      "id": "NODE-0857",
+      "date": "2026-11-22",
+      "dateBasis": "chat",
+      "kind": "changed",
+      "state": "implemented",
+      "delivery": "local",
+      "title": "Unlock Yin, Yang and corner locations at Complex upgrade",
+      "summary": "Complex upgrade completion now unlocks both half recipes and reveals all four corners; remove the individual Yin/Yang hints.",
+      "details": [
+        "Move actual half-recipe and corner-marker gates from Shiny upgrade (complexCore) to Complex upgrade (finalCore), alongside its Final Core recipe. Update shared benefits, completion notices, recipe selection/processing/feedback, map emphasis, late guidance and author contexts.",
+        "Remove former hint rows 37/38 from the shared selector and author catalog, retiring only their exact saved copy pairs. The review now contains 39 entries and 49 situations ending at You’ve got this.",
+        "Version new research states and preserve old earned half access/all-corner knowledge independently on load, retaining selected/parked paid Cores without granting finalCore. Old manual corner discovery preserves map knowledge only. Preserve applied-mod save permissions without adopting character progression or overriding custom recipe gates.",
+        "Update current system references, style rules and preview guidance; regenerate catalogs/history. Map-upgrades/Show-me campaign adoption remains pending."
+      ],
+      "topics": [
+        "Research",
+        "Endgame",
+        "Interface",
+        "Saves",
+        "Documentation",
+        "Testing"
+      ],
+      "sources": [
+        "chat-current",
+        "local-code"
+      ],
+      "evidence": [
+        "src/content/endgame.ts",
+        "src/content/botUpgrades.ts",
+        "src/simulation/upgradesMigration.ts",
+        "src/ui/mapNodePresentation.ts",
+        "src/ui/researchMilestones.ts",
+        "src/simulation/cornerDiscovery.test.ts",
+        "src/renderer/productionVisuals.test.ts",
+        "previews/status-page/hintReview.ts",
+        "docs/systems/endgame-and-victory.md",
+        "docs/systems/saves-and-compatibility.md",
+        "docs/typography-style-review.md",
+        "outputs/hint-navigation/complex-unlock-all-tests.json",
+        "outputs/hint-navigation/complex-unlock-focused-tests.json",
+        "outputs/hint-navigation/complex-unlock-browser.json"
+      ],
+      "validation": "Full workspace suite passed 1,740 tests before the final production-feedback compatibility adjustment; all 273 final focused tests pass, covering that adjustment and regression. Main TypeScript/Vite and both standalone preview builds passed. Browser verified Shiny and Complex completion notices/tooltips, 39 hint options, Complex upgrade focus and empty warning/error logs. Automated tests cover all six supported world sizes, recipe gates, ordinary research payments, partial paid progress, reload/idempotence, old corner knowledge and malformed metadata. No fresh ordinary-play balance run, participant comprehension test or publication."
+    },
+    {
+      "id": "NODE-0858",
+      "date": "2026-11-22",
+      "dateBasis": "chat",
+      "kind": "changed",
+      "state": "implemented",
+      "delivery": "local",
+      "title": "Give the piano action palette gentler phrasing against the cello",
+      "summary": "Space piano notes more gently, soften their endings and reduce intermediate ringing across the current nineteen-cue palette, then rebuild the listening sheet and mixed test factory.",
+      "details": [
+        "The user approved testing timing/cadence before an octave change. Revision 7 preserves F major, C2–C4, fifteen pitches, all cue IDs/note counts, immediate first notes, single selection/movement chords and the one-note rejection. Later onsets are at least 105 ms apart and each sequential interval is wider than before; common-action gestures remain at or below 540 ms.",
+        "Reduce every per-note gain, use a 3 ms attack taper and shorten intermediate releases to 180 ms while retaining full 450–800 ms final releases. Several cadences now settle on F, A or C, including connection, disconnection, removal, configuration, queue, upgrade, unlock, travel and attention; Pause retains its D-minor identity. Research/upgrade/victory preserve their runs with slower spacing and softer F-major finishes.",
+        "Keep the expressive cello/double-bass background byte-identical and defaults at 15% music / 30% effects. Do not synchronize action feedback to background beats. Preserve the prior model, manifest, WAVs, credits and reel under the revision-6 archive; update current descriptions, inclusive duration labels, system/plan/author/style references and preview header. Add fresh Revision 7 and calmer-piano-with-music routes and rebuild both factory aliases."
+      ],
+      "topics": [
+        "Audio",
+        "Interface",
+        "Testing",
+        "Documentation"
+      ],
+      "sources": [
+        "local-code"
+      ],
+      "evidence": [
+        "previews/action-sounds/model.mjs",
+        "previews/action-sounds/archive/revision-6-model.mjs",
+        "scripts/build-action-sounds.mjs",
+        "scripts/check-piano-sounds.mjs",
+        "previews/action-sounds/index.html",
+        "previews/action-sounds/playground.tsx",
+        "outputs/action-sounds/manifest.json",
+        "outputs/action-sounds/phrasing-verification.json",
+        "outputs/action-sounds/listening-music-verification.json",
+        "outputs/action-sounds/gentle-phrasing-ready.jpg",
+        "outputs/action-sounds/calmer-piano-with-music.html",
+        "outputs/action-sounds/archive/revision-6/manifest.json",
+        "outputs/action-sounds/factory-with-music.html",
+        "docs/systems/interface-and-assets.md",
+        "docs/master-plan/06-art-audio-and-writing.md",
+        "previews/action-sounds/README.md",
+        "docs/node-ui-style-guide.md",
+        "docs/typography-style-review.md"
+      ],
+      "validation": "Eight piano checks passed: pinned recorded sources, immediate onsets and note-count retention against archived model, wider intervals of at least 105 ms, lower gains, retained triads/single rejection, distinct diatonic phrases and fifteen pitches, rendered WAV/hash/embedding/release checks. All twenty cue/comparison WAVs changed and measured 2.38–8.04 dB lower RMS than their previous versions. Background SHA-256 remained unchanged. Generated sheet mix/loop/lifecycle checks, fourteen mixer/event/preference tests, preview TypeScript and standalone build passed. Browser completed the full 37.44-second reel over continuing music, with no overflow or captured warnings/errors, then retained a fresh ready page and screenshot. System catalogs/freshness/local links and changelog checks passed. No subjective listening comfort, mobile test, campaign integration, full game suite or publication is claimed."
+    },
+    {
+      "id": "NODE-0859",
+      "date": "2026-11-22",
+      "dateBasis": "chat",
+      "kind": "changed",
+      "state": "implemented",
+      "delivery": "local",
+      "title": "Clarify promotion, corner access and the pieces-to-halves handoff",
+      "summary": "Give Complex upgrade its own chassis clue, explain revealed-corner access and delay Final Core assembly guidance until both halves are owned.",
+      "details": [
+        "User accepted the proposed refinements and asked about simulating a newcomer. Replace the borrowed assembly line on Complex upgrade with The current chassis is starting to feel temporary.",
+        "Retain 39 hint entries without individual Yin/Yang cards. Add a pieces-ready situation to Final Core; the shared selector targets the world-matching missing-half recipe until both halves are owned, then Final Core itself. There are now 50 author situations. Existing missing-corner and recovery guidance remain; a committed Final Core batch keeps the assembly clue after consuming its halves.",
+        "Explain that revealed corners still require ordinary expansion in upgrade benefits/completion copy and selected locked-corner details. No new interrupting modal, map purchase or travel shortcut.",
+        "Run and retain a developer-informed 27-checkpoint synthetic transition walkthrough across three pairings and a ten-checkpoint browser path. Prepare the participant observation protocol; human comprehension, discovery and fun remain unmeasured."
+      ],
+      "topics": [
+        "Interface",
+        "Research",
+        "Endgame",
+        "Prototypes",
+        "Testing",
+        "Documentation"
+      ],
+      "sources": [
+        "chat-current",
+        "local-code"
+      ],
+      "evidence": [
+        "src/content/researchGuidance.ts",
+        "src/ui/researchMilestones.ts",
+        "src/content/botUpgrades.ts",
+        "src/ui/MapNodeDetails.tsx",
+        "src/ui/researchMilestones.test.ts",
+        "previews/status-page/hintNavigationCatalog.ts",
+        "docs/reviews/system-review-temporary.md",
+        "docs/typography-style-review.md",
+        "outputs/hint-navigation/first-time-walkthrough.mjs",
+        "outputs/hint-navigation/first-time-walkthrough.json",
+        "outputs/hint-navigation/handoff-tests.json",
+        "outputs/hint-navigation/handoff-browser.json",
+        "outputs/hint-navigation/handoff-promotion.jpg",
+        "outputs/hint-navigation/handoff-pieces.jpg"
+      ],
+      "validation": "243 focused tests passed across the preview, shared milestone/pairing selection, map presentation, Upgrades integration and corner compatibility. Main TypeScript/Vite, preview TypeScript and both standalone builds passed. Browser checked ten checkpoints/actions, matching recipe links, 39 entries and empty warning/error logs. The 27 source checkpoints are constructed, developer-informed states, not earned gameplay, blind participants or time-to-completion measurements. No fresh full workspace suite, browser map-detail walkthrough, human comprehension/fun assessment or publication."
+    },
+    {
+      "id": "NODE-0860",
+      "date": "2026-11-22",
+      "dateBasis": "chat",
+      "kind": "changed",
+      "state": "implemented",
+      "delivery": "local",
+      "title": "Remove the second paragraph from Upgrade tooltips",
+      "summary": "Character Upgrade hover/focus details now contain only promotion and benefits across all seven upgrades.",
+      "details": [
+        "Remove shared priority/queue, disabling/payment and locked-requirement behavior paragraphs from BotUpgrade tooltip details and matching aria-description. Retain accessible Enable/Disable action names.",
+        "Preserve actual selection, priority, cancellation, payments and queue rules; update current style/system/author references."
+      ],
+      "topics": [
+        "Interface",
+        "Research",
+        "Documentation",
+        "Testing"
+      ],
+      "sources": [
+        "chat-current",
+        "local-code"
+      ],
+      "evidence": [
+        "src/ui/upgrades/BotUpgrade.tsx",
+        "docs/node-ui-style-guide.md",
+        "docs/typography-style-review.md",
+        "docs/systems/research.md",
+        "previews/status-page/README.md",
+        "outputs/hint-navigation/concise-upgrade-tooltips.json",
+        "outputs/hint-navigation/concise-upgrade-tooltip.jpg"
+      ],
+      "validation": "Main TypeScript/Vite build, preview TypeScript and both standalone builds passed. Browser verified all seven character upgrades in available and active states, with matching single-paragraph aria-description and empty warnings/errors. No new tests or repeated functional suite for reversible copy removal; no publication."
+    },
+    {
+      "id": "NODE-0861",
+      "date": "2026-11-22",
+      "dateBasis": "chat",
+      "kind": "changed",
+      "state": "implemented",
+      "delivery": "local",
+      "title": "Soften expansion descriptions and highlight revealed corners in the map",
+      "summary": "Keep Area Expansion names with less explicit descriptions; omit corner reveal from the Upgrade tooltip and glow all four corners whenever the expanded map opens.",
+      "details": [
+        "User selected softer descriptions with Area Expansion 1/2 names retained. Replace numeric dimension copy with understated room/allowance wording without changing sizes, costs or prerequisites.",
+        "Complex Upgrade tooltip and aria-description now show promotion plus Final Core and Yin/Yang recipes only. Preserve actual corner revelation and its completion notice.",
+        "Expanded Node Map glows all four earned corner markers even after acknowledgement and on reopening; compact/rail unread indicators retain saved acknowledgement. Reuse existing 1.8-second gold glow and steady reduced-motion outline, preserving anonymous locked names and map permissions."
+      ],
+      "topics": [
+        "Interface",
+        "Research",
+        "Maps",
+        "Endgame",
+        "Documentation",
+        "Testing"
+      ],
+      "sources": [
+        "chat-current",
+        "local-code"
+      ],
+      "evidence": [
+        "src/content/research.ts",
+        "src/content/progression.ts",
+        "src/content/botUpgrades.ts",
+        "src/ui/NodeMinimap.tsx",
+        "src/ui/NodeMinimap.test.tsx",
+        "src/styles/node-map.css",
+        "docs/node-ui-style-guide.md",
+        "docs/typography-style-review.md",
+        "docs/systems/map-nodes-and-exploration.md",
+        "docs/systems/saves-and-compatibility.md",
+        "outputs/hint-navigation/map-corner-glow-tests.json",
+        "outputs/hint-navigation/map-corner-glow-browser.json",
+        "outputs/hint-navigation/map-corner-glow.jpg"
+      ],
+      "validation": "38 focused tests passed, including all six world sizes, acknowledgement, repeated expanded/compact rendering, unchanged game state and existing map/Upgrades compatibility. Main TypeScript/Vite, preview TypeScript and both standalone builds passed. Browser verified both descriptions, tooltip omission, no glow before Complex, four pulsing corners afterward and four after acknowledgement plus Escape/reopening; warnings/errors empty. The author Payment tests menu initially overlaid the map Close button; collapsing it before opening the map allowed Close/reopen to pass with all four glows. No fresh full suite, reduced-motion browser emulation, normal-play balance run or publication. Catalog generation/check is blocked by an unrelated existing broken link from docs/systems/audio.md to the absent outputs/audio-integration/verification.json; no placeholder evidence or audio changes were made. Changelog validation passed."
+    },
+    {
+      "id": "NODE-0862",
+      "date": "2026-11-22",
+      "dateBasis": "chat",
+      "kind": "added",
+      "state": "implemented",
+      "delivery": "local",
+      "title": "Integrate piano actions and ambient music with saved channel controls",
+      "summary": "Adopt the current sound palette into the game and add compact independent Music and Sound effects volume/mute controls to Options, calibrated to the approved mix at a 50% midpoint.",
+      "details": [
+        "The user requested current music/effects levels as defaults at half the available slider range. Each 0–100 slider starts at 50, producing the existing 0.15 music and 0.30 effects gains; maxima are 0.30 and 0.60. Independent mute flags retain the volume values, save with each factory and survive Undo. Old saves receive normalized midpoint defaults; the retired sound placeholder does not mute the new channels. Practice shares campaign audio settings.",
+        "Adopt nineteen Revision 7 piano WAVs and the exact expressive cello/double-bass loop into separately emitted, hashed game assets, with a reproducible explicit audio:sync command and retained bundled attribution. One gesture-activated root Web Audio mixer follows the active engine, keeps one continuous music source across mute/pause/practice/state changes, suspends while hidden, drops missed cues, isolates audio failures and cleans up resources. Four-voice milestone priorities and cooldowns keep ordinary cues and alerts bounded.",
+        "Emit lightweight feedback at committed engine command boundaries and new completion/depletion events. Cover placement/layouts, changed drop, cables, deletion, configuration, research, map activation/travel, pause/resume, Undo, manual save, selection/panel and visible failed interactions. Drag previews, no-ops, routine production/autosaves and historical restored milestones remain silent. Navigation after an action is suppressed to avoid automatic-selection double cues.",
+        "Follow the user’s layout correction: keep Music and Sound effects side by side in desktop Options, match the other 48 px cards and shorten each bar between title and Mute. Remove the visible Audio heading and Credits link. Narrow screens stack the compact rows to keep controls usable. Reuse the existing modal style and shared text roles; retain attribution with the distributable assets. Open and retain the full local game with Options visible, paused and the approved defaults restored."
+      ],
+      "topics": [
+        "Audio",
+        "Interface",
+        "Saves",
+        "Testing",
+        "Documentation"
+      ],
+      "sources": [
+        "local-code"
+      ],
+      "evidence": [
+        "src/audio/GameAudio.ts",
+        "src/audio/assets.ts",
+        "src/audio/assets/manifest.json",
+        "src/audio/assets/CREDITS.txt",
+        "public/AUDIO-CREDITS.txt",
+        "scripts/sync-game-audio.mjs",
+        "src/domain/audioPreferences.ts",
+        "src/domain/playerFeedback.ts",
+        "src/simulation/engine.ts",
+        "src/simulation/stateLifecycle.ts",
+        "src/persistence/legacyMigration.ts",
+        "src/ui/useGameAudio.ts",
+        "src/ui/App.tsx",
+        "src/ui/panels/OptionsPanel.tsx",
+        "src/ui/panels/SavePanel.tsx",
+        "src/styles/cards.css",
+        "src/audio/GameAudio.test.ts",
+        "src/audio/assets.test.mjs",
+        "src/domain/audioPreferences.test.ts",
+        "src/simulation/playerFeedback.test.ts",
+        "src/ui/panels/OptionsPanel.test.tsx",
+        "outputs/audio-integration/verification.json",
+        "outputs/audio-integration/tests-final.json",
+        "outputs/audio-integration/focused-final.json",
+        "outputs/audio-integration/browser.json",
+        "outputs/audio-integration/options-desktop.jpg",
+        "outputs/audio-integration/options-mobile.jpg",
+        "docs/systems/audio.md",
+        "docs/systems/saves-and-compatibility.md",
+        "docs/systems/architecture-and-simulation.md",
+        "docs/systems/interface-and-assets.md",
+        "docs/node-ui-style-guide.md",
+        "docs/typography-style-review.md"
+      ],
+      "validation": "Full workspace suite passed 2,560 tests with four workers and a 30-second per-test limit after an initial seeded-world 5-second timeout and an intervening test-file rename invalidated its old collection path. All 13 final focused checks passed after the compact-control correction and final successful-map-activation cue: adopted hashes/PCM/credits, independent gains/mutes and doubled maximum, gesture/loading/device/visibility/disposal behavior, priorities/coalescing, committed/no-op/drag/reset boundaries, real lab completion, map activation, saved normalization/round trip/Undo and Options semantics. Main TypeScript/Vite and relative-base local game builds passed; existing chunk-size advisory retained. Browser verified a full game canvas, 50/50 defaults, independent slider endpoints and mute states, restored values, pause/resume and Options close/reopen, no warning/error logs, side-by-side 48 px desktop cards matching the existing rows, no heading/credits, and a usable 390 px stacked layout without horizontal overflow. Viewport reset, screenshot and local game retained. System catalog/local-link/freshness and changelog checks passed. No hardware listening judgment, new ordinary-play progression balance run or publication is claimed."
+    },
+    {
+      "id": "NODE-0863",
+      "date": "2026-11-22",
+      "dateBasis": "chat",
+      "kind": "changed",
+      "state": "implemented",
+      "delivery": "local",
+      "title": "Unlock Filter alongside the first waste stream",
+      "summary": "Filter now unlocks with Waste Handling when Precision Control completes, alongside Waste Bin, rather than appearing in the starting Build menu.",
+      "details": [
+        "The user chose Waste Handling at Precision Control instead of a character-upgrade gate. Keep research order, Core prices and automatic discovery behavior unchanged; no separate project or payment is introduced.",
+        "Apply the Filter sortingTools requirement and explicit Filter/Waste Bin research copy to the unmodded runtime catalog. Preserve the frozen applied-mod baseline and custom Filter research gates across catalog switches.",
+        "Existing pre-unlock Filters keep their stock, configuration, cables and routing without granting unearned research. New normal Build availability and layout pastes follow Waste Handling. Saved completed Precision Control retains the existing automatic Waste Handling normalization.",
+        "Update current waste, research and routing references, generated node/research catalogs, style guidance and review notes."
+      ],
+      "topics": [
+        "Research",
+        "Logistics",
+        "Progression",
+        "Saves",
+        "Documentation"
+      ],
+      "sources": [
+        "local-code"
+      ],
+      "evidence": [
+        "src/mods/modContent.ts",
+        "src/simulation/filterUnlock.test.ts",
+        "src/ui/panels/BuildPanel.test.tsx",
+        "outputs/filter-unlock-tests.json",
+        "docs/systems/waste-and-recycling.md",
+        "docs/systems/research.md",
+        "docs/systems/connections-and-routing.md",
+        "docs/systems/catalogs/nodes.md",
+        "docs/systems/catalogs/research.md",
+        "docs/node-ui-style-guide.md",
+        "docs/typography-style-review.md"
+      ],
+      "validation": "Full workspace suite passed 2,565 tests (1 skipped), including final synchronized Precision Control payment, immediate Filter/Waste Bin access, ordinary Build visibility, save round trip, pre-unlock Filter routing and vanilla/base/custom mod catalog switches. Corrected a test fixture that reused an activated mod object before the successful full rerun; no production change was needed for it. TypeScript/Vite production build passed with the existing large-chunk advisory. Six system catalogs regenerated; freshness and local links checked across 41 documents. No fresh browser playtest, balance run or publication."
+    },
+    {
+      "id": "NODE-0864",
+      "date": "2026-11-22",
+      "dateBasis": "chat",
+      "kind": "changed",
+      "state": "implemented",
+      "delivery": "local",
+      "title": "Adopt reviewed hint navigation with normal progression gates",
+      "summary": "Use suggestive titles, valid research shortcuts and optional matching lesson invitations in the unmodded game without unlocking the full author hint catalog.",
+      "details": [
+        "User deferred a separate normal-progression test mode and moved toward criterion E02, then explicitly requested adopting the reviewed guidance without the test page’s full unlock. No author controls, stage snapshots or free progression enter the game.",
+        "Share presentation titles and the live action resolver between game and preview. Preserve canonical saved clue IDs/history, normal primary changes, future gates, stale-action rejection and existing applied-mod screen. Keep literal control and project names.",
+        "Show me focuses/selects research or the current character Upgrade without queueing, enabling or paying. Matched unlocked tutorials use the accepted compact optional invitation, initial Not now and outside/Close/Escape dismissal. No unsupported node/map manipulation or fake lessons.",
+        "Explicit practice uses a separate autosave-disabled engine. Preserve the originating campaign/map, hint, search/view/completed state, selected project, scroll and action focus on Exit/Finish through temporary UI-only context. Keep existing library entry behavior and guided lesson restrictions.",
+        "Keep the author all-hint exception and newer Map upgrades/combined Exploration-Road proposal isolated. Participant comprehension remains pending; resume expanded E02 after this implementation without reopening its approved comparison."
+      ],
+      "topics": [
+        "Interface",
+        "Research",
+        "Tutorials",
+        "Saves",
+        "Documentation",
+        "Testing"
+      ],
+      "sources": [
+        "chat-current",
+        "local-code"
+      ],
+      "evidence": [
+        "src/content/hintTitles.ts",
+        "src/ui/upgrades/hintNavigation.ts",
+        "src/ui/upgrades/HintBrowser.tsx",
+        "src/ui/upgrades/HintTutorialInvitation.tsx",
+        "src/ui/upgrades/hintPanelContext.ts",
+        "src/ui/ResearchPanel.tsx",
+        "src/ui/App.tsx",
+        "src/styles/upgrades.css",
+        "src/ui/UpgradesIntegration.test.tsx",
+        "previews/status-page/hintNavigation.test.ts",
+        "docs/systems/tutorials-and-discovery.md",
+        "docs/reviews/system-review-temporary.md",
+        "docs/typography-style-review.md",
+        "outputs/hint-navigation/adoption-tests.json",
+        "outputs/hint-navigation/adoption-all-tests-initial.json",
+        "outputs/hint-navigation/adoption-all-tests.json",
+        "outputs/hint-navigation/adoption-browser.json",
+        "outputs/hint-navigation/adopted-game-hints.jpg"
+      ],
+      "validation": "228 focused tests and main TypeScript/Vite build passed. Browser on declared isolated autosave-disabled checkpoints verified only four opening hints, matching optional invitation and initial focus, Escape/outside dismissal, separate practice Exit and restored hint/query/view/action focus, real research and character focus with no queue/payment/enabling. The first full suite had 1,770 passes and one unrelated 5-second landmark timeout; the full rerun passed all 1,771 tests with two workers and a 30-second per-test limit. This changes only the test timeout, not gameplay timing. No human comprehension result, full lesson completion replay, balance run or publication. Preview TypeScript, both standalone builds, system catalogs/local links and changelog validation are recorded with the final checks."
     }
   ]
 }

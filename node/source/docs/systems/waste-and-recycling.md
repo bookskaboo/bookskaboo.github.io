@@ -6,6 +6,8 @@ Waste is material stock with routing and storage costs. Metallic Fines, Spent Fl
 
 ## Production and routing
 
+In unmodded factories, completing Precision Control automatically grants Waste Handling (`sortingTools`), which unlocks the Filter and Waste Bin together. There is no separate payment or character upgrade for these nodes. They become available before the newly unlocked Controller recipe introduces the first waste stream. Existing Filters remain usable in older saves even before Waste Handling; building or pasting another follows the new unlock. Applied-mod factories retain their base/custom catalog gates.
+
 The current Controller recipe guarantees one Metallic Fines alongside one Controller per 36-second base cycle. Earlier reports of probabilistic Controller waste describe an older rule. Read the current recipe catalog before assuming a former probability or waste source remains active.
 
 Machines producing mixed output use a shared output stream and queue. Filters separate products from waste. If a required outlet blocks, the queue can stop useful output too. Waste Bins hold 200 units and support waste routing; they do not destroy their contents automatically.
@@ -28,4 +30,4 @@ Rare waste should not be inferred as a mandatory progression ingredient merely b
 
 Sources: [waste and recovery recipes](../../src/content/progression.ts), [fixed breakdown maps](../../src/content/recycling.ts), [batch processing](../../src/simulation/progression.ts), [queues](../../src/simulation/mixedOutput.ts), [corner credits](../../src/content/endgame.ts).
 
-Coverage: [reviewed production](../../src/simulation/reviewedProduction.test.ts), [endgame](../../src/simulation/endgame.test.ts), [routing](../../src/simulation/logisticsRouting.test.ts). See [recipes](recipes.md), [storage](storage-and-inventory.md), [endgame](endgame-and-victory.md) and [historical waste benchmark](../master-plan/13-recycling-and-waste-benchmark.md).
+Coverage: [Filter unlock and legacy routing](../../src/simulation/filterUnlock.test.ts), [reviewed production](../../src/simulation/reviewedProduction.test.ts), [endgame](../../src/simulation/endgame.test.ts), [routing](../../src/simulation/logisticsRouting.test.ts). See [recipes](recipes.md), [storage](storage-and-inventory.md), [endgame](endgame-and-victory.md) and [historical waste benchmark](../master-plan/13-recycling-and-waste-benchmark.md).

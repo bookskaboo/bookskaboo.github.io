@@ -1,0 +1,471 @@
+{
+  "date": "2026-11-22",
+  "method": "Developer-informed synthetic cognitive walkthrough and shared-selector trace. Scenario checkpoints are constructed; no novice participant or blind agent is represented.",
+  "limits": [
+    "Prior source knowledge cannot be erased. No measured human attention, comprehension, enjoyment, error probability or completion time.",
+    "Constructed checkpoints and supplied inventory are not a normal-play progression or balance run. No campaign saves are read or written.",
+    "Browser observations are recorded separately; source traces do not establish control discoverability."
+  ],
+  "benefits": {
+    "shiny": "Unlock the Complex Core recipe.",
+    "complex": "Unlock the Final Core recipe. Unlock the Yin and Yang recipes. Reveal all four corner locations. Reaching them still requires ordinary map expansion."
+  },
+  "traces": [
+    {
+      "pairIndex": 0,
+      "checkpoint": "Before Complex upgrade",
+      "primary": {
+        "title": "Complex upgrade",
+        "detail": "The current chassis is starting to feel temporary.",
+        "action": {
+          "kind": "research",
+          "id": "finalCore"
+        }
+      },
+      "cornerMarkerCount": 0,
+      "halvesUnlocked": false,
+      "factoryMutation": "Synthetic checkpoint setup; not earned gameplay."
+    },
+    {
+      "pairIndex": 0,
+      "checkpoint": "After Complex upgrade; corners not visited",
+      "primary": {
+        "title": "The four corners",
+        "detail": "The map may have something left to say.",
+        "action": {
+          "kind": "map"
+        }
+      },
+      "cornerMarkerCount": 4,
+      "halvesUnlocked": true,
+      "factoryMutation": "Synthetic checkpoint setup; not earned gameplay."
+    },
+    {
+      "pairIndex": 0,
+      "checkpoint": "Corners visited; pieces missing",
+      "primary": {
+        "title": "Elder Grove",
+        "detail": "The trees expect growth.",
+        "action": {
+          "kind": "sector",
+          "id": "0,10"
+        }
+      },
+      "cornerMarkerCount": 4,
+      "halvesUnlocked": true,
+      "factoryMutation": "Synthetic checkpoint setup; not earned gameplay."
+    },
+    {
+      "pairIndex": 0,
+      "checkpoint": "All required pieces owned; halves missing",
+      "primary": {
+        "title": "Final Core",
+        "detail": "The pieces are ready. The Assembler can introduce them.",
+        "action": {
+          "kind": "recipe",
+          "id": "core-half-a-0"
+        }
+      },
+      "cornerMarkerCount": 4,
+      "halvesUnlocked": true,
+      "factoryMutation": "Synthetic checkpoint setup; not earned gameplay."
+    },
+    {
+      "pairIndex": 0,
+      "checkpoint": "Yin owned; Yang pieces owned",
+      "primary": {
+        "title": "Final Core",
+        "detail": "The pieces are ready. The Assembler can introduce them.",
+        "action": {
+          "kind": "recipe",
+          "id": "core-half-b-0"
+        }
+      },
+      "cornerMarkerCount": 4,
+      "halvesUnlocked": true,
+      "factoryMutation": "Synthetic checkpoint setup; not earned gameplay."
+    },
+    {
+      "pairIndex": 0,
+      "checkpoint": "Both halves owned",
+      "primary": {
+        "title": "Final Core",
+        "detail": "It’s like they fit together.",
+        "action": {
+          "kind": "recipe",
+          "id": "final-core"
+        }
+      },
+      "cornerMarkerCount": 4,
+      "halvesUnlocked": true,
+      "factoryMutation": "Synthetic checkpoint setup; not earned gameplay."
+    },
+    {
+      "pairIndex": 0,
+      "checkpoint": "Final Core batch running; halves consumed",
+      "primary": {
+        "title": "Final Core",
+        "detail": "It’s like they fit together.",
+        "action": {
+          "kind": "recipe",
+          "id": "final-core"
+        }
+      },
+      "cornerMarkerCount": 4,
+      "halvesUnlocked": true,
+      "factoryMutation": "Synthetic checkpoint setup; not earned gameplay."
+    },
+    {
+      "pairIndex": 0,
+      "checkpoint": "One half absent again; recovery",
+      "primary": {
+        "title": "Elder Grove",
+        "detail": "The trees expect growth.",
+        "action": {
+          "kind": "sector",
+          "id": "0,10"
+        }
+      },
+      "cornerMarkerCount": 4,
+      "halvesUnlocked": true,
+      "factoryMutation": "Synthetic checkpoint setup; not earned gameplay."
+    },
+    {
+      "pairIndex": 0,
+      "checkpoint": "Final Core produced; victory not paid",
+      "primary": {
+        "title": "A Remarkably Indirect Conclusion",
+        "detail": "The lab likes a complete set.",
+        "action": {
+          "kind": "research",
+          "id": "victory"
+        }
+      },
+      "cornerMarkerCount": 4,
+      "halvesUnlocked": true,
+      "factoryMutation": "Synthetic checkpoint setup; not earned gameplay."
+    },
+    {
+      "pairIndex": 1,
+      "checkpoint": "Before Complex upgrade",
+      "primary": {
+        "title": "Complex upgrade",
+        "detail": "The current chassis is starting to feel temporary.",
+        "action": {
+          "kind": "research",
+          "id": "finalCore"
+        }
+      },
+      "cornerMarkerCount": 0,
+      "halvesUnlocked": false,
+      "factoryMutation": "Synthetic checkpoint setup; not earned gameplay."
+    },
+    {
+      "pairIndex": 1,
+      "checkpoint": "After Complex upgrade; corners not visited",
+      "primary": {
+        "title": "The four corners",
+        "detail": "The map may have something left to say.",
+        "action": {
+          "kind": "map"
+        }
+      },
+      "cornerMarkerCount": 4,
+      "halvesUnlocked": true,
+      "factoryMutation": "Synthetic checkpoint setup; not earned gameplay."
+    },
+    {
+      "pairIndex": 1,
+      "checkpoint": "Corners visited; pieces missing",
+      "primary": {
+        "title": "Elder Grove",
+        "detail": "The trees expect growth.",
+        "action": {
+          "kind": "sector",
+          "id": "0,10"
+        }
+      },
+      "cornerMarkerCount": 4,
+      "halvesUnlocked": true,
+      "factoryMutation": "Synthetic checkpoint setup; not earned gameplay."
+    },
+    {
+      "pairIndex": 1,
+      "checkpoint": "All required pieces owned; halves missing",
+      "primary": {
+        "title": "Final Core",
+        "detail": "The pieces are ready. The Assembler can introduce them.",
+        "action": {
+          "kind": "recipe",
+          "id": "core-half-a-1"
+        }
+      },
+      "cornerMarkerCount": 4,
+      "halvesUnlocked": true,
+      "factoryMutation": "Synthetic checkpoint setup; not earned gameplay."
+    },
+    {
+      "pairIndex": 1,
+      "checkpoint": "Yin owned; Yang pieces owned",
+      "primary": {
+        "title": "Final Core",
+        "detail": "The pieces are ready. The Assembler can introduce them.",
+        "action": {
+          "kind": "recipe",
+          "id": "core-half-b-1"
+        }
+      },
+      "cornerMarkerCount": 4,
+      "halvesUnlocked": true,
+      "factoryMutation": "Synthetic checkpoint setup; not earned gameplay."
+    },
+    {
+      "pairIndex": 1,
+      "checkpoint": "Both halves owned",
+      "primary": {
+        "title": "Final Core",
+        "detail": "It’s like they fit together.",
+        "action": {
+          "kind": "recipe",
+          "id": "final-core"
+        }
+      },
+      "cornerMarkerCount": 4,
+      "halvesUnlocked": true,
+      "factoryMutation": "Synthetic checkpoint setup; not earned gameplay."
+    },
+    {
+      "pairIndex": 1,
+      "checkpoint": "Final Core batch running; halves consumed",
+      "primary": {
+        "title": "Final Core",
+        "detail": "It’s like they fit together.",
+        "action": {
+          "kind": "recipe",
+          "id": "final-core"
+        }
+      },
+      "cornerMarkerCount": 4,
+      "halvesUnlocked": true,
+      "factoryMutation": "Synthetic checkpoint setup; not earned gameplay."
+    },
+    {
+      "pairIndex": 1,
+      "checkpoint": "One half absent again; recovery",
+      "primary": {
+        "title": "Elder Grove",
+        "detail": "The trees expect growth.",
+        "action": {
+          "kind": "sector",
+          "id": "0,10"
+        }
+      },
+      "cornerMarkerCount": 4,
+      "halvesUnlocked": true,
+      "factoryMutation": "Synthetic checkpoint setup; not earned gameplay."
+    },
+    {
+      "pairIndex": 1,
+      "checkpoint": "Final Core produced; victory not paid",
+      "primary": {
+        "title": "A Remarkably Indirect Conclusion",
+        "detail": "The lab likes a complete set.",
+        "action": {
+          "kind": "research",
+          "id": "victory"
+        }
+      },
+      "cornerMarkerCount": 4,
+      "halvesUnlocked": true,
+      "factoryMutation": "Synthetic checkpoint setup; not earned gameplay."
+    },
+    {
+      "pairIndex": 2,
+      "checkpoint": "Before Complex upgrade",
+      "primary": {
+        "title": "Complex upgrade",
+        "detail": "The current chassis is starting to feel temporary.",
+        "action": {
+          "kind": "research",
+          "id": "finalCore"
+        }
+      },
+      "cornerMarkerCount": 0,
+      "halvesUnlocked": false,
+      "factoryMutation": "Synthetic checkpoint setup; not earned gameplay."
+    },
+    {
+      "pairIndex": 2,
+      "checkpoint": "After Complex upgrade; corners not visited",
+      "primary": {
+        "title": "The four corners",
+        "detail": "The map may have something left to say.",
+        "action": {
+          "kind": "map"
+        }
+      },
+      "cornerMarkerCount": 4,
+      "halvesUnlocked": true,
+      "factoryMutation": "Synthetic checkpoint setup; not earned gameplay."
+    },
+    {
+      "pairIndex": 2,
+      "checkpoint": "Corners visited; pieces missing",
+      "primary": {
+        "title": "Elder Grove",
+        "detail": "The trees expect growth.",
+        "action": {
+          "kind": "sector",
+          "id": "0,10"
+        }
+      },
+      "cornerMarkerCount": 4,
+      "halvesUnlocked": true,
+      "factoryMutation": "Synthetic checkpoint setup; not earned gameplay."
+    },
+    {
+      "pairIndex": 2,
+      "checkpoint": "All required pieces owned; halves missing",
+      "primary": {
+        "title": "Final Core",
+        "detail": "The pieces are ready. The Assembler can introduce them.",
+        "action": {
+          "kind": "recipe",
+          "id": "core-half-a-2"
+        }
+      },
+      "cornerMarkerCount": 4,
+      "halvesUnlocked": true,
+      "factoryMutation": "Synthetic checkpoint setup; not earned gameplay."
+    },
+    {
+      "pairIndex": 2,
+      "checkpoint": "Yin owned; Yang pieces owned",
+      "primary": {
+        "title": "Final Core",
+        "detail": "The pieces are ready. The Assembler can introduce them.",
+        "action": {
+          "kind": "recipe",
+          "id": "core-half-b-2"
+        }
+      },
+      "cornerMarkerCount": 4,
+      "halvesUnlocked": true,
+      "factoryMutation": "Synthetic checkpoint setup; not earned gameplay."
+    },
+    {
+      "pairIndex": 2,
+      "checkpoint": "Both halves owned",
+      "primary": {
+        "title": "Final Core",
+        "detail": "It’s like they fit together.",
+        "action": {
+          "kind": "recipe",
+          "id": "final-core"
+        }
+      },
+      "cornerMarkerCount": 4,
+      "halvesUnlocked": true,
+      "factoryMutation": "Synthetic checkpoint setup; not earned gameplay."
+    },
+    {
+      "pairIndex": 2,
+      "checkpoint": "Final Core batch running; halves consumed",
+      "primary": {
+        "title": "Final Core",
+        "detail": "It’s like they fit together.",
+        "action": {
+          "kind": "recipe",
+          "id": "final-core"
+        }
+      },
+      "cornerMarkerCount": 4,
+      "halvesUnlocked": true,
+      "factoryMutation": "Synthetic checkpoint setup; not earned gameplay."
+    },
+    {
+      "pairIndex": 2,
+      "checkpoint": "One half absent again; recovery",
+      "primary": {
+        "title": "Ancient Reclamation",
+        "detail": "Someone finally wants the waste.",
+        "action": {
+          "kind": "sector",
+          "id": "10,10"
+        }
+      },
+      "cornerMarkerCount": 4,
+      "halvesUnlocked": true,
+      "factoryMutation": "Synthetic checkpoint setup; not earned gameplay."
+    },
+    {
+      "pairIndex": 2,
+      "checkpoint": "Final Core produced; victory not paid",
+      "primary": {
+        "title": "A Remarkably Indirect Conclusion",
+        "detail": "The lab likes a complete set.",
+        "action": {
+          "kind": "research",
+          "id": "victory"
+        }
+      },
+      "cornerMarkerCount": 4,
+      "halvesUnlocked": true,
+      "factoryMutation": "Synthetic checkpoint setup; not earned gameplay."
+    }
+  ],
+  "findings": [
+    {
+      "status": "implemented",
+      "observation": "The old promotion clue used the assembly wording before any corner pieces were available.",
+      "remedy": "Give Complex upgrade its own chassis clue."
+    },
+    {
+      "status": "implemented",
+      "observation": "When all pieces were owned but halves were missing, the old fallback pointed to Final Core assembly.",
+      "remedy": "Use the existing Final Core clue with a combining-pieces phase and the world-matching missing-half recipe; switch to Final Core only once both halves are owned."
+    },
+    {
+      "status": "implemented",
+      "observation": "After the Assembler consumes both halves, a running Final Core batch could be mistaken for missing supply and send guidance back to corners.",
+      "remedy": "Keep Final Core assembly guidance during a committed Final Core batch; pairing regressions cover the consumed-input interval."
+    },
+    {
+      "status": "implemented",
+      "observation": "Revealed corner locations could be mistaken for opened destinations.",
+      "remedy": "State ordinary expansion is still required in upgrade benefits and the locked-corner detail panel."
+    },
+    {
+      "status": "unverified hypothesis",
+      "observation": "A newcomer may not discover recipe inspection or identify the relevant Assembler when Show me is deliberately absent.",
+      "nextCheck": "Observe recipe-guide discovery and delivery planning without coaching in a participant session."
+    },
+    {
+      "status": "unverified hypothesis",
+      "observation": "World-owned pieces and halves can be spread across maps; ownership does not establish delivery to the same Assembler.",
+      "nextCheck": "Include a distributed-stock checkpoint in human observation; inspect ordinary missing-input feedback."
+    }
+  ],
+  "proposedParticipantProtocol": {
+    "prompts": [
+      "What are you trying to achieve?",
+      "What would you do next?",
+      "What tells you that action worked?"
+    ],
+    "observeBeforeHelping": [
+      "Notices changed hint after upgrade",
+      "Understands revealed location versus unlocked route",
+      "Finds this world’s half recipes",
+      "Delivers both halves and makes Final Core",
+      "Finds separate victory research"
+    ],
+    "record": [
+      "First intended action",
+      "Actual action and visible outcome",
+      "Wrong turns and recovery",
+      "Every coaching prompt",
+      "Setup/interaction versus production waiting time"
+    ],
+    "success": "Uncoached task completion and accurate explanation at each encountered checkpoint. No result claimed until real participants are observed."
+  }
+}

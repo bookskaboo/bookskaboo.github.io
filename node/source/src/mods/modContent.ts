@@ -79,7 +79,15 @@ export function activateMod(mod?: GameMod) {
       else RESEARCH_PROJECTS.push({ id, name: id, category: 'Mod research', description: '', unlock: '', costs: {}, ...structuredClone(patch) });
     }
   }
-  if (!mod) applyBotUpgradeCatalog(RESEARCH_PROJECTS);
+  if (!mod) {
+    applyBotUpgradeCatalog(RESEARCH_PROJECTS);
+    // Sorting arrives with the first waste-producing recipes, not at game start.
+    NODE_DEFINITIONS.filter.unlockResearch = 'sortingTools';
+    const wasteHandling = projects.get('sortingTools');
+    if (wasteHandling) wasteHandling.unlock = 'Unlocks the Filter and Waste Bin.';
+    const precisionControl = projects.get('precisionControl');
+    if (precisionControl) precisionControl.description = 'Make Controllers, Servo Pistons, and Circuit C. This also unlocks the Filter, Waste Bin, and Iron Plate recovery from Metallic Fines.';
+  }
   refreshResearchLookup();
   FILTERABLE_ITEMS.splice(0, FILTERABLE_ITEMS.length, ...(Object.keys(ITEM_NAMES) as ItemId[]).filter(item => item !== 'power' && item !== 'forest-growth'));
   BUILDABLE_NODES.splice(0, BUILDABLE_NODES.length, ...Object.values(NODE_DEFINITIONS).filter(node => !node.hidden));

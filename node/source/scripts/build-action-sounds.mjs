@@ -17,13 +17,14 @@ function synth(cue) {
   for (const [start, length, f0, f1, gain, type] of cue.voices) {
     if (type !== 'piano' || f0 !== f1) throw Error(`Expected recorded piano notes in ${cue.id}`);
     const note = nearestPianoNote(pianoBank, f0);
-    const release=(cue.id==='complete' && start===0) ? .16 : tail;
+    const hasLaterNote=cue.voices.some(voice=>voice[0]>start);
+    const release=hasLaterNote ? .18 : tail;
     for (let n = 0; n < Math.ceil((length+release) * rate); n++) {
       const t = n / rate, i = Math.round(start * rate) + n;
       if (i*channels >= samples.length) break;
       // Keep the recorded attack and stereo image. A key release damps a natural
       // tail rather than cutting the instrument off at the action's note length.
-      const attack = Math.sin(Math.min(1, t / .001) * Math.PI / 2) ** 2;
+      const attack = Math.sin(Math.min(1, t / .003) * Math.PI / 2) ** 2;
       const elapsed=Math.max(0,t-length),damping=t<=length?1:Math.exp(-5*elapsed/release)*Math.min(1,(release-elapsed)/.025);
       for(let c=0;c<channels;c++)samples[i*channels+c] += gain * attack * damping * pianoValue(note, f0, t,c);
     }
@@ -54,15 +55,14 @@ for (const cue of [...cues, ...variants]) {
   await writeFile(resolve(out, `wav/${cue.id}.wav`), bytes);
   if(cue.id==='select')await writeFile(resolve(out,'select-single-chord.wav'),bytes);
   if(cue.id==='place')await writeFile(resolve(out,'place-open-f.wav'),bytes);
-  if(cue.id==='move')await writeFile(resolve(out,'move-roll-down.wav'),bytes);
-  if(cue.id==='move')await writeFile(resolve(out,'move-two-notes.wav'),bytes);
+  if(cue.id==='move')await writeFile(resolve(out,'move-low-chord.wav'),bytes);
   // Measure with a loop to avoid argument limits on larger buffers.
   let maximum = 0, energy = 0, dc = 0, maxStep = 0;
   for (let i = 0; i < samples.length; i++) {
     maximum = Math.max(maximum, Math.abs(samples[i])); energy += samples[i] ** 2; dc += samples[i];
     if (i>=channels) maxStep = Math.max(maxStep, Math.abs(samples[i] - samples[i - channels]));
   }
-  assets.push({ id: cue.id, name: cue.name, harmony:cue.harmony, key:PALETTE.key, file: `wav/${cue.id}.wav`, durationSeconds: samples.length / rate / channels, gestureSeconds:cue.duration,releaseSeconds:releaseFor(cue),
+  assets.push({ id: cue.id, name: cue.name, harmony:cue.harmony, key:PALETTE.key, file: `wav/${cue.id}.wav`, durationSeconds: samples.length / rate / channels, gestureSeconds:cue.duration,releaseSeconds:releaseFor(cue),attackSeconds:.003,intermediateReleaseSeconds:.18,
     peakDbfs: 20 * Math.log10(maximum), rmsDbfs: 20 * Math.log10(Math.sqrt(energy / samples.length)),
     dcOffset: dc / samples.length, maximumSampleStep: maxStep, sampleRate: rate, channels, bits: 16,
     sha256: createHash('sha256').update(bytes).digest('hex'), uri: `data:audio/wav;base64,${bytes.toString('base64')}` });
@@ -86,9 +86,10 @@ const milestoneReel=new Float64Array(Math.round(.4*rate)*channels+milestoneSampl
 let milestoneCursor=Math.round(.4*rate)*channels;
 for(const samples of milestoneSamples){milestoneReel.set(samples,milestoneCursor);milestoneCursor+=samples.length+Math.round(.65*rate)*channels;}
 await writeFile(resolve(out,'revision-6-milestones.wav'),wav(milestoneReel));
+await writeFile(resolve(out,'revision-7-milestones.wav'),wav(milestoneReel));
 await writeFile(resolve(out, 'reel-index.json'), JSON.stringify(reelIndex, null, 2) + '\n');
-await writeFile(resolve(out, 'manifest.json'), JSON.stringify({ format: 'NODE action-sound proposal v1', status: 'Draft assets; not integrated into gameplay', date: '2026-11-21',
-  revision:'F major milestone runs 6',palette:PALETTE,
+await writeFile(resolve(out, 'manifest.json'), JSON.stringify({ format: 'NODE action-sound proposal v1', status: 'Draft assets; not integrated into gameplay', date: '2026-11-22',
+  revision:'F major 7 — gentle phrasing and cadences',palette:PALETTE,
   synthesis: 'Recorded stereo Yamaha C5 grand-piano notes with near-native pitches, natural hammer attacks and extended release tails; no mono collapse or procedural instrument voices.',
   instrumentSource: pianoBank.source,
   comparisonVariants: variants.map(({ id, baseId, description }) => ({ id, baseId, description })),
@@ -106,11 +107,19 @@ for(let frame=referenceFrames-referenceFade;frame<referenceFrames;frame++)for(le
   const position=44+frame*4+c*2;reference.writeInt16LE(Math.round(reference.readInt16LE(position)*(referenceFrames-1-frame)/referenceFade),position);
 }
 await writeFile(resolve(out,'piano-source-reference.wav'),reference);
+const ambient=JSON.parse(await readFile(resolve(root,'outputs/music/quiet-workshop-ambient-strings/audio-data.json'),'utf8'));
+const musicController=(await readFile(resolve(root,'previews/action-sounds/loop-player.mjs'),'utf8')).replace('export class AmbientLoopPlayer','class AmbientLoopPlayer');
 const html=template.replace('/* SHARED_ROLES */', roles).replace('<!-- CUE_CARDS -->', cards).replace('<!-- ACTION_ROWS -->', rows)
+  .replace('/* MUSIC_DATA */',`const backgroundMusicUri = ${JSON.stringify(ambient.uri)};`)
+  .replace('/* MUSIC_CONTROLLER */',musicController)
   .replace('<!-- PIANO_REFERENCE -->',`<audio controls preload="none" aria-label="Plain grand-piano reference" src="data:audio/wav;base64,${reference.toString('base64')}"></audio>`)
   .replace('/* AUDIO_DATA */', `const cues = ${JSON.stringify(Object.fromEntries(assets.map(a => [a.id, { name: a.name, uri: a.uri }])))}; const reelUri = ${JSON.stringify('data:audio/wav;base64,' + wav(reelSamples).toString('base64'))}; const reelIndex = ${JSON.stringify(reelIndex)};`);
 await writeFile(resolve(out, 'proposal.html'),html);await writeFile(resolve(out, 'piano-review.html'),html);await writeFile(resolve(out,'f-major-review.html'),html);await writeFile(resolve(out,'f-major-variety.html'),html);
 await writeFile(resolve(out,'f-major-revision-5.html'),html);
 await writeFile(resolve(out,'f-major-revision-6.html'),html);
+await writeFile(resolve(out,'f-major-revision-7.html'),html);
+await writeFile(resolve(out,'calmer-piano-with-music.html'),html);
+await writeFile(resolve(out,'f-major-move-chord.html'),html);
+await writeFile(resolve(out,'listen-with-music.html'),html);
 await writeFile(resolve(out,'PIANO-CREDITS.txt'),pianoBank.source.attribution+'\nSource: '+pianoBank.source.homepage+'\nLicense: '+pianoBank.source.licenseUrl+'\n');
 console.log(`Wrote ${cues.length} stereo grand-piano cues and ${variants.length} comparison, ${reelSamples.length / rate / channels}s reel, plain reference and fresh piano-review.html`);

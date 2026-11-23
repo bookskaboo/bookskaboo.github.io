@@ -1,6 +1,5 @@
 import { BOT_UPGRADES } from '../../src/content/botUpgrades';
-import { seededCornerOrder, seededPairIndex, type CornerType } from '../../src/content/endgame';
-import { RECIPES } from '../../src/content/recipes';
+import { seededCornerOrder, type CornerType } from '../../src/content/endgame';
 import { getResearchProject } from '../../src/content/research';
 import type { GameState, MachineNode } from '../../src/domain/types';
 import { worldCornerIds, worldGridSize } from '../../src/domain/worldGrid';
@@ -14,7 +13,7 @@ import { hintDestination } from './hintNavigation';
 
 /** Preserve the existing review order, including its supporting and legacy entries. */
 export const HINT_EXAMPLES = HINT_REVIEW.map((entry, index) => ({ ...entry, name: `${String(index + 1).padStart(2, '0')} · ${entry.title}` }));
-export type HintVariant = 'default' | 'production' | 'map-point';
+export type HintVariant = 'default' | 'production' | 'map-point' | 'pieces';
 const CORE_CASES: Record<string, { project: string; title: string }> = {
   basic: { project: 'basicCore', title: 'Basic Core' }, automata: { project: 'automataCore', title: 'Automata Core' },
   hydro: { project: 'hydroCore', title: 'Hydro Core' }, shiny: { project: 'shinyCore', title: 'Shiny Core' },
@@ -26,6 +25,7 @@ const PATH = ['kiln', 'smelter', 'refiner', 'researchCenter', 'assembler', 'basi
   'sealedRobotics', 'mithrilTools', 'oreSeparation', 'shinyCore', 'precisionControl', 'complexCore', 'treePlanter', 'finalCore', 'finalCoreProduction', 'victory'];
 
 export function hintExampleVariants(id: string): Array<{ id: HintVariant; name: string }> {
+  if (id === 'final') return [{ id: 'pieces', name: 'Pieces ready; halves not assembled' }, { id: 'default', name: 'Both halves ready' }];
   if (CORE_CASES[id]) return [{ id: 'default', name: 'Upgrade still needed' }, { id: 'production', name: 'Recipe unlocked' }];
   if (SCOUT_CASES.has(id)) return [{ id: 'default', name: 'Needs another Map Point' }, { id: 'map-point', name: 'Map Point available' }];
   return [{ id: 'default', name: id === 'tribute' ? 'Legacy world' : 'Current world' }];
@@ -90,7 +90,11 @@ export function hintCatalogExample(id: string, variant: HintVariant = 'default')
       if (id === 'tribute') game.worldRulesVersion = 1;
       break;
     case 'complexUpgrade': before(game, 'finalCore'); break;
-    case 'final': before(game, 'finalCoreProduction'); game.globalPool = { 'core-half-a': 1, 'core-half-b': 1 }; break;
+    case 'final':
+      before(game, 'finalCoreProduction');
+      game.globalPool = variant === 'pieces' ? { alpha: 1, 'foundry-component': 1, 'reclamation-component': 1, 'grove-component': 1 }
+        : { 'core-half-a': 1, 'core-half-b': 1 };
+      break;
     case 'corners': before(game, 'finalCoreProduction'); break;
     case 'grove': case 'reclamation': case 'foundry': case 'dragon': {
       before(game, 'finalCoreProduction');
@@ -99,11 +103,6 @@ export function hintCatalogExample(id: string, variant: HintVariant = 'default')
       visit(game, worldCornerIds(worldGridSize(game))[types.indexOf(type)], node('cornerChallenge', { cornerType: type }));
       break;
     }
-    case 'yin': case 'yang':
-      before(game, 'finalCoreProduction');
-      game.globalPool = { ...RECIPES[`core-half-${id === 'yin' ? 'a' : 'b'}-${game.endgame?.pairIndex ?? seededPairIndex(game.seed)}`].inputs,
-        ...(id === 'yang' ? { 'core-half-a': 1 } : {}) };
-      break;
     case 'victory': before(game, 'victory'); game.globalPool = { 'final-core': 1 }; break;
     case 'finished': before(game, 'victory'); game.research.completed.push('victory'); break;
     default:
@@ -162,10 +161,8 @@ const SUGGESTIONS: Record<string, { why: string; next: string }> = {
   reclamation: { why: 'No existing lesson teaches the Reclamation intake and waste tradeoffs.', next: 'Extend mixed-output practice with waste delivery and actual intake progress. Waste Bins store waste; they do not destroy it. Not built.' },
   foundry: { why: 'The task coordinates several supplies. A camera jump would not teach that.', next: 'Propose delivery-planning help with actual counts and bottleneck diagnosis, without a complete factory layout.' },
   dragon: { why: 'The task needs sustained Bot presence, beyond the small existing camp lesson.', next: 'Propose strength-and-supply practice. Keep the Dragon reward hidden until earned and leave strategy open.' },
-  complexUpgrade: { why: 'Complete Complex upgrade before working through the corners and Yin/Yang. It unlocks the Final Core recipe.', next: 'Keep this research step before the corner and half-assembly clues; reserve the later Final Core hint for actual assembly after both halves.' },
-  yin: { why: 'The required pair depends on this world. A fixed generic pairing would mislead.', next: 'Propose piece-combination practice using the current world’s Yin recipe and its two pieces. Not built.' },
-  yang: { why: 'Yang uses the other world-dependent pair and should remain distinct from Yin.', next: 'Reuse proposed combination practice with this world’s Yang recipe and retain earned Yin.' },
-  final: { why: 'Complex upgrade is already complete. Both halves are now ready for Final Core assembly.', next: 'Extend proposed combination practice from Yin and Yang to Final Core, then explain the separate victory research. Not built.' },
+  complexUpgrade: { why: 'Complex upgrade unlocks Yin, Yang and Final Core recipes and reveals the four corner locations.', next: 'Keep this research step before the corner clues. The separate Yin/Yang hints are retired; the Final Core recipe still requires both halves.' },
+  final: { why: 'Complex upgrade is complete. The same clue first covers combining the pieces, then Final Core assembly once both halves are present.', next: 'Inspect this world’s half recipes in the recipe guide. Keep the two individual half hints retired; verify the handoff before proposing combination practice.' },
   victory: { why: 'Focus the actual victory project. Core production and character upgrades do not automatically win.', next: 'Keep the explicit queue/payment step and the existing explanation that play can continue after victory.' },
   finished: { why: 'The assignment is complete; there is no missing next action.', next: 'Keep the dry closing line without Show me. A future new-run challenge belongs in an optional menu, never a forced reset.' },
 };

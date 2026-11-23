@@ -32,7 +32,7 @@ function Playground() {
   const [category, setCategory] = useState('All'), [skipWarnings, setSkipWarnings] = useState(false);
   const [guideRecipe, setGuideRecipe] = useState<string>();
   const [ready, setReady] = useState(false), [loading, setLoading] = useState(false), [error, setError] = useState('');
-  const [muted, setMuted] = useState(false), [volume, setVolume] = useState(60), [optional, setOptional] = useState(false), [low, setLow] = useState(false);
+  const [muted, setMuted] = useState(false), [volume, setVolume] = useState(30), [optional, setOptional] = useState(false), [low, setLow] = useState(false);
   const [music, setMusic] = useState(true), [musicVolume, setMusicVolume] = useState(15);
   const [message, setMessage] = useState('Enable sound, then place a node or disconnect and reconnect a cable.');
   const [heard, setHeard] = useState<string[]>([]), [notice, setNotice] = useState<{title: string; detail: string}>();
@@ -115,7 +115,7 @@ function Playground() {
   const woodRoute = sector.connections.find(c => c.from === 'wood-cart' && c.to === 'test-kiln');
   const activeProject = game.research.selected ? getResearchProject(game.research.selected)?.name : undefined;
   return <main className="sound-playground" ref={host}><header className="sound-test-header" ref={header}>
-    <div className="sound-test-heading"><div><h1>Sound test factory</h1><p>F major · varied voicings · C2–C4 · revision 6</p></div><a href={location.pathname.includes('/previews/')?'../../outputs/action-sounds/f-major-revision-6.html':'f-major-revision-6.html'}>F-major chords and cues</a></div>
+    <div className="sound-test-heading"><div><h1>Sound test factory</h1><p>F major · gentle phrasing · C2–C4 · revision 7</p></div><a href={location.pathname.includes('/previews/')?'../../outputs/action-sounds/calmer-piano-with-music.html':'calmer-piano-with-music.html'}>F-major chords and cues</a></div>
     <div className="sound-test-toolbar">
       <button className="sound-enable" disabled={loading} onClick={async () => { setLoading(true); setError(''); try { await audio.enable(); setReady(true); setMessage('Sound enabled. The factory is accepting feedback.'); } catch (e) {setError(`Audio could not start: ${String(e)}`);} finally {setLoading(false);} }}>{loading ? 'Loading sounds…' : ready ? 'Sound enabled' : 'Enable sound'}</button>
       <label>Effects volume <input aria-label="Effects volume" type="range" min="0" max="100" value={volume} onChange={e => {const v = Number(e.target.value); setVolume(v); audio.volume = v / 100; audio.update();}}/><output>{volume}%</output></label>

@@ -1,0 +1,67 @@
+{
+  "method": "Developer-informed UI checkpoint walkthrough in isolated author snapshots; not a novice participant.",
+  "steps": [
+    {
+      "checkpoint": "Opening assignment",
+      "visible": "Basics tutorial\n×\n\nWe have a tutorial for this. It’s almost suspiciously relevant. Want to try it?\n\nPractice in a separate factory.\n\nNot now\nStart Basics"
+    },
+    {
+      "checkpoint": "Declined practice",
+      "focus": "Open Basics tutorial",
+      "thought": "Terms of employment\n\nYou are a junior AI bot assigned to this world. Use its resources to build production systems, manufacture Cores, and upgrade yourself.\n\nShow me"
+    },
+    {
+      "checkpoint": "Before promotion",
+      "thought": "Promotion pending\n\nThe current chassis is starting to feel temporary.\n\nShow me",
+      "tooltip": "Upgrade to Planetary Administrator. Unlock the Final Core recipe. Unlock the Yin and Yang recipes. Reveal all four corner locations. Reaching them still requires ordinary map expansion.\n\nGive this upgrade priority over queued research. The queue resumes when it is disabled or completed, unless research is paused.",
+      "focus": "Enable Complex upgrade"
+    },
+    {
+      "checkpoint": "Corners require a point",
+      "thought": "Loose ends\n\nThe map may have something left to say.\n\nShow me",
+      "action": [
+        "Previous hint",
+        "Show Extra Map Point in Upgrades",
+        "Next hint"
+      ]
+    },
+    {
+      "checkpoint": "Point available",
+      "thought": "Loose ends\n\nThe map may have something left to say.\n\nShow me",
+      "expansionAction": true
+    },
+    {
+      "checkpoint": "Pieces ready",
+      "thought": "A complete picture\n\nThe pieces are ready. The Assembler can introduce them.",
+      "buttons": 2
+    },
+    {
+      "checkpoint": "Recipe inspection",
+      "entry": "Final Core badge",
+      "halves": [
+        "Yin1α Piece1δ Piece→1Yin20 sec",
+        "Yang1β Piece1γ Piece→1Yang20 sec",
+        "Final Core1Yin1Yang→1Final Core60 sec"
+      ]
+    },
+    {
+      "checkpoint": "Follow ingredient recipe",
+      "focus": {
+        "tag": "ARTICLE",
+        "text": "Yin1α Piece1δ Piece→1Yin20 sec"
+      }
+    },
+    {
+      "checkpoint": "Both halves ready",
+      "thought": "A complete picture\n\nIt’s like they fit together."
+    },
+    {
+      "checkpoint": "Separate victory project",
+      "thought": "One last form\n\nThe lab likes a complete set.\n\nShow me",
+      "action": true
+    }
+  ],
+  "logs": [],
+  "hintCount": 39,
+  "queue": "Research queue\n0/4\n\nSelect a card and press Queue research, or double-click a card.\n\n1\nEmpty\n2\nEmpty\n3\nEmpty\n4\nEmpty"
+}

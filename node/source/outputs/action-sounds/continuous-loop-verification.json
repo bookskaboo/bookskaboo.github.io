@@ -1,0 +1,68 @@
+{
+  "date": "2026-11-22",
+  "technical": {
+    "passed": true,
+    "defaultMusicVolume": 0.15,
+    "defaultEffectsVolume": 0.3,
+    "numberedCues": 19,
+    "comparisonCues": 1,
+    "exactMusicUriEmbedded": true,
+    "musicSha256": "618521b4fbcbb81bf6b1624c24c645b447d9301490c9465820716ebe2cf8e77f",
+    "musicMatchesExistingFactory": true,
+    "checks": [
+      "Actual generated script executes with Web Audio/media/DOM stubs",
+      "Initial silence with lazy context creation; music 15%, effects/reference 30%",
+      "One decoded 60-second buffer, loopStart 0 and loopEnd 60",
+      "Same source stays running across first and second minute boundaries without another start or stop",
+      "Progress display wraps with the audio clock",
+      "Individual cues, reference, reel and Stop sounds preserve background playback",
+      "Independent sliders and shared mute update actual gains",
+      "Pause/resume preserves offset without decoding again",
+      "Hidden page pauses players and removes progress timer",
+      "Pending activation cancels on pause/disposal",
+      "Nineteen cue buttons plus lower selection comparison"
+    ]
+  },
+  "limits": [
+    "Clock/lifecycle checks use Web Audio/DOM stubs; browser observations are recorded separately",
+    "No subjective hardware listening result, campaign audio integration or publication"
+  ],
+  "measuredWav": {
+    "peakDbfs": -20.91844911545408,
+    "rmsDbfs": -34.40026430722681,
+    "dc": -3.073671417351663e-9,
+    "seams": [
+      {
+        "channel": 0,
+        "seamStep": 0.00079345703125,
+        "interiorP999Step": 0.002960205078125,
+        "headRms": 0.014570073428846258,
+        "tailRms": 0.02145353190467521
+      },
+      {
+        "channel": 1,
+        "seamStep": 0.001678466796875,
+        "interiorP999Step": 0.00439453125,
+        "headRms": 0.026230421187796643,
+        "tailRms": 0.04456010493418825
+      }
+    ]
+  },
+  "browser": {
+    "date": "2026-11-22",
+    "url": "http://127.0.0.1:4174/outputs/action-sounds/listen-with-music.html",
+    "observations": [
+      "Fresh load shows music 15%, effects 30%, initial silence and accessible progress",
+      "Background Play starts and shows Ambient strings looping",
+      "Select then Stop sounds leaves background playing",
+      "After 68.3 seconds from start, progress wraps to 0:09 and music remains playing",
+      "Pause at 0:18 then resume continues to 0:19",
+      "No horizontal overflow or captured warnings/errors",
+      "Deliverable left paused at 0:26; screenshot retained"
+    ],
+    "screenshot": "continuous-loop-ready.jpg",
+    "limits": [
+      "Observed UI/audio-clock continuity; no human or captured-output listening judgment"
+    ]
+  }
+}

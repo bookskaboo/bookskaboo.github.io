@@ -1,4 +1,4 @@
-import type { GameState, ItemId, MachineNode, Recipe, ResearchProject } from '../domain/types';
+import type { GameState, ItemId, MachineNode, Recipe, ResearchProject, ResearchState } from '../domain/types';
 import { DEFAULT_WORLD_GRID_SIZE, worldCornerIds, worldGridSize } from '../domain/worldGrid';
 import { FINAL_BOT_AP } from './botAssembly';
 export { FINAL_BOT_AP } from './botAssembly';
@@ -20,6 +20,12 @@ export const FINAL_ITEMS = {
 export const SEVEN_CORES: ItemId[] = ['simple-core', 'basic-core', 'automata-core', 'hydro-core', 'shiny-core', 'command-core', 'final-core'];
 // An internal prerequisite recorded on production, with no standalone research card.
 export const FINAL_CORE_PRODUCTION = 'finalCoreProduction';
+/** Serialized finalCore is the character's Complex upgrade, not Shiny upgrade (complexCore). */
+export const CORNER_UNLOCK_RESEARCH = 'finalCore';
+export const hasHalfRecipeAccess = (research: ResearchState) => research.completed.includes(CORNER_UNLOCK_RESEARCH)
+  || research.completed.includes('cornerComponents') || research.legacyHalfRecipesUnlocked === true;
+export const hasAllCornerLocations = (research: ResearchState) => research.completed.includes(CORNER_UNLOCK_RESEARCH)
+  || research.completed.includes('cornerComponents') || research.legacyCornerLocationsRevealed === true;
 /** Explicit November 5 quotas supersede the earlier five-minute sizing for these corners.
  * Upgrades/parallel producers shorten the work; setup and delivery latency are separate. */
 export const FOUNDRY_INPUTS: Partial<Record<ItemId, number>> = { 'ceramic-electrode': 50, 'sealed-frame': 25, 'mythril-gear': 100 };
@@ -53,7 +59,7 @@ export const ENDGAME_RECIPES: Record<string, Recipe> = Object.fromEntries(PAIRS.
     inputs: Object.fromEntries(pair.map(c => [CORNER_ITEMS[c], 1])),
     outputs: { [output]: 1 },
     cycleMs: 20000,
-    unlockResearch: 'complexCore',
+    unlockResearch: CORNER_UNLOCK_RESEARCH,
   }];
 })));
 ENDGAME_RECIPES['final-core'] = { id: 'final-core', name: 'Final Core', inputs: { 'core-half-a': 1, 'core-half-b': 1 }, outputs: { 'final-core': 1 }, cycleMs: 60000, unlockResearch: 'finalCore' };
@@ -85,7 +91,7 @@ export const ENDGAME_RESEARCH: ResearchProject[] = [
 
 /** Discovery emphasis is dismissed independently for the map control and each corner. */
 export function cornerDiscoveryPending(state: GameState, cornerId?: string) {
-  if (!state.research.completed.includes('complexCore')) return false;
+  if (!hasHalfRecipeAccess(state.research)) return false;
   return cornerId === undefined ? !state.endgame?.cornerMapAcknowledged
     : worldCornerIds(worldGridSize(state)).includes(cornerId) && !state.endgame?.acknowledgedCorners?.includes(cornerId);
 }

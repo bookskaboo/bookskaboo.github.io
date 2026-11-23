@@ -1,0 +1,20 @@
+{
+  "date": "2026-11-22",
+  "passed": true,
+  "defaults": {
+    "pianoEffects": 0.3,
+    "backgroundMusic": 0.15
+  },
+  "scope": "Individual listening sheet and sound test factory",
+  "checks": [
+    "Actual HTML slider defaults drive generated-script initialization; music .15, effects/reference .30",
+    "Fourteen focused mixer/observer/preference checks passed; final adjusted-level case rechecked separately",
+    "Standalone music/action pack and factory build passed",
+    "Independent level changes and background continuity through cues/Stop sounds remain verified",
+    "All twenty piano cue/comparison WAV hashes and the ambient music WAV hash remain unchanged"
+  ],
+  "limits": [
+    "No new browser or hardware-audio balance/comfort judgment",
+    "No campaign playback, persistence or publication"
+  ]
+}

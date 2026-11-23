@@ -1,10 +1,10 @@
-import { CORNER_ITEMS, CORNER_NAMES, FINAL_CORE_PRODUCTION, seededCornerOrder, seededPairIndex, type CornerType } from '../content/endgame';
+import { CORNER_ITEMS, CORNER_NAMES, FINAL_CORE_PRODUCTION, hasHalfRecipeAccess, seededCornerOrder, seededPairIndex, type CornerType } from '../content/endgame';
 import { worldCornerIds, worldGridSize } from '../domain/worldGrid';
 import { RECIPES } from '../content/recipes';
 import { getResearchProject, remainingMapNodePurchases } from '../content/research';
 import type { GameState, ItemId, NodeKind } from '../domain/types';
 import { researchSection } from './researchPresentation';
-import { mythrilGuidance } from '../content/researchGuidance';
+import { COMPLEX_UPGRADE_HINT, HALF_ASSEMBLY_HINT, mythrilGuidance, SUPPRESSION_BOT_HINT } from '../content/researchGuidance';
 
 export type MilestoneAction =
   | { kind: 'research'; id: string }
@@ -32,12 +32,8 @@ const fuel = recipe('charcoal', 'Charcoal', 'Wood has a warmer calling.');
 const lake = scout('The factory is thirsty', 'Dry land has its limits.');
 const camp = scout('The neighbours', 'Somebody else got here first.');
 const dwarves = scout('A metallic glint', 'The neighbours farther out seem well supplied.');
-const golems = scout('Some rocks have opinions', 'The outer sectors have standing rocks.');
 const corners = scout('The four corners', 'The map may have something left to say.');
 const automataHint = 'Even circuits need a little masonry.';
-const treePlanterHint = 'Forests are a growth industry.';
-const heavyRoboticsHint = 'The negotiations are getting heavier.';
-const commandRoboticsHint = 'Someone has to look in charge.';
 const cornerPriority = ['grove', 'reclamation', 'foundry', 'alpha'] as const;
 const cornerClues: Record<CornerType, string> = {
   alpha: 'The Dragon respects a substantial Bot presence.',
@@ -76,10 +72,6 @@ export function getResearchMilestones(game: GameState, options: { allCandidates?
   const starterCamp = knownDwarves.find(({ node }) => node.lizardSettlement === 'camp');
   const mythrilSettlement = starterCamp ?? knownDwarves[0];
   const mythrilHint = mythrilGuidance(game).hint;
-  const knownGolem = visited.find(sector => sector.nodes.some(node => node.kind === 'resourceGolem'));
-  const golemHint = knownGolem
-    ? visit(knownGolem.id, 'Golem Camp', 'A stubborn rock. Potentially a permanent one.')
-    : expansion(golems);
 
   const pairIndex = game.endgame?.pairIndex ?? seededPairIndex(game.seed);
   const halves = ['core-half-a', 'core-half-b'] as const;
@@ -94,16 +86,17 @@ export function getResearchMilestones(game: GameState, options: { allCandidates?
       ? visit(sectorId, CORNER_NAMES[type], cornerClues[type])
       : expansion(corners);
   };
-  const isCorner = (milestone: ResearchMilestone | undefined, type: CornerType) =>
-    milestone?.action.kind === 'sector' && milestone.action.id === cornerSector(type);
-  const cornerWork = cornerPriority.filter(type => needed.has(CORNER_ITEMS[type]) && !(stock[CORNER_ITEMS[type]] ?? 0))
-    .map(cornerGoal);
+  const cornerWork = hasHalfRecipeAccess(game.research) ? cornerPriority.filter(type => needed.has(CORNER_ITEMS[type]) && !(stock[CORNER_ITEMS[type]] ?? 0))
+    .map(cornerGoal) : [];
   const knownCornerWork = cornerWork.filter(entry => entry.action.kind === 'sector');
-  const halfWork = done('complexCore') ? missingHalves.filter(half => Object.keys(half.inputs).every(item => (stock[item as ItemId] ?? 0) > 0))
-    .map(half => recipe(half.id, half.name, 'Two pieces seem to agree.')) : [];
+  const assemblingFinal = nodes.some(node => node.batch?.recipeId === 'final-core' && (node.batch.outputs['final-core'] ?? 0) > 0);
   const core = (projectId: string, recipeId: string, name: string, detail: string) =>
     done(projectId) ? recipe(recipeId, name, detail) : research(projectId, detail);
-  const finalAssembly = core('finalCore', 'final-core', 'Final Core', 'It’s like they fit together.');
+  const finalAssembly = !done('finalCore')
+    ? research('finalCore', COMPLEX_UPGRADE_HINT)
+    : missingHalves.length
+      ? recipe(missingHalves[0].id, 'Final Core', HALF_ASSEMBLY_HINT)
+      : recipe('final-core', 'Final Core', 'It’s like they fit together.');
   const lab = build('researchCenter', 'Research Center', 'Home could use a lab.');
   const simple = recipe('simple-core', 'Simple Core', 'Copper Gears have ambitions.');
   const basic = core('basicCore', 'basic-core', 'Basic Core', 'Iron Wire enters the picture.');
@@ -141,32 +134,25 @@ export function getResearchMilestones(game: GameState, options: { allCandidates?
   else if (!made('shiny-core') && !done('precisionControl')) primary = core('shinyCore', 'shiny-core', 'Shiny Core', 'Mythril looks promising in Mesh.');
   else if (!done('precisionControl')) primary = research('precisionControl', 'Complications are now a feature.');
   else if (!made('command-core') && !done('complexCore')) primary = complex;
-  else if (!done('treePlanter') && isCorner(knownCornerWork[0], 'grove') && !halfWork.length) primary = research('treePlanter', treePlanterHint);
-  else primary = halfWork[0] ?? knownCornerWork[0] ?? cornerWork[0] ?? finalAssembly;
+  else if (done('complexCore') && !done('finalCore')) primary = finalAssembly;
+  else if (assemblingFinal) primary = recipe('final-core', 'Final Core', 'It’s like they fit together.');
+  else primary = knownCornerWork[0] ?? cornerWork[0] ?? finalAssembly;
 
   const candidates: ResearchMilestone[] = [primary];
   if (labInstalled && !made('basic-core')) candidates.push(iron);
   if (done('exploration')) {
-    if (isCorner(primary, 'alpha')) {
-      if (ready('commandRobotics')) candidates.push(research('commandRobotics', commandRoboticsHint));
-      else if (ready('heavyRobotics')) candidates.push(research('heavyRobotics', heavyRoboticsHint));
-    }
-    if (done('hydraulicAssembly') && !done('precisionControl')) candidates.push(golemHint);
     if (!done('lakeTools')) candidates.push(expansion(lake));
-    if (done('automataCore') && !done('hydraulicAssembly')) candidates.push(expansion(corners));
     if (!done('suppressionBot')) candidates.push(expansion(camp));
     if (done('sealedRobotics') && !done('mithrilTools')) {
-      if (starterCamp) candidates.push(recipe('assemble-bot-f2-g2', RECIPES['assemble-bot-f2-g2'].name, 'A steady procession might be persuasive.'));
+      if (starterCamp) candidates.push(recipe('assemble-bot-f2-g2', SUPPRESSION_BOT_HINT.title, SUPPRESSION_BOT_HINT.detail));
       else if (!mythrilSettlement) candidates.push(expansion(dwarves));
     }
     if (done('precisionControl')) {
       if (!made('command-core')) candidates.push(complex);
       const paid = game.research.selected === 'victory' ? game.research.contributed : game.research.projectContributions?.victory;
       const needFinal = !((stock['final-core'] ?? 0) || (paid?.['final-core'] ?? 0));
-      if (needFinal) candidates.push(...halfWork, ...knownCornerWork, ...cornerWork,
-        ...(done('complexCore') && (!done('finalCore') || !missingHalves.length) ? [finalAssembly] : []));
-      if (!done('complexCore')) candidates.push(expansion(corners));
-      candidates.push(golemHint);
+      if (needFinal) candidates.push(...knownCornerWork, ...cornerWork,
+        ...(done('complexCore') && (!done('finalCore') || !cornerWork.length) ? [finalAssembly] : []));
     }
   }
   for (const [id, detail] of [
@@ -174,12 +160,6 @@ export function getResearchMilestones(game: GameState, options: { allCandidates?
     ['sealedRobotics', 'One AP only gets you so far.'],
     ['fluidRouting', 'Fluids have places to be.'],
     ['oreSeparation', 'There’s something shiny in there.'],
-    ['treePlanter', treePlanterHint],
-    ['heavyRobotics', heavyRoboticsHint],
-    ['commandRobotics', commandRoboticsHint],
-    ['trucks', 'The Carts look rather full.'],
-    ['roadChannels1', 'That border looks busy.'],
-    ['trains', 'The freight is becoming unreasonable.'],
   ] as const) if (ready(id)) candidates.push(research(id, detail));
 
   if (done('refiner') && !labInstalled) candidates.push(lab);

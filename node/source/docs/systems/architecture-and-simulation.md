@@ -14,6 +14,7 @@ React owns the interface, PixiJS renders the active factory field, and the simul
 | Persistence | `src/persistence/` | Slots, payload validation, keys and legacy normalization |
 | Mods | `src/mods/` | Data validation, overrides, profiles and sharing |
 | UI | `src/ui/` | React panels, controls, recipe/research presentation and preferences |
+| Audio | `src/audio/` | Browser-side piano/music playback consuming committed engine feedback |
 | Renderer | `src/renderer/` | Pixi lifecycle, drawing, particles and pointer interactions |
 | Tutorials | `src/tutorials/` | Practice state, stages, restrictions and progress checks |
 
@@ -24,6 +25,8 @@ Node definitions own identity and static sockets; capabilities own simulation be
 The app schedules realtime ticks at 100 ms. The engine measures elapsed active time and caps an individual simulation delta at 1,000 ms. This does not provide unlimited offline catch-up. Global pause stops simulation work. All unlocked sectors run during each update, regardless of the active rendered map.
 
 An update delivers due transfers, simulates nodes, evaluates research milestones, checks recovery, dispatches ready cable work and publishes state. Base cable dispatch is 400 ms; ordinary UI publication is 750 ms with earlier publication for relevant changes. Autosave uses the preference interval. Construction age uses wall-clock timestamps.
+
+The engine also exposes a lightweight player-feedback subscription, separate from render publications. Successful command boundaries and new research/depletion events emit cue identities; restoration sends a reset. Drag previews, ordinary production/transport and historical completions do not generate action feedback. The browser [audio consumer](audio.md) cannot change or delay simulation, and listener failures are isolated. One root mixer follows the active campaign/practice engine while retaining the campaign's channel preferences and music clock.
 
 Temporary indexes group nodes, connections and pending cargo for simulation phases. Reservations update as routes are planned so competing sources share target capacity. Indexes are rebuilt rather than persisted across undo/load. The renderer reads active-sector transfer views and animates them without inactive-map particles.
 

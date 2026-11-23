@@ -1,7 +1,7 @@
 {
-  "date": "2026-11-21",
-  "revision": "F major milestone runs 6",
-  "request": "Add more notes to 12, 13 and 19",
+  "date": "2026-11-22",
+  "revision": "F major milestone runs 6 — low movement chord",
+  "request": "Make 04 a lower single chord",
   "palette": {
     "key": "F major",
     "register": "C2–C4",
@@ -194,15 +194,12 @@
     "samplerChecksPassed": 7,
     "standaloneBuildPassed": true,
     "changedCues": [
-      "complete",
-      "upgrade",
-      "victory"
+      "move"
     ],
     "unchangedCueHashes": [
       "select",
       "panel",
       "place",
-      "move",
       "connect",
       "disconnect",
       "delete",
@@ -210,96 +207,42 @@
       "queue",
       "pause",
       "resume",
+      "complete",
+      "upgrade",
       "unlock",
       "travel",
       "save",
       "reject",
       "attention",
+      "victory",
       "select-low"
     ],
-    "refinements": [
-      {
-        "id": "complete",
-        "harmony": "C major → rising run → sustained F major",
-        "previousNoteAttacks": 6,
-        "noteAttacks": 10,
-        "previousOnsets": 2,
-        "onsetsSeconds": [
-          0,
-          0.13,
-          0.2,
-          0.27,
-          0.34,
-          0.46
-        ],
-        "durationSeconds": 2.42,
-        "sha256": "1abf33dd98d118eee59e79bb2f5462a42162184ea48238621063275d56f5af77"
-      },
-      {
-        "id": "upgrade",
-        "harmony": "B-flat major 7 → A minor 7 → descending run → D minor 7",
-        "previousNoteAttacks": 9,
-        "noteAttacks": 15,
-        "previousOnsets": 5,
-        "onsetsSeconds": [
-          0,
-          0.07,
-          0.14,
-          0.21,
-          0.35,
-          0.42,
-          0.49,
-          0.56,
-          0.7,
-          0.77,
-          0.84,
-          0.91,
-          1.05
-        ],
-        "durationSeconds": 2.3,
-        "sha256": "a161a90bfff7e7cfd72f50db6fd775af6418775431d9af559208f807337d01a3"
-      },
-      {
-        "id": "victory",
-        "harmony": "F → B-flat → C7 → sustained F, with connecting runs",
-        "previousNoteAttacks": 12,
-        "noteAttacks": 21,
-        "previousOnsets": 4,
-        "onsetsSeconds": [
-          0,
-          0.14,
-          0.23,
-          0.32,
-          0.44,
-          0.58,
-          0.67,
-          0.76,
-          0.9,
-          1.04,
-          1.13,
-          1.22,
-          1.38
-        ],
-        "durationSeconds": 3.3,
-        "sha256": "e1bd0c4625fb44847d6bdfd2ce22a00265e14493225596589beb2f904b68ef35"
-      }
-    ],
-    "milestonePreview": {
-      "file": "revision-6-milestones.wav",
-      "order": [
-        "complete",
-        "upgrade",
-        "victory"
+    "movement": {
+      "notes": [
+        "F2",
+        "A2",
+        "C3"
       ],
-      "durationSeconds": 10.37,
-      "exactCuePCMAndGapsPassed": true
-    }
+      "onsetsSeconds": [
+        0,
+        0,
+        0
+      ],
+      "holdSeconds": 0.18,
+      "gestureSeconds": 0.24,
+      "releaseSeconds": 0.45,
+      "totalSeconds": 0.69,
+      "sha256": "5054cec0f5aebb3de0c902e75c538296795e0e59ec4141e753fe1b9830ee0918"
+    },
+    "backgroundMusicUnchanged": true,
+    "embeddedBackgroundMusicMatches": true,
+    "oldTwoNoteAuditionPreserved": true
   },
   "browser": {
-    "status": "Not rerun for these musical phrase refinements; user audition remains pending"
+    "status": "Not rerun for this single-cue voicing change; prior combined music/factory browser evidence remains in factory-music-verification.json"
   },
   "limits": [
-    "Subjective acceptance and hardware-audio playback remain pending",
-    "No new browser, TypeScript, full gameplay suite, campaign-save changes or publication"
+    "No new subjective or browser/hardware playback result is claimed",
+    "No new full gameplay suite, mixer lifecycle test, campaign integration or publication"
   ]
 }

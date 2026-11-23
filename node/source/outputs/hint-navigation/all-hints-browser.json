@@ -1,0 +1,1026 @@
+{
+  "totalHints": 48,
+  "totalSituations": 60,
+  "initialChecks": [
+    {
+      "id": "assignment",
+      "situation": "default",
+      "action": "Open Basics tutorial",
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "recommendation": "Offer Basics tutorial",
+      "title": "Your assignment",
+      "dialogCheck": {
+        "dialog": "Basics tutorial",
+        "focused": "Not now",
+        "practice": 0
+      },
+      "returned": {
+        "dialogCount": 0,
+        "focused": "Show me"
+      }
+    },
+    {
+      "id": "wood",
+      "situation": "default",
+      "action": "Open Basics tutorial",
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "recommendation": "Offer Basics tutorial",
+      "title": "A promising Forest",
+      "dialogCheck": {
+        "dialog": "Basics tutorial",
+        "focused": "Not now",
+        "practice": 0
+      },
+      "returned": {
+        "dialogCount": 0,
+        "focused": "Show me"
+      }
+    },
+    {
+      "id": "copper",
+      "situation": "default",
+      "action": "Open Basics tutorial",
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "recommendation": "Offer Basics tutorial",
+      "title": "Copper prospects",
+      "dialogCheck": {
+        "dialog": "Basics tutorial",
+        "focused": "Not now",
+        "practice": 0
+      },
+      "returned": {
+        "dialogCount": 0,
+        "focused": "Show me"
+      }
+    },
+    {
+      "id": "fuel",
+      "situation": "default",
+      "action": "Open Basics tutorial",
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "recommendation": "Offer Basics tutorial",
+      "title": "Charcoal",
+      "dialogCheck": {
+        "dialog": "Basics tutorial",
+        "focused": "Not now",
+        "practice": 0
+      },
+      "returned": {
+        "dialogCount": 0,
+        "focused": "Show me"
+      }
+    },
+    {
+      "id": "plate",
+      "situation": "default",
+      "action": "Open Basics tutorial",
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "recommendation": "Offer Basics tutorial",
+      "title": "First Plate",
+      "dialogCheck": {
+        "dialog": "Basics tutorial",
+        "focused": "Not now",
+        "practice": 0
+      },
+      "returned": {
+        "dialogCount": 0,
+        "focused": "Show me"
+      }
+    },
+    {
+      "id": "lab",
+      "situation": "default",
+      "action": "Open Basics tutorial",
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "recommendation": "Offer Basics tutorial",
+      "title": "Research Center",
+      "dialogCheck": {
+        "dialog": "Basics tutorial",
+        "focused": "Not now",
+        "practice": 0
+      },
+      "returned": {
+        "dialogCount": 0,
+        "focused": "Show me"
+      }
+    },
+    {
+      "id": "simple",
+      "situation": "default",
+      "action": "Open Basics tutorial",
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "recommendation": "Offer Basics tutorial",
+      "title": "Simple Core",
+      "dialogCheck": {
+        "dialog": "Basics tutorial",
+        "focused": "Not now",
+        "practice": 0
+      },
+      "returned": {
+        "dialogCount": 0,
+        "focused": "Show me"
+      }
+    },
+    {
+      "id": "iron",
+      "situation": "default",
+      "action": null,
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "recommendation": "Keep clue; no shortcut yet",
+      "title": "Iron prospects"
+    },
+    {
+      "id": "assembler",
+      "situation": "default",
+      "action": "Show Assembler in Upgrades",
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "recommendation": "Focus Assembler",
+      "title": "Assembler",
+      "afterCheck": {
+        "focusedResearch": "assembler",
+        "highlight": "assembler",
+        "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+        "selected": "assembler"
+      }
+    },
+    {
+      "id": "basic",
+      "situation": "default",
+      "action": "Show Simple upgrade in Upgrades",
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "recommendation": "Focus Simple upgrade",
+      "title": "Simple upgrade",
+      "afterCheck": {
+        "focusedResearch": null,
+        "focusedUpgrade": "basicCore",
+        "highlight": "basicCore",
+        "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty"
+      }
+    },
+    {
+      "id": "basic",
+      "situation": "production",
+      "action": null,
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "recommendation": "Keep clue; no shortcut yet",
+      "title": "Basic Core"
+    },
+    {
+      "id": "exploration",
+      "situation": "default",
+      "action": "Show Exploration in Upgrades",
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "recommendation": "Focus Exploration",
+      "title": "Exploration",
+      "afterCheck": {
+        "focusedResearch": "exploration",
+        "highlight": "exploration",
+        "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+        "selected": "exploration"
+      }
+    },
+    {
+      "id": "detour",
+      "situation": "default",
+      "action": "Show Extra Map Point in Upgrades",
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "recommendation": "Focus Extra Map Point",
+      "title": "A useful detour",
+      "afterCheck": {
+        "focusedResearch": "mapNode",
+        "highlight": "mapNode",
+        "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+        "selected": "mapNode"
+      }
+    },
+    {
+      "id": "detour",
+      "situation": "map-point",
+      "action": "Open Expansion tutorial",
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "recommendation": "Offer Expansion tutorial",
+      "title": "A useful detour",
+      "dialogCheck": {
+        "dialog": "Expansion tutorial",
+        "focused": "Not now",
+        "practice": 0
+      },
+      "returned": {
+        "dialogCount": 0,
+        "focused": "Show me"
+      }
+    },
+    {
+      "id": "road",
+      "situation": "default",
+      "action": "Show Road in Upgrades",
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "recommendation": "Focus Road",
+      "title": "Road",
+      "afterCheck": {
+        "focusedResearch": "road",
+        "highlight": "road",
+        "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+        "selected": "road"
+      }
+    },
+    {
+      "id": "automata",
+      "situation": "default",
+      "action": "Show Basic upgrade in Upgrades",
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "recommendation": "Focus Basic upgrade",
+      "title": "Basic upgrade",
+      "afterCheck": {
+        "focusedResearch": null,
+        "focusedUpgrade": "automataCore",
+        "highlight": "automataCore",
+        "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty"
+      }
+    },
+    {
+      "id": "automata",
+      "situation": "production",
+      "action": null,
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "recommendation": "Keep clue; no shortcut yet",
+      "title": "Automata Core"
+    },
+    {
+      "id": "fabricatorTools",
+      "situation": "default",
+      "action": "Show Advanced Fabrication in Upgrades",
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "recommendation": "Focus Advanced Fabrication",
+      "title": "Advanced Fabrication",
+      "afterCheck": {
+        "focusedResearch": "fabricatorTools",
+        "highlight": "fabricatorTools",
+        "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+        "selected": "fabricatorTools"
+      }
+    },
+    {
+      "id": "lake",
+      "situation": "default",
+      "action": "Show Extra Map Point in Upgrades",
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "recommendation": "Focus Extra Map Point",
+      "title": "The factory is thirsty",
+      "afterCheck": {
+        "focusedResearch": "mapNode",
+        "highlight": "mapNode",
+        "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+        "selected": "mapNode"
+      }
+    },
+    {
+      "id": "lake",
+      "situation": "map-point",
+      "action": "Open Expansion tutorial",
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "recommendation": "Offer Expansion tutorial",
+      "title": "The factory is thirsty",
+      "dialogCheck": {
+        "dialog": "Expansion tutorial",
+        "focused": "Not now",
+        "practice": 0
+      },
+      "returned": {
+        "dialogCount": 0,
+        "focused": "Show me"
+      }
+    },
+    {
+      "id": "hydrochemistry",
+      "situation": "default",
+      "action": "Show Hydrochemistry in Upgrades",
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "recommendation": "Focus Hydrochemistry",
+      "title": "Hydrochemistry",
+      "afterCheck": {
+        "focusedResearch": "hydrochemistry",
+        "highlight": "hydrochemistry",
+        "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+        "selected": "hydrochemistry"
+      }
+    },
+    {
+      "id": "hydraulicAssembly",
+      "situation": "default",
+      "action": "Show Hydraulic Assembly in Upgrades",
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "recommendation": "Focus Hydraulic Assembly",
+      "title": "Hydraulic Assembly",
+      "afterCheck": {
+        "focusedResearch": "hydraulicAssembly",
+        "highlight": "hydraulicAssembly",
+        "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+        "selected": "hydraulicAssembly"
+      }
+    },
+    {
+      "id": "hydro",
+      "situation": "default",
+      "action": "Show Automata upgrade in Upgrades",
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "recommendation": "Focus Automata upgrade",
+      "title": "Automata upgrade",
+      "afterCheck": {
+        "focusedResearch": null,
+        "focusedUpgrade": "hydroCore",
+        "highlight": "hydroCore",
+        "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty"
+      }
+    },
+    {
+      "id": "hydro",
+      "situation": "production",
+      "action": null,
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "recommendation": "Keep clue; no shortcut yet",
+      "title": "Hydro Core"
+    },
+    {
+      "id": "fluidRouting",
+      "situation": "default",
+      "action": "Show Fluid Routing in Upgrades",
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "recommendation": "Focus Fluid Routing",
+      "title": "Fluid Routing",
+      "afterCheck": {
+        "focusedResearch": "fluidRouting",
+        "highlight": "fluidRouting",
+        "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+        "selected": "fluidRouting"
+      }
+    },
+    {
+      "id": "camp",
+      "situation": "default",
+      "action": "Show Extra Map Point in Upgrades",
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "recommendation": "Focus Extra Map Point",
+      "title": "The neighbours",
+      "afterCheck": {
+        "focusedResearch": null,
+        "highlight": "mapNode",
+        "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+        "selected": "mapNode"
+      }
+    },
+    {
+      "id": "camp",
+      "situation": "map-point",
+      "action": "Open Expansion tutorial",
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "recommendation": "Offer Expansion tutorial",
+      "title": "The neighbours",
+      "dialogCheck": {
+        "dialog": "Expansion tutorial",
+        "focused": "Not now",
+        "practice": 0
+      },
+      "returned": {
+        "dialogCount": 0,
+        "focused": "Show me"
+      }
+    },
+    {
+      "id": "sealedRobotics",
+      "situation": "default",
+      "action": "Show Sealed Robotics in Upgrades",
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "recommendation": "Focus Sealed Robotics",
+      "title": "Sealed Robotics",
+      "afterCheck": {
+        "focusedResearch": "sealedRobotics",
+        "highlight": "sealedRobotics",
+        "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+        "selected": "sealedRobotics"
+      }
+    },
+    {
+      "id": "dwarves",
+      "situation": "default",
+      "action": "Show Extra Map Point in Upgrades",
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "recommendation": "Focus Extra Map Point",
+      "title": "A metallic glint",
+      "afterCheck": {
+        "focusedResearch": "mapNode",
+        "highlight": "mapNode",
+        "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+        "selected": "mapNode"
+      }
+    },
+    {
+      "id": "dwarves",
+      "situation": "map-point",
+      "action": "Open Expansion tutorial",
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "recommendation": "Offer Expansion tutorial",
+      "title": "A metallic glint",
+      "dialogCheck": {
+        "dialog": "Expansion tutorial",
+        "focused": "Not now",
+        "practice": 0
+      },
+      "returned": {
+        "dialogCount": 0,
+        "focused": "Show me"
+      }
+    },
+    {
+      "id": "guardedMythril",
+      "situation": "default",
+      "action": "Open Monster Camps tutorial",
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "recommendation": "Offer Monster Camps tutorial",
+      "title": "Dwarven Mythril",
+      "dialogCheck": {
+        "dialog": "Monster Camps tutorial",
+        "focused": "Not now",
+        "practice": 0
+      },
+      "returned": {
+        "dialogCount": 0,
+        "focused": "Show me"
+      }
+    },
+    {
+      "id": "tribute",
+      "situation": "default",
+      "action": null,
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "recommendation": "Keep clue; no shortcut yet",
+      "title": "Dwarven Tribute"
+    },
+    {
+      "id": "bot",
+      "situation": "default",
+      "action": null,
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "recommendation": "Keep clue; no shortcut yet",
+      "title": "Suppression Bot 4 AP"
+    },
+    {
+      "id": "oreSeparation",
+      "situation": "default",
+      "action": "Show Ore Separation in Upgrades",
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "recommendation": "Focus Ore Separation",
+      "title": "Ore Separation",
+      "afterCheck": {
+        "focusedResearch": "oreSeparation",
+        "highlight": "oreSeparation",
+        "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+        "selected": "oreSeparation"
+      }
+    },
+    {
+      "id": "shiny",
+      "situation": "default",
+      "action": "Show Hydro upgrade in Upgrades",
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "recommendation": "Focus Hydro upgrade",
+      "title": "Hydro upgrade",
+      "afterCheck": {
+        "focusedResearch": null,
+        "focusedUpgrade": "shinyCore",
+        "highlight": "shinyCore",
+        "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty"
+      }
+    },
+    {
+      "id": "shiny",
+      "situation": "production",
+      "action": null,
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "recommendation": "Keep clue; no shortcut yet",
+      "title": "Shiny Core"
+    },
+    {
+      "id": "precisionControl",
+      "situation": "default",
+      "action": "Show Precision Control in Upgrades",
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "recommendation": "Focus Precision Control",
+      "title": "Precision Control",
+      "afterCheck": {
+        "focusedResearch": "precisionControl",
+        "highlight": "precisionControl",
+        "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+        "selected": "precisionControl"
+      }
+    },
+    {
+      "id": "complex",
+      "situation": "default",
+      "action": "Show Shiny upgrade in Upgrades",
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "recommendation": "Focus Shiny upgrade",
+      "title": "Shiny upgrade",
+      "afterCheck": {
+        "focusedResearch": null,
+        "focusedUpgrade": "complexCore",
+        "highlight": "complexCore",
+        "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty"
+      }
+    },
+    {
+      "id": "complex",
+      "situation": "production",
+      "action": null,
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "recommendation": "Keep clue; no shortcut yet",
+      "title": "Complex Core"
+    },
+    {
+      "id": "corners",
+      "situation": "default",
+      "action": "Show Extra Map Point in Upgrades",
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "recommendation": "Focus Extra Map Point",
+      "title": "The four corners",
+      "afterCheck": {
+        "focusedResearch": "mapNode",
+        "highlight": "mapNode",
+        "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+        "selected": "mapNode"
+      }
+    },
+    {
+      "id": "corners",
+      "situation": "map-point",
+      "action": "Open Expansion tutorial",
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "recommendation": "Offer Expansion tutorial",
+      "title": "The four corners",
+      "dialogCheck": {
+        "dialog": "Expansion tutorial",
+        "focused": "Not now",
+        "practice": 0
+      },
+      "returned": {
+        "dialogCount": 0,
+        "focused": "Show me"
+      }
+    },
+    {
+      "id": "grove",
+      "situation": "default",
+      "action": null,
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "recommendation": "Keep clue; no shortcut yet",
+      "title": "Elder Grove"
+    },
+    {
+      "id": "reclamation",
+      "situation": "default",
+      "action": null,
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "recommendation": "Keep clue; no shortcut yet",
+      "title": "Ancient Reclamation"
+    },
+    {
+      "id": "foundry",
+      "situation": "default",
+      "action": null,
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "recommendation": "Keep clue; no shortcut yet",
+      "title": "Ancient Foundry"
+    },
+    {
+      "id": "dragon",
+      "situation": "default",
+      "action": null,
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "recommendation": "Keep clue; no shortcut yet",
+      "title": "Ancient Dragon"
+    },
+    {
+      "id": "treePlanter",
+      "situation": "default",
+      "action": "Show Tree Planter in Upgrades",
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "recommendation": "Focus Tree Planter",
+      "title": "Tree Planter",
+      "afterCheck": {
+        "focusedResearch": "treePlanter",
+        "highlight": "treePlanter",
+        "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+        "selected": "treePlanter"
+      }
+    },
+    {
+      "id": "yin",
+      "situation": "default",
+      "action": null,
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "recommendation": "Keep clue; no shortcut yet",
+      "title": "Yin"
+    },
+    {
+      "id": "yang",
+      "situation": "default",
+      "action": null,
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "recommendation": "Keep clue; no shortcut yet",
+      "title": "Yang"
+    },
+    {
+      "id": "final",
+      "situation": "default",
+      "action": "Show Complex upgrade in Upgrades",
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "recommendation": "Focus Complex upgrade",
+      "title": "Complex upgrade",
+      "afterCheck": {
+        "focusedResearch": null,
+        "focusedUpgrade": "finalCore",
+        "highlight": "finalCore",
+        "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty"
+      }
+    },
+    {
+      "id": "final",
+      "situation": "production",
+      "action": null,
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "recommendation": "Keep clue; no shortcut yet",
+      "title": "Final Core"
+    },
+    {
+      "id": "victory",
+      "situation": "default",
+      "action": "Show A Remarkably Indirect Conclusion in Upgrades",
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "recommendation": "Focus A Remarkably Indirect Conclusion",
+      "title": "A Remarkably Indirect Conclusion",
+      "afterCheck": {
+        "focusedResearch": "victory",
+        "highlight": "victory",
+        "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+        "selected": "victory"
+      }
+    },
+    {
+      "id": "finished",
+      "situation": "default",
+      "action": null,
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "recommendation": "Keep clue; no shortcut yet",
+      "title": "You’ve got this"
+    },
+    {
+      "id": "golems",
+      "situation": "default",
+      "action": "Show Extra Map Point in Upgrades",
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "recommendation": "Focus Extra Map Point",
+      "title": "Some rocks have opinions",
+      "afterCheck": {
+        "focusedResearch": "mapNode",
+        "highlight": "mapNode",
+        "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+        "selected": "mapNode"
+      }
+    },
+    {
+      "id": "golems",
+      "situation": "map-point",
+      "action": "Open Expansion tutorial",
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "recommendation": "Offer Expansion tutorial",
+      "title": "Some rocks have opinions",
+      "dialogCheck": {
+        "dialog": "Expansion tutorial",
+        "focused": "Not now",
+        "practice": 0
+      },
+      "returned": {
+        "dialogCount": 0,
+        "focused": "Show me"
+      }
+    },
+    {
+      "id": "golem",
+      "situation": "default",
+      "action": null,
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "recommendation": "Keep clue; no shortcut yet",
+      "title": "Golem Camp"
+    },
+    {
+      "id": "heavyRobotics",
+      "situation": "default",
+      "action": "Show Heavy Robotics in Upgrades",
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "recommendation": "Focus Heavy Robotics",
+      "title": "Heavy Robotics",
+      "afterCheck": {
+        "focusedResearch": "heavyRobotics",
+        "highlight": "heavyRobotics",
+        "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+        "selected": "heavyRobotics"
+      }
+    },
+    {
+      "id": "commandRobotics",
+      "situation": "default",
+      "action": "Show Command Robotics in Upgrades",
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "recommendation": "Focus Command Robotics",
+      "title": "Command Robotics",
+      "afterCheck": {
+        "focusedResearch": "commandRobotics",
+        "highlight": "commandRobotics",
+        "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+        "selected": "commandRobotics"
+      }
+    },
+    {
+      "id": "trucks",
+      "situation": "default",
+      "action": "Show Trucks in Upgrades",
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "recommendation": "Focus Trucks",
+      "title": "Trucks",
+      "afterCheck": {
+        "focusedResearch": "trucks",
+        "highlight": "trucks",
+        "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+        "selected": "trucks"
+      }
+    },
+    {
+      "id": "roadChannels1",
+      "situation": "default",
+      "action": "Show Road Channels 1 in Upgrades",
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "recommendation": "Focus Road Channels 1",
+      "title": "Road Channels 1",
+      "afterCheck": {
+        "focusedResearch": "roadChannels1",
+        "highlight": "roadChannels1",
+        "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+        "selected": "roadChannels1"
+      }
+    },
+    {
+      "id": "trains",
+      "situation": "default",
+      "action": "Show Trains in Upgrades",
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "recommendation": "Focus Trains",
+      "title": "Trains",
+      "afterCheck": {
+        "focusedResearch": "trains",
+        "highlight": "trains",
+        "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+        "selected": "trains"
+      }
+    }
+  ],
+  "finalResearchChecks": [
+    {
+      "id": "assembler",
+      "situation": "default",
+      "focusedResearch": "assembler",
+      "highlight": "assembler",
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty"
+    },
+    {
+      "id": "basic",
+      "situation": "default",
+      "focusedResearch": null,
+      "focusedUpgrade": "basicCore",
+      "highlight": "basicCore",
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty"
+    },
+    {
+      "id": "exploration",
+      "situation": "default",
+      "focusedResearch": "exploration",
+      "highlight": "exploration",
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty"
+    },
+    {
+      "id": "detour",
+      "situation": "default",
+      "focusedResearch": "mapNode",
+      "highlight": "mapNode",
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty"
+    },
+    {
+      "id": "road",
+      "situation": "default",
+      "focusedResearch": "road",
+      "highlight": "road",
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty"
+    },
+    {
+      "id": "automata",
+      "situation": "default",
+      "focusedResearch": null,
+      "focusedUpgrade": "automataCore",
+      "highlight": "automataCore",
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty"
+    },
+    {
+      "id": "fabricatorTools",
+      "situation": "default",
+      "focusedResearch": "fabricatorTools",
+      "highlight": "fabricatorTools",
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty"
+    },
+    {
+      "id": "lake",
+      "situation": "default",
+      "focusedResearch": "mapNode",
+      "highlight": "mapNode",
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty"
+    },
+    {
+      "id": "hydrochemistry",
+      "situation": "default",
+      "focusedResearch": "hydrochemistry",
+      "highlight": "hydrochemistry",
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty"
+    },
+    {
+      "id": "hydraulicAssembly",
+      "situation": "default",
+      "focusedResearch": "hydraulicAssembly",
+      "highlight": "hydraulicAssembly",
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty"
+    },
+    {
+      "id": "hydro",
+      "situation": "default",
+      "focusedResearch": null,
+      "focusedUpgrade": "hydroCore",
+      "highlight": "hydroCore",
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty"
+    },
+    {
+      "id": "fluidRouting",
+      "situation": "default",
+      "focusedResearch": "fluidRouting",
+      "highlight": "fluidRouting",
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty"
+    },
+    {
+      "id": "camp",
+      "situation": "default",
+      "focusedResearch": "mapNode",
+      "highlight": "mapNode",
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty"
+    },
+    {
+      "id": "sealedRobotics",
+      "situation": "default",
+      "focusedResearch": "sealedRobotics",
+      "highlight": "sealedRobotics",
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty"
+    },
+    {
+      "id": "dwarves",
+      "situation": "default",
+      "focusedResearch": "mapNode",
+      "highlight": "mapNode",
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty"
+    },
+    {
+      "id": "oreSeparation",
+      "situation": "default",
+      "focusedResearch": "oreSeparation",
+      "highlight": "oreSeparation",
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty"
+    },
+    {
+      "id": "shiny",
+      "situation": "default",
+      "focusedResearch": null,
+      "focusedUpgrade": "shinyCore",
+      "highlight": "shinyCore",
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty"
+    },
+    {
+      "id": "precisionControl",
+      "situation": "default",
+      "focusedResearch": "precisionControl",
+      "highlight": "precisionControl",
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty"
+    },
+    {
+      "id": "complex",
+      "situation": "default",
+      "focusedResearch": null,
+      "focusedUpgrade": "complexCore",
+      "highlight": "complexCore",
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty"
+    },
+    {
+      "id": "corners",
+      "situation": "default",
+      "focusedResearch": "mapNode",
+      "highlight": "mapNode",
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty"
+    },
+    {
+      "id": "treePlanter",
+      "situation": "default",
+      "focusedResearch": "treePlanter",
+      "highlight": "treePlanter",
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty"
+    },
+    {
+      "id": "final",
+      "situation": "default",
+      "focusedResearch": null,
+      "focusedUpgrade": "finalCore",
+      "highlight": "finalCore",
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty"
+    },
+    {
+      "id": "victory",
+      "situation": "default",
+      "focusedResearch": "victory",
+      "highlight": "victory",
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty"
+    },
+    {
+      "id": "golems",
+      "situation": "default",
+      "focusedResearch": "mapNode",
+      "highlight": "mapNode",
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty"
+    },
+    {
+      "id": "heavyRobotics",
+      "situation": "default",
+      "focusedResearch": "heavyRobotics",
+      "highlight": "heavyRobotics",
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty"
+    },
+    {
+      "id": "commandRobotics",
+      "situation": "default",
+      "focusedResearch": "commandRobotics",
+      "highlight": "commandRobotics",
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty"
+    },
+    {
+      "id": "trucks",
+      "situation": "default",
+      "focusedResearch": "trucks",
+      "highlight": "trucks",
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty"
+    },
+    {
+      "id": "roadChannels1",
+      "situation": "default",
+      "focusedResearch": "roadChannels1",
+      "highlight": "roadChannels1",
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty"
+    },
+    {
+      "id": "trains",
+      "situation": "default",
+      "focusedResearch": "trains",
+      "highlight": "trains",
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty"
+    }
+  ],
+  "comparisons": {
+    "currentComparison": {
+      "actions": 0,
+      "title": "Your assignment"
+    },
+    "proposedComparison": {
+      "actions": 1,
+      "title": "Your assignment"
+    }
+  },
+  "reviewNavigation": [
+    "Next from assignment selects Forest",
+    "Previous from Forest selects assignment"
+  ],
+  "narrow": {
+    "width": 390,
+    "height": 845,
+    "scrollWidth": 375,
+    "gridColumns": 1,
+    "monsterCampsInvitation": true
+  },
+  "finalLayout": {
+    "height": 923,
+    "initialReview": "Your assignment",
+    "scrollWidth": 1195,
+    "width": 1210
+  },
+  "logs": [],
+  "note": "An initial immediate focus observation for Camp/Map Point saw the pre-animation-frame element. Focus was made synchronous in layout effect and all 29 research cases then passed. No campaign slots or full lesson completions."
+}

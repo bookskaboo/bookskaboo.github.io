@@ -1,0 +1,402 @@
+{
+  "pairs": [
+    {
+      "id": "assignment",
+      "variant": "default",
+      "action": "Open Basics tutorial",
+      "body": "You are a junior AI bot assigned to this world. Use its resources to build production systems, manufacture Cores, and upgrade yourself.",
+      "title": "Terms of employment"
+    },
+    {
+      "id": "wood",
+      "variant": "default",
+      "action": "Open Basics tutorial",
+      "body": "The trees look employable.",
+      "title": "Available staff"
+    },
+    {
+      "id": "copper",
+      "variant": "default",
+      "action": "Open Basics tutorial",
+      "body": "The orange stuff has potential.",
+      "title": "Grounds for optimism"
+    },
+    {
+      "id": "fuel",
+      "variant": "default",
+      "action": "Open Basics tutorial",
+      "body": "Wood has a warmer calling.",
+      "title": "Alternative employment"
+    },
+    {
+      "id": "plate",
+      "variant": "default",
+      "action": "Open Basics tutorial",
+      "body": "Ore looks better flat.",
+      "title": "Material progress"
+    },
+    {
+      "id": "lab",
+      "variant": "default",
+      "action": "Open Basics tutorial",
+      "body": "Home could use a lab.",
+      "title": "Room for thought"
+    },
+    {
+      "id": "simple",
+      "variant": "default",
+      "action": "Open Basics tutorial",
+      "body": "Copper Gears have ambitions.",
+      "title": "Career prospects"
+    },
+    {
+      "id": "iron",
+      "variant": "default",
+      "action": null,
+      "body": "Copper can’t do everything.",
+      "title": "A second opinion"
+    },
+    {
+      "id": "assembler",
+      "variant": "default",
+      "action": "Show Assembler in Upgrades",
+      "body": "Simple Cores can open doors.",
+      "title": "Some assembly required"
+    },
+    {
+      "id": "basic",
+      "variant": "default",
+      "action": "Show Simple upgrade in Upgrades",
+      "body": "Iron Wire enters the picture.",
+      "title": "Room to improve"
+    },
+    {
+      "id": "basic",
+      "variant": "production",
+      "action": null,
+      "body": "Iron Wire enters the picture.",
+      "title": "Something to build on"
+    },
+    {
+      "id": "exploration",
+      "variant": "default",
+      "action": "Show Exploration in Upgrades",
+      "body": "We should probably look around.",
+      "title": "Beyond the paperwork"
+    },
+    {
+      "id": "detour",
+      "variant": "default",
+      "action": "Show Extra Map Point in Upgrades",
+      "body": "Something unusual lies to the north. The map has declined to elaborate.",
+      "title": "A useful detour"
+    },
+    {
+      "id": "detour",
+      "variant": "map-point",
+      "action": "Open Expansion tutorial",
+      "body": "Something unusual lies to the north. The map has declined to elaborate.",
+      "title": "A useful detour"
+    },
+    {
+      "id": "road",
+      "variant": "default",
+      "action": "Open Expansion tutorial",
+      "body": "Resources don’t cross borders on their own.",
+      "title": "Across the line"
+    },
+    {
+      "id": "automata",
+      "variant": "default",
+      "action": "Show Basic upgrade in Upgrades",
+      "body": "Even circuits need a little masonry.",
+      "title": "More responsibility"
+    },
+    {
+      "id": "automata",
+      "variant": "production",
+      "action": null,
+      "body": "Even circuits need a little masonry.",
+      "title": "More moving parts"
+    },
+    {
+      "id": "fabricatorTools",
+      "variant": "default",
+      "action": "Show Advanced Fabrication in Upgrades",
+      "body": "A bigger machine seems inevitable.",
+      "title": "Equipment request"
+    },
+    {
+      "id": "lake",
+      "variant": "default",
+      "action": "Show Extra Map Point in Upgrades",
+      "body": "Dry land has its limits.",
+      "title": "The factory is thirsty"
+    },
+    {
+      "id": "lake",
+      "variant": "map-point",
+      "action": "Open Expansion tutorial",
+      "body": "Dry land has its limits.",
+      "title": "The factory is thirsty"
+    },
+    {
+      "id": "hydrochemistry",
+      "variant": "default",
+      "action": "Show Hydrochemistry in Upgrades",
+      "body": "Copper needn’t stay dry.",
+      "title": "Liquid assets"
+    },
+    {
+      "id": "hydraulicAssembly",
+      "variant": "default",
+      "action": "Show Hydraulic Assembly in Upgrades",
+      "body": "The Pistons are getting ambitious.",
+      "title": "Under pressure"
+    },
+    {
+      "id": "hydro",
+      "variant": "default",
+      "action": "Show Automata upgrade in Upgrades",
+      "body": "The Lake may have a second job.",
+      "title": "Waterside ambitions"
+    },
+    {
+      "id": "hydro",
+      "variant": "production",
+      "action": null,
+      "body": "The Lake may have a second job.",
+      "title": "Another use for water"
+    },
+    {
+      "id": "fluidRouting",
+      "variant": "default",
+      "action": "Show Fluid Routing in Upgrades",
+      "body": "Fluids have places to be.",
+      "title": "A change of course"
+    },
+    {
+      "id": "camp",
+      "variant": "default",
+      "action": "Show Extra Map Point in Upgrades",
+      "body": "Somebody else got here first.",
+      "title": "The neighbours"
+    },
+    {
+      "id": "camp",
+      "variant": "map-point",
+      "action": "Open Expansion tutorial",
+      "body": "Somebody else got here first.",
+      "title": "The neighbours"
+    },
+    {
+      "id": "sealedRobotics",
+      "variant": "default",
+      "action": "Show Sealed Robotics in Upgrades",
+      "body": "One AP only gets you so far.",
+      "title": "A stronger argument"
+    },
+    {
+      "id": "dwarves",
+      "variant": "default",
+      "action": "Show Extra Map Point in Upgrades",
+      "body": "The neighbours farther out seem well supplied.",
+      "title": "A metallic glint"
+    },
+    {
+      "id": "dwarves",
+      "variant": "map-point",
+      "action": "Open Expansion tutorial",
+      "body": "The neighbours farther out seem well supplied.",
+      "title": "A metallic glint"
+    },
+    {
+      "id": "guardedMythril",
+      "variant": "default",
+      "action": "Open Monster Camps tutorial",
+      "body": "Keep the Dwarven settlement fully suppressed, then connect an Extractor to its Mythril deposit. Cooperation now comes with a cable.",
+      "title": "Restricted access"
+    },
+    {
+      "id": "tribute",
+      "variant": "default",
+      "action": null,
+      "body": "The factory’s future depends on their cooperation.",
+      "title": "Neighbourly obligations"
+    },
+    {
+      "id": "bot",
+      "variant": "default",
+      "action": null,
+      "body": "A steady procession might be persuasive.",
+      "title": "A staffing solution"
+    },
+    {
+      "id": "oreSeparation",
+      "variant": "default",
+      "action": "Show Ore Separation in Upgrades",
+      "body": "There’s something shiny in there.",
+      "title": "A promising impurity"
+    },
+    {
+      "id": "shiny",
+      "variant": "default",
+      "action": "Show Hydro upgrade in Upgrades",
+      "body": "Mythril looks promising in Mesh.",
+      "title": "A finer finish"
+    },
+    {
+      "id": "shiny",
+      "variant": "production",
+      "action": null,
+      "body": "Mythril looks promising in Mesh.",
+      "title": "A polished prospect"
+    },
+    {
+      "id": "precisionControl",
+      "variant": "default",
+      "action": "Show Precision Control in Upgrades",
+      "body": "Complications are now a feature.",
+      "title": "Revised specifications"
+    },
+    {
+      "id": "complex",
+      "variant": "default",
+      "action": "Show Shiny upgrade in Upgrades",
+      "body": "The leftovers may have a future.",
+      "title": "Unfinished potential"
+    },
+    {
+      "id": "complex",
+      "variant": "production",
+      "action": null,
+      "body": "The leftovers may have a future.",
+      "title": "Unclaimed value"
+    },
+    {
+      "id": "complexUpgrade",
+      "variant": "default",
+      "action": "Show Complex upgrade in Upgrades",
+      "body": "It’s like they fit together.",
+      "title": "Promotion pending"
+    },
+    {
+      "id": "corners",
+      "variant": "default",
+      "action": "Show Extra Map Point in Upgrades",
+      "body": "The map may have something left to say.",
+      "title": "Loose ends"
+    },
+    {
+      "id": "corners",
+      "variant": "map-point",
+      "action": "Open Expansion tutorial",
+      "body": "The map may have something left to say.",
+      "title": "Loose ends"
+    },
+    {
+      "id": "grove",
+      "variant": "default",
+      "action": null,
+      "body": "The trees expect growth.",
+      "title": "Delayed returns"
+    },
+    {
+      "id": "reclamation",
+      "variant": "default",
+      "action": null,
+      "body": "Someone finally wants the waste.",
+      "title": "A second use"
+    },
+    {
+      "id": "foundry",
+      "variant": "default",
+      "action": null,
+      "body": "The Foundry has expensive tastes.",
+      "title": "A demanding customer"
+    },
+    {
+      "id": "dragon",
+      "variant": "default",
+      "action": null,
+      "body": "The Dragon respects a substantial Bot presence.",
+      "title": "Terms of negotiation"
+    },
+    {
+      "id": "yin",
+      "variant": "default",
+      "action": null,
+      "body": "Two pieces seem to agree.",
+      "title": "Common ground"
+    },
+    {
+      "id": "yang",
+      "variant": "default",
+      "action": null,
+      "body": "Two pieces seem to agree.",
+      "title": "The other side"
+    },
+    {
+      "id": "final",
+      "variant": "default",
+      "action": null,
+      "body": "It’s like they fit together.",
+      "title": "A complete picture"
+    },
+    {
+      "id": "victory",
+      "variant": "default",
+      "action": "Show A Remarkably Indirect Conclusion in Upgrades",
+      "body": "The lab likes a complete set.",
+      "title": "One last form"
+    },
+    {
+      "id": "finished",
+      "variant": "default",
+      "action": null,
+      "body": "Maybe a speed run next?",
+      "title": "You’ve got this"
+    }
+  ],
+  "remainingOverlap": [],
+  "ignoredFunctionWords": [
+    "a",
+    "an",
+    "the",
+    "of",
+    "to",
+    "for",
+    "in",
+    "on",
+    "is",
+    "are",
+    "has",
+    "have",
+    "its",
+    "it",
+    "they",
+    "their",
+    "this",
+    "that",
+    "with",
+    "and",
+    "or",
+    "be",
+    "may",
+    "can",
+    "do",
+    "so",
+    "some",
+    "all",
+    "more",
+    "another"
+  ],
+  "wordFamilies": {
+    "flatter": "flat",
+    "flat": "flat",
+    "growth": "grow",
+    "growing": "grow"
+  },
+  "logs": [],
+  "scope": "Preview title copy only; original body text and action labels preserved."
+}

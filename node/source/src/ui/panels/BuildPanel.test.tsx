@@ -13,3 +13,13 @@ it('lists the unlocked Mining Drill in Production after removing the Extraction 
   expect(html).toContain('data-build-kind="miningDrill"');
   expect(html).not.toContain('>Extraction</button>');
 });
+
+it('keeps Filters out of the starting Build menu and lists them with Waste Handling', () => {
+  const game = createInitialState(1);
+  const render = () => renderToStaticMarkup(<BuildPanel game={game} category="All" showAllNodes={false}
+    canBuild={() => true} setCategory={() => {}} onChoose={() => {}} onClose={() => {}} />);
+  expect(render()).not.toContain('data-build-kind="filter"');
+  game.research.completed.push('precisionControl', 'sortingTools');
+  game.research.unlocked.push('precisionControl', 'sortingTools');
+  expect(render()).toContain('data-build-kind="filter"');
+});

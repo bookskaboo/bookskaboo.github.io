@@ -106,7 +106,7 @@ All live projects in Core-stage order, with prerequisites before dependent proje
 | [Refiner 3](research.md#research-refiner5) | Shiny Core | 30 | Refiner cycles take 40% less time than the base cycle. |
 | [Synthesizer 1](research.md#research-separationFurnace5) | Shiny Core | 30 | Synthesizer cycles take 20% less time than the base cycle. |
 | [Tree Planter 2](research.md#research-treePlanter5) | Shiny Core | 30 | Tree Planter cycles take 35% less time than the base cycle. |
-| [Shiny upgrade](research.md#research-complexCore) | Shiny Core | 5 | Unlocks the Complex Core recipe in the Fabricator. Unlocks the Yin and Yang recipes and reveals all four map corners. |
+| [Shiny upgrade](research.md#research-complexCore) | Shiny Core | 5 | Unlocks the Complex Core recipe in the Fabricator. |
 | [Mountain Tunnels](research.md#research-mountainTunnels) | Shiny Core | 5 | Roads can cross mountains worldwide. |
 | [Extractor 4](research.md#research-extractor5) | Shiny Core | 30 | Extractor cycles take 45% less time than the base cycle. |
 | [Kiln 4](research.md#research-kiln5) | Shiny Core | 30 | Kiln cycles take 45% less time than the base cycle. |
@@ -120,7 +120,7 @@ All live projects in Core-stage order, with prerequisites before dependent proje
 | [Fabricator 3](research.md#research-advancedAssembler5) | Shiny Core | 30 | Fabricator cycles take 40% less time than the base cycle. |
 | [Bot Plant 3](research.md#research-botPlant5) | Shiny Core | 30 | Bot Plant cycles take 40% less time than the base cycle. |
 | [Recycler 2](research.md#research-recycler5) | Shiny Core | 30 | Recycler cycles take 35% less time than the base cycle. |
-| [Waste Handling](research.md#research-sortingTools) | None (automatic) | 0 | Unlocks the Waste Bin. Automatic: Complete Precision Control. |
+| [Waste Handling](research.md#research-sortingTools) | None (automatic) | 0 | Unlocks the Filter and Waste Bin. Automatic: Complete Precision Control. |
 | [Mineral Recovery](research.md#research-mineralRecovery) | None (automatic) | 0 | Iron Plates can now be recovered from Metallic Fines. Automatic: Complete Precision Control. |
 | [Mineral Regeneration 2](research.md#research-mineralRegeneration2) | Shiny Core | 30 | Base mineral regeneration increases to 1 unit every 15 seconds. |
 | [Area Expansion 2](research.md#research-areaExpansion2) | Shiny Core | 50 | Expands every play area. |
@@ -134,7 +134,7 @@ All live projects in Core-stage order, with prerequisites before dependent proje
 | [Synthesizer 2](research.md#research-separationFurnace6) | Complex Core | 35 | Synthesizer cycles take 45% less time than the base cycle. |
 | [Tree Planter 3](research.md#research-treePlanter6) | Complex Core | 35 | Tree Planter cycles take 50% less time than the base cycle. Also expands growth buffers and allows ten growth units per transfer. |
 | [Connector Mirroring](research.md#research-connectorMirroring) | Complex Core | 10 | Right-click a production node to mirror its connectors. |
-| [Complex upgrade](research.md#research-finalCore) | Complex Core | 5 | Unlocks the Final Core recipe in the Assembler. |
+| [Complex upgrade](research.md#research-finalCore) | Complex Core | 5 | Unlocks the Final Core recipe in the Assembler. Unlocks the Yin and Yang recipes and reveals all four map corners. |
 | [Chasm Spans](research.md#research-chasmSpans) | Complex Core | 5 | Roads can cross chasms worldwide. |
 | [Extractor 5](research.md#research-extractor6) | Complex Core | 35 | Extractor cycles take 55% less time than the base cycle. |
 | [Kiln 5](research.md#research-kiln6) | Complex Core | 35 | Kiln cycles take 55% less time than the base cycle. |
@@ -304,7 +304,7 @@ Cost growth per completion: ×1.5, rounded up with the applicable Core minimum.
 
 | ID | Category | Price or discovery | Prerequisites | Effect |
 | --- | --- | --- | --- | --- |
-| `sortingTools` | Discovery | Automatic: Complete Precision Control | None | Unlocks the Waste Bin. |
+| `sortingTools` | Discovery | Automatic: Complete Precision Control | None | Unlocks the Filter and Waste Bin. |
 
 <a id="research-hydrochemistry"></a>
 
@@ -1098,7 +1098,7 @@ Cost growth per completion: ×1.5, rounded up with the applicable Core minimum.
 
 | ID | Category | Price or discovery | Prerequisites | Effect |
 | --- | --- | --- | --- | --- |
-| `complexCore` | Fabrication | 5 Simple Core + 5 Basic Core + 5 Automata Core + 5 Hydro Core + 5 Shiny Core | [Hydro upgrade](research.md#research-shinyCore) | Unlocks the Complex Core recipe in the Fabricator. Unlocks the Yin and Yang recipes and reveals all four map corners. |
+| `complexCore` | Fabrication | 5 Simple Core + 5 Basic Core + 5 Automata Core + 5 Hydro Core + 5 Shiny Core | [Hydro upgrade](research.md#research-shinyCore) | Unlocks the Complex Core recipe in the Fabricator. |
 
 <a id="research-finalCore"></a>
 
@@ -1106,7 +1106,7 @@ Cost growth per completion: ×1.5, rounded up with the applicable Core minimum.
 
 | ID | Category | Price or discovery | Prerequisites | Effect |
 | --- | --- | --- | --- | --- |
-| `finalCore` | Fabrication | 5 Simple Core + 5 Basic Core + 5 Automata Core + 5 Hydro Core + 5 Shiny Core + 5 Complex Core | [Shiny upgrade](research.md#research-complexCore) | Unlocks the Final Core recipe in the Assembler. |
+| `finalCore` | Fabrication | 5 Simple Core + 5 Basic Core + 5 Automata Core + 5 Hydro Core + 5 Shiny Core + 5 Complex Core | [Shiny upgrade](research.md#research-complexCore) | Unlocks the Final Core recipe in the Assembler. Unlocks the Yin and Yang recipes and reveals all four map corners. |
 
 <a id="research-researchCenter"></a>
 

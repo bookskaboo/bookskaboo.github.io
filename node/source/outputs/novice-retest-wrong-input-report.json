@@ -1,0 +1,351 @@
+{
+  "exportedAt": "2026-11-01T20:00:58.602Z",
+  "simulationTimeMs": 211701.10000002384,
+  "seed": 472715628,
+  "extracted": {
+    "wood": 12,
+    "copper": 9
+  },
+  "produced": {
+    "charcoal": 5
+  },
+  "state": {
+    "version": 1,
+    "seed": 472715628,
+    "activeSectorId": "5,5",
+    "sectors": {
+      "5,5": {
+        "id": "5,5",
+        "x": 5,
+        "y": 5,
+        "name": "Home Factory",
+        "label": "H",
+        "unlocked": true,
+        "nodes": [
+          {
+            "id": "forest",
+            "kind": "forest",
+            "name": "Forest",
+            "x": 406,
+            "y": 749,
+            "rotation": 0,
+            "input": {},
+            "output": {},
+            "progressMs": 0,
+            "cycleMs": 5000,
+            "constructedAt": 0,
+            "constructionMs": 0,
+            "resourceItem": "wood",
+            "resourceRemaining": 990,
+            "resourceCapacity": 1000,
+            "regenMs": 23599.80000001192,
+            "capacity": 5
+          },
+          {
+            "id": "copper",
+            "kind": "copper",
+            "name": "Copper",
+            "x": 406,
+            "y": 1257,
+            "rotation": 0,
+            "input": {},
+            "output": {},
+            "progressMs": 0,
+            "cycleMs": 5000,
+            "constructedAt": 0,
+            "constructionMs": 0,
+            "resourceItem": "copper",
+            "resourceRemaining": 991,
+            "resourceCapacity": 1000,
+            "capacity": 5
+          },
+          {
+            "id": "iron",
+            "kind": "iron",
+            "name": "Iron",
+            "x": 406,
+            "y": 1765,
+            "rotation": 0,
+            "input": {},
+            "output": {},
+            "progressMs": 0,
+            "cycleMs": 5000,
+            "constructedAt": 0,
+            "constructionMs": 0,
+            "resourceItem": "iron",
+            "resourceRemaining": 1000,
+            "resourceCapacity": 1000,
+            "capacity": 5
+          },
+          {
+            "id": "ironExtractor",
+            "kind": "extractor",
+            "name": "Extractor",
+            "x": 829,
+            "y": 748.5,
+            "rotation": 0,
+            "input": {},
+            "output": {
+              "wood": 2
+            },
+            "progressMs": 4699.100000023842,
+            "cycleMs": 5000,
+            "constructedAt": 0,
+            "constructionMs": 0
+          },
+          {
+            "id": "extractor-2",
+            "kind": "extractor",
+            "name": "Extractor",
+            "x": 929,
+            "y": 1176.5,
+            "rotation": 0,
+            "input": {},
+            "output": {
+              "copper": 4
+            },
+            "progressMs": 4500.100000023842,
+            "cycleMs": 5000,
+            "constructedAt": 0,
+            "constructionMs": 0
+          },
+          {
+            "id": "kiln-864e26e0-2b9b-4600-9b6a-45e5f4a3b12d",
+            "kind": "kiln",
+            "name": "Kiln",
+            "x": 1291.9333333333334,
+            "y": 751.3399243360528,
+            "rotation": 0,
+            "recipeId": "charcoal",
+            "input": {
+              "wood": 5
+            },
+            "output": {
+              "charcoal": 5
+            },
+            "progressMs": 0,
+            "cycleMs": 3500,
+            "constructedAt": 1793563197122,
+            "constructionMs": 1500
+          },
+          {
+            "id": "smelter-84dc20c4-0900-4f48-b164-cbf7bc922df3",
+            "kind": "smelter",
+            "name": "Smelter",
+            "x": 1489.2666666666667,
+            "y": 1195.3472639361623,
+            "rotation": 0,
+            "recipeId": "smelt-copper",
+            "input": {
+              "copper": 5
+            },
+            "output": {},
+            "progressMs": 0,
+            "cycleMs": 6000,
+            "constructedAt": 1793563229140,
+            "constructionMs": 1500
+          }
+        ],
+        "connections": [
+          {
+            "id": "cable-ce283104-3cc0-4709-946e-5c6ad8fa7865",
+            "from": "forest",
+            "to": "ironExtractor",
+            "fromPort": 0,
+            "toPort": 0,
+            "item": "wood",
+            "createdAt": 1793563169949
+          },
+          {
+            "id": "cable-a043034d-7a1a-4b0c-bfa2-005dfaa5d4b1",
+            "from": "copper",
+            "to": "extractor-2",
+            "fromPort": 0,
+            "toPort": 0,
+            "item": "copper",
+            "createdAt": 1793563170120
+          },
+          {
+            "id": "cable-81f65e73-8c22-411f-8895-afd20f3fe675",
+            "from": "ironExtractor",
+            "to": "kiln-864e26e0-2b9b-4600-9b6a-45e5f4a3b12d",
+            "fromPort": 0,
+            "toPort": 0,
+            "item": "wood",
+            "createdAt": 1793563218559
+          },
+          {
+            "id": "cable-b1655aa7-9d31-4275-926e-8e9d5be06c73",
+            "from": "extractor-2",
+            "to": "smelter-84dc20c4-0900-4f48-b164-cbf7bc922df3",
+            "fromPort": 0,
+            "toPort": 0,
+            "item": "copper",
+            "createdAt": 1793563233740
+          }
+        ],
+        "camera": {
+          "x": -53.75675675675676,
+          "y": -144.5945945945946,
+          "zoom": 0.40540540540540543
+        },
+        "lastSimulatedAt": 1793563258593,
+        "visited": true
+      }
+    },
+    "research": {
+      "unlocked": [
+        "extractor",
+        "woodenChest",
+        "joint",
+        "kiln",
+        "smelter"
+      ],
+      "contributed": {},
+      "completed": [
+        "joint",
+        "kiln",
+        "smelter"
+      ],
+      "mapPoints": 0,
+      "repeatableCompletions": {},
+      "projectContributions": {}
+    },
+    "paused": false,
+    "playTimeMs": 211701.10000002384,
+    "achievements": [],
+    "preferences": {
+      "autosaveMinutes": 5,
+      "confirmDelete": true,
+      "particles": true,
+      "showGrid": true,
+      "sound": false
+    },
+    "tutorialStep": 0,
+    "events": [
+      {
+        "id": "event-e39d41f1-d20e-483f-84e3-1e07476f089f",
+        "type": "ItemProduced",
+        "message": "Extractor extracted 1 copper.",
+        "at": 1793563254193
+      },
+      {
+        "id": "event-8f7caae2-19c5-4892-8d22-5112ff16aff2",
+        "type": "ItemProduced",
+        "message": "Extractor extracted 1 wood.",
+        "at": 1793563253992
+      },
+      {
+        "id": "event-0f0381a6-3273-485c-bdfb-eaf8e2b81c00",
+        "type": "ItemProduced",
+        "message": "Extractor extracted 1 copper.",
+        "at": 1793563249093
+      },
+      {
+        "id": "event-0b12c43e-0a89-429b-beab-d77df00831eb",
+        "type": "ItemProduced",
+        "message": "Extractor extracted 1 wood.",
+        "at": 1793563248992
+      },
+      {
+        "id": "event-ff8b405b-2c14-4134-b0a1-3c938541f65c",
+        "type": "TransferStarted",
+        "message": "wood routed to Kiln.",
+        "at": 1793563244093
+      },
+      {
+        "id": "event-a20b50ca-ba64-4200-b9e7-00a4066764cf",
+        "type": "ItemProduced",
+        "message": "Extractor extracted 1 copper.",
+        "at": 1793563244092
+      },
+      {
+        "id": "event-9a5a6580-5b21-4cc8-83db-de5ca5083f37",
+        "type": "ItemProduced",
+        "message": "Extractor extracted 1 wood.",
+        "at": 1793563243992
+      },
+      {
+        "id": "event-bf217a8a-ea0b-4d0b-a23f-ce9cf73194f2",
+        "type": "TransferStarted",
+        "message": "wood routed to Kiln.",
+        "at": 1793563239292
+      },
+      {
+        "id": "event-973633aa-480c-4566-aee2-8c219549d508",
+        "type": "ItemProduced",
+        "message": "Extractor extracted 1 copper.",
+        "at": 1793563239192
+      },
+      {
+        "id": "event-3263bdb8-636b-4264-9c64-e0be03acb952",
+        "type": "ItemProduced",
+        "message": "Extractor extracted 1 wood.",
+        "at": 1793563238992
+      },
+      {
+        "id": "event-916cd702-02f0-4dc0-a13a-a420ac1e267c",
+        "type": "ItemProduced",
+        "message": "Kiln completed Charcoal.",
+        "at": 1793563237492
+      },
+      {
+        "id": "event-19babfa7-532c-4de3-8bc8-365729c376eb",
+        "type": "TransferStarted",
+        "message": "copper routed to Smelter.",
+        "at": 1793563235692
+      }
+    ],
+    "revision": 304,
+    "produced": {
+      "charcoal": 5
+    },
+    "extracted": {
+      "wood": 12,
+      "copper": 9
+    },
+    "hasCreatedConnection": true,
+    "inFlightTransfers": [],
+    "encounters": [
+      "forest",
+      "copper",
+      "iron",
+      "extractor"
+    ],
+    "globalPool": {},
+    "factoryTemplates": [],
+    "randomState": 472715628,
+    "progressionVersion": 1,
+    "discoveryTimes": {
+      "joint": 123001.60000002384,
+      "kiln": 128101.30000001192,
+      "smelter": 128301.39999997616
+    },
+    "researchLog": [
+      {
+        "id": "event-9e70a9e5-4a50-4f25-a3c5-1979e3eacef9",
+        "type": "ResearchCompleted",
+        "message": "Smelter research complete. Unlocks the Smelter node",
+        "at": 1793563175193,
+        "projectId": "smelter",
+        "elapsedMs": 128301.39999997616
+      },
+      {
+        "id": "event-e6c2dfce-711e-4252-ad64-1f8cd36fe588",
+        "type": "ResearchCompleted",
+        "message": "Kiln research complete. Unlocks the Kiln node",
+        "at": 1793563174993,
+        "projectId": "kiln",
+        "elapsedMs": 128101.30000001192
+      },
+      {
+        "id": "event-3518e02b-cc97-48d8-aa5e-edf53e1fe2c0",
+        "type": "ResearchCompleted",
+        "message": "Joint research complete. Unlocks the Joint node",
+        "at": 1793563169949,
+        "projectId": "joint",
+        "elapsedMs": 123001.60000002384
+      }
+    ]
+  }
+}

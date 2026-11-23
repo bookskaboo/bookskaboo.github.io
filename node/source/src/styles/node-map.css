@@ -169,7 +169,7 @@ button.node-map-sector:hover { z-index:4; transform:scale(1.08); filter:brightne
 }
 
 
-/* One-time discovery emphasis, acknowledged by hover, focus or selection. */
+/* Unread discovery emphasis; revealed corners also glow whenever the expanded map is open. */
 .rail-button.discovery-attention,.world-node-minimap.discovery-attention,.node-map-sector.corner-discovery-pending {
   outline:2px solid #e2c17b; outline-offset:2px; animation:map-discovery-flash 1.8s ease-in-out infinite;
 }

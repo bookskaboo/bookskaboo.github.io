@@ -80,7 +80,7 @@ describe('Research milestones', () => {
     expectPrimary(game, { kind: 'research', id: 'fabricatorTools' });
   });
 
-  it('switches from a thirst clue to Water production, with a separate Golem clue and Survey', () => {
+  it('switches from a thirst clue to Water production without retired Golem guidance', () => {
     const game = campaign(throughAutomata);
     const [hint] = expectPrimary(game, { kind: 'research', id: 'mapNode' }, 'The factory is thirsty');
     expect(hint.detail).toMatch(/Dry land has its limits/);
@@ -99,7 +99,7 @@ describe('Research milestones', () => {
     expectPrimary(game, { kind: 'research', id: 'hydroCore' });
     game.research.completed.push('hydroCore');
     const cards = expectPrimary(game, { kind: 'recipe', id: 'hydro-core' });
-    expect(cards).toContainEqual(expect.objectContaining({ title: 'Some rocks have opinions', detail: expect.stringContaining('outer sectors') }));
+    expect(cards.some(card=>card.title==='Some rocks have opinions')).toBe(false);
     game.produced!['hydro-core'] = 1;
     expectPrimary(game, { kind: 'research', id: 'fluidRouting' });
     game.research.completed.push('fluidRouting');
@@ -109,7 +109,7 @@ describe('Research milestones', () => {
     game.research.completed.push('sealedRobotics');
     expect(getResearchMilestones(game)).not.toContainEqual(expect.objectContaining({ action: { kind: 'research', id: 'resourceGolemSurvey' } }));
     addSector(game, '10,5', true, node('resourceGolem'));
-    expect(getResearchMilestones(game)).toContainEqual(expect.objectContaining({ action: { kind: 'sector', id: '10,5' }, title: 'Golem Camp' }));
+    expect(getResearchMilestones(game,{allCandidates:true}).some(card=>card.title==='Golem Camp')).toBe(false);
   });
 
   it('leads a legacy world to a scouted Dwarven Camp, then Shiny and Complex production', () => {
@@ -121,6 +121,7 @@ describe('Research milestones', () => {
     const [primary, ...alternatives] = expectPrimary(game, { kind: 'sector', id: '8,6' }, 'Dwarven Tribute');
     expect(primary.detail).not.toMatch(/Mythril|suppress|\d|per minute/i);
     expect(alternatives.some(card => card.action.kind === 'recipe' && card.action.id === 'assemble-bot-f2-g2')).toBe(true);
+    expect(alternatives.find(card => card.action.kind === 'recipe' && card.action.id === 'assemble-bot-f2-g2')?.title).toBe('Suppression Bot');
     game.sectors['8,6'].nodes[0].lizardSettlement = 'village';
     const village = expectPrimary(game, { kind: 'sector', id: '8,6' }, 'Dwarven Tribute');
     expect(village[0].detail).toBe(primary.detail);
@@ -136,6 +137,8 @@ describe('Research milestones', () => {
     game.research.completed.push('precisionControl');
     expectPrimary(game, { kind: 'research', id: 'complexCore' });
     game.research.completed.push('complexCore');
+    expectPrimary(game, { kind: 'research', id: 'finalCore' });
+    game.research.completed.push('finalCore');
     expectPrimary(game, { kind: 'research', id: 'mapNode' });
   });
 
@@ -151,6 +154,8 @@ describe('Research milestones', () => {
     const game = campaign(throughComplex, { 'command-core': 1 });
     game.endgame = { version: 1, pairIndex: 1, cornerOrder: ['reclamation', 'grove', 'alpha', 'foundry'] };
     addSector(game, '10,10', false, node('cornerChallenge', { cornerType: 'alpha' }));
+    expectPrimary(game, {kind:'research',id:'finalCore'});
+    game.research.completed.push('finalCore');
     const [hint] = expectPrimary(game, { kind: 'map' }, 'The four corners');
     expect(hint.detail).toBe('The map may have something left to say.');
     game.sectors['10,10'].visited = true;
@@ -158,9 +163,8 @@ describe('Research milestones', () => {
     expect(dragon.detail).toContain('Bot');
     expect(dragon.detail).not.toMatch(/\d|\bAP\b/);
     addSector(game, '10,0', true, node('cornerChallenge', { cornerType: 'grove' }));
-    expectPrimary(game, { kind: 'research', id: 'treePlanter' });
-    game.research.completed.push('treePlanter');
     expectPrimary(game, { kind: 'sector', id: '10,0' }, 'Elder Grove');
+    expect(getResearchMilestones(game,{allCandidates:true}).some(card=>card.title==='Tree Planter')).toBe(false);
   });
 
   it.each([0, 1, 2])('uses the world’s pairings (%s) and then points to the actual victory research', pairIndex => {
@@ -168,16 +172,33 @@ describe('Research milestones', () => {
     const cornerOrder: CornerType[] = ['alpha', 'foundry', 'reclamation', 'grove'];
     game.endgame = { version: 1, pairIndex, cornerOrder };
     CORNER_MAPS.forEach(id => addSector(game, id, true));
-    const yin = RECIPES[`core-half-a-${pairIndex}`];
-    game.globalPool = { ...yin.inputs };
-    expectPrimary(game, { kind: 'recipe', id: yin.id });
-    const yang = RECIPES[`core-half-b-${pairIndex}`];
-    game.globalPool = { 'core-half-a': 1, ...yang.inputs };
-    expectPrimary(game, { kind: 'recipe', id: yang.id });
-    game.globalPool = { 'core-half-a': 1, 'core-half-b': 1 };
-    expectPrimary(game, { kind: 'research', id: 'finalCore' });
+    expectPrimary(game, { kind:'research',id:'finalCore' });
+    expect(getResearchMilestones(game)[0].detail).toBe('The current chassis is starting to feel temporary.');
+    expect(getResearchMilestones(game, { allCandidates: true }).some(hint => hint.title === 'The four corners')).toBe(false);
     game.research.completed.push('finalCore');
+    const yin = RECIPES[`core-half-a-${pairIndex}`];
+    const yang = RECIPES[`core-half-b-${pairIndex}`];
+    // A revealed corner is the next task until all still-needed pieces are present.
+    expectPrimary(game, { kind: 'sector', id: CORNER_MAPS[3] }, 'Elder Grove');
+    game.globalPool = { ...yin.inputs, ...yang.inputs };
+    expectPrimary(game, { kind: 'recipe', id: yin.id }, 'Final Core');
+    expect(getResearchMilestones(game)[0].detail).toBe('The pieces are ready. The Assembler can introduce them.');
+    game.globalPool = { ...yin.inputs };
+    expect(isRecipeUnlocked(yin.id,game.research.completed)).toBe(true);
+    expect(getResearchMilestones(game,{allCandidates:true}).some(hint=>hint.title==='Yin'||hint.title==='Yang')).toBe(false);
+    game.globalPool = { 'core-half-a': 1, ...yang.inputs };
+    expectPrimary(game, { kind: 'recipe', id: yang.id }, 'Final Core');
+    expect(isRecipeUnlocked(yang.id,game.research.completed)).toBe(true);
+    expect(getResearchMilestones(game,{allCandidates:true}).some(hint=>hint.title==='Yin'||hint.title==='Yang')).toBe(false);
+    game.globalPool = { 'core-half-a': 1, 'core-half-b': 1 };
     expectPrimary(game, { kind: 'recipe', id: 'final-core' });
+    expect(getResearchMilestones(game)[0].detail).toBe('It’s like they fit together.');
+    const assembler = node('assembler', { recipeId: 'final-core', batch: { recipeId: 'final-core', outputs: { 'final-core': 1 } } });
+    game.sectors['5,5'].nodes.push(assembler);
+    game.globalPool = {};
+    // Consumed halves must not send the player back to corners during the committed batch.
+    expectPrimary(game, { kind: 'recipe', id: 'final-core' });
+    game.sectors['5,5'].nodes = game.sectors['5,5'].nodes.filter(entry => entry !== assembler);
     game.globalPool = { 'final-core': 1 };
     game.research.completed.push('finalCoreProduction');
     expectPrimary(game, { kind: 'research', id: 'victory' });

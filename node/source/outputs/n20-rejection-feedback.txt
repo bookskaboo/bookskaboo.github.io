@@ -1,0 +1,100 @@
+Browser tab: 7, Title: "NODE: Another Factory Game", URL: "http://novice-retest.localhost:4181/".
+0 AXWebArea NODE: Another Factory Game, URL: novice-retest.localhost:4181/
+	1 container
+		2 container Factory node canvas
+		3 button About Factorinode
+			4 text FACTORINODE
+			5 text SYSTEMS CONSOLE
+		6 text H
+		7 text /
+		8 container Factory systems
+			9 button ◎ MAP
+				10 text ◎
+				11 text MAP
+			12 button ⌁ RESEARCH
+				13 text ⌁
+				14 text RESEARCH
+			15 button ＋ BUILD
+				16 text ＋
+				17 text BUILD
+			18 button ⚙ OPTIONS
+				19 text ⚙
+				20 text OPTIONS
+			21 button ⚛ DEV
+				22 text ⚛
+				23 text DEV
+		24 button RESUME ▶
+			25 text RESUME
+			26 text ▶
+		27 container Node shortcut bars
+			28 container Shortcut Bar 1 — Production
+				29 container
+					30 button ↻
+					31 button ○
+				32 button
+				33 button 1
+					34 text 1
+				35 button 2
+					36 text 2
+				37 button 3
+					38 text 3
+				39 button 4
+					40 text 4
+				41 button 5
+					42 text 5
+				43 button 6
+					44 text 6
+				45 button
+			46 container Shortcut Bar 2 — Logistics
+				47 container
+					48 button ↻
+					49 button ○
+				50 button
+				51 button ⇧1
+					52 container
+						53 text ⇧ 1
+				54 button ⇧2
+					55 container
+						56 text ⇧ 2
+				57 button ⇧3
+					58 container
+						59 text ⇧ 3
+				60 button ⇧4
+					61 container
+						62 text ⇧ 4
+				63 button ⇧5 +
+					64 container
+						65 text ⇧ 5
+					66 text +
+				67 button
+			68 container Shortcut Bar 3 — Storage
+				69 container
+					70 button ↻
+					71 button ○
+				72 button
+				73 button ⌃1
+					74 container
+						75 text ⌃ 1
+				76 button ⌃2 +
+					77 container
+						78 text ⌃ 2
+					79 text +
+				80 button ⌃3 +
+					81 container
+						82 text ⌃ 3
+					83 text +
+				84 button ⌃4 +
+					85 container
+						86 text ⌃ 4
+					87 text +
+				88 button ⌃5 +
+					89 container
+						90 text ⌃ 5
+					91 text +
+				92 button
+		132 text WHEEL · ZOOM RMB / MMB · PAN DRAG FIELD · SELECT DRAG PORTS · LINK  LOCAL SIMULATION
+		133 text PRODUCTION
+		134 text KILN
+		135 text Click to select · Drag to move.
+
+The focused UI element is 0 AXWebArea NODE: Another Factory Game, URL: novice-retest.localhost:4181/

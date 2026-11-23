@@ -1,0 +1,62 @@
+{
+  "date": "2026-11-22",
+  "checks": [
+    {
+      "scenario": "forest",
+      "hint": "A promising Forest",
+      "queue": 0
+    },
+    {
+      "scenario": "core",
+      "hint": "Simple Core",
+      "queue": 0
+    },
+    {
+      "scenario": "assembler",
+      "action": "Show Assembler in Upgrades",
+      "hint": "Assembler",
+      "queue": 0,
+      "queueAfter": 0,
+      "selected": "assembler"
+    },
+    {
+      "scenario": "road",
+      "action": "Show Road in Upgrades",
+      "hint": "Road",
+      "queue": 0,
+      "queueAfter": 0,
+      "selected": "road"
+    },
+    {
+      "scenario": "exploration",
+      "action": "Show Exploration in Upgrades",
+      "hint": "Exploration",
+      "queue": 0,
+      "queueAfter": 0,
+      "selected": "exploration"
+    }
+  ],
+  "final": {
+    "height": 923,
+    "overflow": false,
+    "queued": 0,
+    "selected": "exploration",
+    "url": "http://127.0.0.1:5188/outputs/hint-navigation/index.html",
+    "width": 1210
+  },
+  "narrow": {
+    "requested": {
+      "width": 390,
+      "height": 844
+    },
+    "actual": {
+      "width": 390,
+      "height": 845
+    },
+    "horizontalOverflow": false
+  },
+  "warningsAndErrors": [],
+  "limits": [
+    "Isolated paused preview only; no main-game adoption, campaign changes or participant test."
+  ]
+}

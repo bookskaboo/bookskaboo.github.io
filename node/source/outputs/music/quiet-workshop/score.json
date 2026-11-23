@@ -1,0 +1,725 @@
+{
+  "title": "Quiet Workshop",
+  "key": "F major",
+  "tempo": 64,
+  "beatsPerBar": 4,
+  "bars": 16,
+  "durationSeconds": 60,
+  "instrument": "Solo bowed double bass",
+  "phrases": [
+    [
+      [
+        "F2",
+        2
+      ],
+      [
+        "A2",
+        1
+      ],
+      [
+        "G2",
+        1
+      ]
+    ],
+    [
+      [
+        "F2",
+        3
+      ],
+      [
+        "C2",
+        1
+      ]
+    ],
+    [
+      [
+        "D2",
+        2
+      ],
+      [
+        "F2",
+        1
+      ],
+      [
+        "A2",
+        1
+      ]
+    ],
+    [
+      [
+        "G2",
+        2
+      ],
+      [
+        "E2",
+        1
+      ],
+      [
+        "C2",
+        1
+      ]
+    ],
+    [
+      [
+        "Bb2",
+        2
+      ],
+      [
+        "A2",
+        1
+      ],
+      [
+        "G2",
+        1
+      ]
+    ],
+    [
+      [
+        "F2",
+        2
+      ],
+      [
+        "D2",
+        2
+      ]
+    ],
+    [
+      [
+        "G2",
+        2
+      ],
+      [
+        "E2",
+        1
+      ],
+      [
+        "F2",
+        1
+      ]
+    ],
+    [
+      [
+        "C2",
+        3
+      ],
+      [
+        "E2",
+        1
+      ]
+    ],
+    [
+      [
+        "F2",
+        2
+      ],
+      [
+        "G2",
+        1
+      ],
+      [
+        "A2",
+        1
+      ]
+    ],
+    [
+      [
+        "C3",
+        2
+      ],
+      [
+        "A2",
+        2
+      ]
+    ],
+    [
+      [
+        "Bb2",
+        2
+      ],
+      [
+        "A2",
+        1
+      ],
+      [
+        "G2",
+        1
+      ]
+    ],
+    [
+      [
+        "F2",
+        3
+      ],
+      [
+        "D2",
+        1
+      ]
+    ],
+    [
+      [
+        "Bb2",
+        2
+      ],
+      [
+        "A2",
+        1
+      ],
+      [
+        "G2",
+        1
+      ]
+    ],
+    [
+      [
+        "F2",
+        2
+      ],
+      [
+        "D2",
+        2
+      ]
+    ],
+    [
+      [
+        "G2",
+        2
+      ],
+      [
+        "E2",
+        2
+      ]
+    ],
+    [
+      [
+        "C2",
+        2
+      ],
+      [
+        "F2",
+        2
+      ]
+    ]
+  ],
+  "events": [
+    {
+      "bar": 1,
+      "note": "F2",
+      "midi": 41,
+      "beat": 0,
+      "beats": 2,
+      "expression": 0.975,
+      "startSeconds": 0,
+      "holdSeconds": 1.835,
+      "sourceFile": "e1.wav",
+      "rootMidi": 40,
+      "repitchSemitones": 1
+    },
+    {
+      "bar": 1,
+      "note": "A2",
+      "midi": 45,
+      "beat": 2,
+      "beats": 1,
+      "expression": 0.94,
+      "startSeconds": 1.875,
+      "holdSeconds": 0.8975,
+      "sourceFile": "a1.wav",
+      "rootMidi": 45,
+      "repitchSemitones": 0
+    },
+    {
+      "bar": 1,
+      "note": "G2",
+      "midi": 43,
+      "beat": 3,
+      "beats": 1,
+      "expression": 0.9149999999999999,
+      "startSeconds": 2.8125,
+      "holdSeconds": 0.8975,
+      "sourceFile": "fs1.wav",
+      "rootMidi": 42,
+      "repitchSemitones": 1
+    },
+    {
+      "bar": 2,
+      "note": "F2",
+      "midi": 41,
+      "beat": 4,
+      "beats": 3,
+      "expression": 0.992220754456429,
+      "startSeconds": 3.75,
+      "holdSeconds": 2.7725,
+      "sourceFile": "e1.wav",
+      "rootMidi": 40,
+      "repitchSemitones": 1
+    },
+    {
+      "bar": 2,
+      "note": "C2",
+      "midi": 36,
+      "beat": 7,
+      "beats": 1,
+      "expression": 0.957220754456429,
+      "startSeconds": 6.5625,
+      "holdSeconds": 0.8975,
+      "sourceFile": "c1.wav",
+      "rootMidi": 36,
+      "repitchSemitones": 0
+    },
+    {
+      "bar": 3,
+      "note": "D2",
+      "midi": 38,
+      "beat": 8,
+      "beats": 2,
+      "expression": 1.0068198051533945,
+      "startSeconds": 7.5,
+      "holdSeconds": 1.835,
+      "sourceFile": "d1.wav",
+      "rootMidi": 38,
+      "repitchSemitones": 0
+    },
+    {
+      "bar": 3,
+      "note": "F2",
+      "midi": 41,
+      "beat": 10,
+      "beats": 1,
+      "expression": 0.9718198051533946,
+      "startSeconds": 9.375,
+      "holdSeconds": 0.8975,
+      "sourceFile": "e1.wav",
+      "rootMidi": 40,
+      "repitchSemitones": 1
+    },
+    {
+      "bar": 3,
+      "note": "A2",
+      "midi": 45,
+      "beat": 11,
+      "beats": 1,
+      "expression": 0.9468198051533946,
+      "startSeconds": 10.3125,
+      "holdSeconds": 0.8975,
+      "sourceFile": "a1.wav",
+      "rootMidi": 45,
+      "repitchSemitones": 0
+    },
+    {
+      "bar": 4,
+      "note": "G2",
+      "midi": 43,
+      "beat": 12,
+      "beats": 2,
+      "expression": 1.0165745789630078,
+      "startSeconds": 11.25,
+      "holdSeconds": 1.835,
+      "sourceFile": "fs1.wav",
+      "rootMidi": 42,
+      "repitchSemitones": 1
+    },
+    {
+      "bar": 4,
+      "note": "E2",
+      "midi": 40,
+      "beat": 14,
+      "beats": 1,
+      "expression": 0.9815745789630078,
+      "startSeconds": 13.125,
+      "holdSeconds": 0.8975,
+      "sourceFile": "e1.wav",
+      "rootMidi": 40,
+      "repitchSemitones": 0
+    },
+    {
+      "bar": 4,
+      "note": "C2",
+      "midi": 36,
+      "beat": 15,
+      "beats": 1,
+      "expression": 0.9565745789630078,
+      "startSeconds": 14.0625,
+      "holdSeconds": 0.8975,
+      "sourceFile": "c1.wav",
+      "rootMidi": 36,
+      "repitchSemitones": 0
+    },
+    {
+      "bar": 5,
+      "note": "Bb2",
+      "midi": 46,
+      "beat": 16,
+      "beats": 2,
+      "expression": 1.02,
+      "startSeconds": 15,
+      "holdSeconds": 1.835,
+      "sourceFile": "a1.wav",
+      "rootMidi": 45,
+      "repitchSemitones": 1
+    },
+    {
+      "bar": 5,
+      "note": "A2",
+      "midi": 45,
+      "beat": 18,
+      "beats": 1,
+      "expression": 0.985,
+      "startSeconds": 16.875,
+      "holdSeconds": 0.8975,
+      "sourceFile": "a1.wav",
+      "rootMidi": 45,
+      "repitchSemitones": 0
+    },
+    {
+      "bar": 5,
+      "note": "G2",
+      "midi": 43,
+      "beat": 19,
+      "beats": 1,
+      "expression": 0.96,
+      "startSeconds": 17.8125,
+      "holdSeconds": 0.8975,
+      "sourceFile": "fs1.wav",
+      "rootMidi": 42,
+      "repitchSemitones": 1
+    },
+    {
+      "bar": 6,
+      "note": "F2",
+      "midi": 41,
+      "beat": 20,
+      "beats": 2,
+      "expression": 1.0165745789630078,
+      "startSeconds": 18.75,
+      "holdSeconds": 1.835,
+      "sourceFile": "e1.wav",
+      "rootMidi": 40,
+      "repitchSemitones": 1
+    },
+    {
+      "bar": 6,
+      "note": "D2",
+      "midi": 38,
+      "beat": 22,
+      "beats": 2,
+      "expression": 0.9815745789630078,
+      "startSeconds": 20.625,
+      "holdSeconds": 1.835,
+      "sourceFile": "d1.wav",
+      "rootMidi": 38,
+      "repitchSemitones": 0
+    },
+    {
+      "bar": 7,
+      "note": "G2",
+      "midi": 43,
+      "beat": 24,
+      "beats": 2,
+      "expression": 1.0068198051533945,
+      "startSeconds": 22.5,
+      "holdSeconds": 1.835,
+      "sourceFile": "fs1.wav",
+      "rootMidi": 42,
+      "repitchSemitones": 1
+    },
+    {
+      "bar": 7,
+      "note": "E2",
+      "midi": 40,
+      "beat": 26,
+      "beats": 1,
+      "expression": 0.9718198051533946,
+      "startSeconds": 24.375,
+      "holdSeconds": 0.8975,
+      "sourceFile": "e1.wav",
+      "rootMidi": 40,
+      "repitchSemitones": 0
+    },
+    {
+      "bar": 7,
+      "note": "F2",
+      "midi": 41,
+      "beat": 27,
+      "beats": 1,
+      "expression": 0.9468198051533946,
+      "startSeconds": 25.3125,
+      "holdSeconds": 0.8975,
+      "sourceFile": "e1.wav",
+      "rootMidi": 40,
+      "repitchSemitones": 1
+    },
+    {
+      "bar": 8,
+      "note": "C2",
+      "midi": 36,
+      "beat": 28,
+      "beats": 3,
+      "expression": 0.992220754456429,
+      "startSeconds": 26.25,
+      "holdSeconds": 2.7725,
+      "sourceFile": "c1.wav",
+      "rootMidi": 36,
+      "repitchSemitones": 0
+    },
+    {
+      "bar": 8,
+      "note": "E2",
+      "midi": 40,
+      "beat": 31,
+      "beats": 1,
+      "expression": 0.957220754456429,
+      "startSeconds": 29.0625,
+      "holdSeconds": 0.8975,
+      "sourceFile": "e1.wav",
+      "rootMidi": 40,
+      "repitchSemitones": 0
+    },
+    {
+      "bar": 9,
+      "note": "F2",
+      "midi": 41,
+      "beat": 32,
+      "beats": 2,
+      "expression": 0.975,
+      "startSeconds": 30,
+      "holdSeconds": 1.835,
+      "sourceFile": "e1.wav",
+      "rootMidi": 40,
+      "repitchSemitones": 1
+    },
+    {
+      "bar": 9,
+      "note": "G2",
+      "midi": 43,
+      "beat": 34,
+      "beats": 1,
+      "expression": 0.94,
+      "startSeconds": 31.875,
+      "holdSeconds": 0.8975,
+      "sourceFile": "fs1.wav",
+      "rootMidi": 42,
+      "repitchSemitones": 1
+    },
+    {
+      "bar": 9,
+      "note": "A2",
+      "midi": 45,
+      "beat": 35,
+      "beats": 1,
+      "expression": 0.9149999999999999,
+      "startSeconds": 32.8125,
+      "holdSeconds": 0.8975,
+      "sourceFile": "a1.wav",
+      "rootMidi": 45,
+      "repitchSemitones": 0
+    },
+    {
+      "bar": 10,
+      "note": "C3",
+      "midi": 48,
+      "beat": 36,
+      "beats": 2,
+      "expression": 0.957779245543571,
+      "startSeconds": 33.75,
+      "holdSeconds": 1.835,
+      "sourceFile": "cs2.wav",
+      "rootMidi": 49,
+      "repitchSemitones": -1
+    },
+    {
+      "bar": 10,
+      "note": "A2",
+      "midi": 45,
+      "beat": 38,
+      "beats": 2,
+      "expression": 0.9227792455435709,
+      "startSeconds": 35.625,
+      "holdSeconds": 1.835,
+      "sourceFile": "a1.wav",
+      "rootMidi": 45,
+      "repitchSemitones": 0
+    },
+    {
+      "bar": 11,
+      "note": "Bb2",
+      "midi": 46,
+      "beat": 40,
+      "beats": 2,
+      "expression": 0.9431801948466053,
+      "startSeconds": 37.5,
+      "holdSeconds": 1.835,
+      "sourceFile": "a1.wav",
+      "rootMidi": 45,
+      "repitchSemitones": 1
+    },
+    {
+      "bar": 11,
+      "note": "A2",
+      "midi": 45,
+      "beat": 42,
+      "beats": 1,
+      "expression": 0.9081801948466053,
+      "startSeconds": 39.375,
+      "holdSeconds": 0.8975,
+      "sourceFile": "a1.wav",
+      "rootMidi": 45,
+      "repitchSemitones": 0
+    },
+    {
+      "bar": 11,
+      "note": "G2",
+      "midi": 43,
+      "beat": 43,
+      "beats": 1,
+      "expression": 0.8831801948466053,
+      "startSeconds": 40.3125,
+      "holdSeconds": 0.8975,
+      "sourceFile": "fs1.wav",
+      "rootMidi": 42,
+      "repitchSemitones": 1
+    },
+    {
+      "bar": 12,
+      "note": "F2",
+      "midi": 41,
+      "beat": 44,
+      "beats": 3,
+      "expression": 0.9334254210369921,
+      "startSeconds": 41.25,
+      "holdSeconds": 2.7725,
+      "sourceFile": "e1.wav",
+      "rootMidi": 40,
+      "repitchSemitones": 1
+    },
+    {
+      "bar": 12,
+      "note": "D2",
+      "midi": 38,
+      "beat": 47,
+      "beats": 1,
+      "expression": 0.8984254210369921,
+      "startSeconds": 44.0625,
+      "holdSeconds": 0.8975,
+      "sourceFile": "d1.wav",
+      "rootMidi": 38,
+      "repitchSemitones": 0
+    },
+    {
+      "bar": 13,
+      "note": "Bb2",
+      "midi": 46,
+      "beat": 48,
+      "beats": 2,
+      "expression": 0.9299999999999999,
+      "startSeconds": 45,
+      "holdSeconds": 1.835,
+      "sourceFile": "a1.wav",
+      "rootMidi": 45,
+      "repitchSemitones": 1
+    },
+    {
+      "bar": 13,
+      "note": "A2",
+      "midi": 45,
+      "beat": 50,
+      "beats": 1,
+      "expression": 0.8949999999999999,
+      "startSeconds": 46.875,
+      "holdSeconds": 0.8975,
+      "sourceFile": "a1.wav",
+      "rootMidi": 45,
+      "repitchSemitones": 0
+    },
+    {
+      "bar": 13,
+      "note": "G2",
+      "midi": 43,
+      "beat": 51,
+      "beats": 1,
+      "expression": 0.8699999999999999,
+      "startSeconds": 47.8125,
+      "holdSeconds": 0.8975,
+      "sourceFile": "fs1.wav",
+      "rootMidi": 42,
+      "repitchSemitones": 1
+    },
+    {
+      "bar": 14,
+      "note": "F2",
+      "midi": 41,
+      "beat": 52,
+      "beats": 2,
+      "expression": 0.9334254210369921,
+      "startSeconds": 48.75,
+      "holdSeconds": 1.835,
+      "sourceFile": "e1.wav",
+      "rootMidi": 40,
+      "repitchSemitones": 1
+    },
+    {
+      "bar": 14,
+      "note": "D2",
+      "midi": 38,
+      "beat": 54,
+      "beats": 2,
+      "expression": 0.8984254210369921,
+      "startSeconds": 50.625,
+      "holdSeconds": 1.835,
+      "sourceFile": "d1.wav",
+      "rootMidi": 38,
+      "repitchSemitones": 0
+    },
+    {
+      "bar": 15,
+      "note": "G2",
+      "midi": 43,
+      "beat": 56,
+      "beats": 2,
+      "expression": 0.9431801948466053,
+      "startSeconds": 52.5,
+      "holdSeconds": 1.835,
+      "sourceFile": "fs1.wav",
+      "rootMidi": 42,
+      "repitchSemitones": 1
+    },
+    {
+      "bar": 15,
+      "note": "E2",
+      "midi": 40,
+      "beat": 58,
+      "beats": 2,
+      "expression": 0.9081801948466053,
+      "startSeconds": 54.375,
+      "holdSeconds": 1.835,
+      "sourceFile": "e1.wav",
+      "rootMidi": 40,
+      "repitchSemitones": 0
+    },
+    {
+      "bar": 16,
+      "note": "C2",
+      "midi": 36,
+      "beat": 60,
+      "beats": 2,
+      "expression": 0.9577792455435709,
+      "startSeconds": 56.25,
+      "holdSeconds": 1.835,
+      "sourceFile": "c1.wav",
+      "rootMidi": 36,
+      "repitchSemitones": 0
+    },
+    {
+      "bar": 16,
+      "note": "F2",
+      "midi": 41,
+      "beat": 62,
+      "beats": 2,
+      "expression": 0.9227792455435708,
+      "startSeconds": 58.125,
+      "holdSeconds": 1.835,
+      "sourceFile": "e1.wav",
+      "rootMidi": 40,
+      "repitchSemitones": 1
+    }
+  ]
+}

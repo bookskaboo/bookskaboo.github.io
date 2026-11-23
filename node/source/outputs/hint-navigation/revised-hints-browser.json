@@ -1,0 +1,822 @@
+{
+  "options": [
+    {
+      "id": "assignment",
+      "label": "01 · Your assignment"
+    },
+    {
+      "id": "wood",
+      "label": "02 · A promising Forest"
+    },
+    {
+      "id": "copper",
+      "label": "03 · Copper prospects"
+    },
+    {
+      "id": "fuel",
+      "label": "04 · Charcoal"
+    },
+    {
+      "id": "plate",
+      "label": "05 · First Plate"
+    },
+    {
+      "id": "lab",
+      "label": "06 · Research Center"
+    },
+    {
+      "id": "simple",
+      "label": "07 · Simple Core"
+    },
+    {
+      "id": "iron",
+      "label": "08 · Iron prospects"
+    },
+    {
+      "id": "assembler",
+      "label": "09 · Assembler"
+    },
+    {
+      "id": "basic",
+      "label": "10 · Simple upgrade / Basic Core"
+    },
+    {
+      "id": "exploration",
+      "label": "11 · Exploration"
+    },
+    {
+      "id": "detour",
+      "label": "12 · A useful detour"
+    },
+    {
+      "id": "road",
+      "label": "13 · Road"
+    },
+    {
+      "id": "automata",
+      "label": "14 · Basic upgrade / Automata Core"
+    },
+    {
+      "id": "fabricatorTools",
+      "label": "15 · Advanced Fabrication"
+    },
+    {
+      "id": "lake",
+      "label": "16 · The factory is thirsty"
+    },
+    {
+      "id": "hydrochemistry",
+      "label": "17 · Hydrochemistry"
+    },
+    {
+      "id": "hydraulicAssembly",
+      "label": "18 · Hydraulic Assembly"
+    },
+    {
+      "id": "hydro",
+      "label": "19 · Automata upgrade / Hydro Core"
+    },
+    {
+      "id": "fluidRouting",
+      "label": "20 · Fluid Routing"
+    },
+    {
+      "id": "camp",
+      "label": "21 · The neighbours"
+    },
+    {
+      "id": "sealedRobotics",
+      "label": "22 · Sealed Robotics"
+    },
+    {
+      "id": "dwarves",
+      "label": "23 · A metallic glint"
+    },
+    {
+      "id": "guardedMythril",
+      "label": "24 · Dwarven Mythril"
+    },
+    {
+      "id": "tribute",
+      "label": "25 · Dwarven Tribute"
+    },
+    {
+      "id": "bot",
+      "label": "26 · Suppression Bot"
+    },
+    {
+      "id": "oreSeparation",
+      "label": "27 · Ore Separation"
+    },
+    {
+      "id": "shiny",
+      "label": "28 · Hydro upgrade / Shiny Core"
+    },
+    {
+      "id": "precisionControl",
+      "label": "29 · Precision Control"
+    },
+    {
+      "id": "complex",
+      "label": "30 · Shiny upgrade / Complex Core"
+    },
+    {
+      "id": "complexUpgrade",
+      "label": "31 · Complex upgrade"
+    },
+    {
+      "id": "corners",
+      "label": "32 · The four corners"
+    },
+    {
+      "id": "grove",
+      "label": "33 · Elder Grove"
+    },
+    {
+      "id": "reclamation",
+      "label": "34 · Ancient Reclamation"
+    },
+    {
+      "id": "foundry",
+      "label": "35 · Ancient Foundry"
+    },
+    {
+      "id": "dragon",
+      "label": "36 · Ancient Dragon"
+    },
+    {
+      "id": "yin",
+      "label": "37 · Yin"
+    },
+    {
+      "id": "yang",
+      "label": "38 · Yang"
+    },
+    {
+      "id": "final",
+      "label": "39 · Final Core"
+    },
+    {
+      "id": "victory",
+      "label": "40 · A Remarkably Indirect Conclusion"
+    },
+    {
+      "id": "finished",
+      "label": "41 · You’ve got this"
+    }
+  ],
+  "sequence": [
+    {
+      "id": "assignment",
+      "title": "Your assignment"
+    },
+    {
+      "id": "wood",
+      "title": "A promising Forest"
+    },
+    {
+      "id": "copper",
+      "title": "Copper prospects"
+    },
+    {
+      "id": "fuel",
+      "title": "Charcoal"
+    },
+    {
+      "id": "plate",
+      "title": "First Plate"
+    },
+    {
+      "id": "lab",
+      "title": "Research Center"
+    },
+    {
+      "id": "simple",
+      "title": "Simple Core"
+    },
+    {
+      "id": "iron",
+      "title": "Iron prospects"
+    },
+    {
+      "id": "assembler",
+      "title": "Assembler"
+    },
+    {
+      "id": "basic",
+      "title": "Simple upgrade"
+    },
+    {
+      "id": "exploration",
+      "title": "Exploration"
+    },
+    {
+      "id": "detour",
+      "title": "A useful detour"
+    },
+    {
+      "id": "road",
+      "title": "Road"
+    },
+    {
+      "id": "automata",
+      "title": "Basic upgrade"
+    },
+    {
+      "id": "fabricatorTools",
+      "title": "Advanced Fabrication"
+    },
+    {
+      "id": "lake",
+      "title": "The factory is thirsty"
+    },
+    {
+      "id": "hydrochemistry",
+      "title": "Hydrochemistry"
+    },
+    {
+      "id": "hydraulicAssembly",
+      "title": "Hydraulic Assembly"
+    },
+    {
+      "id": "hydro",
+      "title": "Automata upgrade"
+    },
+    {
+      "id": "fluidRouting",
+      "title": "Fluid Routing"
+    },
+    {
+      "id": "camp",
+      "title": "The neighbours"
+    },
+    {
+      "id": "sealedRobotics",
+      "title": "Sealed Robotics"
+    },
+    {
+      "id": "dwarves",
+      "title": "A metallic glint"
+    },
+    {
+      "id": "guardedMythril",
+      "title": "Dwarven Mythril"
+    },
+    {
+      "id": "tribute",
+      "title": "Dwarven Tribute"
+    },
+    {
+      "id": "bot",
+      "title": "Suppression Bot"
+    },
+    {
+      "id": "oreSeparation",
+      "title": "Ore Separation"
+    },
+    {
+      "id": "shiny",
+      "title": "Hydro upgrade"
+    },
+    {
+      "id": "precisionControl",
+      "title": "Precision Control"
+    },
+    {
+      "id": "complex",
+      "title": "Shiny upgrade"
+    },
+    {
+      "id": "complexUpgrade",
+      "title": "Complex upgrade"
+    },
+    {
+      "id": "corners",
+      "title": "The four corners"
+    },
+    {
+      "id": "grove",
+      "title": "Elder Grove"
+    },
+    {
+      "id": "reclamation",
+      "title": "Ancient Reclamation"
+    },
+    {
+      "id": "foundry",
+      "title": "Ancient Foundry"
+    },
+    {
+      "id": "dragon",
+      "title": "Ancient Dragon"
+    },
+    {
+      "id": "yin",
+      "title": "Yin"
+    },
+    {
+      "id": "yang",
+      "title": "Yang"
+    },
+    {
+      "id": "final",
+      "title": "Final Core"
+    },
+    {
+      "id": "victory",
+      "title": "A Remarkably Indirect Conclusion"
+    },
+    {
+      "id": "finished",
+      "title": "You’ve got this"
+    }
+  ],
+  "cases": [
+    {
+      "id": "assignment",
+      "variant": "default",
+      "action": "Open Basics tutorial",
+      "dialog": "Basics tutorial",
+      "focusedResearch": null,
+      "highlight": null,
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "title": "Your assignment"
+    },
+    {
+      "id": "wood",
+      "variant": "default",
+      "action": "Open Basics tutorial",
+      "dialog": "Basics tutorial",
+      "focusedResearch": null,
+      "highlight": null,
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "title": "A promising Forest"
+    },
+    {
+      "id": "copper",
+      "variant": "default",
+      "action": "Open Basics tutorial",
+      "dialog": "Basics tutorial",
+      "focusedResearch": null,
+      "highlight": null,
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "title": "Copper prospects"
+    },
+    {
+      "id": "fuel",
+      "variant": "default",
+      "action": "Open Basics tutorial",
+      "dialog": "Basics tutorial",
+      "focusedResearch": null,
+      "highlight": null,
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "title": "Charcoal"
+    },
+    {
+      "id": "plate",
+      "variant": "default",
+      "action": "Open Basics tutorial",
+      "dialog": "Basics tutorial",
+      "focusedResearch": null,
+      "highlight": null,
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "title": "First Plate"
+    },
+    {
+      "id": "lab",
+      "variant": "default",
+      "action": "Open Basics tutorial",
+      "dialog": "Basics tutorial",
+      "focusedResearch": null,
+      "highlight": null,
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "title": "Research Center"
+    },
+    {
+      "id": "simple",
+      "variant": "default",
+      "action": "Open Basics tutorial",
+      "dialog": "Basics tutorial",
+      "focusedResearch": null,
+      "highlight": null,
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "title": "Simple Core"
+    },
+    {
+      "id": "iron",
+      "variant": "default",
+      "action": null,
+      "focusedResearch": null,
+      "highlight": null,
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "title": "Iron prospects"
+    },
+    {
+      "id": "assembler",
+      "variant": "default",
+      "action": "Show Assembler in Upgrades",
+      "focusedResearch": "assembler",
+      "highlight": "assembler",
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "title": "Assembler"
+    },
+    {
+      "id": "basic",
+      "variant": "default",
+      "action": "Show Simple upgrade in Upgrades",
+      "focusedResearch": null,
+      "focusedUpgrade": "basicCore",
+      "highlight": "basicCore",
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "title": "Simple upgrade"
+    },
+    {
+      "id": "basic",
+      "variant": "production",
+      "action": null,
+      "focusedResearch": null,
+      "focusedUpgrade": "automataCore",
+      "highlight": null,
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "title": "Basic Core"
+    },
+    {
+      "id": "exploration",
+      "variant": "default",
+      "action": "Show Exploration in Upgrades",
+      "focusedResearch": "exploration",
+      "highlight": "exploration",
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "title": "Exploration"
+    },
+    {
+      "id": "detour",
+      "variant": "default",
+      "action": "Show Extra Map Point in Upgrades",
+      "focusedResearch": "mapNode",
+      "highlight": "mapNode",
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "title": "A useful detour"
+    },
+    {
+      "id": "detour",
+      "variant": "map-point",
+      "action": "Open Expansion tutorial",
+      "dialog": "Expansion tutorial",
+      "focusedResearch": null,
+      "highlight": null,
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "title": "A useful detour"
+    },
+    {
+      "id": "road",
+      "variant": "default",
+      "action": "Open Expansion tutorial",
+      "dialog": "Expansion tutorial",
+      "focusedResearch": null,
+      "highlight": null,
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "title": "Road"
+    },
+    {
+      "id": "automata",
+      "variant": "default",
+      "action": "Show Basic upgrade in Upgrades",
+      "focusedResearch": null,
+      "focusedUpgrade": "automataCore",
+      "highlight": "automataCore",
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "title": "Basic upgrade"
+    },
+    {
+      "id": "automata",
+      "variant": "production",
+      "action": null,
+      "focusedResearch": null,
+      "focusedUpgrade": "hydroCore",
+      "highlight": null,
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "title": "Automata Core"
+    },
+    {
+      "id": "fabricatorTools",
+      "variant": "default",
+      "action": "Show Advanced Fabrication in Upgrades",
+      "focusedResearch": "fabricatorTools",
+      "highlight": "fabricatorTools",
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "title": "Advanced Fabrication"
+    },
+    {
+      "id": "lake",
+      "variant": "default",
+      "action": "Show Extra Map Point in Upgrades",
+      "focusedResearch": "mapNode",
+      "highlight": "mapNode",
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "title": "The factory is thirsty"
+    },
+    {
+      "id": "lake",
+      "variant": "map-point",
+      "action": "Open Expansion tutorial",
+      "dialog": "Expansion tutorial",
+      "focusedResearch": null,
+      "highlight": null,
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "title": "The factory is thirsty"
+    },
+    {
+      "id": "hydrochemistry",
+      "variant": "default",
+      "action": "Show Hydrochemistry in Upgrades",
+      "focusedResearch": "hydrochemistry",
+      "highlight": "hydrochemistry",
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "title": "Hydrochemistry"
+    },
+    {
+      "id": "hydraulicAssembly",
+      "variant": "default",
+      "action": "Show Hydraulic Assembly in Upgrades",
+      "focusedResearch": "hydraulicAssembly",
+      "highlight": "hydraulicAssembly",
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "title": "Hydraulic Assembly"
+    },
+    {
+      "id": "hydro",
+      "variant": "default",
+      "action": "Show Automata upgrade in Upgrades",
+      "focusedResearch": null,
+      "focusedUpgrade": "hydroCore",
+      "highlight": "hydroCore",
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "title": "Automata upgrade"
+    },
+    {
+      "id": "hydro",
+      "variant": "production",
+      "action": null,
+      "focusedResearch": null,
+      "focusedUpgrade": "shinyCore",
+      "highlight": null,
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "title": "Hydro Core"
+    },
+    {
+      "id": "fluidRouting",
+      "variant": "default",
+      "action": "Show Fluid Routing in Upgrades",
+      "focusedResearch": "fluidRouting",
+      "highlight": "fluidRouting",
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "title": "Fluid Routing"
+    },
+    {
+      "id": "camp",
+      "variant": "default",
+      "action": "Show Extra Map Point in Upgrades",
+      "focusedResearch": "mapNode",
+      "highlight": "mapNode",
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "title": "The neighbours"
+    },
+    {
+      "id": "camp",
+      "variant": "map-point",
+      "action": "Open Expansion tutorial",
+      "dialog": "Expansion tutorial",
+      "focusedResearch": null,
+      "highlight": null,
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "title": "The neighbours"
+    },
+    {
+      "id": "sealedRobotics",
+      "variant": "default",
+      "action": "Show Sealed Robotics in Upgrades",
+      "focusedResearch": "sealedRobotics",
+      "highlight": "sealedRobotics",
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "title": "Sealed Robotics"
+    },
+    {
+      "id": "dwarves",
+      "variant": "default",
+      "action": "Show Extra Map Point in Upgrades",
+      "focusedResearch": "mapNode",
+      "highlight": "mapNode",
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "title": "A metallic glint"
+    },
+    {
+      "id": "dwarves",
+      "variant": "map-point",
+      "action": "Open Expansion tutorial",
+      "dialog": "Expansion tutorial",
+      "focusedResearch": null,
+      "highlight": null,
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "title": "A metallic glint"
+    },
+    {
+      "id": "guardedMythril",
+      "variant": "default",
+      "action": "Open Monster Camps tutorial",
+      "dialog": "Monster Camps tutorial",
+      "focusedResearch": null,
+      "highlight": null,
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "title": "Dwarven Mythril"
+    },
+    {
+      "id": "tribute",
+      "variant": "default",
+      "action": null,
+      "focusedResearch": null,
+      "highlight": null,
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "title": "Dwarven Tribute"
+    },
+    {
+      "id": "bot",
+      "variant": "default",
+      "action": null,
+      "focusedResearch": null,
+      "highlight": null,
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "title": "Suppression Bot"
+    },
+    {
+      "id": "oreSeparation",
+      "variant": "default",
+      "action": "Show Ore Separation in Upgrades",
+      "focusedResearch": "oreSeparation",
+      "highlight": "oreSeparation",
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "title": "Ore Separation"
+    },
+    {
+      "id": "shiny",
+      "variant": "default",
+      "action": "Show Hydro upgrade in Upgrades",
+      "focusedResearch": null,
+      "focusedUpgrade": "shinyCore",
+      "highlight": "shinyCore",
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "title": "Hydro upgrade"
+    },
+    {
+      "id": "shiny",
+      "variant": "production",
+      "action": null,
+      "focusedResearch": null,
+      "focusedUpgrade": "complexCore",
+      "highlight": null,
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "title": "Shiny Core"
+    },
+    {
+      "id": "precisionControl",
+      "variant": "default",
+      "action": "Show Precision Control in Upgrades",
+      "focusedResearch": "precisionControl",
+      "highlight": "precisionControl",
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "title": "Precision Control"
+    },
+    {
+      "id": "complex",
+      "variant": "default",
+      "action": "Show Shiny upgrade in Upgrades",
+      "focusedResearch": null,
+      "focusedUpgrade": "complexCore",
+      "highlight": "complexCore",
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "title": "Shiny upgrade"
+    },
+    {
+      "id": "complex",
+      "variant": "production",
+      "action": null,
+      "focusedResearch": null,
+      "focusedUpgrade": "finalCore",
+      "highlight": null,
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "title": "Complex Core"
+    },
+    {
+      "id": "complexUpgrade",
+      "variant": "default",
+      "action": "Show Complex upgrade in Upgrades",
+      "focusedResearch": null,
+      "focusedUpgrade": "finalCore",
+      "highlight": "finalCore",
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "title": "Complex upgrade"
+    },
+    {
+      "id": "corners",
+      "variant": "default",
+      "action": "Show Extra Map Point in Upgrades",
+      "focusedResearch": "mapNode",
+      "highlight": "mapNode",
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "title": "The four corners"
+    },
+    {
+      "id": "corners",
+      "variant": "map-point",
+      "action": "Open Expansion tutorial",
+      "dialog": "Expansion tutorial",
+      "focusedResearch": null,
+      "highlight": null,
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "title": "The four corners"
+    },
+    {
+      "id": "grove",
+      "variant": "default",
+      "action": null,
+      "focusedResearch": null,
+      "highlight": null,
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "title": "Elder Grove"
+    },
+    {
+      "id": "reclamation",
+      "variant": "default",
+      "action": null,
+      "focusedResearch": null,
+      "highlight": null,
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "title": "Ancient Reclamation"
+    },
+    {
+      "id": "foundry",
+      "variant": "default",
+      "action": null,
+      "focusedResearch": null,
+      "highlight": null,
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "title": "Ancient Foundry"
+    },
+    {
+      "id": "dragon",
+      "variant": "default",
+      "action": null,
+      "focusedResearch": null,
+      "highlight": null,
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "title": "Ancient Dragon"
+    },
+    {
+      "id": "yin",
+      "variant": "default",
+      "action": null,
+      "focusedResearch": null,
+      "highlight": null,
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "title": "Yin"
+    },
+    {
+      "id": "yang",
+      "variant": "default",
+      "action": null,
+      "focusedResearch": null,
+      "highlight": null,
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "title": "Yang"
+    },
+    {
+      "id": "final",
+      "variant": "default",
+      "action": null,
+      "focusedResearch": null,
+      "highlight": null,
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "title": "Final Core"
+    },
+    {
+      "id": "victory",
+      "variant": "default",
+      "action": "Show A Remarkably Indirect Conclusion in Upgrades",
+      "focusedResearch": "victory",
+      "highlight": "victory",
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "title": "A Remarkably Indirect Conclusion"
+    },
+    {
+      "id": "finished",
+      "variant": "default",
+      "action": null,
+      "focusedResearch": null,
+      "highlight": null,
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "title": "You’ve got this"
+    }
+  ],
+  "logs": [],
+  "notes": "Suppression Bot title has no AP; no Tree Planter or trailing optional hints. Complex upgrade precedes corner/Yin/Yang guidance; Final Core assembly remains after both halves."
+}

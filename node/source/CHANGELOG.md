@@ -2,7 +2,7 @@
 
 A searchable record of completed changes, design decisions, and relevant review findings. Stable NODE IDs can be cited in chats and searched in the repository.
 
-**839 records · 2026-10-12–2026-11-22 · America/Los_Angeles**
+**864 records · 2026-10-12–2026-11-22 · America/Los_Angeles**
 
 [Open searchable history](<docs/changelog/index.html>) · [How to review and maintain it](<docs/changelog/README.md>) · [Sources and coverage gaps](<docs/changelog/sources.md>)
 
@@ -12,6 +12,27 @@ Latest confirmed game publication: [5f71c9c](https://github.com/bookskaboo/books
 
 | ID | Change | Topics |
 | --- | --- | --- |
+| [NODE-0864](<docs/changelog/2026-11.md#node-0864>) | Adopt reviewed hint navigation with normal progression gates | Interface, Research, Tutorials, Saves, Documentation, Testing |
+| [NODE-0863](<docs/changelog/2026-11.md#node-0863>) | Unlock Filter alongside the first waste stream | Research, Logistics, Progression, Saves, Documentation |
+| [NODE-0862](<docs/changelog/2026-11.md#node-0862>) | Integrate piano actions and ambient music with saved channel controls | Audio, Interface, Saves, Testing, Documentation |
+| [NODE-0861](<docs/changelog/2026-11.md#node-0861>) | Soften expansion descriptions and highlight revealed corners in the map | Interface, Research, Maps, Endgame, Documentation, Testing |
+| [NODE-0860](<docs/changelog/2026-11.md#node-0860>) | Remove the second paragraph from Upgrade tooltips | Interface, Research, Documentation, Testing |
+| [NODE-0859](<docs/changelog/2026-11.md#node-0859>) | Clarify promotion, corner access and the pieces-to-halves handoff | Interface, Research, Endgame, Prototypes, Testing, Documentation |
+| [NODE-0858](<docs/changelog/2026-11.md#node-0858>) | Give the piano action palette gentler phrasing against the cello | Audio, Interface, Testing, Documentation |
+| [NODE-0857](<docs/changelog/2026-11.md#node-0857>) | Unlock Yin, Yang and corner locations at Complex upgrade | Research, Endgame, Interface, Saves, Documentation, Testing |
+| [NODE-0856](<docs/changelog/2026-11.md#node-0856>) | Avoid repeated words between preview hint titles and bodies | Interface, Prototypes, Documentation, Testing |
+| [NODE-0854](<docs/changelog/2026-11.md#node-0854>) | Draft more suggestive hint titles in the implementation preview | Interface, Prototypes, Tutorials, Documentation, Testing |
+| [NODE-0853](<docs/changelog/2026-11.md#node-0853>) | Trim hint guidance and put Complex upgrade before the corners and halves | Interface, Research, Tutorials, Prototypes, Documentation, Testing, Saves |
+| [NODE-0851](<docs/changelog/2026-11.md#node-0851>) | Use the newer Map upgrades model in an unrestricted hint implementation preview | Interface, Prototypes, Research, Tutorials, Documentation, Testing |
+| [NODE-0846](<docs/changelog/2026-11.md#node-0846>) | Soften the hint tutorial invitation and dismiss it on outside click | Interface, Prototypes, Tutorials, Documentation, Testing |
+| [NODE-0845](<docs/changelog/2026-11.md#node-0845>) | Link matching early hints to an optional Basics tutorial dialog | Interface, Prototypes, Tutorials, Testing, Documentation |
+| [NODE-0842](<docs/changelog/2026-11.md#node-0842>) | Give the ambient cello gentle melodic inflection and bow swells | Audio, Interface, Testing, Documentation |
+| [NODE-0840](<docs/changelog/2026-11.md#node-0840>) | Keep listening-sheet background playback continuous across the minute | Audio, Interface, Testing, Documentation |
+| [NODE-0839](<docs/changelog/2026-11.md#node-0839>) | Lower the piano audition default to 30% beside 15% music | Audio, Interface, Testing, Documentation |
+| [NODE-0838](<docs/changelog/2026-11.md#node-0838>) | Play individual action sounds over music on the listening sheet | Audio, Interface, Testing, Documentation |
+| [NODE-0837](<docs/changelog/2026-11.md#node-0837>) | Verify the live refactor with a background-only smoke test | Testing, Interface, Controls, Documentation |
+| [NODE-0836](<docs/changelog/2026-11.md#node-0836>) | Make movement cue 04 a single low F-major chord | Audio, Interface, Testing, Documentation |
+| [NODE-0833](<docs/changelog/2026-11.md#node-0833>) | Mix ambient music with piano actions in the sound test factory | Audio, Interface, Testing, Documentation |
 | [NODE-0832](<docs/changelog/2026-11.md#node-0832>) | Start ambient music and its loop preview at low volume | Audio, Interface, Testing, Documentation |
 | [NODE-0830](<docs/changelog/2026-11.md#node-0830>) | Keep ambient string transitions continuous across notes and the loop | Audio, Interface, Testing, Documentation |
 | [NODE-0828](<docs/changelog/2026-11.md#node-0828>) | Reset background music as a sparse string-only ambient draft | Audio, Interface, Testing, Documentation |
@@ -144,7 +165,7 @@ Latest confirmed game publication: [5f71c9c](https://github.com/bookskaboo/books
 
 ## Dated history
 
-- [2026-11](<docs/changelog/2026-11.md>) — 821 records
+- [2026-11](<docs/changelog/2026-11.md>) — 846 records
 - [2026-10](<docs/changelog/2026-10.md>) — 18 records
 
 “Known by” dates are implementation/publication bounds, not exact change dates. “Backfilled” dates mark records with uncertain original dates. Supersession links explain reversals. Original-game records do not certify current rebuild behavior.
@@ -195,7 +216,7 @@ A record marked “Published by” was known in that snapshot and may have appea
 - [Animation](<docs/changelog/index.html?topic=Animation>) (6)
 - [Architecture](<docs/changelog/index.html?topic=Architecture>) (12)
 - [Art](<docs/changelog/index.html?topic=Art>) (28)
-- [Audio](<docs/changelog/index.html?topic=Audio>) (22)
+- [Audio](<docs/changelog/index.html?topic=Audio>) (30)
 - [Balance](<docs/changelog/index.html?topic=Balance>) (128)
 - [Bots](<docs/changelog/index.html?topic=Bots>) (1)
 - [Building](<docs/changelog/index.html?topic=Building>) (1)
@@ -205,22 +226,23 @@ A record marked “Published by” was known in that snapshot and may have appea
 - [Connections](<docs/changelog/index.html?topic=Connections>) (52)
 - [Construction](<docs/changelog/index.html?topic=Construction>) (15)
 - [Control groups](<docs/changelog/index.html?topic=Control%20groups>) (3)
-- [Controls](<docs/changelog/index.html?topic=Controls>) (68)
+- [Controls](<docs/changelog/index.html?topic=Controls>) (69)
 - [Deployment](<docs/changelog/index.html?topic=Deployment>) (1)
 - [Design](<docs/changelog/index.html?topic=Design>) (7)
 - [Developer tools](<docs/changelog/index.html?topic=Developer%20tools>) (1)
 - [Discovery](<docs/changelog/index.html?topic=Discovery>) (5)
-- [Documentation](<docs/changelog/index.html?topic=Documentation>) (430)
+- [Documentation](<docs/changelog/index.html?topic=Documentation>) (455)
 - [Efficiency](<docs/changelog/index.html?topic=Efficiency>) (1)
 - [Encounters](<docs/changelog/index.html?topic=Encounters>) (148)
-- [Endgame](<docs/changelog/index.html?topic=Endgame>) (5)
+- [Endgame](<docs/changelog/index.html?topic=Endgame>) (8)
 - [Exploration](<docs/changelog/index.html?topic=Exploration>) (54)
 - [Extraction](<docs/changelog/index.html?topic=Extraction>) (1)
-- [Interface](<docs/changelog/index.html?topic=Interface>) (362)
+- [Interface](<docs/changelog/index.html?topic=Interface>) (386)
 - [Landmarks](<docs/changelog/index.html?topic=Landmarks>) (14)
-- [Logistics](<docs/changelog/index.html?topic=Logistics>) (123)
+- [Logistics](<docs/changelog/index.html?topic=Logistics>) (124)
 - [Map](<docs/changelog/index.html?topic=Map>) (8)
 - [Map exploration](<docs/changelog/index.html?topic=Map%20exploration>) (2)
+- [Maps](<docs/changelog/index.html?topic=Maps>) (1)
 - [Mods](<docs/changelog/index.html?topic=Mods>) (15)
 - [Monster camps](<docs/changelog/index.html?topic=Monster%20camps>) (4)
 - [Mythril](<docs/changelog/index.html?topic=Mythril>) (14)
@@ -233,31 +255,31 @@ A record marked “Published by” was known in that snapshot and may have appea
 - [Persistence](<docs/changelog/index.html?topic=Persistence>) (47)
 - [Placement](<docs/changelog/index.html?topic=Placement>) (4)
 - [Planning](<docs/changelog/index.html?topic=Planning>) (240)
-- [Playtesting](<docs/changelog/index.html?topic=Playtesting>) (59)
+- [Playtesting](<docs/changelog/index.html?topic=Playtesting>) (60)
 - [Power](<docs/changelog/index.html?topic=Power>) (2)
 - [Production](<docs/changelog/index.html?topic=Production>) (142)
-- [Progression](<docs/changelog/index.html?topic=Progression>) (220)
-- [Prototypes](<docs/changelog/index.html?topic=Prototypes>) (20)
+- [Progression](<docs/changelog/index.html?topic=Progression>) (221)
+- [Prototypes](<docs/changelog/index.html?topic=Prototypes>) (30)
 - [Publication](<docs/changelog/index.html?topic=Publication>) (2)
 - [Publishing](<docs/changelog/index.html?topic=Publishing>) (26)
 - [Recipes](<docs/changelog/index.html?topic=Recipes>) (123)
 - [Recovery](<docs/changelog/index.html?topic=Recovery>) (2)
 - [Recycling](<docs/changelog/index.html?topic=Recycling>) (3)
-- [Research](<docs/changelog/index.html?topic=Research>) (312)
+- [Research](<docs/changelog/index.html?topic=Research>) (323)
 - [Resources](<docs/changelog/index.html?topic=Resources>) (120)
 - [Responsive](<docs/changelog/index.html?topic=Responsive>) (2)
 - [Roads](<docs/changelog/index.html?topic=Roads>) (26)
 - [Save compatibility](<docs/changelog/index.html?topic=Save%20compatibility>) (3)
-- [Saves](<docs/changelog/index.html?topic=Saves>) (56)
+- [Saves](<docs/changelog/index.html?topic=Saves>) (61)
 - [Search](<docs/changelog/index.html?topic=Search>) (2)
 - [Shortcuts](<docs/changelog/index.html?topic=Shortcuts>) (12)
 - [Simulation](<docs/changelog/index.html?topic=Simulation>) (8)
 - [Storage](<docs/changelog/index.html?topic=Storage>) (10)
 - [Sustainability](<docs/changelog/index.html?topic=Sustainability>) (1)
-- [Testing](<docs/changelog/index.html?topic=Testing>) (80)
+- [Testing](<docs/changelog/index.html?topic=Testing>) (104)
 - [Text](<docs/changelog/index.html?topic=Text>) (6)
 - [Tooling](<docs/changelog/index.html?topic=Tooling>) (41)
-- [Tutorials](<docs/changelog/index.html?topic=Tutorials>) (65)
+- [Tutorials](<docs/changelog/index.html?topic=Tutorials>) (72)
 - [Typography](<docs/changelog/index.html?topic=Typography>) (3)
 - [UI](<docs/changelog/index.html?topic=UI>) (4)
 - [Undo](<docs/changelog/index.html?topic=Undo>) (4)

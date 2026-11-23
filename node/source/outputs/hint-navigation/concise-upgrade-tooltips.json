@@ -1,0 +1,47 @@
+{
+  "upgrades": [
+    {
+      "upgrade": "Simple",
+      "available": "Upgrade to Resource Technician. Unlock the Basic Core recipe.",
+      "active": "Upgrade to Resource Technician. Unlock the Basic Core recipe.",
+      "ariaDescription": "Upgrade to Resource Technician. Unlock the Basic Core recipe."
+    },
+    {
+      "upgrade": "Basic",
+      "available": "Upgrade to Fabrication Specialist. Unlock the Automata Core recipe.",
+      "active": "Upgrade to Fabrication Specialist. Unlock the Automata Core recipe.",
+      "ariaDescription": "Upgrade to Fabrication Specialist. Unlock the Automata Core recipe."
+    },
+    {
+      "upgrade": "Automata",
+      "available": "Upgrade to Systems Coordinator. Unlock the Hydro Core recipe.",
+      "active": "Upgrade to Systems Coordinator. Unlock the Hydro Core recipe.",
+      "ariaDescription": "Upgrade to Systems Coordinator. Unlock the Hydro Core recipe."
+    },
+    {
+      "upgrade": "Hydro",
+      "available": "Upgrade to Operations Supervisor. Unlock the Shiny Core recipe.",
+      "active": "Upgrade to Operations Supervisor. Unlock the Shiny Core recipe.",
+      "ariaDescription": "Upgrade to Operations Supervisor. Unlock the Shiny Core recipe."
+    },
+    {
+      "upgrade": "Shiny",
+      "available": "Upgrade to Development Director. Unlock the Complex Core recipe.",
+      "active": "Upgrade to Development Director. Unlock the Complex Core recipe.",
+      "ariaDescription": "Upgrade to Development Director. Unlock the Complex Core recipe."
+    },
+    {
+      "upgrade": "Complex",
+      "available": "Upgrade to Planetary Administrator. Unlock the Final Core recipe. Unlock the Yin and Yang recipes. Reveal all four corner locations. Reaching them still requires ordinary map expansion.",
+      "active": "Upgrade to Planetary Administrator. Unlock the Final Core recipe. Unlock the Yin and Yang recipes. Reveal all four corner locations. Reaching them still requires ordinary map expansion.",
+      "ariaDescription": "Upgrade to Planetary Administrator. Unlock the Final Core recipe. Unlock the Yin and Yang recipes. Reveal all four corner locations. Reaching them still requires ordinary map expansion."
+    },
+    {
+      "upgrade": "Final",
+      "available": "Upgrade to Self-Optimizing Intelligence. Complete the final character upgrade.",
+      "active": "Upgrade to Self-Optimizing Intelligence. Complete the final character upgrade.",
+      "ariaDescription": "Upgrade to Self-Optimizing Intelligence. Complete the final character upgrade."
+    }
+  ],
+  "logs": []
+}

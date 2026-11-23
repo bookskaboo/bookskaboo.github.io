@@ -51,6 +51,7 @@ import { FactoryTemplates } from './FactoryTemplates';
 import { DiscoveryJournal } from './DiscoveryJournal';
 import { researchEventProject } from './unlockNavigation';
 import { ResearchPanel } from './ResearchPanel';
+import type { HintPanelContext } from './upgrades/hintPanelContext';
 import { ASSIGNMENT, BOT_UPGRADES, STAGES, botUpgradeBenefits } from '../content/botUpgrades';
 import { syncStatusHintHistory } from './upgrades/statusHints';
 import { PanelHeader } from './PanelHeader';
@@ -68,6 +69,8 @@ import { createDefaultShortcutBars, addUnlockedNodeShortcuts, DEFAULT_SHORTCUT_B
 
 import { useFactoryPanels, type Panel } from './useFactoryPanels';
 import { useFactoryKeyboard } from './useFactoryKeyboard';
+import { useGameAudio } from './useGameAudio';
+import type { GameAudio } from '../audio/GameAudio';
 type NoticeTone = 'research' | 'warning';
 interface Notice { id: string; message: string; label: string; tone: NoticeTone; projectId?: string }
 
@@ -80,7 +83,7 @@ const initialGame = import.meta.hot?.data.gameState ?? createInitialState();
 let needsStartingCamera = !import.meta.hot?.data.gameState;
 const ENGINE = new GameEngine(initialGame);
 if (import.meta.hot) import.meta.hot.dispose((data) => { data.gameState = structuredClone(ENGINE.getState()); });
-export function App() {
+export function App({ engine: campaign = ENGINE, showWelcomeInitially = true }: { engine?: GameEngine; showWelcomeInitially?: boolean } = {}) {
   useEffect(() => {
     // Suppress the browser context menu while preserving in-game right-click handlers.
     const preventBrowserMenu = (event: MouseEvent) => event.preventDefault();
@@ -98,26 +101,28 @@ export function App() {
     };
   }, []);
   const [, refreshMainFactory] = useState(0);
-  useEffect(() => ENGINE.subscribe(() => refreshMainFactory(value => value + 1)), []);
-  const [welcome, setWelcome] = useState(true);
+  useEffect(() => campaign.subscribe(() => refreshMainFactory(value => value + 1)), [campaign]);
+  const [welcome, setWelcome] = useState(showWelcomeInitially);
   const [training, setTraining] = useState<TrainingSession>();
+  const audio = useGameAudio(training?.engine ?? campaign, campaign);
   const [tutorialMenu, setTutorialMenu] = useState(false);
-  const dwarvenDiscovery = !welcome && !training && !tutorialMenu ? firstSpottedDwarvenCamp(ENGINE.getState()) : undefined;
-  const dismissDwarvenDiscovery = useCallback(() => { ENGINE.acknowledgeDwarvenDiscovery(); }, []);
-  const tutorialInvitation = !welcome && !training && !tutorialMenu && !dwarvenDiscovery ? nextTutorialInvitation(ENGINE.getState()) : undefined;
-  const dismissTutorialInvitation = useCallback(() => { if (tutorialInvitation) ENGINE.acknowledgeTutorialInvitation(tutorialInvitation); }, [tutorialInvitation]);
-  const startTutorial = (kind: TutorialKind) => { if (!isTutorialUnlocked(kind, ENGINE.getState())) return; if (kind === 'expansion' || kind === 'monster-camps') ENGINE.acknowledgeTutorialInvitation(kind); setTraining({ id: crypto.randomUUID(), kind, engine: new GameEngine(createTutorialState(kind), { autosave: false }) }); setTutorialMenu(false); };
-  const exitTutorial = () => { setTraining(undefined); setTutorialMenu(true); };
+  const [hintReturn, setHintReturn] = useState<HintPanelContext>();
+  const dwarvenDiscovery = !welcome && !training && !tutorialMenu ? firstSpottedDwarvenCamp(campaign.getState()) : undefined;
+  const dismissDwarvenDiscovery = useCallback(() => { campaign.acknowledgeDwarvenDiscovery(); }, [campaign]);
+  const tutorialInvitation = !welcome && !training && !tutorialMenu && !dwarvenDiscovery ? nextTutorialInvitation(campaign.getState()) : undefined;
+  const dismissTutorialInvitation = useCallback(() => { if (tutorialInvitation) campaign.acknowledgeTutorialInvitation(tutorialInvitation); }, [tutorialInvitation, campaign]);
+  const startTutorial = (kind: TutorialKind, origin?: HintPanelContext) => { if (!isTutorialUnlocked(kind, campaign.getState())) return; setHintReturn(origin); if (kind === 'expansion' || kind === 'monster-camps') campaign.acknowledgeTutorialInvitation(kind); setTraining({ id: crypto.randomUUID(), kind, engine: new GameEngine(createTutorialState(kind), { autosave: false }) }); setTutorialMenu(false); };
+  const exitTutorial = () => { setTraining(undefined); setTutorialMenu(!hintReturn); };
   const finishTutorial = () => {
     setWelcome(false);
-    ENGINE.switchSector('5,5');
+    if (!hintReturn) campaign.switchSector('5,5');
     setTraining(undefined);
     setTutorialMenu(false);
   };
-  return <><FactoryApp key={training?.id ?? 'factory'} engine={training?.engine ?? ENGINE} training={training} welcome={!training && welcome} onShowWelcome={() => setWelcome(true)} onCloseWelcome={() => setWelcome(false)} onTutorials={() => setTutorialMenu(true)} onExitTutorial={exitTutorial} onFinishTutorial={finishTutorial} />{dwarvenDiscovery && <DwarvenDiscoveryNotice onDismiss={dismissDwarvenDiscovery} />}{tutorialMenu && <TutorialMenu game={ENGINE.getState()} onStart={startTutorial} onClose={() => setTutorialMenu(false)} />}{tutorialInvitation && <TutorialUnlockInvitation kind={tutorialInvitation} onStart={() => startTutorial(tutorialInvitation)} onLater={dismissTutorialInvitation} />}</>;
+  return <><FactoryApp key={training?.id ?? 'factory'} engine={training?.engine ?? campaign} audio={audio} audioPreferencesEngine={campaign} training={training} welcome={!training && welcome} onShowWelcome={() => setWelcome(true)} onCloseWelcome={() => setWelcome(false)} onTutorials={() => setTutorialMenu(true)} initialResearchContext={!training ? hintReturn : undefined} onResearchContextConsumed={() => setHintReturn(undefined)} onStartHintTutorial={startTutorial} onExitTutorial={exitTutorial} onFinishTutorial={finishTutorial} />{dwarvenDiscovery && <DwarvenDiscoveryNotice onDismiss={dismissDwarvenDiscovery} />}{tutorialMenu && <TutorialMenu game={campaign.getState()} onStart={startTutorial} onClose={() => setTutorialMenu(false)} />}{tutorialInvitation && <TutorialUnlockInvitation kind={tutorialInvitation} onStart={() => startTutorial(tutorialInvitation)} onLater={dismissTutorialInvitation} />}</>;
 }
 
-export function FactoryApp({ engine, training, welcome, onShowWelcome, onCloseWelcome, onTutorials, onExitTutorial, onFinishTutorial }: { engine: GameEngine; training?: TrainingSession; welcome: boolean; onShowWelcome(): void; onCloseWelcome(): void; onTutorials(): void; onExitTutorial(): void; onFinishTutorial(): void }) {
+export function FactoryApp({ engine, audio, audioPreferencesEngine, training, welcome, onShowWelcome, onCloseWelcome, onTutorials, onExitTutorial, onFinishTutorial, initialResearchContext, onResearchContextConsumed, onStartHintTutorial }: { initialResearchContext?: HintPanelContext; onResearchContextConsumed?(): void; onStartHintTutorial?(kind: TutorialKind, context: HintPanelContext): void; engine: GameEngine; audio?: GameAudio; audioPreferencesEngine?: GameEngine; training?: TrainingSession; welcome: boolean; onShowWelcome(): void; onCloseWelcome(): void; onTutorials(): void; onExitTutorial(): void; onFinishTutorial(): void }) {
   const fieldViewportRef = useRef<HTMLDivElement>(null);
   useLayoutEffect(() => {
     if (training || !needsStartingCamera || !fieldViewportRef.current) return;
@@ -268,6 +273,7 @@ export function FactoryApp({ engine, training, welcome, onShowWelcome, onCloseWe
     engine, training, allowedPanel, mapAvailable, setInspectingNodeId, setConfiguringNodeId,
     setPlacement, setPasting, setMinimapVisible, setBuildCategory,
   });
+  useEffect(() => { if (initialResearchContext && !training) setPanel('research'); }, [initialResearchContext, training]);
   const requestDeleteNodes = useCallback((ids: string[]) => {
     const deletable = engine.getSector().nodes.filter(node => ids.includes(node.id) && canDeleteNode(node)).map(node => node.id);
     if (!deletable.length) return;
@@ -301,6 +307,9 @@ export function FactoryApp({ engine, training, welcome, onShowWelcome, onCloseWe
     document.addEventListener('mousedown', onBackdropMouseDown);
     return () => document.removeEventListener('mousedown', onBackdropMouseDown);
   }, [dismissPanel, panel]);
+  useEffect(() => { if (!welcome && panel) audio?.play('panel'); }, [audio, panel, welcome]);
+  useEffect(() => { if (!welcome && selectedIds.length) audio?.play('select'); }, [audio, selectedIds, welcome]);
+  useEffect(() => { if (interactionFailure) audio?.play('reject'); }, [audio, interactionFailure]);
   const researchUnlockSignature = game.research.unlocked.join('|');
   useEffect(() => {
     const unlockedKinds = BUILDABLE_NODES.filter((node) => isNodeUnlocked(node.kind, game.research.unlocked)).map((node) => node.kind);
@@ -469,16 +478,17 @@ export function FactoryApp({ engine, training, welcome, onShowWelcome, onCloseWe
       {panel === 'inventory' && <InventoryPanel inventory={inventory} onClose={dismissPanel} />}
       {panel === 'inventory' && game.research.completed.includes('autonomousLogistics') && <section className="global-pool-panel"><h3>Global transfer pool</h3><p>Storage deposits here; Inventory withdraws through Filters. Limit: {poolCapacity(game)} per item.</p>{Object.entries(game.globalPool??{}).map(([i,n])=><p key={i}>{ITEM_NAMES[i as ItemId]} <b>{n} / {poolCapacity(game)}</b></p>)}</section>}
       {panel === 'journal' && <DiscoveryJournal game={game} onClose={dismissPanel} onOpen={(id, kind) => openUnlock(id, true, kind)} />}
-      {panel === 'options' && <OptionsPanel game={game} engine={engine} shortcutBars={shortcutBars} onShortcutBars={changeShortcutBars} onResetShortcutBars={() => { changeShortcutBars(createDefaultShortcutBars(window.innerWidth, window.innerHeight)); changeShortcutBarGroups(DEFAULT_SHORTCUT_BAR_GROUPS); }} onJournal={() => openSubPanel('journal', 'options')} onSaveLoad={() => openSubPanel('save', 'options')} onMods={() => openSubPanel('mods', 'options')} onCommands={() => openSubPanel('commands', 'options')} onRecipes={() => openSubPanel('recipes', 'options')} onTutorials={onTutorials} training={Boolean(training)} onClose={dismissPanel} />}
+      {panel === 'options' && <OptionsPanel game={game} engine={engine} audioEngine={audioPreferencesEngine} shortcutBars={shortcutBars} onShortcutBars={changeShortcutBars} onResetShortcutBars={() => { changeShortcutBars(createDefaultShortcutBars(window.innerWidth, window.innerHeight)); changeShortcutBarGroups(DEFAULT_SHORTCUT_BAR_GROUPS); }} onJournal={() => openSubPanel('journal', 'options')} onSaveLoad={() => openSubPanel('save', 'options')} onMods={() => openSubPanel('mods', 'options')} onCommands={() => openSubPanel('commands', 'options')} onRecipes={() => openSubPanel('recipes', 'options')} onTutorials={onTutorials} training={Boolean(training)} onClose={dismissPanel} />}
       {panel === 'recipes' && <RecipesPanel key={unlockVisit} initialNode={unlockFocus?.panel === 'recipes' ? unlockFocus.nodeKind : undefined} initialRecipeId={unlockFocus?.panel === 'recipes' ? unlockFocus.recipeId : undefined} backToResearch={returnPanel === 'research'} game={game} onClose={dismissPanel} />}
       {(panel === 'research' || (panel === 'recipes' && returnPanel === 'research')) && <div hidden={panel !== 'research'}>
         <ResearchPanel allowedProjectId={choices?.researchProjectId} showMilestones={!training} key={unlockVisit}
+          initialContext={initialResearchContext} onContextConsumed={onResearchContextConsumed} onStartHintTutorial={!training ? onStartHintTutorial : undefined}
           focusProjectId={unlockFocus?.panel === 'research' ? unlockFocus.projectId : undefined} game={game} engine={engine}
           onClose={dismissPanel} onOpenRecipe={openResearchRecipe} onOpenMap={() => togglePanel('map')}
         />
       </div>}
 
-      {panel === 'save' && !training && <SavePanel game={game} engine={engine} onLoad={loadSave} onClose={dismissPanel} />}
+      {panel === 'save' && !training && <SavePanel game={game} engine={engine} onSaved={() => audio?.play('save')} onLoad={loadSave} onClose={dismissPanel} />}
       {panel === 'commands' && <CommandsPanel onClose={dismissPanel} />}
       {panel === 'mods' && !training && <ModsModal game={game} engine={engine} onClose={dismissPanel} />}
       {panel === 'dev' && !training && <DevPanel game={game} engine={engine} showAllBuildNodes={showAllBuildNodes} onShowAllBuildNodes={setShowAllBuildNodes} onPlaceSource={() => startPlacement('devSource')} onClose={dismissPanel} />}

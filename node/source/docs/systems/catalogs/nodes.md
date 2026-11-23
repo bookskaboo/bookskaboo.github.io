@@ -45,7 +45,7 @@ Static socket families are templates. Recipe selection, Road direction, tribute 
 | Joint | `joint` | Logistics | Build catalog | router | runtime / runtime | [Joint](research.md#research-joint) | ANY → ANY |
 | Road | `road` | Logistics | Build catalog | road | 0 / 0 | [Road](research.md#research-road) | ANY → ANY |
 | Power Splitter | `powerSplitter` | Logistics | Deferred Power | router | runtime / runtime | None | POWER → POWER, POWER, POWER |
-| Filter | `filter` | Logistics | Build catalog | filter | runtime / runtime | None | ANY → ANY, ANY |
+| Filter | `filter` | Logistics | Build catalog | filter | runtime / runtime | [Waste Handling](research.md#research-sortingTools) | ANY → ANY, ANY |
 | Inventory | `inventory` | Logistics | Build catalog | inventory | runtime / runtime | [Autonomous Logistics](research.md#research-autonomousLogistics) | None → ANY |
 | Cart | `woodenChest` | Logistics | Build catalog | buffer | 20 / 20 | [Road](research.md#research-road) | ANY → ANY |
 | Storage | `storage` | Storage | Build catalog | storage | 64 per item / runtime | [Autonomous Logistics](research.md#research-autonomousLogistics) | ANY → None |

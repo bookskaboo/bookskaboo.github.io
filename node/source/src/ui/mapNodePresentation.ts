@@ -3,6 +3,7 @@ import { isWorldObstacle } from '../content/nodeCapabilities';
 import type { LineArtId } from '../art/lineArt';
 import type { GameState, ItemId, SectorState } from '../domain/types';
 import { mapNodePosition, worldCornerIds, worldGridSize } from '../domain/worldGrid';
+import { hasAllCornerLocations } from '../content/endgame';
 
 export { mapNodePosition } from '../domain/worldGrid';
 
@@ -44,20 +45,16 @@ export function mapLandmarkSurvey(game: GameState) {
   return { discovered, bySector };
 }
 
-/** Complex Core research reveals locations; one corner visit also preserves legacy discovery. */
+/** Complex upgrade reveals all locations. Earlier visits reveal only the encountered corner. */
 export function mapCornerMarkers(game: GameState) {
   const corners = worldCornerIds(worldGridSize(game));
-  const visitedCorner = corners.some(id => {
-    const sector = game.sectors[id];
-    return sector?.unlocked && (sector.visited || id === game.activeSectorId)
-      && sector.nodes.some(node => node.kind === 'cornerChallenge');
-  });
   const markers = new Map<string, string>();
-  const revealed = game.research.completed.includes('complexCore') || game.research.completed.includes('cornerComponents');
-  if (revealed || visitedCorner) for (const id of corners) {
+  const revealed = hasAllCornerLocations(game.research);
+  for (const id of corners) {
     const sector = game.sectors[id];
     const challenge = sector?.unlocked ? sector.nodes.find(node => node.kind === 'cornerChallenge') : undefined;
-    markers.set(id, challenge?.name ?? '???');
+    const visited = sector?.unlocked && (sector.visited || id === game.activeSectorId) && challenge;
+    if (revealed || visited) markers.set(id, challenge?.name ?? '???');
   }
   return markers;
 }

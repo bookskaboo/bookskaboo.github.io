@@ -1,0 +1,32 @@
+{
+  "date": "2026-11-22",
+  "final": {
+    "dialog": "Basics tutorial",
+    "height": 923,
+    "overflow": false,
+    "practiceCount": 0,
+    "queueCount": 0,
+    "startFocused": true,
+    "url": "http://127.0.0.1:5188/outputs/hint-navigation/index.html",
+    "width": 1210
+  },
+  "narrow": {
+    "height": 845,
+    "overflow": false,
+    "width": 390
+  },
+  "checks": [
+    "Forest and Simple Core Show me open the associated Basics dialog.",
+    "Dialog focuses Start Basics; opening does not start practice.",
+    "Start Basics mounts actual FactoryApp with an independent training engine; normal Build action advanced to step 2 of 19.",
+    "Exit practice returns to the same Forest hint, originating Show me focus and zero queued projects.",
+    "Closing the Core-associated dialog and Escape return focus; no practice starts.",
+    "Exploration still focuses its actual research card with zero automatic queue.",
+    "Background Upgrades stays visible but inert while tutorial dialog owns input."
+  ],
+  "warningsAndErrors": [],
+  "limits": [
+    "Synthetic isolated author study; no main-game adoption or campaign writes.",
+    "Only practice start/Build/exit was checked; no fresh complete 19-stage run or human comprehension evidence."
+  ]
+}

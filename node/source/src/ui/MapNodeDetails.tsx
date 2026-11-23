@@ -49,6 +49,7 @@ export function MapNodeDetails({ game, engine, selectedId, cornerName, allowedSe
         <label>Map label<input disabled={allowedSectorId !== undefined} value={draftLabel} maxLength={3} onChange={(event) => setDraftLabel(event.target.value.toUpperCase())} /></label>
         <button disabled={allowedSectorId !== undefined || draftName.trim() === selectedName && draftLabel.trim().toUpperCase() === selected.label} onClick={() => engine.renameSector(draftName, draftLabel, selectedId)}>Save name</button>
       </div>}
+      {cornerName && !selectedUnlocked && <p className="map-unexplored">Location revealed. Reach it through adjacent maps; ordinary expansion costs still apply.</p>}
       <hr />
       {price && <section className="map-survey-list" aria-label="Core cost">
         <h3>Core cost</h3>

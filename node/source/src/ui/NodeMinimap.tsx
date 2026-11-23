@@ -4,7 +4,7 @@ import { useEffect, useRef, useState, type CSSProperties, type ReactNode, type P
 import { cargoMaterial } from '../content/botAssembly';
 import { PALETTE as TERRAIN_PALETTE } from '../art/mapTerrainArt';
 import { revealedMapTerrain } from '../simulation/mapTerrain';
-import { cornerDiscoveryPending } from '../content/endgame';
+import { cornerDiscoveryPending, hasAllCornerLocations } from '../content/endgame';
 import { ITEM_COLORS, ITEM_NAMES, materialTypeName } from '../content/items';
 import type { GameState, ItemId, SectorState } from '../domain/types';
 import { DEFAULT_WORLD_GRID_SIZE, HOME_SECTOR_ID, worldGridBounds, worldGridSize } from '../domain/worldGrid';
@@ -165,6 +165,7 @@ export function NodeMinimap({ game, engine, allowedSectorId, dockHeight = 0, exp
           const camps = markers.includes('camps') ? known.nodes.filter(node => node.kind === 'monster-camp') : [];
           const corner = cornerMarkers.get(id);
           const cornerPending = Boolean(corner) && cornerDiscoveryPending(game, id);
+          const cornerGlowing = cornerPending || Boolean(expanded && corner && hasAllCornerLocations(game.research));
           const inspectCorner = () => { if (corner) engine.acknowledgeCornerDiscovery(id); };
           const markerNames = [...markers.map(landmark => MAP_LANDMARKS[landmark].label), ...(corner ? [corner] : [])].join(', ');
           const icons = (corner || markers.length > 0) && <span className="node-map-landmarks" aria-hidden="true">
@@ -173,7 +174,7 @@ export function NodeMinimap({ game, engine, allowedSectorId, dockHeight = 0, exp
             {camps.some(camp => camp.lizardSettlement) && <IconGlyph icon={MAP_LANDMARKS.camps.icon} className="map-landmark-camps map-landmark-dwarven" />}
             {markers.filter(landmark => landmark !== 'camps').map(landmark => <IconGlyph key={landmark} icon={MAP_LANDMARKS[landmark].icon} className={`map-landmark-${landmark}${landmark === 'landmarks' && known.nodes.some(node=>node.landmark==='unknown') ? ' map-landmark-unknown' : ''}`} />)}
           </span>;
-          const markerClass = (icons ? ' has-landmarks' : '') + (cornerPending ? ' corner-discovery-pending' : '');
+          const markerClass = (icons ? ' has-landmarks' : '') + (cornerGlowing ? ' corner-discovery-pending' : '');
           const tooltipDetails = !expanded && corner !== '???' && (isUnlocked || isAvailable) ? [
             ...(isActive ? ['Current Node'] : []),
             ...(depletionPending ? ['Resource depleted'] : []),

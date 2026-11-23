@@ -28,8 +28,8 @@ export function botUpgradeBenefits(id: string, completed = false) {
   if (!upgrade) return '';
   if (!upgrade.nextCore) return completed ? 'All character upgrades complete.' : 'Complete the final character upgrade.';
   const recipe = completed ? `${upgrade.nextCore} recipe unlocked.` : `Unlock the ${upgrade.nextCore} recipe.`;
-  if (id !== 'complexCore') return recipe;
-  return `${recipe} ${completed ? 'Yin and Yang recipes unlocked. All four corner locations revealed.' : 'Unlock the Yin and Yang recipes. Reveal all four corner locations.'}`;
+  if (id !== 'finalCore') return recipe;
+  return `${recipe} ${completed ? 'Yin and Yang recipes unlocked. All four corner locations revealed. Reaching them still requires ordinary map expansion.' : 'Unlock the Yin and Yang recipes.'}`;
 }
 
 /** Existing recipe-unlock IDs now present the upgrade that pays for the NEXT Core. */

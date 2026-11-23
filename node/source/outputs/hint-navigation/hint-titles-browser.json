@@ -1,0 +1,685 @@
+{
+  "options": [
+    {
+      "id": "assignment",
+      "title": "01 · Terms of employment"
+    },
+    {
+      "id": "wood",
+      "title": "02 · Available staff"
+    },
+    {
+      "id": "copper",
+      "title": "03 · An orange opportunity"
+    },
+    {
+      "id": "fuel",
+      "title": "04 · A warmer prospect"
+    },
+    {
+      "id": "plate",
+      "title": "05 · A flatter future"
+    },
+    {
+      "id": "lab",
+      "title": "06 · Room for thought"
+    },
+    {
+      "id": "simple",
+      "title": "07 · Small ambitions"
+    },
+    {
+      "id": "iron",
+      "title": "08 · A second opinion"
+    },
+    {
+      "id": "assembler",
+      "title": "09 · Some assembly required"
+    },
+    {
+      "id": "basic",
+      "title": "10 · Room to improve"
+    },
+    {
+      "id": "exploration",
+      "title": "11 · Beyond the paperwork"
+    },
+    {
+      "id": "detour",
+      "title": "12 · A useful detour"
+    },
+    {
+      "id": "road",
+      "title": "13 · Across the line"
+    },
+    {
+      "id": "automata",
+      "title": "14 · More responsibility"
+    },
+    {
+      "id": "fabricatorTools",
+      "title": "15 · Bigger plans"
+    },
+    {
+      "id": "lake",
+      "title": "16 · The factory is thirsty"
+    },
+    {
+      "id": "hydrochemistry",
+      "title": "17 · Liquid assets"
+    },
+    {
+      "id": "hydraulicAssembly",
+      "title": "18 · Under pressure"
+    },
+    {
+      "id": "hydro",
+      "title": "19 · Waterside ambitions"
+    },
+    {
+      "id": "fluidRouting",
+      "title": "20 · A change of course"
+    },
+    {
+      "id": "camp",
+      "title": "21 · The neighbours"
+    },
+    {
+      "id": "sealedRobotics",
+      "title": "22 · A stronger argument"
+    },
+    {
+      "id": "dwarves",
+      "title": "23 · A metallic glint"
+    },
+    {
+      "id": "guardedMythril",
+      "title": "24 · Conditional cooperation"
+    },
+    {
+      "id": "tribute",
+      "title": "25 · Neighbourly obligations"
+    },
+    {
+      "id": "bot",
+      "title": "26 · A staffing solution"
+    },
+    {
+      "id": "oreSeparation",
+      "title": "27 · A promising impurity"
+    },
+    {
+      "id": "shiny",
+      "title": "28 · A finer finish"
+    },
+    {
+      "id": "precisionControl",
+      "title": "29 · Complications, approved"
+    },
+    {
+      "id": "complex",
+      "title": "30 · Unfinished potential"
+    },
+    {
+      "id": "complexUpgrade",
+      "title": "31 · Promotion pending"
+    },
+    {
+      "id": "corners",
+      "title": "32 · Loose ends"
+    },
+    {
+      "id": "grove",
+      "title": "33 · A growth opportunity"
+    },
+    {
+      "id": "reclamation",
+      "title": "34 · A second use"
+    },
+    {
+      "id": "foundry",
+      "title": "35 · A demanding customer"
+    },
+    {
+      "id": "dragon",
+      "title": "36 · Terms of negotiation"
+    },
+    {
+      "id": "yin",
+      "title": "37 · Common ground"
+    },
+    {
+      "id": "yang",
+      "title": "38 · The other side"
+    },
+    {
+      "id": "final",
+      "title": "39 · A complete picture"
+    },
+    {
+      "id": "victory",
+      "title": "40 · One last form"
+    },
+    {
+      "id": "finished",
+      "title": "41 · You’ve got this"
+    }
+  ],
+  "cases": [
+    {
+      "id": "assignment",
+      "variant": "default",
+      "action": "Open Basics tutorial",
+      "dialog": "Basics tutorial",
+      "focusedResearch": null,
+      "highlight": null,
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "title": "Terms of employment"
+    },
+    {
+      "id": "wood",
+      "variant": "default",
+      "action": "Open Basics tutorial",
+      "dialog": "Basics tutorial",
+      "focusedResearch": null,
+      "highlight": null,
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "title": "Available staff"
+    },
+    {
+      "id": "copper",
+      "variant": "default",
+      "action": "Open Basics tutorial",
+      "dialog": "Basics tutorial",
+      "focusedResearch": null,
+      "highlight": null,
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "title": "An orange opportunity"
+    },
+    {
+      "id": "fuel",
+      "variant": "default",
+      "action": "Open Basics tutorial",
+      "dialog": "Basics tutorial",
+      "focusedResearch": null,
+      "highlight": null,
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "title": "A warmer prospect"
+    },
+    {
+      "id": "plate",
+      "variant": "default",
+      "action": "Open Basics tutorial",
+      "dialog": "Basics tutorial",
+      "focused": "Not now",
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "title": "A flatter future"
+    },
+    {
+      "id": "lab",
+      "variant": "default",
+      "action": "Open Basics tutorial",
+      "dialog": "Basics tutorial",
+      "focused": "Not now",
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "title": "Room for thought"
+    },
+    {
+      "id": "simple",
+      "variant": "default",
+      "action": "Open Basics tutorial",
+      "dialog": "Basics tutorial",
+      "focusedResearch": null,
+      "highlight": null,
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "title": "Small ambitions"
+    },
+    {
+      "id": "iron",
+      "variant": "default",
+      "action": null,
+      "focusedResearch": null,
+      "highlight": null,
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "title": "A second opinion"
+    },
+    {
+      "id": "assembler",
+      "variant": "default",
+      "action": "Show Assembler in Upgrades",
+      "focusedResearch": "assembler",
+      "highlight": "assembler",
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "title": "Some assembly required"
+    },
+    {
+      "id": "basic",
+      "variant": "default",
+      "action": "Show Simple upgrade in Upgrades",
+      "focusedResearch": null,
+      "focusedUpgrade": "basicCore",
+      "highlight": "basicCore",
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "title": "Room to improve"
+    },
+    {
+      "id": "basic",
+      "variant": "production",
+      "action": null,
+      "focusedResearch": null,
+      "focusedUpgrade": "automataCore",
+      "highlight": null,
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "title": "Something to build on"
+    },
+    {
+      "id": "exploration",
+      "variant": "default",
+      "action": "Show Exploration in Upgrades",
+      "focusedResearch": "exploration",
+      "highlight": "exploration",
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "title": "Beyond the paperwork"
+    },
+    {
+      "id": "detour",
+      "variant": "default",
+      "action": "Show Extra Map Point in Upgrades",
+      "focusedResearch": "mapNode",
+      "highlight": "mapNode",
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "title": "A useful detour"
+    },
+    {
+      "id": "detour",
+      "variant": "map-point",
+      "action": "Open Expansion tutorial",
+      "dialog": "Expansion tutorial",
+      "focusedResearch": null,
+      "highlight": null,
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "title": "A useful detour"
+    },
+    {
+      "id": "road",
+      "variant": "default",
+      "action": "Open Expansion tutorial",
+      "dialog": "Expansion tutorial",
+      "focusedResearch": null,
+      "highlight": null,
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "title": "Across the line"
+    },
+    {
+      "id": "automata",
+      "variant": "default",
+      "action": "Show Basic upgrade in Upgrades",
+      "focusedResearch": null,
+      "focusedUpgrade": "automataCore",
+      "highlight": "automataCore",
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "title": "More responsibility"
+    },
+    {
+      "id": "automata",
+      "variant": "production",
+      "action": null,
+      "focusedResearch": null,
+      "focusedUpgrade": "hydroCore",
+      "highlight": null,
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "title": "More moving parts"
+    },
+    {
+      "id": "fabricatorTools",
+      "variant": "default",
+      "action": "Show Advanced Fabrication in Upgrades",
+      "focusedResearch": "fabricatorTools",
+      "highlight": "fabricatorTools",
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "title": "Bigger plans"
+    },
+    {
+      "id": "lake",
+      "variant": "default",
+      "action": "Show Extra Map Point in Upgrades",
+      "focusedResearch": "mapNode",
+      "highlight": "mapNode",
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "title": "The factory is thirsty"
+    },
+    {
+      "id": "lake",
+      "variant": "map-point",
+      "action": "Open Expansion tutorial",
+      "dialog": "Expansion tutorial",
+      "focusedResearch": null,
+      "highlight": null,
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "title": "The factory is thirsty"
+    },
+    {
+      "id": "hydrochemistry",
+      "variant": "default",
+      "action": "Show Hydrochemistry in Upgrades",
+      "focusedResearch": "hydrochemistry",
+      "highlight": "hydrochemistry",
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "title": "Liquid assets"
+    },
+    {
+      "id": "hydraulicAssembly",
+      "variant": "default",
+      "action": "Show Hydraulic Assembly in Upgrades",
+      "focusedResearch": "hydraulicAssembly",
+      "highlight": "hydraulicAssembly",
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "title": "Under pressure"
+    },
+    {
+      "id": "hydro",
+      "variant": "default",
+      "action": "Show Automata upgrade in Upgrades",
+      "focusedResearch": null,
+      "focusedUpgrade": "hydroCore",
+      "highlight": "hydroCore",
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "title": "Waterside ambitions"
+    },
+    {
+      "id": "hydro",
+      "variant": "production",
+      "action": null,
+      "focusedResearch": null,
+      "focusedUpgrade": "shinyCore",
+      "highlight": null,
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "title": "Another use for water"
+    },
+    {
+      "id": "fluidRouting",
+      "variant": "default",
+      "action": "Show Fluid Routing in Upgrades",
+      "focusedResearch": "fluidRouting",
+      "highlight": "fluidRouting",
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "title": "A change of course"
+    },
+    {
+      "id": "camp",
+      "variant": "default",
+      "action": "Show Extra Map Point in Upgrades",
+      "focusedResearch": "mapNode",
+      "highlight": "mapNode",
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "title": "The neighbours"
+    },
+    {
+      "id": "camp",
+      "variant": "map-point",
+      "action": "Open Expansion tutorial",
+      "dialog": "Expansion tutorial",
+      "focusedResearch": null,
+      "highlight": null,
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "title": "The neighbours"
+    },
+    {
+      "id": "sealedRobotics",
+      "variant": "default",
+      "action": "Show Sealed Robotics in Upgrades",
+      "focusedResearch": "sealedRobotics",
+      "highlight": "sealedRobotics",
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "title": "A stronger argument"
+    },
+    {
+      "id": "dwarves",
+      "variant": "default",
+      "action": "Show Extra Map Point in Upgrades",
+      "focusedResearch": "mapNode",
+      "highlight": "mapNode",
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "title": "A metallic glint"
+    },
+    {
+      "id": "dwarves",
+      "variant": "map-point",
+      "action": "Open Expansion tutorial",
+      "dialog": "Expansion tutorial",
+      "focusedResearch": null,
+      "highlight": null,
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "title": "A metallic glint"
+    },
+    {
+      "id": "guardedMythril",
+      "variant": "default",
+      "action": "Open Monster Camps tutorial",
+      "dialog": "Monster Camps tutorial",
+      "focusedResearch": null,
+      "highlight": null,
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "title": "Conditional cooperation"
+    },
+    {
+      "id": "tribute",
+      "variant": "default",
+      "action": null,
+      "focusedResearch": null,
+      "highlight": null,
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "title": "Neighbourly obligations"
+    },
+    {
+      "id": "bot",
+      "variant": "default",
+      "action": null,
+      "focusedResearch": null,
+      "highlight": null,
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "title": "A staffing solution"
+    },
+    {
+      "id": "oreSeparation",
+      "variant": "default",
+      "action": "Show Ore Separation in Upgrades",
+      "focusedResearch": "oreSeparation",
+      "highlight": "oreSeparation",
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "title": "A promising impurity"
+    },
+    {
+      "id": "shiny",
+      "variant": "default",
+      "action": "Show Hydro upgrade in Upgrades",
+      "focusedResearch": null,
+      "focusedUpgrade": "shinyCore",
+      "highlight": "shinyCore",
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "title": "A finer finish"
+    },
+    {
+      "id": "shiny",
+      "variant": "production",
+      "action": null,
+      "focusedResearch": null,
+      "focusedUpgrade": "complexCore",
+      "highlight": null,
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "title": "A polished prospect"
+    },
+    {
+      "id": "precisionControl",
+      "variant": "default",
+      "action": "Show Precision Control in Upgrades",
+      "focusedResearch": "precisionControl",
+      "highlight": "precisionControl",
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "title": "Complications, approved"
+    },
+    {
+      "id": "complex",
+      "variant": "default",
+      "action": "Show Shiny upgrade in Upgrades",
+      "focusedResearch": null,
+      "focusedUpgrade": "complexCore",
+      "highlight": "complexCore",
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "title": "Unfinished potential"
+    },
+    {
+      "id": "complex",
+      "variant": "production",
+      "action": null,
+      "focusedResearch": null,
+      "focusedUpgrade": "finalCore",
+      "highlight": null,
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "title": "Useful leftovers"
+    },
+    {
+      "id": "complexUpgrade",
+      "variant": "default",
+      "action": "Show Complex upgrade in Upgrades",
+      "focusedResearch": null,
+      "focusedUpgrade": "finalCore",
+      "highlight": "finalCore",
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "title": "Promotion pending"
+    },
+    {
+      "id": "corners",
+      "variant": "default",
+      "action": "Show Extra Map Point in Upgrades",
+      "focusedResearch": "mapNode",
+      "highlight": "mapNode",
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "title": "Loose ends"
+    },
+    {
+      "id": "corners",
+      "variant": "map-point",
+      "action": "Open Expansion tutorial",
+      "dialog": "Expansion tutorial",
+      "focusedResearch": null,
+      "highlight": null,
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "title": "Loose ends"
+    },
+    {
+      "id": "grove",
+      "variant": "default",
+      "action": null,
+      "focusedResearch": null,
+      "highlight": null,
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "title": "A growth opportunity"
+    },
+    {
+      "id": "reclamation",
+      "variant": "default",
+      "action": null,
+      "focusedResearch": null,
+      "highlight": null,
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "title": "A second use"
+    },
+    {
+      "id": "foundry",
+      "variant": "default",
+      "action": null,
+      "focusedResearch": null,
+      "highlight": null,
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "title": "A demanding customer"
+    },
+    {
+      "id": "dragon",
+      "variant": "default",
+      "action": null,
+      "focusedResearch": null,
+      "highlight": null,
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "title": "Terms of negotiation"
+    },
+    {
+      "id": "yin",
+      "variant": "default",
+      "action": null,
+      "focusedResearch": null,
+      "highlight": null,
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "title": "Common ground"
+    },
+    {
+      "id": "yang",
+      "variant": "default",
+      "action": null,
+      "focusedResearch": null,
+      "highlight": null,
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "title": "The other side"
+    },
+    {
+      "id": "final",
+      "variant": "default",
+      "action": null,
+      "focusedResearch": null,
+      "highlight": null,
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "title": "A complete picture"
+    },
+    {
+      "id": "victory",
+      "variant": "default",
+      "action": "Show A Remarkably Indirect Conclusion in Upgrades",
+      "focusedResearch": "victory",
+      "highlight": "victory",
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "title": "One last form"
+    },
+    {
+      "id": "finished",
+      "variant": "default",
+      "action": null,
+      "focusedResearch": null,
+      "highlight": null,
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "title": "You’ve got this"
+    }
+  ],
+  "comparison": {
+    "originalTitle": "Complex upgrade",
+    "proposedTitle": "Promotion pending"
+  },
+  "retriedChecks": [
+    {
+      "id": "plate",
+      "variant": "default",
+      "action": "Open Basics tutorial",
+      "dialog": "Basics tutorial",
+      "focused": "Not now",
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "title": "A flatter future"
+    },
+    {
+      "id": "lab",
+      "variant": "default",
+      "action": "Open Basics tutorial",
+      "dialog": "Basics tutorial",
+      "focused": "Not now",
+      "queue": "Research queue0/4Select a card and press Queue research, or double-click a card.1Empty2Empty3Empty4Empty",
+      "title": "Room for thought"
+    }
+  ],
+  "layout": {
+    "height": 923,
+    "notesHidden": true,
+    "scrollWidth": 1210,
+    "width": 1210
+  },
+  "logs": [],
+  "note": "Two initial fast-loop observations saw the opening assignment rather than the newly selected Plate/Lab context. Exact visible-title waits and fresh invitation assertions then passed for both. Final cases replace those stale observations.",
+  "scope": "Preview presentation titles only. Raw live clue identities, body copy, action IDs, order, eligibility and main-game saved history are unchanged."
+}

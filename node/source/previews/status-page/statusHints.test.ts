@@ -31,6 +31,8 @@ describe('Status assignment and hint review', () => {
     expect(expanded.some(hint => hint.title === 'The factory is thirsty')).toBe(true);
     expect(expanded.some(hint => hint.title === 'The four corners')).toBe(false);
     game.research.completed.push('automataCore');
+    expect(eligibleStatusHints(game).some(hint => hint.title === 'The four corners')).toBe(false);
+    game.research.completed.push('complexCore','precisionControl','finalCore');
     expect(eligibleStatusHints(game).some(hint => hint.title === 'The four corners')).toBe(true);
     expect(getResearchMilestones(game)).toEqual(getResearchMilestones(game, { allCandidates: true }).slice(0, 3));
     expect(getResearchMilestones(game, { allCandidates: true }).length).toBeGreaterThan(3);

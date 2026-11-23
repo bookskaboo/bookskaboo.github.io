@@ -26,7 +26,7 @@ it('starts one full-minute background loop at 15% only after explicit enable',as
  const audio=setup();expect(audio.enabled).toBe(false);expect(audio.musicVolume).toBe(.15);
  await audio.enable();const ctx=Context.latest,music=ctx.sources[0];
  expect(ctx.sources).toHaveLength(1);expect(music.loop).toBe(true);expect(music.loopEnd).toBe(60);
- expect(ctx.gains[0].gain.setValueAtTime).toHaveBeenLastCalledWith(.6,10);
+ expect(ctx.gains[0].gain.setValueAtTime).toHaveBeenLastCalledWith(.3,10);
  expect(ctx.gains[1].gain.setValueAtTime).toHaveBeenLastCalledWith(.15,10);
  await audio.enable();expect(ctx.sources).toHaveLength(1);expect(ctx.decodeAudioData).toHaveBeenCalledTimes(3);
  expect(audio.play('select')).toBe(true);expect(ctx.sources[1].loop).toBe(false);
@@ -34,8 +34,8 @@ it('starts one full-minute background loop at 15% only after explicit enable',as
 });
 it('separates effects and music level, mutes both, and lets music turn off independently',async()=>{
  const audio=setup();await audio.enable();const ctx=Context.latest,music=ctx.sources[0];
- audio.volume=.3;audio.musicVolume=.08;audio.update();
- expect(ctx.gains[0].gain.setValueAtTime).toHaveBeenLastCalledWith(.3,10);expect(ctx.gains[1].gain.setValueAtTime).toHaveBeenLastCalledWith(.08,10);
+ audio.volume=.2;audio.musicVolume=.08;audio.update();
+ expect(ctx.gains[0].gain.setValueAtTime).toHaveBeenLastCalledWith(.2,10);expect(ctx.gains[1].gain.setValueAtTime).toHaveBeenLastCalledWith(.08,10);
  audio.muted=true;audio.update();for(const gain of ctx.gains)expect(gain.gain.setValueAtTime).toHaveBeenLastCalledWith(0,10);
  audio.muted=false;audio.music=false;audio.update();expect(music.stop).toHaveBeenCalledTimes(1);
  expect(audio.play('select')).toBe(true);audio.music=true;audio.update();expect(ctx.sources.at(-1)?.loop).toBe(true);

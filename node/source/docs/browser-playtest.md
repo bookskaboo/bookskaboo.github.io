@@ -50,3 +50,9 @@ The inspected browser configuration listed `http://localhost:5173` under allowed
 - Screenshot: [verified paused game](../outputs/browser-connection-verified.png).
 
 This is a verified recovery procedure, not a guarantee against future browser-tool failures. Balance tests and browser connection checks are separate from a completed gameplay playtest.
+
+## Background checks without desktop control
+
+When the user asks to keep computer control, open a hidden in-app tab with visible: false and use Playwright DOM locator click/fill/press actions. Do not activate a Windows app, bring the browser forward, or use native coordinate, drag or keyboard wrappers. Close the active welcome/tutorial dialog before addressing background toolbar controls; the dialog focus boundary intentionally blocks background interaction. Confirm each result from current DOM rather than assuming an action behind a modal succeeded.
+
+Use authored practice for restart/engine-switch checks and pause the main factory before longer inspection. Keep manual slots untouched; restore temporary text-field edits without saving. The [live background smoke evidence](../outputs/live-refactor-smoke-2026-11-22/verification.json) verifies one canvas after practice return, panel/recipe focus and hidden state, ordinary centre-canvas placement/Undo and pause/resume. Pointer drags unavailable through the supported DOM actions remain outside that pass; keep earlier preflight coverage separate. Close the temporary tab when finished. This does not establish full progression or desktop accessibility.

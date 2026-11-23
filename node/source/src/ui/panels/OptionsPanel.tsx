@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+import { audioPreferences, type AudioPreferences } from '../../domain/audioPreferences';
 import type { GameState } from '../../domain/types';
 import { GameEngine } from '../../simulation/engine';
 import { NodeIcon } from '../NodeIcon';
@@ -6,8 +7,17 @@ import { PanelHeader } from '../PanelHeader';
 import { Dialog } from '../components/Dialog';
 import { SHORTCUT_BAR_IDS, type ShortcutBarsState } from '../ShortcutBars';
 
-export function OptionsPanel({ game, engine, shortcutBars, onShortcutBars, onResetShortcutBars, onJournal, onSaveLoad, onCommands, onRecipes, onMods, onTutorials, training, onClose }: { game: GameState; engine: GameEngine; shortcutBars: ShortcutBarsState; onShortcutBars(v: ShortcutBarsState): void; onResetShortcutBars(): void; onJournal(): void; onSaveLoad(): void; onCommands(): void; onRecipes(): void; onMods(): void; onTutorials(): void; training: boolean; onClose(): void }) {
+export function OptionsPanel({ game, engine, audioEngine, shortcutBars, onShortcutBars, onResetShortcutBars, onJournal, onSaveLoad, onCommands, onRecipes, onMods, onTutorials, training, onClose }: { game: GameState; engine: GameEngine; audioEngine?: GameEngine; shortcutBars: ShortcutBarsState; onShortcutBars(v: ShortcutBarsState): void; onResetShortcutBars(): void; onJournal(): void; onSaveLoad(): void; onCommands(): void; onRecipes(): void; onMods(): void; onTutorials(): void; training: boolean; onClose(): void }) {
+  const audioOwner = audioEngine ?? engine;
+  const audio = audioPreferences(audioOwner.getState().preferences);
+  const changeAudio = (patch: Partial<AudioPreferences>) => audioOwner.updatePreferences(patch);
   return <div className="modal-backdrop"><Dialog panel className="modal options-modal glass" aria-label="Options" modal={!training} onDismiss={onClose}><PanelHeader title="Options" onClose={onClose} /><div className="option-list">
+    <section className="audio-options" aria-label="Audio settings">
+      <div className="audio-option-grid">
+        <AudioControl id="music-volume" label="Music" value={audio.musicVolume} muted={audio.musicMuted} onVolume={musicVolume => changeAudio({ musicVolume })} onMute={musicMuted => changeAudio({ musicMuted })} />
+        <AudioControl id="effects-volume" label="Sound effects" value={audio.effectsVolume} muted={audio.effectsMuted} onVolume={effectsVolume => changeAudio({ effectsVolume })} onMute={effectsMuted => changeAudio({ effectsMuted })} />
+      </div>
+    </section>
     <OptionAction icon="◇" label="Save / Load" description="Save your progress." flavor="Or revisit an earlier opinion." disabled={training} onClick={onSaveLoad} />
     <OptionAction icon="◈" label="Mods" description="Create, import and share factory rules." flavor="The handbook is now a suggestion." disabled={training} onClick={onMods} />
     <OptionAction icon="⌨" label="Commands" description="The controls, written down." flavor="A radical convenience." disabled={training} onClick={onCommands} />
@@ -41,4 +51,12 @@ function Toggle({ icon, label, description, flavor, checked, disabled, onChange 
     <em aria-hidden="true">{icon}</em><span><b>{label}</b></span>
     <input type="checkbox" disabled={disabled} aria-label={label} aria-description={`${description} ${flavor}`} checked={checked} onChange={(e) => onChange(e.target.checked)} /><i aria-hidden="true" />
   </label>;
+}
+
+function AudioControl({ id, label, value, muted, onVolume, onMute }: { id: string; label: string; value: number; muted: boolean; onVolume(value: number): void; onMute(value: boolean): void }) {
+  return <div className="audio-control" role="group" aria-label={label}>
+    <label htmlFor={id}>{label}</label>
+    <div className="audio-volume-row"><input id={id} type="range" min="0" max="100" step="1" value={value} aria-label={label + ' volume'} aria-valuetext={value + '%'} onChange={event => onVolume(Number(event.target.value))} /><output htmlFor={id}>{value}%</output></div>
+    <button type="button" className={muted ? 'active' : ''} aria-label={'Mute ' + label.toLowerCase()} aria-pressed={muted} onClick={() => onMute(!muted)}>{muted ? 'Muted' : 'Mute'}</button>
+  </div>;
 }

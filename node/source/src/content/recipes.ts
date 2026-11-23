@@ -44,10 +44,12 @@ export const RECIPE_GROUPS: Record<string, string[]> = {
   assembler: [...Object.keys(ENDGAME_RECIPES), 'motor', 'circuit-a', 'basic-core', 'automata-core', 'robot-frame', 'robot-gun'],
 };
 
-export function isRecipeUnlocked(id: string, completed: readonly string[]) {
+export function isRecipeUnlocked(id: string, completed: readonly string[], legacyHalfRecipesUnlocked = false) {
   if (RETIRED_RECIPES.has(id)) return false;
   const recipe=RECIPES[id];if(!recipe)return false;
-  if(recipe.unlockResearch&&!completed.includes(recipe.unlockResearch))return false;
+  const legacyHalf = /^core-half-[ab]-[0-2]$/.test(id) && recipe.unlockResearch === 'finalCore'
+    && (legacyHalfRecipesUnlocked || completed.includes('cornerComponents'));
+  if(recipe.unlockResearch&&!completed.includes(recipe.unlockResearch)&&!legacyHalf)return false;
   if(['robot-frame','robot-gun'].includes(id)&&!completed.includes('suppressionBot'))return false;
   return true;
 }

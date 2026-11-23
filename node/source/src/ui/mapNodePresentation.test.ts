@@ -8,13 +8,15 @@ import { generateMapTerrains } from '../simulation/mapTerrain';
 import { mapCornerMarkers, mapLandmarkSurvey, mapNodeHoverDetails, mapNodeName, mapNodePosition, mapNodeSurvey } from './mapNodePresentation';
 
 describe('Home-relative map positions', () => {
-  it.each([11, 13, 15, 17, 19, 21])('reveals four locked corner locations after Complex Core research on a %s grid', gridSize => {
+  it.each([11, 13, 15, 17, 19, 21])('reveals four locked corner locations after Complex upgrade on a %s grid', gridSize => {
     const game = createLayoutFixture(41);
     game.worldGridSize = gridSize;
     game.mapTerrains = generateMapTerrains(game.seed, gridSize);
     expect(mapCornerMarkers(game).size).toBe(0);
     const before = JSON.stringify(game.sectors);
     game.research.completed.push('complexCore');
+    expect(mapCornerMarkers(game).size).toBe(0);
+    game.research.completed.push('finalCore');
     const expected = new Map(worldCornerIds(gridSize).map(id => [id, '???']));
     expect(mapCornerMarkers(game)).toEqual(expected);
     expect(JSON.stringify(game.sectors)).toBe(before);
@@ -128,6 +130,10 @@ describe('map exploration surveys', () => {
 
     engine.switchSector(first.id);
     const firstName = first.nodes.find(node => node.kind === 'cornerChallenge')!.name;
+    expect(mapCornerMarkers(state)).toEqual(new Map([[first.id, firstName]]));
+    state.research.completed.push('complexCore');
+    expect(mapCornerMarkers(state).size).toBe(1);
+    state.research.completed.push('finalCore');
     expect(mapCornerMarkers(state)).toEqual(new Map([[first.id, firstName], ...ids.slice(1).map(id => [id, '???'] as const)]));
     expect(mapLandmarkSurvey(state).discovered.has('camps')).toBe(false);
     expect(engine.unlockSector(locked.x, locked.y)).toBe(true);

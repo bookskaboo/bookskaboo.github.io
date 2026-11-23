@@ -5,7 +5,7 @@ import { isCustomContentId } from '../mods/modTypes';
 import { migrateCoreResearch } from '../content/coreResearch';
 import { endgameRank } from '../content/endgame';
 import type { GameState, ItemId, MachineNode, SectorState } from '../domain/types';
-import { getBotPlantBuild, RECIPES, RETIRED_RECIPES } from '../content/recipes';
+import { getBotPlantBuild, isRecipeUnlocked, RECIPES, RETIRED_RECIPES } from '../content/recipes';
 import { BOT_ITEMS, cargoMaterial, SUPPRESSION_BOT } from '../content/botAssembly';
 import { LATE_RECIPES, WASTE_ITEMS, BOT_STRENGTH } from '../content/progression';
 import { getNodeCapabilities } from '../content/nodeCapabilities';
@@ -118,7 +118,7 @@ export function simulateExtendedRecipe(state:GameState,node:MachineNode,dt:numbe
  }
  if(RETIRED_RECIPES.has(recipe.id)&&!node.batch){delete node.recipeId;node.progressMs=0;return true;}
  if(node.landmark!=='doubler'&&!automatic&&!recycler&&!node.batch&&!isCustomContentId(recipe.id)&&!recipe.chanceOutputs?.length&&!Object.hasOwn(LATE_RECIPES,recipe.id)&&!['advancedAssembler','hydroProcessor','separationFurnace'].includes(modNodeTemplate(node.kind)))return false;
- if(recipe.unlockResearch&&!state.research.completed.includes(recipe.unlockResearch)&&!node.batch)return true;
+ if(recipe.unlockResearch&&!isRecipeUnlocked(recipe.id,state.research.completed,state.research.legacyHalfRecipesUnlocked)&&!node.batch)return true;
  if(!node.batch){
   const inputs = (Object.entries(recipe.inputs) as [ItemId, number][]).map(([item, count]) => {
    const actualItem = recycler && item === SUPPRESSION_BOT ? BOT_ITEMS.find(bot => (node.input[bot] ?? 0) >= count) ?? item : item;

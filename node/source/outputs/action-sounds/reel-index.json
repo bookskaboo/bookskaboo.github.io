@@ -1,0 +1,116 @@
+[
+  {
+    "id": "select",
+    "name": "Select",
+    "startSeconds": 0.4,
+    "durationSeconds": 0.6
+  },
+  {
+    "id": "panel",
+    "name": "Open panel",
+    "startSeconds": 1.65,
+    "durationSeconds": 0.77
+  },
+  {
+    "id": "place",
+    "name": "Place node",
+    "startSeconds": 3.07,
+    "durationSeconds": 0.93
+  },
+  {
+    "id": "move",
+    "name": "Finish moving",
+    "startSeconds": 4.65,
+    "durationSeconds": 0.67
+  },
+  {
+    "id": "connect",
+    "name": "Connect cable",
+    "startSeconds": 5.97,
+    "durationSeconds": 0.89
+  },
+  {
+    "id": "disconnect",
+    "name": "Disconnect cable",
+    "startSeconds": 7.51,
+    "durationSeconds": 0.87
+  },
+  {
+    "id": "delete",
+    "name": "Remove nodes",
+    "startSeconds": 9.03,
+    "durationSeconds": 0.87
+  },
+  {
+    "id": "configure",
+    "name": "Apply configuration",
+    "startSeconds": 10.55,
+    "durationSeconds": 0.95
+  },
+  {
+    "id": "queue",
+    "name": "Queue project",
+    "startSeconds": 12.15,
+    "durationSeconds": 0.87
+  },
+  {
+    "id": "pause",
+    "name": "Pause",
+    "startSeconds": 13.67,
+    "durationSeconds": 0.97
+  },
+  {
+    "id": "resume",
+    "name": "Resume",
+    "startSeconds": 15.29,
+    "durationSeconds": 0.97
+  },
+  {
+    "id": "complete",
+    "name": "Research complete",
+    "startSeconds": 16.91,
+    "durationSeconds": 2.85
+  },
+  {
+    "id": "upgrade",
+    "name": "Character upgrade",
+    "startSeconds": 20.41,
+    "durationSeconds": 3
+  },
+  {
+    "id": "unlock",
+    "name": "Activate Map Node",
+    "startSeconds": 24.06,
+    "durationSeconds": 1.44
+  },
+  {
+    "id": "travel",
+    "name": "Travel",
+    "startSeconds": 26.15,
+    "durationSeconds": 0.98
+  },
+  {
+    "id": "save",
+    "name": "Manual save complete",
+    "startSeconds": 27.78,
+    "durationSeconds": 0.99
+  },
+  {
+    "id": "reject",
+    "name": "Action unavailable",
+    "startSeconds": 29.42,
+    "durationSeconds": 0.6
+  },
+  {
+    "id": "attention",
+    "name": "Attention",
+    "startSeconds": 30.67,
+    "durationSeconds": 1.42
+  },
+  {
+    "id": "victory",
+    "name": "Victory",
+    "startSeconds": 32.74,
+    "durationSeconds": 4.05
+  }
+]

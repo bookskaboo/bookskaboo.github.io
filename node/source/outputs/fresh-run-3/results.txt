@@ -1,0 +1,92 @@
+FRESH RUN 3 — ENDGAME THEORY COMPLETE
+October 31, 2026
+
+Result
+Endgame Theory completed through normal browser gameplay. Game paused at
+01:45:42.804 (6,342,804 ms). Seed: 1482820995. Saved to Slot 3 as
+"Fresh run 3 - Endgame Theory complete". Slots 1 and 2 preserved.
+Final UI-exported state: completed-run.json. Proof: endgame-theory-complete.jpg.
+
+This is an observed playtest duration, including planning, UI operation,
+troubleshooting, and exploration detours. It is not a competitive optimal time.
+
+Measured resource extraction (includes overproduction, buffers and unfinished work)
+Wood       3,824
+Copper     4,147
+Iron       2,859
+Stone        270
+Water      1,400
+Mythril      326
+
+Core totals             Produced   Remaining in node buffers   Used by research
+Simple                     120              16                       104
+Basic                      122              19                       103
+Automata                    90              22                        68
+Hydro                       77              57                        20
+Shiny                       18               4                        14
+Complex                      8               2                         6
+Research use agrees with the catalog costs for this run's completed projects.
+No cores were lost by dismantling a Research Center; that proposal was canceled.
+These totals measure this route, rather than the minimum cost of another route.
+
+Route and time costs
+- Started at Home, built Simple/Basic/Automata production, then used sector 6,5
+  for Brick and later replacement core production after Home Copper depleted.
+- Built Hydro, Mythril separation, Shiny and Complex production at lake 7,5.
+- Found a normal tier-four Mythril deposit at 9,5. Relayed its ore through 8,5
+  to the lake for local Coolant-based separation. No forced deposits or lakes.
+- Visited 4,5 and 5,4 without finding a settlement, then found one at 5,6.
+  Suppression Bot unlocked through the encounter. No forced settlement.
+- Six repeatable Map Node completions cost 5,10,15,10,15,20 of Simple and Basic;
+  the final three also used Automata. Total: 75 Simple,75 Basic,45 Automata.
+  Finding the settlement on the first extra exploration would have avoided
+  the final two purchases, saving 35 of each of these three core types.
+- Roads remained one material per pair, one item every five seconds. Fluids
+  stayed local. Changed materials only after clearing the road buffers.
+- Final delivery order: Simple/Basic replenishment, Automata, Hydro, Shiny,
+  Complex. Completed Sealed Robotics, Mineral Regeneration, Heavy Robotics,
+  Autonomous Logistics, Command Robotics and Endgame Theory normally.
+
+Rules and benchmark qualification
+No grants, developer unlocks, time acceleration, save injection, forced spawns,
+or locked Storage use were used. Ordinary unlocked Chests held core reserves.
+No progression-blocker source fixes were needed during the resumed segment.
+The existing general low-wait research costs were retained throughout.
+
+There was one explicitly requested mid-run balance change: Advanced Fabrication
+became research costing 2 Simple + 2 Basic, prerequisite Assembler, replacing
+Abandoned Fabricator discovery for future maps. This run had already discovered
+it, so its completed unlock was retained and no new price was retroactively
+charged. A fresh run under that new rule would pay those additional cores.
+Source hash audit found only its four previously changed files differed from
+the original run baseline: content/progression.ts, simulation/progression.ts,
+simulation/worldGeneration.ts, simulation/engine.progression.test.ts.
+
+Gameplay findings and queued issues — no changes applied during resumed run
+1. The catalog offers BUILD for a second globally unique Research Center; its
+   placement silently fails. Make the existing restriction clear in the UI.
+2. Zoomed-out socket hit areas can intercept nearby ports; some operator wiring
+   attempts grabbed another cable. Corrected via normal wiring controls.
+3. Lake placement collision extends beyond the visibly drawn shoreline.
+   Used clear ground; no collision-rule changes were made.
+4. Chest text advertises 20, while input and output buffers together hold more.
+   Clarify the actual capacity and multiple-output behavior in player copy.
+5. Adding a Chest output creates an additional connection. It does not replace
+   its old output connections. This caused extra routing and a mixed-material
+   Joint buffer. The road correctly rejected this source. Recovered Simple Cores
+   with a normal Filter and used material-specific routing gates thereafter.
+6. Save/Load remained open after an Escape attempt, allowing the minimap to
+   toggle behind it. Closed the archive and Options using their close buttons.
+7. Settlement discovery required three extra visits in this seed/route, making
+   exploration a substantial core and time cost. This was normal generation,
+   not a progression bug, and no generation rules were changed.
+
+A proposed Research Center relocation was rejected by automatic approval review
+because dismantling it would discard stored cores. Canceled it and preserved
+the center and every stored core; finished using ordinary road shipments.
+
+Evidence and limits
+All final completion, totals and stock counts come from the in-game exported
+report. Numerous intermediate reports and a run log are saved beside this file.
+New source tests were not necessary for gameplay-only actions. The preceding
+Advanced Fabrication change passed 29 relevant tests and TypeScript checking.

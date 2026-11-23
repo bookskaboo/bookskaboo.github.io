@@ -1,0 +1,226 @@
+{
+  "date": "2026-11-22",
+  "revision": 7,
+  "passed": true,
+  "defaults": {
+    "music": 0.15,
+    "effects": 0.3
+  },
+  "musicUnchanged": true,
+  "musicSha256": "0b910ae3350acada62020cdfee72dfa92dbdf7c0f348e96edd1f5d52d69be528",
+  "checks": [
+    "Eight piano source/musical/render checks passed",
+    "All nineteen immediate first onsets and original note counts retained",
+    "Later onsets are more widely spaced than the previous palette and at least 105 ms apart",
+    "Single selection/movement chords and one-note rejection retained",
+    "F major, C2–C4 and fifteen pitches retained; selected cadences settle on F/A/C",
+    "All twenty rendered cue/comparison WAVs changed and have lower RMS than the prior version",
+    "3 ms onset taper, 180 ms intermediate releases and full final release tails",
+    "Actual generated sheet with new piano data passed independent mix/loop/lifecycle checks",
+    "Fourteen mixer/event/preference checks, preview TypeScript and standalone build passed",
+    "Current music SHA-256 matches the prior expressive cello version"
+  ],
+  "comparison": [
+    {
+      "id": "select",
+      "beforeGestureSeconds": 0.16,
+      "gestureSeconds": 0.15,
+      "beforeDurationSeconds": 0.61,
+      "durationSeconds": 0.6,
+      "rmsChangeDb": -2.6957184603138487,
+      "peakDbfs": -26.728983760301922
+    },
+    {
+      "id": "panel",
+      "beforeGestureSeconds": 0.28,
+      "gestureSeconds": 0.32,
+      "beforeDurationSeconds": 0.73,
+      "durationSeconds": 0.77,
+      "rmsChangeDb": -4.732089016009887,
+      "peakDbfs": -27.9607301355568
+    },
+    {
+      "id": "place",
+      "beforeGestureSeconds": 0.4,
+      "gestureSeconds": 0.48,
+      "beforeDurationSeconds": 0.8500226757369614,
+      "durationSeconds": 0.93,
+      "rmsChangeDb": -4.192787304220232,
+      "peakDbfs": -31.0581678178842
+    },
+    {
+      "id": "move",
+      "beforeGestureSeconds": 0.24,
+      "gestureSeconds": 0.22,
+      "beforeDurationSeconds": 0.69,
+      "durationSeconds": 0.67,
+      "rmsChangeDb": -2.3838732027390748,
+      "peakDbfs": -25.790091158411084
+    },
+    {
+      "id": "connect",
+      "beforeGestureSeconds": 0.32,
+      "gestureSeconds": 0.44,
+      "beforeDurationSeconds": 0.77,
+      "durationSeconds": 0.89,
+      "rmsChangeDb": -4.493186758620439,
+      "peakDbfs": -25.409668276786007
+    },
+    {
+      "id": "disconnect",
+      "beforeGestureSeconds": 0.3,
+      "gestureSeconds": 0.42,
+      "beforeDurationSeconds": 0.75,
+      "durationSeconds": 0.87,
+      "rmsChangeDb": -6.579896488229025,
+      "peakDbfs": -27.536944154158036
+    },
+    {
+      "id": "delete",
+      "beforeGestureSeconds": 0.3,
+      "gestureSeconds": 0.42,
+      "beforeDurationSeconds": 0.75,
+      "durationSeconds": 0.87,
+      "rmsChangeDb": -6.596652097090477,
+      "peakDbfs": -27.961963775929636
+    },
+    {
+      "id": "configure",
+      "beforeGestureSeconds": 0.36,
+      "gestureSeconds": 0.5,
+      "beforeDurationSeconds": 0.81,
+      "durationSeconds": 0.95,
+      "rmsChangeDb": -6.0469112031052745,
+      "peakDbfs": -26.94324558913534
+    },
+    {
+      "id": "queue",
+      "beforeGestureSeconds": 0.28,
+      "gestureSeconds": 0.42,
+      "beforeDurationSeconds": 0.73,
+      "durationSeconds": 0.87,
+      "rmsChangeDb": -4.699568398843191,
+      "peakDbfs": -31.061413215613634
+    },
+    {
+      "id": "pause",
+      "beforeGestureSeconds": 0.36,
+      "gestureSeconds": 0.52,
+      "beforeDurationSeconds": 0.81,
+      "durationSeconds": 0.97,
+      "rmsChangeDb": -7.1122081467728435,
+      "peakDbfs": -27.53817779453087
+    },
+    {
+      "id": "resume",
+      "beforeGestureSeconds": 0.36,
+      "gestureSeconds": 0.52,
+      "beforeDurationSeconds": 0.81,
+      "durationSeconds": 0.97,
+      "rmsChangeDb": -6.735144692300416,
+      "peakDbfs": -26.94324558913534
+    },
+    {
+      "id": "complete",
+      "beforeGestureSeconds": 1.62,
+      "gestureSeconds": 2.05,
+      "beforeDurationSeconds": 2.42,
+      "durationSeconds": 2.85,
+      "rmsChangeDb": -3.9245377690878485,
+      "peakDbfs": -23.65188405756806
+    },
+    {
+      "id": "upgrade",
+      "beforeGestureSeconds": 1.5,
+      "gestureSeconds": 2.2,
+      "beforeDurationSeconds": 2.3,
+      "durationSeconds": 3,
+      "rmsChangeDb": -3.973469475243469,
+      "peakDbfs": -23.760110082549744
+    },
+    {
+      "id": "unlock",
+      "beforeGestureSeconds": 0.46,
+      "gestureSeconds": 0.64,
+      "beforeDurationSeconds": 1.26,
+      "durationSeconds": 1.44,
+      "rmsChangeDb": -5.009828829256662,
+      "peakDbfs": -27.53283507947725
+    },
+    {
+      "id": "travel",
+      "beforeGestureSeconds": 0.44,
+      "gestureSeconds": 0.53,
+      "beforeDurationSeconds": 0.89,
+      "durationSeconds": 0.98,
+      "rmsChangeDb": -7.226453309437474,
+      "peakDbfs": -27.536342636770573
+    },
+    {
+      "id": "save",
+      "beforeGestureSeconds": 0.34,
+      "gestureSeconds": 0.54,
+      "beforeDurationSeconds": 0.79,
+      "durationSeconds": 0.99,
+      "rmsChangeDb": -8.037703440150572,
+      "peakDbfs": -28.884358568188475
+    },
+    {
+      "id": "reject",
+      "beforeGestureSeconds": 0.16,
+      "gestureSeconds": 0.15,
+      "beforeDurationSeconds": 0.61,
+      "durationSeconds": 0.6,
+      "rmsChangeDb": -3.8886980120835375,
+      "peakDbfs": -21.939528704889714
+    },
+    {
+      "id": "attention",
+      "beforeGestureSeconds": 0.58,
+      "gestureSeconds": 0.62,
+      "beforeDurationSeconds": 1.38,
+      "durationSeconds": 1.42,
+      "rmsChangeDb": -5.183989638602107,
+      "peakDbfs": -26.135003220349073
+    },
+    {
+      "id": "victory",
+      "beforeGestureSeconds": 2.5,
+      "gestureSeconds": 3.25,
+      "beforeDurationSeconds": 3.3,
+      "durationSeconds": 4.05,
+      "rmsChangeDb": -4.672773693912113,
+      "peakDbfs": -24.787390950219677
+    },
+    {
+      "id": "select-low",
+      "beforeGestureSeconds": 0.16,
+      "gestureSeconds": 0.15,
+      "beforeDurationSeconds": 0.61,
+      "durationSeconds": 0.6,
+      "rmsChangeDb": -2.703481515575568,
+      "peakDbfs": -26.768832958233908
+    }
+  ],
+  "limits": [
+    "No subjective hardware listening or long-session comfort judgment",
+    "No campaign integration or publication"
+  ],
+  "browser": {
+    "date": "2026-11-22",
+    "url": "http://127.0.0.1:4174/outputs/action-sounds/calmer-piano-with-music.html",
+    "observations": [
+      "Revision 7 / Gentle phrasing header and current harmony/duration labels rendered",
+      "Music 15%, effects 30%, initial silence",
+      "Full 37.44-second nineteen-cue reel played alongside Ambient strings looping",
+      "Reel reached Finished: All samples with ended true while music continued at 0:52",
+      "Stop sounds left music running",
+      "No horizontal overflow or captured warning/error logs",
+      "Reloaded to 0:00, controls visible and deliverable tab retained"
+    ],
+    "screenshot": "gentle-phrasing-ready.jpg",
+    "limits": [
+      "Observed playback/UI flow; no subjective hardware listening judgment"
+    ]
+  }
+}

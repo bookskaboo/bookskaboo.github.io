@@ -1,4 +1,5 @@
 import type { GameState } from '../domain/types';
+import { DEFAULT_AUDIO_PREFERENCES } from '../domain/audioPreferences';
 import { GOLEM_PLACEMENT_TIER } from '../content/resourceGolems';
 import { createHomeSector } from './worldGeneration';
 import { activateMod } from '../mods/modContent';
@@ -24,9 +25,9 @@ export function createInitialState(seed = Math.floor(Math.random() * 2 ** 31)): 
     mapTerrains: generateMapTerrains(seed),
     borderObstructionVersion: 1,
     borderObstructions: generateBorderObstructions(seed),
-    research: { unlocked: ['extractor'], contributed: {}, completed: [], mapPoints: 0, repeatableCompletions: {}, queue: [], paused: false },
+    research: { endgameUnlockVersion: 1, unlocked: ['extractor'], contributed: {}, completed: [], mapPoints: 0, repeatableCompletions: {}, queue: [], paused: false },
     paused: false, playTimeMs: 0, achievements: [],
-    preferences: { autosaveMinutes: 5, confirmDelete: true, particles: true, showGrid: true, snapToGrid: false, sound: false },
+    preferences: { autosaveMinutes: 5, confirmDelete: true, particles: true, showGrid: true, snapToGrid: false, sound: false, ...DEFAULT_AUDIO_PREFERENCES },
     tutorialStep: 0, events: [], revision: 1, produced: {}, extracted: {}, hasCreatedConnection: false, inFlightTransfers: [],
   };
   initializeLandmarks(state);

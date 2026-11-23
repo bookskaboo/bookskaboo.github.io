@@ -2,6 +2,30 @@ import type { GameState, ResearchProject } from '../domain/types';
 import type { ResearchHintCopy } from '../domain/researchHintHistory';
 import { usesNewWorldRules } from '../simulation/worldRules';
 
+export const SUPPRESSION_BOT_HINT = { title: 'Suppression Bot', detail: 'A steady procession might be persuasive.' };
+export const COMPLEX_UPGRADE_HINT = 'The current chassis is starting to feel temporary.';
+export const HALF_ASSEMBLY_HINT = 'The pieces are ready. The Assembler can introduce them.';
+
+const RETIRED_HINTS: Record<string, string> = {
+  Yin: 'Two pieces seem to agree.',
+  Yang: 'Two pieces seem to agree.',
+  'Tree Planter': 'Forests are a growth industry.',
+  'Some rocks have opinions': 'The outer sectors have standing rocks.',
+  'Golem Camp': 'A stubborn rock. Potentially a permanent one.',
+  'Heavy Robotics': 'The negotiations are getting heavier.',
+  'Command Robotics': 'Someone has to look in charge.',
+  Trucks: 'The Carts look rather full.',
+  'Road Channels 1': 'That border looks busy.',
+  Trains: 'The freight is becoming unreasonable.',
+};
+export const isRetiredResearchHint = (hint: ResearchHintCopy) => RETIRED_HINTS[hint.title] === hint.detail;
+
+/** Rename the known old clue without replacing custom saved wording. */
+export function reconcileSuppressionBotHint(hint: ResearchHintCopy): ResearchHintCopy {
+  return hint.title === 'Suppression Bot 4 AP' && hint.detail === SUPPRESSION_BOT_HINT.detail
+    ? { ...SUPPRESSION_BOT_HINT } : hint;
+}
+
 const legacyMythril = {
   pending: 'Produce Mythril Tribute at a Dwarven settlement',
   complete: 'First Dwarven Mythril Tribute produced',

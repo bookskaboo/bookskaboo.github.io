@@ -29,6 +29,35 @@ describe('adopted Upgrades screen', () => {
     expect(engine.queueResearch(BOT_UPGRADES[0].id)).toBe('added');
   });
 
+  it('adopts reviewed titles and tutorial actions without granting the author hint catalog', () => {
+    const engine = new GameEngine(createInitialState(204), { autosave: false });
+    const html = renderToStaticMarkup(<ResearchPanel game={engine.getState()} engine={engine}
+      onClose={() => {}} onOpenRecipe={() => {}} onStartHintTutorial={() => {}} />);
+    expect(html).toContain('Terms of employment');
+    expect(html).toContain('Open Basics tutorial');
+    expect(html).toContain('Show me');
+    expect(html).not.toContain('Promotion pending');
+    expect(html).not.toContain('A complete picture');
+    expect(html).not.toContain('Hint example');
+    expect(html).not.toContain('Review notes');
+    expect(engine.getState().research.completed).not.toContain('exploration');
+    expect(engine.getState().research.completed).not.toContain('finalCore');
+    expect(engine.getState().research.queue).toEqual([]);
+  });
+
+  it('restores only earned hint keys after practice and retains ordinary research state', () => {
+    const engine = new GameEngine(createInitialState(204), { autosave: false });
+    syncStatusHintHistory(engine.getState());
+    const before = structuredClone(engine.getState());
+    const context = { hintKey: 'Copper prospects', filter: 'nodes' as const, query: '', showCompleted: false, scrollTop: 0 };
+    const render = (hintKey: string) => renderToStaticMarkup(<ResearchPanel game={engine.getState()} engine={engine}
+      onClose={() => {}} onOpenRecipe={() => {}} onStartHintTutorial={() => {}} initialContext={{ ...context, hintKey }} />);
+    expect(render('Copper prospects')).toContain('<strong>Grounds for optimism</strong>');
+    expect(render('Complex upgrade')).toContain('<strong>Terms of employment</strong>');
+    expect(render('Complex upgrade')).not.toContain('<strong>Promotion pending</strong>');
+    expect(engine.getState()).toEqual(before);
+  });
+
   it('restricts Basics to one Assembler project and one queue slot', () => {
     const engine = new GameEngine(createInitialState(204), { autosave: false });
     const html = panel(engine, 'assembler');

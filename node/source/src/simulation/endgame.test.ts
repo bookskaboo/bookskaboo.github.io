@@ -79,12 +79,13 @@ describe('repeatable corner production and seeded assembly',()=>{
   it.each([0,1,2])('offers only the saved pair recipes for partition %i',pairIndex=>{
     const state=createInitialState();initializeEndgame(state);state.endgame!.pairIndex=pairIndex;state.research.completed=['assembler','complexCore'];state.research.unlocked=[...state.research.completed];
     expect(new Set(PAIRS[pairIndex].flat()).size).toBe(4);
-    for(let p=0;p<3;p++)for(const half of ['a','b'])expect(isRecipeAvailable(`core-half-${half}-${p}`,state,'assembler')).toBe(p===pairIndex);
+    for(let p=0;p<3;p++)for(const half of ['a','b'])expect(isRecipeAvailable(`core-half-${half}-${p}`,state,'assembler')).toBe(false);
     expect(isRecipeAvailable('final-core',state,'assembler')).toBe(false);
     state.research.completed.push('finalCore');
+    for(let p=0;p<3;p++)for(const half of ['a','b'])expect(isRecipeAvailable(`core-half-${half}-${p}`,state,'assembler')).toBe(p===pairIndex);
     expect(isRecipeAvailable('final-core',state,'assembler')).toBe(true);
   });
-  it('unlocks the halves directly from Complex Core with no separate End of the World entry',()=>{
+  it('waits for Complex upgrade for the halves, with no separate End of the World entry',()=>{
     const state = createInitialState(20);
     state.research.completed.push('assembler', 'precisionControl', 'complexCore');
     state.research.unlocked.push('assembler');
@@ -95,22 +96,22 @@ describe('repeatable corner production and seeded assembly',()=>{
     ticks(engine, 1);
     expect(engine.getState().produced?.['command-core'] ?? 0).toBe(0);
     expect(engine.getState().research.completed).not.toContain('cornerComponents');
-    expect(isRecipeAvailable(`core-half-a-${engine.getState().endgame!.pairIndex}`, engine.getState(), 'assembler')).toBe(true);
+    expect(isRecipeAvailable(`core-half-a-${engine.getState().endgame!.pairIndex}`, engine.getState(), 'assembler')).toBe(false);
     expect(isRecipeAvailable('final-core', engine.getState(), 'assembler')).toBe(false);
   });
-  it('applies both half recipe effects in the payment cycle that unlocks Complex Core', () => {
+  it('applies both half recipe effects in the payment cycle that completes Complex upgrade', () => {
     const state = createInitialState(20);
-    state.research.completed = ['assembler', 'precisionControl', 'shinyCore'];
+    state.research.completed = ['assembler', 'precisionControl', 'complexCore'];
     state.research.unlocked.push('assembler');
     const lab = machine('researchCenter', 'lab');
-    lab.input = Object.fromEntries(SEVEN_CORES.slice(0, 5).map(core => [core, 5]));
+    lab.input = Object.fromEntries(SEVEN_CORES.slice(0, 6).map(core => [core, 5]));
     state.sectors['5,5'].nodes = [lab];
     const engine = new GameEngine(state, { autosave: false });
-    engine.selectResearch('complexCore');
+    engine.selectResearch('finalCore');
     ticks(engine, 24);
     expect(engine.getState().research.completed).not.toContain('cornerComponents');
     ticks(engine, 1);
-    expect(engine.getState().research.completed).toContain('complexCore');
+    expect(engine.getState().research.completed).toContain('finalCore');
     expect(engine.getState().research.completed).not.toContain('cornerComponents');
     expect(engine.getState().produced?.['command-core'] ?? 0).toBe(0);
     expect(isRecipeAvailable(`core-half-a-${engine.getState().endgame!.pairIndex}`, engine.getState(), 'assembler')).toBe(true);

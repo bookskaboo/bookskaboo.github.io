@@ -1,0 +1,580 @@
+{
+  "title": "Quiet Workshop · Ambient Strings",
+  "key": "F major",
+  "tempo": 64,
+  "bars": 16,
+  "durationSeconds": 60,
+  "cello": [
+    [
+      "F3",
+      0,
+      5,
+      0.8
+    ],
+    [
+      "E3",
+      5,
+      2.5,
+      0.94
+    ],
+    [
+      "D3",
+      7.5,
+      2.5,
+      0.88
+    ],
+    [
+      "C3",
+      10,
+      5,
+      0.76
+    ],
+    [
+      "A2",
+      15,
+      5,
+      0.74
+    ],
+    [
+      "C3",
+      20,
+      2.5,
+      0.88
+    ],
+    [
+      "D3",
+      22.5,
+      2.5,
+      0.96
+    ],
+    [
+      "C3",
+      25,
+      5,
+      0.78
+    ],
+    [
+      "Bb2",
+      30,
+      5,
+      0.82
+    ],
+    [
+      "D3",
+      35,
+      2.5,
+      0.96
+    ],
+    [
+      "C3",
+      37.5,
+      2.5,
+      0.86
+    ],
+    [
+      "A2",
+      40,
+      5,
+      0.74
+    ],
+    [
+      "G2",
+      45,
+      3.75,
+      0.72
+    ],
+    [
+      "Bb2",
+      48.75,
+      2.5,
+      0.84
+    ],
+    [
+      "C3",
+      51.25,
+      3.75,
+      0.78
+    ],
+    [
+      "F3",
+      55,
+      5,
+      0.8
+    ]
+  ],
+  "bass": [
+    [
+      "F2",
+      0,
+      5
+    ],
+    [
+      "C2",
+      5,
+      5
+    ],
+    [
+      "F2",
+      10,
+      5
+    ],
+    [
+      "A2",
+      15,
+      5
+    ],
+    [
+      "F2",
+      20,
+      5
+    ],
+    [
+      "F2",
+      25,
+      5
+    ],
+    [
+      "F2",
+      30,
+      5
+    ],
+    [
+      "F2",
+      35,
+      5
+    ],
+    [
+      "F2",
+      40,
+      5
+    ],
+    [
+      "C2",
+      45,
+      5
+    ],
+    [
+      "C2",
+      50,
+      5
+    ],
+    [
+      "F2",
+      55,
+      5
+    ]
+  ],
+  "events": [
+    {
+      "instrument": "cello",
+      "note": "E3",
+      "midi": 52,
+      "startSeconds": 5,
+      "regionSeconds": 2.5,
+      "crossfadeSeconds": 1.2,
+      "continuesAcrossFileBoundary": false,
+      "expression": {
+        "peakGain": 0.94,
+        "edgeGain": 0.7332,
+        "curve": "Smooth sine-squared bow swell"
+      },
+      "source": "f2.wav",
+      "repitchSemitones": -1,
+      "sustainLoop": {
+        "startSeconds": 0.85,
+        "hopSeconds": 2.3995769086634176,
+        "blendSeconds": 0.65
+      }
+    },
+    {
+      "instrument": "cello",
+      "note": "D3",
+      "midi": 50,
+      "startSeconds": 7.5,
+      "regionSeconds": 2.5,
+      "crossfadeSeconds": 1.2,
+      "continuesAcrossFileBoundary": false,
+      "expression": {
+        "peakGain": 0.88,
+        "edgeGain": 0.6864,
+        "curve": "Smooth sine-squared bow swell"
+      },
+      "source": "d2.wav",
+      "repitchSemitones": 0,
+      "sustainLoop": {
+        "startSeconds": 0.85,
+        "hopSeconds": 2.39729132300269,
+        "blendSeconds": 0.65
+      }
+    },
+    {
+      "instrument": "cello",
+      "note": "C3",
+      "midi": 48,
+      "startSeconds": 10,
+      "regionSeconds": 5,
+      "crossfadeSeconds": 1.2,
+      "continuesAcrossFileBoundary": false,
+      "expression": {
+        "peakGain": 0.76,
+        "edgeGain": 0.5928,
+        "curve": "Smooth sine-squared bow swell"
+      },
+      "source": "../cello/b1.wav",
+      "repitchSemitones": 1,
+      "sustainLoop": {
+        "startSeconds": 0.85,
+        "hopSeconds": 2.397327459723095,
+        "blendSeconds": 0.65
+      }
+    },
+    {
+      "instrument": "cello",
+      "note": "A2",
+      "midi": 45,
+      "startSeconds": 15,
+      "regionSeconds": 5,
+      "crossfadeSeconds": 1.2,
+      "continuesAcrossFileBoundary": false,
+      "expression": {
+        "peakGain": 0.74,
+        "edgeGain": 0.5772,
+        "curve": "Smooth sine-squared bow swell"
+      },
+      "source": "../cello/g1.wav",
+      "repitchSemitones": 2,
+      "sustainLoop": {
+        "startSeconds": 0.85,
+        "hopSeconds": 2.3979871032063875,
+        "blendSeconds": 0.65
+      }
+    },
+    {
+      "instrument": "cello",
+      "note": "C3",
+      "midi": 48,
+      "startSeconds": 20,
+      "regionSeconds": 2.5,
+      "crossfadeSeconds": 1.2,
+      "continuesAcrossFileBoundary": false,
+      "expression": {
+        "peakGain": 0.88,
+        "edgeGain": 0.6864,
+        "curve": "Smooth sine-squared bow swell"
+      },
+      "source": "../cello/b1.wav",
+      "repitchSemitones": 1,
+      "sustainLoop": {
+        "startSeconds": 0.85,
+        "hopSeconds": 2.397327459723095,
+        "blendSeconds": 0.65
+      }
+    },
+    {
+      "instrument": "cello",
+      "note": "D3",
+      "midi": 50,
+      "startSeconds": 22.5,
+      "regionSeconds": 2.5,
+      "crossfadeSeconds": 1.2,
+      "continuesAcrossFileBoundary": false,
+      "expression": {
+        "peakGain": 0.96,
+        "edgeGain": 0.7488,
+        "curve": "Smooth sine-squared bow swell"
+      },
+      "source": "d2.wav",
+      "repitchSemitones": 0,
+      "sustainLoop": {
+        "startSeconds": 0.85,
+        "hopSeconds": 2.39729132300269,
+        "blendSeconds": 0.65
+      }
+    },
+    {
+      "instrument": "cello",
+      "note": "C3",
+      "midi": 48,
+      "startSeconds": 25,
+      "regionSeconds": 5,
+      "crossfadeSeconds": 1.2,
+      "continuesAcrossFileBoundary": false,
+      "expression": {
+        "peakGain": 0.78,
+        "edgeGain": 0.6084,
+        "curve": "Smooth sine-squared bow swell"
+      },
+      "source": "../cello/b1.wav",
+      "repitchSemitones": 1,
+      "sustainLoop": {
+        "startSeconds": 0.85,
+        "hopSeconds": 2.397327459723095,
+        "blendSeconds": 0.65
+      }
+    },
+    {
+      "instrument": "cello",
+      "note": "Bb2",
+      "midi": 46,
+      "startSeconds": 30,
+      "regionSeconds": 5,
+      "crossfadeSeconds": 1.2,
+      "continuesAcrossFileBoundary": false,
+      "expression": {
+        "peakGain": 0.82,
+        "edgeGain": 0.6396,
+        "curve": "Smooth sine-squared bow swell"
+      },
+      "source": "../cello/b1.wav",
+      "repitchSemitones": -1,
+      "sustainLoop": {
+        "startSeconds": 0.85,
+        "hopSeconds": 2.397327459723095,
+        "blendSeconds": 0.65
+      }
+    },
+    {
+      "instrument": "cello",
+      "note": "D3",
+      "midi": 50,
+      "startSeconds": 35,
+      "regionSeconds": 2.5,
+      "crossfadeSeconds": 1.2,
+      "continuesAcrossFileBoundary": false,
+      "expression": {
+        "peakGain": 0.96,
+        "edgeGain": 0.7488,
+        "curve": "Smooth sine-squared bow swell"
+      },
+      "source": "d2.wav",
+      "repitchSemitones": 0,
+      "sustainLoop": {
+        "startSeconds": 0.85,
+        "hopSeconds": 2.39729132300269,
+        "blendSeconds": 0.65
+      }
+    },
+    {
+      "instrument": "cello",
+      "note": "C3",
+      "midi": 48,
+      "startSeconds": 37.5,
+      "regionSeconds": 2.5,
+      "crossfadeSeconds": 1.2,
+      "continuesAcrossFileBoundary": false,
+      "expression": {
+        "peakGain": 0.86,
+        "edgeGain": 0.6708000000000001,
+        "curve": "Smooth sine-squared bow swell"
+      },
+      "source": "../cello/b1.wav",
+      "repitchSemitones": 1,
+      "sustainLoop": {
+        "startSeconds": 0.85,
+        "hopSeconds": 2.397327459723095,
+        "blendSeconds": 0.65
+      }
+    },
+    {
+      "instrument": "cello",
+      "note": "A2",
+      "midi": 45,
+      "startSeconds": 40,
+      "regionSeconds": 5,
+      "crossfadeSeconds": 1.2,
+      "continuesAcrossFileBoundary": false,
+      "expression": {
+        "peakGain": 0.74,
+        "edgeGain": 0.5772,
+        "curve": "Smooth sine-squared bow swell"
+      },
+      "source": "../cello/g1.wav",
+      "repitchSemitones": 2,
+      "sustainLoop": {
+        "startSeconds": 0.85,
+        "hopSeconds": 2.3979871032063875,
+        "blendSeconds": 0.65
+      }
+    },
+    {
+      "instrument": "cello",
+      "note": "G2",
+      "midi": 43,
+      "startSeconds": 45,
+      "regionSeconds": 3.75,
+      "crossfadeSeconds": 1.2,
+      "continuesAcrossFileBoundary": false,
+      "expression": {
+        "peakGain": 0.72,
+        "edgeGain": 0.5616,
+        "curve": "Smooth sine-squared bow swell"
+      },
+      "source": "../cello/g1.wav",
+      "repitchSemitones": 0,
+      "sustainLoop": {
+        "startSeconds": 0.85,
+        "hopSeconds": 2.3979871032063875,
+        "blendSeconds": 0.65
+      }
+    },
+    {
+      "instrument": "cello",
+      "note": "Bb2",
+      "midi": 46,
+      "startSeconds": 48.75,
+      "regionSeconds": 2.5,
+      "crossfadeSeconds": 1.2,
+      "continuesAcrossFileBoundary": false,
+      "expression": {
+        "peakGain": 0.84,
+        "edgeGain": 0.6552,
+        "curve": "Smooth sine-squared bow swell"
+      },
+      "source": "../cello/b1.wav",
+      "repitchSemitones": -1,
+      "sustainLoop": {
+        "startSeconds": 0.85,
+        "hopSeconds": 2.397327459723095,
+        "blendSeconds": 0.65
+      }
+    },
+    {
+      "instrument": "cello",
+      "note": "C3",
+      "midi": 48,
+      "startSeconds": 51.25,
+      "regionSeconds": 3.75,
+      "crossfadeSeconds": 1.2,
+      "continuesAcrossFileBoundary": false,
+      "expression": {
+        "peakGain": 0.78,
+        "edgeGain": 0.6084,
+        "curve": "Smooth sine-squared bow swell"
+      },
+      "source": "../cello/b1.wav",
+      "repitchSemitones": 1,
+      "sustainLoop": {
+        "startSeconds": 0.85,
+        "hopSeconds": 2.397327459723095,
+        "blendSeconds": 0.65
+      }
+    },
+    {
+      "instrument": "cello",
+      "note": "F3",
+      "midi": 53,
+      "startSeconds": 55,
+      "regionSeconds": 10,
+      "crossfadeSeconds": 1.2,
+      "continuesAcrossFileBoundary": true,
+      "expression": {
+        "peakGain": 0.8,
+        "edgeGain": 0.6240000000000001,
+        "curve": "Smooth sine-squared bow swell"
+      },
+      "source": "f2.wav",
+      "repitchSemitones": 0,
+      "sustainLoop": {
+        "startSeconds": 0.85,
+        "hopSeconds": 2.3995769086634176,
+        "blendSeconds": 0.65
+      }
+    },
+    {
+      "instrument": "bass",
+      "note": "C2",
+      "midi": 36,
+      "startSeconds": 5,
+      "regionSeconds": 5,
+      "crossfadeSeconds": 2.8,
+      "continuesAcrossFileBoundary": false,
+      "source": "c1.wav",
+      "repitchSemitones": 0,
+      "sustainLoop": {
+        "startSeconds": 0.85,
+        "hopSeconds": 2.400377039906058,
+        "blendSeconds": 0.65
+      }
+    },
+    {
+      "instrument": "bass",
+      "note": "F2",
+      "midi": 41,
+      "startSeconds": 10,
+      "regionSeconds": 5,
+      "crossfadeSeconds": 2.8,
+      "continuesAcrossFileBoundary": false,
+      "source": "e1.wav",
+      "repitchSemitones": 1,
+      "sustainLoop": {
+        "startSeconds": 0.85,
+        "hopSeconds": 2.4027117375060616,
+        "blendSeconds": 0.65
+      }
+    },
+    {
+      "instrument": "bass",
+      "note": "A2",
+      "midi": 45,
+      "startSeconds": 15,
+      "regionSeconds": 5,
+      "crossfadeSeconds": 2.8,
+      "continuesAcrossFileBoundary": false,
+      "source": "a1.wav",
+      "repitchSemitones": 0,
+      "sustainLoop": {
+        "startSeconds": 0.85,
+        "hopSeconds": 2.4,
+        "blendSeconds": 0.65
+      }
+    },
+    {
+      "instrument": "bass",
+      "note": "F2",
+      "midi": 41,
+      "startSeconds": 20,
+      "regionSeconds": 25,
+      "crossfadeSeconds": 2.8,
+      "continuesAcrossFileBoundary": false,
+      "source": "e1.wav",
+      "repitchSemitones": 1,
+      "sustainLoop": {
+        "startSeconds": 0.85,
+        "hopSeconds": 2.4027117375060616,
+        "blendSeconds": 0.65
+      }
+    },
+    {
+      "instrument": "bass",
+      "note": "C2",
+      "midi": 36,
+      "startSeconds": 45,
+      "regionSeconds": 10,
+      "crossfadeSeconds": 2.8,
+      "continuesAcrossFileBoundary": false,
+      "source": "c1.wav",
+      "repitchSemitones": 0,
+      "sustainLoop": {
+        "startSeconds": 0.85,
+        "hopSeconds": 2.400377039906058,
+        "blendSeconds": 0.65
+      }
+    },
+    {
+      "instrument": "bass",
+      "note": "F2",
+      "midi": 41,
+      "startSeconds": 55,
+      "regionSeconds": 10,
+      "crossfadeSeconds": 2.8,
+      "continuesAcrossFileBoundary": true,
+      "source": "e1.wav",
+      "repitchSemitones": 1,
+      "sustainLoop": {
+        "startSeconds": 0.85,
+        "hopSeconds": 2.4027117375060616,
+        "blendSeconds": 0.65
+      }
+    }
+  ]
+}

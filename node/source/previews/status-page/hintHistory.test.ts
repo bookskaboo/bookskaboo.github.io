@@ -53,8 +53,15 @@ describe('per-factory hint history', () => {
     game.researchHintHistory = { assignmentAcknowledged: false, unlocked: [
       { title: 'Your assignment', detail: 'Earlier assignment' },
       { title: 'A promising Forest', detail: 'Earlier Forest copy' },
+      { title: 'Suppression Bot 4 AP', detail: 'A steady procession might be persuasive.' },
+      { title: 'Tree Planter', detail: 'Forests are a growth industry.' },
+      { title: 'Trains', detail: 'The freight is becoming unreasonable.' },
+      { title: 'Yin', detail: 'Two pieces seem to agree.' },
+      { title: 'Yang', detail: 'Two pieces seem to agree.' },
     ] };
     syncStatusHintHistory(game);
+    expect(game.researchHintHistory.unlocked).toContainEqual({title:'Suppression Bot',detail:'A steady procession might be persuasive.'});
+    expect(game.researchHintHistory.unlocked.some(hint=>['Suppression Bot 4 AP','Tree Planter','Trains','Yin','Yang'].includes(hint.title))).toBe(false);
     expect(game.researchHintHistory.unlocked.filter(hint => hint.title === 'A promising Forest')).toEqual([
       { title: 'A promising Forest', detail: 'The trees look employable.' },
     ]);

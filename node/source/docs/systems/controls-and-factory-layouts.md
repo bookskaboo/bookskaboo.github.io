@@ -27,6 +27,8 @@ The factory field supports direct placement, socket wiring, selection groups and
 
 ## Dialog keyboard scopes
 
+Hint-linked tutorial invitations dismiss on backdrop click without dismissing the underlying Upgrades. Not now is initially focused; Escape/Close and dismissal restore Show me. Explicit practice entry returns to the same earned hint and research view through temporary UI return context.
+
 Visible dialogs share one focus controller. Opening a panel focuses its requested control or first usable control; an empty dialog receives focus itself. Tab and Shift+Tab cycle through the top dialog's visible enabled controls, plus deliberately available Pause, autosave recovery and notification actions. Guided practice also retains its lesson controls. Escape closes only the top dialog, including from editable fields; a nested confirmation initially focuses Cancel and returns focus to its opening control when dismissed. Repeated Escape does not cascade through several dialogs. Closing a subpanel restores a still-present opener or its matching remounted control where available.
 
 Factory Delete/Backspace, Undo, layout copy/paste, rotation, quick placement and shortcut-bar visibility keys are blocked while a dialog is open. Native text editing and clipboard commands in fields remain available. Ordinary panel navigation shortcuts retain their existing behavior; confirmations, discovery prompts and other blocking dialogs prevent background panel switching. Space still activates focused dialog buttons and Pause instead of starting canvas panning. The shared boundary does not change simulation rules or replace tutorial action guards.

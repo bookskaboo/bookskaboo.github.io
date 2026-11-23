@@ -1,14 +1,14 @@
 {
-  "date": "2026-11-21",
+  "date": "2026-11-22",
   "passed": true,
   "durationSeconds": 60,
-  "celloPositions": 8,
+  "celloPositions": 16,
   "bassPositions": 12,
   "key": "F major",
   "transitions": {
     "cello": {
-      "crossfadeSeconds": 2.4,
-      "regions": 7,
+      "crossfadeSeconds": 1.2,
+      "regions": 15,
       "minimumEnvelopePower": 0.9999999999999987,
       "maximumEnvelopePower": 1.0000000000000013
     },
@@ -23,10 +23,12 @@
     "Pinned recorded cello and bass source hashes checked during build",
     "Only cello and bass events/sources; no piano music",
     "F-major musical events and sixteen bars at 64 BPM",
+    "Sixteen varied-length cello positions cover sixty seconds with rising and falling motion",
+    "Cello notes have multiple bow strengths and smooth nonzero edge-to-peak swells",
     "Exactly sixty-second 44.1 kHz/16-bit stereo PCM",
     "At least 18 dB headroom, negligible DC and WAV hash",
     "Bass stem twelve dB below cello before shared final scaling",
-    "Continuous equal-power envelope coverage on both instruments",
+    "Continuous equal-power handoff envelope coverage on both instruments, before cello expression",
     "Merged F regions continue across the file boundary",
     "Crossfaded recorded-source sustains support long tones",
     "Circular boundary within normal waveform changes; nonzero energy on both sides",
@@ -34,26 +36,27 @@
     "Generated player script syntax, explicit Play and loop controls",
     "Both audio elements initialize at 15% volume on all three player routes",
     "Fresh full-loop WAV alias matches and fresh player links to it",
-    "Byte-identical offline rerender of all nine deliverables"
+    "Factory embedding data matches WAV bytes/hash/duration",
+    "Byte-identical offline rerender of all ten deliverables"
   ],
   "measured": {
-    "peakDbfs": -20.91844911545408,
-    "rmsDbfs": -34.40026430722681,
-    "dc": -3.073671417351663e-9,
+    "peakDbfs": -18.456582272754712,
+    "rmsDbfs": -34.40026340933023,
+    "dc": 6.395312573814248e-9,
     "seams": [
       {
         "channel": 0,
-        "seamStep": 0.00079345703125,
-        "interiorP999Step": 0.002960205078125,
-        "headRms": 0.014570073428846258,
-        "tailRms": 0.02145353190467521
+        "seamStep": 0.000213623046875,
+        "interiorP999Step": 0.0028076171875,
+        "headRms": 0.01252683324023073,
+        "tailRms": 0.014324709817477646
       },
       {
         "channel": 1,
-        "seamStep": 0.001678466796875,
-        "interiorP999Step": 0.00439453125,
-        "headRms": 0.026230421187796643,
-        "tailRms": 0.04456010493418825
+        "seamStep": 0.0010986328125,
+        "interiorP999Step": 0.004364013671875,
+        "headRms": 0.021987575445598116,
+        "tailRms": 0.03614074746206464
       }
     ]
   },
@@ -61,7 +64,7 @@
     "previousStringLedVersions": "Rejected as not pleasant",
     "requestedDirection": "Quiet and ambient",
     "instrumentConstraint": "No piano in background music; complement the separate piano action cues",
-    "currentDraft": "User reports it sounds good at low volume; default playback set to 15%"
+    "currentDraft": "User liked the low volume and requested more cello inflection; gentle melody and bow swells await audition at 15%"
   },
   "limits": [
     "User low-volume feedback is recorded; no independent long-session comfort or browser/hardware-audio test is claimed",

@@ -15,8 +15,8 @@ function SavedModName({ slot }: { slot: SaveSlot | null }) {
 
 interface PendingWrite { index: number; source?: SaveSlot }
 
-export function SavePanel({ game, engine, onLoad, onClose }: {
-  game: GameState; engine: GameEngine; onLoad(slot: SaveSlot): void; onClose(): void;
+export function SavePanel({ game, engine, onSaved, onLoad, onClose }: {
+  game: GameState; engine: GameEngine; onSaved?(): void; onLoad(slot: SaveSlot): void; onClose(): void;
 }) {
   const [auto, refreshAutosave] = useAutosaveSnapshot();
   const [snapshot, setSnapshot] = useState(readSaveSlots);
@@ -46,6 +46,7 @@ export function SavePanel({ game, engine, onLoad, onClose }: {
     try {
       if (source) copySaveToSlot(index, source, names[index]);
       else saveSlot(index, game, names[index]);
+      try { onSaved?.(); } catch { /* Feedback cannot turn a successful save into an error. */ }
       nameEdits.current.delete(index);
       refresh();
     } catch {
