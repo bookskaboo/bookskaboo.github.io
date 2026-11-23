@@ -2,27 +2,19 @@
 
 A searchable record of completed changes, design decisions, and relevant review findings. Stable NODE IDs can be cited in chats and searched in the repository.
 
-**864 records · 2026-10-12–2026-11-22 · America/Los_Angeles**
+**865 records · 2026-10-12–2026-11-22 · America/Los_Angeles**
 
 [Open searchable history](<docs/changelog/index.html>) · [How to review and maintain it](<docs/changelog/README.md>) · [Sources and coverage gaps](<docs/changelog/sources.md>)
 
 ## Local changes awaiting publication
 
-Latest confirmed game publication: [5f71c9c](https://github.com/bookskaboo/bookskaboo.github.io/commit/5f71c9cef98479933c121ec6e1b8b8a09b9721b4).
+Latest confirmed game publication: [1045d70](https://github.com/bookskaboo/bookskaboo.github.io/commit/1045d70dfa339f95bdb446ef09c731bbdd507fad).
 
 | ID | Change | Topics |
 | --- | --- | --- |
-| [NODE-0864](<docs/changelog/2026-11.md#node-0864>) | Adopt reviewed hint navigation with normal progression gates | Interface, Research, Tutorials, Saves, Documentation, Testing |
-| [NODE-0863](<docs/changelog/2026-11.md#node-0863>) | Unlock Filter alongside the first waste stream | Research, Logistics, Progression, Saves, Documentation |
-| [NODE-0862](<docs/changelog/2026-11.md#node-0862>) | Integrate piano actions and ambient music with saved channel controls | Audio, Interface, Saves, Testing, Documentation |
-| [NODE-0861](<docs/changelog/2026-11.md#node-0861>) | Soften expansion descriptions and highlight revealed corners in the map | Interface, Research, Maps, Endgame, Documentation, Testing |
-| [NODE-0860](<docs/changelog/2026-11.md#node-0860>) | Remove the second paragraph from Upgrade tooltips | Interface, Research, Documentation, Testing |
-| [NODE-0859](<docs/changelog/2026-11.md#node-0859>) | Clarify promotion, corner access and the pieces-to-halves handoff | Interface, Research, Endgame, Prototypes, Testing, Documentation |
 | [NODE-0858](<docs/changelog/2026-11.md#node-0858>) | Give the piano action palette gentler phrasing against the cello | Audio, Interface, Testing, Documentation |
-| [NODE-0857](<docs/changelog/2026-11.md#node-0857>) | Unlock Yin, Yang and corner locations at Complex upgrade | Research, Endgame, Interface, Saves, Documentation, Testing |
 | [NODE-0856](<docs/changelog/2026-11.md#node-0856>) | Avoid repeated words between preview hint titles and bodies | Interface, Prototypes, Documentation, Testing |
 | [NODE-0854](<docs/changelog/2026-11.md#node-0854>) | Draft more suggestive hint titles in the implementation preview | Interface, Prototypes, Tutorials, Documentation, Testing |
-| [NODE-0853](<docs/changelog/2026-11.md#node-0853>) | Trim hint guidance and put Complex upgrade before the corners and halves | Interface, Research, Tutorials, Prototypes, Documentation, Testing, Saves |
 | [NODE-0851](<docs/changelog/2026-11.md#node-0851>) | Use the newer Map upgrades model in an unrestricted hint implementation preview | Interface, Prototypes, Research, Tutorials, Documentation, Testing |
 | [NODE-0846](<docs/changelog/2026-11.md#node-0846>) | Soften the hint tutorial invitation and dismiss it on outside click | Interface, Prototypes, Tutorials, Documentation, Testing |
 | [NODE-0845](<docs/changelog/2026-11.md#node-0845>) | Link matching early hints to an optional Basics tutorial dialog | Interface, Prototypes, Tutorials, Testing, Documentation |
@@ -165,13 +157,14 @@ Latest confirmed game publication: [5f71c9c](https://github.com/bookskaboo/books
 
 ## Dated history
 
-- [2026-11](<docs/changelog/2026-11.md>) — 846 records
+- [2026-11](<docs/changelog/2026-11.md>) — 847 records
 - [2026-10](<docs/changelog/2026-10.md>) — 18 records
 
 “Known by” dates are implementation/publication bounds, not exact change dates. “Backfilled” dates mark records with uncertain original dates. Supersession links explain reversals. Original-game records do not certify current rebuild behavior.
 
 ## Published releases
 
+- 2026-11-22 — [1045d70: Normally gated hints and reviewed game updates](https://github.com/bookskaboo/bookskaboo.github.io/commit/1045d70dfa339f95bdb446ef09c731bbdd507fad) — Only node/ changed. Both 1,771-test suites passed. Pages and all 32 runtime files verified by SHA-256; prior assets retained. Normal progression, no author full-unlock.
 - 2026-11-22 — [5f71c9c: Reviewed tutorial mechanics corrections](https://github.com/bookskaboo/bookskaboo.github.io/commit/5f71c9cef98479933c121ec6e1b8b8a09b9721b4) — Only node/ changed. Exact tested tutorial-only runtime over the previous verified live source; matching source included. Pages succeeded; normal live HTML, all eleven current build files and ten prior asset URLs matched SHA-256.
 - 2026-11-22 — [a8a8d12: Tested refactor and reliability update](https://github.com/bookskaboo/bookskaboo.github.io/commit/a8a8d12ba63dd13b9af95d049bb98c6f76442ed4) — Exact frozen candidate tree; only node/ changed. Pages succeeded and normal live HTML/all eleven build files plus ten previous assets matched SHA-256. Preserve saved data and prior runtime assets; audio auditions remain separate from gameplay.
 - 2026-11-21 — [c4284d4: Seeded Production Landmarks and Unknown Device](https://github.com/bookskaboo/bookskaboo.github.io/commit/c4284d4f2a93f83255c520ef0544694b0cd24ee9) — Seventeen permanent discoveries in new standard 11x11 campaigns. Pink Unknown Device; sixteen purple landmarks. Workspace 2189 passing tests/two existing skips; frozen release 1393 passing tests/one skip. Matching /node/ site and source builds. Pages succeeded and normal live HTML plus all ten new assets matched SHA-256; ten preceding asset URLs still match. Existing saves remain unchanged.
@@ -216,7 +209,7 @@ A record marked “Published by” was known in that snapshot and may have appea
 - [Animation](<docs/changelog/index.html?topic=Animation>) (6)
 - [Architecture](<docs/changelog/index.html?topic=Architecture>) (12)
 - [Art](<docs/changelog/index.html?topic=Art>) (28)
-- [Audio](<docs/changelog/index.html?topic=Audio>) (30)
+- [Audio](<docs/changelog/index.html?topic=Audio>) (31)
 - [Balance](<docs/changelog/index.html?topic=Balance>) (128)
 - [Bots](<docs/changelog/index.html?topic=Bots>) (1)
 - [Building](<docs/changelog/index.html?topic=Building>) (1)
@@ -237,12 +230,12 @@ A record marked “Published by” was known in that snapshot and may have appea
 - [Endgame](<docs/changelog/index.html?topic=Endgame>) (8)
 - [Exploration](<docs/changelog/index.html?topic=Exploration>) (54)
 - [Extraction](<docs/changelog/index.html?topic=Extraction>) (1)
-- [Interface](<docs/changelog/index.html?topic=Interface>) (386)
+- [Interface](<docs/changelog/index.html?topic=Interface>) (387)
 - [Landmarks](<docs/changelog/index.html?topic=Landmarks>) (14)
 - [Logistics](<docs/changelog/index.html?topic=Logistics>) (124)
 - [Map](<docs/changelog/index.html?topic=Map>) (8)
 - [Map exploration](<docs/changelog/index.html?topic=Map%20exploration>) (2)
-- [Maps](<docs/changelog/index.html?topic=Maps>) (1)
+- [Maps](<docs/changelog/index.html?topic=Maps>) (2)
 - [Mods](<docs/changelog/index.html?topic=Mods>) (15)
 - [Monster camps](<docs/changelog/index.html?topic=Monster%20camps>) (4)
 - [Mythril](<docs/changelog/index.html?topic=Mythril>) (14)
@@ -261,11 +254,11 @@ A record marked “Published by” was known in that snapshot and may have appea
 - [Progression](<docs/changelog/index.html?topic=Progression>) (221)
 - [Prototypes](<docs/changelog/index.html?topic=Prototypes>) (30)
 - [Publication](<docs/changelog/index.html?topic=Publication>) (2)
-- [Publishing](<docs/changelog/index.html?topic=Publishing>) (26)
+- [Publishing](<docs/changelog/index.html?topic=Publishing>) (27)
 - [Recipes](<docs/changelog/index.html?topic=Recipes>) (123)
 - [Recovery](<docs/changelog/index.html?topic=Recovery>) (2)
 - [Recycling](<docs/changelog/index.html?topic=Recycling>) (3)
-- [Research](<docs/changelog/index.html?topic=Research>) (323)
+- [Research](<docs/changelog/index.html?topic=Research>) (324)
 - [Resources](<docs/changelog/index.html?topic=Resources>) (120)
 - [Responsive](<docs/changelog/index.html?topic=Responsive>) (2)
 - [Roads](<docs/changelog/index.html?topic=Roads>) (26)
@@ -276,10 +269,10 @@ A record marked “Published by” was known in that snapshot and may have appea
 - [Simulation](<docs/changelog/index.html?topic=Simulation>) (8)
 - [Storage](<docs/changelog/index.html?topic=Storage>) (10)
 - [Sustainability](<docs/changelog/index.html?topic=Sustainability>) (1)
-- [Testing](<docs/changelog/index.html?topic=Testing>) (104)
+- [Testing](<docs/changelog/index.html?topic=Testing>) (105)
 - [Text](<docs/changelog/index.html?topic=Text>) (6)
 - [Tooling](<docs/changelog/index.html?topic=Tooling>) (41)
-- [Tutorials](<docs/changelog/index.html?topic=Tutorials>) (72)
+- [Tutorials](<docs/changelog/index.html?topic=Tutorials>) (73)
 - [Typography](<docs/changelog/index.html?topic=Typography>) (3)
 - [UI](<docs/changelog/index.html?topic=UI>) (4)
 - [Undo](<docs/changelog/index.html?topic=Undo>) (4)

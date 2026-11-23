@@ -16,6 +16,14 @@
   },
   "releases": [
     {
+      "id": "1045d70",
+      "date": "2026-11-22",
+      "title": "Normally gated hints and reviewed game updates",
+      "commit": "1045d70dfa339f95bdb446ef09c731bbdd507fad",
+      "url": "https://github.com/bookskaboo/bookskaboo.github.io/commit/1045d70dfa339f95bdb446ef09c731bbdd507fad",
+      "notes": "Only node/ changed. Both 1,771-test suites passed. Pages and all 32 runtime files verified by SHA-256; prior assets retained. Normal progression, no author full-unlock."
+    },
+    {
       "id": "5f71c9c",
       "date": "2026-11-22",
       "title": "Reviewed tutorial mechanics corrections",
@@ -28774,7 +28782,7 @@
       "dateBasis": "chat",
       "kind": "changed",
       "state": "implemented",
-      "delivery": "local",
+      "delivery": "published",
       "title": "Trim hint guidance and put Complex upgrade before the corners and halves",
       "summary": "Remove AP from the Suppression Bot clue, retire Tree Planter and trailing optional hints, and separate the earlier Complex upgrade from later Final Core assembly.",
       "details": [
@@ -28820,7 +28828,8 @@
         "outputs/hint-navigation/revised-hints-browser.json",
         "outputs/hint-navigation/revised-hints-upgrade.jpg"
       ],
-      "validation": "217 focused tests passed across 14 files, including every preview case, shared milestone selection and Upgrades integration. Existing regressions now verify Suppression Bot without AP, exact old-copy rename/retirement, absence of removed hints, Complex upgrade before discovered corners and half recipes across all three pairings, and Final Core after the halves. Main TypeScript/Vite production build, preview TypeScript and both standalone builds passed; existing main-build chunk-size advisory retained. Browser traversed all 41 ordered snapshots and all 51 situations (21 research/upgrade targets, 14 tutorial invitations, 16 no-action cases), with correct order/title/terminal entry, focused Complex upgrade, no unintended queue entries and empty warning/error logs. Restored reference sections and guide headings accidentally dropped by the previous newline-sensitive paragraph edit, preserving current tutorial-review updates. No fresh full lesson, full workspace suite, ordinary-play balance, participant comprehension, direct campaign-save access or publication."
+      "validation": "217 focused tests passed across 14 files, including every preview case, shared milestone selection and Upgrades integration. Existing regressions now verify Suppression Bot without AP, exact old-copy rename/retirement, absence of removed hints, Complex upgrade before discovered corners and half recipes across all three pairings, and Final Core after the halves. Main TypeScript/Vite production build, preview TypeScript and both standalone builds passed; existing main-build chunk-size advisory retained. Browser traversed all 41 ordered snapshots and all 51 situations (21 research/upgrade targets, 14 tutorial invitations, 16 no-action cases), with correct order/title/terminal entry, focused Complex upgrade, no unintended queue entries and empty warning/error logs. Restored reference sections and guide headings accidentally dropped by the previous newline-sensitive paragraph edit, preserving current tutorial-review updates. No fresh full lesson, full workspace suite, ordinary-play balance, participant comprehension, direct campaign-save access or publication.",
+      "publishedBy": "1045d70"
     },
     {
       "id": "NODE-0854",
@@ -28943,7 +28952,7 @@
       "dateBasis": "chat",
       "kind": "changed",
       "state": "implemented",
-      "delivery": "local",
+      "delivery": "published",
       "title": "Unlock Yin, Yang and corner locations at Complex upgrade",
       "summary": "Complex upgrade completion now unlocks both half recipes and reveals all four corners; remove the individual Yin/Yang hints.",
       "details": [
@@ -28980,7 +28989,8 @@
         "outputs/hint-navigation/complex-unlock-focused-tests.json",
         "outputs/hint-navigation/complex-unlock-browser.json"
       ],
-      "validation": "Full workspace suite passed 1,740 tests before the final production-feedback compatibility adjustment; all 273 final focused tests pass, covering that adjustment and regression. Main TypeScript/Vite and both standalone preview builds passed. Browser verified Shiny and Complex completion notices/tooltips, 39 hint options, Complex upgrade focus and empty warning/error logs. Automated tests cover all six supported world sizes, recipe gates, ordinary research payments, partial paid progress, reload/idempotence, old corner knowledge and malformed metadata. No fresh ordinary-play balance run, participant comprehension test or publication."
+      "validation": "Full workspace suite passed 1,740 tests before the final production-feedback compatibility adjustment; all 273 final focused tests pass, covering that adjustment and regression. Main TypeScript/Vite and both standalone preview builds passed. Browser verified Shiny and Complex completion notices/tooltips, 39 hint options, Complex upgrade focus and empty warning/error logs. Automated tests cover all six supported world sizes, recipe gates, ordinary research payments, partial paid progress, reload/idempotence, old corner knowledge and malformed metadata. No fresh ordinary-play balance run, participant comprehension test or publication.",
+      "publishedBy": "1045d70"
     },
     {
       "id": "NODE-0858",
@@ -29033,7 +29043,7 @@
       "dateBasis": "chat",
       "kind": "changed",
       "state": "implemented",
-      "delivery": "local",
+      "delivery": "published",
       "title": "Clarify promotion, corner access and the pieces-to-halves handoff",
       "summary": "Give Complex upgrade its own chassis clue, explain revealed-corner access and delay Final Core assembly guidance until both halves are owned.",
       "details": [
@@ -29070,7 +29080,8 @@
         "outputs/hint-navigation/handoff-promotion.jpg",
         "outputs/hint-navigation/handoff-pieces.jpg"
       ],
-      "validation": "243 focused tests passed across the preview, shared milestone/pairing selection, map presentation, Upgrades integration and corner compatibility. Main TypeScript/Vite, preview TypeScript and both standalone builds passed. Browser checked ten checkpoints/actions, matching recipe links, 39 entries and empty warning/error logs. The 27 source checkpoints are constructed, developer-informed states, not earned gameplay, blind participants or time-to-completion measurements. No fresh full workspace suite, browser map-detail walkthrough, human comprehension/fun assessment or publication."
+      "validation": "243 focused tests passed across the preview, shared milestone/pairing selection, map presentation, Upgrades integration and corner compatibility. Main TypeScript/Vite, preview TypeScript and both standalone builds passed. Browser checked ten checkpoints/actions, matching recipe links, 39 entries and empty warning/error logs. The 27 source checkpoints are constructed, developer-informed states, not earned gameplay, blind participants or time-to-completion measurements. No fresh full workspace suite, browser map-detail walkthrough, human comprehension/fun assessment or publication.",
+      "publishedBy": "1045d70"
     },
     {
       "id": "NODE-0860",
@@ -29078,7 +29089,7 @@
       "dateBasis": "chat",
       "kind": "changed",
       "state": "implemented",
-      "delivery": "local",
+      "delivery": "published",
       "title": "Remove the second paragraph from Upgrade tooltips",
       "summary": "Character Upgrade hover/focus details now contain only promotion and benefits across all seven upgrades.",
       "details": [
@@ -29104,7 +29115,8 @@
         "outputs/hint-navigation/concise-upgrade-tooltips.json",
         "outputs/hint-navigation/concise-upgrade-tooltip.jpg"
       ],
-      "validation": "Main TypeScript/Vite build, preview TypeScript and both standalone builds passed. Browser verified all seven character upgrades in available and active states, with matching single-paragraph aria-description and empty warnings/errors. No new tests or repeated functional suite for reversible copy removal; no publication."
+      "validation": "Main TypeScript/Vite build, preview TypeScript and both standalone builds passed. Browser verified all seven character upgrades in available and active states, with matching single-paragraph aria-description and empty warnings/errors. No new tests or repeated functional suite for reversible copy removal; no publication.",
+      "publishedBy": "1045d70"
     },
     {
       "id": "NODE-0861",
@@ -29112,7 +29124,7 @@
       "dateBasis": "chat",
       "kind": "changed",
       "state": "implemented",
-      "delivery": "local",
+      "delivery": "published",
       "title": "Soften expansion descriptions and highlight revealed corners in the map",
       "summary": "Keep Area Expansion names with less explicit descriptions; omit corner reveal from the Upgrade tooltip and glow all four corners whenever the expanded map opens.",
       "details": [
@@ -29147,7 +29159,8 @@
         "outputs/hint-navigation/map-corner-glow-browser.json",
         "outputs/hint-navigation/map-corner-glow.jpg"
       ],
-      "validation": "38 focused tests passed, including all six world sizes, acknowledgement, repeated expanded/compact rendering, unchanged game state and existing map/Upgrades compatibility. Main TypeScript/Vite, preview TypeScript and both standalone builds passed. Browser verified both descriptions, tooltip omission, no glow before Complex, four pulsing corners afterward and four after acknowledgement plus Escape/reopening; warnings/errors empty. The author Payment tests menu initially overlaid the map Close button; collapsing it before opening the map allowed Close/reopen to pass with all four glows. No fresh full suite, reduced-motion browser emulation, normal-play balance run or publication. Catalog generation/check is blocked by an unrelated existing broken link from docs/systems/audio.md to the absent outputs/audio-integration/verification.json; no placeholder evidence or audio changes were made. Changelog validation passed."
+      "validation": "38 focused tests passed, including all six world sizes, acknowledgement, repeated expanded/compact rendering, unchanged game state and existing map/Upgrades compatibility. Main TypeScript/Vite, preview TypeScript and both standalone builds passed. Browser verified both descriptions, tooltip omission, no glow before Complex, four pulsing corners afterward and four after acknowledgement plus Escape/reopening; warnings/errors empty. The author Payment tests menu initially overlaid the map Close button; collapsing it before opening the map allowed Close/reopen to pass with all four glows. No fresh full suite, reduced-motion browser emulation, normal-play balance run or publication. Catalog generation/check is blocked by an unrelated existing broken link from docs/systems/audio.md to the absent outputs/audio-integration/verification.json; no placeholder evidence or audio changes were made. Changelog validation passed.",
+      "publishedBy": "1045d70"
     },
     {
       "id": "NODE-0862",
@@ -29155,7 +29168,7 @@
       "dateBasis": "chat",
       "kind": "added",
       "state": "implemented",
-      "delivery": "local",
+      "delivery": "published",
       "title": "Integrate piano actions and ambient music with saved channel controls",
       "summary": "Adopt the current sound palette into the game and add compact independent Music and Sound effects volume/mute controls to Options, calibrated to the approved mix at a 50% midpoint.",
       "details": [
@@ -29209,7 +29222,8 @@
         "docs/node-ui-style-guide.md",
         "docs/typography-style-review.md"
       ],
-      "validation": "Full workspace suite passed 2,560 tests with four workers and a 30-second per-test limit after an initial seeded-world 5-second timeout and an intervening test-file rename invalidated its old collection path. All 13 final focused checks passed after the compact-control correction and final successful-map-activation cue: adopted hashes/PCM/credits, independent gains/mutes and doubled maximum, gesture/loading/device/visibility/disposal behavior, priorities/coalescing, committed/no-op/drag/reset boundaries, real lab completion, map activation, saved normalization/round trip/Undo and Options semantics. Main TypeScript/Vite and relative-base local game builds passed; existing chunk-size advisory retained. Browser verified a full game canvas, 50/50 defaults, independent slider endpoints and mute states, restored values, pause/resume and Options close/reopen, no warning/error logs, side-by-side 48 px desktop cards matching the existing rows, no heading/credits, and a usable 390 px stacked layout without horizontal overflow. Viewport reset, screenshot and local game retained. System catalog/local-link/freshness and changelog checks passed. No hardware listening judgment, new ordinary-play progression balance run or publication is claimed."
+      "validation": "Full workspace suite passed 2,560 tests with four workers and a 30-second per-test limit after an initial seeded-world 5-second timeout and an intervening test-file rename invalidated its old collection path. All 13 final focused checks passed after the compact-control correction and final successful-map-activation cue: adopted hashes/PCM/credits, independent gains/mutes and doubled maximum, gesture/loading/device/visibility/disposal behavior, priorities/coalescing, committed/no-op/drag/reset boundaries, real lab completion, map activation, saved normalization/round trip/Undo and Options semantics. Main TypeScript/Vite and relative-base local game builds passed; existing chunk-size advisory retained. Browser verified a full game canvas, 50/50 defaults, independent slider endpoints and mute states, restored values, pause/resume and Options close/reopen, no warning/error logs, side-by-side 48 px desktop cards matching the existing rows, no heading/credits, and a usable 390 px stacked layout without horizontal overflow. Viewport reset, screenshot and local game retained. System catalog/local-link/freshness and changelog checks passed. No hardware listening judgment, new ordinary-play progression balance run or publication is claimed.",
+      "publishedBy": "1045d70"
     },
     {
       "id": "NODE-0863",
@@ -29217,7 +29231,7 @@
       "dateBasis": "chat",
       "kind": "changed",
       "state": "implemented",
-      "delivery": "local",
+      "delivery": "published",
       "title": "Unlock Filter alongside the first waste stream",
       "summary": "Filter now unlocks with Waste Handling when Precision Control completes, alongside Waste Bin, rather than appearing in the starting Build menu.",
       "details": [
@@ -29249,7 +29263,8 @@
         "docs/node-ui-style-guide.md",
         "docs/typography-style-review.md"
       ],
-      "validation": "Full workspace suite passed 2,565 tests (1 skipped), including final synchronized Precision Control payment, immediate Filter/Waste Bin access, ordinary Build visibility, save round trip, pre-unlock Filter routing and vanilla/base/custom mod catalog switches. Corrected a test fixture that reused an activated mod object before the successful full rerun; no production change was needed for it. TypeScript/Vite production build passed with the existing large-chunk advisory. Six system catalogs regenerated; freshness and local links checked across 41 documents. No fresh browser playtest, balance run or publication."
+      "validation": "Full workspace suite passed 2,565 tests (1 skipped), including final synchronized Precision Control payment, immediate Filter/Waste Bin access, ordinary Build visibility, save round trip, pre-unlock Filter routing and vanilla/base/custom mod catalog switches. Corrected a test fixture that reused an activated mod object before the successful full rerun; no production change was needed for it. TypeScript/Vite production build passed with the existing large-chunk advisory. Six system catalogs regenerated; freshness and local links checked across 41 documents. No fresh browser playtest, balance run or publication.",
+      "publishedBy": "1045d70"
     },
     {
       "id": "NODE-0864",
@@ -29257,7 +29272,7 @@
       "dateBasis": "chat",
       "kind": "changed",
       "state": "implemented",
-      "delivery": "local",
+      "delivery": "published",
       "title": "Adopt reviewed hint navigation with normal progression gates",
       "summary": "Use suggestive titles, valid research shortcuts and optional matching lesson invitations in the unmodded game without unlocking the full author hint catalog.",
       "details": [
@@ -29299,7 +29314,50 @@
         "outputs/hint-navigation/adoption-browser.json",
         "outputs/hint-navigation/adopted-game-hints.jpg"
       ],
-      "validation": "228 focused tests and main TypeScript/Vite build passed. Browser on declared isolated autosave-disabled checkpoints verified only four opening hints, matching optional invitation and initial focus, Escape/outside dismissal, separate practice Exit and restored hint/query/view/action focus, real research and character focus with no queue/payment/enabling. The first full suite had 1,770 passes and one unrelated 5-second landmark timeout; the full rerun passed all 1,771 tests with two workers and a 30-second per-test limit. This changes only the test timeout, not gameplay timing. No human comprehension result, full lesson completion replay, balance run or publication. Preview TypeScript, both standalone builds, system catalogs/local links and changelog validation are recorded with the final checks."
+      "validation": "228 focused tests and main TypeScript/Vite build passed. Browser on declared isolated autosave-disabled checkpoints verified only four opening hints, matching optional invitation and initial focus, Escape/outside dismissal, separate practice Exit and restored hint/query/view/action focus, real research and character focus with no queue/payment/enabling. The first full suite had 1,770 passes and one unrelated 5-second landmark timeout; the full rerun passed all 1,771 tests with two workers and a 30-second per-test limit. This changes only the test timeout, not gameplay timing. No human comprehension result, full lesson completion replay, balance run or publication. Preview TypeScript, both standalone builds, system catalogs/local links and changelog validation are recorded with the final checks.",
+      "publishedBy": "1045d70"
+    },
+    {
+      "id": "NODE-0865",
+      "date": "2026-11-22",
+      "dateBasis": "chat",
+      "kind": "changed",
+      "state": "implemented",
+      "delivery": "published",
+      "publishedBy": "1045d70",
+      "title": "Publish normally gated hints and the reviewed game updates",
+      "summary": "Publish the reviewed hint actions, optional practice invitations, endgame handoff, corner glow, quiet tooltips, saved audio controls and Filter unlock timing.",
+      "details": [
+        "Fast-forward main from 3f2a5421db57226acfb8e3d0c41be03dbb275f6c to 1045d70dfa339f95bdb446ef09c731bbdd507fad in bookskaboo/bookskaboo.github.io. Only node/ changes; frozen source and /node/ build match the independently tested candidate.",
+        "Use normal hint eligibility/history, preserving saves and keeping the unrestricted author catalog out of gameplay. Optional research focus never queues/enables/pays; matched lessons retain explicit Start and restore their originating UI context.",
+        "Complex upgrade unlocks Yin/Yang and corner locations. Preserve older earned access; update late guidance and glow all four revealed corners on each expanded-map opening. Keep concise Upgrade tooltips and softer Area Expansion descriptions.",
+        "Publish the tested current source including saved music/effect controls and Filter availability at Waste Handling/Precision Control. Retain the preceding build assets for already-open games. Author-only Map surveys, combined Exploration/Road and full-unlock controls remain outside main runtime.",
+        "Record delivery only after Pages succeeds and the normal live HTML plus every new build asset match SHA-256. This does not establish human comprehension, enjoyment or new ordinary-play balance."
+      ],
+      "topics": [
+        "Publishing",
+        "Interface",
+        "Research",
+        "Tutorials",
+        "Maps",
+        "Audio",
+        "Testing"
+      ],
+      "sources": [
+        "chat-current",
+        "local-code"
+      ],
+      "evidence": [
+        "outputs/node-hints-release-2026-11-22/publication-receipt.json",
+        "outputs/node-hints-release-2026-11-22/preflight-report.json",
+        "outputs/node-hints-release-2026-11-22/source-manifest.json",
+        "outputs/node-hints-release-2026-11-22/build-manifest.json",
+        "outputs/node-hints-release-2026-11-22/workspace-tests.json",
+        "outputs/node-hints-release-2026-11-22/candidate-tests.json",
+        "docs/systems/testing-and-publishing.md",
+        "docs/systems/tutorials-and-discovery.md"
+      ],
+      "validation": "Workspace and frozen candidate each passed 1771 tests with no failures or skips. Main/site builds, source equality, staged blob hashes, catalogs/local links and changelog checks passed. Pages run 45114987826 succeeded. Normal live HTML and all 32 new build files matched SHA-256; 10 preceding asset URLs also matched. Source freeze covers 869 files; staged changes are restricted to node/. Earlier synthetic browser evidence verifies normal hint gates and practice/research paths; no new human comprehension or balance run."
     }
   ]
 }
